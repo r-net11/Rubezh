@@ -29,21 +29,23 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", "AU_Delay", 0, 0, 0, 250);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", "AU_Time", 0, 0, 0, 250, false, true);
 
-            var property2 = new DriverProperty()
-            {
-                IsAUParameter = true,
-                No = 0x85,
-                Name = "Контроль выхода",
-                Caption = "Контроль выхода",
-                MinBit = 0,
-                MaxBit = 4,
-                Default = "1"
-            };
-            ConfigurationDriverHelper.AddPropertyParameter(property2, "Не контролируется", 1);
-            ConfigurationDriverHelper.AddPropertyParameter(property2, "На обрыв", 2);
-            ConfigurationDriverHelper.AddPropertyParameter(property2, "На КЗ", 3);
-            ConfigurationDriverHelper.AddPropertyParameter(property2, "На КЗ и обрыв", 4);
-            driver.Properties.Add(property2);
+			//ConfigurationDriverHelper.AddIntProprety(driver, 0x85, "0x85", "AU_TEST", 0, 0, 0, 250, false, true);
+
+			var property2 = new DriverProperty()
+			{
+				IsAUParameter = true,
+				No = 0x85,
+				Name = "Контроль выхода",
+				Caption = "Контроль выхода",
+				MinBit = 0,
+				MaxBit = 4,
+				Default = "0"
+			};
+			ConfigurationDriverHelper.AddPropertyParameter(property2, "Не контролируется", 0);
+			ConfigurationDriverHelper.AddPropertyParameter(property2, "На обрыв", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property2, "На КЗ", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property2, "На КЗ и обрыв", 3);
+			driver.Properties.Add(property2);
 		}
 	}
 }

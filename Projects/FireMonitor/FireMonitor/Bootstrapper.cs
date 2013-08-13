@@ -49,9 +49,14 @@ namespace FireMonitor
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					if (App.IsMulticlient)
+					{
 						FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
+						ServiceFactory.ContentService.SetMulticlientFolder("Multiclient/Configuration/" + App.MulticlientId);
+					}
 					else
+					{
 						FiresecManager.GetConfiguration("Monitor/Configuration");
+					}
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -130,9 +135,14 @@ namespace FireMonitor
 
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
 				if (App.IsMulticlient)
+				{
 					FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
+					ServiceFactory.ContentService.SetMulticlientFolder("Multiclient/Configuration/" + App.MulticlientId);
+				}
 				else
+				{
 					FiresecManager.GetConfiguration("Monitor/Configuration");
+				}
 
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();

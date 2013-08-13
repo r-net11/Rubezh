@@ -37,6 +37,7 @@
                 <Button Content="Задать пароль" Command = "{Binding SetPasswordCommand}" Width="300" Margin="2" />
                 <Button Content="Записать конфигурацию в прибор" Command = "{Binding WriteConfigurationCommand}" Width="300" Margin="2" />
                 <Button Content="Получить статус прибора" Command = "{Binding GetDeviceStatusCommand}" Width="300" Margin="2" />
+                <Button Content="Сравнение журналов" Command = "{Binding MergeJournalCommand}" Width="300" Margin="2" />
                 <TextBlock Text="{Binding StatusString}" Width="300" Margin="2" FontSize = "14"/>
                 <CheckBox Content="Прибор подключен по USB" IsChecked="{Binding IsUsbDevice}" Margin="2"/>
             </StackPanel>
