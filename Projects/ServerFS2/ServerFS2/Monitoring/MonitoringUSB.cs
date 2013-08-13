@@ -43,7 +43,7 @@ namespace ServerFS2.Monitoring
 										case DriverType.IndicationBlock:
 										case DriverType.PDU:
 										case DriverType.PDU_PT:
-										case DriverType.UOO_TL:
+										//case DriverType.UOO_TL:
 										case DriverType.MS_3:
 										case DriverType.MS_4:
 											MonitoringNonPanels.Add(panelDevice);

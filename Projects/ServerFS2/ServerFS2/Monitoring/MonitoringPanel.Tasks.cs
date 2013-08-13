@@ -51,7 +51,7 @@ namespace ServerFS2.Monitoring
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
 					CallbackManager.AddLog("Постановка на охрану");
-					var response = USBManager.Send(PanelDevice, "Постановка на охрану", 0x02, 0x54, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+					var response = USBManager.Send(PanelDevice, "Постановка на охрану", 0x02, 0x54, 0x08, 0x00, deviceZoneNo, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToSetGuard = new List<Zone>();
 			}
@@ -65,7 +65,7 @@ namespace ServerFS2.Monitoring
 						deviceZoneNo = zone.LocalDeviceNo;
 					}
 					CallbackManager.AddLog("Снятие с охраны");
-					var response = USBManager.Send(PanelDevice, "Снятие с охраны", 0x02, 0x54, 0x09, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+					var response = USBManager.Send(PanelDevice, "Снятие с охраны", 0x02, 0x54, 0x09, 0x00, deviceZoneNo, 0x00, 0x00, 0x00, 0x00, 0x00);
 				}
 				ZonesToResetGuard = new List<Zone>();
 			}

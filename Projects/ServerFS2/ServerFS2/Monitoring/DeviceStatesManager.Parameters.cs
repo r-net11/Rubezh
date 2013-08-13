@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using ServerFS2.Service;
+using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
@@ -51,7 +52,6 @@ namespace ServerFS2.Monitoring
 			{
 				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			}
-
 			ParseDeviceState(device);
 			UpdateDeviceStateDetalisation(device);
 

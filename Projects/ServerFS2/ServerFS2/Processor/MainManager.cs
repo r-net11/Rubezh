@@ -98,25 +98,21 @@ namespace ServerFS2.Processor
 
 		public static void SetZoneGuard(Zone zone, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, null, null, zone);
 			MonitoringManager.AddTaskSetGuard(zone, userName);
 		}
 
 		public static void UnSetZoneGuard(Zone zone, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, null, null, zone);
 			MonitoringManager.AddTaskResetGuard(zone, userName);
 		}
 
 		public static void SetDeviceGuard(Device device, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, device);
 			MonitoringManager.AddTaskSetGuard(device, userName);
 		}
 
 		public static void UnSetDeviceGuard(Device device, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, device);
 			MonitoringManager.AddTaskResetGuard(device, userName);
 		}
 

@@ -177,7 +177,14 @@ namespace ServerFS2.Monitoring
 				{
 					if (monitoringDevice.PanelDevice == panelDevice)
 					{
-						CustomMessageJournalHelper.Add("Команда оператора. Постановка на охрану", userName, panelDevice);
+						if (zone != null)
+						{
+							CustomMessageJournalHelper.Add("Постановка зоны на охрану", userName, panelDevice, null, zone);
+						}
+						else
+						{
+							CustomMessageJournalHelper.Add("Постановка прибора на охрану", userName, panelDevice);
+						}
 						monitoringDevice.ZonesToSetGuard.Add(zone);
 						break;
 					}
@@ -194,7 +201,14 @@ namespace ServerFS2.Monitoring
 				{
 					if (monitoringDevice.PanelDevice == panelDevice)
 					{
-						CustomMessageJournalHelper.Add("Команда оператора. Снятие с охраны", userName, panelDevice);
+						if (zone != null)
+						{
+							CustomMessageJournalHelper.Add("Снятие зоны с охраны", userName, panelDevice, null, zone);
+						}
+						else
+						{
+							CustomMessageJournalHelper.Add("Снятие прибора с охраны", userName, panelDevice);
+						}
 						monitoringDevice.ZonesToResetGuard.Add(zone);
 						break;
 					}

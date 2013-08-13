@@ -55,7 +55,7 @@ namespace ServerFS2
 		public bool Send(List<byte> bytes, string name, int attemptNo)
 		{
 			var message = DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo;
-			Trace.WriteLine(message);
+			//Trace.WriteLine(message);
 			LogService.AddUSBHidLog(message);
 			if (IsDisposed)
 				return false;

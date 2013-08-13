@@ -45,7 +45,7 @@ namespace ServerFS2.Monitoring
 		{
 			foreach (var device in panelDevice.GetRealChildren())
 			{
-				foreach (var metadataDeviceState in MetadataHelper.GetMetadataDeviceStaes(device))
+				foreach (var metadataDeviceState in MetadataHelper.GetMetadataDeviceStates(device))
 				{
 					if (metadataDeviceState.leave != null)
 					{
@@ -101,6 +101,15 @@ namespace ServerFS2.Monitoring
 				}
 			}
 
+			foreach (var remoteZone in RemoteDeviceConfiguration.Zones)
+			{
+				var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == remoteZone.No);
+				if (zone != null)
+				{
+					zone.LocalDeviceNo = remoteZone.LocalDeviceNo;
+				}
+			}
+
 			return true;
 		}
 
@@ -137,31 +146,30 @@ namespace ServerFS2.Monitoring
 
 		void ParseRawParametersBytes(Device device, List<byte> rawParametersBytes)
 		{
-            if (rawParametersBytes == null || rawParametersBytes.Count <= 1)
+			if (rawParametersBytes == null || rawParametersBytes.Count <= 1)
 				return;
 			BitArray rawParametersBitArray = new BitArray(new byte[] { rawParametersBytes[1], rawParametersBytes[0] });
-			var tableNo = MetadataHelper.GetDeviceTableNo(device);
-			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+
+			var metadataDeviceStates = MetadataHelper.GetMetadataDeviceStates(device);
+
+			if (device.Driver.DriverType == DriverType.AM1_O && device.AddressOnShleif == 2)
 			{
-				if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
+				;
+			}
+
+			foreach (var metadataDeviceState in metadataDeviceStates)
+			{
+				var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
+				if (intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
 				{
-					var intBitNo = MetadataHelper.GetIntBitNo(metadataDeviceState);
-					if (intBitNo != -1 && intBitNo < rawParametersBitArray.Count)
-					{
-						var hasBit = rawParametersBitArray[intBitNo];
-						SetStateFromMetadata(device, metadataDeviceState, hasBit);
-					}
+					var hasBit = rawParametersBitArray[intBitNo];
+					SetStateFromMetadata(device, metadataDeviceState, hasBit);
 				}
 			}
 		}
 
 		void SetStateFromMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
 		{
-			if (device.Driver.DriverType == DriverType.AM1_T)
-			{
-				;
-			}
-
 			if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != "Security" && metadataDeviceState.type != "security")
 				return;
 
@@ -348,6 +356,12 @@ namespace ServerFS2.Monitoring
 
 		public void NotifyStateChanged(Device device)
 		{
+			if (device.Driver.DriverType == DriverType.AM1_O && device.AddressOnShleif == 1)
+			{
+				var count = device.DeviceState.States.Count;
+				Trace.WriteLine("device.DeviceState.States.Count = " + count);
+				;
+			}
 			CallbackManager.DeviceStateChanged(new List<DeviceState>() { device.DeviceState });
 			device.DeviceState.OnStateChanged();
 		}
