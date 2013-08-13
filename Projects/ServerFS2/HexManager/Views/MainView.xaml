@@ -90,9 +90,10 @@
                 <DataGrid Grid.Row="1" ItemsSource="{Binding Lines}" Margin="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Длина" Binding="{Binding Count}" Width="Auto" />
-                        <DataGridTextColumn Header="Смещение" Binding="{Binding Offset}" Width="Auto" />
-                        <DataGridTextColumn Header="StringOffset" Binding="{Binding StringOffset}" Width="Auto" />
+                        <DataGridTextColumn Header="Смещение" Binding="{Binding StringOffset}" Width="Auto" />
+                        <DataGridTextColumn Header="Тип" Binding="{Binding StringLineType}" Width="Auto" />
                         <DataGridTextColumn Header="Данные" Binding="{Binding Content}" Width="Auto" />
+                        <DataGridTextColumn Header="КС" Binding="{Binding StringControlSumm}" Width="Auto" />
                         <DataGridTextColumn Header="Оригинал" Binding="{Binding FullContent}" Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>

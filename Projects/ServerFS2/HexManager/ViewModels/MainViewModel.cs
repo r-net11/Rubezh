@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using HexManager.Models;
+using FS2Api;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
@@ -38,16 +38,16 @@ namespace HexManager.ViewModels
 			OnCreateNew();
 		}
 
-		void CopyProperties(HXCFileInfo hxcFileInfo)
+		void CopyProperties(HexFileCollectionInfo hexFileCollectionInfo)
 		{
-			SelectedDriver = hxcFileInfo.DriverType;
-			Name = hxcFileInfo.Name;
-			MinorVersion = hxcFileInfo.MinorVersion;
-			MajorVersion = hxcFileInfo.MajorVersion;
-			AutorName = hxcFileInfo.AutorName;
+			SelectedDriver = hexFileCollectionInfo.DriverType;
+			Name = hexFileCollectionInfo.Name;
+			MinorVersion = hexFileCollectionInfo.MinorVersion;
+			MajorVersion = hexFileCollectionInfo.MajorVersion;
+			AutorName = hexFileCollectionInfo.AutorName;
 
 			Files = new ObservableRangeCollection<FileViewModel>();
-			foreach (var fileInfo in hxcFileInfo.FileInfos)
+			foreach (var fileInfo in hexFileCollectionInfo.FileInfos)
 			{
 				var fileViewModel = new FileViewModel(fileInfo);
 				Files.Add(fileViewModel);
@@ -146,8 +146,8 @@ namespace HexManager.ViewModels
 		public RelayCommand CreateNewCommand { get; private set; }
 		void OnCreateNew()
 		{
-			var hxcFileInfo = new HXCFileInfo();
-			CopyProperties(hxcFileInfo);
+			var hexFileCollectionInfo = new HexFileCollectionInfo();
+			CopyProperties(hexFileCollectionInfo);
 		}
 
 		public RelayCommand AddFileCommand { get; private set; }
@@ -190,7 +190,7 @@ namespace HexManager.ViewModels
 				if (File.Exists(saveDialog.FileName))
 					File.Delete(saveDialog.FileName);
 
-				var hxcFileInfo = new HXCFileInfo()
+				var hexFileCollectionInfo = new HexFileCollectionInfo()
 				{
 					DriverType = SelectedDriver,
 					Name = Name,
@@ -207,11 +207,11 @@ namespace HexManager.ViewModels
 					};
 					foreach (var lineViewModel in file.Lines)
 					{
-						hexFileInfo.Lines.Add(lineViewModel.Content);
+						hexFileInfo.Lines.Add(lineViewModel.OriginalContent);
 					}
-					hxcFileInfo.FileInfos.Add(hexFileInfo);
+					hexFileCollectionInfo.FileInfos.Add(hexFileInfo);
 				}
-				HXCFileInfoHelper.Save(saveDialog.FileName, hxcFileInfo);
+				HXCFileInfoHelper.Save(saveDialog.FileName, hexFileCollectionInfo);
 			}
 		}
 		bool CanSaveFile()

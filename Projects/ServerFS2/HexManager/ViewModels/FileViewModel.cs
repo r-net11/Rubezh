@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using HexManager.Models;
+using FS2Api;
 using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 
@@ -36,8 +36,19 @@ namespace HexManager.ViewModels
 				Lines.Add(lineViewModel);
 			}
 
+			if (Lines.Count >= 5)
+			{
+				long startAddress = Convert.ToInt32(Lines[1].StringOffset, 16);
+				long endAddress = Convert.ToInt32(Lines[Lines.Count - 3].StringOffset, 16);
+				endAddress += 0x0F;
+				AddressRange = startAddress.ToString("X8") + " - " + endAddress.ToString("X8");
+			}
+			else
+			{
+				AddressRange = "Неизвестно";
+			}
+
 			Version = "Неизвестно";
-			AddressRange = "Неизвестно";
 			CRC = "Неизвестно";
 		}
 

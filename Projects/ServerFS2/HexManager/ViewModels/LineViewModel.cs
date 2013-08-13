@@ -7,17 +7,25 @@ namespace HexManager.ViewModels
 	{
 		public LineViewModel(string value)
 		{
-			FullContent = value;
-			Count = Convert.ToInt32(value.Substring(1, 2), 16);
-			Offset = Convert.ToInt32(value.Substring(3, 6), 16);
-			StringOffset = value.Substring(3, 6);
-			Content = value.Substring(9, Count * 2);
+			try
+			{
+				OriginalContent = value;
+				Count = Convert.ToInt32(value.Substring(1, 2), 16);
+				StringOffset = value.Substring(3, 4);
+				StringLineType = value.Substring(7, 2);
+				StringOffset = value.Substring(3, 4);
+				Content = value.Substring(9, Count * 2);
+				StringControlSumm = value.Substring(value.Length - 2, 2);
+			}
+			catch { }
 		}
 
 		public int Count { get; set; }
-		public int Offset { get; set; }
+		public string StringCount { get; set; }
 		public string StringOffset { get; set; }
+		public string StringLineType { get; set; }
 		public string Content { get; set; }
-		public string FullContent { get; set; }
+		public string StringControlSumm { get; set; }
+		public string OriginalContent { get; set; }
 	}
 }
