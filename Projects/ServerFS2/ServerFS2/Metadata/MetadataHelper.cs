@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -108,6 +109,26 @@ namespace ServerFS2
 
 		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device)
 		{
+			//var states = new HashSet<string>();
+			//var dublicateStates = new List<string>();
+			//foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			//{
+			//    if (metadataDeviceState.ID == "ConnectionLost")
+			//    {
+			//        ;
+			//    }
+			//    var result1 = states.Add(metadataDeviceState.ID);
+			//    if (!result1)
+			//    {
+			//        dublicateStates.Add(metadataDeviceState.ID);
+			//    }
+			//}
+			//foreach (var dublicateState in dublicateStates)
+			//{
+			//    Trace.WriteLine(dublicateState);
+			//}
+			//;
+
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
@@ -119,10 +140,10 @@ namespace ServerFS2
 					{
 						continue;
 					}
-					if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != null && metadataDeviceState.type.ToUpper() != "SECURITY")
-					{
-						continue;
-					}
+					//if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != null && metadataDeviceState.type.ToUpper() != "SECURITY")
+					//{
+					//    continue;
+					//}
 					if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
 					{
 						result.Add(metadataDeviceState);

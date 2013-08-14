@@ -170,8 +170,8 @@ namespace ServerFS2.Monitoring
 
 		void SetStateFromMetadata(Device device, driverConfigDeviceStatesDeviceState metadataDeviceState, bool hasBit)
 		{
-			if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != "Security" && metadataDeviceState.type != "security")
-				return;
+			//if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != "Security" && metadataDeviceState.type != "security")
+			//    return;
 
 			if (metadataDeviceState.inverse == "1")
 				hasBit = !hasBit;

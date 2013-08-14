@@ -26,8 +26,8 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Мерцает/Замкнуто", 6);
 			driver.Properties.Add(property1);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", "AU_Delay", 0, 0, 0, 250);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", "AU_Time", 0, 0, 0, 250, false, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", "AU_Delay", 0, 0, 0, 250);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания, с", "AU_Time", 0, 0, 0, 250, false, true);
 
 			//ConfigurationDriverHelper.AddIntProprety(driver, 0x85, "0x85", "AU_TEST", 0, 0, 0, 250, false, true);
 

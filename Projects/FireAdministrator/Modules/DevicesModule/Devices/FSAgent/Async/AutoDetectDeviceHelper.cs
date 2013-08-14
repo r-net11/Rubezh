@@ -40,6 +40,12 @@ namespace DevicesModule.ViewModels
 				return;
 			}
 
+			if (_operationResult.Result == null)
+			{
+				MessageBoxService.Show("Устройств не обнаружено");
+				return;
+			}
+
 			var deviceConfiguration = _operationResult.Result;
 			deviceConfiguration.Update();
 			deviceConfiguration.UpdateIdPath();
@@ -48,6 +54,14 @@ namespace DevicesModule.ViewModels
 			{
 				var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID.ToString().ToUpper() == device.DriverUID.ToString().ToUpper());
 				device.Driver = driver;
+				if (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2)
+				{
+					var property = device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+					if (property != null)
+					{
+						property.Value = null;
+					}
+				}
 			}
 
 			var autodetectionViewModel = new AutoSearchViewModel(deviceConfiguration);
