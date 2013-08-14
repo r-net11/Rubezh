@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using FS2Api;
 
 namespace ServerFS2.Operations
 {
@@ -14,9 +15,11 @@ namespace ServerFS2.Operations
 
 			for (var i = 0x14000; i < 0x14E00; i += 0x100)
 			{
-				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), Math.Min(0xFF, 0x14E00 - i));
+				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), 0xFF);
 			    if (response.HasError)
-			        return null;
+			    	throw new FS2Exception("Не пришёл ответ на запрос базы");
+				if(response.Bytes.Count != 0x100)
+					throw new FS2Exception("Количество байт в ответе не совпадает с запрошенным");
 			    result.AddRange(response.Bytes);
 			}
 
@@ -36,11 +39,12 @@ namespace ServerFS2.Operations
 				{
 					for (int k = 0; k < 8; k++)
 					{
-						Zone guardZone = null;
 						if (((guardZonesBytes[j] >> k) & 1) == 1)
-							guardZone = localZones[j*8 + k];
-						if (guardZone != null)
-							guardUser.ZoneUIDs.Add(guardZone.UID);
+						{
+							var guardZone = localZones[j*8 + k];
+							if (guardZone != null)
+								guardUser.ZoneUIDs.Add(guardZone.UID);
+						}
 					}
 				}
 				guardUsers.Add(guardUser);
@@ -65,7 +69,6 @@ namespace ServerFS2.Operations
 			var emptyGuardUser = new GuardUser();
 			emptyGuardUser.KeyTM = new string('0', 12);
 			emptyGuardUser.Password = "";
-			emptyGuardUser.ZoneUIDs = new List<Guid>();
 
 			for(int i = guardUsers.Count; i < 80; i++)
 			{
@@ -172,16 +175,11 @@ namespace ServerFS2.Operations
 			return guardZonesBytes;
 		}
 
-		static byte GetUserAttribute(GuardUser guardUser)
-		{
-			return (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
-		}
-
 		static List<byte> GuardUserDataToBytesList(Device device, GuardUser guardUser)
 		{
 			var bytes = new List<byte>();
 			// Даннные пользователей
-			var guardUserAttribute = GetUserAttribute(guardUser);
+			var guardUserAttribute = (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
 			var guardUserName = BytesHelper.StringToBytes(guardUser.Name);
 			var guardUserKeyTM = BytesHelper.HexStringToByteArray(guardUser.KeyTM);
 			var guardUserPassword = PasswordStringToBytes(guardUser.Password);

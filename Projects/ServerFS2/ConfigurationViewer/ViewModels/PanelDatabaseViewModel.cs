@@ -64,7 +64,8 @@ namespace ConfigurationViewer.ViewModels
 			}
 
 			var bytes = FileDBHelper.GetRomDBFromFS1File(ParentPanel);
-			//bytes.RemoveRange(0, 0x2000);
+			//if (bytes.Count > 0x2000)
+			//    bytes.RemoveRange(0, 0x2000);
 			//var emptyBytes = new List<byte>();
 			////for (int i = 0; i < 12288; i++)
 			//for (int i = 0; i < 0x2000; i++)
