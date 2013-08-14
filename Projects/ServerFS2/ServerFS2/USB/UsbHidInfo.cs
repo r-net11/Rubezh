@@ -24,7 +24,7 @@ namespace ServerFS2
 				bytesList.Add(bytes);
 				var responce = UsbHid.AddRequest(USBManager.NextRequestNo, bytesList, 1000, 1000, true, 1, "Запрос количества каналов МС");
 				USBDriverType = DriversHelper.GetUsbDriverTypeByTypeNo(TypeNo);
-				if (responce.Bytes[5] == 0x41)
+				if ((responce.Bytes[6] != 0xFF) && (responce.Bytes[8] != 0))
 					USBDriverType = DriverType.MS_2;
 			}
 			else

@@ -112,7 +112,6 @@ namespace ServerFS2
 		}
 		static bool AddDevicesToChanel(Device chanel)
 		{
-			//SetAddressListToChanel(chanel);
 			chanel.Children = new List<Device>();
 			for (byte deviceNo = 1; deviceNo < 128; deviceNo++)
 			{
