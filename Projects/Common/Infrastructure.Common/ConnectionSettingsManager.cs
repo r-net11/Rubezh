@@ -66,7 +66,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FS2/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FS2/";
+					serviceAddress = "http://" + RemoteAddress + ":" + (RemotePort + 2).ToString() + "/FS2/";
 				}
 				return serviceAddress;
 			}

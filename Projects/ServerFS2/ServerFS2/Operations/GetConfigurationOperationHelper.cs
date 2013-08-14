@@ -18,7 +18,7 @@ namespace ServerFS2
 		int outZonesBegin;
 		int outZonesCount;
 		int outZonesEnd;
-		List<Zone> zones;
+		List<Zone> Zones;
 		ZonePanelRelationsInfo zonePanelRelationsInfo;
 		DeviceConfiguration remoteDeviceConfiguration;
 		bool CheckMonitoringSuspend = false;
@@ -26,6 +26,68 @@ namespace ServerFS2
 		public GetConfigurationOperationHelper(bool checkMonitoringSuspend)
 		{
 			CheckMonitoringSuspend = checkMonitoringSuspend;
+		}
+
+		public DeviceConfiguration GetDeviceConfiguration(Device panelDevice)
+		{
+			PanelDevice = (Device)panelDevice.Clone();
+			shleifCount = PanelDevice.Driver.ShleifCount;
+			PanelDevice.Children = new List<Device>();
+			Zones = new List<Zone>();
+			remoteDeviceConfiguration = new DeviceConfiguration();
+			remoteDeviceConfiguration.RootDevice = PanelDevice;
+			remoteDeviceConfiguration.Devices.Add(PanelDevice);
+			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(PanelDevice, CheckMonitoringSuspend);
+			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
+			if (panelDatabaseReader.RomDBFirstIndex == -1)
+				return null;
+			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
+			if (panelDatabaseReader.FlashDBLastIndex == -1)
+				return null;
+			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
+			if (DeviceRom == null)
+				return null;
+			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
+			if (DeviceFlash == null)
+				return null;
+
+			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
+			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);
+
+			outZonesBegin = DeviceRom[1548] * 256 * 256 + DeviceRom[1549] * 256 + DeviceRom[1550];
+			outZonesCount = DeviceRom[1552] * 256 + DeviceRom[1553];
+			outZonesEnd = outZonesBegin + outZonesCount * 9;
+
+			ParseUIDevicesRom(DriverType.MDU);
+			ParseNoUIDevicesRom(DriverType.AM1_T);
+
+			ParseUIDevicesRom(DriverType.RM_1);
+			ParseUIDevicesRom(DriverType.MPT);
+			ParseUIDevicesRom(DriverType.MRO);
+			ParseUIDevicesRom(DriverType.MRO_2);
+			ParseUIDevicesRom(DriverType.Exit);
+
+			ParseNoUIDevicesRom(DriverType.SmokeDetector);
+			ParseNoUIDevicesRom(DriverType.HeatDetector);
+			ParseNoUIDevicesRom(DriverType.CombinedDetector);
+			ParseNoUIDevicesRom(DriverType.HandDetector);
+			ParseNoUIDevicesRom(DriverType.AM_1);
+			ParseNoUIDevicesRom(DriverType.AMP_4);
+			ParseNoUIDevicesRom(DriverType.AM1_O);
+			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
+			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
+			ParseUIDevicesRom(DriverType.Valve);
+
+			foreach (var childDevice in PanelDevice.Children)
+			{
+				childDevice.Parent = PanelDevice;
+				remoteDeviceConfiguration.Devices.Add(childDevice);
+			}
+			foreach (var device in remoteDeviceConfiguration.Devices)
+			{
+				GetCurrentDeviceState(device);
+			}
+			return remoteDeviceConfiguration;
 		}
 
 		void ParseUIDevicesRom(DriverType driverType)
@@ -173,15 +235,15 @@ namespace ServerFS2
 							zone.No = DeviceFlash[localPointer + 33] * 256 + DeviceFlash[localPointer + 34]; // Глобальный номер зоны
 							zone.Name = BytesHelper.ExtractString(DeviceFlash, localPointer + 6);
 							zone.DevicesInZoneLogic.Add(device);
-							if (zones.Any(x => x.No == zone.No))
+							if (Zones.Any(x => x.No == zone.No))
 							// Если зона с таким номером уже добавлена, то добавляем её в clauses и продолжаем цикл
 							{
-								clause.ZoneUIDs.Add(zones.FirstOrDefault(x => x.No == zone.No).UID);
+								clause.ZoneUIDs.Add(Zones.FirstOrDefault(x => x.No == zone.No).UID);
 								continue;
 							}
 
 							clause.ZoneUIDs.Add(zone.UID);
-							zones.Add(zone);
+							Zones.Add(zone);
 							var zonePanelItem = new ZonePanelItem()
 							{
 								IsRemote = true,
@@ -204,7 +266,7 @@ namespace ServerFS2
 				if (parentAddress > 0x100)
 				{
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == parentAddress));
-					if (groupDevice == null) // если такое ГУ ещё не добавлено
+					if (groupDevice == null)
 					{
 						groupDevice = new Device
 						{
@@ -225,7 +287,7 @@ namespace ServerFS2
 				{
 					var localNo = (config & 14) >> 1;
 					groupDevice = (PanelDevice.Children.FirstOrDefault(x => x.IntAddress == device.IntAddress - localNo));
-					if (groupDevice == null) // если такое ГУ ещё не добавлено
+					if (groupDevice == null)
 					{
 						groupDevice = new Device
 						{
@@ -470,7 +532,7 @@ namespace ServerFS2
 			};
 			Trace.WriteLine("ParseZonesFlash " + zone.PresentationName + " - " + zone.LocalDeviceNo);
 			// 0,1,2,3 - Внутренние параметры (снят с охраны/ на охране, неисправность, пожар, ...)
-			if (zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то пропускаем её
+			if (Zones.FirstOrDefault(x => x.No == zone.No) != null) // Если зона с таким номером уже добавлена, то пропускаем её
 			{
 				var entrySize = BytesHelper.ExtractShort(DeviceFlash, pointer + 26); // Длина записи (2) pointer + 26
 				pointer = pointer + entrySize;
@@ -496,85 +558,12 @@ namespace ServerFS2
 				Zone = zone
 			};
 			zonePanelRelationsInfo.ZonePanelItems.Add(zonePanelItem);
-			zones.Add(zone);
+			Zones.Add(zone);
 			remoteDeviceConfiguration.Zones.Add(zone);
 			pointer = pointer + 48 + shleifCount * 4 + tableDynamicSize + 1;
 		}
 
-		public DeviceConfiguration GetDeviceConfiguration(Device panelDevice)
-		{
-			PanelDevice = (Device)panelDevice.Clone();
-			shleifCount = PanelDevice.Driver.ShleifCount;
-			PanelDevice.Children = new List<Device>();
-			zones = new List<Zone>();
-			remoteDeviceConfiguration = new DeviceConfiguration();
-			remoteDeviceConfiguration.RootDevice = PanelDevice;
-			remoteDeviceConfiguration.Devices.Add(PanelDevice);
-			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(PanelDevice, CheckMonitoringSuspend);
-			panelDatabaseReader.RomDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(PanelDevice);
-			if (panelDatabaseReader.RomDBFirstIndex == -1)
-				return null;
-			panelDatabaseReader.FlashDBLastIndex = panelDatabaseReader.GetFlashLastIndex(PanelDevice);
-			if (panelDatabaseReader.FlashDBLastIndex == -1)
-				return null;
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-			DeviceRom = panelDatabaseReader.GetRomDBBytes(PanelDevice);
-			if (DeviceRom == null)
-				return null;
-			stopwatch.Stop();
-			Trace.WriteLine("GetRomDBBytes " + stopwatch.Elapsed.TotalSeconds);
-			stopwatch = new Stopwatch();
-			stopwatch.Start();
-			DeviceFlash = panelDatabaseReader.GetFlashDBBytes(PanelDevice);
-			if (DeviceFlash == null)
-				return null;
-			stopwatch.Stop();
-			Trace.WriteLine("GetFlashDBBytes " + stopwatch.Elapsed.TotalSeconds);
-
-			zonePanelRelationsInfo = new ZonePanelRelationsInfo();
-			ParseZonesRom(1542, panelDatabaseReader.RomDBFirstIndex);
-			#region OutZones
-			outZonesBegin = DeviceRom[1548] * 256 * 256 + DeviceRom[1549] * 256 + DeviceRom[1550];
-			outZonesCount = DeviceRom[1552] * 256 + DeviceRom[1553];
-			outZonesEnd = outZonesBegin + outZonesCount * 9;
-			#endregion
-			#region Хидеры таблиц на устройства из логики
-			ParseUIDevicesRom(DriverType.MDU);
-			ParseNoUIDevicesRom(DriverType.AM1_T);
-			#endregion
-			#region Хидеры таблиц на исполнительные устройства
-			ParseUIDevicesRom(DriverType.RM_1);
-			ParseUIDevicesRom(DriverType.MPT);
-			ParseUIDevicesRom(DriverType.MRO);
-			ParseUIDevicesRom(DriverType.MRO_2);
-			ParseUIDevicesRom(DriverType.Exit);
-			#endregion
-			#region Хидеры таблиц на не исполнительные устройства по типам
-			ParseNoUIDevicesRom(DriverType.SmokeDetector);
-			ParseNoUIDevicesRom(DriverType.HeatDetector);
-			ParseNoUIDevicesRom(DriverType.CombinedDetector);
-			ParseNoUIDevicesRom(DriverType.HandDetector);
-			ParseNoUIDevicesRom(DriverType.AM_1);
-			ParseNoUIDevicesRom(DriverType.AMP_4);
-			ParseNoUIDevicesRom(DriverType.AM1_O);
-			ParseNoUIDevicesRom(DriverType.RadioHandDetector);
-			ParseNoUIDevicesRom(DriverType.RadioSmokeDetector);
-			ParseUIDevicesRom(DriverType.Valve);
-			#endregion
-			foreach (var childDevice in PanelDevice.Children)
-			{
-				childDevice.Parent = PanelDevice;
-				remoteDeviceConfiguration.Devices.Add(childDevice);
-			}
-			foreach (var device in remoteDeviceConfiguration.Devices)
-			{
-				GetCurrentDeviceState(device);
-			}
-			return remoteDeviceConfiguration;
-		}
-	
-		private static int GetDeviceOffset(DriverType driverType)
+		static int GetDeviceOffset(DriverType driverType)
 		{
 			switch (driverType)
 			{

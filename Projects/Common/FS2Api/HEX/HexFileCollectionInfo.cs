@@ -2,12 +2,12 @@
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 
-namespace HexManager.Models
+namespace FS2Api
 {
 	[DataContract]
-	public class HXCFileInfo
+	public class HexFileCollectionInfo
 	{
-		public HXCFileInfo()
+		public HexFileCollectionInfo()
 		{
 			FileInfos = new List<HEXFileInfo>();
 			DriverType = DriverType.Rubezh_2AM;

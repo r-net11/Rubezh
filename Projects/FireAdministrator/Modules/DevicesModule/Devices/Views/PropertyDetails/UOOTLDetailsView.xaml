@@ -47,7 +47,7 @@
                     <TextBox Views:UOOTLDetailsView.IsNumericOnly="True" Grid.Column="1" Grid.Row="2" Text="{Binding Phone3}" Margin="2" MaxLength="21" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}" CommandManager.PreviewCanExecute="TextBox_PreviewCanExecute" />
                     <TextBox Views:UOOTLDetailsView.IsNumericOnly="True" Grid.Column="1" Grid.Row="3" Text="{Binding Phone4}" Margin="2" MaxLength="21" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}" CommandManager.PreviewCanExecute="TextBox_PreviewCanExecute" />
                     <TextBox Views:UOOTLDetailsView.IsNumericOnly="True" Grid.Column="1" Grid.Row="4" Name="ObjectNumber" Text="{Binding ObjectNumber}" MaxLength="4" Margin="2" />
-                    <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="5" Value="{Binding TestDialtone}" Minimum="5" Maximum="1440" Increment="5" Margin="2" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}" />
+                    <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="5" Value="{Binding TestDialtone}" Minimum="0" Maximum="1440" Increment="5" Margin="2" IsEnabled="{Binding Path=IsDirect, Converter={StaticResource InverseBooleanConverter}}" />
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="6" Value="{Binding TestVoltage}" Minimum="0" Maximum="30" Increment="10" Margin="2" />
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="7" Value="{Binding CountRecalls}" Minimum="1" Maximum="8" Increment="1" Margin="2" />
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="8" Value="{Binding Timeout}" Minimum="0" Maximum="160" Increment="10" Margin="2" />

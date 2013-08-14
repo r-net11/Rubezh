@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace HexManager.Models
+namespace FS2Api
 {
 	[DataContract]
 	public class HEXFileInfo

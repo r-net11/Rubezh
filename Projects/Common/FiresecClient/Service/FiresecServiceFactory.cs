@@ -24,7 +24,6 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "FiresecServiceFactory.Create");
 			}
-			MessageBoxService.Show("Невозможно соединиться с сервером");
 			return null;
 		}
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI;
-using HexManager.Models;
+using FS2Api;
 
 namespace HexManager.Converters
 {

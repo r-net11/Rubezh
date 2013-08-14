@@ -106,24 +106,27 @@ namespace ServerFS2
 			return -1;
 		}
 
-		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStaes(Device device)
+		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device)
 		{
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
-			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			if (tableNo != null)
 			{
-				if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 				{
-					continue;
-				}
-				if (metadataDeviceState.tableType == null)
-				{
-					result.Add(metadataDeviceState);
-				}
-				if (metadataDeviceState.tableType == tableNo)
-				{
-					result.Add(metadataDeviceState);
+					if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
+					{
+						continue;
+					}
+					if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != null && metadataDeviceState.type.ToUpper() != "SECURITY")
+					{
+						continue;
+					}
+					if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
+					{
+						result.Add(metadataDeviceState);
+					}
 				}
 			}
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace HexManager.Models
+namespace FS2Api
 {
 	public enum HexMemoryType
 	{

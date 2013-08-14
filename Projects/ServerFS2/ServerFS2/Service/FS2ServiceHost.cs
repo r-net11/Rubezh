@@ -61,7 +61,7 @@ namespace ServerFS2.Service
 				var ipAddress = GetIPAddress();
 				if (ipAddress != null)
 				{
-					var remoteAddress = "http://" + ipAddress + ":" + GlobalSettingsHelper.GlobalSettings.RemotePort.ToString() + "/FS2/";
+					var remoteAddress = "http://" + ipAddress + ":" + (GlobalSettingsHelper.GlobalSettings.RemotePort + 2).ToString() + "/FS2/";
 					ServiceHost.AddServiceEndpoint("FS2Api.IFS2Contract", Common.BindingHelper.CreateWSHttpBinding(), new Uri(remoteAddress));
 					UILogger.Log("Удаленный адрес: " + remoteAddress);
 				}
