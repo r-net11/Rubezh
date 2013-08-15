@@ -94,7 +94,8 @@ namespace MultiClientAdministrator.ViewModels
 					Address = appItem.Address,
 					Port = appItem.Port,
 					Login = appItem.Login,
-					Password = appItem.Password
+					Password = appItem.Password,
+					IsNotUsed = appItem.IsNotUsed
 				};
 				configuration.MulticlientDatas.Add(multiclientData);
 			}

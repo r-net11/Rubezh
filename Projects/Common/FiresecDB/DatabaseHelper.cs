@@ -219,6 +219,7 @@ namespace FiresecDB
 						if (i > 0)
 							query += "\n OR ";
 						var description = archiveFilter.Descriptions[i];
+						description = description.Replace("'", "''");
 						query += " Description = '" + description + "'";
 					}
 					query += ")";
@@ -254,7 +255,6 @@ namespace FiresecDB
 				}
 
 				query += "\n ORDER BY " + dateInQuery + " DESC";
-				//query = "SELECT * FROM Journal";
 
 				using (var DataBaseContext = new SqlCeConnection(ConnectionString))
 				{

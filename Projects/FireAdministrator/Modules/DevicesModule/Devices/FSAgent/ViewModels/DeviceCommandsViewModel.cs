@@ -246,7 +246,7 @@ namespace DevicesModule.ViewModels
         {
 			get
 			{
-				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer);
+				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer && SelectedDevice.Parent.Driver.DriverType != DriverType.ComPort_V2);
 				return result;
 			}
         }

@@ -148,7 +148,7 @@ namespace DevicesModule.Plans.Designer
 					Command = ShowPropertiesCommand
 				});
 			}
-			((MenuItem)_contextMenu.Items[1]).Header = DeviceState.IsDisabled ? "Включить" : "Отключить";
+			((MenuItem)_contextMenu.Items[1]).Header = DeviceState.IsDisabled ? "Снять отключение" : "Отключить";
 			return _contextMenu;
 		}
 	}

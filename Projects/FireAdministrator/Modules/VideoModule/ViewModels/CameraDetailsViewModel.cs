@@ -20,7 +20,10 @@ namespace VideoModule.ViewModels
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
 			TestCommand = new RelayCommand(OnTest);
-			StateTypes = Enum.GetValues(typeof(StateType)).Cast<StateType>().ToList();
+			StateTypes = new List<StateType>();
+			StateTypes.Add(StateType.Fire);
+			StateTypes.Add(StateType.Attention);
+			StateTypes.Add(StateType.Failure);
 
 			if (camera != null)
 			{

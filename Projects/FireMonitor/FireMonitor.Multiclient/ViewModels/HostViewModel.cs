@@ -12,7 +12,7 @@ namespace FireMonitor.Multiclient.ViewModels
 	{
 		public MulticlientData MulticlientData { get; private set; }
 		MulticlientControllerWrapper _controller;
-		public event Action StateTypeChanged;
+		public event Action<HostViewModel> StateTypeChanged;
 
 		public HostViewModel(MulticlientData multiclientData)
 			: base()
@@ -28,7 +28,7 @@ namespace FireMonitor.Multiclient.ViewModels
 		{
 			StateType = stateType;
 			if (StateTypeChanged != null)
-				StateTypeChanged();
+				StateTypeChanged(this);
 		}
 
 		public bool IsReady

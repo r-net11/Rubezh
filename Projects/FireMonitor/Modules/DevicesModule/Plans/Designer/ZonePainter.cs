@@ -217,7 +217,7 @@ namespace DevicesModule.Plans.Designer
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
-					Header = "Включить все устройства в зоне",
+					Header = "Снять отключение всех устройств в зоне",
 					Command = EnableAllCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()

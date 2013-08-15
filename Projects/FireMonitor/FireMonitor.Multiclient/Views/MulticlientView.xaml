@@ -5,7 +5,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" ItemsSource="{Binding Hosts}" SelectedItem="{Binding SelectedHost}">
+        <ListBox Grid.Column="0" ItemsSource="{Binding Hosts}" SelectedItem="{Binding SelectedHost}" Margin="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}">

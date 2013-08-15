@@ -39,18 +39,20 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Название" Foreground="White" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" Foreground="White" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" Foreground="White" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" Foreground="White" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Не использовать" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2" />
 
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsNotUsed, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
                 </Grid>
             </Grid>
         </Grid>

@@ -50,7 +50,7 @@
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
 												<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
 												<MenuItem Command="{Binding DisableAllCommand}" Header="Отключить все устройства в зоне" />
-												<MenuItem Command="{Binding EnableAllCommand}" Header="Включить все устройства в зоне" />
+                                                <MenuItem Command="{Binding EnableAllCommand}" Header="Снять отключение всех устройств в зоне" />
 												<MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
 												<MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
 											</ContextMenu>

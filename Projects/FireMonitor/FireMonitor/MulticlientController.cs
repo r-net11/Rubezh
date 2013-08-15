@@ -27,6 +27,8 @@ namespace FireMonitor
 			ServiceFactory.Events.GetEvent<MulticlientStateChangedEvent>().Subscribe(OnMulticlientStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnDevicesStateChanged);
 			OnDevicesStateChanged(null);
 		}
 
