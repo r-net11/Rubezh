@@ -11,7 +11,7 @@ namespace ServerFS2.Journal
 	{
 		static object Locker = new object();
 
-		public static void Add(string description, string userName, Device panelDevice = null, Device device = null, Zone zone = null)
+		public static void Add(string description, string userName, Device panelDevice = null, Device device = null, Zone zone = null, StateType stateType = StateType.Info)
 		{
 			var journalItem = new FS2JournalItem
 			{
@@ -21,7 +21,7 @@ namespace ServerFS2.Journal
 				UserName = userName,
 				PanelDevice = panelDevice,
 				Device = device,
-				StateType = StateType.Info,
+				StateType = stateType,
 				SubsystemType = SubsystemType.Other,
 			};
 			if (panelDevice != null)

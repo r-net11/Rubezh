@@ -14,11 +14,10 @@ namespace ServerFS2
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Чтение параметров устройства " + device.PresentationName));
 			var allAUProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
-			//var properties = RemoveDublicateProperties(allAUProperties);
 			var properties = allAUProperties;
 			foreach (var property in properties)
 			{
-				var response = USBManager.Send(device.Parent, "Запрос параметра АУ", 0x02, 0x53, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
+				var response = USBManager.Send(device.Parent, "Запрос параметра АУ", 0x02, 0x58, 0x02, MetadataHelper.GetIdByUid(device.Driver.UID),
 				device.AddressOnShleif, 0x00, property.No, 0x00, 0x00, device.ShleifNo - 1);
 				foreach (var driverProperty in allAUProperties.FindAll(x => x.No == response.Bytes[4]))
 				{
@@ -34,22 +33,20 @@ namespace ServerFS2
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Запись параметров устройства " + device.PresentationName));
 			CopyPropertiesToDevice(device, properties);
-			var driverProperties = RemoveDublicateProperties(device.Driver.Properties.FindAll(x => x.IsAUParameter));
-			//var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
+			var driverProperties = device.Driver.Properties.FindAll(x => x.IsAUParameter);
 			foreach (var property in driverProperties)
 			{
 				var value = Convert.ToInt32(ParametersHelper.SetConfigurationParameters(property, device));
-				USBManager.Send(device.Parent, "Запись параметра АУ", 0x02, 0x53, 0x03, MetadataHelper.GetIdByUid(device.Driver.UID), device.AddressOnShleif,
-				0x00, property.No, value % 256, value / 256, device.ShleifNo - 1);
-			}
-		}
+				var loValue = value % 256;
+				var hiValue = value / 256;
+				if (property.IsFFInLowByte)
+				{
+					loValue = 0xFF;
+				}
 
-		static List<DriverProperty> RemoveDublicateProperties(List<DriverProperty> properties)
-		{
-			var properties1 = properties;
-			var properties2 = properties;
-			properties.RemoveAll(x => properties1.FirstOrDefault(z => (properties2.IndexOf(x) > properties1.IndexOf(z)) && (z.No == x.No)) != null);
-			return properties;
+				USBManager.Send(device.Parent, "Запись параметра АУ", 0x02, 0x58, 0x03, MetadataHelper.GetIdByUid(device.Driver.UID), device.AddressOnShleif,
+				0x00, property.No, loValue, hiValue, device.ShleifNo - 1);
+			}
 		}
 
 		static void CopyPropertiesToDevice(Device device, List<Property> properties)

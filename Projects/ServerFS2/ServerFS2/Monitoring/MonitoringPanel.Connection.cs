@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ServerFS2.Journal;
+using FiresecAPI;
 
 namespace ServerFS2.Monitoring
 {
@@ -42,7 +43,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice);
+				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice, null, null, StateType.Failure);
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = false;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				CustomMessageJournalHelper.Add("Связь с прибором восстановлена", null, PanelDevice);
+				CustomMessageJournalHelper.Add("Соединение с прибором восстановленно", null, PanelDevice);
 			}
 		}
 

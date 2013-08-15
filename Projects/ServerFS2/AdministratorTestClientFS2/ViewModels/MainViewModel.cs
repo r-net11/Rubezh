@@ -27,7 +27,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			CancelProgressCommand = new RelayCommand(OnCancelProgress);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
-			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
+			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice, CanAutoDetectDevice);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
@@ -145,6 +145,10 @@ namespace AdministratorTestClientFS2.ViewModels
 			autoDetectedDevicesViewModel.Title = "Найденные устройства";
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
+		bool CanAutoDetectDevice()
+		{
+			return DevicesViewModel.SelectedDevice != null;
+		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
@@ -169,7 +173,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanReadConfiguration()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 		public RelayCommand GetInformationCommand { get; private set; }
 		void OnGetInformation()
@@ -190,7 +194,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanSynchronizeTime()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand RunOtherFunctionsCommand { get; private set; }
@@ -203,8 +207,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			if (DevicesViewModel.SelectedDevice == null)
 				return false;
 			var driverType = DevicesViewModel.SelectedDevice.Device.Driver.DriverType;
-			return ((driverType == DriverType.IndicationBlock) || (driverType == DriverType.PDU) ||
-			        (driverType == DriverType.PDU_PT));
+			return driverType == DriverType.IndicationBlock || driverType == DriverType.PDU || driverType == DriverType.PDU_PT;
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }
@@ -215,7 +218,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		bool CanSetPassword()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
@@ -236,7 +239,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }
@@ -260,6 +263,15 @@ namespace AdministratorTestClientFS2.ViewModels
 			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
+		public RelayCommand MergeJournalCommand { get; private set; }
+		void OnMergeJournal()
+		{
+			MergeJournalCommand = new RelayCommand(OnMergeJournal, CanMergeJournal);
+		}
+		bool CanMergeJournal()
+		{
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
+		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
@@ -271,7 +283,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		bool DeviceValidation(DeviceViewModel selectedDeivice)
 		{
-			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel);
+			return selectedDeivice != null && selectedDeivice.Device.Driver.IsPanel;
 		}
 	}
 }

@@ -51,7 +51,8 @@ namespace DevicesModule.ViewModels
         }
         bool CanAutoDetect()
         {
-            return (SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect);
+			return SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect &&
+				SelectedDevice.Device.Driver.DriverType != DriverType.MS_1 && SelectedDevice.Device.Driver.DriverType != DriverType.MS_2;
         }
 
         #region ReadWriteDevice

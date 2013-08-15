@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 
-namespace Firesec_50
+namespace Firesec_48
 {
 	public class DevicePropertyRequest
 	{
@@ -11,7 +11,7 @@ namespace Firesec_50
 			Device = device;
 			Properties = new List<Property>();
 			PropertyNos = new HashSet<int>();
-			RequestIds = new List<RequestInfo>();
+			RequestIds = new List<int>();
 
 			foreach (var property in device.Driver.Properties)
 			{
@@ -25,7 +25,7 @@ namespace Firesec_50
 		public Device Device { get; set; }
 		public List<Property> Properties { get; set; }
 		public HashSet<int> PropertyNos { get; set; }
-		public List<RequestInfo> RequestIds { get; set; }
+		public List<int> RequestIds { get; set; }
 
 		DateTime StartDateTime = DateTime.Now;
 		public bool IsDeleting
@@ -39,12 +39,6 @@ namespace Firesec_50
 				}
 				return timeoutExpired;
 			}
-		}
-
-		public class RequestInfo
-		{
-			public int ParamNo { get; set; }
-			public int RequestId { get; set; }
 		}
 	}
 }

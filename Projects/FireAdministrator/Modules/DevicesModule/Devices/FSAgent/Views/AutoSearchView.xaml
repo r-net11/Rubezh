@@ -10,7 +10,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <TextBlock TextWrapping="Wrap" Margin="2" Foreground="White" Text="Следующие Plug and Play устройства были обнаружены автоматически. Для добавления устройств в конфигурацию отметьте нужные устройства и нажмите кнопку 'OK'. Для того чтобы закрыть это окно без добавления устройств нажмите 'Отмена'" />
-            <Button Command="{Binding ContinueCommand}" Content="Продолжить поиск устройств" Width="200" Margin="2" />
+            <Button Command="{Binding ContinueCommand}" Content="Продолжить поиск устройств" Width="200" Margin="2"
+                Visibility="{Binding CanContinue, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
         
         <TreeView Grid.Row="1" ItemsSource="{Binding Devices}" Margin="2">

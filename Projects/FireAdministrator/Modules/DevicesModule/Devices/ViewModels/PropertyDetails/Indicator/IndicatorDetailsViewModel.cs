@@ -117,9 +117,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return SelectedDevice != null &&
-                (SelectedDevice.Driver.DriverType != DriverType.PumpStation ||
-                SelectedDevice.Parent.Driver.DriverType != DriverType.PumpStation);
+                return SelectedDevice != null && SelectedDevice.Driver.DriverType != DriverType.PumpStation && SelectedDevice.Parent.Driver.DriverType != DriverType.PumpStation;
             }
         }
 
