@@ -161,12 +161,14 @@ namespace ServerFS2
 				RequestCollection.AddRequest(request);
 				if (request.Bytes.Count > 64)
 				{
+					AutoWaitEvent = new AutoResetEvent(false);
 					for (int i = 0; i < request.Bytes.Count / 64; i++)
 					{
 						var bytesToSend = request.Bytes.GetRange(i * 64, 64);
 						bytesToSend.Insert(0, 0);
 						Send(bytesToSend, name, -1);
 					}
+					AutoWaitEvent.WaitOne(100);
 					RequestCollection.Clear();
 					return Responses.FirstOrDefault();
 				}

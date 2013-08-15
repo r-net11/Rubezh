@@ -70,18 +70,26 @@ namespace ServerFS2
 		{
 			var panelDatabaseReader = new ReadPanelDatabaseOperationHelper(device, false);
 			var romDBFirstIndex = panelDatabaseReader.GetRomFirstIndex(device);
+			ConfirmLongTermOperation(device);
+			GetOsStatus(device); // 00 - прибор находится в состояние прикладного ПО
 			BlockBD(device);
+			GetAddressList(device);
 			WriteFlashConfiguration(device, Flash);
 			GetOsStatus(device);
 			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
+			RequestError(device);
+			GetOsStatus2(device); // 01 - сервисный режим (считает CRC прикладного ПО)
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, device.Driver.ShortName + ".hex");
 			WriteRomConfiguration(device, hexInfo.Bytes, hexInfo.Offset);
 			BeginUpdateRom(device);
-			ConfirmLongTermOperation(device);
+			ConfirmLongTermOperation(device); 
+			RequestError(device);
+			GetOsStatus3(device); // 08 - Ram загрузчик
 			ClearSector(device);
 			ConfirmLongTermOperation(device);
+			RequestError(device);
 			WriteRomConfiguration(device, Rom, romDBFirstIndex);
 			StopUpdating(device);
 			ConfirmLongTermOperation(device);
@@ -95,7 +103,7 @@ namespace ServerFS2
 			var delayBytes = USBManager.Send(device, "Начать обновление Rom", 0x39, 0x04);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
-				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+				delay = (int)Math.Pow(2, delayBytes.Bytes[2]);
 			Thread.Sleep(delay);
 		}
 
@@ -104,16 +112,9 @@ namespace ServerFS2
 			var delayBytes = USBManager.Send(device, "Начать обновление прошивки", 0x39, 0x01);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
-				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+				delay = (int)Math.Pow(2, delayBytes.Bytes[2]);
 			Thread.Sleep(delay);
 		}
-
-		//static bool GetStatusOS(Device device)
-		//{
-		//    if (USBManager.Send(device, "Уточнить у Ромы", 0x01, 0x01).Bytes[1] == 0) // Если младший байт = 0, то режим пользовательский
-		//        return true;
-		//    return false;
-		//}
 
 		static void WriteFlashConfiguration(Device device, List<byte> deviceFlash)
 		{
@@ -170,7 +171,7 @@ namespace ServerFS2
 			var delayBytes = USBManager.Send(device, "Окончание записи памяти", 0x3A);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
-				delay = (int)Math.Pow(2, delayBytes.Bytes[1]);
+				delay = (int)Math.Pow(2, delayBytes.Bytes[2]);
 			Thread.Sleep(delay);
 		}
 
@@ -178,7 +179,6 @@ namespace ServerFS2
 		private static void BlockBD(Device device)
 		{
 			USBManager.Send(device, "Установка блокировки БД", 0x02, 0x55, 0x01);
-			var functionCode = GetAddressList(device);
 		}
 
 		private static List<byte> GetAddressList(Device device)
@@ -195,7 +195,11 @@ namespace ServerFS2
 		// Очистка сектора памяти bSectorStart, bSectorEnd
 		private static void ClearSector(Device device)
 		{
-			USBManager.Send(device, "Очистка сектора памяти", 0x3B, 0x03, 0x04);
+			var delayBytes = USBManager.Send(device, "Очистка сектора памяти", 0x3B, 0x03, 0x04);
+			int delay = 0;
+			if (delayBytes.Bytes.Count > 1)
+				delay = (int)Math.Pow(2, delayBytes.Bytes[2]);
+			Thread.Sleep(delay);
 		}
 
 		private static void ClearAvrSector(Device device)
@@ -217,10 +221,42 @@ namespace ServerFS2
 			var status = BytesHelper.ExtractShort(result.Bytes.GetRange(0, 2), 0);
 			while (status != 0)
 			{
+				Thread.Sleep(500);
 				GetOsStatus(device);
 				break;
 			}
 			return status;
+		}
+
+		public static int GetOsStatus2(Device device)
+		{
+			var result = USBManager.Send(device, "Запрос статуса ОС прибора", 0x01, 0x01);
+			var status = BytesHelper.ExtractShort(result.Bytes.GetRange(0, 2), 0);
+			while (status != 1)
+			{
+				Thread.Sleep(500);
+				GetOsStatus2(device);
+				break;
+			}
+			return status;
+		}
+
+		public static int GetOsStatus3(Device device)
+		{
+			var result = USBManager.Send(device, "Запрос статуса ОС прибора", 0x01, 0x01);
+			var status = BytesHelper.ExtractShort(result.Bytes.GetRange(0, 2), 0);
+			while (status != 8)
+			{
+				Thread.Sleep(500);
+				GetOsStatus3(device);
+				break;
+			}
+			return status;
+		}
+
+		public static void RequestError(Device device)
+		{
+			var error = USBManager.Send(device, "Запрос аппаратной ошибки", 0x3D).Bytes;
 		}
 	}
 }
