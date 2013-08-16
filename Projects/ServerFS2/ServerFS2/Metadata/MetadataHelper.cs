@@ -109,26 +109,6 @@ namespace ServerFS2
 
 		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device)
 		{
-			//var states = new HashSet<string>();
-			//var dublicateStates = new List<string>();
-			//foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
-			//{
-			//    if (metadataDeviceState.ID == "ConnectionLost")
-			//    {
-			//        ;
-			//    }
-			//    var result1 = states.Add(metadataDeviceState.ID);
-			//    if (!result1)
-			//    {
-			//        dublicateStates.Add(metadataDeviceState.ID);
-			//    }
-			//}
-			//foreach (var dublicateState in dublicateStates)
-			//{
-			//    Trace.WriteLine(dublicateState);
-			//}
-			//;
-
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
@@ -136,17 +116,24 @@ namespace ServerFS2
 			{
 				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 				{
-					if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
-					{
-						continue;
-					}
-					//if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != null && metadataDeviceState.type.ToUpper() != "SECURITY")
-					//{
-					//    continue;
-					//}
-					if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
+					if (metadataDeviceState.tableType == tableNo)
 					{
 						result.Add(metadataDeviceState);
+					}
+				}
+
+				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				{
+					if (metadataDeviceState.tableType == null && metadataDeviceState.notForTableType != tableNo)
+					{
+						var bitNo = GetBitNo(metadataDeviceState);
+						if (bitNo != -1)
+						{
+							if (!result.Any(x => GetBitNo(x) == bitNo))
+							{
+								result.Add(metadataDeviceState);
+							}
+						}
 					}
 				}
 			}
@@ -381,8 +368,19 @@ namespace ServerFS2
 					return deviceStateEnter.event20;
 				case 24:
 					return deviceStateEnter.event24;
+				default:
+					return null;
+			}
+		}
 
-
+		public static string GetZoneStateEventEnter(Rubezh2010.driverConfigDeviceStatesDeviceStateEnter deviceStateEnter, int no)
+		{
+			switch (no)
+			{
+				case 0:
+					return deviceStateEnter.zoneEvent;
+				case 2:
+					return deviceStateEnter.zoneEvent2;
 				default:
 					return null;
 			}
@@ -432,7 +430,6 @@ namespace ServerFS2
 					return deviceStateLeave.event26;
 				case 30:
 					return deviceStateLeave.event30;
-
 				default:
 					return null;
 			}

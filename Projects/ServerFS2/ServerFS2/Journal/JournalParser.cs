@@ -86,6 +86,7 @@ namespace ServerFS2
 				}
 			}
 
+			FS2JournalItem.HasZone = MetadataHelper.HasZone(FSInternalJournal.AdditionalEventCode);
 			InitializeZone();
 			FS2JournalItem.StateType = GetEventStateType();
 			FS2JournalItem.Description = GetEventName();

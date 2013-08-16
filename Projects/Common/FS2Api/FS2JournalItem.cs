@@ -66,5 +66,6 @@ namespace FS2Api
 		public int ZoneNo { get; set; }
 		public Device Device { get; set; }
         public GuardUser GuardUser { get; set; }
+		public bool HasZone { get; set; }
     }
 }
