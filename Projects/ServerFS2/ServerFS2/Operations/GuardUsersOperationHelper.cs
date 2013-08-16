@@ -17,7 +17,7 @@ namespace ServerFS2.Operations
 			{
 				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), 0xFF);
 			    if (response.HasError)
-			    	throw new FS2Exception("Не пришёл ответ на запрос базы");
+			    	throw new FS2Exception(response.Error);
 				if(response.Bytes.Count != 0x100)
 					throw new FS2Exception("Количество байт в ответе не совпадает с запрошенным");
 			    result.AddRange(response.Bytes);
@@ -37,8 +37,12 @@ namespace ServerFS2.Operations
 				var localZones = GetLocalZones(device);
 				for (int j = 0; j < guardZonesBytes.Count; j++)
 				{
+					if (localZones.Count <= j * 8)
+						break;
 					for (int k = 0; k < 8; k++)
 					{
+						if (localZones.Count <= j * 8 + k)
+							break;
 						if (((guardZonesBytes[j] >> k) & 1) == 1)
 						{
 							var guardZone = localZones[j*8 + k];
@@ -54,7 +58,9 @@ namespace ServerFS2.Operations
 
 		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
 		{
-			SetConfigurationOperationHelper.ConfirmLongTermOperation(device);
+			for (int i = 0; i < guardUsers.Count; i++)
+				guardUsers[i].Id = i + 1;
+				SetConfigurationOperationHelper.ConfirmLongTermOperation(device);
 			// Данные таблицы
 			var guardUsersCount = (byte) guardUsers.Count; // 1 байт
 			var guardUsersBytes = GetGuardUsersByte(guardUsers);

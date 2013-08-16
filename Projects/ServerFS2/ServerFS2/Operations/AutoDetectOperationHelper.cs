@@ -16,25 +16,27 @@ namespace ServerFS2
 			try
 			{
 				if (device.Driver.DriverType == DriverType.Computer)
+				{
 					MainManager.StopMonitoring();
-				else
-					MainManager.SuspendMonitoring(device);
+				}
 
 				var rootDevice = CopyDevice(device);
 				switch (rootDevice.Driver.DriverType)
 				{
 					case DriverType.Computer:
 						{
+							CallbackManager.AddProgress(new FS2ProgressInfo("Поиск USB устройств"));
 							var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
 							rootDevice.Children = new List<Device>();
 							foreach (var usbHidInfo in usbHidInfos)
 							{
-								var usbDevice = new Device();
-								usbDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == usbHidInfo.USBDriverType);
-								usbDevice.DriverUID = usbDevice.Driver.UID;
+								var usbDevice = CreateDevice(usbHidInfo.USBDriverType, 0, rootDevice);
+								var serialNoProperty = new Property();
+								serialNoProperty.Name = "SerialNo";
+								serialNoProperty.Value = usbHidInfo.SerialNo;
+								usbDevice.Properties.Add(serialNoProperty);
 								AddChanelToMS(usbDevice);
 								rootDevice.Children.Add(usbDevice);
-								usbDevice.Parent = rootDevice;
 								usbHidInfo.UsbHid.Dispose();
 							}
 						}
@@ -61,7 +63,6 @@ namespace ServerFS2
 				}
 				return rootDevice;
 			}
-			catch { throw; }
 			finally
 			{
 				if (device.Driver.DriverType == DriverType.Computer)
@@ -75,24 +76,9 @@ namespace ServerFS2
 		{
 			if ((device.Driver.DriverType != DriverType.MS_1) && (device.Driver.DriverType != DriverType.MS_2))
 				return;
-			// Добавляем 1-й канал
-			var usbChannel1Device = new Device();
-			usbChannel1Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_1);
-			usbChannel1Device.DriverUID = usbChannel1Device.Driver.UID;
-			usbChannel1Device.IntAddress = 1;
-			usbChannel1Device.Parent = device;
-			device.Children.Add(usbChannel1Device);
-
+			device.Children.Add(CreateDevice(DriverType.USB_Channel_1, 1, device));
 			if (device.Driver.DriverType == DriverType.MS_2)
-			{
-				// Добавляем 2-й канал
-				var usbChannel2Device = new Device();
-				usbChannel2Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_2);
-				usbChannel2Device.DriverUID = usbChannel2Device.Driver.UID;
-				usbChannel2Device.IntAddress = 2;
-				usbChannel2Device.Parent = device;
-				device.Children.Add(usbChannel2Device);
-			}
+				device.Children.Add(CreateDevice(DriverType.USB_Channel_2, 2, device));
 		}
 
 		static Device CopyDevice(Device device)
@@ -127,9 +113,9 @@ namespace ServerFS2
 		static bool AddDevicesToChanel(Device chanel)
 		{
 			chanel.Children = new List<Device>();
-			for (byte deviceNo = 1; deviceNo < 128; deviceNo++)
+			for (byte deviceNo = 1; deviceNo < 255; deviceNo++)
 			{
-				CallbackManager.AddProgress(new FS2ProgressInfo("Поиск устройств. Канал: " + chanel.IntAddress + ", Адрес: " + deviceNo));
+				CallbackManager.AddProgress(new FS2ProgressInfo(chanel.IntAddress + " - Канал." + "Поиск PNP-устройств Рубеж с адресом " + deviceNo + "		Статус поиска на канале: " + deviceNo * 100 / 255 + " %" + ".\nВсего адресов: 255"));
 				var tempDevice = new Device();
 				tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
 				tempDevice.IntAddress = deviceNo;
@@ -150,6 +136,16 @@ namespace ServerFS2
 				}
 			}
 			return true;
+		}
+
+		static Device CreateDevice(DriverType driverType, int intAddress, Device parent)
+		{
+			var newDevice = new Device();
+			newDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+			newDevice.DriverUID = newDevice.Driver.UID;
+			newDevice.IntAddress = intAddress;
+			newDevice.Parent = parent;
+			return newDevice;
 		}
 	}
 }
