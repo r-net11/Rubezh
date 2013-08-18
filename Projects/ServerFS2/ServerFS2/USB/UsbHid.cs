@@ -54,9 +54,14 @@ namespace ServerFS2
 
 		public bool Send(List<byte> bytes, string name, int attemptNo)
 		{
-			var message = DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo;
-			//Trace.WriteLine(message);
-			LogService.AddUSBHidLog(message);
+			//Trace.WriteLine(DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo);
+			var fs2LogItem = new FS2LogItem()
+			{
+				DateTime = DateTime.Now,
+				Name = name,
+				AttemptNo = attemptNo
+			};
+			LogService.AddUSBHidLog(fs2LogItem);
 			if (IsDisposed)
 				return false;
 			UsbHidPort.SpecifiedDevice.SendData(bytes.ToArray());

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="AdministratorTestClientFS2.Views.JournalMergeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="1000" MinHeight="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Пожарные">
+                <DataGrid ItemsSource="{Binding FireJournalItems}" RowHeight="60">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="No" Binding="{Binding No}" Width="Auto" />
+                        <DataGridTextColumn Header="DateTime" Binding="{Binding DateTime}" Width="Auto" />
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="Auto" />
+                        <DataGridTextColumn Header="Детализация" Binding="{Binding Detalization}" Width="Auto" />
+
+                        <DataGridTextColumn Header="FS1No" Binding="{Binding FS1No}" />
+                        <DataGridTextColumn Header="FS1DateTime" Binding="{Binding FS1DateTime}" />
+                        <DataGridTextColumn Header="FS1Name" Binding="{Binding FS1Name}" />
+                        <DataGridTextColumn Header="FS1Detalization" Binding="{Binding FS1Detalization}" />
+                        <DataGridTextColumn Header="Missmatch" Binding="{Binding Missmatch}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Охранные">
+                <DataGrid ItemsSource="{Binding GuardJournalItems}" RowHeight="60">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="No" Binding="{Binding No}" />
+                        <DataGridTextColumn Header="DateTime" Binding="{Binding DateTime}" />
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Детализация" Binding="{Binding Detalization}" />
+
+                        <DataGridTextColumn Header="FS1No" Binding="{Binding FS1No}" />
+                        <DataGridTextColumn Header="FS1DateTime" Binding="{Binding FS1DateTime}" />
+                        <DataGridTextColumn Header="FS1Name" Binding="{Binding FS1Name}" />
+                        <DataGridTextColumn Header="FS1Detalization" Binding="{Binding FS1Detalization}" />
+                        <DataGridTextColumn Header="Missmatch" Binding="{Binding Missmatch}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

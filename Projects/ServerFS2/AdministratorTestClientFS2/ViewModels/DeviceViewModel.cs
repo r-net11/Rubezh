@@ -3,6 +3,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using ServerFS2;
+using ServerFS2.Processor;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -18,7 +19,7 @@ namespace AdministratorTestClientFS2.ViewModels
 				return;
 			PropertiesViewModel = new PropertiesViewModel(device);
 			device.AUParametersChanged += device_AUParametersChanged;
-		 	FiresecManager.FiresecConfiguration = new FiresecConfiguration();
+			FiresecManager.FiresecConfiguration = new FiresecConfiguration();
 			FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationManager.DeviceConfiguration;
 			FiresecManager.FiresecConfiguration.DriversConfiguration = ConfigurationManager.DriversConfiguration;
 			PresentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
@@ -76,5 +77,15 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			DeviceParametersOperationHelper.Set(Device, Device.Properties);
 		}
+
+		public RelayCommand AutoDetectDeviceCommand { get { return MainViewModel.Current.AutoDetectDeviceCommand; } }
+		public RelayCommand ReadConfigurationCommand { get { return MainViewModel.Current.ReadConfigurationCommand; } }
+		public RelayCommand ReadJournalCommand { get { return MainViewModel.Current.ReadJournalCommand; } }
+		public RelayCommand GetInformationCommand { get { return MainViewModel.Current.GetInformationCommand; } }
+		public RelayCommand SynchronizeTimeCommand { get { return MainViewModel.Current.SynchronizeTimeCommand; } }
+		public RelayCommand SetPasswordCommand { get { return MainViewModel.Current.SetPasswordCommand; } }
+		public RelayCommand RunOtherFunctionsCommand { get { return MainViewModel.Current.RunOtherFunctionsCommand; } }
+		public RelayCommand UpdateFirmwhareCommand { get { return MainViewModel.Current.UpdateFirmwhareCommand; } }
+		public RelayCommand WriteConfigurationCommand { get { return MainViewModel.Current.WriteConfigurationCommand; } }
 	}
 }

@@ -19,12 +19,14 @@ namespace AdministratorTestClientFS2.ViewModels
 {
 	public class MainViewModel : BaseViewModel
 	{
+		public static MainViewModel Current { get; private set; }
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
 		FS2Contract FS2Contract = new FS2Contract();
 
 		public MainViewModel()
 		{
+			Current = this;
 			CancelProgressCommand = new RelayCommand(OnCancelProgress);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
 			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice, CanAutoDetectDevice);
@@ -50,14 +52,11 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		void CallbackManager_ProgressEvent(FS2ProgressInfo fs2ProgressInfos)
 		{
-			Application.Current.Dispatcher.Invoke(new Action(
-				() =>
-				{
+			Application.Current.Dispatcher.Invoke(new Action(() =>{
 					ProgressInfos.Insert(0, fs2ProgressInfos);
 					if (ProgressInfos.Count > 1000)
 						ProgressInfos.RemoveAt(1000);
-				}
-				));
+				}));
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
 
@@ -276,9 +275,13 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			//var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
+			var journalMergeViewModel = new JournalMergeViewModel(null);
+			DialogService.ShowModalWindow(journalMergeViewModel);
+
+			return;
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
-			return;
 		}
 
 		bool DeviceValidation(DeviceViewModel selectedDeivice)

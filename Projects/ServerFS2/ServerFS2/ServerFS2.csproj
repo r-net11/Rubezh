@@ -198,6 +198,7 @@
     <Compile Include="Service\FS2ServiceHost.cs" />
     <Compile Include="USB\UsbHid.cs" />
     <Compile Include="USB\UsbHidInfo.cs" />
+    <Compile Include="ViewModels\FS2LogItem.cs" />
     <Compile Include="ViewModels\LogService.cs" />
     <Compile Include="ViewModels\LogsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

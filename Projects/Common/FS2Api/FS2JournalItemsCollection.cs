@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FS2Api
 {
@@ -11,6 +12,9 @@ namespace FS2Api
 			FireJournalItems = new List<FS2JournalItem>();
 			SecurityJournalItems = new List<FS2JournalItem>();
 		}
+
+		[DataMember]
+		public DateTime CreationDateTime { get; set; }
 
 		[DataMember]
 		public List<FS2JournalItem> FireJournalItems { get; set; }

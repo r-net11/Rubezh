@@ -23,6 +23,7 @@ namespace ServerFS2
 			{
 				result.SecurityJournalItems = GetJournalItems(device, 2, 2, stageCount);
 			}
+			result.CreationDateTime = DateTime.Now;
 			return result;
 		}
 

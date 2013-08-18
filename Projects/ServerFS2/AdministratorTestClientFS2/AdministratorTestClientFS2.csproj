@@ -79,6 +79,7 @@
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\InformationViewModel.cs" />
+    <Compile Include="ViewModels\JournalMergeViewModel.cs" />
     <Compile Include="ViewModels\OtherFunctionViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
     <Compile Include="ViewModels\ZoneDevicesViewModel.cs" />
@@ -95,6 +96,9 @@
     </Compile>
     <Compile Include="Views\InformationView.xaml.cs">
       <DependentUpon>InformationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JournalMergeView.xaml.cs">
+      <DependentUpon>JournalMergeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
@@ -117,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InformationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalMergeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

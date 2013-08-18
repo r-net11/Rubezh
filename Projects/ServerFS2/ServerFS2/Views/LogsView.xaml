@@ -9,7 +9,9 @@
         </Grid.ColumnDefinitions>
         <DataGrid Grid.Column="0" ItemsSource="{Binding HidLogs}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="HID" Binding="{Binding .}" Width="*" />
+                <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" />
+                <DataGridTextColumn Header="Команда" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Попытка" Binding="{Binding AttemptNo}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
