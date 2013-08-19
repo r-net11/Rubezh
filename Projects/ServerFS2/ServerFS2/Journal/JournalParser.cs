@@ -67,7 +67,7 @@ namespace ServerFS2
 				if (FS2JournalItem.Device != null)
 				{
 					FS2JournalItem.DeviceUID = FS2JournalItem.Device.UID;
-					FS2JournalItem.DeviceName = FS2JournalItem.Device.DottedPresentationNameAndAddress;
+					FS2JournalItem.DeviceName = FS2JournalItem.Device.PresentationName + " " + FS2JournalItem.Device.PresentationAddress;
 
 					if (FSInternalJournal.DeviceType == 1)
 						FS2JournalItem.DeviceName = "АСПТ " + (FSInternalJournal.ShleifNo - 1) + ".";
@@ -119,8 +119,11 @@ namespace ServerFS2
 
 		string GetEventName()
 		{
-			if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
-				return GetEventNameForAM1_T();
+			if (DeviceConfiguration != null)
+			{
+				if (FS2JournalItem.Device != null && FS2JournalItem.Device.Driver.DriverType == DriverType.AM1_T && FSInternalJournal.EventCode == 58)
+					return GetEventNameForAM1_T();
+			}
 
 			var stringTableType = MetadataHelper.GetDeviceTableNo(FS2JournalItem.Device);
 			var eventName = MetadataHelper.GetEventMessage(FSInternalJournal.EventCode, stringTableType);

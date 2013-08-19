@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.Processor;
 using ServerFS2.Service;
+using System.Runtime.Serialization;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
@@ -265,6 +266,18 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand MergeJournalCommand { get; private set; }
 		void OnMergeJournal()
 		{
+			using (var fileStream = new FileStream(@"C:/journal.fscj", FileMode.Open, FileAccess.Read))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
+				var savedFS2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+				if (savedFS2JournalItemsCollection != null)
+				{
+					var journalMergeViewModel1 = new JournalMergeViewModel(savedFS2JournalItemsCollection);
+					DialogService.ShowModalWindow(journalMergeViewModel1);	
+				}
+			}
+			return;
+
 			var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
 			var journalMergeViewModel = new JournalMergeViewModel(fs2JournalItemsCollection);
 			//var journalMergeViewModel = new JournalMergeViewModel(null);
@@ -272,6 +285,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanMergeJournal()
 		{
+			return true;
 			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 

@@ -65,28 +65,14 @@ namespace AdministratorTestClientFS2.ViewModels
 			{
 				var fs1JournalItem = FireJournalItems[i];
 				var fs2JournalItem = fs2JournalItemsCollection.FireJournalItems[i];
+				fs1JournalItem.Compare(fs2JournalItem);
+			}
 
-				fs1JournalItem.FS1No = fs2JournalItem.No;
-				fs1JournalItem.FS1DateTime = fs2JournalItem.DeviceTime;
-				fs1JournalItem.FS1Name = fs2JournalItem.Description;
-				fs1JournalItem.Detalization = fs2JournalItem.Detalization;
-
-				if (fs1JournalItem.No != fs2JournalItem.No.ToString())
-				{
-					fs1JournalItem.Missmatch += "Несовпадают номера" + "\n";
-				}
-				if (fs1JournalItem.DateTime != fs2JournalItem.DeviceTime)
-				{
-					fs1JournalItem.Missmatch += "Несовпадают даты" + "\n";
-				}
-				if (fs1JournalItem.Name != fs2JournalItem.Description)
-				{
-					fs1JournalItem.Missmatch += "Несовпадают названия" + "\n";
-				}
-				if (fs1JournalItem.Detalization != fs2JournalItem.Detalization)
-				{
-					fs1JournalItem.Missmatch += "Несовпадает детализация" + "\n";
-				}
+			for (int i = 0; i < GuardJournalItems.Count; i++)
+			{
+				var fs1JournalItem = GuardJournalItems[i];
+				var fs2JournalItem = fs2JournalItemsCollection.SecurityJournalItems[i];
+				fs1JournalItem.Compare(fs2JournalItem);
 			}
 		}
 	}
@@ -102,7 +88,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			var dateStrings = date.Split('.');
 			var time = columns[2];
 			var timeStrings = time.Split(':');
-			var dateTime = new DateTime(Int32.Parse(dateStrings[2]), Int32.Parse(dateStrings[1]), Int32.Parse(dateStrings[0]), Int32.Parse(timeStrings[0]), Int32.Parse(timeStrings[1]), Int32.Parse(timeStrings[2]));
+			var dateTime = new DateTime(2000 + Int32.Parse(dateStrings[2]), Int32.Parse(dateStrings[1]), Int32.Parse(dateStrings[0]), Int32.Parse(timeStrings[0]), Int32.Parse(timeStrings[1]), Int32.Parse(timeStrings[2]));
 
 			var datalization = columns[4];
 			var index = datalization.IndexOf("</td>");
@@ -117,11 +103,36 @@ namespace AdministratorTestClientFS2.ViewModels
 				datalization = datalization.Substring(0, datalization.Length - 1);
 			}
 
-			No = columns[0];
+			No = columns[0].TrimStart();
 			DateTime = dateTime;
 			Name = columns[3];
 			Detalization = datalization;
 			Missmatch = "";
+		}
+
+		public void Compare(FS2JournalItem fs2JournalItem)
+		{
+			FS1No = fs2JournalItem.No;
+			FS1DateTime = fs2JournalItem.DeviceTime;
+			FS1Name = fs2JournalItem.Description;
+			FS1Detalization = fs2JournalItem.Detalization;
+
+			if (No != FS1No.ToString())
+			{
+				Missmatch += "Несовпадают номера" + "\n";
+			}
+			if (DateTime != FS1DateTime)
+			{
+				Missmatch += "Несовпадают даты" + "\n";
+			}
+			if (Name != FS1Name)
+			{
+				Missmatch += "Несовпадают названия" + "\n";
+			}
+			if (Detalization != FS1Detalization)
+			{
+				Missmatch += "Несовпадает детализация" + "\n";
+			}
 		}
 
 		public string No { get; set; }
@@ -134,5 +145,9 @@ namespace AdministratorTestClientFS2.ViewModels
 		public string FS1Name { get; set; }
 		public string FS1Detalization { get; set; }
 		public string Missmatch { get; set; }
+		public bool HasDifference
+		{
+			get { return Missmatch != ""; }
+		}
 	}
 }
