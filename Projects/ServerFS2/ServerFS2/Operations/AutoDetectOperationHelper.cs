@@ -29,9 +29,11 @@ namespace ServerFS2
 							foreach (var usbHidInfo in usbHidInfos)
 							{
 								var usbDevice = CreateDevice(usbHidInfo.USBDriverType, 0, rootDevice);
-								var serialNoProperty = new Property();
-								serialNoProperty.Name = "SerialNo";
-								serialNoProperty.Value = usbHidInfo.SerialNo;
+								var serialNoProperty = new Property()
+								{
+									Name = "SerialNo",
+									Value = usbHidInfo.SerialNo
+								};
 								usbDevice.Properties.Add(serialNoProperty);
 								AddChanelToMS(usbDevice);
 								rootDevice.Children.Add(usbDevice);

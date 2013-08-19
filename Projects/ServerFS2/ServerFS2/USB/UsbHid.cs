@@ -173,7 +173,7 @@ namespace ServerFS2
 						bytesToSend.Insert(0, 0);
 						Send(bytesToSend, name, -1);
 					}
-					AutoWaitEvent.WaitOne();
+					AutoWaitEvent.WaitOne(1000);
 					RequestCollection.Clear();
 					return Responses.FirstOrDefault();
 				}

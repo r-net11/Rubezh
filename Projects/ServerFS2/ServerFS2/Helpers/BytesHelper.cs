@@ -154,7 +154,5 @@ namespace ServerFS2
 			}
 			return BitConverter.GetBytes(value).ToList();
 		}
-			if (hex == null)
-				hex = "";
 	}
 }
