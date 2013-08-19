@@ -26,7 +26,6 @@
                 <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" MinWidth="100" />
                 <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" MinWidth="100" />
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" MinWidth="100" />
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" MinWidth="100" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">

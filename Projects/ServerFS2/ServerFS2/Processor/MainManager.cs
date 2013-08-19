@@ -16,12 +16,14 @@ namespace ServerFS2.Processor
 		#region Common
 		public static void StartMonitoring(Device device = null)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Старт мониторинга"));
 			USBManager.Initialize();
 			MonitoringManager.StartMonitoring(device);
 		}
 
 		public static void StopMonitoring(Device device = null)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Остановка мониторинга"));
 			MonitoringManager.StopMonitoring(device);
 			USBManager.Dispose();
 		}
@@ -156,7 +158,10 @@ namespace ServerFS2.Processor
 			CustomMessageJournalHelper.Add("Команда оператора. Запись новой конфигурации", userName);
 			return TempConfigSafeCall<bool>(x =>
 			{
-				return ConfigurationWriterOperationHelper.Write(x);
+				//USBManager.Initialize();
+				var result = ConfigurationWriterOperationHelper.Write(x);
+				//USBManager.Dispose();
+				return result;
 			}, device, isUSB);
 		}
 

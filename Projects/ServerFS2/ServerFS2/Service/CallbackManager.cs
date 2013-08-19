@@ -68,19 +68,19 @@ namespace ServerFS2.Service
 
 		public static void DeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			Trace.WriteLine("CallbackManager.DeviceStateChanged");
+			//Trace.WriteLine("CallbackManager.DeviceStateChanged");
 			Add(new FS2Callbac() { ChangedDeviceStates = deviceStates });
 		}
 
 		public static void DeviceParametersChanged(List<DeviceState> deviceStates)
 		{
-			Trace.WriteLine("CallbackManager.DeviceParametersChanged");
+			//Trace.WriteLine("CallbackManager.DeviceParametersChanged");
 			Add(new FS2Callbac() { ChangedDeviceParameters = deviceStates });
 		}
 
 		public static void ZoneStateChanged(List<ZoneState> zoneStates)
 		{
-			Trace.WriteLine("CallbackManager.ZoneStateChanged");
+			//Trace.WriteLine("CallbackManager.ZoneStateChanged");
 			Add(new FS2Callbac() { ChangedZoneStates = zoneStates });
 		}
 

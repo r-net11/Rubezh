@@ -157,6 +157,8 @@ namespace ServerFS2
 
 		public static List<byte> HexStringToByteArray(string hex)
 		{
+			if (hex == null)
+				hex = "";
 			hex = hex.Replace(" ", "");
 			return Enumerable.Range(0, hex.Length)
 				 .Where(x => x % 2 == 0)

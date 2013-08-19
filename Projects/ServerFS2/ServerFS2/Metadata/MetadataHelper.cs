@@ -107,7 +107,7 @@ namespace ServerFS2
 			return -1;
 		}
 
-		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device)
+		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device, bool isFireAndWarning)
 		{
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
@@ -131,7 +131,38 @@ namespace ServerFS2
 						{
 							if (!result.Any(x => GetBitNo(x) == bitNo))
 							{
+								if (!isFireAndWarning)
+								{
+									if (metadataDeviceState.ID == "Alarm" || metadataDeviceState.ID == "Warning")
+									{
+										switch (device.Driver.DriverType)
+										{
+											case DriverType.HandDetector:
+											case DriverType.RadioHandDetector:
+												if (metadataDeviceState.ID == "Warning")
+													continue;
+												break;
+
+											default:
+												if (metadataDeviceState.ID == "Alarm")
+													continue;
+												break;
+
+										}
+									}
+								}
 								result.Add(metadataDeviceState);
+							}
+						}
+						else
+						{
+							var intBitNo = GetIntBitNo(metadataDeviceState);
+							if (intBitNo != -1)
+							{
+								if (!result.Any(x => GetIntBitNo(x) == intBitNo))
+								{
+									result.Add(metadataDeviceState);
+								}
 							}
 						}
 					}

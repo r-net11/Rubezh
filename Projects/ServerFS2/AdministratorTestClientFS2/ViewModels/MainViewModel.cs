@@ -40,6 +40,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
 			TestCommand = new RelayCommand(OnTest);
+			MergeJournalCommand = new RelayCommand(OnMergeJournal, CanMergeJournal);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			ZonesViewModel.Initialize();
@@ -245,7 +246,6 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnWriteConfiguration()
 		{
 			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, null);
-
 		}
 		bool CanWriteConfiguration()
 		{
@@ -265,7 +265,10 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand MergeJournalCommand { get; private set; }
 		void OnMergeJournal()
 		{
-			MergeJournalCommand = new RelayCommand(OnMergeJournal, CanMergeJournal);
+			var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
+			var journalMergeViewModel = new JournalMergeViewModel(fs2JournalItemsCollection);
+			//var journalMergeViewModel = new JournalMergeViewModel(null);
+			DialogService.ShowModalWindow(journalMergeViewModel);	
 		}
 		bool CanMergeJournal()
 		{
@@ -275,11 +278,6 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			//var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
-			var journalMergeViewModel = new JournalMergeViewModel(null);
-			DialogService.ShowModalWindow(journalMergeViewModel);
-
-			return;
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
 		}

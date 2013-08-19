@@ -16,9 +16,7 @@ namespace ServerFS2
 			try
 			{
 				if (device.Driver.DriverType == DriverType.Computer)
-				{
 					MainManager.StopMonitoring();
-				}
 
 				var rootDevice = CopyDevice(device);
 				switch (rootDevice.Driver.DriverType)
@@ -44,7 +42,6 @@ namespace ServerFS2
 					case DriverType.MS_1:
 					case DriverType.MS_2:
 						{
-							MainManager.SuspendMonitoring(device);
 							foreach (var chanel in rootDevice.Children)
 							{
 								if (!AddDevicesToChanel(chanel))
@@ -67,8 +64,8 @@ namespace ServerFS2
 			{
 				if (device.Driver.DriverType == DriverType.Computer)
 					MainManager.StartMonitoring();
-				else
-					MainManager.ResumeMonitoring(device);
+				//else
+				//    MainManager.ResumeMonitoring(device);
 			}
 		}
 
@@ -115,7 +112,7 @@ namespace ServerFS2
 			chanel.Children = new List<Device>();
 			for (byte deviceNo = 1; deviceNo < 255; deviceNo++)
 			{
-				CallbackManager.AddProgress(new FS2ProgressInfo(chanel.IntAddress + " - Канал." + "Поиск PNP-устройств Рубеж с адресом " + deviceNo + "		Статус поиска на канале: " + deviceNo * 100 / 255 + " %" + ".\nВсего адресов: 255"));
+				CallbackManager.AddProgress(new FS2ProgressInfo(chanel.IntAddress + " - Канал. Поиск PNP-устройств Рубеж с адресом " + deviceNo + ".\nВсего адресов: 255", deviceNo * 100 / 255));
 				var tempDevice = new Device();
 				tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
 				tempDevice.IntAddress = deviceNo;

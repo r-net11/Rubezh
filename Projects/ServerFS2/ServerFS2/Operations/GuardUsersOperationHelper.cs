@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FS2Api;
+using ServerFS2.Service;
 
 namespace ServerFS2.Operations
 {
@@ -15,6 +16,7 @@ namespace ServerFS2.Operations
 
 			for (var i = 0x14000; i < 0x14E00; i += 0x100)
 			{
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение охранных пользователей", ((i - 0x14000) / 0x100 * 100) / 14));
 				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), 0xFF);
 			    if (response.HasError)
 			    	throw new FS2Exception(response.Error);
@@ -84,6 +86,7 @@ namespace ServerFS2.Operations
 			var begin = 0x14000;
 			for (int i = 0; i < bytes.Count; i = i + 0x100)
 			{
+				CallbackManager.AddProgress(new FS2ProgressInfo("Запись охранных пользователей", (i * 100) / bytes.Count));
 				USBManager.Send(device, "Запись охранных пользователей", 0x02, 0x52, BitConverter.GetBytes(begin + i).Reverse(), Math.Min(bytes.Count - i - 1, 0xFF), bytes.GetRange(i, Math.Min(bytes.Count - i, 0x100)));
 			}
 		}

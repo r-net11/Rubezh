@@ -9,6 +9,7 @@ namespace ServerFS2.Monitoring
 		AutoResetEvent PauseEvent;
 		AutoResetEvent CheckPauseEvent;
 		bool IsStopping = false;
+		bool IsSuspended = false;
 
 		public void StartMonitoring()
 		{
@@ -40,17 +41,21 @@ namespace ServerFS2.Monitoring
 			IsStopping = false;
 		}
 
-		public bool SuspendMonitoring()
+		public void SuspendMonitoring()
 		{
 			if (PauseEvent != null)
 				PauseEvent.Set();
 			PauseEvent = new AutoResetEvent(false);
 
-			CheckPauseEvent = new AutoResetEvent(false);
-			var result = CheckPauseEvent.WaitOne(TimeSpan.FromSeconds(10));
-			CheckPauseEvent = null;
+			if (!IsSuspended)
+			{
+				CheckPauseEvent = new AutoResetEvent(false);
+				var result = CheckPauseEvent.WaitOne(TimeSpan.FromSeconds(10));
+				CheckPauseEvent = null;
+			}
+			IsSuspended = true;
+
 			SetAllInitializing(false);
-			return result;
 		}
 
 		public void ResumeMonitoring()
@@ -59,6 +64,7 @@ namespace ServerFS2.Monitoring
 				PauseEvent.Set();
 			PauseEvent = null;
 			RemoveAllInitializing(false);
+			IsSuspended = false;
 		}
 
 		public bool CheckSuspending(bool throwException = true)
