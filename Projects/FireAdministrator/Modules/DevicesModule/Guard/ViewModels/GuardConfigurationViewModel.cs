@@ -42,10 +42,11 @@ namespace DevicesModule.ViewModels
 				var guardUsers = FS2DeviceGetGuardUserListHelper.Result;
 				if (guardUsers != null)
 				{
-					foreach (var guardUser in guardUsers)
+					for (int i = 0; i < guardUsers.Count; i++)
 					{
 						var user = new User();
-						var userViewModel = new UserViewModel(guardUser);
+						guardUsers[i].Id = i + 1;
+						var userViewModel = new UserViewModel(guardUsers[i]);
 						Users.Add(userViewModel);
 					}
 				}

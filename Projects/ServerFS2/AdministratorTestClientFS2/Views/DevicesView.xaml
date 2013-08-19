@@ -13,7 +13,21 @@
                                 <ControlTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" />
+                                        <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Driver.ShortName}" Width="200">
+                                            <TextBlock.ContextMenu>
+                                                <ContextMenu>                        
+                                                    <MenuItem Header="Автопоиск устройств" Command = "{Binding AutoDetectDeviceCommand}" />
+                                                    <MenuItem Header="Другие функции" Command = "{Binding RunOtherFunctionsCommand}" />
+                                                    <MenuItem Header="Считать конфигурацию из прибора" Command = "{Binding ReadConfigurationCommand}" />
+                                                    <MenuItem Header="Считать журнал событий" Command = "{Binding ReadJournalCommand}" />
+                                                    <MenuItem Header="Информация об устройстве" Command = "{Binding GetInformationCommand}" />
+                                                    <MenuItem Header="Синхронизация времени" Command = "{Binding SynchronizeTimeCommand}" />
+                                                    <MenuItem Header="Обновление ПО" Command = "{Binding UpdateFirmwhareCommand}" />
+                                                    <MenuItem Header="Задать пароль" Command = "{Binding SetPasswordCommand}" />
+                                                    <MenuItem Header="Записать конфигурацию в прибор" Command = "{Binding WriteConfigurationCommand}" />
+                                                </ContextMenu>
+                                            </TextBlock.ContextMenu>
+                                        </TextBlock>
                                     </StackPanel>
                                 </ControlTemplate>
                             </Controls:EditorPresenter.ViewTemplate>

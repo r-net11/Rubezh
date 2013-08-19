@@ -35,10 +35,6 @@ namespace MonitorClientFS2.ViewModels
 				{
 					Name = metadataDeviceCommand.name,
 					Caption = metadataDeviceCommand.caption,
-					Command1 = metadataDeviceCommand.command1,
-					ShiftInMemory = metadataDeviceCommand.shiftInMemory,
-					CommandDev = metadataDeviceCommand.commandDev,
-					MaskCmdDev = metadataDeviceCommand.maskCmdDev
 				};
 				DeviceCommands.Add(deviceCommandViewModel);
 			}

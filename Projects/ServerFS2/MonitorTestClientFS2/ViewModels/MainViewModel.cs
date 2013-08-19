@@ -15,6 +15,8 @@ using ServerFS2.Monitoring;
 using ServerFS2.Processor;
 using ServerFS2.Service;
 using ServerFS2.USB;
+using Infrastructure.Common.Windows;
+using ServerFS2.ViewModels;
 
 namespace MonitorClientFS2
 {
@@ -44,9 +46,6 @@ namespace MonitorClientFS2
 			Logs = new ObservableCollection<string>();
 			CallbackManager.ProgressEvent += new System.Action<FS2ProgressInfo>(CallbackManager_ProgressEvent);
 			CallbackManager.LogEvent += new System.Action<string>(CallbackManager_LogEvent);
-
-			//if (StartMonitoring)
-			//    ServerFS2.Bootstrapper.Run();
 		}
 
 		#region Progress
@@ -65,16 +64,6 @@ namespace MonitorClientFS2
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
 		#endregion
-
-		public bool StartMonitoring
-		{
-			get { return RegistrySettingsHelper.GetBool("MonitorClientFS2.StartMonitoring"); }
-			set
-			{
-				RegistrySettingsHelper.SetBool("MonitorClientFS2.StartMonitoring", value);
-				OnPropertyChanged("StartMonitoring");
-			}
-		}
 
 		void ShowNewItem(FS2JournalItem journalItem)
 		{

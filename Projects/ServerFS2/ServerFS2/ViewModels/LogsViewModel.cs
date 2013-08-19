@@ -15,10 +15,10 @@ namespace ServerFS2.ViewModels
 		{
 			Current = this;
 			Title = "Лог сервера FS2";
-			HidLogs = new ObservableCollection<string>();
+			HidLogs = new ObservableCollection<FS2LogItem>();
 		}
 
-		public void AddLog(string value)
+		public void AddLog(FS2LogItem value)
 		{
 			Dispatcher.Invoke(new Action(() =>
 			{
@@ -28,6 +28,6 @@ namespace ServerFS2.ViewModels
 			}));
 		}
 
-		public ObservableCollection<string> HidLogs { get; private set; }
+		public ObservableCollection<FS2LogItem> HidLogs { get; private set; }
 	}
 }
