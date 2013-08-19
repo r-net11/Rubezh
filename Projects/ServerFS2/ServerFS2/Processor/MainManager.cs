@@ -180,9 +180,10 @@ namespace ServerFS2.Processor
 		
 		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers)
 		{
-			TempConfigSafeCall(x =>
-				GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
-				device, isUSB);
+			//TempConfigSafeCall(x =>
+			//    GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
+			//    device, isUSB);
+			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
 		}
 		
 		public static void DeviceDatetimeSync(Device device, bool isUSB)

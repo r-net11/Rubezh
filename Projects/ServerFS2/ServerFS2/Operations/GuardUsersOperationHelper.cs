@@ -13,20 +13,20 @@ namespace ServerFS2.Operations
 		{
 			var guardUsers = new List<GuardUser>();
 			var result = new List<byte>();
-
-			for (var i = 0x14000; i < 0x14E00; i += 0x100)
+			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
+			for (var i = 0x14000; i < 0x14E00; i += packetLenght + 1)
 			{
 				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение охранных пользователей", ((i - 0x14000) / 0x100 * 100) / 14));
-				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), 0xFF);
+				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), packetLenght);
 			    if (response.HasError)
 			    	throw new FS2Exception(response.Error);
-				if(response.Bytes.Count != 0x100)
+				if (response.Bytes.Count != packetLenght + 1)
 					throw new FS2Exception("Количество байт в ответе не совпадает с запрошенным");
 			    result.AddRange(response.Bytes);
 			}
 
 			var guardUsersCount = result[0];
-			var guardUsersBytes = result.GetRange(1, 13);
+			//var guardUsersBytes = result.GetRange(1, 13);
 			for (int i = 0; i < guardUsersCount; i++)
 			{
 				var guardUser = new GuardUser();
@@ -108,7 +108,7 @@ namespace ServerFS2.Operations
 					newPasswordString = newPasswordString.Insert(i - 1, password[i].ToString());
 				}
 			}
-			var newPasswordByte = BytesHelper.HexStringToByteArray(newPasswordString);
+			var newPasswordByte = HexStringToByteArray(newPasswordString);
 			return newPasswordByte;
 		}
 
@@ -190,7 +190,7 @@ namespace ServerFS2.Operations
 			// Даннные пользователей
 			var guardUserAttribute = (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
 			var guardUserName = BytesHelper.StringToBytes(guardUser.Name);
-			var guardUserKeyTM = BytesHelper.HexStringToByteArray(guardUser.KeyTM);
+			var guardUserKeyTM = HexStringToByteArray(guardUser.KeyTM);
 			var guardUserPassword = PasswordStringToBytes(guardUser.Password);
 			var guardZonesBytes = GetGuardZones(device, guardUser);
 
@@ -198,6 +198,15 @@ namespace ServerFS2.Operations
 			guardUserKeyTM, guardUserPassword, guardZonesBytes));
 
 			return bytes;
+		}
+
+		public static List<byte> HexStringToByteArray(string hex)
+		{
+			hex = hex.Replace(" ", "");
+			return Enumerable.Range(0, hex.Length)
+				 .Where(x => x % 2 == 0)
+				 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+				 .ToList();
 		}
 	}
 }

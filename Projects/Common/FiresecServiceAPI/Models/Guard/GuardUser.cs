@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
         public GuardUser()
         {
 			ZoneUIDs = new List<Guid>();
+        	KeyTM = "00 00 00 00 00 00";
         }
 
         [DataMember]
