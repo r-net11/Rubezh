@@ -105,7 +105,7 @@ namespace ServerFS2.Operations
 					newPasswordString = newPasswordString.Insert(i - 1, password[i].ToString());
 				}
 			}
-			var newPasswordByte = BytesHelper.HexStringToByteArray(newPasswordString);
+			var newPasswordByte = HexStringToByteArray(newPasswordString);
 			return newPasswordByte;
 		}
 
@@ -187,7 +187,7 @@ namespace ServerFS2.Operations
 			// Даннные пользователей
 			var guardUserAttribute = (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
 			var guardUserName = BytesHelper.StringToBytes(guardUser.Name);
-			var guardUserKeyTM = BytesHelper.HexStringToByteArray(guardUser.KeyTM);
+			var guardUserKeyTM = HexStringToByteArray(guardUser.KeyTM);
 			var guardUserPassword = PasswordStringToBytes(guardUser.Password);
 			var guardZonesBytes = GetGuardZones(device, guardUser);
 
@@ -195,6 +195,15 @@ namespace ServerFS2.Operations
 			guardUserKeyTM, guardUserPassword, guardZonesBytes));
 
 			return bytes;
+		}
+
+		public static List<byte> HexStringToByteArray(string hex)
+		{
+			hex = hex.Replace(" ", "");
+			return Enumerable.Range(0, hex.Length)
+				 .Where(x => x % 2 == 0)
+				 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+				 .ToList();
 		}
 	}
 }
