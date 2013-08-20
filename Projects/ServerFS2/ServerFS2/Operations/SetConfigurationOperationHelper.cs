@@ -15,7 +15,6 @@ namespace ServerFS2
 		public static string UpdateFullFlash(Device device)
 		{
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "Сборка 2АМ\\sborka2AM.zip");
-			
 			var tempLoaderInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_BUNS_update_rs_v3.10.hex");
 			var avrInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "avr_buns_new_hard_m88_v1_20.hex");
 			var loaderInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, "R2AM_loader_v3.10_CRP.hex");
@@ -87,7 +86,7 @@ namespace ServerFS2
 			ConfirmLongTermOperation(device); 
 			RequestError(device);
 			GetOsStatus3(device); // 08 - Ram загрузчик
-			ClearSector(device);
+			ClearSector(device, 0x03, 0x04);
 			ConfirmLongTermOperation(device);
 			RequestError(device);
 			WriteRomConfiguration(device, Rom, romDBFirstIndex);
@@ -95,6 +94,19 @@ namespace ServerFS2
 			ConfirmLongTermOperation(device);
 			GetOsStatus(device);
 			ServerHelper.SynchronizeTime(device);
+			return true;
+		}
+
+		public static bool WriteNonPanelDeviceConfiguration(Device device, List<byte> Rom)
+		{
+			var romDBFirstIndex = 0x4000;
+			ConfirmLongTermOperation(device);
+			ClearSector(device, 0x04, 0x04);
+			ConfirmLongTermOperation(device);
+			RequestError(device);
+			WriteRomConfiguration(device, Rom, romDBFirstIndex);
+			StopUpdating(device);
+			ConfirmLongTermOperation(device);
 			return true;
 		}
 
@@ -193,9 +205,9 @@ namespace ServerFS2
 		}
 
 		// Очистка сектора памяти bSectorStart, bSectorEnd
-		private static void ClearSector(Device device)
+		private static void ClearSector(Device device, byte byte1, byte byte2)
 		{
-			var delayBytes = USBManager.Send(device, "Очистка сектора памяти", 0x3B, 0x03, 0x04);
+			var delayBytes = USBManager.Send(device, "Очистка сектора памяти", 0x3B, byte1, byte2);
 			int delay = 0;
 			if (delayBytes.Bytes.Count > 1)
 				delay = (int)Math.Pow(2, delayBytes.Bytes[2]);
