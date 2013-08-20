@@ -52,8 +52,8 @@ public class PDUDatabase : NonPanelDatabase
 			{
 				FirstTable.AddByte(0);
 			}
-			FirstTable.AddShort(2, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
+			FirstTable.AddShort(4, "Версия БД");
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", ignoreUnequal: true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 
@@ -63,6 +63,17 @@ public class PDUDatabase : NonPanelDatabase
 				devicesCount += pduItem.DevicePDUDirections.Count;
 			}
 			FirstTable.AddShort(devicesCount, "Количество ИУ");
+
+			FirstTable.AddByte(1, "Хэш");
+			for (int i = 0; i < 16; i++)
+			{
+				FirstTable.AddByte(0, "Хэш", ignoreUnequal: true);
+			}
+			for (int i = 0; i < 47; i++)
+			{
+				FirstTable.AddByte(255, "Доп. информация");
+			}
+
 			BytesDatabase.Add(FirstTable);
 
 			foreach (var pduItem in PDUItems)
@@ -75,7 +86,7 @@ public class PDUDatabase : NonPanelDatabase
 				for (int i = 0; i < 16; i++)
 				{
 					var value = panelDatabase.FlashDatabase.LastTable.BytesDatabase.ByteDescriptions[i + 1].Value;
-					paneBytesDatabase.AddByte(value, "MD5");
+					paneBytesDatabase.AddByte(value, "MD5", ignoreUnequal: true);
 				}
 				var offset = panelDatabase.FlashDatabase.LastTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
 				var offsetBytes = BitConverter.GetBytes(offset + 1);
@@ -91,11 +102,12 @@ public class PDUDatabase : NonPanelDatabase
 			}
 
 			var emptyBytesDatabase = new BytesDatabase("Пусто");
-			var emptyBytesCount = 0x42CC-BytesDatabase.ByteDescriptions.Count;
+			var emptyBytesCount = 0x42CC-BytesDatabase.ByteDescriptions.Count + 64;
 			for (int i = 0; i < emptyBytesCount; i++)
 			{
 				emptyBytesDatabase.AddByte(255, "Пустой байт");
 			}
+			//emptyBytesDatabase.AddByte(0, "Пустой байт");
 			BytesDatabase.Add(emptyBytesDatabase);
 
 			var pduTables = new List<PDUTable>();

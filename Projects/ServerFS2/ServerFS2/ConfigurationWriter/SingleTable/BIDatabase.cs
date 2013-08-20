@@ -25,11 +25,6 @@ namespace ServerFS2.ConfigurationWriter
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
-			for (int i = 0; i < 1000; i++)
-			{
-				BytesDatabase.AddByte(0, "ПУСТОЙ БАЙТ");
-			}
-
 			CreateRootBytes();
 		}
 
@@ -98,10 +93,21 @@ namespace ServerFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(5, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", ignoreUnequal: true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(IndicatorItems.Count, "Число приборов");
 			BytesDatabase.Add(FirstTable);
+
+			BytesDatabase.AddByte(1, "Хэш");
+			for (int i = 0; i < 16; i++)
+			{
+				BytesDatabase.AddByte(0, "Хэш", ignoreUnequal: true);
+			}
+			for (int i = 0; i < 47; i++)
+			{
+				BytesDatabase.AddByte(255, "Доп. информация");
+			}
+
 
             IndicatorItems = IndicatorItems.OrderBy(x => x.ParentPanel.IntAddress).ToList();
 
@@ -169,7 +175,8 @@ namespace ServerFS2.ConfigurationWriter
 				}
 
 				firstFlag = true;
-				foreach (var deviceIndicator in indicatorItem.Devices)
+				var sortedDevices = indicatorItem.Devices.OrderBy(x => x.Device.IntAddress).ToList();
+				foreach (var deviceIndicator in sortedDevices)
 				{
 					var paneBytesDatabase = new BytesDatabase("Устройство ИУ " + deviceIndicator.Device.DottedPresentationNameAndAddress);
 
@@ -214,7 +221,8 @@ namespace ServerFS2.ConfigurationWriter
 				}
 
 				firstFlag = true;
-				foreach (var deviceIndicator in indicatorItem.AM1_T_Devices)
+				var sortedAM1_T_Devices = indicatorItem.AM1_T_Devices.OrderBy(x => x.Device.IntAddress).ToList();
+				foreach (var deviceIndicator in sortedAM1_T_Devices)
 				{
 					var paneBytesDatabase = new BytesDatabase("Устройство АМ1-Т " + deviceIndicator.Device.DottedPresentationNameAndAddress);
 
@@ -292,7 +300,8 @@ namespace ServerFS2.ConfigurationWriter
 				}
 
 				firstFlag = true;
-				foreach (var deviceIndicator in indicatorItem.Pumps)
+				var sortedPumps = indicatorItem.Pumps.OrderBy(x => x.Device.PumpAddress).ToList();
+				foreach (var deviceIndicator in sortedPumps)
 				{
 					var paneBytesDatabase = new BytesDatabase("Насос " + deviceIndicator.Device.DottedPresentationNameAndAddress);
 
@@ -328,7 +337,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 10);
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 74);
 		}
 
 		IndicatorItem AddIndicatorItem(Device indicatorDevice, Device device)

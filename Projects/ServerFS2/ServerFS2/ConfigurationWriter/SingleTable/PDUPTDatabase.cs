@@ -53,7 +53,7 @@ namespace ServerFS2.ConfigurationWriter
 				FirstTable.AddByte(0);
 			}
 			FirstTable.AddShort(1, "Версия БД");
-			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
+			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы", ignoreUnequal: true);
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(PDUItems.Count, "Количество приборов");
 
@@ -67,11 +67,11 @@ namespace ServerFS2.ConfigurationWriter
 			BytesDatabase.Add(FirstTable);
 
 			BytesDatabase.AddByte(1, "Хэш");
-			for (int i = 0; i < 15; i++)
+			for (int i = 0; i < 16; i++)
 			{
-				BytesDatabase.AddByte(255, "Хэш");
+				BytesDatabase.AddByte(0, "Хэш", ignoreUnequal: true);
 			}
-			for (int i = 0; i < 48; i++)
+			for (int i = 0; i < 47; i++)
 			{
 				BytesDatabase.AddByte(255, "Доп. информация");
 			}
@@ -93,7 +93,7 @@ namespace ServerFS2.ConfigurationWriter
 				for (int i = 0; i < 16; i++)
 				{
 					var value = panelDatabase.FlashDatabase.LastTable.BytesDatabase.ByteDescriptions[i + 1].Value;
-					paneBytesDatabase.AddByte(value, "MD5");
+					paneBytesDatabase.AddByte(value, "MD5", ignoreUnequal: true);
 				}
 				var offset = panelDatabase.FlashDatabase.LastTable.BytesDatabase.ByteDescriptions.FirstOrDefault().Offset;
 				var offsetBytes = BitConverter.GetBytes(offset + 1);
