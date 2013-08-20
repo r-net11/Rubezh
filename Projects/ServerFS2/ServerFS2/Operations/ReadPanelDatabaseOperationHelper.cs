@@ -36,7 +36,7 @@ namespace ServerFS2
 		public List<byte> GetRomDBBytes(Device device)
 		{
 			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
-			var response = USBManager.Send(device, "Уточнить у Ромы", 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
+			var response = USBManager.Send(device, "Чтение информационной части базы Rom", 0x38, BitConverter.GetBytes(RomDBFirstIndex).Reverse(), packetLenght);
 			if (response.HasError || response.Bytes.Count < 12)
 				return null;
 			var result = response.Bytes;
