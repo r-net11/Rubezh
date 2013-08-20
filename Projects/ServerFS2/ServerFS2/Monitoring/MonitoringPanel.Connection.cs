@@ -74,7 +74,7 @@ namespace ServerFS2.Monitoring
 				ConnectionChanged();
 		}
 
-		void CheckWrongPanel()
+		bool CheckWrongPanel()
 		{
 			var serialNo = GetSerialNo();
 			if (serialNo != null)
@@ -92,7 +92,7 @@ namespace ServerFS2.Monitoring
 							PanelDevice.DeviceState.IsWrongPanel = true;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
-							return;
+							return false;
 						}
 					}
 					else
@@ -102,11 +102,12 @@ namespace ServerFS2.Monitoring
 							PanelDevice.DeviceState.IsWrongPanel = false;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
-							return;
+							return true;
 						}
 					}
 				}
 			}
+			return false;
 		}
 
 		string GetSerialNo()

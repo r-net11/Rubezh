@@ -54,7 +54,6 @@ namespace ServerFS2.Operations
 					case 3: result += "57600\n"; break;
 					case 4: result += "115200\n"; break;
 				}
-
 			}
 			else
 			{

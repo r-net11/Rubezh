@@ -238,8 +238,20 @@ namespace ServerFS2.ConfigurationWriter
 
 		void AddAM1_OConfig()
 		{
+			var am1OByte = 0;
+			var property = Device.Properties.FirstOrDefault(x => x.Name == "GuardType");
+			if (property != null)
+			{
+				am1OByte = Int32.Parse(property.Value);
+				//switch (property.Value)
+				//{
+				//    case "":
+				//        am1OByte = 0;
+				//        break;
+				//}
+			}
 			BytesDatabase.AddByte(0, "Неиспользуемый байт, можно убрать с инкрементом версии базы");
-			BytesDatabase.AddByte(0, "Байт подтипа извещателя");
+			BytesDatabase.AddByte(am1OByte, "Байт подтипа извещателя");
 			var config = 0;
 			BytesDatabase.AddByte(config, "Конфиг с компа");
 		}

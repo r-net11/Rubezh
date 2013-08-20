@@ -134,7 +134,14 @@ namespace ServerFS2.ConfigurationWriter
 
 		static List<Device> GetDevicesInLogic(Zone zone)
 		{
-			var result = zone.DevicesInZoneLogic;
+			var result = new List<Device>();
+			foreach (var device in zone.DevicesInZoneLogic)
+			{
+				if (device.Driver.DriverType == DriverType.MDU)
+				{
+					result.Add(device);
+				}
+			}
 			foreach (var device in zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType == DriverType.MPT)

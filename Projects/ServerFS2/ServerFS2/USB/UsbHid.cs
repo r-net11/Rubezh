@@ -52,13 +52,14 @@ namespace ServerFS2
 			//AutoWaitEvent.Set();
 		}
 
-		public bool Send(List<byte> bytes, string name, int attemptNo)
+		public bool Send(List<byte> bytes, string name, string deviceName, int attemptNo)
 		{
 			//Trace.WriteLine(DateTime.Now.TimeOfDay.ToString() + " - Send Name = " + name + " - " + attemptNo);
 			var fs2LogItem = new FS2LogItem()
 			{
 				DateTime = DateTime.Now,
 				Name = name,
+				DeviceName = deviceName,
 				AttemptNo = attemptNo
 			};
 			LogService.AddUSBHidLog(fs2LogItem);
@@ -140,7 +141,7 @@ namespace ServerFS2
 			}
 		}
 
-		public Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall, string name)
+		public Response AddRequest(int usbRequestNo, List<List<byte>> bytesList, int delay, int timeout, bool isSyncronuos, int countRacall, string name, string deviceName = null)
 		{
 			Responses = new List<Response>();
 			RequestCollection.Clear();
@@ -171,7 +172,7 @@ namespace ServerFS2
 					{
 						var bytesToSend = request.Bytes.GetRange(i * 64, 64);
 						bytesToSend.Insert(0, 0);
-						Send(bytesToSend, name, -1);
+						Send(bytesToSend, name, deviceName, -1);
 					}
 					AutoWaitEvent.WaitOne(1000);
 					RequestCollection.Clear();
@@ -184,7 +185,7 @@ namespace ServerFS2
 					{
 						AutoWaitEvent = new AutoResetEvent(false);
 					}
-					Send(request.Bytes, name, -1);
+					Send(request.Bytes, name, deviceName, -1);
 					if (isSyncronuos)
 					{
 						AutoWaitEvent.WaitOne(delay);
@@ -211,7 +212,7 @@ namespace ServerFS2
 
 							AutoWaitEvent.Reset();
 
-							var result = Send(request.Bytes, name, i);
+							var result = Send(request.Bytes, name, deviceName, i);
 							if (!result)
 							{
 								RequestCollection.Clear();

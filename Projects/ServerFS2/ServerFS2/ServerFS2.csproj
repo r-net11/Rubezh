@@ -132,7 +132,7 @@
     <Compile Include="Helpers\DeviceLastIndexCollection.cs" />
     <Compile Include="Helpers\FileDBHelper.cs" />
     <Compile Include="Helpers\GetDeviceConfigHelper.cs" />
-    <Compile Include="Helpers\LastJournalIndexHelper.cs" />
+    <Compile Include="Helpers\LastJournalIndexManager.cs" />
     <Compile Include="Helpers\ParametersHelper.cs" />
     <Compile Include="Helpers\DateConverter.cs" />
     <Compile Include="Helpers\ServerHelper.Monitoring.cs" />

@@ -25,6 +25,11 @@ namespace ServerFS2.ConfigurationWriter
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
+			for (int i = 0; i < 1000; i++)
+			{
+				BytesDatabase.AddByte(0, "ПУСТОЙ БАЙТ");
+			}
+
 			CreateRootBytes();
 		}
 
@@ -92,7 +97,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				FirstTable.AddByte(0);
 			}
-			FirstTable.AddShort(4, "Версия БД");
+			FirstTable.AddShort(5, "Версия БД");
 			Crc16ByteDescription = FirstTable.AddShort(0, "CRC от ROM части базы");
 			var lengtByteDescription = FirstTable.AddInt(0, "Размер БД");
 			FirstTable.AddShort(IndicatorItems.Count, "Число приборов");

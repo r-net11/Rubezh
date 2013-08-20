@@ -6,6 +6,7 @@ using ServerFS2.Helpers;
 using ServerFS2.Journal;
 using ServerFS2.Operations;
 using ServerFS2.Service;
+using System.Text;
 
 namespace ServerFS2.Monitoring
 {
@@ -29,6 +30,7 @@ namespace ServerFS2.Monitoring
 		bool IsSecurityReadingNeeded = false;
 		int LastDeviceFireIndex { get; set; }
 		int LastDeviceSecurityIndex { get; set; }
+		LastJournalIndexManager LastJournalIndexManager = new LastJournalIndexManager();
 
 		int _lastSystemFireIndex;
 		public int LastSystemFireIndex
@@ -36,12 +38,8 @@ namespace ServerFS2.Monitoring
 			get { return _lastSystemFireIndex; }
 			set
 			{
-				if (value > 100000)
-				{
-					return;
-				}
 				_lastSystemFireIndex = value;
-				LastJournalIndexHelper.SetLastFireJournalIndex(PanelDevice, value);
+				LastJournalIndexManager.SetLastFireJournalIndex(PanelDevice, SerialNo, value);
 			}
 		}
 
@@ -52,7 +50,7 @@ namespace ServerFS2.Monitoring
 			set
 			{
 				_lastSystemSecurityIndex = value;
-				LastJournalIndexHelper.SetLastSecurityJournalIndex(PanelDevice, value);
+				LastJournalIndexManager.SetLastSecurityJournalIndex(PanelDevice, SerialNo, value);
 			}
 		}
 
@@ -65,8 +63,6 @@ namespace ServerFS2.Monitoring
 			ZonesToSetGuard = new List<Zone>();
 			ZonesToResetGuard = new List<Zone>();
 			CommandItems = new List<CommandItem>();
-			LastSystemFireIndex = LastJournalIndexHelper.GetLastFireJournalIndex(device);
-			LastSystemSecurityIndex = LastJournalIndexHelper.GetLastSecurityJournalIndex(device);
 			RealChildren = PanelDevice.GetRealChildren();
 			DeviceStatesManager = new DeviceStatesManager();
 		}
@@ -91,6 +87,9 @@ namespace ServerFS2.Monitoring
 			GetInformationOperationHelper.GetDeviceInformation(PanelDevice);
 			DeviceStatesManager.CanNotifyClients = true;
 			SerialNo = GetSerialNo();
+
+			LastSystemFireIndex = LastJournalIndexManager.GetLastFireJournalIndex(PanelDevice, SerialNo);
+			LastSystemSecurityIndex = LastJournalIndexManager.GetLastSecurityJournalIndex(PanelDevice, SerialNo);
 
 			SynchronyzeJournal(0x00);
 			if (PanelDevice.Driver.DriverType == DriverType.Rubezh_2OP || PanelDevice.Driver.DriverType == DriverType.USB_Rubezh_2OP)
@@ -193,17 +192,29 @@ namespace ServerFS2.Monitoring
 					if (LastSystemFireIndex == -1)
 					{
 						LastSystemFireIndex = LastDeviceFireIndex;
+						break;
 					}
 					if (LastDeviceFireIndex - LastSystemFireIndex > MaxFireMessages)
 					{
-						LastSystemFireIndex = LastDeviceFireIndex - MaxFireMessages;
+						if (CheckWrongPanel())
+						{
+							LastSystemFireIndex = LastDeviceFireIndex - MaxFireMessages;
+							IsFireReadingNeeded = true;
+						}
+						break;
 					}
 					if (LastDeviceFireIndex > LastSystemFireIndex)
 					{
 						IsFireReadingNeeded = true;
+						break;
 					}
 					if (LastDeviceFireIndex < LastSystemFireIndex)
-						LastDeviceFireIndex = LastSystemFireIndex;
+					{
+						if (CheckWrongPanel())
+						{
+							LastDeviceFireIndex = LastSystemFireIndex;
+						}
+					}
 					break;
 
 				case RequestType.ReadSecurityIndex:
@@ -211,17 +222,29 @@ namespace ServerFS2.Monitoring
 					if (LastSystemSecurityIndex == -1)
 					{
 						LastSystemSecurityIndex = LastDeviceSecurityIndex;
+						break;
 					}
 					if (LastDeviceSecurityIndex - LastSystemSecurityIndex > MaxSecurityMessages)
 					{
-						LastSystemSecurityIndex = LastDeviceSecurityIndex - MaxSecurityMessages;
+						if (CheckWrongPanel())
+						{
+							LastSystemSecurityIndex = LastDeviceSecurityIndex - MaxSecurityMessages;
+							IsSecurityReadingNeeded = true;
+						}
+						break;
 					}
 					if (LastDeviceSecurityIndex > LastSystemSecurityIndex)
 					{
 						IsSecurityReadingNeeded = true;
+						break;
 					}
 					if (LastDeviceSecurityIndex < LastSystemSecurityIndex)
-						LastDeviceSecurityIndex = LastSystemSecurityIndex;
+					{
+						if (CheckWrongPanel())
+						{
+							LastDeviceSecurityIndex = LastSystemSecurityIndex;
+						}
+					}
 					break;
 			}
 

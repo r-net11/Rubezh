@@ -9,6 +9,12 @@ namespace ServerFS2.ViewModels
 	{
 		public DateTime DateTime { get; set; }
 		public string Name { get; set; }
+		public string DeviceName { get; set; }
 		public int AttemptNo { get; set; }
+
+		public string PresentationDateTime
+		{
+			get { return DateTime.TimeOfDay.ToString(); }
+		}
 	}
 }

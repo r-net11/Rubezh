@@ -23,6 +23,9 @@ namespace ServerFS2.Helpers
 		public Guid DeviceUID { get; set; }
 
 		[DataMember]
+		public string SerialNo { get; set; }
+
+		[DataMember]
 		public int LastFireJournalIndex { get; set; }
 
 		[DataMember]
