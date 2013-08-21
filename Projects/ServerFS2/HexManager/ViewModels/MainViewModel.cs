@@ -49,7 +49,7 @@ namespace HexManager.ViewModels
 			Files = new ObservableRangeCollection<FileViewModel>();
 			foreach (var fileInfo in hexFileCollectionInfo.FileInfos)
 			{
-				var fileViewModel = new FileViewModel(fileInfo);
+				var fileViewModel = new FileViewModel(fileInfo, false);
 				Files.Add(fileViewModel);
 				SelectedFile = Files.FirstOrDefault();
 			}
