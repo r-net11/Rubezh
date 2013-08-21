@@ -7,6 +7,7 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -91,7 +92,7 @@ namespace GKModule
 					&& device.Driver.HasAddress && physicalAddress != binaryObjectState.PhysicalAddress)
 					isMissmatch = true;
 
-				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOncontroller)
+				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOnController)
 					isMissmatch = true;
 			}
 			if (binaryBase is XZone)

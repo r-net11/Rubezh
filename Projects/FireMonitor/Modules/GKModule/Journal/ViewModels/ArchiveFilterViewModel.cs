@@ -19,10 +19,8 @@ namespace GKModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
 
-			StartDate = archiveFilter.StartDate;
-			EndDate = archiveFilter.EndDate;
-			StartTime = archiveFilter.StartDate;
-			EndTime = archiveFilter.EndDate;
+			StartDateTime = archiveFilter.StartDate;
+			EndDateTime = archiveFilter.EndDate;
 
 			InitializeJournalItemTypes(archiveFilter);
 			InitializeStateClasses(archiveFilter);
@@ -116,43 +114,25 @@ namespace GKModule.ViewModels
 			get { return DateTime.Now; }
 		}
 
-		DateTime _startDate;
-		public DateTime StartDate
+		DateTime _startDateTime;
+		public DateTime StartDateTime
 		{
-			get { return _startDate; }
+			get { return _startDateTime; }
 			set
 			{
-				_startDate = value;
-				OnPropertyChanged("StartDate");
-			}
-		}
-		public DateTime StartTime
-		{
-			get { return _startDate; }
-			set
-			{
-				_startDate = value;
-				OnPropertyChanged("StartTime");
+				_startDateTime = value;
+				OnPropertyChanged("StartDateTime");
 			}
 		}
 
-		DateTime _endDate;
-		public DateTime EndDate
+		DateTime _endDateTime;
+		public DateTime EndDateTime
 		{
-			get { return _endDate; }
+			get { return _endDateTime; }
 			set
 			{
-				_endDate = value;
-				OnPropertyChanged("EndDate");
-			}
-		}
-		public DateTime EndTime
-		{
-			get { return _endDate; }
-			set
-			{
-				_endDate = value;
-				OnPropertyChanged("EndTime");
+				_endDateTime = value;
+				OnPropertyChanged("EndDateTime");
 			}
 		}
 
@@ -165,8 +145,8 @@ namespace GKModule.ViewModels
 		{
 			var archiveFilter = new XArchiveFilter()
 			{
-				StartDate = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, StartTime.Second),
-				EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, EndTime.Second),
+				StartDate = StartDateTime,
+				EndDate = EndDateTime,
 			};
 			foreach (var journalItemType in JournalItemTypes)
 			{
@@ -194,8 +174,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			StartDate = StartTime = EndDate = EndTime = DateTime.Now;
-			StartDate = StartDate.AddDays(-1);
+			StartDateTime = EndDateTime = DateTime.Now;
+			StartDateTime = StartDateTime.AddDays(-1);
 			JournalItemTypes = new List<JournalItemTypeViewModel>();
 			StateClasses = new List<StateClassViewModel>();
 			GKAddresses = new List<GKAddressViewModel>();
@@ -209,7 +189,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (StartDate > EndDate)
+			if (StartDateTime > EndDateTime)
 			{
 				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
 				return;

@@ -2,30 +2,30 @@
 
 namespace GKModule
 {
-    public partial class Watcher
-    {
-        void StartProgress(string name, int count)
-        {
-            ApplicationService.Invoke(() =>
-            {
-                LoadingService.ShowProgress("", name, count);
-            });
-        }
+	public partial class Watcher
+	{
+		void StartProgress(string name, int count)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.ShowProgress("", name, count);
+			});
+		}
 
-        void DoProgress(string name)
-        {
-            ApplicationService.Invoke(() =>
-            {
-                LoadingService.DoStep(name);
-            });
-        }
+		void DoProgress(string name)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.DoStep(name);
+			});
+		}
 
-        void StopProgress()
-        {
-            ApplicationService.Invoke(() =>
-            {
-                LoadingService.Close();
-            });
-        }
-    }
+		void StopProgress()
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Close();
+			});
+		}
+	}
 }

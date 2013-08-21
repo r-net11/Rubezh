@@ -75,6 +75,8 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool HasLogic { get; set; }
 		[DataMember]
+		public bool IgnoreHasLogic { get; set; }
+		[DataMember]
 		public bool HasZone { get; set; }
 		[DataMember]
 		public bool IsControlDevice { get; set; }

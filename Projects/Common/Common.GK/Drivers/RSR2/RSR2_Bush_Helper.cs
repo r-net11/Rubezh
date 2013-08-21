@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Блок управления шкафом RSR2",
 				ShortName = "БУШ RSR2",
 				IsControlDevice = true,
-				HasLogic = false,
+				HasLogic = true,
+				IgnoreHasLogic = true,
 				IsPlaceable = true
 			};
 			GKDriversHelper.AddControlAvailableStates(driver);
@@ -51,8 +52,14 @@ namespace Common.GK
 			property8.Parameters.Add(property8Parameter1);
 			driver.Properties.Add(property8);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение", IsDelay = true });
-			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 3, Name = "Отсчет задержки на выключение, с", IsDelay = true });
+
+			driver.AUParameters.Add(new XAUParameter() { No = 0, Name = "СС" });
+			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Неисправность" });
+			driver.AUParameters.Add(new XAUParameter() { No = 4, Name = "Тип шкафа" });
+			driver.AUParameters.Add(new XAUParameter() { No = 5, Name = "Уточнение неисправность" });
+			driver.AUParameters.Add(new XAUParameter() { No = 6, Name = "Состояние" });
 
 			return driver;
 		}
