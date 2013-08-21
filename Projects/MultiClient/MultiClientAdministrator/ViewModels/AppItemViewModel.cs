@@ -16,6 +16,7 @@ namespace MultiClientAdministrator.ViewModels
 			_port = multiclientData.Port;
 			_login = multiclientData.Login;
 			_password = multiclientData.Password;
+			_isNotUsed = multiclientData.IsNotUsed;
 		}
 
 		string _name;
@@ -26,7 +27,6 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_name = value;
 				OnPropertyChanged("Name");
-				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -38,7 +38,6 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
-				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -50,7 +49,6 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_port = value;
 				OnPropertyChanged("Port");
-				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -62,7 +60,6 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_login = value;
 				OnPropertyChanged("Login");
-				ShellViewModel.HasChanges = true;
 			}
 		}
 
@@ -74,8 +71,24 @@ namespace MultiClientAdministrator.ViewModels
 			{
 				_password = value;
 				OnPropertyChanged("Password");
-				ShellViewModel.HasChanges = true;
 			}
+		}
+
+		bool _isNotUsed;
+		public bool IsNotUsed
+		{
+			get { return _isNotUsed; }
+			set
+			{
+				_isNotUsed = value;
+				OnPropertyChanged("IsNotUsed");
+			}
+		}
+
+		new void OnPropertyChanged(string propertyName)
+		{
+			base.OnPropertyChanged(propertyName);
+			ShellViewModel.HasChanges = true;
 		}
 	}
 }

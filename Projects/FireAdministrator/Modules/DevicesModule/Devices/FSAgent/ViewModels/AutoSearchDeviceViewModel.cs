@@ -38,9 +38,17 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				if (Device.Driver.HasAddress)
+				if (Device.Driver.HasAddress && Device.Parent != null && Device.Parent.Driver.DriverType != DriverType.Computer)
 					return Device.PresentationAddressAndName;
-				return Device.Driver.Name;
+
+				var serialNo = "";
+				var property = Device.Properties.FirstOrDefault(x => x.Name == "SerialNo");
+				if (property != null)
+				{
+					if (property.Value != null)
+						serialNo = property.Value;
+				}
+				return Device.Driver.Name + " " + serialNo;
 			}
 		}
 

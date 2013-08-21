@@ -165,9 +165,12 @@ namespace ServerFS2.ConfigurationWriter
 			var result = new List<Device>();
 			foreach (var device in Zone.DevicesInZoneLogic)
 			{
-				if (device.ParentPanel.UID == ParentPanel.UID)
+				//if (device.Driver.DriverType == DriverType.MDU)
 				{
-					result.Add(device);
+					if (device.ParentPanel.UID == ParentPanel.UID)
+					{
+						result.Add(device);
+					}
 				}
 			}
 

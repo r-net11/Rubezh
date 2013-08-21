@@ -334,7 +334,7 @@
         </TabItem>
 
 
-        <TabItem Header="БИ">
+        <TabItem Header="БИ, ПДУ, ПДУ-ПТ">
             <TabControl Name="tabControl2" ItemsSource="{Binding NonPanelDatabases}" SelectedIndex="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>

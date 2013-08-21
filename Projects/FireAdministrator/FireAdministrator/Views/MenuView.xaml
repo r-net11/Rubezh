@@ -21,6 +21,8 @@
 			<Controls:ToolBarButton Command="{Binding ValidateCommand}" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />
 			<Controls:ToolBarButton Command="{Binding SetNewConfigCommand}" ImageSource="/Controls;component/Images/download.png" ToolTip="Применить конфигурацию" />
 		</StackPanel>
-		<ContentPresenter MinWidth="400" Content="{Binding ExtendedMenu}" Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-	</StackPanel>
+        <Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ContentPresenter MinWidth="400" Content="{Binding ExtendedMenu}" />
+        </Grid>
+    </StackPanel>
 </UserControl>

@@ -27,4 +27,8 @@
         <Views:OtherFunctionView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:JournalMergeViewModel}">
+        <Views:JournalMergeView />
+    </DataTemplate>
+
 </ResourceDictionary>

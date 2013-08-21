@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Infrastructure.Common.Windows;
 
 namespace ServerFS2.ViewModels
 {
@@ -9,7 +10,7 @@ namespace ServerFS2.ViewModels
 	{
 		static System.Windows.Forms.NotifyIcon _notifyIcon = null;
 
-		public static void Start(EventHandler onShow, EventHandler onClose)
+		public static void Start(EventHandler onShow, EventHandler onClose, EventHandler onShowLogs)
 		{
 			RefreshTaskbarNotificationArea();
 			AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
@@ -28,6 +29,11 @@ namespace ServerFS2.ViewModels
 			menuItem2.Text = "Выход";
 			menuItem2.Click += new EventHandler(onClose);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
+
+			var menuItem3 = new System.Windows.Forms.MenuItem();
+			menuItem3.Text = "Логи";
+			menuItem3.Click += new EventHandler(onShowLogs);
+			_notifyIcon.ContextMenu.MenuItems.Add(menuItem3);
 
 			_notifyIcon.Text = "Сервер FS2";
 		}

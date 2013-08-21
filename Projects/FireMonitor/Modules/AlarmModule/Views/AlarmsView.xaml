@@ -71,7 +71,7 @@
                         <Setter.Value>
                             <ContextMenu>
                                 <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" Margin="2" />
-                                <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Margin="2" />
+                                <MenuItem Header="Снять отключение" Command="{Binding RemoveFromIgnoreListCommand}" Margin="2" />
                                 <Separator />
                                 <MenuItem Header="Показать устройство на плане" Command="{Binding ShowOnPlanCommand}" Margin="2" />
                                 <MenuItem Header="Показать устройство" Command="{Binding ShowDeviceCommand}" Margin="2" />
@@ -94,7 +94,7 @@
             </ScrollViewer>
         </Border>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Content="Включить все" ToolTip="F2" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" HorizontalAlignment="Right" Margin="2" />
+            <Button Content="Снять все отключения" ToolTip="F2" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" HorizontalAlignment="Right" Margin="2" />
             <Button Content="Отключить все в пожаре" ToolTip="F3" Command="{Binding AddToIgnoreAllDevicesInFireCommand}" Width="200" Height="30" HorizontalAlignment="Right" Margin="2" />
         </StackPanel>
     </Grid>

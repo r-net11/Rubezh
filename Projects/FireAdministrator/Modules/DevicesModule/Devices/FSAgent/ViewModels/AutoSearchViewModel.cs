@@ -50,6 +50,11 @@ namespace DevicesModule.ViewModels
 			Close(true);
 		}
 
+		public bool CanContinue
+		{
+			get { return !FiresecManager.IsFS2Enabled; }
+		}
+
 		void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)
 		{
 			foreach (var autodetectedDevice in parentAutoDetectedDevice.Children)

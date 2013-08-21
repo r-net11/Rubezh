@@ -25,11 +25,11 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
@@ -45,14 +45,14 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
-                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal">
                     <TextBox Text="{Binding MinorVersion}" Margin="5 2" />
                     <TextBox Text="{Binding MajorVersion}" Margin="5 2" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Автор" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding AutorName}" Margin="5 2" />
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Автор" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
+                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding AutorName}" Margin="5 2" />
             </Grid>
         </StackPanel>
         <Grid Grid.Row="1">
@@ -94,12 +94,11 @@
                         <DataGridTextColumn Header="Тип" Binding="{Binding StringLineType}" Width="Auto" />
                         <DataGridTextColumn Header="Данные" Binding="{Binding Content}" Width="Auto" />
                         <DataGridTextColumn Header="КС" Binding="{Binding StringControlSumm}" Width="Auto" />
-                        <DataGridTextColumn Header="Оригинал" Binding="{Binding FullContent}" Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid Grid.Row="2" Margin="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>

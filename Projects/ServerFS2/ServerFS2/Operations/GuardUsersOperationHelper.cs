@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using FS2Api;
+using ServerFS2.Service;
 
 namespace ServerFS2.Operations
 {
@@ -11,17 +13,20 @@ namespace ServerFS2.Operations
 		{
 			var guardUsers = new List<GuardUser>();
 			var result = new List<byte>();
-
-			for (var i = 0x14000; i < 0x14E00; i += 0x100)
+			var packetLenght = USBManager.IsUsbDevice(device) ? 0x33 : 0xFF;
+			for (var i = 0x14000; i < 0x14E00; i += packetLenght + 1)
 			{
-				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), Math.Min(0xFF, 0x14E00 - i));
+				CallbackManager.AddProgress(new FS2ProgressInfo("Чтение охранных пользователей", ((i - 0x14000) / 0x100 * 100) / 14));
+				var response = USBManager.Send(device, "Чтение охранных пользователей", 0x01, 0x52, BitConverter.GetBytes(i).Reverse(), packetLenght);
 			    if (response.HasError)
-			        return null;
+			    	throw new FS2Exception(response.Error);
+				if (response.Bytes.Count != packetLenght + 1)
+					throw new FS2Exception("Количество байт в ответе не совпадает с запрошенным");
 			    result.AddRange(response.Bytes);
 			}
 
 			var guardUsersCount = result[0];
-			var guardUsersBytes = result.GetRange(1, 13);
+			//var guardUsersBytes = result.GetRange(1, 13);
 			for (int i = 0; i < guardUsersCount; i++)
 			{
 				var guardUser = new GuardUser();
@@ -34,13 +39,18 @@ namespace ServerFS2.Operations
 				var localZones = GetLocalZones(device);
 				for (int j = 0; j < guardZonesBytes.Count; j++)
 				{
+					if (localZones.Count <= j * 8)
+						break;
 					for (int k = 0; k < 8; k++)
 					{
-						Zone guardZone = null;
+						if (localZones.Count <= j * 8 + k)
+							break;
 						if (((guardZonesBytes[j] >> k) & 1) == 1)
-							guardZone = localZones[j*8 + k];
-						if (guardZone != null)
-							guardUser.ZoneUIDs.Add(guardZone.UID);
+						{
+							var guardZone = localZones[j*8 + k];
+							if (guardZone != null)
+								guardUser.ZoneUIDs.Add(guardZone.UID);
+						}
 					}
 				}
 				guardUsers.Add(guardUser);
@@ -50,7 +60,9 @@ namespace ServerFS2.Operations
 
 		public static void DeviceSetGuardUsers(Device device, List<GuardUser> guardUsers)
 		{
-			SetConfigurationOperationHelper.ConfirmLongTermOperation(device);
+			for (int i = 0; i < guardUsers.Count; i++)
+				guardUsers[i].Id = i + 1;
+				SetConfigurationOperationHelper.ConfirmLongTermOperation(device);
 			// Данные таблицы
 			var guardUsersCount = (byte) guardUsers.Count; // 1 байт
 			var guardUsersBytes = GetGuardUsersByte(guardUsers);
@@ -65,7 +77,6 @@ namespace ServerFS2.Operations
 			var emptyGuardUser = new GuardUser();
 			emptyGuardUser.KeyTM = new string('0', 12);
 			emptyGuardUser.Password = "";
-			emptyGuardUser.ZoneUIDs = new List<Guid>();
 
 			for(int i = guardUsers.Count; i < 80; i++)
 			{
@@ -75,6 +86,7 @@ namespace ServerFS2.Operations
 			var begin = 0x14000;
 			for (int i = 0; i < bytes.Count; i = i + 0x100)
 			{
+				CallbackManager.AddProgress(new FS2ProgressInfo("Запись охранных пользователей", (i * 100) / bytes.Count));
 				USBManager.Send(device, "Запись охранных пользователей", 0x02, 0x52, BitConverter.GetBytes(begin + i).Reverse(), Math.Min(bytes.Count - i - 1, 0xFF), bytes.GetRange(i, Math.Min(bytes.Count - i, 0x100)));
 			}
 		}
@@ -96,7 +108,7 @@ namespace ServerFS2.Operations
 					newPasswordString = newPasswordString.Insert(i - 1, password[i].ToString());
 				}
 			}
-			var newPasswordByte = BytesHelper.HexStringToByteArray(newPasswordString);
+			var newPasswordByte = HexStringToByteArray(newPasswordString);
 			return newPasswordByte;
 		}
 
@@ -172,18 +184,13 @@ namespace ServerFS2.Operations
 			return guardZonesBytes;
 		}
 
-		static byte GetUserAttribute(GuardUser guardUser)
-		{
-			return (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
-		}
-
 		static List<byte> GuardUserDataToBytesList(Device device, GuardUser guardUser)
 		{
 			var bytes = new List<byte>();
 			// Даннные пользователей
-			var guardUserAttribute = GetUserAttribute(guardUser);
+			var guardUserAttribute = (byte)(Convert.ToByte(guardUser.CanSetZone) * 2 + Convert.ToByte(guardUser.CanUnSetZone));
 			var guardUserName = BytesHelper.StringToBytes(guardUser.Name);
-			var guardUserKeyTM = BytesHelper.HexStringToByteArray(guardUser.KeyTM);
+			var guardUserKeyTM = HexStringToByteArray(guardUser.KeyTM);
 			var guardUserPassword = PasswordStringToBytes(guardUser.Password);
 			var guardZonesBytes = GetGuardZones(device, guardUser);
 
@@ -191,6 +198,15 @@ namespace ServerFS2.Operations
 			guardUserKeyTM, guardUserPassword, guardZonesBytes));
 
 			return bytes;
+		}
+
+		public static List<byte> HexStringToByteArray(string hex)
+		{
+			hex = hex.Replace(" ", "");
+			return Enumerable.Range(0, hex.Length)
+				 .Where(x => x % 2 == 0)
+				 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+				 .ToList();
 		}
 	}
 }

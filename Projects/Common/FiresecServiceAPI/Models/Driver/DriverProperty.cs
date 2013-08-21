@@ -68,6 +68,9 @@ namespace FiresecAPI.Models
 		public bool UseMask { get; set; }
 
 		[DataMember]
+		public bool IsFFInLowByte { get; set; }
+
+		[DataMember]
 		public bool HighByte { get; set; }
 
 		[DataMember]

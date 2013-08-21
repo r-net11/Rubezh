@@ -16,12 +16,14 @@ namespace ServerFS2.Processor
 		#region Common
 		public static void StartMonitoring(Device device = null)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Старт мониторинга"));
 			USBManager.Initialize();
 			MonitoringManager.StartMonitoring(device);
 		}
 
 		public static void StopMonitoring(Device device = null)
 		{
+			CallbackManager.AddProgress(new FS2ProgressInfo("Остановка мониторинга"));
 			MonitoringManager.StopMonitoring(device);
 			USBManager.Dispose();
 		}
@@ -29,7 +31,6 @@ namespace ServerFS2.Processor
 		public static void SuspendMonitoring(Device device = null)
 		{
 			CallbackManager.AddProgress(new FS2ProgressInfo("Приостановка мониторинга"));
-			//MonitoringManager.MonitoringUSBs
 			MonitoringManager.SuspendMonitoring(device);
 		}
 
@@ -157,7 +158,10 @@ namespace ServerFS2.Processor
 			CustomMessageJournalHelper.Add("Команда оператора. Запись новой конфигурации", userName);
 			return TempConfigSafeCall<bool>(x =>
 			{
-				return ConfigurationWriterOperationHelper.Write(x);
+				//USBManager.Initialize();
+				var result = ConfigurationWriterOperationHelper.Write(x);
+				//USBManager.Dispose();
+				return result;
 			}, device, isUSB);
 		}
 
@@ -176,9 +180,10 @@ namespace ServerFS2.Processor
 		
 		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers)
 		{
-			TempConfigSafeCall(x =>
-				GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
-				device, isUSB);
+			//TempConfigSafeCall(x =>
+			//    GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
+			//    device, isUSB);
+			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
 		}
 		
 		public static void DeviceDatetimeSync(Device device, bool isUSB)
@@ -271,12 +276,8 @@ namespace ServerFS2.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "MainManager.SetNewConfig");
+				Logger.Error(e, "MainManager.DeviceAutoDetectChildren");
 				throw;
-			}
-			finally
-			{
-				//StartMonitoring();
 			}
 		}
 

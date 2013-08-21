@@ -126,6 +126,7 @@ namespace FiresecAPI.Models
 				Default = "0",
 				MinBit = 0,
 				MaxBit = 2,
+				IsFFInLowByte = true
 			};
 
 			var property7Parameter1 = new DriverPropertyParameter()
@@ -158,7 +159,8 @@ namespace FiresecAPI.Models
 				ToolTip = "Отключение контроля только в сработавшем состоянии (в защите). Применима только для ручного привода",
 				Default = "0",
 				MinBit = 2,
-				MaxBit = 3
+				MaxBit = 3,
+				IsFFInLowByte = true
 			};
 
 			var property8Parameter1 = new DriverPropertyParameter()

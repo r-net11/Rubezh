@@ -27,8 +27,8 @@ namespace ServerFS2
 					}
 				}
 
-				var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
-				usbHidInfo = usbHidInfos.FirstOrDefault(x => x.TypeNo == driverTypeNo);
+				//var driverTypeNo = DriversHelper.GetTypeNoByDriverType(device.Driver.DriverType);
+				usbHidInfo = usbHidInfos.FirstOrDefault(x => x.USBDriverType == device.Driver.DriverType);
 				if (usbHidInfo != null)
 				{
 					usbHidInfo.USBDevice = device;

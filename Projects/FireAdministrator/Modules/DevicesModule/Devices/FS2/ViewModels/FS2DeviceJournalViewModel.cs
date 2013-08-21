@@ -21,7 +21,8 @@ namespace DevicesModule.ViewModels
 			Title = "Журнал событий";
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			FS2JournalItemsCollection = fs2JournalItemsCollection;
-			
+			CreationDateTime = fs2JournalItemsCollection.CreationDateTime;
+
 			FireJournalItems = new ObservableCollection<FS2JournalItem>();
 			foreach (var journalItem in fs2JournalItemsCollection.FireJournalItems)
 			{
@@ -35,6 +36,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public DateTime CreationDateTime { get; set; }
 		public ObservableCollection<FS2JournalItem> FireJournalItems { get; set; }
 		public ObservableCollection<FS2JournalItem> SecurityJournalItems { get; set; }
 

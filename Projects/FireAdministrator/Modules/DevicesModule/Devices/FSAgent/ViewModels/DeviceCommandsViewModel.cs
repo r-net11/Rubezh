@@ -51,7 +51,8 @@ namespace DevicesModule.ViewModels
         }
         bool CanAutoDetect()
         {
-            return (SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect);
+			return SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect &&
+				SelectedDevice.Device.Driver.DriverType != DriverType.MS_1 && SelectedDevice.Device.Driver.DriverType != DriverType.MS_2;
         }
 
         #region ReadWriteDevice
@@ -245,7 +246,7 @@ namespace DevicesModule.ViewModels
         {
 			get
 			{
-				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer);
+				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer && SelectedDevice.Parent.Driver.DriverType != DriverType.ComPort_V2);
 				return result;
 			}
         }

@@ -29,18 +29,17 @@ namespace FireMonitor.Multiclient.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (string.IsNullOrEmpty(Password))
+			if (!string.IsNullOrEmpty(Password))
 			{
-				return;
-			}
-			MulticlientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(Password);
-			if (MulticlientConfiguration == null)
-			{
-				MessageBoxService.ShowError("Ошибка. Невурный пароль");
-				return;
-			}
+				MulticlientConfiguration = MulticlientConfigurationHelper.LoadConfiguration(Password);
+				if (MulticlientConfiguration == null)
+				{
+					MessageBoxService.ShowError("Ошибка. Неверный пароль");
+					return;
+				}
 
-			Close(true);
+				Close(true);
+			}
 		}
 	}
 }

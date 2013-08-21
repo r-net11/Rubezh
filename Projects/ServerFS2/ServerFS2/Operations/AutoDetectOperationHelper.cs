@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FS2Api;
 using ServerFS2.Service;
 using Device = FiresecAPI.Models.Device;
+using ServerFS2.Processor;
 
 namespace ServerFS2
 {
@@ -12,77 +13,73 @@ namespace ServerFS2
 	{
 		public static Device AutoDetectDevice(Device device)
 		{
-			var rootDevice = CopyDevice(device);
-			switch (rootDevice.Driver.DriverType)
+			try
 			{
-				case DriverType.Computer:
-					{
-						USBManager.Dispose();
-						var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
-						rootDevice.Children = new List<Device>();
-						foreach (var usbHidInfo in usbHidInfos)
+				if (device.Driver.DriverType == DriverType.Computer)
+					MainManager.StopMonitoring();
+
+				var rootDevice = CopyDevice(device);
+				switch (rootDevice.Driver.DriverType)
+				{
+					case DriverType.Computer:
 						{
-							var usbDevice = new Device();
-							usbDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == usbHidInfo.USBDriverType);
-							usbDevice.DriverUID = usbDevice.Driver.UID;
-							AddChanelToMS(usbDevice);
-							rootDevice.Children.Add(usbDevice);
-							usbDevice.Parent = rootDevice;
-							usbHidInfo.UsbHid.Dispose();
+							CallbackManager.AddProgress(new FS2ProgressInfo("Поиск USB устройств"));
+							var usbHidInfos = USBDetectorHelper.FindAllUsbHidInfo();
+							rootDevice.Children = new List<Device>();
+							foreach (var usbHidInfo in usbHidInfos)
+							{
+								var usbDevice = CreateDevice(usbHidInfo.USBDriverType, 0, rootDevice);
+								var serialNoProperty = new Property()
+								{
+									Name = "SerialNo",
+									Value = usbHidInfo.SerialNo
+								};
+								usbDevice.Properties.Add(serialNoProperty);
+								AddChanelToMS(usbDevice);
+								rootDevice.Children.Add(usbDevice);
+								usbHidInfo.UsbHid.Dispose();
+							}
 						}
-					}
-					break;
-				case DriverType.MS_1:
-				case DriverType.MS_2:
-					{
-						USBManager.ReInitialize(device);
-						foreach (var chanel in rootDevice.Children)
+						break;
+					case DriverType.MS_1:
+					case DriverType.MS_2:
 						{
-							if (!AddDevicesToChanel(chanel))
+							foreach (var chanel in rootDevice.Children)
+							{
+								if (!AddDevicesToChanel(chanel))
+									return null;
+							}
+						}
+						break;
+					case DriverType.USB_Channel_1:
+					case DriverType.USB_Channel_2:
+						{
+							rootDevice.Children = new List<Device>();
+							if (!AddDevicesToChanel(rootDevice))
 								return null;
 						}
-					}
-					break;
-				case DriverType.USB_Channel_1:
-				case DriverType.USB_Channel_2:
-					{
-						USBManager.ReInitialize(device.Parent);
-						rootDevice.Children = new List<Device>();
-						if (!AddDevicesToChanel(rootDevice))
-							return null;
-					}
-					break;
+						break;
+				}
+				return rootDevice;
 			}
-			return rootDevice;
+			finally
+			{
+				if (device.Driver.DriverType == DriverType.Computer)
+					MainManager.StartMonitoring();
+				//else
+				//    MainManager.ResumeMonitoring(device);
+			}
 		}
+
 		static void AddChanelToMS(Device device)
 		{
 			if ((device.Driver.DriverType != DriverType.MS_1) && (device.Driver.DriverType != DriverType.MS_2))
 				return;
-			// Добавляем 1-й канал
-			var usbChannel1Device = new Device();
-			usbChannel1Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_1);
-			usbChannel1Device.DriverUID = usbChannel1Device.Driver.UID;
-			usbChannel1Device.IntAddress = 1;
-			usbChannel1Device.Parent = device;
-			device.Children.Add(usbChannel1Device);
-
+			device.Children.Add(CreateDevice(DriverType.USB_Channel_1, 1, device));
 			if (device.Driver.DriverType == DriverType.MS_2)
-			{
-				// Добавляем 2-й канал
-				var usbChannel2Device = new Device();
-				usbChannel2Device.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.USB_Channel_2);
-				usbChannel2Device.DriverUID = usbChannel2Device.Driver.UID;
-				usbChannel2Device.IntAddress = 2;
-				usbChannel2Device.Parent = device;
-				device.Children.Add(usbChannel2Device);
-			}
+				device.Children.Add(CreateDevice(DriverType.USB_Channel_2, 2, device));
 		}
-		public static List<byte> GetAddressListFromChanel(Device chanel)
-		{
-			var response = USBManager.Send(chanel.Parent, "Запрос адресного листа", 0x01, chanel.IntAddress + 2);
-			return response.Bytes;
-		}
+
 		static Device CopyDevice(Device device)
 		{
 			var newDevice = CopyOneDevice(device);
@@ -100,6 +97,7 @@ namespace ServerFS2
 			}
 			return newDevice;
 		}
+
 		static Device CopyOneDevice(Device device)
 		{
 			var newDevice = new Device();
@@ -110,13 +108,13 @@ namespace ServerFS2
 			newDevice.Properties = device.Properties;
 			return newDevice;
 		}
+
 		static bool AddDevicesToChanel(Device chanel)
 		{
-			//SetAddressListToChanel(chanel);
 			chanel.Children = new List<Device>();
-			for (byte deviceNo = 1; deviceNo < 128; deviceNo++)
+			for (byte deviceNo = 1; deviceNo < 255; deviceNo++)
 			{
-				CallbackManager.AddProgress(new FS2ProgressInfo("Поиск устройств. Канал: " + chanel.IntAddress + ", Адрес: " + deviceNo));
+				CallbackManager.AddProgress(new FS2ProgressInfo(chanel.IntAddress + " - Канал. Поиск PNP-устройств Рубеж с адресом " + deviceNo + ".\nВсего адресов: 255", deviceNo * 100 / 255));
 				var tempDevice = new Device();
 				tempDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
 				tempDevice.IntAddress = deviceNo;
@@ -137,6 +135,16 @@ namespace ServerFS2
 				}
 			}
 			return true;
+		}
+
+		static Device CreateDevice(DriverType driverType, int intAddress, Device parent)
+		{
+			var newDevice = new Device();
+			newDevice.Driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+			newDevice.DriverUID = newDevice.Driver.UID;
+			newDevice.IntAddress = intAddress;
+			newDevice.Parent = parent;
+			return newDevice;
 		}
 	}
 }

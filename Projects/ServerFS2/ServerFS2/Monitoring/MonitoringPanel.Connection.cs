@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ServerFS2.Journal;
+using FiresecAPI;
 
 namespace ServerFS2.Monitoring
 {
@@ -42,7 +43,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice);
+				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice, null, null, StateType.Failure);
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace ServerFS2.Monitoring
 				PanelDevice.DeviceState.IsPanelConnectionLost = false;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 				OnConnectionChanged();
-				CustomMessageJournalHelper.Add("Связь с прибором восстановлена", null, PanelDevice);
+				CustomMessageJournalHelper.Add("Соединение с прибором восстановленно", null, PanelDevice);
 			}
 		}
 
@@ -73,7 +74,7 @@ namespace ServerFS2.Monitoring
 				ConnectionChanged();
 		}
 
-		void CheckWrongPanel()
+		bool CheckWrongPanel()
 		{
 			var serialNo = GetSerialNo();
 			if (serialNo != null)
@@ -91,7 +92,7 @@ namespace ServerFS2.Monitoring
 							PanelDevice.DeviceState.IsWrongPanel = true;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью", null, PanelDevice);
-							return;
+							return false;
 						}
 					}
 					else
@@ -101,11 +102,12 @@ namespace ServerFS2.Monitoring
 							PanelDevice.DeviceState.IsWrongPanel = false;
 							DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
 							CustomMessageJournalHelper.Add("Несоответствие версий БД с панелью устранено", null, PanelDevice);
-							return;
+							return true;
 						}
 					}
 				}
 			}
+			return false;
 		}
 
 		string GetSerialNo()

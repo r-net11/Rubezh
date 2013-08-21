@@ -9,24 +9,26 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="White">
-            <StackPanel>
-                <CheckBox IsChecked="{Binding StartMonitoring}" Content="Start Monitoring" />
+        <Expander Grid.Row="0" IsExpanded="False">
+            <StackPanel Orientation="Horizontal" Background="White">
+                <StackPanel>
+                    <CheckBox IsChecked="{Binding StartMonitoring}" Content="Start Monitoring" />
+                </StackPanel>
+                <StackPanel>
+                    <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
+                    <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
+                    <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
+                    <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
+                </StackPanel>
+                <StackPanel>
+                    <Button Content="SetNewConfigurationCommand" Command="{Binding SetNewConfigurationCommand}" Width="200" Margin="2" />
+                    <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
+                    <Button Content="SetInitializingTest" Command="{Binding SetInitializingTestCommand}" Width="200" Margin="2" />
+                    <Button Content="ReadConfiguration" Command="{Binding ReadConfigurationCommand}" Width="200" Margin="2" />
+                    <Button Content="TestComPort" Command="{Binding TestComPortCommand}" Width="200" Margin="2" />
+                </StackPanel>
             </StackPanel>
-            <StackPanel>
-                <Button Content="StartMonitoring" Command="{Binding StartMonitoringCommand}" Width="200" Margin="2" />
-                <Button Content="StopMonitoring" Command="{Binding StopMonitoringCommand}" Width="200" Margin="2" />
-                <Button Content="SuspendMonitoring" Command="{Binding SuspendMonitoringCommand}" Width="200" Margin="2" />
-                <Button Content="ResumeMonitoring" Command="{Binding ResumeMonitoringCommand}" Width="200" Margin="2" />
-            </StackPanel>
-            <StackPanel>
-                <Button Content="SetNewConfigurationCommand" Command="{Binding SetNewConfigurationCommand}" Width="200" Margin="2" />
-                <Button Content="GetSerialList" Command="{Binding GetSerialListCommand}" Width="200" Margin="2" />
-                <Button Content="SetInitializingTest" Command="{Binding SetInitializingTestCommand}" Width="200" Margin="2" />
-                <Button Content="ReadConfiguration" Command="{Binding ReadConfigurationCommand}" Width="200" Margin="2" />
-                <Button Content="TestComPort" Command="{Binding TestComPortCommand}" Width="200" Margin="2" />
-            </StackPanel>
-        </StackPanel>
+        </Expander>
         <TabControl Grid.Row="1">
             <TabItem>
                 <TabItem.Header>

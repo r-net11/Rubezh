@@ -148,7 +148,8 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSetGuard()
 		{
-			return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && (FiresecManager.IsZoneOnGuard(ZoneState) == false) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
+			//return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && !FiresecManager.IsZoneOnGuard(ZoneState) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
+			return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null  && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
@@ -159,7 +160,8 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanUnSetGuard()
 		{
-            return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && (FiresecManager.IsZoneOnGuard(ZoneState) == true) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
+            //return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(ZoneState) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
+			return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 		}
 	}
 }

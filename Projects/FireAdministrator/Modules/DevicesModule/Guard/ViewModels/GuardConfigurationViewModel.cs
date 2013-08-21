@@ -40,11 +40,15 @@ namespace DevicesModule.ViewModels
 			{
 				FS2DeviceGetGuardUserListHelper.Run(SelectedDevice);
 				var guardUsers = FS2DeviceGetGuardUserListHelper.Result;
-				foreach (var guardUser in guardUsers)
+				if (guardUsers != null)
 				{
-					var user = new User();
-					var userViewModel = new UserViewModel(guardUser);
-					Users.Add(userViewModel);
+					for (int i = 0; i < guardUsers.Count; i++)
+					{
+						var user = new User();
+						guardUsers[i].Id = i + 1;
+						var userViewModel = new UserViewModel(guardUsers[i]);
+						Users.Add(userViewModel);
+					}
 				}
 			}
 			else
@@ -61,7 +65,7 @@ namespace DevicesModule.ViewModels
 						guardUser.Name = result.Substring(174 * i + 115, 20);
 						guardUser.Password = result.Substring(174 * i + 147, 6);
 						var indexOfF = guardUser.Password.IndexOf('F');
-						if(indexOfF >= 0)
+						if (indexOfF >= 0)
 							guardUser.Password = guardUser.Password.Remove(indexOfF);
 						guardUser.CanUnSetZone = (result[174 * i + 107] == '1');
 						guardUser.CanSetZone = (result[174 * i + 108] == '1');

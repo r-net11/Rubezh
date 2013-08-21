@@ -14,20 +14,23 @@ using Infrastructure.Common.Windows.ViewModels;
 using ServerFS2;
 using ServerFS2.Processor;
 using ServerFS2.Service;
+using System.Runtime.Serialization;
 
 namespace AdministratorTestClientFS2.ViewModels
 {
 	public class MainViewModel : BaseViewModel
 	{
+		public static MainViewModel Current { get; private set; }
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
 		FS2Contract FS2Contract = new FS2Contract();
 
 		public MainViewModel()
 		{
+			Current = this;
 			CancelProgressCommand = new RelayCommand(OnCancelProgress);
 			SendRequestCommand = new RelayCommand(OnSendRequest);
-			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice);
+			AutoDetectDeviceCommand = new RelayCommand(OnAutoDetectDevice, CanAutoDetectDevice);
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			GetInformationCommand = new RelayCommand(OnGetInformation, CanGetInformation);
@@ -38,6 +41,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			WriteConfigurationCommand = new RelayCommand(OnWriteConfiguration, CanWriteConfiguration);
 			GetDeviceStatusCommand = new RelayCommand(OnGetDeviceStatus, CanGetResetDeviceStatus);
 			TestCommand = new RelayCommand(OnTest);
+			MergeJournalCommand = new RelayCommand(OnMergeJournal, CanMergeJournal);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			ZonesViewModel.Initialize();
@@ -50,14 +54,11 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		void CallbackManager_ProgressEvent(FS2ProgressInfo fs2ProgressInfos)
 		{
-			Application.Current.Dispatcher.Invoke(new Action(
-				() =>
-				{
+			Application.Current.Dispatcher.Invoke(new Action(() =>{
 					ProgressInfos.Insert(0, fs2ProgressInfos);
 					if (ProgressInfos.Count > 1000)
 						ProgressInfos.RemoveAt(1000);
-				}
-				));
+				}));
 			Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
 
@@ -145,6 +146,10 @@ namespace AdministratorTestClientFS2.ViewModels
 			autoDetectedDevicesViewModel.Title = "Найденные устройства";
 			DialogService.ShowModalWindow(autoDetectedDevicesViewModel);
 		}
+		bool CanAutoDetectDevice()
+		{
+			return DevicesViewModel.SelectedDevice != null;
+		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
@@ -169,7 +174,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanReadConfiguration()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 		public RelayCommand GetInformationCommand { get; private set; }
 		void OnGetInformation()
@@ -190,7 +195,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanSynchronizeTime()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand RunOtherFunctionsCommand { get; private set; }
@@ -203,8 +208,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			if (DevicesViewModel.SelectedDevice == null)
 				return false;
 			var driverType = DevicesViewModel.SelectedDevice.Device.Driver.DriverType;
-			return ((driverType == DriverType.IndicationBlock) || (driverType == DriverType.PDU) ||
-			        (driverType == DriverType.PDU_PT));
+			return driverType == DriverType.IndicationBlock || driverType == DriverType.PDU || driverType == DriverType.PDU_PT;
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }
@@ -215,7 +219,7 @@ namespace AdministratorTestClientFS2.ViewModels
 
 		bool CanSetPassword()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
@@ -236,14 +240,13 @@ namespace AdministratorTestClientFS2.ViewModels
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return ((DevicesViewModel.SelectedDevice != null) && (DevicesViewModel.SelectedDevice.Device.Driver.IsPanel));
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
 		}
 
 		public RelayCommand WriteConfigurationCommand { get; private set; }
 		void OnWriteConfiguration()
 		{
 			MainManager.DeviceWriteConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, null);
-
 		}
 		bool CanWriteConfiguration()
 		{
@@ -260,18 +263,42 @@ namespace AdministratorTestClientFS2.ViewModels
 			return DeviceValidation(DevicesViewModel.SelectedDevice);
 		}
 
+		public RelayCommand MergeJournalCommand { get; private set; }
+		void OnMergeJournal()
+		{
+			using (var fileStream = new FileStream(@"C:/journal.fscj", FileMode.Open, FileAccess.Read))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
+				var savedFS2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+				if (savedFS2JournalItemsCollection != null)
+				{
+					var journalMergeViewModel1 = new JournalMergeViewModel(savedFS2JournalItemsCollection);
+					DialogService.ShowModalWindow(journalMergeViewModel1);	
+				}
+			}
+			return;
+
+			var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
+			var journalMergeViewModel = new JournalMergeViewModel(fs2JournalItemsCollection);
+			//var journalMergeViewModel = new JournalMergeViewModel(null);
+			DialogService.ShowModalWindow(journalMergeViewModel);	
+		}
+		bool CanMergeJournal()
+		{
+			return true;
+			return DevicesViewModel.SelectedDevice != null && DevicesViewModel.SelectedDevice.Device.Driver.IsPanel;
+		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
 			var firmwareFileName = Path.Combine(AppDataFolderHelper.GetFolder("Server"), "frm.fscf");
 			var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(firmwareFileName, DevicesViewModel.SelectedDevice.Device.Driver.ShortName + ".hex");
-			return;
 		}
 
 		bool DeviceValidation(DeviceViewModel selectedDeivice)
 		{
-			return (selectedDeivice != null) && (selectedDeivice.Device.Driver.IsPanel);
+			return selectedDeivice != null && selectedDeivice.Device.Driver.IsPanel;
 		}
 	}
 }

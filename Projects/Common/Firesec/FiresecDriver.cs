@@ -192,7 +192,7 @@ namespace Firesec
 				return operationResult;
 
 			if (result.Result == null)
-				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
+				return new OperationResult<DeviceConfiguration>();
 
             var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 			operationResult.Result = configurationConverter.ConvertOnlyDevices(result.Result);

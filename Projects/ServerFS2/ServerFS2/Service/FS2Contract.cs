@@ -561,14 +561,15 @@ namespace ServerFS2.Service
 				if (device.Driver.DriverType == DriverType.Computer)
 					device = null;
 
-				if (stopMonitoring)
-				{
-					MainManager.StopMonitoring(device);
-				}
-				else
-				{
-					MainManager.SuspendMonitoring(device);
-				}
+				MainManager.SuspendMonitoring(device);
+				//if (stopMonitoring)
+				//{
+				//    MainManager.StopMonitoring(device);
+				//}
+				//else
+				//{
+				//    MainManager.SuspendMonitoring(device);
+				//}
 				return SafeCall<T>(func, methodName);
 			}
 			catch(Exception e)
@@ -581,6 +582,8 @@ namespace ServerFS2.Service
 				{
 					if (stopMonitoring)
 					{
+						MainManager.ResumeMonitoring(device);
+						MainManager.StopMonitoring(device);
 						MainManager.StartMonitoring(device);
 					}
 					else
@@ -598,14 +601,15 @@ namespace ServerFS2.Service
 				if (device.Driver.DriverType == DriverType.Computer)
 					device = null;
 
-				if (stopMonitoring)
-				{
-					MainManager.StopMonitoring(device);
-				}
-				else
-				{
-					MainManager.SuspendMonitoring(device);
-				}
+				MainManager.SuspendMonitoring(device);
+				//if (stopMonitoring)
+				//{
+				//    MainManager.StopMonitoring(device);
+				//}
+				//else
+				//{
+				//    MainManager.SuspendMonitoring(device);
+				//}
 				return SafeCall(action, methodName);
 			}
 			catch (Exception e)
@@ -618,6 +622,8 @@ namespace ServerFS2.Service
 				{
 					if (stopMonitoring)
 					{
+						MainManager.ResumeMonitoring(device);
+						MainManager.StopMonitoring(device);
 						MainManager.StartMonitoring(device);
 					}
 					else

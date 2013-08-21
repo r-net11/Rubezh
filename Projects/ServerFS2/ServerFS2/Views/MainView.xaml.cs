@@ -18,7 +18,7 @@ namespace ServerFS2.Views
 
 		void CreateNotificationIcon()
 		{
-			NotifyIconService.Start(OnShow, OnClose);
+			NotifyIconService.Start(OnShow, OnClose, OnShowLogs);
 		}
 
 		void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -47,6 +47,12 @@ namespace ServerFS2.Views
 				NotifyIconService.Stop();
 				Bootstrapper.Close();
 			}
+		}
+
+		void OnShowLogs(object sender, EventArgs e)
+		{
+			var logViewModel = new LogsViewModel();
+			DialogService.ShowWindow(logViewModel);
 		}
 
 		void Window_StateChanged(object sender, EventArgs e)

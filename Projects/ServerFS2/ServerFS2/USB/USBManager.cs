@@ -44,7 +44,7 @@ namespace ServerFS2
 					var rootBytes = CreateRootBytes(device, usbHid.UseId);
 					bytes.InsertRange(0, rootBytes);
 
-					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall, name);
+					var response = usbHid.AddRequest(NextRequestNo, new List<List<byte>> { bytes }, 1000, 1000, true, countRacall, name, device.DottedPresentationNameAndAddress);
 					if (response != null)
 					{
 						response.InputBytes = response.Bytes.ToList();
@@ -166,7 +166,7 @@ namespace ServerFS2
 						request.Id = 0;
 					}
 					request.RootBytes = rootBytes;
-					usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false, 15, name);
+					usbHid.AddRequest(requestNo, new List<List<byte>> { bytes }, 1000, 1000, false, 15, name, device.DottedPresentationNameAndAddress);
 				}
 				else
 				{

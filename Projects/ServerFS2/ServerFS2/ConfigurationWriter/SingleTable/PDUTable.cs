@@ -58,6 +58,7 @@ namespace ServerFS2.ConfigurationWriter
 			{
 				BytesDatabase.AddByte(255, "ПДУ привязки");
 			}
+			BytesDatabase.AddByte(0, "ПДУ привязки");
 		}
 	}
 }

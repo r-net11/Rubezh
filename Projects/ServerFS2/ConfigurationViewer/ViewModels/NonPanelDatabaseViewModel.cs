@@ -91,7 +91,7 @@ namespace ConfigurationViewer.ViewModels
 							{
 								byteDescription.IsNotEqualToOriginal = false;
 							}
-							else if (!byteDescription.IsReadOnly)
+							else if (!byteDescription.IsReadOnly && !byteDescription.IgnoreUnequal)
 							{
 								var unequalByteViewModel = new NonPanelUnequalByteViewModel(this, byteDescription);
 								UnequalBytes.Add(unequalByteViewModel);

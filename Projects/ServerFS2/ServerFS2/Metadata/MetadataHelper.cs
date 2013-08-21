@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Diagnostics;
 
 namespace ServerFS2
 {
@@ -106,7 +107,7 @@ namespace ServerFS2
 			return -1;
 		}
 
-		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device)
+		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device, bool isFireAndWarning)
 		{
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
@@ -115,17 +116,55 @@ namespace ServerFS2
 			{
 				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
 				{
-					if (metadataDeviceState.notForTableType != null && metadataDeviceState.notForTableType == tableNo)
-					{
-						continue;
-					}
-					if (device.Driver.DriverType == DriverType.AM1_O && metadataDeviceState.type != null && metadataDeviceState.type.ToUpper() != "SECURITY")
-					{
-						continue;
-					}
-					if (metadataDeviceState.tableType == null || metadataDeviceState.tableType == tableNo)
+					if (metadataDeviceState.tableType == tableNo)
 					{
 						result.Add(metadataDeviceState);
+					}
+				}
+
+				foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+				{
+					if (metadataDeviceState.tableType == null && metadataDeviceState.notForTableType != tableNo)
+					{
+						var bitNo = GetBitNo(metadataDeviceState);
+						if (bitNo != -1)
+						{
+							if (!result.Any(x => GetBitNo(x) == bitNo))
+							{
+								if (!isFireAndWarning)
+								{
+									if (metadataDeviceState.ID == "Alarm" || metadataDeviceState.ID == "Warning")
+									{
+										switch (device.Driver.DriverType)
+										{
+											case DriverType.HandDetector:
+											case DriverType.RadioHandDetector:
+												if (metadataDeviceState.ID == "Warning")
+													continue;
+												break;
+
+											default:
+												if (metadataDeviceState.ID == "Alarm")
+													continue;
+												break;
+
+										}
+									}
+								}
+								result.Add(metadataDeviceState);
+							}
+						}
+						else
+						{
+							var intBitNo = GetIntBitNo(metadataDeviceState);
+							if (intBitNo != -1)
+							{
+								if (!result.Any(x => GetIntBitNo(x) == intBitNo))
+								{
+									result.Add(metadataDeviceState);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -360,8 +399,19 @@ namespace ServerFS2
 					return deviceStateEnter.event20;
 				case 24:
 					return deviceStateEnter.event24;
+				default:
+					return null;
+			}
+		}
 
-
+		public static string GetZoneStateEventEnter(Rubezh2010.driverConfigDeviceStatesDeviceStateEnter deviceStateEnter, int no)
+		{
+			switch (no)
+			{
+				case 0:
+					return deviceStateEnter.zoneEvent;
+				case 2:
+					return deviceStateEnter.zoneEvent2;
 				default:
 					return null;
 			}
@@ -411,7 +461,6 @@ namespace ServerFS2
 					return deviceStateLeave.event26;
 				case 30:
 					return deviceStateLeave.event30;
-
 				default:
 					return null;
 			}

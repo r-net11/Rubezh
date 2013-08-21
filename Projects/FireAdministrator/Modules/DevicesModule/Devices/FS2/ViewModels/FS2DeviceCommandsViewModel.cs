@@ -53,7 +53,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanAutoDetect()
         {
-            return (SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect);
+            return (SelectedDevice != null && (SelectedDevice.Device.Driver.CanAutoDetect ||
+				SelectedDevice.Device.Driver.DriverType == DriverType.MS_1 || SelectedDevice.Device.Driver.DriverType == DriverType.MS_2));
         }
 
         #region ReadWriteDevice
@@ -67,6 +68,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanReadDevice(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
         }
 
@@ -81,6 +84,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanWriteDevice(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanWriteDatabase && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
         }
 
@@ -110,13 +115,10 @@ namespace DevicesModule.ViewModels
 				FS2SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
 			}
 		}
-
-		void FS2ClientContract_Progress(FS2ProgressInfo fs2ProgressInfo)
-		{
-			Trace.WriteLine("FS2ClientContract_Progress " + fs2ProgressInfo.Comment);
-		}
         bool CanSynchronizeDevice(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSynchonize);
         }
 
@@ -135,6 +137,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanUpdateSoft(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanUpdateSoft && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
         }
 
@@ -148,6 +152,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanGetDescription(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
         }
 
@@ -161,6 +167,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanGetDeviceJournal(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanReadJournal);
         }
 
@@ -174,6 +182,8 @@ namespace DevicesModule.ViewModels
 		}
         bool CanSetPassword(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
             return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSetPassword);
         }
 
@@ -200,15 +210,21 @@ namespace DevicesModule.ViewModels
 		}
         bool CanExecuteCustomAdminFunctions(bool isUsb)
         {
+			if (isUsb && !IsAlternativeUSB)
+				return false;
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.IndicationBlock ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
 
-        public bool IsAlternativeUSB
-        {
-            get { return (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB); }
-        }
+		public bool IsAlternativeUSB
+		{
+			get
+			{
+				var result = (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.DriverType != DriverType.Computer && SelectedDevice.Parent.Driver.DriverType != DriverType.ComPort_V2);
+				return result;
+			}
+		}
 
 		bool ValidateConfiguration()
 		{

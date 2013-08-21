@@ -37,7 +37,37 @@ namespace ServerFS2
 			DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
 			DriversConfiguration.Drivers.ForEach(x => x.Properties.RemoveAll(z => z.IsAUParameter));
 			DriverConfigurationParametersHelper.CreateKnownProperties(DriversConfiguration.Drivers);
+			AddTempStates();
 			Update();
+		}
+
+		static void AddTempStates()
+		{
+			var driver = ConfigurationManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O);
+			if (driver != null)
+			{
+				var state = driver.States.FirstOrDefault(x => x.Code == "Alarm_AM1O");
+				if (state == null)
+				{
+					var alarmState = driver.States.FirstOrDefault(x => x.Code == "Alarm");
+					if (alarmState != null)
+					{
+						state = new DriverState()
+						{
+							Code = "Alarm_AM1O",
+							Id = "999",
+							AffectChildren = alarmState.AffectChildren,
+							AffectParent = alarmState.AffectParent,
+							CanResetOnPanel = alarmState.CanResetOnPanel,
+							IsAutomatic = alarmState.IsAutomatic,
+							IsManualReset = alarmState.IsManualReset,
+							Name = alarmState.Name,
+							StateType = alarmState.StateType
+						};
+						driver.States.Add(state);
+					}
+				}
+			}
 		}
 
 		public static List<Device> Devices
