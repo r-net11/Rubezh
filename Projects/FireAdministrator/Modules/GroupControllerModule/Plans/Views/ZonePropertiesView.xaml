@@ -19,9 +19,9 @@
 			</ListView.ItemContainerStyle>
 			<ListView.View>
 				<GridView>
-					<GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
-					<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
-					<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+					<GridViewColumn DisplayMemberBinding="{Binding XZone.No}" Header="№" />
+                    <GridViewColumn DisplayMemberBinding="{Binding XZone.Name}" Header="Наименование" />
+                    <GridViewColumn DisplayMemberBinding="{Binding XZone.Description}" Header="Примечание" />
 				</GridView>
 			</ListView.View>
 			<ListView.ContextMenu>

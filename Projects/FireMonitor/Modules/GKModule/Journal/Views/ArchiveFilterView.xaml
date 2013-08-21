@@ -27,21 +27,40 @@
         <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
             <TabItem Header="Временной диапазон" Padding="3">
                 <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="С" VerticalAlignment="Center" />
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding StartDateTime}"/>
+                        <extToolkit:TimePicker Width="100" Value="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
+                        <Label Content="По" VerticalAlignment="Center" />
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding EndDateTime}"/>
+                        <extToolkit:TimePicker Value="{Binding EndDateTime}" Width="100" Margin="4" VerticalAlignment="Top" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
                     <Label Content="С" VerticalAlignment="Center" />
                     <loya:Dameer ShowCheckBox="False"
                                     Format="Custom"
                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
                                     Width="Auto"
                                     Value="{Binding StartDate}"/>
-                    <extToolkit:TimePicker Width="100" Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
+                    <extToolkit:TimePicker Width="100" Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="4" />
                     <Label Content="По" VerticalAlignment="Center" />
                     <loya:Dameer ShowCheckBox="False"
                                     Format="Custom"
                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
                                     Width="Auto"
                                     Value="{Binding EndDate}"/>
-                    <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
-                </StackPanel>
+                    <extToolkit:TimePicker Value="{Binding EndTime}" VerticalAlignment="Top" Width="100" Margin="4" />
+                </StackPanel>-->
             </TabItem>
             <TabItem Header="Тип">
                 <ListBox ItemsSource="{Binding JournalItemTypes}">

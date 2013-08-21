@@ -35,8 +35,8 @@ namespace GKModule.Reports
         void SetFilter(ArchiveFilterViewModel archiveFilterViewModel)
         {
             ArchiveFilter = archiveFilterViewModel.GetModel();
-            StartDate = archiveFilterViewModel.StartDate;
-            EndDate = archiveFilterViewModel.EndDate;
+            StartDate = archiveFilterViewModel.StartDateTime;
+            EndDate = archiveFilterViewModel.EndDateTime;
         }
 
         void SetFilter()
@@ -44,8 +44,8 @@ namespace GKModule.Reports
 			var archiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
             var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
             ArchiveFilter = archiveFilterViewModel.GetModel();
-            StartDate = archiveFilterViewModel.StartDate;
-            EndDate = archiveFilterViewModel.EndDate;
+            StartDate = archiveFilterViewModel.StartDateTime;
+            EndDate = archiveFilterViewModel.EndDateTime;
         }
 
         public void LoadArchive()

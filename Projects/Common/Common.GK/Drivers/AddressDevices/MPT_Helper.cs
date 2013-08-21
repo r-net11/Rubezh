@@ -55,23 +55,23 @@ namespace Common.GK
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2);
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 1);
 
-			GKDriversHelper.AddIntProprety(driver, 0xC1, "задержка включения выхода 1, с", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, с", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, с", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, с", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC1, "Задержка включения выхода 1, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC2, "Задержка включения выхода 2, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC3, "Задержка включения выхода 3, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC4, "Задержка включения выхода 4, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC5, "Задержка включения выхода 5, с", 0, 3, 0, 255).IsLowByte = true;
 
-			GKDriversHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, с", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2, с", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3, с", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4, с", 0, 2, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5, с", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAB, "Время включенного состояния выхода 1, с", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAC, "Время включенного состояния выхода 2, с", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAD, "Время включенного состояния выхода 3, с", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAE, "Время включенного состояния выхода 4, с", 0, 2, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xAF, "Время включенного состояния выхода 5, с", 0, 2, 0, 255).IsLowByte = true;
 
-			GKDriversHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1, с", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2, с", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3, с", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4, с", 0, 1, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5, с", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB1, "Период переключения выхода 1, с", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB2, "Период переключения выхода 2, с", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB3, "Период переключения выхода 3, с", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB4, "Период переключения выхода 4, с", 0, 1, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xB5, "Период переключения выхода 5, с", 0, 1, 0, 255).IsLowByte = true;
 
 			AddControlType(driver, 0x87, "Тип контроля выхода 1");
 			AddControlType(driver, 0x88, "Тип контроля выхода 2");

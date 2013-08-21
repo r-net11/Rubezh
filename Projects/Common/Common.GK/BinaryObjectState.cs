@@ -13,7 +13,7 @@ namespace Common.GK
 		public BinaryObjectState(List<byte> bytes)
 		{
 			ControllerAddress = BytesHelper.SubstructShort(bytes, 2);
-			AddressOncontroller = BytesHelper.SubstructShort(bytes, 4);
+			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
 			Description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList());
 			SerialNo = BytesHelper.SubstructInt(bytes, 40);
@@ -96,6 +96,29 @@ namespace Common.GK
 						HoldDelay = additionalShortParameters[1];
 						OffDelay = additionalShortParameters[2];
 						break;
+
+					case XDriverType.RSR2_Bush:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[0])
+							AdditionalStates.Add("Вскрытие");
+						if (bitArray[1])
+							AdditionalStates.Add("Неисправность контакта");
+						if (bitArray[2])
+							AdditionalStates.Add("Авария контакта");
+						if (bitArray[6])
+							AdditionalStates.Add("Неисправность одной или обеих фаз(контроль нагрузки)");
+						if (bitArray[7])
+							AdditionalStates.Add("Несовместимость сигналов");
+
+						if (bitArray[8])
+							AdditionalStates.Add("Низкий уровень");
+						if (bitArray[9])
+							AdditionalStates.Add("Высокий уровень");
+						if (bitArray[10])
+							AdditionalStates.Add("Аварийный уровень");
+
+						var failureDescriptionParameter = additionalShortParameters[5];
+						break;
 				}
 			}
 			else
@@ -123,7 +146,7 @@ namespace Common.GK
 
 		public XDriver Driver { get; private set; }
 		public ushort ControllerAddress { get; private set; }
-		public ushort AddressOncontroller { get; private set; }
+		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public int SerialNo { get; private set; }

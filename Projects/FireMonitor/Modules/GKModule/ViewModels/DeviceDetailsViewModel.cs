@@ -25,7 +25,6 @@ namespace GKModule.ViewModels
 		public XDevice Device { get; private set; }
         public DeviceStateViewModel DeviceStateViewModel { get; private set; }
         public XDeviceState DeviceState { get; private set; }
-		DeviceControls.XDeviceControl _deviceControl;
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker = false;
@@ -64,8 +63,6 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			if (DeviceState != null && _deviceControl != null)
-				_deviceControl.StateClass = DeviceState.StateClass;
 			OnPropertyChanged("DevicePicture");
 			OnPropertyChanged("DeviceState");
             OnPropertyChanged("DeviceStateViewModel");

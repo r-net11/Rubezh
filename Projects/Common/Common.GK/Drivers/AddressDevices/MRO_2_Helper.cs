@@ -82,8 +82,8 @@ namespace Common.GK
 			var property4 = new XDriverProperty()
 			{
 				No = 0x90,
-				Name = "Рабочее напряжение, V",
-				Caption = "Рабочее напряжение, V",
+				Name = "Рабочее напряжение, В",
+				Caption = "Рабочее напряжение, В",
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
 			};

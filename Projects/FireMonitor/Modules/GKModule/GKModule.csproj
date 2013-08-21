@@ -171,6 +171,7 @@
     <Compile Include="Watcher\Watcher.PingJournal.cs" />
     <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
+    <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.Progress.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
     <Compile Include="Watcher\Watcher.Threading.cs" />

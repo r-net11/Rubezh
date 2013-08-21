@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Converters="clr-namespace:GKModule.Converters"
     xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-    MinWidth="600" MinHeight="400">
+    MinWidth="600" MinHeight="450">
     <UserControl.Resources>
         <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
     </UserControl.Resources>
@@ -43,17 +43,19 @@
             </ItemsControl>
         </TabItem>
         <TabItem Header="События">
-            <ItemsControl ItemsSource="{Binding EventNames}" Margin="10">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsChecked}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding EventName}" Foreground="White" Margin="1" />
-                            </StackPanel>
-                        </CheckBox>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding EventNames}" Margin="10">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding EventName}" Foreground="White" Margin="1" />
+                                </StackPanel>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </UserControl>

@@ -83,6 +83,15 @@ namespace GKModule
 					Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
 				}
 
+				try
+				{
+					PingNextState();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+				}
+
 				if (StopEvent != null)
 				{
 					if (StopEvent.WaitOne(10))

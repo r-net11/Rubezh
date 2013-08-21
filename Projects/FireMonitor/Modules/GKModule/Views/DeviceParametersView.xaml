@@ -18,11 +18,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Задымленность" Binding="{Binding Smokiness}" Width="Auto" />
-                <DataGridTextColumn Header="Температура" Binding="{Binding Temperature}" Width="Auto" />
-                <DataGridTextColumn Header="Запыленность" Binding="{Binding Dustinness}" Width="Auto" />
-                <DataGridTextColumn Header="Дата последнего обслуживания" Binding="{Binding LastServiceTime}" Width="Auto" />
-                <DataGridTextColumn Header="Сопротивление" Binding="{Binding Resistance}" Width="Auto" />
+                <DataGridTextColumn Header="Задымленность, 0.001*дБ/м" Binding="{Binding Smokiness}" Width="*" />
+                <DataGridTextColumn Header="Температура, C" Binding="{Binding Temperature}" Width="*" />
+                <DataGridTextColumn Header="Запыленность, 0.001*дБ/м" Binding="{Binding Dustinness}" Width="*" />
+                <DataGridTextColumn Header="Дата последнего обслуживания" Binding="{Binding LastServiceTime}" Width="*" />
+                <DataGridTextColumn Header="Сопротивление, Ом" Binding="{Binding Resistance}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" Margin="0 5 0 0">
