@@ -328,7 +328,7 @@ namespace ServerFS2.ConfigurationWriter
 			}
 			foreach (var device in ConfigurationManager.Devices)
 			{
-				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
+				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDU || device.Driver.DriverType == DriverType.PDU_PT)
 				{
 					relationPanels.Add(device);
 				}

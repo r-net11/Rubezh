@@ -17,7 +17,7 @@ namespace ServerFS2.ConfigurationWriter
 
 		public List<TableBase> Tables = new List<TableBase>();
 		public TableBase FirstTable;
-		public TableBase ServiceTable;
+		public TableBase AddressListTable;
 		public TableBase LastTable;
 		public List<TableGroup> DevicesTableGroups = new List<TableGroup>();
 		public TableGroup RemoteZonesTableGroup = new TableGroup("Внешние зоны");
@@ -37,7 +37,7 @@ namespace ServerFS2.ConfigurationWriter
             CreateDirections();
 			CreateRemoteZones();
 			CreateLocalZones();
-			CreateServiceTable();
+			CreateAddressListTable();
 			CreateDevices();
 			CreateLastTable();
 
@@ -119,11 +119,11 @@ namespace ServerFS2.ConfigurationWriter
 			}
 		}
 
-		void CreateServiceTable()
+		void CreateAddressListTable()
 		{
-			var remotePanels = new HashSet<Device>(BinaryConfigurationHelper.Current.RelationPanels.ToList());// new HashSet<Device>();
-			if (!BinaryConfigurationHelper.Current.RelationPanels.Any(x => x.IntAddress == ParentPanel.IntAddress))
-				remotePanels = new HashSet<Device>();
+			var remotePanels = new HashSet<Device>(BinaryConfigurationHelper.Current.RelationPanels.ToList());
+			//if (!BinaryConfigurationHelper.Current.RelationPanels.Any(x => x.IntAddress == ParentPanel.IntAddress))
+			//    remotePanels = new HashSet<Device>();
 
 			var addressList = new List<int>();
 			for (int i = 0; i < 32; i++)
@@ -131,7 +131,7 @@ namespace ServerFS2.ConfigurationWriter
 				addressList.Add(0);
 			}
 
-			var nonPanelremoteDevices = new HashSet<Device>();
+			var nonPanelRemoteDevices = new HashSet<Device>();
 			foreach (var device in ConfigurationManager.Devices)
 			{
 				if (device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
@@ -140,7 +140,7 @@ namespace ServerFS2.ConfigurationWriter
 					{
 						if (pduDevice.Device.ParentPanel.UID == ParentPanel.UID)
 						{
-							nonPanelremoteDevices.Add(device.ParentPanel);
+							nonPanelRemoteDevices.Add(device.ParentPanel);
 						}
 					}
 				}
@@ -154,12 +154,12 @@ namespace ServerFS2.ConfigurationWriter
 							{
 								if (zone.DevicesInZone.Any(x => x.ParentPanel.UID == ParentPanel.UID))
 								{
-									nonPanelremoteDevices.Add(indicatorDevice.ParentPanel);
+									nonPanelRemoteDevices.Add(indicatorDevice.ParentPanel);
 								}
 							}
 							if (indicatorDevice.IndicatorLogic.Device != null && indicatorDevice.IndicatorLogic.Device.ParentPanel.UID == ParentPanel.UID)
 							{
-								nonPanelremoteDevices.Add(device);
+								nonPanelRemoteDevices.Add(device);
 							}
 						}
 					}
@@ -167,19 +167,14 @@ namespace ServerFS2.ConfigurationWriter
 			}
 
 			var remotePanelLists = remotePanels.OrderBy(x => x.IntAddress).ToList();
-			//remotePanelLists.RemoveAll(x => x.IntAddress == ParentPanel.IntAddress);
 
-			foreach (var device in remotePanelLists)
-			{
-				Trace.WriteLine(device.PresentationAddressAndName);
-			}
 			for (int i = 0; i < remotePanelLists.Count; i++)
 			{
 				var device = remotePanelLists[i];
 				var deviceCode = FiresecAPI.Models.DriversHelper.GetCodeForDriver(device.Driver.DriverType);
 				if (device.Driver.DriverType == DriverType.IndicationBlock || device.Driver.DriverType == DriverType.PDUDirection || device.Driver.DriverType == DriverType.PDU_PTDirection)
 				{
-					if (!nonPanelremoteDevices.Any(x => x.IntAddress == device.IntAddress))
+					if (!nonPanelRemoteDevices.Any(x => x.IntAddress == device.IntAddress))
 					{
 						continue;
 					}
@@ -187,12 +182,12 @@ namespace ServerFS2.ConfigurationWriter
 				addressList[i] = deviceCode;
 			}
 
-			ServiceTable = new TableBase(this, "Адресный лист");
+			AddressListTable = new TableBase(this, "Адресный лист");
 			foreach (var address in addressList)
 			{
-				ServiceTable.BytesDatabase.AddByte(address, "", true);
+				AddressListTable.BytesDatabase.AddByte(address, "", true);
 			}
-			Tables.Add(ServiceTable);
+			Tables.Add(AddressListTable);
 		}
 
 		void CreateDevices()
