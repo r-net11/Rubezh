@@ -18,15 +18,16 @@ namespace HexManager.ViewModels
 				FileName = new FileInfo(fileName).Name,
 				Lines = File.ReadAllLines(fileName).ToList()
 			};
-			var fileViewModel = new FileViewModel(hexFileInfo);
+			var fileViewModel = new FileViewModel(hexFileInfo, true);
 			return fileViewModel;
 			//var hexInfo = FirmwareUpdateOperationHelper.GetHexInfo(fileName);
 		}
 
-		public FileViewModel(HEXFileInfo hexFileInfo)
+		public FileViewModel(HEXFileInfo hexFileInfo, bool isNew)
 		{
 			HexMemoryTypes = Enum.GetValues(typeof(HexMemoryType)).Cast<HexMemoryType>().ToList();
 
+			Error = "";
 			FileName = hexFileInfo.FileName;
 			SelectedHexMemoryType = hexFileInfo.HexMemoryType;
 			Lines = new List<LineViewModel>();
@@ -36,20 +37,55 @@ namespace HexManager.ViewModels
 				Lines.Add(lineViewModel);
 			}
 
-			if (Lines.Count >= 5)
-			{
-				long startAddress = Convert.ToInt32(Lines[1].StringOffset, 16);
-				long endAddress = Convert.ToInt32(Lines[Lines.Count - 3].StringOffset, 16);
-				endAddress += 0x0F;
-				AddressRange = startAddress.ToString("X8") + " - " + endAddress.ToString("X8");
-			}
-			else
-			{
-				AddressRange = "Неизвестно";
-			}
+			var preLastLine = hexFileInfo.Lines[hexFileInfo.Lines.Count - 3];
+			CRC = preLastLine.Substring(39, 2) + preLastLine.Substring(37, 2);
+			var minorVersion = Convert.ToInt32(preLastLine.Substring(35, 2), 16);
+			var majorVersion = Convert.ToInt32(preLastLine.Substring(33, 2), 16);
+			Version = minorVersion.ToString() + "." + majorVersion.ToString();
 
-			Version = "Неизвестно";
-			CRC = "Неизвестно";
+			var firstOffset = Convert.ToInt32(Lines[1].StringOffset, 16);
+			var lastOffset = firstOffset;
+			var baseOffset = 0;
+			for (int i = 1; i < Lines.Count - 2; i++)
+			{
+				var currentLine = Lines[i];
+				if (currentLine.StringLineType == "00")
+				{
+					lastOffset = Convert.ToInt32(Lines[i].StringOffset, 16);
+				}
+				if (currentLine.StringLineType == "04")
+				{
+					baseOffset = Convert.ToInt32(Lines[i].Content, 16);
+				}
+			}
+			lastOffset = baseOffset * 0x10000 + lastOffset + 0x0F;
+			AddressRange = firstOffset.ToString("X8") + " - " + lastOffset.ToString("X8");
+
+			if (isNew)
+			{
+				var memoryType = preLastLine.Substring(31, 2);
+				switch (memoryType)
+				{
+					case "95":
+						SelectedHexMemoryType = HexMemoryType.Controller_AVR;
+						break;
+					case "BB":
+						SelectedHexMemoryType = HexMemoryType.RAM_RS485;
+						break;
+					case "CC":
+						SelectedHexMemoryType = HexMemoryType.RAM_USB;
+						break;
+					case "AA":
+						SelectedHexMemoryType = HexMemoryType.ROM;
+						break;
+					case "FF":
+						SelectedHexMemoryType = HexMemoryType.User_ARM;
+						break;
+					default:
+						Error += "Неизвестный тип памяти" + "\n";
+						break;
+				}
+			}
 		}
 
 		public string FileName { get; set; }
@@ -70,5 +106,6 @@ namespace HexManager.ViewModels
 		public string Version { get; set; }
 		public string AddressRange { get; set; }
 		public string CRC { get; set; }
+		public string Error { get; set; }
 	}
 }
