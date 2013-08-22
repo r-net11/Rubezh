@@ -12,7 +12,7 @@ namespace FiresecService.Service
 	public static class FiresecServiceManager
 	{
 		static ServiceHost ServiceHost;
-		static FiresecService FiresecService;
+		static SafeFiresecService SafeFiresecService;
 
 		public static bool Open()
 		{
@@ -20,12 +20,11 @@ namespace FiresecService.Service
 			{
 				Close();
 
-				FiresecService = new FiresecService();
-				ServiceHost = new ServiceHost(FiresecService);
+				SafeFiresecService = new SafeFiresecService();
+				ServiceHost = new ServiceHost(SafeFiresecService);
 
 				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)
 				{
-					//CreateHttpEndpoint();
 					CreateTcpEndpoint();
 				}
 				CreateNetPipesEndpoint();
@@ -41,7 +40,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		private static void CreateNetPipesEndpoint()
+		static void CreateNetPipesEndpoint()
 		{
 			try
 			{
@@ -55,7 +54,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		private static void CreateHttpEndpoint()
+		static void CreateHttpEndpoint()
 		{
 			try
 			{
@@ -73,7 +72,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		private static void CreateTcpEndpoint()
+		static void CreateTcpEndpoint()
 		{
 			try
 			{
@@ -97,7 +96,7 @@ namespace FiresecService.Service
 				ServiceHost.Close();
 		}
 
-		private static string GetIPAddress()
+		static string GetIPAddress()
 		{
 			try
 			{

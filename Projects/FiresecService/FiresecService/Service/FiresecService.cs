@@ -64,43 +64,32 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Reconnect(Guid uid, string login, string password)
 		{
-			var x = 1;
-			var y = 0;
-			var z = x / y;
-			try
+			var clientCredentials = ClientsManager.GetClientCredentials(uid);
+			if (clientCredentials == null)
 			{
-				var clientCredentials = ClientsManager.GetClientCredentials(uid);
-				if (clientCredentials == null)
-				{
-					return new OperationResult<bool>("Не найден пользователь");
-				}
-				InitializeClientCredentials(clientCredentials);
-				var oldUserName = clientCredentials.FriendlyUserName;
+				return new OperationResult<bool>("Не найден пользователь");
+			}
+			InitializeClientCredentials(clientCredentials);
+			var oldUserName = clientCredentials.FriendlyUserName;
 
-				var newClientCredentials = new ClientCredentials()
-				{
-					UserName = login,
-					Password = password,
-					ClientIpAddress = clientCredentials.ClientIpAddress
-				};
-				var operationResult = Authenticate(newClientCredentials);
-				if (operationResult.HasError)
-					return operationResult;
-
-				MainViewModel.Current.EditClient(uid, login);
-				AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
-				clientCredentials.UserName = login;
-				SetUserFullName(clientCredentials);
-				AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
-
-				operationResult.Result = true;
+			var newClientCredentials = new ClientCredentials()
+			{
+				UserName = login,
+				Password = password,
+				ClientIpAddress = clientCredentials.ClientIpAddress
+			};
+			var operationResult = Authenticate(newClientCredentials);
+			if (operationResult.HasError)
 				return operationResult;
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecService.Reconnect");
-				return new OperationResult<bool>();
-			}
+
+			MainViewModel.Current.EditClient(uid, login);
+			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
+			clientCredentials.UserName = login;
+			SetUserFullName(clientCredentials);
+			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
+
+			operationResult.Result = true;
+			return operationResult;
 		}
 
 		public void Disconnect(Guid uid)

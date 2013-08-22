@@ -40,7 +40,6 @@ namespace Infrastructure.Common
 				if (IsRemote)
 				{
 					serviceAddress = "net.tcp://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
-					//serviceAddress = "http://" + RemoteAddress + ":" + RemotePort.ToString() + "/FiresecService/";
 				}
 				return serviceAddress;
 			}
@@ -66,7 +65,7 @@ namespace Infrastructure.Common
 				var serviceAddress = "net.pipe://127.0.0.1/FS2/";
 				if (IsRemote)
 				{
-					serviceAddress = "http://" + RemoteAddress + ":" + (RemotePort + 2).ToString() + "/FS2/";
+					serviceAddress = "net.tcp://" + RemoteAddress + ":" + (RemotePort + 2).ToString() + "/FS2/";
 				}
 				return serviceAddress;
 			}
