@@ -22,7 +22,9 @@ public class PDUDatabase : NonPanelDatabase
 			CreateRootBytes();
 
 			var crcBytes = BytesDatabase.GetBytes();
+			crcBytes.RemoveRange(0, 0x4000);
 			crcBytes.RemoveRange(0, 12);
+			crcBytes.RemoveRange(0, 64);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
@@ -130,7 +132,7 @@ public class PDUDatabase : NonPanelDatabase
 			}
 
 			Tables.Add(FirstTable);
-			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12);
+			BytesDatabase.SetShort(lengtByteDescription, BytesDatabase.ByteDescriptions.Count - 0x4000 - 12 - 64);
 		}
 
 		PDUItem AddPDUItem(Device pduDirectionDevice, Device device)
