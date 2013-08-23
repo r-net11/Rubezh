@@ -48,7 +48,7 @@ namespace ServerFS2.Monitoring
 					break;
 			}
 			device.StateWordBytes = stateBytes;
-			if (device.RawParametersBytes != null)
+			if (device.RawParametersBytes != null && device.RawParametersBytes.Count > 0)
 			{
 				device.RawParametersBytes = ServerHelper.GetBytesFromFlashDB(device.ParentPanel, device.RawParametersOffset, device.RawParametersBytes.Count);
 			}
