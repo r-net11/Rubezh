@@ -215,7 +215,7 @@ namespace GKModule.ViewModels
             }
             SelectedJournal = JournalItems.FirstOrDefault();
 
-            Status = null;
+			Status = "Всего записей " + journalItems.Count().ToString();
         }
 
         public override void OnShow()
