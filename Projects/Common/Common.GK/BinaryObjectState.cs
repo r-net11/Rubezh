@@ -98,26 +98,42 @@ namespace Common.GK
 						break;
 
 					case XDriverType.RSR2_Bush:
-						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
-						if (bitArray[0])
-							AdditionalStates.Add("Вскрытие");
-						if (bitArray[1])
-							AdditionalStates.Add("Неисправность контакта");
-						if (bitArray[2])
-							AdditionalStates.Add("Авария контакта");
-						if (bitArray[6])
-							AdditionalStates.Add("Неисправность одной или обеих фаз(контроль нагрузки)");
-						if (bitArray[7])
-							AdditionalStates.Add("Несовместимость сигналов");
+						var sensorBitArray = new BitArray(new int[1] { additionalShortParameters[4] % 256 });
+						var breakBitArray = new BitArray(new int[1] { additionalShortParameters[5] % 256 });
+						var kzBitArray = new BitArray(new int[1] { additionalShortParameters[6] % 256 });
 
-						if (bitArray[8])
+						if (sensorBitArray[0])
 							AdditionalStates.Add("Низкий уровень");
-						if (bitArray[9])
+						if (sensorBitArray[1])
 							AdditionalStates.Add("Высокий уровень");
-						if (bitArray[10])
+						if (sensorBitArray[2])
 							AdditionalStates.Add("Аварийный уровень");
 
-						var failureDescriptionParameter = additionalShortParameters[5];
+						if (breakBitArray[0] && !kzBitArray[0])
+							AdditionalStates.Add("Обрыв Низкий уровень");
+						if (breakBitArray[1] && !kzBitArray[1])
+							AdditionalStates.Add("Обрыв Высокий уровень");
+						if (breakBitArray[2] && !kzBitArray[2])
+							AdditionalStates.Add("Обрыв Аварийный уровень");
+
+						if (kzBitArray[0])
+							AdditionalStates.Add("КЗ Низкий уровень");
+						if (kzBitArray[1])
+							AdditionalStates.Add("КЗ Высокий уровень");
+						if (kzBitArray[2])
+							AdditionalStates.Add("КЗ Аварийный уровень");
+
+						var failureBitArray = new BitArray(new int[1] { additionalShortParameters[5] / 256 });
+						if (failureBitArray[0])
+							AdditionalStates.Add("Вскрытие");
+						if (failureBitArray[1])
+							AdditionalStates.Add("Неисправность контакта");
+						if (failureBitArray[2])
+							AdditionalStates.Add("Авария контакта");
+						if (failureBitArray[6])
+							AdditionalStates.Add("Неисправность одной или обеих фаз(контроль нагрузки)");
+						if (failureBitArray[7])
+							AdditionalStates.Add("Несовместимость сигналов");
 						break;
 				}
 			}

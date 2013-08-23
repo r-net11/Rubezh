@@ -178,6 +178,11 @@ namespace GKModule.ViewModels
 							{
 								stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 							}
+
+#if DEBUG
+							//stringValue = auParameter.No.ToString() + " " + (parameterValue / 256).ToString() + " " + (parameterValue % 256).ToString();
+#endif
+
 							Dispatcher.BeginInvoke(new Action(() =>
 							{
 								var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
