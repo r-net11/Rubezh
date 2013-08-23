@@ -46,17 +46,17 @@
                     </Grid.RowDefinitions>
                     <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" RowHeight="40">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="DeviceTime" Binding="{Binding DeviceTime}" />
-                            <DataGridTextColumn Header="SystemTime" Binding="{Binding SystemTime}" />
-                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
-                            <DataGridTextColumn Header="Detalization" Binding="{Binding Detalization}" />
-                            <DataGridTextColumn Header="PanelName" Binding="{Binding PanelName}" />
-                            <DataGridTextColumn Header="DeviceName" Binding="{Binding DeviceName}" />
-                            <DataGridTextColumn Header="ZoneName" Binding="{Binding ZoneName}" />
-                            <DataGridTextColumn Header="StateType" Binding="{Binding StateType}" />
-                            <DataGridTextColumn Header="SubsystemType" Binding="{Binding SubsystemType}" />
-                            <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
-                            <DataGridTextColumn Header="BytesString" Binding="{Binding BytesString}" />
+                            <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
+                            <DataGridTextColumn Header="Время системы" Binding="{Binding SystemTime}" />
+                            <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                            <DataGridTextColumn Header="Детализация" Binding="{Binding Detalization}" />
+                            <DataGridTextColumn Header="Прибор" Binding="{Binding PanelName}" />
+                            <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceName}" />
+                            <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
+                            <DataGridTextColumn Header="Состояние" Binding="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                            <DataGridTextColumn Header="Подсистема" Binding="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" />
+                            <DataGridTextColumn Header="Пользователь" Binding="{Binding UserName}" />
+                            <DataGridTextColumn Header="Отладка" Binding="{Binding BytesString}" />
                         </DataGrid.Columns>
                         <DataGrid.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">

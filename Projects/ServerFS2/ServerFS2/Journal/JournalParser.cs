@@ -215,7 +215,34 @@ namespace ServerFS2
 								}
 								if (bit.no != null && stateBitArray.Get(Convert.ToInt32(bit.no)))
 								{
-									result += metadataDictionary.bit.FirstOrDefault(x => x.no == bit.no).value + "\n";
+									result += bit.value + "\n";
+								}
+								if (bit.no != null && bit.no.Contains('-'))
+								{
+									var values = bit.no.Split('-');
+									if (values.Count() == 2)
+									{
+										int parsedInt = 0;
+										if (Int32.TryParse(values[0], out parsedInt))
+										{
+											var startBit = parsedInt;
+											if (Int32.TryParse(values[1], out parsedInt))
+											{
+												var endBit = parsedInt;
+
+												var bitsValue = 0;
+												for (int i = startBit; i <= endBit; i++)
+												{
+													var bitValue = (stateBitArray[i] ? 1 : 0) << (i - startBit);
+													bitsValue += bitValue;
+												}
+												if (bitsValue.ToString() == bit.value)
+												{
+													result += bit.value + "\n";
+												}	
+											}
+										}
+									}
 								}
 							}
 						}
@@ -321,18 +348,34 @@ namespace ServerFS2
 		{
 			if (DeviceConfiguration != null)
 			{
+				Zone zone = null;
 				var localzone = DeviceConfiguration.Zones.FirstOrDefault(x => x.LocalDeviceNo == FSInternalJournal.ZoneNo);
 				if (localzone != null)
 				{
-					var zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == localzone.No);
-					if (zone != null)
+					zone = ConfigurationManager.Zones.FirstOrDefault(x => x.No == localzone.No);
+				}
+				if (zone == null)
+				{
+					if (FS2JournalItem.Device != null)
 					{
-						FS2JournalItem.Zone = zone;
-						FS2JournalItem.ZoneUID = zone.UID;
-						FS2JournalItem.ZoneNo = zone.No;
-						FS2JournalItem.ZoneName = zone.No + "." + zone.Name;
-						return;
+						if (FS2JournalItem.Device.Zone != null)
+						{
+							zone = FS2JournalItem.Device.Zone;
+						}
+						else if (FS2JournalItem.Device.ZonesInLogic.Count == 1)
+						{
+							zone = FS2JournalItem.Device.ZonesInLogic.FirstOrDefault();
+						}
 					}
+				}
+				if (zone != null)
+				{
+
+					FS2JournalItem.Zone = zone;
+					FS2JournalItem.ZoneUID = zone.UID;
+					FS2JournalItem.ZoneNo = zone.No;
+					FS2JournalItem.ZoneName = zone.No + "." + zone.Name;
+					return;
 				}
 			}
 			else

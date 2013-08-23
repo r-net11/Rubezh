@@ -36,6 +36,22 @@ namespace ServerFS2
 			}
 		}
 
+		static void Test1()
+		{
+			foreach (var metadataDeviceState in MetadataHelper.Metadata.deviceStates)
+			{
+				var bits = GetBits(metadataDeviceState);
+				if (bits != null)
+				{
+					var metadataDeviceTable = Metadata.deviceTables.FirstOrDefault(x => x.tableType == metadataDeviceState.tableType);
+					var deviceName = metadataDeviceState.tableType;
+					if (metadataDeviceTable != null)
+						deviceName = metadataDeviceTable.deviceName;
+					Trace.WriteLine(deviceName + " " + metadataDeviceState.name);
+				}
+			}
+		}
+
 		public static Rubezh2010.driverConfigDeviceTablesDeviceTable GetMetadataDeviceTable(Device device)
 		{
 			foreach (var metadataDeviceTableItem in MetadataHelper.Metadata.deviceTables)
@@ -107,8 +123,45 @@ namespace ServerFS2
 			return -1;
 		}
 
+		public static List<int> GetBits(Rubezh2010.driverConfigDeviceStatesDeviceState metadataDeviceState)
+		{
+			string bits = null;
+			if (metadataDeviceState.bits != null)
+				bits = metadataDeviceState.bits;
+			if (metadataDeviceState.Bits != null)
+				bits = metadataDeviceState.Bits;
+
+			if (bits != null && bits.Contains('-'))
+			{
+				var values = bits.Split('-');
+				if (values.Count() == 2)
+				{
+					var result = new List<int>();
+					int parsedInt = 0;
+					if (Int32.TryParse(values[0], out parsedInt))
+					{
+						result.Add(parsedInt);
+						if (Int32.TryParse(values[1], out parsedInt))
+						{
+							result.Add(parsedInt);
+						}
+					}
+					if (metadataDeviceState.value != null)
+					{
+						if (Int32.TryParse(metadataDeviceState.value, out parsedInt))
+						{
+							result.Add(parsedInt);
+							return result;
+						}
+					}
+				}
+			}
+			return null;
+		}
+
 		public static List<Rubezh2010.driverConfigDeviceStatesDeviceState> GetMetadataDeviceStates(Device device, bool isFireAndWarning)
 		{
+			//Test1();
 			var result = new List<Rubezh2010.driverConfigDeviceStatesDeviceState>();
 
 			var tableNo = MetadataHelper.GetDeviceTableNo(device);
@@ -118,6 +171,8 @@ namespace ServerFS2
 				{
 					if (metadataDeviceState.tableType == tableNo)
 					{
+						if (metadataDeviceState.ID == "MDU_Test")
+							continue;
 						result.Add(metadataDeviceState);
 					}
 				}
@@ -127,6 +182,8 @@ namespace ServerFS2
 					if (metadataDeviceState.tableType == null && metadataDeviceState.notForTableType != tableNo)
 					{
 						var bitNo = GetBitNo(metadataDeviceState);
+						var intBitNo = GetIntBitNo(metadataDeviceState);
+						var bits = GetBits(metadataDeviceState);
 						if (bitNo != -1)
 						{
 							if (!result.Any(x => GetBitNo(x) == bitNo))
@@ -156,7 +213,6 @@ namespace ServerFS2
 						}
 						else
 						{
-							var intBitNo = GetIntBitNo(metadataDeviceState);
 							if (intBitNo != -1)
 							{
 								if (!result.Any(x => GetIntBitNo(x) == intBitNo))
@@ -164,6 +220,11 @@ namespace ServerFS2
 									result.Add(metadataDeviceState);
 								}
 							}
+						}
+
+						if (bitNo == -1 && intBitNo == -1 && bits == null)
+						{
+							result.Add(metadataDeviceState);
 						}
 					}
 				}

@@ -3,7 +3,7 @@ using System.Windows.Data;
 using FiresecAPI;
 using FiresecAPI.Models;
 
-namespace JournalModule.Converters
+namespace Controls.Converters
 {
 	public class SubsystemTypeToStringConverter : IValueConverter
 	{

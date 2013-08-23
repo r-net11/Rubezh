@@ -311,7 +311,6 @@ namespace JournalModule.ViewModels
 				Status = "Загрузка данных";
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
 
-				JournalRecordPages = new List<IEnumerable<JournalRecord>>();
 				Pages = new ObservableCollection<ArchivePageViewModel>();
 				TotalPageNumber = 0;
 				CurrentPageNumber = 0;
@@ -341,8 +340,6 @@ namespace JournalModule.ViewModels
 			}
 			UpdateThread = null;
 		}
-
-		List<IEnumerable<JournalRecord>> JournalRecordPages = new List<IEnumerable<JournalRecord>>();
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{

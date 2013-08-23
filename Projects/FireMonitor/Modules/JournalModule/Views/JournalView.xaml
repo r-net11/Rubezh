@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
-        <Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
+        <!--<Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />-->
     </UserControl.Resources>
 
     <Grid>

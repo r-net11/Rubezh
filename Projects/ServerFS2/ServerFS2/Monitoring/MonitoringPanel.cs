@@ -7,6 +7,8 @@ using ServerFS2.Journal;
 using ServerFS2.Operations;
 using ServerFS2.Service;
 using System.Text;
+using System.Linq;
+using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
@@ -111,6 +113,7 @@ namespace ServerFS2.Monitoring
                         journalItems.AddRange(GetNewFireJournalItems());
                     if (IsSecurityReadingNeeded)
                         journalItems.AddRange(GetNewSecurityJournalItems());
+
 					DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
 					DeviceStatesManager.UpdatePanelState(PanelDevice);
 					DeviceStatesManager.UpdatePanelParameters(PanelDevice);

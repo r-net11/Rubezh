@@ -83,7 +83,7 @@ namespace ServerFS2.Processor
 		{
 			foreach (var device in devices)
 			{
-				CustomMessageJournalHelper.Add("Команда оператора. Отключение", userName, device.ParentPanel, device);
+				CustomMessageJournalHelper.Add("Добавление устройства в список обхода", userName, device.ParentPanel, device);
 			}
 			MonitoringManager.AddTaskIgnore(devices);
 		}
@@ -92,7 +92,7 @@ namespace ServerFS2.Processor
 		{
 			foreach (var device in devices)
 			{
-				CustomMessageJournalHelper.Add("Команда оператора. Снятие тключения", userName, device.ParentPanel, device);
+				CustomMessageJournalHelper.Add("Удаление устройства из списка обхода", userName, device.ParentPanel, device);
 			}
 			MonitoringManager.AddTaskResetIgnore(devices);
 		}

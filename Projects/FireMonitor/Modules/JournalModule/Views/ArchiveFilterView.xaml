@@ -9,7 +9,6 @@
              MinWidth="700" MinHeight="500">
 
     <UserControl.Resources>
-        <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
     

@@ -135,6 +135,21 @@ namespace ServerFS2.Monitoring
 					var hasBit = stateWordBitArray[bitNo];
 					SetStateFromMetadata(device, metadataDeviceState, hasBit);
 				}
+
+				var bits = MetadataHelper.GetBits(metadataDeviceState);
+				if (bits != null)
+				{
+					var bitsValue = 0;
+					for (int i = bits[0]; i <= bits[1]; i++)
+					{
+						var bitValue = (stateWordBitArray[i] ? 1 : 0) << (i - bits[0]);
+						bitsValue += bitValue;
+					}
+					if (bitsValue == bits[2])
+					{
+						SetStateFromMetadata(device, metadataDeviceState, true);
+					}					
+				}
 			}
 		}
 
@@ -196,7 +211,6 @@ namespace ServerFS2.Monitoring
 					ParceDeviceStateEnterLeave(journalItem, journalItem.Device, true);
 					UpdateDeviceStateAndParameters(journalItem.Device);
 				}
-				//if (journalItem.HasZone && journalItem.Zone != null)
 				if (journalItem.Zone != null)
 				{
 					foreach (var device in journalItem.Zone.DevicesInZone)
@@ -212,6 +226,10 @@ namespace ServerFS2.Monitoring
 			var metadataDeviceStates = MetadataHelper.GetMetadataDeviceStates(device, true);
 			foreach (var metadataDeviceState in metadataDeviceStates)
 			{
+				if (metadataDeviceState.name == "Тест")
+				{
+					;
+				}
 				if (metadataDeviceState.enter != null)
 				{
 					foreach (var deviceStateEnter in metadataDeviceState.enter)

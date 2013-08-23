@@ -1571,6 +1571,8 @@ namespace Rubezh2010
 
 		private string bitsField;
 
+		private string BitsField;
+
 		private string valueField;
 
 		private string bitnoField1;
@@ -1828,6 +1830,20 @@ namespace Rubezh2010
 			set
 			{
 				this.bitsField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Bits
+		{
+			get
+			{
+				return this.BitsField;
+			}
+			set
+			{
+				this.BitsField = value;
 			}
 		}
 

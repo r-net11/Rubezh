@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using Common;
 using FiresecAPI;
 using Infrastructure.Common;
+using System.Text;
 
 namespace FSAgentServer
 {
@@ -45,7 +46,7 @@ namespace FSAgentServer
 
                     string loginError = null;
 
-					var result = GetConnection(GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress, GlobalSettingsHelper.GlobalSettings.FS_Port, GlobalSettingsHelper.GlobalSettings.FS_Login, GlobalSettingsHelper.GlobalSettings.Password);
+					var result = GetConnection(GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress, GlobalSettingsHelper.GlobalSettings.FS_Port, GlobalSettingsHelper.GlobalSettings.FS_Login, GlobalSettingsHelper.GlobalSettings.FS_Password);
                     if (result.HasError &&
                         result.Error == "Пользователь или пароль неверны. Повторите ввод" ||
                         result.Error == "Удаленный доступ с этого компьютера запрещен")
@@ -92,7 +93,7 @@ namespace FSAgentServer
 
                 try
                 {
-                    FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
+					FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
                     return new OperationResult<FS_Types.IFSC_Connection>() { Result = connectoin };
                 }
                 catch (Exception e)
