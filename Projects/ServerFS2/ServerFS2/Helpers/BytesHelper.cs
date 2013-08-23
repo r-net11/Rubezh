@@ -141,6 +141,14 @@ namespace ServerFS2
 		public static List<byte> BytesFromFile(string fileName)
 		{
 			var bytes = new List<byte>();
+			var strings = File.ReadAllLines(fileName).ToList();
+			foreach (var str in strings)
+			{
+				for (var i = 0; i < str.Length; i += 3)
+				{
+					bytes.Add(Convert.ToByte(str.Substring(i, 2), 16));
+				}
+			}
 			return bytes;
 		}
 
