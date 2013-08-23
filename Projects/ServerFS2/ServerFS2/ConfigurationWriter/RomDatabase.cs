@@ -173,9 +173,9 @@ namespace ServerFS2.ConfigurationWriter
 		void AddServiceTablePointers()
 		{
 			var bytesDatabase = new BytesDatabase("Указатель Служебную таблицу");
-			bytesDatabase.AddReferenceToTable(FlashDatabase.ServiceTable, "Абсолютный указатель на таблицу");
+			bytesDatabase.AddReferenceToTable(FlashDatabase.AddressListTable, "Абсолютный указатель на таблицу");
 			bytesDatabase.AddByte(1, "Длина записи в таблице");
-			bytesDatabase.AddShort(FlashDatabase.ServiceTable.BytesDatabase.ByteDescriptions.Count, "Текущее число записей в таблице");
+			bytesDatabase.AddShort(FlashDatabase.AddressListTable.BytesDatabase.ByteDescriptions.Count, "Текущее число записей в таблице");
 			BytesDatabase.Add(bytesDatabase);
 		}
 

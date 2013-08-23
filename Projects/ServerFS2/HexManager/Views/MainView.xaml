@@ -105,6 +105,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Версия" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Version}" Foreground="White" Margin="5 1" />
@@ -114,6 +115,7 @@
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="CRC" HorizontalAlignment="Right" Foreground="White" Margin="5 1" />
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CRC}" Foreground="White" Margin="5 1" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Error}" Foreground="Red" FontWeight="Bold" Margin="5 1" />
                 </Grid>
             </Grid>
         </Grid>

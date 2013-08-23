@@ -40,7 +40,7 @@ namespace ServerFS2.Service
 			}
 		}
 
-		private static void CreateNetPipesEndpoint()
+		static void CreateNetPipesEndpoint()
 		{
 			try
 			{
@@ -50,11 +50,11 @@ namespace ServerFS2.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecServiceManager.CreateNetPipesEndpoint");
+				Logger.Error(e, "FS2ServiceHost.CreateNetPipesEndpoint");
 			}
 		}
 
-		private static void CreateHttpEndpoint()
+		static void CreateHttpEndpoint()
 		{
 			try
 			{
@@ -68,7 +68,25 @@ namespace ServerFS2.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "FiresecServiceManager.CreateHttpEndpoint");
+				Logger.Error(e, "FS2ServiceHost.CreateHttpEndpoint");
+			}
+		}
+
+		static void CreateTcpEndpoint()
+		{
+			try
+			{
+				var ipAddress = GetIPAddress();
+				if (ipAddress != null)
+				{
+					var remoteAddress = "net.tcp://" + ipAddress + ":" + (GlobalSettingsHelper.GlobalSettings.RemotePort + 2).ToString() + "/FS2/";
+					ServiceHost.AddServiceEndpoint("FS2Api.IFS2Contract", Common.BindingHelper.CreateNetTcpBinding(), new Uri(remoteAddress));
+					UILogger.Log("Удаленный адрес: " + remoteAddress);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FS2ServiceHost.CreateTcpEndpoint");
 			}
 		}
 
@@ -78,7 +96,7 @@ namespace ServerFS2.Service
 				ServiceHost.Close();
 		}
 
-		private static string GetIPAddress()
+		static string GetIPAddress()
 		{
 			try
 			{
@@ -90,7 +108,7 @@ namespace ServerFS2.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ServerHost.GetIPAddress");
+				Logger.Error(e, "FS2ServiceHost.GetIPAddress");
 				return null;
 			}
 		}

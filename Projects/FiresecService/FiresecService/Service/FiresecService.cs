@@ -12,6 +12,7 @@ using FiresecService.DatabaseConverter;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
 using FiresecService.Processor;
+using Xceed.Wpf.Toolkit;
 
 namespace FiresecService.Service
 {

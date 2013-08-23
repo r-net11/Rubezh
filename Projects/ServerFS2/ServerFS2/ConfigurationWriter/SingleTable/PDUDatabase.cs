@@ -18,7 +18,8 @@ public class PDUDatabase : NonPanelDatabase
 			BytesDatabase = new BytesDatabase();
 
 			Initialize();
-			CreateEmptyTable();
+			CreateTables();
+			CreateRootBytes();
 
 			var crcBytes = BytesDatabase.GetBytes();
 			crcBytes.RemoveRange(0, 12);
@@ -45,7 +46,7 @@ public class PDUDatabase : NonPanelDatabase
 			}
 		}
 
-		void CreateEmptyTable()
+		void CreateTables()
 		{
 			FirstTable = new BytesDatabase();
 			for (int i = 0; i < 0x4000; i++)

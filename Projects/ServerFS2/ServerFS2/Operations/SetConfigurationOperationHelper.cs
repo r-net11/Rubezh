@@ -99,8 +99,16 @@ namespace ServerFS2
 
 		public static bool WriteNonPanelDeviceConfiguration(Device device, List<byte> Rom)
 		{
+			Rom.RemoveRange(0, 0x4000);
+			//var fs1Rom = BytesHelper.BytesFromFile(@"C:\temp\fs1.txt");
+			//Rom.RemoveRange(75, 0x10);
+			//Rom.InsertRange(75, fs1Rom.GetRange(75, 0x10));
 			var romDBFirstIndex = 0x4000;
+			GetOsStatus(device);
+			BeginUpdateFirmWare(device);
 			ConfirmLongTermOperation(device);
+			RequestError(device);
+			GetOsStatus2(device);
 			ClearSector(device, 0x04, 0x04);
 			ConfirmLongTermOperation(device);
 			RequestError(device);

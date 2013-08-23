@@ -56,12 +56,17 @@ namespace ServerFS2.ConfigurationWriter
 				}
 				else
 				{
-					if (Device.Driver.DriverType != DriverType.PumpStation && Device.Driver.DriverType != DriverType.Exit)
+					//if (Device.Driver.DriverType != DriverType.PumpStation && Device.Driver.DriverType != DriverType.Exit)
+					if (Device.Driver.DriverType != DriverType.Exit)
 					{
 						description += "0.";
 					}
 				}
 				var shleifNo = Device.ShleifNo;
+				if (Device.Driver.DriverType == DriverType.PumpStation)
+				{
+					shleifNo = 1;
+				}
 				description += shleifNo.ToString() + "." + Device.AddressOnShleif.ToString();
 			}
 			BytesDatabase.AddString(description, "Описание");

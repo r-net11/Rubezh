@@ -288,6 +288,7 @@ namespace JournalModule.ViewModels
 				if (value > 0 && value <= Pages.Count)
 				{
 					var page = Pages[value - 1];
+					page.Create();
 
 					var journalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
 					journalRecords.AddRange(page.JournalRecords);
@@ -310,6 +311,7 @@ namespace JournalModule.ViewModels
 				Status = "Загрузка данных";
 				JournalRecords = new ObservableRangeCollection<JournalRecordViewModel>();
 
+				JournalRecordPages = new List<IEnumerable<JournalRecord>>();
 				Pages = new ObservableCollection<ArchivePageViewModel>();
 				TotalPageNumber = 0;
 				CurrentPageNumber = 0;
@@ -340,16 +342,11 @@ namespace JournalModule.ViewModels
 			UpdateThread = null;
 		}
 
+		List<IEnumerable<JournalRecord>> JournalRecordPages = new List<IEnumerable<JournalRecord>>();
+
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{
-			var journalRecordViewModels = new List<JournalRecordViewModel>();
-			foreach (var journalRecord in journalRecords)
-			{
-				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-				journalRecordViewModels.Add(journalRecordViewModel);
-			}
-			var archivePageViewModel = new ArchivePageViewModel(journalRecordViewModels);
-
+			var archivePageViewModel = new ArchivePageViewModel(journalRecords);
 			Pages.Add(archivePageViewModel);
 			TotalPageNumber = Pages.Count;
 			if (CurrentPageNumber == 0)
@@ -359,14 +356,7 @@ namespace JournalModule.ViewModels
 
 		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
 		{
-			var journalRecordViewModels = new List<JournalRecordViewModel>();
-			foreach (var journalItem in journalItems)
-			{
-				var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-				journalRecordViewModels.Add(journalRecordViewModel);
-			}
-			var archivePageViewModel = new ArchivePageViewModel(journalRecordViewModels);
-
+			var archivePageViewModel = new ArchivePageViewModel(journalItems);
 			Pages.Add(archivePageViewModel);
 			TotalPageNumber = Pages.Count;
 			if (CurrentPageNumber == 0)

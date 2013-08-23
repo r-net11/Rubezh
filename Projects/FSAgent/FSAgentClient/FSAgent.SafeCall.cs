@@ -30,7 +30,7 @@ namespace FSAgentClient
 			var operationResult = new OperationResult<T>()
 			{
 				HasError = true,
-				Error = "Ошибка при при вызове операции"
+				Error = "Ошибка при при вызове операции FSAgent." + methodName
 			};
 			return operationResult;
 		}
