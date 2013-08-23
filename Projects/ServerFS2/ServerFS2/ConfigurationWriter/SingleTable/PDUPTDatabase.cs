@@ -22,7 +22,9 @@ namespace ServerFS2.ConfigurationWriter
 			CreateRootBytes();
 
 			var crcBytes = BytesDatabase.GetBytes();
+			crcBytes.RemoveRange(0, 0x4000);
 			crcBytes.RemoveRange(0, 0x4C);
+			crcBytes.RemoveRange(0, 0x64);
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 

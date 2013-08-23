@@ -22,16 +22,9 @@ namespace ServerFS2.ConfigurationWriter
 			CreateTables();
 			CreateRootBytes();
 
-			//var fs1Bytes = BytesHelper.BytesFromFile(@"C:\temp\fs1.txt");
 			var crcBytes = BytesDatabase.GetBytes().ToList();
 			crcBytes.RemoveRange(0, 0x4000);
 			crcBytes.RemoveRange(0, 74);
-			//crcBytes.RemoveRange(1, 0x10);
-			//crcBytes.InsertRange(1, fs1Bytes.GetRange(75, 0x10));
-			//Trace.WriteLine(BytesHelper.BytesToString(crcBytes));
-			//Trace.WriteLine(BytesHelper.BytesToString(fs1Bytes));
-			//crcBytes[0x16] = fs1Bytes[0x60];
-			//crcBytes[0x17] = fs1Bytes[0x61];
 			var crc16Value = Crc16Helper.ComputeChecksum(crcBytes);
 			BytesDatabase.SetShort(Crc16ByteDescription, crc16Value);
 
