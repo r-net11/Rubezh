@@ -9,7 +9,7 @@
             </Style.Setters>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding HasDifference}" Value="True">
-                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Background" Value="LightGray" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -28,15 +28,91 @@
             <TabItem Header="Пожарные">
                 <DataGrid ItemsSource="{Binding FireJournalItems}" RowHeight="60">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Binding="{Binding No}" Width="Auto" />
-                        <DataGridTextColumn Header="Дата" Binding="{Binding DateTime}" Width="Auto" />
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="Auto" />
-                        <DataGridTextColumn Header="Детализация" Binding="{Binding Detalization}" Width="Auto" />
-
-                        <DataGridTextColumn Header="№" Binding="{Binding FS1No}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Дата" Binding="{Binding FS1DateTime}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding FS1Name}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Детализация" Binding="{Binding FS1Detalization}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
+                        <DataGridTemplateColumn Header="№" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNoMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding No}" />
+                                        <TextBlock Text="{Binding FS1No}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Дата" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsDateTimeMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding DateTime}" />
+                                        <TextBlock Text="{Binding FS1DateTime}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Наименование" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNameMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text="{Binding FS1Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Детализация" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsDetalizationMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Detalization}" />
+                                        <TextBlock Text="" />
+                                        <TextBlock Text="{Binding FS1Detalization}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Несовпадения" Binding="{Binding Missmatch}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -44,15 +120,91 @@
             <TabItem Header="Охранные">
                 <DataGrid ItemsSource="{Binding GuardJournalItems}" RowHeight="60">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Binding="{Binding No}" Width="Auto" />
-                        <DataGridTextColumn Header="Дата" Binding="{Binding DateTime}" Width="Auto" />
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="Auto" />
-                        <DataGridTextColumn Header="Детализация" Binding="{Binding Detalization}" Width="Auto" />
-
-                        <DataGridTextColumn Header="№" Binding="{Binding FS1No}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Дата" Binding="{Binding FS1DateTime}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding FS1Name}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
-                        <DataGridTextColumn Header="Детализация" Binding="{Binding FS1Detalization}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
+                        <DataGridTemplateColumn Header="№" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNoMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding No}" />
+                                        <TextBlock Text="{Binding FS1No}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Дата" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsDateTimeMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding DateTime}" />
+                                        <TextBlock Text="{Binding FS1DateTime}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Наименование" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNameMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text="{Binding FS1Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Детализация" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <StackPanel.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsDetalizationMissmatch}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="StackPanel.Background" Value="Red" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Detalization}" />
+                                        <TextBlock Text="" />
+                                        <TextBlock Text="{Binding FS1Detalization}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Несовпадения" Binding="{Binding Missmatch}" HeaderStyle="{StaticResource DataGridColumnHeaderStyle}" />
                     </DataGrid.Columns>
                 </DataGrid>
