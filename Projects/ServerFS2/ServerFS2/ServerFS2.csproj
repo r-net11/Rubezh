@@ -144,6 +144,7 @@
     <Compile Include="Journal\CustomMessageJournalHelper.cs" />
     <Compile Include="Journal\FSInternalJournal.cs" />
     <Compile Include="Journal\JournalParser.cs" />
+    <Compile Include="Journal\JournalParser.Detalization.cs" />
     <Compile Include="Journal\ServerJournalHelper.cs" />
     <Compile Include="Metadata\MetadataHelper.cs" />
     <Compile Include="Metadata\rubezh2010.cs" />

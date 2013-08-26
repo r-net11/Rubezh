@@ -24,7 +24,7 @@
         case Context[2] of
           0: result := result + '<li>' + rsShortCircuit + '</li>';
           1: result := result + '<li>' + rsWireBreakage + '</li>';
-        end;   }
+      rsPasswordPC   end;   }
       end else
       if EventCode in [$31, $45] then // Охранные события (сброс тревоги, постановка, снятие)
       begin
