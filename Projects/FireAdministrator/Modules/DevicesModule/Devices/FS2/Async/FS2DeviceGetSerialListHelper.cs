@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceGetSerialList(Device.UID);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceGetSerialList(Device.UID, FiresecManager.CurrentUser.Name);
 		}
 
 		static void OnlCompleted()

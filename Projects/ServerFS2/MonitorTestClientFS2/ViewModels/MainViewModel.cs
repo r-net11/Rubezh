@@ -154,7 +154,7 @@ namespace MonitorClientFS2
 		void OnGetSerialList()
 		{
 			var fs2Contract = new FS2Contract();
-			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID);
+			var result = fs2Contract.DeviceGetSerialList(DevicesViewModel.SelectedDevice.Device.UID, "Тестовый пользователь");
 			MessageBox.Show("DeviceGetSerialList Count " + result.Result.Count);
 		}
 
@@ -168,7 +168,7 @@ namespace MonitorClientFS2
 		void OnReadConfiguration()
 		{
 			var fs2Contract = new FS2Contract();
-			var result = fs2Contract.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device.UID, false);
+			var result = fs2Contract.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device.UID, false, "Тестовый пользователь");
 		}
 
 		public RelayCommand TestComPortCommand { get; private set; }

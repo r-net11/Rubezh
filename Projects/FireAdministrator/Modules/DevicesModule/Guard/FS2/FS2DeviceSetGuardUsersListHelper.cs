@@ -22,7 +22,7 @@ namespace DevicesModule.Guard
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceSetGuardUsers(Device.UID, GuardUsers);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceSetGuardUsers(Device.UID, GuardUsers, FiresecManager.CurrentUser.Name);
 		}
 
 		static void OnCompleted()

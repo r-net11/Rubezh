@@ -78,15 +78,16 @@ namespace ServerFS2.Monitoring
 			if (RemoteDeviceConfiguration == null)
 				return false;
 			RemoteDeviceConfiguration.Update();
-			var remoteRealChildren = RemoteDeviceConfiguration.RootDevice.GetRealChildren();
-			var localRealChildren = panelDevice.GetRealChildren();
 
-			var areEqual = ConfigurationCompareHelper.Compare(panelDevice, RemoteDeviceConfiguration);
-			if (!areEqual)
+			var isDBMissmatch = !ConfigurationCompareHelper.Compare(panelDevice, RemoteDeviceConfiguration);
+			if (panelDevice.DeviceState.IsDBMissmatch != isDBMissmatch)
 			{
-				panelDevice.DeviceState.IsDBMissmatch = true;
+				panelDevice.DeviceState.IsDBMissmatch = isDBMissmatch;
 				ForseUpdateDeviceStates(panelDevice);
 			}
+
+			var remoteRealChildren = RemoteDeviceConfiguration.RootDevice.GetRealChildren();
+			var localRealChildren = panelDevice.GetRealChildren();
 
 			foreach (var remoteDevice in remoteRealChildren)
 			{
@@ -226,10 +227,6 @@ namespace ServerFS2.Monitoring
 			var metadataDeviceStates = MetadataHelper.GetMetadataDeviceStates(device, true);
 			foreach (var metadataDeviceState in metadataDeviceStates)
 			{
-				if (metadataDeviceState.name == "Тест")
-				{
-					;
-				}
 				if (metadataDeviceState.enter != null)
 				{
 					foreach (var deviceStateEnter in metadataDeviceState.enter)

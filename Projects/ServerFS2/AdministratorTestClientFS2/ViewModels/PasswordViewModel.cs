@@ -40,7 +40,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SetPasswordCommand { get; private set; }
 		private void OnSetPasswordCommand()
 		{
-			MainManager.DeviceSetPassword(selectedDeivce, false, DevicePasswordType, PasswordString);
+			MainManager.DeviceSetPassword(selectedDeivce, false, DevicePasswordType, PasswordString, "Тестовый пользователь");
 			Close(true);
 		}
 

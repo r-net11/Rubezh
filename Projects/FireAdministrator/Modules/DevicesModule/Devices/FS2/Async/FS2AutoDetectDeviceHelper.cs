@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnPropgress()
 		{
-			OperationResult = FiresecManager.FS2ClientContract.DeviceAutoDetectChildren(Device.UID, FastSearch);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceAutoDetectChildren(Device.UID, FastSearch, FiresecManager.CurrentUser.Name);
 		}
 
 		static void OnCompleted()

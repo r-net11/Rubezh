@@ -77,52 +77,52 @@ namespace FS2Api
 		OperationResult<List<Guid>> DeviceWriteAllConfiguration(List<Guid> deviceUIDs, string userName);
 
 		[OperationContract]
-		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password);
+		OperationResult DeviceSetPassword(Guid deviceUID, bool isUSB, DevicePasswordType devicePasswordType, string password, string userName);
 
 		[OperationContract]
-		OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB);
+		OperationResult DeviceDatetimeSync(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB);
+		OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID);
+		OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID, string userName);
 
 		[OperationContract]
 		OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUSB, string fileName);
 
 		[OperationContract]
-		OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName);
+		OperationResult DeviceUpdateFirmware(Guid deviceUID, bool isUSB, string fileName, string userName);
 
 		[OperationContract]
-		OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB);
+		OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB);
+		OperationResult<FS2JournalItemsCollection> DeviceReadJournal(Guid deviceUID, bool isUSB, string userName);
 
 		[OperationContract]
-		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch);
+		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(Guid deviceUID, bool fastSearch, string userName);
 
 		[OperationContract]
 		OperationResult<List<DeviceCustomFunction>> DeviceGetCustomFunctions(DriverType driverType);
 
 		[OperationContract]
-		OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName);
+		OperationResult DeviceExecuteCustomFunction(Guid deviceUID, bool isUSB, string functionName, string userName);
 
 		[OperationContract]
-		OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID);
+		OperationResult<List<GuardUser>> DeviceGetGuardUsers(Guid deviceUID, string userName);
 
 		[OperationContract]
-		OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUser);
+		OperationResult DeviceSetGuardUsers(Guid deviceUID, List<GuardUser> guardUser, string userName);
 
 		[OperationContract]
-		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID);
+		OperationResult<string> DeviceGetMDS5Data(Guid deviceUID, string userName);
 
 		[OperationContract]
-		OperationResult SetAuParameters(Guid deviceUID, List<Property> properties);
+		OperationResult SetAuParameters(Guid deviceUID, List<Property> properties, string userName);
 
 		[OperationContract]
-		OperationResult<List<Property>> GetAuParameters(Guid deviceUID);
+		OperationResult<List<Property>> GetAuParameters(Guid deviceUID, string userName);
 		#endregion
 
 		#region Journal

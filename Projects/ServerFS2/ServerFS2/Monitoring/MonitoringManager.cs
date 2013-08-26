@@ -103,12 +103,19 @@ namespace ServerFS2.Monitoring
 				{
 					foreach (var monitoringDevice in monitoringUSB.MonitoringPanels)
 					{
-						if (monitoringDevice.PanelDevice == panelDevice)
+						foreach (var stateId in panelResetItem.Ids)
 						{
-							CustomMessageJournalHelper.Add("Команда оператора. Сброс", userName, panelDevice);
+							if (monitoringDevice.PanelDevice == panelDevice)
+							{
+								var metadataPanelState = MetadataHelper.Metadata.panelStates.FirstOrDefault(x => x.ID == stateId);
+								if (metadataPanelState != null)
+								{
+									CustomMessageJournalHelper.Add("Состояние '" + metadataPanelState.value + "' сброшено оператором", userName, panelDevice);
+								}
+							}
 						}
-						if (monitoringDevice.PanelDevice == panelDevice)
-							monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
+
+						monitoringDevice.ResetStateIds = panelResetItem.Ids.ToList();
 					}
 				}
 			}

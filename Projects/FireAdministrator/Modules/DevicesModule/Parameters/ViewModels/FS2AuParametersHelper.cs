@@ -58,7 +58,7 @@ namespace DevicesModule.ViewModels
 				var device = devices[i];
 				OnPropgress("Чтение параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
 
-				var result = FiresecManager.FS2ClientContract.GetAuParameters(device.UID);
+				var result = FiresecManager.FS2ClientContract.GetAuParameters(device.UID, FiresecManager.CurrentUser.Name);
 				if (result != null && !result.HasError && result.Result != null)
 				{
 					foreach (var resultProperty in result.Result)
@@ -111,7 +111,7 @@ namespace DevicesModule.ViewModels
 				var device = devices[i];
 				OnPropgress("Запись параметров устройства " + device.DottedPresentationNameAndAddress, (i * 100) / devices.Count);
 
-				var result = FiresecManager.FS2ClientContract.SetAuParameters(device.UID, device.DeviceAUProperties);
+				var result = FiresecManager.FS2ClientContract.SetAuParameters(device.UID, device.DeviceAUProperties, FiresecManager.CurrentUser.Name);
 				if (result == null || result.HasError)
 				{
 					errorMessage += device.DottedPresentationNameAndAddress + " ,";

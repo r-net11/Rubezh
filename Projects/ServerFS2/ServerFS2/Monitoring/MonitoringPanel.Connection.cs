@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using ServerFS2.Journal;
 using FiresecAPI;
+using System.Diagnostics;
 
 namespace ServerFS2.Monitoring
 {
 	public partial class MonitoringPanel
 	{
+		const int MaxSequentUnAnswered = 10;
 		int SequentUnAnswered = 0;
 		int AnsweredCount;
 		int UnAnsweredCount;
+		bool IsConnectionLost;
 		string SerialNo;
 
 		void CheckConnectionLost()
@@ -42,8 +45,8 @@ namespace ServerFS2.Monitoring
 				IsConnectionLost = true;
 				PanelDevice.DeviceState.IsPanelConnectionLost = true;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-				OnConnectionChanged();
 				CustomMessageJournalHelper.Add("Потеря связи с прибором", null, PanelDevice, null, null, StateType.Failure);
+				Trace.WriteLine("OnConnectionLost " + PanelDevice.PresentationAddressAndName);
 			}
 		}
 
@@ -62,16 +65,8 @@ namespace ServerFS2.Monitoring
 				IsConnectionLost = false;
 				PanelDevice.DeviceState.IsPanelConnectionLost = false;
 				DeviceStatesManager.ForseUpdateDeviceStates(PanelDevice);
-				OnConnectionChanged();
 				CustomMessageJournalHelper.Add("Соединение с прибором восстановленно", null, PanelDevice);
 			}
-		}
-
-		public event Action ConnectionChanged;
-		void OnConnectionChanged()
-		{
-			if (ConnectionChanged != null)
-				ConnectionChanged();
 		}
 
 		bool CheckWrongPanel()

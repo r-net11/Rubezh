@@ -10,14 +10,14 @@ namespace ServerFS2.Monitoring
 	{
 		public Device USBDevice { get; private set; }
 		public List<MonitoringPanel> MonitoringPanels { get; private set; }
-		public List<Device> MonitoringNonPanels { get; private set; }
+		public List<MonitoringNonPanel> MonitoringNonPanels { get; private set; }
 		DateTime StartTime;
 
 		public MonitoringUSB(Device usbDevice)
 		{
 			USBDevice = usbDevice;
 			MonitoringPanels = new List<MonitoringPanel>();
-			MonitoringNonPanels = new List<Device>();
+			MonitoringNonPanels = new List<MonitoringNonPanel>();
 
 			if (!usbDevice.IsParentMonitoringDisabled)
 			{
@@ -46,7 +46,7 @@ namespace ServerFS2.Monitoring
 										//case DriverType.UOO_TL:
 										case DriverType.MS_3:
 										case DriverType.MS_4:
-											MonitoringNonPanels.Add(panelDevice);
+											MonitoringNonPanels.Add(new MonitoringNonPanel(panelDevice));
 											break;
 									}
 								}
@@ -82,6 +82,13 @@ namespace ServerFS2.Monitoring
 						return;
 
 					monitoringPanel.Initialize();
+				}
+				foreach (var monitoringNonPanel in MonitoringNonPanels)
+				{
+					if (CheckSuspending(false))
+						return;
+
+					monitoringNonPanel.Initialize();
 				}
 				RemoveAllInitializing();
 			}
@@ -122,7 +129,7 @@ namespace ServerFS2.Monitoring
 					{
 						if (CheckSuspending(false))
 							return;
-						NonPanelStatesManager.UpdatePDUPanelState(monitoringNonPanel);
+						monitoringNonPanel.CheckState();
 					}
 
 					if (CheckSuspending(false))

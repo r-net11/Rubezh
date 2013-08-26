@@ -156,6 +156,7 @@
     <Compile Include="Monitoring\DeviceStatesManager.Parameters.cs" />
     <Compile Include="Monitoring\JournalHelper.cs" />
     <Compile Include="Monitoring\CommandItem.cs" />
+    <Compile Include="Monitoring\MonitoringNonPanel.cs" />
     <Compile Include="Monitoring\MonitoringPanel.Connection.cs" />
     <Compile Include="Monitoring\MonitoringPanel.cs" />
     <Compile Include="Monitoring\MonitoringManager.cs" />

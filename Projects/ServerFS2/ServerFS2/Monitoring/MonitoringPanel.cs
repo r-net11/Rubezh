@@ -14,7 +14,6 @@ namespace ServerFS2.Monitoring
 {
 	public partial class MonitoringPanel
 	{
-		const int MaxSequentUnAnswered = 10;
 		const int MaxFireMessages = 1024;
 		const int MaxSecurityMessages = 500;
 		public const int RequestExpiredTime = 5;
@@ -23,7 +22,6 @@ namespace ServerFS2.Monitoring
 		public Device PanelDevice { get; private set; }
 		List<Device> RealChildren;
 		DeviceStatesManager DeviceStatesManager;
-		bool IsConnectionLost;
 		public bool IsInitialized { get; private set; }
 		public DeviceConfiguration RemoteDeviceConfiguration { get; private set; }
 
@@ -103,8 +101,7 @@ namespace ServerFS2.Monitoring
 
 		public void ProcessMonitoring()
 		{
-			//if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
-			if (IsInitialized && !PanelDevice.DeviceState.IsWrongPanel)
+			if (IsInitialized)
 			{
 				if (IsFireReadingNeeded || IsSecurityReadingNeeded)
 				{
@@ -114,11 +111,22 @@ namespace ServerFS2.Monitoring
                     if (IsSecurityReadingNeeded)
                         journalItems.AddRange(GetNewSecurityJournalItems());
 
-					DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
-					DeviceStatesManager.UpdatePanelState(PanelDevice);
-					DeviceStatesManager.UpdatePanelParameters(PanelDevice);
+					if (journalItems.Any(x => x.Description == "Реконфигурация базы"))
+					{
+						Initialize();
+					}
+
+					if (!PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
+					{
+						DeviceStatesManager.UpdateDeviceStateOnJournal(journalItems);
+						DeviceStatesManager.UpdatePanelState(PanelDevice);
+						DeviceStatesManager.UpdatePanelParameters(PanelDevice);
+					}
 				}
-                DoTasks();
+				if (!PanelDevice.DeviceState.IsWrongPanel && !PanelDevice.DeviceState.IsDBMissmatch)
+				{
+					DoTasks();
+				}
 			}
 
 			CheckConnectionLost();

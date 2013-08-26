@@ -15,11 +15,14 @@ namespace ServerFS2
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
 
-		public static void Run()
+		public static void Run(bool loadConfiguation = true)
 		{
 			try
 			{
-				ConfigurationManager.Load();
+				if (loadConfiguation)
+				{
+					ConfigurationManager.Load();
+				}
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

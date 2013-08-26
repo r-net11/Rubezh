@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            OperationResult = FiresecManager.FS2ClientContract.DeviceSetPassword(Device.UID, IsUsb, DevicePasswordType, Password);
+			OperationResult = FiresecManager.FS2ClientContract.DeviceSetPassword(Device.UID, IsUsb, DevicePasswordType, Password, FiresecManager.CurrentUser.Name);
         }
 
         static void OnCompleted()

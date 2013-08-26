@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Common;
@@ -124,10 +125,18 @@ namespace ServerFS2.Processor
 
 		public static void ExecuteCommand(Device device, string commandName, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Управление устройством", userName, device.ParentPanel, device);
+			var tableNo = MetadataHelper.GetDeviceTableNo(device);
+			if (tableNo != null)
+			{
+				var deviceId = MetadataHelper.GetIdByUid(device.DriverUID);
+				var devicePropInfo = MetadataHelper.Metadata.devicePropInfos.FirstOrDefault(x => (x.tableType == tableNo) && (x.name == commandName));
+				if (devicePropInfo != null)
+				{
+					CustomMessageJournalHelper.Add(devicePropInfo.caption, userName, device.ParentPanel, device);
+				}
+			}
 			MonitoringManager.AddCommand(device, commandName);
 		}
-
 		#endregion
 
 		#region Administrator
@@ -138,7 +147,7 @@ namespace ServerFS2.Processor
 				StopMonitoring();
 				ConfigurationManager.DeviceConfiguration = deviceConfiguration;
 				ConfigurationManager.Update();
-				CustomMessageJournalHelper.Add("Команда оператора. Установка новой конфигурации", userName);
+				CustomMessageJournalHelper.Add("Сохранение новой конфигурации", userName);
 			}
 			catch (Exception e)
 			{
@@ -155,7 +164,7 @@ namespace ServerFS2.Processor
 
 		public static bool DeviceWriteConfiguration(Device device, bool isUSB, string userName)
 		{
-			CustomMessageJournalHelper.Add("Команда оператора. Запись новой конфигурации", userName);
+			CustomMessageJournalHelper.Add("Запись конфигурации", userName);
 			return TempConfigSafeCall<bool>(x =>
 			{
 				//USBManager.Initialize();
@@ -171,37 +180,40 @@ namespace ServerFS2.Processor
 			return ConfigurationWriterOperationHelper.WriteAll(deviceUIDs);
 		}
 
-		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password)
+		public static void DeviceSetPassword(Device device, bool isUSB, DevicePasswordType devicePasswordType, string password, string userName)
 		{
 			TempConfigSafeCall(x =>
-				SetPasswordOperationHelper.SetPassword(x, devicePasswordType, password),
+				{
+					CustomMessageJournalHelper.Add("Установка пароля", userName, x);
+					SetPasswordOperationHelper.SetPassword(x, devicePasswordType, password);
+				},
 				device, isUSB);
 		}
-		
-		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers)
-		{
-			//TempConfigSafeCall(x =>
-			//    GuardUsersOperationHelper.DeviceSetGuardUsers(x, guardUsers),
-			//    device, isUSB);
-			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
-		}
-		
-		public static void DeviceDatetimeSync(Device device, bool isUSB)
+
+		public static void DeviceDatetimeSync(Device device, bool isUSB, string userName)
 		{
 			TempConfigSafeCall<bool>(x =>
 			{
+				CustomMessageJournalHelper.Add("Установка времени", userName, x);
 				ServerHelper.SynchronizeTime(x);
 				return true;
 			}, device, isUSB);
 		}
 
-		public static string DeviceGetInformation(Device device, bool isUSB)
+		public static string DeviceGetInformation(Device device, bool isUSB, string userName)
 		{
-			return TempConfigSafeCall<string>(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
+			return TempConfigSafeCall<string>(x =>
+			{
+				CustomMessageJournalHelper.Add("Получение информации об устройстве", userName, x);
+				var result = GetInformationOperationHelper.GetDeviceInformation(x);
+				return result;
+			}, device, isUSB);
+			//return TempConfigSafeCall<string>(GetInformationOperationHelper.GetDeviceInformation, device, isUSB);
 		}
 
-		public static List<string> DeviceGetSerialList(Device device)
+		public static List<string> DeviceGetSerialList(Device device, string userName)
 		{
+			CustomMessageJournalHelper.Add("Получение информации об устройстве", userName, device);
 			try
 			{
 				StopMonitoring();
@@ -225,31 +237,36 @@ namespace ServerFS2.Processor
 				device, isUSB);
 		}
 
-		public static void DeviceUpdateFirmware(Device device, bool isUSB)
+		public static void DeviceUpdateFirmware(Device device, bool isUSB, string userName)
 		{
 			TempConfigSafeCall(x =>
-				SetConfigurationOperationHelper.UpdateFullFlash(device),
+				{
+					CustomMessageJournalHelper.Add("Команда на смену ПО", userName, x);
+					SetConfigurationOperationHelper.UpdateFullFlash(device);
+				},
 				device, isUSB);
 		}
 
-		public static DeviceConfiguration DeviceReadConfiguration(Device device, bool isUSB)
+		public static DeviceConfiguration DeviceReadConfiguration(Device device, bool isUSB, string userName)
 		{
 			return TempConfigSafeCall(x =>
 			{
+				CustomMessageJournalHelper.Add("Чтение конфигурации", userName, x);
 				var getConfigurationOperationHelper = new GetConfigurationOperationHelper(false);
 				return getConfigurationOperationHelper.GetDeviceConfiguration(x);
 			}, device, isUSB);
 		}
 
-		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB)
+		public static FS2JournalItemsCollection DeviceReadJournal(Device device, bool isUSB, string userName)
 		{
 			return TempConfigSafeCall<FS2JournalItemsCollection>(x =>
 				{
+					CustomMessageJournalHelper.Add("Чтение журнала", userName, device);
 					return ReadJournalOperationHelper.GetJournalItemsCollection(x);
 				}, device, isUSB);
 		}
 
-		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch)
+		public static DeviceConfiguration DeviceAutoDetectChildren(Device device, bool fastSearch, string userName)
 		{
 			try
 			{
@@ -286,7 +303,7 @@ namespace ServerFS2.Processor
 			return DeviceCustomFunctionListHelper.GetDeviceCustomFunctionList(driverType);
 		}
 
-		public static void DeviceExecuteCustomFunction(Device device, bool isUSB, string functionName)
+		public static void DeviceExecuteCustomFunction(Device device, bool isUSB, string functionName, string userName)
 		{
 			TempConfigSafeCall(x =>
 			{
@@ -294,23 +311,33 @@ namespace ServerFS2.Processor
 			}, device, isUSB);
 		}
 
-		public static List<GuardUser> DeviceGetGuardUsers(Device device)
+		public static List<GuardUser> DeviceGetGuardUsers(Device device, string userName)
 		{
+			CustomMessageJournalHelper.Add("Получение списка пользователей", userName, device);
 			return GuardUsersOperationHelper.DeviceGetGuardUsers(device);
 		}
 
-		public static string DeviceGetMDS5Data(Device device)
+		public static void DeviceSetGuardUsers(Device device, bool isUSB, List<GuardUser> guardUsers, string userName)
 		{
+			CustomMessageJournalHelper.Add("Отправка списка пользователей", userName, device);
+			GuardUsersOperationHelper.DeviceSetGuardUsers(device, guardUsers);
+		}
+
+		public static string DeviceGetMDS5Data(Device device, string userName)
+		{
+			CustomMessageJournalHelper.Add("Получение данных модуля доставки сообщений", userName, device);
 			throw new FS2Exception("Функция пока не реализована");
 		}
 
-		public static void SetAuParameters(Device device, List<Property> properties)
+		public static void SetAuParameters(Device device, List<Property> properties, string userName)
 		{
+			CustomMessageJournalHelper.Add("Запись параметров устройства", userName, device.ParentPanel, device);
 			DeviceParametersOperationHelper.Set(device, properties);
 		}
 
-		public static List<Property> GetAuParameters(Device device)
+		public static List<Property> GetAuParameters(Device device, string userName)
 		{
+			CustomMessageJournalHelper.Add("Чтение параметров устройства", userName, device.ParentPanel, device);
 			return DeviceParametersOperationHelper.Get(device);
 		}
 		#endregion

@@ -139,7 +139,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		void OnAutoDetectDevice()
 		{
 			var fs2Contract = new FS2Contract();
-			var deviceConfiguration = fs2Contract.DeviceAutoDetectChildren(DevicesViewModel.SelectedDevice.Device.UID, false).Result;
+			var deviceConfiguration = fs2Contract.DeviceAutoDetectChildren(DevicesViewModel.SelectedDevice.Device.UID, false, "Тестовый пользователь").Result;
 			if (deviceConfiguration == null)
 				return;
 			var autoDetectedDevicesViewModel = new DevicesViewModel(deviceConfiguration.RootDevice);
@@ -154,12 +154,12 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadJournalCommand { get; private set; }
 		void OnReadJournal()
 		{
-			var fs2JournalItemsCollection = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var fs2JournalItemsCollection = MainManager.DeviceReadJournal(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, "Тестовый пользователь");
 			if (fs2JournalItemsCollection.SecurityJournalItems.Count > 0)
 			{
-				DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems, "охранный"));
+				DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.SecurityJournalItems, "Охранный"));
 			}
-			DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.FireJournalItems, "пожарный"));
+			DialogService.ShowModalWindow(new JournalViewModel(fs2JournalItemsCollection.FireJournalItems, "Пожарный"));
 		}
 		bool CanReadJournal()
 		{
@@ -169,7 +169,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		void OnReadConfiguration()
 		{
-			var remoteDeviceConfiguration = MainManager.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var remoteDeviceConfiguration = MainManager.DeviceReadConfiguration(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, "Тестовый пользователь");
 			DialogService.ShowModalWindow(new DeviceConfigurationViewModel(DevicesViewModel.SelectedDevice.Device.UID, remoteDeviceConfiguration));
 		}
 		bool CanReadConfiguration()
@@ -179,7 +179,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand GetInformationCommand { get; private set; }
 		void OnGetInformation()
 		{
-			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			var result = MainManager.DeviceGetInformation(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, "Тестовый пользователь");
 			DialogService.ShowModalWindow(new InformationViewModel(result));
 		}
 		bool CanGetInformation()
@@ -191,7 +191,7 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand SynchronizeTimeCommand { get; private set; }
 		void OnSynchronizeTime()
 		{
-			MainManager.DeviceDatetimeSync(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			MainManager.DeviceDatetimeSync(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, "Тестовый пользователь");
 		}
 		bool CanSynchronizeTime()
 		{
@@ -236,7 +236,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			//    MessageBoxService.Show(message);
 			//    MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, fileName);
 			//}
-			MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice);
+			MainManager.DeviceUpdateFirmware(DevicesViewModel.SelectedDevice.Device, IsUsbDevice, "Тестовый пользователь");
 		}
 		bool CanUpdateFirmwhare()
 		{
