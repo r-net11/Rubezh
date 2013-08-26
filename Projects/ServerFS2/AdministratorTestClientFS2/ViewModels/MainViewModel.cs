@@ -266,17 +266,17 @@ namespace AdministratorTestClientFS2.ViewModels
 		public RelayCommand MergeJournalCommand { get; private set; }
 		void OnMergeJournal()
 		{
-			using (var fileStream = new FileStream(@"C:/journal.fscj", FileMode.Open, FileAccess.Read))
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
-				var savedFS2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
-				if (savedFS2JournalItemsCollection != null)
-				{
-					var journalMergeViewModel1 = new JournalMergeViewModel(savedFS2JournalItemsCollection);
-					DialogService.ShowModalWindow(journalMergeViewModel1);	
-				}
-			}
-			return;
+			//using (var fileStream = new FileStream(@"C:/journal.fscj", FileMode.Open, FileAccess.Read))
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(FS2JournalItemsCollection));
+			//    var savedFS2JournalItemsCollection = (FS2JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+			//    if (savedFS2JournalItemsCollection != null)
+			//    {
+			//        var journalMergeViewModel1 = new JournalMergeViewModel(savedFS2JournalItemsCollection);
+			//        DialogService.ShowModalWindow(journalMergeViewModel1);	
+			//    }
+			//}
+			//return;
 
 			var fs2JournalItemsCollection = ReadJournalOperationHelper.GetJournalItemsCollection(DevicesViewModel.SelectedDevice.Device);
 			var journalMergeViewModel = new JournalMergeViewModel(fs2JournalItemsCollection);
