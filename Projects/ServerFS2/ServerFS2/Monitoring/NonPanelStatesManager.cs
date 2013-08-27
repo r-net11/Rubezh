@@ -90,7 +90,7 @@ namespace ServerFS2.Monitoring
             var driverState = ConfigurationManager.DriversConfiguration.Drivers.FirstOrDefault(x => 
 				x.DriverType == Panel.Driver.DriverType).States.FirstOrDefault(x => 
 					x != null && x.Name == stateName);
-            if (driverState != null && Panel.DeviceState.States.Any(x => x.DriverState == driverState))
+            if (driverState != null && !Panel.DeviceState.States.Any(x => x.DriverState == driverState))
 				UpdateDeviceDriverState(driverState);
 		}
 
