@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			{
 				if (parentDevice.Driver.IsGroupDevice)
 				{
-					maxAddress = parentDevice.IntAddress;
+					maxAddress = (byte)parentDevice.IntAddress;
 				}
 			}
 
@@ -48,14 +48,14 @@ namespace GKModule.ViewModels
 				}
 
 				if (child.IntAddress > maxAddress)
-					maxAddress = child.IntAddress;
+					maxAddress = (byte)child.IntAddress;
 
 				if (child.Driver.DriverType == XDriverType.MPT)
 				{
 					foreach (var childMPT in child.Children)
 					{
 						if (childMPT.IntAddress > maxAddress)
-							maxAddress = childMPT.IntAddress;
+							maxAddress = (byte)childMPT.IntAddress;
 					}
 				}
 			}
@@ -102,6 +102,29 @@ namespace GKModule.ViewModels
 				for (byte i = 0; i < xDevice.Driver.GroupDeviceChildrenCount; i++)
 				{
 					var autoDevice = XManager.AddChild(xDevice, driver, xDevice.ShleifNo, (byte)(xDevice.IntAddress + i));
+					AddDevice(autoDevice, deviceViewModel);
+				}
+			}
+			return deviceViewModel;
+		}
+
+		public static DeviceViewModel InsertDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			parentDeviceViewModel.InsertChild(deviceViewModel);
+
+			foreach (var childDevice in device.Children)
+			{
+				InsertDevice(childDevice, deviceViewModel);
+			}
+
+			if (device.Driver.IsGroupDevice)
+			{
+				var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				{
+					var autoDevice = XManager.AddChild(device, driver, device.ShleifNo, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}

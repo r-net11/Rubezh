@@ -47,7 +47,7 @@ namespace Common.GK
 					if (BinaryBase.KauDatabaseParent != null)
 					{
 						ushort lineNo = XManager.GetKauLine(BinaryBase.KauDatabaseParent);
-						byte intAddress = BinaryBase.KauDatabaseParent.IntAddress;
+						int intAddress = BinaryBase.KauDatabaseParent.IntAddress;
 						ControllerAdress = (ushort)(lineNo * 256 + intAddress);
 						AdressOnController = BinaryBase.GetDatabaseNo(DatabaseType.Kau);
 					}

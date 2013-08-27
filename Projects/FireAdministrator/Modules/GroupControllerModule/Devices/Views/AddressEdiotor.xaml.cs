@@ -197,7 +197,7 @@ namespace GKModule.Views
 					RightPartMax = Device.Driver.MaxAddressOnShleif;
 				if (Device.Parent.Driver.IsGroupDevice)
 				{
-					RightPartMin = Device.Parent.IntAddress;
+					RightPartMin = (byte)Device.Parent.IntAddress;
 					RightPartMax = (byte)(RightPartMin + Device.Parent.Driver.GroupDeviceChildrenCount);
 				}
 			}

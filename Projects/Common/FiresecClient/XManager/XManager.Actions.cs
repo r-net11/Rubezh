@@ -60,20 +60,48 @@ namespace FiresecClient
 				zone.Devices.Remove(device);
 				zone.OnChanged();
 			}
-            foreach (var direction in device.Directions)
-            {
-                direction.InputDevices.Remove(device);
-                var directionDevice = direction.DirectionDevices.FirstOrDefault(x => x.Device == device);
-                if (directionDevice != null)
-                {
-                    direction.DirectionDevices.Remove(directionDevice);
-                    direction.InputDevices.Remove(device);
-                }
-                direction.OnChanged();
-            }
+			foreach (var direction in device.Directions)
+			{
+				direction.InputDevices.Remove(device);
+				var directionDevice = direction.DirectionDevices.FirstOrDefault(x => x.Device == device);
+				if (directionDevice != null)
+				{
+					direction.DirectionDevices.Remove(directionDevice);
+					direction.InputDevices.Remove(device);
+				}
+				direction.OnChanged();
+			}
 			device.OnChanged();
 			parentDevice.Children.Remove(device);
 			DeviceConfiguration.Devices.Remove(device);
+
+			if (parentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
+			{
+				RebuildRSR2Addresses(parentDevice);
+			}
+		}
+
+		public static void RebuildRSR2Addresses(XDevice parentDevice)
+		{
+			for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
+			{
+				var childrenOnShleif = parentDevice.Children.Where(x => x.ShleifNo == shleifNo).ToList();
+				int currentAddress = 1;
+				foreach (var device in childrenOnShleif)
+				{
+					device.IntAddress = currentAddress;
+					device.OnChanged();
+
+					for (int i = 0; i < device.Children.Count; i++ )
+					{
+						var childDevice = device.Children[i];
+						childDevice.IntAddress = currentAddress + i;
+						childDevice.OnChanged();
+					}
+					currentAddress += device.Children.Count;
+					currentAddress++;
+				}
+			}
 		}
 
 		public static void AddZone(XZone zone)

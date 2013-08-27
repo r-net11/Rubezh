@@ -44,13 +44,13 @@ namespace Common.GK
 				{
 					case XDriverType.GK:
 						whom = 2;
-						address = device.IntAddress;
+						address = (byte)device.IntAddress;
 						break;
 
 					case XDriverType.KAU:
 					case XDriverType.RSR2_KAU:
 						whom = 4;
-						address = device.IntAddress;
+						address = (byte)device.IntAddress;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 						if (modeProperty != null)
 						{

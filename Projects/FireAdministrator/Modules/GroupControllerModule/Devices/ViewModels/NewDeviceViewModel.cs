@@ -10,15 +10,21 @@ namespace GKModule.ViewModels
 {
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
-		DeviceViewModel _parentDeviceViewModel;
+		DeviceViewModel ParentDeviceViewModel;
 		XDevice ParentDevice;
+		XDevice RealParentDevice;
 		public DeviceViewModel AddedDevice { get; private set; }
 
-		public NewDeviceViewModel(DeviceViewModel parent)
+		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 		{
 			Title = "Новое устройство";
-			_parentDeviceViewModel = parent;
-			ParentDevice = _parentDeviceViewModel.Device;
+			ParentDeviceViewModel = deviceViewModel;
+			ParentDevice = ParentDeviceViewModel.Device;
+			RealParentDevice = ParentDevice;
+			if (ParentDevice.IsConnectedToKAURSR2)
+			{
+				RealParentDevice = ParentDevice.KAURSR2Parent;
+			}
 
 			AvailableShleifs = new ObservableCollection<byte>();
 			Drivers = new ObservableCollection<XDriver>();
@@ -26,11 +32,11 @@ namespace GKModule.ViewModels
 			{
 				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
 					continue;
-				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
+				if (RealParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
-			if (parent.Driver.DriverType == XDriverType.MPT)
+			if (deviceViewModel.Driver.DriverType == XDriverType.MPT)
 				Drivers = new ObservableCollection<XDriver>(
 					from XDriver driver in XManager.DriversConfiguration.XDrivers
 					where driver.DriverType == XDriverType.MPT
@@ -71,7 +77,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					AvailableShleifs.Add(1);
+					AvailableShleifs.Add(ParentDevice.ShleifNo);
 				}
 			}
 			SelectedShleif = AvailableShleifs.FirstOrDefault();
@@ -118,39 +124,59 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, RealParentDevice, SelectedShleif);
 			StartAddress = (byte)(maxAddress % 256);
 		}
 
 		bool CreateDevices()
 		{
 			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
-			for (int i = StartAddress; i < StartAddress + Count * step; i++)
+
+			if (ParentDevice.IsConnectedToKAURSR2)
 			{
-				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
+				for (int i = 0; i < Count; i++)
 				{
-					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
-					return false;
+					var address = StartAddress + i * step;
+					if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+					{
+						return true;
+					}
+
+					XDevice device = XManager.InsertChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
 				}
+				XManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);
+				return true;
 			}
-
-			if (ParentDevice.Driver.IsGroupDevice)
+			else
 			{
-				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
-			}
-
-			for (int i = 0; i < Count; i++)
-			{
-				var address = StartAddress + i * step;
-				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+				for (int i = StartAddress; i < StartAddress + Count * step; i++)
 				{
-					return true;
+					if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
+					{
+						MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
+						return false;
+					}
 				}
 
-				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
-				AddedDevice = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				if (ParentDevice.Driver.IsGroupDevice)
+				{
+					Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
+				}
+
+				for (int i = 0; i < Count; i++)
+				{
+					var address = StartAddress + i * step;
+					if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+					{
+						return true;
+					}
+
+					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+				}
+				return true;
 			}
-			return true;
 		}
 
 		protected override bool CanSave()
@@ -163,7 +189,7 @@ namespace GKModule.ViewModels
 			var result = CreateDevices();
 			if (result)
 			{
-				_parentDeviceViewModel.Update();
+				ParentDeviceViewModel.Update();
 				XManager.DeviceConfiguration.Update();
 			}
 			return result;

@@ -61,35 +61,53 @@ namespace FiresecClient
 			return device;
 		}
 
-		static void AddAutoCreateChildren(XDevice xDevice)
+		public static XDevice InsertChild(XDevice parentDevice, XDriver driver, byte shleifNo, byte intAddress)
 		{
-			foreach (var autoCreateDriverType in xDevice.Driver.AutoCreateChildren)
+			var device = new XDevice()
+			{
+				DriverUID = driver.UID,
+				Driver = driver,
+				ShleifNo = shleifNo,
+				IntAddress = intAddress,
+				Parent = parentDevice.Parent
+			};
+			device.InitializeDefaultProperties();
+			var index = parentDevice.Parent.Children.IndexOf(parentDevice);
+			parentDevice.Parent.Children.Insert(index + 1, device);
+			AddAutoCreateChildren(device);
+
+			return device;
+		}
+
+		static void AddAutoCreateChildren(XDevice device)
+		{
+			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
 				var autoCreateDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
-					AddChild(xDevice, autoCreateDriver, 0, i);
+					AddChild(device, autoCreateDriver, 0, i);
 				}
 			}
-			if (xDevice.Driver.DriverType == XDriverType.GK)
+			if (device.Driver.DriverType == XDriverType.GK)
 			{
-				UpdateGKPredefinedName(xDevice);
+				UpdateGKPredefinedName(device);
 			}
 		}
 
-		public static void SynchronizeChildern(XDevice xDevice)
+		public static void SynchronizeChildern(XDevice device)
 		{
-			for (int i = xDevice.Children.Count(); i > 0; i--)
+			for (int i = device.Children.Count(); i > 0; i--)
 			{
-				var childDevice = xDevice.Children[i - 1];
+				var childDevice = device.Children[i - 1];
 
-				if (xDevice.Driver.Children.Contains(childDevice.Driver.DriverType) == false)
+				if (device.Driver.Children.Contains(childDevice.Driver.DriverType) == false)
 				{
-					xDevice.Children.RemoveAt(i - 1);
+					device.Children.RemoveAt(i - 1);
 				}
 			}
 
-			foreach (var autoCreateDriverType in xDevice.Driver.AutoCreateChildren)
+			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
 				var autoCreateDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
@@ -100,10 +118,10 @@ namespace FiresecClient
 						Driver = autoCreateDriver,
 						IntAddress = i
 					};
-					if (xDevice.Children.Any(x => x.Driver.DriverType == newDevice.Driver.DriverType && x.Address == newDevice.Address) == false)
+					if (device.Children.Any(x => x.Driver.DriverType == newDevice.Driver.DriverType && x.Address == newDevice.Address) == false)
 					{
-						xDevice.Children.Add(newDevice);
-						newDevice.Parent = xDevice;
+						device.Children.Add(newDevice);
+						newDevice.Parent = device;
 					}
 				}
 			}

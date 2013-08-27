@@ -13,7 +13,7 @@ namespace Common.GK
 				DriverType = XDriverType.RSR2_HandDetector,
 				UID = new Guid("151881A2-0A39-4609-870F-4A84B2F8A4C8"),
 				Name = "Ручной извещатель ИПР513-11 RSR2",
-				ShortName = "РПИ RSR2",
+				ShortName = "ИПР RSR2",
 				HasZone = true,
 				IsPlaceable = true
 			};

@@ -141,6 +141,8 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
+			if(Device.AllParents.Any(x=>x.Driver.DriverType == XDriverType.RSR2_KAU))
+				return true;
 			if (Driver.Children.Count > 0)
 				return true;
 			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.IsKauOrRSR2Kau)

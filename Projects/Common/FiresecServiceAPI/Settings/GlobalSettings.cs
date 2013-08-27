@@ -20,21 +20,21 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 			IsImitatorEnabled = false;
 			Modules =
-				"DevicesModule.dll" + "\r\n" +
+				//"DevicesModule.dll" + "\r\n" +
 				"PlansModule.dll" + "\r\n" +
-				"LibraryModule.dll" + "\r\n" +
+				//"LibraryModule.dll" + "\r\n" +
 				"SecurityModule.dll" + "\r\n" +
-				"FiltersModule.dll" + "\r\n" +
+				//"FiltersModule.dll" + "\r\n" +
 				"SoundsModule.dll" + "\r\n" +
-				"InstructionsModule.dll" + "\r\n" +
+				//"InstructionsModule.dll" + "\r\n" +
 				"SettingsModule.dll" + "\r\n" +
 				"GKModule.dll" + "\r\n" +
-				"OPCModule.dll" + "\r\n" +
-				"NotificationModule.dll" + "\r\n" +
+				//"OPCModule.dll" + "\r\n" +
+				//"NotificationModule.dll" + "\r\n" +
 				"VideoModule.dll" + "\r\n" +
 				"DiagnosticsModule.dll" + "\r\n" +
-				"AlarmModule.dll" + "\r\n" +
-				"JournalModule.dll" + "\r\n" +
+				//"AlarmModule.dll" + "\r\n" +
+				//"JournalModule.dll" + "\r\n" +
 				"ReportsModule.dll";
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;

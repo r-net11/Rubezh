@@ -44,7 +44,7 @@ namespace XFiresecAPI
 		public byte ShleifNo { get; set; }
 
 		[DataMember]
-		public byte IntAddress { get; set; }
+		public int IntAddress { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }
@@ -247,6 +247,8 @@ namespace XFiresecAPI
 			{
 				if (Parent != null && Parent.Driver.IsGroupDevice)
 					return false;
+				if(AllParents.Any(x => x.Driver.DriverType == XDriverType.RSR2_KAU))
+					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
 		}
@@ -267,6 +269,21 @@ namespace XFiresecAPI
 		public XDevice GKParent
 		{
 			get { return AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK); }
+		}
+
+		public XDevice KAURSR2Parent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.RSR2_KAU);
+			}
+		}
+
+		public bool IsConnectedToKAURSR2
+		{
+			get { return KAURSR2Parent != null; }
 		}
 
 		public override XBinaryInfo BinaryInfo

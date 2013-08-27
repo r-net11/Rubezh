@@ -391,6 +391,11 @@ namespace Infrastructure.Common.TreeList
 		{
 			Nodes.Add(item);
 		}
+		public void InsertChild(T item)
+		{
+			var index = this.Parent.Nodes.IndexOf(this);
+			Parent.Nodes.Insert(index + 1, item);
+		}
 		public void RemoveChild(T item)
 		{
 			Nodes.Remove(item);

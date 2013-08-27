@@ -13,7 +13,7 @@ namespace Common.GK
 				DriverType = XDriverType.HandDetector,
 				UID = new Guid("641fa899-faa0-455b-b626-646e5fbe785a"),
 				Name = "Ручной извещатель ИПР513-11",
-				ShortName = "РПИ",
+				ShortName = "ИПР",
 				HasZone = true,
                 IsPlaceable = true
 			};
