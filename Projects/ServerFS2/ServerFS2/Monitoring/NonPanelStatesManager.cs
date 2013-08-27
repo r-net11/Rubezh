@@ -87,16 +87,17 @@
 
 //        static void AddStateByName(string stateName)
 //        {
-//            var driverState = ConfigurationManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == Panel.Driver.DriverType).States.FirstOrDefault(x => x != null && x.Name == stateName);
-//            if (driverState == null)
-//                return;
-//            var deviceDriverState = new DeviceDriverState()
-//            {
-//                DriverState = driverState,
-//                Time = DateTime.Now
-//            };
-//            Panel.DeviceState.States.Add(deviceDriverState);
-//            DeviceStatesManager.ForseUpdateDeviceStates(Panel);
+            var driverState = ConfigurationManager.DriversConfiguration.Drivers.FirstOrDefault(x => 
+				x.DriverType == Panel.Driver.DriverType).States.FirstOrDefault(x => 
+					x != null && x.Name == stateName);
+            if (driverState != null && !Panel.DeviceState.States.Any(x => x.DriverState == driverState))
+				UpdateDeviceDriverState(driverState);
+		}
+
+		static void UpdateDeviceDriverState(DriverState driverState)
+		{
+			var deviceDriverState = new DeviceDriverState()
 //        }
 //    }
 //}
+		}
