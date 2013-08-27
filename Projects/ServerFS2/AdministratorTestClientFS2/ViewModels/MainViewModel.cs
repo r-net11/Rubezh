@@ -273,7 +273,7 @@ namespace AdministratorTestClientFS2.ViewModels
 			//    if (savedFS2JournalItemsCollection != null)
 			//    {
 			//        var journalMergeViewModel1 = new JournalMergeViewModel(savedFS2JournalItemsCollection);
-			//        DialogService.ShowModalWindow(journalMergeViewModel1);	
+			//        DialogService.ShowModalWindow(journalMergeViewModel1);
 			//    }
 			//}
 			//return;

@@ -115,17 +115,17 @@
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Offset}" Visibility="{Binding HasNoOffset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
-                                                <TextBlock.Style>
-                                                    <Style>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsHeader}" Value="True">
-                                                                <DataTrigger.Setters>
-                                                                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                                </DataTrigger.Setters>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
+                                                    <TextBlock.Style>
+                                                        <Style>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsHeader}" Value="True">
+                                                                    <DataTrigger.Setters>
+                                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                                    </DataTrigger.Setters>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
                                                     </TextBlock>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>

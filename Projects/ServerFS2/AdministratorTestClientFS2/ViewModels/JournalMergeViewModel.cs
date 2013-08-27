@@ -119,18 +119,22 @@ namespace AdministratorTestClientFS2.ViewModels
 
 			if (No != FS1No.ToString())
 			{
+				IsNoMissmatch = true;
 				Missmatch += "Несовпадают номера" + "\n";
 			}
 			if (DateTime != FS1DateTime)
 			{
+				IsDateTimeMissmatch = true;
 				Missmatch += "Несовпадают даты" + "\n";
 			}
 			if (Name != FS1Name)
 			{
+				IsNameMissmatch = true;
 				Missmatch += "Несовпадают названия" + "\n";
 			}
 			if (Detalization != FS1Detalization)
 			{
+				IsDetalizationMissmatch = true;
 				Missmatch += "Несовпадает детализация" + "\n";
 			}
 		}
@@ -149,5 +153,10 @@ namespace AdministratorTestClientFS2.ViewModels
 		{
 			get { return Missmatch != ""; }
 		}
+
+		public bool IsNoMissmatch { get; set; }
+		public bool IsDateTimeMissmatch { get; set; }
+		public bool IsNameMissmatch { get; set; }
+		public bool IsDetalizationMissmatch { get; set; }
 	}
 }
