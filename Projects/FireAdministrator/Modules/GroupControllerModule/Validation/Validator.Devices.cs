@@ -30,6 +30,7 @@ namespace GKModule.Validation
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
 				ValidateAddressEquality(device);
+				//ValidateRSR2AddressFollowingInRoundShleif(device);
 				ValidateRSR2AddressFollowing(device);
 			}
 		}
@@ -177,7 +178,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateRSR2AddressFollowing(XDevice device)
+		static void ValidateRSR2AddressFollowingInRoundShleif(XDevice device)
 		{
 			if (device.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
@@ -222,6 +223,27 @@ namespace GKModule.Validation
 								Errors.Add(new DeviceValidationError(childrenOnShleif[i], string.Format("Последовательность адресов кольцевого шлейфа должна быть неразрывна"), ValidationErrorLevel.CannotWrite));
 								break;
 							}
+						}
+					}
+				}
+			}
+		}
+
+		static void ValidateRSR2AddressFollowing(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.RSR2_KAU)
+			{
+				var realChildren = KauChildrenHelper.GetRealChildren(device);
+				realChildren.Remove(device);
+				for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
+				{
+					var childrenOnShleif = realChildren.Where(x => x.ShleifNo == shleifNo).ToList();
+					for (int i = 0; i < childrenOnShleif.Count(); i++)
+					{
+						if (childrenOnShleif[i].IntAddress != i + 1)
+						{
+							Errors.Add(new DeviceValidationError(childrenOnShleif[i], string.Format("Последовательность адресов шлейфа " + shleifNo + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+							break;
 						}
 					}
 				}

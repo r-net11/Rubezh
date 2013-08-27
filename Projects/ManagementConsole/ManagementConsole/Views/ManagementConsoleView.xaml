@@ -85,7 +85,7 @@
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль(максимум 1 символ)" HorizontalAlignment="Right" Margin="2" />
 
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding DoNotOverrideFS1}" HorizontalAlignment="Left" Margin="2" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress}" Margin="2" />
