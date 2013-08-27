@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\GlobalSettingsViewModel.cs" />
+    <Compile Include="ViewModels\ModuleViewModel.cs" />
     <Compile Include="Views\ManagementConsoleView.xaml.cs">
       <DependentUpon>ManagementConsoleView.xaml</DependentUpon>
     </Compile>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using ManagementConsole.ViewModels;
 
 namespace ManagementConsole
 {
@@ -19,12 +20,46 @@ namespace ManagementConsole
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
-			Modules = GlobalSettingsHelper.GlobalSettings.Modules;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
 			FS_Port = GlobalSettingsHelper.GlobalSettings.FS_Port;
 			FS_Login = GlobalSettingsHelper.GlobalSettings.FS_Login;
 			FS_Password = GlobalSettingsHelper.GlobalSettings.FS_Password;
+
+			Modules = new List<ModuleViewModel>();
+			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
+			Modules.Add(new ModuleViewModel("PlansModule.dll"));
+			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
+			Modules.Add(new ModuleViewModel("SecurityModule.dll"));
+			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
+			Modules.Add(new ModuleViewModel("SoundsModule.dll"));
+			Modules.Add(new ModuleViewModel("InstructionsModule.dll"));
+			Modules.Add(new ModuleViewModel("SettingsModule.dll"));
+			Modules.Add(new ModuleViewModel("GKModule.dll"));
+			Modules.Add(new ModuleViewModel("OPCModule.dll"));
+			Modules.Add(new ModuleViewModel("NotificationModule.dll"));
+			Modules.Add(new ModuleViewModel("VideoModule.dll"));
+			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll"));
+			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
+			Modules.Add(new ModuleViewModel("JournalModule.dll"));
+			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
+
+			var modulesString = GlobalSettingsHelper.GlobalSettings.Modules.Split('\r', '\n');
+			foreach (var moduleName in modulesString)
+			{
+				if (moduleName != "")
+				{
+					var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
+					if (moduleViewModel != null)
+					{
+						moduleViewModel.IsSelected = true;
+					}
+				}
+			}
+
+			ManagementConsoleViewModel.Curent.HasChanges = false;
 		}
+
+		public List<ModuleViewModel> Modules { get; private set; }
 
 		string _remoteAddress;
 		public string RemoteAddress
@@ -103,17 +138,6 @@ namespace ManagementConsole
 			}
 		}
 
-		string _modules;
-		public string Modules
-		{
-			get { return _modules; }
-			set
-			{
-				_modules = value;
-				OnPropertyChanged("Modules");
-			}
-		}
-
 		string _fS_RemoteAddress;
 		public string FS_RemoteAddress
 		{
@@ -168,13 +192,24 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
-			GlobalSettingsHelper.GlobalSettings.Modules = Modules;
 			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.FS_Port = FS_Port;
 			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
-			GlobalSettingsHelper.Save();
 
+			var modulesString = "";
+			foreach (var moduleViewModel in Modules)
+			{
+				if (moduleViewModel.IsSelected)
+				{
+					modulesString += moduleViewModel.Name + "\r\n";
+				}
+			}
+			if (modulesString.EndsWith("\r\n"))
+				modulesString = modulesString.Remove(modulesString.Length - 2, 2);
+			GlobalSettingsHelper.GlobalSettings.Modules = modulesString;
+
+			GlobalSettingsHelper.Save();
 			ManagementConsoleViewModel.Curent.HasChanges = false;
 		}
 

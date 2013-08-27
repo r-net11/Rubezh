@@ -230,7 +230,6 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
-    <Compile Include="BinaryFileConverter.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />

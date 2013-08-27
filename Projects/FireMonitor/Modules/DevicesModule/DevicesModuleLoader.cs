@@ -21,10 +21,10 @@ namespace DevicesModule
 {
 	public class DevicesModuleLoader : ModuleBase, IReportProviderModule
 	{
-		private DevicesViewModel DevicesViewModel;
-		private ZonesViewModel ZonesViewModel;
-		private NavigationItem _zonesNavigationItem;
-		private PlanPresenter _planPresenter;
+		DevicesViewModel DevicesViewModel;
+		ZonesViewModel ZonesViewModel;
+		NavigationItem _zonesNavigationItem;
+		PlanPresenter _planPresenter;
 
 		public DevicesModuleLoader()
 		{

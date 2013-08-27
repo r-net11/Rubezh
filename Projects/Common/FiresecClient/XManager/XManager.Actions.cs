@@ -86,7 +86,7 @@ namespace FiresecClient
 			for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
 			{
 				var childrenOnShleif = parentDevice.Children.Where(x => x.ShleifNo == shleifNo).ToList();
-				int currentAddress = 1;
+				byte currentAddress = 1;
 				foreach (var device in childrenOnShleif)
 				{
 					device.IntAddress = currentAddress;
@@ -95,10 +95,10 @@ namespace FiresecClient
 					for (int i = 0; i < device.Children.Count; i++ )
 					{
 						var childDevice = device.Children[i];
-						childDevice.IntAddress = currentAddress + i;
+						childDevice.IntAddress = (byte)(currentAddress + i);
 						childDevice.OnChanged();
 					}
-					currentAddress += device.Children.Count;
+					currentAddress += (byte)device.Children.Count;
 					currentAddress++;
 				}
 			}

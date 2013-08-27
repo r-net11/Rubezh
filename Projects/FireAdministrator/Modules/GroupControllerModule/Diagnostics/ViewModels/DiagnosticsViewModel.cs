@@ -14,7 +14,6 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
-			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
 		}
@@ -36,14 +35,6 @@ namespace GKModule.ViewModels
 			DatabaseManager.Convert();
 			var databasesViewModel = new DatabasesViewModel();
 			DialogService.ShowModalWindow(databasesViewModel);
-		}
-
-		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
-		void OnConvertToBinaryFile()
-		{
-			Directory.Delete(@"C:\GKConfig", true);
-			Directory.CreateDirectory(@"C:\GKConfig");
-			BinaryFileConverter.Convert();
 		}
 
 		public RelayCommand ConvertToFiresecCommand { get; private set; }

@@ -44,7 +44,7 @@ namespace XFiresecAPI
 		public byte ShleifNo { get; set; }
 
 		[DataMember]
-		public int IntAddress { get; set; }
+		public byte IntAddress { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }

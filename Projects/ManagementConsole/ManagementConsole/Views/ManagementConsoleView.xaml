@@ -47,16 +47,26 @@
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Автоконнект" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Запретить администратору автоконнект" HorizontalAlignment="Right" Margin="2" />
 
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress}" Margin="2" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort}" Margin="2" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login}" Margin="2" />
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password}" Margin="2" />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">
-                <Grid>
+                <ItemsControl ItemsSource="{Binding Modules}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Name}" Margin="2" />
+                                <CheckBox IsChecked="{Binding IsSelected}" Margin="5 2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -66,7 +76,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Модули" HorizontalAlignment="Right" Margin="2" />
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Modules}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
-                </Grid>
+                </Grid>-->
             </TabItem>
             <TabItem Header="FS1" DataContext="{Binding GlobalSettingsViewModel}">
                 <Grid>
@@ -88,10 +98,10 @@
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль(максимум 1 символ)" HorizontalAlignment="Right" Margin="2" />
 
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding DoNotOverrideFS1}" HorizontalAlignment="Left" Margin="2" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress}" Margin="2" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FS_Port}" Margin="2" />
-                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FS_Login}" Margin="2" />
-                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding FS_Password}" Margin="2" />
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FS_Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FS_Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding FS_Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Сброс">
