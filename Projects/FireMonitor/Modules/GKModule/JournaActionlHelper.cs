@@ -39,7 +39,8 @@ namespace GKModule
 		{
 			var journalItem = new JournalItem()
 			{
-				DateTime = DateTime.Now,
+				SystemDateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
 				JournalItemType = journalItemType,
 				StateClass = stateClass,
 				Name = message,

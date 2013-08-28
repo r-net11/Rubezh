@@ -6,7 +6,8 @@ namespace Common.GK
 	public class JournalItem
 	{
 		public JournalItemType JournalItemType { get; set; }
-		public DateTime DateTime { get; set; }
+		public DateTime DeviceDateTime { get; set; }
+		public DateTime SystemDateTime { get; set; }
 		public Guid ObjectUID { get; set; }
 		public string Name { get; set; }
 		public JournalYesNoType YesNo { get; set; }
