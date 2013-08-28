@@ -15,7 +15,8 @@
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
-                <DataGridTextColumn Header="Дата и Время" Binding="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTextColumn Header="Дата и время в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTextColumn Header="Дата и время в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
@@ -85,7 +86,10 @@
                 <TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
                 <TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
             </StackPanel>
-            <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+                <Button Content="Сохранить считанное в файл" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

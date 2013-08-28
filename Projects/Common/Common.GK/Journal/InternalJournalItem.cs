@@ -30,7 +30,8 @@ namespace Common.GK
 		byte Hour;
 		byte Minute;
 		byte Second;
-		DateTime DateTime;
+		DateTime DeviceDateTime;
+		DateTime SystemDateTime;
 
 		ushort KAUAddress { get; set; }
 		JournalSourceType Source { get; set; }
@@ -76,7 +77,8 @@ namespace Common.GK
 			{
 				GKIpAddress = GKIpAddress,
 				GKJournalRecordNo = GKNo,
-				DateTime = DateTime,
+				DeviceDateTime = DeviceDateTime,
+				SystemDateTime = SystemDateTime,
 				ObjectUID = ObjectUID,
 				Name = EventName,
 				YesNo = EventYesNo,
@@ -119,12 +121,13 @@ namespace Common.GK
 			StringDate = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
 			try
 			{
-				DateTime = new DateTime(2000 + Year, Month, Day, Hour, Minute, Second);
+				DeviceDateTime = new DateTime(2000 + Year, Month, Day, Hour, Minute, Second);
 			}
 			catch
 			{
-				DateTime = DateTime.MinValue;
+				DeviceDateTime = DateTime.MinValue;
 			}
+			SystemDateTime = DateTime.Now;
 
 			KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);

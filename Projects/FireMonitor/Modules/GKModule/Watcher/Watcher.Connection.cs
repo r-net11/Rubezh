@@ -32,7 +32,8 @@ namespace GKModule
 			{
 				var journalItem = new JournalItem()
 				{
-					DateTime = DateTime.Now,
+					SystemDateTime = DateTime.Now,
+					DeviceDateTime = DateTime.Now,
 					GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 					ObjectUID = GkDatabase.RootDevice.UID,
 					GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),

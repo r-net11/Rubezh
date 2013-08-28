@@ -38,7 +38,8 @@ namespace GKModule.Reports
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
 			DataTable table = new DataTable("Journal");
-			table.Columns.Add("DateTime");
+			table.Columns.Add("SystemDateTime");
+			table.Columns.Add("DeviceDateTime");
 			table.Columns.Add("Name");
 			table.Columns.Add("YesNo");
 			table.Columns.Add("Description");
@@ -65,7 +66,8 @@ namespace GKModule.Reports
 					directionName = journalItemViewModel.DirectionState.Direction.PresentationName;
 				}
 				table.Rows.Add(
-					journalItem.DateTime,
+					journalItem.SystemDateTime,
+					journalItem.DeviceDateTime,
 					journalItem.Name,
 					journalItem.YesNo.ToDescription(),
 					journalItem.Description,

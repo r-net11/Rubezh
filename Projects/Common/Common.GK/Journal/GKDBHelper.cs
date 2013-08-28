@@ -46,7 +46,7 @@ namespace Common.GK
 		{
 			var journalItem = new JournalItem()
 			{
-				DateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,
@@ -69,20 +69,21 @@ namespace Common.GK
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,DateTime,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12)";
+							"(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.DateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.ObjectUID ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Name ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.YesNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.Description ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.ObjectState ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKObjectNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.GKIpAddress ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.StateClass ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.YesNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.Description ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.ObjectState ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.GKObjectNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKIpAddress ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.StateClass ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.UserName ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.SystemDateTime ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.DeviceDateTime ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -90,9 +91,14 @@ namespace Common.GK
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool useDeviceDateTime)
         {
 			var journalItems = new List<JournalItem>();
+			string dateTimeTypeString;
+			if (useDeviceDateTime)
+				dateTimeTypeString = "DeviceDateTime";
+			else
+				dateTimeTypeString = "SystemDateTime";
 			try
 			{
 				lock (locker)
@@ -103,8 +109,8 @@ namespace Common.GK
 						{
 							var query =
 							"SELECT * FROM Journal WHERE " +
-							"\n DateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-							"\n AND DateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+							"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+							"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
 							if (archiveFilter.JournalItemTypes.Count > 0)
 							{
@@ -162,7 +168,7 @@ namespace Common.GK
 								query += ")";
 							}
 
-							query += "\n ORDER BY DateTime DESC";
+							query += "\n ORDER BY " + dateTimeTypeString + " DESC";
 
 							var sqlCeCommand = new SqlCeCommand(query, dataContext);
 							dataContext.Open();
@@ -264,7 +270,7 @@ namespace Common.GK
 					{
 						using (var dataContext = new SqlCeConnection(ConnectionString))
 						{
-							var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY DateTime DESC";
+							var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDateTime DESC";
 							var sqlCeCommand = new SqlCeCommand(query, dataContext);
 							dataContext.Open();
 							var reader = sqlCeCommand.ExecuteReader();
@@ -291,8 +297,11 @@ namespace Common.GK
 			if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
 				journalItem.JournalItemType = (JournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 			
-			if (!reader.IsDBNull(reader.GetOrdinal("DateTime")))
-				journalItem.DateTime = reader.GetDateTime(reader.GetOrdinal("DateTime"));
+			if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
+				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDateTime")))
+				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDateTime"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
 				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));

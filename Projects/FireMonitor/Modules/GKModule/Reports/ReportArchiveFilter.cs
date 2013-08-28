@@ -50,7 +50,7 @@ namespace GKModule.Reports
 
         public void LoadArchive()
         {
-            var filteredJournalItems = GKDBHelper.Select(ArchiveFilter);
+            var filteredJournalItems = GKDBHelper.Select(ArchiveFilter, false);
             foreach (var journalItem in filteredJournalItems)
             {
                 JournalItems.Add(journalItem);

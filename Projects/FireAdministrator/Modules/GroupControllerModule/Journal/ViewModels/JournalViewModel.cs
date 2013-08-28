@@ -6,6 +6,11 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Microsoft.Win32;
+using System.IO;
+using System.Runtime.Serialization;
+using Common.GK.Journal;
+
 
 namespace GKModule.ViewModels
 {
@@ -17,6 +22,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Журнал событий ГК";
 			ReadCommand = new RelayCommand(OnRead);
+			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
 		}
@@ -93,11 +99,26 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		bool _isNotEmpty;
+		public bool IsNotEmpty
+		{
+			get { return _isNotEmpty; }
+			set
+			{
+				_isNotEmpty = value;
+				OnPropertyChanged("IsNotEmpty");
+			}
+			
+		}
+
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
 			if (StartIndex > EndIndex)
+			{
+				IsNotEmpty = false;
 				return;
+			}
 
 			JournalItems.Clear();
 			LoadingService.Show("Чтение записей журнала", 2 + EndIndex - StartIndex);
@@ -116,7 +137,41 @@ namespace GKModule.ViewModels
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				JournalItems.Add(journalItemViewModel);
 			}
+			IsNotEmpty = true;
 			LoadingService.Close();
+		}
+
+		public RelayCommand SaveToFileCommand { get; private set; }
+		void OnSaveToFile()
+		{
+			var saveDialog = new SaveFileDialog()
+			{
+				Filter = "Журнал событий Firesec-2|*.fscj",
+				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+			};
+			if (saveDialog.ShowDialog().Value)
+			{
+				WaitHelper.Execute(() =>
+				{
+					if (File.Exists(saveDialog.FileName))
+						File.Delete(saveDialog.FileName);
+
+					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
+					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
+					{
+						var journalItems = new System.Collections.Generic.List<JournalItem>();
+						JournalItems.ToList().ForEach(x => journalItems.Add(x.JournalItem));
+						var journalItemsCollection = new JournalItemsCollection
+						{
+							JournalItems = journalItems,
+							FirstIndex = StartIndex,
+							LastIndex = EndIndex,
+							CreationDateTime = DateTime.Now
+						};
+						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);
+					}
+				});
+			}
 		}
 	}
 }
