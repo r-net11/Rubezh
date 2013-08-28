@@ -245,7 +245,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\Dictionary.xaml">
+    <Page Include="ViewModels\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

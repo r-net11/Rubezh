@@ -86,7 +86,10 @@
                 <TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
                 <TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
             </StackPanel>
-            <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+                <Button Content="Сохранить считанное в файл" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -83,19 +83,21 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Класс состояния" />
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Системная Дата" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Состояния" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Класс состояния" />
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Объект" />
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
-                <TextBlock Grid.Row="5" Grid.Column="1" Margin="2">
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
+                <TextBlock Grid.Row="6" Grid.Column="1" Margin="2">
 				    <Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">
 					    <TextBlock Text="{Binding PresentationName}" />
 				    </Hyperlink>

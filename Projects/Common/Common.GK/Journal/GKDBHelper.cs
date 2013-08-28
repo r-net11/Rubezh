@@ -91,9 +91,14 @@ namespace Common.GK
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool useDeviceDateTime)
         {
 			var journalItems = new List<JournalItem>();
+			string dateTimeTypeString;
+			if (useDeviceDateTime)
+				dateTimeTypeString = "DeviceDateTime";
+			else
+				dateTimeTypeString = "SystemDateTime";
 			try
 			{
 				lock (locker)
@@ -104,8 +109,8 @@ namespace Common.GK
 						{
 							var query =
 							"SELECT * FROM Journal WHERE " +
-							"\n SystemDateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-							"\n AND SystemDateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+							"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+							"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
 							if (archiveFilter.JournalItemTypes.Count > 0)
 							{
@@ -163,7 +168,7 @@ namespace Common.GK
 								query += ")";
 							}
 
-							query += "\n ORDER BY SystemDateTime DESC";
+							query += "\n ORDER BY " + dateTimeTypeString + " DESC";
 
 							var sqlCeCommand = new SqlCeCommand(query, dataContext);
 							dataContext.Open();
