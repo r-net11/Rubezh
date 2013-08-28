@@ -141,8 +141,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
 				XManager.EditZone(SelectedZone.XZone);
-                SelectedZone.XZone = zoneDetailsViewModel.XZone;
-                SelectedZone.Update();
+                SelectedZone.Update(zoneDetailsViewModel.XZone);
                 ServiceFactory.SaveService.GKChanged = true;
             }
         }

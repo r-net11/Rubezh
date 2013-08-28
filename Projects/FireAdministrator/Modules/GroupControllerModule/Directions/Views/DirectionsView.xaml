@@ -54,8 +54,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 2, 5, 0" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -128,8 +128,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                            <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 2, 5, 0" />
+                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

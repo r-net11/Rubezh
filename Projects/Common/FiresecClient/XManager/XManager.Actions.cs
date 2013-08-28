@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using System;
 
 namespace FiresecClient
 {
@@ -63,12 +64,14 @@ namespace FiresecClient
 			foreach (var direction in device.Directions)
 			{
 				direction.InputDevices.Remove(device);
+				direction.OutputDevices.Remove(device);
 				var directionDevice = direction.DirectionDevices.FirstOrDefault(x => x.Device == device);
 				if (directionDevice != null)
 				{
 					direction.DirectionDevices.Remove(directionDevice);
 					direction.InputDevices.Remove(device);
 				}
+
 				direction.OnChanged();
 			}
 			device.OnChanged();
@@ -98,8 +101,7 @@ namespace FiresecClient
 						childDevice.IntAddress = (byte)(currentAddress + i);
 						childDevice.OnChanged();
 					}
-					currentAddress += (byte)device.Children.Count;
-					currentAddress++;
+					currentAddress += (byte)Math.Max(device.Children.Count, 1);
 				}
 			}
 		}

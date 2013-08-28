@@ -71,6 +71,7 @@ namespace GKModule.ViewModels
 					value.Update();
 				OnPropertyChanged("SelectedDirection");
 				OnPropertyChanged("ZonesCount");
+				OnPropertyChanged("OutputDevicesCount");
 				OnPropertyChanged("DevicesCount");
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);

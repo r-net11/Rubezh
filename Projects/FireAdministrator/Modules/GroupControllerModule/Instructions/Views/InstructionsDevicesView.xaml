@@ -13,7 +13,7 @@
         <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}"
                   MouseDoubleClick="SelectedInstructionDeviceDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Устройство" Width="2*">
+                <DataGridTemplateColumn Header="Выбранные устройства" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -23,7 +23,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Адрес" Width="1*" Binding="{Binding DottedAddress}" />
+                <DataGridTextColumn Header="Адрес" Width="Auto" Binding="{Binding DottedAddress}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
@@ -34,7 +34,7 @@
         </StackPanel>
         <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" MouseDoubleClick="SelectedAvailableDeviceDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Устройство" Width="2*">
+                <DataGridTemplateColumn Header="Устройство" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -44,7 +44,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Адрес" Width="1*" Binding="{Binding DottedAddress}" />
+                <DataGridTextColumn Header="Адрес" Width="Auto" Binding="{Binding DottedAddress}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

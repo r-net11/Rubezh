@@ -16,6 +16,7 @@ namespace Common.GK
 				ShortName = "НС",
 				HasAddress = false,
 				IsDeviceOnShleif = false,
+				HasLogic = true
 			};
 
 			return driver;

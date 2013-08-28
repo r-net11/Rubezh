@@ -17,18 +17,23 @@ namespace GKModule.Converters
 			if (devices.IsNotNullOrEmpty())
 			{
 				var delimString = ", ";
-				var result = new StringBuilder();
+				var stringBuilder = new StringBuilder();
 
-				XDevice device = null;
 				foreach (var deviceGuid in devices)
 				{
-					device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
-
-					result.Append(device.PresentationAddressAndDriver);
-					result.Append(delimString);
+					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
+					if (device != null)
+					{
+						stringBuilder.Append(device.ShortNameAndDottedAddress);
+						stringBuilder.Append(delimString);
+					}
 				}
-
-				return result.ToString().Remove(result.Length - delimString.Length);
+				var result = stringBuilder.ToString();
+				if (result.EndsWith(delimString))
+				{
+					result = result.Remove(result.Length - delimString.Length);
+				}
+				return result;
 			}
 			return null;
 		}

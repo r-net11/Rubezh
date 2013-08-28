@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.Pump)
+				if (device.Driver.DriverType == XDriverType.RSR2_Bush)
 					sourceDevices.Add(device);
 			}
 			var devices = new List<XDevice>();

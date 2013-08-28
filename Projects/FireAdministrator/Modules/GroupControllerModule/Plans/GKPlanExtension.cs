@@ -332,7 +332,7 @@ namespace GKModule.Plans
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
 			else if (e.Element is ElementRectangleXDirection || e.Element is ElementPolygonXDirection)
-				e.PropertyViewModel = new XDirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
+				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}
 
 		public void UpdateXDeviceInXZones()

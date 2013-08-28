@@ -33,17 +33,17 @@ namespace GKModule
 			}
 		}
 
-		public static void ResetFire1(XZone zone)
+		public static void ResetFire1(XZone zone, bool mustValidatePassword = true)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(zone, 0x02))
+			if (ObjectCommandSendHelper.SendControlCommand(zone, 0x02, mustValidatePassword))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, zone);
 			}
 		}
 
-		public static void ResetFire2(XZone zone)
+		public static void ResetFire2(XZone zone, bool mustValidatePassword = true)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(zone, 0x03))
+			if (ObjectCommandSendHelper.SendControlCommand(zone, 0x03, mustValidatePassword))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, zone);
 			}
@@ -167,14 +167,18 @@ namespace GKModule
 			return SendControlCommand(binaryBase, (byte)code);
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, byte code)
+		static bool SendControlCommand(XBinaryBase binaryBase, byte code, bool mustValidatePassword = true)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 
-			var result = ServiceFactory.SecurityService.Validate();
+			var result = true;
+			if (mustValidatePassword)
+			{
+				result = ServiceFactory.SecurityService.Validate();
+			}
 			if (result)
 			{
 				WatcherManager.Send(OnCompleted, SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);

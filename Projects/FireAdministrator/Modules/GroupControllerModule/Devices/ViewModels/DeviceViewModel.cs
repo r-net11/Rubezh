@@ -216,6 +216,7 @@ namespace GKModule.ViewModels
 				if (Device.IsNotUsed)
 					return null;
 				var presentationZone = XManager.GetPresentationZone(Device);
+				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (Driver.HasZone)
@@ -224,6 +225,17 @@ namespace GKModule.ViewModels
 						presentationZone = "Нажмите для настройки логики";
 				}
 				return presentationZone;
+			}
+		}
+
+		bool _isZoneGrayed = false;
+		public bool IsZoneGrayed
+		{
+			get { return _isZoneGrayed; }
+			set
+			{
+				_isZoneGrayed = value;
+				OnPropertyChanged("IsZoneGrayed");
 			}
 		}
 

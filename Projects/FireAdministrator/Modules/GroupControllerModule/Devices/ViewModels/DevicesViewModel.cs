@@ -140,7 +140,6 @@ namespace GKModule.ViewModels
 		}
 
 		XDevice _deviceToCopy;
-		bool _isFullCopy;
 
 		bool CanCutCopy()
 		{
@@ -165,23 +164,36 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			var pasteDevice = XManager.CopyDevice(_deviceToCopy, false);
+			PasteDevice(pasteDevice);
+		}
 		bool CanPaste()
 		{
 			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType));
 		}
 
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			var pasteDevice = XManager.CopyDevice(_deviceToCopy, _isFullCopy);
-			PasteDevice(pasteDevice);
-		}
-
 		void PasteDevice(XDevice device)
 		{
-			SelectedDevice.Device.Children.Add(device);
-			device.Parent = SelectedDevice.Device;
-			AddDevice(device, SelectedDevice);
+			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU)
+			{
+				var previousDeviceViewModel = SelectedDevice.Children.FirstOrDefault();
+				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Device, previousDeviceViewModel.Device, device.Driver, (byte)device.ShleifNo, (byte)device.IntAddress);
+				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, previousDeviceViewModel);
+			}
+			else if (SelectedDevice.Device.IsConnectedToKAURSR2)
+			{
+				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)device.ShleifNo, (byte)device.IntAddress);
+				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+			}
+			else
+			{
+				SelectedDevice.Device.Children.Add(device);
+				device.Parent = SelectedDevice.Device;
+				AddDevice(device, SelectedDevice);
+			}
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.GKChanged = true;
 		}

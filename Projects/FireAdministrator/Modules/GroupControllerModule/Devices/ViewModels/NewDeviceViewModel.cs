@@ -77,7 +77,14 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					AvailableShleifs.Add(ParentDevice.ShleifNo);
+					if (ParentDevice.IsConnectedToKAURSR2)
+					{
+						AvailableShleifs.Add(ParentDevice.ShleifNo);
+					}
+					else
+					{
+						AvailableShleifs.Add(1);
+					}
 				}
 			}
 			SelectedShleif = AvailableShleifs.FirstOrDefault();
@@ -108,6 +115,16 @@ namespace GKModule.ViewModels
 					_startAddress = value;
 					OnPropertyChanged("StartAddress");
 				}
+			}
+		}
+
+		public bool HasStartAddress
+		{
+			get
+			{
+				if (SelectedDriver.DriverType != XDriverType.RSR2_KAU && ParentDevice.IsConnectedToKAURSR2)
+					return false;
+				return true;
 			}
 		}
 
@@ -142,8 +159,29 @@ namespace GKModule.ViewModels
 						return true;
 					}
 
-					XDevice device = XManager.InsertChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
-					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+					if (ParentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
+					{
+						var previousDevice = ParentDevice.Children.LastOrDefault();
+						var minDelta = 8*256;
+						foreach (var child in ParentDevice.Children)
+						{
+							var delta = (SelectedShleif + 1) * 256 - (child.ShleifNo * 256 + child.IntAddress);
+							if (delta > 0 && delta < minDelta)
+							{
+								minDelta = delta;
+								previousDevice = child;
+							}
+						}
+
+						var previousDeviceViewModel = ParentDeviceViewModel.Children.FirstOrDefault(x => x.Device == previousDevice);
+						XDevice device = XManager.InsertChild(ParentDevice, previousDevice, SelectedDriver, SelectedShleif, (byte)address);
+						AddedDevice = NewDeviceHelper.InsertDevice(device, previousDeviceViewModel);
+					}
+					else
+					{
+						XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+						AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+					}
 				}
 				XManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);
 				return true;

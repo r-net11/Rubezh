@@ -31,7 +31,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override ElementBaseShape CreateElement()
 		{
 			var element = new ElementPolygonXDirection();
-			var propertiesViewModel = new XDirectionPropertiesViewModel(element, _directionsViewModel);
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetXDirection(element);

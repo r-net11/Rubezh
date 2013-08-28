@@ -27,7 +27,7 @@ namespace GKModule.Validation
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				if (!zoneNos.Add(zone.No))
-					Errors.Add(new ZoneValidationError(zone, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace GKModule.Validation
 		{
 			var fire1Count = zone.Devices.Count(x => x.Driver.AvailableStates.Contains(XStateType.Fire1));
 			var fire2Count = zone.Devices.Count(x => x.Driver.AvailableStates.Contains(XStateType.Fire2));
-			if (fire1Count < zone.Fire1Count)
+			if (fire2Count == 0 && fire1Count < zone.Fire1Count)
 			{
 				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки Пожар 1", ValidationErrorLevel.CannotWrite));
 				return;

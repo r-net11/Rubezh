@@ -6,33 +6,33 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class InstructionViewModel : BaseViewModel
-    {
-        public XInstruction Instruction { get; private set; }
+	public class InstructionViewModel : BaseViewModel
+	{
+		public XInstruction Instruction { get; private set; }
 
-        public InstructionViewModel(XInstruction instruction)
-        {
-            Instruction = instruction;
-        }
+		public InstructionViewModel(XInstruction instruction)
+		{
+			Instruction = instruction;
+		}
 
-        public XInstructionType InstructionType
-        {
-            get { return Instruction.InstructionType; }
-            set
-            {
-                Instruction.InstructionType = value;
-                OnPropertyChanged("InstructionType");
-            }
-        }
+		public XInstructionType InstructionType
+		{
+			get { return Instruction.InstructionType; }
+			set
+			{
+				Instruction.InstructionType = value;
+				OnPropertyChanged("InstructionType");
+			}
+		}
 
-        public List<XInstructionType> InstructionTypes
-        {
-            get { return Enum.GetValues(typeof(XInstructionType)).Cast<XInstructionType>().ToList(); }
-        }
+		public List<XInstructionType> InstructionTypes
+		{
+			get { return Enum.GetValues(typeof(XInstructionType)).Cast<XInstructionType>().ToList(); }
+		}
 
-        public void Update()
-        {
-            OnPropertyChanged("Instruction");
-        }
-    }
+		public void Update()
+		{
+			OnPropertyChanged("Instruction");
+		}
+	}
 }

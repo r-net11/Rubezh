@@ -4,8 +4,8 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:GKModule.Converters">
     <UserControl.Resources>
-        <Converters:DevicesToStringConverter  x:Key="DevicesToStringConverter" />
-        <Converters:ZonesToStringConverter  x:Key="ZonesToStringConverter" />
+        <Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
+        <Converters:ZonesToStringConverter x:Key="ZonesToStringConverter" />
     </UserControl.Resources>
 
     <Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">

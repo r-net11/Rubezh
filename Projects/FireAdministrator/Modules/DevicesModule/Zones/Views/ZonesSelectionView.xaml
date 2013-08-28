@@ -49,7 +49,7 @@
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Не выбранные зоны" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding Zone.Name}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>

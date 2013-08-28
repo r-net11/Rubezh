@@ -2,9 +2,9 @@
 
 namespace GKModule.Plans.Views
 {
-	public partial class XDirectionPropertiesView : UserControl
+	public partial class DirectionPropertiesView : UserControl
 	{
-		public XDirectionPropertiesView()
+		public DirectionPropertiesView()
 		{
 			InitializeComponent();
 		}

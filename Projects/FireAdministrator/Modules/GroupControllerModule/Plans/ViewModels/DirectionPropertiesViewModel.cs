@@ -12,12 +12,12 @@ using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.ViewModels
 {
-	public class XDirectionPropertiesViewModel : SaveCancelDialogViewModel
+	public class DirectionPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		private IElementDirection _element;
 		private DirectionsViewModel _directionsViewModel;
 
-		public XDirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
+		public DirectionPropertiesViewModel(IElementDirection element, DirectionsViewModel directionsViewModel)
 		{
 			_directionsViewModel = directionsViewModel;
 			_element = element;

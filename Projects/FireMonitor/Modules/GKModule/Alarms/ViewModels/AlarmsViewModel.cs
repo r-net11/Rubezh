@@ -240,15 +240,24 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetAllCommand { get; private set; }
 		void OnResetAll()
 		{
+			var passwordValidated = false;
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				if (zone.ZoneState.States.Contains(XStateType.Fire1))
 				{
-					ObjectCommandSendHelper.ResetFire1(zone);
+					if (!passwordValidated)
+						passwordValidated = ServiceFactory.SecurityService.Validate();
+
+					if (passwordValidated)
+						ObjectCommandSendHelper.ResetFire1(zone);
 				}
 				if (zone.ZoneState.States.Contains(XStateType.Fire2))
 				{
-					ObjectCommandSendHelper.ResetFire2(zone);
+					if (!passwordValidated)
+						passwordValidated = ServiceFactory.SecurityService.Validate();
+
+					if (passwordValidated)
+						ObjectCommandSendHelper.ResetFire2(zone);
 				}
 			}
 		}

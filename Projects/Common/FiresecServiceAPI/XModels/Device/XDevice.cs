@@ -119,7 +119,14 @@ namespace XFiresecAPI
 				}
 
 				var address = new StringBuilder();
-				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
+				var allParents = AllParents;
+				var rootDevice = allParents.FirstOrDefault();
+				if (rootDevice != null && rootDevice.Children.Count > 1)
+				{
+					address.Append(allParents[1].Address + "/");
+				}
+
+				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
 				{
 					if (parentDevice.Driver.IsGroupDevice)
 						continue;

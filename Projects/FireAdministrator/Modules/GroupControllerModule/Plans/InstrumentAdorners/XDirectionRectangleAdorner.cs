@@ -20,7 +20,7 @@ namespace GKModule.Plans.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleXDirection();
-			var propertiesViewModel = new XDirectionPropertiesViewModel(element, _directionsViewModel);
+			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetXDirection(element);
