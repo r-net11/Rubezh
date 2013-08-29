@@ -70,7 +70,10 @@ namespace GKModule
 			}
 
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
-			BinConfigurationWriter.GoToWorkingRegime(gkDevice);
+			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
+			{
+				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+			}
 			LoadingService.SaveClose();
 
 			XManager.UpdateConfiguration();

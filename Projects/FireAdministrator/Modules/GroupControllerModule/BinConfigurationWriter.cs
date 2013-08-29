@@ -21,20 +21,21 @@ namespace GKModule
 				if (!result)
 					return;
 
+				string error = null;
+
 				for (int i = 0; i < 3; i++)
 				{
 					foreach (var gkDatabase in DatabaseManager.GkDatabases)
 					{
 						var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
-						LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress, summaryObjectsCount);
+						LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryObjectsCount);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
 						{
+							error = "Не удалось перевести ГК в технологический режим";
 							break;
-							//MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим");
-							//return;
 						}
 						EraseDatabase(gkDatabase.RootDevice);
 
@@ -43,25 +44,43 @@ namespace GKModule
 							result = GoToTechnologicalRegime(kauDatabase.RootDevice);
 							if (!result)
 							{
-								MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим");
+								error = "Не удалось перевести КАУ в технологический режим";
 								break;
 							}
 							EraseDatabase(kauDatabase.RootDevice);
 							var writeResult = WriteConfigToDevice(kauDatabase);
 							if (!writeResult)
+							{
+								error = "Не удалось записать дескриптор КАУ";
 								break;
+							}
 						}
 						var writeResult2 = WriteConfigToDevice(gkDatabase);
 						if (!writeResult2)
+						{
+							error = "Не удалось записать дескриптор ГК";
 							break;
+						}
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
-							GoToWorkingRegime(kauDatabase.RootDevice);
+							if (!GoToWorkingRegime(kauDatabase.RootDevice))
+							{
+								error = "Не удалось перевести КАУ в рабочий режим";
+								break;
+							}
 						}
-						GoToWorkingRegime(gkDatabase.RootDevice);
+						if(!GoToWorkingRegime(gkDatabase.RootDevice))
+						{
+							error = "Не удалось перевести ГК в рабочий режим";
+							break;
+						}
 						return;
 					}
+				}
+				if (error != null)
+				{
+					MessageBoxService.ShowError("Во время записи конфигурации возникла ошибка" + "/n" + error);
 				}
 			}
 			catch (Exception e)
@@ -158,6 +177,9 @@ namespace GKModule
 
 		public static bool GoToTechnologicalRegime(XDevice device)
 		{
+			if (IsInTechnologicalRegime(device))
+				return true;
+
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
 			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
 			if (sendResult.HasError)
@@ -167,25 +189,32 @@ namespace GKModule
 
 			for (int i = 0; i < 10; i++)
 			{
-				sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
-				if (!sendResult.HasError)
-				{
-					if (sendResult.Bytes.Count > 0)
-					{
-						var version = sendResult.Bytes[0];
-						if (version > 127)
-						{
-							return true;
-						}
-					}
-				}
+				if (IsInTechnologicalRegime(device))
+					return true;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 			}
 
 			return false;
 		}
 
-		public static void GoToWorkingRegime(XDevice device)
+		static bool IsInTechnologicalRegime(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
+			if (!sendResult.HasError)
+			{
+				if (sendResult.Bytes.Count > 0)
+				{
+					var version = sendResult.Bytes[0];
+					if (version > 127)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public static bool GoToWorkingRegime(XDevice device)
 		{
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
 			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
@@ -200,14 +229,14 @@ namespace GKModule
 						var version = sendResult.Bytes[0];
 						if (version <= 127)
 						{
-							return;
+							return true;
 						}
 					}
 				}
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 			}
 
-			MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+			return false;
 		}
 
 		static void EraseDatabase(XDevice device)

@@ -11,6 +11,8 @@ namespace Controls.Converters
 			var stateClass = (XStateClass)value;
 			if (stateClass == XStateClass.Norm)
 				return null;
+			if (stateClass == XStateClass.Off)
+				return null;
 
 			return "/Controls;component/StateClassIcons/" + stateClass.ToString() + ".png";
 		}

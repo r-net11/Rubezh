@@ -26,7 +26,6 @@ namespace GKModule.ViewModels
 			alarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
 			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
-			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChanged);
 		}
@@ -89,7 +88,7 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				if(device.DeviceState.IsService)
+				if (device.DeviceState.IsService)
 				{
 					alarms.Add(new Alarm(XAlarmType.Service, device));
 				}
@@ -136,8 +135,8 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-					if (!direction.DirectionState.States.Contains(XStateType.Norm) && !direction.DirectionState.States.Contains(XStateType.Ignore) &&
-					!direction.DirectionState.IsConnectionLost)
+				if (!direction.DirectionState.States.Contains(XStateType.Norm) && !direction.DirectionState.States.Contains(XStateType.Ignore) &&
+				!direction.DirectionState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
 				}
@@ -237,27 +236,29 @@ namespace GKModule.ViewModels
 			return false;
 		}
 
-		public RelayCommand ResetAllCommand { get; private set; }
-		void OnResetAll()
+		public void ResetAll()
 		{
-			var passwordValidated = false;
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			if (CanResetAll())
 			{
-				if (zone.ZoneState.States.Contains(XStateType.Fire1))
+				var passwordValidated = false;
+				foreach (var zone in XManager.DeviceConfiguration.Zones)
 				{
-					if (!passwordValidated)
-						passwordValidated = ServiceFactory.SecurityService.Validate();
+					if (zone.ZoneState.States.Contains(XStateType.Fire1))
+					{
+						if (!passwordValidated)
+							passwordValidated = ServiceFactory.SecurityService.Validate();
 
-					if (passwordValidated)
-						ObjectCommandSendHelper.ResetFire1(zone);
-				}
-				if (zone.ZoneState.States.Contains(XStateType.Fire2))
-				{
-					if (!passwordValidated)
-						passwordValidated = ServiceFactory.SecurityService.Validate();
+						if (passwordValidated)
+							ObjectCommandSendHelper.ResetFire1(zone, false);
+					}
+					if (zone.ZoneState.States.Contains(XStateType.Fire2))
+					{
+						if (!passwordValidated)
+							passwordValidated = ServiceFactory.SecurityService.Validate();
 
-					if (passwordValidated)
-						ObjectCommandSendHelper.ResetFire2(zone);
+						if (passwordValidated)
+							ObjectCommandSendHelper.ResetFire2(zone, false);
+					}
 				}
 			}
 		}
@@ -288,8 +289,7 @@ namespace GKModule.ViewModels
 				}
 				if (e.Key == System.Windows.Input.Key.F4 && GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled)
 				{
-					if (CanResetAll())
-						OnResetAll();
+					ResetAll();
 				}
 			}
 			catch (Exception ex)
