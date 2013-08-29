@@ -80,6 +80,10 @@
 		<Views:JournalView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:JournalFromFileViewModel}">
+        <Views:JournalFromFileView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
         <Views:FiltersView />
     </DataTemplate>

@@ -47,6 +47,12 @@ namespace XFiresecAPI
 		Norm = 13,
 
 		[DescriptionAttribute("Нет")]
-		No = 14
+		No = 14,
+
+		[DescriptionAttribute("База данных ПК не совпадает с прибором")]
+		DBMissmatch = 15,
+
+		[DescriptionAttribute("Потеря связи")]
+		ConnectionLost = 16
 	}
 }

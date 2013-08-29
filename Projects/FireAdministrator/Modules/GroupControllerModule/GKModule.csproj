@@ -78,6 +78,10 @@
       <DependentUpon>PumpStationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
+    <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
+      <DependentUpon>JournalFromFileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KauBinConfigurationReader.cs" />
     <Compile Include="GkBinConfigurationReader.cs" />
     <Compile Include="BinConfigurationWriter.cs" />
@@ -152,6 +156,35 @@
       <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
+    <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\EnumAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\ParameterTemplateViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\StringAUPropertyViewModel.cs" />
+    <Compile Include="Parameters\Views\DeviceParametersMenuView.xaml.cs">
+      <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\DeviceParametersView.xaml.cs">
+      <DependentUpon>DeviceParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\ParameterTemplateSelectationView.xaml.cs">
+      <DependentUpon>ParameterTemplateSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\ParameterTemplatesMenuView.xaml.cs">
+      <DependentUpon>ParameterTemplatesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameters\Views\ParameterTemplatesView.xaml.cs">
+      <DependentUpon>ParameterTemplatesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="Diagnostics\Converters\BytesToStringConverter.cs" />
@@ -406,7 +439,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Journal\Views\JournalFromFileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Journal\Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\DeviceParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\ParameterTemplateSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\ParameterTemplatesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Parameters\Views\ParameterTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -487,6 +548,10 @@
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>

@@ -33,7 +33,7 @@ namespace Common.GK
 		public XStateClass StateClass { get; set; }
 		[DataMember]
 		public string UserName { get; set; }
-
+		[DataMember]
 		public InternalJournalItem InternalJournalItem { get; set; }
 	}
 }

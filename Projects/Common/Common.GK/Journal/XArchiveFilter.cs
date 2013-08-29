@@ -14,10 +14,12 @@ namespace Common.GK
 			StateClasses = new List<XStateClass>();
 			GKAddresses = new List<string>();
 			EventNames = new List<string>();
+			UseDeviceDateTime = false;
 		}
 
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
+		public bool UseDeviceDateTime { get; set; }
 		public List<JournalItemType> JournalItemTypes { get; set; }
 		public List<XStateClass> StateClasses { get; set; }
 		public List<string> GKAddresses { get; set; }

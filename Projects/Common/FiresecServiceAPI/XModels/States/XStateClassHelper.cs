@@ -10,12 +10,12 @@ namespace XFiresecAPI
 			var stateClasses = new HashSet<XStateClass>();
 			if (isConnectionLost)
 			{
-				stateClasses.Add(XStateClass.Unknown);
+				stateClasses.Add(XStateClass.ConnectionLost);
 				return stateClasses.ToList();
 			}
 			if (isMissmatch)
 			{
-				stateClasses.Add(XStateClass.Unknown);
+				stateClasses.Add(XStateClass.DBMissmatch);
 				return stateClasses.ToList();
 			}
 

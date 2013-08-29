@@ -21,7 +21,7 @@ using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
-{
+{ 
 	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DevicesViewModel Current { get; private set; }
@@ -204,6 +204,7 @@ namespace DevicesModule.ViewModels
 				PasteDevice(pasteDevice);
 			}
 		}
+
 		bool CanPasteAs()
 		{
 			return (SelectedDevice != null && _deviceToCopy != null &&
@@ -416,6 +417,7 @@ namespace DevicesModule.ViewModels
 					}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
 					new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 					{
+						new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
 						new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
 						new RibbonMenuItemViewModel("Считать конфигурацию из прибора", FS2DeviceCommandsViewModel.ReadDeviceCommand,false, "/Controls;component/Images/BParametersRead.png"),
 						new RibbonMenuItemViewModel("Информация о приборе", FS2DeviceCommandsViewModel.GetDescriptionCommand, false, "/Controls;component/Images/BInformation.png"),

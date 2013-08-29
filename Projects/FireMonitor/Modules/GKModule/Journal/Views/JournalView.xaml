@@ -82,6 +82,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Системная Дата" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" />
@@ -104,7 +105,7 @@
                 </TextBlock>
             </Grid>
 
-            <Grid Visibility="{Binding ShowAdditionalProperties}">
+            <Grid Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />

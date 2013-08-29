@@ -202,6 +202,8 @@
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
+    <Compile Include="XModels\Device\XDeviceParameterTemplate.cs" />
+    <Compile Include="XModels\Device\XParameterTemplate.cs" />
     <Compile Include="XModels\Device\XPumpStationProperty.cs" />
     <Compile Include="XModels\Device\XPumpStationPump.cs" />
     <Compile Include="XModels\Device\XPumpStationPumpType.cs" />
@@ -291,7 +293,7 @@
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\States\AdditionalXStateProperty.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
-    <Compile Include="XModels\States\XDerlayState.cs" />
+    <Compile Include="XModels\States\XDelayState.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />
     <Compile Include="XModels\States\XDirectionState.cs" />
     <Compile Include="XModels\States\XDriverState.cs" />

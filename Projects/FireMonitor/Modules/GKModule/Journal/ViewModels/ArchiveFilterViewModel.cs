@@ -136,6 +136,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		bool useDeviceDateTime;
+		public bool UseDeviceDateTime
+		{
+			get { return useDeviceDateTime; }
+			set
+			{
+				useDeviceDateTime = value;
+				OnPropertyChanged("UseDeviceDateTime");
+			}
+		}
+
 		public List<JournalItemTypeViewModel> JournalItemTypes { get; private set; }
 		public List<StateClassViewModel> StateClasses { get; private set; }
 		public List<GKAddressViewModel> GKAddresses { get; private set; }
@@ -147,6 +158,7 @@ namespace GKModule.ViewModels
 			{
 				StartDate = StartDateTime,
 				EndDate = EndDateTime,
+				UseDeviceDateTime = UseDeviceDateTime
 			};
 			foreach (var journalItemType in JournalItemTypes)
 			{
