@@ -116,7 +116,6 @@
         </Border>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Снять все отключения" Command="{Binding ResetIgnoreAllCommand}" Width="150" Margin="2" />
-            <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="150" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

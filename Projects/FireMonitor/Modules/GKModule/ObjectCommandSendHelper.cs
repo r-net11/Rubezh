@@ -85,7 +85,7 @@ namespace GKModule
 		{
 			if (ObjectCommandSendHelper.SendControlCommand(device, XStateType.SetRegime_Off))
 			{
-				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, device);
+				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, device);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace GKModule
 		{
 			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.SetRegime_Off))
 			{
-				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной отключеный", XStateClass.Info, direction);
+				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, direction);
 			}
 		}
 

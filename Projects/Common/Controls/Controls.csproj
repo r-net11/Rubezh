@@ -1103,7 +1103,13 @@
     <Resource Include="Images\BMenu.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="StateClassIcons\_Off.png" />
+    <Resource Include="StateClassIcons\Off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\ConnectionLost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\DBMissmatch.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

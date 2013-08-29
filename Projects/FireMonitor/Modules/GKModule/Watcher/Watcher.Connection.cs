@@ -41,7 +41,11 @@ namespace GKModule
 					StateClass = XStateClass.Unknown,
 					Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
 				};
-				JournaActionlHelper.Add(journalItem);
+
+				var journalItems = new List<JournalItem>() { journalItem };
+				GKDBHelper.AddMany(journalItems);
+				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
+
 				IsConnected = isConnected;
 				if (isConnected)
 				{

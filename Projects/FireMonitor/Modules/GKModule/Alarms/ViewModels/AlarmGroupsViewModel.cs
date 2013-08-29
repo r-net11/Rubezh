@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			AlarmsViewModel.Current.ResetAllCommand.Execute();
+			AlarmsViewModel.Current.ResetAll();
 		}
 	}
 }
