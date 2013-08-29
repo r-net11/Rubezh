@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.Serialization;
 using Common.GK.Journal;
+using FiresecClient;
 
 
 namespace GKModule.ViewModels
@@ -166,7 +167,7 @@ namespace GKModule.ViewModels
 							JournalItems = journalItems,
 							FirstIndex = StartIndex,
 							LastIndex = EndIndex,
-							CreationDateTime = DateTime.Now
+							CreationDateTime = DateTime.Now,
 						};
 						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);
 					}

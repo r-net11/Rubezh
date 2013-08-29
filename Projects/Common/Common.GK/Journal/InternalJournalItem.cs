@@ -5,45 +5,77 @@ using System.Text;
 using FiresecAPI.XModels;
 using FiresecClient;
 using XFiresecAPI;
+using System.Runtime.Serialization;
 
 namespace Common.GK
 {
+	[DataContract]
 	public class InternalJournalItem
 	{
+		[DataMember]
 		public int GKNo { get; private set; }
+		[DataMember]
 		string GKIpAddress;
+		[DataMember]
 		string StringDate;
+		[DataMember]
 		public JournalItemType JournalItemType { get; private set; }
+		[DataMember]
 		public Guid ObjectUID { get; private set; }
+		[DataMember]
 		string EventName;
+		[DataMember]
 		JournalYesNoType EventYesNo;
+		[DataMember]
 		string EventDescription;
+		[DataMember]
 		string UserName;
+		[DataMember]
 		int ObjectState;
 
+		[DataMember]
 		public ushort GKObjectNo { get; private set; }
+		[DataMember]
 		public int KAUNo { get; private set; }
 
+		[DataMember]
 		byte Day;
+		[DataMember]
 		byte Month;
+		[DataMember]
 		byte Year;
+		[DataMember]
 		byte Hour;
+		[DataMember]
 		byte Minute;
+		[DataMember]
 		byte Second;
+		[DataMember]
 		DateTime DeviceDateTime;
+		[DataMember]
 		DateTime SystemDateTime;
 
+		[DataMember]
 		ushort KAUAddress { get; set; }
+		[DataMember]
 		JournalSourceType Source { get; set; }
+		[DataMember]
 		byte Code { get; set; }
 
+		[DataMember]
 		ushort ObjectNo;
+		[DataMember]
 		public ushort ObjectDeviceType { get; private set; }
+		[DataMember]
 		public ushort ObjectDeviceAddress { get; private set; }
+		[DataMember]
 		int ObjectFactoryNo;
 
+		[DataMember]
 		public XDevice Device { get; private set; }
+		[DataMember]
 		public XZone Zone { get; private set; }
+		[DataMember]
 		public XDirection Direction { get; private set; }
 
 		void InitializeFromObjectUID()

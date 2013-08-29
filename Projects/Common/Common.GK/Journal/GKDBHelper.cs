@@ -91,11 +91,11 @@ namespace Common.GK
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool useDeviceDateTime)
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
         {
 			var journalItems = new List<JournalItem>();
 			string dateTimeTypeString;
-			if (useDeviceDateTime)
+			if (archiveFilter.UseDeviceDateTime)
 				dateTimeTypeString = "DeviceDateTime";
 			else
 				dateTimeTypeString = "SystemDateTime";

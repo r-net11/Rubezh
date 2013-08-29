@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using XFiresecAPI;
 
 namespace Common.GK.Journal
 {
 	[DataContract]
 	public class JournalItemsCollection
 	{
-		public JournalItemsCollection(List<JournalItem> journalItems)
+		public JournalItemsCollection(List<JournalItem> journalItems, XDevice device)
 		{
 			JournalItems = journalItems;
 			FirstIndex = journalItems.OrderBy(x => x.GKJournalRecordNo).FirstOrDefault().GKJournalRecordNo;

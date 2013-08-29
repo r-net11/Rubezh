@@ -16,6 +16,11 @@ using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using System.IO;
+using System.Runtime.Serialization;
+using Common.GK.Journal;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -34,6 +39,7 @@ namespace GKModule.ViewModels
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
+			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
@@ -175,6 +181,27 @@ namespace GKModule.ViewModels
 			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType));
 		}
 
+		public RelayCommand ReadJournalFromFileCommand { get; private set; }
+		void OnReadJournalFromFile()
+		{
+			var openDialog = new OpenFileDialog()
+			{
+				Filter = "Журнал событий Firesec-2|*.fscj",
+				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+			};
+			if (openDialog.ShowDialog().Value)
+			{
+				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
+					var journalItemsCollection = (JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
+					if (journalItemsCollection != null)
+					{
+						DialogService.ShowModalWindow(new JournalFromFileViewModel(journalItemsCollection));
+					}
+				}
+			}
+		}
 		void PasteDevice(XDevice device)
 		{
 			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU)
@@ -342,6 +369,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Записать параметры во все устройства", DeviceCommandsViewModel.SetAllParametersCommand, "/Controls;component/Images/BParametersWriteAll.png"),
 					new RibbonMenuItemViewModel("Считать параметры одного устройства", DeviceCommandsViewModel.GetSingleParameterCommand, "/Controls;component/Images/BParametersRead.png"),
 					new RibbonMenuItemViewModel("Записать параметры в одно устройство", DeviceCommandsViewModel.SetSingleParameterCommand, "/Controls;component/Images/BParametersWrite.png"),
+					new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}

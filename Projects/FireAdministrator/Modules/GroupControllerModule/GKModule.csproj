@@ -78,6 +78,10 @@
       <DependentUpon>PumpStationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
+    <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
+      <DependentUpon>JournalFromFileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="KauBinConfigurationReader.cs" />
     <Compile Include="GkBinConfigurationReader.cs" />
     <Compile Include="BinConfigurationWriter.cs" />
@@ -405,6 +409,10 @@
     <Page Include="Instructions\Views\InstructionZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Journal\Views\JournalFromFileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
       <SubType>Designer</SubType>

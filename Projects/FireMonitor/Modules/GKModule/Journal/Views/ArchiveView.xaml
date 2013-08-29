@@ -22,7 +22,6 @@
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />
-                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterOn, Mode=OneWay}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />    
                 </StackPanel>
                 
                 <TextBlock Grid.Column="2" Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />

@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
     {
         public static DateTime ArchiveFirstDate { get; private set; }
 		ArchiveDefaultState ArchiveDefaultState;
-        XArchiveFilter ArchiveFilter;
+		XArchiveFilter ArchiveFilter;
         Thread UpdateThread;
         bool FirstTime = true;
 
@@ -71,19 +71,7 @@ namespace GKModule.ViewModels
             }
         }
 
-		bool useDeviceDateTime;
-		public bool UseDeviceDateTime
-		{
-			get { return useDeviceDateTime; }
-			set
-			{
-				useDeviceDateTime = value;
-				OnPropertyChanged("UseDeviceDateTime");
-				Update(true);
-			}
-		}
-
-        public bool IsFilterExists
+		public bool IsFilterExists
         {
             get { return ArchiveFilter != null; }
         }
@@ -207,7 +195,7 @@ namespace GKModule.ViewModels
                 else
                     archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
-				var journalRecords = GKDBHelper.Select(archiveFilter, UseDeviceDateTime);
+				var journalRecords = GKDBHelper.Select(archiveFilter);
 				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
             }
             catch (Exception e)
