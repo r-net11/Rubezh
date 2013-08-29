@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
@@ -14,6 +15,7 @@ namespace XFiresecAPI
 			UID = Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
+			SystemAUProperties = new List<XProperty>();
 			ZoneUIDs = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -26,6 +28,14 @@ namespace XFiresecAPI
 			PumpStationProperty = new XPumpStationProperty();
 		}
 
+		public void OnAUParametersChanged()
+		{
+			if (AUParametersChanged != null)
+				AUParametersChanged();
+		}
+		public event Action AUParametersChanged;
+
+		public List<XProperty> SystemAUProperties { get; set; }
 		public XDeviceState DeviceState { get; set; }
 		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }

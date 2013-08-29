@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="DevicesModule.Views.DeviceParametersView"
+﻿<UserControl x:Class="GKModule.Views.DeviceParametersView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+             xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
              Focusable="True">
     <UserControl.Resources>
         <Converters:DeviceParameterMissmatchTypeToColorConverter x:Key="DeviceParameterMissmatchTypeToColorConverter" />

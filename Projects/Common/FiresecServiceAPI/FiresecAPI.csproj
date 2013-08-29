@@ -202,6 +202,8 @@
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
+    <Compile Include="XModels\Device\XDeviceParameterTemplate.cs" />
+    <Compile Include="XModels\Device\XParameterTemplate.cs" />
     <Compile Include="XModels\Device\XPumpStationProperty.cs" />
     <Compile Include="XModels\Device\XPumpStationPump.cs" />
     <Compile Include="XModels\Device\XPumpStationPumpType.cs" />
