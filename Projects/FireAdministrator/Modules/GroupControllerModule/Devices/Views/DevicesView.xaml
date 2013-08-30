@@ -34,7 +34,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="150" MinHeight="150" />
         </Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="False">
 			<tree:TreeList.Resources>
 				<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 					<Setter Property="MinWidth" Value="0" />

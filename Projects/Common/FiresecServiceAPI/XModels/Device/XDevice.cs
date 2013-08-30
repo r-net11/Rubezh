@@ -298,7 +298,7 @@ namespace XFiresecAPI
 			}
 		}
 
-		public bool IsConnectedToKAURSR2
+		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }
 		}

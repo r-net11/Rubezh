@@ -11,9 +11,9 @@ namespace GKModule.Plans.Designer
 {
 	internal static class Helper
 	{
-		private static Dictionary<Guid, XZone> _xzoneMap;
-		private static Dictionary<Guid, XDevice> _xdeviceMap;
-		private static Dictionary<Guid, XDirection> _xdirectionMap;
+		static Dictionary<Guid, XZone> _xzoneMap;
+		static Dictionary<Guid, XDevice> _xdeviceMap;
+		static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();

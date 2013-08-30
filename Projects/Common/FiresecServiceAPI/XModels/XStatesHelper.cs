@@ -6,7 +6,7 @@ namespace FiresecAPI.XModels
 {
 	public static class XStatesHelper
 	{
-		public static int XStateTypeToPriority(XStateType stateType)
+		static int XStateTypeToPriority(XStateType stateType)
 		{
 			switch (stateType)
 			{

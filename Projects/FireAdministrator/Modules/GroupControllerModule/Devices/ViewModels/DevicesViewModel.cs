@@ -208,13 +208,16 @@ namespace GKModule.ViewModels
 			{
 				return;
 			}
-			else if (SelectedDevice.Device.IsConnectedToKAURSR2)
+			else if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device, SelectedDevice.Device.ShleifNo);
 				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)SelectedDevice.Device.ShleifNo, (byte)(maxAddress % 256 + 1));
 				XManager.CopyDevice(device, addedDevice);
+				addedDevice.ShleifNo = (byte)SelectedDevice.Device.ShleifNo;
+				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
+				XManager.UpdateConfiguration();
 			}
 			else
 			{
