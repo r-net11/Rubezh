@@ -168,8 +168,8 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				//SelectedDevice.Device.Properties.Clear();
-				SelectedDevice.Update();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
+				SelectedDevice.Update();
 				ServiceFactory.SaveService.FSParametersChanged = true;
 			}
 		}
@@ -185,16 +185,15 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				ReadDevices(devices);
 				foreach (var device in devices)
 				{
-					device.Properties.Clear();
 					var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device == device);
 					if (deviceViewModel != null)
 					{
 						deviceViewModel.Update();
 					}
 				}
-				ReadDevices(devices);
 			}
 		}
 
@@ -210,7 +209,7 @@ namespace GKModule.ViewModels
 					driverProperty != null &&
 					driverProperty.IsAUParameter &&
 					driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&
-					(!int.TryParse(property.StringValue, out value) ||
+					(!int.TryParse(Convert.ToString(property.Value), out value) ||
 					(value < driverProperty.Min || value > driverProperty.Max));
 		}
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using GKModule.ViewModels;
@@ -23,7 +24,7 @@ namespace GKModule.DeviceProperties
 			var deviceProperty = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{
-				DeviceAUParameterValue = deviceProperty.StringValue;
+				DeviceAUParameterValue = Convert.ToString(deviceProperty.Value);
 			}
 			else
 				DeviceAUParameterValue = "Неизвестно";

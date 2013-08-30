@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -10,9 +11,9 @@ namespace GKModule.ViewModels
 		{
 			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
 			if (property != null)
-				_text = property.StringValue;
+				_text = Convert.ToString(property.Value);
 			else
-				_text = xDriverProperty.StringDefault;
+				_text = Convert.ToString(xDriverProperty.Default);
 		}
 
 		string _text;

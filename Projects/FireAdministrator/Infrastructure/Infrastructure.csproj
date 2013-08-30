@@ -120,6 +120,7 @@
     <Compile Include="Events\ShowXDeviceEvent.cs" />
     <Compile Include="Events\ShowXDeviceLidraryViewModelEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
+    <Compile Include="Events\ShowXParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ShowOPCZoneEvent.cs" />
