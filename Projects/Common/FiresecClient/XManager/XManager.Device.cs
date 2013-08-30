@@ -9,39 +9,44 @@ namespace FiresecClient
 	{
 		public static XDevice CopyDevice(XDevice device, bool fullCopy)
 		{
-			var newDevice = new XDevice()
-			{
-				DriverUID = device.DriverUID,
-				Driver = device.Driver,
-				ShleifNo = device.ShleifNo,
-				IntAddress = device.IntAddress,
-				Description = device.Description
-			};
+			var newDevice = new XDevice();
+			CopyDevice(device, newDevice);
 
 			if (fullCopy)
 			{
 				newDevice.UID = device.UID;
 			}
 
-			newDevice.Properties = new List<XProperty>();
-			foreach (var property in device.Properties)
+			return newDevice;
+		}
+
+		public static XDevice CopyDevice(XDevice deviceFrom, XDevice deviceTo)
+		{
+			deviceTo.DriverUID = deviceFrom.DriverUID;
+			deviceTo.Driver = deviceFrom.Driver;
+			deviceTo.ShleifNo = deviceFrom.ShleifNo;
+			deviceTo.IntAddress = deviceFrom.IntAddress;
+			deviceTo.Description = deviceFrom.Description;
+
+			deviceTo.Properties = new List<XProperty>();
+			foreach (var property in deviceFrom.Properties)
 			{
-				newDevice.Properties.Add(new XProperty()
+				deviceTo.Properties.Add(new XProperty()
 				{
 					Name = property.Name,
 					Value = property.Value
 				});
 			}
 
-			newDevice.Children = new List<XDevice>();
-			foreach (var childDevice in device.Children)
+			deviceTo.Children = new List<XDevice>();
+			foreach (var childDevice in deviceFrom.Children)
 			{
-				var newChildDevice = CopyDevice(childDevice, fullCopy);
-				newChildDevice.Parent = newDevice;
-				newDevice.Children.Add(newChildDevice);
+				var newChildDevice = CopyDevice(childDevice, false);
+				newChildDevice.Parent = deviceTo;
+				deviceTo.Children.Add(newChildDevice);
 			}
 
-			return newDevice;
+			return deviceTo;
 		}
 
 		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte shleifNo, byte intAddress)
