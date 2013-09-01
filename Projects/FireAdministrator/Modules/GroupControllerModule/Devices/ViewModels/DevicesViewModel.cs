@@ -99,10 +99,10 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
 				UpdateRibbonItems();
-				if (value != null)
-					value.ExpandToThis();
-				OnPropertyChanged("SelectedDevice");
+				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
+					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);
 			}
 		}
 
@@ -305,27 +305,24 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
-			Guid guid = Guid.Empty;
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
 				ElementXDevice elementDevice = element as ElementXDevice;
 				if (elementDevice != null)
-				{
-					if (guid != Guid.Empty)
-						OnDeviceChanged(guid);
-					guid = elementDevice.XDeviceUID;
-				}
+					OnDeviceChanged(elementDevice.XDeviceUID);
 			});
 			_lockSelection = false;
-			if (guid != Guid.Empty)
-				OnDeviceChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementDevice elementDevice = element as ElementDevice;
-			if (elementDevice != null)
-				Select(elementDevice.DeviceUID);
+			ElementXDevice elementXDevice = element as ElementXDevice;
+			if (elementXDevice != null)
+			{
+				_lockSelection = true;
+				Select(elementXDevice.XDeviceUID);
+				_lockSelection = false;
+			}
 		}
 
 		public override void OnShow()

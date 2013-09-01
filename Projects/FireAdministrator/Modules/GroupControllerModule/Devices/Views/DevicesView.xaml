@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:viewModel="clr-namespace:GKModule.ViewModels">
 
 	<UserControl.Resources>
-		<Conv:SwitchConverter x:Key="Tooltip">
-			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="Multiple" />
-			<Conv:SwitchCase Then="Для размещения устройства на плане зажмите левую кнопку мыши и не отпуская ее ведите на план, затем, отпустите ее в месте, где нужно разместить устройство" When="NotPresent" />
+		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
+			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
+			<Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>

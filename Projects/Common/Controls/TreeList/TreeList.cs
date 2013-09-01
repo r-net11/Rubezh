@@ -97,7 +97,11 @@ namespace Controls.TreeList
 			if (e.OriginalSource == this && (e.AddedItems.Count > 0 || PendingFocusNode == null))
 			{
 				SelectedTreeNode = e.AddedItems.Count > 0 ? e.AddedItems[0] as TreeNodeViewModel : null;
-				PendingFocusNode = null;
+				var item = ItemContainerGenerator.ContainerFromItem(SelectedTreeNode) as TreeListItem;
+				if (item != null)
+					item.Focus();
+				else
+					PendingFocusNode = SelectedTreeNode as TreeNodeViewModel;
 			}
 		}
 

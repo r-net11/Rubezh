@@ -57,7 +57,7 @@ namespace GKModule.Plans
 		}
 		public string Title
 		{
-			get { return "ГК"; }
+			get { return "Устройства"; }
 		}
 
 		public object TabPage
@@ -75,7 +75,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
-							ToolTip="ГК Зона",
+							ToolTip="Зона",
 							Adorner = new XZoneRectangleAdorner(_designerCanvas,_zonesViewModel),
 							Index = 200,
 							Autostart = true
@@ -83,7 +83,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
-							ToolTip="ГК Зона",
+							ToolTip="Зона",
 							Adorner = new XZonePolygonAdorner(_designerCanvas,_zonesViewModel),
 							Index = 201,
 							Autostart = true
@@ -91,7 +91,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/Direction.png",
-							ToolTip="ГК Направление",
+							ToolTip="Направление",
 							Adorner = new XDirectionRectangleAdorner(_designerCanvas, _directionsViewModel),
 							Index = 202,
 							Autostart = true
@@ -99,7 +99,7 @@ namespace GKModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/Direction.png",
-							ToolTip="ГК Направление",
+							ToolTip="Направление",
 							Adorner = new XDirectionPolygonAdorner(_designerCanvas, _directionsViewModel),
 							Index = 203,
 							Autostart = true
@@ -226,9 +226,9 @@ namespace GKModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("GK", "ГК", 1);
-			LayerGroupService.Instance.RegisterGroup("XZone", "ГК Зоны", 2);
-			LayerGroupService.Instance.RegisterGroup("XDirection", "ГК Направления", 3);
+			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 1);
+			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 2);
+			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 3);
 		}
 		public void ExtensionAttached()
 		{

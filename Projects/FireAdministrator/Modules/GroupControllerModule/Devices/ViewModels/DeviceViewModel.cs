@@ -134,8 +134,8 @@ namespace GKModule.ViewModels
 			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
 				ServiceFactory.SaveService.GKChanged = true;
+				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				GKModule.Plans.Designer.Helper.BuildMap();
 			}
 		}

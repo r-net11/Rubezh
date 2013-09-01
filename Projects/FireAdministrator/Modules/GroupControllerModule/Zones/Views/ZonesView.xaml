@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views">
+﻿<UserControl x:Class="GKModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 
 	<Grid Margin="2">
 		<Grid.ColumnDefinitions>
@@ -42,27 +42,15 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-
-					<DataGrid.Resources>
-						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-							<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-						</InputBindingCollection>
-					</DataGrid.Resources>
-					<DataGrid.ItemContainerStyle>
-						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-						</Style>
-					</DataGrid.ItemContainerStyle>
-
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="250" Header="Устройство в зоне">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
-										<CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TreeExpanderStyle}" Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-										<TextBlock Text="{Binding Driver.ShortName}">
+				<tree:TreeList Focusable="True" Source="{Binding Devices}" SelectedTreeNode="{Binding SelectedDevice}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Width="250" Header="Устройство в зоне">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+											<TextBlock Text="{Binding Driver.ShortName}">
 											<TextBlock.Style>
 												<Style>
 													<Style.Triggers>
@@ -74,15 +62,19 @@
 													</Style.Triggers>
 												</Style>
 											</TextBlock.Style>
-										</TextBlock>
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="50" Binding="{Binding PresentationAddress}" Header="Адрес" />
-						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
-					</DataGrid.Columns>
-				</DataGrid>
+											</TextBlock>
+											<StackPanel.InputBindings>
+												<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=tree:TreeList}}" MouseAction="LeftDoubleClick" />
+											</StackPanel.InputBindings>
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="50" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" />
+							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
 
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону" />
@@ -93,27 +85,15 @@
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
 			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-				<DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-
-					<DataGrid.Resources>
-						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-							<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-						</InputBindingCollection>
-					</DataGrid.Resources>
-					<DataGrid.ItemContainerStyle>
-						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-						</Style>
-					</DataGrid.ItemContainerStyle>
-
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="250" Header="Устройство">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
-										<CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TreeExpanderStyle}" Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-										<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-										<TextBlock Text="{Binding Driver.ShortName}">
+				<tree:TreeList Focusable="True" Source="{Binding AvailableDevices}" SelectedTreeNode="{Binding SelectedAvailableDevice}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Width="250" Header="Устройство в зоне">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+											<TextBlock Text="{Binding Driver.ShortName}">
 											<TextBlock.Style>
 												<Style>
 													<Style.Triggers>
@@ -125,15 +105,19 @@
 													</Style.Triggers>
 												</Style>
 											</TextBlock.Style>
-										</TextBlock>
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Width="50" Binding="{Binding PresentationAddress}" Header="Адрес" />
-						<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
-					</DataGrid.Columns>
-				</DataGrid>
+											</TextBlock>
+											<StackPanel.InputBindings>
+												<MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=tree:TreeList}}" MouseAction="LeftDoubleClick" />
+											</StackPanel.InputBindings>
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="50" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" />
+							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
 			</Grid>
 		</Grid>
 	</Grid>
