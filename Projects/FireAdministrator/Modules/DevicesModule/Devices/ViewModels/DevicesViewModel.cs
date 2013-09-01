@@ -481,6 +481,7 @@ namespace DevicesModule.ViewModels
 							new RibbonMenuItemViewModel("Задать пароль", DeviceCommandsViewModel.SetPasswordCommand, true, "/Controls;component/Images/BPassword.png"),
 							new RibbonMenuItemViewModel("Другие функции", DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
 						}, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
+						new RibbonMenuItemViewModel("Конвертировать из Firesec-1", DeviceCommandsViewModel.ConvertCommand, false, "/Controls;component/Images/BSettings.png"),
 					}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 				};
 			}

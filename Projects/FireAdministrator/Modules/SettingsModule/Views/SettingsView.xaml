@@ -26,14 +26,7 @@
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
                 <StackPanel Margin="10">
                     <Button Content="Настройки" Command="{Binding ShowSettingsCommand}" Width="200" Margin="2" />
-                </StackPanel>
-            </Border>
-        </TabItem>
-        <TabItem Header="Конвертация" DataContext="{Binding ConvertationViewModel}">
-            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                <StackPanel Margin="10">
-                    <Button Content="Конвертировать конфигурацию из формата FireSec-1" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
-                    <Button Content="Конвертировать журнал событий из формата FireSec-1" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" Visibility="Collapsed" />
+                    <Button Content="Сообщения об ошибках" Command="{Binding ShowErrorsFilterCommand}" Width="200" Margin="2" />
                 </StackPanel>
             </Border>
         </TabItem>

@@ -16,8 +16,11 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
-				ValidateZoneDetectorCount(zone);
-				ValidateZoneFire1Fire2Count(zone);
+				if (MustValidate("Количество подключенных к зоне датчиков"))
+				{
+					ValidateZoneDetectorCount(zone);
+					ValidateZoneFire1Fire2Count(zone);
+				}
 			}
 		}
 

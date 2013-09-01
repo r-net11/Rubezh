@@ -1,0 +1,1 @@
+..\FireMonitor.exe /deintegrate

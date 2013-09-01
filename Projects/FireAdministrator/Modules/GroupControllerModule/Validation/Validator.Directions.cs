@@ -15,8 +15,10 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(direction);
-				ValidateDirectionInputCount(direction);
-				ValidateDirectionOutputCount(direction);
+				if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
+					ValidateDirectionInputCount(direction);
+				if (MustValidate("В направлении отсутствуют выходные устройства"))
+					ValidateDirectionOutputCount(direction);
 			}
 		}
 
@@ -26,7 +28,7 @@ namespace GKModule.Validation
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
 				if (!directionNos.Add(direction.No))
-					Errors.Add(new DirectionValidationError(direction, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DirectionValidationError(direction, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

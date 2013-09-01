@@ -99,10 +99,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SettingsModule.cs" />
-    <Compile Include="ViewModels\ConvertationViewModel.cs" />
+    <Compile Include="ViewModels\ErrorFilterViewModel.cs" />
+    <Compile Include="ViewModels\ErrorsFilterViewModel.cs" />
     <Compile Include="ViewModels\GloobalSettingsViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ThemeViewModel.cs" />
+    <Compile Include="Views\ErrorsFilterView.xaml.cs">
+      <DependentUpon>ErrorsFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GloobalSettingsView.xaml.cs">
       <DependentUpon>GloobalSettingsView.xaml</DependentUpon>
     </Compile>
@@ -163,6 +167,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorsFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
