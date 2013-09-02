@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SettingsModule.Views.ErrorsFilterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="500" MinHeight="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Следующие ошибки будут игнорироваться при валидации конфигурации" Foreground="White" FontWeight="Bold" Margin="2" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding ErrorFilters}" Margin="2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" Foreground="White" Margin="2" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

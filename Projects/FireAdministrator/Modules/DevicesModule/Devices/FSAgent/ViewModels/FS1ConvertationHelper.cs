@@ -12,19 +12,15 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
 
-namespace SettingsModule.ViewModels
+namespace DevicesModule.ViewModels
 {
-	public class ConvertationViewModel : BaseViewModel
+	public class FS1ConvertationHelper
 	{
-		public ConvertationViewModel()
+		public void ConvertConfiguration()
 		{
-			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration, CanConvertConfiguration);
-			ConvertJournalCommand = new RelayCommand(OnConvertJournal, CanConvertJournal);
-		}
+			if (FiresecManager.FiresecDriver == null)
+				return;
 
-		public RelayCommand ConvertConfigurationCommand { get; private set; }
-		void OnConvertConfiguration()
-		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
 			{
 				WaitHelper.Execute(() =>
@@ -96,14 +92,10 @@ namespace SettingsModule.ViewModels
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 		}
-		bool CanConvertConfiguration()
-		{
-			return FiresecManager.FiresecDriver != null;
-		}
 
 		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
 
-		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
 		{
 			configuration.BeforeSave();
 			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
@@ -112,9 +104,11 @@ namespace SettingsModule.ViewModels
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 
-		public RelayCommand ConvertJournalCommand { get; private set; }
-		void OnConvertJournal()
+		public void ConvertJournal()
 		{
+			if (FiresecManager.FiresecDriver == null)
+				return;
+
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
 			{
 				WaitHelper.Execute(() =>
@@ -124,12 +118,8 @@ namespace SettingsModule.ViewModels
 				});
 			}
 		}
-		bool CanConvertJournal()
-		{
-			return FiresecManager.FiresecDriver != null;
-		}
 
-		public static byte[] ZipStr(String str)
+		public byte[] ZipStr(String str)
 		{
 			using (MemoryStream output = new MemoryStream())
 			{
@@ -147,7 +137,7 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-		public static string UnZipStr(byte[] input)
+		public string UnZipStr(byte[] input)
 		{
 			using (MemoryStream inputStream = new MemoryStream(input))
 			{

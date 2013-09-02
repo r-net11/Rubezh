@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Common.GK;
+using Firesec_50;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -80,7 +81,6 @@ namespace GKModule
 		public static void SetSingleParameter(XDevice device)
 		{
 			DatabaseManager.Convert();
-			LoadingService.Show("Запись параметров", 1);
 			try
 			{
 				CommonDatabase commonDatabase = null;
@@ -109,16 +109,13 @@ namespace GKModule
 			{
 				Logger.Error(e, "ParametersHelper.SetSingleParameter");
 			}
-			finally
-			{
-				LoadingService.Close();
-			}
 		}
+
+		public static string ErrorLog { get; set; }
 
 		public static void GetSingleParameter(XDevice device)
 		{
 			DatabaseManager.Convert();
-			LoadingService.Show("Запрос параметров", 1);
 			try
 			{
 				CommonDatabase commonDatabase = null;
@@ -138,18 +135,18 @@ namespace GKModule
 						var result = GetDeviceParameters(commonDatabase, binaryObject);
 						if (!result)
 						{
-							MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.PresentationDriverAndAddress);
+							//MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.PresentationDriverAndAddress);
+							ErrorLog += "\n" + device.PresentationDriverAndAddress;
 						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ParametersHelper.SetSingleParameter");
+				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
 			finally
 			{
-				LoadingService.Close();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

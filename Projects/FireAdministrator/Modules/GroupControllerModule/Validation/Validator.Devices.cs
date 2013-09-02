@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
 using Common.GK;
+using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
@@ -22,17 +23,26 @@ namespace GKModule.Validation
 				if (IsManyGK())
 					ValidateDifferentGK(device);
 				ValidateIPAddress(device);
-				ValidateDeviceZone(device);
-				ValidateDeviceLogic(device);
-				ValidateGKNotEmptyChildren(device);
-				ValidateKAUNotEmptyChildren(device);
+				if (MustValidate("Устройство не подключено к зоне"))
+					ValidateDeviceZone(device);
+				if (MustValidate("Отсутствует логика срабатывания исполнительного устройства"))
+					ValidateDeviceLogic(device);
+				if (MustValidate("Устройство должно содержать подключенные устройства"))
+				{
+					ValidateGKNotEmptyChildren(device);
+					ValidateKAUNotEmptyChildren(device);
+				}
 				ValidatePumpAddresses(device);
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
 				ValidateAddressEquality(device);
-				//ValidateRSR2AddressFollowingInRoundShleif(device);
 				ValidateRSR2AddressFollowing(device);
 			}
+		}
+
+		static bool MustValidate(string errorName)
+		{
+			return GlobalSettingsHelper.GlobalSettings.IgnoredErrors != null && !GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(errorName);
 		}
 
 		static void ValidateAddressEquality()
@@ -178,57 +188,6 @@ namespace GKModule.Validation
 			{
 				if (device.Children.Any(x => x.IntAddress < device.IntAddress || (x.IntAddress - device.IntAddress) > device.Driver.GroupDeviceChildrenCount))
 					Errors.Add(new DeviceValidationError(device, string.Format("Для всех подключенных устройтв необходимо выбрать адрес из диапазона: {0}", device.PresentationAddress), ValidationErrorLevel.Warning));
-			}
-		}
-
-		static void ValidateRSR2AddressFollowingInRoundShleif(XDevice device)
-		{
-			if (device.Driver.DriverType == XDriverType.RSR2_KAU)
-			{
-				var realChildren = KauChildrenHelper.GetRealChildren(device);
-				realChildren.Remove(device);
-				for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
-				{
-					var isRoundShleif = false;
-					switch (shleifNo)
-					{
-						case 1:
-						case 2:
-							var property = device.Properties.FirstOrDefault(x => x.Name == "als12");
-							isRoundShleif = property != null && property.Value == 0x03;
-							break;
-
-						case 3:
-						case 4:
-							property = device.Properties.FirstOrDefault(x => x.Name == "als34");
-							isRoundShleif = property != null && property.Value == 0x0C;
-							break;
-
-						case 5:
-						case 6:
-							property = device.Properties.FirstOrDefault(x => x.Name == "als56");
-							isRoundShleif = property != null && property.Value == 0x30;
-							break;
-
-						case 7:
-						case 8:
-							property = device.Properties.FirstOrDefault(x => x.Name == "als78");
-							isRoundShleif = property != null && property.Value == 0xC0;
-							break;
-					}
-					if (isRoundShleif)
-					{
-						var childrenOnShleif = realChildren.Where(x => x.ShleifNo == shleifNo).ToList();
-						for (int i = 0; i < childrenOnShleif.Count(); i++)
-						{
-							if (childrenOnShleif[i].IntAddress != i + 1)
-							{
-								Errors.Add(new DeviceValidationError(childrenOnShleif[i], string.Format("Последовательность адресов кольцевого шлейфа должна быть неразрывна"), ValidationErrorLevel.CannotWrite));
-								break;
-							}
-						}
-					}
-				}
 			}
 		}
 

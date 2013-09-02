@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables.wxi?>
+  <Fragment>
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
+             AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <FeatureRef Id="Firesec.Features" />
+      <FeatureRef Id="Server.Features" />
+      <FeatureRef Id="Administrator.Features" />
+      <FeatureRef Id="Monitor.Features" />
+      <FeatureRef Id="ManagementConsole.Features" />
+      <FeatureRef Id="OPC.Features" />
+
+      <Feature Id="FS2.Features" Title="Адресная система Рубеж 2" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-2АМ Рубеж-4А, Рубеж-2ОП, БУНС">
+        <ComponentRef Id="FS2.Files" />
+        <ComponentRef Id="FS2.Metadata" />
+        <ComponentRef Id="FS2.DB" />
+        <ComponentRef Id="FS2.ProgramsMenuShortcut" />
+      </Feature>
+
+      <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-2АМ Рубеж-4А, Рубеж-2ОП, БУНС">
+        <ComponentRef Id="Administrator.FS_MODULE" />
+        <ComponentRef Id="Monitor.FS_MODULE" />
+        <ComponentRef Id="FSAgent.Files" />
+        <ComponentRef Id="FSAgent.DB" />
+        <ComponentRef Id="FSAgent.AutorunComponent" />
+        <ComponentRef Id="FSAgent.ProgramsMenuShortcut" />
+      </Feature>
+      <Feature Id="GK.Features" Title="ГК" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+        <ComponentRef Id="Administrator.GK_MODULE" />
+        <ComponentRef Id="Monitor.GK_MODULE" />
+        <!--<ComponentRef Id="Monitor.GkJournalDatabase.sdf" />-->
+      </Feature>
+      <Feature Id="SKUD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
+        <ComponentRef Id="Administrator.SKUD_MODULE"/>
+      </Feature>
+      <Feature Id="Video.Features" Title="Видео" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
+        <ComponentRef Id="Administrator.VIDEO_MODULE"/>
+        <ComponentRef Id="Monitor.VIDEO_MODULE" />
+      </Feature>
+
+      <Feature Id="Multiclient.Features" Title="Мультисерверная ОЗ" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
+        <ComponentRef Id="MultiClient.Files"/>
+        <ComponentRef Id="MultiClientMonitor.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientMonitor.DesktopShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.ProgramsMenuShortcut" />
+        <ComponentRef Id="MultiClientAdministrator.DesktopShortcut" />
+      </Feature>
+
+      <!--<ComponentRef Id="Administrator.Remove" />
+      <ComponentRef Id="Monitor.Remove" />
+      <ComponentRef Id="OPC.Remove" />
+      <ComponentRef Id="Server.Remove" />-->
+
+      <ComponentRef Id="ProgramMenuDir.Utils" />
+      <ComponentRef Id="ProgramMenuDir.Additional" />
+      <ComponentRef Id="Administrator.PLANS_MODULE" />
+      <ComponentRef Id="Administrator.SOUNDS_MODULE" />
+      <ComponentRef Id="Administrator.SETTINGS_MODULE" />
+      <ComponentRef Id="Monitor.PLANS_MODULE" />
+      <ComponentRef Id="DesktopFolder" />
+      <ComponentRef Id="ProgramMenuDir" />
+      <ComponentRef Id="FscpAssociation" />
+      <!--<ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />-->
+    </Feature>
+  </Fragment>
+</Wix>

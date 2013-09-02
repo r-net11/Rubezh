@@ -13,6 +13,8 @@ namespace FiresecClient
 			if (device.Driver.HasZone)
 			{
 				var stringBuilder = new StringBuilder();
+				if (device.Zones == null)
+					device.Zones = new List<XZone>();
 				if (device.Zones.Count == 1)
 				{
 					stringBuilder.Append(device.Zones[0].PresentationName);

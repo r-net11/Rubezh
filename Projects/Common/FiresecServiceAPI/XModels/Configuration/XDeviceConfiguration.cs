@@ -172,6 +172,28 @@ namespace XFiresecAPI
 			}
 			foreach (var zone in Zones)
 			{
+				if (zone.UID == Guid.Empty)
+				{
+					zone.UID = Guid.NewGuid();
+					result = false;
+				}
+			}
+			if (ParameterTemplates == null)
+			{
+				ParameterTemplates = new List<XParameterTemplate>();
+				result = false;
+			}
+
+			foreach (var parameterTemplate in ParameterTemplates)
+			{
+				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
+				{
+					if (deviceParameterTemplate.XDevice.SystemAUProperties == null)
+					{
+						deviceParameterTemplate.XDevice.SystemAUProperties = new List<XProperty>();
+						result = false;
+					}
+				}
 			}
 			foreach (var direction in Directions)
 			{
