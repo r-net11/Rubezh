@@ -18,6 +18,7 @@ using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrastructure.Common.Ribbon;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -33,6 +34,10 @@ namespace GKModule.ViewModels
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
 			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
+			
+			EditZoneCommand = new RelayCommand(OnEditZone);
+			DeleteZoneCommand = new RelayCommand(OnDeleteZone);
+			
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			IsRightPanelVisible = true;
@@ -76,6 +81,18 @@ namespace GKModule.ViewModels
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
 			}
+		}
+
+		DirectionZoneViewModel _selectedZone;
+		public DirectionZoneViewModel SelectedZone
+		{
+			get { return _selectedZone; }
+			set
+			{
+				_selectedZone = value;
+				OnPropertyChanged("SelectedZone");
+			}
+
 		}
 
 		bool CanEditDelete()
@@ -132,6 +149,30 @@ namespace GKModule.ViewModels
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand EditZoneCommand { get; private set; }
+		void OnEditZone()
+		{
+			Trace.WriteLine("EditZoneCommand "+ SelectedZone.DirectionZone.Zone.PresentationName);
+		}
+
+		public RelayCommand DeleteZoneCommand { get; private set; }
+		void OnDeleteZone()
+		{
+			if (SelectedZone == null)
+				return;
+
+			List<XZone> zones = new List<XZone>(); ;
+			foreach (var zone in SelectedDirection.Zones)
+			{
+				zones.Add(zone.DirectionZone.Zone);
+			}
+			zones.Remove(SelectedDirection.Zones.FirstOrDefault(x => x == SelectedZone).DirectionZone.Zone);
+			XManager.ChangeDirectionZones(SelectedDirection.Direction, zones);
+			SelectedDirection.InitializeDependences();
+			ServiceFactory.SaveService.GKChanged = true;
+			SelectedZone = SelectedDirection.Zones.LastOrDefault();
 		}
 
 		public RelayCommand ChangeZonesCommand { get; private set; }

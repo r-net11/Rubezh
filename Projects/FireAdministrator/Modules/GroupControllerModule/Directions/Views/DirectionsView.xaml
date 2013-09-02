@@ -78,10 +78,10 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}">
+            <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
-                        <GridView.Columns>
+                        <GridView.Columns >
                             <GridViewColumn Header="№" DisplayMemberBinding="{Binding DirectionZone.Zone.No}" />
                             <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
                             <GridViewColumn Header="Состояние" Width="250">
@@ -107,12 +107,18 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
+                
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                <Button Command="{Binding ChangeZonesCommand}" Content="Изменить Входные зоны" Width="250" Margin="2" />
                 <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
                 <TextBlock Text="{Binding ZonesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommandDeleteZoneCommand}" />
+                    <MenuItem Header="Изменить Входные зоны" Command="{Binding ChangeZonesCommand}" />
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="3">

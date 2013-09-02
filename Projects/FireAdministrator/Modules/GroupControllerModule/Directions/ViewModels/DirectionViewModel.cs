@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			Update();
 		}
 
-		void InitializeDependences()
+		public void InitializeDependences()
 		{
 			Zones.Clear();
 			foreach (var directionZone in Direction.DirectionZones)
