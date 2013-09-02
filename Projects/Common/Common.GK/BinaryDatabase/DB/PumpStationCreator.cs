@@ -112,12 +112,22 @@ namespace Common.GK
 			if (mainDelayBinaryObject != null)
 			{
 				var formula = new FormulaBuilder();
-				var deviceBinaryObject = new DeviceBinaryObject(PumpStationDevice, DatabaseType.Gk);
+				formula.AddClauseFormula(PumpStationDevice.DeviceLogic);
+				formula.AddStandardTurning(mainDelayBinaryObject.BinaryBase);
 
-				//deviceBinaryObject.Build();
-				//mainDelayBinaryObject.Formula = deviceBinaryObject.Formula;
-				//mainDelayBinaryObject.FormulaBytes = mainDelayBinaryObject.Formula.GetBytes();
-				//return;
+				formula.Add(FormulaOperationType.END);
+				mainDelayBinaryObject.Formula = formula;
+				mainDelayBinaryObject.FormulaBytes = formula.GetBytes();
+			}
+		}
+
+		void Create_OLD_MainDelayLogic()
+		{
+			var mainDelayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == MainDelay.UID);
+			if (mainDelayBinaryObject != null)
+			{
+				var formula = new FormulaBuilder();
+				var deviceBinaryObject = new DeviceBinaryObject(PumpStationDevice, DatabaseType.Gk);
 
 				if (Directions.Count > 0)
 				{
