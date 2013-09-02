@@ -11,7 +11,7 @@ namespace Firesec_50
 	public static partial class FiresecDriverAuParametersHelper
 	{
 		public static event Action<string, int> Progress;
-		static void OnPropgress(string value, int percentsCompleted)
+		public static void OnPropgress(string value, int percentsCompleted)
 		{
 			if (Progress != null)
 				Progress(value, percentsCompleted);

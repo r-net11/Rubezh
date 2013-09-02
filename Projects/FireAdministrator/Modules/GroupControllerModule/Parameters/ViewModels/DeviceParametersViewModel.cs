@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Firesec_50;
 using FiresecAPI.XModels;
 using FiresecClient;
 using Infrastructure;
@@ -44,7 +45,6 @@ namespace GKModule.ViewModels
 			
 			Firesec_50.FiresecDriverAuParametersHelper.Progress -= FiresecDriverAuParametersHelper_Progress;
 			Firesec_50.FiresecDriverAuParametersHelper.Progress += FiresecDriverAuParametersHelper_Progress;
-
 		}
 
 		void FiresecDriverAuParametersHelper_Progress(string value, int percentsCompleted)
@@ -215,18 +215,29 @@ namespace GKModule.ViewModels
 
 		void WriteDevices(List<XDevice> devices)
 		{
+			LoadingService.Show("Запись параметров");
 			foreach (var device in devices)
 			{
 				ParametersHelper.SetSingleParameter(device);
 			}
+			LoadingService.Close();
 		}
 
 		void ReadDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
+			LoadingService.Show("Запрос параметров");
+			var i = 0;
 			foreach (var device in devices)
 			{
+				i++;
+				FiresecDriverAuParametersHelper.OnPropgress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
 				ParametersHelper.GetSingleParameter(device);
 			}
+			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
+			FiresecDriverAuParametersHelper.OnPropgress("Чтение параметров устройства ", 0);
 		}
 		#endregion
 
@@ -529,14 +540,7 @@ namespace GKModule.ViewModels
 
 		List<XDevice> GetRealChildren()
 		{
-			var devices = new List<XDevice>();
-			foreach (var device in XManager.GetAllDeviceChildren(SelectedDevice.Device))
-			{
-				if (device.Driver.Properties.Any(x => x.IsAUParameter))
-				{
-					devices.Add(device);
-				}
-			}
+			var devices = XManager.GetAllDeviceChildren(SelectedDevice.Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 			return devices;
 		}
 
