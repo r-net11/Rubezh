@@ -76,7 +76,11 @@
                 <ListBox ItemsSource="{Binding StateClasses}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}"/>
+                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

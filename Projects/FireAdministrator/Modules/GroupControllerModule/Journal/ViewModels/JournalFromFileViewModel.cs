@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			journalItemsCollection.JournalItems.ForEach(x => JournalItems.Add(new JournalItemViewModel(x)));
 			CreationDateTimeString = "Файл создан " + journalItemsCollection.CreationDateTime.ToString();
-			RecordsCountString = "Записей в журнале " + (journalItemsCollection.LastIndex - journalItemsCollection.FirstIndex).ToString();
+			RecordsCountString = "Записей в журнале прибора " + journalItemsCollection.RecordCount.ToString();
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;

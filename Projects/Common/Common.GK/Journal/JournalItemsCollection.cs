@@ -10,27 +10,11 @@ namespace Common.GK.Journal
 	[DataContract]
 	public class JournalItemsCollection
 	{
-		public JournalItemsCollection(List<JournalItem> journalItems, XDevice device)
-		{
-			JournalItems = journalItems;
-			FirstIndex = journalItems.OrderBy(x => x.GKJournalRecordNo).FirstOrDefault().GKJournalRecordNo;
-			LastIndex = journalItems.OrderBy(x => x.GKJournalRecordNo).LastOrDefault().GKJournalRecordNo;
-			CreationDateTime = DateTime.Now;
-		}
-
-		public JournalItemsCollection()
-		{
-			;
-		}
-
 		[DataMember]
 		public DateTime CreationDateTime { get; set; }
 
 		[DataMember]
-		public int? FirstIndex { get; set; }
-
-		[DataMember]
-		public int? LastIndex { get; set; }
+		public int? RecordCount { get; set; }
 
 		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }

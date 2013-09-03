@@ -31,12 +31,15 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
-			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
-			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
 			
-			EditZoneCommand = new RelayCommand(OnEditZone);
-			DeleteZoneCommand = new RelayCommand(OnDeleteZone);
+			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanEditDelete);
+			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
+
+			DeleteDeviceCommand = new RelayCommand(OnDeleteDevice, CanEditDelete);
+			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
+
+			DeleteOutputDeviceCommand = new RelayCommand(OnDeleteOutputDevice, CanEditDelete);
+			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
 			
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -81,18 +84,6 @@ namespace GKModule.ViewModels
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
 			}
-		}
-
-		DirectionZoneViewModel _selectedZone;
-		public DirectionZoneViewModel SelectedZone
-		{
-			get { return _selectedZone; }
-			set
-			{
-				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
-			}
-
 		}
 
 		bool CanEditDelete()
@@ -151,28 +142,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditZoneCommand { get; private set; }
-		void OnEditZone()
-		{
-			Trace.WriteLine("EditZoneCommand "+ SelectedZone.DirectionZone.Zone.PresentationName);
-		}
-
 		public RelayCommand DeleteZoneCommand { get; private set; }
 		void OnDeleteZone()
 		{
-			if (SelectedZone == null)
+			if (SelectedDirection.SelectedZone == null)
 				return;
-
-			List<XZone> zones = new List<XZone>(); ;
-			foreach (var zone in SelectedDirection.Zones)
-			{
-				zones.Add(zone.DirectionZone.Zone);
-			}
-			zones.Remove(SelectedDirection.Zones.FirstOrDefault(x => x == SelectedZone).DirectionZone.Zone);
-			XManager.ChangeDirectionZones(SelectedDirection.Direction, zones);
-			SelectedDirection.InitializeDependences();
-			ServiceFactory.SaveService.GKChanged = true;
-			SelectedZone = SelectedDirection.Zones.LastOrDefault();
+			SelectedDirection.DeleteZone(SelectedDirection.SelectedZone.DirectionZone);
+			OnPropertyChanged("ZonesCount");
+			SelectedDirection.SelectedZone = null;
 		}
 
 		public RelayCommand ChangeZonesCommand { get; private set; }
@@ -189,11 +166,31 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DevicesCount");
 		}
 
+		public RelayCommand DeleteDeviceCommand { get; private set; }
+		void OnDeleteDevice()
+		{
+			if (SelectedDirection.SelectedDevice == null)
+				return;
+			SelectedDirection.DeleteDevice(SelectedDirection.SelectedDevice.Device);
+			OnPropertyChanged("DevicesCount");
+			SelectedDirection.SelectedDevice = null;
+		}
+
 		public RelayCommand ChangeOutputDevicesCommand { get; private set; }
 		void OnChangeOutputDevices()
 		{
 			SelectedDirection.ChangeOutputDevices();
 			OnPropertyChanged("OutputDevicesCount");
+		}
+
+		public RelayCommand DeleteOutputDeviceCommand { get; private set; }
+		void OnDeleteOutputDevice()
+		{
+			if (SelectedDirection.SelectedOutputDevice == null)
+				return;
+			SelectedDirection.DeleteOutputDevice(SelectedDirection.SelectedOutputDevice.Device);
+			OnPropertyChanged("OutputDevicesCount");
+			SelectedDirection.SelectedOutputDevice = null;
 		}
 
 		public int ZonesCount
