@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
@@ -11,7 +12,11 @@ namespace GKModule.ViewModels
 		public XDirection XDirection { get; set; }
 
 		public DirectionDetailsViewModel(XDirection direction = null)
-        {
+		{
+			ParametersHelper.AllParametersChanged -= ChangeParameter;
+			ParametersHelper.AllParametersChanged += ChangeParameter;
+			SetDirectionPropertiesCommand = new RelayCommand(OnSetDirectionProperties);
+			GetDirectionPropertiesCommand = new RelayCommand(OnGetDirectionProperties);
 			if (direction == null)
             {
                 Title = "Создание новоого направления";
@@ -31,6 +36,16 @@ namespace GKModule.ViewModels
             }
             CopyProperties();
         }
+
+		void ChangeParameter(ushort delay, ushort hold, ushort regime)
+		{
+			Delay = delay;
+			Hold = hold;
+			Regime = regime;
+			OnPropertyChanged("Delay");
+			OnPropertyChanged("Hold");
+			OnPropertyChanged("Regime");
+		}
 
         void CopyProperties()
         {
@@ -123,6 +138,18 @@ namespace GKModule.ViewModels
 			XDirection.Regime = Regime;
 			XDirection.Description = Description;
 			return base.Save();
+		}
+
+		public RelayCommand GetDirectionPropertiesCommand { get; private set; }
+		void OnGetDirectionProperties()
+		{
+			ParametersHelper.GetSingleDirectionParameter(XDirection);
+		}
+
+		public RelayCommand SetDirectionPropertiesCommand { get; private set; }
+		void OnSetDirectionProperties()
+		{
+			ParametersHelper.SetSingleDirectionParameter(XDirection);
 		}
     }
 }
