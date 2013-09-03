@@ -35,9 +35,9 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.AvailableStates.Contains(XStateType.Fire1))
+				if (device.Driver.AvailableStateBits.Contains(XStateBit.Fire1))
 				{
-					Formula.AddGetBitOff(XStateType.Fire1, device);
+					Formula.AddGetBitOff(XStateBit.Fire1, device);
 
 					if (count > 0)
 					{
@@ -53,9 +53,9 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.Driver.AvailableStates.Contains(XStateType.Fire2))
+				if (device.Driver.AvailableStateBits.Contains(XStateBit.Fire2))
 				{
-					Formula.AddGetBitOff(XStateType.Fire2, device);
+					Formula.AddGetBitOff(XStateBit.Fire2, device);
 
 					if (count > 0)
 					{
@@ -81,20 +81,20 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateType.Fire2, Zone);
+			Formula.AddGetBit(XStateBit.Fire2, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateType.Fire2, Zone);
+			Formula.AddPutBit(XStateBit.Fire2, Zone);
 
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateType.Fire1, Zone);
+			Formula.AddGetBit(XStateBit.Fire1, Zone);
 			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateType.Fire1, Zone);
+			Formula.AddPutBit(XStateBit.Fire1, Zone);
 
 			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
 			Formula.Add(FormulaOperationType.GE);
-			Formula.AddPutBit(XStateType.Attention, Zone);
+			Formula.AddPutBit(XStateBit.Attention, Zone);
 
 			Formula.Add(FormulaOperationType.END);
 		}

@@ -208,15 +208,15 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DeviceState.States.Contains(XStateType.TurningOn) && DeviceState.OnDelay > 0; }
+			get { return DeviceState.StateBits.Contains(XStateBit.TurningOn) && DeviceState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DeviceState.States.Contains(XStateType.On) && DeviceState.HoldDelay > 0; }
+			get { return DeviceState.StateBits.Contains(XStateBit.On) && DeviceState.HoldDelay > 0; }
 		}
 		public bool HasOffDelay
 		{
-			get { return DeviceState.States.Contains(XStateType.TurningOff) && DeviceState.OffDelay > 0; }
+			get { return DeviceState.StateBits.Contains(XStateBit.TurningOff) && DeviceState.OffDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

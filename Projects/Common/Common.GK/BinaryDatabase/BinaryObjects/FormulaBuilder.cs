@@ -27,20 +27,20 @@ namespace Common.GK
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateType stateType, XBinaryBase binaryBase)
+		public void AddGetBitOff(XStateBit stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateType,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
 				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 			Add(FormulaOperationType.GETBIT,
-				(byte)XStateType.Ignore,
+				(byte)XStateBit.Ignore,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk));
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateType stateType, XBinaryBase binaryBase)
+		public void AddGetBit(XStateBit stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateType,
@@ -48,7 +48,7 @@ namespace Common.GK
 				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
-		public void AddPutBit(XStateType stateType, XBinaryBase binaryBase)
+		public void AddPutBit(XStateBit stateType, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
 				(byte)stateType,
@@ -67,13 +67,13 @@ namespace Common.GK
 		public void AddStandardTurning(XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.DUP);
-			AddGetBit(XStateType.Norm, binaryBase);
+			AddGetBit(XStateBit.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateType.TurnOn_InAutomatic, binaryBase);
+			AddPutBit(XStateBit.TurnOn_InAutomatic, binaryBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(XStateType.Norm, binaryBase);
+			AddGetBit(XStateBit.Norm, binaryBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateType.TurnOff_InAutomatic, binaryBase);
+			AddPutBit(XStateBit.TurnOff_InAutomatic, binaryBase);
 		}
 
 		public void AddClauseFormula(XDeviceLogic deviceLogic)

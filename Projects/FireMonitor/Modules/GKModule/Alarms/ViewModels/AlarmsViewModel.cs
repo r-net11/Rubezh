@@ -58,20 +58,20 @@ namespace GKModule.ViewModels
 					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU)
 					continue;
 
-				foreach (var stateType in device.DeviceState.States)
+				foreach (var stateType in device.DeviceState.StateBits)
 				{
 					switch (stateType)
 					{
-						case XStateType.Ignore:
+						case XStateBit.Ignore:
 							alarms.Add(new Alarm(XAlarmType.Ignore, device));
 							break;
 
-						case XStateType.Failure:
+						case XStateBit.Failure:
 							alarms.Add(new Alarm(XAlarmType.Failure, device));
 							break;
 
-						case XStateType.On:
-						case XStateType.TurningOn:
+						case XStateBit.On:
+						case XStateBit.TurningOn:
 							//if (device.Driver.IsDeviceOnShleif)
 							if (device.Driver.IsControlDevice)
 							{
@@ -83,12 +83,12 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-				if (!device.DeviceState.States.Contains(XStateType.Norm) && !device.DeviceState.States.Contains(XStateType.Ignore)
+				if (!device.DeviceState.StateBits.Contains(XStateBit.Norm) && !device.DeviceState.StateBits.Contains(XStateBit.Ignore)
 					&& !device.DeviceState.IsConnectionLost && device.Driver.IsControlDevice)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				if (device.DeviceState.IsService)
+				if (device.DeviceState.IsService || device.DeviceState.IsMissmatch)
 				{
 					alarms.Add(new Alarm(XAlarmType.Service, device));
 				}
@@ -96,23 +96,23 @@ namespace GKModule.ViewModels
 
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				foreach (var stateType in zone.ZoneState.States)
+				foreach (var stateType in zone.ZoneState.StateBits)
 				{
 					switch (stateType)
 					{
-						case XStateType.Fire2:
+						case XStateBit.Fire2:
 							alarms.Add(new Alarm(XAlarmType.Fire2, zone));
 							break;
 
-						case XStateType.Fire1:
+						case XStateBit.Fire1:
 							alarms.Add(new Alarm(XAlarmType.Fire1, zone));
 							break;
 
-						case XStateType.Attention:
+						case XStateBit.Attention:
 							alarms.Add(new Alarm(XAlarmType.Attention, zone));
 							break;
 
-						case XStateType.Ignore:
+						case XStateBit.Ignore:
 							alarms.Add(new Alarm(XAlarmType.Ignore, zone));
 							break;
 					}
@@ -121,21 +121,21 @@ namespace GKModule.ViewModels
 
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				foreach (var stateType in direction.DirectionState.States)
+				foreach (var stateType in direction.DirectionState.StateBits)
 				{
 					switch (stateType)
 					{
-						case XStateType.On:
-						case XStateType.TurningOn:
+						case XStateBit.On:
+						case XStateBit.TurningOn:
 							alarms.Add(new Alarm(XAlarmType.NPTOn, direction));
 							break;
 
-						case XStateType.Ignore:
+						case XStateBit.Ignore:
 							alarms.Add(new Alarm(XAlarmType.Ignore, direction));
 							break;
 					}
 				}
-				if (!direction.DirectionState.States.Contains(XStateType.Norm) && !direction.DirectionState.States.Contains(XStateType.Ignore) &&
+				if (!direction.DirectionState.StateBits.Contains(XStateBit.Norm) && !direction.DirectionState.StateBits.Contains(XStateBit.Ignore) &&
 				!direction.DirectionState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
@@ -189,7 +189,7 @@ namespace GKModule.ViewModels
 				if (!device.Driver.IsDeviceOnShleif)
 					continue;
 
-				if (device.DeviceState.States.Contains(XStateType.Ignore))
+				if (device.DeviceState.StateBits.Contains(XStateBit.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(device);
 				}
@@ -197,7 +197,7 @@ namespace GKModule.ViewModels
 
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				if (zone.ZoneState.States.Contains(XStateType.Ignore))
+				if (zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForZone(zone);
 				}
@@ -205,7 +205,7 @@ namespace GKModule.ViewModels
 
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				if (direction.DirectionState.States.Contains(XStateType.Ignore))
+				if (direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(direction);
 				}
@@ -218,19 +218,19 @@ namespace GKModule.ViewModels
 				if (!device.Driver.IsDeviceOnShleif)
 					continue;
 
-				if (device.DeviceState.States.Contains(XStateType.Ignore))
+				if (device.DeviceState.StateBits.Contains(XStateBit.Ignore))
 					return true;
 			}
 
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				if (zone.ZoneState.States.Contains(XStateType.Ignore))
+				if (zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
 					return true;
 			}
 
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				if (direction.DirectionState.States.Contains(XStateType.Ignore))
+				if (direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
 					return true;
 			}
 			return false;
@@ -243,7 +243,7 @@ namespace GKModule.ViewModels
 				var passwordValidated = false;
 				foreach (var zone in XManager.DeviceConfiguration.Zones)
 				{
-					if (zone.ZoneState.States.Contains(XStateType.Fire1))
+					if (zone.ZoneState.StateBits.Contains(XStateBit.Fire1))
 					{
 						if (!passwordValidated)
 							passwordValidated = ServiceFactory.SecurityService.Validate();
@@ -251,7 +251,7 @@ namespace GKModule.ViewModels
 						if (passwordValidated)
 							ObjectCommandSendHelper.ResetFire1(zone, false);
 					}
-					if (zone.ZoneState.States.Contains(XStateType.Fire2))
+					if (zone.ZoneState.StateBits.Contains(XStateBit.Fire2))
 					{
 						if (!passwordValidated)
 							passwordValidated = ServiceFactory.SecurityService.Validate();
@@ -266,9 +266,9 @@ namespace GKModule.ViewModels
 		{
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				if (zone.ZoneState.States.Contains(XStateType.Fire1))
+				if (zone.ZoneState.StateBits.Contains(XStateBit.Fire1))
 					return true;
-				if (zone.ZoneState.States.Contains(XStateType.Fire2))
+				if (zone.ZoneState.StateBits.Contains(XStateBit.Fire2))
 					return true;
 			}
 			return false;

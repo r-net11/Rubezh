@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 			var stringBuilder = new StringBuilder();
 			foreach (var state in states)
 			{
-				if (state == XStateType.Save)
+				if (state == XStateBit.Save)
 					continue;
 
 				stringBuilder.Append(state.ToDescription() + " ");

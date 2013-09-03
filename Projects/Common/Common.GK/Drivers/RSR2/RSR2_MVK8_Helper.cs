@@ -20,18 +20,18 @@ namespace Common.GK
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
-			GKDriversHelper.AddAvailableStates(driver, XStateType.Failure);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Info);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Failure);
 
-			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 1, 1, 65535);

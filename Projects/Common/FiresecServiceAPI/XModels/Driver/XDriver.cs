@@ -15,9 +15,9 @@ namespace XFiresecAPI
 			Properties = new List<XDriverProperty>();
 			AUParameters = new List<XAUParameter>();
 			AutoCreateChildren = new List<XDriverType>();
-			AvailableStates = new List<XStateType>();
+			AvailableStateBits = new List<XStateBit>();
 			AvailableStateClasses = new List<XStateClass>();
-			AvailableCommands = new List<XStateType>();
+			AvailableCommandBits = new List<XStateBit>();
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
@@ -42,11 +42,11 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<XDriverProperty> Properties { get; set; }
 		[DataMember]
-		public List<XStateType> AvailableStates { get; set; }
+		public List<XStateBit> AvailableStateBits { get; set; }
 		[DataMember]
 		public List<XStateClass> AvailableStateClasses { get; set; }
 		[DataMember]
-		public List<XStateType> AvailableCommands { get; set; }
+		public List<XStateBit> AvailableCommandBits { get; set; }
 		[DataMember]
 		public List<XAUParameter> AUParameters { get; set; }
 

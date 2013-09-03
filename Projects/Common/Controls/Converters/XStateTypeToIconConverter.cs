@@ -8,8 +8,8 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var stateType = (XStateType)value;
-			if (stateType == XStateType.Norm)
+			var stateType = (XStateBit)value;
+			if (stateType == XStateBit.Norm)
 				return null;
 
 			return "/Controls;component/GKIcons/" + stateType.ToString() + ".png";

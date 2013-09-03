@@ -13,45 +13,27 @@ namespace XFiresecAPI
 			_isConnectionLost = true;
 		}
 
-		List<XStateType> _states = new List<XStateType>();
-		public override List<XStateType> States
+		List<XStateBit> _stateBits = new List<XStateBit>();
+		public override List<XStateBit> StateBits
 		{
 			get
 			{
 				if (IsConnectionLost)
-					return new List<XStateType>();
+					return new List<XStateBit>();
 				else
 				{
-					if (_states == null)
-						_states = new List<XStateType>();
-					return _states;
+					if (_stateBits == null)
+						_stateBits = new List<XStateBit>();
+					return _stateBits;
 				}
 			}
 			set
 			{
-				_states = value;
-				if (_states == null)
-					_states = new List<XStateType>();
+				_stateBits = value;
+				if (_stateBits == null)
+					_stateBits = new List<XStateBit>();
 				OnStateChanged();
 			}
-		}
-
-		public override List<XStateClass> StateClasses
-		{
-			get { return XStateClassHelper.Convert(States, IsConnectionLost, IsMissmatch); }
-		}
-
-		public override XStateClass StateClass
-		{
-			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
-		}
-
-		public override StateType GetStateType()
-		{
-			if (IsConnectionLost)
-				return StateType.Unknown;
-			else
-				return XStatesHelper.XStateTypesToState(States);
 		}
 	}
 }

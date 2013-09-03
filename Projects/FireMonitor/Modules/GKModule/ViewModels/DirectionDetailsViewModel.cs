@@ -63,10 +63,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DirectionState.States.Contains(XStateType.Ignore))
+				if (DirectionState.StateBits.Contains(XStateBit.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (DirectionState.States.Contains(XStateType.Norm))
+				if (DirectionState.StateBits.Contains(XStateBit.Norm))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -116,11 +116,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.States.Contains(XStateType.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return DirectionState.StateBits.Contains(XStateBit.TurningOn) && DirectionState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.States.Contains(XStateType.On) && DirectionState.HoldDelay > 0; }
+			get { return DirectionState.StateBits.Contains(XStateBit.On) && DirectionState.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

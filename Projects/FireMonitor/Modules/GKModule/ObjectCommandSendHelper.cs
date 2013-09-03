@@ -9,7 +9,7 @@ namespace GKModule
 {
 	public static class ObjectCommandSendHelper
 	{
-		public static void ExecuteDeviceCommand(XDevice device, XStateType stateType)
+		public static void ExecuteDeviceCommand(XDevice device, XStateBit stateType)
 		{
 			if (ObjectCommandSendHelper.SendControlCommand(device, stateType))
 			{
@@ -19,7 +19,7 @@ namespace GKModule
 
 		public static void ResetDevice(XDevice device)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(device, XStateType.Reset))
+			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.Reset))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, device);
 			}
@@ -27,7 +27,7 @@ namespace GKModule
 
 		public static void ResetZone(XZone zone)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(zone, XStateType.Reset))
+			if (ObjectCommandSendHelper.SendControlCommand(zone, XStateBit.Reset))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Сброс", XStateClass.Info, zone);
 			}
@@ -51,7 +51,7 @@ namespace GKModule
 
 		public static void SetAutomaticRegimeForZone(XZone zone)
 		{
-			if (SendControlCommand(zone, XStateType.SetRegime_Automatic))
+			if (SendControlCommand(zone, XStateBit.SetRegime_Automatic))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, zone);
 			}
@@ -59,7 +59,7 @@ namespace GKModule
 
 		public static void SetIgnoreRegimeForZone(XZone zone)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(zone, XStateType.SetRegime_Off))
+			if (ObjectCommandSendHelper.SendControlCommand(zone, XStateBit.SetRegime_Off))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Отключение", XStateClass.Info, zone);
 			}
@@ -67,7 +67,7 @@ namespace GKModule
 
 		public static void SetAutomaticRegimeForDevice(XDevice device)
 		{
-			if (SendControlCommand(device, XStateType.SetRegime_Automatic))
+			if (SendControlCommand(device, XStateBit.SetRegime_Automatic))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, device);
 			}
@@ -75,7 +75,7 @@ namespace GKModule
 
 		public static void SetManualRegimeForDevice(XDevice device)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(device, XStateType.SetRegime_Manual))
+			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.SetRegime_Manual))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, device);
 			}
@@ -83,7 +83,7 @@ namespace GKModule
 
 		public static void SetIgnoreRegimeForDevice(XDevice device)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(device, XStateType.SetRegime_Off))
+			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.SetRegime_Off))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, device);
 			}
@@ -91,7 +91,7 @@ namespace GKModule
 
 		public static void SetAutomaticRegimeForDirection(XDirection direction)
 		{
-			if (SendControlCommand(direction, XStateType.SetRegime_Automatic))
+			if (SendControlCommand(direction, XStateBit.SetRegime_Automatic))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, direction);
 			}
@@ -99,7 +99,7 @@ namespace GKModule
 
 		public static void SetManualRegimeForDirection(XDirection direction)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.SetRegime_Manual))
+			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.SetRegime_Manual))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, direction);
 			}
@@ -107,7 +107,7 @@ namespace GKModule
 
 		public static void SetIgnoreRegimeForDirection(XDirection direction)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.SetRegime_Off))
+			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.SetRegime_Off))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, direction);
 			}
@@ -115,7 +115,7 @@ namespace GKModule
 
 		public static void TurnOnDirection(XDirection direction)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.TurnOn_InManual))
+			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.TurnOn_InManual))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Включить", XStateClass.Info, direction);
 			}
@@ -123,7 +123,7 @@ namespace GKModule
 
 		public static void TurnOnNowDirection(XDirection direction)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.TurnOnNow_InManual))
+			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.TurnOnNow_InManual))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Включить немедленно", XStateClass.Info, direction);
 			}
@@ -131,7 +131,7 @@ namespace GKModule
 
 		public static void TurnOffDirection(XDirection direction)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateType.TurnOff_InManual))
+			if (ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.TurnOff_InManual))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Выключить", XStateClass.Info, direction);
 			}
@@ -139,9 +139,9 @@ namespace GKModule
 
 		public static void TurnOffDeviceAnyway(XDevice device)
 		{
-			var stateType = XStateType.TurnOff_InManual;
-			if (device.DeviceState.States.Contains(XStateType.Norm))
-				ObjectCommandSendHelper.SendControlCommand(device, XStateType.TurnOff_InAutomatic);
+			var stateType = XStateBit.TurnOff_InManual;
+			if (device.DeviceState.StateBits.Contains(XStateBit.Norm))
+				ObjectCommandSendHelper.SendControlCommand(device, XStateBit.TurnOff_InAutomatic);
 
 			if (ObjectCommandSendHelper.SendControlCommand(device, stateType))
 			{
@@ -151,9 +151,9 @@ namespace GKModule
 
 		public static void TurnOffDirectionAnyway(XDirection direction)
 		{
-			var stateType = XStateType.TurnOff_InManual;
-			if (direction.DirectionState.States.Contains(XStateType.Norm))
-				ObjectCommandSendHelper.SendControlCommand(direction, XStateType.TurnOff_InAutomatic);
+			var stateType = XStateBit.TurnOff_InManual;
+			if (direction.DirectionState.StateBits.Contains(XStateBit.Norm))
+				ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.TurnOff_InAutomatic);
 
 			if (ObjectCommandSendHelper.SendControlCommand(direction, stateType))
 			{
@@ -161,7 +161,7 @@ namespace GKModule
 			}
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, XStateType stateType)
+		static bool SendControlCommand(XBinaryBase binaryBase, XStateBit stateType)
 		{
 			var code = 0x80 + (int)stateType;
 			return SendControlCommand(binaryBase, (byte)code);

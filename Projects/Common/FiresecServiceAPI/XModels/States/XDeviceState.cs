@@ -16,30 +16,30 @@ namespace XFiresecAPI
 				_isConnectionLost = true;
 		}
 
-		List<XStateType> _states = new List<XStateType>();
-		public override List<XStateType> States
+		List<XStateBit> _states = new List<XStateBit>();
+		public override List<XStateBit> StateBits
 		{
 			get
 			{
 				if (IsConnectionLost)
-					return new List<XStateType>();
+					return new List<XStateBit>();
 
 				if (!Device.IsRealDevice)
-					return new List<XStateType>() { XStateType.Norm };
+					return new List<XStateBit>() { XStateBit.Norm };
 
 				if (Device.Driver.DriverType == XDriverType.PumpStation)
-					return new List<XStateType>() { XStateType.Norm };
+					return new List<XStateBit>() { XStateBit.Norm };
 
 				if (_states == null)
-					_states = new List<XStateType>();
-				_states.Remove(XStateType.Save);
+					_states = new List<XStateBit>();
+				_states.Remove(XStateBit.Save);
 				return _states;
 			}
 			set
 			{
 				_states = value;
 				if (_states == null)
-					_states = new List<XStateType>();
+					_states = new List<XStateBit>();
 				OnStateChanged();
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 				{
@@ -66,7 +66,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				var stateClasses = XStateClassHelper.Convert(States, IsConnectionLost, IsMissmatch);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsMissmatch);
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);
@@ -86,9 +86,9 @@ namespace XFiresecAPI
 					{
 						childStateClasses.AddRange(child.DeviceState.StateClasses);
 					}
-					return XStateClassHelper.GetMinStateClass(childStateClasses);
+					return XStatesHelper.GetMinStateClass(childStateClasses);
 				}
-				return XStateClassHelper.GetMinStateClass(StateClasses);
+				return XStatesHelper.GetMinStateClass(StateClasses);
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace XFiresecAPI
 			if (IsConnectionLost)
 				return StateType.Unknown;
 			else
-				return XStatesHelper.XStateTypesToState(States);
+				return XStatesHelper.XStateTypesToState(StateClasses);
 		}
 	}
 }

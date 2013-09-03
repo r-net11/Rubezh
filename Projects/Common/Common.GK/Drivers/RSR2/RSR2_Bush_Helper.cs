@@ -23,10 +23,10 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
-			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOffNow_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 2, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 1, "Задержка на выключение, с", 0, 2, 0, 65535);

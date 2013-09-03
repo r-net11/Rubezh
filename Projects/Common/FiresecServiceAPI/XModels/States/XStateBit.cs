@@ -2,7 +2,7 @@
 
 namespace XFiresecAPI
 {
-	public enum XStateType
+	public enum XStateBit
 	{
 		[DescriptionAttribute("Дежурный")]
 		Norm = 0,

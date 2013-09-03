@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
                 var stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine(Direction.PresentationName);
 				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
-				foreach (var stateType in DirectionState.States)
+				foreach (var stateType in DirectionState.StateBits)
 				{
 					stringBuilder.AppendLine(stateType.ToDescription());
 				}
@@ -71,11 +71,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.States.Contains(XStateType.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return DirectionState.StateBits.Contains(XStateBit.TurningOn) && DirectionState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.States.Contains(XStateType.On) && DirectionState.HoldDelay > 0; }
+			get { return DirectionState.StateBits.Contains(XStateBit.On) && DirectionState.HoldDelay > 0; }
 		}
 	}
 }

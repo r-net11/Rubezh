@@ -12,15 +12,14 @@ namespace Common.GK
 	{
 		public BinaryObjectState(List<byte> bytes)
 		{
-			ControllerAddress = BytesHelper.SubstructShort(bytes, 2);
+			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
-			Description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList());
-			SerialNo = BytesHelper.SubstructInt(bytes, 40);
+			string description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList());
+			int serialNo = BytesHelper.SubstructInt(bytes, 40);
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
-			Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 
 			States = XStatesHelper.StatesFromInt(state);
 			SetAdditionalParameters(bytes);
@@ -37,9 +36,10 @@ namespace Common.GK
 				additionalShortParameters.Add(additionalShortParameter);
 			}
 
-			if (Driver != null)
+			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
+			if (driver != null)
 			{
-				switch (Driver.DriverType)
+				switch (driver.DriverType)
 				{
 					case XDriverType.KAU:
 					case XDriverType.RSR2_KAU:
@@ -160,14 +160,10 @@ namespace Common.GK
 			}
 		}
 
-		public XDriver Driver { get; private set; }
-		public ushort ControllerAddress { get; private set; }
 		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
-		public string Description { get; private set; }
-		public int SerialNo { get; private set; }
 		public ushort TypeNo { get; private set; }
-		public List<XStateType> States { get; private set; }
+		public List<XStateBit> States { get; private set; }
 		public List<string> AdditionalStates { get; private set; }
 		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 
