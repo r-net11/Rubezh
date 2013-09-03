@@ -20,6 +20,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
+using Infrastructure.Client.Plans;
 
 namespace DevicesModule.Plans
 {

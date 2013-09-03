@@ -35,9 +35,12 @@ namespace GKModule.ViewModels
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			IsRightPanelVisible = true;
 			SubscribeEvents();
 			SetRibbonItems();
+		}
+		protected override bool IsRightPanelVisibleByDefault
+		{
+			get { return true; }
 		}
 
 		public void Initialize()

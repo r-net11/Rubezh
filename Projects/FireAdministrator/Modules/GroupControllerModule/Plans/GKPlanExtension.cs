@@ -14,6 +14,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
+using Infrastructure.Client.Plans;
 
 namespace GKModule.Plans
 {

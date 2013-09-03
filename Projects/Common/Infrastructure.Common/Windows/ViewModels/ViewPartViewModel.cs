@@ -20,11 +20,29 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool IsRightPanelEnabled { get; set; }
-		public bool IsRightPanelVisible { get; set; }
+		private bool _isRightPanelVisible;
+		public bool IsRightPanelVisible
+		{
+			get { return _isRightPanelVisible; }
+			set
+			{
+				_isRightPanelVisible = value;
+				RegistrySettingsHelper.SetBool(IsRightPanelVisibleRegistryKey, IsRightPanelVisible);
+			}
+		}
+		protected virtual bool IsRightPanelVisibleByDefault
+		{
+			get { return false; }
+		}
+		private string IsRightPanelVisibleRegistryKey
+		{
+			get { return "Shell.IsRightPanelVisible." + Key; }
+		}
 
 		public ViewPartViewModel()
 		{
 			Shortcuts = new Dictionary<KeyGesture, RelayCommand>();
+			_isRightPanelVisible = RegistrySettingsHelper.GetBool(IsRightPanelVisibleRegistryKey, IsRightPanelVisibleByDefault);
 		}
 
 		internal void Show()

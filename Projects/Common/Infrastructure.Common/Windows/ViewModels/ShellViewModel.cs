@@ -287,6 +287,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public override void OnClosed()
 		{
+			ApplicationService.Layout.Close();
 			UpdateWidth();
 			RegistrySettingsHelper.SetDouble(Name + ".Shell.SplitterDistance", _splitterDistance);
 			base.OnClosed();

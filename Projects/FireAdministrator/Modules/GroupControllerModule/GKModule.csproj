@@ -232,7 +232,6 @@
     <Compile Include="Plans\InstrumentAdorners\XZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\DirectionPropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">

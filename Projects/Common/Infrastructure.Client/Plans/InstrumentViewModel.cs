@@ -1,12 +1,21 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
+using System.Windows.Input;
 using Infrustructure.Plans.InstrumentAdorners;
 
-namespace PlansModule.ViewModels
+namespace Infrastructure.Client.Plans
 {
 	public class InstrumentViewModel : BaseViewModel, IInstrument
 	{
+		public InstrumentViewModel()
+		{
+			IsActive = true;
+		}
+
 		private string _imageSource;
 		public string ImageSource
 		{
@@ -14,7 +23,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_imageSource = value;
-				OnPropertyChanged("ImageSource");
+				OnPropertyChanged(() => ImageSource);
 			}
 		}
 
@@ -25,7 +34,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_toolTip = value;
-				OnPropertyChanged("ToolTip");
+				OnPropertyChanged(() => ToolTip);
 			}
 		}
 
@@ -39,17 +48,11 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged(() => IsActive);
 			}
 		}
-		
-
-		public InstrumentViewModel()
-		{
-			Autostart = true;
-			IsActive = true;
-		}
 
 		public ICommand Command { get; set; }
 		public InstrumentAdorner Adorner { get; set; }
 		public bool Autostart { get; set; }
 		public int Index { get; set; }
 	}
+
 }

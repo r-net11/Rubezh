@@ -22,6 +22,7 @@ namespace FiresecAPI
 			Modules =
 				//"DevicesModule.dll" + "\r\n" +
 				"PlansModule.dll" + "\r\n" +
+				"PlansModule.Kursk.dll" + "\r\n" +
 				//"LibraryModule.dll" + "\r\n" +
 				"SecurityModule.dll" + "\r\n" +
 				//"FiltersModule.dll" + "\r\n" +

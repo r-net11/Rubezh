@@ -42,9 +42,12 @@ namespace GKModule.ViewModels
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			IsRightPanelVisible = true;
 			SubscribeEvents();
 			SetRibbonItems();
+		}
+		protected override bool IsRightPanelVisibleByDefault
+		{
+			get { return true; }
 		}
 
 		public void Initialize()
