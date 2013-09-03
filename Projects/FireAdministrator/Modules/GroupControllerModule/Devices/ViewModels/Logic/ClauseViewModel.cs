@@ -66,14 +66,14 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AnyDevice:
 						Zones = new List<XZone>();
 						Directions = new List<XDirection>();
-						StateTypes = new ObservableCollection<XStateType>();
-						StateTypes.Add(XStateType.Norm);
-						StateTypes.Add(XStateType.Fire2);
+						StateTypes = new ObservableCollection<XStateBit>();
+						StateTypes.Add(XStateBit.Norm);
+						StateTypes.Add(XStateBit.Fire2);
 						if (Device.Driver.DriverType != XDriverType.MPT)
 						{
-							StateTypes.Add(XStateType.Fire1);
-							StateTypes.Add(XStateType.On);
-							StateTypes.Add(XStateType.Failure);
+							StateTypes.Add(XStateBit.Fire1);
+							StateTypes.Add(XStateBit.On);
+							StateTypes.Add(XStateBit.Failure);
 						}
 						break;
 
@@ -81,12 +81,12 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AnyZone:
 						Devices = new List<XDevice>();
 						Directions = new List<XDirection>();
-						StateTypes = new ObservableCollection<XStateType>();
-						StateTypes.Add(XStateType.Fire2);
+						StateTypes = new ObservableCollection<XStateBit>();
+						StateTypes.Add(XStateBit.Fire2);
 						if (Device.Driver.DriverType != XDriverType.MPT)
 						{
-							StateTypes.Add(XStateType.Fire1);
-							StateTypes.Add(XStateType.Attention);
+							StateTypes.Add(XStateBit.Fire1);
+							StateTypes.Add(XStateBit.Attention);
 						}
 						break;
 
@@ -94,8 +94,8 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AnyDirection:
 						Zones = new List<XZone>();
 						Devices = new List<XDevice>();
-						StateTypes = new ObservableCollection<XStateType>();
-						StateTypes.Add(XStateType.On);
+						StateTypes = new ObservableCollection<XStateBit>();
+						StateTypes.Add(XStateBit.On);
 						break;
 				}
 				if (StateTypes.Contains(oldSelectedStateType))
@@ -116,8 +116,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ObservableCollection<XStateType> _stateTypes;
-		public ObservableCollection<XStateType> StateTypes
+		ObservableCollection<XStateBit> _stateTypes;
+		public ObservableCollection<XStateBit> StateTypes
 		{
 			get { return _stateTypes; }
 			set
@@ -127,8 +127,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		XStateType _selectedStateType;
-		public XStateType SelectedStateType
+		XStateBit _selectedStateType;
+		public XStateBit SelectedStateType
 		{
 			get { return _selectedStateType; }
 			set
@@ -211,7 +211,7 @@ namespace GKModule.ViewModels
 				}
 				if (device.UID == Device.UID)
 					continue;
-				if (device.Driver.AvailableStates.Contains(SelectedStateType))
+				if (device.Driver.AvailableStateBits.Contains(SelectedStateType))
 					sourceDevices.Add(device);
 			}
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);

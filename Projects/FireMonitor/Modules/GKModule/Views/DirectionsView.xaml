@@ -20,7 +20,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTextColumn MinWidth="50" Binding="{Binding Direction.No}" Header="№" />
+				<DataGridTextColumn MinWidth="25" Binding="{Binding Direction.No}" Header="№" />
 				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
@@ -74,7 +74,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" Header="Адрес">
+				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Device.Address}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -105,7 +105,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="50" Header="Адрес">
+				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Device.PresentationAddress}" />
@@ -119,7 +119,7 @@
 
 		<DataGrid Grid.Row="1" Grid.Column="0" Margin="2" ItemsSource="{Binding InputZones}">
 			<DataGrid.Columns>
-				<DataGridTextColumn MinWidth="50" Binding="{Binding Zone.No}" Header="№" />
+				<DataGridTextColumn MinWidth="25" Binding="{Binding Zone.No}" Header="№" />
 				<DataGridTemplateColumn Width="*" Header="Входные зоны">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

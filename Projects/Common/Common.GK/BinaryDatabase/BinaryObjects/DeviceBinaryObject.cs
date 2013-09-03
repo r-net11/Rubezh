@@ -35,12 +35,9 @@ namespace Common.GK
 			Formula = new FormulaBuilder();
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				if (Device.Driver.HasLogic)
+				if (Device.Driver.HasLogic && Device.DeviceLogic.Clauses.Count > 0)
 				{
-					if (Device.DeviceLogic.Clauses.Count > 0)
-					{
-						AddClauseFormula(Device.DeviceLogic);
-					}
+					AddClauseFormula(Device.DeviceLogic);
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
@@ -49,67 +46,7 @@ namespace Common.GK
 
 		void AddClauseFormula(XDeviceLogic deviceLogic)
 		{
-			var clauseIndex = 0;
-			foreach (var clause in deviceLogic.Clauses)
-			{
-				var baseObjects = new List<XBinaryBase>();
-				foreach (var zone in clause.Zones)
-				{
-					baseObjects.Add(zone);
-				}
-				foreach (var device in clause.Devices)
-				{
-					baseObjects.Add(device);
-				}
-				foreach (var direction in clause.Directions)
-				{
-					baseObjects.Add(direction);
-				}
-
-				var objectIndex = 0;
-				foreach (var baseObject in baseObjects)
-				{
-					Formula.AddGetBitOff(clause.StateType, baseObject);
-
-					if (objectIndex > 0)
-					{
-						switch (clause.ClauseOperationType)
-						{
-							case ClauseOperationType.AllDevices:
-							case ClauseOperationType.AllZones:
-							case ClauseOperationType.AllDirections:
-								Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
-								break;
-
-							case ClauseOperationType.AnyDevice:
-							case ClauseOperationType.AnyZone:
-							case ClauseOperationType.AnyDirection:
-								Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
-								break;
-						}
-					}
-					objectIndex++;
-				}
-
-				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
-					Formula.Add(FormulaOperationType.COM, comment: "Условие Если НЕ");
-
-				if (clauseIndex > 0)
-				{
-					switch (clause.ClauseJounOperationType)
-					{
-						case ClauseJounOperationType.And:
-							Formula.Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");
-							break;
-
-						case ClauseJounOperationType.Or:
-							Formula.Add(FormulaOperationType.OR, comment: "Объединение нескольких условий по ИЛИ");
-							break;
-					}
-				}
-				clauseIndex++;
-			}
-
+			Formula.AddClauseFormula(deviceLogic);
 			AddMro2MFormula();
 			Formula.AddStandardTurning(Device);
 		}

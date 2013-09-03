@@ -9,12 +9,12 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return ((XStateType)value).ToDescription();
+			return ((XStateBit)value).ToDescription();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return (XStateType)value;
+			return (XStateBit)value;
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
-			foreach (var availableCommand in Device.Driver.AvailableCommands)
+			foreach (var availableCommand in Device.Driver.AvailableCommandBits)
 			{
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
@@ -45,10 +45,10 @@ namespace GKModule.ViewModels
         {
             get
             {
-                if (DeviceState.States.Contains(XStateType.Ignore))
+                if (DeviceState.StateBits.Contains(XStateBit.Ignore))
                     return DeviceControlRegime.Ignore;
 
-                if (DeviceState.States.Contains(XStateType.Norm))
+                if (DeviceState.StateBits.Contains(XStateBit.Norm))
                     return DeviceControlRegime.Automatic;
 
                 return DeviceControlRegime.Manual;
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanReset()
 		{
-			return DeviceState.States.Contains(XStateType.Fire2) || DeviceState.States.Contains(XStateType.Fire1);
+			return DeviceState.StateBits.Contains(XStateBit.Fire2) || DeviceState.StateBits.Contains(XStateBit.Fire1);
 		}
 	}
 }

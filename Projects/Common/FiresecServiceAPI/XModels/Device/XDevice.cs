@@ -35,7 +35,6 @@ namespace XFiresecAPI
 		}
 		public event Action AUParametersChanged;
 
-		public List<XProperty> SystemAUProperties { get; set; }
 		public XDeviceState DeviceState { get; set; }
 		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }
@@ -43,6 +42,9 @@ namespace XFiresecAPI
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XDevice> DevicesInLogic { get; set; }
+
+		[DataMember]
+		public List<XProperty> SystemAUProperties { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -298,7 +300,7 @@ namespace XFiresecAPI
 			}
 		}
 
-		public bool IsConnectedToKAURSR2
+		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }
 		}

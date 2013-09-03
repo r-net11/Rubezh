@@ -40,7 +40,7 @@ namespace Common.GK
 			var inputObjectsCount = 0;
 			foreach (var directionZone in Direction.DirectionZones)
 			{
-				Formula.AddGetBitOff(directionZone.StateType, directionZone.Zone);
+				Formula.AddGetBitOff(directionZone.StateBit, directionZone.Zone);
 				if (inputObjectsCount > 0)
 				{
 					Formula.Add(FormulaOperationType.OR);
@@ -49,7 +49,7 @@ namespace Common.GK
 			}
 			foreach (var directionDevice in Direction.DirectionDevices)
             {
-				Formula.AddGetBitOff(directionDevice.StateType, directionDevice.Device);
+				Formula.AddGetBitOff(directionDevice.StateBit, directionDevice.Device);
                 if (inputObjectsCount > 0)
                 {
                     Formula.Add(FormulaOperationType.OR);
@@ -61,14 +61,14 @@ namespace Common.GK
 
 			Formula.Add(FormulaOperationType.DUP);
 
-			Formula.AddGetBit(XStateType.Norm, Direction);
+			Formula.AddGetBit(XStateBit.Norm, Direction);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateType.TurnOn_InAutomatic, Direction);
+			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Direction);
 
 			Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-			Formula.AddGetBit(XStateType.Norm, Direction);
+			Formula.AddGetBit(XStateBit.Norm, Direction);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateType.TurnOff_InAutomatic, Direction);
+			Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Direction);
 		}
 
 		void SetPropertiesBytes()

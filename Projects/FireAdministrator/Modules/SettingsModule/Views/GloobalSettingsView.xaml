@@ -53,7 +53,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Скрывать дерево планов в ОЗ" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Monitor_HidePlansTree}" HorizontalAlignment="Left" Margin="2" />
@@ -78,9 +77,6 @@
 
                 <TextBlock Grid.Row="7" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="8" Grid.Column="0" Text="Показывать только видео" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding Monitor_ShowOnlyVideo}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Сервер">

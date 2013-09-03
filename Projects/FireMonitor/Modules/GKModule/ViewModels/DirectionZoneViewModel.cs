@@ -13,6 +13,6 @@ namespace GKModule.ViewModels
 		{
 		
 		}
-		public XStateType StateType { get; set; }
+		public XStateBit StateType { get; set; }
 	}
 }

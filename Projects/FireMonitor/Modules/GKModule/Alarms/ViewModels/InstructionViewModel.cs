@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 
 		public bool HasContent { get; private set; }
 		public XAlarmType AlarmType { get; private set; }
-		public XStateType StateType { get; private set; }
+		public XStateBit StateType { get; private set; }
 		public XInstruction Instruction { get; private set; }
 
 		XInstruction FindInstruction(XDevice device, XZone zone)

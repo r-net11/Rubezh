@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 				if (directionZone.Zone.ZoneState != null)
 				{
 					var directionZoneViewModel = new DirectionZoneViewModel(directionZone.Zone.ZoneState);
-					directionZoneViewModel.StateType = directionZone.StateType;
+					directionZoneViewModel.StateType = directionZone.StateBit;
 					InputZones.Add(directionZoneViewModel);
 				}
 			}

@@ -20,9 +20,9 @@ namespace GKModule.Plans.Designer
 {
 	class XDevicePainter : PointPainter
 	{
-		private PresenterItem _presenterItem;
-		private XDevice _xdevice;
-		private ContextMenu _contextMenu;
+		PresenterItem _presenterItem;
+		XDevice _device;
+		ContextMenu _contextMenu;
 
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -31,9 +31,9 @@ namespace GKModule.Plans.Designer
 			var elementXDevice = presenterItem.Element as ElementXDevice;
 			if (elementXDevice != null)
 			{
-				_xdevice = Helper.GetXDevice(elementXDevice);
-				if (_xdevice != null && _xdevice.DeviceState != null)
-					_xdevice.DeviceState.StateChanged += OnPropertyChanged;
+				_device = Helper.GetXDevice(elementXDevice);
+				if (_device != null && _device.DeviceState != null)
+					_device.DeviceState.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -55,34 +55,32 @@ namespace GKModule.Plans.Designer
 		}
 		private string GetDeviceTooltip()
 		{
-			if (_xdevice == null)
+			if (_device == null)
 				return null;
 			var stringBuilder = new StringBuilder();
-			stringBuilder.Append(_xdevice.PresentationAddressAndDriver);
+			stringBuilder.Append(_device.PresentationAddressAndDriver);
 			stringBuilder.Append(" - ");
-			stringBuilder.AppendLine(_xdevice.Driver.ShortName);
-
-			foreach (var state in _xdevice.DeviceState.States)
-				stringBuilder.AppendLine(state.ToDescription());
+			stringBuilder.AppendLine(_device.Driver.ShortName);
+			stringBuilder.AppendLine(_device.DeviceState.StateClass.ToDescription());
 
 			return stringBuilder.ToString().TrimEnd();
 		}
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicXBrush(_xdevice);
+			return DevicePictureCache.GetDynamicXBrush(_device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(_xdevice.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(_device.UID);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_xdevice.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_device.UID);
 		}
 
 		private ContextMenu CreateContextMenu()

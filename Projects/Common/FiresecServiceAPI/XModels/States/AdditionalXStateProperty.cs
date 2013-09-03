@@ -1,5 +1,4 @@
-﻿
-namespace XFiresecAPI
+﻿namespace XFiresecAPI
 {
 	public class AdditionalXStateProperty
 	{

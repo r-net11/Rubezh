@@ -13,19 +13,19 @@ namespace GKModule.ViewModels
 
         public XDirectionDevice DirectionDevice { get; private set; }
 
-        public XStateType StateType
+        public XStateBit StateType
         {
-            get { return DirectionDevice.StateType; }
+            get { return DirectionDevice.StateBit; }
             set
             {
-                DirectionDevice.StateType = value;
+				DirectionDevice.StateBit = value;
                 ServiceFactory.SaveService.GKChanged = true;
             }
         }
 
-        public List<XStateType> StateTypes
+		public List<XStateBit> StateTypes
         {
-            get { return DirectionDevice.Device.Driver.AvailableStates; }
+            get { return DirectionDevice.Device.Driver.AvailableStateBits; }
         }
     }
 }

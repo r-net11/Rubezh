@@ -11,7 +11,7 @@ namespace GKModule
 	{
 		static void GetDeviceParameters(XDevice device)
 		{
-			var AUParameterValues = new List<AUParameterValue>();
+			var auParameterValues = new List<AUParameterValue>();
 			foreach (var auParameter in device.Driver.AUParameters)
 			{
 				var bytes = new List<byte>();
@@ -31,13 +31,13 @@ namespace GKModule
 							Name = auParameter.Name,
 							Value = parameterValue
 						};
-						AUParameterValues.Add(auParameterValue);
+						auParameterValues.Add(auParameterValue);
 					}
 				}
 			}
 
-			var currentDustinessParameter = AUParameterValues.FirstOrDefault(x => x.Name == "Текущая запыленность");
-			var criticalDustinessParameter = AUParameterValues.FirstOrDefault(x => x.Name == "Порог запыленности предварительный");
+			var currentDustinessParameter = auParameterValues.FirstOrDefault(x => x.Name == "Текущая запыленность");
+			var criticalDustinessParameter = auParameterValues.FirstOrDefault(x => x.Name == "Порог запыленности предварительный");
 			if (currentDustinessParameter != null && criticalDustinessParameter != null)
 			{
 				if (currentDustinessParameter.Value > 0 && currentDustinessParameter.Value > 0)

@@ -11,9 +11,9 @@ namespace GKModule.DeviceProperties
 		{
 			var property = device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				_text = property.StringValue;
+				_text = Convert.ToString(property.Value);
 			else
-				_text = driverProperty.StringDefault;
+				_text = Convert.ToString(driverProperty.Default);
 		}
 
 		string _text;

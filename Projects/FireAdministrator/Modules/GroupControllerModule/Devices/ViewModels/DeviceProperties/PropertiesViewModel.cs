@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 

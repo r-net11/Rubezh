@@ -42,7 +42,6 @@ namespace FiresecClient
             allDeviceChildren.Add(device);
             foreach (var childDevice in device.Children)
             {
-				allDeviceChildren.Add(childDevice);
 				AddChildren(childDevice);
             }
         }

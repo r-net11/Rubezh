@@ -9,9 +9,9 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (value is XStateType)
+			if (value is XStateBit)
 			{
-				return ((XStateType)value).ToDescription();
+				return ((XStateBit)value).ToDescription();
 			}
 			return "";
 		}

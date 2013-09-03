@@ -1,8 +1,5 @@
-﻿using System.Windows;
-using Infrastructure.Common.Windows;
-using System.ComponentModel;
-using FiresecClient;
-using System;
+﻿using System;
+using System.Windows;
 using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;

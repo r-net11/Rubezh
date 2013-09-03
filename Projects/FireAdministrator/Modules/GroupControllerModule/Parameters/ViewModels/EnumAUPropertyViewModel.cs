@@ -47,7 +47,7 @@ namespace GKModule.DeviceProperties
 		{
 			get
 			{
-				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Name == base.DeviceAUParameterValue);
+				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Name == SelectedParameter.Name);
 				if (driverPropertyParameter != null)
 					return driverPropertyParameter.Name;
 				return "Неизвестно";

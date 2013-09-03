@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
@@ -57,11 +58,26 @@ namespace XFiresecAPI
 			}
 		}
 
-		public abstract List<XStateType> States { get; set; }
-		public abstract List<XStateClass> StateClasses { get; }
-		public abstract XStateClass StateClass { get; }
-		public abstract StateType GetStateType();
 		public DateTime LastDateTime { get; set; }
+		public abstract List<XStateBit> StateBits { get; set; }
+
+		public virtual List<XStateClass> StateClasses
+		{
+			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsMissmatch); }
+		}
+
+		public virtual XStateClass StateClass
+		{
+			get { return XStatesHelper.GetMinStateClass(StateClasses); }
+		}
+
+		public virtual StateType GetStateType()
+		{
+			if (IsConnectionLost)
+				return StateType.Unknown;
+			else
+				return XStatesHelper.XStateTypesToState(StateClasses);
+		}
 
 		List<string> _additionalStates;
 		public List<string> AdditionalStates

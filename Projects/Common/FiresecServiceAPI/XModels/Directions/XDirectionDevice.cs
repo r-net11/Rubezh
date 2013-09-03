@@ -12,6 +12,6 @@ namespace XFiresecAPI
 		public Guid DeviceUID { get; set; }
 
 		[DataMember]
-		public XStateType StateType { get; set; }
+		public XStateBit StateBit { get; set; }
 	}
 }

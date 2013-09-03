@@ -8,7 +8,7 @@ namespace XFiresecAPI
     {
 		public XDirectionZone()
 		{
-			StateType = XStateType.Fire1;
+			StateBit = XStateBit.Fire1;
 		}
 
         public XZone Zone { get; set; }
@@ -17,6 +17,6 @@ namespace XFiresecAPI
         public Guid ZoneUID { get; set; }
 
         [DataMember]
-        public XStateType StateType { get; set; }
+        public XStateBit StateBit { get; set; }
     }
 }

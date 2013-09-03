@@ -13,24 +13,24 @@ namespace GKModule.ViewModels
 
         public XDirectionZone DirectionZone { get; private set; }
 
-        public XStateType StateType
+        public XStateBit StateType
         {
-            get { return DirectionZone.StateType; }
+			get { return DirectionZone.StateBit; }
             set
             {
-                DirectionZone.StateType = value;
+				DirectionZone.StateBit = value;
                 ServiceFactory.SaveService.GKChanged = true;
             }
         }
 
-        public List<XStateType> StateTypes
+		public List<XStateBit> StateTypes
         {
             get
             {
-                var stateTypes = new List<XStateType>();
-                stateTypes.Add(XStateType.Attention);
-                stateTypes.Add(XStateType.Fire1);
-                stateTypes.Add(XStateType.Fire2);
+				var stateTypes = new List<XStateBit>();
+				stateTypes.Add(XStateBit.Attention);
+				stateTypes.Add(XStateBit.Fire1);
+				stateTypes.Add(XStateBit.Fire2);
                 return stateTypes;
             }
         }

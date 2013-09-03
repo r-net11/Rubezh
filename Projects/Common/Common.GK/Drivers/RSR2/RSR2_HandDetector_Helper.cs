@@ -18,7 +18,7 @@ namespace Common.GK
 				IsPlaceable = true
 			};
 
-			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire2);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
 
 			return driver;

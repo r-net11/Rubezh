@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecClient;
-using FiresecAPI.Models;
-using System.Configuration;
-using Infrastructure.Common.Theme;
-using Infrastructure.Common.Windows;
-using FiresecOPCServer.ViewModels;
-using Infrastructure.Common;
 using System.Threading;
 using Common;
-using Firesec;
+using FiresecAPI.Models;
+using FiresecClient;
+using FiresecOPCServer.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace FiresecOPCServer
 {
