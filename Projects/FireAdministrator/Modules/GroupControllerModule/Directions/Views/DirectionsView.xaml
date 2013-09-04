@@ -25,17 +25,26 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="№">
+                    <DataGridTemplateColumn MinWidth="50" Header="№">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-                                    <TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Direction.No}" />
+                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" />
+                                    <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
@@ -87,7 +96,16 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns >
-                            <GridViewColumn Header="№" DisplayMemberBinding="{Binding DirectionZone.Zone.No}" />
+                            <GridViewColumn Header="№">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BZones.png" />
+                                            <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" ToolTip="{Binding ToolTip}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
                             <GridViewColumn Header="Состояние" Width="250">
                                 <GridViewColumn.CellTemplate>

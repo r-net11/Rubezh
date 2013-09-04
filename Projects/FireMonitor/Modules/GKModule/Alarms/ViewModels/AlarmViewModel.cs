@@ -39,6 +39,20 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string ImageSource
+		{
+			get
+			{
+				if (Alarm.Device != null)
+					return Alarm.Device.Driver.ImageSource;
+				if (Alarm.Zone != null)
+					return "/Controls;component/Images/BZones.png";
+				if (Alarm.Direction != null)
+					return "/Controls;component/Images/BDirection.png";
+				return null;
+			}
+		}
+
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
 		void OnShowObjectOrPlan()
 		{
