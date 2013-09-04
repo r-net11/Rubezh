@@ -28,8 +28,7 @@
                         <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
                         GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
                         IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
-                            <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToShortStringConverter}}"
-                            Foreground="White" FontSize="30" FontFamily="Tahoma" />
+                            <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
                         </Controls:AlarmButton>
                     </Grid>
                 </DataTemplate>
