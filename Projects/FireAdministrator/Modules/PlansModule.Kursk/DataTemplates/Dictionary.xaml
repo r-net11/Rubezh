@@ -4,8 +4,4 @@
 		<Views:TankPropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:TanksViewModel}">
-		<Views:TanksView />
-	</DataTemplate>
-
 </ResourceDictionary>

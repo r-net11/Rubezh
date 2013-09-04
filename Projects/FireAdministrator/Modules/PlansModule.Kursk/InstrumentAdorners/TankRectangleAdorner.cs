@@ -6,24 +6,23 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
 using PlansModule.Kursk.ViewModels;
+using PlansModule.Kursk.Designer;
 
 namespace PlansModule.Kursk.InstrumentAdorners
 {
 	public class TankRectangleAdorner : BaseRectangleAdorner
 	{
-		private TanksViewModel _tanksViewModel;
-		public TankRectangleAdorner(CommonDesignerCanvas designerCanvas, TanksViewModel tankViewModel)
+		public TankRectangleAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
-			_tanksViewModel = tankViewModel;
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleTank();
-			var propertiesViewModel = new TankPropertiesViewModel(element, _tanksViewModel);
+			var propertiesViewModel = new TankPropertiesViewModel(element);
 			DialogService.ShowModalWindow(propertiesViewModel);
-			//Helper.SetTank(element);
+			Helper.SetXDevice(element);
 			return element;
 		}
 	}

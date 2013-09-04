@@ -13,9 +13,7 @@ namespace PlansModule.Kursk.Views
 		{
 			var dataGrid = sender as DataGrid;
 			if (dataGrid != null && dataGrid.SelectedItem != null)
-			{
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-			}
 		}
 	}
 }
