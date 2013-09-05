@@ -7,14 +7,19 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;
+using System.Linq;
 using System.Diagnostics;
 
 namespace GKModule
 {
 	public partial class Watcher
 	{
+		bool IsAnyDBMissmatch = false;
+
 		void GetAllStates()
 		{
+			IsAnyDBMissmatch = false;
+
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
@@ -30,6 +35,17 @@ namespace GKModule
 				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
 			StopProgress();
+
+			if (IsAnyDBMissmatch)
+			{
+				foreach (var binaryObject in GkDatabase.BinaryObjects)
+				{
+					var baseState = binaryObject.BinaryBase.GetXBaseState();
+					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+					baseState.IsGKMissmatch = true;
+				}
+			}
+
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
 		}
 
@@ -44,7 +60,7 @@ namespace GKModule
 			}
 			if (sendResult.Bytes.Count != 68)
 			{
-				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsMissmatch = true; });
+				ApplicationService.Invoke(() => { binaryBase.GetXBaseState().IsGKMissmatch = true; });
 				return false;
 			}
 			ConnectionChanged(true);
@@ -107,7 +123,11 @@ namespace GKModule
 				if (binaryObjectState.TypeNo != 0x106)
 					isMissmatch = true;
 			}
-			binaryBase.GetXBaseState().IsMissmatch = isMissmatch;
+			binaryBase.GetXBaseState().IsRealMissmatch = isMissmatch;
+			if (isMissmatch)
+			{
+				IsAnyDBMissmatch = true;
+			}
 		}
 
 		void CheckServiceRequired(XBinaryBase binaryBase, JournalItem journalItem)

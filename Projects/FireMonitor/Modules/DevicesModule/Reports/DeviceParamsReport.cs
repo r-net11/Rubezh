@@ -82,7 +82,7 @@ namespace DevicesModule.Reports
 
 		public string Title
 		{
-			get { return "Параметры устройств"; }
+			get { return "Параметры устройств RSR1"; }
 		}
 
 		public bool IsEnabled

@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				if (device.DeviceState.IsService || device.DeviceState.IsMissmatch)
+				if (device.DeviceState.IsService || device.DeviceState.IsRealMissmatch)
 				{
 					alarms.Add(new Alarm(XAlarmType.Service, device));
 				}

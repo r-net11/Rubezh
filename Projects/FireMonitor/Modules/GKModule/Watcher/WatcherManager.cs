@@ -26,7 +26,6 @@ namespace GKModule
 					continue;
 				}
 				var watcher = new Watcher(gkDatabase);
-				watcher.ReadMissingJournalItems();
 				watcher.StartThread();
 				Watchers.Add(watcher);
 			}

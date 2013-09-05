@@ -20,7 +20,7 @@
 									<Setter Property="Margin" Value="0" />
 									<Setter Property="VerticalContentAlignment" Value="Center" />
 									<Setter Property="HorizontalContentAlignment" Value="Center" />
-									<Setter Property="Background" Value="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" />
+									<Setter Property="Background" Value="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
 									<Setter Property="BorderThickness" Value="1" />
 									<Setter Property="BorderBrush" Value="Transparent" />
 									<Setter Property="Foreground" Value="Black" />
@@ -40,7 +40,7 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-									<Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" ToolTip="{Binding ToolTip}">
+									<Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToColorConverter}}" ToolTip="{Binding ToolTip}">
 										<Grid.ContextMenu>
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
 												<MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />

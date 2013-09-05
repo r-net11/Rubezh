@@ -2,33 +2,33 @@
 
 namespace FiresecAPI
 {
-    public enum StateType
-    {
+	public enum StateType
+	{
 		[DescriptionAttribute("Тревога")]
-        Fire = 0,
+		Fire = 0,
 
 		[DescriptionAttribute("Внимание")]
-        Attention = 1,
+		Attention = 1,
 
 		[DescriptionAttribute("Неисправность")]
-        Failure = 2,
+		Failure = 2,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-        Service = 3,
+		Service = 3,
 
 		[DescriptionAttribute("Отключено")]
-        Off = 4,
+		Off = 4,
 
 		[DescriptionAttribute("Неизвестно")]
-        Unknown = 5,
+		Unknown = 5,
 
 		[DescriptionAttribute("Норма*")]
-        Info = 6,
+		Info = 6,
 
 		[DescriptionAttribute("Норма")]
-        Norm = 7,
+		Norm = 7,
 
 		[DescriptionAttribute("Нет")]
-        No = 8
-    }
+		No = 8
+	}
 }

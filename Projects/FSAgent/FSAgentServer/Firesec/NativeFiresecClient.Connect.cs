@@ -98,13 +98,13 @@ namespace FSAgentServer
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("NativeFiresecClient.GetConnection " + e.Message);
+					Logger.Error("NativeFiresecClient.GetConnection " + e.Message + " FS_Address=" + FS_Address + ", FS_Port=" + FS_Port + ", FS_Login=" + FS_Login + ", FS_Password=" + FS_Password);
                     return new OperationResult<FS_Types.IFSC_Connection>(e.Message);
                 }
             }
             catch (Exception e)
             {
-                Logger.Error(e, "NativeFiresecClient.GetConnection");
+                Logger.Error(e, "NativeFiresecClient.GetConnection 2");
                 return new OperationResult<FS_Types.IFSC_Connection>(e.Message);
             }
         }

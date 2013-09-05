@@ -268,10 +268,10 @@
     <Resource Include="Reports\JournalReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Reports\DeviceParametersReport.xaml">
+    <Resource Include="Reports\DeviceParametersReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </Resource>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

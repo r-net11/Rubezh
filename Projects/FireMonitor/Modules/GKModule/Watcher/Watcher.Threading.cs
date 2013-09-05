@@ -48,6 +48,10 @@ namespace GKModule
 			try
 			{
 				GetAllStates();
+				if (!IsAnyDBMissmatch)
+				{
+					ReadMissingJournalItems();
+				}
 			}
 			catch (Exception e)
 			{
@@ -56,40 +60,43 @@ namespace GKModule
 
 			while (true)
 			{
-				try
+				if (!IsAnyDBMissmatch)
 				{
-					CheckTasks();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
-				}
+					try
+					{
+						CheckTasks();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
+					}
 
-				try
-				{
-					CheckDelays();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
-				}
+					try
+					{
+						CheckDelays();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
+					}
 
-				try
-				{
-					PingJournal();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
-				}
+					try
+					{
+						PingJournal();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
+					}
 
-				try
-				{
-					PingNextState();
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+					try
+					{
+						PingNextState();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+					}
 				}
 
 				if (StopEvent != null)

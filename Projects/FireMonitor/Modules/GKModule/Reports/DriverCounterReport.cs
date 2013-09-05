@@ -35,7 +35,7 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-            get { return "Количество устройств ГК по типам"; }
+            get { return "Количество устройств по типам"; }
 		}
 
 		public bool IsEnabled

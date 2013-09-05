@@ -14,6 +14,8 @@ namespace XFiresecAPI
 			Device = device;
 			if (device.Driver.DriverType != XDriverType.System)
 				_isConnectionLost = true;
+
+			MeasureParameter = new XMeasureParameter();
 		}
 
 		List<XStateBit> _states = new List<XStateBit>();
@@ -66,7 +68,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsMissmatch);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch);
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);
@@ -102,5 +104,7 @@ namespace XFiresecAPI
 			else
 				return XStatesHelper.XStateTypesToState(StateClasses);
 		}
+
+		public XMeasureParameter MeasureParameter { get; set; }
 	}
 }

@@ -23,6 +23,7 @@ namespace FSAgentServer
 			var fileName = GetSocketServerPath();
 			if (fileName == null)
 			{
+				Logger.Error("NativeFiresecClient.StartSocketServerIfNotRunning Не найден файл " + fileName);
 				return;
 			}
 

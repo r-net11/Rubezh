@@ -48,7 +48,7 @@ namespace DevicesModule.Reports
 
 		public string Title
 		{
-			get { return "Список устройств"; }
+			get { return "Список устройств RSR1"; }
 		}
 
 		public bool IsEnabled

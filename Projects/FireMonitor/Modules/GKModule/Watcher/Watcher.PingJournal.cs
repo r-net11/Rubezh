@@ -47,10 +47,10 @@ namespace GKModule
 
 		JournalItem ReadJournal(int index)
 		{
-			var data = BitConverter.GetBytes(index).ToList();
-			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
 			if (IsStopping)
 				return null;
+			var data = BitConverter.GetBytes(index).ToList();
+			var sendResult = SendManager.Send(GkDatabase.RootDevice, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);

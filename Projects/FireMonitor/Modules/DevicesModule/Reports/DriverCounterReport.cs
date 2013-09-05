@@ -39,7 +39,7 @@ namespace DevicesModule.Reports
 
 		public string Title
 		{
-			get { return "Количество устройств по типам"; }
+			get { return "Количество устройств RSR1 по типам"; }
 		}
 
 		public bool IsEnabled
