@@ -16,12 +16,10 @@ namespace PlansModule.Kursk
 	public class Module : ModuleBase
 	{
 		private PlanExtension _planExtension;
-		private TanksViewModel _tanksViewModel;
 
 		public override void CreateViewModels()
 		{
-			_tanksViewModel = new TanksViewModel();
-			_planExtension = new PlanExtension(_tanksViewModel);
+			_planExtension = new PlanExtension();
 		}
 
 		public override void Initialize()
