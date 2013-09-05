@@ -72,6 +72,7 @@ namespace GKModule.Plans.Designer
 			switch (Zone.ZoneState.StateClass)
 			{
 				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
 					return Colors.DarkGray;
 
 				case XStateClass.Norm:

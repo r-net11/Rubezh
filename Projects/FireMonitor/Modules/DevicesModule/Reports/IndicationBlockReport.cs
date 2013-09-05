@@ -74,7 +74,7 @@ namespace DevicesModule.Reports
 
 		public string Title
 		{
-			get { return "Блоки индикации"; }
+			get { return "Блоки индикации RSR1"; }
 		}
 
 		public bool IsEnabled

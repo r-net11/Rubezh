@@ -153,7 +153,6 @@
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Converters\XInstructionTypeToStringConverter.cs" />
-    <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />

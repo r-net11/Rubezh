@@ -85,8 +85,6 @@ namespace GKModule.ViewModels
 				stringBuilder.Append(state.ToDescription() + " ");
 			}
 			StringStates = stringBuilder.ToString();
-
-			//journalItem.InternalJournalItem.GKObjectNo
 		}
 
 		public string ImageSource
@@ -116,7 +114,6 @@ namespace GKModule.ViewModels
 
 					default:
 						return "";
-						
 				}
 			}
 		}

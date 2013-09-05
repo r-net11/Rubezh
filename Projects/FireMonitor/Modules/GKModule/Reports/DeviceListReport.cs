@@ -46,7 +46,7 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-			get { return "Список устройств ГК"; }
+			get { return "Список устройств"; }
 		}
 
 		public bool IsEnabled

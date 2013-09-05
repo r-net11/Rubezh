@@ -9,7 +9,7 @@ namespace GKModule
 {
 	public partial class Watcher
 	{
-		static void GetDeviceParameters(XDevice device)
+		static void UNUSED_GetDeviceParameters(XDevice device)
 		{
 			var auParameterValues = new List<AUParameterValue>();
 			foreach (var auParameter in device.Driver.AUParameters)

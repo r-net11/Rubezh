@@ -299,6 +299,7 @@
     <Compile Include="XModels\States\XDeviceState.cs" />
     <Compile Include="XModels\States\XDirectionState.cs" />
     <Compile Include="XModels\States\XDriverState.cs" />
+    <Compile Include="XModels\States\XMeasureParameter.cs" />
     <Compile Include="XModels\States\XStateClass.cs" />
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />

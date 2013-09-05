@@ -32,6 +32,9 @@ namespace Controls.Converters
 				case XStateClass.Unknown:
 					return Brushes.Gray;
 
+				case XStateClass.DBMissmatch:
+					return Brushes.Gray;
+
 				case XStateClass.On:
 					return Brushes.LightBlue;
 

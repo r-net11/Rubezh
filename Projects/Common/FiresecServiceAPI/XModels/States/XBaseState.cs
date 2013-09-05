@@ -44,15 +44,29 @@ namespace XFiresecAPI
 			}
 		}
 
-		bool _isMissmatch;
-		public bool IsMissmatch
+		bool _isGKMissmatch;
+		public bool IsGKMissmatch
 		{
-			get { return _isMissmatch; }
+			get { return _isGKMissmatch; }
 			set
 			{
-				if (_isMissmatch != value)
+				if (_isGKMissmatch != value)
 				{
-					_isMissmatch = value;
+					_isGKMissmatch = value;
+					OnStateChanged();
+				}
+			}
+		}
+
+		bool _isRealMissmatch;
+		public bool IsRealMissmatch
+		{
+			get { return _isRealMissmatch; }
+			set
+			{
+				if (_isRealMissmatch != value)
+				{
+					_isRealMissmatch = value;
 					OnStateChanged();
 				}
 			}
@@ -63,7 +77,7 @@ namespace XFiresecAPI
 
 		public virtual List<XStateClass> StateClasses
 		{
-			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsMissmatch); }
+			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch); }
 		}
 
 		public virtual XStateClass StateClass

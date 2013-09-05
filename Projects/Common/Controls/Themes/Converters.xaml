@@ -26,7 +26,6 @@
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
 	<Converters:XStateClassToDeviceStringConverter x:Key="XStateClassToDeviceStringConverter" />
-	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
