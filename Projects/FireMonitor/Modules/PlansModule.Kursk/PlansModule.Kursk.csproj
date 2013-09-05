@@ -55,7 +55,8 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Helper.cs" />
+    <Compile Include="Designer\Helper.cs" />
+    <Compile Include="Designer\TankState.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Painters\TankPainter.cs" />
     <Compile Include="PlanMonitor.cs" />
