@@ -123,10 +123,10 @@ namespace Common.GK
 			};
 
 			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stateClasses = XStateClassHelper.Convert(states, false, false);
+			var stateClasses = XStatesHelper.StateBitsToStateClasses(states, false, false);
 
 			if (Source == JournalSourceType.Object)
-				journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
+				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
 			else
 				journalItem.StateClass = XStateClass.Info;
 
@@ -289,15 +289,16 @@ namespace Common.GK
 							break;
 						case 2:
 							EventName = "Пожар-1";
-							if(JournalItemType == GK.JournalItemType.Device)
+							if (JournalItemType == GK.JournalItemType.Device)
 								EventName = "Сработка-1";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 3:
-							EventName = "Пожар-2";
 							if (JournalItemType == GK.JournalItemType.Device)
 								EventName = "Сработка-2";
+							else
+								EventName = "Пожар-2";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
@@ -308,7 +309,10 @@ namespace Common.GK
 						case 5:
 							EventName = "Неисправность";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
-							EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
+							if (ObjectDeviceType == 0xE0)
+								EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
+							else
+								EventDescription = StringHelper.ToBUSHFailure(bytes[32 + 15]);
 							break;
 
 						case 6:
@@ -325,7 +329,10 @@ namespace Common.GK
 
 						case 8:
 							EventName = "Информация";
-							EventDescription = StringHelper.ToInformation(bytes[32 + 15]);
+							if (ObjectDeviceType == 0xE0)
+								EventDescription = StringHelper.ToBUSHInformation(bytes[32 + 15]);
+							else
+								EventDescription = StringHelper.ToInformation(bytes[32 + 15]);
 							break;
 
 						case 9:
@@ -446,9 +453,9 @@ namespace Common.GK
 				case 51: return "КЗ кнопка ОУЗЗ/ЗУЗЗ ";
 				case 52: return "Обр кнопка СТОП УЗЗ ";
 				case 53: return "КЗ кнопка СТОП УЗЗ  ";
-				case 54: return "                    ";
-				case 55: return "                    ";
-				case 56: return "                    ";
+				case 54: return "Обр давление низкое ";
+				case 55: return "КЗ давление низкое  ";
+				case 56: return "Таймаут по давлению ";
 				case 57: return "КВ/МВ               ";
 				case 58: return "Не задан режим      ";
 				case 59: return "Отказ ШУЗ           ";
@@ -489,6 +496,23 @@ namespace Common.GK
 				case 94: return "КЗ кнопка СТОП      ";
 				case 95: return "Сообщения           ";
 				case 96: return "Выход               ";
+				case 97: return "Обр Уровень низкий  ";
+				case 98: return "КЗ  Уровень низкий  ";
+				case 99: return "Обр Уровень высокий ";
+				case 100: return "КЗ  Уровень высокий ";
+				case 101: return "Обр Уровень аварийн ";
+				case 102: return "КЗ  Уровень аварийн ";
+				case 103: return "Уровень аварийный   ";
+				case 104: return "Питание силовое     ";
+				case 105: return "Питание контроллера ";
+				case 106: return "Несоответствие      ";
+				case 107: return "Фаза                ";
+				case 108: return "Обр Давление на вых ";
+				case 109: return "КЗ  Давление на вых ";
+				case 110: return "Обр ДУ ПУСК         ";
+				case 111: return "КЗ  ДУ ПУСК         ";
+				case 112: return "Обр ДУ СТОП         ";
+				case 113: return "КЗ  ДУ СТОП         ";
 				case 241: return "Обрыв АЛС 1-2      ";
 				case 242: return "Обрыв АЛС 3-4      ";
 				case 243: return "Обрыв АЛС 5-6      ";
@@ -504,6 +528,36 @@ namespace Common.GK
 				case 253: return "ОЛС                ";
 				case 254: return "РЛС                ";
 				case 255: return "Потеря связи       ";
+			}
+			return "";
+		}
+
+		public static string ToBUSHFailure(byte b)
+		{
+			switch (b)
+			{
+				case 0: return "Вскрытие            ";
+				case 1: return "Контакт не переключ ";
+				case 2: return "Обр Уровень низкий  ";
+				case 3: return "КЗ  Уровень низкий  ";
+				case 4: return "Обр Уровень высокий ";
+				case 5: return "КЗ  Уровень высокий ";
+				case 6: return "Обр Уровень аварийн ";
+				case 7: return "КЗ  Уровень аварийн ";
+				case 8: return "Уровень аварийный   ";
+				case 9: return "Питание силовое     ";
+				case 10: return "Питание контроллера ";
+				case 11: return "Несоответствие      ";
+				case 12: return "Фаза                ";
+				case 13: return "Обр Давление низкое ";
+				case 14: return "КЗ  Давление низкое ";
+				case 15: return "Таймаут по давлению ";
+				case 16: return "Обр Давлен на выходе";
+				case 17: return "КЗ  Давлен на выходе";
+				case 18: return "Обр ДУ ПУСК         ";
+				case 19: return "КЗ  ДУ ПУСК         ";
+				case 20: return "Обр ДУ СТОП         ";
+				case 21: return "КЗ  ДУ СТОП         ";
 			}
 			return "";
 		}
@@ -533,7 +587,7 @@ namespace Common.GK
 			switch (b)
 			{
 				case 0: return "                    ";
-				case 1: return "Команда от ППКП     ";
+				case 1: return "Команда от прибора  ";
 				case 2: return "Команда от кнопки   ";
 				case 3: return "Изм автомат по Н    ";
 				case 4: return "Изм автомат по СТОП ";
@@ -570,8 +624,39 @@ namespace Common.GK
 				case 35: return "Запрет пуска компрес";
 				case 36: return "Ввод 1              ";
 				case 37: return "Ввод 2              ";
+				case 38: return "Команда от логики   ";
+				case 39: return "Команда от ДУ       ";
 				case 40: return "Давление низкое     ";
+				case 41: return "Давление высокое    ";
 				case 42: return "Давление норма      ";
+				case 43: return "Давление неопределен";
+				case 44: return "Давление на вых есть";
+				case 45: return "Давление на вых нет ";
+				case 46: return "Выключить           ";
+				case 47: return "Стоп                ";
+				case 48: return "Запрет пуска        ";
+				case 49: return "Ручной пуск         ";
+			}
+			return "";
+		}
+
+		public static string ToBUSHInformation(byte b)
+		{
+			switch (b)
+			{
+				case 0: return "Уровень низкий      ";
+				case 1: return "Уровень высокий     ";
+				case 2: return "Уровень аварийный   ";
+				case 3: return "Уровень норма       ";
+				case 4: return "Команда от прибора  ";
+				case 5: return "Команда от кнопки   ";
+				case 6: return "Команда от логики   ";
+				case 7: return "Команда от ДУ       ";
+				case 8: return "Давление низкое     ";
+				case 9: return "Давление норма      ";
+				case 10: return "Давление высокое    ";
+				case 11: return "Давление на вых есть";
+				case 12: return "Давление на вых нет ";
 			}
 			return "";
 		}

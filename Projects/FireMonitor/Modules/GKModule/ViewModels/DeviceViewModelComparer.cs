@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			return x.Device.IntAddress - y.Device.IntAddress;
+			return (x.Device.ShleifNo * 256 + x.Device.IntAddress) - (y.Device.ShleifNo * 256 + y.Device.IntAddress);
 		}
 	}
 	public class DeviceViewModelZoneComparer : TreeNodeComparer<DeviceViewModel>

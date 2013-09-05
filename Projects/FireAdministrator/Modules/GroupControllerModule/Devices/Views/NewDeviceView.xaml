@@ -51,12 +51,10 @@
                 <Label Content="Шлейф" />
                 <ComboBox ItemsSource="{Binding AvailableShleifs}" SelectedItem="{Binding SelectedShleif}"  />
             </StackPanel>
-            <Grid Grid.Column="1" Visibility="{Binding HasStartAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                    <Label Content="Начальный адрес" />
-                    <extToolkit:IntegerUpDown Minimum="1" Maximum="255" Value="{Binding StartAddress}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
-                </StackPanel>
-            </Grid>
+            <StackPanel Grid.Column="1"  Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                <Label Content="Начальный адрес" />
+                <extToolkit:IntegerUpDown Minimum="1" Maximum="255" Value="{Binding StartAddress}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />
+            </StackPanel>
             <StackPanel Grid.Column="3" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                 <Label Content="Количество" />
                 <extToolkit:IntegerUpDown Minimum="1" Maximum="255" Value="{Binding Count}" SelectAllOnGotFocus="True" Width="150" HorizontalAlignment="Left" />

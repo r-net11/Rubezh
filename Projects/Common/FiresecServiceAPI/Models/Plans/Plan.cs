@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 	[DataContract]
 	[KnownType(typeof(Plan))]
 	[KnownType(typeof(PlanFolder))]
+	[KnownType(typeof(ElementRectangleTank))]
 	public class Plan : IElementBackground
 	{
 		public Plan()
@@ -40,6 +41,7 @@ namespace FiresecAPI.Models
 			ElementPolygonXZones = new List<ElementPolygonXZone>();
 			ElementRectangleXDirections = new List<ElementRectangleXDirection>();
 			ElementPolygonXDirections = new List<ElementPolygonXDirection>();
+			ElementExtensions = new List<ElementBase>();
 		}
 
 
@@ -98,6 +100,8 @@ namespace FiresecAPI.Models
 		public List<ElementRectangleXDirection> ElementRectangleXDirections { get; set; }
 		[DataMember]
 		public List<ElementPolygonXDirection> ElementPolygonXDirections { get; set; }
+		[DataMember]
+		public List<ElementBase> ElementExtensions { get; set; }
 
 		public List<ElementBase> ElementUnion
 		{

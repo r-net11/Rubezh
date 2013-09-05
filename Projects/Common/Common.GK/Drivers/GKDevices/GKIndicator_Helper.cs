@@ -26,8 +26,8 @@ namespace Common.GK
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
-			driver.AvailableStates.Add(XStateType.On);
-			driver.AvailableStates.Add(XStateType.Off);
+			driver.AvailableStateBits.Add(XStateBit.On);
+			driver.AvailableStateBits.Add(XStateBit.Off);
 
 			var modeProperty = new XDriverProperty()
 			{

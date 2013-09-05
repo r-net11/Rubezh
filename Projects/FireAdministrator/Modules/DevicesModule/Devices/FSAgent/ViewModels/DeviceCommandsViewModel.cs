@@ -32,6 +32,7 @@ namespace DevicesModule.ViewModels
             SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
             BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
             ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
+			ConvertCommand = new RelayCommand(OnConvert);
 
             DevicesViewModel = devicesViewModel;
         }
@@ -225,6 +226,13 @@ namespace DevicesModule.ViewModels
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU ||
 				SelectedDevice.Device.Driver.DriverType == DriverType.PDU_PT));
         }
+
+		public RelayCommand ConvertCommand { get; private set; }
+		void OnConvert()
+		{
+			var fs1ConvertationHelper = new FS1ConvertationHelper();
+			fs1ConvertationHelper.ConvertConfiguration();
+		}
 
 		bool ValidateConfiguration()
 		{

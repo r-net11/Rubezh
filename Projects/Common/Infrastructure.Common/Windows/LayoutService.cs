@@ -49,7 +49,11 @@ namespace Infrastructure.Common.Windows
 		public void Close()
 		{
 			foreach (ViewPartViewModel item in ShellViewModel.ContentItems)
+			{
+				if (item.IsActive)
+					item.IsRightPanelVisible = ShellViewModel.RightPanelVisible;
 				item.Hide();
+			}
 		}
 
 		public void ShowToolbar(BaseViewModel model)

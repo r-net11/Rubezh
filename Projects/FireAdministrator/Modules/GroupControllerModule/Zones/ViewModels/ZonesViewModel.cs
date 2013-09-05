@@ -37,7 +37,6 @@ namespace GKModule.ViewModels
             ZoneDevices = new ZoneDevicesViewModel();
             RegisterShortcuts();
 			IsRightPanelEnabled = true;
-			IsRightPanelVisible = false;
 			SubscribeEvents();
 			SetRibbonItems();
 		}

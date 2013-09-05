@@ -8,31 +8,16 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class NewDeviceViewModel : SaveCancelDialogViewModel
+	public class NewDeviceViewModel : NewDeviceViewModelBase
 	{
-		DeviceViewModel ParentDeviceViewModel;
-		XDevice ParentDevice;
-		XDevice RealParentDevice;
-		public DeviceViewModel AddedDevice { get; private set; }
-
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
+			: base(deviceViewModel)
 		{
-			Title = "Новое устройство";
-			ParentDeviceViewModel = deviceViewModel;
-			ParentDevice = ParentDeviceViewModel.Device;
-			RealParentDevice = ParentDevice;
-			if (ParentDevice.IsConnectedToKAURSR2)
-			{
-				RealParentDevice = ParentDevice.KAURSR2Parent;
-			}
-
-			AvailableShleifs = new ObservableCollection<byte>();
-			Drivers = new ObservableCollection<XDriver>();
 			foreach (var driver in XManager.DriversConfiguration.XDrivers)
 			{
 				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
 					continue;
-				if (RealParentDevice.Driver.Children.Contains(driver.DriverType))
+				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
@@ -43,10 +28,7 @@ namespace GKModule.ViewModels
 					select driver);
 
 			SelectedDriver = Drivers.FirstOrDefault();
-			Count = 1;
 		}
-
-		public ObservableCollection<XDriver> Drivers { get; private set; }
 
 		XDriver _selectedDriver;
 		public XDriver SelectedDriver
@@ -77,20 +59,11 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					if (ParentDevice.IsConnectedToKAURSR2)
-					{
-						AvailableShleifs.Add(ParentDevice.ShleifNo);
-					}
-					else
-					{
-						AvailableShleifs.Add(1);
-					}
+					AvailableShleifs.Add(1);
 				}
 			}
 			SelectedShleif = AvailableShleifs.FirstOrDefault();
 		}
-
-		public ObservableCollection<byte> AvailableShleifs { get; private set; }
 
 		byte _selectedShleif;
 		public byte SelectedShleif
@@ -118,30 +91,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool HasStartAddress
-		{
-			get
-			{
-				if (SelectedDriver.DriverType != XDriverType.RSR2_KAU && ParentDevice.IsConnectedToKAURSR2)
-					return false;
-				return true;
-			}
-		}
-
-		int _count;
-		public int Count
-		{
-			get { return _count; }
-			set
-			{
-				_count = value;
-				OnPropertyChanged("Count");
-			}
-		}
-
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, RealParentDevice, SelectedShleif);
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
 			StartAddress = (byte)(maxAddress % 256);
 		}
 
@@ -149,72 +101,32 @@ namespace GKModule.ViewModels
 		{
 			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
 
-			if (ParentDevice.IsConnectedToKAURSR2)
+			for (int i = StartAddress; i < StartAddress + Count * step; i++)
 			{
-				for (int i = 0; i < Count; i++)
+				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
 				{
-					var address = StartAddress + i * step;
-					if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
-					{
-						return true;
-					}
-
-					if (ParentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
-					{
-						var previousDevice = ParentDevice.Children.LastOrDefault();
-						var minDelta = 8*256;
-						foreach (var child in ParentDevice.Children)
-						{
-							var delta = (SelectedShleif + 1) * 256 - (child.ShleifNo * 256 + child.IntAddress);
-							if (delta > 0 && delta < minDelta)
-							{
-								minDelta = delta;
-								previousDevice = child;
-							}
-						}
-
-						var previousDeviceViewModel = ParentDeviceViewModel.Children.FirstOrDefault(x => x.Device == previousDevice);
-						XDevice device = XManager.InsertChild(ParentDevice, previousDevice, SelectedDriver, SelectedShleif, (byte)address);
-						AddedDevice = NewDeviceHelper.InsertDevice(device, previousDeviceViewModel);
-					}
-					else
-					{
-						XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
-						AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
-					}
+					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
+					return false;
 				}
-				XManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);
-				return true;
 			}
-			else
+
+			if (ParentDevice.Driver.IsGroupDevice)
 			{
-				for (int i = StartAddress; i < StartAddress + Count * step; i++)
-				{
-					if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
-					{
-						MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
-						return false;
-					}
-				}
-
-				if (ParentDevice.Driver.IsGroupDevice)
-				{
-					Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
-				}
-
-				for (int i = 0; i < Count; i++)
-				{
-					var address = StartAddress + i * step;
-					if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
-					{
-						return true;
-					}
-
-					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
-					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
-				}
-				return true;
+				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
 			}
+
+			for (int i = 0; i < Count; i++)
+			{
+				var address = StartAddress + i * step;
+				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+				{
+					return true;
+				}
+
+				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+				AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+			}
+			return true;
 		}
 
 		protected override bool CanSave()

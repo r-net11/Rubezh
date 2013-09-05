@@ -23,9 +23,9 @@ namespace Common.GK
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
-			driver.AvailableCommands.Add(XStateType.TurnOn_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOnNow_InManual);
-			driver.AvailableCommands.Add(XStateType.TurnOff_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
+			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
 			var property1 = new XDriverProperty()
 			{

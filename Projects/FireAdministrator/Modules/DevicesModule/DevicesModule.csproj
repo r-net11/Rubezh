@@ -145,6 +145,7 @@
     <Compile Include="Devices\FS2\ViewModels\FS2SetPasswordViewModel.cs" />
     <Compile Include="Devices\FS2\ViewModels\FS2CustomAdminFunctionsCommandViewModel.cs" />
     <Compile Include="Devices\FS2\ViewModels\FS2DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\FSAgent\ViewModels\FS1ConvertationHelper.cs" />
     <Compile Include="Devices\FSAgent\ViewModels\CustomAdminFunctionsCommandViewModel.cs" />
     <Compile Include="Devices\FSAgent\Async\FirmwareUpdateHelper.cs" />
     <Compile Include="Devices\FSAgent\Async\DeviceGetSerialListHelper.cs" />
@@ -284,7 +285,6 @@
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
-    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
@@ -322,7 +322,7 @@
     <Compile Include="Zones\Converters\ExitRestoreTypeToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
-    <Compile Include="DevicesModule.cs" />
+    <Compile Include="Validation\DevicesModule.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\PDUDeviceViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />

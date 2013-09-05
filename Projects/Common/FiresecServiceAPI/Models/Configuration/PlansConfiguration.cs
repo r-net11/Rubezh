@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
@@ -77,6 +78,11 @@ namespace FiresecAPI.Models
 			if (plan.ElementPolygonXDirections == null)
 			{
 				plan.ElementPolygonXDirections = new List<ElementPolygonXDirection>();
+				result = false;
+			}
+			if (plan.ElementExtensions == null)
+			{
+				plan.ElementExtensions = new List<ElementBase>();
 				result = false;
 			}
 			foreach (var elementSubPlan in plan.ElementSubPlans)

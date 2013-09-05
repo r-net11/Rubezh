@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="PlansModule.Kursk.Views.TankPropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinHeight="400" MinWidth="400">
+
+	<DataGrid ItemsSource="{Binding XDevices}" SelectedItem="{Binding SelectedXDevice}" SelectionChanged="DataGrid_SelectionChanged">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Устройство" Width="250">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+							<StackPanel Grid.Column="1">
+								<TextBlock Text="{Binding Driver.ShortName}">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Driver.IsDeviceOnShleif}" Value="True">
+                                                    <DataTrigger.Setters>
+                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                    </DataTrigger.Setters>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+								</TextBlock>
+							</StackPanel>
+
+						</Grid>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+
+			<DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding PresentationAddressAndDriver}" />
+			<DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
+
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

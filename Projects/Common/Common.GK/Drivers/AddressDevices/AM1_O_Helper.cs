@@ -18,7 +18,7 @@ namespace Common.GK
                 IsPlaceable = true
 			};
 
-			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 
 			var property1 = new XDriverProperty()

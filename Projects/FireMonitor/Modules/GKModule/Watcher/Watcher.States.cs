@@ -53,7 +53,7 @@ namespace GKModule
 			ApplicationService.Invoke(() =>
 			{
 				var binaryState = binaryBase.GetXBaseState();
-				binaryState.States = binaryObjectState.States;
+				binaryState.StateBits = binaryObjectState.States;
 				binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
 				binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
 				binaryState.OnDelay = binaryObjectState.OnDelay;

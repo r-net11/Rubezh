@@ -188,7 +188,7 @@ namespace FiresecClient
                 var existingDirectionZone = oldDirectionZones.FirstOrDefault(x => x.Zone == zone);
                 if (existingDirectionZone != null)
                 {
-                    directionZone.StateType = existingDirectionZone.StateType;
+                    directionZone.StateBit = existingDirectionZone.StateBit;
                 }
                 direction.DirectionZones.Add(directionZone);
                 zone.Directions.Add(direction);
@@ -214,22 +214,22 @@ namespace FiresecClient
                     DeviceUID = device.UID,
                     Device = device
                 };
-				if(device.Driver.AvailableStates.Contains(XStateType.Fire1))
+				if(device.Driver.AvailableStateBits.Contains(XStateBit.Fire1))
 				{
-					directionDevice.StateType = XStateType.Fire1;
+					directionDevice.StateBit = XStateBit.Fire1;
 				}
-				else if (device.Driver.AvailableStates.Contains(XStateType.Fire2))
+				else if (device.Driver.AvailableStateBits.Contains(XStateBit.Fire2))
 				{
-					directionDevice.StateType = XStateType.Fire2;
+					directionDevice.StateBit = XStateBit.Fire2;
 				}
-				else if (device.Driver.AvailableStates.Contains(XStateType.On))
+				else if (device.Driver.AvailableStateBits.Contains(XStateBit.On))
 				{
-					directionDevice.StateType = XStateType.On;
+					directionDevice.StateBit = XStateBit.On;
 				}
                 var existingDirectionDevice = oldDirectionDevices.FirstOrDefault(x => x.Device == device);
                 if (existingDirectionDevice != null)
                 {
-                    directionDevice.StateType = existingDirectionDevice.StateType;
+                    directionDevice.StateBit = existingDirectionDevice.StateBit;
                 }
                 direction.DirectionDevices.Add(directionDevice);
                 direction.InputDevices.Add(device);

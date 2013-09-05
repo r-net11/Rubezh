@@ -9,13 +9,12 @@ namespace SettingsModule.ViewModels
 	public class SettingsViewModel : ViewPartViewModel
 	{
 		public ThemeViewModel ThemeContext { get; set; }
-		public ConvertationViewModel ConvertationViewModel { get; set; }
 
 		public void Initialize()
 		{
 			ThemeContext = new ThemeViewModel();
-			ConvertationViewModel = new ConvertationViewModel();
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ShowErrorsFilterCommand = new RelayCommand(OnShowErrorsFilter);
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
@@ -30,6 +29,13 @@ namespace SettingsModule.ViewModels
 			{
 				MessageBoxService.ShowError("У Вас нет прав для изменения настроек");
 			}
+		}
+
+		public RelayCommand ShowErrorsFilterCommand { get; private set; }
+		void OnShowErrorsFilter()
+		{
+			var errorsFilterViewModel = new ErrorsFilterViewModel();
+			DialogService.ShowModalWindow(errorsFilterViewModel);
 		}
 	}
 }

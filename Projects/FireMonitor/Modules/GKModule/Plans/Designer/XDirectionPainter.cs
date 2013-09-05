@@ -23,12 +23,12 @@ namespace GKModule.Plans.Designer
 {
 	class XDirectionPainter : PolygonZonePainter, IPainter
 	{
-		private PresenterItem _presenterItem;
-		private XDirection XDirection;
-		private ContextMenu _contextMenu;
-		private GeometryDrawing _textDrawing;
-		private ScaleTransform _scaleTransform;
-		private bool _showText = false;
+		PresenterItem _presenterItem;
+		XDirection Direction;
+		ContextMenu _contextMenu;
+		GeometryDrawing _textDrawing;
+		ScaleTransform _scaleTransform;
+		bool _showText = false;
 
 		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -39,29 +39,29 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			XDirection = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
+			Direction = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
 			_showText = _presenterItem.Element is ElementRectangleXDirection;
-			if (XDirection != null)
-				XDirection.DirectionState.StateChanged += OnPropertyChanged;
+			if (Direction != null)
+				Direction.DirectionState.StateChanged += OnPropertyChanged;
 			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
-		private void OnPropertyChanged()
+		void OnPropertyChanged()
 		{
 			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
-		private string GetDirectionTooltip()
+		string GetDirectionTooltip()
 		{
-			if (XDirection == null)
+			if (Direction == null)
 				return null;
-			var sb = new StringBuilder();
-			sb.AppendLine(XDirection.PresentationName);
-			sb.AppendLine("Состояние: " + XDirection.DirectionState.GetStateType().ToDescription());
-			return sb.ToString().TrimEnd();
+			var stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine(Direction.PresentationName);
+			stringBuilder.AppendLine("Состояние: " + Direction.DirectionState.StateClass.ToDescription());
+			return stringBuilder.ToString().TrimEnd();
 		}
 
 		#region IPainter Members
@@ -75,11 +75,11 @@ namespace GKModule.Plans.Designer
 			base.Transform();
 			if (_showText)
 			{
-				var text = XDirection.DirectionState.StateClass.ToDescription();
-				if (XDirection.DirectionState.States.Contains(XStateType.TurningOn) && XDirection.DirectionState.OnDelay > 0)
-					text += "\n" + string.Format("Задержка: {0} сек", XDirection.DirectionState.OnDelay);
-				else if (XDirection.DirectionState.States.Contains(XStateType.On) && XDirection.DirectionState.HoldDelay > 0)
-					text += "\n" + string.Format("Удержание: {0} сек", XDirection.DirectionState.HoldDelay);
+				var text = Direction.DirectionState.StateClass.ToDescription();
+				if (Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn) && Direction.DirectionState.OnDelay > 0)
+					text += "\n" + string.Format("Задержка: {0} сек", Direction.DirectionState.OnDelay);
+				else if (Direction.DirectionState.StateBits.Contains(XStateBit.On) && Direction.DirectionState.HoldDelay > 0)
+					text += "\n" + string.Format("Удержание: {0} сек", Direction.DirectionState.HoldDelay);
 				if (string.IsNullOrEmpty(text))
 					_textDrawing = null;
 				else
@@ -113,7 +113,7 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			switch(XDirection.DirectionState.StateClass)
+			switch(Direction.DirectionState.StateClass)
 			{
 				case XStateClass.Unknown:
 					return Colors.DarkGray;
@@ -135,21 +135,21 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(XDirection.UID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
 		}
 		bool CanShowInTree()
 		{
-			return XDirection != null;
+			return Direction != null;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(XDirection);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(Direction);
 			DialogService.ShowWindow(directionDetailsViewModel);
 		}
 
-		private ContextMenu CreateContextMenu()
+		ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{

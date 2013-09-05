@@ -183,6 +183,7 @@
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />
     <Compile Include="Models\Notification\EmailSettings.cs" />
+    <Compile Include="Models\Plans\ElementRectangleTank.cs" />
     <Compile Include="Models\Plans\ElementPolygonXDirection.cs" />
     <Compile Include="Models\Plans\ElementRectangleXDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
@@ -201,7 +202,10 @@
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
+    <Compile Include="XModels\Delay\DelayRegime.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
+    <Compile Include="XModels\Device\XDeviceParameterTemplate.cs" />
+    <Compile Include="XModels\Device\XParameterTemplate.cs" />
     <Compile Include="XModels\Device\XPumpStationProperty.cs" />
     <Compile Include="XModels\Device\XPumpStationPump.cs" />
     <Compile Include="XModels\Device\XPumpStationPumpType.cs" />
@@ -296,13 +300,12 @@
     <Compile Include="XModels\States\XDirectionState.cs" />
     <Compile Include="XModels\States\XDriverState.cs" />
     <Compile Include="XModels\States\XStateClass.cs" />
-    <Compile Include="XModels\States\XStateClassHelper.cs" />
-    <Compile Include="XModels\States\XStateType.cs" />
+    <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBinaryBase.cs" />
     <Compile Include="XModels\XBinaryInfo.cs" />
-    <Compile Include="XModels\XStatesHelper.cs" />
+    <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>

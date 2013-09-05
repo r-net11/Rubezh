@@ -10,4 +10,9 @@
     <DataTemplate DataType="{x:Type ViewModels:GloobalSettingsViewModel}">
         <Views:GloobalSettingsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ErrorsFilterViewModel}">
+        <Views:ErrorsFilterView/>
+    </DataTemplate>
+
 </ResourceDictionary>

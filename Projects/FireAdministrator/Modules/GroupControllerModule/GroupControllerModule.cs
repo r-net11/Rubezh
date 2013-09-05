@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -16,13 +15,14 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, IValidationModule
 	{
 		DevicesViewModel DevicesViewModel;
+		DeviceParametersViewModel DeviceParametersViewModel;
+		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
 		FiltersViewModel FiltersViewModel;
@@ -39,6 +39,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditXDirection);
 
 			DevicesViewModel = new DevicesViewModel();
+			DeviceParametersViewModel = new DeviceParametersViewModel();
+			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			FiltersViewModel = new FiltersViewModel();
@@ -51,6 +53,8 @@ namespace GKModule
 		public override void Initialize()
 		{
 			DevicesViewModel.Initialize();
+			DeviceParametersViewModel.Initialize();
+			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 			FiltersViewModel.Initialize();
@@ -65,6 +69,8 @@ namespace GKModule
 			var navigationItems = new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
@@ -93,6 +99,7 @@ namespace GKModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 		}
 
 		#region IValidationModule Members

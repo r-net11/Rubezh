@@ -7,10 +7,10 @@ namespace GKModule.ViewModels
 {
 	public class DeviceExecutableCommandViewModel : BaseViewModel
 	{
-		public XStateType StateType { get; private set; }
+		public XStateBit StateType { get; private set; }
 		public XDevice Device { get; private set; }
 
-		public DeviceExecutableCommandViewModel(XDevice device, XStateType stateType)
+		public DeviceExecutableCommandViewModel(XDevice device, XStateBit stateType)
 		{
 			Device = device;
 			StateType = stateType;

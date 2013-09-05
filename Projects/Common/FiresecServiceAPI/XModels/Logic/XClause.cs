@@ -10,7 +10,7 @@ namespace XFiresecAPI
 		public XClause()
 		{
 			ClauseJounOperationType = ClauseJounOperationType.Or;
-			StateType = XStateType.Fire1;
+			StateType = XStateBit.Fire1;
 			ZoneUIDs = new List<Guid>();
 			DeviceUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
@@ -28,7 +28,7 @@ namespace XFiresecAPI
 		public ClauseConditionType ClauseConditionType { get; set; }
 
 		[DataMember]
-		public XStateType StateType { get; set; }
+		public XStateBit StateType { get; set; }
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }

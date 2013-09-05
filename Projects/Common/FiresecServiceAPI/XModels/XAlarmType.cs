@@ -25,7 +25,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Автоматика отключена")]
 		AutoOff = 6,
 
-		[DescriptionAttribute("Требуется обслуживание(запыленность)")]
+		[DescriptionAttribute("Требуется обслуживание")]
 		Service = 7,
 
 		[DescriptionAttribute("Включается/Включено")]

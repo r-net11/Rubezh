@@ -23,9 +23,9 @@ namespace GKModule.Plans.Designer
 {
 	class XZonePainter : PolygonZonePainter, IPainter
 	{
-		private PresenterItem _presenterItem;
-		private XZone Zone;
-		private ContextMenu _contextMenu;
+		PresenterItem _presenterItem;
+		XZone Zone;
+		ContextMenu _contextMenu;
 
 		public XZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -42,20 +42,20 @@ namespace GKModule.Plans.Designer
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 		}
 
-		private void OnPropertyChanged()
+		void OnPropertyChanged()
 		{
 			_presenterItem.Title = GetZoneTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
-		private string GetZoneTooltip()
+		string GetZoneTooltip()
 		{
 			if (Zone == null)
 				return null;
-			var sb = new StringBuilder();
-			sb.AppendLine(Zone.PresentationName);
-			sb.AppendLine("Состояние: " + Zone.ZoneState.GetStateType().ToDescription());
-			return sb.ToString().TrimEnd();
+			var stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine(Zone.PresentationName);
+			stringBuilder.AppendLine("Состояние: " + Zone.ZoneState.StateClass.ToDescription());
+			return stringBuilder.ToString().TrimEnd();
 		}
 
 		#region IPainter Members
@@ -111,7 +111,7 @@ namespace GKModule.Plans.Designer
 			DialogService.ShowWindow(zoneDetailsViewModel);
 		}
 
-		private ContextMenu CreateContextMenu()
+		ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{

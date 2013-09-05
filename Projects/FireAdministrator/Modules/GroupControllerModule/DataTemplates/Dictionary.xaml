@@ -24,7 +24,11 @@
 		<Views:NewDeviceView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:RSR2NewDeviceViewModel}">
+        <Views:RSR2NewDeviceView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
 		<Views:PropertiesView />
 	</DataTemplate>
 

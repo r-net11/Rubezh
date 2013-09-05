@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.XModels;
 using XFiresecAPI;
 
 namespace FiresecClient
@@ -63,6 +64,18 @@ namespace FiresecClient
 			foreach (var logicDevice in DeviceConfiguration.Devices)
 			{
 				InvalidateOneLogic(logicDevice);
+			}
+		}
+
+		public static List<XParameterTemplate> ParameterTemplates
+		{
+			get
+			{
+				if (XManager.DeviceConfiguration.ParameterTemplates == null)
+				{
+					XManager.DeviceConfiguration.ParameterTemplates = new List<XParameterTemplate>();
+				}
+				return XManager.DeviceConfiguration.ParameterTemplates;
 			}
 		}
 

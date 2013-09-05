@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
@@ -17,6 +18,9 @@ namespace XFiresecAPI
 			JournalFilters = new List<XJournalFilter>();
 			Instructions = new List<XInstruction>();
 		}
+
+		[DataMember]
+		public List<XParameterTemplate> ParameterTemplates { get; set; }
 
 		public List<XDevice> Devices { get; set; }
 
@@ -162,9 +166,34 @@ namespace XFiresecAPI
 
 				if (device.PumpStationProperty.PumpStationPumps == null)
 					device.PumpStationProperty.PumpStationPumps = new List<XPumpStationPump>();
+
+				if (device.SystemAUProperties == null)
+					device.SystemAUProperties = new List<XProperty>();
 			}
 			foreach (var zone in Zones)
 			{
+				if (zone.UID == Guid.Empty)
+				{
+					zone.UID = Guid.NewGuid();
+					result = false;
+				}
+			}
+			if (ParameterTemplates == null)
+			{
+				ParameterTemplates = new List<XParameterTemplate>();
+				result = false;
+			}
+
+			foreach (var parameterTemplate in ParameterTemplates)
+			{
+				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
+				{
+					if (deviceParameterTemplate.XDevice.SystemAUProperties == null)
+					{
+						deviceParameterTemplate.XDevice.SystemAUProperties = new List<XProperty>();
+						result = false;
+					}
+				}
 			}
 			foreach (var direction in Directions)
 			{

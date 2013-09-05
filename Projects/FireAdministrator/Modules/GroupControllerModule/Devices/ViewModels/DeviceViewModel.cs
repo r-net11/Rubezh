@@ -124,7 +124,12 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var newDeviceViewModel = new NewDeviceViewModel(this);
+			NewDeviceViewModelBase newDeviceViewModel;
+			if (Device.IsConnectedToKAURSR2OrIsKAURSR2)
+				newDeviceViewModel = new RSR2NewDeviceViewModel(this);
+			else
+				newDeviceViewModel = new NewDeviceViewModel(this);
+
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
@@ -134,8 +139,8 @@ namespace GKModule.ViewModels
 			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
 				ServiceFactory.SaveService.GKChanged = true;
+				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				GKModule.Plans.Designer.Helper.BuildMap();
 			}
 		}

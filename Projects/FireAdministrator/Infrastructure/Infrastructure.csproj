@@ -88,6 +88,7 @@
     <Compile Include="Events\ShowParameterTemplatesEvent.cs" />
     <Compile Include="Events\CreateXDirectionEvent.cs" />
     <Compile Include="Events\EditXDirectionEvent.cs" />
+    <Compile Include="Events\ShowXDevicePropertiesEvent.cs" />
     <Compile Include="Events\ShowXDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowNotificationEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Events\ShowXDeviceEvent.cs" />
     <Compile Include="Events\ShowXDeviceLidraryViewModelEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
+    <Compile Include="Events\ShowXParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ShowOPCZoneEvent.cs" />

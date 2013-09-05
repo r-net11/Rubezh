@@ -98,20 +98,20 @@ namespace Common.GK
 			property.Parameters.Add(parameter);
 		}
 
-		public static void AddAvailableStates(XDriver driver, XStateType stateType)
+		public static void AddAvailableStateBits(XDriver driver, XStateBit stateType)
 		{
-			if (driver.AvailableStates.Count == 0)
+			if (driver.AvailableStateBits.Count == 0)
 			{
-				driver.AvailableStates.Add(XStateType.Norm);
-				driver.AvailableStates.Add(XStateType.Failure);
-				driver.AvailableStates.Add(XStateType.Ignore);
+				driver.AvailableStateBits.Add(XStateBit.Norm);
+				driver.AvailableStateBits.Add(XStateBit.Failure);
+				driver.AvailableStateBits.Add(XStateBit.Ignore);
 			}
-			driver.AvailableStates.Add(stateType);
+			driver.AvailableStateBits.Add(stateType);
 		}
 
 		public static void AddControlAvailableStates(XDriver driver)
 		{
-			AddAvailableStates(driver, XStateType.On);
+			AddAvailableStateBits(driver, XStateBit.On);
 		}
 
 		public static void AddAvailableStateClasses(XDriver driver, XStateClass stateClass)

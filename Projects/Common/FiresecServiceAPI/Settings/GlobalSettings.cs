@@ -22,6 +22,7 @@ namespace FiresecAPI
 			Modules =
 				//"DevicesModule.dll" + "\r\n" +
 				"PlansModule.dll" + "\r\n" +
+				"PlansModule.Kursk.dll" + "\r\n" +
 				//"LibraryModule.dll" + "\r\n" +
 				"SecurityModule.dll" + "\r\n" +
 				//"FiltersModule.dll" + "\r\n" +
@@ -46,12 +47,13 @@ namespace FiresecAPI
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
 			Monitor_HaspInfo_Enabled = false;
-			Monitor_ShowOnlyVideo = false;
 
 			Administrator_IsExpertMode = false;
 			Administrator_ShowDirectories = false;
 			Administrator_ShowSimulation = false;
 			Administrator_GroupGKModule = false;
+
+			IgnoredErrors = new List<string>();
 		}
 
 		[DataMember]
@@ -120,8 +122,6 @@ namespace FiresecAPI
 		public bool Monitor_DoNotShowZones { get; set; }
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
-		[DataMember]
-		public bool Monitor_ShowOnlyVideo { get; set; }
 
 		[DataMember]
 		public bool Administrator_IsExpertMode { get; set; }
@@ -133,6 +133,9 @@ namespace FiresecAPI
 		public bool Administrator_ShowSimulation { get; set; }
 		[DataMember]
 		public bool Administrator_GroupGKModule { get; set; }
+
+		[DataMember]
+		public List<string> IgnoredErrors { get; set; }
 
 		public List<string> GetModules()
 		{

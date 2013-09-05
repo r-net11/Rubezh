@@ -20,7 +20,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using Devices = DevicesModule.ViewModels;
+using Infrastructure.Client.Plans;
 
 namespace DevicesModule.Plans
 {
@@ -59,7 +59,7 @@ namespace DevicesModule.Plans
 
 		public string Title
 		{
-			get { return "Устройства"; }
+			get { return "AC Устройства"; }
 		}
 
 		public IEnumerable<IInstrument> Instruments
@@ -72,7 +72,7 @@ namespace DevicesModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
-							ToolTip="Зона",
+							ToolTip="AC Зона",
 							Adorner = new ZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 100,
 							Autostart = true
@@ -80,7 +80,7 @@ namespace DevicesModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
-							ToolTip="Зона",
+							ToolTip="AC Зона",
 							Adorner = new ZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 101,
 							Autostart = true
@@ -171,8 +171,8 @@ namespace DevicesModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("Devices", "Устройства", 0);
-			LayerGroupService.Instance.RegisterGroup("Zone", "Зоны", 1);
+			LayerGroupService.Instance.RegisterGroup("Devices", "АС Устройства", 0);
+			LayerGroupService.Instance.RegisterGroup("Zone", "АС Зоны", 1);
 			UpdateDeviceInZones(_designerCanvas.Items.Select(item => item.Element).ToList());
 		}
 		public void ExtensionAttached()

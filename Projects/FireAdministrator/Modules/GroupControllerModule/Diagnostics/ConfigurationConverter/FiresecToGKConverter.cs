@@ -169,15 +169,15 @@ namespace GKModule.Converter
 							switch (clause.State)
 							{
 								case FiresecAPI.Models.ZoneLogicState.Attention:
-									xClause.StateType = XStateType.Attention;
+									xClause.StateType = XStateBit.Attention;
 									break;
 
 								case FiresecAPI.Models.ZoneLogicState.Fire:
-									xClause.StateType = XStateType.Fire1;
+									xClause.StateType = XStateBit.Fire1;
 									break;
 
 								case FiresecAPI.Models.ZoneLogicState.Failure:
-									xClause.StateType = XStateType.Failure;
+									xClause.StateType = XStateBit.Failure;
 									break;
 
 								default:

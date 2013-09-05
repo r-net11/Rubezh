@@ -12,9 +12,11 @@ namespace XFiresecAPI
 			IsAUParameter = true;
 			Mask = 0;
 		}
-
 		[DataMember]
 		public byte No { get; set; }
+
+		[DataMember]
+		public bool IsReadOnly { get; set; }
 
 		[DataMember]
 		public bool IsAUParameter { get; set; }

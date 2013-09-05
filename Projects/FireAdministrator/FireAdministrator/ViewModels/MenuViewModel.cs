@@ -162,7 +162,8 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand MergeConfigurationCommand { get; private set; }
 		void OnMergeConfiguration()
 		{
-			MergeConfigurationHelper.Merge();
+			var mergeConfigurationHelper = new MergeConfigurationHelper();
+			mergeConfigurationHelper.Merge();
 		}
 
 		private bool _isMainMenuVisible;

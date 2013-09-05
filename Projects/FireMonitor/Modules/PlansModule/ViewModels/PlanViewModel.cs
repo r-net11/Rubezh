@@ -17,6 +17,7 @@ namespace PlansModule.ViewModels
 		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
 		{
 			_selfState = StateType.No;
+			_stateType = StateType.No;
 			_plansViewModel = plansViewModel;
 			Plan = plan;
 			PlanFolder = plan as PlanFolder;
@@ -63,7 +64,7 @@ namespace PlansModule.ViewModels
 			planPresenter.SubscribeStateChanged(Plan, StateChanged);
 			StateChanged();
 		}
-		private void StateChanged()
+		void StateChanged()
 		{
 			var state = StateType.No;
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)

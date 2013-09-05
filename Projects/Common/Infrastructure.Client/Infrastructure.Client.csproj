@@ -59,6 +59,7 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationItem.cs" />
+    <Compile Include="Plans\InstrumentViewModel.cs" />
     <Compile Include="Plans\IPlanDesignerViewModel.cs" />
     <Compile Include="Plans\PlanDesignerView.xaml.cs">
       <DependentUpon>PlanDesignerView.xaml</DependentUpon>

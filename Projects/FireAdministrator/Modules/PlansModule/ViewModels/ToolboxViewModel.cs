@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using PlansModule.InstrumentAdorners;
+using Infrastructure.Client.Plans;
 
 namespace PlansModule.ViewModels
 {
