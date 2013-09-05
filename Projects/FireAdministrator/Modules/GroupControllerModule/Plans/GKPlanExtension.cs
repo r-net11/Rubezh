@@ -244,7 +244,8 @@ namespace GKModule.Plans
 			ElementXDevice elementDevice = designerItem.Element as ElementXDevice;
 			XDevice device = Designer.Helper.GetXDevice(elementDevice);
 			Designer.Helper.SetXDevice(elementDevice, device);
-			designerItem.Title = Helper.GetXDeviceTitle((ElementXDevice)designerItem.Element);
+			designerItem.Title = Helper.GetXDeviceTitle(elementDevice);
+			designerItem.IconSource = Helper.GetXDeviceImageSource(elementDevice);
 		}
 		private void UpdateDesignerItemXZone(CommonDesignerItem designerItem)
 		{

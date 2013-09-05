@@ -24,7 +24,7 @@ namespace PlansModule.ViewModels
 			}
 		}
 		private bool _isGroupHaveChild;
-		public bool IsGroupHasChild	
+		public bool IsGroupHasChild
 		{
 			get { return _isGroupHaveChild; }
 			set
@@ -33,6 +33,6 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged(() => IsGroupHasChild);
 			}
 		}
-		
+		public string IconSource { get; protected set; }
 	}
 }

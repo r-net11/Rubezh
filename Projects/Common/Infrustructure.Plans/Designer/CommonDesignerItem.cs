@@ -14,6 +14,7 @@ namespace Infrustructure.Plans.Designer
 
 		public event EventHandler ItemPropertyChanged;
 		public event EventHandler TitleChanged;
+		public event EventHandler IconSourceChanged;
 
 		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
 		public ElementBase Element { get; protected set; }
@@ -36,6 +37,21 @@ namespace Infrustructure.Plans.Designer
 					_title = value;
 					if (TitleChanged != null)
 						TitleChanged(this, EventArgs.Empty);
+				}
+			}
+		}
+
+		private string _iconSource;
+		public string IconSource
+		{
+			get { return _iconSource; }
+			set
+			{
+				if (IconSource != value)
+				{
+					_iconSource = value;
+					if (IconSourceChanged != null)
+						IconSourceChanged(this, EventArgs.Empty);
 				}
 			}
 		}
