@@ -18,6 +18,7 @@ using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrastructure.Common.Ribbon;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -30,9 +31,16 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			
+			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanEditDelete);
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
+
+			DeleteDeviceCommand = new RelayCommand(OnDeleteDevice, CanEditDelete);
 			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
+
+			DeleteOutputDeviceCommand = new RelayCommand(OnDeleteOutputDevice, CanEditDelete);
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
+			
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -137,6 +145,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand DeleteZoneCommand { get; private set; }
+		void OnDeleteZone()
+		{
+			if (SelectedDirection.SelectedZone == null)
+				return;
+			SelectedDirection.DeleteZone(SelectedDirection.SelectedZone.DirectionZone);
+			OnPropertyChanged("ZonesCount");
+			SelectedDirection.SelectedZone = null;
+		}
+
 		public RelayCommand ChangeZonesCommand { get; private set; }
 		void OnChangeZones()
 		{
@@ -151,11 +169,31 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DevicesCount");
 		}
 
+		public RelayCommand DeleteDeviceCommand { get; private set; }
+		void OnDeleteDevice()
+		{
+			if (SelectedDirection.SelectedDevice == null)
+				return;
+			SelectedDirection.DeleteDevice(SelectedDirection.SelectedDevice.Device);
+			OnPropertyChanged("DevicesCount");
+			SelectedDirection.SelectedDevice = null;
+		}
+
 		public RelayCommand ChangeOutputDevicesCommand { get; private set; }
 		void OnChangeOutputDevices()
 		{
 			SelectedDirection.ChangeOutputDevices();
 			OnPropertyChanged("OutputDevicesCount");
+		}
+
+		public RelayCommand DeleteOutputDeviceCommand { get; private set; }
+		void OnDeleteOutputDevice()
+		{
+			if (SelectedDirection.SelectedOutputDevice == null)
+				return;
+			SelectedDirection.DeleteOutputDevice(SelectedDirection.SelectedOutputDevice.Device);
+			OnPropertyChanged("OutputDevicesCount");
+			SelectedDirection.SelectedOutputDevice = null;
 		}
 
 		public int ZonesCount

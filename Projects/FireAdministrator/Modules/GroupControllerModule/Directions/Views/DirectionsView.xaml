@@ -25,28 +25,37 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
-					<DataGridTemplateColumn Header="№">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-									<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Direction.No}" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTemplateColumn MinWidth="50" Header="№">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" />
+                                    <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>
 
-        <Grid Grid.Row="3" Grid.Column="0">
+        <Grid Grid.Row="0" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}">
+            <ListView Grid.Row="0" ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedOutputDevice}">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -67,22 +76,36 @@
                 </ListView.View>
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                <Button Command="{Binding ChangeOutputDevicesCommand}" Content="Изменить Выходные устройства" Width="250" Margin="2" />
                 <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
                 <TextBlock Text="{Binding OutputDevicesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить выходные устройства" Command="{Binding DeleteOutputDeviceCommand}" />
+                    <MenuItem Header="Изменить выходные устройства" Command="{Binding ChangeOutputDevicesCommand}" />
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
 
-        <Grid Grid.Column="3" Grid.Row="0">
+        <Grid Grid.Column="0" Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}">
+            <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
-                        <GridView.Columns>
-                            <GridViewColumn Header="№" DisplayMemberBinding="{Binding DirectionZone.Zone.No}" />
+                        <GridView.Columns >
+                            <GridViewColumn Header="№">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BZones.png" />
+                                            <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" ToolTip="{Binding ToolTip}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
                             <GridViewColumn Header="Состояние" Width="250">
                                 <GridViewColumn.CellTemplate>
@@ -107,12 +130,18 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
+
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                <Button Command="{Binding ChangeZonesCommand}" Content="Изменить Входные зоны" Width="250" Margin="2" />
                 <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
                 <TextBlock Text="{Binding ZonesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить входные зоны" Command="{Binding DeleteZoneCommand}" />
+                    <MenuItem Header="Изменить входные зоны" Command="{Binding ChangeZonesCommand}" />
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="3">
@@ -120,7 +149,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" ItemsSource="{Binding Devices}" DataContext="{Binding SelectedDirection}">
+            <ListView Grid.Row="0" ItemsSource="{Binding Devices}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedDevice}">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -161,10 +190,15 @@
                 </ListView.View>
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                <Button Command="{Binding ChangeDevicesCommand}" Content="Изменить Входные устройства" Width="250" Margin="2" />
                 <TextBlock Text="Всего: " VerticalAlignment="Center" Foreground="White" />
                 <TextBlock Text="{Binding DevicesCount}" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить входные устройства" Command="{Binding DeleteDeviceCommand}" />
+                    <MenuItem Header="Изменить входные устройства" Command="{Binding ChangeDevicesCommand}" />
+                </ContextMenu>
+            </Grid.ContextMenu>
         </Grid>
     </Grid>
 </UserControl>

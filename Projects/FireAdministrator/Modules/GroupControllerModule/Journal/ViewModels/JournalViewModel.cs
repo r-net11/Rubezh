@@ -165,8 +165,7 @@ namespace GKModule.ViewModels
 						var journalItemsCollection = new JournalItemsCollection
 						{
 							JournalItems = journalItems,
-							FirstIndex = StartIndex,
-							LastIndex = EndIndex,
+							RecordCount = TotalCount,
 							CreationDateTime = DateTime.Now,
 						};
 						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);

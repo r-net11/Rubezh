@@ -199,7 +199,7 @@ namespace FiresecClient
 
 		public static void ChangeDirectionDevices(XDirection direction, List<XDevice> devices)
 		{
-            foreach (var device in direction.InputDevices)
+			foreach (var device in direction.InputDevices)
             {
                 device.Directions.Remove(direction);
                 device.OnChanged();

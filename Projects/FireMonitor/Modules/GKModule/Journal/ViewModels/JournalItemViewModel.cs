@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace GKModule.ViewModels
 		public XDirectionState DirectionState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
-
+		
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
@@ -72,6 +73,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.System:
 					break;
 			}
+			
 
 			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 			var stringBuilder = new StringBuilder();
@@ -85,6 +87,38 @@ namespace GKModule.ViewModels
 			StringStates = stringBuilder.ToString();
 
 			//journalItem.InternalJournalItem.GKObjectNo
+		}
+
+		public string ImageSource
+		{
+			get 
+			{
+				switch (JournalItem.JournalItemType)
+				{
+					case JournalItemType.Device:
+						var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						return device.Driver.ImageSource;
+						
+					case JournalItemType.Zone:
+						return"/Controls;component/Images/BZones.png";
+						
+					case JournalItemType.Direction:
+						return"/Controls;component/Images/BDirection.png";
+						
+					case JournalItemType.GK:
+						return"/Controls;component/GKIcons/GK.png";
+						
+					case JournalItemType.User:
+						return"/Controls;component/Images/BUser.png";
+						
+					case JournalItemType.System:
+						return"/Controls;component/Images/BDevice.png";
+
+					default:
+						return "";
+						
+				}
+			}
 		}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Data;
 using XFiresecAPI;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace GKModule.Converters
 {
@@ -8,16 +10,16 @@ namespace GKModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((XAlarmType) value)
+			switch ((XAlarmType) value)
             {
 				case XAlarmType.NPTOn:
                     return "/Controls;component/Images/Alarm_shield.png";
 
 				case XAlarmType.Fire1:
-                    return "/Controls;component/Images/Alarm_Main_1_Fire.png";
+                    return "/Controls;component/Images/Alarm_Main_0_Fire1.png";
 
 				case XAlarmType.Fire2:
-					return "/Controls;component/Images/Alarm_Main_1_Fire.png";
+					return "/Controls;component/Images/Alarm_Main_1_Fire2.png";
 
 				case XAlarmType.Attention:
                     return "/Controls;component/Images/Alarm_main_2_Attention.png";

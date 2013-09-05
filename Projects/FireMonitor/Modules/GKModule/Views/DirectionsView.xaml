@@ -20,12 +20,21 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTextColumn MinWidth="25" Binding="{Binding Direction.No}" Header="№" />
-				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+				<DataGridTemplateColumn MinWidth="50" Header="№">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="/Controls;component/Images/BDirection.png" />
+                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}"/>
+							</StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 								<TextBlock Width="200" Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
@@ -119,12 +128,21 @@
 
 		<DataGrid Grid.Row="1" Grid.Column="0" Margin="2" ItemsSource="{Binding InputZones}">
 			<DataGrid.Columns>
-				<DataGridTextColumn MinWidth="25" Binding="{Binding Zone.No}" Header="№" />
-				<DataGridTemplateColumn Width="*" Header="Входные зоны">
+				<DataGridTemplateColumn MinWidth="50" Header="№">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="/Controls;component/Images/BZones.png" />
+                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" Header="Входные зоны">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" ToolTip="{Binding ToolTip}">
-								<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 								<TextBlock Margin="5, 0, 0, 0" Text="{Binding Zone.Name}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">

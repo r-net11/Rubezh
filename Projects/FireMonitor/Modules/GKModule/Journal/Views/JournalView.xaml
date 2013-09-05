@@ -21,15 +21,27 @@
                 <DataGridTemplateColumn Header="Объект">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock>
-				                <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-					                <TextBlock Text="{Binding PresentationName}" />
-				                </Hyperlink>
-                            </TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding ImageSource}" />
+                                <TextBlock>
+				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+					                    <TextBlock Text="{Binding PresentationName}" />
+				                    </Hyperlink>
+                                </TextBlock>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                <DataGridTemplateColumn Header="Класс состояния">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>

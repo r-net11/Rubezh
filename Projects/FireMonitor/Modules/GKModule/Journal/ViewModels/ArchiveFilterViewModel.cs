@@ -236,6 +236,37 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("IsChecked");
 			}
 		}
+
+		public string ImageSource
+		{
+			get
+			{
+				switch (JournalItemType)
+				{
+					case JournalItemType.Device:
+						return "/Controls;component/GKIcons/CombinedDetector.png";
+
+					case JournalItemType.Zone:
+						return "/Controls;component/Images/BZones.png";
+
+					case JournalItemType.Direction:
+						return "/Controls;component/Images/BDirection.png";
+
+					case JournalItemType.GK:
+						return "/Controls;component/GKIcons/GK.png";
+
+					case JournalItemType.User:
+						return "/Controls;component/Images/BUser.png";
+
+					case JournalItemType.System:
+						return "/Controls;component/Images/BDevice.png";
+
+					default:
+						return "";
+
+				}
+			}
+		}
 	}
 
 	public class StateClassViewModel : BaseViewModel

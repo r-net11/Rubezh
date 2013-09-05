@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			Update();
 		}
 
-		void InitializeDependences()
+		public void InitializeDependences()
 		{
 			Zones.Clear();
 			foreach (var directionZone in Direction.DirectionZones)
@@ -62,6 +62,39 @@ namespace GKModule.ViewModels
 		public ObservableCollection<DirectionDeviceViewModel> Devices { get; private set; }
 		public ObservableCollection<DeviceViewModel> OutputDevices { get; private set; }
 
+		DirectionZoneViewModel _selectedZone;
+		public DirectionZoneViewModel SelectedZone
+		{
+			get { return _selectedZone; }
+			set
+			{
+				_selectedZone = value;
+				OnPropertyChanged("SelectedZone");
+			}
+		}
+
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
+
+		DeviceViewModel _selectedOutputDevice;
+		public DeviceViewModel SelectedOutputDevice
+		{
+			get { return _selectedOutputDevice; }
+			set
+			{
+				_selectedOutputDevice = value;
+				OnPropertyChanged("SelectedOutputDevice");
+			}
+		}
+
 		public void ChangeZones()
 		{
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.InputZones);
@@ -72,6 +105,18 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
+
+		public void DeleteZone(XDirectionZone directionZone)
+		{
+			List<XDirectionZone> directionZones = Direction.DirectionZones;
+			directionZones.Remove(directionZone);
+			var zones = new List<XZone>();
+			directionZones.ForEach(x => zones.Add(x.Zone));
+			XManager.ChangeDirectionZones(Direction, zones);
+			InitializeDependences();
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
 		public void ChangeDevices()
 		{
 			var sourceDevices = new List<XDevice>();
@@ -89,6 +134,16 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
+
+		public void DeleteDevice(XDevice device)
+		{
+			List<XDevice> devices = new List<XDevice>(Direction.InputDevices);
+			devices.Remove(device);
+			XManager.ChangeDirectionDevices(Direction, devices);
+			InitializeDependences();
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+
 		public void ChangeOutputDevices()
 		{
 			var sourceDevices = new List<XDevice>();
@@ -151,6 +206,63 @@ namespace GKModule.ViewModels
 				InitializeDependences();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+
+		public void DeleteOutputDevice(XDevice deviceToRemove)
+		{
+			var devices = new List<XDevice>(Direction.OutputDevices);
+			devices.Remove(deviceToRemove);
+			//Direction.OutputDevices = devices;
+			//InitializeDependences();
+			//ServiceFactory.SaveService.GKChanged = true;
+			foreach (var device in Direction.OutputDevices)
+			{
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
+					clause.Directions.RemoveAll(x => x == Direction);
+					clause.DirectionUIDs.RemoveAll(x => x == Direction.UID);
+				}
+				device.DeviceLogic.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
+				device.OnChanged();
+			}
+			Direction.OutputDevices.Clear();
+			foreach (var device in devices)
+			{
+				var alreadyHasDirectionClause = false;
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
+					if ((clause.ClauseOperationType == ClauseOperationType.AllDirections) || (clause.ClauseOperationType == ClauseOperationType.AnyDirection))
+					{
+						alreadyHasDirectionClause = true;
+						if (!clause.Directions.Contains(Direction))
+						{
+							clause.Directions.Add(Direction);
+							clause.DirectionUIDs.Add(Direction.UID);
+							device.Directions.Add(Direction);
+							device.OnChanged();
+						}
+					}
+				}
+				if (!alreadyHasDirectionClause)
+				{
+					var clause = new XClause()
+					{
+						ClauseOperationType = ClauseOperationType.AnyDirection,
+						StateType = XStateType.On,
+						Directions = new List<XDirection>() { Direction },
+						DirectionUIDs = new List<Guid>() { Direction.UID }
+					};
+
+					device.DeviceLogic.Clauses.Add(clause);
+					device.Directions.Add(Direction);
+					device.OnChanged();
+				}
+			}
+			Direction.OutputDevices = devices;
+
+			InitializeDependences();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public string Name

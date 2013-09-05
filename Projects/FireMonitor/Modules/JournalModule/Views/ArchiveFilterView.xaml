@@ -2,14 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:JournalModule.Converters"
+             xmlns:JournalConverters="clr-namespace:JournalModule.Converters"
+             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinWidth="700" MinHeight="500">
 
     <UserControl.Resources>
-        <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
+        <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
+        <JournalConverters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
     
     <DockPanel>
@@ -87,7 +89,10 @@
                                     <WrapPanel>
                                         <CheckBox Margin="2" Indeterminate="CheckBox_Indeterminate" IsChecked="{Binding IsEnable}" IsThreeState="True"
                                               Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
-                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToJournalStringConverter}}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" />
+                                            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToJournalStringConverter}}" />
+                                        </StackPanel>
                                     </WrapPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
