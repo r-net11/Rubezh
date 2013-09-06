@@ -17,6 +17,7 @@ namespace GKModule.ViewModels
 			ParametersHelper.AllParametersChanged += ChangeParameter;
 			SetDirectionPropertiesCommand = new RelayCommand(OnSetDirectionProperties);
 			GetDirectionPropertiesCommand = new RelayCommand(OnGetDirectionProperties);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			if (direction == null)
             {
                 Title = "Создание новоого направления";
@@ -150,6 +151,14 @@ namespace GKModule.ViewModels
 		void OnSetDirectionProperties()
 		{
 			ParametersHelper.SetSingleDirectionParameter(XDirection);
+		}
+
+		public RelayCommand ResetAUPropertiesCommand { get; private set; }
+		void OnResetAUProperties()
+		{
+			Delay = 10;
+			Hold = 10;
+			Regime = 1;
 		}
     }
 }
