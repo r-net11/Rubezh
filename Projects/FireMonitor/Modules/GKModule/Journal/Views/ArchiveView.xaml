@@ -1,35 +1,37 @@
-﻿<UserControl x:Class="GKModule.Views.ArchiveView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:GKModule.Views">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+﻿<UserControl x:Class="GKModule.Views.ArchiveView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:GKModule.Views">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" Style="{StaticResource ToolBarButtonStyle}">
-                    <Image Source="/Controls;component/Images/Filter.png" Height="24" />
-                </Button>
+				<Button Grid.Row="0" Command="{Binding ShowFilterCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Задать фильтр">
+					<Image Height="24" Source="/Controls;component/Images/Filter.png" />
+				</Button>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />
-                </StackPanel>
-                
-                <TextBlock Grid.Column="2" Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-                <Button Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolBarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                    <Image Source="/Controls;component/Images/Settings.png" Height="24" />
-                </Button>
-            </Grid>
-        </Border>
-        <Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />
-    </Grid>
+				<StackPanel Grid.Column="1" Orientation="Horizontal">
+					<CheckBox Margin="5" VerticalAlignment="Center" Content="Включить фильтр" Foreground="White" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" />
+				</StackPanel>
+
+				<TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Status}" />
+
+				<Button Grid.Column="3" HorizontalAlignment="Right" Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Настройки">
+					<Image Height="24" Source="/Controls;component/Images/Settings.png" />
+				</Button>
+				<Button Grid.Column="4" HorizontalAlignment="Right" Command="{Binding ExportToPdfCommand}" DockPanel.Dock="Right" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Сохранить журнал в PDF">
+					<Image Height="24" Source="/Controls;component/Images/Pdf.png" />
+				</Button>
+			</Grid>
+		</Border>
+		<Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />
+	</Grid>
 </UserControl>

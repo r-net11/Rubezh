@@ -47,6 +47,15 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="MigraDoc.DocumentObjectModel-WPF">
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering-WPF">
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.Rendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp-WPF">
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp-WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -98,6 +107,7 @@
     <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
