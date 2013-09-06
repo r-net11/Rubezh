@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
+using Common.GK;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -463,12 +464,14 @@ namespace GKModule.ViewModels
 		public RelayCommand GetAUPropertiesCommand { get; private set; }
 		void OnGetAUProperties()
 		{
+			DatabaseManager.Convert();
 			ParametersHelper.GetSingleParameter(Device);
 		}
 
 		public RelayCommand SetAUPropertiesCommand { get; private set; }
 		void OnSetAUProperties()
 		{
+			DatabaseManager.Convert();
 			ParametersHelper.SetSingleParameter(Device);
 		}
 

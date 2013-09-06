@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.GK;
 using Firesec_50;
 using FiresecAPI.XModels;
 using FiresecClient;
@@ -167,7 +168,7 @@ namespace GKModule.ViewModels
 				//SelectedDevice.Device.Properties.Clear();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
 				SelectedDevice.Update();
-				ServiceFactory.SaveService.FSParametersChanged = true;
+				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
 			}
 		}
 
@@ -213,6 +214,7 @@ namespace GKModule.ViewModels
 		void WriteDevices(List<XDevice> devices)
 		{
 			LoadingService.Show("Запись параметров");
+			DatabaseManager.Convert();
 			foreach (var device in devices)
 			{
 				ParametersHelper.SetSingleParameter(device);
@@ -224,6 +226,7 @@ namespace GKModule.ViewModels
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запрос параметров");
+			DatabaseManager.Convert();
 			var i = 0;
 			foreach (var device in devices)
 			{

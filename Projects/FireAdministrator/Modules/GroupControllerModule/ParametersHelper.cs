@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Common.GK;
-using Firesec_50;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -82,7 +81,6 @@ namespace GKModule
 
 		public static void SetSingleParameter(XDevice device)
 		{
-			DatabaseManager.Convert();
 			try
 			{
 				CommonDatabase commonDatabase = null;
@@ -117,7 +115,6 @@ namespace GKModule
 
 		public static void GetSingleParameter(XDevice device)
 		{
-			DatabaseManager.Convert();
 			try
 			{
 				CommonDatabase commonDatabase = null;
