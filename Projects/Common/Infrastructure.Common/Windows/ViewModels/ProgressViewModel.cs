@@ -3,17 +3,30 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
 	{
-		public ProgressViewModel(bool restrictClose = true)
+		public ProgressViewModel(bool restrictClose = true, bool isCancelVisible = false)
 		{
 			Sizable = false;
 			RestrictClose = restrictClose;
 			HideInTaskbar = true;
 			IsIndeterminate = false;
+			IsCancelVisible = isCancelVisible;
+			CancelCommand = new RelayCommand(OnCancel);
 		}
 
 		public string Text { get; set; }
 
-		private int _currentStep;
+		bool _isCancelVisible;
+		public bool IsCancelVisible
+		{
+			get { return _isCancelVisible; }
+			set
+			{
+				_isCancelVisible = value;
+				OnPropertyChanged("IsCancelVisible");
+			}
+		}
+
+		int _currentStep;
 		public int CurrentStep
 		{
 			get { return _currentStep; }
@@ -23,7 +36,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("CurrentStep");
 			}
 		}
-		private int _stepCount;
+		int _stepCount;
 		public int StepCount
 		{
 			get { return _stepCount; }
@@ -33,7 +46,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("StepCount"); ApplicationService.DoEvents();
 			}
 		}
-		private bool _isIndeterminate;
+		bool _isIndeterminate;
 		public bool IsIndeterminate
 		{
 			get { return _isIndeterminate; }
@@ -61,6 +74,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			RestrictClose = false;
 			Close();
+		}
+
+		public RelayCommand CancelCommand { get; private set; }
+		void OnCancel()
+		{
+			ForceClose();
 		}
 	}
 }

@@ -30,11 +30,11 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Alarm.Device != null)
-                    return "Устройство " + Alarm.Device.PresentationDriverAndAddress;
+                    return Alarm.Device.PresentationDriverAndAddress;
 				if (Alarm.Zone != null)
-					return "Зона " + Alarm.Zone.PresentationName;
+					return Alarm.Zone.PresentationName;
 				if (Alarm.Direction != null)
-					return "Направление " + Alarm.Direction.PresentationName;
+					return Alarm.Direction.PresentationName;
 				return null;
 			}
 		}

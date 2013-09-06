@@ -71,6 +71,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.System:
+					PresentationName = JournalItem.UserName;
 					break;
 			}
 			
@@ -109,11 +110,11 @@ namespace GKModule.ViewModels
 						return"/Controls;component/GKIcons/GK.png";
 						
 					case JournalItemType.User:
-						return"/Controls;component/Images/BUser.png";
+						return"/Controls;component/Images/Chip.png";
 						
 					case JournalItemType.System:
-						return"/Controls;component/Images/BDevice.png";
-
+						return"/Controls;component/Images/PC.png";
+						
 					default:
 						return "";
 						

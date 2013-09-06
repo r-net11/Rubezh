@@ -27,7 +27,8 @@ namespace GKModule
         void SyncLocalAndRemote(int startIndex, int endIndex)
         {
             var journalItems = new List<JournalItem>();
-            for (int index = startIndex; index <= endIndex; index++)
+            //for (int index = startIndex; index <= endIndex; index++)
+			for (int index = startIndex - 1000; index <= endIndex; index++)
             {
                 var journalItem = ReadJournal(index);
                 if (journalItem != null)
@@ -37,14 +38,14 @@ namespace GKModule
                     journalItems.Add(journalItem);
                     if (journalItems.Count > 100)
                     {
-                        GKDBHelper.AddMany(journalItems);
+                        //GKDBHelper.AddMany(journalItems);
                         journalItems = new List<JournalItem>();
                     }
                 }
             }
             if (journalItems.Count > 0)
             {
-                GKDBHelper.AddMany(journalItems);
+                //GKDBHelper.AddMany(journalItems);
             }
         }
     }

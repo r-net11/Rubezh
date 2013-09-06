@@ -20,12 +20,12 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="50" Header="№">
+				<DataGridTemplateColumn Width="Auto" Header="№">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BDirection.png" />
-                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}"/>
+                                <Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
 							</StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -128,12 +128,12 @@
 
 		<DataGrid Grid.Row="1" Grid.Column="0" Margin="2" ItemsSource="{Binding InputZones}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="50" Header="№">
+				<DataGridTemplateColumn Width="Auto" Header="№">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BZones.png" />
-                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}"/>
+                                <Image Width="16" Source="/Controls;component/Images/BZones.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

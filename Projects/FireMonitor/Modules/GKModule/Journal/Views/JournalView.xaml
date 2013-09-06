@@ -18,12 +18,12 @@
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" MinWidth="40" MaxWidth="40"  />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
-                <DataGridTemplateColumn Header="Объект">
+                <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding ImageSource}" />
-                                <TextBlock>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Stretch"/>
+                                <TextBlock Margin="2" VerticalAlignment="Center">
 				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 					                    <TextBlock Text="{Binding PresentationName}" />
 				                    </Hyperlink>
@@ -32,17 +32,16 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Класс состояния">
+                <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Stretch"/>
+                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
