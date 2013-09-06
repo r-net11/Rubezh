@@ -42,9 +42,6 @@ namespace GKModule.ViewModels
 
 			Invalidate();
 			SetRibbonItems();
-			
-			Firesec_50.FiresecDriverAuParametersHelper.Progress -= FiresecDriverAuParametersHelper_Progress;
-			Firesec_50.FiresecDriverAuParametersHelper.Progress += FiresecDriverAuParametersHelper_Progress;
 		}
 
 		void FiresecDriverAuParametersHelper_Progress(string value, int percentsCompleted)
@@ -231,13 +228,13 @@ namespace GKModule.ViewModels
 			foreach (var device in devices)
 			{
 				i++;
-				FiresecDriverAuParametersHelper.OnPropgress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
+				FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
 				ParametersHelper.GetSingleParameter(device);
 			}
 			LoadingService.Close();
 			if (ParametersHelper.ErrorLog != "")
 				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
-			FiresecDriverAuParametersHelper.OnPropgress("Чтение параметров устройства ", 0);
+			FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства ", 0);
 		}
 		#endregion
 
