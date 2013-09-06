@@ -9,9 +9,11 @@
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsChecked" Value="true">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />
+								<Setter TargetName="_image" Property="ToolTip" Value="Разблокировано" />
 							</Trigger>
 							<Trigger Property="IsChecked" Value="false">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lock.png" />
+								<Setter TargetName="_image" Property="ToolTip" Value="Заблокировано" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
@@ -27,9 +29,11 @@
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsChecked" Value="true">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
+								<Setter TargetName="_image" Property="ToolTip" Value="Видимый" />
 							</Trigger>
 							<Trigger Property="IsChecked" Value="false">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye3.png" />
+								<Setter TargetName="_image" Property="ToolTip" Value="Скрытый" />
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
@@ -52,6 +56,7 @@
 							<StackPanel Grid.Column="1" ContextMenu="{Binding ContextMenu}" Orientation="Horizontal">
 								<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
 								<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
+								<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Visibility="{Binding IconSource, Converter={StaticResource NullToVisibilityConverter}}" />
 								<TextBlock Margin="1" Text="{Binding Name}">
 									<TextBlock.Style>
 										<Style>

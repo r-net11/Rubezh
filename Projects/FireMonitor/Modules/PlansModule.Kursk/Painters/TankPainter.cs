@@ -20,22 +20,13 @@ using System;
 
 namespace PlansModule.Kursk.Designer
 {
-	class TankPainter : RectangleZonePainter
+	class TankPainter : GeometryPainter<GeometryGroup>
 	{
 		private PresenterItem _presenterItem;
 		private XDevice _device;
 		private ContextMenu _contextMenu;
 		private static Brush _brush;
 
-		static TankPainter()
-		{
-			_brush = new ImageBrush()
-			{
-				ImageSource = new BitmapImage(ResourceHelper.ComposeResourceUri(typeof(BoolToVisibilityConverter).Assembly, "Images/BArrowUpDown.png")),
-				Stretch = Stretch.Fill,
-			};
-			_brush.Freeze();
-		}
 		public TankPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
 		{
@@ -46,7 +37,6 @@ namespace PlansModule.Kursk.Designer
 				if (_device != null && _device.DeviceState != null)
 					_device.DeviceState.StateChanged += OnPropertyChanged;
 			}
-
 			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
@@ -54,12 +44,14 @@ namespace PlansModule.Kursk.Designer
 			//_presenterItem.Cursor = Cursors.Hand;
 			//_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			_presenterItem.Title = GetTooltip();
+			UpdateBrush();
 		}
 
 		private void OnPropertyChanged()
 		{
 			if (_presenterItem != null)
 			{
+				UpdateBrush();
 				_presenterItem.Title = GetTooltip();
 				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
@@ -77,14 +69,94 @@ namespace PlansModule.Kursk.Designer
 
 			return stringBuilder.ToString().TrimEnd();
 		}
+		private void UpdateBrush()
+		{
+			var state = GetState();
+			switch (state)
+			{
+				case TankState.Full:
+					_brush = CreateBrush(0.0);
+					break;
+				case TankState.Empty:
+					_brush = CreateBrush(1.0);
+					break;
+				case TankState.Little:
+					_brush = CreateBrush(2.0 / 3);
+					break;
+				case TankState.Half:
+					_brush = CreateBrush(1.0 / 3);
+					break;
+				case TankState.Error:
+				default:
+					_brush = PainterCache.GetTransparentBrush(Colors.Black);
+					break;
+			}
+		}
+		private Brush CreateBrush(double offset)
+		{
+			return new LinearGradientBrush()
+			{
+				StartPoint = new Point(0, 0),
+				EndPoint = new Point(0, 1),
+				GradientStops = new GradientStopCollection()
+				{
+					new GradientStop()
+					{
+						Color = Colors.Transparent,
+						Offset = 0,
+					},
+					new GradientStop()
+					{
+						Color = Colors.Transparent,
+						Offset = offset,
+					},
+					new GradientStop()
+					{
+						Color = Colors.Blue,
+						Offset = offset,
+					},
+					new GradientStop()
+					{
+						Color = Colors.Blue,
+						Offset = 1,
+					},
+				}
+			};
+		}
+		private TankState GetState()
+		{
+			Array values = Enum.GetValues(typeof(TankState));
+			return (TankState)values.GetValue(random.Next(values.Length));
+		}
+		private static Random random = new Random(); // временная заглушка
 
+		protected override GeometryGroup CreateGeometry()
+		{
+			var geometry = new GeometryGroup();
+			geometry.Children.Add(new RectangleGeometry());
+			geometry.Children.Add(new RectangleGeometry());
+			geometry.Children.Add(new RectangleGeometry());
+			return geometry;
+		}
 		protected override Brush GetBrush()
 		{
 			return _brush;
 		}
+		protected override Pen GetPen()
+		{
+			return PainterCache.ZonePen;
+		}
 		public override void Transform()
 		{
-			base.Transform();
+			CalculateRectangle();
+			var size = new Size(Rect.Width, Rect.Height / 3);
+			((RectangleGeometry)Geometry.Children[0]).Rect = new Rect(Rect.Location, size);
+			((RectangleGeometry)Geometry.Children[1]).Rect = new Rect(new Point(Rect.Left, Rect.Top + size.Height), size);
+			((RectangleGeometry)Geometry.Children[2]).Rect = new Rect(new Point(Rect.Left, Rect.Top + size.Height * 2), size);
+		}
+		public override Rect Bounds
+		{
+			get { return Pen == null ? Rect : new Rect(Rect.Left - Pen.Thickness / 2, Rect.Top - Pen.Thickness / 2, Rect.Width + Pen.Thickness, Rect.Height + Pen.Thickness); }
 		}
 
 		private ContextMenu CreateContextMenu()

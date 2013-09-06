@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
@@ -8,6 +7,7 @@ namespace GKModule.ViewModels
 	public class PropertiesViewModel : BaseViewModel
 	{
 		public XDevice XDevice { get; private set; }
+		public XDirection XDirection { get; private set; }
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<ShortPropertyViewModel> ShortProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }

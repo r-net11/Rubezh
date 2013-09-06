@@ -6,7 +6,7 @@ using XFiresecAPI;
 using FiresecClient;
 using FiresecAPI.Models;
 
-namespace PlansModule.Kursk
+namespace PlansModule.Kursk.Designer
 {
 	internal static class Helper
 	{
