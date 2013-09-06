@@ -150,6 +150,12 @@ namespace GKModule.ViewModels
 		public RelayCommand SetDirectionPropertiesCommand { get; private set; }
 		void OnSetDirectionProperties()
 		{
+			XDirection.Name = Name;
+			XDirection.No = No;
+			XDirection.Description = Description;
+			XDirection.Delay = Delay;
+			XDirection.Hold = Hold;
+			XDirection.Regime = Regime;
 			ParametersHelper.SetSingleDirectionParameter(XDirection);
 		}
 
