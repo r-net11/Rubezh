@@ -117,6 +117,11 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
+
+				if (zone.ZoneState.IsRealMissmatch)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, zone));
+				}
 			}
 
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
@@ -139,6 +144,11 @@ namespace GKModule.ViewModels
 				!direction.DirectionState.IsConnectionLost)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
+				}
+
+				if (direction.DirectionState.IsRealMissmatch)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, direction));
 				}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();

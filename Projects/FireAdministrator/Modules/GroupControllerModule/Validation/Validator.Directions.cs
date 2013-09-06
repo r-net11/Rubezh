@@ -15,10 +15,13 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(direction);
-				if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
-					ValidateDirectionInputCount(direction);
-				if (MustValidate("В направлении отсутствуют выходные устройства"))
-					ValidateDirectionOutputCount(direction);
+				if (ValidateEmptyDirection(direction))
+				{
+					if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
+						ValidateDirectionInputCount(direction);
+					if (MustValidate("В направлении отсутствуют выходные устройства"))
+						ValidateDirectionOutputCount(direction);
+				}
 			}
 		}
 
@@ -69,6 +72,17 @@ namespace GKModule.Validation
 			}
 			if (direction.OutputDevices.Count == 0 && pumpStationCount == 0)
 				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
+		}
+
+		static bool ValidateEmptyDirection(XDirection direction)
+		{
+			var count = direction.InputZones.Count + direction.InputDevices.Count + direction.OutputDevices.Count;
+			if (count == 0)
+			{
+				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
+				return false;
+			}
+			return true;
 		}
 	}
 }

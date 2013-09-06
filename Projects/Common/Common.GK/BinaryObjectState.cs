@@ -15,7 +15,7 @@ namespace Common.GK
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
-			string description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList());
+			Description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList()).TrimEnd(' ');
 			int serialNo = BytesHelper.SubstructInt(bytes, 40);
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
@@ -162,6 +162,7 @@ namespace Common.GK
 
 		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
+		public string Description { get; private set; }
 		public ushort TypeNo { get; private set; }
 		public List<XStateBit> States { get; private set; }
 		public List<string> AdditionalStates { get; private set; }

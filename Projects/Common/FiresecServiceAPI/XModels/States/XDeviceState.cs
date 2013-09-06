@@ -68,7 +68,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime);
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);

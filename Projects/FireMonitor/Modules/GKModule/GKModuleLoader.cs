@@ -112,7 +112,7 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Измерения", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Измерения", "/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,

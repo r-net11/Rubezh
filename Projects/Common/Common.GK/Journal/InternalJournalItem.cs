@@ -123,7 +123,7 @@ namespace Common.GK
 			};
 
 			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stateClasses = XStatesHelper.StateBitsToStateClasses(states, false, false);
+			var stateClasses = XStatesHelper.StateBitsToStateClasses(states, false, false, false);
 
 			if (Source == JournalSourceType.Object)
 				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);

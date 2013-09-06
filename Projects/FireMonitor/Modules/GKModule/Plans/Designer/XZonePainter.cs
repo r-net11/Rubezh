@@ -73,22 +73,21 @@ namespace GKModule.Plans.Designer
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
+				case XStateClass.ConnectionLost:
 					return Colors.DarkGray;
 
-				case XStateClass.Norm:
-					return Colors.Green;
-
-				case XStateClass.Ignore:
-					return Colors.Yellow;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+					return Colors.Red;
 
 				case XStateClass.Attention:
 					return Colors.Yellow;
 
-				case XStateClass.Fire1:
-					return Colors.Red;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
 
-				case XStateClass.Fire2:
-					return Colors.Red;
+				case XStateClass.Norm:
+					return Colors.Green;
 
 				default:
 					return Colors.White;

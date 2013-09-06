@@ -31,10 +31,10 @@ namespace FiresecClient
         }
 
         static List<XDevice> allDeviceChildren;
-        public static List<XDevice> GetAllDeviceChildren(XDevice gkDevice)
+        public static List<XDevice> GetAllDeviceChildren(XDevice device)
         {
             allDeviceChildren = new List<XDevice>();
-            AddChildren(gkDevice);
+            AddChildren(device);
             return allDeviceChildren;
         }
         public static void AddChildren(XDevice device)

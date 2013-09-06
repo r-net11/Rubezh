@@ -7,52 +7,55 @@ namespace XFiresecAPI
 		[DescriptionAttribute("База данных ПК не совпадает с прибором")]
 		DBMissmatch = 0,
 
+		[DescriptionAttribute("Контроллер в технологическом режиме")]
+		TechnologicalRegime = 1,
+
 		[DescriptionAttribute("Потеря связи")]
-		ConnectionLost = 1,
+		ConnectionLost = 2,
 
 		[DescriptionAttribute("Пожар 2")]
-		Fire2 = 2,
+		Fire2 = 3,
 
 		[DescriptionAttribute("Пожар 1")]
-		Fire1 = 3,
+		Fire1 = 4,
 
 		[DescriptionAttribute("Внимание")]
-		Attention = 4,
+		Attention = 5,
 
 		[DescriptionAttribute("Отключено")]
-		Ignore = 5,
+		Ignore = 6,
 
         [DescriptionAttribute("Неисправность")]
-        Failure = 6,
+        Failure = 7,
 
 		[DescriptionAttribute("Включено")]
-		On = 7,
+		On = 8,
 
 		[DescriptionAttribute("Выключено")]
-		Off = 8,
+		Off = 9,
 
 		[DescriptionAttribute("Включается")]
-		TurningOn = 9,
+		TurningOn = 10,
 
 		[DescriptionAttribute("Выключается")]
-		TurningOff = 10,
+		TurningOff = 11,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 11,
+		Service = 12,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		AutoOff = 12,
+		AutoOff = 13,
 
 		[DescriptionAttribute("Информация")]
-		Info = 13,
+		Info = 14,
 
 		[DescriptionAttribute("Неизвестно")]
-		Unknown = 14,
+		Unknown = 15,
 
 		[DescriptionAttribute("Норма")]
-		Norm = 15,
+		Norm = 16,
 
 		[DescriptionAttribute("Нет")]
-		No = 16
+		No = 17
 	}
 }

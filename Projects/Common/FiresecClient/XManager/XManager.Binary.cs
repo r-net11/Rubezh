@@ -28,9 +28,9 @@ namespace FiresecClient
 					kauParents.Add(kauParent);
 				}
 
-				if (kauParents.Count > 0)
+				var kauDevice = kauParents.FirstOrDefault();
+				if (kauDevice != null)
 				{
-					var kauDevice = kauParents.First();
 					zone.GkDatabaseParent = kauDevice.Parent;
 				}
 			}
@@ -132,13 +132,26 @@ namespace FiresecClient
 			{
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;
-				var zone = direction.InputZones.FirstOrDefault();
-				if (zone != null)
+
+				var inputZone = direction.InputZones.FirstOrDefault();
+				if (inputZone != null)
 				{
-					if (zone.KauDatabaseParent != null)
-						direction.GkDatabaseParent = zone.KauDatabaseParent.Parent;
-					if (zone.GkDatabaseParent != null)
-						direction.GkDatabaseParent = zone.GkDatabaseParent;
+					if (inputZone.KauDatabaseParent != null)
+						direction.GkDatabaseParent = inputZone.KauDatabaseParent.Parent;
+					if (inputZone.GkDatabaseParent != null)
+						direction.GkDatabaseParent = inputZone.GkDatabaseParent;
+				}
+
+				var inputDevice = direction.InputDevices.FirstOrDefault();
+				if (inputDevice != null)
+				{
+					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+				}
+
+				var outputDevice = direction.OutputDevices.FirstOrDefault();
+				if (outputDevice != null)
+				{
+					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
 				}
 			}
 		}
