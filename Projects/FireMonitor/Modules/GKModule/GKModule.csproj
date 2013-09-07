@@ -38,6 +38,15 @@
     <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
     </Reference>
@@ -47,17 +56,9 @@
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="MigraDoc.DocumentObjectModel-WPF">
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.Rendering-WPF">
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.Rendering-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp-WPF">
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp-WPF.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
