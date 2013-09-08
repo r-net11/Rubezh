@@ -98,8 +98,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
-    <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToPlanColorConverter.cs" />
     <Compile Include="Designer\FlushAdorner.cs" />
     <Compile Include="Designer\PresenterCanvas.cs" />
     <Compile Include="ViewModels\FlushViewModel.cs" />

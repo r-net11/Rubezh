@@ -23,7 +23,7 @@ namespace GKModule.Plans.ViewModels
 			_devicesViewModel = devicesViewModel;
 
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device);
 				deviceViewModel.IsExpanded = true;

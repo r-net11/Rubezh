@@ -99,14 +99,6 @@ namespace XFiresecAPI
 			get { return XStatesHelper.GetMinStateClass(StateClasses); }
 		}
 
-		public virtual StateType GetStateType()
-		{
-			if (IsConnectionLost)
-				return StateType.Unknown;
-			else
-				return XStatesHelper.XStateTypesToState(StateClasses);
-		}
-
 		List<string> _additionalStates;
 		public List<string> AdditionalStates
 		{

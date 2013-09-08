@@ -40,12 +40,11 @@
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding StateTypes}"
-                      SelectedItem="{Binding SelectedStateType, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding SelectedStateType}">
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding StateClasses}"
+                      SelectedItem="{Binding SelectedStateClass, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ., Converter={StaticResource StateTypeToStringConverter}}" />
+                            <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

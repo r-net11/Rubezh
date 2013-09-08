@@ -92,8 +92,8 @@ namespace GKModule
 		{
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
-			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
-			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
+			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
+			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();

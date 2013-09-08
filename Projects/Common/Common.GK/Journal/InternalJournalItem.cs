@@ -82,19 +82,19 @@ namespace Common.GK
 		{
 			if (GKObjectNo != 0)
 			{
-				Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Device = XManager.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
 				if (Device != null)
 				{
 					JournalItemType = JournalItemType.Device;
 					ObjectUID = Device.UID;
 				}
-				Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Zone = XManager.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
 				if (Zone != null)
 				{
 					JournalItemType = JournalItemType.Zone;
 					ObjectUID = Zone.UID;
 				}
-				Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Direction = XManager.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
 				if (Direction != null)
 				{
 					JournalItemType = JournalItemType.Direction;
@@ -244,7 +244,7 @@ namespace Common.GK
 					var unknownAddress = BytesHelper.SubstructShort(bytes, 32 + 16);
 					var presentationAddress = (unknownAddress / 256 + 1).ToString() + "." + (unknownAddress % 256).ToString();
 					var driverName = unknownType.ToString();
-					var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
+					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == unknownType);
 					if (driver != null)
 					{
 						driverName = driver.ShortName;
@@ -276,7 +276,7 @@ namespace Common.GK
 							EventName = "При конфигурации описан другой тип";
 							var realType = BytesHelper.SubstructShort(bytes, 32 + 14);
 							var realDriverString = "Неизвестный тип " + realType.ToString();
-							var realDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == realType);
+							var realDriver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == realType);
 							if (realDriver != null)
 							{
 								realDriverString = realDriver.ShortName;

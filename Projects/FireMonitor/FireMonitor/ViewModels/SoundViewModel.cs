@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.IO;
 using Microsoft.Windows.Controls;
+using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace FireMonitor.ViewModels
 {
@@ -22,13 +24,13 @@ namespace FireMonitor.ViewModels
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
-			CurrentStateType = StateType.Norm;
+			CurrentStateClass = XStateClass.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
 			OnDevicesStateChanged(Guid.Empty);
 		}
 
-		public StateType CurrentStateType { get; private set; }
+		public XStateClass CurrentStateClass { get; private set; }
 
 		bool _isSoundOn;
 		public bool IsSoundOn
@@ -58,59 +60,59 @@ namespace FireMonitor.ViewModels
 
 		public void OnDevicesStateChanged(object obj)
 		{
-			var minState = (StateType)Math.Min((int)GetMinASStateType(), (int)GetMinGKStateType());
+			var minState = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)GetMinGKStateClass());
 
-			if (CurrentStateType != minState)
-				CurrentStateType = minState;
+			if (CurrentStateClass != minState)
+				CurrentStateClass = minState;
 
 			IsSoundOn = true;
-			if (minState == StateType.Norm)
+			if (minState == XStateClass.Norm)
 				IsEnabled = false;
 			else
 				IsEnabled = true;
 			PlayAlarm();
 		}
 
-		StateType GetMinASStateType()
+		XStateClass GetMinASStateClass()
 		{
 			var minStateType = StateType.Norm;
 			foreach (var device in FiresecManager.Devices)
 				if (device.DeviceState.StateType < minStateType)
 					minStateType = device.DeviceState.StateType;
-			return minStateType;
+			return XStatesHelper.StateTypeToXStateClass(minStateType);
 		}
 
-		StateType GetMinGKStateType()
+		XStateClass GetMinGKStateClass()
 		{
-			var minStateType = StateType.Norm;
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			var minStateClass = XStateClass.Norm;
+			foreach (var device in XManager.Devices)
 			{
 				if (device.DeviceState != null)
 				{
-					var stateType = device.DeviceState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
+					var stateClass = device.DeviceState.StateClass;
+					if (stateClass < minStateClass)
+						minStateClass = stateClass;
 				}
 			}
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (zone.ZoneState != null)
 				{
-					var stateType = zone.ZoneState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
+					var stateClass = zone.ZoneState.StateClass;
+					if (stateClass < minStateClass)
+						minStateClass = stateClass;
 				}
 			}
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (direction.DirectionState != null)
 				{
-					var stateType = direction.DirectionState.GetStateType();
-					if (stateType < minStateType)
-						minStateType = stateType;
+					var stateClass = direction.DirectionState.StateClass;
+					if (stateClass < minStateClass)
+						minStateClass = stateClass;
 				}
 			}
-			return minStateType;
+			return minStateClass;
 		}
 
 		public void PlayAlarm()
@@ -122,7 +124,7 @@ namespace FireMonitor.ViewModels
 			}
 			foreach (var sound in Sounds)
 			{
-				if (sound.StateType == CurrentStateType)
+				if (sound.StateClass == CurrentStateClass)
 				{
 					AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName), sound.BeeperType, sound.IsContinious);
 					return;

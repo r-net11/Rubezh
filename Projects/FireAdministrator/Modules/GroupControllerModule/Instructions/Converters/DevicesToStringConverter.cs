@@ -21,7 +21,7 @@ namespace GKModule.Converters
 
 				foreach (var deviceGuid in devices)
 				{
-					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceGuid);
 					if (device != null)
 					{
 						stringBuilder.Append(device.ShortNameAndDottedAddress);

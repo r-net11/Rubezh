@@ -13,6 +13,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using XFiresecAPI;
 
 namespace DevicesModule.Plans
 {
@@ -38,7 +39,7 @@ namespace DevicesModule.Plans
 		}
 		public int GetState(Plan plan)
 		{
-			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : StateType.No);
+			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : XStateClass.No);
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

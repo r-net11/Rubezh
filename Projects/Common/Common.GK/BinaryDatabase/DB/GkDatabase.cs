@@ -42,14 +42,14 @@ namespace Common.GK
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.Zones)
 			{
 				if (zone.GkDatabaseParent == RootDevice)
 				{
 					AddZone(zone);
 				}
 			}
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)
 				{

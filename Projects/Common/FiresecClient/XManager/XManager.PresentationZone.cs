@@ -65,7 +65,7 @@ namespace FiresecClient
 				for (int i = 0; i < orderedZones.Count; i++)
 				{
 					var zoneNo = orderedZones[i];
-					var haveZonesBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
+					var haveZonesBetween = Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
 					if (haveZonesBetween)
 					{
 						groupOfZones.Add(new List<ushort>() { zoneNo });
@@ -129,7 +129,7 @@ namespace FiresecClient
 				for (int i = 0; i < orderedDirections.Count; i++)
 				{
 					var directionNo = orderedDirections[i];
-					var haveDirectionsBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
+					var haveDirectionsBetween = Zones.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
 					if (haveDirectionsBetween)
 					{
 						groupOfDirections.Add(new List<ushort>() { directionNo });

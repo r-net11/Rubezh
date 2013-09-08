@@ -94,17 +94,6 @@ namespace XFiresecAPI
 			}
 		}
 
-		public override StateType GetStateType()
-		{
-			if (!Device.IsRealDevice)
-				return StateType.Norm;
-
-			if (IsConnectionLost)
-				return StateType.Unknown;
-			else
-				return XStatesHelper.XStateTypesToState(StateClasses);
-		}
-
 		public XMeasureParameter MeasureParameter { get; set; }
 	}
 }

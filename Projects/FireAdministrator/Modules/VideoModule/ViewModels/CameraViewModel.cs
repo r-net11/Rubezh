@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -21,14 +22,14 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var zones = new List<Zone>();
+				var zones = new List<XZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs)
 				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
-				var presentationZones = FiresecManager.FiresecConfiguration.DeviceConfiguration.GetCommaSeparatedZones(zones);
+				var presentationZones = XManager.GetCommaSeparatedZones(zones);
 				return presentationZones;
 			}
 		}

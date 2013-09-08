@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 
         public void Initialize()
         {
-            Zones = (from XZone zone in XManager.DeviceConfiguration.Zones
+            Zones = (from XZone zone in XManager.Zones
                      orderby zone.No
                      select new ZoneViewModel(zone.ZoneState)).ToList();
 
@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 
             var devices = new HashSet<XDevice>();
 
-            foreach (var device in XManager.DeviceConfiguration.Devices)
+            foreach (var device in XManager.Devices)
             {
                 if (device.ZoneUIDs.Contains(SelectedZone.Zone.UID))
                 {

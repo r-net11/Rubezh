@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -20,10 +21,11 @@ namespace VideoModule.ViewModels
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
 			TestCommand = new RelayCommand(OnTest);
-			StateTypes = new List<StateType>();
-			StateTypes.Add(StateType.Fire);
-			StateTypes.Add(StateType.Attention);
-			StateTypes.Add(StateType.Failure);
+			StateClasses = new List<XStateClass>();
+			StateClasses.Add(XStateClass.Fire1);
+			StateClasses.Add(XStateClass.Fire2);
+			StateClasses.Add(XStateClass.Attention);
+			StateClasses.Add(XStateClass.Ignore);
 
 			if (camera != null)
 			{
@@ -52,7 +54,7 @@ namespace VideoModule.ViewModels
 			Width = Camera.Width;
 			Height = Camera.Height;
 			IgnoreMoveResize = Camera.IgnoreMoveResize;
-			SelectedStateType = Camera.StateType;
+			SelectedStateClass = Camera.StateClass;
 			if (Camera.ZoneUIDs == null)
 				Camera.ZoneUIDs = new List<Guid>();
 			Zones = Camera.ZoneUIDs.ToList();
@@ -139,30 +141,28 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var presenrationZones = new StringBuilder();
-				for (int i = 0; i < Zones.Count; i++)
+				var zones = new List<XZone>();
+				foreach (var zoneUID in Zones)
 				{
-					if (i > 0)
-						presenrationZones.Append(", ");
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Zones[i]);
+					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
-						presenrationZones.Append(zone.PresentationName);
+						zones.Add(zone);
 				}
-
-				return presenrationZones.ToString();
+				var presentationZones = XManager.GetCommaSeparatedZones(zones);
+				return presentationZones;
 			}
 		}
 
-		public List<StateType> StateTypes { get; private set; }
+		public List<XStateClass> StateClasses { get; private set; }
 
-		StateType _selectedStateType;
-		public StateType SelectedStateType
+		XStateClass _selectedStateClass;
+		public XStateClass SelectedStateClass
 		{
-			get { return _selectedStateType; }
+			get { return _selectedStateClass; }
 			set
 			{
-				_selectedStateType = value;
-				OnPropertyChanged("SelectedStateType");
+				_selectedStateClass = value;
+				OnPropertyChanged("SelectedStateClass");
 			}
 		}
 
@@ -204,7 +204,7 @@ namespace VideoModule.ViewModels
 			Camera.Top = Top;
 			Camera.Width = Width;
 			Camera.Height = Height;
-			Camera.StateType = SelectedStateType;
+			Camera.StateClass = SelectedStateClass;
 			Camera.ZoneUIDs = Zones.ToList();
 			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			return base.Save();

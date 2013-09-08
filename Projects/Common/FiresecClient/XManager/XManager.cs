@@ -3,6 +3,7 @@ using System.Linq;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -10,12 +11,29 @@ namespace FiresecClient
 	{
 		public static XDeviceConfiguration DeviceConfiguration { get; set; }
 		public static XDriversConfiguration DriversConfiguration { get; set; }
-        public static XDeviceLibraryConfiguration XDeviceLibraryConfiguration { get; set; }
+        public static XDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 
 		static XManager()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
 			DriversConfiguration = new XDriversConfiguration();
+		}
+
+		public static List<XDevice> Devices
+		{
+			get { return DeviceConfiguration.Devices; }
+		}
+		public static List<XZone> Zones
+		{
+			get { return DeviceConfiguration.Zones; }
+		}
+		public static List<XDirection> Directions
+		{
+			get { return DeviceConfiguration.Directions; }
+		}
+		public static List<XDriver> Drivers
+		{
+			get { return DriversConfiguration.XDrivers; }
 		}
 
 		public static void SetEmptyConfiguration()
@@ -32,7 +50,7 @@ namespace FiresecClient
 			}
 			if (DeviceConfiguration.RootDevice == null)
 			{
-				var systemDriver = DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+				var systemDriver = Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
 				if (systemDriver != null)
 				{
 					DeviceConfiguration.RootDevice = new XDevice()
@@ -51,7 +69,7 @@ namespace FiresecClient
 			DeviceConfiguration.Update();
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				device.Driver = DriversConfiguration.XDrivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
 					MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
@@ -65,7 +83,7 @@ namespace FiresecClient
 
 		public static void InitializeMissingDefaultProperties()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				device.InitializeDefaultProperties();
 			}

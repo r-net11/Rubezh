@@ -23,7 +23,7 @@ namespace GKModule
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
-			var rootDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
 			var rootDevice = new XDevice()
 			{
 				Driver = rootDriver,
@@ -99,13 +99,13 @@ namespace GKModule
 			var description = memoryStream.ToString();
 			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
 
-			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
-					driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
+					driver = XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
-					driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 
 				var device = new XDevice()
 				{

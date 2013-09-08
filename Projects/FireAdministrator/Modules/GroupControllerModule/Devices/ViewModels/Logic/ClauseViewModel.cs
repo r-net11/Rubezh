@@ -196,7 +196,7 @@ namespace GKModule.ViewModels
 		void OnSelectDevices()
 		{
 			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.IsNotUsed)
 					continue;

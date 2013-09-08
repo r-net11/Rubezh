@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 		{
 			AvailablePumpStationPumpTypes = Enum.GetValues(typeof(XPumpStationPumpType)).Cast<XPumpStationPumpType>().ToList();
 			PumpStationPump = pumpStationPump;
-			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
+			Device = XManager.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
 			SelectedPumpStationPumpType = pumpStationPump.PumpStationPumpType;
 		}
 

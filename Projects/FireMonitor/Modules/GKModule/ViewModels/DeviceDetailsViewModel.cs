@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 
-			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			Device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
             DeviceState = Device.DeviceState;
             DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
             DeviceState.StateChanged += new Action(OnStateChanged);

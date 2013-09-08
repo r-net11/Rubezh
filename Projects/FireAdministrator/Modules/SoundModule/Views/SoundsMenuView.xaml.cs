@@ -2,11 +2,11 @@
 
 namespace SoundsModule.Views
 {
-    public partial class SoundsMenuView : UserControl
-    {
-        public SoundsMenuView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class SoundsMenuView : UserControl
+	{
+		public SoundsMenuView()
+		{
+			InitializeComponent();
+		}
+	}
 }

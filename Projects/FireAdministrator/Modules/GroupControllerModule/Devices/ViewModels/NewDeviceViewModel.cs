@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
-			foreach (var driver in XManager.DriversConfiguration.XDrivers)
+			foreach (var driver in XManager.Drivers)
 			{
 				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
 					continue;
@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 
 			if (deviceViewModel.Driver.DriverType == XDriverType.MPT)
 				Drivers = new ObservableCollection<XDriver>(
-					from XDriver driver in XManager.DriversConfiguration.XDrivers
+					from XDriver driver in XManager.Drivers
 					where driver.DriverType == XDriverType.MPT
 					select driver);
 

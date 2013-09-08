@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <DirectoryRef Id="SDKLOCATION">
+      <Component Id="SDK.Files" Guid="EC4360B0-C071-4C71-A9CD-F29F234251B5">
+        <File Id="SDK.ITV.rar" Name="ITV.rar" Source="..\..\..\..\..\..\..\..\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

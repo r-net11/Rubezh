@@ -4,11 +4,21 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using Infrastructure.Common.Ribbon;
+using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCDevicesViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class OPCDevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
+		public OPCDevicesViewModel()
+		{
+			ConvertCommand = new RelayCommand(OnConvert);
+			SetRibbonItems();
+		}
+
 		public void Initialize()
 		{
 			BuildTree();
@@ -94,123 +104,29 @@ namespace OPCModule.ViewModels
 			return deviceViewModel;
 		}
 
-		//public void Initialize()
-		//{
-		//    BuildTree();
-		//    if (Devices.Count > 0)
-		//    {
-		//        CollapseChild(Devices[0]);
-		//        ExpandChild(Devices[0]);
-		//        SelectedDevice = Devices[0];
-		//    }
-		//}
+		public override void OnShow()
+		{
+			//Initialize();
+			base.OnShow();
+		}
 
-		//#region DeviceSelection
+		public RelayCommand ConvertCommand { get; private set; }
+		void OnConvert()
+		{
+			var fs1ConvertationHelper = new FS1ConvertationHelper();
+			fs1ConvertationHelper.ConvertConfiguration();
+			Initialize();
+		}
 
-		//public List<OPCDeviceViewModel> AllDevices;
-
-		//public void FillAllDevices()
-		//{
-		//    AllDevices = new List<OPCDeviceViewModel>();
-		//    AddChildPlainDevices(Devices[0]);
-		//}
-
-		//void AddChildPlainDevices(OPCDeviceViewModel parentViewModel)
-		//{
-		//    AllDevices.Add(parentViewModel);
-		//    foreach (var childViewModel in parentViewModel.Children)
-		//    {
-		//        AddChildPlainDevices(childViewModel);
-		//    }
-		//}
-
-		//public void Select(Guid deviceUID)
-		//{
-		//    Initialize();
-		//    if (deviceUID != Guid.Empty)
-		//    {
-		//        FillAllDevices();
-
-		//        var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-		//        if (deviceViewModel != null)
-		//            deviceViewModel.ExpantToThis();
-		//        SelectedDevice = deviceViewModel;
-		//    }
-		//}
-
-		//#endregion
-
-		//ObservableCollection<OPCDeviceViewModel> _devices;
-		//public ObservableCollection<OPCDeviceViewModel> Devices
-		//{
-		//    get { return _devices; }
-		//    set
-		//    {
-		//        _devices = value;
-		//        OnPropertyChanged("Devices");
-		//    }
-		//}
-
-		//OPCDeviceViewModel _selectedDevice;
-		//public OPCDeviceViewModel SelectedDevice
-		//{
-		//    get { return _selectedDevice; }
-		//    set
-		//    {
-		//        _selectedDevice = value;
-		//        if (value != null)
-		//            value.ExpantToThis();
-		//        OnPropertyChanged("SelectedDevice");
-		//    }
-		//}
-
-		//void BuildTree()
-		//{
-		//    Devices = new ObservableCollection<OPCDeviceViewModel>();
-		//    AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
-		//}
-
-		//public OPCDeviceViewModel AddDevice(Device device, OPCDeviceViewModel parentDeviceViewModel)
-		//{
-		//    var deviceViewModel = new OPCDeviceViewModel(device, Devices);
-		//    deviceViewModel.Parent = parentDeviceViewModel;
-
-		//    var indexOf = Devices.IndexOf(parentDeviceViewModel);
-		//    Devices.Insert(indexOf + 1, deviceViewModel);
-
-		//    foreach (var childDevice in device.Children)
-		//    {
-		//        var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-		//        deviceViewModel.Children.Add(childDeviceViewModel);
-		//    }
-
-		//    return deviceViewModel;
-		//}
-
-		//public void CollapseChild(OPCDeviceViewModel parentDeviceViewModel)
-		//{
-		//    parentDeviceViewModel.IsExpanded = false;
-		//    foreach (var deviceViewModel in parentDeviceViewModel.Children)
-		//    {
-		//        CollapseChild(deviceViewModel);
-		//    }
-		//}
-
-		//public void ExpandChild(OPCDeviceViewModel parentDeviceViewModel)
-		//{
-		//    if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
-		//    {
-		//        parentDeviceViewModel.IsExpanded = true;
-		//        foreach (var deviceViewModel in parentDeviceViewModel.Children)
-		//        {
-		//            ExpandChild(deviceViewModel);
-		//        }
-		//    }
-		//}
-
-        public override void OnShow()
-        {
-            Initialize();
-        }
+		void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Конвертировать из Firesec-1", ConvertCommand, false, "/Controls;component/Images/BSettings.png")
+				}, "/Controls;component/Images/BZones.png") { Order = 2 }
+			};
+		}
 	}
 }

@@ -64,9 +64,9 @@ namespace GKModule
 				);
 
 			var device = new XDevice();
-			device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
 			if (device.Driver.DriverType == XDriverType.GKIndicator)
-				device.Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
+				device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 			device.DriverUID = device.Driver.UID;
 			device.ShleifNo = (byte)(address / 256 + 1);
 			device.IntAddress = (byte)(address % 256);

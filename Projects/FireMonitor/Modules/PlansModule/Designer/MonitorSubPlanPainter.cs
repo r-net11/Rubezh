@@ -9,6 +9,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
 using System.Windows.Input;
+using XFiresecAPI;
 
 namespace PlansModule.Designer
 {
@@ -49,29 +50,33 @@ namespace PlansModule.Designer
 			{
 				var planViewModel = PlanTreeViewModel.Current.AllPlans.FirstOrDefault(x => x.Plan.UID == PlanUID);
 				if(planViewModel != null)
-					color = GetStateColor(planViewModel.StateType);
+					color = GetStateColor(planViewModel.StateClass);
 			}
 			return PainterCache.GetTransparentBrush(color);
 		}
 
-		public Color GetStateColor(StateType stateType)
+		public Color GetStateColor(XStateClass stateClass)
 		{
-			switch (stateType)
+			switch (stateClass)
 			{
-				case StateType.Fire:
+				case XStateClass.Attention:
+					return Colors.Yellow;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
 					return Colors.Red;
-				case StateType.Attention:
-					return Colors.Yellow;
-				case StateType.Failure:
+				case XStateClass.Failure:
 					return Colors.Pink;
-				case StateType.Service:
-				case StateType.Off:
+				case XStateClass.Service:
+				case XStateClass.Ignore:
 					return Colors.Yellow;
-				case StateType.Unknown:
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.ConnectionLost:
+				case XStateClass.TechnologicalRegime:
 					return Colors.Gray;
-				case StateType.Info:
+				case XStateClass.Info:
 					return Colors.LightBlue;
-				case StateType.Norm:
+				case XStateClass.Norm:
 				default:
 					return Colors.Transparent;
 			}

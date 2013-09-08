@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace SoundsModule.ViewModels
 {
@@ -18,9 +19,9 @@ namespace SoundsModule.ViewModels
 			Sound = sound;
 		}
 
-		public StateType StateType
+		public XStateClass StateClass
 		{
-			get { return Sound.StateType; }
+			get { return Sound.StateClass; }
 		}
 
 		public string SoundName

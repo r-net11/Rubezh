@@ -7,12 +7,12 @@ namespace FiresecClient
     {
         public static void CreateStates()
         {
-            foreach (var device in DeviceConfiguration.Devices)
+            foreach (var device in Devices)
             {
                 var deviceState = new XDeviceState(device);
 				device.DeviceState = deviceState;
             }
-            foreach (var zone in DeviceConfiguration.Zones)
+            foreach (var zone in Zones)
             {
                 var zoneState = new XZoneState()
                 {
@@ -20,7 +20,7 @@ namespace FiresecClient
                 };
 				zone.ZoneState = zoneState;
             }
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				var directionState = new XDirectionState()
 				{
@@ -49,7 +49,7 @@ namespace FiresecClient
 		public static List<XZoneState> GetAllGKZoneStates(XDeviceState gkDeviceState)
 		{
 			var zoneStates = new List<XZoneState>();
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				if (zone.GkDatabaseParent == gkDeviceState.Device)
 				{
@@ -62,7 +62,7 @@ namespace FiresecClient
 		public static List<XDirectionState> GetAllGKDirectionStates(XDeviceState gkDeviceState)
 		{
 			var directionStates = new List<XDirectionState>();
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				if (direction.GkDatabaseParent == gkDeviceState.Device)
 				{

@@ -140,4 +140,16 @@
         <Views:DiagnosticsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
+        <Views:GuardView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
+        <Views:UserDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
+        <Views:GuardMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>

@@ -16,7 +16,7 @@ namespace FiresecClient
 
 		static void PrepareZones()
 		{
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				zone.KauDatabaseParent = null;
 				zone.GkDatabaseParent = null;
@@ -38,22 +38,22 @@ namespace FiresecClient
 
 		static void PrepareInputOutputdependences()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				device.ClearBinaryData();
 			}
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				zone.ClearBinaryData();
                 zone.InputObjects.Add(zone);
 				zone.OutputObjects.Add(zone);
 			}
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				direction.ClearBinaryData();
 			}
 
-            foreach (var device in DeviceConfiguration.Devices)
+            foreach (var device in Devices)
             {
                 foreach (var clause in device.DeviceLogic.Clauses)
                 {
@@ -75,7 +75,7 @@ namespace FiresecClient
                 }
             }
 
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				foreach (var device in zone.Devices)
 				{
@@ -84,7 +84,7 @@ namespace FiresecClient
 				}
 			}
 
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				foreach (var zone in direction.InputZones)
 				{
@@ -102,7 +102,7 @@ namespace FiresecClient
 
         static void PrepareDeviceLogicDependences()
         {
-            foreach (var device in DeviceConfiguration.Devices)
+            foreach (var device in Devices)
             {
 				device.DeviceLogic.DependentZones = new List<XZone>();
                 device.DeviceLogic.DependentDevices = new List<XDevice>();
@@ -128,7 +128,7 @@ namespace FiresecClient
 
 		static void PrepareDirections()
 		{
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;

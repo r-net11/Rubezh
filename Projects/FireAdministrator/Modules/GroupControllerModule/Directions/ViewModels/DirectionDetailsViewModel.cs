@@ -27,8 +27,8 @@ namespace GKModule.ViewModels
                     Name = "Новое направление",
                     No = 1
                 };
-				if (XManager.DeviceConfiguration.Directions.Count != 0)
-					XDirection.No = (ushort)(XManager.DeviceConfiguration.Directions.Select(x => x.No).Max() + 1);
+				if (XManager.Directions.Count != 0)
+					XDirection.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
             }
             else
             {
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (XDirection.No != No && XManager.DeviceConfiguration.Directions.Any(x => x.No == No))
+			if (XDirection.No != No && XManager.Directions.Any(x => x.No == No))
             {
                 MessageBoxService.Show("Направление с таким номером уже существует");
                 return false;

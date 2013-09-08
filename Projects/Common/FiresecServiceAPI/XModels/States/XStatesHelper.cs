@@ -23,51 +23,6 @@ namespace FiresecAPI.XModels
 			return states;
 		}
 
-		static StateType XStateClassToStateType(XStateClass stateClass)
-		{
-			switch (stateClass)
-			{
-				case XStateClass.Fire1:
-				case XStateClass.Fire2:
-					return StateType.Fire;
-
-				case XStateClass.Attention:
-					return StateType.Attention;
-
-				case XStateClass.Failure:
-					return StateType.Failure;
-
-				case XStateClass.Ignore:
-					return StateType.Off;
-
-				case XStateClass.DBMissmatch:
-					return StateType.Service;
-
-				case XStateClass.Info:
-				case XStateClass.On:
-				case XStateClass.TurningOn:
-					return StateType.Info;
-
-				default:
-					return StateType.Norm;
-			}
-		}
-
-		public static StateType XStateTypesToState(List<XStateClass> stateClasses)
-		{
-			var minPriority = 7;
-			foreach (var state in stateClasses)
-			{
-				var priority = XStateClassToStateType(state);
-				if ((int)priority < minPriority)
-				{
-					minPriority = (int)priority;
-				}
-			}
-			StateType stateType = (StateType)minPriority;
-			return stateType;
-		}
-
 		public static List<XStateClass> StateBitsToStateClasses(List<XStateBit> stateBits, bool isConnectionLost, bool isMissmatch, bool IsInTechnologicalRegime)
 		{
 			var stateClasses = new HashSet<XStateClass>();
@@ -142,5 +97,79 @@ namespace FiresecAPI.XModels
 			}
 			return minStateClass;
 		}
+
+
+		#region Converters
+		static StateType OLD_XStateClassToStateType(XStateClass stateClass)
+		{
+			switch (stateClass)
+			{
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+					return StateType.Fire;
+
+				case XStateClass.Attention:
+					return StateType.Attention;
+
+				case XStateClass.Failure:
+					return StateType.Failure;
+
+				case XStateClass.Ignore:
+					return StateType.Off;
+
+				case XStateClass.DBMissmatch:
+					return StateType.Service;
+
+				case XStateClass.Info:
+				case XStateClass.On:
+				case XStateClass.TurningOn:
+					return StateType.Info;
+
+				default:
+					return StateType.Norm;
+			}
+		}
+
+		public static StateType XStateTypesToState(List<XStateClass> stateClasses)
+		{
+			var minPriority = 7;
+			foreach (var state in stateClasses)
+			{
+				var priority = OLD_XStateClassToStateType(state);
+				if ((int)priority < minPriority)
+				{
+					minPriority = (int)priority;
+				}
+			}
+			StateType stateType = (StateType)minPriority;
+			return stateType;
+		}
+
+		public static XStateClass StateTypeToXStateClass(StateType stateType)
+		{
+			switch(stateType)
+			{
+				case StateType.Attention:
+					return XStateClass.Attention;
+				case StateType.Fire:
+					return XStateClass.Fire1;
+				case StateType.Info:
+					return XStateClass.Info;
+				case StateType.No:
+					return XStateClass.No;
+				case StateType.Norm:
+					return XStateClass.Norm;
+				case StateType.Off:
+					return XStateClass.Ignore;
+				case StateType.Service:
+					return XStateClass.Service;
+				case StateType.Unknown:
+					return XStateClass.Unknown;
+				default:
+					return XStateClass.Norm;
+			}
+		}
+
+		#endregion
 	}
 }

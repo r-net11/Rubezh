@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			TargetDirections = new ObservableCollection<XDirection>();
 			SourceDirections = new ObservableCollection<XDirection>();
 
-            foreach (var direction in XManager.DeviceConfiguration.Directions)
+            foreach (var direction in XManager.Directions)
             {
 				if (Directions.Contains(direction))
                     TargetDirections.Add(direction);

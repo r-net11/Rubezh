@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 		public void ChangeDevices()
 		{
 			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.IsDeviceOnShleif)
 					sourceDevices.Add(device);
@@ -147,7 +147,7 @@ namespace GKModule.ViewModels
 		public void ChangeOutputDevices()
 		{
 			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.IsDeviceOnShleif && device.Driver.HasLogic)
 					sourceDevices.Add(device);

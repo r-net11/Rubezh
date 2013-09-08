@@ -52,10 +52,10 @@ namespace GKModule
 					GetAllStates();
 				}
 			}
-			var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
+			var gkDevice = XManager.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
 			if (gkDevice == null)
 			{
-				var uidEquality = XManager.DeviceConfiguration.Devices.Any(x => x.UID == GkDatabase.RootDevice.UID);
+				var uidEquality = XManager.Devices.Any(x => x.UID == GkDatabase.RootDevice.UID);
 				Logger.Error("JournalWatcher ConnectionChanged gkDevice = null " + uidEquality.ToString() + " " + GkDatabase.RootDevice.UID.ToString());
 				return;
 			}

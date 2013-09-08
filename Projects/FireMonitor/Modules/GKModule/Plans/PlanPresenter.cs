@@ -41,7 +41,7 @@ namespace GKModule.Plans
 
 		public int GetState(Plan plan)
 		{
-			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : StateType.No);
+			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : XStateClass.No);
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

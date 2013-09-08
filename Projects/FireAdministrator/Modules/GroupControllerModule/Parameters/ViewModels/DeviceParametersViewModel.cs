@@ -513,7 +513,7 @@ namespace GKModule.ViewModels
 
 		void Invalidate()
 		{
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.SystemAUProperties == null)
 					device.SystemAUProperties = new List<XProperty>();
