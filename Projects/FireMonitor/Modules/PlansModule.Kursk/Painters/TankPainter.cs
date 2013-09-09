@@ -125,10 +125,27 @@ namespace PlansModule.Kursk.Designer
 		}
 		private TankState GetState()
 		{
-			Array values = Enum.GetValues(typeof(TankState));
-			return (TankState)values.GetValue(random.Next(values.Length));
+			switch (_device.DeviceState.StateClass)
+			{
+				case XStateClass.ConnectionLost:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.Failure:
+				case XStateClass.Unknown:
+					return TankState.Error;
+			}
+			if (_device.DeviceState.AdditionalStates.Count == 0)
+				return TankState.Empty;
+
+			if (_device.DeviceState.AdditionalStates.Any(x => x == "Низкий уровень"))
+				return TankState.Little;
+			if (_device.DeviceState.AdditionalStates.Any(x => x == "Высокий уровень"))
+				return TankState.Half;
+			if (_device.DeviceState.AdditionalStates.Any(x => x == "Аварийный уровень"))
+				return TankState.Full;
+
+			return TankState.Empty;
 		}
-		private static Random random = new Random(); // временная заглушка
 
 		protected override GeometryGroup CreateGeometry()
 		{

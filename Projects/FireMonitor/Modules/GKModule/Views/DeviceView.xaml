@@ -10,6 +10,7 @@
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                    <MenuItem Header="Показать связанные события" Command="{Binding ShowJournalCommand}" />
                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                 </ContextMenu>
             </TextBlock.ContextMenu>

@@ -24,11 +24,6 @@ namespace GKModule
 			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
-				if (binaryObject.BinaryBase is XDelay)
-				{
-					;
-				}
-
 				bool result = GetState(binaryObject.BinaryBase);
 				if (!result)
 				{

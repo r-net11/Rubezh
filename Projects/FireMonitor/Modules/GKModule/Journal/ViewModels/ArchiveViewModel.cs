@@ -13,6 +13,7 @@ using Infrastructure.Models;
 using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
 using FiresecClient;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -39,6 +40,13 @@ namespace GKModule.ViewModels
 		{
 			ArchiveFirstDate = DateTime.Now.AddDays(-1);
 			_isFilterOn = false;
+		}
+
+		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
+		{
+			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter.ObjectUID = showXArchiveEventArgs.Device.UID;
+			IsFilterOn = true;
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;

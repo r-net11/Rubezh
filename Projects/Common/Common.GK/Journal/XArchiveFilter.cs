@@ -24,5 +24,6 @@ namespace Common.GK
 		public List<XStateClass> StateClasses { get; set; }
 		public List<string> GKAddresses { get; set; }
 		public List<string> EventNames { get; set; }
+		public Guid ObjectUID { get; set; }
 	}
 }

@@ -46,6 +46,7 @@ namespace Common.GK
 		{
 			var journalItem = new JournalItem()
 			{
+				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				SystemDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
@@ -166,6 +167,13 @@ namespace Common.GK
 									index++;
 									query += "Name = '" + eventName + "'";
 								}
+								query += ")";
+							}
+
+							if (archiveFilter.ObjectUID != Guid.Empty)
+							{
+								query += "\n AND (";
+								query += "ObjectUID = '" + archiveFilter.ObjectUID + "'";
 								query += ")";
 							}
 
