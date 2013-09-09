@@ -145,6 +145,8 @@ namespace GKModule.Journal.ViewModels
 		}
 		private Image GetImage(string source)
 		{
+			if (string.IsNullOrEmpty(source) == null)
+				return null;
 			if (_cache.ContainsKey(source))
 				return _cache[source];
 
