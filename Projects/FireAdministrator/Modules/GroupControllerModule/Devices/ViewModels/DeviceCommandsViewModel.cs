@@ -166,12 +166,14 @@ namespace GKModule.Models
 		public RelayCommand GetSingleParameterCommand { get; private set; }
 		void OnGetSingleParameter()
 		{
+			DatabaseManager.Convert();
 			ParametersHelper.GetSingleParameter(SelectedDevice.Device);
 		}
 
         public RelayCommand SetSingleParameterCommand { get; private set; }
         void OnSetSingleParameter()
 		{
+			DatabaseManager.Convert();
             ParametersHelper.SetSingleParameter(SelectedDevice.Device);
 		}
 		bool CanSetSingleParameter()

@@ -11,9 +11,12 @@ namespace Controls.Converters
 		{
 			switch ((XStateClass)value)
 			{
-				case XStateClass.Fire2:
-					return Brushes.Red;
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.ConnectionLost:
+					return Brushes.Gray;
 
+				case XStateClass.Fire2:
 				case XStateClass.Fire1:
 					return Brushes.Red;
 
@@ -29,12 +32,6 @@ namespace Controls.Converters
 				case XStateClass.Ignore:
 					return Brushes.Yellow;
 
-				case XStateClass.Unknown:
-					return Brushes.Gray;
-
-				case XStateClass.DBMissmatch:
-					return Brushes.Gray;
-
 				case XStateClass.On:
 					return Brushes.LightBlue;
 
@@ -42,8 +39,6 @@ namespace Controls.Converters
 					return Brushes.Yellow;
 
 				case XStateClass.Info:
-					return Brushes.Transparent;
-
 				case XStateClass.Norm:
 					return Brushes.Transparent;
 

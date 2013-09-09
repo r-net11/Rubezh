@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 	{
 		public void Initialize()
 		{
-			Directions = (from XDirection direction in XManager.DeviceConfiguration.Directions
+			Directions = (from XDirection direction in XManager.Directions
 						  orderby direction.No
 						  select new DirectionViewModel(direction.DirectionState)).ToList();
 

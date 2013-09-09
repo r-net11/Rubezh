@@ -100,7 +100,7 @@ namespace FiresecClient
 		{
 			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+				var autoCreateDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
 					AddChild(device, autoCreateDriver, 0, i);
@@ -126,7 +126,7 @@ namespace FiresecClient
 
 			foreach (var autoCreateDriverType in device.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+				var autoCreateDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
 					var newDevice = new XDevice()

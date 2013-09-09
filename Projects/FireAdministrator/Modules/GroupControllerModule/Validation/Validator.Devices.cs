@@ -16,7 +16,7 @@ namespace GKModule.Validation
 		{
 			ValidateAddressEquality();
 
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.IsNotUsed)
 					continue;
@@ -48,7 +48,7 @@ namespace GKModule.Validation
 		static void ValidateAddressEquality()
 		{
 			var deviceAddresses = new HashSet<string>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.DriverType == XDriverType.System || device.Driver.DriverType == XDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
 					continue;

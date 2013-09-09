@@ -20,7 +20,7 @@ namespace GKModule.Converters
 
                 foreach (var zoneUID in zoneUIDs)
 				{
-                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
                     if (zone != null)
                     {
                         result.Append(zone.No);

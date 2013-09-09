@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 			Directions = new List<XDirection>();
 			foreach (var directionUID in device.PumpStationProperty.DirectionUIDs)
 			{
-				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == directionUID);
 				if (direction != null)
 				{
 					Directions.Add(direction);
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 		void OnChangePumps()
 		{
 			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.DriverType == XDriverType.Pump || device.Driver.DriverType == XDriverType.RSR2_Bush)
 					sourceDevices.Add(device);

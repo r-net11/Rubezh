@@ -19,9 +19,9 @@ namespace GKModule.ViewModels
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 			Current = this;
-			foreach (var libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices)
+			foreach (var libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices)
 			{
-				var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.UID == libraryXDevice.XDriverId);
+				var driver = XManager.Drivers.FirstOrDefault(x => x.UID == libraryXDevice.XDriverId);
 				if (driver != null)
 				{
 					libraryXDevice.Driver = driver;
@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-			var devices = from LibraryXDevice libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
+			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
 			foreach (var device in devices)
 			{
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			var deviceDetailsViewModel = new DeviceDetailsViewModel();
 			if (DialogService.ShowModalWindow(deviceDetailsViewModel))
 			{
-				XManager.XDeviceLibraryConfiguration.XDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
+				XManager.DeviceLibraryConfiguration.XDevices.Add(deviceDetailsViewModel.SelectedDevice.LibraryDevice);
 				Devices.Add(deviceDetailsViewModel.SelectedDevice);
 				SelectedDevice = Devices.LastOrDefault();
 				ServiceFactory.SaveService.XLibraryChanged = true;
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveDeviceCommand { get; private set; }
 		void OnRemoveDevice()
 		{
-			XManager.XDeviceLibraryConfiguration.XDevices.Remove(SelectedDevice.LibraryDevice);
+			XManager.DeviceLibraryConfiguration.XDevices.Remove(SelectedDevice.LibraryDevice);
 			Devices.Remove(SelectedDevice);
 			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.XLibraryChanged = true;

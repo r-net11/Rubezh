@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
             SelectedAvailableDevice = null;
             SelectedInstructionDevice = null;
 
-            foreach (var device in XManager.DeviceConfiguration.Devices)
+            foreach (var device in XManager.Devices)
             {
                 if (device.IsRealDevice && device.Driver.IsDeviceOnShleif)
                 {

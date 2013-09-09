@@ -419,11 +419,6 @@ namespace DevicesModule.ViewModels
 			return SelectedDevice != null;
 		}
 
-		bool CanEditDelete()
-		{
-			return (SelectedAvailableUser != null);
-		}
-
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -441,6 +436,11 @@ namespace DevicesModule.ViewModels
 				SelectedAvailableUser.GuardUser = userDetailsViewModel.GuardUser;
 				ServiceFactory.SaveService.FSChanged = true;
 			}
+		}
+
+		bool CanEditDelete()
+		{
+			return (SelectedAvailableUser != null);
 		}
 
 		public RelayCommand EditDeviceUserCommand { get; private set; }

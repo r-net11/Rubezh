@@ -68,7 +68,7 @@ namespace FiresecClient
 							break;
 
 						case "XDeviceLibraryConfiguration.xml":
-							XManager.XDeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationFileName);
+							XManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationFileName);
 							break;
 					}
 				}

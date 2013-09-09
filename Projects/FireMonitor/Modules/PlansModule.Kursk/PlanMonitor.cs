@@ -23,9 +23,9 @@ namespace PlansModule.Kursk
 		private void Initialize()
 		{
 		}
-		public StateType GetState()
+		public XStateClass GetState()
 		{
-			var result = StateType.No;
+			var result = XStateClass.No;
 			return result;
 		}
 	}

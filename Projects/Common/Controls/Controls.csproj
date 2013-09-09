@@ -163,6 +163,7 @@
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -1123,6 +1124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\TechnologicalRegime.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

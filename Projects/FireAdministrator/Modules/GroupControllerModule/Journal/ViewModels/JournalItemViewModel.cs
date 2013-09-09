@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 
 			Address = internalAddress.ToString();
 
-			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
 				TypeName = driver.ShortName;
@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (device != null)
 					{
 						PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.Zone:
-					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (zone != null)
 					{
 						PresentationName = zone.PresentationName;
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case JournalItemType.Direction:
-					var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (direction != null)
 					{
 						PresentationName = direction.PresentationName;

@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -22,10 +23,10 @@ namespace VideoModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
 			Zones = zones;
-			TargetZones = new ObservableCollection<Zone>();
-			SourceZones = new ObservableCollection<Zone>();
+			TargetZones = new ObservableCollection<XZone>();
+			SourceZones = new ObservableCollection<XZone>();
 
-			var sortedZones = FiresecManager.Zones.OrderBy(x => { return x.No; });
+			var sortedZones = XManager.Zones.OrderBy(x => { return x.No; });
 			foreach (var zone in sortedZones)
 			{
 				if (Zones.Contains(zone.UID))
@@ -38,10 +39,10 @@ namespace VideoModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		public ObservableCollection<Zone> SourceZones { get; private set; }
+		public ObservableCollection<XZone> SourceZones { get; private set; }
 
-		Zone _selectedSourceZone;
-		public Zone SelectedSourceZone
+		XZone _selectedSourceZone;
+		public XZone SelectedSourceZone
 		{
 			get { return _selectedSourceZone; }
 			set
@@ -51,10 +52,10 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<Zone> TargetZones { get; private set; }
+		public ObservableCollection<XZone> TargetZones { get; private set; }
 
-		Zone _selectedTargetZone;
-		public Zone SelectedTargetZone
+		XZone _selectedTargetZone;
+		public XZone SelectedTargetZone
 		{
 			get { return _selectedTargetZone; }
 			set

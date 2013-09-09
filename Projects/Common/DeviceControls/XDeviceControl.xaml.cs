@@ -40,7 +40,7 @@ namespace DeviceControls
 
 		public void Update()
 		{
-			var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == DriverId);
+			var libraryXDevice = XManager.DeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == DriverId);
 			if (libraryXDevice == null)
 			{
 				Logger.Error("XDeviceControl.Update libraryXDevice = null " + DriverId.ToString());
@@ -84,7 +84,7 @@ namespace DeviceControls
 		{
 			UIElement content = null;
 
-			var device = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == driverId);
+			var device = XManager.DeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == driverId);
 			if (device != null)
 			{
 				var state = device.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);

@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrastructure.Common.TreeList;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -16,44 +17,44 @@ namespace PlansModule.ViewModels
 
 		public PlanViewModel(PlansViewModel plansViewModel, Plan plan)
 		{
-			_selfState = StateType.No;
-			_stateType = StateType.No;
+			_selfStateClass = XStateClass.No;
+			_stateClass = XStateClass.No;
 			_plansViewModel = plansViewModel;
 			Plan = plan;
 			PlanFolder = plan as PlanFolder;
 		}
 
-		private StateType _stateType;
-		public StateType StateType
+		private XStateClass _stateClass;
+		public XStateClass StateClass
 		{
-			get { return _stateType; }
+			get { return _stateClass; }
 			set
 			{
-				_stateType = value;
+				_stateClass = value;
 				ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
-				OnPropertyChanged("StateType");
+				OnPropertyChanged("StateClass");
 			}
 		}
 
-		private StateType _selfState;
-		public StateType SelfState
+		private XStateClass _selfStateClass;
+		public XStateClass SelfStateClass
 		{
-			get { return _selfState; }
+			get { return _selfStateClass; }
 			set
 			{
-				_selfState = value;
-				OnPropertyChanged(() => SelfState);
+				_selfStateClass = value;
+				OnPropertyChanged(() => SelfStateClass);
 				UpdateState();
 			}
 		}
 
 		private void UpdateState()
 		{
-			StateType = SelfState;
+			StateClass = SelfStateClass;
 			foreach (var child in Children)
 			{
-				if (child.StateType < StateType)
-					StateType = child.StateType;
+				if (child.StateClass < StateClass)
+					StateClass = child.StateClass;
 			}
 			if (Parent != null)
 				Parent.UpdateState();
@@ -66,14 +67,14 @@ namespace PlansModule.ViewModels
 		}
 		void StateChanged()
 		{
-			var state = StateType.No;
+			var state = XStateClass.No;
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 			{
-				var presenterState = (StateType)planPresenter.GetState(Plan);
+				var presenterState = (XStateClass)planPresenter.GetState(Plan);
 				if (presenterState < state)
 					state = presenterState;
 			}
-			SelfState = state;
+			SelfStateClass = state;
 		}
 	}
 }

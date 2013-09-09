@@ -127,11 +127,11 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{
-				XManager.DeviceConfiguration.Zones.Add(zone);
+				XManager.Zones.Add(zone);
 			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
-				XManager.DeviceConfiguration.Directions.Add(direction);
+				XManager.Directions.Add(direction);
 			}
 
 			foreach (var plan in PlansConfiguration.Plans)

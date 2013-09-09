@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
@@ -11,7 +12,12 @@ namespace GKModule.ViewModels
 		public XDirection XDirection { get; set; }
 
 		public DirectionDetailsViewModel(XDirection direction = null)
-        {
+		{
+			ParametersHelper.AllParametersChanged -= ChangeParameter;
+			ParametersHelper.AllParametersChanged += ChangeParameter;
+			SetDirectionPropertiesCommand = new RelayCommand(OnSetDirectionProperties);
+			GetDirectionPropertiesCommand = new RelayCommand(OnGetDirectionProperties);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			if (direction == null)
             {
                 Title = "Создание новоого направления";
@@ -21,8 +27,8 @@ namespace GKModule.ViewModels
                     Name = "Новое направление",
                     No = 1
                 };
-				if (XManager.DeviceConfiguration.Directions.Count != 0)
-					XDirection.No = (ushort)(XManager.DeviceConfiguration.Directions.Select(x => x.No).Max() + 1);
+				if (XManager.Directions.Count != 0)
+					XDirection.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
             }
             else
             {
@@ -31,6 +37,16 @@ namespace GKModule.ViewModels
             }
             CopyProperties();
         }
+
+		void ChangeParameter(ushort delay, ushort hold, ushort regime)
+		{
+			Delay = delay;
+			Hold = hold;
+			Regime = regime;
+			OnPropertyChanged("Delay");
+			OnPropertyChanged("Hold");
+			OnPropertyChanged("Regime");
+		}
 
         void CopyProperties()
         {
@@ -110,7 +126,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (XDirection.No != No && XManager.DeviceConfiguration.Directions.Any(x => x.No == No))
+			if (XDirection.No != No && XManager.Directions.Any(x => x.No == No))
             {
                 MessageBoxService.Show("Направление с таким номером уже существует");
                 return false;
@@ -123,6 +139,32 @@ namespace GKModule.ViewModels
 			XDirection.Regime = Regime;
 			XDirection.Description = Description;
 			return base.Save();
+		}
+
+		public RelayCommand GetDirectionPropertiesCommand { get; private set; }
+		void OnGetDirectionProperties()
+		{
+			ParametersHelper.GetSingleDirectionParameter(XDirection);
+		}
+
+		public RelayCommand SetDirectionPropertiesCommand { get; private set; }
+		void OnSetDirectionProperties()
+		{
+			XDirection.Name = Name;
+			XDirection.No = No;
+			XDirection.Description = Description;
+			XDirection.Delay = Delay;
+			XDirection.Hold = Hold;
+			XDirection.Regime = Regime;
+			ParametersHelper.SetSingleDirectionParameter(XDirection);
+		}
+
+		public RelayCommand ResetAUPropertiesCommand { get; private set; }
+		void OnResetAUProperties()
+		{
+			Delay = 10;
+			Hold = 10;
+			Regime = 1;
 		}
     }
 }

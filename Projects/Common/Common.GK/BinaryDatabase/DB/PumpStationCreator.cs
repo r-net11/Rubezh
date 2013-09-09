@@ -27,7 +27,7 @@ namespace Common.GK
 			Directions = new List<XDirection>();
 			foreach (var directionUID in pumpStationDevice.PumpStationProperty.DirectionUIDs)
 			{
-				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == directionUID);
 				if (direction != null)
 				{
 					Directions.Add(direction);
@@ -40,7 +40,7 @@ namespace Common.GK
 			FailurePumpDevices = new List<XDevice>();
 			foreach (var pumpStationPump in pumpStationDevice.PumpStationProperty.PumpStationPumps.OrderBy(x => x.PumpStationPumpType))
 			{
-				var pumpDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
+				var pumpDevice = XManager.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
 				if (pumpDevice != null)
 				{
 					if (pumpDevice.IntAddress <= 8)

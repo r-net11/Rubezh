@@ -6,14 +6,14 @@ namespace GKModule.ViewModels
 {
 	public class StringPropertyViewModel : BasePropertyViewModel
 	{
-		public StringPropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
-			: base(xDriverProperty, xDevice)
+		public StringPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+			: base(driverProperty, device)
 		{
-			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
+			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				_text = Convert.ToString(property.Value);
+				_text = Convert.ToString(property.StringValue);
 			else
-				_text = Convert.ToString(xDriverProperty.Default);
+				_text = Convert.ToString(driverProperty.Default);
 		}
 
 		string _text;
@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 				_text = value;
 				OnPropertyChanged("Text");
 				SaveStringValue(value);
-				_xDevice.OnChanged();
+				_device.OnChanged();
 			}
 		}
 	}

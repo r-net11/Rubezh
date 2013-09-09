@@ -24,7 +24,7 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: ГК Направление";
-			var directions = XManager.DeviceConfiguration.Directions;
+			var directions = XManager.Directions;
 			XDirections = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in directions)
 			{

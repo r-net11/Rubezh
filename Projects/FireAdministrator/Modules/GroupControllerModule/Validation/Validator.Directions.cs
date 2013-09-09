@@ -11,21 +11,24 @@ namespace GKModule.Validation
 		{
 			ValidateDirectionNoEquality();
 
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(direction);
-				if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
-					ValidateDirectionInputCount(direction);
-				if (MustValidate("В направлении отсутствуют выходные устройства"))
-					ValidateDirectionOutputCount(direction);
+				if (ValidateEmptyDirection(direction))
+				{
+					if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
+						ValidateDirectionInputCount(direction);
+					if (MustValidate("В направлении отсутствуют выходные устройства"))
+						ValidateDirectionOutputCount(direction);
+				}
 			}
 		}
 
 		static void ValidateDirectionNoEquality()
 		{
 			var directionNos = new HashSet<int>();
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in XManager.Directions)
 			{
 				if (!directionNos.Add(direction.No))
 					Errors.Add(new DirectionValidationError(direction, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));
@@ -59,7 +62,7 @@ namespace GKModule.Validation
 		static void ValidateDirectionOutputCount(XDirection direction)
 		{
 			var pumpStationCount = 0;
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.DriverType == XDriverType.PumpStation)
 				{
@@ -69,6 +72,17 @@ namespace GKModule.Validation
 			}
 			if (direction.OutputDevices.Count == 0 && pumpStationCount == 0)
 				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
+		}
+
+		static bool ValidateEmptyDirection(XDirection direction)
+		{
+			var count = direction.InputZones.Count + direction.InputDevices.Count + direction.OutputDevices.Count;
+			if (count == 0)
+			{
+				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
+				return false;
+			}
+			return true;
 		}
 	}
 }

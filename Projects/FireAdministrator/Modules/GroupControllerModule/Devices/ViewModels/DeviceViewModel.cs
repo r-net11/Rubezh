@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
+using Common.GK;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -405,18 +406,18 @@ namespace GKModule.ViewModels
 				switch (Device.Parent.Driver.DriverType)
 				{
 					case XDriverType.AM_4:
-						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
-						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_T));
+						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
+						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AM1_T));
 						break;
 
 					case XDriverType.AMP_4:
-						AvailvableDrivers.Add(XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_1));
+						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_1));
 						break;
 
 					default:
 						foreach (var driverType in Device.Parent.Driver.Children)
 						{
-							var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == driverType);
+							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
 							if (CanDriverBeChanged(driver))
 							{
 								AvailvableDrivers.Add(driver);
@@ -463,12 +464,14 @@ namespace GKModule.ViewModels
 		public RelayCommand GetAUPropertiesCommand { get; private set; }
 		void OnGetAUProperties()
 		{
+			DatabaseManager.Convert();
 			ParametersHelper.GetSingleParameter(Device);
 		}
 
 		public RelayCommand SetAUPropertiesCommand { get; private set; }
 		void OnSetAUProperties()
 		{
+			DatabaseManager.Convert();
 			ParametersHelper.SetSingleParameter(Device);
 		}
 
@@ -486,5 +489,6 @@ namespace GKModule.ViewModels
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
+
 	}
 }

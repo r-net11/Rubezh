@@ -6,6 +6,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
 using DevicesModule.Plans.Designer;
+using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace DevicesModule.Plans
 {
@@ -52,7 +54,7 @@ namespace DevicesModule.Plans
 			}
 		}
 
-		public StateType GetState()
+		public XStateClass GetState()
 		{
 			var result = StateType.No;
 			foreach (var state in _deviceStates)
@@ -65,7 +67,7 @@ namespace DevicesModule.Plans
 				if (state.StateType < result)
 					result = state.StateType;
 			}
-			return result;
+			return XStatesHelper.StateTypeToXStateClass(result);
 		}
 	}
 }

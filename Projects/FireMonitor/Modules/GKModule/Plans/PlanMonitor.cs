@@ -53,18 +53,18 @@ namespace GKModule.Plans
 			}
 		}
 
-		public StateType GetState()
+		public XStateClass GetState()
 		{
-			var result = StateType.No;
+			var result = XStateClass.No;
 			foreach (var state in _xdeviceStates)
 			{
-				var stateType = state.GetStateType();
+				var stateType = state.StateClass;
 				if (stateType < result)
 					result = stateType;
 			}
 			foreach (var state in _xzoneStates)
 			{
-				var stateType = state.GetStateType();
+				var stateType = state.StateClass;
 				if (stateType < result)
 					result = stateType;
 			}

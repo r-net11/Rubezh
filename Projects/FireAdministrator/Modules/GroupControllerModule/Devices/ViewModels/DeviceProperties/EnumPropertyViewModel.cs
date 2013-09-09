@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				var values = new List<string>();
-				foreach (var propertyParameter in _xDriverProperty.Parameters)
+				foreach (var propertyParameter in _driverProperty.Parameters)
 				{
 					values.Add(propertyParameter.Name);
 				}
@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 				_selectedValue = value;
 				OnPropertyChanged("SelectedValue");
 
-				var shortValue = _xDriverProperty.Parameters.FirstOrDefault(x => x.Name == value).Value;
+				var shortValue = _driverProperty.Parameters.FirstOrDefault(x => x.Name == value).Value;
 				Save(shortValue);
 			}
 		}
