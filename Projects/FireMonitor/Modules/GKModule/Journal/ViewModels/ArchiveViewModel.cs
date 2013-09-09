@@ -14,6 +14,7 @@ using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
 using FiresecClient;
 using Infrastructure.Events;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {

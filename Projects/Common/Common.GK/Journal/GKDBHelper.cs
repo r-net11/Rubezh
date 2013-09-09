@@ -48,7 +48,6 @@ namespace Common.GK
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				SystemDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,
