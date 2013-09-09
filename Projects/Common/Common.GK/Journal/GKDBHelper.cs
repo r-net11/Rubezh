@@ -47,6 +47,7 @@ namespace Common.GK
 			var journalItem = new JournalItem()
 			{
 				DeviceDateTime = DateTime.Now,
+				SystemDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,

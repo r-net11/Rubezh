@@ -79,7 +79,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public RelayCommand CancelCommand { get; private set; }
 		void OnCancel()
 		{
-			ForceClose();
+		
 		}
 	}
 }

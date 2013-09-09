@@ -27,6 +27,7 @@
                 <Setter Property="Background" Value="{x:Null}" />
                 <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
                 <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+                <Setter Property="ToolTip" Value="{Binding FilterStats}"/>
             </Style>
         </TabControl.ItemContainerStyle>
     </TabControl>

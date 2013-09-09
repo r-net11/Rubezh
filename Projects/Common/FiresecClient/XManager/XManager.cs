@@ -110,5 +110,10 @@ namespace FiresecClient
 			var ipAddress = gkDevice.GetGKIpAddress();
 			return ipAddress;
 		}
+
+		public static bool IsManyGK()
+		{
+			return DeviceConfiguration.Devices.Where(x => x.Driver.DriverType == XDriverType.GK).Count() > 1;
+		}
 	}
 }

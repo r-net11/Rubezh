@@ -27,7 +27,6 @@
         <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
             <TabItem Header="Временной диапазон" Padding="3">
                 <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
-                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="С" VerticalAlignment="Center" />
                         <loya:Dameer ShowCheckBox="False"
@@ -44,6 +43,7 @@
                                      Value="{Binding EndDateTime}"/>
                         <extToolkit:TimePicker Value="{Binding EndDateTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                     </StackPanel>
+                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
                 </StackPanel>
                 
                 <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
@@ -68,9 +68,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}"/>
-                                <Image Width="16" Source="{Binding ImageSource}"/>
-                                <TextBlock Text="{Binding Name}"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                             </StackPanel>
                             
                         </DataTemplate>
@@ -82,9 +82,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}"/>
-                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-                                <TextBlock Text="{Binding Name}"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -94,7 +94,11 @@
                 <ListBox ItemsSource="{Binding GKAddresses}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Address}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

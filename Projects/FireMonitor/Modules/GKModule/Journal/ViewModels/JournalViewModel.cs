@@ -6,6 +6,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -20,6 +21,38 @@ namespace GKModule.ViewModels
 
 			JournalFilter = journalFilter;
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
+		}
+
+		public bool IsManyGK
+		{
+			get
+			{
+				return XManager.IsManyGK();
+			}
+		}
+
+		public string FilterStats
+		{
+			get
+			{
+				string result = "";
+				if (JournalFilter.Description != null)
+					result += JournalFilter.Description + "\n";
+				result += "Последних записей: " + JournalFilter.LastRecordsCount.ToString() + "\n";
+				if (JournalFilter.EventNames.Count > 0)
+				{
+					result += "События:" + "\n";
+					JournalFilter.EventNames.ForEach(x => result += (x + "\n"));
+				}
+				if (JournalFilter.StateClasses.Count > 0)
+				{
+					result += "Классы состояний:" + "\n";
+					JournalFilter.StateClasses.ForEach(x => result += (x.ToString() + "\n"));
+				}
+				if(result.EndsWith("\n"))
+					result = result.Remove(result.Count()-1);
+				return result;
+			}
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;

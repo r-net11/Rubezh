@@ -53,7 +53,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Устройство: " Width="100" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
+                            <TextBlock Text="Устройство: " Width="110" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
                             <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
                             <WrapPanel>
                                 <TextBlock>
@@ -65,7 +65,7 @@
                         </StackPanel>
                         
                         <WrapPanel>
-                            <TextBlock Text="Подключено к: " Width="100" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
+                            <TextBlock Text="Подключено к: " Width="110" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
                             <Image Source="{Binding Device.Parent.Driver.ImageSource}" Width="16" Margin="2 2 5 2" />
                             <TextBlock>
 				                <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
@@ -84,7 +84,8 @@
                         </WrapPanel>
 
                         <WrapPanel Orientation="Horizontal">
-                            <TextBlock Text="Зона или Логика: " Width="100" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2 2 5 2" />
+                            <TextBlock Text="Зона или Логика: " Width="110" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
+                            <Image Width="16" Source="/Controls;component/Images/zone.png" Margin="2 2 5 2"/>
                             <TextBlock>
                                 <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding PresentationZone}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
@@ -105,7 +106,8 @@
                         </WrapPanel>
 
                         <WrapPanel>
-                            <TextBlock Text="План: " Width="100" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
+                            <TextBlock Text="План: " Width="110" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Orange" Margin="2" />
+                            <Image Width="16" Source="/Controls;component/Images/map2.png" Margin="2 2 5 2"/>
                             <TextBlock>
 				                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />

@@ -24,7 +24,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
                                 <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
 							</StackPanel>
                         </DataTemplate>
@@ -132,7 +132,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BZones.png" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
                                 <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>

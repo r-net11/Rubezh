@@ -101,10 +101,10 @@ namespace GKModule.ViewModels
 						return device.Driver.ImageSource;
 						
 					case JournalItemType.Zone:
-						return"/Controls;component/Images/BZones.png";
+						return"/Controls;component/Images/zone.png";
 						
 					case JournalItemType.Direction:
-						return"/Controls;component/Images/BDirection.png";
+						return"/Controls;component/Images/Blue_Direction.png";
 						
 					case JournalItemType.GK:
 						return"/Controls;component/GKIcons/GK.png";

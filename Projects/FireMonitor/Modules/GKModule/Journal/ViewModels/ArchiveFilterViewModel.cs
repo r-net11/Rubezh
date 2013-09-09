@@ -247,19 +247,19 @@ namespace GKModule.ViewModels
 						return "/Controls;component/GKIcons/CombinedDetector.png";
 
 					case JournalItemType.Zone:
-						return "/Controls;component/Images/BZones.png";
+						return "/Controls;component/Images/zone.png";
 
 					case JournalItemType.Direction:
-						return "/Controls;component/Images/BDirection.png";
+						return "/Controls;component/Images/Blue_Direction.png";
 
 					case JournalItemType.GK:
 						return "/Controls;component/GKIcons/GK.png";
 
 					case JournalItemType.User:
-						return "/Controls;component/Images/BUser.png";
+						return "/Controls;component/Images/Chip.png";
 
 					case JournalItemType.System:
-						return "/Controls;component/Images/BDevice.png";
+						return "/Controls;component/Images/PC.png";
 
 					default:
 						return "";

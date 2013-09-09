@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedDirection.SelectedDevice == null)
 				return;
-			SelectedDirection.DeleteDevice(SelectedDirection.SelectedDevice.Device);
+			SelectedDirection.DeleteDevice(SelectedDirection.SelectedDevice.DirectionDevice.Device);
 			OnPropertyChanged("DevicesCount");
 			SelectedDirection.SelectedDevice = null;
 		}

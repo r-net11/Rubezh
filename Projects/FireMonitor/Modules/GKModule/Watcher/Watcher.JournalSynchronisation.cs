@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using Common.GK;
 using FiresecClient;
+using System.Threading;
 
 namespace GKModule
 {
     public partial class Watcher
     {
-        public void ReadMissingJournalItems()
+		public void ReadMissingJournalItems()
         {
-            var gkIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice);
+			var gkIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice);
             var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
             if (localLastDBNo == -1)
                 return;
@@ -18,18 +19,17 @@ namespace GKModule
             if (remoteLastId > localLastDBNo)
             {
                 StartProgress("Синхронизация журнала", remoteLastId - localLastDBNo);
-                SyncLocalAndRemote(localLastDBNo, remoteLastId);
-                StopProgress();
-                LastId = remoteLastId;
+				SyncLocalAndRemote(localLastDBNo, remoteLastId);
+				StopProgress();
+				LastId = remoteLastId;
             }
         }
 
         void SyncLocalAndRemote(int startIndex, int endIndex)
         {
             var journalItems = new List<JournalItem>();
-            //for (int index = startIndex; index <= endIndex; index++)
-			for (int index = startIndex - 1000; index <= endIndex; index++)
-            {
+            for (int index = startIndex; index <= endIndex; index++)
+			{
                 var journalItem = ReadJournal(index);
                 if (journalItem != null)
                 {
@@ -38,15 +38,15 @@ namespace GKModule
                     journalItems.Add(journalItem);
                     if (journalItems.Count > 100)
                     {
-                        //GKDBHelper.AddMany(journalItems);
+                        GKDBHelper.AddMany(journalItems);
                         journalItems = new List<JournalItem>();
                     }
                 }
             }
             if (journalItems.Count > 0)
             {
-                //GKDBHelper.AddMany(journalItems);
+                GKDBHelper.AddMany(journalItems);
             }
         }
-    }
+	}
 }

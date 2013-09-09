@@ -30,31 +30,27 @@
             </Grid>
         </TabItem>
         <TabItem Header="Состояния">
-            <ItemsControl ItemsSource="{Binding StateClasses}" Margin="10">
-                <ItemsControl.ItemTemplate>
+            <ListBox ItemsSource="{Binding StateClasses}">
+                <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsChecked}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" Margin="1" />
-                            </StackPanel>
-                        </CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                            <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </TabItem>
         <TabItem Header="События">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding EventNames}" Margin="10">
-                    <ItemsControl.ItemTemplate>
+                <ListBox ItemsSource="{Binding EventNames}">
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding EventName}" Foreground="White" Margin="1" />
-                                </StackPanel>
-                            </CheckBox>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding EventName}" />
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </TabItem>
     </TabControl>

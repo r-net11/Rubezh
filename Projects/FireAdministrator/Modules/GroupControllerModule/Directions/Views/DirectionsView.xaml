@@ -25,12 +25,12 @@
         <Grid Grid.Row="0" Grid.Column="0">
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn MinWidth="50" Header="№">
+                    <DataGridTemplateColumn Width="Auto" Header="№">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" />
-                                    <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}"/>
+                                    <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -81,8 +81,8 @@
             </StackPanel>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить выходные устройства" Command="{Binding DeleteOutputDeviceCommand}" />
-                    <MenuItem Header="Изменить выходные устройства" Command="{Binding ChangeOutputDevicesCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteOutputDeviceCommand}" />
+                    <MenuItem Header="Изменить" Command="{Binding ChangeOutputDevicesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -100,8 +100,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Source="/Controls;component/Images/BZones.png" />
-                                            <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" ToolTip="{Binding ToolTip}"/>
+                                            <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -138,8 +138,8 @@
             </StackPanel>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить входные зоны" Command="{Binding DeleteZoneCommand}" />
-                    <MenuItem Header="Изменить входные зоны" Command="{Binding ChangeZonesCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteZoneCommand}" />
+                    <MenuItem Header="Изменить" Command="{Binding ChangeZonesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -195,8 +195,8 @@
             </StackPanel>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить входные устройства" Command="{Binding DeleteDeviceCommand}" />
-                    <MenuItem Header="Изменить входные устройства" Command="{Binding ChangeDevicesCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteDeviceCommand}" />
+                    <MenuItem Header="Изменить" Command="{Binding ChangeDevicesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

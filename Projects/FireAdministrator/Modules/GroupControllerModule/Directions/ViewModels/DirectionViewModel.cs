@@ -73,8 +73,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		DirectionDeviceViewModel _selectedDevice;
+		public DirectionDeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -249,7 +249,7 @@ namespace GKModule.ViewModels
 					var clause = new XClause()
 					{
 						ClauseOperationType = ClauseOperationType.AnyDirection,
-						StateType = XStateType.On,
+						StateType = XStateBit.On,
 						Directions = new List<XDirection>() { Direction },
 						DirectionUIDs = new List<Guid>() { Direction.UID }
 					};
