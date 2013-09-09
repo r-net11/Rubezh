@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-			ExportToPdfCommand = new RelayCommand(OnExportToPdfCommand);
+			ExportToPdfCommand = new RelayCommand(OnExportToPdfCommand, CanExportToPdfCommand);
 
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 
 
 		public RelayCommand ExportToPdfCommand { get; private set; }
-		void OnExportToPdfCommand()
+		private void OnExportToPdfCommand()
 		{
 			try
 			{
@@ -137,6 +137,10 @@ namespace GKModule.ViewModels
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.OnExportToPdfCommand");
 				MessageBoxService.ShowException(e);
 			}
+		}
+		private bool CanExportToPdfCommand()
+		{
+			return JournalItems.Count > 0;
 		}
 
 		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)

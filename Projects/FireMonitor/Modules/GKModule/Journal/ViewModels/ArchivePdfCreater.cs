@@ -49,14 +49,18 @@ namespace GKModule.Journal.ViewModels
 		{
 			using (var fs = new FileStream(fileName, FileMode.Create))
 			{
-				Document doc = CreateDocument();
+				_cache = new Dictionary<string, Image>();
+				var doc = new Document(PageSize.A4.Rotate());
 				var pdfWriter = PdfWriter.GetInstance(doc, fs);
 				PageEventHelper pageEventHelper = new PageEventHelper(BaseFont);
 				pdfWriter.PageEvent = pageEventHelper;
+				doc.Open();
+				AddDocumentHeader(doc);
 				var table = CreateTable(doc);
-				_cache = new Dictionary<string, Image>();
 				CreateHeader(table);
 				FillContent(table);
+				doc.Add(table);
+				doc.Close();
 				_cache.Clear();
 			}
 #if DEBUG
@@ -64,17 +68,14 @@ namespace GKModule.Journal.ViewModels
 #endif
 		}
 
-		private Document CreateDocument()
+		private void AddDocumentHeader(Document doc)
 		{
-			var doc = new Document(PageSize.A4);
-			doc.Open();
 			doc.AddAuthor("Рубеж / Оперативные задачи");
 			doc.AddTitle("Архив");
 			doc.AddCreator("ОЗ");
 			//doc.AddKeywords("AddKeywords");
 			//doc.AddSubject("AddSubject");
 			doc.AddCreationDate();
-			return doc;
 		}
 		private PdfPTable CreateTable(Document doc)
 		{
@@ -108,6 +109,7 @@ namespace GKModule.Journal.ViewModels
 			{
 				var cell = new PdfPCell(new Phrase(header, BoldFont));
 				cell.BackgroundColor = background;
+				cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 				table.AddCell(cell);
 			}
 		}
@@ -120,16 +122,16 @@ namespace GKModule.Journal.ViewModels
 				table.AddCell(new Phrase(item.JournalItem.Name ?? string.Empty, NormalFont));
 				table.AddCell(new Phrase(item.JournalItem.YesNo.ToDescription(), NormalFont));
 				table.AddCell(new Phrase(item.JournalItem.Description ?? string.Empty, NormalFont));//4
-				AddImageTextCell(table, item.ImageSource, item.PresentationName ?? string.Empty);
-				AddImageTextCell(table, item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription());
+				table.AddCell(GetImageTextCell(item.ImageSource, item.PresentationName ?? string.Empty, 2));
+				table.AddCell(GetImageTextCell(item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription(), 5));
 				table.AddCell(new Phrase(item.JournalItem.UserName ?? string.Empty, NormalFont));//7
 			}
 		}
-		private void AddImageTextCell(PdfPTable table, string imageSource, string text)
+		private PdfPCell GetImageTextCell(string imageSource, string text, float partial)
 		{
 			var image = GetImage(imageSource);
 			var nestedTable = new PdfPTable(2);
-			nestedTable.SetWidths(new float[] { 1f, 12f });
+			nestedTable.SetWidths(new float[] { 1f, partial });
 			nestedTable.DefaultCell.Border = 0;
 			if (image == null)
 				nestedTable.AddCell("");
@@ -139,7 +141,7 @@ namespace GKModule.Journal.ViewModels
 
 			var cell = new PdfPCell(nestedTable);
 			cell.Padding = 0;
-			table.AddCell(cell);
+			return cell;
 		}
 		private Image GetImage(string source)
 		{
