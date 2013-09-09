@@ -10,5 +10,8 @@
         <Views:ImitatorView />
     </DataTemplate>
 
-    
+	<DataTemplate DataType="{x:Type ViewModels:PdfViewerViewModel}">
+		<Views:PdfViewerView />
+	</DataTemplate>
+
 </ResourceDictionary>

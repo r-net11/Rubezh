@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
 using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -131,7 +132,6 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowException(e);
 			}
 		}
-
 
 		public RelayCommand ExportToPdfCommand { get; private set; }
 		private void OnExportToPdfCommand()
