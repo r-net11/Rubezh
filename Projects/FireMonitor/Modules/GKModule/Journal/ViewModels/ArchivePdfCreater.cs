@@ -84,7 +84,7 @@ namespace GKModule.Journal.ViewModels
 			table.HeaderRows = 1;
 			table.TotalWidth = doc.PageSize.Width - doc.LeftMargin - doc.RightMargin;
 			table.LockedWidth = true;
-			float[] widths = new float[] { 30f, 30f, 45f, 10f, 60f, 15f, 30f, 30f };
+			float[] widths = new float[] { 25f, 25f, 45f, 10f, 60f, 35f, 30f, 25f };
 			table.SetWidths(widths);
 			table.HorizontalAlignment = 1;
 			table.SpacingBefore = 20f;
@@ -103,7 +103,7 @@ namespace GKModule.Journal.ViewModels
 				"Уточнение",
 				"Объект",
 				"Класс состояния",
-				"Пользователь"
+				"Ip-адрес ГК"
 			};
 			foreach (var header in headers)
 			{
@@ -117,17 +117,25 @@ namespace GKModule.Journal.ViewModels
 		{
 			foreach (var item in _source)
 			{
-				table.AddCell(new Phrase(item.JournalItem.DeviceDateTime.ToString(), NormalFont));
-				table.AddCell(new Phrase(item.JournalItem.SystemDateTime.ToString(), NormalFont));
-				table.AddCell(new Phrase(item.JournalItem.Name ?? string.Empty, NormalFont));
-				table.AddCell(new Phrase(item.JournalItem.YesNo.ToDescription(), NormalFont));
-				table.AddCell(new Phrase(item.JournalItem.Description ?? string.Empty, NormalFont));//4
-				table.AddCell(GetImageTextCell(item.ImageSource, item.PresentationName ?? string.Empty, 2));
-				table.AddCell(GetImageTextCell(item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription(), 5));
-				table.AddCell(new Phrase(item.JournalItem.UserName ?? string.Empty, NormalFont));//7
+				var background = GetStateColor(item.JournalItem.StateClass);
+				table.AddCell(GetCell(item.JournalItem.DeviceDateTime.ToString(), background));
+				table.AddCell(GetCell(item.JournalItem.SystemDateTime.ToString(), background));
+				table.AddCell(GetCell(item.JournalItem.Name ?? string.Empty, background));
+				table.AddCell(GetCell(item.JournalItem.YesNo.ToDescription(), background));
+				table.AddCell(GetCell(item.JournalItem.Description ?? string.Empty, background));//4
+				table.AddCell(GetImageTextCell(item.ImageSource, item.PresentationName ?? string.Empty, background, 6));
+				table.AddCell(GetImageTextCell(item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription(), background, 5));
+				table.AddCell(GetCell(item.JournalItem.GKIpAddress ?? string.Empty, background));//7
 			}
 		}
-		private PdfPCell GetImageTextCell(string imageSource, string text, float partial)
+		private PdfPCell GetCell(string content, BaseColor background)
+		{
+			return new PdfPCell(new Phrase(content, NormalFont))
+			{
+				BackgroundColor = background
+			};
+		}
+		private PdfPCell GetImageTextCell(string imageSource, string text, BaseColor background, float partial)
 		{
 			var image = GetImage(imageSource);
 			var nestedTable = new PdfPTable(2);
@@ -139,13 +147,15 @@ namespace GKModule.Journal.ViewModels
 				nestedTable.AddCell(image);
 			nestedTable.AddCell(new Phrase(text, NormalFont));
 
-			var cell = new PdfPCell(nestedTable);
-			cell.Padding = 0;
-			return cell;
+			return new PdfPCell(nestedTable)
+			{
+				Padding = 0,
+				BackgroundColor = background
+			};
 		}
 		private Image GetImage(string source)
 		{
-			if (string.IsNullOrEmpty(source) == null)
+			if (string.IsNullOrEmpty(source))
 				return null;
 			if (_cache.ContainsKey(source))
 				return _cache[source];
@@ -161,6 +171,50 @@ namespace GKModule.Journal.ViewModels
 
 			_cache.Add(source, image);
 			return image;
+		}
+		private BaseColor GetStateColor(XStateClass state)
+		{
+			System.Drawing.Color color;
+			switch (state)
+			{
+				case XStateClass.Fire2:
+					color = System.Drawing.Color.Red;
+					break;
+				case XStateClass.Fire1:
+					color = System.Drawing.Color.Red;
+					break;
+				case XStateClass.Attention:
+					color = System.Drawing.Color.Yellow;
+					break;
+				case XStateClass.Failure:
+					color = System.Drawing.Color.Pink;
+					break;
+				case XStateClass.Service:
+					color = System.Drawing.Color.Yellow;
+					break;
+				case XStateClass.Ignore:
+					color = System.Drawing.Color.Yellow;
+					break;
+				case XStateClass.Unknown:
+					color = System.Drawing.Color.Gray;
+					break;
+				case XStateClass.On:
+					color = System.Drawing.Color.LightBlue;
+					break;
+				case XStateClass.AutoOff:
+					color = System.Drawing.Color.Yellow;
+					break;
+				case XStateClass.Info:
+					color = System.Drawing.Color.Transparent;
+					break;
+				case XStateClass.Norm:
+					color = System.Drawing.Color.Transparent;
+					break;
+				default:
+					color = System.Drawing.Color.Transparent;
+					break;
+			}
+			return new BaseColor(color);
 		}
 	}
 
