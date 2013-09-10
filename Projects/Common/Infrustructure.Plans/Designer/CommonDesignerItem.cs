@@ -164,8 +164,12 @@ namespace Infrustructure.Plans.Designer
 		protected virtual void SetIsMouseOver(bool value)
 		{
 			IsMouseOver = value;
-			DesignerCanvas.SetTitle(value ? Title : null);
+			DesignerCanvas.SetTitle(value ? GetToolTip() : null);
 			DesignerCanvas.SetDesignerItemOver(this, value);
+		}
+		protected virtual object GetToolTip()
+		{
+			return Painter == null ? Title : Painter.GetToolTip(Title);
 		}
 		protected virtual ContextMenu ContextMenuOpening()
 		{
