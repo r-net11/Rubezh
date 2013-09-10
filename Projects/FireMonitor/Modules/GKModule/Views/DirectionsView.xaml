@@ -38,8 +38,9 @@
 								<TextBlock Width="200" Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-											<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 											<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                            <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события" />
+                                            <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>

@@ -48,6 +48,7 @@
 												<MenuItem Command="{Binding ResetFireCommand}" Header="Сбросить" />
 												<Separator />
 												<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                                <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события" />
 												<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 											</ContextMenu>
 										</Grid.ContextMenu>
@@ -67,15 +68,15 @@
 					</ScrollViewer>
 				</Grid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
-					<StackPanel Orientation="Horizontal">
-						<Label Margin="0" Content="{Binding Zone.PresentationName}" />
-						<Label Margin="10, 0, 0, 0" Content="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
-					</StackPanel>
-					<ItemsControl Margin="2" ItemsSource="{Binding ZoneState.StateClasses}">
+                    <Label Margin="0" Content="{Binding Zone.PresentationName}" />
+                    <ItemsControl Margin="2" ItemsSource="{Binding ZoneState.StateClasses}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" />
-							</DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" Margin="5 0" />
+                                </StackPanel>
+                            </DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>

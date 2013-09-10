@@ -15,6 +15,7 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.ViewModels
 {
@@ -41,10 +42,16 @@ namespace GKModule.ViewModels
 			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
 			DeviceState.StateChanged += new Action(OnStateChanged);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			InitializePlans();
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
 
+			StartParametersMonitoring();
+		}
+
+		void StartParametersMonitoring()
+		{
 			AUParameterValues = new ObservableCollection<AUParameterValue>();
 			foreach (var auParameter in Device.Driver.AUParameters)
 			{
@@ -178,10 +185,6 @@ namespace GKModule.ViewModels
 								stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 							}
 
-#if DEBUG
-							//stringValue = auParameter.No.ToString() + " " + (parameterValue / 256).ToString() + " " + (parameterValue % 256).ToString();
-#endif
-
 							Dispatcher.BeginInvoke(new Action(() =>
 							{
 								var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
@@ -234,20 +237,25 @@ namespace GKModule.ViewModels
 			return Device.Parent != null;
 		}
 
-		public string PlanName
+		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
+		public bool HasPlans
 		{
-			get
-			{
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementXDevices.Any(x => x.XDeviceUID == Device.UID))
-					{
-						return plan.Caption;
-					}
-				}
-				return null;
-			}
+			get { return Plans.Count > 0; }
 		}
+
+		void InitializePlans()
+		{
+			Plans = new ObservableCollection<PlanLinkViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				ElementBase elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Device.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Device = Device;
+					Plans.Add(alarmPlanViewModel);
+				}
+			}
 		public IEnumerable<Plan> PlanNames
 		{
 			get
@@ -255,10 +263,8 @@ namespace GKModule.ViewModels
 				return FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
 			}
 		}
-
 		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan(Plan plan)
-		{
 			ShowOnPlanHelper.ShowDevice(Device, plan);
 		}
 

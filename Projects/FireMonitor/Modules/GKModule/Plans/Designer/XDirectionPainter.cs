@@ -115,18 +115,27 @@ namespace GKModule.Plans.Designer
 		{
 			switch(Direction.DirectionState.StateClass)
 			{
+				case XStateClass.ConnectionLost:
+				case XStateClass.TechnologicalRegime:
 				case XStateClass.Unknown:
 					return Colors.DarkGray;
-				case XStateClass.Norm:
-					return Colors.Green;
-				case XStateClass.AutoOff:
-					return Colors.Gray;
-				case XStateClass.Ignore:
-					return Colors.Yellow;
-				case XStateClass.TurningOn:
-					return Colors.Pink;
+
 				case XStateClass.On:
 					return Colors.Red;
+
+				case XStateClass.TurningOn:
+					return Colors.Pink;
+
+				case XStateClass.AutoOff:
+					return Colors.Gray;
+				
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+
+				case XStateClass.Norm:
+				case XStateClass.Off:
+					return Colors.Green;
+
 				default:
 					return Colors.White;
 			}
@@ -142,6 +151,16 @@ namespace GKModule.Plans.Designer
 			return Direction != null;
 		}
 
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Direction = Direction
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
@@ -154,12 +173,19 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
+				ShowJournalCommand = new RelayCommand(OnShowJournal);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Header = "Показать в списке",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать связанные события",
+					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

@@ -5,6 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -18,10 +20,11 @@ namespace GKModule.ViewModels
 
 		public ZoneViewModel(XZoneState zoneState)
 		{
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 			ZoneState = zoneState;
@@ -85,6 +88,16 @@ namespace GKModule.ViewModels
 		bool CanResetIgnore()
 		{
             return ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

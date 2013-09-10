@@ -6,6 +6,7 @@
         xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+        xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
         MinWidth="700" MinHeight="500">
 
     <UserControl.Resources>
@@ -45,23 +46,6 @@
                     </StackPanel>
                     <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
                 </StackPanel>
-                
-                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 30 0 0">
-                    <Label Content="С" VerticalAlignment="Center" />
-                    <loya:Dameer ShowCheckBox="False"
-                                    Format="Custom"
-                                    CustomFormat="HH:mm:ss dd MMMM yyyy"
-                                    Width="Auto"
-                                    Value="{Binding StartDate}"/>
-                    <extToolkit:TimePicker Width="100" Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="4" />
-                    <Label Content="По" VerticalAlignment="Center" />
-                    <loya:Dameer ShowCheckBox="False"
-                                    Format="Custom"
-                                    CustomFormat="HH:mm:ss dd MMMM yyyy"
-                                    Width="Auto"
-                                    Value="{Binding EndDate}"/>
-                    <extToolkit:TimePicker Value="{Binding EndTime}" VerticalAlignment="Top" Width="100" Margin="4" />
-                </StackPanel>-->
             </TabItem>
             <TabItem Header="Тип">
                 <ListBox ItemsSource="{Binding JournalItemTypes}">
@@ -105,6 +89,52 @@
             </TabItem>
             <TabItem Header="События">
                 <ListBox ItemsSource="{Binding EventNames}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <TabItem Header="Устройства">
+                <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+                    <tree:TreeList.View>
+                        <GridView>
+                            <GridViewColumn Width="250" Header="Устройство">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
+                            <GridViewColumn Header="Использовать">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </tree:TreeList.View>
+                </tree:TreeList>
+            </TabItem>
+            <TabItem Header="Зоны">
+                <ListBox ItemsSource="{Binding ArchiveZones}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Направления">
+                <ListBox ItemsSource="{Binding ArchiveDirections}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />

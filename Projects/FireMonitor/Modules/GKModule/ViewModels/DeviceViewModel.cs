@@ -27,8 +27,8 @@ namespace GKModule.ViewModels
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		void OnStateChanged()
@@ -52,12 +52,6 @@ namespace GKModule.ViewModels
 			return ShowOnPlanHelper.CanShowDevice(Device);
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
-		}
-
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
@@ -66,6 +60,12 @@ namespace GKModule.ViewModels
 				Device = Device
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
 		public bool IsBold { get; set; }

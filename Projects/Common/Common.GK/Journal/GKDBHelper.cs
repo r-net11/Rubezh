@@ -169,10 +169,21 @@ namespace Common.GK
 								query += ")";
 							}
 
-							if (archiveFilter.ObjectUID != Guid.Empty)
+							var objectUIDs = new List<Guid>();
+							objectUIDs.AddRange(archiveFilter.DeviceUIDs);
+							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
+							objectUIDs.AddRange(archiveFilter.DirectionUIDs);
+							if (objectUIDs.Count > 0)
 							{
+								int index = 0;
 								query += "\n AND (";
-								query += "ObjectUID = '" + archiveFilter.ObjectUID + "'";
+								foreach (var objectUID in objectUIDs)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "ObjectUID = '" + objectUID + "'";
+								}
 								query += ")";
 							}
 

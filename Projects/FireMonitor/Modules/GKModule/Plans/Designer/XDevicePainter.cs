@@ -29,9 +29,9 @@ namespace GKModule.Plans.Designer
 			var elementXDevice = presenterItem.Element as ElementXDevice;
 			if (elementXDevice != null)
 			{
-				_device = Helper.GetXDevice(elementXDevice);
-				if (_device != null && _device.DeviceState != null)
-					_device.DeviceState.StateChanged += OnPropertyChanged;
+				Device = Helper.GetXDevice(elementXDevice);
+				if (Device != null && Device.DeviceState != null)
+					Device.DeviceState.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -53,7 +53,7 @@ namespace GKModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (_device == null)
+			if (Device == null)
 				return;
 
 			if (_tooltip == null)
@@ -73,19 +73,29 @@ namespace GKModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicXBrush(_device);
+			return DevicePictureCache.GetDynamicXBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = Device
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
 		private ContextMenu CreateContextMenu()
@@ -93,6 +103,7 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree);
+				ShowJournalCommand = new RelayCommand(OnShowJournal);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
@@ -100,6 +111,11 @@ namespace GKModule.Plans.Designer
 				{
 					Header = "Показать в дереве",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать связанные события",
+					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

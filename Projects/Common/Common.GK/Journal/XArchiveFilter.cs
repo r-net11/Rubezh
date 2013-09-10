@@ -15,6 +15,10 @@ namespace Common.GK
 			GKAddresses = new List<string>();
 			EventNames = new List<string>();
 			UseDeviceDateTime = false;
+
+			DeviceUIDs = new List<Guid>();
+			ZoneUIDs = new List<Guid>();
+			DirectionUIDs = new List<Guid>();
 		}
 
 		public DateTime StartDate { get; set; }
@@ -24,6 +28,8 @@ namespace Common.GK
 		public List<XStateClass> StateClasses { get; set; }
 		public List<string> GKAddresses { get; set; }
 		public List<string> EventNames { get; set; }
-		public Guid ObjectUID { get; set; }
+		public List<Guid> DeviceUIDs { get; set; }
+		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> DirectionUIDs { get; set; }
 	}
 }

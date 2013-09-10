@@ -46,7 +46,13 @@ namespace GKModule.ViewModels
 		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
 		{
 			ArchiveFilter = new XArchiveFilter();
-			ArchiveFilter.ObjectUID = showXArchiveEventArgs.Device.UID;
+			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+			if (showXArchiveEventArgs.Device != null)
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.UID);
+			if (showXArchiveEventArgs.Zone != null)
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
+			if (showXArchiveEventArgs.Direction != null)
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
 			IsFilterOn = true;
 		}
 

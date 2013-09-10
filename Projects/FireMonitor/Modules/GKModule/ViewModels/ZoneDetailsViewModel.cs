@@ -9,6 +9,8 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure;
 using Infrastructure.Events;
+using System.Collections.ObjectModel;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.ViewModels
 {
@@ -21,7 +23,6 @@ namespace GKModule.ViewModels
 		public ZoneDetailsViewModel(XZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
@@ -30,6 +31,7 @@ namespace GKModule.ViewModels
 			Zone = zone;
 			ZoneState = Zone.ZoneState;
 			ZoneState.StateChanged += new Action(OnStateChanged);
+			InitializePlans();
 
 			Title = Zone.PresentationName;
 			TopMost = true;
@@ -44,33 +46,35 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ResetIgnoreCommand");
 		}
 
-		public string PlanName
+		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
+		public bool HasPlans
 		{
-			get
-			{
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementRectangleXZones.Any(x => x.ZoneUID == Zone.UID))
-					{
-						return plan.Caption;
-					}
-					if (plan.ElementPolygonXZones.Any(x => x.ZoneUID == Zone.UID))
-					{
-						return plan.Caption;
-					}
-				}
-				return null;
-			}
+			get { return Plans.Count > 0; }
 		}
 
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		void InitializePlans()
 		{
-			ShowOnPlanHelper.ShowZone(Zone);
-		}
-		public bool CanShowOnPlan()
-		{
-			return ShowOnPlanHelper.CanShowZone(Zone);
+			Plans = new ObservableCollection<PlanLinkViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				ElementBase elementBase;
+				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Zone = Zone;
+					Plans.Add(alarmPlanViewModel);
+					continue;
+				}
+
+				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Zone = Zone;
+					Plans.Add(alarmPlanViewModel);
+				}
+			}
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }

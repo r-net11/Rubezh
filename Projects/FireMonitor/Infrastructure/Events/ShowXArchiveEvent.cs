@@ -10,5 +10,7 @@ namespace Infrastructure.Events
 	public class ShowXArchiveEventArgs
 	{
 		public XDevice Device { get; set; }
+		public XDirection Direction { get; set; }
+		public XZone Zone { get; set; }
 	}
 }
