@@ -69,7 +69,7 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			var navigationItems = new List<NavigationItem>()
+			return new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
@@ -82,17 +82,6 @@ namespace GKModule
                     new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 				};
-			if (GlobalSettingsHelper.GlobalSettings.Administrator_GroupGKModule)
-			{
-				return new List<NavigationItem>()
-				{
-					new NavigationItem("ГК", "/Controls;component/Images/tree.png", navigationItems) { IsExpanded = true },
-				};
-			}
-			else
-			{
-				return navigationItems;
-			}
 		}
 		public override string Name
 		{

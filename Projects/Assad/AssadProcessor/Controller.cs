@@ -13,7 +13,7 @@ namespace AssadProcessor
 	public class Controller
 	{
 		internal static Controller Current { get; private set; }
-		Watcher _watcher;
+		Watcher Watcher;
 
 		public Controller()
 		{
@@ -22,15 +22,15 @@ namespace AssadProcessor
 
 		public void Start()
 		{
-			FiresecManager.Connect(ClientType.Assad, AppSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
+			FiresecManager.Connect(ClientType.Assad, ConnectionSettingsManager.ServerAddress, GlobalSettingsHelper.GlobalSettings.Login, GlobalSettingsHelper.GlobalSettings.Password);
 			FiresecManager.GetConfiguration("Assad/Configuration");
 			FiresecManager.InitializeFiresecDriver(true);
 			FiresecManager.FiresecDriver.Synchronyze();
 			FiresecManager.FiresecDriver.StartWatcher(true, false);
 
 			Services.NetManager.Start();
-			_watcher = new Watcher();
-			_watcher.Start();
+			Watcher = new Watcher();
+			Watcher.Start();
 		}
 
 		internal void AssadConfig(Assad.MHconfigTypeDevice innerDevice, bool all)

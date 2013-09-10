@@ -66,7 +66,13 @@
             <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">
             </Directory>
           </Directory>
-          <Directory Id="SDKLOCATION" Name="SDK" />
+          <Directory Id="SDKLOCATION" Name="SDK">
+            <Directory Id="SDKLOCATION_ItvIntegration" Name="ItvIntegration">
+              <Directory Id="SDKLOCATION_Infrastructure" Name="Infrastructure" />
+              <Directory Id="SDKLOCATION_Properties" Name="Properties" />
+            </Directory>
+            <Directory Id="SDKLOCATION_Assemblies" Name="Assemblies" />
+          </Directory>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">

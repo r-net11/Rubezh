@@ -75,27 +75,8 @@ namespace FSAgentServer
 		{
 			Bootstrapper.Close();
 			ShutDownComServer();
-			if (isShuttingDown)
-			{
-				ShutDownComputer();
-			}
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
-		}
-
-		static void ShutDownComputer()
-		{
-			if (GlobalSettingsHelper.GlobalSettings.ForceShutdown)
-			{
-				var processStartInfo = new ProcessStartInfo()
-				{
-					FileName = "shutdown.exe",
-					Arguments = "/s /t 00 /f",
-					CreateNoWindow = true,
-					WindowStyle = ProcessWindowStyle.Hidden
-				};
-				Process.Start(processStartInfo);
-			}
 		}
 
 		static void ShutDownComServer()

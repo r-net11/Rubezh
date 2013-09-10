@@ -96,8 +96,8 @@ namespace DevicesModule
 				new NavigationItem<ShowDevicePropertiesEvent, Guid>(DeviceParametersViewModel, "Параметры","/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
 				new NavigationItem<ShowParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 				new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
-				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty){IsVisible=GlobalSettingsHelper.GlobalSettings.Administrator_ShowDirectories},
-				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/Bug.png", null, null, Guid.Empty) { IsVisible = GlobalSettingsHelper.GlobalSettings.Administrator_ShowSimulation },
+				new NavigationItem<ShowDirectionsEvent, Guid>(DirectionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty) { IsVisible = false },
+				new NavigationItem<ShowSimulationEvent, Guid>(SimulationViewModel, "Симуляция","/Controls;component/Images/Bug.png", null, null, Guid.Empty) { IsVisible = false },
 				_guardNavigationItem
 			};
 		}

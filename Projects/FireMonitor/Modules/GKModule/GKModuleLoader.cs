@@ -108,7 +108,7 @@ namespace GKModule
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
-			var navigationItems = new List<NavigationItem>()
+			return new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -118,17 +118,6 @@ namespace GKModule
 					_journalNavigationItem,
 					new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 				};
-			if (GlobalSettingsHelper.GlobalSettings.Administrator_GroupGKModule)
-			{
-				return new List<NavigationItem>()
-				{
-					new NavigationItem("ГК", null, navigationItems)
-				};
-			}
-			else
-			{
-				return navigationItems;
-			}
 		}
 
 		public override string Name

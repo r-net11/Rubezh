@@ -18,24 +18,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Расширеное редактирование" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Administrator_IsExpertMode}" HorizontalAlignment="Left" Margin="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Скрывать инструменты выравнивания в планах" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Показывать вкладку Направления" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Administrator_ShowDirectories}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Показывать вкладку Симуляция" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Administrator_ShowSimulation}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Группировать вкладки ГК" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Administrator_GroupGKModule}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="ОЗ">
@@ -52,31 +40,27 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Скрывать дерево планов в ОЗ" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Monitor_HidePlansTree}" HorizontalAlignment="Left" Margin="2" />
                 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Не запрашивать подтверждение паролем" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Monitor_DoNotShowConfirmatinoOnIgnore}" HorizontalAlignment="Left" Margin="2" />
-                
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Не показывать вкладку Зоны в ОЗ" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Monitor_DoNotShowZones}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="F1 - показать справку" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Monitor_F1_Enabled}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="F1 - показать справку" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding Monitor_F1_Enabled}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="F2 - включить все" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Monitor_F2_Enabled}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="F2 - включить все" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding Monitor_F2_Enabled}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="F3 - отключить все устройства в зоне с пожаром" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_F3_Enabled}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="F3 - отключить все устройства в зоне с пожаром" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Monitor_F3_Enabled}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="F4 - сбросить все" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Monitor_F4_Enabled}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="F4 - сбросить все" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_F4_Enabled}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="7" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="F12 - показать информацию о HASP ключе" HorizontalAlignment="Right" Margin="2" />
+                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Сервер">
@@ -87,29 +71,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
-            </Grid>
-        </TabItem>
-        <TabItem Header="Агент">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Принудительное выключение компьютера" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding ForceShutdown}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать сервер FS2" HorizontalAlignment="Right" Margin="2"
-                    Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding FSAgent_UseFS2}" HorizontalAlignment="Left" Margin="2"
-                    Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </TabItem>
         <TabItem Header="Прочее">
@@ -120,13 +84,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" Margin="2" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LibVlcDllsPath}" Margin="2" />
-
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Разрешить имитатор" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsImitatorEnabled}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

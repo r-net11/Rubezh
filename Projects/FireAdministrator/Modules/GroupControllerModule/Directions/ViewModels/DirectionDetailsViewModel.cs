@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -36,6 +37,14 @@ namespace GKModule.ViewModels
 				XDirection = direction;
             }
             CopyProperties();
+
+			AvailableNames = new ObservableCollection<string>();
+			AvailableDescription = new ObservableCollection<string>();
+			foreach (var existingZone in XManager.Directions)
+			{
+				AvailableNames.Add(existingZone.Name);
+				AvailableDescription.Add(existingZone.Description);
+			}
         }
 
 		void ChangeParameter(ushort delay, ushort hold, ushort regime)
@@ -123,6 +132,9 @@ namespace GKModule.ViewModels
                 OnPropertyChanged("Description");
             }
         }
+
+		public ObservableCollection<string> AvailableNames { get; private set; }
+		public ObservableCollection<string> AvailableDescription { get; private set; }
 
 		protected override bool Save()
 		{

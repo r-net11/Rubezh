@@ -38,11 +38,6 @@ namespace FiresecOPCServer.ViewModels
 			}
 		}
 
-		public bool IsImitatorEnabled
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.IsImitatorEnabled; }
-		}
-
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
