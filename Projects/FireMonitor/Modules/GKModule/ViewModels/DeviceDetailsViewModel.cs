@@ -26,6 +26,7 @@ namespace GKModule.ViewModels
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+		public DevicePropertiesViewModel DevicePropertiesViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker = false;
 
@@ -42,6 +43,7 @@ namespace GKModule.ViewModels
 			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
 			DeviceState.StateChanged += new Action(OnStateChanged);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;

@@ -122,9 +122,11 @@ namespace GKModule.ViewModels
 			}
 
 			JournalItems.Clear();
-			LoadingService.Show("Чтение записей журнала", 2 + EndIndex - StartIndex);
+			LoadingService.ShowWithCancel("Чтение записей журнала", 2 + EndIndex - StartIndex);
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
+				if (LoadingService.IsCanceled)
+					break;
 				var data = BitConverter.GetBytes(i).ToList();
 				LoadingService.DoStep("Чтение записи " + i);
 				var sendResult = SendManager.Send(Device, 4, 7, 64, data);

@@ -85,6 +85,7 @@
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
+    <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />

@@ -5,14 +5,14 @@ namespace GKModule.ViewModels
 {
 	public class ShortPropertyViewModel : BasePropertyViewModel
 	{
-		public ShortPropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
-			: base(xDriverProperty, xDevice)
+		public ShortPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+			: base(driverProperty, device)
 		{
-			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
+			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 				_text = property.Value;
 			else
-				_text = xDriverProperty.Default;
+				_text = driverProperty.Default;
 		}
 
 		ushort _text;

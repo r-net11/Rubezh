@@ -4,7 +4,7 @@ namespace Infrastructure.Common.Windows
 {
 	public class LoadingService
 	{
-		private static ProgressViewModel _progress = null;
+		private static ProgressViewModel _progressViewModel = null;
 
 		public static void SaveShowProgress(string name, int count)
 		{
@@ -40,32 +40,42 @@ namespace Infrastructure.Common.Windows
 		{
 			Show(new LoadingViewModel() { Title = title, StepCount = stepCount });
 		}
+
+		public static void ShowWithCancel(string title, int stepCount = 1)
+		{
+			Show(new LoadingViewModel() { Title = title, StepCount = stepCount, CanCancel = true });
+		}
+		public static bool IsCanceled
+		{
+			get { return _progressViewModel.IsCanceled; }
+		}
+
 		private static void Show(ProgressViewModel progressViewModel)
 		{
 			Close();
-			_progress = progressViewModel;
-			DialogService.ShowWindow(_progress);
+			_progressViewModel = progressViewModel;
+			DialogService.ShowWindow(_progressViewModel);
 			if (ApplicationService.ApplicationWindow != null)
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = false);
 		}
 		public static void Close()
 		{
-			if (_progress != null)
-				_progress.ForceClose();
-			_progress = null;
+			if (_progressViewModel != null)
+				_progressViewModel.ForceClose();
+			_progressViewModel = null;
 			if (ApplicationService.ApplicationWindow != null)
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
 
 		public static void DoStep(string title)
 		{
-			if (_progress != null)
-				_progress.DoStep(title);
+			if (_progressViewModel != null)
+				_progressViewModel.DoStep(title);
 		}
 		public static void AddCount(int count)
 		{
-			if (_progress != null)
-				_progress.StepCount += count;
+			if (_progressViewModel != null)
+				_progressViewModel.StepCount += count;
 		}
 	}
 }

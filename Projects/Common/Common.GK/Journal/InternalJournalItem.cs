@@ -122,13 +122,16 @@ namespace Common.GK
 				InternalJournalItem = this
 			};
 
-			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stateClasses = XStatesHelper.StateBitsToStateClasses(states, false, false, false);
-
 			if (Source == JournalSourceType.Object)
+			{
+				var stateBits = XStatesHelper.StatesFromInt(ObjectState);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits, false, false, false);
 				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
+			}
 			else
+			{
 				journalItem.StateClass = XStateClass.Info;
+			}
 
 			return journalItem;
 		}

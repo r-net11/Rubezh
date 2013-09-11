@@ -5,14 +5,14 @@ namespace GKModule.ViewModels
 {
 	public class BoolPropertyViewModel : BasePropertyViewModel
 	{
-		public BoolPropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
-			: base(xDriverProperty, xDevice)
+		public BoolPropertyViewModel(XDriverProperty driverProperty, XDevice device)
+			: base(driverProperty, device)
 		{
-			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
+			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 				_isChecked = property.Value > 0;
 			else
-				_isChecked = (xDriverProperty.Default == (ushort)1) ? true : false;
+				_isChecked = (driverProperty.Default == (ushort)1) ? true : false;
 		}
 
 		bool _isChecked;
