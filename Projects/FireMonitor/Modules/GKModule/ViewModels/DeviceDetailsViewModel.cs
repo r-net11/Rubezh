@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Common.GK;
-using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using System.Threading;
-using System.ComponentModel;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
-using Infrastructure;
-using Infrastructure.Events;
-using Controls.Converters;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading;
 using System.Windows.Media;
+using Common.GK;
 using DeviceControls;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using XFiresecAPI;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Events;
 
 namespace GKModule.ViewModels
 {
@@ -23,8 +22,8 @@ namespace GKModule.ViewModels
 	{
 		Guid _guid;
 		public XDevice Device { get; private set; }
-        public DeviceStateViewModel DeviceStateViewModel { get; private set; }
-        public XDeviceState DeviceState { get; private set; }
+		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
+		public XDeviceState DeviceState { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker = false;
@@ -34,14 +33,14 @@ namespace GKModule.ViewModels
 			_guid = deviceUID;
 			ShowCommand = new RelayCommand(OnShow);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 
 			Device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            DeviceState = Device.DeviceState;
-            DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
-            DeviceState.StateChanged += new Action(OnStateChanged);
-            DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			DeviceState = Device.DeviceState;
+			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
+			DeviceState.StateChanged += new Action(OnStateChanged);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
@@ -65,7 +64,7 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("DevicePicture");
 			OnPropertyChanged("DeviceState");
-            OnPropertyChanged("DeviceStateViewModel");
+			OnPropertyChanged("DeviceStateViewModel");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			OnPropertyChanged("HasOffDelay");
@@ -249,11 +248,18 @@ namespace GKModule.ViewModels
 				return null;
 			}
 		}
-
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		public IEnumerable<Plan> PlanNames
 		{
-			ShowOnPlanHelper.ShowDevice(Device);
+			get
+			{
+				return FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+			}
+		}
+
+		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan(Plan plan)
+		{
+			ShowOnPlanHelper.ShowDevice(Device, plan);
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }

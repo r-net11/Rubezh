@@ -253,11 +253,15 @@
     <Compile Include="Plans\InstrumentAdorners\XDirectionRectangleAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\XZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
+      <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\DirectionPropertiesView.xaml.cs">
       <DependentUpon>DirectionPropertiesView.xaml</DependentUpon>
@@ -513,6 +517,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Plans\Views\DevicePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\DevicesInZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

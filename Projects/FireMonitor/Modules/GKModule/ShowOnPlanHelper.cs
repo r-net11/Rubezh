@@ -4,11 +4,21 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using XFiresecAPI;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
 	public static class ShowOnPlanHelper
 	{
+		public static void ShowDevice(XDevice device, Plan plan)
+		{
+			var element = plan == null ? null : plan.ElementXDevices.FirstOrDefault(item => item.XDeviceUID == device.UID);
+			if (plan == null || element == null)
+				ShowDevice(device);
+			else
+				ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+		}
 		public static void ShowDevice(XDevice device)
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);

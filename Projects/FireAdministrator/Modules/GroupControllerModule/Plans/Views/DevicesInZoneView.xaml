@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="GKModule.Plans.Views.DevicesInZoneView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinWidth="900" MinHeight="600">
+
+	<DataGrid IsReadOnly="False" ItemsSource="{Binding DeviceInZones}">
+		<DataGrid.Columns>
+			<DataGridCheckBoxColumn Width="Auto" Binding="{Binding IsActive}" Header="Изменить" />
+			<DataGridTemplateColumn Width="Auto" Header="Устройство">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource, Converter={StaticResource NullToImageConverter}}" Visibility="{Binding ImageSource, Converter={StaticResource NullToVisibilityConverter}}" />
+							<TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Device.PresentationAddressAndDriver}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Width="*" Header="Зона до">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Margin="1 0" Text="{Binding OldZoneName}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Width="*" Header="Зона после">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Margin="1 0" Text="{Binding NewZoneName}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

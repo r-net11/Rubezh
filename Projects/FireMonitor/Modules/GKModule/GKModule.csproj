@@ -136,6 +136,10 @@
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Plans\Designer\XZonePainter.cs" />
+    <Compile Include="Plans\ViewModels\XDeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\Views\XDeviceTooltipView.xaml.cs">
+      <DependentUpon>XDeviceTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\DevcieParametersReport.cs" />
     <Compile Include="Reports\DeviceListReport.cs" />
     <Compile Include="Reports\DriverCounterReport.cs" />
@@ -283,6 +287,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="Plans\Views\XDeviceTooltipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

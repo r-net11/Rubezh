@@ -43,6 +43,8 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateDeviceInZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateDeviceInZones);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateDeviceInZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateDeviceInZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateDeviceInZones);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
