@@ -59,6 +59,7 @@
 
       <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
         <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
+        <File Id="Administrator.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
