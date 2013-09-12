@@ -10,6 +10,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Common.PDF;
+using System.IO;
 
 namespace ReportsModule.ViewModels
 {
@@ -20,6 +22,7 @@ namespace ReportsModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
 			FilterCommand = new RelayCommand(OnFilter, CanFilter);
 			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
+			PdfPrintReportCommand = new RelayCommand(OnPdfPrintReport, CanPdfPrintReport);
 			Reports = new List<ReportViewModel>();
 			SelectedReport = null;
 		}
@@ -138,6 +141,16 @@ namespace ReportsModule.ViewModels
 		private bool CanPrintReport()
 		{
 			return DocumentPaginator != null && DocumentPaginator.PageCount > 0;
+		}
+
+		public RelayCommand PdfPrintReportCommand { get; private set; }
+		private void OnPdfPrintReport()
+		{
+			SelectedReport.PdfPrint();
+		}
+		private bool CanPdfPrintReport()
+		{
+			return DocumentPaginator != null && DocumentPaginator.PageCount > 0 && SelectedReport != null;// && SelectedReport.CanPdfPrint;
 		}
 
 		public void AddReports(IEnumerable<IReportProvider> reportProviders)

@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 		public XDirectionState DirectionState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
-		
+
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 					PresentationName = JournalItem.UserName;
 					break;
 			}
-			
+
 
 			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 			var stringBuilder = new StringBuilder();
@@ -90,29 +90,23 @@ namespace GKModule.ViewModels
 
 		public string ImageSource
 		{
-			get 
+			get
 			{
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
 						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						return device.Driver.ImageSource;
-						
+						return device == null ? null : device.Driver.ImageSource;
 					case JournalItemType.Zone:
-						return"/Controls;component/Images/zone.png";
-						
+						return "/Controls;component/Images/zone.png";
 					case JournalItemType.Direction:
-						return"/Controls;component/Images/Blue_Direction.png";
-						
+						return "/Controls;component/Images/Blue_Direction.png";
 					case JournalItemType.GK:
-						return"/Controls;component/GKIcons/GK.png";
-						
+						return "/Controls;component/GKIcons/GK.png";
 					case JournalItemType.User:
-						return"/Controls;component/Images/Chip.png";
-						
+						return "/Controls;component/Images/Chip.png";
 					case JournalItemType.System:
-						return"/Controls;component/Images/PC.png";
-						
+						return "/Controls;component/Images/PC.png";
 					default:
 						return "";
 				}

@@ -91,7 +91,7 @@
 				<xrd:TableRowForDataTable TableName="Journal">
 					<TableCell>
 						<Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="DateTime" />
+							<xrd:InlineTableCellValue PropertyName="SystemDateTime" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>

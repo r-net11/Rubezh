@@ -7,22 +7,25 @@ using CodeReason.Reports;
 using System.Data;
 using FiresecClient;
 using FiresecAPI;
+using iTextSharp.text.pdf;
+using Common.PDF;
 
 namespace GKModule.Reports
 {
 	internal class DeviceParametersReport : ISingleReportProvider
 	{
-		#region ISingleReportProvider Members
+		private DataTable _table;
 
+		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
 
-			DataTable table = new DataTable("Devices");
-			table.Columns.Add("Type");
-			table.Columns.Add("Address");
-			table.Columns.Add("Zone");
-			table.Columns.Add("Dustiness");
+			_table = new DataTable("Devices");
+			_table.Columns.Add("Type");
+			_table.Columns.Add("Address");
+			_table.Columns.Add("Zone");
+			_table.Columns.Add("Dustiness");
 
 			if (XManager.Devices.IsNotNullOrEmpty())
 			{
@@ -48,10 +51,10 @@ namespace GKModule.Reports
 					{
 						dustiness = parameter;
 					}
-					table.Rows.Add(type, address, zonePresentationName, dustiness);
+					_table.Rows.Add(type, address, zonePresentationName, dustiness);
 				}
 			}
-			data.DataTables.Add(table);
+			data.DataTables.Add(_table);
 			return data;
 		}
 		#endregion
@@ -71,6 +74,18 @@ namespace GKModule.Reports
 		{
 			get { return true; }
 		}
+
+		public bool CanPdfPrint
+		{
+			get { return true; }
+		}
+		public void PdfPrint(iTextSharp.text.Document document)
+		{
+			var table = new PdfPTable(_table.Columns.Count);
+			PDFHelper.PrintTable(table, _table);
+			document.Add(table);
+		}
+		
 		#endregion
 	}
 }

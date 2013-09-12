@@ -1,15 +1,15 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Printing;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Resources;
 using CodeReason.Reports;
+using Common;
+using Common.PDF;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows.ViewModels;
-using Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -75,6 +75,30 @@ namespace ReportsModule.ViewModels
 			StreamResourceInfo info = Application.GetResourceStream(ResourceHelper.ComposeResourceUri(_reportProvider.GetType().Assembly, _reportProvider.Template));
 			using (var reader = new StreamReader(info.Stream))
 				return reader.ReadToEnd();
+		}
+
+		public void PdfPrint()
+		{
+			var fileName = PDFHelper.ShowSavePdfDialog();
+			if (!string.IsNullOrEmpty(fileName))
+				WaitHelper.Execute(() =>
+				{
+					using (var fs = new FileStream(fileName, FileMode.Create))
+					using (var pdf = new PDFDocument(fs))
+					{
+						AddReportHeader(pdf.Document);
+						_reportProvider.PdfPrint(pdf.Document);
+#if DEBUG
+						Process.Start(fileName);
+#endif
+					}
+				});
+		}
+		private void AddReportHeader(iTextSharp.text.Document document)
+		{
+			document.AddAuthor("Рубеж / Оперативные задачи");
+			document.AddTitle(_reportProvider.Title);
+			document.AddCreator("ОЗ");
 		}
 	}
 }

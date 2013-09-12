@@ -111,12 +111,22 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\..\..\3rdParty\NLog2\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
@@ -141,6 +151,10 @@
     <Compile Include="MachineNameHelper.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="ObservableCollectionAdv.cs" />
+    <Compile Include="PDF\PageEventHelper.cs" />
+    <Compile Include="PDF\PDFDocument.cs" />
+    <Compile Include="PDF\PDFHelper.cs" />
+    <Compile Include="PDF\PDFStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
