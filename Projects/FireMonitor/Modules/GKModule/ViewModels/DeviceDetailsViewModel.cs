@@ -258,6 +258,7 @@ namespace GKModule.ViewModels
 					Plans.Add(alarmPlanViewModel);
 				}
 			}
+		}
 		public IEnumerable<Plan> PlanNames
 		{
 			get
@@ -267,6 +268,7 @@ namespace GKModule.ViewModels
 		}
 		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan(Plan plan)
+		{
 			ShowOnPlanHelper.ShowDevice(Device, plan);
 		}
 

@@ -18,7 +18,7 @@ namespace GKModule.Plans.Designer
 	class XDevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		private XDevice _device;
+		private XDevice Device;
 		private ContextMenu _contextMenu;
 		private XDeviceTooltipViewModel _tooltip;
 
@@ -59,11 +59,11 @@ namespace GKModule.Plans.Designer
 			if (_tooltip == null)
 			{
 				_tooltip = new XDeviceTooltipViewModel();
-				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", _device.PresentationAddressAndDriver, _device.Driver.ShortName).TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = _device.Driver.ImageSource;
+				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", Device.PresentationAddressAndDriver, Device.Driver.ShortName).TrimEnd();
+				_tooltip.TitleViewModel.ImageSource = Device.Driver.ImageSource;
 			}
-			_tooltip.StateViewModel.Title = _device.DeviceState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = _device.DeviceState.StateClass.ToIconSource();
+			_tooltip.StateViewModel.Title = Device.DeviceState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Device.DeviceState.StateClass.ToIconSource();
 			_tooltip.Update();
 		}
 
