@@ -15,12 +15,12 @@ namespace GKModule.ViewModels
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			JournalItem = journalItem;
 
-			InitializeTypeAndAddress(journalItem);
+			InitializeTypeAddressImageSource(journalItem);
 			PresentationName = TypeName + " " + Address;
 			InitializePresentationName(journalItem);
 		}
 
-		void InitializeTypeAndAddress(JournalItem journalItem)
+		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
 			var internalAddress = journalItem.InternalJournalItem.ObjectDeviceAddress;
 			var internalType = journalItem.InternalJournalItem.ObjectDeviceType;
@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			{
 				TypeName = "ГК";
 				Address = "";
+				ImageSource = "/Controls;component/GKIcons/GK.png";
 				return;
 			}
 
@@ -42,11 +43,13 @@ namespace GKModule.ViewModels
 					Address = (internalAddress / 256 + 1).ToString() + "." + (internalAddress % 256).ToString();
 				if (!driver.HasAddress)
 					Address = "";
+				ImageSource = driver.ImageSource;
 			}
 			switch (internalType)
 			{
 				case 0x100:
 					TypeName = "Зона";
+					ImageSource = "/Controls;component/Images/zone.png";
 					break;
 
 				case 0x101:
@@ -55,6 +58,7 @@ namespace GKModule.ViewModels
 
 				case 0x106:
 					TypeName = "Направление";
+					ImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
 			}
 		}
@@ -92,6 +96,8 @@ namespace GKModule.ViewModels
 					break;
 			}
 		}
+
+		
 
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
@@ -132,5 +138,7 @@ namespace GKModule.ViewModels
 		public string PresentationName { get; private set; }
 		public string TypeName { get; private set; }
 		public string Address { get; private set; }
+		public string ImageSource { get; private set; }
+		
 	}
 }

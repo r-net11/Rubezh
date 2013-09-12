@@ -101,6 +101,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\JournalItemToIconConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
@@ -112,7 +113,9 @@
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
+    <Compile Include="Journal\ViewModels\JournalFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
+    <Compile Include="Journal\ViewModels\StateClassViewModel.cs" />
     <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>

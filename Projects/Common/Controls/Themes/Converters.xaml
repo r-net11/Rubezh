@@ -15,7 +15,7 @@
     <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
-	<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+    <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />

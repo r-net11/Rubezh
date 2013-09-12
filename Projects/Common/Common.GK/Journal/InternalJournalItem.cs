@@ -32,6 +32,18 @@ namespace Common.GK
 		string UserName;
 		[DataMember]
 		int ObjectState;
+		//[DataMember]
+		JournalSubsystemType SubsytemType
+		{
+			get
+			{
+				if (JournalItemType == GK.JournalItemType.System)
+					return JournalSubsystemType.System;
+				else
+					return JournalSubsystemType.GK;
+			}
+			set { SubsytemType = value; }
+		}
 
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
@@ -119,6 +131,7 @@ namespace Common.GK
 				JournalItemType = JournalItemType,
 				GKObjectNo = GKObjectNo,
 				UserName = UserName,
+				SubsystemType = SubsytemType,
 				InternalJournalItem = this
 			};
 

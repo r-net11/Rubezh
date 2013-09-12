@@ -244,7 +244,7 @@ namespace GKModule.ViewModels
 				switch (JournalItemType)
 				{
 					case JournalItemType.Device:
-						return "/Controls;component/GKIcons/CombinedDetector.png";
+						return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
 					case JournalItemType.Zone:
 						return "/Controls;component/Images/zone.png";
@@ -269,28 +269,7 @@ namespace GKModule.ViewModels
 		}
 	}
 
-	public class StateClassViewModel : BaseViewModel
-	{
-		public StateClassViewModel(XStateClass stateClass)
-		{
-			StateClass = stateClass;
-			Name = stateClass.ToDescription();
-		}
-
-		public XStateClass StateClass { get; private set; }
-		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
-	}
+	
 
 	public class GKAddressViewModel : BaseViewModel
 	{

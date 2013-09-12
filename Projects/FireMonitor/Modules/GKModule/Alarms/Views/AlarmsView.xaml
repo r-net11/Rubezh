@@ -5,6 +5,7 @@
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+        <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -16,8 +17,17 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" Width="Auto" />
-
+                <DataGridTemplateColumn Header="Состояние" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" VerticalAlignment="Center"/>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Header="Объект" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -29,7 +39,6 @@
                                     </Hyperlink>
                                 </TextBlock>    
                             </StackPanel>
-                            
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

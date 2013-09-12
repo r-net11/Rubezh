@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 
 		public JournalViewModel(XDevice device)
 		{
-			Title = "Журнал событий ГК";
+			Title = "Журнал событий ГК ip:" + device.GetGKIpAddress();
 			ReadCommand = new RelayCommand(OnRead);
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();

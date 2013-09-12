@@ -46,9 +46,9 @@ namespace GKModule.ViewModels
 				if (Alarm.Device != null)
 					return Alarm.Device.Driver.ImageSource;
 				if (Alarm.Zone != null)
-					return "/Controls;component/Images/BZones.png";
+					return "/Controls;component/Images/zone.png";
 				if (Alarm.Direction != null)
-					return "/Controls;component/Images/BDirection.png";
+					return "/Controls;component/Images/Blue_Direction.png";
 				return null;
 			}
 		}
