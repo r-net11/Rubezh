@@ -50,9 +50,14 @@ namespace Common.PDF
 		}
 		public static PdfPCell GetCell(string content, Font font, BaseColor background = null)
 		{
+			return GetCell(content, font, Element.ALIGN_LEFT, background);
+		}
+		public static PdfPCell GetCell(string content, Font font, int horizontalAlignment, BaseColor background = null)
+		{
 			return new PdfPCell(new Phrase(content, font))
 			{
 				BackgroundColor = background,
+				HorizontalAlignment = horizontalAlignment,
 			};
 		}
 		public static PdfPCell GetImageTextCell(string imageSource, string text, float partial, BaseColor background = null)

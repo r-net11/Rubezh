@@ -150,7 +150,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanPdfPrintReport()
 		{
-			return DocumentPaginator != null && DocumentPaginator.PageCount > 0 && SelectedReport != null;// && SelectedReport.CanPdfPrint;
+			return DocumentPaginator != null && DocumentPaginator.PageCount > 0 && SelectedReport != null && SelectedReport.CanPdfPrint;
 		}
 
 		public void AddReports(IEnumerable<IReportProvider> reportProviders)

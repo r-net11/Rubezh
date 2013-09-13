@@ -67,7 +67,7 @@ namespace GKModule.Journal.ViewModels
 			table.HeaderRows = 1;
 			table.TotalWidth = doc.PageSize.Width - doc.LeftMargin - doc.RightMargin;
 			table.LockedWidth = true;
-			float[] widths = new float[] { 25f, 25f, 45f, 10f, 60f, 35f, 30f, 25f };
+			float[] widths = new float[] { 25f, 25f, 45f, 10f, 60f, 40f, 35f, 30f };
 			table.SetWidths(widths);
 			table.HorizontalAlignment = 1;
 			table.SpacingBefore = 20f;
@@ -90,8 +90,7 @@ namespace GKModule.Journal.ViewModels
 			};
 			foreach (var header in headers)
 			{
-				var cell = new PdfPCell(new Phrase(header, PDFStyle.BoldFont));
-				cell.BackgroundColor = background;
+				var cell = PDFHelper.GetCell(header, PDFStyle.BoldFont, Element.ALIGN_CENTER, background);
 				cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 				table.AddCell(cell);
 			}
@@ -101,8 +100,8 @@ namespace GKModule.Journal.ViewModels
 			foreach (var item in _source)
 			{
 				var background = GetStateColor(item.JournalItem.StateClass);
-				table.AddCell(PDFHelper.GetCell(item.JournalItem.DeviceDateTime.ToString(), background));
-				table.AddCell(PDFHelper.GetCell(item.JournalItem.SystemDateTime.ToString(), background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.DeviceDateTime.ToString(), PDFStyle.NormalFont, Element.ALIGN_CENTER, background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.SystemDateTime.ToString(), PDFStyle.NormalFont, Element.ALIGN_CENTER, background));
 				table.AddCell(PDFHelper.GetCell(item.JournalItem.Name ?? string.Empty, background));
 				table.AddCell(PDFHelper.GetCell(item.JournalItem.YesNo.ToDescription(), background));
 				table.AddCell(PDFHelper.GetCell(item.JournalItem.Description ?? string.Empty, background));//4

@@ -179,6 +179,7 @@
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
     <Compile Include="RelayCommand\RelayCommandProvider.cs" />
+    <Compile Include="Reports\IReportPdfProvider.cs" />
     <Compile Include="Ribbon\RibbonButton.cs" />
     <Compile Include="Ribbon\RibbonMenuItemViewModel.cs" />
     <Compile Include="Ribbon\RibbonMenuViewModel.cs" />

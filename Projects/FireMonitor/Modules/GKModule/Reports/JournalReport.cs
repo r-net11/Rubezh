@@ -14,11 +14,10 @@ namespace GKModule.Reports
 {
 	internal class JournalReport : ISingleReportProvider, IFilterableReport
 	{
-		private DataTable _table;
-
 		private ReportArchiveFilter ReportArchiveFilter { get; set; }
 		public JournalReport()
 		{
+			PdfProvider = new JournalReportPdf();
 			ReportArchiveFilter = new ReportArchiveFilter();
 		}
 
@@ -42,16 +41,16 @@ namespace GKModule.Reports
 			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
-			_table = new DataTable("Journal");
-			_table.Columns.Add("SystemDateTime");
-			_table.Columns.Add("DeviceDateTime");
-			_table.Columns.Add("Name");
-			_table.Columns.Add("YesNo");
-			_table.Columns.Add("Description");
-			_table.Columns.Add("DeviceName");
-			_table.Columns.Add("ZoneName");
-			_table.Columns.Add("DirectionName");
-			_table.Columns.Add("StateClass");
+			var table = new DataTable("Journal");
+			table.Columns.Add("SystemDateTime");
+			table.Columns.Add("DeviceDateTime");
+			table.Columns.Add("Name");
+			table.Columns.Add("YesNo");
+			table.Columns.Add("Description");
+			table.Columns.Add("DeviceName");
+			table.Columns.Add("ZoneName");
+			table.Columns.Add("DirectionName");
+			table.Columns.Add("StateClass");
 			foreach (var journalItem in ReportArchiveFilter.JournalItems)
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
@@ -70,7 +69,7 @@ namespace GKModule.Reports
 				{
 					directionName = journalItemViewModel.DirectionState.Direction.PresentationName;
 				}
-				_table.Rows.Add(
+				table.Rows.Add(
 					journalItem.SystemDateTime,
 					journalItem.DeviceDateTime,
 					journalItem.Name,
@@ -81,7 +80,8 @@ namespace GKModule.Reports
 					directionName,
 					journalItem.StateClass.ToDescription());
 			}
-			data.DataTables.Add(_table);
+			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -102,41 +102,8 @@ namespace GKModule.Reports
 			get { return true; }
 		}
 
-		public bool CanPdfPrint
-		{
-			get { return true; }
-		}
-		public void PdfPrint(iTextSharp.text.Document document)
-		{
-			var table = PDFHelper.CreateTable(document, 8);
-			table.HeaderRows = 2;
-			table.SetWidths(new float[] { 1f, 1f, 0.5f, 2f, 1f, 1.5f, 1.5f, 1f, });
-			var cell = PDFHelper.GetCell(string.Format("Журнал событий с {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", ReportArchiveFilter.StartDate, ReportArchiveFilter.EndDate), PDFStyle.HeaderFont, PDFStyle.HeaderBackground);
-			cell.Colspan = 8;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			table.AddCell(cell);
-			var headers = new string[] 
-			{
-				"Дата",
-				"Название",
-				"Д/Н",
-				"Описание",
-				"Устройство",
-				"Зона",
-				"Направление",
-				"Состояние",
-			};
-			foreach (var heder in headers)
-			{
-				cell = PDFHelper.GetCell(heder, PDFStyle.TextFont, PDFStyle.HeaderBackground);
-				cell.HorizontalAlignment = Element.ALIGN_CENTER;
-				cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-				table.AddCell(cell);
-			};
+		public IReportPdfProvider PdfProvider { get; private set; }
 
-			PDFHelper.PrintTable(table, _table);
-			document.Add(table);
-		}
 		#endregion
 	}
 }

@@ -77,6 +77,10 @@ namespace ReportsModule.ViewModels
 				return reader.ReadToEnd();
 		}
 
+		public bool CanPdfPrint
+		{
+			get { return _reportProvider != null && _reportProvider.PdfProvider != null && _reportProvider.PdfProvider.CanPrint; }
+		}
 		public void PdfPrint()
 		{
 			var fileName = PDFHelper.ShowSavePdfDialog();
@@ -84,10 +88,10 @@ namespace ReportsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					using (var fs = new FileStream(fileName, FileMode.Create))
-					using (var pdf = new PDFDocument(fs))
+					using (var pdf = new PDFDocument(fs, _reportProvider.PdfProvider.PageFormat))
 					{
 						AddReportHeader(pdf.Document);
-						_reportProvider.PdfPrint(pdf.Document);
+						_reportProvider.PdfProvider.Print(pdf.Document);
 #if DEBUG
 						Process.Start(fileName);
 #endif

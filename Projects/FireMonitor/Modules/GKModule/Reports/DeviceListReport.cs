@@ -11,16 +11,19 @@ namespace GKModule.Reports
 {
 	internal class DeviceListReport : ISingleReportProvider
 	{
-		private DataTable _table;
+		public DeviceListReport()
+		{
+			PdfProvider = new DeviceListReportPdf();
+		}
 
 		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
-			_table = new DataTable("Devices");
-			_table.Columns.Add("Type");
-			_table.Columns.Add("Address");
-			_table.Columns.Add("Zone");
+			var table = new DataTable("Devices");
+			table.Columns.Add("Type");
+			table.Columns.Add("Address");
+			table.Columns.Add("Zone");
 
 			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
@@ -34,10 +37,11 @@ namespace GKModule.Reports
 					var type = device.ShortName;
 					var address = device.DottedPresentationAddress;
 					var zonePresentationName = XManager.GetPresentationZone(device);
-					_table.Rows.Add(type, address, zonePresentationName);
+					table.Rows.Add(type, address, zonePresentationName);
 				}
 			}
-			data.DataTables.Add(_table);
+			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -58,40 +62,7 @@ namespace GKModule.Reports
 			get { return true; }
 		}
 
-		public bool CanPdfPrint
-		{
-			get { return true; }
-		}
-		public void PdfPrint(iTextSharp.text.Document document)
-		{
-			var table = PDFHelper.CreateTable(document, _table.Columns.Count);
-			table.HeaderRows = 3;
-			table.SetWidths(new float[] { 3f, 2f, 5f });
-			var cell = PDFHelper.GetCell("Список устройств конфигурации", PDFStyle.HeaderFont, PDFStyle.HeaderBackground);
-			cell.Colspan = 3;
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Устройство", PDFStyle.TextFont, PDFStyle.HeaderBackground);
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-			cell.Colspan = 2;
-			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Зона", PDFStyle.TextFont, PDFStyle.HeaderBackground);
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-			cell.Rowspan = 2;
-			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Тип", PDFStyle.TextFont, PDFStyle.HeaderBackground);
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-			table.AddCell(cell);
-			cell = PDFHelper.GetCell("Адрес", PDFStyle.TextFont, PDFStyle.HeaderBackground);
-			cell.HorizontalAlignment = Element.ALIGN_CENTER;
-			cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-			table.AddCell(cell);
-			PDFHelper.PrintTable(table, _table);
-			document.Add(table);
-		}
+		public IReportPdfProvider PdfProvider { get; private set; }
 
 		#endregion
 	}

@@ -23,8 +23,9 @@ namespace Common.PDF
 		{
 			DocumentStream = stream;
 			Document = new Document(pageSize);
+			PageEventHelper = new PageEventHelper();
 			Writer = PdfWriter.GetInstance(Document, stream);
-			Writer.PageEvent = new PageEventHelper();
+			Writer.PageEvent = PageEventHelper;
 			Document.Open();
 			Document.AddCreationDate();
 		}

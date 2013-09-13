@@ -47,6 +47,11 @@ namespace DevicesModule.Reports
 			get { return true; }
 		}
 
+		public IReportPdfProvider PdfProvider
+		{
+			get { return null; }
+		}
+
 		#endregion
 
 		private void AddDrivers(Driver driver, DataTable table)

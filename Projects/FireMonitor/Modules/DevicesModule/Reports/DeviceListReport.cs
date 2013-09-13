@@ -56,6 +56,11 @@ namespace DevicesModule.Reports
 			get { return true; }
 		}
 
+		public IReportPdfProvider PdfProvider
+		{
+			get { return null; }
+		}
+
 		#endregion
 	}
 }

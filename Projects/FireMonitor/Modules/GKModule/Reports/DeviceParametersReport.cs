@@ -9,23 +9,27 @@ using FiresecClient;
 using FiresecAPI;
 using iTextSharp.text.pdf;
 using Common.PDF;
+using iTextSharp.text;
 
 namespace GKModule.Reports
 {
 	internal class DeviceParametersReport : ISingleReportProvider
 	{
-		private DataTable _table;
+		public DeviceParametersReport()
+		{
+			PdfProvider = new DeviceParametersReportPdf();
+		}
 
 		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
 
-			_table = new DataTable("Devices");
-			_table.Columns.Add("Type");
-			_table.Columns.Add("Address");
-			_table.Columns.Add("Zone");
-			_table.Columns.Add("Dustiness");
+			var table = new DataTable("Devices");
+			table.Columns.Add("Type");
+			table.Columns.Add("Address");
+			table.Columns.Add("Zone");
+			table.Columns.Add("Dustiness");
 
 			if (XManager.Devices.IsNotNullOrEmpty())
 			{
@@ -42,7 +46,8 @@ namespace GKModule.Reports
 
 					if (device.Driver.HasZone)
 					{
-						zonePresentationName = XManager.GetPresentationZone(device); ;
+						zonePresentationName = XManager.GetPresentationZone(device);
+						;
 					}
 
 					var deviceState = device.DeviceState;
@@ -51,10 +56,11 @@ namespace GKModule.Reports
 					{
 						dustiness = parameter;
 					}
-					_table.Rows.Add(type, address, zonePresentationName, dustiness);
+					table.Rows.Add(type, address, zonePresentationName, dustiness);
 				}
 			}
-			data.DataTables.Add(_table);
+			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -75,17 +81,8 @@ namespace GKModule.Reports
 			get { return true; }
 		}
 
-		public bool CanPdfPrint
-		{
-			get { return true; }
-		}
-		public void PdfPrint(iTextSharp.text.Document document)
-		{
-			var table = new PdfPTable(_table.Columns.Count);
-			PDFHelper.PrintTable(table, _table);
-			document.Add(table);
-		}
-		
+		public IReportPdfProvider PdfProvider { get; private set; }
+
 		#endregion
 	}
 }

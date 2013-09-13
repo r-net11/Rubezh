@@ -11,13 +11,13 @@ namespace Common.PDF
 	{
 		private PdfContentByte cb;
 		private PdfTemplate template;
-		private DateTime printTime;
 
 		public int FontSize { get; set; }
 		public int FotterShift { get; set; }
 		public bool PrintPages { get; set; }
 		public bool PrintDate { get; set; }
 		public bool PrintFooterLine { get; set; }
+		public DateTime PrintDateTime { get; private set; }
 
 		public PageEventHelper()
 		{
@@ -30,11 +30,27 @@ namespace Common.PDF
 
 		public override void OnOpenDocument(PdfWriter writer, Document document)
 		{
-			printTime = DateTime.Now;
+			PrintDateTime = DateTime.Now;
 			cb = writer.DirectContent;
 			template = cb.CreateTemplate(50, 50);
 		}
+		public override void OnCloseDocument(PdfWriter writer, Document document)
+		{
+			base.OnCloseDocument(writer, document);
+			if (PrintPages)
+			{
+				template.BeginText();
+				template.SetFontAndSize(PDFStyle.BaseFont, FontSize);
+				template.SetTextMatrix(0, 0);
+				template.ShowText((writer.PageNumber - 1).ToString());
+				template.EndText();
+			}
+		}
 
+		public override void OnStartPage(PdfWriter writer, Document document)
+		{
+			base.OnStartPage(writer, document);
+		}
 		public override void OnEndPage(PdfWriter writer, Document document)
 		{
 			base.OnEndPage(writer, document);
@@ -69,23 +85,9 @@ namespace Common.PDF
 			{
 				cb.BeginText();
 				cb.SetFontAndSize(PDFStyle.BaseFont, FontSize);
-				cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT, printTime.ToString("dd.MM.yyyy HH:mm:ss"), pageSize.GetRight(document.RightMargin), pageSize.GetBottom(document.BottomMargin - FotterShift), 0);
+				cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT, PrintDateTime.ToString("dd.MM.yyyy HH:mm:ss"), pageSize.GetRight(document.RightMargin), pageSize.GetBottom(document.BottomMargin - FotterShift), 0);
 				cb.EndText();
 			}
 		}
-
-		public override void OnCloseDocument(PdfWriter writer, Document document)
-		{
-			base.OnCloseDocument(writer, document);
-			if (PrintPages)
-			{
-				template.BeginText();
-				template.SetFontAndSize(PDFStyle.BaseFont, FontSize);
-				template.SetTextMatrix(0, 0);
-				template.ShowText((writer.PageNumber - 1).ToString());
-				template.EndText();
-			}
-		}
 	}
-
 }
