@@ -42,42 +42,34 @@ namespace GKModule.Reports
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
 			var table = new DataTable("Journal");
-			table.Columns.Add("SystemDateTime");
-			table.Columns.Add("DeviceDateTime");
+			table.Columns.Add("DateTime");
 			table.Columns.Add("Name");
 			table.Columns.Add("YesNo");
 			table.Columns.Add("Description");
-			table.Columns.Add("DeviceName");
-			table.Columns.Add("ZoneName");
-			table.Columns.Add("DirectionName");
+			table.Columns.Add("ObjectName");
 			table.Columns.Add("StateClass");
 			foreach (var journalItem in ReportArchiveFilter.JournalItems)
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
-				var deviceName = "";
+				var objectName = "";
 				if (journalItemViewModel.DeviceState != null)
 				{
-					deviceName = journalItemViewModel.DeviceState.Device.PresentationAddressAndDriver;
+					objectName = journalItemViewModel.DeviceState.Device.PresentationAddressAndDriver;
 				}
-				var zoneName = "";
 				if (journalItemViewModel.ZoneState != null)
 				{
-					zoneName = journalItemViewModel.ZoneState.Zone.PresentationName;
+					objectName = journalItemViewModel.ZoneState.Zone.PresentationName;
 				}
-				var directionName = "";
 				if (journalItemViewModel.DirectionState != null)
 				{
-					directionName = journalItemViewModel.DirectionState.Direction.PresentationName;
+					objectName = journalItemViewModel.DirectionState.Direction.PresentationName;
 				}
 				table.Rows.Add(
-					journalItem.SystemDateTime,
 					journalItem.DeviceDateTime,
 					journalItem.Name,
 					journalItem.YesNo.ToDescription(),
 					journalItem.Description,
-					deviceName,
-					zoneName,
-					directionName,
+					objectName,
 					journalItem.StateClass.ToDescription());
 			}
 			data.DataTables.Add(table);

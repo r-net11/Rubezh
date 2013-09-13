@@ -23,6 +23,13 @@ namespace GKModule.ViewModels
                 RootDevice.IsExpanded = true;
                 SelectedDevice = RootDevice;
             }
+
+			foreach (var device in AllDevices)
+			{
+				if(device.Device.Driver.DriverType == XDriverType.KAU || device.Device.Driver.DriverType == XDriverType.RSR2_KAU)
+					device.ExpandToThis();
+			}
+
             OnPropertyChanged("RootDevices");
         }
 

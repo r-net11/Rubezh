@@ -8,6 +8,8 @@ using System.Diagnostics;
 using Infrastructure;
 using Infrastructure.Events;
 using FiresecClient;
+using Infrustructure.Plans.Elements;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -23,9 +25,9 @@ namespace GKModule.ViewModels
 			DirectionState = Direction.DirectionState;
 			DirectionViewModel = new DirectionViewModel(DirectionState);
 			DirectionState.StateChanged += new Action(OnStateChanged);
+			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
@@ -129,29 +131,34 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
 		}
 
-		public string PlanName
+		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
+		public bool HasPlans
 		{
-			get
-			{
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				{
-					if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == Direction.UID))
-						return plan.Caption;
-					if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == Direction.UID))
-						return plan.Caption;
-				}
-				return null;
-			}
+			get { return Plans.Count > 0; }
 		}
 
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		void InitializePlans()
 		{
-			ShowOnPlanHelper.ShowDirection(Direction);
-		}
-		public bool CanShowOnPlan()
-		{
-			return ShowOnPlanHelper.CanShowDirection(Direction);
+			Plans = new ObservableCollection<PlanLinkViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Direction = Direction;
+					Plans.Add(alarmPlanViewModel);
+					continue;
+				}
+
+				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				if (elementBase != null)
+				{
+					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
+					alarmPlanViewModel.Direction = Direction;
+					Plans.Add(alarmPlanViewModel);
+				}
+			}
 		}
 
 		#region IWindowIdentity Members

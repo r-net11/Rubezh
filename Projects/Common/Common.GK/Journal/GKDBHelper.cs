@@ -46,8 +46,8 @@ namespace Common.GK
 		{
 			var journalItem = new JournalItem()
 			{
-				DeviceDateTime = DateTime.Now,
 				SystemDateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,
@@ -70,8 +70,8 @@ namespace Common.GK
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13)";
+							"(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
@@ -85,6 +85,7 @@ namespace Common.GK
 						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.UserName ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.SystemDateTime ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.DeviceDateTime ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.SubsystemType ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -165,6 +166,24 @@ namespace Common.GK
 										query += "\n OR ";
 									index++;
 									query += "Name = '" + eventName + "'";
+								}
+								query += ")";
+							}
+
+							var objectUIDs = new List<Guid>();
+							objectUIDs.AddRange(archiveFilter.DeviceUIDs);
+							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
+							objectUIDs.AddRange(archiveFilter.DirectionUIDs);
+							if (objectUIDs.Count > 0)
+							{
+								int index = 0;
+								query += "\n AND (";
+								foreach (var objectUID in objectUIDs)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "ObjectUID = '" + objectUID + "'";
 								}
 								query += ")";
 							}

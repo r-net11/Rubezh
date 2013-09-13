@@ -8,51 +8,29 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using FiresecClient;
 
+using System.Windows.Data;
+using FiresecAPI;
+
+
 namespace GKModule.ViewModels
 {
 	public class JournalViewModel : BaseViewModel
 	{
-		public XJournalFilter JournalFilter { get; private set; }
+		public JournalFilterViewModel JournalFilterViewModel { get; private set; }
 
 		public JournalViewModel(XJournalFilter journalFilter)
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 
-			JournalFilter = journalFilter;
+			JournalFilterViewModel = new JournalFilterViewModel(journalFilter);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
+
 		}
 
 		public bool IsManyGK
 		{
-			get
-			{
-				return XManager.IsManyGK();
-			}
-		}
-
-		public string FilterStats
-		{
-			get
-			{
-				string result = "";
-				if (JournalFilter.Description != null)
-					result += JournalFilter.Description + "\n";
-				result += "Последних записей: " + JournalFilter.LastRecordsCount.ToString() + "\n";
-				if (JournalFilter.EventNames.Count > 0)
-				{
-					result += "События:" + "\n";
-					JournalFilter.EventNames.ForEach(x => result += (x + "\n"));
-				}
-				if (JournalFilter.StateClasses.Count > 0)
-				{
-					result += "Классы состояний:" + "\n";
-					JournalFilter.StateClasses.ForEach(x => result += (x.ToString() + "\n"));
-				}
-				if(result.EndsWith("\n"))
-					result = result.Remove(result.Count()-1);
-				return result;
-			}
+			get	{ return XManager.IsManyGK(); }
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -81,9 +59,9 @@ namespace GKModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (FilterStateClass(journalItem) == false)
+				if (JournalFilterViewModel.FilterStateClass(journalItem) == false)
 					continue;
-				if (FilterEventName(journalItem) == false)
+				if (JournalFilterViewModel.FilterEventName(journalItem) == false)
 					continue;
 
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
@@ -92,30 +70,15 @@ namespace GKModule.ViewModels
 				else
 					JournalItems.Add(journalItemViewModel);
 
-				if (JournalItems.Count > JournalFilter.LastRecordsCount)
-					JournalItems.RemoveAt(JournalFilter.LastRecordsCount);
+				if (JournalItems.Count > JournalFilterViewModel.JournalFilter.LastRecordsCount)
+					JournalItems.RemoveAt(JournalFilterViewModel.JournalFilter.LastRecordsCount);
 			}
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
-		bool FilterStateClass(JournalItem journalItem)
-		{
-			if (JournalFilter.StateClasses.Count > 0)
-			{
-				return JournalFilter.StateClasses.Contains(journalItem.StateClass);
-			}
-			return true;
-		}
-
-		bool FilterEventName(JournalItem journalItem)
-		{
-			if (JournalFilter.EventNames.Count > 0)
-			{
-				return JournalFilter.EventNames.Contains(journalItem.Name);
-			}
-			return true;
-		}
+		
 	}
+
 }

@@ -28,6 +28,8 @@ namespace GKModule.ViewModels
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
+
+			PresentationName = "<Нет в конфигурации>";
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
@@ -96,7 +98,7 @@ namespace GKModule.ViewModels
 				{
 					case JournalItemType.Device:
 						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						return device == null ? null : device.Driver.ImageSource;
+						return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
 					case JournalItemType.Zone:
 						return "/Controls;component/Images/zone.png";
 					case JournalItemType.Direction:
@@ -108,7 +110,7 @@ namespace GKModule.ViewModels
 					case JournalItemType.System:
 						return "/Controls;component/Images/PC.png";
 					default:
-						return "";
+						return "/Controls;component/StateClassIcons/Off.png";
 				}
 			}
 		}
@@ -118,7 +120,7 @@ namespace GKModule.ViewModels
 		{
 			if (CanShowOnPlan())
 				OnShowOnPlan();
-			else
+			else if (CanShowObject())
 				OnShowObject();
 		}
 
@@ -146,6 +148,9 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowObject()
 		{
+			if (PresentationName == "<Нет в конфигурации>")
+				return false;
+
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
@@ -178,6 +183,9 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowOnPlan()
 		{
+			if (PresentationName == "<Нет в конфигурации>")
+				return false;
+
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:

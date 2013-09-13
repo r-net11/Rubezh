@@ -32,6 +32,18 @@ namespace Common.GK
 		string UserName;
 		[DataMember]
 		int ObjectState;
+		//[DataMember]
+		JournalSubsystemType SubsytemType
+		{
+			get
+			{
+				if (JournalItemType == GK.JournalItemType.System)
+					return JournalSubsystemType.System;
+				else
+					return JournalSubsystemType.GK;
+			}
+			set { SubsytemType = value; }
+		}
 
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
@@ -119,16 +131,20 @@ namespace Common.GK
 				JournalItemType = JournalItemType,
 				GKObjectNo = GKObjectNo,
 				UserName = UserName,
+				SubsystemType = SubsytemType,
 				InternalJournalItem = this
 			};
 
-			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stateClasses = XStatesHelper.StateBitsToStateClasses(states, false, false, false);
-
 			if (Source == JournalSourceType.Object)
+			{
+				var stateBits = XStatesHelper.StatesFromInt(ObjectState);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits, false, false, false);
 				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
+			}
 			else
+			{
 				journalItem.StateClass = XStateClass.Info;
+			}
 
 			return journalItem;
 		}

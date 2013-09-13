@@ -18,7 +18,7 @@ namespace GKModule
 				return;
 			if (remoteLastId > localLastDBNo)
 			{
-				StartProgress("Синхронизация журнала", remoteLastId - localLastDBNo);
+				StartProgress("Синхронизация журнала ip:" + gkIpAddress, remoteLastId - localLastDBNo);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
 				StopProgress();
 				LastId = remoteLastId;

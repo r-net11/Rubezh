@@ -104,6 +104,16 @@ namespace GKModule.Plans.Designer
 			return Zone != null;
 		}
 
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
@@ -116,12 +126,19 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
+				ShowJournalCommand = new RelayCommand(OnShowJournal);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Header = "Показать в списке",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать связанные события",
+					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

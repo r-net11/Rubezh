@@ -85,6 +85,8 @@
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
+    <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
     <Compile Include="Alarms\ViewModels\InstructionViewModel.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\JournalItemToIconConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
@@ -111,8 +114,13 @@
     <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
+    <Compile Include="Journal\ViewModels\JournalFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveDeviceViewModel.cs" />
+    <Compile Include="Journal\ViewModels\StateClassViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveDirectionViewModel.cs" />
     <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>

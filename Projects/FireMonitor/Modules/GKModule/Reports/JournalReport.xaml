@@ -40,16 +40,14 @@
 			<Table.Columns>
 				<TableColumn Width="1*" />
 				<TableColumn Width="1*" />
-				<TableColumn Width="0.5*" />
+                <TableColumn Width="0.5*" />
 				<TableColumn Width="2*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1.5*" />
-				<TableColumn Width="1.5*" />
+                <TableColumn Width="2*" />
                 <TableColumn Width="1*" />
-			</Table.Columns>
+            </Table.Columns>
 			<TableRowGroup Style="{StaticResource header1}">
 				<TableRow>
-					<TableCell ColumnSpan="8">
+					<TableCell ColumnSpan="6">
 						<Paragraph TextAlignment="Center">
 							Журнал событий с
 							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="StartDate" />
@@ -74,13 +72,7 @@
 						<Paragraph TextAlignment="Center">Описание</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Устройство</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph TextAlignment="Center">Зона</Paragraph>
-					</TableCell>
-					<TableCell>
-                        <Paragraph TextAlignment="Center">Направление</Paragraph>
+						<Paragraph TextAlignment="Center">Объект</Paragraph>
 					</TableCell>
                     <TableCell>
                         <Paragraph TextAlignment="Center">Состояние</Paragraph>
@@ -111,17 +103,7 @@
 					</TableCell>
 					<TableCell>
                         <Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="DeviceName" />
-						</Paragraph>
-					</TableCell>
-					<TableCell>
-                        <Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="ZoneName" />
-						</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="DirectionName" />
+                            <xrd:InlineTableCellValue PropertyName="ObjectName" />
 						</Paragraph>
 					</TableCell>
                     <TableCell>
@@ -135,4 +117,3 @@
 		</Table>
 	</Section>
 </FlowDocument>
-

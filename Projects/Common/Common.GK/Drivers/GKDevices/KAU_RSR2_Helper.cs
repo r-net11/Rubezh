@@ -27,6 +27,7 @@ namespace Common.GK
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
+			driver.AvailableStateClasses.Add(XStateClass.Failure);
 			driver.AvailableStateBits.Add(XStateBit.No);
 			driver.AvailableStateBits.Add(XStateBit.Norm);
 			driver.AvailableStateBits.Add(XStateBit.Failure);

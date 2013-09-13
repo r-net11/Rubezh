@@ -20,22 +20,27 @@
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
-                <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
-                <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
+                <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Stretch"/>
+                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Объект" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Style.Setters>
-                        <Setter Property="ContextMenu">
-                            <Setter.Value>
-                                <ContextMenu>
-                                    <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
-                                </ContextMenu>
-                            </Setter.Value>
-                        </Setter>
-                    </Style.Setters>
-                </Style>
-            </DataGrid.RowStyle>
             <DataGrid.CellStyle>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Style.Setters>

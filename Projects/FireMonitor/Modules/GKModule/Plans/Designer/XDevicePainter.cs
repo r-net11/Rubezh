@@ -18,7 +18,7 @@ namespace GKModule.Plans.Designer
 	class XDevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		private XDevice _device;
+		private XDevice Device;
 		private ContextMenu _contextMenu;
 		private XDeviceTooltipViewModel _tooltip;
 
@@ -29,9 +29,9 @@ namespace GKModule.Plans.Designer
 			var elementXDevice = presenterItem.Element as ElementXDevice;
 			if (elementXDevice != null)
 			{
-				_device = Helper.GetXDevice(elementXDevice);
-				if (_device != null && _device.DeviceState != null)
-					_device.DeviceState.StateChanged += OnPropertyChanged;
+				Device = Helper.GetXDevice(elementXDevice);
+				if (Device != null && Device.DeviceState != null)
+					Device.DeviceState.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -53,17 +53,17 @@ namespace GKModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (_device == null)
+			if (Device == null)
 				return;
 
 			if (_tooltip == null)
 			{
 				_tooltip = new XDeviceTooltipViewModel();
-				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", _device.PresentationAddressAndDriver, _device.Driver.ShortName).TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = _device.Driver.ImageSource;
+				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", Device.PresentationAddressAndDriver, Device.Driver.ShortName).TrimEnd();
+				_tooltip.TitleViewModel.ImageSource = Device.Driver.ImageSource;
 			}
-			_tooltip.StateViewModel.Title = _device.DeviceState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = _device.DeviceState.StateClass.ToIconSource();
+			_tooltip.StateViewModel.Title = Device.DeviceState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Device.DeviceState.StateClass.ToIconSource();
 			_tooltip.Update();
 		}
 
@@ -73,19 +73,29 @@ namespace GKModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicXBrush(_device);
+			return DevicePictureCache.GetDynamicXBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = Device
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
 		private ContextMenu CreateContextMenu()
@@ -93,6 +103,7 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree);
+				ShowJournalCommand = new RelayCommand(OnShowJournal);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
@@ -100,6 +111,11 @@ namespace GKModule.Plans.Designer
 				{
 					Header = "Показать в дереве",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать связанные события",
+					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

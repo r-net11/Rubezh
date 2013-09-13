@@ -10,30 +10,31 @@ using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {
-    public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
-        public XDeviceState DeviceState { get; private set; }
-        public DeviceStateViewModel DeviceStateViewModel { get; private set; }
+		public XDeviceState DeviceState { get; private set; }
+		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DeviceViewModel(XDevice device)
 		{
 			Device = device;
-            DeviceState = Device.DeviceState;
-            DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
-            DeviceState.StateChanged += new Action(OnStateChanged);
+			DeviceState = Device.DeviceState;
+			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
+			DeviceState.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-            DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DeviceState");
-            OnPropertyChanged("DeviceStateViewModel");
+			OnPropertyChanged("DeviceStateViewModel");
 		}
 
 		public string PresentationZone
@@ -51,12 +52,22 @@ namespace GKModule.ViewModels
 			return ShowOnPlanHelper.CanShowDevice(Device);
 		}
 
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = Device
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
-        public bool IsBold { get; set; }
+		public bool IsBold { get; set; }
 	}
 }

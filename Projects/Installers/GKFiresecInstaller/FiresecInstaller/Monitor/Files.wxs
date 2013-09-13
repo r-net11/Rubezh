@@ -27,7 +27,6 @@
         <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Monitor.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-        <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
@@ -37,6 +36,9 @@
         <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
@@ -56,6 +58,7 @@
 
       <Component Id="Monitor.GK_MODULE" Guid="7C84F6F3-BFE8-4C60-B062-A126AC9748C7">
         <File Id="Monitor.GKModule.dll" Name="GKModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+        <File Id="Monitor.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">

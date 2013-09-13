@@ -54,11 +54,20 @@ namespace GKModule
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)
 		{
 			AlarmsViewModel.Sort(alarmType);
+		}
+
+		void OnShowArchive(ShowXArchiveEventArgs showXArchiveEventArgs)
+		{
+			if (showXArchiveEventArgs != null)
+			{
+				ArchiveViewModel.Sort(showXArchiveEventArgs);
+			}
 		}
 
 		int _unreadJournalCount;
@@ -116,7 +125,7 @@ namespace GKModule
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,
-					new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+					new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 				};
 		}
 

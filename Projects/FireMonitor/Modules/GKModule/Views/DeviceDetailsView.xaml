@@ -102,22 +102,29 @@
 
 						<ItemsControl ItemsSource="{Binding PlanNames}">
 							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange" Text="План: " />
-										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/map2.png" />
-										<TextBlock>
-											<Hyperlink Command="{Binding DataContext.ShowOnPlanCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Style="{StaticResource HyperlinkStyle2}">
-												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="White" Text="{Binding Caption}" TextWrapping="Wrap" />
-											</Hyperlink>
-										</TextBlock>
-									</StackPanel>
+                                <DataTemplate>
+                                    <TextBlock Margin="2 0">
+                                        <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Source="/Controls;component/Images/map2.png" Margin="1" />
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
+                                            </StackPanel>
+										</Hyperlink>
+									</TextBlock>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
+            <TabItem Header="Параметры" Visibility="{Binding DevicePropertiesViewModel.HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
+                <DataGrid ItemsSource="{Binding DevicePropertiesViewModel.Properties}" CanUserSortColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
 			<TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
 				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding AUParameterValues}">
 					<DataGrid.Columns>
