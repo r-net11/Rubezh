@@ -1,28 +1,26 @@
-﻿using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using Controls;
 using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using GKModule.Plans.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace GKModule.Plans.Designer
 {
 	class XDevicePainter : PointPainter
 	{
-		PresenterItem _presenterItem;
-		XDevice _device;
-		ContextMenu _contextMenu;
+		private PresenterItem _presenterItem;
+		private XDevice Device;
+		private ContextMenu _contextMenu;
+		private XDeviceTooltipViewModel _tooltip;
 
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -31,56 +29,73 @@ namespace GKModule.Plans.Designer
 			var elementXDevice = presenterItem.Element as ElementXDevice;
 			if (elementXDevice != null)
 			{
-				_device = Helper.GetXDevice(elementXDevice);
-				if (_device != null && _device.DeviceState != null)
-					_device.DeviceState.StateChanged += OnPropertyChanged;
+				Device = Helper.GetXDevice(elementXDevice);
+				if (Device != null && Device.DeviceState != null)
+					Device.DeviceState.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_presenterItem.Title = GetDeviceTooltip();
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
+			UpdateTooltip();
 		}
 
 		private void OnPropertyChanged()
 		{
 			if (_presenterItem != null)
 			{
-				_presenterItem.Title = GetDeviceTooltip();
+				UpdateTooltip();
 				_presenterItem.InvalidatePainter();
 				_presenterItem.DesignerCanvas.Refresh();
 			}
 		}
-		private string GetDeviceTooltip()
+		private void UpdateTooltip()
 		{
-			if (_device == null)
-				return null;
-			var stringBuilder = new StringBuilder();
-			stringBuilder.Append(_device.PresentationAddressAndDriver);
-			stringBuilder.Append(" - ");
-			stringBuilder.AppendLine(_device.Driver.ShortName);
-			stringBuilder.AppendLine(_device.DeviceState.StateClass.ToDescription());
+			if (Device == null)
+				return;
 
-			return stringBuilder.ToString().TrimEnd();
+			if (_tooltip == null)
+			{
+				_tooltip = new XDeviceTooltipViewModel();
+				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", Device.PresentationAddressAndDriver, Device.Driver.ShortName).TrimEnd();
+				_tooltip.TitleViewModel.ImageSource = Device.Driver.ImageSource;
+			}
+			_tooltip.StateViewModel.Title = Device.DeviceState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Device.DeviceState.StateClass.ToIconSource();
+			_tooltip.Update();
 		}
 
+		public override object GetToolTip(string title)
+		{
+			return _tooltip;
+		}
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicXBrush(_device);
+			return DevicePictureCache.GetDynamicXBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = Device
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(_device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
 		private ContextMenu CreateContextMenu()
@@ -88,6 +103,7 @@ namespace GKModule.Plans.Designer
 			if (_contextMenu == null)
 			{
 				ShowInTreeCommand = new RelayCommand(OnShowInTree);
+				ShowJournalCommand = new RelayCommand(OnShowJournal);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
@@ -95,6 +111,11 @@ namespace GKModule.Plans.Designer
 				{
 					Header = "Показать в дереве",
 					Command = ShowInTreeCommand
+				});
+				_contextMenu.Items.Add(new MenuItem()
+				{
+					Header = "Показать связанные события",
+					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{

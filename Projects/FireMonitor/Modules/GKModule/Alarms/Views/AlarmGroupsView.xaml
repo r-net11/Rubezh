@@ -24,12 +24,28 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid ToolTip="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}">
+                    <Grid>
                         <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
                         GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
                         IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
                             <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
                         </Controls:AlarmButton>
+                        <Grid.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
+                                <ItemsControl ItemsSource="{Binding Alarms}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Alarm.Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
+                                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 0" />
+                                                <TextBlock Text="{Binding Alarm.ObjectName}" Margin="2 0" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid.ToolTip>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 using Common;
 using DeviceControls;
 using FiresecAPI.Models;
@@ -8,13 +11,17 @@ using GKModule.Plans.InstrumentAdorners;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Plans;
+using Infrastructure.Common;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
-using Infrastructure.Client.Plans;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.Plans
 {
@@ -33,10 +40,12 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(x => { UpdateXDeviceInXZones(); });
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateXDeviceInXZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(x => { UpdateXDeviceInXZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateXDeviceInXZones(); });
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateXDeviceInXZones);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateXDeviceInXZones);
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
@@ -337,9 +346,81 @@ namespace GKModule.Plans
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}
 
-		public void UpdateXDeviceInXZones()
+		public void UpdateXDeviceInXZones(List<ElementBase> items)
 		{
-			///
+			if (IsDeviceInZonesChanged(items))
+			{
+				var deviceInZones = new Dictionary<XDevice, Guid>();
+				using (new WaitWrapper())
+				using (new TimeCounter("\tUpdateXDeviceInZones: {0}"))
+				{
+					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
+					foreach (var designerItem in _designerCanvas.Items)
+					{
+						var elementXDevice = designerItem.Element as ElementXDevice;
+						if (elementXDevice != null)
+						{
+							var xdevice = Designer.Helper.GetXDevice(elementXDevice);
+							if (xdevice == null || xdevice.Driver == null)
+								continue;
+							var point = new Point(elementXDevice.Left, elementXDevice.Top);
+							var zones = new List<IElementZone>();
+							foreach (var pair in geometries)
+								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
+									zones.Add(pair.Value);
+							switch (xdevice.ZoneUIDs.Count)
+							{
+								case 0:
+									if (zones.Count > 0)
+									{
+										var zone = Helper.GetXZone(GetTopZoneUID(zones));
+										if (zone != null)
+											XManager.AddDeviceToZone(xdevice, zone);
+									}
+									break;
+								case 1:
+									var isInZone = zones.Any(x => x.ZoneUID == xdevice.ZoneUIDs[0]);
+									if (!isInZone)
+										deviceInZones.Add(xdevice, GetTopZoneUID(zones));
+									break;
+							}
+						}
+					}
+				}
+				ShowDeviceInZoneChanged(deviceInZones);
+			}
+		}
+		private bool IsDeviceInZonesChanged(List<ElementBase> items)
+		{
+			foreach (var item in items)
+				if (item is ElementXDevice || item is IElementZone)
+					return true;
+			return false;
+		}
+		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
+		{
+			var geometries = new Dictionary<Geometry, IElementZone>();
+			foreach (var designerItem in _designerCanvas.Items)
+			{
+				var elementZone = designerItem.Element as IElementZone;
+				if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
+					geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone);
+			}
+			return geometries;
+		}
+		private Guid GetTopZoneUID(List<IElementZone> zones)
+		{
+			return zones.OrderByDescending(item => item.ZIndex).Select(item => item.ZoneUID).FirstOrDefault();
+		}
+		private void ShowDeviceInZoneChanged(Dictionary<XDevice, Guid> deviceInZones)
+		{
+			if (deviceInZones.Count > 0)
+			{
+				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
+				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
+				if (!result)
+					_designerCanvas.RevertLastAction();
+			}
 		}
 	}
 }

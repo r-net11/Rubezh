@@ -96,7 +96,7 @@ namespace Infrustructure.Plans.Designer
 			if (DesignerSurface != null)
 				DesignerSurface.UpdateZIndex();
 		}
-		public void SetTitle(string title)
+		public void SetTitle(object title)
 		{
 			if (DesignerSurface != null)
 			{
@@ -104,7 +104,7 @@ namespace Infrustructure.Plans.Designer
 				if (toolTip != null)
 					toolTip.IsOpen = false;
 				DesignerSurface.ToolTip = null;
-				if (!string.IsNullOrEmpty(title))
+				if (title != null)
 				{
 					toolTip = new ToolTip();
 					toolTip.Content = title;

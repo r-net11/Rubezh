@@ -7,7 +7,7 @@ namespace AutoHosting
 {
 	public class ViewModel : BaseViewModel
 	{
-		Controller _controller;
+		Controller Controller;
 
 		public ViewModel()
 		{
@@ -47,8 +47,8 @@ namespace AutoHosting
 		public RelayCommand StartCommand { get; private set; }
 		void OnStart()
 		{
-			_controller = new Controller();
-			_controller.Start();
+			Controller = new Controller();
+			Controller.Start();
 			Status = "Running";
 			MessageProcessor.NewMessage += new Action<string>(MessageProcessor_NewMessage);
 		}
@@ -56,10 +56,10 @@ namespace AutoHosting
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			if (_controller != null)
+			if (Controller != null)
 			{
-				_controller.Stop();
-				_controller = null;
+				Controller.Stop();
+				Controller = null;
 			}
 			Status = "Stopped";
 		}

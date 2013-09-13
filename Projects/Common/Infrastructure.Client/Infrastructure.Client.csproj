@@ -59,9 +59,13 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationItem.cs" />
-    <Compile Include="Plans\InstrumentViewModel.cs" />
-    <Compile Include="Plans\IPlanDesignerViewModel.cs" />
-    <Compile Include="Plans\PlanDesignerView.xaml.cs">
+    <Compile Include="Plans\ViewModels\ImageTextTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
+    <Compile Include="Plans\ViewModels\IPlanDesignerViewModel.cs" />
+    <Compile Include="Plans\Views\ImageTextTooltipView.xaml.cs">
+      <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\PlanDesignerView.xaml.cs">
       <DependentUpon>PlanDesignerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\PlanEnumerator.cs" />
@@ -124,7 +128,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Plans\PlanDesignerView.xaml">
+    <Page Include="Plans\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\ImageTextTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\PlanDesignerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

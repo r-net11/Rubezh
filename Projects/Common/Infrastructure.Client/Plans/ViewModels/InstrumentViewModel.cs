@@ -13,6 +13,7 @@ namespace Infrastructure.Client.Plans
 	{
 		public InstrumentViewModel()
 		{
+			Autostart = true;
 			IsActive = true;
 		}
 

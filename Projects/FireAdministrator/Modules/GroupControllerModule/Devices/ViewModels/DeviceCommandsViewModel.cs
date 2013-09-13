@@ -93,13 +93,15 @@ namespace GKModule.Models
 		{
 			if (ValidateConfiguration())
 			{
-				GKDBHelper.AddMessage("Запись конфигурации в приборы", FiresecManager.CurrentUser.Name);
-				BinConfigurationWriter.WriteConfig();
+				GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
+				BinConfigurationWriter.WriteConfig(SelectedDevice.Device);
 			}
 		}
         bool CanWriteConfig()
         {
-            return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
+			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
+				SelectedDevice != null &&
+				SelectedDevice.Device.Driver.DriverType == XDriverType.GK;
         }
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }

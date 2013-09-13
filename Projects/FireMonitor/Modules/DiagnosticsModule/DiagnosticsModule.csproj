@@ -41,6 +41,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="MigraDoc.DocumentObjectModel-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.Rendering-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.Rendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MigraDoc.RtfRendering-WPF">
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.RtfRendering-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp-WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp.Charting-WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -57,6 +76,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\PdfViewerViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\ImitatorViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
@@ -64,6 +84,9 @@
     </Compile>
     <Compile Include="Views\ImitatorView.xaml.cs">
       <DependentUpon>ImitatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PdfViewerView.xaml.cs">
+      <DependentUpon>PdfViewerView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -75,6 +98,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ImitatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PdfViewerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

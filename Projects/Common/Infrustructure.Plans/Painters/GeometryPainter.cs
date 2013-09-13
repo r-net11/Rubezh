@@ -82,6 +82,11 @@ namespace Infrustructure.Plans.Painters
 			return Geometry == null ? false : (Brush != null && Geometry.Bounds.Contains(point) && Geometry.FillContains(point, 0, ToleranceType.Absolute)) || Geometry.StrokeContains(Pen, point, 0, ToleranceType.Absolute);
 		}
 
+		public virtual object GetToolTip(string title)
+		{
+			return string.IsNullOrEmpty(title) ? null : title;
+		}
+
 		#endregion
 	}
 }

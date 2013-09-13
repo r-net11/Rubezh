@@ -9,7 +9,6 @@ namespace FiresecAPI
 	{
 		public GlobalSettings()
 		{
-			FSAgent_UseFS2 = false;
 			RemoteAddress = "localhost";
 			RemotePort = 8000;
 			Login = "adm";
@@ -18,7 +17,6 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			Server_EnableRemoteConnections = false;
-			IsImitatorEnabled = false;
 			Modules =
 				//"DevicesModule.dll" + "\r\n" +
 				"PlansModule.dll" + "\r\n" +
@@ -49,9 +47,6 @@ namespace FiresecAPI
 			Monitor_HaspInfo_Enabled = false;
 
 			Administrator_IsExpertMode = false;
-			Administrator_ShowDirectories = false;
-			Administrator_ShowSimulation = false;
-			Administrator_GroupGKModule = false;
 
 			IgnoredErrors = new List<string>();
 		}
@@ -93,15 +88,7 @@ namespace FiresecAPI
 		public bool Server_EnableRemoteConnections { get; set; }
 
 		[DataMember]
-		public bool IsImitatorEnabled { get; set; }
-
-		[DataMember]
 		public string LibVlcDllsPath { get; set; }
-
-		[DataMember]
-		public bool ForceShutdown { get; set; }
-		[DataMember]
-		public bool FSAgent_UseFS2 { get; set; }
 
 		[DataMember]
 		public string Modules { get; set; }
@@ -119,20 +106,12 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
 		[DataMember]
-		public bool Monitor_DoNotShowZones { get; set; }
-		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]
 		public bool Administrator_IsExpertMode { get; set; }
 		[DataMember]
 		public bool Administrator_HidePlanAlignInstruments { get; set; }
-		[DataMember]
-		public bool Administrator_ShowDirectories { get; set; }
-		[DataMember]
-		public bool Administrator_ShowSimulation { get; set; }
-		[DataMember]
-		public bool Administrator_GroupGKModule { get; set; }
 
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }

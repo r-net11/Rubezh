@@ -9,12 +9,7 @@ namespace Controls.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var stateClass = (XStateClass)value;
-			if (stateClass == XStateClass.Norm)
-				return null;
-			if (stateClass == XStateClass.Off)
-				return null;
-
-			return "/Controls;component/StateClassIcons/" + stateClass.ToString() + ".png";
+			return stateClass.ToIconSource();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

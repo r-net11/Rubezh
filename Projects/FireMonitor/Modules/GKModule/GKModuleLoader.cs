@@ -54,11 +54,20 @@ namespace GKModule
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)
 		{
 			AlarmsViewModel.Sort(alarmType);
+		}
+
+		void OnShowArchive(ShowXArchiveEventArgs showXArchiveEventArgs)
+		{
+			if (showXArchiveEventArgs != null)
+			{
+				ArchiveViewModel.Sort(showXArchiveEventArgs);
+			}
 		}
 
 		int _unreadJournalCount;
@@ -108,7 +117,7 @@ namespace GKModule
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
-			var navigationItems = new List<NavigationItem>()
+			return new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -116,19 +125,8 @@ namespace GKModule
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,
-					new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+					new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 				};
-			if (GlobalSettingsHelper.GlobalSettings.Administrator_GroupGKModule)
-			{
-				return new List<NavigationItem>()
-				{
-					new NavigationItem("ГК", null, navigationItems)
-				};
-			}
-			else
-			{
-				return navigationItems;
-			}
 		}
 
 		public override string Name

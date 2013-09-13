@@ -13,6 +13,8 @@ using Infrastructure.Models;
 using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
 using FiresecClient;
+using Infrastructure.Events;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -39,6 +41,19 @@ namespace GKModule.ViewModels
 		{
 			ArchiveFirstDate = DateTime.Now.AddDays(-1);
 			_isFilterOn = false;
+		}
+
+		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
+		{
+			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+			if (showXArchiveEventArgs.Device != null)
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.UID);
+			if (showXArchiveEventArgs.Zone != null)
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
+			if (showXArchiveEventArgs.Direction != null)
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
+			IsFilterOn = true;
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -132,7 +147,6 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowException(e);
 			}
 		}
-
 
 		public RelayCommand ExportToPdfCommand { get; private set; }
 		private void OnExportToPdfCommand()

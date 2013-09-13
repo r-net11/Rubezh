@@ -22,34 +22,38 @@ namespace GKModule.Plans.ViewModels
 			_elementXDevice = elementDevice;
 			_devicesViewModel = devicesViewModel;
 
-			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in XManager.Devices)
-			{
-				var deviceViewModel = new DeviceViewModel(device);
-				deviceViewModel.IsExpanded = true;
-				Devices.Add(deviceViewModel);
-			}
-			foreach (var device in Devices)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.AddChild(device);
-				}
-			}
-			//BuildTree();
+			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			if (SelectedDevice != null)
+				SelectedDevice.ExpandToThis();
+		}
+		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
-			if (Devices.Count > 0)
-			{
-				CollapseChild(Devices[0]);
-				ExpandChild(Devices[0]);
-			}
-
-			Select(elementDevice.XDeviceUID);
+			foreach (var childDevice in device.Children)
+				AddDeviceInternal(childDevice, deviceViewModel);
+			if (device.UID == _elementXDevice.XDeviceUID)
+				SelectedDevice = deviceViewModel;
+			return deviceViewModel;
 		}
 
-		public List<DeviceViewModel> AllDevices;
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		private DeviceViewModel _rootDevice;
+		public DeviceViewModel RootDevice
+		{
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged(() => RootDevice);
+				OnPropertyChanged(() => RootDevices);
+			}
+		}
+		public DeviceViewModel[] RootDevices
+		{
+			get { return new DeviceViewModel[] { RootDevice }; }
+		}
 
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
@@ -62,63 +66,6 @@ namespace GKModule.Plans.ViewModels
 			}
 		}
 
-		private void BuildTree()
-		{
-			var rootDevice = XManager.DeviceConfiguration.RootDevice;
-			AddDevice(rootDevice, null);
-		}
-		public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.AddChild(deviceViewModel);
-
-			var indexOf = Devices.IndexOf(parentDeviceViewModel);
-			Devices.Insert(indexOf + 1, deviceViewModel);
-
-			if (device != null)
-				foreach (var childDevice in device.Children)
-				{
-					var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-					deviceViewModel.AddChild(childDeviceViewModel);
-				}
-
-			return deviceViewModel;
-		}
-
-		public void FillAllDevices()
-		{
-			AllDevices = new List<DeviceViewModel>();
-			AddChildPlainDevices(Devices[0]);
-		}
-		private void AddChildPlainDevices(DeviceViewModel parentViewModel)
-		{
-			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainDevices(childViewModel);
-		}
-		public void Select(Guid deviceUID)
-		{
-			FillAllDevices();
-
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel != null)
-				deviceViewModel.ExpandToThis();
-			SelectedDevice = deviceViewModel;
-		}
-
-		private void CollapseChild(DeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = false;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-				CollapseChild(deviceViewModel);
-		}
-		private void ExpandChild(DeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = true;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-				ExpandChild(deviceViewModel);
-		}
-
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementXDevice.XDeviceUID;
@@ -126,14 +73,15 @@ namespace GKModule.Plans.ViewModels
 
 			if (deviceUID != _elementXDevice.XDeviceUID)
 				Update(deviceUID);
-			Update(_elementXDevice.XDeviceUID);
+			_devicesViewModel.SelectedDevice = Update(_elementXDevice.XDeviceUID);
 			return base.Save();
 		}
-		private void Update(Guid deviceUID)
+		private DeviceViewModel Update(Guid deviceUID)
 		{
 			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 				device.Update();
+			return device;
 		}
 	}
 }

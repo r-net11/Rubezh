@@ -169,7 +169,6 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			Parent.IsExpanded = false;
 			XManager.RemoveDevice(Parent.Device, Device);
 			var parent = Parent;
 			if (parent != null)

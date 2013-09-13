@@ -12,20 +12,22 @@ namespace GKModule
 {
 	public static class BinConfigurationWriter
 	{
-		public static void WriteConfig()
+		public static void WriteConfig(XDevice gkDevice)
 		{
 			try
 			{
 				DatabaseManager.Convert();
-				var result = Ping();
-				if (!result)
-					return;
 
-				string error = null;
-
-				for (int i = 0; i < 3; i++)
+				var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+				if (gkDatabase != null)
 				{
-					foreach (var gkDatabase in DatabaseManager.GkDatabases)
+					var result = Ping(gkDatabase);
+					if (!result)
+						return;
+
+					string error = null;
+
+					for (int i = 0; i < 3; i++)
 					{
 						var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
@@ -70,17 +72,17 @@ namespace GKModule
 								break;
 							}
 						}
-						if(!GoToWorkingRegime(gkDatabase.RootDevice))
+						if (!GoToWorkingRegime(gkDatabase.RootDevice))
 						{
 							error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
 						return;
 					}
-				}
-				if (error != null)
-				{
-					MessageBoxService.ShowError("Во время записи конфигурации возникла ошибка" + "/n" + error);
+					if (error != null)
+					{
+						MessageBoxService.ShowError("Во время записи конфигурации возникла ошибка" + "/n" + error);
+					}
 				}
 			}
 			catch (Exception e)
@@ -93,25 +95,22 @@ namespace GKModule
 			}
 		}
 
-		static bool Ping()
+		static bool Ping(GkDatabase gkDatabase)
 		{
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			var sendResult = SendManager.Send(gkDatabase.RootDevice, 0, 1, 1);
+			if (sendResult.HasError)
 			{
-				var sendResult = SendManager.Send(gkDatabase.RootDevice, 0, 1, 1);
+				MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
+				return false;
+			}
+
+			foreach (var kauDatabase in gkDatabase.KauDatabases)
+			{
+				sendResult = SendManager.Send(kauDatabase.RootDevice, 0, 1, 1);
 				if (sendResult.HasError)
 				{
-					MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
+					MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
 					return false;
-				}
-
-				foreach (var kauDatabase in gkDatabase.KauDatabases)
-				{
-					sendResult = SendManager.Send(kauDatabase.RootDevice, 0, 1, 1);
-					if (sendResult.HasError)
-					{
-						MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
-						return false;
-					}
 				}
 			}
 			return true;

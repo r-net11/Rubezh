@@ -16,11 +16,11 @@
                             TextWrapping="WrapWithOverflow" AcceptsReturn="True" IsReadOnly="True" />
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Имитатор" Visibility="{Binding IsImitatorEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+            <!--<TabItem Header="Имитатор">
                 <StackPanel>
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="0 2" />
                 </StackPanel>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right">
             <Button Content="Зарегистрировать" Command="{Binding RegisterCommand}" Width="150" Margin="2" />

@@ -13,7 +13,8 @@
             <TabItem Header="Основные">
                 <WrapPanel>
                     <Button Content="Test1" Command="{Binding Test1Command}" Width="250" Margin="2" />
-                </WrapPanel>
+					<Button Content="Test PDF" Command="{Binding TestPdfCommand}" Width="250" Margin="2" />
+				</WrapPanel>
             </TabItem>
         </TabControl>
         <ScrollViewer Grid.Row="1" Margin="2">

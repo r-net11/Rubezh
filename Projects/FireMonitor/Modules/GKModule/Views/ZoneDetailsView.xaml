@@ -26,22 +26,28 @@
 				            </Hyperlink>
                         </TextBlock>
                     </WrapPanel>
-                    <WrapPanel>
+                    <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Foreground="Orange" Margin="2" />
-                        <TextBlock>
-				            <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                <TextBlock Text="{Binding PlanName}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" Margin="2" />
-				            </Hyperlink>
-                        </TextBlock>
-                        <WrapPanel.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PlanName}" Value="{x:Null}" >
-                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </WrapPanel.Style>
+
+                        <ItemsControl ItemsSource="{Binding Plans}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2 0">
+                                        <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Source="/Controls;component/Images/map2.png" Margin="1" />
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
+                                            </StackPanel>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </WrapPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество датчиков для перевода в Пожар 1:" Foreground="Orange" Margin="2" />

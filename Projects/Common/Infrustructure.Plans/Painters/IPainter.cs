@@ -12,5 +12,6 @@ namespace Infrustructure.Plans.Painters
 		void Draw(DrawingContext drawingContext);
 		void Transform();
 		bool HitTest(Point point);
+		object GetToolTip(string title);
 	}
 }

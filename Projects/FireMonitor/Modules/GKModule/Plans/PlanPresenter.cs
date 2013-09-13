@@ -88,46 +88,46 @@ namespace GKModule.Plans
 		{
 		}
 
-		private void OnShowXDeviceOnPlan(XDevice xdevice)
+		private void OnShowXDeviceOnPlan(XDevice device)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementXDevices)
-					if (element.XDeviceUID == xdevice.UID)
+					if (element.XDeviceUID == device.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 		}
-		private void OnShowXZoneOnPlan(XZone xzone)
+		private void OnShowXZoneOnPlan(XZone zone)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleXZones)
-					if (element.ZoneUID == xzone.UID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXZones)
-					if (element.ZoneUID == xzone.UID)
+					if (element.ZoneUID == zone.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 			}
 		}
-		private void OnShowXDirectionOnPlan(XDirection xdirection)
+		private void OnShowXDirectionOnPlan(XDirection direction)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				foreach (var element in plan.ElementRectangleXDirections)
-					if (element.DirectionUID == xdirection.UID)
+					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXDirections)
-					if (element.DirectionUID == xdirection.UID)
+					if (element.DirectionUID == direction.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

@@ -60,23 +60,12 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Margin="2" />
                                 <CheckBox IsChecked="{Binding IsSelected}" Margin="5 2" />
+                                <TextBlock Text="{Binding Name}" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <!--<Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Модули" HorizontalAlignment="Right" Margin="2" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Modules}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
-                </Grid>-->
             </TabItem>
             <TabItem Header="FS1" DataContext="{Binding GlobalSettingsViewModel}">
                 <Grid>

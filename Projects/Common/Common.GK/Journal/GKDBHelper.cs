@@ -46,8 +46,8 @@ namespace Common.GK
 		{
 			var journalItem = new JournalItem()
 			{
-				DeviceDateTime = DateTime.Now,
 				SystemDateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,
@@ -166,6 +166,24 @@ namespace Common.GK
 										query += "\n OR ";
 									index++;
 									query += "Name = '" + eventName + "'";
+								}
+								query += ")";
+							}
+
+							var objectUIDs = new List<Guid>();
+							objectUIDs.AddRange(archiveFilter.DeviceUIDs);
+							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
+							objectUIDs.AddRange(archiveFilter.DirectionUIDs);
+							if (objectUIDs.Count > 0)
+							{
+								int index = 0;
+								query += "\n AND (";
+								foreach (var objectUID in objectUIDs)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "ObjectUID = '" + objectUID + "'";
 								}
 								query += ")";
 							}

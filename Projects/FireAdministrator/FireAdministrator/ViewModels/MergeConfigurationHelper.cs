@@ -85,11 +85,6 @@ namespace FireAdministrator.ViewModels
 				{
 					switch (zipConfigurationItem.Name)
 					{
-						//case "DeviceConfiguration.xml":
-						//    var deviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName);
-						//    MergeDeviceConfiguration(deviceConfiguration);
-						//    break;
-
 						case "XDeviceConfiguration.xml":
 							XDeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
 							break;
@@ -115,6 +110,20 @@ namespace FireAdministrator.ViewModels
 
 		void MergeXDeviceConfiguration()
 		{
+			var maxZoneNo = 0;
+			if (XManager.Zones.Count > 0)
+				maxZoneNo = XManager.Zones.Max(x=>x.No);
+
+			var maxDirectionNo = 0;
+			if (XManager.Directions.Count > 0)
+				maxDirectionNo = XManager.Directions.Max(x => x.No);
+
+
+			if (XDeviceConfiguration == null)
+				XDeviceConfiguration = new XDeviceConfiguration();
+			if (PlansConfiguration == null)
+				PlansConfiguration = new PlansConfiguration();
+
 			XDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 			CreateNewUIDs();
@@ -127,10 +136,12 @@ namespace FireAdministrator.ViewModels
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{
+				zone.No = (ushort)(zone.No + maxZoneNo);
 				XManager.Zones.Add(zone);
 			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
+				direction.No = (ushort)(direction.No + maxDirectionNo);
 				XManager.Directions.Add(direction);
 			}
 
@@ -181,12 +192,12 @@ namespace FireAdministrator.ViewModels
 					for (int i = 0; i < clause.DeviceUIDs.Count; i++)
 					{
 						var deviceUID = clause.DeviceUIDs[i];
-						clause.ZoneUIDs[i] = DeviceUIDs[deviceUID];
+						clause.DeviceUIDs[i] = DeviceUIDs[deviceUID];
 					}
 					for (int i = 0; i < clause.DirectionUIDs.Count; i++)
 					{
 						var directionUID = clause.DirectionUIDs[i];
-						clause.ZoneUIDs[i] = DirectionUIDs[directionUID];
+						clause.DirectionUIDs[i] = DirectionUIDs[directionUID];
 					}
 				}
 			}
@@ -253,24 +264,6 @@ namespace FireAdministrator.ViewModels
 				}
 				device.PlanElementUIDs = uids;
 			}
-			//foreach (var zone in XDeviceConfiguration.Zones)
-			//{
-			//    var uids = new List<Guid>();
-			//    foreach (var planElementUID in zone.PlanElementUIDs)
-			//    {
-			//        uids.Add(PlenElementUIDs[planElementUID]);
-			//    }
-			//    zone.PlanElementUIDs = uids;
-			//}
-			//foreach (var direction in XDeviceConfiguration.Directions)
-			//{
-			//    var uids = new List<Guid>();
-			//    foreach (var planElementUID in direction.PlanElementUIDs)
-			//    {
-			//        uids.Add(PlenElementUIDs[planElementUID]);
-			//    }
-			//    direction.PlanElementUIDs = uids;
-			//}
 
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
@@ -282,52 +275,5 @@ namespace FireAdministrator.ViewModels
 		Dictionary<Guid, Guid> ZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> DirectionUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
-
-		//void MergePlansConfiguration(PlansConfiguration plansConfiguration)
-		//{
-		//    plansConfiguration.Update();
-		//    foreach (var plan in plansConfiguration.Plans)
-		//    {
-		//        FiresecManager.PlansConfiguration.Plans.Add(plan);
-		//    }
-		//}
-
-		//void MergeDeviceConfiguration(DeviceConfiguration deviceConfiguration)
-		//{
-		//    deviceConfiguration.Update();
-		//    foreach (var device in deviceConfiguration.Devices)
-		//        device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-		//    foreach (var device in deviceConfiguration.Devices)
-		//        if (device.Driver != null && (device.Driver.DriverType == DriverType.MS_1 || device.Driver.DriverType == DriverType.MS_2))
-		//            AddDeviceTree(device);
-		//    foreach (var device in deviceConfiguration.Devices)
-		//        if (device.Driver != null && device.Driver.IsPanel)
-		//            AddDeviceTree(device);
-		//    var maxZoneNo = 0;
-		//    if (FiresecManager.Zones.Count > 0)
-		//        maxZoneNo = FiresecManager.Zones.Max(x => x.No);
-		//    var zoneMap = new List<Guid>();
-		//    FiresecManager.Zones.ForEach(zone => zoneMap.Add(zone.UID));
-		//    foreach (var zone in deviceConfiguration.Zones)
-		//        if (!zoneMap.Contains(zone.UID))
-		//        {
-		//            zone.No += maxZoneNo;
-		//            FiresecManager.Zones.Add(zone);
-		//        }
-		//}
-
-		//void AddDeviceTree(Device device)
-		//{
-		//    var hasDevice = FiresecManager.Devices.Any(x => x.GetId() == device.GetId());
-		//    if (!hasDevice)
-		//    {
-		//        var existingParent = FiresecManager.Devices.FirstOrDefault(x => x.GetId() == device.Parent.GetId());
-		//        if (existingParent != null)
-		//        {
-		//            existingParent.Children.Add(device);
-		//        }
-		//    }
-		//}
-
 	}
 }

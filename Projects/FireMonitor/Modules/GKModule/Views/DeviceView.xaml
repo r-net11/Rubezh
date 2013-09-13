@@ -9,8 +9,9 @@
         <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                    <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                    <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события" />
+                    <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
                 </ContextMenu>
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
