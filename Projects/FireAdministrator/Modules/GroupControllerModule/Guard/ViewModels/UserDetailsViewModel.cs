@@ -19,13 +19,7 @@ namespace GKModule.ViewModels
 			if (guardUser == null)
 			{
 				Title = "Создать пользователя";
-				GuardUser = new XGuardUser()
-				{
-					No = 1
-				};
-
-				if (XManager.DeviceConfiguration.GuardUsers.Count != 0)
-					GuardUser.No = XManager.DeviceConfiguration.GuardUsers.Select(x => x.No).Max() + 1;
+				GuardUser = new XGuardUser();
 			}
 			else
 			{

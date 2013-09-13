@@ -9,8 +9,14 @@ namespace XFiresecAPI
 	[DataContract]
 	public class XGuardUser
 	{
+		public XGuardUser()
+		{
+			UID = Guid.NewGuid();
+			ZoneUIDs = new List<Guid>();
+		}
+
 		[DataMember]
-		public int No { get; set; }
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -29,5 +35,10 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool CanUnSetZone { get; set; }
+
+		[DataMember]
+		public List<Guid> ZoneUIDs { get; set; }
+
+		public List<XZone> Zones { get; set; }
 	}
 }

@@ -10,32 +10,32 @@ namespace GKModule.ViewModels
     public class ZoneViewModel : BaseViewModel
     {
 		private VisualizationState _visualizetionState;
-		public XZone XZone { get; set; }
+		public XZone Zone { get; set; }
 
-        public ZoneViewModel(XZone xZone)
+        public ZoneViewModel(XZone zone)
         {
-            XZone = xZone;
+            Zone = zone;
 			Update();
         }
 
 		public string Name
 		{
-			get { return XZone.Name; }
+			get { return Zone.Name; }
 			set
 			{
-				XZone.Name = value;
-				XZone.OnChanged();
+				Zone.Name = value;
+				Zone.OnChanged();
 				OnPropertyChanged("Name");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 		public string Description
 		{
-			get { return XZone.Description; }
+			get { return Zone.Description; }
 			set
 			{
-				XZone.Description = value;
-				XZone.OnChanged();
+				Zone.Description = value;
+				Zone.OnChanged();
 				OnPropertyChanged("Description");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -44,10 +44,10 @@ namespace GKModule.ViewModels
 		{
 			get { return _visualizetionState; }
 		}
-		public void Update(XZone xzone)
+		public void Update(XZone zone)
 		{
-			XZone = xzone;
-			OnPropertyChanged("XZone");
+			Zone = zone;
+			OnPropertyChanged("Zone");
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 			Update();
@@ -55,9 +55,9 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			if (XZone.PlanElementUIDs == null)
-				XZone.PlanElementUIDs = new List<Guid>();
-			_visualizetionState = XZone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (XZone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			if (Zone.PlanElementUIDs == null)
+				Zone.PlanElementUIDs = new List<Guid>();
+			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
 		}
     }

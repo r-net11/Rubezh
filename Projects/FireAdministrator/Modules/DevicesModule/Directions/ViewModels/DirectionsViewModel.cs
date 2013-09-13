@@ -61,7 +61,6 @@ namespace DevicesModule.ViewModels
 		{
 			FiresecManager.Directions.Remove(SelectedDirection.Direction);
 			Directions.Remove(SelectedDirection);
-
 			ServiceFactory.SaveService.FSChanged = true;
 		}
 
@@ -72,11 +71,9 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				SelectedDirection.Update();
-
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
-
 		bool CanEditOrDelete()
 		{
 			return SelectedDirection != null;

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
-	public class GuardViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class GuardViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public GuardViewModel()
 		{
@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 				var userViewModel = new UserViewModel(guardUser);
 				Users.Add(userViewModel);
 			}
+			SelectedUser = Users.FirstOrDefault();
 		}
 
 		public ObservableCollection<UserViewModel> Users { get; private set; }
@@ -60,6 +61,7 @@ namespace GKModule.ViewModels
 				XManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
 				var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);
 				Users.Add(userViewModel);
+				SelectedUser = userViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -67,10 +69,15 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			int oldIndex = Users.IndexOf(SelectedUser);
+
 			XManager.DeviceConfiguration.GuardUsers.Remove(SelectedUser.GuardUser);
 			Users.Remove(SelectedUser);
 			SelectedUser = Users.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
+
+			if (Users.Count > 0)
+				SelectedUser = Users[System.Math.Min(oldIndex, Users.Count - 1)];
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -108,5 +115,13 @@ namespace GKModule.ViewModels
 				}, "/Controls;component/Images/BFilter.png") { Order = 2 }
 			};
 		}
+
+		#region ISelectable<Guid> Members
+		public void Select(Guid userUID)
+		{
+			if (userUID != Guid.Empty)
+				SelectedUser = Users.FirstOrDefault(x => x.GuardUser.UID == userUID);
+		}
+		#endregion
 	}
 }

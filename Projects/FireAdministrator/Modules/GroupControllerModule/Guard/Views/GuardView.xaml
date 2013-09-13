@@ -3,10 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Grid>
-        <Controls:XDataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+        <Controls:XDataGrid Grid.Column="0" Name="_usersDataGrid" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding GuardUser.Name}" Width="*" />
             </DataGrid.Columns>
         </Controls:XDataGrid>
+
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+
+        <Grid Grid.Column="2" DataContext="{Binding SelectedUser}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="200" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" MinHeight="200" Name="bottomRow" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                        <DataGridTextColumn Width="1*" Header="Выбранные зоны" Binding="{Binding Zone.Name}" />
+                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Zone.Description}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
+                    <Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/ArrowUp.png" />
+                    <Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/ArrowDown.png" />
+                </StackPanel>
+            </Grid>
+
+            <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+
+            <Grid Grid.Row="2">
+                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Zone.Name}" />
+                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Zone.Description}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

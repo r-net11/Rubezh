@@ -257,16 +257,14 @@ namespace GKModule.ViewModels
 		}
 
 		#region ISelectable<Guid> Members
-
 		public void Select(Guid directionUID)
 		{
 			if (directionUID != Guid.Empty)
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
-
 		#endregion
 
-		private void RegisterShortcuts()
+		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
@@ -280,7 +278,7 @@ namespace GKModule.ViewModels
 			_lockSelection = false;
 		}
 
-		private void SubscribeEvents()
+		void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
