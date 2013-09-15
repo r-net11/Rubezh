@@ -15,17 +15,15 @@ namespace DiagnosticsModule
 		public override void CreateViewModels()
         {
             ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
-            ServiceFactory.Events.GetEvent<ShowDiagnosticsEvent>().Subscribe(OnShowDiagnostics);
             DiagnosticsViewModel = new DiagnosticsViewModel();
-        }
-
-        void OnShowDiagnostics(object obj)
-        {
-            ServiceFactory.Layout.Show(DiagnosticsViewModel);
         }
 
 		public override void Initialize()
 		{
+		}
+		public override void AfterInitialize()
+		{
+			//DiagnosticsViewModel.TestPdf2Command.Execute();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

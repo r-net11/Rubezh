@@ -14,4 +14,8 @@
 		<Views:PdfViewerView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ReportsViewModel}">
+		<Views:ReportsView />
+	</DataTemplate>
+
 </ResourceDictionary>

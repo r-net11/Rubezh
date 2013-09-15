@@ -14,6 +14,7 @@
                 <WrapPanel>
                     <Button Content="Test1" Command="{Binding Test1Command}" Width="250" Margin="2" />
 					<Button Content="Test PDF" Command="{Binding TestPdfCommand}" Width="250" Margin="2" />
+					<Button Content="Test PDF 2" Command="{Binding TestPdf2Command}" Width="250" Margin="2" />
 				</WrapPanel>
             </TabItem>
         </TabControl>

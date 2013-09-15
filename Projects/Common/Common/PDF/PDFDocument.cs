@@ -34,7 +34,8 @@ namespace Common.PDF
 
 		public void Dispose()
 		{
-			Document.Close();
+			if (!Writer.PageEmpty)
+				Document.Close();
 			DocumentStream.Close();
 		}
 
