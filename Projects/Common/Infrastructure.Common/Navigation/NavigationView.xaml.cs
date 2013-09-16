@@ -33,15 +33,7 @@ namespace Infrastructure.Common.Navigation
 				{
 					CheckPermissions(items);
 					UpdateParent(null, items);
-					int index = 0;
-					while (index < items.Count)
-						if (items[index].IsVisible && items[index].IsSelectionAllowed)
-						{
-							items[index].IsSelected = true;
-							break;
-						}
-						else
-							index++;
+					SelectFirst(items);
 				}
 			}
 		}
@@ -112,6 +104,21 @@ namespace Infrastructure.Common.Navigation
 		private bool HavePermission(NavigationItem item)
 		{
 			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.HasPermission(item.Permission.Value);
+		}
+		private bool SelectFirst(IList<NavigationItem> items)
+		{
+			for (int index = 0; index < items.Count; index++)
+				if (items[index].IsVisible)
+				{
+					if (items[index].IsSelectionAllowed)
+					{
+						items[index].Execute();
+						return true;
+					}
+					else if (SelectFirst(items[index].Childs))
+						return true;
+				}
+			return false;
 		}
 	}
 }
