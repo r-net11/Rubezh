@@ -259,6 +259,18 @@ namespace FiresecClient
 			device.DriverUID = driver.UID;
 			if (driver.IsRangeEnabled)
 				device.IntAddress = driver.MinAddress;
+
+			device.Children.Clear();
+			if (driver.IsGroupDevice)
+			{
+				var groupDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				{
+					var autoDevice = XManager.AddChild(device, groupDriver, device.ShleifNo, (byte)(device.IntAddress + i));
+				}
+			}
+
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);

@@ -181,6 +181,7 @@ namespace FiresecClient
 			foreach (var guardUser in DeviceConfiguration.GuardUsers)
 			{
 				var zoneUIDs = new List<Guid>();
+				guardUser.Zones = new List<XZone>();
 				foreach (var zoneUID in guardUser.ZoneUIDs)
 				{
 					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);

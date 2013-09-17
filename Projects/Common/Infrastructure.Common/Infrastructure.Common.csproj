@@ -192,6 +192,7 @@
     <Compile Include="Services\DragDrop\DragDropService.cs" />
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
+    <Compile Include="Services\ISecurityService.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />

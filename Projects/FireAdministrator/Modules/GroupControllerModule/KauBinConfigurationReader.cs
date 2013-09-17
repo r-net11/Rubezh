@@ -32,12 +32,7 @@ namespace GKModule
 			LoadingService.SaveClose();
 
 			devices.RemoveAll(x => x.Driver.DriverType == XDriverType.GK || x.Driver.DriverType == XDriverType.GKIndicator);
-
-			var deviceConfigurationViewModel = new DeviceConfigurationViewModel(kauDevice, devices);
-			if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
-				return devices;
-			else
-				return null;
+			return devices;
 		}
 
 		static XDevice GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)

@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Collections.ObjectModel;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -157,6 +158,7 @@ namespace GKModule.ViewModels
 		void OnGetDirectionProperties()
 		{
 			ParametersHelper.GetSingleDirectionParameter(XDirection);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand SetDirectionPropertiesCommand { get; private set; }

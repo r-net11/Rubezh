@@ -32,7 +32,7 @@ namespace Common.GK
 		string UserName;
 		[DataMember]
 		int ObjectState;
-		//[DataMember]
+
 		JournalSubsystemType SubsytemType
 		{
 			get
@@ -48,7 +48,7 @@ namespace Common.GK
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
 		[DataMember]
-		public int KAUNo { get; private set; }
+		public int UNUSED_KAUNo { get; private set; }
 
 		[DataMember]
 		byte Day;
@@ -68,20 +68,20 @@ namespace Common.GK
 		DateTime SystemDateTime;
 
 		[DataMember]
-		ushort KAUAddress { get; set; }
+		ushort UNUSED_KAUAddress { get; set; }
 		[DataMember]
 		JournalSourceType Source { get; set; }
 		[DataMember]
 		byte Code { get; set; }
 
 		[DataMember]
-		ushort ObjectNo;
+		ushort UNUSED_ObjectNo;
 		[DataMember]
 		public ushort ObjectDeviceType { get; private set; }
 		[DataMember]
 		public ushort ObjectDeviceAddress { get; private set; }
 		[DataMember]
-		int ObjectFactoryNo;
+		int UNUSED_ObjectFactoryNo;
 
 		[DataMember]
 		public XDevice Device { get; private set; }
@@ -154,7 +154,7 @@ namespace Common.GK
 			GKIpAddress = XManager.GetIpAddress(gkDevice);
 			GKNo = BytesHelper.SubstructInt(bytes, 0);
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
-			KAUNo = BytesHelper.SubstructInt(bytes, 32);
+			UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
 			JournalItemType = JournalItemType.GK;
 			ObjectUID = gkDevice.UID;
@@ -177,7 +177,7 @@ namespace Common.GK
 			}
 			SystemDateTime = DateTime.Now;
 
-			KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+			UNUSED_KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);
 			Code = bytes[32 + 13];
 
@@ -281,10 +281,10 @@ namespace Common.GK
 					break;
 
 				case JournalSourceType.Object:
-					ObjectNo = BytesHelper.SubstructShort(bytes, 32 + 18);
+					UNUSED_ObjectNo = BytesHelper.SubstructShort(bytes, 32 + 18);
 					ObjectDeviceType = BytesHelper.SubstructShort(bytes, 32 + 20);
 					ObjectDeviceAddress = BytesHelper.SubstructShort(bytes, 32 + 22);
-					ObjectFactoryNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+					UNUSED_ObjectFactoryNo = BytesHelper.SubstructInt(bytes, 32 + 24);
 					ObjectState = BytesHelper.SubstructInt(bytes, 32 + 28);
 					switch (Code)
 					{

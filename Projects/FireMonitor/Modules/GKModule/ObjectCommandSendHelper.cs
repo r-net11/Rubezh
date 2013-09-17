@@ -177,7 +177,7 @@ namespace GKModule
 			var result = true;
 			if (mustValidatePassword)
 			{
-				result = ServiceFactory.SecurityService.Validate();
+				result = ServiceFactory.SecurityService != null && ServiceFactory.SecurityService.Validate();
 			}
 			if (result)
 			{

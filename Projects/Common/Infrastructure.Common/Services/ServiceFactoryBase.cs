@@ -10,5 +10,6 @@ namespace Infrastructure.Common.Services
 		public static IResourceService ResourceService { get; protected set; }
 		public static IContentService ContentService { get; protected set; }
 		public static IDragDropService DragDropService { get; protected set; }
+		public static ISecurityService SecurityService { get; protected set; }
 	}
 }

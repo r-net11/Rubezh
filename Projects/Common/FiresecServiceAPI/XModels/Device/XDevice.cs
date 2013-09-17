@@ -28,13 +28,6 @@ namespace XFiresecAPI
 			PumpStationProperty = new XPumpStationProperty();
 		}
 
-		public void OnAUParametersChanged()
-		{
-			if (AUParametersChanged != null)
-				AUParametersChanged();
-		}
-		public event Action AUParametersChanged;
-
 		public XDeviceState DeviceState { get; set; }
 		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }
@@ -396,5 +389,12 @@ namespace XFiresecAPI
 				Changed();
 		}
 		public event Action Changed;
+
+		public void OnAUParametersChanged()
+		{
+			if (AUParametersChanged != null)
+				AUParametersChanged();
+		}
+		public event Action AUParametersChanged;
 	}
 }

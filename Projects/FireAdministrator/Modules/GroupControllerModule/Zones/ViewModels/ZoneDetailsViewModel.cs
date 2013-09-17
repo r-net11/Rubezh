@@ -9,26 +9,26 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XZone XZone;
+		public XZone Zone;
 
-		public ZoneDetailsViewModel(XZone xZone = null)
+		public ZoneDetailsViewModel(XZone zone = null)
 		{
-			if (xZone == null)
+			if (zone == null)
 			{
 				Title = "Создание новой зоны";
 
-				XZone = new XZone()
+				Zone = new XZone()
 				{
 					Name = "Новая зона",
 					No = 1
 				};
 				if (XManager.Zones.Count != 0)
-					XZone.No = (ushort)(XManager.Zones.Select(x => x.No).Max() + 1);
+					Zone.No = (ushort)(XManager.Zones.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
-				Title = string.Format("Свойства зоны: {0}", xZone.PresentationName);
-				XZone = xZone;
+				Title = string.Format("Свойства зоны: {0}", zone.PresentationName);
+				Zone = zone;
 			}
 			CopyProperties();
 
@@ -43,11 +43,11 @@ namespace GKModule.ViewModels
 
 		void CopyProperties()
 		{
-			Name = XZone.Name;
-			No = XZone.No;
-			Description = XZone.Description;
-			Fire1Count = XZone.Fire1Count;
-			Fire2Count = XZone.Fire2Count;
+			Name = Zone.Name;
+			No = Zone.No;
+			Description = Zone.Description;
+			Fire1Count = Zone.Fire1Count;
+			Fire2Count = Zone.Fire2Count;
 		}
 
 		string _name;
@@ -110,17 +110,17 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (XZone.No != No && XManager.Zones.Any(x => x.No == No))
+			if (Zone.No != No && XManager.Zones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;
 			}
 
-			XZone.Name = Name;
-			XZone.No = No;
-			XZone.Description = Description;
-			XZone.Fire1Count = Fire1Count;
-			XZone.Fire2Count = Fire2Count;
+			Zone.Name = Name;
+			Zone.No = No;
+			Zone.Description = Description;
+			Zone.Fire1Count = Fire1Count;
+			Zone.Fire2Count = Fire2Count;
 			return base.Save();
 		}
 	}

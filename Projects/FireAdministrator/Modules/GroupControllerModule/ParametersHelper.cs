@@ -42,7 +42,6 @@ namespace GKModule
 				finally
 				{
 					LoadingService.Close();
-					ServiceFactory.SaveService.GKChanged = true;
 				}
 			}
 		}
@@ -134,7 +133,6 @@ namespace GKModule
 						var result = GetDeviceParameters(commonDatabase, binaryObject);
 						if (!result)
 						{
-							//MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.PresentationDriverAndAddress);
 							ErrorLog += "\n" + device.PresentationDriverAndAddress;
 						}
 					}
@@ -143,10 +141,6 @@ namespace GKModule
 			catch (Exception e)
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
-			}
-			finally
-			{
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -214,11 +208,7 @@ namespace GKModule
 					}
 				}
 			}
-			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
-			if (deviceViewModel != null)
-			{
-				deviceViewModel.UpdateProperties();
-			}
+			binaryObject.Device.OnAUParametersChanged();
 			return true;
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
@@ -364,10 +354,6 @@ namespace GKModule
 			catch (Exception e)
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
-			}
-			finally
-			{
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 		static bool GetDirectionParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject, XDirection direction)

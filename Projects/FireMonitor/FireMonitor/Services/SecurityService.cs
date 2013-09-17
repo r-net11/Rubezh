@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 
 namespace FireMonitor
 {

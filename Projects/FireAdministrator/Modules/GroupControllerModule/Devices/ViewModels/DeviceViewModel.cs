@@ -49,6 +49,7 @@ namespace GKModule.ViewModels
 
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
+			device.AUParametersChanged += () => { UpdateProperties(); };
 		}
 
 		void OnChanged()
@@ -383,12 +384,20 @@ namespace GKModule.ViewModels
 				if (Device.Driver.DriverType != value.DriverType)
 				{
 					XManager.ChangeDriver(Device, value);
+					this.Nodes.Clear();
+					foreach (var childDevice in Device.Children)
+					{
+						DevicesViewModel.Current.AddDevice(childDevice, this);
+					}
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
-					OnPropertyChanged("PresentationZone");
+					OnPropertyChanged("Device");
+					OnPropertyChanged("Children");
 					OnPropertyChanged("EditingPresentationZone");
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
+					XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+					XManager.DeviceConfiguration.Update();
 					Update();
 					ServiceFactory.SaveService.GKChanged = true;
 				}
@@ -437,8 +446,8 @@ namespace GKModule.ViewModels
 
 			if (driver.IsAutoCreate)
 				return false;
-			if (driver.IsGroupDevice)
-				return false;
+			//if (driver.IsGroupDevice)
+			//    return false;
 			if (Device.Parent.Driver.IsGroupDevice)
 				return false;
 			return driver.IsDeviceOnShleif;
@@ -465,6 +474,7 @@ namespace GKModule.ViewModels
 		{
 			DatabaseManager.Convert();
 			ParametersHelper.GetSingleParameter(Device);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand SetAUPropertiesCommand { get; private set; }

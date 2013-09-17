@@ -28,6 +28,7 @@ namespace ManagementConsole
 			Modules = new List<ModuleViewModel>();
 			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
 			Modules.Add(new ModuleViewModel("PlansModule.dll"));
+			Modules.Add(new ModuleViewModel("PlansModule.Kursk.dll"));
 			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
 			Modules.Add(new ModuleViewModel("SecurityModule.dll"));
 			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
@@ -42,6 +43,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
+			Modules.Add(new ModuleViewModel("SkudModule.dll"));
 
 			var modulesString = GlobalSettingsHelper.GlobalSettings.Modules.Split('\r', '\n');
 			foreach (var moduleName in modulesString)

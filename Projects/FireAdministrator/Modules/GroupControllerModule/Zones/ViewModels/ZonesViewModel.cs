@@ -100,8 +100,8 @@ namespace GKModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				XManager.AddZone(zoneDetailsViewModel.XZone);
-                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.XZone);
+				XManager.AddZone(zoneDetailsViewModel.Zone);
+                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
                 SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
@@ -140,7 +140,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
 				XManager.EditZone(SelectedZone.Zone);
-                SelectedZone.Update(zoneDetailsViewModel.XZone);
+                SelectedZone.Update(zoneDetailsViewModel.Zone);
                 ServiceFactory.SaveService.GKChanged = true;
             }
         }
@@ -156,8 +156,8 @@ namespace GKModule.ViewModels
             else
             {
                 createZoneEventArg.Cancel = false;
-                createZoneEventArg.ZoneUID = result.XZone.UID;
-				createZoneEventArg.Zone = result.XZone;
+                createZoneEventArg.ZoneUID = result.Zone.UID;
+				createZoneEventArg.Zone = result.Zone;
             }
         }
         public void EditZone(Guid zoneUID)

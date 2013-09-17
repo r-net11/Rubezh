@@ -60,8 +60,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsSelected}" Margin="5 2" />
-                                <TextBlock Text="{Binding Name}" Margin="2" />
+                                <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Name}" Margin="5 2" />
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
