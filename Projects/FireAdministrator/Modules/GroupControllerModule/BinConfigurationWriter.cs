@@ -31,7 +31,7 @@ namespace GKModule
 					{
 						var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
-						LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryObjectsCount);
+						LoadingService.ShowWithCancel("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryObjectsCount);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
@@ -39,7 +39,13 @@ namespace GKModule
 							error = "Не удалось перевести ГК в технологический режим";
 							break;
 						}
+						if (LoadingService.IsCanceled)
+							return;
+
 						EraseDatabase(gkDatabase.RootDevice);
+
+						if (LoadingService.IsCanceled)
+							return;
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
@@ -49,8 +55,18 @@ namespace GKModule
 								error = "Не удалось перевести КАУ в технологический режим";
 								break;
 							}
+
+							if (LoadingService.IsCanceled)
+								return;
+
 							EraseDatabase(kauDatabase.RootDevice);
+
+							if (LoadingService.IsCanceled)
+								return;
+
 							var writeResult = WriteConfigToDevice(kauDatabase);
+							if (LoadingService.IsCanceled)
+								return;
 							if (!writeResult)
 							{
 								error = "Не удалось записать дескриптор КАУ";
@@ -58,6 +74,8 @@ namespace GKModule
 							}
 						}
 						var writeResult2 = WriteConfigToDevice(gkDatabase);
+						if (LoadingService.IsCanceled)
+							return;
 						if (!writeResult2)
 						{
 							error = "Не удалось записать дескриптор ГК";
@@ -120,6 +138,9 @@ namespace GKModule
 		{
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
 			{
+				if (LoadingService.IsCanceled)
+					return false;
+
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
 					binaryObject.BinaryBase.GetBinaryDescription() + " " +
 					"(" + binaryObject.GetNo().ToString() + ")" +

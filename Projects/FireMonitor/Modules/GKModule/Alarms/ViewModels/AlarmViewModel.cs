@@ -318,14 +318,6 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.On) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.TurningOn))
 				{
-					//var code = 0x80;
-					//if (Alarm.Device.DeviceState.States.Contains(XStateType.Norm))
-					//    code += (int)XStateType.TurnOff_InAutomatic;
-					//else
-					//    code += (int)XStateType.TurnOff_InManual;
-					//ObjectCommandSendHelper.SendControlCommand(Alarm.Device, (byte)code);
-					//JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, Alarm.Device);
-
 					ObjectCommandSendHelper.TurnOffDeviceAnyway(Alarm.Device);
 				}
 			}
@@ -333,14 +325,6 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.On) || Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn))
 				{
-					//var code = 0x80;
-					//if (Alarm.Direction.DirectionState.States.Contains(XStateType.Norm))
-					//    code += (int)XStateType.TurnOff_InAutomatic;
-					//else
-					//    code += (int)XStateType.TurnOff_InManual;
-					//ObjectCommandSendHelper.SendControlCommand(Alarm.Direction, (byte)code);
-					//JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, Alarm.Direction);
-
 					ObjectCommandSendHelper.TurnOffDirectionAnyway(Alarm.Direction);
 				}
 			}
@@ -375,7 +359,9 @@ namespace GKModule.ViewModels
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				Zone = Alarm.Zone
+				Device = Alarm.Device,
+				Zone = Alarm.Zone,
+				Direction = Alarm.Direction
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}

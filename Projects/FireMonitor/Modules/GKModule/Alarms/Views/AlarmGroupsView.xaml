@@ -32,14 +32,13 @@
                         </Controls:AlarmButton>
                         <Grid.ToolTip>
                             <StackPanel>
-                                <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
+                                <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" Margin="2 1" />
                                 <ItemsControl ItemsSource="{Binding Alarms}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Alarm.Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
-                                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 0" />
-                                                <TextBlock Text="{Binding Alarm.ObjectName}" Margin="2 0" />
+                                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 1" />
+                                                <TextBlock Text="{Binding ObjectName}" Margin="2 1" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

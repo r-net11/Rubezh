@@ -73,6 +73,7 @@ namespace GKModule.Plans.Designer
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
 				case XStateClass.ConnectionLost:
 					return Colors.DarkGray;
 
