@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Common;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
+using Infrastructure.Client.Plans;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using Infrastructure.Client.Plans;
-using PlansModule.Kursk.ViewModels;
-using PlansModule.Kursk.InstrumentAdorners;
-using XFiresecAPI;
 using PlansModule.Kursk.Designer;
+using PlansModule.Kursk.InstrumentAdorners;
+using PlansModule.Kursk.ViewModels;
 
 namespace PlansModule.Kursk
 {

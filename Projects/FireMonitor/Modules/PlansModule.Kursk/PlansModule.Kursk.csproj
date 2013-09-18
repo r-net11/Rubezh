@@ -62,7 +62,6 @@
     <Compile Include="PlanMonitor.cs" />
     <Compile Include="PlanPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShuvStateHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">

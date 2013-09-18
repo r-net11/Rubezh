@@ -1,12 +1,9 @@
-﻿using System.Windows.Media;
-using System.Windows.Shapes;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
-using PlansModule.Kursk.ViewModels;
 using PlansModule.Kursk.Designer;
+using PlansModule.Kursk.ViewModels;
 
 namespace PlansModule.Kursk.InstrumentAdorners
 {
