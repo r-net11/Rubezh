@@ -19,36 +19,48 @@ namespace GKModule.Views
 			{
 				var dataContext = DataContext as JournalViewModel;
 
-				if (dataContext.ShowSubsystem)
-					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Visible;
-				else
-					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Collapsed;
-
-				if (!dataContext.IsManyGK)
+				if (dataContext.IsManyGK)
 				{
-					if (dataContext.ShowIp)
-						dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Visible;
-					else
-						dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Collapsed;
+					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Visible;
+				}
+				else
+				{
+					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Collapsed;
 				}
 			}
 			else
 			{
 				var dataContext = DataContext as ArchiveViewModel;
 
-				if (dataContext.ShowSubsystem)
-					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Visible;
-				else
-					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Collapsed;
-
-				if (!dataContext.IsManyGK)
+				if (dataContext.IsManyGK)
 				{
-					if (dataContext.ShowIp)
-						dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Visible;
-					else
-						dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Collapsed;
+					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Visible;
+				}
+				else
+				{
+					dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Collapsed;
 				}
 			}
+		}
+
+		void CheckBox_ShowSubsystem_Checked(object sender, System.Windows.RoutedEventArgs e)
+		{
+			dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Visible;
+		}
+
+		void CheckBox_ShowSubsystem_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+		{
+			dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Подсистема").Visibility = System.Windows.Visibility.Collapsed;
+		}
+
+		void CheckBox_ShowIp_Checked(object sender, System.Windows.RoutedEventArgs e)
+		{
+			dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Visible;
+		}
+
+		void CheckBox_ShowIp_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+		{
+			dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "Ip-адрес ГК").Visibility = System.Windows.Visibility.Collapsed;
 		}
 	}
 }

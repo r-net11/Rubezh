@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
                 <DataGrid.Columns>
@@ -99,12 +99,16 @@
                 </DataGrid.CellStyle>
             </DataGrid>
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
+            <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked"/>
+            <CheckBox Content="Показывать Ip" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -120,7 +124,7 @@
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Состояния" />
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Класс состояния" />
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Объект" />
-
+                
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
