@@ -61,7 +61,40 @@ namespace GKModule.ViewModels
             }
         }
 
-        void OnNewJournal(List<JournalItem> journalItems)
+		bool _showSubsystem;
+		public bool ShowSubsystem
+		{
+			get { return _showSubsystem; }
+			set
+			{
+				Journals.ForEach(x => x.ShowSubsystem = value);
+				_showSubsystem = value;
+				UpdateSelectedJournal();
+				OnPropertyChanged("ShowSubsystem");
+			}
+		}
+
+		bool _showIp;
+		public bool ShowIp
+		{
+			get { return _showIp; }
+			set
+			{
+				Journals.ForEach(x => x.ShowIp = value);
+				_showIp = value;
+				UpdateSelectedJournal();
+				OnPropertyChanged("ShowIp");
+			}
+		}
+
+		void UpdateSelectedJournal()
+		{
+			var selectedJournal = SelectedJournal;
+			SelectedJournal = null;
+			SelectedJournal = selectedJournal;
+		}
+		
+		void OnNewJournal(List<JournalItem> journalItems)
         {
             foreach (var journalItem in journalItems)
             {

@@ -8,11 +8,15 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
+			if (!(value is XStateBit))
+				return null;
+
 			var stateType = (XStateBit)value;
+
 			if (stateType == XStateBit.Norm)
 				return null;
 
-			return "/Controls;component/GKIcons/" + stateType.ToString() + ".png";
+			return "/Controls;component/StateClassIcons/" + stateType.ToString() + ".png";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

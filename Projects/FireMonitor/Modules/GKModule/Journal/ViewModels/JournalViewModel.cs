@@ -33,6 +33,28 @@ namespace GKModule.ViewModels
 			get	{ return XManager.IsManyGK(); }
 		}
 
+		bool _showSubsystem;
+		public bool ShowSubsystem
+		{
+			get { return _showSubsystem; }
+			set
+			{
+				_showSubsystem = value;
+				OnPropertyChanged("ShowSubsystem");
+			}
+		}
+
+		bool _showIp;
+		public bool ShowIp
+		{
+			get { return _showIp; }
+			set
+			{
+				_showIp = value;
+				OnPropertyChanged("ShowIp");
+			}
+		}
+
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{

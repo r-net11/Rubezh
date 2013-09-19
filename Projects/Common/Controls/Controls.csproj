@@ -1138,6 +1138,78 @@
   <ItemGroup>
     <Resource Include="Images\PC.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\map_black.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BAddChild.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BLogic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BPasteAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BBriefcaseAll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\writeconfig_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\readconfig_all.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMoveBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMoveBackward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMoveForward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMoveFront.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-hori-center.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-hori-left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-hori-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-verti-bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-verti-middle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bshapes-align-verti-top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BFolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTurnOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BSetIgnore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BTurnOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BResetIgnore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BReset.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

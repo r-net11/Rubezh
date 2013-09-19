@@ -30,8 +30,22 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить устройство" Command="{Binding AddDeviceCommand}" />
-                    <MenuItem Header="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
+                        <MenuItem Command="{Binding AddDeviceCommand}" >
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" Text="Добавить устройство" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem Command="{Binding RemoveDeviceCommand}">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" Text="Удалить устройство" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
@@ -56,8 +70,22 @@
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Добавить состояние" Command="{Binding AddStateCommand}" />
-                        <MenuItem Header="Удалить состояние" Command="{Binding RemoveStateCommand}" />
+                        <MenuItem Command="{Binding AddStateCommand}" >
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" Text="Добавить состояние" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem Command="{Binding RemoveStateCommand}">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" Text="Удалить состояние" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
@@ -83,8 +111,22 @@
                                 <TextBlock Text="{Binding Frame.Id}" />
                                 <StackPanel.ContextMenu>
                                     <ContextMenu ContextMenuOpening="OnContextMenuOpening">
-                                        <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр" />
-                                        <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр" />
+                                        <MenuItem Command="{Binding AddFrameCommand}" >
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="2" Text="Добавить кадр" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding RemoveFrameCommand}">
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="2" Text="Удалить кадр" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
                             </StackPanel>

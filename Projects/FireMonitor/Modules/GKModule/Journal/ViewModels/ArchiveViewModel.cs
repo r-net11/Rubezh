@@ -213,6 +213,28 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		bool _showSubsystem;
+		public bool ShowSubsystem
+		{
+			get { return _showSubsystem; }
+			set
+			{
+				_showSubsystem = value;
+				OnPropertyChanged("ShowSubsystem");
+			}
+		}
+
+		bool _showIp;
+		public bool ShowIp
+		{
+			get { return _showIp; }
+			set
+			{
+				_showIp = value;
+				OnPropertyChanged("ShowIp");
+			}
+		}
+
 		public void Update(bool abortRunnig = true)
 		{
 			if (abortRunnig)

@@ -203,9 +203,30 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu>
-                    <MenuItem Header="Добавить (Ctrl+N)" Command="{Binding AddCommand}" />
-                    <MenuItem Header="Удалить (Ctrl+Del)" Command="{Binding DeleteCommand}" />
-                    <MenuItem Header="Редактировать (Ctrl+E)" Command="{Binding EditCommand}" />
+                    <MenuItem Command="{Binding AddCommand}" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Добавить (Ctrl+N)" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding DeleteCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Удалить (Ctrl+Del)" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding EditCommand}" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Редактировать (Ctrl+E)" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </ContextMenu>
             </Setter.Value>
         </Setter>
