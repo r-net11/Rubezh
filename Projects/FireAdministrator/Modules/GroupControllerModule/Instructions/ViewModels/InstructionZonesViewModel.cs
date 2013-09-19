@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.XZone.UID);
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.UID);
                     if (instructionZone != Guid.Empty)
                         InstructionZones.Add(zoneViewModel);
                     else
@@ -152,7 +152,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			InstructionZonesList = new List<Guid>(from zone in InstructionZones select zone.XZone.UID);
+			InstructionZonesList = new List<Guid>(from zone in InstructionZones select zone.Zone.UID);
 			return base.Save();
 		}
     }

@@ -17,7 +17,8 @@ namespace GKModule.ViewModels
 		{
 			RealParentDevice = ParentDevice.KAURSR2Parent;
 
-			foreach (var driver in XManager.Drivers)
+			var sortedDrivers = SortDrivers();
+			foreach (var driver in sortedDrivers)
 			{
 				if (RealParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);

@@ -8,16 +8,16 @@ using PdfSharp.Pdf.IO;
 
 namespace DiagnosticsModule.ViewModels
 {
-    public class PdfViewerViewModel : DialogViewModel
-    {
+	public class PdfViewerViewModel : DialogViewModel
+	{
 		public PdfViewerViewModel()
-        {
+		{
 			CreatePdfCommand = new RelayCommand(OnCreatePdfCommand);
-        }
+		}
 
 		public RelayCommand CreatePdfCommand { get; private set; }
 		private void OnCreatePdfCommand()
-        {
+		{
 			//DocumentPreview dp;
 			//var document = PdfReader.Open(@"d:\Downloads\MigraDoc\samples\Samples C#\Based on WPF\DocumentViewer\bin\Debug\test.pdf");
 			////Document doc = SampleDocuments.CreateSample1();
@@ -34,6 +34,5 @@ namespace DiagnosticsModule.ViewModels
 				OnPropertyChanged(() => Ddl);
 			}
 		}
-		
-    }
+	}
 }

@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
 			FillAllDevices();
 			return deviceViewModel;
 		}
-		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)

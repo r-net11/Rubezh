@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -35,6 +36,36 @@ namespace GKModule.ViewModels
 				_count = value;
 				OnPropertyChanged("Count");
 			}
+		}
+
+		protected List<XDriver> SortDrivers()
+		{
+			var driverCounters = new List<DriverCounter>();
+			foreach (var driver in XManager.Drivers)
+			{
+				var driverCounter = new DriverCounter()
+				{
+					Driver = driver,
+					Count = 0
+				};
+				driverCounters.Add(driverCounter);
+			}
+			foreach (var device in XManager.Devices)
+			{
+				var driverCounter = driverCounters.FirstOrDefault(x => x.Driver == device.Driver);
+				if (driverCounter != null)
+				{
+					driverCounter.Count++;
+				}
+			}
+			var sortedDrivers = from DriverCounter driverCounter in driverCounters orderby driverCounter.Count descending select driverCounter.Driver;
+			return sortedDrivers.ToList();
+		}
+
+		class DriverCounter
+		{
+			public XDriver Driver { get; set; }
+			public int Count { get; set; }
 		}
 	}
 }

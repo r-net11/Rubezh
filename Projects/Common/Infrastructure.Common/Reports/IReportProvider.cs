@@ -1,4 +1,5 @@
-﻿
+﻿using iTextSharp.text;
+
 namespace Infrastructure.Common.Reports
 {
 	public interface IReportProvider
@@ -6,5 +7,7 @@ namespace Infrastructure.Common.Reports
 		string Template { get; }
 		string Title { get; }
 		bool IsEnabled { get; }
+
+		IReportPdfProvider PdfProvider { get; }
 	}
 }

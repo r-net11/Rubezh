@@ -3,19 +3,27 @@ using CodeReason.Reports;
 using FiresecClient;
 using Infrastructure.Common.Reports;
 using XFiresecAPI;
+using iTextSharp.text.pdf;
+using Common.PDF;
+using iTextSharp.text;
 
 namespace GKModule.Reports
 {
 	internal class DriverCounterReport : ISingleReportProvider
 	{
+		public DriverCounterReport()
+		{
+			PdfProvider = new DriverCounterReportPdf();
+		}
+
 		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
 
-			DataTable table = new DataTable("Devices");
-			table.Columns.Add("Driver");
-			table.Columns.Add("Count");
+			var table = new DataTable("Devices");
+			table.Columns.Add("Driver", typeof(string));
+			table.Columns.Add("Count", typeof(int));
 			foreach (var driver in XManager.DriversConfiguration.XDrivers)
 			{
 				if (driver.IsAutoCreate || driver.DriverType == XDriverType.System)
@@ -23,6 +31,7 @@ namespace GKModule.Reports
 				AddDrivers(driver, table);
 			}
 			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -35,13 +44,15 @@ namespace GKModule.Reports
 
 		public string Title
 		{
-            get { return "Количество устройств по типам"; }
+			get { return "Количество устройств по типам"; }
 		}
 
 		public bool IsEnabled
 		{
 			get { return true; }
 		}
+
+		public IReportPdfProvider PdfProvider { get; private set; }
 		#endregion
 
 		private void AddDrivers(XDriver driver, DataTable table)

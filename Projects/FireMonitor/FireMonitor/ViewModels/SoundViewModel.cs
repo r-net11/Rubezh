@@ -18,16 +18,16 @@ namespace FireMonitor.ViewModels
 	{
 		public SoundViewModel()
 		{
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnStateChanged);
+			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
+			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			CurrentStateClass = XStateClass.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
-			OnDevicesStateChanged(Guid.Empty);
+			OnStateChanged(Guid.Empty);
 		}
 
 		public XStateClass CurrentStateClass { get; private set; }
@@ -58,7 +58,7 @@ namespace FireMonitor.ViewModels
 			get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
 		}
 
-		public void OnDevicesStateChanged(object obj)
+		public void OnStateChanged(object obj)
 		{
 			var minState = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)GetMinGKStateClass());
 

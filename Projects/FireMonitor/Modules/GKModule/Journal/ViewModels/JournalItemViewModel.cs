@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 		public XDirectionState DirectionState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
-		
+
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 					PresentationName = JournalItem.UserName;
 					break;
 			}
-			
+
 
 			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 			var stringBuilder = new StringBuilder();
@@ -98,37 +98,29 @@ namespace GKModule.ViewModels
 				{
 					case JournalItemType.Device:
 						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (device != null)
-							return device.Driver.ImageSource;
-						return "/Controls;component/StateClassIcons/Off.png";
-
+						return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
 					case JournalItemType.Zone:
 						return "/Controls;component/Images/zone.png";
-
 					case JournalItemType.Direction:
 						return "/Controls;component/Images/Blue_Direction.png";
-
 					case JournalItemType.GK:
 						return "/Controls;component/GKIcons/GK.png";
-
 					case JournalItemType.User:
 						return "/Controls;component/Images/Chip.png";
-
 					case JournalItemType.System:
 						return "/Controls;component/Images/PC.png";
-
 					default:
 						return "/Controls;component/StateClassIcons/Off.png";
 				}
 			}
 		}
-		
+
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
 		void OnShowObjectOrPlan()
 		{
 			if (CanShowOnPlan())
 				OnShowOnPlan();
-			else if(CanShowObject())
+			else if (CanShowObject())
 				OnShowObject();
 		}
 

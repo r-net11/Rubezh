@@ -31,10 +31,6 @@ namespace GKModule
 			}
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ApplicationService.Restarting += new Action(ApplicationService_Restarting);
-
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
-			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
-			AutoActivationWatcher.Run();
 			TimeSynchronisationHelper.Start();
 			LifeTimeWatcher.Start();
 		}
@@ -79,18 +75,6 @@ namespace GKModule
 			else
 			{
 				Logger.Error("JournalWatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
-			}
-		}
-
-		public static void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
-		{
-			if (userChangedEventArgs.IsReconnect)
-			{
-				JournaActionlHelper.Add("Смена пользователя", userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
-			}
-			else
-			{
-				JournaActionlHelper.Add("Вход пользователя в систему", "");
 			}
 		}
 	}

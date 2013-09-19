@@ -82,6 +82,11 @@ namespace DevicesModule.Reports
 			get { return FiresecManager.Devices.Any(x => (x.Driver.DriverType == DriverType.IndicationBlock)); }
 		}
 
+		public IReportPdfProvider PdfProvider
+		{
+			get { return null; }
+		}
+
 		#endregion
 	}
 }

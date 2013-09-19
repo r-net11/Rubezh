@@ -238,6 +238,7 @@ namespace GKModule.ViewModels
 			if (ParametersHelper.ErrorLog != "")
 				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
 			FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства ", 0);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 

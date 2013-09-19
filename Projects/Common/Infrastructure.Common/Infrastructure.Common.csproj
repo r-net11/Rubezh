@@ -82,6 +82,16 @@
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\..\3rdParty\DotNetZipLib-DevKit-v1.9\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -169,6 +179,7 @@
     <Compile Include="LoadHelper\ServerLoadHelper.cs" />
     <Compile Include="RelayCommand\DisabledRelayCommand.cs" />
     <Compile Include="RelayCommand\RelayCommandProvider.cs" />
+    <Compile Include="Reports\IReportPdfProvider.cs" />
     <Compile Include="Ribbon\RibbonButton.cs" />
     <Compile Include="Ribbon\RibbonMenuItemViewModel.cs" />
     <Compile Include="Ribbon\RibbonMenuViewModel.cs" />
@@ -181,6 +192,7 @@
     <Compile Include="Services\DragDrop\DragDropService.cs" />
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
+    <Compile Include="Services\ISecurityService.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />

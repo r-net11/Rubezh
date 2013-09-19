@@ -23,6 +23,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			Test1Command = new RelayCommand(OnTest1);
 			TestPdfCommand = new RelayCommand(OnTestPdfCommand);
+			TestPdf2Command = new RelayCommand(OnTestPdf2Command);
 		}
 
 		public void StopThreads()
@@ -60,7 +61,13 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestPdfCommand { get; private set; }
 		void OnTestPdfCommand()
 		{
-			DialogService.ShowModalWindow(new PdfViewerViewModel());
+			DialogService.ShowWindow(new PdfViewerViewModel());
+		}
+
+		public RelayCommand TestPdf2Command { get; private set; }
+		void OnTestPdf2Command()
+		{
+			DialogService.ShowWindow(new ReportsViewModel());
 		}
 	}
 }

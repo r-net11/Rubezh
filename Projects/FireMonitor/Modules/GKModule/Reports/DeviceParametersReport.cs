@@ -7,18 +7,25 @@ using CodeReason.Reports;
 using System.Data;
 using FiresecClient;
 using FiresecAPI;
+using iTextSharp.text.pdf;
+using Common.PDF;
+using iTextSharp.text;
 
 namespace GKModule.Reports
 {
 	internal class DeviceParametersReport : ISingleReportProvider
 	{
-		#region ISingleReportProvider Members
+		public DeviceParametersReport()
+		{
+			PdfProvider = new DeviceParametersReportPdf();
+		}
 
+		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
 
-			DataTable table = new DataTable("Devices");
+			var table = new DataTable("Devices");
 			table.Columns.Add("Type");
 			table.Columns.Add("Address");
 			table.Columns.Add("Zone");
@@ -39,7 +46,8 @@ namespace GKModule.Reports
 
 					if (device.Driver.HasZone)
 					{
-						zonePresentationName = XManager.GetPresentationZone(device); ;
+						zonePresentationName = XManager.GetPresentationZone(device);
+						;
 					}
 
 					var deviceState = device.DeviceState;
@@ -52,6 +60,7 @@ namespace GKModule.Reports
 				}
 			}
 			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -71,6 +80,9 @@ namespace GKModule.Reports
 		{
 			get { return true; }
 		}
+
+		public IReportPdfProvider PdfProvider { get; private set; }
+
 		#endregion
 	}
 }

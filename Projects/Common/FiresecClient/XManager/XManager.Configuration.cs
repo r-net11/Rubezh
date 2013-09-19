@@ -15,6 +15,7 @@ namespace FiresecClient
 			InitializeDevicesInZone();
 			InitializeLogic();
 			InitializeDirections();
+			InitializeGuardUsers();
 			UpdateGKChildrenDescription();
 		}
 
@@ -172,6 +173,25 @@ namespace FiresecClient
 					}
 				}
 				direction.DirectionZones = directionZones;
+			}
+		}
+
+		static void InitializeGuardUsers()
+		{
+			foreach (var guardUser in DeviceConfiguration.GuardUsers)
+			{
+				var zoneUIDs = new List<Guid>();
+				guardUser.Zones = new List<XZone>();
+				foreach (var zoneUID in guardUser.ZoneUIDs)
+				{
+					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						guardUser.Zones.Add(zone);
+						zoneUIDs.Add(zoneUID);
+					}
+				}
+				guardUser.ZoneUIDs = zoneUIDs;
 			}
 		}
 

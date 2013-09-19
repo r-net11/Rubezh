@@ -119,7 +119,8 @@ namespace GKModule.Models
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
 				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
-				if (remoteDevices != null)
+				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(device, remoteDevices);
+				if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
 				{
 					XManager.UpdateConfiguration();
 					SelectedDevice.CollapseChildren();
@@ -153,6 +154,7 @@ namespace GKModule.Models
 		void OnGetAllParameters()
 		{
 			ParametersHelper.GetAllParameters();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand SetAllParametersCommand { get; private set; }
@@ -170,6 +172,7 @@ namespace GKModule.Models
 		{
 			DatabaseManager.Convert();
 			ParametersHelper.GetSingleParameter(SelectedDevice.Device);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
         public RelayCommand SetSingleParameterCommand { get; private set; }

@@ -6,6 +6,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Controls.Converters;
+using iTextSharp.text.pdf;
+using Common.PDF;
+using iTextSharp.text;
 
 namespace GKModule.Reports
 {
@@ -14,6 +17,7 @@ namespace GKModule.Reports
 		private ReportArchiveFilter ReportArchiveFilter { get; set; }
 		public JournalReport()
 		{
+			PdfProvider = new JournalReportPdf();
 			ReportArchiveFilter = new ReportArchiveFilter();
 		}
 
@@ -37,7 +41,7 @@ namespace GKModule.Reports
 			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
-			DataTable table = new DataTable("Journal");
+			var table = new DataTable("Journal");
 			table.Columns.Add("DateTime");
 			table.Columns.Add("Name");
 			table.Columns.Add("YesNo");
@@ -69,6 +73,7 @@ namespace GKModule.Reports
 					journalItem.StateClass.ToDescription());
 			}
 			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -88,6 +93,9 @@ namespace GKModule.Reports
 		{
 			get { return true; }
 		}
+
+		public IReportPdfProvider PdfProvider { get; private set; }
+
 		#endregion
 	}
 }

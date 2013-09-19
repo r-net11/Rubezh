@@ -15,15 +15,15 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-									<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding XZone.No}" />
+									<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Zone.No}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Width="2*" Binding="{Binding XZone.Name}" Header="Наименование" />
-					<DataGridTextColumn Width="2*" Binding="{Binding XZone.Description}" Header="Примечание" />
-					<DataGridTextColumn Width="1*" Binding="{Binding XZone.Fire1Count}" Header="П1" />
-					<DataGridTextColumn Width="1*" Binding="{Binding XZone.Fire2Count}" Header="П2" />
+					<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
+					<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
+					<DataGridTextColumn Width="1*" Binding="{Binding Zone.Fire1Count}" Header="П1" />
+					<DataGridTextColumn Width="1*" Binding="{Binding Zone.Fire2Count}" Header="П2" />
 				</DataGrid.Columns>
 			</Controls:XDataGrid>
 		</Grid>

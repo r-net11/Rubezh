@@ -28,7 +28,17 @@ namespace GKModule.ViewModels
 		{
 			foreach (var alarmGroup in AlarmGroups)
 			{
-				alarmGroup.Alarms = alarms.Where(x => x.AlarmType == alarmGroup.AlarmType).ToList<Alarm>();
+				var alarmViewModels = new List<AlarmViewModel>();
+				foreach (var alarm in alarms)
+				{
+					if (alarm.AlarmType == alarmGroup.AlarmType)
+					{
+						var alarmViewModel = new AlarmViewModel(alarm);
+						alarmViewModels.Add(alarmViewModel);
+					}
+				}
+
+				alarmGroup.Alarms = alarmViewModels;
 				alarmGroup.Update();
 			}
 		}

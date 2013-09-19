@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		
+
 
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
@@ -140,6 +140,5 @@ namespace GKModule.ViewModels
 		public string TypeName { get; private set; }
 		public string Address { get; private set; }
 		public string ImageSource { get; private set; }
-		
 	}
 }

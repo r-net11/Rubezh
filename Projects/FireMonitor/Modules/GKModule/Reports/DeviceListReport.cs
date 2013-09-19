@@ -1,19 +1,26 @@
 ﻿using System.Data;
 using CodeReason.Reports;
+using Common.PDF;
 using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Reports;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace GKModule.Reports
 {
 	internal class DeviceListReport : ISingleReportProvider
 	{
+		public DeviceListReport()
+		{
+			PdfProvider = new DeviceListReportPdf();
+		}
+
 		#region ISingleReportProvider Members
 		public ReportData GetData()
 		{
 			var data = new ReportData();
-
-			DataTable table = new DataTable("Devices");
+			var table = new DataTable("Devices");
 			table.Columns.Add("Type");
 			table.Columns.Add("Address");
 			table.Columns.Add("Zone");
@@ -34,6 +41,7 @@ namespace GKModule.Reports
 				}
 			}
 			data.DataTables.Add(table);
+			PdfProvider.ReportData = data;
 			return data;
 		}
 		#endregion
@@ -53,6 +61,9 @@ namespace GKModule.Reports
 		{
 			get { return true; }
 		}
+
+		public IReportPdfProvider PdfProvider { get; private set; }
+
 		#endregion
 	}
 }

@@ -23,10 +23,10 @@ namespace Infrastructure
 
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
-			Events = new EventAggregator();
+			ServiceFactoryBase.Events = Events = new EventAggregator();
+			ServiceFactoryBase.SecurityService = SecurityService = ISecurityService;
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
-			SecurityService = ISecurityService;
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
 		}

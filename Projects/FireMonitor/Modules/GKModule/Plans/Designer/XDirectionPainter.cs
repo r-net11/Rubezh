@@ -115,9 +115,10 @@ namespace GKModule.Plans.Designer
 		{
 			switch(Direction.DirectionState.StateClass)
 			{
-				case XStateClass.ConnectionLost:
-				case XStateClass.TechnologicalRegime:
 				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
 					return Colors.DarkGray;
 
 				case XStateClass.On:

@@ -11,61 +11,44 @@ using System.IO;
 using Microsoft.Win32;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Common.PDF;
 
 namespace GKModule.Journal.ViewModels
 {
 	internal class ArchivePdfCreater
 	{
-		private BaseFont BaseFont;
-		private Font NormalFont;
-		private Font BoldFont;
 		private IEnumerable<JournalItemViewModel> _source;
-		private Dictionary<string, Image> _cache;
 
 		private ArchivePdfCreater()
 		{
-			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "Tahoma.TTF");
-			BaseFont = BaseFont.CreateFont(path, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
-			NormalFont = new Font(BaseFont, Font.DEFAULTSIZE, Font.NORMAL);
-			BoldFont = new Font(BaseFont, Font.DEFAULTSIZE, Font.BOLD);
 		}
 
 		public static void Create(IEnumerable<JournalItemViewModel> source)
 		{
-			var saveDialog = new SaveFileDialog()
-			{
-				Filter = "Файлы PDF|*.pdf",
-				DefaultExt = "Файлы PDF|*.pdf"
-			};
-			if (saveDialog.ShowDialog().Value)
+			var fileName = PDFHelper.ShowSavePdfDialog();
+			if (!string.IsNullOrEmpty(fileName))
 				WaitHelper.Execute(() =>
 				{
 					var creater = new ArchivePdfCreater();
 					creater._source = source;
-					creater.CreatePdf(saveDialog.FileName);
+					creater.CreatePdf(fileName);
 				});
 		}
 		private void CreatePdf(string fileName)
 		{
 			using (var fs = new FileStream(fileName, FileMode.Create))
+			using (var pdf = new PDFDocument(fs, PageSize.A4.Rotate()))
 			{
-				_cache = new Dictionary<string, Image>();
-				var doc = new Document(PageSize.A4.Rotate());
-				var pdfWriter = PdfWriter.GetInstance(doc, fs);
-				PageEventHelper pageEventHelper = new PageEventHelper(BaseFont);
-				pdfWriter.PageEvent = pageEventHelper;
-				doc.Open();
-				AddDocumentHeader(doc);
-				var table = CreateTable(doc);
+				pdf.PageEventHelper.PrintFooterLine = false;
+				AddDocumentHeader(pdf.Document);
+				var table = CreateTable(pdf.Document);
 				CreateHeader(table);
 				FillContent(table);
-				doc.Add(table);
-				doc.Close();
-				_cache.Clear();
-			}
+				pdf.Document.Add(table);
 #if DEBUG
-			Process.Start(fileName);
+				Process.Start(fileName);
 #endif
+			}
 		}
 
 		private void AddDocumentHeader(Document doc)
@@ -84,7 +67,7 @@ namespace GKModule.Journal.ViewModels
 			table.HeaderRows = 1;
 			table.TotalWidth = doc.PageSize.Width - doc.LeftMargin - doc.RightMargin;
 			table.LockedWidth = true;
-			float[] widths = new float[] { 25f, 25f, 45f, 10f, 60f, 35f, 30f, 25f };
+			float[] widths = new float[] { 25f, 25f, 45f, 10f, 60f, 40f, 35f, 30f };
 			table.SetWidths(widths);
 			table.HorizontalAlignment = 1;
 			table.SpacingBefore = 20f;
@@ -107,8 +90,7 @@ namespace GKModule.Journal.ViewModels
 			};
 			foreach (var header in headers)
 			{
-				var cell = new PdfPCell(new Phrase(header, BoldFont));
-				cell.BackgroundColor = background;
+				var cell = PDFHelper.GetCell(header, PDFStyle.BoldFont, Element.ALIGN_CENTER, background);
 				cell.VerticalAlignment = Element.ALIGN_MIDDLE;
 				table.AddCell(cell);
 			}
@@ -118,59 +100,15 @@ namespace GKModule.Journal.ViewModels
 			foreach (var item in _source)
 			{
 				var background = GetStateColor(item.JournalItem.StateClass);
-				table.AddCell(GetCell(item.JournalItem.DeviceDateTime.ToString(), background));
-				table.AddCell(GetCell(item.JournalItem.SystemDateTime.ToString(), background));
-				table.AddCell(GetCell(item.JournalItem.Name ?? string.Empty, background));
-				table.AddCell(GetCell(item.JournalItem.YesNo.ToDescription(), background));
-				table.AddCell(GetCell(item.JournalItem.Description ?? string.Empty, background));//4
-				table.AddCell(GetImageTextCell(item.ImageSource, item.PresentationName ?? string.Empty, background, 6));
-				table.AddCell(GetImageTextCell(item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription(), background, 5));
-				table.AddCell(GetCell(item.JournalItem.GKIpAddress ?? string.Empty, background));//7
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.DeviceDateTime.ToString(), PDFStyle.NormalFont, Element.ALIGN_CENTER, background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.SystemDateTime.ToString(), PDFStyle.NormalFont, Element.ALIGN_CENTER, background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.Name ?? string.Empty, background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.YesNo.ToDescription(), background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.Description ?? string.Empty, background));//4
+				table.AddCell(PDFHelper.GetImageTextCell(item.ImageSource, item.PresentationName ?? string.Empty, 6, background));
+				table.AddCell(PDFHelper.GetImageTextCell(item.JournalItem.StateClass != XStateClass.Norm && item.JournalItem.StateClass != XStateClass.Off ? "/Controls;component/StateClassIcons/" + item.JournalItem.StateClass.ToString() + ".png" : null, item.JournalItem.StateClass.ToDescription(), 5, background));
+				table.AddCell(PDFHelper.GetCell(item.JournalItem.GKIpAddress ?? string.Empty, background));//7
 			}
-		}
-		private PdfPCell GetCell(string content, BaseColor background)
-		{
-			return new PdfPCell(new Phrase(content, NormalFont))
-			{
-				BackgroundColor = background
-			};
-		}
-		private PdfPCell GetImageTextCell(string imageSource, string text, BaseColor background, float partial)
-		{
-			var image = GetImage(imageSource);
-			var nestedTable = new PdfPTable(2);
-			nestedTable.SetWidths(new float[] { 1f, partial });
-			nestedTable.DefaultCell.Border = 0;
-			if (image == null)
-				nestedTable.AddCell("");
-			else
-				nestedTable.AddCell(image);
-			nestedTable.AddCell(new Phrase(text, NormalFont));
-
-			return new PdfPCell(nestedTable)
-			{
-				Padding = 0,
-				BackgroundColor = background
-			};
-		}
-		private Image GetImage(string source)
-		{
-			if (string.IsNullOrEmpty(source))
-				return null;
-			if (_cache.ContainsKey(source))
-				return _cache[source];
-
-			var uri = new Uri(source, UriKind.RelativeOrAbsolute);
-			var resource = System.Windows.Application.GetResourceStream(uri);
-			if (resource == null || resource.Stream == null)
-				return null;
-
-			var image = Image.GetInstance(resource.Stream);
-			if (image == null)
-				return null;
-
-			_cache.Add(source, image);
-			return image;
 		}
 		private BaseColor GetStateColor(XStateClass state)
 		{
@@ -215,68 +153,6 @@ namespace GKModule.Journal.ViewModels
 					break;
 			}
 			return new BaseColor(color);
-		}
-	}
-
-	public class PageEventHelper : PdfPageEventHelper
-	{
-		private PdfContentByte cb;
-		private PdfTemplate template;
-		private BaseFont bf;
-		private DateTime printTime;
-
-		public int FontSize { get; set; }
-		public int FotterShift { get; set; }
-
-		public PageEventHelper(BaseFont baseFont)
-		{
-			bf = baseFont;
-			FontSize = 9;
-			FotterShift = 10;
-		}
-
-		public override void OnOpenDocument(PdfWriter writer, Document document)
-		{
-			printTime = DateTime.Now;
-			cb = writer.DirectContent;
-			template = cb.CreateTemplate(50, 50);
-		}
-
-		public override void OnEndPage(PdfWriter writer, Document document)
-		{
-			base.OnEndPage(writer, document);
-
-			int pageN = writer.PageNumber;
-			String text = "Страница " + pageN + " из ";
-
-			float len = bf.GetWidthPoint(text, 8);
-			Rectangle pageSize = document.PageSize;
-
-			cb.SetRGBColorFill(100, 100, 100);
-
-			cb.BeginText();
-			cb.SetFontAndSize(bf, 8);
-			cb.SetTextMatrix(pageSize.GetLeft(document.LeftMargin), pageSize.GetBottom(document.BottomMargin - FotterShift));
-			cb.ShowText(text);
-			cb.EndText();
-
-			cb.AddTemplate(template, pageSize.GetLeft(document.LeftMargin) + len, pageSize.GetBottom(document.BottomMargin - FotterShift));
-
-			cb.BeginText();
-			cb.SetFontAndSize(bf, 8);
-			cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT, "Сгенерировано " + printTime.ToString(), pageSize.GetRight(document.RightMargin), pageSize.GetBottom(document.BottomMargin - FotterShift), 0);
-			cb.EndText();
-		}
-
-		public override void OnCloseDocument(PdfWriter writer, Document document)
-		{
-			base.OnCloseDocument(writer, document);
-
-			template.BeginText();
-			template.SetFontAndSize(bf, FontSize);
-			template.SetTextMatrix(0, 0);
-			template.ShowText((writer.PageNumber - 1).ToString());
-			template.EndText();
 		}
 	}
 }
