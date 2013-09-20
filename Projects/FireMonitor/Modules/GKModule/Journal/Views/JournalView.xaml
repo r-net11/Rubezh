@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition MaxHeight="700" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
@@ -45,7 +45,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Ip-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
-                    <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType}" Width="Auto"/>
+                    <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType}" Width="Auto" Visibility="Collapsed"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
