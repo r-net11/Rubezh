@@ -31,21 +31,21 @@ namespace FiresecService
 		static void Patch1()
 		{
 			var patchNo = PatchHelper.GetPatchNo("Server");
-			if (patchNo >= 9)
+			if (patchNo >= 10)
 				return;
 
 			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 
 			var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			var deviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "DeviceLibraryConfiguration.xml", typeof(DeviceLibraryConfiguration));
+			//var deviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "DeviceLibraryConfiguration.xml", typeof(DeviceLibraryConfiguration));
 			var xDeviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
-			var driversConfiguration = GetConfigurationFomZip(emptyZipFile, "DriversConfiguration.xml", typeof(DriversConfiguration));
+			//var driversConfiguration = GetConfigurationFomZip(emptyZipFile, "DriversConfiguration.xml", typeof(DriversConfiguration));
 
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
+			//AddConfigurationToZip(zipFile, deviceLibraryConfiguration, "DeviceLibraryConfiguration.xml");
 			AddConfigurationToZip(zipFile, xDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml");
-			AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
+			//AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
 			zipFile.Save(fileName);
 
 			PatchHelper.SetPatchNo("Server", 9);
