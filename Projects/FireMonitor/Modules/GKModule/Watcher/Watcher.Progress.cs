@@ -8,7 +8,7 @@ namespace GKModule
 		{
 			ApplicationService.Invoke(() =>
 			{
-				LoadingService.ShowProgress("", name, count);
+				LoadingService.ShowWithCancel(name, count);
 			});
 		}
 

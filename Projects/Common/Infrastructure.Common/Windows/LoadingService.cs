@@ -47,7 +47,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static bool IsCanceled
 		{
-			get { return _progressViewModel.IsCanceled; }
+			get { return _progressViewModel != null && _progressViewModel.IsCanceled; }
 		}
 
 		private static void Show(ProgressViewModel progressViewModel)

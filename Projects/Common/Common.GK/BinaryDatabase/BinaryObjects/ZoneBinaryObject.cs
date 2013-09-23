@@ -46,6 +46,9 @@ namespace Common.GK
 					count++;
 				}
 			}
+			if (count == 0)
+				Formula.Add(FormulaOperationType.CONST, 0, 0, "Количество устройств в состоянии Пожар1");
+
 			return count;
 		}
 		int AddDeviceFire2()
@@ -64,6 +67,9 @@ namespace Common.GK
 					count++;
 				}
 			}
+			if (count == 0)
+				Formula.Add(FormulaOperationType.CONST, 0, 0, "Количество устройств в состоянии Пожар2");
+
 			return count;
 		}
 
