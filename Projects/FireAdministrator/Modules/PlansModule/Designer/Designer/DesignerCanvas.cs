@@ -42,13 +42,13 @@ namespace PlansModule.Designer
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
 			{
-				Header = "Вставить (Ctrl+V)",
+				Header = Helper.SetHeader("Вставить (Ctrl+V)", "pack://application:,,,/Controls;component/Images/BPaste.png"),
 				CommandParameter = this
 			};
 			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
 			var editItem = new MenuItem()
 			{
-				Header = "Редактировать",
+				Header = Helper.SetHeader("Редактировать", "pack://application:,,,/Controls;component/Images/BEdit.png")
 			};
 			editItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.EditCommand"));
 			ContextMenu = new ContextMenu();

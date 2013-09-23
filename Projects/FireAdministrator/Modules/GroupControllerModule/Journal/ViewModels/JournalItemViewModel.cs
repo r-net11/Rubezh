@@ -54,6 +54,7 @@ namespace GKModule.ViewModels
 
 				case 0x101:
 					TypeName = "Задержка";
+					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 
 				case 0x106:

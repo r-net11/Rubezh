@@ -115,9 +115,10 @@ namespace GKModule.Plans.Designer
 		{
 			switch(Direction.DirectionState.StateClass)
 			{
-				case XStateClass.ConnectionLost:
-				case XStateClass.TechnologicalRegime:
 				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
 					return Colors.DarkGray;
 
 				case XStateClass.On:
@@ -179,17 +180,17 @@ namespace GKModule.Plans.Designer
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{
-					Header = "Показать в списке",
+					Header = Helper.SetHeader("Показать в дереве", "pack://application:,,,/Controls;component/Images/BTree.png"),
 					Command = ShowInTreeCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
-					Header = "Показать связанные события",
+					Header = Helper.SetHeader("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png"),
 					Command = ShowJournalCommand
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
-					Header = "Свойства",
+					Header = Helper.SetHeader("Свойства", "pack://application:,,,/Controls;component/Images/BSettings.png"),
 					Command = ShowPropertiesCommand
 				});
 			}

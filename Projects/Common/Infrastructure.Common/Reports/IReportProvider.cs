@@ -1,4 +1,5 @@
 ﻿using iTextSharp.text;
+
 namespace Infrastructure.Common.Reports
 {
 	public interface IReportProvider

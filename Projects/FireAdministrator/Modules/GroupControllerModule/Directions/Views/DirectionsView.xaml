@@ -77,8 +77,22 @@
             </ListView>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteOutputDeviceCommand}" />
-                    <MenuItem Header="Изменить" Command="{Binding ChangeOutputDevicesCommand}" />
+                    <MenuItem Command="{Binding DeleteOutputDeviceCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding ChangeOutputDevicesCommand}" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -113,8 +127,12 @@
                                                             VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                                                         <ComboBox.ItemTemplate>
                                                             <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Image Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
+                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                                </StackPanel>
                                                                 <!--<Image Width="16" Source="{Binding., Converter={StaticResource XStateTypeToIconConverter}}"/>-->
-                                                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                                
                                                             </DataTemplate>
                                                         </ComboBox.ItemTemplate>
                                                     </ComboBox>
@@ -131,8 +149,22 @@
             </ListView>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteZoneCommand}" />
-                    <MenuItem Header="Изменить" Command="{Binding ChangeZonesCommand}" />
+                    <MenuItem Command="{Binding DeleteZoneCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding ChangeZonesCommand}" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -184,8 +216,22 @@
             </ListView>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteDeviceCommand}" />
-                    <MenuItem Header="Изменить" Command="{Binding ChangeDevicesCommand}" />
+                    <MenuItem Command="{Binding DeleteDeviceCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding ChangeDevicesCommand}" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

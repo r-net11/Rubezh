@@ -7,9 +7,15 @@
         <Converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
     </UserControl.Resources>
 
-    <TabControl Name="tabControl" BorderThickness="0"
+    <StackPanel>
+        <!--<CheckBox IsChecked="{Binding ShowSubsystem}" Content="Подсистема"/>
+        <CheckBox IsChecked="{Binding ShowIp}" Content="Ip-адрес ГК"/>-->
+
+
+        <TabControl Name="tabControl" BorderThickness="0"
                 ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=JournalFilterViewModel.JournalFilter.Name}"
                 SelectedItem="{Binding SelectedJournal}">
+        
         <TabControl.ItemTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding JournalFilterViewModel.JournalFilter.Name}" />
@@ -23,32 +29,33 @@
         </TabControl.ContentTemplate>
 
         <TabControl.ItemContainerStyle>
-            <Style TargetType="{x:Type TabItem}">
-                <Setter Property="Background" Value="{x:Null}" />
-                <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
-                <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
-                <Setter Property="ToolTip">
-                    <Setter.Value>
-                        <StackPanel Background="White">
-                            <TextBlock Text="{Binding JournalFilterViewModel.JournalFilter.Description, Mode=OneWay}" FontWeight="Bold" Visibility="{Binding JournalFilterViewModel.HasDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <TextBlock Text="{Binding JournalFilterViewModel.LastRecordsCountString, Mode=OneWay}"/>
-                            <TextBlock Text="События:" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <ItemsControl ItemsSource="{Binding JournalFilterViewModel.JournalFilter.EventNames, Mode=OneWay}" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <ItemsControl ItemsSource="{Binding JournalFilterViewModel.StateClasses}" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Setter.Value>
-                </Setter> 
-            </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+            <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+            <Setter Property="ToolTip">
+                <Setter.Value>
+                    <StackPanel Background="White">
+                        <TextBlock Text="{Binding JournalFilterViewModel.JournalFilter.Description, Mode=OneWay}" FontWeight="Bold" Visibility="{Binding JournalFilterViewModel.HasDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding JournalFilterViewModel.LastRecordsCountString, Mode=OneWay}"/>
+                        <TextBlock Text="События:" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <ItemsControl ItemsSource="{Binding JournalFilterViewModel.JournalFilter.EventNames, Mode=OneWay}" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <ItemsControl ItemsSource="{Binding JournalFilterViewModel.StateClasses}" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Setter.Value>
+            </Setter> 
+        </Style>
         </TabControl.ItemContainerStyle>
     </TabControl>
+    </StackPanel>
 </UserControl>

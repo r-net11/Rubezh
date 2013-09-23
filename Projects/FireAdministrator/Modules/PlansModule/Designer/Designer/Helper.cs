@@ -6,6 +6,9 @@ using FiresecClient;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using System.Windows.Controls;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace PlansModule.Designer
 {
@@ -52,5 +55,28 @@ namespace PlansModule.Designer
 			return color;
 		}
 
+		public static StackPanel SetHeader(string title, string imageSourceUri)
+		{
+			TextBlock textBlock = new TextBlock();
+			textBlock.Text = title;
+			textBlock.VerticalAlignment = VerticalAlignment.Center;
+
+			Image image = new Image();
+			image.Width = 16;
+			image.VerticalAlignment = VerticalAlignment.Center;
+			BitmapImage sourceImage = new BitmapImage();
+			sourceImage.BeginInit();
+			sourceImage.UriSource = new Uri(imageSourceUri);
+			sourceImage.EndInit();
+			image.Source = sourceImage;
+
+			StackPanel stackPanel = new StackPanel();
+			stackPanel.Orientation = Orientation.Horizontal;
+			stackPanel.Children.Add(image);
+			stackPanel.Children.Add(textBlock);
+
+			return stackPanel;
+
+		}
 	}
 }

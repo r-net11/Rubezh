@@ -7,6 +7,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Media.Imaging;
+using System;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -58,84 +60,86 @@ namespace PlansModule.Designer.DesignerItems
 			if (_contextMenu == null)
 			{
 				_contextMenu = new ContextMenu();
+				
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CopyCommand,
-					Header = "Копировать (Ctrl+C)"
+					//Header = "Копировать (Ctrl+C)"
+					Header = Helper.SetHeader("Копировать (Ctrl+C)", "pack://application:,,,/Controls;component/Images/BCopy.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CutCommand,
-					Header = "Вырезать (Ctrl+X)",
+					Header = Helper.SetHeader("Вырезать (Ctrl+X)", "pack://application:,,,/Controls;component/Images/BCut.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.PasteCommand,
 					CommandParameter = DesignerCanvas,
-					Header = "Вставить (Ctrl+V)",
+					Header = Helper.SetHeader("Вставить (Ctrl+V)", "pack://application:,,,/Controls;component/Images/BPaste.png")
 				});
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = DeleteCommand,
-					Header = "Удалить (Del)"
+					Header = Helper.SetHeader("Удалить (Del)", "pack://application:,,,/Controls;component/Images/BDelete.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ShowPropertiesCommand,
-					Header = "Свойства",
+					Header = Helper.SetHeader("Свойства", "pack://application:,,,/Controls;component/Images/BSettings.png")
 				});
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand,
-					Header = "Вверх"
+					Header = Helper.SetHeader("Вверх", "pack://application:,,,/Controls;component/Images/BMoveForward.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand,
-					Header = "Вниз"
+					Header = Helper.SetHeader("Вниз", "pack://application:,,,/Controls;component/Images/BMoveBackward.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand,
-					Header = "Выше"
+					Header = Helper.SetHeader("Выше", "pack://application:,,,/Controls;component/Images/BMoveFront.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand,
-					Header = "Ниже",
+					Header = Helper.SetHeader("Ниже", "pack://application:,,,/Controls;component/Images/BMoveBack.png")
 				});
 				_contextMenu.Items.Add(new Separator());
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalLeftCommand,
-					Header = "Выровнять по левому краю",
+					Header = Helper.SetHeader("Выровнять по левому краю", "pack://application:,,,/Controls;component/Images/bshapes-align-hori-left.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalCenterCommand,
-					Header = "Выровнять по вертикали",
+					Header = Helper.SetHeader("Выровнять по вертикали", "pack://application:,,,/Controls;component/Images/bshapes-align-hori-center.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignHorizontalRightCommand,
-					Header = "Выровнять по правому краю",
+					Header = Helper.SetHeader("Выровнять по правому краю", "pack://application:,,,/Controls;component/Images/bshapes-align-hori-right.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalTopCommand,
-					Header = "Выровнять по верхнему краю",
+					Header = Helper.SetHeader("Выровнять по верхнему краю", "pack://application:,,,/Controls;component/Images/bshapes-align-verti-top.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalCenterCommand,
-					Header = "Выровнять по горизонтали",
+					Header = Helper.SetHeader("Выровнять по горизонтали", "pack://application:,,,/Controls;component/Images/bshapes-align-verti-middle.png")
 				});
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.AlignVerticalBottomCommand,
-					Header = "Выровнять по нижнему краю",
+					Header = Helper.SetHeader("Выровнять по нижнему краю", "pack://application:,,,/Controls;component/Images/bshapes-align-verti-bottom.png")
 				});
 			};
 			return _contextMenu;

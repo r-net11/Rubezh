@@ -8,19 +8,89 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-			<MenuItem Command="{Binding CopyCommand}" Header="Копировать (Ctrl+C)" />
-			<MenuItem Command="{Binding CutCommand}" Header="Вырезать (Ctrl+X)" />
-			<MenuItem Command="{Binding PasteCommand}" Header="Вставить (Ctrl+V)" />
-			<Separator />
-			<MenuItem Command="{Binding AddCommand}" Header="Добавить дочернее устройство (Ctrl+N)" />
-			<MenuItem Command="{Binding AddToParentCommand}" Header="Добавить к родительскому устройству (Ctrl+M)" />
-			<MenuItem Command="{Binding RemoveCommand}" Header="Удалить (Ctrl+Del)" />
-			<MenuItem Command="{Binding ShowLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
-			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
-			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Header="Разрешить множественную визуализацию" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-			<MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" Header="Запретить множественную визуализацию" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-		</ContextMenu>
+            <MenuItem Command="{Binding CopyCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Копировать (Ctrl+C)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding CutCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Вырезать (Ctrl+Х)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding PasteCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Вставить (Ctrl+V)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding AddCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Добавить дочернее устройство (Ctrl+N)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding AddToParentCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BAddChild.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Добавить к родительскому устройству (Ctrl+M)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding RemoveCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Удалить (Ctrl+Del)" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding ShowLogicCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BLogic.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Настройка логики исполнительного устройства по состоянию зон" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding ShowPropertiesCommand}" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/Eye2.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Разрешить множественную визуализацию" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/Eye3.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Запретить множественную визуализацию" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+        </ContextMenu>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
