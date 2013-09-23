@@ -20,27 +20,27 @@ namespace PlansModule.Kursk.ViewModels
 			_element = element;
 			Title = "Свойства фигуры: Бак";
 
-			XDevices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush));
+			Devices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush));
 			if (_element.XDeviceUID != Guid.Empty)
-				SelectedXDevice = XDevices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
+				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
 		}
 
-		public ObservableCollection<XDevice> XDevices { get; private set; }
+		public ObservableCollection<XDevice> Devices { get; private set; }
 
-		private XDevice _selectedXDevice;
-		public XDevice SelectedXDevice
+		private XDevice _selectedDevice;
+		public XDevice SelectedDevice
 		{
-			get { return _selectedXDevice; }
+			get { return _selectedDevice; }
 			set
 			{
-				_selectedXDevice = value;
-				OnPropertyChanged(() => SelectedXDevice);
+				_selectedDevice = value;
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
 		protected override bool Save()
 		{
-			Helper.SetXDevice(_element, SelectedXDevice);
+			Helper.SetXDevice(_element, SelectedDevice);
 			return base.Save();
 		}
 	}

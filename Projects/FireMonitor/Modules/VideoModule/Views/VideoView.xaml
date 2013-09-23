@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="VideoModule.Views.VideoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataGrid ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
+            <DataGridTextColumn Header="URL" Width="200" Binding="{Binding Camera.Address}" />
+            <DataGridTextColumn Header="Зоны" Width="*" Binding="{Binding PresenrationZones}" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

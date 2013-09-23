@@ -1,18 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecClient;
-using Infrastructure;
+﻿using System.Collections.Generic;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using VideoModule.ViewModels;
+using FiresecClient;
+using System;
+using System.Linq;
+using Infrastructure;
 
 namespace VideoModule
 {
 	public class VideoModuleLoader : ModuleBase
 	{
+		VideoViewModel VideoViewModel;
+
 		public override void CreateViewModels()
 		{
+			VideoViewModel = new VideoViewModel();
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 		}
@@ -44,11 +51,18 @@ namespace VideoModule
 		{
 			OnDevicesStateChanged(Guid.Empty);
 		}
+
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
-			{
-			};
+		    {
+		        new NavigationItem<ShowVideoEvent>(VideoViewModel, "Видео", "/Controls;component/Images/Video1.png"),
+		    };
+		}
+
+		public override string Name
+		{
+			get { return "Видео"; }
 		}
 
 		public override void Dispose()

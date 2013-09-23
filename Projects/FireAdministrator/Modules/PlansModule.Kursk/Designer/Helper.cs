@@ -11,10 +11,10 @@ namespace PlansModule.Kursk.Designer
 {
 	internal static class Helper
 	{
-		public static void SetXDevice(ElementRectangleTank element, XDevice xdevice)
+		public static void SetXDevice(ElementRectangleTank element, XDevice device)
 		{
-			element.XDeviceUID = xdevice == null ? Guid.Empty : xdevice.UID;
-			element.BackgroundColor = GetTankColor(xdevice);
+			element.XDeviceUID = device == null ? Guid.Empty : device.UID;
+			element.BackgroundColor = GetTankColor(device);
 		}
 		public static void SetXDevice(ElementRectangleTank element)
 		{
