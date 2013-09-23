@@ -259,11 +259,18 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		public IEnumerable<Plan> PlanNames
+		//public IEnumerable<Plan> PlanNames
+		public ObservableCollection<PlanViewModel> PlanNames
 		{
 			get
 			{
-				return FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+				var planViewModels = new ObservableCollection<PlanViewModel>();
+				foreach (var plan in planes)
+				{
+					planViewModels.Add(new PlanViewModel(plan, Device));	
+				}
+				return planViewModels;
 			}
 		}
 		public RelayCommand<Plan> ShowOnPlanCommand { get; private set; }
@@ -292,6 +299,28 @@ namespace GKModule.ViewModels
 		public override void OnClosed()
 		{
 			CancelBackgroundWorker = true;
+		}
+	}
+
+	public class PlanViewModel:BaseViewModel
+	{
+		Plan Plan;
+		XDevice Device;
+		public string Name
+		{
+			get { return Plan.Caption; }
+		}
+		public PlanViewModel(Plan plan, XDevice device)
+		{
+			Plan = plan;
+			Device = device;
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			ShowOnPlanHelper.ShowDevice(Device, Plan);
 		}
 	}
 

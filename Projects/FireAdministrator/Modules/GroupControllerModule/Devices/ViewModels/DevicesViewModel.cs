@@ -268,6 +268,14 @@ namespace GKModule.ViewModels
 						SelectedDevice.RemoveCommand.Execute();
 				}
 			});
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), () =>
+			{
+				if (SelectedDevice != null)
+				{
+					if (SelectedDevice.ShowPropertiesCommand.CanExecute(null))
+						SelectedDevice.ShowPropertiesCommand.Execute();
+				}
+			});
 			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
 			{
 				if (SelectedDevice != null)

@@ -8,7 +8,7 @@
         <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
         <Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadAll.png" />
         <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
-        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
-        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
+        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
+        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
     </StackPanel>
 </UserControl>

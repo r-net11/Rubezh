@@ -34,7 +34,7 @@ namespace Common.GK
 		[DataMember]
 		public string UserName { get; set; }
 		[DataMember]
-		public JournalSubsystemType SubsystemType { get; set; }
+		public XSubsystemType SubsystemType { get; set; }
 		[DataMember]
 		public InternalJournalItem InternalJournalItem { get; set; }
 	}

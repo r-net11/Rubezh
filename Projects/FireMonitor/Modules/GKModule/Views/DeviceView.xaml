@@ -4,8 +4,8 @@
              xmlns:Views="clr-namespace:GKModule.Views">
 
     <StackPanel Orientation="Horizontal">
-        <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
+        <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">

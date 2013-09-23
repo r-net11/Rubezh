@@ -33,16 +33,15 @@ namespace Common.GK
 		[DataMember]
 		int ObjectState;
 
-		JournalSubsystemType SubsytemType
+		XSubsystemType SubsytemType
 		{
 			get
 			{
 				if (JournalItemType == GK.JournalItemType.System)
-					return JournalSubsystemType.System;
+					return XSubsystemType.System;
 				else
-					return JournalSubsystemType.GK;
+					return XSubsystemType.GK;
 			}
-			set { SubsytemType = value; }
 		}
 
 		[DataMember]

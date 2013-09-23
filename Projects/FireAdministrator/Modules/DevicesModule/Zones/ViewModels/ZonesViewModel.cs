@@ -311,7 +311,7 @@ namespace DevicesModule.ViewModels
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
 					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
-				}, "/Controls;component/Images/BZones.png") { Order = 2 }
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}
 	}

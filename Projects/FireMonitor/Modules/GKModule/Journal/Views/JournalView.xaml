@@ -45,7 +45,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Ip-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
-                    <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType}" Width="Auto" Visibility="Collapsed"/>
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">

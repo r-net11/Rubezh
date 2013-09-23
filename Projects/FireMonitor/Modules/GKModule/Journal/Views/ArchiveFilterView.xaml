@@ -67,8 +67,8 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -80,8 +80,8 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center"/>
-                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -91,7 +91,11 @@
                 <ListBox ItemsSource="{Binding EventNames}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" />
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -128,7 +132,11 @@
                 <ListBox ItemsSource="{Binding ArchiveZones}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -137,7 +145,11 @@
                 <ListBox ItemsSource="{Binding ArchiveDirections}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

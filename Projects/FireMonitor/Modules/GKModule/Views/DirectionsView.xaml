@@ -24,8 +24,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="2 2 2 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
+                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" Margin="2"/>
 							</StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -34,8 +34,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-								<TextBlock Width="200" Margin="5, 0, 0, 0" HorizontalAlignment="Stretch" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}">
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+								<TextBlock Width="200" HorizontalAlignment="Stretch" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<MenuItem Command="{Binding ShowOnPlanCommand}" >
@@ -154,8 +154,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image  Margin="2 2 2 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -164,8 +164,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" ToolTip="{Binding ToolTip}">
-                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-								<TextBlock Margin="5, 0, 0, 0" Text="{Binding Zone.Name}" />
+                                <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+								<TextBlock Text="{Binding Zone.Name}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">
                                         <MenuItem Command="{Binding SetIgnoreCommand}" >

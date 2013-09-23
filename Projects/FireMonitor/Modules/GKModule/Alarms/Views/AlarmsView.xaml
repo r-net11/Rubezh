@@ -5,7 +5,7 @@
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
-        <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
+        <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -21,8 +21,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" VerticalAlignment="Center"/>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}"/>
+                                <Image Width="16" Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" VerticalAlignment="Center"/>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
