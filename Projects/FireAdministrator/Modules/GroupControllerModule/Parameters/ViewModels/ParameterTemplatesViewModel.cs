@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 				{
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BBriefcase.png") { Order = 2 }
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}
 	}

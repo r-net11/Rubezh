@@ -1,132 +1,159 @@
-﻿<UserControl x:Class="GKModule.Views.ArchiveFilterView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters"
-             xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" MinWidth="700"
-             MinHeight="500">
+﻿<UserControl x:Class="GKModule.Views.ArchiveFilterView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
+        xmlns:Converters="clr-namespace:GKModule.Converters"
+        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+        xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+        MinWidth="700" MinHeight="500">
 
-	<UserControl.Resources>
-		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
-	</UserControl.Resources>
+    <UserControl.Resources>
+        <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
+    </UserControl.Resources>
 
-	<DockPanel>
-		<Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-			<Button Grid.Column="0" Width="200" Margin="2" HorizontalAlignment="Left" Command="{Binding ClearCommand}" Content="Сбросить все настройки" />
-			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-				<Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
-				<Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
-			</StackPanel>
-		</Grid>
-		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
-			<TabItem Header="Временной диапазон" Padding="3">
-				<StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
-					<StackPanel Orientation="Horizontal">
-						<Label VerticalAlignment="Center" Content="С" />
-						<loya:Dameer Width="Auto" CustomFormat="HH:mm:ss dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding StartDateTime}" />
-						<extToolkit:TimePicker Width="100" Margin="4" VerticalAlignment="Top" Value="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" />
-						<Label VerticalAlignment="Center" Content="По" />
-						<loya:Dameer Width="Auto" CustomFormat="HH:mm:ss dd MMMM yyyy" Format="Custom" ShowCheckBox="False" Value="{Binding EndDateTime}" />
-						<extToolkit:TimePicker Width="100" Margin="4" VerticalAlignment="Top" Value="{Binding EndDateTime}" />
-					</StackPanel>
-					<CheckBox Margin="5" VerticalAlignment="Center" Content="Использовать дату прибора" Foreground="White" IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" />
-				</StackPanel>
-			</TabItem>
-			<TabItem Header="Тип">
-				<ListBox ItemsSource="{Binding JournalItemTypes}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<CheckBox VerticalAlignment="Center" IsChecked="{Binding IsChecked}" />
-								<Image Width="16" VerticalAlignment="Center" Source="{Binding ImageSource}" />
-								<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-							</StackPanel>
+    <DockPanel>
+        <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Сбросить все настройки" Command="{Binding ClearCommand}" HorizontalAlignment="Left" Margin="2" Width="200" />
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
+                <Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
+            </StackPanel>
+        </Grid>
+        <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
+            <TabItem Header="Временной диапазон" Padding="3">
+                <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="С" VerticalAlignment="Center" />
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding StartDateTime}"/>
+                        <extToolkit:TimePicker Width="100" Value="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
+                        <Label Content="По" VerticalAlignment="Center" />
+                        <loya:Dameer ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding EndDateTime}"/>
+                        <extToolkit:TimePicker Value="{Binding EndDateTime}" Width="100" Margin="4" VerticalAlignment="Top" />
+                    </StackPanel>
+                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Тип">
+                <ListBox ItemsSource="{Binding JournalItemTypes}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Состояние">
+                <ListBox ItemsSource="{Binding StateClasses}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="ГК">
+                <ListBox ItemsSource="{Binding GKAddresses}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="События">
+                <ListBox ItemsSource="{Binding EventNames}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" />
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
 
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-			<TabItem Header="Состояние">
-				<ListBox ItemsSource="{Binding StateClasses}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<CheckBox VerticalAlignment="Center" IsChecked="{Binding IsChecked}" />
-								<Image Width="16" VerticalAlignment="Center" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-								<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-			<TabItem Header="ГК">
-				<ListBox ItemsSource="{Binding GKAddresses}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<CheckBox VerticalAlignment="Center" IsChecked="{Binding IsChecked}" />
-								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/GKIcons/GK.png" />
-								<TextBlock VerticalAlignment="Center" Text="{Binding Address}" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-			<TabItem Header="События">
-				<ListBox ItemsSource="{Binding EventNames}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-
-			<TabItem Header="Устройства">
-				<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
-					<tree:TreeList.View>
-						<GridView>
-							<GridViewColumn Width="250" Header="Устройство">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
-											<TextBlock Text="{Binding Device.Driver.ShortName}" />
-										</StackPanel>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-							<GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
-							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
-							<GridViewColumn Header="Использовать">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-						</GridView>
-					</tree:TreeList.View>
-				</tree:TreeList>
-			</TabItem>
-			<TabItem Header="Зоны">
-				<ListBox ItemsSource="{Binding ArchiveZones}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-			<TabItem Header="Направления">
-				<ListBox ItemsSource="{Binding ArchiveDirections}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</TabItem>
-		</TabControl>
-	</DockPanel>
+            <TabItem Header="Устройства">
+                <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+                    <tree:TreeList.View>
+                        <GridView>
+                            <GridViewColumn Width="250" Header="Устройство">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
+                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
+                            <GridViewColumn Header="Использовать">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </tree:TreeList.View>
+                </tree:TreeList>
+            </TabItem>
+            <TabItem Header="Зоны">
+                <ListBox ItemsSource="{Binding ArchiveZones}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Направления">
+                <ListBox ItemsSource="{Binding ArchiveDirections}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </UserControl>

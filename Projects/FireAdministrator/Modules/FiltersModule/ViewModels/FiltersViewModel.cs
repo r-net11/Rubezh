@@ -112,7 +112,7 @@ namespace FiltersModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BFilter.png") { Order = 2 }
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}
 	}

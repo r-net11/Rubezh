@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
         {
             RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
             RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
 
 
@@ -153,7 +153,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
 					new RibbonMenuItemViewModel("Удалить все инструкции", DeleteAllCommand, "/Controls;component/Images/BDeleteAll.png"),
-				}, "/Controls;component/Images/BInformation.png") { Order = 2 }
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}
 	}

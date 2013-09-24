@@ -29,8 +29,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Margin="2 2 2 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -63,8 +63,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2 2 2 0" />
-                                            <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="1 0 0 0" />
+                                            <TextBlock Margin="2" Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -105,13 +105,13 @@
             <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
-                        <GridView.Columns >
-                            <GridViewColumn Header="№">
+                        <GridView.Columns>
+                            <GridViewColumn Header="№" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Margin="2 2 2 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
-                                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" VerticalAlignment="Center"/>
+                                            <Image Width="16" Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -123,16 +123,13 @@
                                         <Controls:EditorPresenter>
                                             <Controls:EditorPresenter.ViewTemplate>
                                                 <ControlTemplate>
-                                                    <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
-                                                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                    <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
                                                         <ComboBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <Image Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
-                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                                    <Image Margin="1 0 0 0" Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
+                                                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center"/>
                                                                 </StackPanel>
-                                                                <!--<Image Width="16" Source="{Binding., Converter={StaticResource XStateTypeToIconConverter}}"/>-->
-                                                                
                                                             </DataTemplate>
                                                         </ComboBox.ItemTemplate>
                                                     </ComboBox>
@@ -182,8 +179,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="2 2 2 0" />
-                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                            <Image Margin="1 0 0 0" Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16"/>
+                                            <TextBlock Margin="2" Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

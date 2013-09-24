@@ -125,7 +125,7 @@ namespace OPCModule.ViewModels
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					new RibbonMenuItemViewModel("Конвертировать из Firesec-1", ConvertCommand, false, "/Controls;component/Images/BSettings.png")
-				}, "/Controls;component/Images/BZones.png") { Order = 2 }
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}
 	}

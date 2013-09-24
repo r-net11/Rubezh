@@ -42,4 +42,5 @@
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:BoolInverterConverter x:Key="BoolInverterConverter" />
     <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
+    <Converters:SubsystemTypeToIconConverter x:Key="SubsystemTypeToIconConverter" />
 </ResourceDictionary>

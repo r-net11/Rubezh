@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Common.GK
+namespace XFiresecAPI
 {
-	public enum JournalSubsystemType
+	public enum XSubsystemType
 	{
 		[DescriptionAttribute("Система")]
 		System = 0,

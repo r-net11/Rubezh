@@ -457,7 +457,60 @@ namespace GKModule.ViewModels
 		}
 
 		public string Name { get; private set; }
-
+		
+		public string ImageSource
+		{
+			get
+			{
+				switch (Name)
+				{
+					case "Очистка журнала":
+					case "Установка часов":
+					case "Запись информации о блоке":
+					case "Смена ПО":
+					case "Устройство с таким адресом не описано при конфигурации":
+					case "При конфигурации описан другой тип":
+					case "Вход пользователя в систему":
+					case "Выход пользователя из системы":
+						return "/Controls;component/StateClassIcons/TechnologicalRegime.png";
+					case "Технология":
+					case "Работа":
+					case "Запыленность":
+					case "Состояние":
+					case "Дежурный":
+					case "Команда оператора":
+					case "Управление":
+					case "Изменился заводской номер":
+					case "Режим работы":
+					case "Вход пользователя в прибор":
+					case "Выход пользователя из прибора":
+					case "Подтверждение тревоги":
+						return "/Controls;component/StateClassIcons/Service.png";
+					case "Смена БД":
+						return "/Controls;component/StateClassIcons/DBMissmatch.png";
+					case "Неизвестный тип":
+						return "/Controls;component/StateClassIcons/Unknown.png";
+					case "Пожар":
+						return "/Controls;component/StateClassIcons/Fire1.png";
+					case "Пожар-2":
+						return "/Controls;component/StateClassIcons/Fire2.png";
+					case "Внимание":
+						return "/Controls;component/StateClassIcons/Attention.png";
+					case "Неисправность":
+						return "/Controls;component/StateClassIcons/Failure.png";
+					case "Тест":
+						return "/Controls;component/StateClassIcons/Info.png";
+					case "Отключение":
+						return "/Controls;component/StateClassIcons/Off.png";
+					case "Потеря связи с прибором":
+					case "Восстановление связи с прибором":
+						return "/Controls;component/StateClassIcons/ConnectionLost.png";
+					default:
+						return "";
+				}
+			}
+		}
+		
 		bool _isChecked;
 		public bool IsChecked
 		{

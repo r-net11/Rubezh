@@ -16,6 +16,7 @@ using KeyboardKey = System.Windows.Input.Key;
 using System.ComponentModel;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 
 namespace GKModule.ViewModels
@@ -43,6 +44,7 @@ namespace GKModule.ViewModels
 
 			Invalidate();
 			SetRibbonItems();
+			RegisterShortcuts();
 		}
 
 		void FiresecDriverAuParametersHelper_Progress(string value, int percentsCompleted)
@@ -537,6 +539,12 @@ namespace GKModule.ViewModels
 				}
 				device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
 			}
+		}
+
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}
 
 		List<XDevice> GetRealChildren()
