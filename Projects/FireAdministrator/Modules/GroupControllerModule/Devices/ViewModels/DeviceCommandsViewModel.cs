@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -8,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Microsoft.Win32;
 using XFiresecAPI;
 
 namespace GKModule.Models
@@ -200,11 +203,38 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			MessageBoxService.Show("Функция не реализована");
+			var updateFilePath = ChangeFile();
+			if (updateFilePath == null)
+				return;
+			var firmWareBytes = HexHelper.HexFileToBytesList(updateFilePath);
+			var selectedDevice = SelectedDevice.Device;
+			BinConfigurationWriter.GoToTechnologicalRegime(selectedDevice);
+			var softVersion = DeviceBytesHelper.GetDeviceInfo(selectedDevice);
+			BinConfigurationWriter.Clear(selectedDevice);
+			var data = new List<byte>();
+			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
+			{
+				data = new List<byte>(BitConverter.GetBytes((i + 1)*0x100));
+				data.Reverse();
+				data.AddRange(firmWareBytes.GetRange(i, 0x100));
+				SendManager.Send(selectedDevice, 260, 0x12, 0, data);
+			}
 		}
 		bool CanUpdateFirmwhare()
 		{
 			return (SelectedDevice != null && SelectedDevice.Driver.IsKauOrRSR2Kau && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+		}
+
+		static string ChangeFile()
+		{
+			var openDialog = new OpenFileDialog()
+			{
+				Filter = "soft update files|*.hcs",
+				DefaultExt = "soft update files|*.hcs"
+			};
+			if (openDialog.ShowDialog().Value)
+				return openDialog.FileName;
+			return null;
 		}
 
 		bool ValidateConfiguration()
