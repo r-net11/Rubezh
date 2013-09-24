@@ -5,11 +5,11 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Client.Plans.ViewModels;
 
-namespace GKModule.Plans.ViewModels
+namespace Infrastructure.Client.Plans.ViewModels
 {
-	public class XDeviceTooltipViewModel : BaseViewModel
+	public class ImageTextStateTooltipViewModel : BaseViewModel
 	{
-		public XDeviceTooltipViewModel()
+		public ImageTextStateTooltipViewModel()
 		{
 			TitleViewModel = new ImageTextTooltipViewModel();
 			StateViewModel = new ImageTextTooltipViewModel();

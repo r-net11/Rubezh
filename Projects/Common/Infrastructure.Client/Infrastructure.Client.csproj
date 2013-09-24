@@ -62,6 +62,7 @@
     <Compile Include="Plans\ViewModels\ImageTextTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\IPlanDesignerViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ImageTextStateTooltipViewModel.cs" />
     <Compile Include="Plans\Views\ImageTextTooltipView.xaml.cs">
       <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
     </Compile>
@@ -69,6 +70,9 @@
       <DependentUpon>PlanDesignerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\PlanEnumerator.cs" />
+    <Compile Include="Plans\Views\ImageTextStateTooltipView.xaml.cs">
+      <DependentUpon>ImageTextStateTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -137,6 +141,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\PlanDesignerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\ImageTextStateTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

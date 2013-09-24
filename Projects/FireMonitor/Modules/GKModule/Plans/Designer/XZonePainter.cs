@@ -1,31 +1,28 @@
-﻿using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using Controls;
 using FiresecAPI;
-using FiresecClient;
+using FiresecAPI.Models;
+using GKModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using System.Windows.Controls;
-using Controls.Converters;
-using GKModule.ViewModels;
-using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
-using System.Windows.Input;
-using System.Diagnostics;
 
 namespace GKModule.Plans.Designer
 {
 	class XZonePainter : PolygonZonePainter, IPainter
 	{
-		PresenterItem _presenterItem;
-		XZone Zone;
-		ContextMenu _contextMenu;
+		private PresenterItem _presenterItem;
+		private XZone Zone;
+		private ContextMenu _contextMenu;
+		private ImageTextStateTooltipViewModel _tooltip;
 
 		public XZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -37,29 +34,42 @@ namespace GKModule.Plans.Designer
 			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
 			if (Zone != null)
 				Zone.ZoneState.StateChanged += OnPropertyChanged;
-			_presenterItem.Title = GetZoneTooltip();
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
+			UpdateTooltip();
 		}
 
-		void OnPropertyChanged()
+		private void OnPropertyChanged()
 		{
-			_presenterItem.Title = GetZoneTooltip();
-			_presenterItem.InvalidatePainter();
-			_presenterItem.DesignerCanvas.Refresh();
+			if (_presenterItem != null)
+			{
+				UpdateTooltip();
+				_presenterItem.InvalidatePainter();
+				_presenterItem.DesignerCanvas.Refresh();
+			}
 		}
-		string GetZoneTooltip()
+		private void UpdateTooltip()
 		{
 			if (Zone == null)
-				return null;
-			var stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine(Zone.PresentationName);
-			stringBuilder.AppendLine("Состояние: " + Zone.ZoneState.StateClass.ToDescription());
-			return stringBuilder.ToString().TrimEnd();
+				return;
+
+			if (_tooltip == null)
+			{
+				_tooltip = new ImageTextStateTooltipViewModel();
+				_tooltip.TitleViewModel.Title = Zone.PresentationName.TrimEnd();
+				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/zone.png";
+			}
+			_tooltip.StateViewModel.Title = Zone.ZoneState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Zone.ZoneState.StateClass.ToIconSource();
+			_tooltip.Update();
 		}
 
 		#region IPainter Members
 
+		public override object GetToolTip(string title)
+		{
+			return _tooltip;
+		}
 		protected override Brush GetBrush()
 		{
 			return PainterCache.GetTransparentBrush(GetStateColor());
@@ -96,17 +106,17 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
-		void OnShowInTree()
+		private void OnShowInTree()
 		{
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
-		bool CanShowInTree()
+		private bool CanShowInTree()
 		{
 			return Zone != null;
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
+		private void OnShowJournal()
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
@@ -116,13 +126,13 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		private void OnShowProperties()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
 			DialogService.ShowWindow(zoneDetailsViewModel);
 		}
 
-		ContextMenu CreateContextMenu()
+		private ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{

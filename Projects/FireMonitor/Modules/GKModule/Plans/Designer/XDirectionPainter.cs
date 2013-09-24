@@ -1,34 +1,33 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
+using Controls;
 using FiresecAPI;
-using FiresecClient;
+using FiresecAPI.Models;
+using GKModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using System.Windows.Controls;
-using Controls.Converters;
-using GKModule.ViewModels;
-using Infrastructure.Common.Windows;
-using FiresecAPI.Models;
-using System.Windows.Input;
-using System.Globalization;
 
 namespace GKModule.Plans.Designer
 {
 	class XDirectionPainter : PolygonZonePainter, IPainter
 	{
-		PresenterItem _presenterItem;
-		XDirection Direction;
-		ContextMenu _contextMenu;
-		GeometryDrawing _textDrawing;
-		ScaleTransform _scaleTransform;
-		bool _showText = false;
+		private PresenterItem _presenterItem;
+		private XDirection Direction;
+		private ContextMenu _contextMenu;
+		private ImageTextStateTooltipViewModel _tooltip;
+		private GeometryDrawing _textDrawing;
+		private ScaleTransform _scaleTransform;
+		private bool _showText = false;
 
 		public XDirectionPainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -43,29 +42,39 @@ namespace GKModule.Plans.Designer
 			_showText = _presenterItem.Element is ElementRectangleXDirection;
 			if (Direction != null)
 				Direction.DirectionState.StateChanged += OnPropertyChanged;
-			_presenterItem.Title = GetDirectionTooltip();
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
+			UpdateTooltip();
 		}
 
-		void OnPropertyChanged()
+		private void OnPropertyChanged()
 		{
-			_presenterItem.Title = GetDirectionTooltip();
+			UpdateTooltip();
 			_presenterItem.InvalidatePainter();
 			_presenterItem.DesignerCanvas.Refresh();
 		}
-		string GetDirectionTooltip()
+		private void UpdateTooltip()
 		{
 			if (Direction == null)
-				return null;
-			var stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine(Direction.PresentationName);
-			stringBuilder.AppendLine("Состояние: " + Direction.DirectionState.StateClass.ToDescription());
-			return stringBuilder.ToString().TrimEnd();
+				return;
+
+			if (_tooltip == null)
+			{
+				_tooltip = new ImageTextStateTooltipViewModel();
+				_tooltip.TitleViewModel.Title = Direction.PresentationName.TrimEnd();
+				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/Blue_Direction.png";
+			}
+			_tooltip.StateViewModel.Title = Direction.DirectionState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Direction.DirectionState.StateClass.ToIconSource();
+			_tooltip.Update();
 		}
 
 		#region IPainter Members
 
+		public override object GetToolTip(string title)
+		{
+			return _tooltip;
+		}
 		protected override Brush GetBrush()
 		{
 			return PainterCache.GetTransparentBrush(GetStateColor());
@@ -113,7 +122,7 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			switch(Direction.DirectionState.StateClass)
+			switch (Direction.DirectionState.StateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
@@ -129,7 +138,7 @@ namespace GKModule.Plans.Designer
 
 				case XStateClass.AutoOff:
 					return Colors.Gray;
-				
+
 				case XStateClass.Ignore:
 					return Colors.Yellow;
 
@@ -143,17 +152,17 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
-		void OnShowInTree()
+		private void OnShowInTree()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
 		}
-		bool CanShowInTree()
+		private bool CanShowInTree()
 		{
 			return Direction != null;
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
+		private void OnShowJournal()
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
@@ -163,13 +172,13 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		private void OnShowProperties()
 		{
 			var directionDetailsViewModel = new DirectionDetailsViewModel(Direction);
 			DialogService.ShowWindow(directionDetailsViewModel);
 		}
 
-		ContextMenu CreateContextMenu()
+		private ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{

@@ -182,15 +182,16 @@ namespace FiresecClient
 			{
 				var zoneUIDs = new List<Guid>();
 				guardUser.Zones = new List<XZone>();
-				foreach (var zoneUID in guardUser.ZoneUIDs)
-				{
-					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
+				if (guardUser.ZoneUIDs != null)
+					foreach (var zoneUID in guardUser.ZoneUIDs)
 					{
-						guardUser.Zones.Add(zone);
-						zoneUIDs.Add(zoneUID);
+						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+						if (zone != null)
+						{
+							guardUser.Zones.Add(zone);
+							zoneUIDs.Add(zoneUID);
+						}
 					}
-				}
 				guardUser.ZoneUIDs = zoneUIDs;
 			}
 		}
