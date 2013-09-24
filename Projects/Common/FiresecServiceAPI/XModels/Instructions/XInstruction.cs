@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.IO;
 
 namespace XFiresecAPI
 {
@@ -36,5 +37,27 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<Guid> Devices { get; set; }
+
+		[DataMember]
+		public string AudioSource { get; set; }
+
+		public bool HasAudio
+		{
+			get
+			{
+				return File.Exists(AudioSource);
+			}
+		}
+
+		[DataMember]
+		public string VideoSource { get; set; }
+
+		public bool HasVideo
+		{
+			get
+			{
+				return File.Exists(VideoSource);
+			}
+		}
 	}
 }

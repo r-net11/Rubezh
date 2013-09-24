@@ -11,7 +11,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-        <RowDefinition MaxHeight="700" />
+        <RowDefinition Height="*" />
         <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
@@ -25,7 +25,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center"/>
+                                    <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center"/>
                                     <TextBlock Margin="2" VerticalAlignment="Center">
 				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 					                    <TextBlock Text="{Binding PresentationName}" />
@@ -39,14 +39,14 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
+                                    <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
                                     <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed"/>
+                    <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">

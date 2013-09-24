@@ -12,9 +12,10 @@
         <TabControl Grid.Row="0">
             <TabItem Header="Основные">
                 <WrapPanel>
-                    <Button Content="Test1" Command="{Binding Test1Command}" Width="250" Margin="2" />
-					<Button Content="Test PDF" Command="{Binding TestPdfCommand}" Width="250" Margin="2" />
-					<Button Content="Test PDF 2" Command="{Binding TestPdf2Command}" Width="250" Margin="2" />
+                    <Button Content="Test1" Command="{Binding Test1Command}" Width="200" Margin="2" />
+					<Button Content="Test PDF" Command="{Binding TestPdfCommand}" Width="200" Margin="2" />
+					<Button Content="Test PDF 2" Command="{Binding TestPdf2Command}" Width="200" Margin="2" />
+                    <Button Content="Test Instructions" Command="{Binding TestInstructionsCommand}" Width="200" Margin="2" />
 				</WrapPanel>
             </TabItem>
         </TabControl>

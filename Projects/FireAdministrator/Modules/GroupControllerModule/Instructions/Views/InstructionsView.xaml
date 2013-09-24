@@ -16,6 +16,8 @@
             <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
             <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
+            <DataGridTextColumn Header="Звук" Width="Auto" Binding="{Binding Instruction.AudioSource}" />
+            <DataGridTextColumn Header="Видео" Width="Auto" Binding="{Binding Instruction.VideoSource}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

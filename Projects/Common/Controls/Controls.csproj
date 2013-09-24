@@ -1247,6 +1247,10 @@
   <ItemGroup>
     <Resource Include="Images\BlueEdit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Sounds\Empire.mp3" />
+    <Content Include="Sounds\Sound1.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
