@@ -14,14 +14,14 @@ using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
 using FiresecClient;
 using Infrastructure.Events;
-using FiresecClient;
+using GKModule.Events;
 
 namespace GKModule.ViewModels
 {
 	public class ArchiveViewModel : ViewPartViewModel
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
-		ArchiveDefaultState ArchiveDefaultState;
+		public ArchiveDefaultState ArchiveDefaultState;
 		XArchiveFilter ArchiveFilter;
 		Thread UpdateThread;
 		bool FirstTime = true;
@@ -31,7 +31,8 @@ namespace GKModule.ViewModels
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			ExportToPdfCommand = new RelayCommand(OnExportToPdfCommand, CanExportToPdfCommand);
-
+			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
@@ -81,7 +82,10 @@ namespace GKModule.ViewModels
 		bool _isFilterOn;
 		public bool IsFilterOn
 		{
-			get { return _isFilterOn; }
+			get 
+			{ 
+				return  _isFilterOn; 
+			}
 			set
 			{
 				_isFilterOn = value;
@@ -198,7 +202,6 @@ namespace GKModule.ViewModels
 						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
 					break;
 			}
-
 			return archiveFilter;
 		}
 
@@ -213,25 +216,19 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool _showSubsystem;
 		public bool ShowSubsystem
 		{
-			get { return _showSubsystem; }
-			set
+			get 
 			{
-				_showSubsystem = value;
-				OnPropertyChanged("ShowSubsystem");
+				return ArchiveDefaultState.ShowSubsystem;
 			}
 		}
 
-		bool _showIp;
-		public bool ShowIp
+		public bool ShowIP
 		{
-			get { return _showIp; }
-			set
+			get
 			{
-				_showIp = value;
-				OnPropertyChanged("ShowIp");
+				return ArchiveDefaultState.ShowIP;
 			}
 		}
 
@@ -292,6 +289,12 @@ namespace GKModule.ViewModels
 				FirstTime = false;
 				Update(false);
 			}
+		}
+
+		void OnSettingsChanged(object o)
+		{
+			OnPropertyChanged("ShowIP");
+			OnPropertyChanged("ShowSubsystem");
 		}
 	}
 }

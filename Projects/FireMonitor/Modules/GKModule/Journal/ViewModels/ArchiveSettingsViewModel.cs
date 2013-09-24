@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
         {
             Title = "Настройки";
 
-            ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
+			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
             foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
             {
                 ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
@@ -56,6 +56,9 @@ namespace GKModule.ViewModels
                 default:
                     break;
             }
+
+			ShowIP = ArchiveDefaultState.ShowIP;
+			ShowSubsystem = ArchiveDefaultState.ShowSubsystem;
         }
 
         public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
@@ -70,6 +73,28 @@ namespace GKModule.ViewModels
                 OnPropertyChanged("CheckedArchiveDefaultStateType");
             }
         }
+
+		bool _showIP;
+		public bool ShowIP
+		{
+			get { return _showIP; }
+			set
+			{
+				_showIP = value;
+				OnPropertyChanged("ShowIP");
+			}
+		}
+
+		bool _showSubsystem;
+		public bool ShowSubsystem
+		{
+			get { return _showSubsystem; }
+			set
+			{
+				_showSubsystem = value;
+				OnPropertyChanged("ShowSubsystem");
+			}
+		}
 
         public int HoursCount { get; set; }
         public int DaysCount { get; set; }
@@ -113,7 +138,9 @@ namespace GKModule.ViewModels
                 default:
                     break;
             }
-
+			ArchiveDefaultState.ShowIP = ShowIP;
+			ArchiveDefaultState.ShowSubsystem = ShowSubsystem;
+			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Publish(null);
             return archiveDefaultState;
         }
 
@@ -128,8 +155,7 @@ namespace GKModule.ViewModels
             {
                 defaultState.IsActive = false;
             }
-
-            CheckedArchiveDefaultStateType = archiveDefaultState.ArchiveDefaultStateType;
+			CheckedArchiveDefaultStateType = archiveDefaultState.ArchiveDefaultStateType;
         }
     }
 }

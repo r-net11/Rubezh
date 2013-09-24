@@ -10,6 +10,7 @@ using FiresecClient;
 
 using System.Windows.Data;
 using FiresecAPI;
+using Infrastructure.Models;
 
 
 namespace GKModule.ViewModels
@@ -22,10 +23,11 @@ namespace GKModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 
 			JournalFilterViewModel = new JournalFilterViewModel(journalFilter);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
-
 		}
 
 		public bool IsManyGK
@@ -33,25 +35,19 @@ namespace GKModule.ViewModels
 			get	{ return XManager.IsManyGK(); }
 		}
 
-		bool _showSubsystem;
 		public bool ShowSubsystem
 		{
-			get { return _showSubsystem; }
-			set
+			get
 			{
-				_showSubsystem = value;
-				OnPropertyChanged("ShowSubsystem");
+				return ArchiveDefaultState.ShowSubsystem;
 			}
 		}
 
-		bool _showIp;
-		public bool ShowIp
+		public bool ShowIP
 		{
-			get { return _showIp; }
-			set
+			get
 			{
-				_showIp = value;
-				OnPropertyChanged("ShowIp");
+				return ArchiveDefaultState.ShowIP;
 			}
 		}
 
@@ -98,6 +94,12 @@ namespace GKModule.ViewModels
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
+		}
+
+		void OnSettingsChanged(object o)
+		{
+			OnPropertyChanged("ShowIP");
+			OnPropertyChanged("ShowSubsystem");
 		}
 
 		

@@ -22,15 +22,15 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <WrapPanel Name="_countHoursPanel" HorizontalAlignment="Center" Margin="11">
-                <Label Content="Укажите количество часов: " VerticalAlignment="Center" />
+            <WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5 ">
                 <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount}" />
+                <Label Content="количество часов" VerticalAlignment="Center" />
             </WrapPanel>
-            <WrapPanel Name="_countDaysPanel" HorizontalAlignment="Center" Margin="11">
-                <Label Content="Укажите количество дней: " VerticalAlignment="Center" />
+            <WrapPanel Name="_countDaysPanel" HorizontalAlignment="Left" Margin="11 5">
                 <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding DaysCount}" />
+                <Label Content="количество дней" VerticalAlignment="Center" />
             </WrapPanel>
-            <Grid HorizontalAlignment="Center">
+            <Grid HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
@@ -50,6 +50,8 @@
                                   SelectedDate="{Binding EndDate}" />
                 </StackPanel>
             </Grid>
+            <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Foreground="White" Margin="11 5"/>
+            <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Foreground="White" Margin="11 5"/>
         </StackPanel>
     </Border>
 </UserControl>

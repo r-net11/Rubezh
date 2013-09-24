@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:GKModule.Converters" 
-             Loaded="UserControl_Loaded">
+             Loaded="UserControl_Loaded"
+             >
     <UserControl.Resources>
         <Converters:XStateClassToJournalColorConverter x:Key="XStateClassToJournalColorConverter" />
         <Converters:JournalItemToIconConverter x:Key="JournalItemToIconConverter" />
@@ -10,8 +11,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="700" />
-            <RowDefinition Height="Auto"/>
+        <RowDefinition MaxHeight="700" />
+        <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
                 <DataGrid.Columns>
@@ -44,7 +45,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Ip-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
+                    <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
                 <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
@@ -98,9 +99,11 @@
                     </Style>
                 </DataGrid.CellStyle>
             </DataGrid>
-        <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
-            <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked"/>
-            <CheckBox Content="Показывать Ip" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked"/>
+            <StackPanel Visibility="Collapsed">
+                <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked" IsChecked="{Binding ShowIP, Mode=OneWay}"/>
+                <CheckBox Content="Показывать Ip" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked" IsChecked="{Binding ShowSubsystem, Mode=OneWay}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
@@ -137,7 +140,6 @@
 				    </Hyperlink>
                 </TextBlock>
             </Grid>
-
             <Grid Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
@@ -157,5 +159,5 @@
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKObjectNo}" Margin="2" />
             </Grid>
         </StackPanel>
-    </Grid>
+        </Grid>
 </UserControl>
