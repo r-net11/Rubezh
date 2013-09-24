@@ -169,7 +169,8 @@ namespace Infrustructure.Plans.Designer
 		}
 		protected virtual object GetToolTip()
 		{
-			return Painter == null ? Title : Painter.GetToolTip(Title);
+			var tooltip = Painter == null ? null : Painter.GetToolTip(Title);
+			return tooltip == null ? Title : tooltip;
 		}
 		protected virtual ContextMenu ContextMenuOpening()
 		{

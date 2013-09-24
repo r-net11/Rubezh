@@ -7,4 +7,8 @@
 		<Views:ImageTextTooltipView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ImageTextStateTooltipViewModel}">
+		<Views:ImageTextStateTooltipView />
+	</DataTemplate>
+
 </ResourceDictionary>

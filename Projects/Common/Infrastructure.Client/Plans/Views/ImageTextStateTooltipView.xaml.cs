@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GKModule.Plans.Views
+namespace Infrastructure.Client.Plans.Views
 {
 	/// <summary>
-	/// Interaction logic for XDeviceTooltipView.xaml
+	/// Interaction logic for ImageTextStateTooltipView.xaml
 	/// </summary>
-	public partial class XDeviceTooltipView : UserControl
+	public partial class ImageTextStateTooltipView : UserControl
 	{
-		public XDeviceTooltipView()
+		public ImageTextStateTooltipView()
 		{
 			InitializeComponent();
 		}

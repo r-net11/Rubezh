@@ -5,13 +5,13 @@ using Controls;
 using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
-using GKModule.Plans.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
+using Infrastructure.Client.Plans.ViewModels;
 
 namespace GKModule.Plans.Designer
 {
@@ -20,7 +20,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDevice Device;
 		private ContextMenu _contextMenu;
-		private XDeviceTooltipViewModel _tooltip;
+		private ImageTextStateTooltipViewModel _tooltip;
 
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -58,7 +58,7 @@ namespace GKModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new XDeviceTooltipViewModel();
+				_tooltip = new ImageTextStateTooltipViewModel();
 				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", Device.PresentationAddressAndDriver, Device.Driver.ShortName).TrimEnd();
 				_tooltip.TitleViewModel.ImageSource = Device.Driver.ImageSource;
 			}
@@ -77,13 +77,13 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
-		void OnShowInTree()
+		private void OnShowInTree()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
+		private void OnShowJournal()
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
@@ -93,7 +93,7 @@ namespace GKModule.Plans.Designer
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		private void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}

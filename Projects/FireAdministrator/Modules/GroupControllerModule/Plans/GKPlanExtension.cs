@@ -190,6 +190,7 @@ namespace GKModule.Plans
 				designerItem.ItemPropertyChanged += XZonePropertyChanged;
 				OnXZonePropertyChanged(designerItem);
 				designerItem.Group = "XZone";
+				designerItem.IconSource = "/Controls;component/Images/zone.png";
 				designerItem.UpdateProperties += UpdateDesignerItemXZone;
 				UpdateDesignerItemXZone(designerItem);
 			}
@@ -206,6 +207,7 @@ namespace GKModule.Plans
 				designerItem.ItemPropertyChanged += XDirectionPropertyChanged;
 				OnXDirectionPropertyChanged(designerItem);
 				designerItem.Group = "XDirection";
+				designerItem.IconSource = "/Controls;component/Images/Blue_Direction.png";
 				designerItem.UpdateProperties += UpdateDesignerItemXDirection;
 				UpdateDesignerItemXDirection(designerItem);
 			}

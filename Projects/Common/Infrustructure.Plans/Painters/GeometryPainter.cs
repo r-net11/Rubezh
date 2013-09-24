@@ -84,7 +84,7 @@ namespace Infrustructure.Plans.Painters
 
 		public virtual object GetToolTip(string title)
 		{
-			return string.IsNullOrEmpty(title) ? null : title;
+			return null;
 		}
 
 		#endregion

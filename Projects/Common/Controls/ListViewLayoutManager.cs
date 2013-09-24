@@ -34,6 +34,16 @@ namespace Controls
 			dependencyObject.SetValue(MinWidthProperty, minWidth);
 		}
 
+		public static readonly DependencyProperty CanUserResizeProperty = DependencyProperty.RegisterAttached("CanUserResize", typeof(bool), typeof(ListViewLayoutManager), new UIPropertyMetadata(true));
+		public static bool GetCanUserResize(DependencyObject obj)
+		{
+			return (bool)obj.GetValue(CanUserResizeProperty);
+		}
+		public static void SetCanUserResize(DependencyObject obj, bool value)
+		{
+			obj.SetValue(CanUserResizeProperty, value);
+		}
+
 		private static void OnLayoutManagerEnabledChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
 		{
 			ItemsControl view = dependencyObject as ItemsControl;
@@ -67,7 +77,7 @@ namespace Controls
 			Columns = GetColumns(_view);
 			MinWidth = GetMinWidth(_view);
 			RegisterEvents();
-			ResizeColumns(false);
+			ResizeColumns(null);
 			_loaded = true;
 		}
 		private void ListViewUnloaded(object sender, RoutedEventArgs e)
@@ -113,7 +123,7 @@ namespace Controls
 		}
 		private void OnResizeColumns(object sender, EventArgs e)
 		{
-			ResizeColumns(Columns != null && sender == Columns[Columns.Count - 1]);
+			ResizeColumns(sender as GridViewColumn);
 		}
 
 		private ScrollViewer FindScroller(DependencyObject start)
@@ -131,7 +141,7 @@ namespace Controls
 			}
 			return scroller;
 		}
-		private void ResizeColumns(bool last)
+		private void ResizeColumns(GridViewColumn column)
 		{
 			if (_resizing || Columns == null || Columns.Count == 0)
 				return;
@@ -142,16 +152,23 @@ namespace Controls
 					try
 					{
 						_resizing = true;
+						GridViewColumn fillColumn = Columns[0];
+						for (int j = Columns.Count - 1; j >= 0; j--)
+							if (GetCanUserResize(Columns[j]))
+							{
+								fillColumn = Columns[j];
+								break;
+							}
 						double columnsWidth = 0;
-						for (int i = 0; i < Columns.Count - 1; i++)
-						{
-							if (Columns[i].ActualWidth < MinWidth)
-								Columns[i].Width = MinWidth;
-							columnsWidth += Columns[i].ActualWidth;
-						}
+						for (int i = 0; i < Columns.Count; i++)
+							if (Columns[i] != fillColumn)
+							{
+								if (Columns[i].ActualWidth < MinWidth)
+									Columns[i].Width = MinWidth;
+								columnsWidth += Columns[i].ActualWidth;
+							}
 						double preWidth = presenter.ActualWidth - columnsWidth;
-						GridViewColumn fillColumn = Columns[Columns.Count - 1];
-						if (preWidth < MinWidth || (last && fillColumn.Width > preWidth))
+						if (preWidth < MinWidth || (column == fillColumn && fillColumn.Width > preWidth))
 						{
 							if (fillColumn.ActualWidth < MinWidth)
 								fillColumn.Width = MinWidth;
@@ -160,7 +177,7 @@ namespace Controls
 						else
 						{
 							_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-							Columns[Columns.Count - 1].Width = preWidth;
+							fillColumn.Width = preWidth;
 						}
 					}
 					finally

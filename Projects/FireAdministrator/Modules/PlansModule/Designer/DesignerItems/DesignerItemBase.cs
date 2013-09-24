@@ -9,6 +9,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using System.Windows.Media.Imaging;
 using System;
+using Infrastructure.Client.Plans.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -60,7 +61,7 @@ namespace PlansModule.Designer.DesignerItems
 			if (_contextMenu == null)
 			{
 				_contextMenu = new ContextMenu();
-				
+
 				_contextMenu.Items.Add(new MenuItem()
 				{
 					Command = ((DesignerCanvas)DesignerCanvas).Toolbox.PlansViewModel.CopyCommand,
@@ -170,6 +171,11 @@ namespace PlansModule.Designer.DesignerItems
 		{
 			base.OnChanged();
 			ServiceFactory.SaveService.PlansChanged = true;
+		}
+		protected override object GetToolTip()
+		{
+			var tooltip = Painter == null ? null : Painter.GetToolTip(Title);
+			return tooltip == null ? new ImageTextTooltipViewModel() { Title = Title, ImageSource = IconSource } : tooltip;
 		}
 	}
 }
