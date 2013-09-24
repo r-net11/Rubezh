@@ -134,6 +134,17 @@ namespace GKModule
 			return true;
 		}
 
+		public static bool Clear(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 16, 0);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
+				return false;
+			}
+			return true;
+		}
+
 		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
