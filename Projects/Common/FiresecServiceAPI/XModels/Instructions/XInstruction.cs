@@ -30,33 +30,30 @@ namespace XFiresecAPI
 		public XInstructionType InstructionType { get; set; }
 
 		[DataMember]
-		public string Text { get; set; }
-
-		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> Devices { get; set; }
 
 		[DataMember]
-		public string AudioSource { get; set; }
+		public string Text { get; set; }
 
-		public bool HasAudio
+		public bool HasText
 		{
 			get
 			{
-				return File.Exists(AudioSource);
+				return !String.IsNullOrWhiteSpace(Text);
 			}
 		}
 
 		[DataMember]
-		public string VideoSource { get; set; }
+		public string MediaSource { get; set; }
 
-		public bool HasVideo
+		public bool HasMedia
 		{
 			get
 			{
-				return File.Exists(VideoSource);
+				return File.Exists(MediaSource);
 			}
 		}
 	}

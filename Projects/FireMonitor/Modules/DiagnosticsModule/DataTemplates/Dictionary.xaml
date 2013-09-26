@@ -18,8 +18,4 @@
 		<Views:ReportsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NotificationViewModel}">
-        <Views:NotificationView />
-    </DataTemplate>
-
 </ResourceDictionary>

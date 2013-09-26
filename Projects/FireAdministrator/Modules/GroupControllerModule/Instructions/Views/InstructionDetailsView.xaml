@@ -51,17 +51,11 @@
                     </ComboBox>
                     <Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
                     <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
-                    <Label Grid.Column="0" Grid.Row="4" Content="Звук" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <Label Grid.Column="0" Grid.Row="4" Content="Мультимедиа" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Command="{Binding GetAudioCommand}" Margin="5" Content="Добавить" Width="80" VerticalAlignment="Center"/>
-                        <Button Command="{Binding RemoveAudioCommand}" Margin="5" Content="Удалить" Width="80" VerticalAlignment="Center" Visibility="{Binding Instruction.HasAudio, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <Label Content="{Binding Instruction.AudioSource}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Label Grid.Column="0" Grid.Row="5" Content="Видео" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Command="{Binding GetVideoCommand}" Margin="5" Content="Добавить" Width="80" VerticalAlignment="Center"/>
-                        <Button Command="{Binding RemoveVideoCommand}" Margin="5" Content="Удалить" Width="80" VerticalAlignment="Center" Visibility="{Binding Instruction.HasVideo, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                        <Label Content="{Binding Instruction.VideoSource}" VerticalAlignment="Center"/>
+                        <Button Command="{Binding GetMediaCommand}" Margin="5" Content="Добавить" Width="80" VerticalAlignment="Center"/>
+                        <Button Command="{Binding RemoveMediaCommand}" Margin="5" Content="Удалить" Width="80" VerticalAlignment="Center" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        <Label Content="{Binding Instruction.MediaSource}" VerticalAlignment="Center" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
                 </Grid>
             </Grid>

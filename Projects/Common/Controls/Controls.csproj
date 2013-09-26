@@ -1249,6 +1249,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Sounds\Empire.mp3" />
+    <Resource Include="Images\Pause.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

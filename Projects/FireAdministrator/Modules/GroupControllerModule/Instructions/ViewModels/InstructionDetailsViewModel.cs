@@ -21,11 +21,8 @@ namespace GKModule.ViewModels
 		{
 			SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
 			SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
-			GetAudioCommand = new RelayCommand(OnGetAudio);
-			GetVideoCommand = new RelayCommand(OnGetVideo);
-			RemoveAudioCommand = new RelayCommand(OnRemoveAudio);
-			RemoveVideoCommand = new RelayCommand(OnRemoveVideo);
-
+			GetMediaCommand = new RelayCommand(OnGetMedia);
+			RemoveMediaCommand = new RelayCommand(OnRemoveMedia);
 			if (instruction != null)
 			{
 				Title = "Редактирование инструкции";
@@ -168,17 +165,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GetAudioCommand { get; private set; }
-		void OnGetAudio()
+		public RelayCommand GetMediaCommand { get; private set; }
+		void OnGetMedia()
 		{
 			try
 			{
 				var openDialog = new OpenFileDialog();
 				openDialog.DefaultExt = ".wav";
-				openDialog.Filter = "wav аудио (*.wav)|*.wav| все файлы|*.*";
+				openDialog.Filter = "wav аудио (*.wav)|*.wav|wmv видео (*.wmv)|*.wmv| все файлы|*.*";
 				if (openDialog.ShowDialog().Value)
 				{
-					Instruction.AudioSource = openDialog.FileName;
+					Instruction.MediaSource = openDialog.FileName;
 					OnPropertyChanged("Instruction");
 				}
 			}
@@ -189,44 +186,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand GetVideoCommand { get; private set; }
-		void OnGetVideo()
+		public RelayCommand RemoveMediaCommand { get; private set; }
+		void OnRemoveMedia()
 		{
-			try
-			{
-				var openDialog = new OpenFileDialog();
-				openDialog.DefaultExt = ".wmv";
-				openDialog.Filter = "wmv видео (*.wmv)|*.wmv| все файлы|*.*";
-				if (openDialog.ShowDialog().Value)
-				{
-					Instruction.VideoSource = openDialog.FileName;
-					OnPropertyChanged("Instruction");
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "InstructionDetailsView.GetVideo");
-				MessageBox.Show(e.Message, "Ошибка при выполнении операции");
-			}
-		}
-
-		public RelayCommand RemoveAudioCommand { get; private set; }
-		void OnRemoveAudio()
-		{
-			Instruction.AudioSource = null;
-			OnPropertyChanged("Instruction");
-		}
-
-		public RelayCommand RemoveVideoCommand { get; private set; }
-		void OnRemoveVideo()
-		{
-			Instruction.VideoSource = null;
+			Instruction.MediaSource = null;
 			OnPropertyChanged("Instruction");
 		}
 
 		protected override bool CanSave()
 		{
-			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasAudio && !Instruction.HasVideo)
+			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasMedia)
 				return false;
 			else
 				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty());

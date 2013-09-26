@@ -94,15 +94,11 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\PdfViewerViewModel.cs" />
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="ViewModels\ImitatorViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
-    <Compile Include="Views\NotificationView.xaml.cs">
-      <DependentUpon>NotificationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PdfContainer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,10 +122,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="DiagnosticsModuleLoader.cs" />
-    <Page Include="Views\NotificationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\ReportsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
