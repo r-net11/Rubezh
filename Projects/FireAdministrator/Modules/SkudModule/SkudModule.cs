@@ -22,6 +22,12 @@ namespace SkudModule
 		{
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Unsubscribe(OnShowSkud);
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Subscribe(OnShowSkud);
+
+			_skudViewModel = new SkudViewModel();
+			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
+			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
+			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
+			_employeePositionsViewModel = new EmployeePositionsViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -31,18 +37,17 @@ namespace SkudModule
 
 		public override void Initialize()
 		{
-			_skudViewModel = new SkudViewModel();
-			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
+			_skudViewModel.Initialize();
 			_employeeCardIndexViewModel.Initialize();
 
-			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
-			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
-			_employeePositionsViewModel = new EmployeePositionsViewModel();
+			_employeeDepartmentsViewModel.Initialize();
+			_employeeGroupsViewModel.Initialize();
+			_employeePositionsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-            if (!FiresecManager.CheckPermission(PermissionType.Adm_SKUD))
-                return null;
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_SKUD))
+				return null;
 
 			return new List<NavigationItem>()
 			{
