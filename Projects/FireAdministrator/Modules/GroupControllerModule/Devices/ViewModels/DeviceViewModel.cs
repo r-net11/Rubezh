@@ -396,7 +396,8 @@ namespace GKModule.ViewModels
 					OnPropertyChanged("EditingPresentationZone");
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
-					XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+					if (Device.KAURSR2Parent != null)
+						XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
 					XManager.DeviceConfiguration.Update();
 					Update();
 					ServiceFactory.SaveService.GKChanged = true;
