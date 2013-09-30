@@ -222,7 +222,7 @@ namespace GKModule.Models
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && SelectedDevice.Driver.IsKauOrRSR2Kau && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		static string ChangeFile()

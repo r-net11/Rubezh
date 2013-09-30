@@ -71,6 +71,7 @@
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
+    <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />

@@ -35,7 +35,12 @@ namespace XFiresecAPI
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XDevice> DevicesInLogic { get; set; }
-
+		public bool HasDifferences { get; set; }
+		public bool HasMissingDifferences { get; set; }
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
 		[DataMember]
 		public List<XProperty> SystemAUProperties { get; set; }
 
