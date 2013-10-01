@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Common.GK;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
-namespace GKModule
+namespace GKProcessor
 {
 	public partial class Watcher
 	{

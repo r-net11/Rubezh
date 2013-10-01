@@ -38,7 +38,7 @@ namespace GKModule.Converters
 				case XStateClass.AutoOff:
 					return Brushes.Yellow;
 
-				case XStateClass.Info:
+				case XStateClass.Test:
 					return Brushes.Transparent;
 
 				case XStateClass.Norm:

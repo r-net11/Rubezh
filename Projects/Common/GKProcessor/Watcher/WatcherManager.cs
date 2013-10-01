@@ -8,7 +8,6 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Infrastructure;
 using GKProcessor.Events;
-using Infrastructure.Common.Services;
 
 namespace GKProcessor
 {

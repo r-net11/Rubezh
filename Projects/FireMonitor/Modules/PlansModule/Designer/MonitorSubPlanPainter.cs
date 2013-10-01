@@ -74,7 +74,7 @@ namespace PlansModule.Designer
 				case XStateClass.ConnectionLost:
 				case XStateClass.TechnologicalRegime:
 					return Colors.Gray;
-				case XStateClass.Info:
+				case XStateClass.Test:
 					return Colors.LightBlue;
 				case XStateClass.Norm:
 				default:

@@ -22,33 +22,31 @@
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
 
-        <Grid Grid.Row="0" Grid.Column="0">
-            <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="Auto" Header="№">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
-                                    <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
-                </DataGrid.Columns>
-            </Controls:XDataGrid>
-        </Grid>
+        <Controls:XDataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" Header="№" SortMemberPath="Direction.No">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление" SortMemberPath="Direction.Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Direction.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
 
         <Grid Grid.Row="0" Grid.Column="3">
             <Grid.RowDefinitions>

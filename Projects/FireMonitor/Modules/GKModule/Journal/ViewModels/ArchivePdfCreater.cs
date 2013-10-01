@@ -142,7 +142,7 @@ namespace GKModule.Journal.ViewModels
 				case XStateClass.AutoOff:
 					color = System.Drawing.Color.Yellow;
 					break;
-				case XStateClass.Info:
+				case XStateClass.Test:
 					color = System.Drawing.Color.Transparent;
 					break;
 				case XStateClass.Norm:

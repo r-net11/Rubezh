@@ -6,7 +6,7 @@
     <StackPanel Orientation="Horizontal">
         <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" Width="200">
+        <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Command="{Binding ShowOnPlanCommand}" >

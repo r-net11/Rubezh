@@ -25,7 +25,7 @@ namespace Common.GK
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
-			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Info);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Failure);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 

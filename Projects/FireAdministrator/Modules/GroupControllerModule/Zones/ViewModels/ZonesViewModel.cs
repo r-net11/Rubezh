@@ -70,10 +70,14 @@ namespace GKModule.ViewModels
             set
             {
                 _selectedZone = value;
-                if (value != null)
-                    ZoneDevices.Initialize(value.Zone);
-                else
-                    ZoneDevices.Clear();
+				if (value != null)
+				{
+					ZoneDevices.Initialize(value.Zone);
+				}
+				else
+				{
+					ZoneDevices.Clear();
+				}
                 OnPropertyChanged("SelectedZone");
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);

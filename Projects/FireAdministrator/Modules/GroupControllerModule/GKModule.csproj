@@ -300,6 +300,7 @@
     <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />

@@ -71,7 +71,7 @@ namespace FiresecAPI.XModels
 						stateClasses.Add(XStateClass.TurningOff);
 						break;
 					case XStateBit.Test:
-						stateClasses.Add(XStateClass.Info);
+						stateClasses.Add(XStateClass.Test);
 						break;
 				}
 			}
@@ -117,6 +117,7 @@ namespace FiresecAPI.XModels
 				case XStateClass.DBMissmatch:
 					return StateType.Service;
 
+				case XStateClass.Test:
 				case XStateClass.Info:
 				case XStateClass.On:
 				case XStateClass.TurningOn:
@@ -151,7 +152,7 @@ namespace FiresecAPI.XModels
 				case StateType.Fire:
 					return XStateClass.Fire1;
 				case StateType.Info:
-					return XStateClass.Info;
+					return XStateClass.Test;
 				case StateType.No:
 					return XStateClass.No;
 				case StateType.Norm:

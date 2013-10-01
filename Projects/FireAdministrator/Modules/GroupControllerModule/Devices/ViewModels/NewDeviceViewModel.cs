@@ -10,6 +10,8 @@ namespace GKModule.ViewModels
 {
 	public class NewDeviceViewModel : NewDeviceViewModelBase
 	{
+		static int PreviousShleif = 1;
+
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
@@ -65,7 +67,15 @@ namespace GKModule.ViewModels
 					AvailableShleifs.Add(1);
 				}
 			}
-			SelectedShleif = AvailableShleifs.FirstOrDefault();
+
+			if (AvailableShleifs.Any(x => x == PreviousShleif))
+			{
+				SelectedShleif = AvailableShleifs.FirstOrDefault(x => x == PreviousShleif);
+			}
+			else
+			{
+				SelectedShleif = AvailableShleifs.FirstOrDefault();
+			}
 		}
 
 		byte _selectedShleif;
@@ -75,6 +85,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedShleif = value;
+				PreviousShleif = value;
 				OnPropertyChanged("SelectedShleif");
 				UpdateAddressRange();
 			}

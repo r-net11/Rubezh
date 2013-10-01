@@ -15,7 +15,7 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding DevicePicture}" BorderThickness="0" />
-				<Views:DeviceStateView TextElement.Foreground="White" />
+				<Views:DeviceStateView TextElement.Foreground="White" Margin="2 0 0 0" />
 			</StackPanel>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 				<StackPanel>

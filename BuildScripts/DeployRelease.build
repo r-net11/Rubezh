@@ -15,19 +15,7 @@
     <msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\Projects\FSAgent\FSAgentServer.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
     <msbuild project="..\Projects\ManagementConsole\ManagementConsole.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
-    <msbuild project="..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
-    <msbuild project="..\Projects\MultiClient\MultiClientAdministrator.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
-    <msbuild project="..\Projects\ServerFS2\ServerFS2.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <msbuild project="..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">

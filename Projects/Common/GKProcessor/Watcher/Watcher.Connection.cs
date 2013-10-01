@@ -4,9 +4,9 @@ using System.Linq;
 using Common;
 using Common.GK;
 using FiresecClient;
+using GKProcessor.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using GKProcessor.Events;
 using XFiresecAPI;
 using Infrastructure.Common.Services;
 

@@ -7,6 +7,7 @@ using System.Windows.Media.Animation;
 using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
+using GKProcessor.Events;
 
 namespace GKModule.Views
 {
