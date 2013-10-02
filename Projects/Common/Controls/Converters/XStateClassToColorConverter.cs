@@ -38,7 +38,7 @@ namespace Controls.Converters
 				case XStateClass.AutoOff:
 					return Brushes.Yellow;
 
-				case XStateClass.Info:
+				case XStateClass.Test:
 				case XStateClass.Norm:
 					return Brushes.Transparent;
 

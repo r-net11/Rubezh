@@ -8,7 +8,7 @@ namespace GKProcessor
 		{
 			ApplicationService.Invoke(() =>
 			{
-				LoadingService.ShowProgress("", name, count);
+				LoadingService.ShowWithCancel(name, count);
 			});
 		}
 

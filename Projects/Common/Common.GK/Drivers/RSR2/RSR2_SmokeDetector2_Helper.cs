@@ -19,7 +19,7 @@ namespace Common.GK
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Info);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 

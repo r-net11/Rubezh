@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -32,13 +33,16 @@ namespace GKModule.ViewModels
 			}
 			CopyProperties();
 
-			AvailableNames = new ObservableCollection<string>();
-			AvailableDescription = new ObservableCollection<string>();
+
+			var availableNames = new HashSet<string>();
+			var availableDescription = new HashSet<string>();
 			foreach (var existingZone in XManager.Zones)
 			{
-				AvailableNames.Add(existingZone.Name);
-				AvailableDescription.Add(existingZone.Description);
+				availableNames.Add(existingZone.Name);
+				availableDescription.Add(existingZone.Description);
 			}
+			AvailableNames = new ObservableCollection<string>(availableNames);
+			AvailableDescription = new ObservableCollection<string>(availableDescription);
 		}
 
 		void CopyProperties()

@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Events;
+using GKProcessor.Events;
 
 namespace GKModule.ViewModels
 {

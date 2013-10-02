@@ -37,12 +37,16 @@ namespace GKModule
 						if (!result)
 						{
 							error = "Не удалось перевести ГК в технологический режим";
-							break;
+							continue;
 						}
 						if (LoadingService.IsCanceled)
 							return;
 
-						EraseDatabase(gkDatabase.RootDevice);
+						if(!EraseDatabase(gkDatabase.RootDevice))
+						{
+							error = "Не удалось стереть базу данных ГК";
+							continue;
+						}
 
 						if (LoadingService.IsCanceled)
 							return;
@@ -53,13 +57,17 @@ namespace GKModule
 							if (!result)
 							{
 								error = "Не удалось перевести КАУ в технологический режим";
-								break;
+								continue;
 							}
 
 							if (LoadingService.IsCanceled)
 								return;
 
-							EraseDatabase(kauDatabase.RootDevice);
+							if (!EraseDatabase(kauDatabase.RootDevice))
+							{
+								error = "Не удалось стереть базу данных КАУ";
+								continue;
+							}
 
 							if (LoadingService.IsCanceled)
 								return;
@@ -70,7 +78,7 @@ namespace GKModule
 							if (!writeResult)
 							{
 								error = "Не удалось записать дескриптор КАУ";
-								break;
+								continue;
 							}
 						}
 						var writeResult2 = WriteConfigToDevice(gkDatabase);
@@ -79,7 +87,7 @@ namespace GKModule
 						if (!writeResult2)
 						{
 							error = "Не удалось записать дескриптор ГК";
-							break;
+							continue;
 						}
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
@@ -99,7 +107,7 @@ namespace GKModule
 					}
 					if (error != null)
 					{
-						MessageBoxService.ShowError("Во время записи конфигурации возникла ошибка" + "/n" + error);
+						result = MessageBoxService.ShowQuestion("Во время записи конфигурации возникла ошибка" + Environment.NewLine + error + Environment.NewLine + "Перевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
 					}
 				}
 			}
@@ -165,8 +173,8 @@ namespace GKModule
 					if (sendResult.HasError)
 					{
 						LoadingService.Close();
-						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПперевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
-					}
+						return false;
+						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПеревести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;					}
 				}
 			}
 			WriteEndDescriptor(commonDatabase);
@@ -270,7 +278,7 @@ namespace GKModule
 			return false;
 		}
 
-		static void EraseDatabase(XDevice device)
+		static bool EraseDatabase(XDevice device)
 		{
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
@@ -278,14 +286,14 @@ namespace GKModule
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{
-					return;
+					return true;
 				}
 				else
 				{
 					Thread.Sleep(TimeSpan.FromSeconds(1));
 				}
 			}
-			MessageBoxService.ShowError("Не удалось стереть базу данных");
+			return false;
 		}
 
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)

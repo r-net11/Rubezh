@@ -42,6 +42,28 @@ namespace Common.GK
 
 			var property2 = new XDriverProperty()
 			{
+				No = 0x87,
+				Name = "Режим",
+				Caption = "Режим",
+				Default = 2,
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
+			};
+			var property2Parameter1 = new XDriverPropertyParameter()
+			{
+				Name = "Ведомый",
+				Value = 1
+			};
+			var property2Parameter2 = new XDriverPropertyParameter()
+			{
+				Name = "Ведущий",
+				Value = 2
+			};
+			property2.Parameters.Add(property2Parameter1);
+			property2.Parameters.Add(property2Parameter2);
+			driver.Properties.Add(property2);
+
+			var property3 = new XDriverProperty()
+			{
 				No = 0x88,
 				Name = "Время отложенного пуска, c",
 				Caption = "Время отложенного пуска, c",
@@ -50,9 +72,9 @@ namespace Common.GK
 				Min = 0,
 				Max = 255
 			};
-			driver.Properties.Add(property2);
+			driver.Properties.Add(property3);
 
-			var property3 = new XDriverProperty()
+			var property4 = new XDriverProperty()
 			{
 				No = 0x89,
 				Name = "Действующее значение входного напряжения линейного входа, mV",
@@ -60,27 +82,27 @@ namespace Common.GK
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
 			};
-			var property3Parameter1 = new XDriverPropertyParameter()
+			var property4Parameter1 = new XDriverPropertyParameter()
 			{
 				Name = "250",
 				Value = 0
 			};
-			var property3Parameter2 = new XDriverPropertyParameter()
+			var property4Parameter2 = new XDriverPropertyParameter()
 			{
 				Name = "500",
 				Value = 1
 			};
-			var property3Parameter3 = new XDriverPropertyParameter()
+			var property4Parameter3 = new XDriverPropertyParameter()
 			{
 				Name = "775",
 				Value = 2
 			};
-			property3.Parameters.Add(property3Parameter1);
-			property3.Parameters.Add(property3Parameter2);
-			property3.Parameters.Add(property3Parameter3);
-			driver.Properties.Add(property3);
+			property4.Parameters.Add(property4Parameter1);
+			property4.Parameters.Add(property4Parameter2);
+			property4.Parameters.Add(property4Parameter3);
+			driver.Properties.Add(property4);
 
-			var property4 = new XDriverProperty()
+			var property5 = new XDriverProperty()
 			{
 				No = 0x90,
 				Name = "Рабочее напряжение, В",
@@ -88,19 +110,19 @@ namespace Common.GK
 				Default = 0,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
 			};
-			var property4Parameter1 = new XDriverPropertyParameter()
+			var property5Parameter1 = new XDriverPropertyParameter()
 			{
 				Name = "12",
 				Value = 0
 			};
-			var property4Parameter2 = new XDriverPropertyParameter()
+			var property5Parameter2 = new XDriverPropertyParameter()
 			{
 				Name = "24",
 				Value = 1
 			};
-			property4.Parameters.Add(property4Parameter1);
-			property4.Parameters.Add(property4Parameter2);
-			driver.Properties.Add(property4);
+			property5.Parameters.Add(property5Parameter1);
+			property5.Parameters.Add(property5Parameter2);
+			driver.Properties.Add(property5);
 
 			return driver;
 		}

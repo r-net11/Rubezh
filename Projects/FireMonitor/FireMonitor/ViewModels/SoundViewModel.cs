@@ -11,6 +11,7 @@ using System.IO;
 using Microsoft.Windows.Controls;
 using XFiresecAPI;
 using FiresecAPI.XModels;
+using GKProcessor.Events;
 
 namespace FireMonitor.ViewModels
 {

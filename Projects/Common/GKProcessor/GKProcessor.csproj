@@ -55,7 +55,7 @@
     <Compile Include="AUParameterValue.cs" />
     <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\NewJournalEvent.cs" />
+    <Compile Include="Events\NewXJournalEvent.cs" />
     <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="ObjectCommandSendHelper.cs" />
     <Compile Include="ParameterUpdateHelper.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
+    <Compile Include="Watcher\Watcher.Parameters.cs" />
     <Compile Include="Watcher\Watcher.PingJournal.cs" />
     <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.Progress.cs" />

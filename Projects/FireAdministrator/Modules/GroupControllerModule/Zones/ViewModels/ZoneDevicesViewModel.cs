@@ -18,8 +18,8 @@ namespace GKModule.ViewModels
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			Devices = new ObservableCollection<DeviceViewModel>();
-			AvailableDevices = new ObservableCollection<DeviceViewModel>();
+			Devices = new ObservableCollection<ZoneDeviceViewModel>();
+			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 		}
 
 		public void Initialize(XZone zone)
@@ -49,10 +49,10 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			Devices.Clear();
+			Devices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
 					IsExpanded = true,
 					IsBold = device.ZoneUIDs.Contains(Zone.UID)
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 				parent.AddChild(device);
 			}
 
-			AvailableDevices.Clear();
+			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
 				if ((device.Driver.DriverType == XDriverType.GKIndicator) ||
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 					(device.Driver.DriverType == XDriverType.KAUIndicator))
 					continue;
 
-				var deviceViewModel = new DeviceViewModel(device)
+				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.HasZone
@@ -91,6 +91,7 @@ namespace GKModule.ViewModels
 			}
 
 			OnPropertyChanged("Devices");
+			OnPropertyChanged("AvailableDevices");
 
 			SelectedDevice = Devices.LastOrDefault();
 			SelectedAvailableDevice = AvailableDevices.LastOrDefault(); ;
@@ -109,10 +110,10 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("AvailableDevices");
 		}
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		public ObservableCollection<ZoneDeviceViewModel> Devices { get; private set; }
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		ZoneDeviceViewModel _selectedDevice;
+		public ZoneDeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -122,10 +123,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
+		public ObservableCollection<ZoneDeviceViewModel> AvailableDevices { get; private set; }
 
-		DeviceViewModel _selectedAvailableDevice;
-		public DeviceViewModel SelectedAvailableDevice
+		ZoneDeviceViewModel _selectedAvailableDevice;
+		public ZoneDeviceViewModel SelectedAvailableDevice
 		{
 			get { return _selectedAvailableDevice; }
 			set

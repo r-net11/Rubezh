@@ -10,6 +10,7 @@ namespace GKModule.ViewModels
 {
 	public class RSR2NewDeviceViewModel : NewDeviceViewModelBase
 	{
+		static int PreviousShleif = 1;
 		XDevice RealParentDevice;
 
 		public RSR2NewDeviceViewModel(DeviceViewModel deviceViewModel)
@@ -59,7 +60,14 @@ namespace GKModule.ViewModels
 					AvailableShleifs.Add(ParentDevice.ShleifNo);
 				}
 			}
-			SelectedShleif = AvailableShleifs.FirstOrDefault();
+			if (AvailableShleifs.Any(x => x == PreviousShleif))
+			{
+				SelectedShleif = AvailableShleifs.FirstOrDefault(x => x == PreviousShleif);
+			}
+			else
+			{
+				SelectedShleif = AvailableShleifs.FirstOrDefault();
+			}
 		}
 
 		byte _selectedShleif;
@@ -69,6 +77,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedShleif = value;
+				PreviousShleif = value;
 				OnPropertyChanged("SelectedShleif");
 			}
 		}

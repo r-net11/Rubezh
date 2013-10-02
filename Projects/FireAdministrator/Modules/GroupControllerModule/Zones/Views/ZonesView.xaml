@@ -10,7 +10,7 @@
 		<Grid Grid.Column="0">
 			<Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="№">
+                    <DataGridTemplateColumn Header="№" SortMemberPath="Zone.No">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -37,12 +37,12 @@
 				<RowDefinition Name="bottomRow" Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>
 
-			<Grid Grid.Row="0">
+            <Grid Grid.Row="0">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<tree:TreeList Focusable="True" Source="{Binding Devices}" SelectedTreeNode="{Binding SelectedDevice}">
+                <tree:TreeList Focusable="True" Source="{Binding Devices}" SelectedTreeNode="{Binding SelectedDevice}">
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Width="250" Header="Устройство в зоне">

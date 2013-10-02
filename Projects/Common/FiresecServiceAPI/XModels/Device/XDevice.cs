@@ -35,7 +35,12 @@ namespace XFiresecAPI
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XDevice> DevicesInLogic { get; set; }
-
+		public bool HasDifferences { get; set; }
+		public bool HasMissingDifferences { get; set; }
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
 		[DataMember]
 		public List<XProperty> SystemAUProperties { get; set; }
 
@@ -126,10 +131,6 @@ namespace XFiresecAPI
 				var address = new StringBuilder();
 				var allParents = AllParents;
 				var rootDevice = allParents.FirstOrDefault();
-				if (rootDevice != null && rootDevice.Children.Count > 1)
-				{
-					address.Append(allParents[1].Address + "/");
-				}
 
 				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
 				{
@@ -147,6 +148,11 @@ namespace XFiresecAPI
 
 				if (address.Length > 0 && address[address.Length - 1] == '.')
 					address.Remove(address.Length - 1, 1);
+
+				if (rootDevice != null && rootDevice.Children.Count > 1)
+				{
+					address.Append("(" + allParents[1].Address + ")");
+				}
 
 				return address.ToString();
 			}

@@ -2,6 +2,7 @@
 using Common.GK;
 using FiresecClient;
 using System.Threading;
+using Infrastructure.Common.Windows;
 
 namespace GKProcessor
 {
@@ -18,7 +19,7 @@ namespace GKProcessor
 				return;
 			if (remoteLastId > localLastDBNo)
 			{
-				StartProgress("Синхронизация журнала ip:" + gkIpAddress, remoteLastId - localLastDBNo);
+				StartProgress("Синхронизация журнала ГК " + gkIpAddress, remoteLastId - localLastDBNo);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
 				StopProgress();
 				LastId = remoteLastId;
@@ -30,6 +31,9 @@ namespace GKProcessor
 			var journalItems = new List<JournalItem>();
 			for (int index = startIndex; index <= endIndex; index++)
 			{
+				if (LoadingService.IsCanceled)
+					break;
+
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{

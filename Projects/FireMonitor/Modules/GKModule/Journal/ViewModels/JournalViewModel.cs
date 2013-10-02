@@ -11,6 +11,7 @@ using FiresecClient;
 using System.Windows.Data;
 using FiresecAPI;
 using Infrastructure.Models;
+using GKProcessor.Events;
 
 
 namespace GKModule.ViewModels

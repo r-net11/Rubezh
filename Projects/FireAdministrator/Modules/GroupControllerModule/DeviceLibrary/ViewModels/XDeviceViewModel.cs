@@ -10,7 +10,11 @@ namespace GKModule.ViewModels
 		{
 			get { return LibraryDevice.Driver; }
 		}
-
+		public XDevice Device { get; private set; }
+		public XDeviceViewModel(XDevice device)
+		{
+			Device = device;
+		}
 		public XDeviceViewModel(LibraryXDevice libraryXDevice)
 		{
 			LibraryDevice = libraryXDevice;
