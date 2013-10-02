@@ -29,7 +29,7 @@ namespace GKModule.Validation
 			foreach (var guardUser in XManager.DeviceConfiguration.GuardUsers)
 			{
 				if (!guardUserNos.Add(guardUser.Password))
-					Errors.Add(new GuardUserValidationError(guardUser, "Дублиреутся пароль охранного пользователя", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new GuardUserValidationError(guardUser, "Дублируется пароль охранного пользователя", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

@@ -85,7 +85,7 @@
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
 			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-                <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+                <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="250" Header="Устройство в зоне">
                             <DataGridTemplateColumn.CellTemplate>

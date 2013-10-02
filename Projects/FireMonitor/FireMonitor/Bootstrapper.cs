@@ -78,11 +78,6 @@ namespace FireMonitor
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
-
-						if (GlobalSettingsHelper.GlobalSettings.Monitor_HaspInfo_Enabled)
-						{
-							App.Current.MainWindow.Hide();
-						}
 					}
 					else
 					{

@@ -60,7 +60,7 @@ namespace FiresecClient
 			{
 				var orderedZones = zones.OrderBy(x => x.No).Select(x => x.No).ToList();
 				int prevZoneNo = orderedZones[0];
-				List<List<ushort>> groupOfZones = new List<List<ushort>>();
+				var groupOfZones = new List<List<int>>();
 
 				for (int i = 0; i < orderedZones.Count; i++)
 				{
@@ -68,13 +68,13 @@ namespace FiresecClient
 					var haveZonesBetween = Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
 					if (haveZonesBetween)
 					{
-						groupOfZones.Add(new List<ushort>() { zoneNo });
+						groupOfZones.Add(new List<int>() { zoneNo });
 					}
 					else
 					{
 						if (groupOfZones.Count == 0)
 						{
-							groupOfZones.Add(new List<ushort>() { zoneNo });
+							groupOfZones.Add(new List<int>() { zoneNo });
 						}
 						else
 						{

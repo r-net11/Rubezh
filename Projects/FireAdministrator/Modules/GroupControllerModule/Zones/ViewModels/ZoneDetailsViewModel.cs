@@ -10,6 +10,8 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
+		static int LastFire1Count = 2;
+		static int LastFire2Count = 3;
 		public XZone Zone;
 
 		public ZoneDetailsViewModel(XZone zone = null)
@@ -21,7 +23,9 @@ namespace GKModule.ViewModels
 				Zone = new XZone()
 				{
 					Name = "Новая зона",
-					No = 1
+					No = 1,
+					Fire1Count = LastFire1Count,
+					Fire2Count = LastFire2Count
 				};
 				if (XManager.Zones.Count != 0)
 					Zone.No = (ushort)(XManager.Zones.Select(x => x.No).Max() + 1);
@@ -65,8 +69,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ushort _no;
-		public ushort No
+		int _no;
+		public int No
 		{
 			get { return _no; }
 			set
@@ -87,8 +91,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ushort _fire1Count;
-		public ushort Fire1Count
+		int _fire1Count;
+		public int Fire1Count
 		{
 			get { return _fire1Count; }
 			set
@@ -98,8 +102,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ushort _fire2Count;
-		public ushort Fire2Count
+		int _fire2Count;
+		public int Fire2Count
 		{
 			get { return _fire2Count; }
 			set
@@ -119,6 +123,9 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;
 			}
+
+			LastFire1Count = Fire1Count;
+			LastFire2Count = Fire2Count;
 
 			Zone.Name = Name;
 			Zone.No = No;

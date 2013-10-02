@@ -30,7 +30,7 @@ namespace GKModule.Validation
 			foreach (var zone in XManager.Zones)
 			{
 				if (!zoneNos.Add(zone.No))
-					Errors.Add(new ZoneValidationError(zone, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace GKModule.Validation
 				Errors.Add(new ZoneValidationError(zone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 
 			if (AreDevicesInSameGK(zone.DevicesInLogic))
-				Errors.Add(new ZoneValidationError(zone, "Зона учавствуе в логике устройств разных ГК", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new ZoneValidationError(zone, "Зона участвует в логике устройств разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		static void ValidateZoneDetectorCount(XZone zone)
