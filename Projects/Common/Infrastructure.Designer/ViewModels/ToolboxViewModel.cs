@@ -18,14 +18,14 @@ namespace Infrastructure.Designer.ViewModels
 	{
 		private IInstrument _defaultInstrument;
 
-		public ToolboxViewModel(PlanDesignerViewModel planDesignerViewModel)
+		public ToolboxViewModel(DesignerCanvas designerCanvas)
 		{
-			PlanDesignerViewModel = planDesignerViewModel;
+			DesignerCanvas = designerCanvas;
 			RegisterInstruments();
 			EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
 		}
 
-		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+		public DesignerCanvas DesignerCanvas { get; private set; }
 		public bool AcceptKeyboard { get; set; }
 
 		private ObservableCollection<IInstrument> _instruments;
@@ -67,7 +67,7 @@ namespace Infrastructure.Designer.ViewModels
 
 		public void Apply(Point? point)
 		{
-			PlanDesignerViewModel.DesignerCanvas.DeselectAll();
+			DesignerCanvas.DeselectAll();
 			if (ActiveInstrument.Adorner != null)
 				using (new WaitWrapper())
 				using (new TimeCounter("\t\tInstrumentAdorner.Show: {0}"))
@@ -107,7 +107,7 @@ namespace Infrastructure.Designer.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Cursor.png",
 					ToolTip="Указатель",
-					Adorner = new RubberbandAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new RubberbandAdorner(DesignerCanvas),
 					Index = 0,
 					Autostart = false
 				},
@@ -116,63 +116,63 @@ namespace Infrastructure.Designer.ViewModels
 					ImageSource="/Controls;component/Images/Pen.png",
 					ToolTip="Нож",
 					Index = 1,
-					Adorner = new PointsAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new PointsAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
 					Index = 311,
-					Adorner = new PolylineAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new PolylineAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Rectangle.png",
 					ToolTip="Прямоугольник",
 					Index = 312,
-					Adorner = new RectangleAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new RectangleAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
 					ToolTip="Эллипс",
 					Index = 313,
-					Adorner = new ElipseAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new ElipseAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
 					Index = 314,
-					Adorner = new PolygonAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new PolygonAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
 					ToolTip="Текст",
 					Index = 305,
-					Adorner = new TextBoxAdorner(PlanDesignerViewModel.DesignerCanvas),
+					Adorner = new TextBoxAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineHorizontal.png",
 					ToolTip="Добавить горизонтальную линию привязки",
 					Index = 501,
-					Adorner = new GridLineAdorner(PlanDesignerViewModel.DesignerCanvas, Orientation.Horizontal),
+					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineVertical.png",
 					ToolTip="Добавить вертикальную линию привязки",
 					Index = 502,
-					Adorner = new GridLineAdorner(PlanDesignerViewModel.DesignerCanvas, Orientation.Vertical),
+					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineEdit.png",
 					ToolTip="Удалить линии привязки",
 					Index = 503,
-					Command = PlanDesignerViewModel.DesignerCanvas.RemoveGridLinesCommand,
+					Command = DesignerCanvas.RemoveGridLinesCommand,
 				},
 			};
 			SortInstruments();
@@ -201,31 +201,31 @@ namespace Infrastructure.Designer.ViewModels
 					switch (e.Key)
 					{
 						case Key.C:
-							ExecuteCommand(PlanDesignerViewModel.CopyCommand);
+							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CopyCommand);
 							break;
 						case Key.X:
-							ExecuteCommand(PlanDesignerViewModel.CutCommand);
+							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.CutCommand);
 							break;
 						case Key.V:
-							ExecuteCommand(PlanDesignerViewModel.PasteCommand);
+							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.PasteCommand);
 							break;
 						case Key.Z:
-							ExecuteCommand(PlanDesignerViewModel.UndoCommand);
+							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.UndoCommand);
 							break;
 						case Key.Y:
-							ExecuteCommand(PlanDesignerViewModel.RedoCommand);
+							ExecuteCommand(DesignerCanvas.PlanDesignerViewModel.RedoCommand);
 							break;
 						case Key.A:
-							if (PlanDesignerViewModel.DesignerCanvas != null)
+							if (DesignerCanvas != null)
 								using (new WaitWrapper())
 								using (new TimeCounter("DesignerCanvas.SelectAll: {0}"))
-									PlanDesignerViewModel.DesignerCanvas.SelectAll();
+									DesignerCanvas.SelectAll();
 							break;
 						case Key.D:
-							if (PlanDesignerViewModel.DesignerCanvas != null)
+							if (DesignerCanvas != null)
 								using (new WaitWrapper())
 								using (new TimeCounter("DesignerCanvas.DeselectAll: {0}"))
-									PlanDesignerViewModel.DesignerCanvas.DeselectAll();
+									DesignerCanvas.DeselectAll();
 							break;
 					}
 				DefaultKeyHandler(e);
@@ -239,9 +239,8 @@ namespace Infrastructure.Designer.ViewModels
 				SetDefault();
 			else if (e.Key == Key.Delete)
 			{
-				var designerCanvas = PlanDesignerViewModel.DesignerCanvas;
-				if (designerCanvas != null)
-					designerCanvas.RemoveAllSelected();
+				if (DesignerCanvas != null)
+					DesignerCanvas.RemoveAllSelected();
 			}
 		}
 		private void ExecuteCommand(ICommand command)

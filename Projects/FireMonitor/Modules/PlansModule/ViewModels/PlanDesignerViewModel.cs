@@ -46,7 +46,8 @@ namespace PlansModule.ViewModels
 			{
 				PlanViewModel = planViewModel;
 				Plan = PlanViewModel == null || PlanViewModel.PlanFolder != null ? null : planViewModel.Plan;
-				OnPropertyChanged("Plan");
+				OnPropertyChanged(() => Plan);
+				OnPropertyChanged(() => IsNotEmpty);
 				using (new WaitWrapper())
 					if (Plan != null)
 					{
@@ -64,27 +65,21 @@ namespace PlansModule.ViewModels
 		private void CreatePresenters()
 		{
 			foreach (var elementBase in PlanEnumerator.EnumeratePrimitives(Plan))
-				CreatePresenter(elementBase).CreatePainter();
+				DesignerCanvas.CreatePresenterItem(elementBase).CreatePainter();
 
 			foreach (var elementBase in Plan.ElementSubPlans)
 			{
-				var presenterItem = CreatePresenter(elementBase);
+				var presenterItem = DesignerCanvas.CreatePresenterItem(elementBase);
 				presenterItem.OverridePainter(new MonitorSubPlanPainter(presenterItem, elementBase.PlanUID));
 			}
 
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
 				foreach (var element in planPresenter.LoadPlan(Plan))
 				{
-					PresenterItem presenterItem = CreatePresenter(element);
+					PresenterItem presenterItem = DesignerCanvas.CreatePresenterItem(element);
 					planPresenter.RegisterPresenterItem(presenterItem);
 				}
 			DesignerCanvas.Refresh();
-		}
-		private PresenterItem CreatePresenter(ElementBase elementBase)
-		{
-			var presenterItem = new PresenterItem(elementBase);
-			DesignerCanvas.Add(presenterItem);
-			return presenterItem;
 		}
 
 		public IEnumerable<PresenterItem> PresenterItems
@@ -111,6 +106,10 @@ namespace PlansModule.ViewModels
 
 		public event EventHandler Updated;
 
+		public bool IsNotEmpty
+		{
+			get { return Plan != null; }
+		}
 		public object Toolbox
 		{
 			get { return null; }

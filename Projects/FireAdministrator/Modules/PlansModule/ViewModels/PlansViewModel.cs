@@ -46,13 +46,12 @@ namespace PlansModule.ViewModels
 				if (e.Element is ElementSubPlan)
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
 			});
-			DesignerCanvas = new DesignerCanvas();
+			
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanDesignerViewModel.IsCollapsedChanged += new EventHandler(PlanDesignerViewModel_IsCollapsedChanged);
-			OnPropertyChanged(() => DesignerCanvas);
 			OnPropertyChanged(() => PlanDesignerViewModel);
-			DesignerCanvas.ZoomChanged();
-			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
+			PlanDesignerViewModel.DesignerCanvas.ZoomChanged();
+			ElementsViewModel = new ElementsViewModel(PlanDesignerViewModel.DesignerCanvas);
 
 			InitializeCopyPaste();
 			PlansTreeViewModel = new PlansTreeViewModel(this);
@@ -150,7 +149,10 @@ namespace PlansModule.ViewModels
 		}
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
-		public DesignerCanvas DesignerCanvas { get; private set; }
+		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
+		{
+			get { return PlanDesignerViewModel.DesignerCanvas; }
+		}
 
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()

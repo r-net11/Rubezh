@@ -15,6 +15,11 @@ namespace PlansModule.Designer
 	{
 		public Plan Plan { get; private set; }
 
+		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
+			: base(planDesignerViewModel)
+		{
+		}
+
 		public void Initialize(Plan plan)
 		{
 			Plan = plan;
@@ -47,7 +52,7 @@ namespace PlansModule.Designer
 			else if (elementBase is ElementSubPlan)
 				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
 			else
-				((PlanDesignerViewModel)Toolbox.PlanDesignerViewModel).PlansViewModel.ElementAdded(elementBase);
+				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementAdded(elementBase);
 
 			return Create(elementBase);
 		}
@@ -66,7 +71,7 @@ namespace PlansModule.Designer
 			else if (elementBase is ElementSubPlan)
 				Plan.ElementSubPlans.Remove(elementBase as ElementSubPlan);
 			else
-				((PlanDesignerViewModel)Toolbox.PlanDesignerViewModel).PlansViewModel.ElementRemoved(elementBase);
+				((PlanDesignerViewModel)PlanDesignerViewModel).PlansViewModel.ElementRemoved(elementBase);
 		}
 
 		public override void DesignerChanged()

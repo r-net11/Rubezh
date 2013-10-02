@@ -21,9 +21,7 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
 			PlansViewModel = plansViewModel;
-			DesignerCanvas = PlansViewModel.DesignerCanvas;
-			DesignerCanvas.PlanDesignerViewModel = this;
-			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
+			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
 				new InstrumentViewModel()
 				{

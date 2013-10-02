@@ -49,8 +49,16 @@ namespace PlansModule.Designer
 		public override void EndChange()
 		{
 		}
+
 		public override void CreateDesignerItem(ElementBase element)
 		{
+			CreatePresenterItem(element);
+		}
+		public PresenterItem CreatePresenterItem(ElementBase elementBase)
+		{
+			var presenterItem = new PresenterItem(elementBase);
+			Add(presenterItem);
+			return presenterItem;
 		}
 
 		public IEnumerable<PresenterItem> PresenterItems

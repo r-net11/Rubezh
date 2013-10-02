@@ -21,15 +21,17 @@ namespace Infrastructure.Designer
 {
 	public class DesignerCanvas : CommonDesignerCanvas
 	{
-		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
-		public ToolboxViewModel Toolbox { get; set; }
+		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+		public ToolboxViewModel Toolbox { get; private set; }
 		private Point? _startPoint = null;
 		private List<ElementBase> _initialElements;
 		private MoveAdorner _moveAdorner;
 
-		public DesignerCanvas()
+		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(ServiceFactoryBase.Events)
 		{
+			PlanDesignerViewModel = planDesignerViewModel;
+			Toolbox = new ToolboxViewModel(this);
 			ServiceFactoryBase.DragDropService.DragOver += OnDragServiceDragOver;
 			ServiceFactoryBase.DragDropService.Drop += OnDragServiceDrop;
 			PainterCache.Initialize(ServiceFactoryBase.ContentService.GetBitmapContent, ServiceFactoryBase.ContentService.GetDrawing);
@@ -249,7 +251,7 @@ namespace Infrastructure.Designer
 		public override void EndChange()
 		{
 			//Debug.WriteLine("EndChange");
-			var after = Toolbox.PlanDesignerViewModel.AddHistoryItem(_initialElements);
+			var after = PlanDesignerViewModel.AddHistoryItem(_initialElements);
 			ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(after);
 			foreach (var designerItem in SelectedItems)
 				designerItem.UpdateElementProperties();
@@ -362,7 +364,7 @@ namespace Infrastructure.Designer
 
 		public override void RevertLastAction()
 		{
-			Toolbox.PlanDesignerViewModel.RevertLastAction();
+			PlanDesignerViewModel.RevertLastAction();
 		}
 
 		protected virtual DesignerItem AddElement(ElementBase elementBase)
