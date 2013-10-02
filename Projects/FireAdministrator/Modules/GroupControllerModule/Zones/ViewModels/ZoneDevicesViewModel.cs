@@ -36,14 +36,14 @@ namespace GKModule.ViewModels
 
 				if (device.ZoneUIDs.Contains(Zone.UID))
 				{
-					device.AllParents.ForEach(x => { devices.Add(x); });
+					//device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
 				}
 				else
 				{
 					if (device.ZoneUIDs.Count == 0)
 					{
-						device.AllParents.ForEach(x => { availableDevices.Add(x); });
+						//device.AllParents.ForEach(x => { availableDevices.Add(x); });
 						availableDevices.Add(device);
 					}
 				}
@@ -63,7 +63,8 @@ namespace GKModule.ViewModels
 			foreach (var device in Devices.Where(x => x.Device.Parent != null))
 			{
 				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.AddChild(device);
+				if (parent != null)
+					parent.AddChild(device);
 			}
 
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
@@ -87,14 +88,15 @@ namespace GKModule.ViewModels
 			foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
 			{
 				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.AddChild(device);
+				if (parent != null)
+					parent.AddChild(device);
 			}
 
 			OnPropertyChanged("Devices");
 			OnPropertyChanged("AvailableDevices");
 
-			SelectedDevice = Devices.LastOrDefault();
-			SelectedAvailableDevice = AvailableDevices.LastOrDefault(); ;
+			SelectedDevice = Devices.FirstOrDefault();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 		}
 
 		public void Clear()

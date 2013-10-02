@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		}
 		public string PresentationAddress
 		{
-			get { return Device.PresentationAddress; }
+			get { return Device.KAUParent.Address + "." + Device.PresentationAddress; }
 		}
 		public string Description
 		{
