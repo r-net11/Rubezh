@@ -57,12 +57,12 @@ namespace Infrustructure.Plans.Designer
 				DesignerSurface.InvalidateVisual();
 		}
 
-		public void Remove(CommonDesignerItem designerItem)
+		protected void Remove(CommonDesignerItem designerItem)
 		{
 			_map.Remove(designerItem.Element.UID);
 			DesignerSurface.DeleteDesignerItem(designerItem);
 		}
-		public void Add(CommonDesignerItem designerItem)
+		protected void Add(CommonDesignerItem designerItem)
 		{
 			_map.Add(designerItem.Element.UID, designerItem);
 			designerItem.DesignerCanvas = this;
@@ -182,6 +182,9 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public virtual void RevertLastAction()
+		{
+		}
+		public virtual void DesignerChanged()
 		{
 		}
 	}

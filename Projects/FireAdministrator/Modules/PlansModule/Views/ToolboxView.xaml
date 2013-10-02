@@ -1,9 +1,0 @@
-﻿<UserControl x:Class="PlansModule.Views.ToolboxView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls" xmlns:i="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans" IsEnabled="{Binding IsEnabled}">
-
-	<UserControl.Resources>
-		<TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" />
-	</UserControl.Resources>
-
-	<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
-
-</UserControl>

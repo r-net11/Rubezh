@@ -18,31 +18,32 @@ using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
 using Infrastructure.Common.Ribbon;
+using Common;
 
 namespace GKModule.ViewModels
 {
-    public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
-    {
+	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	{
 		private bool _lockSelection;
 		public static ZonesViewModel Current { get; private set; }
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
-        public ZonesViewModel()
-        {
+		public ZonesViewModel()
+		{
 			Menu = new ZonesMenuViewModel(this);
-            Current = this;
-            AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-            EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-            ZoneDevices = new ZoneDevicesViewModel();
-            RegisterShortcuts();
+			Current = this;
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			ZoneDevices = new ZoneDevicesViewModel();
+			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
 		}
 
-        public void Initialize()
-        {
+		public void Initialize()
+		{
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
 			{
@@ -50,60 +51,64 @@ namespace GKModule.ViewModels
 				Zones.Add(zoneViewModel);
 			}
 			SelectedZone = Zones.FirstOrDefault();
-        }
+		}
 
-        ObservableCollection<ZoneViewModel> _zones;
-        public ObservableCollection<ZoneViewModel> Zones
-        {
-            get { return _zones; }
-            set
-            {
-                _zones = value;
-                OnPropertyChanged("Zones");
-            }
-        }
-
-        ZoneViewModel _selectedZone;
-        public ZoneViewModel SelectedZone
-        {
-            get { return _selectedZone; }
-            set
-            {
-                _selectedZone = value;
-                if (value != null)
-                    ZoneDevices.Initialize(value.Zone);
-                else
-                    ZoneDevices.Clear();
-                OnPropertyChanged("SelectedZone");
-				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
+		ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				_zones = value;
+				OnPropertyChanged("Zones");
 			}
-        }
+		}
 
-        bool CanEditDelete()
-        {
-            return SelectedZone != null;
-        }
+		ZoneViewModel _selectedZone;
+		public ZoneViewModel SelectedZone
+		{
+			get { return _selectedZone; }
+			set
+			{
+				using (new TimeCounter("Zone.SelectedChanged: {0}"))
+				{
+					_selectedZone = value;
+					if (value != null)
+						using (new TimeCounter("\tZoneDevices.Initialize: {0}"))
+							ZoneDevices.Initialize(value.Zone);
+					else
+						ZoneDevices.Clear();
+					OnPropertyChanged("SelectedZone");
+					if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
+						ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
+				}
+			}
+		}
 
-        bool CanDeleteAll()
-        {
-            return Zones.Count > 0;
-        }
+		bool CanEditDelete()
+		{
+			return SelectedZone != null;
+		}
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
+		bool CanDeleteAll()
+		{
+			return Zones.Count > 0;
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
 			OnAddResult();
-        }
+		}
 		ZoneDetailsViewModel OnAddResult()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				XManager.AddZone(zoneDetailsViewModel.Zone);
-                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
+				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
 				Zones.Add(zoneViewModel);
-                SelectedZone = zoneViewModel;
+				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 				Helper.BuildMap();
 				return zoneDetailsViewModel;
@@ -111,7 +116,7 @@ namespace GKModule.ViewModels
 			return null;
 		}
 
-        public RelayCommand DeleteCommand { get; private set; }
+		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName);
@@ -129,54 +134,54 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
 			OnEdit(SelectedZone.Zone);
 		}
 		void OnEdit(XZone xzone)
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(xzone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-            {
+			{
 				XManager.EditZone(SelectedZone.Zone);
-                SelectedZone.Update(zoneDetailsViewModel.Zone);
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-        }
+				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
-        public void CreateZone(CreateXZoneEventArg createZoneEventArg)
-        {
-            ZoneDetailsViewModel result = OnAddResult();
-            if (result == null)
-            {
-                createZoneEventArg.Cancel = true;
-                createZoneEventArg.ZoneUID = Guid.Empty;
-            }
-            else
-            {
-                createZoneEventArg.Cancel = false;
-                createZoneEventArg.ZoneUID = result.Zone.UID;
+		public void CreateZone(CreateXZoneEventArg createZoneEventArg)
+		{
+			ZoneDetailsViewModel result = OnAddResult();
+			if (result == null)
+			{
+				createZoneEventArg.Cancel = true;
+				createZoneEventArg.ZoneUID = Guid.Empty;
+			}
+			else
+			{
+				createZoneEventArg.Cancel = false;
+				createZoneEventArg.ZoneUID = result.Zone.UID;
 				createZoneEventArg.Zone = result.Zone;
-            }
-        }
-        public void EditZone(Guid zoneUID)
-        {
-            var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-            if (zoneViewModel != null)
-                OnEdit(zoneViewModel.Zone);
-        }
+			}
+		}
+		public void EditZone(Guid zoneUID)
+		{
+			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneViewModel != null)
+				OnEdit(zoneViewModel.Zone);
+		}
 
-        public override void OnShow()
-        {
+		public override void OnShow()
+		{
 			base.OnShow();
-            SelectedZone = SelectedZone;
-        }
+			SelectedZone = SelectedZone;
+		}
 
-        public override void OnHide()
-        {
+		public override void OnHide()
+		{
 			base.OnHide();
-        }
+		}
 
 		#region ISelectable<Guid> Members
 
@@ -188,12 +193,12 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 		public void LockedSelect(Guid zoneUID)
 		{
 			_lockSelection = true;

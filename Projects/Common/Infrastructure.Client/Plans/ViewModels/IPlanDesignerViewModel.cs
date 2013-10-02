@@ -11,7 +11,7 @@ namespace Infrastructure.Client.Plans
 		bool AlwaysShowScroll { get; }
 		object Toolbox { get; }
 		CommonDesignerCanvas Canvas { get; }
-		Plan Plan { get; }
+		bool IsNotEmpty { get; }
 
 		void ResetZoom(double zoom, double deviceZoom);
 		void ChangeZoom(double zoom);

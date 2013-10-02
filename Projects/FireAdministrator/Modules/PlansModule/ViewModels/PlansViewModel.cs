@@ -14,6 +14,10 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrastructure.Designer.ViewModels;
+using PlansModule.InstrumentAdorners;
+using Infrustructure.Plans.Services;
+using PlansModule.Designer.DesignerItems;
 
 namespace PlansModule.ViewModels
 {
@@ -36,17 +40,21 @@ namespace PlansModule.ViewModels
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
 
+			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Подпланы");
+			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
+			{
+				if (e.Element is ElementSubPlan)
+					e.DesignerItem = new DesignerItemSubPlan(e.Element);
+			});
 			DesignerCanvas = new DesignerCanvas();
-			PlanDesignerViewModel = new PlanDesignerViewModel();
+			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanDesignerViewModel.IsCollapsedChanged += new EventHandler(PlanDesignerViewModel_IsCollapsedChanged);
-			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
-			DesignerCanvas.PlanDesignerViewModel = PlanDesignerViewModel;
-			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
+			OnPropertyChanged(() => DesignerCanvas);
+			OnPropertyChanged(() => PlanDesignerViewModel);
 			DesignerCanvas.ZoomChanged();
+			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
 
 			InitializeCopyPaste();
-			InitializeHistory();
-			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
@@ -134,7 +142,6 @@ namespace PlansModule.ViewModels
 					PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
 					using (new TimeCounter("\tPlansViewModel.UpdateElements: {0}"))
 						ElementsViewModel.Update();
-					ResetHistory();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
 					UpdateTabIndex();
@@ -142,18 +149,8 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
-
-		private DesignerCanvas _designerCanvas;
-		public DesignerCanvas DesignerCanvas
-		{
-			get { return _designerCanvas; }
-			set
-			{
-				_designerCanvas = value;
-				OnPropertyChanged("DesignerCanvas");
-			}
-		}
+		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
+		public DesignerCanvas DesignerCanvas { get; private set; }
 
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()

@@ -14,17 +14,8 @@ namespace PlansModule.Designer
 {
 	public static class Helper
 	{
-		public static Plan GetPlan(ElementSubPlan element)
-		{
-			return FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
-		}
-		public static string GetSubPlanTitle(ElementSubPlan element)
-		{
-			Plan plan = GetPlan(element);
-			if (plan == null && element.PlanUID != Guid.Empty)
-				SetSubPlan(element, null);
-			return plan == null ? "Несвязанный подплан" : plan.Caption;
-		}
+		public const string SubPlanAlias = "SubPlan";
+
 		public static void UpgradeBackground(IElementBackground element)
 		{
 			if (element.BackgroundPixels != null)
@@ -35,6 +26,18 @@ namespace PlansModule.Designer
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 			PainterCache.CacheBrush(element);
+		}
+		
+		public static Plan GetPlan(ElementSubPlan element)
+		{
+			return FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == element.PlanUID);
+		}
+		public static string GetSubPlanTitle(ElementSubPlan element)
+		{
+			Plan plan = GetPlan(element);
+			if (plan == null && element.PlanUID != Guid.Empty)
+				SetSubPlan(element, null);
+			return plan == null ? "Несвязанный подплан" : plan.Caption;
 		}
 		public static void SetSubPlan(ElementSubPlan element)
 		{
@@ -53,30 +56,6 @@ namespace PlansModule.Designer
 			if (plan != null)
 				color = Colors.Green;
 			return color;
-		}
-
-		public static StackPanel SetHeader(string title, string imageSourceUri)
-		{
-			TextBlock textBlock = new TextBlock();
-			textBlock.Text = title;
-			textBlock.VerticalAlignment = VerticalAlignment.Center;
-
-			Image image = new Image();
-			image.Width = 16;
-			image.VerticalAlignment = VerticalAlignment.Center;
-			BitmapImage sourceImage = new BitmapImage();
-			sourceImage.BeginInit();
-			sourceImage.UriSource = new Uri(imageSourceUri);
-			sourceImage.EndInit();
-			image.Source = sourceImage;
-
-			StackPanel stackPanel = new StackPanel();
-			stackPanel.Orientation = Orientation.Horizontal;
-			stackPanel.Children.Add(image);
-			stackPanel.Children.Add(textBlock);
-
-			return stackPanel;
-
 		}
 	}
 }

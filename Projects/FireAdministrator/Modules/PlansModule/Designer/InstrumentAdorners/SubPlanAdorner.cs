@@ -1,7 +1,8 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using PlansModule.Designer;
 using PlansModule.ViewModels;
+using Infrastructure.Designer.InstrumentAdorners;
+using Infrastructure.Designer;
 
 namespace PlansModule.InstrumentAdorners
 {

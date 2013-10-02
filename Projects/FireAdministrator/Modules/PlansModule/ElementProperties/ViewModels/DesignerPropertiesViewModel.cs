@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace PlansModule.ViewModels
 {
@@ -27,7 +28,7 @@ namespace PlansModule.ViewModels
 				plan.BackgroundColor = color;
 			}
 			Plan = plan;
-			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel(Plan);
+			ImagePropertiesViewModel = new ImagePropertiesViewModel(Plan);
 			CopyProperties();
 		}
 

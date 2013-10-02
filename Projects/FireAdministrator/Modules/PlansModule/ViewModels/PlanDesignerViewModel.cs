@@ -1,108 +1,71 @@
 ﻿using System;
-using Common;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using FiresecAPI.Models;
-using Infrastructure.Client.Plans;
+using Common;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
+using Infrastructure.Client.Plans;
+using Infrustructure.Plans.Designer;
+using Infrastructure.Designer.ViewModels;
+using PlansModule.InstrumentAdorners;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlanDesignerViewModel : BaseViewModel, IPlanDesignerViewModel
+	public class PlanDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
 	{
-		public event EventHandler Updated;
-		public event EventHandler IsCollapsedChanged;
-		public DesignerCanvas DesignerCanvas { get; set; }
 		public Plan Plan { get; private set; }
+		public PlansViewModel PlansViewModel { get; private set; }
 
-		public PlanDesignerViewModel()
+		public PlanDesignerViewModel(PlansViewModel plansViewModel)
 		{
-			InitializeZIndexCommands();
-			InitializeAlignCommands();
+			PlansViewModel = plansViewModel;
+			DesignerCanvas = PlansViewModel.DesignerCanvas;
+			DesignerCanvas.PlanDesignerViewModel = this;
+			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
+			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
+				new InstrumentViewModel()
+				{
+				    ImageSource="/Controls;component/Images/Subplan.png",
+				    ToolTip="Подплан",
+				    Index = 300,
+				    Adorner = new SubPlanAdorner(DesignerCanvas),
+				}});
 		}
 
 		public void Initialize(Plan plan)
 		{
 			Plan = plan;
-			OnPropertyChanged("Plan");
+			OnPropertyChanged(() => Plan);
+			IsNotEmpty = Plan != null;
+			OnPropertyChanged(() => IsNotEmpty);
 			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
 			using (new WaitWrapper())
 			{
 				using (new TimeCounter("\t\tDesignerCanvas.Initialize: {0}"))
-					DesignerCanvas.Initialize(plan);
+					((DesignerCanvas)DesignerCanvas).Initialize(plan);
 				if (Plan != null)
 				{
 					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 					{
 						foreach (var elementBase in PlanEnumerator.Enumerate(Plan))
 							DesignerCanvas.Create(elementBase);
-						foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(Plan))
+						foreach (var element in PlansViewModel.LoadPlan(Plan))
 							DesignerCanvas.Create(element);
 						DesignerCanvas.UpdateZIndex();
 					}
 					using (new TimeCounter("\t\tPlanDesignerViewModel.OnUpdated: {0}"))
-						OnUpdated();
+						Update();
 				}
 			}
-		}
-		public void Save()
-		{
-			if (Plan == null)
-				return;
-			NormalizeZIndex();
-		}
-		public void Update()
-		{
-			OnUpdated();
-		}
-		private void OnUpdated()
-		{
-			if (Updated != null)
-				Updated(this, EventArgs.Empty);
+			ResetHistory();
 		}
 
-		#region IPlanDesignerViewModel Members
-
-		public object Toolbox
+		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
-			get { return DesignerCanvas.Toolbox; }
+			base.RegisterDesignerItem(designerItem);
+			PlansViewModel.RegisterDesignerItem(designerItem);
 		}
-
-		public CommonDesignerCanvas Canvas
-		{
-			get { return DesignerCanvas; }
-		}
-
-		public bool HasPermissionsToScale
-		{ get { return true; } }
-
-		public bool AlwaysShowScroll
-		{
-			get { return true; }
-		}
-
-		public bool CanCollapse
-		{
-			get { return true; }
-		}
-
-		private bool _isCollapsed;
-		public bool IsCollapsed
-		{
-			get { return _isCollapsed; }
-			set
-			{
-				if (IsCollapsed != value)
-				{
-					_isCollapsed = value;
-					OnPropertyChanged(() => IsCollapsed);
-					if (IsCollapsedChanged != null)
-						IsCollapsedChanged(this, EventArgs.Empty);
-				}
-			}
-		}
-
-		#endregion
 	}
 }

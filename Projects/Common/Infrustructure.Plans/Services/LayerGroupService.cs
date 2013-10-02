@@ -15,16 +15,13 @@ namespace Infrustructure.Plans.Services
 			}
 		}
 
-		public const string SubPlanAlias = "SubPlan";
 		public const string ElementAlias = "Element";
 		private Dictionary<string, string> _groups = new Dictionary<string, string>();
 		private List<string> _order = new List<string>();
 
 		private LayerGroupService()
 		{
-			_groups.Add(SubPlanAlias, "Подпланы");
 			_groups.Add(ElementAlias, "Элементы");
-			_order.Add(SubPlanAlias);
 			_order.Add(ElementAlias);
 		}
 

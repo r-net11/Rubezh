@@ -10,6 +10,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using Infrastructure.Designer;
 
 namespace PlansModule
 {
@@ -32,9 +33,8 @@ namespace PlansModule
 
 		public override void RegisterResource()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Toolbox/Toolbox.xaml"));
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/InstrumentAdorners/GridLineShape.xaml"));
+			base.RegisterResource();
+			DesignerLoader.RegisterResource();
 		}
 		public override void Initialize()
 		{
