@@ -4,61 +4,64 @@ namespace XFiresecAPI
 {
 	public enum XStateClass
 	{
+		[DescriptionAttribute("Отсутствует лицензия")]
+		HasNoLicense = 0,
+
 		[DescriptionAttribute("База данных ПК не совпадает с прибором")]
-		DBMissmatch = 0,
+		DBMissmatch = 1,
 
 		[DescriptionAttribute("Контроллер в технологическом режиме")]
-		TechnologicalRegime = 1,
+		TechnologicalRegime = 2,
 
 		[DescriptionAttribute("Потеря связи")]
-		ConnectionLost = 2,
+		ConnectionLost = 3,
 
 		[DescriptionAttribute("Пожар 2")]
-		Fire2 = 3,
+		Fire2 = 4,
 
 		[DescriptionAttribute("Пожар 1")]
-		Fire1 = 4,
+		Fire1 = 5,
 
 		[DescriptionAttribute("Внимание")]
-		Attention = 5,
+		Attention = 6,
 
 		[DescriptionAttribute("Отключено")]
-		Ignore = 6,
+		Ignore = 7,
 
         [DescriptionAttribute("Неисправность")]
-        Failure = 7,
+        Failure = 8,
 
 		[DescriptionAttribute("Включено")]
-		On = 8,
+		On = 9,
 
 		[DescriptionAttribute("Включается")]
-		TurningOn = 9,
+		TurningOn = 10,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		AutoOff = 10,
+		AutoOff = 11,
 
 		[DescriptionAttribute("Выключено")]
-		Off = 11,
+		Off = 12,
 
 		[DescriptionAttribute("Выключается")]
-		TurningOff = 12,
+		TurningOff = 13,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 13,
+		Service = 14,
 
 		[DescriptionAttribute("Тест")]
-		Test = 14,
+		Test = 15,
 
 		[DescriptionAttribute("Информация")]
-		Info = 15,
+		Info = 16,
 
 		[DescriptionAttribute("Неизвестно")]
-		Unknown = 16,
+		Unknown = 17,
 
 		[DescriptionAttribute("Норма")]
-		Norm = 17,
+		Norm = 18,
 
 		[DescriptionAttribute("Нет")]
-		No = 18
+		No = 19
 	}
 }

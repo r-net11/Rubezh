@@ -160,29 +160,24 @@ namespace GKProcessor
 		#region TechnologicalRegime
 		void CheckTechnologicalRegime()
 		{
-			if (IsInTechnologicalRegime(GkDatabase.RootDevice))
+			var isInTechnologicalRegime = IsInTechnologicalRegime(GkDatabase.RootDevice);
+			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
-				foreach (var binaryObject in GkDatabase.BinaryObjects)
-				{
-					var baseState = binaryObject.BinaryBase.GetXBaseState();
-					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
-					baseState.IsInTechnologicalRegime = true;
-				}
+				var baseState = binaryObject.BinaryBase.GetXBaseState();
+				baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 			}
-			else
+
+			if (!isInTechnologicalRegime)
 			{
 				foreach (var kauDatabase in GkDatabase.KauDatabases)
 				{
-					if (IsInTechnologicalRegime(kauDatabase.RootDevice))
+					isInTechnologicalRegime = IsInTechnologicalRegime(kauDatabase.RootDevice);
+					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
+					allChildren.Add(kauDatabase.RootDevice);
+					foreach (var device in allChildren)
 					{
-						var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
-						allChildren.Add(kauDatabase.RootDevice);
-						foreach (var device in allChildren)
-						{
-							var baseState = device.GetXBaseState();
-							baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
-							baseState.IsInTechnologicalRegime = true;
-						}
+						var baseState = device.GetXBaseState();
+						baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 					}
 				}
 			}

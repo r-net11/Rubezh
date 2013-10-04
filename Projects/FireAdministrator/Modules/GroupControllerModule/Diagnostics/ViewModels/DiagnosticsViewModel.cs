@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Common.GK;
 using GKModule.Converter;
 using GKModule.Diagnostics;
@@ -6,6 +7,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -16,6 +19,8 @@ namespace GKModule.ViewModels
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
+			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
+			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
@@ -43,6 +48,20 @@ namespace GKModule.ViewModels
 			var gkToFiresecConverter = new GKToFiresecConverter();
 			gkToFiresecConverter.Convert();
 			ServiceFactory.SaveService.FSChanged = true;
+		}
+
+		public RelayCommand GoToTechnologicalCommand { get; private set; }
+		void OnGoToTechnological()
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
+			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
+		}
+
+		public RelayCommand GoToWorkRegimeCommand { get; private set; }
+		void OnGoToWorkRegime()
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
+			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 		}
 	}
 }

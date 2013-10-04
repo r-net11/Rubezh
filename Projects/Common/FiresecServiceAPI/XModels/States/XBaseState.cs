@@ -30,6 +30,20 @@ namespace XFiresecAPI
 			});
 		}
 
+		protected bool _isNoLicense;
+		public bool IsNoLicense
+		{
+			get { return _isNoLicense; }
+			set
+			{
+				if (_isNoLicense != value)
+				{
+					_isNoLicense = value;
+					OnStateChanged();
+				}
+			}
+		}
+
 		protected bool _isConnectionLost;
 		public bool IsConnectionLost
 		{
@@ -66,6 +80,7 @@ namespace XFiresecAPI
 			{
 				if (_isInTechnologicalRegime != value)
 				{
+					StateBits = new List<XStateBit>() { XStateBit.Norm };
 					_isInTechnologicalRegime = value;
 					OnStateChanged();
 				}
@@ -91,7 +106,7 @@ namespace XFiresecAPI
 
 		public virtual List<XStateClass> StateClasses
 		{
-			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime); }
+			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime, IsNoLicense); }
 		}
 
 		public virtual XStateClass StateClass
