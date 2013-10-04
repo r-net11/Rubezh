@@ -155,6 +155,7 @@ namespace GKModule.ViewModels
 			return deviceViewModel;
 		}
 
+		#region CopyPaste
 		XDevice _deviceToCopy;
 
 		bool CanCutCopy()
@@ -188,8 +189,43 @@ namespace GKModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return (_deviceToCopy != null && SelectedDevice != null && SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.Driver.DriverType));
+			if (_deviceToCopy != null && SelectedDevice != null)
+			{
+				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+				else
+					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+			}
+			return false;
 		}
+
+		void PasteDevice(XDevice device)
+		{
+			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.Driver.DriverType == XDriverType.KAUIndicator)
+			{
+				return;
+			}
+			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+			{
+				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device, SelectedDevice.Device.ShleifNo);
+				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)SelectedDevice.Device.ShleifNo, (byte)(maxAddress % 256 + 1));
+				XManager.CopyDevice(device, addedDevice);
+				addedDevice.ShleifNo = (byte)SelectedDevice.Device.ShleifNo;
+				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
+				XManager.UpdateConfiguration();
+			}
+			else
+			{
+				SelectedDevice.Device.Children.Add(device);
+				device.Parent = SelectedDevice.Device;
+				AddDevice(device, SelectedDevice);
+			}
+			XManager.DeviceConfiguration.Update();
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		#endregion
 
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }
 		void OnReadJournalFromFile()
@@ -211,32 +247,6 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-		}
-		void PasteDevice(XDevice device)
-		{
-			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU)
-			{
-				return;
-			}
-			else if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
-			{
-				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device, SelectedDevice.Device.ShleifNo);
-				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)SelectedDevice.Device.ShleifNo, (byte)(maxAddress % 256 + 1));
-				XManager.CopyDevice(device, addedDevice);
-				addedDevice.ShleifNo = (byte)SelectedDevice.Device.ShleifNo;
-				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
-				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
-				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
-				XManager.UpdateConfiguration();
-			}
-			else
-			{
-				SelectedDevice.Device.Children.Add(device);
-				device.Parent = SelectedDevice.Device;
-				AddDevice(device, SelectedDevice);
-			}
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		private void RegisterShortcuts()

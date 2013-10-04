@@ -13,8 +13,6 @@ namespace GKProcessor
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
 		public DateTime LastUpdateTime { get; private set; }
-		DateTime LastLicenseCheckTime;
-		bool HasLicense = true;
 
 		public Watcher(GkDatabase gkDatabase)
 		{
@@ -63,32 +61,8 @@ namespace GKProcessor
 
 			while (true)
 			{
-				if (!IsAnyDBMissmatch)
+				if (!IsAnyDBMissmatch && CheckLicense())
 				{
-					if ((DateTime.Now - LastLicenseCheckTime).TotalMinutes > 1000000)
-					{
-						var hasLicense = LicenseHelper.CheckLicense(false);
-						if (hasLicense != HasLicense)
-						{
-							HasLicense = hasLicense;
-							foreach (var binaryObject in GkDatabase.BinaryObjects)
-							{
-								var baseState = binaryObject.BinaryBase.GetXBaseState();
-								baseState.IsNoLicense = !hasLicense;
-							}
-						}
-
-						if (hasLicense)
-						{
-							LastLicenseCheckTime = DateTime.Now;
-						}
-						else
-						{
-							LastUpdateTime = DateTime.Now;
-							Thread.Sleep(TimeSpan.FromSeconds(10));
-						}
-					}
-
 					try
 					{
 						CheckTasks();

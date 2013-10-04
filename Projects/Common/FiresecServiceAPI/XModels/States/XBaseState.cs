@@ -18,17 +18,21 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<string>();
 			AdditionalStateProperties = new List<AdditionalXStateProperty>();
+			IsInitialState = true;
 		}
 
 		public event Action StateChanged;
 		public void OnStateChanged()
 		{
+			IsInitialState = false;
 			SafeCall(() =>
 			{
 				if (StateChanged != null)
 					StateChanged();
 			});
 		}
+
+		public bool IsInitialState { get; protected set; }
 
 		protected bool _isNoLicense;
 		public bool IsNoLicense
@@ -106,7 +110,7 @@ namespace XFiresecAPI
 
 		public virtual List<XStateClass> StateClasses
 		{
-			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime, IsNoLicense); }
+			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime, IsNoLicense, IsInitialState); }
 		}
 
 		public virtual XStateClass StateClass

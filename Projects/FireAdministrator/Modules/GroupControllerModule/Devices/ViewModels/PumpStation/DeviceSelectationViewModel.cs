@@ -3,9 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class DeviceSelectationViewModel : SaveCancelDialogViewModel
 	{
 		public DeviceSelectationViewModel(List<XDevice> devices, XDevice selectedDevice)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class NewDeviceViewModelBase : SaveCancelDialogViewModel
 	{
 		public NewDeviceViewModelBase(DeviceViewModel deviceViewModel)

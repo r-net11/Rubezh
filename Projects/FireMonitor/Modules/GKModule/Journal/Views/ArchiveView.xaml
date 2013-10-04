@@ -20,8 +20,6 @@
 
 				<StackPanel Grid.Column="1" Orientation="Horizontal">
 					<CheckBox Margin="5" VerticalAlignment="Center" Content="Включить фильтр" Foreground="White" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" />
-					<!--
-						<CheckBox IsChecked="{Binding ShowSubsystem}" Content="Подсистема" VerticalAlignment="Center" Foreground="White"/>
 						<CheckBox IsChecked="{Binding ShowIp}" Content="Ip-адрес ГК" VerticalAlignment="Center" Foreground="White"/>
 					-->
 				</StackPanel>

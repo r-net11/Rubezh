@@ -7,9 +7,11 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class DirectionsSelectationViewModel : SaveCancelDialogViewModel
     {
 		public List<XDirection> Directions { get; private set; }
