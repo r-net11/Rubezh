@@ -10,16 +10,14 @@ namespace Common
 		public void RemoveRange(int index, int count)
 		{
 			CheckReentrancy();
-			var items = Items as List<T>;
-			items.RemoveRange(index, count);
+			((List<T>)Items).RemoveRange(index, count);
 			OnReset();
 		}
 
 		public void InsertRange(int index, IEnumerable<T> collection)
 		{
 			CheckReentrancy();
-			var items = Items as List<T>;
-			items.InsertRange(index, collection);
+			((List<T>)Items).InsertRange(index, collection);
 			OnReset();
 		}
 
