@@ -65,6 +65,8 @@ namespace GKModule.ViewModels
 				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
 				parent.AddChild(device);
 			}
+			var selectedDevice = Devices.LastOrDefault();
+			Devices = new ObservableCollection<ZoneDeviceViewModel>(Devices.Where(x => x.Device.Parent == null));
 
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
@@ -89,12 +91,14 @@ namespace GKModule.ViewModels
 				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
 				parent.AddChild(device);
 			}
+			var selectedAvailableDevice = AvailableDevices.LastOrDefault();
+			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
 
 			OnPropertyChanged("Devices");
 			OnPropertyChanged("AvailableDevices");
 
-			SelectedDevice = Devices.LastOrDefault();
-			SelectedAvailableDevice = AvailableDevices.LastOrDefault(); ;
+			SelectedDevice = selectedDevice;
+			SelectedAvailableDevice = selectedAvailableDevice;
 		}
 
 		public void Clear()
