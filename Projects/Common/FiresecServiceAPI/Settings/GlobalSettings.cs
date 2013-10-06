@@ -18,7 +18,7 @@ namespace FiresecAPI
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			Server_EnableRemoteConnections = false;
 			Modules =
-				//"DevicesModule.dll" + "\r\n" +
+				"DevicesModule.dll" + "\r\n" +
 				"PlansModule.dll" + "\r\n" +
 				"PlansModule.Kursk.dll" + "\r\n" +
 				//"LibraryModule.dll" + "\r\n" +
