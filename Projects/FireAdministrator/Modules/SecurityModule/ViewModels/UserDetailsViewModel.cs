@@ -120,6 +120,11 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
+		public bool CanChangeLogin
+		{
+			get { return User != FiresecManager.CurrentUser; }
+		}
+
 		public ObservableCollection<UserRole> Roles { get; private set; }
 
 		UserRole _userRole;

@@ -56,7 +56,7 @@ namespace GKModule.Validation
 				if (!deviceAddresses.Add(device.DottedAddress))
 				{
 					var x = device.DottedAddress;
-					Errors.Add(new DeviceValidationError(device, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, "Дублируется адрес", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}

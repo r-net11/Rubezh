@@ -31,7 +31,7 @@ namespace GKModule.Validation
 			foreach (var direction in XManager.Directions)
 			{
 				if (!directionNos.Add(direction.No))
-					Errors.Add(new DirectionValidationError(direction, "Дублиреутся номер", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DirectionValidationError(direction, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

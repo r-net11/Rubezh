@@ -36,14 +36,14 @@ namespace GKModule.ViewModels
 
 				if (device.ZoneUIDs.Contains(Zone.UID))
 				{
-					device.AllParents.ForEach(x => { devices.Add(x); });
+					//device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
 				}
 				else
 				{
 					if (device.ZoneUIDs.Count == 0)
 					{
-						device.AllParents.ForEach(x => { availableDevices.Add(x); });
+						//device.AllParents.ForEach(x => { availableDevices.Add(x); });
 						availableDevices.Add(device);
 					}
 				}
@@ -60,13 +60,14 @@ namespace GKModule.ViewModels
 				Devices.Add(deviceViewModel);
 			}
 
-			foreach (var device in Devices.Where(x => x.Device.Parent != null))
-			{
-				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.AddChild(device);
-			}
+			//foreach (var device in Devices.Where(x => x.Device.Parent != null))
+			//{
+			//    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+			//    if (parent != null)
+			//        parent.AddChild(device);
+			//}
 			var selectedDevice = Devices.LastOrDefault();
-			Devices = new ObservableCollection<ZoneDeviceViewModel>(Devices.Where(x => x.Device.Parent == null));
+			//Devices = new ObservableCollection<ZoneDeviceViewModel>(Devices.Where(x => x.Device.Parent == null));
 
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
@@ -86,16 +87,17 @@ namespace GKModule.ViewModels
 				AvailableDevices.Add(deviceViewModel);
 			}
 
-			foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
-			{
-				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				parent.AddChild(device);
-			}
+			//foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
+			//{
+			//    var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+			//    if (parent != null)
+			//        parent.AddChild(device);
+			//}
 			var selectedAvailableDevice = AvailableDevices.LastOrDefault();
-			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
+			//AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
 
-			OnPropertyChanged("Devices");
-			OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged(() => Devices);
+			OnPropertyChanged(() => AvailableDevices);
 
 			SelectedDevice = selectedDevice;
 			SelectedAvailableDevice = selectedAvailableDevice;

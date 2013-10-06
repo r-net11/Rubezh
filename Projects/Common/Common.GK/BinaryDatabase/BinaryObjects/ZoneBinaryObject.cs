@@ -78,21 +78,21 @@ namespace Common.GK
 			var fire1Count = AddDeviceFire1();
 			AddDeviceFire2();
 
-			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);
 			if (fire1Count > 0)
 			{
 				Formula.Add(FormulaOperationType.ADD);
 			}
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.AddGetBit(XStateBit.Fire2, Zone);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateBit.Fire2, Zone);
 
 			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.GE);
 			Formula.AddGetBit(XStateBit.Fire1, Zone);
 			Formula.Add(FormulaOperationType.OR);

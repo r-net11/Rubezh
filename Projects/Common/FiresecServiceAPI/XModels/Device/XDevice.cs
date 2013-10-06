@@ -289,6 +289,16 @@ namespace XFiresecAPI
 			get { return AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK); }
 		}
 
+		public XDevice KAUParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU || x.Driver.DriverType == XDriverType.RSR2_KAU);
+			}
+		}
+
 		public XDevice KAURSR2Parent
 		{
 			get
