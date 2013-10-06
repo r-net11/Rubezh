@@ -118,6 +118,10 @@ namespace PlansModule.ViewModels
 		{
 			get { return DesignerCanvas; }
 		}
+		public bool AllowScalePoint
+		{
+			get { return true; }
+		}
 
 		public void ChangeZoom(double zoom)
 		{

@@ -128,8 +128,8 @@ namespace FiresecClient
                 }
 				direction.OnChanged();
 			}
-			zone.OnChanged();
 			Zones.Remove(zone);
+			zone.OnChanged();
 		}
 
 		public static void EditZone(XZone zone)
@@ -161,8 +161,8 @@ namespace FiresecClient
 				zone.Directions.Remove(direction);
 				zone.OnChanged();
 			}
-			direction.OnChanged();
 			Directions.Remove(direction);
+			direction.OnChanged();
 		}
 
 		public static void ChangeDirectionZones(XDirection direction, List<XZone> zones)

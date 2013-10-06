@@ -336,6 +336,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
 		void OnShowZoneOrLogic()
 		{
+			IsSelected = true;
 			if (CanShowZones())
 				OnShowZones();
 

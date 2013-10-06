@@ -29,7 +29,7 @@
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />
 					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="/Controls;component/Images/RightRight.png" ToolTip="Последняя страница" />
 					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
-					<Controls:ToolBarButton Command="{Binding PdfPrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Сохранить отчет в PDF" />
+					<Controls:ToolBarButton Command="{Binding PdfPrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Pdf.png" ToolTip="Сохранить отчет в PDF" Visibility="{Binding IsPdfAllowed, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<Controls:ToolBarButton Command="{Binding FitToWidthCommand}" ImageSource="/Controls;component/Images/WidthToPage.png" ToolTip="По ширине страницы" />
 					<Controls:ToolBarButton Command="{Binding FitlToHeightCommand}" ImageSource="/Controls;component/Images/HeightToPage.png" ToolTip="По высоте страницы" />
 					<Controls:ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="Исходный размер" />

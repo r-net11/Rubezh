@@ -31,6 +31,7 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
+			FiresecManager.UpdatePlansConfiguration();
 			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;
 			_plansViewModel.Initialize();
 		}

@@ -22,7 +22,7 @@ namespace GKModule.Plans.Designer
 	class XDirectionPainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
-		private XDirection Direction;
+		private XDirection _direction;
 		private ContextMenu _contextMenu;
 		private ImageTextStateTooltipViewModel _tooltip;
 		private GeometryDrawing _textDrawing;
@@ -38,10 +38,10 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			Direction = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
-			_showText = _presenterItem.Element is ElementRectangleXDirection;
-			if (Direction != null)
-				Direction.DirectionState.StateChanged += OnPropertyChanged;
+			_direction = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
+			_showText = _direction != null && _presenterItem.Element is ElementRectangleXDirection;
+			if (_direction != null)
+				_direction.DirectionState.StateChanged += OnPropertyChanged;
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			UpdateTooltip();
@@ -55,17 +55,17 @@ namespace GKModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (Direction == null)
+			if (_direction == null)
 				return;
 
 			if (_tooltip == null)
 			{
 				_tooltip = new ImageTextStateTooltipViewModel();
-				_tooltip.TitleViewModel.Title = Direction.PresentationName.TrimEnd();
+				_tooltip.TitleViewModel.Title = _direction.PresentationName.TrimEnd();
 				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/Blue_Direction.png";
 			}
-			_tooltip.StateViewModel.Title = Direction.DirectionState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = Direction.DirectionState.StateClass.ToIconSource();
+			_tooltip.StateViewModel.Title = _direction.DirectionState.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = _direction.DirectionState.StateClass.ToIconSource();
 			_tooltip.Update();
 		}
 
@@ -84,11 +84,11 @@ namespace GKModule.Plans.Designer
 			base.Transform();
 			if (_showText)
 			{
-				var text = Direction.DirectionState.StateClass.ToDescription();
-				if (Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn) && Direction.DirectionState.OnDelay > 0)
-					text += "\n" + string.Format("Задержка: {0} сек", Direction.DirectionState.OnDelay);
-				else if (Direction.DirectionState.StateBits.Contains(XStateBit.On) && Direction.DirectionState.HoldDelay > 0)
-					text += "\n" + string.Format("Удержание: {0} сек", Direction.DirectionState.HoldDelay);
+				var text = _direction.DirectionState.StateClass.ToDescription();
+				if (_direction.DirectionState.StateBits.Contains(XStateBit.TurningOn) && _direction.DirectionState.OnDelay > 0)
+					text += "\n" + string.Format("Задержка: {0} сек", _direction.DirectionState.OnDelay);
+				else if (_direction.DirectionState.StateBits.Contains(XStateBit.On) && _direction.DirectionState.HoldDelay > 0)
+					text += "\n" + string.Format("Удержание: {0} сек", _direction.DirectionState.HoldDelay);
 				if (string.IsNullOrEmpty(text))
 					_textDrawing = null;
 				else
@@ -122,43 +122,40 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			switch (Direction.DirectionState.StateClass)
-			{
-				case XStateClass.Unknown:
-				case XStateClass.DBMissmatch:
-				case XStateClass.TechnologicalRegime:
-				case XStateClass.ConnectionLost:
-					return Colors.DarkGray;
-
-				case XStateClass.On:
-					return Colors.Red;
-
-				case XStateClass.TurningOn:
-					return Colors.Pink;
-
-				case XStateClass.AutoOff:
-					return Colors.Gray;
-
-				case XStateClass.Ignore:
-					return Colors.Yellow;
-
-				case XStateClass.Norm:
-				case XStateClass.Off:
-					return Colors.Green;
-
-				default:
-					return Colors.White;
-			}
+			if (_direction == null || _direction.DirectionState == null)
+				return Colors.Gray;
+			else
+				switch (_direction.DirectionState.StateClass)
+				{
+					case XStateClass.Unknown:
+					case XStateClass.DBMissmatch:
+					case XStateClass.TechnologicalRegime:
+					case XStateClass.ConnectionLost:
+						return Colors.DarkGray;
+					case XStateClass.On:
+						return Colors.Red;
+					case XStateClass.TurningOn:
+						return Colors.Pink;
+					case XStateClass.AutoOff:
+						return Colors.Gray;
+					case XStateClass.Ignore:
+						return Colors.Yellow;
+					case XStateClass.Norm:
+					case XStateClass.Off:
+						return Colors.Green;
+					default:
+						return Colors.White;
+				}
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(_direction.UID);
 		}
 		private bool CanShowInTree()
 		{
-			return Direction != null;
+			return _direction != null;
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -166,7 +163,7 @@ namespace GKModule.Plans.Designer
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				Direction = Direction
+				Direction = _direction
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
@@ -174,7 +171,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(Direction);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(_direction);
 			DialogService.ShowWindow(directionDetailsViewModel);
 		}
 

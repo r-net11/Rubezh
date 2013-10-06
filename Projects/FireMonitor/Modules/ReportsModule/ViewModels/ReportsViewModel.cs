@@ -86,6 +86,16 @@ namespace ReportsModule.ViewModels
 					Reports.ForEach(report => report.OnPropertyChanged("IsEnabled"));
 			}
 		}
+		public bool IsPdfAllowed
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
+		}
 
 		public RelayCommand RefreshCommand { get; private set; }
 		private void OnRefresh()

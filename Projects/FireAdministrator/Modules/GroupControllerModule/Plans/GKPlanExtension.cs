@@ -285,14 +285,14 @@ namespace GKModule.Plans
 		private void OnXZonePropertyChanged(DesignerItem designerItem)
 		{
 			var zone = Designer.Helper.GetXZone((IElementZone)designerItem.Element);
-			//if (zone != null)
-			//    zone.ColorTypeChanged += () =>
-			//    {
-			//        Helper.BuildXZoneMap();
-			//        UpdateDesignerItemXZone(designerItem);
-			//        designerItem.Painter.Invalidate();
-			//        _designerCanvas.Refresh();
-			//    };
+			if (zone != null)
+				zone.Changed += () =>
+				{
+					Helper.BuildXZoneMap();
+					UpdateDesignerItemXZone(designerItem);
+					designerItem.Painter.Invalidate();
+					_designerCanvas.Refresh();
+				};
 		}
 
 		private void XDirectionPropertyChanged(object sender, EventArgs e)
@@ -303,14 +303,14 @@ namespace GKModule.Plans
 		private void OnXDirectionPropertyChanged(DesignerItem designerItem)
 		{
 			var direction = Designer.Helper.GetXDirection((IElementDirection)designerItem.Element);
-			//if (direction != null)
-			//    direction.ColorTypeChanged += () =>
-			//    {
-			//        Helper.BuildXDirectionMap();
-			//        UpdateDesignerItemXDirection(designerItem);
-			//        designerItem.Painter.Invalidate();
-			//        _designerCanvas.Refresh();
-			//    };
+			if (direction != null)
+				direction.Changed += () =>
+				{
+					Helper.BuildXDirectionMap();
+					UpdateDesignerItemXDirection(designerItem);
+					designerItem.Painter.Invalidate();
+					_designerCanvas.Refresh();
+				};
 		}
 
 		private void XDevicePropertyChanged(object sender, EventArgs e)

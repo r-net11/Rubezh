@@ -140,7 +140,7 @@ namespace Infrastructure.Designer
 			get
 			{
 				Point point = Mouse.GetPosition(this);
-				return point.X > 0 && point.Y > 0 && point.X < ActualWidth && point.Y < ActualHeight;
+				return PlanDesignerViewModel.IsNotEmpty && point.X > 0 && point.Y > 0 && point.X < ActualWidth && point.Y < ActualHeight;
 			}
 		}
 
