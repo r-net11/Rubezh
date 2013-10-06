@@ -5,6 +5,8 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Events;
+using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -24,6 +26,7 @@ namespace Infrastructure.Designer.ViewModels
 				OnPropertyChanged(() => IsNotEmpty);
 			}
 		}
+		public bool AllowScalePoint { get; protected set; }
 
 		public PlanDesignerViewModel()
 		{
@@ -32,6 +35,8 @@ namespace Infrastructure.Designer.ViewModels
 			InitializeZIndexCommands();
 			InitializeAlignCommands();
 			InitializeCopyPasteCommands();
+			
+			ServiceFactoryBase.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 		}
 
 		public void Update()
@@ -95,6 +100,18 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			if (IsNotEmpty)
 				NormalizeZIndex();
+		}
+
+		private void OnShowElement(Guid elementUID)
+		{
+			DesignerCanvas.Toolbox.SetDefault();
+			DesignerCanvas.DeselectAll();
+			foreach (var designerItem in DesignerCanvas.Items)
+				if (designerItem.Element.UID == elementUID && designerItem.IsEnabled)
+				{
+					designerItem.IsSelected = true;
+					break;
+				}
 		}
 	}
 }

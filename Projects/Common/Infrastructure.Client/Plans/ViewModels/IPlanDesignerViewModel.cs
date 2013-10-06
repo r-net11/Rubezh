@@ -19,5 +19,6 @@ namespace Infrastructure.Client.Plans
 		bool HasPermissionsToScale { get; }
 		bool CanCollapse { get; }
 		bool IsCollapsed { get; set; }
+		bool AllowScalePoint { get; }
 	}
 }

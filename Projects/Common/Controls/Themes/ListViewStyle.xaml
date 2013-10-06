@@ -2,8 +2,6 @@
 
 	<Style TargetType="{x:Type ListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
-		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorLevel=1, Mode=FindAncestor, AncestorType=ItemsControl}}" />
-		<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorLevel=1, Mode=FindAncestor, AncestorType=ItemsControl}}" />
 		<Setter Property="Control.Padding" Value="1,0,0,0" />
 		<Setter Property="Control.Margin" Value="0,0,0,0" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -12,6 +10,8 @@
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
 		<Setter Property="Height" Value="20" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="FrameworkElement.FocusVisualStyle">
 			<Setter.Value>
 				<Style TargetType="IFrameworkInputElement">

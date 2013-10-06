@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
 	[KnownType(typeof(Plan))]
 	[KnownType(typeof(PlanFolder))]
 	[KnownType(typeof(ElementRectangleTank))]
-	public class Plan : IElementBackground
+	public class Plan : IElementBackground, IElementRectangle
 	{
 		public Plan()
 		{

@@ -28,12 +28,7 @@ namespace PlansModule.Designer
 
 		public override void Update()
 		{
-			if (Plan != null)
-			{
-				CanvasWidth = Plan.Width;
-				CanvasHeight = Plan.Height;
-				CanvasBackground = PainterCache.GetBrush(Plan);
-			}
+			Update(Plan);
 			base.Update();
 		}
 

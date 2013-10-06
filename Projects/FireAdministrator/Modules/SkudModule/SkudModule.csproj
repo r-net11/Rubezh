@@ -51,6 +51,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
+    <Compile Include="Designer\DesignerCanvas.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

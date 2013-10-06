@@ -22,6 +22,7 @@ namespace PlansModule.ViewModels
 		{
 			PlansViewModel = plansViewModel;
 			DesignerCanvas = new DesignerCanvas(this);
+			DesignerCanvas.Toolbox.IsRightPanel = true;
 			DesignerCanvas.Toolbox.RegisterInstruments(new[]{
 				new InstrumentViewModel()
 				{
@@ -30,6 +31,7 @@ namespace PlansModule.ViewModels
 				    Index = 300,
 				    Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});
+			AllowScalePoint = true;
 		}
 
 		public void Initialize(Plan plan)

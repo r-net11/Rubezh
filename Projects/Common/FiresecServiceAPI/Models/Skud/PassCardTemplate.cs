@@ -1,18 +1,18 @@
-﻿using System.Runtime.Serialization;
-using Infrustructure.Plans.Elements;
-using System;
-using System.Windows.Media;
+﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models.Skud
 {
 	[DataContract]
-	public class PassCardTemplate : IElementBackground
+	public class PassCardTemplate : IElementBackground, IElementRectangle
 	{
 		public PassCardTemplate()
 		{
 			UID = Guid.NewGuid();
-			Caption = "Дизайнер пропуска";
+			Caption = "Шаблон пропуска";
 			Width = 297;
 			Height = 210;
 			BackgroundColor = Colors.Transparent;
@@ -63,7 +63,7 @@ namespace FiresecAPI.Models.Skud
 		public List<ElementPolyline> ElementPolylines { get; set; }
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
-		
+
 		public bool AllowTransparent
 		{
 			get { return true; }

@@ -239,6 +239,18 @@ namespace Infrastructure.Designer
 		{
 			GridLineController.Invalidate();
 		}
+		protected void Update(object element)
+		{
+			IElementRectangle elementRectangle = element as IElementRectangle;
+			if (elementRectangle != null)
+			{
+				CanvasWidth = elementRectangle.Width;
+				CanvasHeight = elementRectangle.Height;
+			}
+			IElementBackground elementBackground = element as IElementBackground;
+			if (elementBackground != null)
+				CanvasBackground = PainterCache.GetBrush(elementBackground);
+		}
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{
 			//Debug.WriteLine("BeginChange");

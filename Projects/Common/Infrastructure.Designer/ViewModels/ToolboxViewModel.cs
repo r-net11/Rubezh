@@ -27,6 +27,7 @@ namespace Infrastructure.Designer.ViewModels
 
 		public DesignerCanvas DesignerCanvas { get; private set; }
 		public bool AcceptKeyboard { get; set; }
+		public bool IsRightPanel { get; set; }
 
 		private ObservableCollection<IInstrument> _instruments;
 		public ObservableCollection<IInstrument> Instruments
@@ -192,7 +193,7 @@ namespace Infrastructure.Designer.ViewModels
 
 		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
-			if (!AcceptKeyboard || !ApplicationService.ApplicationWindow.IsKeyboardFocusWithin || !ApplicationService.Layout.IsRightPanelFocused)
+			if (!AcceptKeyboard || !ApplicationService.ApplicationWindow.IsKeyboardFocusWithin || (IsRightPanel && !ApplicationService.Layout.IsRightPanelFocused))
 				return;
 
 			if (ActiveInstrument == null || ActiveInstrument == _defaultInstrument)

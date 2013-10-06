@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
+using FiresecClient;
 
 namespace SkudModule.ViewModels
 {
@@ -102,6 +103,26 @@ namespace SkudModule.ViewModels
 					DesignerCanvas.DeselectAll();
 				}
 			}
+		}
+
+		public override void OnShow()
+		{
+			using (new WaitWrapper())
+			using (new TimeCounter("PassCardsDesignerViewModel.OnShow: {0}"))
+			{
+				base.OnShow();
+				DesignerCanvas.DeselectAll();
+				if (DesignerCanvas.Toolbox != null)
+					DesignerCanvas.Toolbox.AcceptKeyboard = true;
+			}
+			if (SelectedPassCardTemplate == null)
+				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
+		}
+		public override void OnHide()
+		{
+			base.OnHide();
+			if (DesignerCanvas.Toolbox != null)
+				DesignerCanvas.Toolbox.AcceptKeyboard = false;
 		}
 
 		private void PassCardDesignerViewModel_IsCollapsedChanged(object sender, EventArgs e)
