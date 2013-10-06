@@ -13,10 +13,21 @@ namespace Infrastructure.Designer.ViewModels
 		public event EventHandler Updated;
 		public event EventHandler IsCollapsedChanged;
 		public DesignerCanvas DesignerCanvas { get; set; }
-		public bool IsNotEmpty { get; protected set; }
+
+		private bool _isNotEmpty;
+		public bool IsNotEmpty 
+		{
+			get { return _isNotEmpty; }
+			protected set
+			{
+				_isNotEmpty = value;
+				OnPropertyChanged(() => IsNotEmpty);
+			}
+		}
 
 		public PlanDesignerViewModel()
 		{
+			IsNotEmpty = false;
 			InitializeHistory();
 			InitializeZIndexCommands();
 			InitializeAlignCommands();

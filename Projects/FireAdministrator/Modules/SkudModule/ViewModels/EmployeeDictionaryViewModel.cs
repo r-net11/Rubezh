@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
@@ -31,7 +32,7 @@ namespace SkudModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Dictionary = new ObservableCollection<EmployeeDictionaryItemViewModel<T>>();
-			Initialize();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -71,6 +72,20 @@ namespace SkudModule.ViewModels
 		void OnRefresh()
 		{
 			Initialize();
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Обновить", RefreshCommand, "/Controls;component/Images/BRefresh.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 } ,
+			};
 		}
 	}
 }

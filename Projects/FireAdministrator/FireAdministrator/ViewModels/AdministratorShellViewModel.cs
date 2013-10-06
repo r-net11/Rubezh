@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FireAdministrator.ViewModels
 {
@@ -33,6 +34,11 @@ namespace FireAdministrator.ViewModels
 			RibbonVisible = true;
 		}
 
+		public override void Run()
+		{
+			base.Run();
+			ServiceFactory.Layout.ShortcutService.Shortcuts.Add(new KeyGesture(Key.S, ModifierKeys.Control), _menu.SaveCommand);
+		}
 		public override bool OnClosing(bool isCanceled)
 		{
 			try
@@ -111,6 +117,5 @@ namespace FireAdministrator.ViewModels
 			_showToolbar.Text = _menu.IsMenuVisible ? "Скрыть панель инструментов" : "Показать панель инструментов";
 			_showMenu.Text = _menu.IsMainMenuVisible ? "Скрыть панель меню" : "Показать панель меню";
 		}
-
 	}
 }

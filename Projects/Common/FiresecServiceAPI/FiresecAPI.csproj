@@ -187,6 +187,7 @@
     <Compile Include="Models\Plans\ElementPolygonXDirection.cs" />
     <Compile Include="Models\Plans\ElementRectangleXDirection.cs" />
     <Compile Include="Models\Plans\PlanFolder.cs" />
+    <Compile Include="Models\Skud\PassCardTemplate.cs" />
     <Compile Include="Models\Zone\ExitRestoreType.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />

@@ -115,5 +115,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("ContentFotter");
 			}
 		}
+
+		public virtual void Run()
+		{
+		}
 	}
 }

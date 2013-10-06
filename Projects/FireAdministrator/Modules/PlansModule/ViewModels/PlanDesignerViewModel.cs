@@ -37,7 +37,6 @@ namespace PlansModule.ViewModels
 			Plan = plan;
 			OnPropertyChanged(() => Plan);
 			IsNotEmpty = Plan != null;
-			OnPropertyChanged(() => IsNotEmpty);
 			using (new TimeCounter("\tPlanDesignerViewModel.Initialize: {0}"))
 			using (new WaitWrapper())
 			{

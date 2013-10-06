@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
@@ -39,6 +41,7 @@ namespace SkudModule.ViewModels
 			ClearFilterCommand = new RelayCommand(OnClearFilter, CanClearFilter);
 			EmployeeCardIndex = new ObservableCollection<EmployeeCardViewModel>();
 			_filter = new EmployeeCardIndexFilter();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -125,6 +128,22 @@ namespace SkudModule.ViewModels
 					card.Update();
 				SelectedEmployeeCard = card;
 			}
+		}
+
+		private void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Обновить", RefreshCommand, "/Controls;component/Images/BRefresh.png"),
+					new RibbonMenuItemViewModel("Фильтр", FilterCommand, "/Controls;component/Images/BFilter.png"),
+					new RibbonMenuItemViewModel("Очистить фильтр", ClearFilterCommand, "/Controls;component/Images/BFilterClear.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 } ,
+			};
 		}
 	}
 }

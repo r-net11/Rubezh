@@ -62,6 +62,7 @@ namespace Infrastructure.Common.Windows
 			{
 				windowBaseView.Show();
 			}
+			model.Run();
 			ApplicationWindow = windowBaseView;
 		}
 		public static FrameworkElement BuildControl(ShellViewModel model)

@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class SkudViewModel : ViewPartViewModel
+	public class SkudViewModel : MenuViewPartViewModel
 	{
 		public SkudViewModel()
 		{

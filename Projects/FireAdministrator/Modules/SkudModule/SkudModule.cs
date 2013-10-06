@@ -17,6 +17,7 @@ namespace SkudModule
 		private EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
 		private EmployeePositionsViewModel _employeePositionsViewModel;
 		private EmployeeGroupsViewModel _employeeGroupsViewModel;
+		private PassCardsDesignerViewModel _passCardDesignerViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -28,6 +29,7 @@ namespace SkudModule
 			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
 			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
 			_employeePositionsViewModel = new EmployeePositionsViewModel();
+			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -43,6 +45,7 @@ namespace SkudModule
 			_employeeDepartmentsViewModel.Initialize();
 			_employeeGroupsViewModel.Initialize();
 			_employeePositionsViewModel.Initialize();
+			_passCardDesignerViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -55,13 +58,14 @@ namespace SkudModule
 				{
 					new NavigationItem<ShowEmployeeCardIndexEvent>(_employeeCardIndexViewModel, "Картотека",null),
 					new NavigationItem<ShowPassCardEvent>(_skudViewModel, "Пропуск",null),
+					new NavigationItem<ShowPassCardDesignerEvent>(_passCardDesignerViewModel, "Дизайнер",null),
 					new NavigationItem("Справочники",null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowEmployeePositionsEvent>(_employeePositionsViewModel, "Должности",null),
 						new NavigationItem<ShowEmployeeDepartmentsEvent>(_employeeDepartmentsViewModel, "Подразделения",null),
 						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
 					})
-				}, PermissionType.Adm_SKUD),
+				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};
 		}
 		public override string Name
