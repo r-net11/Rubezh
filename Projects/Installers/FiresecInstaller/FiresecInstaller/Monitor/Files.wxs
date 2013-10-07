@@ -28,6 +28,7 @@
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
@@ -58,7 +59,6 @@
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
 				<File Id="Monitor.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
       <Component Id="Monitor.GK_MODULE" Guid="7C84F6F3-BFE8-4C60-B062-A126AC9748C7">

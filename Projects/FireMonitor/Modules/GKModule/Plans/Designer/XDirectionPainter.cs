@@ -81,7 +81,7 @@ namespace GKModule.Plans.Designer
 		}
 		public override void Transform()
 		{
-			if (Direction == null)
+			if (_direction == null)
 				return;
 
 			base.Transform();
@@ -125,7 +125,7 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			if (Direction == null)
+			if (_direction == null)
 				return Colors.Transparent;
 
 				switch (_direction.DirectionState.StateClass)

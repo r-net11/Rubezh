@@ -30,6 +30,11 @@ namespace GKProcessor
 							var baseState = binaryObject.BinaryBase.GetXBaseState();
 							baseState.IsNoLicense = !hasLicense;
 						}
+
+						if (hasLicense)
+							GKDBHelper.AddMessage("Отсутствует лицензия", "");
+						else
+							GKDBHelper.AddMessage("Лицензия обнаружена", "");
 					}
 
 					if (hasLicense)

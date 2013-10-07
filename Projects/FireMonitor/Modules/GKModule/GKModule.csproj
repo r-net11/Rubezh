@@ -87,6 +87,10 @@
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
+      <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
@@ -284,6 +288,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="Plans\Views\DeviceTooltipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

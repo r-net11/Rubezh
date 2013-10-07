@@ -11,10 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", 
 		Assemblies\FiresecAPI.dll = Assemblies\FiresecAPI.dll
 		Assemblies\FiresecClient.dll = Assemblies\FiresecClient.dll
 		Assemblies\FiresecClient.ITV.dll = Assemblies\FiresecClient.ITV.dll
+		Assemblies\FS2API.dll = Assemblies\FS2API.dll
+		Assemblies\FS2Client.dll = Assemblies\FS2Client.dll
 		Assemblies\FSAgentAPI.dll = Assemblies\FSAgentAPI.dll
 		Assemblies\FSAgentClient.dll = Assemblies\FSAgentClient.dll
 		Assemblies\Infrastructure.Common.dll = Assemblies\Infrastructure.Common.dll
 		Assemblies\Infrustructure.Plans.dll = Assemblies\Infrustructure.Plans.dll
+		Assemblies\Xceed.Wpf.Toolkit.dll = Assemblies\Xceed.Wpf.Toolkit.dll
 	EndProjectSection
 EndProject
 Global
