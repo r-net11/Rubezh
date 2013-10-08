@@ -33,7 +33,7 @@ namespace Common.GK
 				No = 0x82,
 				Name = "Количество повторов",
 				Caption = "Количество повторов",
-				Default = 0,
+				Default = 3,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 255
@@ -79,7 +79,7 @@ namespace Common.GK
 				No = 0x89,
 				Name = "Действующее значение входного напряжения линейного входа, mV",
 				Caption = "Действующее значение входного напряжения линейного входа, mV",
-				Default = 0,
+				Default = 2,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
 			};
 			var property4Parameter1 = new XDriverPropertyParameter()

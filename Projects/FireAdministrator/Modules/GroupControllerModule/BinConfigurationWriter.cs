@@ -100,7 +100,7 @@ namespace GKModule
 						}
 						if (!GoToWorkingRegime(gkDatabase.RootDevice))
 						{
-							error = "Не удалось перевести ГК в рабочий режим";
+							//error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
 						return;

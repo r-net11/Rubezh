@@ -6,6 +6,7 @@
             <Button Content="Посмотреть бинарную конфигурацию" Command="{Binding ConvertToBinCommand}" Width="300" Margin="2" />
             <Button Content="Конвертировать из формата Рубеж-2АМ" Command="{Binding ConvertFromFiresecCommand}" Width="300" Margin="2" />
             <Button Content="Конвертировать в формат Рубеж-2АМ" Command="{Binding ConvertToFiresecCommand}" Width="300" Margin="2" />
+            <Button Content="Создать 20000 зон" Command="{Binding CreateTestZonesCommand}" Width="300" Margin="2" />
         </WrapPanel>
     </Grid>
 </UserControl>
