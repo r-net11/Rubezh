@@ -7,6 +7,7 @@ using System.Net;
 using Common.GK;
 using XFiresecAPI;
 using System.Diagnostics;
+using GKImitator.ViewModels;
 
 namespace GKImitator.Processor
 {
@@ -18,7 +19,6 @@ namespace GKImitator.Processor
 
 		public void Start()
 		{
-			DatabaseManager.Convert();
 			GkDatabase = DatabaseManager.GkDatabases.FirstOrDefault();
 
 			serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -98,19 +98,15 @@ namespace GKImitator.Processor
 				return new List<byte>();
 
 			var result = new List<byte>();
-			//var typeNo = binaryObjectBase.ObjectType;
-			var typeNo = 0;
 
+			var typeNo = 0;
 			if (binaryObjectBase.Device != null)
 				typeNo = binaryObjectBase.Device.Driver.DriverTypeNo;
 			if (binaryObjectBase.Zone != null)
 				typeNo = 0x100;
 			if (binaryObjectBase.Direction != null)
 				typeNo = 0x106;
-
 			result.AddRange(ToBytes((short)typeNo));
-
-			Trace.WriteLine(no + " - " + typeNo);
 
 			var controllerAddress = binaryObjectBase.ControllerAdress;
 			result.AddRange(ToBytes((short)controllerAddress));
@@ -127,11 +123,15 @@ namespace GKImitator.Processor
 			result.AddRange(IntToBytes((int)serialNo));
 
 			var state = 0;
-			var stateBits = new List<XStateBit>();
-			stateBits.Add(XStateBit.Norm);
-			foreach (var stateBit in stateBits)
+			//var stateBits = new List<XStateBit>();
+			//stateBits.Add(XStateBit.Norm);
+			var binaryObjectViewModel = MainViewModel.Current.BinaryObjects.FirstOrDefault(x => x.BinaryObject.GkDescriptorNo == binaryObjectBase.GkDescriptorNo);
+			foreach (var stateBitViewModel in binaryObjectViewModel.StateBits)
 			{
-				state += (1 << (int)stateBit);
+				if (stateBitViewModel.IsActive)
+				{
+					state += (1 << (int)stateBitViewModel.StateBit);
+				}
 			}
 			result.AddRange(IntToBytes((int)state));
 
@@ -158,19 +158,5 @@ namespace GKImitator.Processor
 		{
 			return BitConverter.GetBytes(intValue).ToList();
 		}
-
-		//static List<byte> StringToBytes(string str, int length = 32)
-		//{
-		//    if (str == null)
-		//        str = "";
-		//    if (str.Length > length)
-		//        str = str.Substring(0, length);
-		//    var bytes = Encoding.Default.GetBytes(str).ToList();
-		//    for (int i = 0; i < length - str.Length; i++)
-		//    {
-		//        bytes.Add(32);
-		//    }
-		//    return bytes;
-		//}
 	}
 }

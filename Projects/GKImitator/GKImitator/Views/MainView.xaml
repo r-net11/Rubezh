@@ -41,10 +41,23 @@
                 <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" DataContext="{Binding SelectedBinaryObject}">
+        <Grid Grid.Row="1" DataContext="{Binding SelectedBinaryObject}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding StateBits}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        <StackPanel Grid.Column="1">
             <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
             <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
             <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
         </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
