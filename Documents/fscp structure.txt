@@ -6,7 +6,23 @@ ParameterTemplates	Шаблоны параметров
 	Name				Название
 	DeviceParameterTemplates	Парметры устройства
 		XDevice			Устройство
+
 RootDevice		Рутовое устройство
+	UID				Идентификатор
+	DriverUID			Идентификатор драйвера
+	ShleifNo			Номер шлейфа
+	IntAddress			Адрес(на шлейфе)
+	Description			Описание
+	PredefinedName			Предопределенное имя(для индикаторов, реле, выходов)
+	Children			Дети(такого же типа)
+	Properties			Свойства(не записываемые в устройство)
+	SystemAUProperties		Свойства адресного устройства(записываемые в устройство)
+	ZoneUIDs			Идентификаторы зон
+	DeviceLogic			Логика
+	IsNotUsed			Признак не использовать(для групповых РМ, АМ, АМП)
+	PumpStationProperty		Логика НС
+	PlanElementUIDs			Идентификаторы элементов на плане
+	AllowMultipleVizualization	Разрешить множественную визуализацию на плане
 Zones			Зоны
 Directions		Направления
 JournalFilters		Фильтры журнала
