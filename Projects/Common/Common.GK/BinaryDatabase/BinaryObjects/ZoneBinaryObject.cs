@@ -80,10 +80,7 @@ namespace Common.GK
 
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);
-			if (fire1Count > 0)
-			{
-				Formula.Add(FormulaOperationType.ADD);
-			}
+			Formula.Add(FormulaOperationType.ADD);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.GE);

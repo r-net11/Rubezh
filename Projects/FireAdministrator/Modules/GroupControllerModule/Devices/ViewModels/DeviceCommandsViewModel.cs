@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
+using System.ComponentModel;
 
 namespace GKModule.Models
 {
@@ -94,14 +95,17 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			if (ValidateConfiguration())
+			if (CheckNeedSave())
 			{
+				if (ValidateConfiguration())
+				{
 				var dateTime = DateTime.Now;
-				GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
-				BinConfigurationWriter.WriteConfig(SelectedDevice.Device);
+					GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
+					BinConfigurationWriter.WriteConfig(SelectedDevice.Device);
 #if DEBUG
 				MessageBoxService.Show("Время записи, мин " + (DateTime.Now - dateTime).TotalMinutes);
 #endif
+				}
 			}
 		}
         bool CanWriteConfig()
@@ -249,6 +253,24 @@ namespace GKModule.Models
 				if (validationResult.CannotSave("GK") || validationResult.CannotWrite("GK"))
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+					return false;
+				}
+			}
+			return true;
+		}
+
+		bool CheckNeedSave()
+		{
+			if (ServiceFactory.SaveService.GKChanged)
+			{
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				{
+					var cancelEventArgs = new CancelEventArgs();
+					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					return !cancelEventArgs.Cancel;
+				}
+				else
+				{
 					return false;
 				}
 			}

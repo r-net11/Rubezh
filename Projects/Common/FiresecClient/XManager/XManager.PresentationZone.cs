@@ -56,7 +56,11 @@ namespace FiresecClient
 
 		public static string GetCommaSeparatedZones(List<XZone> zones)
 		{
-			if (zones.Count() > 0)
+			if (zones.Count == 1)
+			{
+				return zones[0].PresentationName;
+			}
+			if (zones.Count > 0)
 			{
 				var orderedZones = zones.OrderBy(x => x.No).Select(x => x.No).ToList();
 				int prevZoneNo = orderedZones[0];

@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections;
 
 namespace GKModule.ViewModels
 {
@@ -16,8 +17,8 @@ namespace GKModule.ViewModels
 
 		public ZoneDevicesViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			Devices = new ObservableCollection<ZoneDeviceViewModel>();
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 		}
@@ -36,14 +37,12 @@ namespace GKModule.ViewModels
 
 				if (device.ZoneUIDs.Contains(Zone.UID))
 				{
-					//device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
 				}
 				else
 				{
 					if (device.ZoneUIDs.Count == 0)
 					{
-						//device.AllParents.ForEach(x => { availableDevices.Add(x); });
 						availableDevices.Add(device);
 					}
 				}
@@ -54,21 +53,13 @@ namespace GKModule.ViewModels
 			{
 				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
-					IsExpanded = true,
 					IsBold = device.ZoneUIDs.Contains(Zone.UID)
 				};
 				Devices.Add(deviceViewModel);
 			}
 
-			//foreach (var device in Devices.Where(x => x.Device.Parent != null))
-			//{
-			//    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-			//    if (parent != null)
-			//        parent.AddChild(device);
-			//}
 			var selectedDevice = Devices.LastOrDefault();
 			//Devices = new ObservableCollection<ZoneDeviceViewModel>(Devices.Where(x => x.Device.Parent == null));
-
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
@@ -80,22 +71,14 @@ namespace GKModule.ViewModels
 
 				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
-					IsExpanded = true,
 					IsBold = device.Driver.HasZone
 				};
 
 				AvailableDevices.Add(deviceViewModel);
 			}
 
-			//foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
-			//{
-			//    var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-			//    if (parent != null)
-			//        parent.AddChild(device);
-			//}
 			var selectedAvailableDevice = AvailableDevices.LastOrDefault();
 			//AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
-
 			OnPropertyChanged(() => Devices);
 			OnPropertyChanged(() => AvailableDevices);
 
@@ -142,66 +125,82 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public RelayCommand<object> AddCommand { get; private set; }
+		public IList SelectedAvailableDevices;
+		void OnAdd(object parameter)
 		{
-			var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
-			var newIndex = 0;
-			var newDeviceUID = Guid.Empty;
-			for (int currentIndex = 0; currentIndex < AvailableDevices.Count; currentIndex++)
+			var availableDevicesIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+			var devicesIndex = Devices.IndexOf(SelectedDevice);
+
+			SelectedAvailableDevices = (IList)parameter;
+			var availabledeviceViewModels = new List<ZoneDeviceViewModel>();
+			foreach (var availabledevice in SelectedAvailableDevices)
 			{
-				var deviceViewModel = AvailableDevices[currentIndex];
-				if (!deviceViewModel.IsBold)
-					continue;
-				if (deviceViewModel == SelectedAvailableDevice)
-					continue;
-				if (Math.Abs(currentIndex - oldIndex) <= Math.Abs(oldIndex - newIndex))
-				{
-					newIndex = currentIndex;
-					newDeviceUID = deviceViewModel.Device.UID;
-				}
+				var availabledeviceViewModel = availabledevice as ZoneDeviceViewModel;
+				if (availabledeviceViewModel != null)
+					availabledeviceViewModels.Add(availabledeviceViewModel);
+			}
+			foreach (var availabledeviceViewModel in availabledeviceViewModels)
+			{
+				Devices.Add(availabledeviceViewModel);
+				AvailableDevices.Remove(availabledeviceViewModel);
+				XManager.AddDeviceToZone(availabledeviceViewModel.Device, Zone);
 			}
 
-			XManager.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
 			Initialize(Zone);
-			UpdateAvailableDevices();
-			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == newDeviceUID);
+
+			availableDevicesIndex = Math.Min(availableDevicesIndex, AvailableDevices.Count - 1);
+			if (availableDevicesIndex > -1)
+				SelectedAvailableDevice = AvailableDevices[availableDevicesIndex];
+
+			devicesIndex = Math.Min(devicesIndex, Devices.Count - 1);
+			if (devicesIndex > -1)
+				SelectedDevice = Devices[devicesIndex];
+
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-		public bool CanAdd()
+		public bool CanAdd(object parameter)
 		{
-			return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.HasZone));
+			return SelectedAvailableDevice != null;
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public RelayCommand<object> RemoveCommand { get; private set; }
+		public IList SelectedDevices;
+		void OnRemove(object parameter)
 		{
-			var oldIndex = Devices.IndexOf(SelectedDevice);
-			var newIndex = 0;
-			var newDeviceUID = Guid.Empty;
-			for (int currentIndex = 0; currentIndex < Devices.Count; currentIndex++)
+			var devicesIndex = Devices.IndexOf(SelectedDevice);
+			var availableDevicesIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+
+			SelectedDevices = (IList)parameter;
+			var deviceViewModels = new List<ZoneDeviceViewModel>();
+			foreach (var device in SelectedDevices)
 			{
-				var deviceViewModel = Devices[currentIndex];
-				if (!deviceViewModel.IsBold)
-					continue;
-				if (deviceViewModel == SelectedDevice)
-					continue;
-				if (Math.Abs(currentIndex - oldIndex) <= Math.Abs(oldIndex - newIndex))
-				{
-					newIndex = currentIndex;
-					newDeviceUID = deviceViewModel.Device.UID;
-				}
+				var deviceViewModel = device as ZoneDeviceViewModel;
+				if (deviceViewModel != null)
+					deviceViewModels.Add(deviceViewModel);
+			}
+			foreach (var deviceViewModel in deviceViewModels)
+			{
+				AvailableDevices.Add(deviceViewModel);
+				Devices.Remove(deviceViewModel);
+				XManager.RemoveDeviceFromZone(deviceViewModel.Device, Zone);
 			}
 
-			XManager.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
 			Initialize(Zone);
-			UpdateAvailableDevices();
-			SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == newDeviceUID);
+
+			availableDevicesIndex = Math.Min(availableDevicesIndex, AvailableDevices.Count - 1);
+			if (availableDevicesIndex > -1)
+				SelectedAvailableDevice = AvailableDevices[availableDevicesIndex];
+
+			devicesIndex = Math.Min(devicesIndex, Devices.Count - 1);
+			if (devicesIndex > -1)
+				SelectedDevice = Devices[devicesIndex];
+
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-		public bool CanRemove()
+		public bool CanRemove(object parameter)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Driver.HasZone));
+			return SelectedDevice != null;
 		}
 	}
 }

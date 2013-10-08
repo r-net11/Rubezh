@@ -174,7 +174,7 @@ namespace GKModule
 					{
 						LoadingService.Close();
 						return false;
-						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПеревести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;					}
+					}
 				}
 			}
 			WriteEndDescriptor(commonDatabase);

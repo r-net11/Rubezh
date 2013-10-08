@@ -16,6 +16,7 @@ namespace VideoModule
 	public class VideoModuleLoader : ModuleBase
 	{
 		VideoViewModel VideoViewModel;
+		NavigationItem _videoNavigationItem;
 
 		public override void CreateViewModels()
 		{
@@ -50,13 +51,16 @@ namespace VideoModule
 		public override void Initialize()
 		{
 			OnDevicesStateChanged(Guid.Empty);
+			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
+			VideoViewModel.Initialize();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			_videoNavigationItem = new NavigationItem<ShowVideoEvent>(VideoViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 		    {
-		        new NavigationItem<ShowVideoEvent>(VideoViewModel, "Видео", "/Controls;component/Images/Video1.png"),
+		        _videoNavigationItem
 		    };
 		}
 

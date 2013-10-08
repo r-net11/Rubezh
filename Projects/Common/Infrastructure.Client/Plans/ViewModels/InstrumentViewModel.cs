@@ -55,5 +55,4 @@ namespace Infrastructure.Client.Plans
 		public bool Autostart { get; set; }
 		public int Index { get; set; }
 	}
-
 }

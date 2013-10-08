@@ -9,9 +9,11 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class ZonesSelectationViewModel : SaveCancelDialogViewModel
 	{
 		public List<XZone> Zones { get; private set; }

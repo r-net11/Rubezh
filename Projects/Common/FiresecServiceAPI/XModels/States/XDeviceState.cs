@@ -12,8 +12,9 @@ namespace XFiresecAPI
 		public XDeviceState(XDevice device)
 		{
 			Device = device;
-			if (device.Driver.DriverType != XDriverType.System)
-				_isConnectionLost = true;
+
+			if (device.Driver.DriverType == XDriverType.System)
+				IsInitialState = false;
 
 			MeasureParameter = new XMeasureParameter();
 		}
@@ -68,7 +69,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				var stateClasses = XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime);
+				var stateClasses = base.StateClasses;
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);

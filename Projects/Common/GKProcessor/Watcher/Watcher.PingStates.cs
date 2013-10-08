@@ -21,7 +21,10 @@ namespace GKProcessor
 
 			pingObjectNo++;
 			if (pingObjectNo >= GkDatabase.BinaryObjects.Count)
+			{
 				pingObjectNo = 0;
+				CheckTechnologicalRegime();
+			}
 		}
 	}
 }

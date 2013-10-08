@@ -36,34 +36,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common, Version=1.2.0.35250, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Common">
       <HintPath>..\Assemblies\Common.dll</HintPath>
     </Reference>
-    <Reference Include="Controls, Version=1.2.0.35253, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Controls">
       <HintPath>..\Assemblies\Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Firesec, Version=1.2.0.35255, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Firesec">
       <HintPath>..\Assemblies\Firesec.dll</HintPath>
     </Reference>
-    <Reference Include="FiresecAPI, Version=1.2.0.35250, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FiresecAPI">
       <HintPath>..\Assemblies\FiresecAPI.dll</HintPath>
     </Reference>
-    <Reference Include="FiresecClient, Version=1.2.0.35255, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FiresecClient">
       <HintPath>..\Assemblies\FiresecClient.dll</HintPath>
     </Reference>
-    <Reference Include="FiresecClient.ITV, Version=1.2.0.35256, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="FiresecClient.ITV">
       <HintPath>..\Assemblies\FiresecClient.ITV.dll</HintPath>
     </Reference>
-    <Reference Include="FSAgentAPI, Version=1.2.0.35252, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FS2API">
+      <HintPath>..\Assemblies\FS2API.dll</HintPath>
+    </Reference>
+    <Reference Include="FS2Client">
+      <HintPath>..\Assemblies\FS2Client.dll</HintPath>
+    </Reference>
+    <Reference Include="FSAgentAPI">
       <HintPath>..\Assemblies\FSAgentAPI.dll</HintPath>
     </Reference>
-    <Reference Include="FSAgentClient, Version=1.2.0.35254, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FSAgentClient">
       <HintPath>..\Assemblies\FSAgentClient.dll</HintPath>
     </Reference>
-    <Reference Include="Infrastructure.Common, Version=1.2.0.35252, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Infrastructure.Common">
       <HintPath>..\Assemblies\Infrastructure.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Infrustructure.Plans, Version=1.2.0.35250, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Infrustructure.Plans">
       <HintPath>..\Assemblies\Infrustructure.Plans.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -81,7 +87,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>..\Assemblies\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

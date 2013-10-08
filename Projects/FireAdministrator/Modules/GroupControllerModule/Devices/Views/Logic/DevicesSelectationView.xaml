@@ -10,7 +10,7 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="OnSelectionChanged">
+        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended" SelectionChanged="OnSelectionChanged">
             <ListView.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
@@ -38,12 +38,12 @@
             </ListView.View>
         </ListView>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}"/>
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionChanged="OnSelectionChanged">
+        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended" SelectionChanged="OnSelectionChanged">
             <ListView.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />

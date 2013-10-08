@@ -42,52 +42,19 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-                <tree:TreeList Focusable="True" Source="{Binding Devices}" SelectedTreeNode="{Binding SelectedDevice}">
-					<tree:TreeList.View>
-						<GridView>
-							<GridViewColumn Width="250" Header="Устройство в зоне">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-											<TextBlock Text="{Binding Driver.ShortName}">
-											<TextBlock.Style>
-												<Style>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding IsBold}" Value="True">
-															<DataTrigger.Setters>
-																<Setter Property="TextBlock.FontWeight" Value="Bold" />
-															</DataTrigger.Setters>
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-											</TextBlock>
-											<StackPanel.InputBindings>
-												<MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=tree:TreeList}}" MouseAction="LeftDoubleClick" />
-											</StackPanel.InputBindings>
-										</StackPanel>
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-							<GridViewColumn Width="50" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" />
-							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Description}" Header="Примечание" />
-						</GridView>
-					</tree:TreeList.View>
-				</tree:TreeList>
-
-				<StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону (Ctrl+N)" />
-                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/ArrowDown.png" ToolTip="Удалить из зоны (Ctrl+Del)" />
-				</StackPanel>
-			</Grid>
-
-			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-
-			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-                <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended">
+                <DataGrid x:Name="DataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended">
+                    <DataGrid.Resources>
+                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                            <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" />
+                        </InputBindingCollection>
+                    </DataGrid.Resources>
+                    <DataGrid.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="250" Header="Устройство в зоне">
+                        <DataGridTemplateColumn Width="Auto" Header="Устройство в зоне">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -105,15 +72,60 @@
 												</Style>
 											</TextBlock.Style>
                                         </TextBlock>
-                                        <StackPanel.InputBindings>
-                                            <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=tree:TreeList}}" MouseAction="LeftDoubleClick" />
-                                        </StackPanel.InputBindings>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="50" Binding="{Binding PresentationAddress}" Header="Адрес" />
-                        <DataGridTextColumn Width="50" Binding="{Binding Description}" Header="Примечание" />
+                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+				<StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Controls:ToolBarButton Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону (Ctrl+N)" />
+                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowDown.png" ToolTip="Удалить из зоны (Ctrl+Del)" />
+				</StackPanel>
+			</Grid>
+
+			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+
+			<Grid Grid.Row="2" SizeChanged="OnSizeChanged">
+                <DataGrid x:Name="DataGrid2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended">
+                    <DataGrid.Resources>
+                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                            <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" />
+                        </InputBindingCollection>
+                    </DataGrid.Resources>
+                    <DataGrid.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                        </Style>
+                    </DataGrid.ItemContainerStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="Auto" Header="Устройство">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
+                                        <TextBlock Text="{Binding Driver.ShortName}">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsBold}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

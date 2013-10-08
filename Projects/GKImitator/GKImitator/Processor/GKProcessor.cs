@@ -4,16 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
+using Common.GK;
+using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKImitator.Processor
 {
 	public class GKProcessor
 	{
+		GkDatabase GkDatabase;
 		Socket serverSocket;
 		byte[] byteData = new byte[64];
 
 		public void Start()
 		{
+			DatabaseManager.Convert();
+			GkDatabase = DatabaseManager.GkDatabases.FirstOrDefault();
+
 			serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 1025);
 			serverSocket.Bind(ipEndPoint);
@@ -64,7 +71,7 @@ namespace GKImitator.Processor
 					result.AddRange(BitConverter.GetBytes(softwareNo));
 					result.AddRange(BitConverter.GetBytes(hardwareNo));
 					return result;
-				case 5:
+				case 5: // DateTime Synchrinysation
 					return new List<byte>();
 
 				case 6:
@@ -76,8 +83,64 @@ namespace GKImitator.Processor
 				case 7:
 					var no = BytesHelper.SubstructInt(byteData.ToList(), 5);
 					return GetJournalBytes(no);
+
+				case 12: // Get State
+					no = BytesHelper.SubstructShort(byteData.ToList(), 5);
+					return GetObjectState(no);
 			}
 			return new List<byte>();
+		}
+
+		public List<byte> GetObjectState(int no)
+		{
+			var binaryObjectBase = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GkDescriptorNo == no);
+			if (binaryObjectBase == null)
+				return new List<byte>();
+
+			var result = new List<byte>();
+			//var typeNo = binaryObjectBase.ObjectType;
+			var typeNo = 0;
+
+			if (binaryObjectBase.Device != null)
+				typeNo = binaryObjectBase.Device.Driver.DriverTypeNo;
+			if (binaryObjectBase.Zone != null)
+				typeNo = 0x100;
+			if (binaryObjectBase.Direction != null)
+				typeNo = 0x106;
+
+			result.AddRange(ToBytes((short)typeNo));
+
+			Trace.WriteLine(no + " - " + typeNo);
+
+			var controllerAddress = binaryObjectBase.ControllerAdress;
+			result.AddRange(ToBytes((short)controllerAddress));
+
+			var addressOnController = binaryObjectBase.AdressOnController;
+			result.AddRange(ToBytes((short)addressOnController));
+
+			var physicalAddress = binaryObjectBase.PhysicalAdress;
+			result.AddRange(ToBytes((short)physicalAddress));
+
+			result.AddRange(binaryObjectBase.Description);
+
+			var serialNo = 0;
+			result.AddRange(IntToBytes((int)serialNo));
+
+			var state = 0;
+			var stateBits = new List<XStateBit>();
+			stateBits.Add(XStateBit.Norm);
+			foreach (var stateBit in stateBits)
+			{
+				state += (1 << (int)stateBit);
+			}
+			result.AddRange(IntToBytes((int)state));
+
+			for (int i = 0; i < 20; i++)
+			{
+				result.Add(0);
+			}
+
+			return result;
 		}
 
 		public static List<byte> GetJournalBytes(int no)
@@ -90,5 +153,24 @@ namespace GKImitator.Processor
 		{
 			return BitConverter.GetBytes(shortValue).ToList();
 		}
+
+		public static List<byte> IntToBytes(int intValue)
+		{
+			return BitConverter.GetBytes(intValue).ToList();
+		}
+
+		//static List<byte> StringToBytes(string str, int length = 32)
+		//{
+		//    if (str == null)
+		//        str = "";
+		//    if (str.Length > length)
+		//        str = str.Substring(0, length);
+		//    var bytes = Encoding.Default.GetBytes(str).ToList();
+		//    for (int i = 0; i < length - str.Length; i++)
+		//    {
+		//        bytes.Add(32);
+		//    }
+		//    return bytes;
+		//}
 	}
 }

@@ -14,6 +14,8 @@ namespace Controls.Converters
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
 				case XStateClass.ConnectionLost:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.HasNoLicense:
 					return Brushes.Gray;
 
 				case XStateClass.Fire2:

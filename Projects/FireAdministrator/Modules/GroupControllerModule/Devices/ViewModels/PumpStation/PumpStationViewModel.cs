@@ -9,6 +9,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class PumpStationViewModel : SaveCancelDialogViewModel
 	{
 		XDevice Device;
