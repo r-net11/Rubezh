@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
 			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
-			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
+			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
@@ -53,8 +53,6 @@ namespace GKModule.ViewModels
 
 		public RelayCommand GoToTechnologicalCommand { get; private set; }
 		void OnGoToTechnological()
-		public RelayCommand CreateTestZonesCommand { get; private set; }
-		void OnCreateTestZones()
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
 			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
@@ -65,6 +63,11 @@ namespace GKModule.ViewModels
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
 			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
+		}
+
+		public RelayCommand CreateTestZonesCommand { get; private set; }
+		void OnCreateTestZones()
+		{
 			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.HandDetector);
 			for (int i = 0; i < 20000; i++)
 			{
