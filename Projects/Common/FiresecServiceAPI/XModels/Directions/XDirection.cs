@@ -51,6 +51,9 @@ namespace XFiresecAPI
 		[DataMember]
         public List<XDirectionDevice> DirectionDevices { get; set; }
 
+		[DataMember]
+		public bool IsOPCUsed { get; set; }
+
 		public string PresentationName
 		{
 			get { return Name + " - " + No.ToString(); }

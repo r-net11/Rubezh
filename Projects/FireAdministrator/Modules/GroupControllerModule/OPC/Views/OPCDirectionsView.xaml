@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="GKModule.Views.OPCDirectionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" CanUserSortColumns="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" Width="*" />
+            <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+            <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
+            <DataGridTemplateColumn Header="Использовать" Width="*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <CheckBox IsChecked="{Binding IsOPCUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

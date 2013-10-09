@@ -25,33 +25,4 @@
 			</GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
-
-	<!--
-		<DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-		<DataGrid.Columns>
-		<DataGridTemplateColumn Header="Устройство" Width="250">
-		<DataGridTemplateColumn.CellTemplate>
-		<DataTemplate>
-		<StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-		<CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-		Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-		<TextBlock Text="{Binding Device.Driver.ShortName}" />
-		</StackPanel>
-		</DataTemplate>
-		</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		<DataGridTextColumn Header="Адрес" Binding="{Binding Device.PresentationAddress}" Width="50" />
-		<DataGridTextColumn Header="Примечание" Binding="{Binding Device.Description}" Width="*" />
-		<DataGridTemplateColumn Header="Использовать" Width="*">
-		<DataGridTemplateColumn.CellTemplate>
-		<DataTemplate>
-		<CheckBox IsChecked="{Binding IsOPCUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-		Visibility="{Binding CanOPCUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
-		</DataTemplate>
-		</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		</DataGrid.Columns>
-		</DataGrid>
-	-->
 </UserControl>

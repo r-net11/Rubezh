@@ -42,6 +42,9 @@ namespace XFiresecAPI
 		[DataMember]
 		public int Fire2Count { get; set; }
 
+		[DataMember]
+		public bool IsOPCUsed { get; set; }
+
 		public string PresentationName
 		{
 			get { return No + "." + Name; }

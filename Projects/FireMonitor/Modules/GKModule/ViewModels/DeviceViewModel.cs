@@ -7,6 +7,7 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using Controls.Converters;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -35,6 +36,14 @@ namespace GKModule.ViewModels
 		{
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceStateViewModel");
+
+			if (Device.Driver.DriverType == XDriverType.MPT)
+			{
+				if (DeviceState.StateClass == XStateClass.TurningOn)
+				{
+					ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+				}
+			}
 		}
 
 		public string PresentationZone

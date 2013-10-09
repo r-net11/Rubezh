@@ -79,7 +79,8 @@ namespace GKProcessor
 					directionState.IsConnectionLost = !isConnected;
 				}
 
-				ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected); });
+				if (ServiceFactoryBase.Events != null)
+					ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected); });
 			}
 		}
 	}

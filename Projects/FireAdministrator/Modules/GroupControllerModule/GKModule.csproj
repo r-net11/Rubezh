@@ -180,6 +180,18 @@
       <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCDevicesViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCDirectionsViewModel.cs" />
+    <Compile Include="OPC\ViewModels\OPCZonesViewModel.cs" />
+    <Compile Include="OPC\Views\OPCDevicesView.xaml.cs">
+      <DependentUpon>OPCDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OPC\Views\OPCDirectionsView.xaml.cs">
+      <DependentUpon>OPCDirectionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OPC\Views\OPCZonesView.xaml.cs">
+      <DependentUpon>OPCZonesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
@@ -490,6 +502,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OPC\Views\OPCDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OPC\Views\OPCDirectionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OPC\Views\OPCZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
