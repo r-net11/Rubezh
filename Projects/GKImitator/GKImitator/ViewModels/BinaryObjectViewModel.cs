@@ -40,6 +40,7 @@ namespace GKImitator.ViewModels
 			StateBits.Add(new StateBitViewModel(this, XStateBit.Norm, true));
 			StateBits.Add(new StateBitViewModel(this, XStateBit.Fire1));
 			StateBits.Add(new StateBitViewModel(this, XStateBit.Fire2));
+			StateBits.Add(new StateBitViewModel(this, XStateBit.On));
 		}
 
 		public BinaryObjectBase BinaryObject { get; set; }

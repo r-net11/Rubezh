@@ -42,17 +42,44 @@ namespace GKImitator.ViewModels
 					}
 
 					var binaryObject = BinaryObjectViewModel.BinaryObject;
-					switch (StateBit)
+
+					switch (BinaryObjectViewModel.BinaryObject.Device.Driver.DriverType)
 					{
-						case XStateBit.Fire1:
-							AddJournalItem(binaryObject, 2, 2, 1, state);
+						case XDriverType.HandDetector:
+							switch (StateBit)
+							{
+								case XStateBit.Fire2:
+									if (_isActive)
+									{
+										AddJournalItem(binaryObject, 3, 0, 0, state);
+										AddJournalItem(binaryObject, 3, 1, 0, state);
+									}
+									else
+									{
+										AddJournalItem(binaryObject, 14, 0, 0, state);
+									}
+									break;
+							}
 							break;
 
-						case XStateBit.Fire2:
-							AddJournalItem(binaryObject, 2, 2, 1, state);
+						case XDriverType.GKIndicator:
+							switch (StateBit)
+							{
+								case XStateBit.On:
+									if (_isActive)
+									{
+										AddJournalItem(binaryObject, 9, 2, 0, state);
+									}
+									else
+									{
+										AddJournalItem(binaryObject, 9, 3, 0, state);
+									}
+									break;
+							}
 							break;
 					}
 
+					MainViewModel.Current.RebuildIndicators();
 				}
 			}
 		}

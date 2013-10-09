@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using FiresecClient;
 using FiresecAPI.Models;
 using Common.GK;
+using XFiresecAPI;
 
 namespace GKImitator.ViewModels
 {
@@ -71,6 +72,43 @@ namespace GKImitator.ViewModels
 				_selectedBinaryObject = value;
 				OnPropertyChanged("SelectedBinaryObject");
 			}
+		}
+
+		bool HasAttention = false;
+		bool HasFire1 = false;
+		bool HasFire2 = false;
+		bool HasAutomaticOff = false;
+
+		public void RebuildIndicators()
+		{
+			var hasAttention = false;
+			var hasFire1 = false;
+			var hasFire2 = false;
+			var hasAutomaticOff = false;
+
+			foreach (var binaryObjectViewModel in BinaryObjects)
+			{
+				hasAttention = hasAttention || binaryObjectViewModel.StateBits.Any(x => x.StateBit == XStateBit.Attention && x.IsActive);
+				hasFire1 = hasFire1 || binaryObjectViewModel.StateBits.Any(x => x.StateBit == XStateBit.Fire1 && x.IsActive);
+				hasFire2 = hasFire2 || binaryObjectViewModel.StateBits.Any(x => x.StateBit == XStateBit.Fire2 && x.IsActive);
+				hasAutomaticOff = hasAutomaticOff || binaryObjectViewModel.StateBits.Any(x => x.StateBit == XStateBit.Norm && !x.IsActive);
+			}
+
+			if (HasFire2 != hasFire2)
+			{
+				var binaryObjectViewModel = BinaryObjects.FirstOrDefault(x => x.BinaryObject.Device != null && x.BinaryObject.Device.ShortName == "Индикатор Пожар 2");
+				if (binaryObjectViewModel != null)
+				{
+					var staeBitViewModel = binaryObjectViewModel.StateBits.FirstOrDefault(x => x.StateBit == XStateBit.On);
+					if (staeBitViewModel != null)
+						staeBitViewModel.IsActive = hasFire2;
+				}
+			}
+
+			HasAttention = hasAttention;
+			HasFire1 = hasFire1;
+			HasFire2 = hasFire2;
+			HasAutomaticOff = hasAutomaticOff;
 		}
 	}
 }
