@@ -14,9 +14,11 @@ namespace GKImitator.ViewModels
 	public class MainViewModel : ApplicationViewModel
 	{
 		GKProcessor GKProcessor;
+		public static MainViewModel Current { get; private set; }
 
 		public MainViewModel()
 		{
+			Current = this;
 			Title = "Имитатор ГК";
 
 			GetConfiguration();

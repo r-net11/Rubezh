@@ -75,6 +75,7 @@
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
