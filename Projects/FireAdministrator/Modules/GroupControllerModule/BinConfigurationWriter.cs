@@ -7,6 +7,7 @@ using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -173,6 +174,7 @@ namespace GKModule
 					if (sendResult.HasError)
 					{
 						LoadingService.Close();
+						Trace.WriteLine(progressStage);
 						return false;
 					}
 				}
