@@ -18,26 +18,27 @@
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
-                <ListBox>
-                    <WrapPanel>
-                        <TextBlock>
+                <ItemsControl Background="White">
+                    <ItemsControl.Items>
+                        <WrapPanel>
+                            <TextBlock>
 				            <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                 <TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" Margin="2" />
 				            </Hyperlink>
                         </TextBlock>
-                    </WrapPanel>
-                    <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
 
-                        <ItemsControl ItemsSource="{Binding Plans}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="2 0">
+                            <ItemsControl ItemsSource="{Binding Plans}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="2 0">
                                         <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Width="16" Source="/Controls;component/Images/map_black.png" Margin="1" />
@@ -45,19 +46,20 @@
                                             </StackPanel>
                                         </Hyperlink>
                                     </TextBlock>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </WrapPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Количество датчиков для перевода в Пожар 1:" Margin="2" />
-                        <TextBlock Text="{Binding Zone.Fire1Count}" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Количество датчиков для перевода в Пожар 2:" Margin="2" />
-                        <TextBlock Text="{Binding Zone.Fire2Count}" Margin="2" />
-                    </StackPanel>
-                </ListBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </WrapPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Количество датчиков для перевода в Пожар 1:" Margin="2" />
+                            <TextBlock Text="{Binding Zone.Fire1Count}" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Количество датчиков для перевода в Пожар 2:" Margin="2" />
+                            <TextBlock Text="{Binding Zone.Fire2Count}" Margin="2" />
+                        </StackPanel>
+                    </ItemsControl.Items>
+                </ItemsControl>
             </TabItem>
             <TabItem Header="Управление">
                 <StackPanel Background="White">
