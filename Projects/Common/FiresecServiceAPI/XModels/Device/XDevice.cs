@@ -369,7 +369,7 @@ namespace XFiresecAPI
 							Name = driverProperty.Name,
 							Value = driverProperty.Default
 						};
-						Properties.Add(property);
+						SystemAUProperties.Add(property);
 					}
 				}
 		}

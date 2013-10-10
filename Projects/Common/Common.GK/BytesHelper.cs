@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -68,6 +69,37 @@ namespace Common.GK
 			}
 			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
 			return (ushort)result;
+		}
+
+		public static void BytesToFile(string fileName, List<List<byte>> bytesList)
+		{
+			var file = new StreamWriter("..\\" + fileName);
+			foreach (var bytes in bytesList)
+			{
+				foreach (var b in bytes)
+				{
+					file.Write("{0} ", b.ToString("X2"));
+				}
+				file.Write("\n");
+			}
+			file.Close();
+		}
+
+		public static List<List<byte>> BytesFromFile(string fileName)
+		{
+			var allBytes = new List<List<byte>>();
+			var bytes = new List<byte>();
+			var strings = File.ReadAllLines("..\\" + fileName).ToList();
+			foreach (var str in strings)
+			{
+				bytes = new List<byte>();
+				for (var i = 0; i < str.Length; i += 3)
+				{
+					bytes.Add(Convert.ToByte(str.Substring(i, 2), 16));
+				}
+				allBytes.Add(bytes);
+			}
+			return allBytes;
 		}
 	}
 }

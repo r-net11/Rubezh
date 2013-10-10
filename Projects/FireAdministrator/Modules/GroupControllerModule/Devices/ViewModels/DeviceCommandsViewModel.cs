@@ -12,7 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
-using System.ComponentModel;
+using System.Linq;
 
 namespace GKModule.Models
 {
@@ -120,45 +120,47 @@ namespace GKModule.Models
 		{
 			var device = SelectedDevice.Device;
 
-			var sendResult = SendManager.Send(device, 0, 1, 1);
-			if (sendResult.HasError)
-			{
-				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
-				return;
-			}
+			//var sendResult = SendManager.Send(device, 0, 1, 1);
+			//if (sendResult.HasError)
+			//{
+			//    MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
+			//    return;
+			//}
 
-			if (device.Driver.IsKauOrRSR2Kau)
-			{
-				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
-				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(device, remoteDevices);
-				if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
-				{
-					XManager.UpdateConfiguration();
-					SelectedDevice.CollapseChildren();
-					SelectedDevice.ClearChildren();
-					foreach (var remoteDevice in remoteDevices)
-					{
-						DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);
-					}
-					SelectedDevice.ExpandChildren();
-				}
-			}
+			//if (device.Driver.IsKauOrRSR2Kau)
+			//{
+			//    var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
+			//    var deviceConfigurationViewModel = new DeviceConfigurationViewModel(device, remoteDevices);
+			//    if (DialogService.ShowModalWindow(deviceConfigurationViewModel))
+			//    {
+			//        XManager.UpdateConfiguration();
+			//        SelectedDevice.CollapseChildren();
+			//        SelectedDevice.ClearChildren();
+			//        foreach (var remoteDevice in remoteDevices)
+			//        {
+			//            DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);
+			//        }
+			//        SelectedDevice.ExpandChildren();
+			//    }
+			//}
 			if (device.Driver.DriverType == XDriverType.GK)
 			{
-				if (MessageBoxService.ShowQuestion("Текущая конфигурация будет заменена считанной из устройства. При этом часть данных возможно будет потеряня. Продолжить?") != MessageBoxResult.Yes)
-					return;
-
+				//if (MessageBoxService.ShowQuestion("Текущая конфигурация будет заменена считанной из устройства. При этом часть данных возможно будет потеряня. Продолжить?") != MessageBoxResult.Yes)
+				//    return;
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				gkBinConfigurationReader.ReadConfiguration(device);
+				var remoteDevice = gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+				var localDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(localDevice, remoteDevice);
+				DialogService.ShowModalWindow(deviceConfigurationViewModel);
 
-				XManager.DeviceConfiguration = gkBinConfigurationReader.DeviceConfiguration;
 				ServiceFactory.SaveService.FSChanged = true;
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 		}
 		bool CanReadConfiguration()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
 		}
 
 		public RelayCommand GetAllParametersCommand { get; private set; }

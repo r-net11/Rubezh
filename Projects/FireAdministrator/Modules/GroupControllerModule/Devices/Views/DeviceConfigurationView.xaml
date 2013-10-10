@@ -33,13 +33,13 @@
                 </Trigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding HasMissingDifferences}" Value="true" />
+                        <Condition Binding="{Binding Device.HasMissingDifferences}" Value="true" />
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="Red" />
                 </MultiDataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding HasDifferences}" Value="true" />
+                        <Condition Binding="{Binding Device.HasDifferences}" Value="true" />
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="Pink" />
                 </MultiDataTrigger>
@@ -106,16 +106,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Зона" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="{Binding XXXPresentationZone}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid Grid.Column="1" DataContext= "{Binding RemoteDevice}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
@@ -138,13 +128,6 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Address}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Зона" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding XXXPresentationZone}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
