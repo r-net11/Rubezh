@@ -16,6 +16,7 @@
                     <CheckBox Content="Сервер приложений ОПС FireSec-2" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12" />
                     <CheckBox Content="Агент FireSec-2" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12" />
                     <CheckBox Content="OPC Сервер ОПС FireSec-2" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12" />
+                    <CheckBox Content="OPC Сервер ГК ОПС FireSec-2" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" FontSize="12" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Сбор логов">

@@ -9,6 +9,7 @@
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="ManagementConsole.Features" />
       <FeatureRef Id="OPC.Features" />
+      <FeatureRef Id="SDK.Features" />
 
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
             Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />

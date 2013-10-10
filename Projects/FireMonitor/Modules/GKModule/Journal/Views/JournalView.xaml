@@ -154,7 +154,7 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Компонент ГК" />
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKNo}" Margin="2" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.KAUNo}" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.UNUSED_KAUNo}" Margin="2" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKObjectNo}" Margin="2" />
             </Grid>
         </StackPanel>

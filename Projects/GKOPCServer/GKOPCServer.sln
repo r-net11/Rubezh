@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKOPCServer", "FiresecOPCServer\GKOPCServer.csproj", "{3A72E5E2-34C9-4718-B8F4-6F245F534283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKOPCServer", "GKOPCServer\GKOPCServer.csproj", "{3A72E5E2-34C9-4718-B8F4-6F245F534283}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{81AFF086-BD8B-4216-B732-BC3D4EE6BE3A}"
 EndProject

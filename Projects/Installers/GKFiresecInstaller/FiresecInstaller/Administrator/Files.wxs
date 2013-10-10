@@ -9,6 +9,23 @@
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
         <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FireAdministrator.exe.manifest" Name="FireAdministrator.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
+        <File Id="Administrator.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.Designer.dll" Name="Infrastructure.Designer.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />        
+        <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
@@ -16,27 +33,10 @@
         <File Id="Administrator.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Infrastructure.Designer.dll" Name="Infrastructure.Designer.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.PLANS_MODULE" Guid="BD07AEDD-C503-4B25-980D-3409EBE75D1A">
@@ -61,10 +61,6 @@
       <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
         <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Administrator.TargetDir)" />
-      </Component>
-
-      <Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
-        <File Id="Administrator.OPCModule.dll" Name="OPCModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
       </Component>
 
       <Component Id="Administrator.SKUD_MODULE" Guid="*">
@@ -97,6 +93,15 @@
         <File Id="Administrator.propertiesMODIF.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\properties-MODIF.xsl" />
         <File Id="Administrator.shapes.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\shapes.xsl" />
         <File Id="Administrator.transform.xsl" Source="$(var.Administrator.Deploy.TargetDir)XslFiles\xaml2svg\transform.xsl" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FirmwhareUpdateLOCATION">
+      <Component Id="Administrator.Firmwhare.Files" Guid="55AA098A-71FC-4FCA-BBD8-51F05EEEF35A">
+        <File Id="Administrator.Firmwhare.GK_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)GK_V1.hcs" />
+        <File Id="Administrator.Firmwhare.GK_V2.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)GK_V2.hcs" />
+        <File Id="Administrator.Firmwhare.KAU_RSR1_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)KAU_RSR1_V1.hcs" />
+        <File Id="Administrator.Firmwhare.KAU_RSR2_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)KAU_RSR2_V1.hcs" />
       </Component>
     </DirectoryRef>
 

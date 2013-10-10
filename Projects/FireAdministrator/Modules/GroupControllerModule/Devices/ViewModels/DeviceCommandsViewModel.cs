@@ -100,12 +100,8 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-				var dateTime = DateTime.Now;
 					GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
 					BinConfigurationWriter.WriteConfig(SelectedDevice.Device);
-#if DEBUG
-				MessageBoxService.Show("Время записи, мин " + (DateTime.Now - dateTime).TotalMinutes);
-#endif
 				}
 			}
 		}
