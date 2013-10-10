@@ -171,8 +171,8 @@ namespace XFiresecAPI
 				if (device.PumpStationProperty.PumpStationPumps == null)
 					device.PumpStationProperty.PumpStationPumps = new List<XPumpStationPump>();
 
-				if (device.SystemAUProperties == null)
-					device.SystemAUProperties = new List<XProperty>();
+				if (device.Properties == null)
+					device.Properties = new List<XProperty>();
 			}
 			foreach (var zone in Zones)
 			{
@@ -192,9 +192,9 @@ namespace XFiresecAPI
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					if (deviceParameterTemplate.XDevice.SystemAUProperties == null)
+					if (deviceParameterTemplate.XDevice.Properties == null)
 					{
-						deviceParameterTemplate.XDevice.SystemAUProperties = new List<XProperty>();
+						deviceParameterTemplate.XDevice.Properties = new List<XProperty>();
 						result = false;
 					}
 				}

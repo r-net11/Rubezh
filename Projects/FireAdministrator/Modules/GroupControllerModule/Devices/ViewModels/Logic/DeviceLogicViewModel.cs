@@ -7,9 +7,11 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
+	[SaveSizeAttribute]
 	public class DeviceLogicViewModel : SaveCancelDialogViewModel
 	{
 		public XDevice Device { get; private set; }

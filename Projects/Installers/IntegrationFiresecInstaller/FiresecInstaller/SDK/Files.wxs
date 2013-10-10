@@ -51,10 +51,13 @@
         <File Id="SDK.FiresecAPI.dll" Name="FiresecAPI.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.FiresecClient.dll" Name="FiresecClient.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.FiresecClient.ITV.dll" Name="FiresecClient.ITV.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+        <File Id="SDK.FS2API.dll" Name="FS2API.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+        <File Id="SDK.FS2Client.dll" Name="FS2Client.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.FSAgentClient.dll" Name="FSAgentClient.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+        <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
       </Component>
     </DirectoryRef>
   </Fragment>

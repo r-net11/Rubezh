@@ -24,19 +24,21 @@
 				<File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Monitor.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
-        <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.FS2API.dll" Name="FS2API.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">
@@ -57,7 +59,6 @@
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
 				<File Id="Monitor.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
       <Component Id="Monitor.GK_MODULE" Guid="7C84F6F3-BFE8-4C60-B062-A126AC9748C7">

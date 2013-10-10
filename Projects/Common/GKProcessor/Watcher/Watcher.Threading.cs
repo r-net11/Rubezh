@@ -13,7 +13,6 @@ namespace GKProcessor
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
 		public DateTime LastUpdateTime { get; private set; }
-		public DateTime LastLicenseCheckTime { get; private set; }
 
 		public Watcher(GkDatabase gkDatabase)
 		{
@@ -62,20 +61,8 @@ namespace GKProcessor
 
 			while (true)
 			{
-				if (!IsAnyDBMissmatch)
+				if (!IsAnyDBMissmatch && CheckLicense())
 				{
-					if ((DateTime.Now - LastLicenseCheckTime).TotalMinutes > 10000000)
-					{
-						if (LicenseHelper.CheckLicense(false))
-						{
-							LastLicenseCheckTime = DateTime.Now;
-						}
-						else
-						{
-							Thread.Sleep(TimeSpan.FromSeconds(10));
-						}
-					}
-
 					try
 					{
 						CheckTasks();

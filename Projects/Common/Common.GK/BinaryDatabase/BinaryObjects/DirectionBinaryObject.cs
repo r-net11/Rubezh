@@ -57,8 +57,6 @@ namespace Common.GK
                 inputObjectsCount++;
             }
 
-			//Formula.AddStandardTurning(Direction, DatabaseType);
-
 			Formula.Add(FormulaOperationType.DUP);
 
 			Formula.AddGetBit(XStateBit.Norm, Direction);

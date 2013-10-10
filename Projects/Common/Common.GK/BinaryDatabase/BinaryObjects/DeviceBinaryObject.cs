@@ -56,14 +56,26 @@ namespace Common.GK
 			if (Device.Driver.DriverType == XDriverType.MRO_2)
 			{
 				if (Device.DeviceLogic.ZoneLogicMROMessageType == ZoneLogicMROMessageType.Add)
+				{
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(31, Device);
+				}
 				var value = (int)Device.DeviceLogic.ZoneLogicMROMessageNo;
 				if ((value & 4) == 4)
+				{
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(30, Device);
+				}
 				if ((value & 2) == 2)
+				{
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(29, Device);
+				}
 				if ((value & 1) == 1)
+				{
+					Formula.Add(FormulaOperationType.CONST, 0, 1);
 					Formula.AddArgumentPutBit(28, Device);
+				}
 			}
 		}
 
@@ -81,10 +93,6 @@ namespace Common.GK
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					if (Device.Driver.DriverType == XDriverType.Valve || driverProperty.No == 0x8D)
-					{
-						;
-					}
 					byte no = driverProperty.No;
 					ushort value = property.Value;
 					if (driverProperty.Offset > 0)
@@ -123,10 +131,6 @@ namespace Common.GK
 				}
 			}
 
-			if (Device.Driver.DriverType == XDriverType.RSR2_MVK8)
-			{
-				;
-			}
 			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)
 			{

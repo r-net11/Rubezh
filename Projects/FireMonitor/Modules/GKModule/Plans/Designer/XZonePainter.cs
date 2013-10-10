@@ -85,6 +85,7 @@ namespace GKModule.Plans.Designer
 				case XStateClass.DBMissmatch:
 				case XStateClass.TechnologicalRegime:
 				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
 					return Colors.DarkGray;
 
 				case XStateClass.Fire1:

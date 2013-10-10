@@ -10,7 +10,6 @@ namespace XFiresecAPI
 
 		public XDirectionState()
 		{
-			_isConnectionLost = true;
 		}
 
 		List<XStateBit> _stateBits = new List<XStateBit>();

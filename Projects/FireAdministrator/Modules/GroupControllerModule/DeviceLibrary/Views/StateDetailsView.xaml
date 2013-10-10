@@ -20,8 +20,8 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
-                            <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource XStateClassToDeviceStringConverter}}" />
+                            <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0"/>
+                            <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource XStateClassToDeviceStringConverter}}"/>
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

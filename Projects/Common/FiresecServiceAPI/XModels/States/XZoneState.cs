@@ -10,7 +10,6 @@ namespace XFiresecAPI
 
 		public XZoneState()
 		{
-			_isConnectionLost = true;
 		}
 
 		List<XStateBit> _states = new List<XStateBit>();

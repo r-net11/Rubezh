@@ -253,7 +253,7 @@ namespace GKModule.ViewModels
 		{
 			DriverCopy = SelectedDevice.Device.Driver;
 			PropertiesCopy = new List<XProperty>();
-			foreach (var property in SelectedDevice.Device.SystemAUProperties)
+			foreach (var property in SelectedDevice.Device.Properties)
 			{
 				var driverProperty = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
@@ -304,7 +304,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var property in PropertiesCopy)
 			{
-				var deviceProperty = device.SystemAUProperties.FirstOrDefault(x => x.Name == property.Name);
+				var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (deviceProperty != null)
 				{
 					deviceProperty.Value = property.Value;
@@ -355,9 +355,9 @@ namespace GKModule.ViewModels
 			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == device.Driver.UID);
 			if (deviceParameterTemplate != null)
 			{
-				foreach (var property in deviceParameterTemplate.XDevice.SystemAUProperties)
+				foreach (var property in deviceParameterTemplate.XDevice.Properties)
 				{
-					var deviceProperty = device.SystemAUProperties.FirstOrDefault(x => x.Name == property.Name);
+					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (deviceProperty != null)
 					{
 						deviceProperty.Value = property.Value;
@@ -447,23 +447,8 @@ namespace GKModule.ViewModels
 
 		void CopyFromDeviceToSystem(XDevice device)
 		{
-			device.SystemAUProperties.Clear();
-			foreach (var property in device.Properties)
-			{
-				var clonedProperty = new XProperty()
-				{
-					Name = property.Name,
-					Value = property.Value
-				};
-				device.SystemAUProperties.Add(clonedProperty);
-			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
-		}
-
-		void CopyFromSystemToDevice(XDevice device)
-		{
 			device.Properties.Clear();
-			foreach (var property in device.SystemAUProperties)
+			foreach (var property in device.DeviceProperties)
 			{
 				var clonedProperty = new XProperty()
 				{
@@ -474,13 +459,28 @@ namespace GKModule.ViewModels
 			}
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
+
+		void CopyFromSystemToDevice(XDevice device)
+		{
+			device.DeviceProperties.Clear();
+			foreach (var property in device.Properties)
+			{
+				var clonedProperty = new XProperty()
+				{
+					Name = property.Name,
+					Value = property.Value
+				};
+				device.DeviceProperties.Add(clonedProperty);
+			}
+			ServiceFactory.SaveService.FSParametersChanged = true;
+		}
 		#endregion
 
 		bool Validate(List<XDevice> devices)
 		{
 			foreach (var device in devices)
 			{
-				foreach (var property in device.SystemAUProperties)
+				foreach (var property in device.Properties)
 				{
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
@@ -518,13 +518,13 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in XManager.Devices)
 			{
-				if (device.SystemAUProperties == null)
-					device.SystemAUProperties = new List<XProperty>();
+				if (device.Properties == null)
+					device.Properties = new List<XProperty>();
 				foreach (var driverProperty in device.Driver.Properties)
 				{
 					if (driverProperty.IsAUParameter)
 					{
-						var property = device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property == null)
 						{
 							property = new XProperty()
@@ -532,12 +532,12 @@ namespace GKModule.ViewModels
 								Name = driverProperty.Name,
 								StringValue = driverProperty.StringDefault
 							};
-							device.SystemAUProperties.Add(property);
+							device.Properties.Add(property);
 						}
 						property.DriverProperty = driverProperty;
 					}
 				}
-				device.SystemAUProperties.RemoveAll(x => x.DriverProperty == null);
+				device.Properties.RemoveAll(x => x.DriverProperty == null);
 			}
 		}
 

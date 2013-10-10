@@ -23,8 +23,12 @@ namespace FiresecAPI.XModels
 			return states;
 		}
 
-		public static List<XStateClass> StateBitsToStateClasses(List<XStateBit> stateBits, bool isConnectionLost, bool isMissmatch, bool IsInTechnologicalRegime)
+		public static List<XStateClass> StateBitsToStateClasses(List<XStateBit> stateBits, bool isConnectionLost, bool isMissmatch, bool isInTechnologicalRegime, bool isNoLicense, bool isInitialState)
 		{
+			if (isNoLicense)
+			{
+				return new List<XStateClass>() { XStateClass.HasNoLicense };
+			}
 			if (isConnectionLost)
 			{
 				return new List<XStateClass>() { XStateClass.ConnectionLost };
@@ -33,9 +37,13 @@ namespace FiresecAPI.XModels
 			{
 				return new List<XStateClass>() { XStateClass.DBMissmatch };
 			}
-			if (IsInTechnologicalRegime)
+			if (isInTechnologicalRegime)
 			{
 				return new List<XStateClass>() { XStateClass.TechnologicalRegime };
+			}
+			if(isInitialState)
+			{
+				return new List<XStateClass>() { XStateClass.Unknown };
 			}
 
 			var stateClasses = new HashSet<XStateClass>();

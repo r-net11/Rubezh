@@ -7,6 +7,7 @@ using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -100,7 +101,7 @@ namespace GKModule
 						}
 						if (!GoToWorkingRegime(gkDatabase.RootDevice))
 						{
-							error = "Не удалось перевести ГК в рабочий режим";
+							//error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
 						return;
@@ -173,8 +174,9 @@ namespace GKModule
 					if (sendResult.HasError)
 					{
 						LoadingService.Close();
+						Trace.WriteLine(progressStage);
 						return false;
-						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПеревести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;					}
+					}
 				}
 			}
 			WriteEndDescriptor(commonDatabase);

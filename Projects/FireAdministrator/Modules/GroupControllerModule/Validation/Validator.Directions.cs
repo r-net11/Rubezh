@@ -21,6 +21,8 @@ namespace GKModule.Validation
 						ValidateDirectionInputCount(direction);
 					if (MustValidate("В направлении отсутствуют выходные устройства"))
 						ValidateDirectionOutputCount(direction);
+
+					ValidateEmptyZoneInDirection(direction);
 				}
 			}
 		}
@@ -37,20 +39,16 @@ namespace GKModule.Validation
 
 		static void ValidateDifferentGK(XDirection direction)
 		{
-			if (AreDevicesInSameGK(direction.InputDevices))
-				Errors.Add(new DirectionValidationError(direction, "Направление содержит входные устройства разных ГК", ValidationErrorLevel.CannotWrite));
-
-			if (AreDevicesInSameGK(direction.OutputDevices))
-				Errors.Add(new DirectionValidationError(direction, "Направление содержит выходные устройств разных ГК", ValidationErrorLevel.CannotWrite));
-
-			var devicesInZones = new List<XDevice>();
+			var devices = new List<XDevice>();
+			devices.AddRange(direction.InputDevices);
+			devices.AddRange(direction.OutputDevices);
 			foreach (var zone in direction.InputZones)
 			{
-				devicesInZones.AddRange(zone.Devices);
+				devices.AddRange(zone.Devices);
 			}
 
-			if (AreDevicesInSameGK(devicesInZones))
-				Errors.Add(new DirectionValidationError(direction, "Направление содержит выходные зоны разных ГК", ValidationErrorLevel.CannotWrite));
+			if (AreDevicesInSameGK(devices))
+				Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		static void ValidateDirectionInputCount(XDirection direction)
@@ -83,6 +81,17 @@ namespace GKModule.Validation
 				return false;
 			}
 			return true;
+		}
+
+		static void ValidateEmptyZoneInDirection(XDirection direction)
+		{
+			foreach (var zone in direction.InputZones)
+			{
+				if (zone.Devices.Count == 0)
+				{
+					Errors.Add(new DirectionValidationError(direction, "В направление входит пустая зона " + zone.PresentationName, ValidationErrorLevel.CannotWrite));
+				}
+			}
 		}
 	}
 }

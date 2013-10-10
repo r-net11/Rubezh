@@ -8,6 +8,7 @@ using FiresecClient;
 using XFiresecAPI;
 using Infrastructure.Common;
 using GKImitator.Processor;
+using System.Collections.ObjectModel;
 
 namespace GKImitator.ViewModels
 {
@@ -34,12 +35,20 @@ namespace GKImitator.ViewModels
 			}
 
 			Formula = BinaryObject.Formula.GetStringFomula();
+
+			StateBits = new ObservableCollection<StateBitViewModel>();
+			StateBits.Add(new StateBitViewModel(this, XStateBit.Norm, true));
+			StateBits.Add(new StateBitViewModel(this, XStateBit.Fire1));
+			StateBits.Add(new StateBitViewModel(this, XStateBit.Fire2));
+			StateBits.Add(new StateBitViewModel(this, XStateBit.On));
 		}
 
 		public BinaryObjectBase BinaryObject { get; set; }
 		public string ImageSource { get; set; }
 		public string Description { get; set; }
 		public string Formula { get; set; }
+
+		public ObservableCollection<StateBitViewModel> StateBits { get; private set; }
 
 		public RelayCommand SetAutomaticRegimeCommand { get; private set; }
 		void OnSetAutomaticRegime()

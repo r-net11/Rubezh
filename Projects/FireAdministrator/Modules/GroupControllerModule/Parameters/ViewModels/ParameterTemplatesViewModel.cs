@@ -131,7 +131,7 @@ namespace GKModule.ViewModels
 						{
 							if (driverProperty.IsAUParameter)
 							{
-								var property = deviceParameterTemplate.XDevice.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+								var property = deviceParameterTemplate.XDevice.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 								if (property == null)
 								{
 									property = new XProperty()
@@ -139,13 +139,13 @@ namespace GKModule.ViewModels
 										Name = driverProperty.Name,
 										Value = driverProperty.Default
 									};
-									deviceParameterTemplate.XDevice.SystemAUProperties.Add(property);
+									deviceParameterTemplate.XDevice.Properties.Add(property);
 								}
 								property.DriverProperty = driverProperty;
 								properties.Add(property);
 							}
 						}
-						deviceParameterTemplate.XDevice.SystemAUProperties = properties;
+						deviceParameterTemplate.XDevice.Properties = properties;
 					}
 				}
 			}

@@ -35,6 +35,7 @@ namespace FiresecClient
         {
             allDeviceChildren = new List<XDevice>();
             AddChildren(device);
+			allDeviceChildren.RemoveAt(0);
             return allDeviceChildren;
         }
         public static void AddChildren(XDevice device)

@@ -81,6 +81,9 @@ namespace GKModule.Plans.Designer
 		}
 		public override void Transform()
 		{
+			if (_direction == null)
+				return;
+
 			base.Transform();
 			if (_showText)
 			{
@@ -122,15 +125,16 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			if (_direction == null || _direction.DirectionState == null)
-				return Colors.Gray;
-			else
+			if (_direction == null)
+				return Colors.Transparent;
+
 				switch (_direction.DirectionState.StateClass)
 				{
 					case XStateClass.Unknown:
 					case XStateClass.DBMissmatch:
 					case XStateClass.TechnologicalRegime:
 					case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
 						return Colors.DarkGray;
 					case XStateClass.On:
 						return Colors.Red;

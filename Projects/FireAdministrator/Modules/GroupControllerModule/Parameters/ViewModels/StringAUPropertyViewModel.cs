@@ -9,7 +9,7 @@ namespace GKModule.DeviceProperties
 		public StringAUPropertyViewModel(XDriverProperty driverProperty, XDevice device)
 			: base(driverProperty, device)
 		{
-			var property = device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 				_text = Convert.ToString(property.Value);
 			else

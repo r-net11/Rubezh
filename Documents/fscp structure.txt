@@ -1,0 +1,14 @@
+Описание формата данных конфигурации ГК
+
+ParameterTemplates	Шаблоны параметров
+	UID				Идентификатор
+	No				Номер
+	Name				Название
+	DeviceParameterTemplates	Парметры устройства
+		XDevice			Устройство
+RootDevice		Рутовое устройство
+Zones			Зоны
+Directions		Направления
+JournalFilters		Фильтры журнала
+Instructions		Инструкции
+GuardUsers		Охранные пользователи

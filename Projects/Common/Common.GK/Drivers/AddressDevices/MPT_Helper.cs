@@ -28,16 +28,16 @@ namespace Common.GK
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
 			AddLogic(driver, 0xBB, "логика работы выхода 1", 1);
-			AddLogic(driver, 0xBC, "логика работы выхода 2", 2);
-			AddLogic(driver, 0xBD, "логика работы выхода 3", 3);
-			AddLogic(driver, 0xBE, "логика работы выхода 4", 4);
+			AddLogic(driver, 0xBC, "логика работы выхода 2", 3);
+			AddLogic(driver, 0xBD, "логика работы выхода 3", 4);
+			AddLogic(driver, 0xBE, "логика работы выхода 4", 2);
 			AddLogic(driver, 0xBF, "логика работы выхода 5", 5);
 
-			AddRegim(driver, 0xBB, "режим работы выхода 1", 1);
-			AddRegim(driver, 0xBC, "режим работы выхода 2", 2);
-			AddRegim(driver, 0xBD, "режим работы выхода 3", 3);
-			AddRegim(driver, 0xBE, "режим работы выхода 4", 4);
-			AddRegim(driver, 0xBF, "режим работы выхода 5", 5);
+			AddRegim(driver, 0xBB, "режим работы выхода 1", 2);
+			AddRegim(driver, 0xBC, "режим работы выхода 2", 6);
+			AddRegim(driver, 0xBD, "режим работы выхода 3", 6);
+			AddRegim(driver, 0xBE, "режим работы выхода 4", 6);
+			AddRegim(driver, 0xBF, "режим работы выхода 5", 10);
 
 			var property1 = new XDriverProperty()
 			{
@@ -60,7 +60,7 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 0xC2, "Задержка включения выхода 2, с", 0, 3, 0, 255).IsLowByte = true;
 			GKDriversHelper.AddIntProprety(driver, 0xC3, "Задержка включения выхода 3, с", 0, 3, 0, 255).IsLowByte = true;
 			GKDriversHelper.AddIntProprety(driver, 0xC4, "Задержка включения выхода 4, с", 0, 3, 0, 255).IsLowByte = true;
-			GKDriversHelper.AddIntProprety(driver, 0xC5, "Задержка включения выхода 5, с", 0, 3, 0, 255).IsLowByte = true;
+			GKDriversHelper.AddIntProprety(driver, 0xC5, "Задержка включения выхода 5, с", 0, 60, 0, 255).IsLowByte = true;
 
 			GKDriversHelper.AddIntProprety(driver, 0xAB, "Время включенного состояния выхода 1, с", 0, 2, 0, 255).IsLowByte = true;
 			GKDriversHelper.AddIntProprety(driver, 0xAC, "Время включенного состояния выхода 2, с", 0, 2, 0, 255).IsLowByte = true;

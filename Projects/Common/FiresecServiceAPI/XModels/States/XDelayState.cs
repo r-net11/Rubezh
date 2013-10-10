@@ -10,7 +10,6 @@ namespace XFiresecAPI
 
 		public XDelayState()
 		{
-			_isConnectionLost = true;
 		}
 
 		List<XStateBit> _stateBits = new List<XStateBit>();

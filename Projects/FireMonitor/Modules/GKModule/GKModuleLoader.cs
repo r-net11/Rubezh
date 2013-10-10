@@ -144,7 +144,9 @@ namespace GKModule
                 new DriverCounterReport(),
                 new DeviceListReport(),
 				new JournalReport(),
+#if DEBUG
 				new DeviceParametersReport()
+#endif
 			};
 		}
 		#endregion

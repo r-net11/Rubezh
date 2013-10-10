@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class JournalsView : UserControl
-    {
-        public JournalsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class JournalsView : UserControl
+	{
+		public JournalsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -12,6 +12,8 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 using Infrastructure.Client.Plans.ViewModels;
+using GKModule.Views;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.Designer
 {
@@ -20,7 +22,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDevice Device;
 		private ContextMenu _contextMenu;
-		private ImageTextStateTooltipViewModel _tooltip;
+		private DeviceTooltipViewModel _tooltip;
 
 		public XDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -58,13 +60,9 @@ namespace GKModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new ImageTextStateTooltipViewModel();
-				_tooltip.TitleViewModel.Title = string.Format("{0} - {1}", Device.PresentationAddressAndDriver, Device.Driver.ShortName).TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = Device.Driver.ImageSource;
+				_tooltip = new DeviceTooltipViewModel(Device);
 			}
-			_tooltip.StateViewModel.Title = Device.DeviceState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = Device.DeviceState.StateClass.ToIconSource();
-			_tooltip.Update();
+			_tooltip.OnStateChanged();
 		}
 
 		public override object GetToolTip(string title)
