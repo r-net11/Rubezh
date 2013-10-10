@@ -42,4 +42,8 @@
 		<Views:PassCardsDesignerView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PassCardTemplatePropertiesViewModel}">
+		<Views:PassCardTemplatePropertiesView />
+	</DataTemplate>
+
 </ResourceDictionary>
