@@ -158,7 +158,7 @@ namespace GKModule
 						Name = "IPAddress",
 						StringValue = IpAddress
 					};
-					device.Properties.Add(ipAddressProperty);
+					device.DeviceProperties.Add(ipAddressProperty);
 
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
@@ -172,7 +172,7 @@ namespace GKModule
 						Name = "Mode",
 						Value = (byte)(controllerAdress / 256)
 					};
-					device.Properties.Add(modeProperty);
+					device.DeviceProperties.Add(modeProperty);
 
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);

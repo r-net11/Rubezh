@@ -9,7 +9,7 @@ namespace GKModule.DeviceProperties
 		public EnumAUPropertyViewModel(XDriverProperty driverProperty, XDevice device)
 			: base(driverProperty, device)
 		{
-			var property = device.SystemAUProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 			{
 				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);

@@ -17,11 +17,12 @@ namespace GKModule.DeviceProperties
 			DriverProperty = driverProperty;
 			Device = device;
 
-			if (!Device.SystemAUProperties.Any(x => x.Name == driverProperty.Name))
+			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
 			{
 				Save(driverProperty.Default, false);
 			}
-			var deviceProperty = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+
+			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{
 				DeviceAUParameterValue = Convert.ToString(deviceProperty.Value);
@@ -44,8 +45,8 @@ namespace GKModule.DeviceProperties
 
 		void UpdateDeviceParameterMissmatchType()
 		{
-			var deviceProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			if (!DriverProperty.IsReadOnly)
 			{
 				if (deviceProperty == null)
@@ -87,7 +88,7 @@ namespace GKModule.DeviceProperties
 				ServiceFactory.SaveService.FSParametersChanged = true;
 			}
 
-			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			if (systemProperty != null)
 			{
 				systemProperty.Name = DriverProperty.Name;
@@ -100,7 +101,7 @@ namespace GKModule.DeviceProperties
 					Name = DriverProperty.Name,
 					Value = value
 				};
-				Device.SystemAUProperties.Add(newProperty);
+				Device.Properties.Add(newProperty);
 			}
 			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();

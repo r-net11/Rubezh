@@ -15,6 +15,9 @@ namespace GKModule.ViewModels
 
 		public PropertiesViewModel(XDevice device)
 		{
+			if (device.Driver.DriverType == XDriverType.GK)
+			{
+			}
 			XDevice = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			ShortProperties = new List<ShortPropertyViewModel>();

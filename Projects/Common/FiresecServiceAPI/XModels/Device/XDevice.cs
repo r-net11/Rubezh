@@ -15,7 +15,7 @@ namespace XFiresecAPI
 			UID = Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
-			SystemAUProperties = new List<XProperty>();
+			DeviceProperties = new List<XProperty>();
 			ZoneUIDs = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
@@ -41,8 +41,6 @@ namespace XFiresecAPI
 		{
 			return this.MemberwiseClone();
 		}
-		[DataMember]
-		public List<XProperty> SystemAUProperties { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -67,6 +65,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XProperty> Properties { get; set; }
+
+		[DataMember]
+		public List<XProperty> DeviceProperties { get; set; }
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
@@ -369,7 +370,7 @@ namespace XFiresecAPI
 							Name = driverProperty.Name,
 							Value = driverProperty.Default
 						};
-						SystemAUProperties.Add(property);
+						Properties.Add(property);
 					}
 				}
 		}

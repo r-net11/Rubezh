@@ -196,7 +196,17 @@ namespace GKModule
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = binaryObject.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						if (property == null)
+						{
+							var systemProperty = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+							binaryObject.Device.DeviceProperties.Add(new XProperty()
+							                                         	{
+							                                         		DriverProperty = systemProperty.DriverProperty,
+							                                         		Name = systemProperty.Name,
+							                                         		Value = paramValue
+							                                         	});
+						}
 						if (property != null)
 						{
 							property.Value = paramValue;
@@ -250,7 +260,6 @@ namespace GKModule
 			}
 			return null;
 		}
-
 		public static void SetSingleDirectionParameter(XDirection direction)
 		{
 			DatabaseManager.Convert();
@@ -287,7 +296,7 @@ namespace GKModule
 		{
 			if (binaryObject.Device != null)
 			{
-				foreach (var property in binaryObject.Device.Properties)
+				foreach (var property in binaryObject.Device.DeviceProperties)
 				{
 					var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
@@ -322,7 +331,6 @@ namespace GKModule
 			}
 			return null;
 		}
-
 		public static void GetSingleDirectionParameter(XDirection direction)
 		{
 			DatabaseManager.Convert();
@@ -408,7 +416,7 @@ namespace GKModule
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = binaryObject.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
 						{
 							property.Value = paramValue;
