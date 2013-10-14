@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using GKModule.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.DeviceProperties
 {
@@ -22,6 +23,8 @@ namespace GKModule.DeviceProperties
 				Save(driverProperty.Default, false);
 			}
 
+			if (Device.DeviceProperties == null)
+				Device.DeviceProperties = new List<XProperty>();
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{

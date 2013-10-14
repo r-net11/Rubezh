@@ -173,6 +173,9 @@ namespace XFiresecAPI
 
 				if (device.Properties == null)
 					device.Properties = new List<XProperty>();
+
+				if (device.DeviceProperties == null)
+					device.DeviceProperties = new List<XProperty>();
 			}
 			foreach (var zone in Zones)
 			{
