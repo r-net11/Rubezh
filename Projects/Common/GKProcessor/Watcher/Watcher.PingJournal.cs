@@ -139,7 +139,7 @@ namespace GKProcessor
 			foreach (var direction in XManager.Directions)
 			{
 				bool mustGetState = false;
-				switch(direction.DirectionState.StateClass)
+				switch (direction.DirectionState.StateClass)
 				{
 					case XStateClass.TurningOn:
 						mustGetState = direction.DirectionState.OnDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
@@ -159,22 +159,25 @@ namespace GKProcessor
 
 			foreach (var device in XManager.Devices)
 			{
-				bool mustGetState = false;
-				switch (device.DeviceState.StateClass)
+				if (!device.Driver.IsGroupDevice)
 				{
-					case XStateClass.TurningOn:
-						mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.On:
-						mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.TurningOff:
-						mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-				}
-				if (mustGetState)
-				{
-					GetState(device);
+					bool mustGetState = false;
+					switch (device.DeviceState.StateClass)
+					{
+						case XStateClass.TurningOn:
+							mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+						case XStateClass.On:
+							mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+						case XStateClass.TurningOff:
+							mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+					}
+					if (mustGetState)
+					{
+						GetState(device);
+					}
 				}
 			}
 		}

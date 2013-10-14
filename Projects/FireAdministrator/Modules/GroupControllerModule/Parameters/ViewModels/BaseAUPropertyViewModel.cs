@@ -24,8 +24,8 @@ namespace GKModule.DeviceProperties
 			}
 
 			if (Device.DeviceProperties == null)
+			{
 				Device.DeviceProperties = new List<XProperty>();
-				return;
 			}
 			
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
