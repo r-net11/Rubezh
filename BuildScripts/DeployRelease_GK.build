@@ -5,7 +5,7 @@
     <call target="BuildAll" />
   </target>
   <target name="BuildAll">
-    <delete dir="GK_bin" />
+    <delete dir="bin\GK" />
     <msbuild project="..\Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
@@ -24,7 +24,7 @@
     <msbuild project="..\Projects\Installers\GKFiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <copy todir="GK_bin\">
+    <copy todir="bin\GK\">
       <fileset basedir="..\Projects\Installers\GKFiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
