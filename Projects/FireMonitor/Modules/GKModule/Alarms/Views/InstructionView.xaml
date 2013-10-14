@@ -13,30 +13,21 @@
             <MediaElement  Margin="5" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" Unloaded="mediaElement_Unloaded" Source="{Binding Instruction.MediaSource, Mode=OneWay}" Name="mediaElement" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
         </Border>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="PlayButton" Click="PlayButton_Click">
-                <Button.Content>
-                    <Image Source="/Controls;component/Images/Play.png" Margin="2"/>
-                </Button.Content>
+            <Button Name="PlayButton" Click="PlayButton_Click" ToolTip="Воспроизвести">
+                <Image Source="/Controls;component/Images/Play.png" Margin="2"/>
             </Button>
-            <Button Name="StopButton" Click="StopButton_Click">
-                <Button.Content>
-                    <Image Source="/Controls;component/Images/Stop.png" Margin="2"/>
-                </Button.Content>
+            <Button Name="StopButton" Click="StopButton_Click" ToolTip="Остановить">
+                <Image Source="/Controls;component/Images/Stop.png" Margin="2"/>
             </Button>
-            <Button Name="PauseButton" Click="PauseButton_Click">
-                <Button.Content>
-                    <Image Source="/Controls;component/Images/Pause.png" Margin="2"/>
-                </Button.Content>
+            <Button Name="PauseButton" Click="PauseButton_Click" ToolTip="Пауза">
+                <Image Source="/Controls;component/Images/Pause.png" Margin="2"/>
             </Button>
-            <Button Name="MuteButton" Click="MuteButton_Click">
-                <Button.Content>
-                    <Image Source="/Controls;component/Images/mute.png" Margin="2"/>
-                </Button.Content>
+            <Button Name="MuteButton" Click="MuteButton_Click" ToolTip="Отключить звук">
+                <Image Source="/Controls;component/Images/mute.png" Margin="2"/>
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <TextBlock TextWrapping="Wrap" Text="{Binding Instruction.Text, Mode=OneWay}" Visibility="{Binding Instruction.HasText, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" Foreground="White"/>
         </ScrollViewer>
-        <Button Grid.Row="3" Command="{Binding CloseCommand}" Width="100" Content="Закрыть" Margin="5"/>
     </Grid>
 </UserControl>
