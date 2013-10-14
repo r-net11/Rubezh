@@ -116,7 +116,7 @@ namespace ManagementConsole
 				{
 					if (value)
 					{
-						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\FiresecOPCServer\FiresecOPCServer.exe");
+						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\OPC\FiresecOPCServer.exe");
 						registryKey.SetValue("FiresecOPCServer", path);
 					}
 					else
@@ -124,6 +124,37 @@ namespace ManagementConsole
 					registryKey.Close();
 				}
 				OnPropertyChanged("IsOpcServerAuto");
+			}
+		}
+
+		public bool IsGKOpcServerAuto
+		{
+			get
+			{
+				var registryKey = Registry.CurrentUser.OpenSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+				if (registryKey != null)
+				{
+					if (registryKey.GetValue("GKOPCServer") == null)
+						return false;
+					registryKey.Close();
+				}
+				return true;
+			}
+			set
+			{
+				var registryKey = Registry.CurrentUser.CreateSubKey(@"software\Microsoft\Windows\CurrentVersion\Run");
+				if (registryKey != null)
+				{
+					if (value)
+					{
+						var path = Path.GetFullPath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"..\GKOPC\GKOPCServer.exe");
+						registryKey.SetValue("GKOPCServer", path);
+					}
+					else
+						registryKey.DeleteValue("GKOPCServer");
+					registryKey.Close();
+				}
+				OnPropertyChanged("IsGKOpcServerAuto");
 			}
 		}
 

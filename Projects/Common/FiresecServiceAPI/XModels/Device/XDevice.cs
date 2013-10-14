@@ -87,6 +87,9 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 
+		[DataMember]
+		public bool IsOPCUsed { get; set; }
+
 		public string Address
 		{
 			get

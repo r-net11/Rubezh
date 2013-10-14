@@ -49,7 +49,6 @@ namespace FiresecOPCServer
 
 		static void InitializeFs()
 		{
-			UILogger.Log("Остановка Socket Server");
 			UILogger.Log("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration("OPC/Configuration");
 			UILogger.Log("Загрузка драйвера устройств");

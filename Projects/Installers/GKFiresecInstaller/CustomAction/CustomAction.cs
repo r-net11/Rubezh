@@ -21,7 +21,7 @@ namespace CustomAction
 						|| (process.ProcessName == "FireMonitor")
 						|| (process.ProcessName == "FireAdministrator")
 						|| (process.ProcessName == "Revisor")
-						|| (process.ProcessName == "FiresecOPCServer")
+						|| (process.ProcessName == "GKOPCServer")
 						|| (process.ProcessName == "FS_SER~1")
 						|| (process.ProcessName == "fs_server")
 						|| (process.ProcessName == "FiresecNTService")

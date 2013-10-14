@@ -68,9 +68,9 @@ namespace GKModule.ViewModels
 			}
 			OnPropertyChanged("RootDevices");
 
-			 foreach (var deviceViewModel in AllDevices)
+			foreach (var deviceViewModel in AllDevices)
 			{
-			    deviceViewModel.Device.AUParametersChanged += () => { UpdateDeviceParameterMissmatch(); };
+				deviceViewModel.Device.AUParametersChanged += () => { UpdateDeviceParameterMissmatch(); };
 			}
 			UpdateDeviceParameterMissmatch();
 		}
@@ -485,7 +485,7 @@ namespace GKModule.ViewModels
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
 					{
-						MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
 						return false;
 					}
 				}
@@ -522,20 +522,18 @@ namespace GKModule.ViewModels
 					device.Properties = new List<XProperty>();
 				foreach (var driverProperty in device.Driver.Properties)
 				{
-					if (driverProperty.IsAUParameter)
+					var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+					if (property == null)
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-						if (property == null)
+						property = new XProperty()
 						{
-							property = new XProperty()
-							{
-								Name = driverProperty.Name,
-								StringValue = driverProperty.StringDefault
-							};
-							device.Properties.Add(property);
-						}
-						property.DriverProperty = driverProperty;
+							Name = driverProperty.Name,
+							Value = driverProperty.Default,
+							StringValue = driverProperty.StringDefault
+						};
+						device.Properties.Add(property);
 					}
+					property.DriverProperty = driverProperty;
 				}
 				device.Properties.RemoveAll(x => x.DriverProperty == null);
 			}

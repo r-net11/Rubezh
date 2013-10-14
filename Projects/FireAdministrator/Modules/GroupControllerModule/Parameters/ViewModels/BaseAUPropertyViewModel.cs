@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using GKModule.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.DeviceProperties
 {
@@ -23,7 +24,7 @@ namespace GKModule.DeviceProperties
 			}
 
 			if (Device.DeviceProperties == null)
-			{
+				Device.DeviceProperties = new List<XProperty>();
 				return;
 			}
 			

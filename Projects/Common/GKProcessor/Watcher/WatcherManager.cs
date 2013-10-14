@@ -34,7 +34,7 @@ namespace GKProcessor
 			LifeTimeWatcher.Start();
 		}
 
-		static void Stop()
+		public static void Stop()
 		{
 			try
 			{

@@ -398,6 +398,10 @@ namespace GKModule.ViewModels
 			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
+		public bool CanShowInstructionCommand
+		{
+			get { return CanShowInstruction(); }
+		}
 		public XInstruction Instruction
 		{
 			get

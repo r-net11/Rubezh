@@ -5,7 +5,7 @@
     <call target="BuildAll" />
   </target>
   <target name="BuildAll">
-    <delete dir="bin" />
+    <delete dir="bin\GK" />
     <msbuild project="..\Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
@@ -15,25 +15,16 @@
     <msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\Projects\FSAgent\FSAgentServer.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
     <msbuild project="..\Projects\ManagementConsole\ManagementConsole.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
-    <msbuild project="..\Projects\MultiClient\MultiClientAdministrator.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>
-    <msbuild project="..\Projects\ServerFS2\ServerFS2.sln">
+    <msbuild project="..\Projects\GKOPCServer\GKOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <msbuild project="..\Projects\Installers\GKFiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <copy todir="bin\">
+    <copy todir="bin\GK\">
       <fileset basedir="..\Projects\Installers\GKFiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
