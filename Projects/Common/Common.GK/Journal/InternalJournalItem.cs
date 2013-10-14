@@ -189,10 +189,6 @@ namespace Common.GK
 							EventName = "Технология";
 							break;
 
-						case 1:
-							EventName = "Очистка журнала";
-							break;
-
 						case 2:
 							EventName = "Установка часов";
 							break;
@@ -251,6 +247,10 @@ namespace Common.GK
 						case 12:
 							EventName = "Произведена настройка сети";
 							break;
+
+						default:
+							EventName = "Неизвестный код события контроллекра: " + Code;
+							break;
 					}
 					break;
 
@@ -275,6 +275,10 @@ namespace Common.GK
 						case 1:
 							EventName = "Устройство с таким адресом не описано при конфигурации";
 							EventDescription = unknownDescription;
+							break;
+
+						default:
+							EventName = "Неизвестный код события устройства: " + Code;
 							break;
 					}
 					break;
@@ -362,12 +366,15 @@ namespace Common.GK
 
 						case 13:
 							EventName = "Параметры";
-							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
+							EventDescription = "Номер объекта КАУ: " + Code;
 							break;
 
 						case 14:
 							EventName = "Норма";
-							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
+							break;
+
+						default:
+							EventName = "Неизвестный код события объекта: " + Code;
 							break;
 					}
 					break;

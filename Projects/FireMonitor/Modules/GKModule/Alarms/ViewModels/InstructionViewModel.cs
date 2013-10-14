@@ -23,19 +23,12 @@ namespace GKModule.ViewModels
 			{
 				Title += Instruction.Name;
 			}
-			CloseCommand = new RelayCommand(OnClose);
 		}
 
 		public bool HasContent { get; private set; }
 		public XAlarmType AlarmType { get; private set; }
 		public XStateBit StateType { get; private set; }
 		public XInstruction Instruction { get; private set; }
-
-		public RelayCommand CloseCommand { get; private set; }
-		void OnClose()
-		{
-			Close();
-		}
 
 		XInstruction FindInstruction(XDevice device, XZone zone)
 		{

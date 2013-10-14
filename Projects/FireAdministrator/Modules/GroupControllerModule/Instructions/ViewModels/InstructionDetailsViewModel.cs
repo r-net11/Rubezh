@@ -171,8 +171,8 @@ namespace GKModule.ViewModels
 			try
 			{
 				var openDialog = new OpenFileDialog();
-				openDialog.DefaultExt = ".wav";
-				openDialog.Filter = "wav аудио (*.wav)|*.wav|wmv видео (*.wmv)|*.wmv| все файлы|*.*";
+				openDialog.DefaultExt = ".wmv";
+				openDialog.Filter = "wmv видео (*.wmv)|*.wmv|wav аудио (*.wav)|*.wav| все файлы|*.*";
 				if (openDialog.ShowDialog().Value)
 				{
 					Instruction.MediaSource = openDialog.FileName;
