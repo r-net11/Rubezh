@@ -22,6 +22,8 @@ namespace GKModule.DeviceProperties
 				Save(driverProperty.Default, false);
 			}
 
+			if (Device.DeviceProperties == null)
+				return;
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{

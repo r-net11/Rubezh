@@ -473,6 +473,7 @@ namespace GKModule.ViewModels
 					case "Вход пользователя в систему":
 					case "Выход пользователя из системы":
 						return "/Controls;component/StateClassIcons/TechnologicalRegime.png";
+
 					case "Технология":
 					case "Работа":
 					case "Запыленность":
@@ -486,25 +487,35 @@ namespace GKModule.ViewModels
 					case "Выход пользователя из прибора":
 					case "Подтверждение тревоги":
 						return "/Controls;component/StateClassIcons/Service.png";
+
 					case "Смена БД":
 						return "/Controls;component/StateClassIcons/DBMissmatch.png";
+
 					case "Неизвестный тип":
 						return "/Controls;component/StateClassIcons/Unknown.png";
-					case "Пожар":
+
+					case "Пожар-1":
 						return "/Controls;component/StateClassIcons/Fire1.png";
+
 					case "Пожар-2":
 						return "/Controls;component/StateClassIcons/Fire2.png";
+
 					case "Внимание":
 						return "/Controls;component/StateClassIcons/Attention.png";
+
 					case "Неисправность":
 						return "/Controls;component/StateClassIcons/Failure.png";
+
 					case "Тест":
 						return "/Controls;component/StateClassIcons/Info.png";
+
 					case "Отключение":
 						return "/Controls;component/StateClassIcons/Off.png";
+
 					case "Потеря связи с прибором":
 					case "Восстановление связи с прибором":
 						return "/Controls;component/StateClassIcons/ConnectionLost.png";
+
 					default:
 						return "";
 				}
@@ -529,7 +540,6 @@ namespace GKModule.ViewModels
 		{
 			var eventNames = new List<string>();
 			eventNames.Add("Технология");
-			eventNames.Add("Очистка журнала");
 			eventNames.Add("Установка часов");
 			eventNames.Add("Запись информации о блоке");
 			eventNames.Add("Смена ПО");
@@ -539,7 +549,7 @@ namespace GKModule.ViewModels
 			eventNames.Add("Устройство с таким адресом не описано при конфигурации");
 			eventNames.Add("При конфигурации описан другой тип");
 			eventNames.Add("Изменился заводской номер");
-			eventNames.Add("Пожар");
+			eventNames.Add("Пожар-1");
 			eventNames.Add("Пожар-2");
 			eventNames.Add("Внимание");
 			eventNames.Add("Неисправность");

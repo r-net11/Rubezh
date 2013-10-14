@@ -106,7 +106,6 @@
     <Compile Include="Drivers\AddressDevices\HeatDetector_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\MDU_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\MPT_Helper.cs" />
-    <Compile Include="Drivers\AddressDevices\MRO_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\RM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MDU_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />

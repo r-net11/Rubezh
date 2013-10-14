@@ -149,7 +149,6 @@
     <Compile Include="Directions\Views\DirectionDevicesView.xaml.cs">
       <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filters\ViewModels\FilterEventNameViewModel.cs" />
     <Compile Include="Diagnostics\ConfigurationConverter\FiresecToGKConverter.cs" />
     <Compile Include="Diagnostics\ConfigurationConverter\ViewModels\ConvertationViewModel.cs" />
     <Compile Include="Diagnostics\ConfigurationConverter\ViewModels\FSShleifViewModel.cs" />

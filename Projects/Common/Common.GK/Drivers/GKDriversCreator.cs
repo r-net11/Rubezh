@@ -31,7 +31,6 @@ namespace Common.GK
 			AddDriverToKau(AM1_O_Helper.Create());
 
 			AddDriverToKau(RM_1_Helper.Create());
-			AddDriverToKau(MRO_Helper.Create());
 			AddDriverToKau(MRO_2_Helper.Create());
 			AddDriverToKau(MDU_Helper.Create());
 			AddDriverToKau(MPT_Helper.Create());

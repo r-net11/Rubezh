@@ -43,15 +43,17 @@
             </ListBox>
         </TabItem>
         <TabItem Header="События">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ListBox ItemsSource="{Binding EventNames}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding EventName}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
+            <ListBox ItemsSource="{Binding EventNames}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}" />
+                            <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </TabItem>
     </TabControl>
 </UserControl>

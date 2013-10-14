@@ -19,7 +19,6 @@
 		AM1_O,
 		AM1_T,
         RM_1,
-		MRO,
 		MRO_2,
 		MDU,
 		MPT,

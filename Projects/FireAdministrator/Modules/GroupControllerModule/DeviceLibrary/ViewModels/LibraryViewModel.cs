@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
+			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices.Where(x => x.Driver != null) orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
 			foreach (var device in devices)
 			{
