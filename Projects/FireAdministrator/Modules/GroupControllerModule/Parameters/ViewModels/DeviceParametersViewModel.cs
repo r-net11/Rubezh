@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common.GK;
 using Firesec_50;
 using FiresecAPI.XModels;
@@ -185,6 +186,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				ReadDevices(devices);
 				foreach (var device in devices)
 				{
@@ -215,13 +217,22 @@ namespace GKModule.ViewModels
 
 		void WriteDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
 			DatabaseManager.Convert();
+			var i = 0;
 			foreach (var device in devices)
 			{
+				i++;
+				FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
 				ParametersHelper.SetSingleParameter(device);
+				Thread.Sleep(100);
 			}
 			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void ReadDevices(List<XDevice> devices)
@@ -392,6 +403,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				if (Validate(devices))
 				{
 					foreach (var device in devices)
@@ -424,6 +436,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				foreach (var device in devices)
 				{
 					CopyFromDeviceToSystem(device);

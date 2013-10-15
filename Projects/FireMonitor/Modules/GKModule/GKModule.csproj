@@ -83,7 +83,6 @@
     <Compile Include="Alarms\Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Alarms\Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
