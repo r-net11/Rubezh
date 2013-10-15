@@ -426,8 +426,6 @@ namespace GKModule.ViewModels
 		}
 	}
 
-	
-
 	public class GKAddressViewModel : BaseViewModel
 	{
 		public GKAddressViewModel(string address)
@@ -541,33 +539,35 @@ namespace GKModule.ViewModels
 			var eventNames = new List<string>();
 			eventNames.Add("Технология");
 			eventNames.Add("Установка часов");
-			eventNames.Add("Запись информации о блоке");
 			eventNames.Add("Смена ПО");
 			eventNames.Add("Смена БД");
 			eventNames.Add("Работа");
+			eventNames.Add("Вход пользователя в прибор");
+			eventNames.Add("Выход пользователя из прибора");
+			eventNames.Add("Ошибка управления");
+			eventNames.Add("Введен новый пользователь");
+			eventNames.Add("Изменена учетная информация пользователя");
+			eventNames.Add("Произведена настройка сети");
 			eventNames.Add("Неизвестный тип");
 			eventNames.Add("Устройство с таким адресом не описано при конфигурации");
 			eventNames.Add("При конфигурации описан другой тип");
 			eventNames.Add("Изменился заводской номер");
 			eventNames.Add("Пожар-1");
 			eventNames.Add("Пожар-2");
+			eventNames.Add("Сработка-1");
+			eventNames.Add("Сработка-2");
 			eventNames.Add("Внимание");
 			eventNames.Add("Неисправность");
 			eventNames.Add("Тест");
 			eventNames.Add("Запыленность");
-			eventNames.Add("Управление");
+			eventNames.Add("Информация");
 			eventNames.Add("Состояние");
 			eventNames.Add("Режим работы");
-			eventNames.Add("Дежурный");
-			eventNames.Add("Отключение");
-			eventNames.Add("Вход пользователя в прибор");
-			eventNames.Add("Выход пользователя из прибора");
+			eventNames.Add("Параметры");
+			eventNames.Add("Норма");
 			eventNames.Add("Вход пользователя в систему");
 			eventNames.Add("Выход пользователя из системы");
-            eventNames.Add("Команда оператора");
-			eventNames.Add("Подтверждение тревоги");
-			eventNames.Add("Потеря связи с прибором");
-			eventNames.Add("Восстановление связи с прибором");
+			eventNames.Add("Команда оператора");
 			return eventNames;
 		}
 	}
