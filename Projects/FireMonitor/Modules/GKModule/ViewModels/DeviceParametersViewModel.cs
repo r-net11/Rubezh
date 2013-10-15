@@ -96,6 +96,17 @@ namespace GKModule.ViewModels
 					deviceParameterViewModel.IsCurrent = true;
 					ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
 					deviceParameterViewModel.IsCurrent = false;
+
+					if (deviceParameterViewModel.Smokiness == "опрос")
+						deviceParameterViewModel.Smokiness = "ошибка";
+					if (deviceParameterViewModel.Temperature == "опрос")
+						deviceParameterViewModel.Temperature = "ошибка";
+					if (deviceParameterViewModel.Dustinness == "опрос")
+						deviceParameterViewModel.Dustinness = "ошибка";
+					if (deviceParameterViewModel.LastServiceTime == "опрос")
+						deviceParameterViewModel.LastServiceTime = "ошибка";
+					if (deviceParameterViewModel.Resistance == "опрос")
+						deviceParameterViewModel.Resistance = "ошибка";
 				}
 			}
 		}
