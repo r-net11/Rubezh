@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.InstructionZonesView"
+﻿<UserControl x:Class="GKModule.Views.InstructionDirectionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -9,10 +9,10 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
+        <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionDirections}" SelectedItem="{Binding SelectedInstructionDirection}" MouseDoubleClick="SelectedInstructionDirectionDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Выбранные направления" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Direction.No}" />
+                <DataGridTextColumn Header="Выбранные зоны" Width="*" Binding="{Binding Direction.Name}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
@@ -21,10 +21,10 @@
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}" MouseDoubleClick="SelectedAvailableZoneDoubleClick">
+        <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDirections}" SelectedItem="{Binding SelectedAvailableDirection}" MouseDoubleClick="SelectedAvailableDirectionDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Направление" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Direction.No}" />
+                <DataGridTextColumn Header="Зона" Width="*" Binding="{Binding Direction.Name}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

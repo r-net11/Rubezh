@@ -44,4 +44,5 @@
     <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
     <Converters:SubsystemTypeToIconConverter x:Key="SubsystemTypeToIconConverter" />
     <Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
+    <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
 </ResourceDictionary>

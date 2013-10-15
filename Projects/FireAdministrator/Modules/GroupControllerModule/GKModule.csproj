@@ -102,6 +102,11 @@
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionDirectionsViewModel.cs" />
+    <Compile Include="Instructions\Views\InstructionDirectionsView.xaml.cs">
+      <DependentUpon>InstructionDirectionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
@@ -479,6 +484,10 @@
     <Page Include="Instructions\Views\InstructionDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionDirectionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Instructions\Views\InstructionsDevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>

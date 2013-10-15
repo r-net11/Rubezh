@@ -390,12 +390,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowInstructionCommand { get; private set; }
 		void OnShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 			DialogService.ShowModalWindow(instructionViewModel);
 		}
 		bool CanShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+            var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
 		public bool CanShowInstructionCommand
@@ -406,7 +406,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+                var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 				return instructionViewModel.Instruction;
 			}
 		}

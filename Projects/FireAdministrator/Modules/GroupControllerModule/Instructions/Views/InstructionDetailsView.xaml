@@ -7,6 +7,7 @@
     <UserControl.Resources>
         <Converters:ZonesToStringConverter x:Key="ZonesToStringConverter" />
         <Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
+        <Converters:DirectionsToStringConverter x:Key="DirectionsToStringConverter" />
     </UserControl.Resources>
 
     <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -33,13 +34,18 @@
                     <Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Right" />
                     <Label Grid.Column="0" Grid.Row="1" Content="Состояние" HorizontalAlignment="Right" />
                     <Label Grid.Column="0" Grid.Row="2" Content="Тип инструкции" HorizontalAlignment="Right" />
+                    <Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
+                    <Label Grid.Column="0" Grid.Row="4" Content="Мультимедиа" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="2" />
                     <ComboBox Grid.Column="1" Grid.Row="1" Margin="2" ItemsSource="{Binding AvailableAlarmTypes}"
                         SelectedItem="{Binding AlarmType, UpdateSourceTrigger=PropertyChanged}"
                         Text="{Binding AlarmType}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Source="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" VerticalAlignment="Center"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" Margin="2"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -51,20 +57,29 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Label Grid.Column="0" Grid.Row="3" Content="Текст" HorizontalAlignment="Right" />
                     <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" AcceptsReturn="True" Margin="2" />
-                    <TextBlock Grid.Column="1" Grid.Row="4" >
-                        <Hyperlink Command="{Binding GetMediaCommand}" Style="{StaticResource HyperlinkStyle}">
-                            <TextBlock Margin="2" Text="Нажмите для выбора мультимедиа"/>
-                        </Hyperlink>
-                    </TextBlock>
-                    <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Label Content="{Binding Instruction.MediaSource}" VerticalAlignment="Center"/>
-                        <Controls:ToolBarButton Margin="2" ToolTip="Удалить" Command="{Binding RemoveMediaCommand}" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" />
+                    <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center">
+                            <Hyperlink Command="{Binding GetMediaCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <TextBlock Text="{Binding Instruction.MediaSource}"/>
+                                <TextBlock>
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Instruction.HasMedia}" Value="false">
+                                                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора мультимедиа" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Hyperlink>
+                        </TextBlock>
+                        <Controls:ToolBarButton Margin="2" ToolTip="Удалить" Command="{Binding RemoveMediaCommand}" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1" Margin="0,10,0,0" HorizontalAlignment="Stretch"
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch"
                     Visibility="{Binding IsDetails, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid TextBlock.FontSize="14" Margin="2" >
                     <Grid.ColumnDefinitions>
@@ -77,10 +92,28 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Content="Зоны" HorizontalAlignment="Right" />
-                    <Label Grid.Column="0" Grid.Row="1" Content="Устройства" HorizontalAlignment="Right" />
-
+                    <Label Grid.Column="0" Grid.Row="0" Content="Устройства" HorizontalAlignment="Right" />
+                    <Label Grid.Column="0" Grid.Row="1" Content="Зоны" HorizontalAlignment="Right" />
+                    <Label Grid.Column="0" Grid.Row="2" Content="Направления" HorizontalAlignment="Right" />
                     <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
+                        <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Margin="2" />
+                                <TextBlock Margin="2">
+                                    <TextBlock.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding InstructionDevices.Count}" Value="0">
+                                                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
                         <Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" />
@@ -98,16 +131,16 @@
                             </StackPanel>
                         </Hyperlink>
                     </TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-                        <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
+                    <TextBlock Grid.Column="1" Grid.Row="2" VerticalAlignment="Center">
+                        <Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Margin="2" />
+                                <TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" />
                                 <TextBlock Margin="2">
                                     <TextBlock.Style>
                                         <Style>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding InstructionDevices.Count}" Value="0">
-                                                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                                <DataTrigger Binding="{Binding InstructionDirections.Count}" Value="0">
+                                                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

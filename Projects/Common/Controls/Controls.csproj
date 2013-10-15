@@ -113,6 +113,7 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
+    <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
