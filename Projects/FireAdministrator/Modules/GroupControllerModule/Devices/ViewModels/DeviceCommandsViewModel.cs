@@ -146,9 +146,9 @@ namespace GKModule.Models
 				//    return;
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				gkBinConfigurationReader.ReadConfiguration(device);
-				var remoteDevice = gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-				var localDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(localDevice, remoteDevice);
+				//var remoteDevice = gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+				//var localDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration);
 				DialogService.ShowModalWindow(deviceConfigurationViewModel);
 
 				ServiceFactory.SaveService.FSChanged = true;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using Common;
 using Common.GK;
 using FiresecClient;
@@ -18,73 +17,10 @@ namespace GKModule
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-		
-		//public void ReadConfiguration(XDevice gkDevice)
-		//{
-		//    IpAddress = gkDevice.GetGKIpAddress();
-		//    ControllerDevices = new Dictionary<ushort, XDevice>();
-		//    DeviceConfiguration = new XDeviceConfiguration();
-		//    var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-		//    var rootDevice = new XDevice()
-		//    {
-		//        Driver = rootDriver,
-		//        DriverUID = rootDriver.UID
-		//    };
-		//    DeviceConfiguration.RootDevice = rootDevice;
 
-		//    LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
-		//    BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
-
-		//    LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", ushort.MaxValue + 1);
-
-		//    ushort descriptorNo = 0;
-		//    var allBytes = new List<List<byte>>();
-		//    while (true)
-		//    {
-		//        descriptorNo++;
-		//        LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
-
-		//        byte packNo = 1;
-		//        var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-		//        var data = new List<byte>(descriptorNoBytes);
-		//        data.Add(packNo);
-		//        var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
-		//        var bytes = sendResult.Bytes;
-		//        allBytes.Add(bytes);
-		//        if (sendResult.HasError || bytes.Count == 0)
-		//            break;
-
-		//        if (bytes.Count < 5)
-		//            break;
-
-		//        var inputDescriptorNo = BytesHelper.SubstructShort(bytes, 0);
-		//        var inputPackNo = bytes[2];
-		//        if (bytes[3] == 0xff && bytes[4] == 0xff)
-		//            break;
-
-		//        try
-		//        {
-		//            Parce(bytes.Skip(3).ToList(), descriptorNo);
-		//        }
-		//        catch (Exception e)
-		//        {
-		//            Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
-		//        }
-		//    }
-		//    BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
-		//    LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
-		//    if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
-		//    {
-		//        MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
-		//    }
-		//    LoadingService.SaveClose();
-
-		//    XManager.UpdateConfiguration();
-		//}
-
-		public void ReadConfiguration(XDevice device)
+		public void ReadConfiguration(XDevice gkDevice)
 		{
-			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
+			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
@@ -94,25 +30,88 @@ namespace GKModule
 				DriverUID = rootDriver.UID
 			};
 			DeviceConfiguration.RootDevice = rootDevice;
+
+			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
+			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+
+			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", ushort.MaxValue + 1);
+
 			ushort descriptorNo = 0;
-			int count = 0;
+			var allBytes = new List<List<byte>>();
 			while (true)
 			{
 				descriptorNo++;
+				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
+
 				byte packNo = 1;
 				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
 				var data = new List<byte>(descriptorNoBytes);
 				data.Add(packNo);
-				var bytes = allbytes[count];
-				count ++;
+				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
+				var bytes = sendResult.Bytes;
+				allBytes.Add(bytes);
+				if (sendResult.HasError || bytes.Count == 0)
+					break;
+
 				if (bytes.Count < 5)
 					break;
+
+				var inputDescriptorNo = BytesHelper.SubstructShort(bytes, 0);
+				var inputPackNo = bytes[2];
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
-				Parce(bytes.Skip(3).ToList(), descriptorNo);
+
+				try
+				{
+					Parce(bytes.Skip(3).ToList(), descriptorNo);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
+				}
 			}
+			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
+			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
+			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
+			{
+				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+			}
+			LoadingService.SaveClose();
+
 			XManager.UpdateConfiguration();
 		}
+
+		//public void ReadConfiguration(XDevice device)
+		//{
+		//    var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
+		//    ControllerDevices = new Dictionary<ushort, XDevice>();
+		//    DeviceConfiguration = new XDeviceConfiguration();
+		//    var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+		//    var rootDevice = new XDevice()
+		//    {
+		//        Driver = rootDriver,
+		//        DriverUID = rootDriver.UID
+		//    };
+		//    DeviceConfiguration.RootDevice = rootDevice;
+		//    ushort descriptorNo = 0;
+		//    int count = 0;
+		//    while (true)
+		//    {
+		//        descriptorNo++;
+		//        byte packNo = 1;
+		//        var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
+		//        var data = new List<byte>(descriptorNoBytes);
+		//        data.Add(packNo);
+		//        var bytes = allbytes[count];
+		//        count ++;
+		//        if (bytes.Count < 5)
+		//            break;
+		//        if (bytes[3] == 0xff && bytes[4] == 0xff)
+		//            break;
+		//        Parce(bytes.Skip(3).ToList(), descriptorNo);
+		//    }
+		//    XManager.UpdateConfiguration();
+		//}
 
 		void Parce(List<byte> bytes, int descriptorNo)
 		 {
@@ -120,9 +119,10 @@ namespace GKModule
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			//var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
-
+			if(internalType == 0)
+				return;
 			var letters = new List<byte>();
-			for (int i = 8; i <= 28; i++)
+			for (int i = 8; i <= 39; i++)
 			{
 				byte letter = (byte)bytes[i];
 				letters.Add(letter);
@@ -131,7 +131,7 @@ namespace GKModule
 			var memoryStream = new MemoryStream(letters.ToArray());
 			var description = memoryStream.ToString();
 			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
-
+			description = description.TrimEnd();
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{

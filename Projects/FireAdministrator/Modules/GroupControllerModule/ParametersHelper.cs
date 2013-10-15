@@ -97,9 +97,9 @@ namespace GKModule
 					if (binaryObject != null)
 					{
 						var result = SetDeviceParameters(commonDatabase, binaryObject);
-						if (!string.IsNullOrEmpty(result))
+						if (result != null)
 						{
-							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.PresentationDriverAndAddress + "\n" + result);
+							ErrorLog += "\n" + device.PresentationDriverAndAddress;
 						}
 					}
 				}

@@ -41,10 +41,13 @@ namespace FiresecClient
         public static void AddChildren(XDevice device)
         {
             allDeviceChildren.Add(device);
-            foreach (var childDevice in device.Children)
-            {
-				AddChildren(childDevice);
-            }
+			if ((device.Children != null) && (device.Children.Count != 0))
+			{
+				foreach (var childDevice in device.Children)
+				{
+					AddChildren(childDevice);
+				}
+			}
         }
 
 		public static List<XZoneState> GetAllGKZoneStates(XDeviceState gkDeviceState)
