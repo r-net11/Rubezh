@@ -30,6 +30,8 @@ namespace Common.GK
 		string UserName;
 		[DataMember]
 		int ObjectState;
+		[DataMember]
+		XStateClass StateClass;
 
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
@@ -117,6 +119,7 @@ namespace Common.GK
 				GKObjectNo = GKObjectNo,
 				UserName = UserName,
 				SubsystemType = SubsytemType,
+				StateClass = StateClass,
 				InternalJournalItem = this
 			};
 
@@ -124,11 +127,11 @@ namespace Common.GK
 			{
 				var stateBits = XStatesHelper.StatesFromInt(ObjectState);
 				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits, false, false, false, false, false);
-				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
+				journalItem.ObjectStateClass = XStatesHelper.GetMinStateClass(stateClasses);
 			}
 			else
 			{
-				journalItem.StateClass = XStateClass.Info;
+				journalItem.ObjectStateClass = XStateClass.Info;
 			}
 
 			return journalItem;
@@ -304,10 +307,9 @@ namespace Common.GK
 							break;
 
 						case 3:
+							EventName = "Пожар-2";
 							if (JournalItemType == GK.JournalItemType.Device)
 								EventName = "Сработка-2";
-							else
-								EventName = "Пожар-2";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
@@ -346,12 +348,64 @@ namespace Common.GK
 
 						case 9:
 							EventName = "Состояние";
-							EventDescription = StringHelper.ToState(bytes[32 + 15]);
+							switch (bytes[32 + 15])
+							{
+								case 2:
+									EventDescription = "Включено";
+									StateClass = XStateClass.On;
+									break;
+
+								case 3:
+									EventDescription = "Выключено";
+									StateClass = XStateClass.Off;
+									break;
+
+								case 4:
+									EventDescription = "Включается";
+									StateClass = XStateClass.TurningOn;
+									break;
+
+								case 5:
+									EventDescription = "Выключается";
+									StateClass = XStateClass.TurningOff;
+									break;
+
+								case 30:
+									EventDescription = "Не определено";
+									StateClass = XStateClass.Unknown;
+									break;
+
+								case 31:
+									EventDescription = "Остановлено";
+									StateClass = XStateClass.Info;
+									break;
+							}
 							break;
 
 						case 10:
 							EventName = "Режим работы";
-							EventDescription = StringHelper.ToRegime(bytes[32 + 15]);
+							switch (bytes[32 + 15])
+							{
+								case 0:
+									EventDescription = "Автоматика";
+									StateClass = XStateClass.Norm;
+									break;
+
+								case 1:
+									EventDescription = "Ручное";
+									StateClass = XStateClass.AutoOff;
+									break;
+
+								case 2:
+									EventDescription = "Отключение";
+									StateClass = XStateClass.Off;
+									break;
+
+								case 3:
+									EventDescription = "Не определено";
+									StateClass = XStateClass.Unknown;
+									break;
+							}
 							break;
 
 						case 13:
@@ -369,6 +423,8 @@ namespace Common.GK
 					}
 					break;
 			}
+			if (StateClass == XStateClass.No)
+				StateClass = JournalDescriptionStateHelper.GetStateClassByName(EventName);
 		}
 	}
 
@@ -381,18 +437,6 @@ namespace Common.GK
 			if (b == 1)
 				return JournalYesNoType.Yes;
 			return JournalYesNoType.Unknown;
-		}
-
-		public static string ToRegime(byte b)
-		{
-			switch (b)
-			{
-				case 0: return "Автоматика";
-				case 1: return "Ручное";
-				case 2: return "Отключение";
-				case 3: return "Не определено";
-			}
-			return "";
 		}
 
 		public static string ToFire(byte b)
@@ -681,20 +725,6 @@ namespace Common.GK
 				case 1: return "Администратор";
 				case 2: return "Инсталлятор";
 				case 3: return "Изготовитель";
-			}
-			return "";
-		}
-
-		public static string ToState(byte b)
-		{
-			switch (b)
-			{
-				case 2: return "Включено";
-				case 3: return "Выключено";
-				case 4: return "Включается";
-				case 5: return "Выключается";
-				case 30: return "Не определено";
-				case 31: return "Остановлено";
 			}
 			return "";
 		}

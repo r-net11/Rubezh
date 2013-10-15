@@ -6,6 +6,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" MinHeight="150" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <DataGrid.Columns>
@@ -34,5 +35,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <ProgressBar Grid.Row="2" Value="{Binding PercentsCompleted}" Minimum="0" Maximum="100" Margin="0 5 0 0" />
     </Grid>
 </UserControl>
