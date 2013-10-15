@@ -22,7 +22,12 @@ namespace GKModule.Plans.Designer
 		public static void BuildXDeviceMap()
 		{
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
-			XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			foreach (var xdevice in XManager.Devices)
+			{
+				if (!_xdeviceMap.ContainsKey(xdevice.UID))
+					_xdeviceMap.Add(xdevice.UID, xdevice);
+			}
+			//XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
 		}
 		public static void BuildXZoneMap()
 		{

@@ -17,8 +17,6 @@ namespace Common.GK
 		[DataMember]
 		string GKIpAddress;
 		[DataMember]
-		string StringDate;
-		[DataMember]
 		public JournalItemType JournalItemType { get; private set; }
 		[DataMember]
 		public Guid ObjectUID { get; private set; }
@@ -33,34 +31,11 @@ namespace Common.GK
 		[DataMember]
 		int ObjectState;
 
-		XSubsystemType SubsytemType
-		{
-			get
-			{
-				if (JournalItemType == GK.JournalItemType.System)
-					return XSubsystemType.System;
-				else
-					return XSubsystemType.GK;
-			}
-		}
-
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
 		[DataMember]
 		public int UNUSED_KAUNo { get; private set; }
 
-		[DataMember]
-		byte Day;
-		[DataMember]
-		byte Month;
-		[DataMember]
-		byte Year;
-		[DataMember]
-		byte Hour;
-		[DataMember]
-		byte Minute;
-		[DataMember]
-		byte Second;
 		[DataMember]
 		DateTime DeviceDateTime;
 		[DataMember]
@@ -88,6 +63,17 @@ namespace Common.GK
 		public XZone Zone { get; private set; }
 		[DataMember]
 		public XDirection Direction { get; private set; }
+
+		XSubsystemType SubsytemType
+		{
+			get
+			{
+				if (JournalItemType == GK.JournalItemType.System)
+					return XSubsystemType.System;
+				else
+					return XSubsystemType.GK;
+			}
+		}
 
 		void InitializeFromObjectUID()
 		{
@@ -148,6 +134,25 @@ namespace Common.GK
 			return journalItem;
 		}
 
+		void InitializeDateTime(List<byte> bytes)
+		{
+			var day = bytes[32 + 4];
+			var month = bytes[32 + 5];
+			var year = bytes[32 + 6];
+			var hour = bytes[32 + 7];
+			var minute = bytes[32 + 8];
+			var second = bytes[32 + 9];
+			try
+			{
+				DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
+			}
+			catch
+			{
+				DeviceDateTime = DateTime.MinValue;
+			}
+			SystemDateTime = DateTime.Now;
+		}
+
 		public InternalJournalItem(XDevice gkDevice, List<byte> bytes)
 		{
 			GKIpAddress = XManager.GetIpAddress(gkDevice);
@@ -159,22 +164,7 @@ namespace Common.GK
 			ObjectUID = gkDevice.UID;
 			InitializeFromObjectUID();
 
-			Day = bytes[32 + 4];
-			Month = bytes[32 + 5];
-			Year = bytes[32 + 6];
-			Hour = bytes[32 + 7];
-			Minute = bytes[32 + 8];
-			Second = bytes[32 + 9];
-			StringDate = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
-			try
-			{
-				DeviceDateTime = new DateTime(2000 + Year, Month, Day, Hour, Minute, Second);
-			}
-			catch
-			{
-				DeviceDateTime = DateTime.MinValue;
-			}
-			SystemDateTime = DateTime.Now;
+			InitializeDateTime(bytes);
 
 			UNUSED_KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);
@@ -329,9 +319,9 @@ namespace Common.GK
 							EventName = "Неисправность";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							if (ObjectDeviceType == 0xE0)
-								EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
-							else
 								EventDescription = StringHelper.ToBUSHFailure(bytes[32 + 15]);
+							else
+								EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
 							break;
 
 						case 6:
