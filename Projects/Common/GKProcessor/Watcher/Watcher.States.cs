@@ -73,7 +73,7 @@ namespace GKProcessor
 			ApplicationService.Invoke(() =>
 			{
 				var binaryState = binaryBase.GetXBaseState();
-				binaryState.StateBits = binaryObjectState.States;
+				binaryState.StateBits = binaryObjectState.StateBits;
 				binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
 				binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
 				binaryState.OnDelay = binaryObjectState.OnDelay;

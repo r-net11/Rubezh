@@ -171,7 +171,7 @@ namespace GKModule.ViewModels
 				//SelectedDevice.Device.Properties.Clear();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
 				SelectedDevice.Update();
-				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
+				ServiceFactory.SaveService.GKChanged = true; // TODO Для ГК свой флаг
 			}
 		}
 
@@ -321,7 +321,7 @@ namespace GKModule.ViewModels
 					deviceProperty.Value = property.Value;
 				}
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 
@@ -470,7 +470,7 @@ namespace GKModule.ViewModels
 				};
 				device.Properties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void CopyFromSystemToDevice(XDevice device)
@@ -485,7 +485,7 @@ namespace GKModule.ViewModels
 				};
 				device.DeviceProperties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 

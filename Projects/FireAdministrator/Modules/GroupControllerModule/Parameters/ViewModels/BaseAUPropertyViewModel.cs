@@ -93,7 +93,7 @@ namespace GKModule.DeviceProperties
 		{
 			if (useSaveService)
 			{
-				ServiceFactory.SaveService.FSParametersChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);

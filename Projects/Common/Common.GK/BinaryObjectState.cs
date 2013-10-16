@@ -21,7 +21,7 @@ namespace Common.GK
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
 
-			States = XStatesHelper.StatesFromInt(state);
+			StateBits = XStatesHelper.StatesFromInt(state);
 			SetAdditionalParameters(bytes);
 		}
 
@@ -135,6 +135,28 @@ namespace Common.GK
 						if (failureBitArray[7])
 							AdditionalStates.Add("Несовместимость сигналов");
 						break;
+
+					case XDriverType.RM_1:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[1])
+							AdditionalStates.Add("Напряжение запуска реле ниже нормы");
+						if (bitArray[4])
+							AdditionalStates.Add("Тест");
+						if (bitArray[5])
+							AdditionalStates.Add("КЗ выхода");
+						if (bitArray[6])
+							AdditionalStates.Add("Обрыв выхода");
+						if (bitArray[7])
+							AdditionalStates.Add("Напряжение питания устройства не в норме");
+						break;
+
+					case XDriverType.AMP_1:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[1])
+							AdditionalStates.Add("КЗ ШС");
+						if (bitArray[7])
+							AdditionalStates.Add("Вскрытие корпуса");
+						break;
 				}
 			}
 			else
@@ -164,7 +186,7 @@ namespace Common.GK
 		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public ushort TypeNo { get; private set; }
-		public List<XStateBit> States { get; private set; }
+		public List<XStateBit> StateBits { get; private set; }
 		public List<string> AdditionalStates { get; private set; }
 		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 

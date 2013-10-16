@@ -2,28 +2,28 @@
 
 namespace FiresecAPI
 {
-    [DataContract]
-    public class VersionedConfiguration
-    {
-        public VersionedConfiguration()
-        {
-            Version = new ConfigurationVersion();
-        }
+	[DataContract]
+	public class VersionedConfiguration
+	{
+		public VersionedConfiguration()
+		{
+			Version = new ConfigurationVersion();
+		}
 
-        public virtual void AfterLoad()
-        {
-        }
+		public virtual void AfterLoad()
+		{
+		}
 
 		public virtual void BeforeSave()
 		{
 		}
 
 		public virtual bool ValidateVersion()
-        {
+		{
 			return true;
-        }
+		}
 
-        [DataMember]
-        public ConfigurationVersion Version { get; set; }
-    }
+		[DataMember]
+		public ConfigurationVersion Version { get; set; }
+	}
 }

@@ -173,6 +173,7 @@ namespace Common.GK
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);
 			Code = bytes[32 + 13];
 
+			StateClass = XStateClass.No;
 			switch (Source)
 			{
 				case JournalSourceType.Controller:

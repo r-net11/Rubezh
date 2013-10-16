@@ -143,6 +143,7 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
+			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
 		}
 	}
