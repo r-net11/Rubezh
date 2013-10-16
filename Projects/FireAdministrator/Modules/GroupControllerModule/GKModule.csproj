@@ -90,6 +90,7 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
@@ -356,7 +357,7 @@
     <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
     <Compile Include="Filters\ViewModels\FilterViewModel.cs" />

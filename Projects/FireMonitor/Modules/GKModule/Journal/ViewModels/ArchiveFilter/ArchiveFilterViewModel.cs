@@ -97,14 +97,13 @@ namespace GKModule.ViewModels
 		public void InitializeEventNames(XArchiveFilter archiveFilter)
 		{
 			EventNames = new List<EventNameViewModel>();
-			foreach (var eventName in ArchiveEventHelper.GetAllEvents())
+			foreach (var xEvent in EventHelper.GetAllEvents())
 			{
-				var eventNameViewModel = new EventNameViewModel(eventName);
-				EventNames.Add(eventNameViewModel);
+				EventNames.Add(new EventNameViewModel(xEvent));
 			}
-			foreach (var eventName in archiveFilter.EventNames)
+			foreach (var xEvent in archiveFilter.Events)
 			{
-				var eventNameViewModel = EventNames.FirstOrDefault(x => x.Name == eventName);
+                var eventNameViewModel = EventNames.FirstOrDefault(x => x.XEvent == xEvent);
 				if (eventNameViewModel != null)
 				{
 					eventNameViewModel.IsChecked = true;
@@ -322,7 +321,7 @@ namespace GKModule.ViewModels
 			foreach (var eventName in EventNames)
 			{
 				if (eventName.IsChecked)
-					archiveFilter.EventNames.Add(eventName.Name);
+					archiveFilter.Events.Add(eventName.XEvent);
 			}
 			foreach (var archiveDevice in AllDevices)
 			{
@@ -369,206 +368,6 @@ namespace GKModule.ViewModels
 		void OnCancel()
 		{
 			Close(false);
-		}
-	}
-
-	public class JournalItemTypeViewModel : BaseViewModel
-	{
-		public JournalItemTypeViewModel(JournalItemType journalItemType)
-		{
-			JournalItemType = journalItemType;
-			Name = journalItemType.ToDescription();
-		}
-
-		public JournalItemType JournalItemType { get; private set; }
-		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
-
-		public string ImageSource
-		{
-			get
-			{
-				switch (JournalItemType)
-				{
-					case JournalItemType.Device:
-						return "/Controls;component/GKIcons/RSR2_RM_1.png";
-
-					case JournalItemType.Zone:
-						return "/Controls;component/Images/zone.png";
-
-					case JournalItemType.Direction:
-						return "/Controls;component/Images/Blue_Direction.png";
-
-					case JournalItemType.GK:
-						return "/Controls;component/GKIcons/GK.png";
-
-					case JournalItemType.User:
-						return "/Controls;component/Images/Chip.png";
-
-					case JournalItemType.System:
-						return "/Controls;component/Images/PC.png";
-
-					default:
-						return "";
-
-				}
-			}
-		}
-	}
-
-	public class GKAddressViewModel : BaseViewModel
-	{
-		public GKAddressViewModel(string address)
-		{
-			Address = address;
-		}
-
-		public string Address { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
-	}
-
-	public class EventNameViewModel : BaseViewModel
-	{
-		public EventNameViewModel(string name)
-		{
-			Name = name;
-		}
-
-		public string Name { get; private set; }
-		
-		public string ImageSource
-		{
-			get
-			{
-				switch (Name)
-				{
-					case "Очистка журнала":
-					case "Установка часов":
-					case "Запись информации о блоке":
-					case "Смена ПО":
-					case "Устройство с таким адресом не описано при конфигурации":
-					case "При конфигурации описан другой тип":
-					case "Вход пользователя в систему":
-					case "Выход пользователя из системы":
-						return "/Controls;component/StateClassIcons/TechnologicalRegime.png";
-
-					case "Технология":
-					case "Работа":
-					case "Запыленность":
-					case "Состояние":
-					case "Дежурный":
-					case "Команда оператора":
-					case "Управление":
-					case "Изменился заводской номер":
-					case "Режим работы":
-					case "Вход пользователя в прибор":
-					case "Выход пользователя из прибора":
-					case "Подтверждение тревоги":
-						return "/Controls;component/StateClassIcons/Service.png";
-
-					case "Смена БД":
-						return "/Controls;component/StateClassIcons/DBMissmatch.png";
-
-					case "Неизвестный тип":
-						return "/Controls;component/StateClassIcons/Unknown.png";
-
-					case "Пожар-1":
-						return "/Controls;component/StateClassIcons/Fire1.png";
-
-					case "Пожар-2":
-						return "/Controls;component/StateClassIcons/Fire2.png";
-
-					case "Внимание":
-						return "/Controls;component/StateClassIcons/Attention.png";
-
-					case "Неисправность":
-						return "/Controls;component/StateClassIcons/Failure.png";
-
-					case "Тест":
-						return "/Controls;component/StateClassIcons/Info.png";
-
-					case "Отключение":
-						return "/Controls;component/StateClassIcons/Off.png";
-
-					case "Потеря связи с прибором":
-					case "Восстановление связи с прибором":
-						return "/Controls;component/StateClassIcons/ConnectionLost.png";
-
-					default:
-						return "";
-				}
-			}
-		}
-		
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
-	}
-
-	public static class ArchiveEventHelper
-	{
-		public static List<string> GetAllEvents()
-		{
-			var eventNames = new List<string>();
-			eventNames.Add("Технология");
-			eventNames.Add("Установка часов");
-			eventNames.Add("Смена ПО");
-			eventNames.Add("Смена БД");
-			eventNames.Add("Работа");
-			eventNames.Add("Вход пользователя в прибор");
-			eventNames.Add("Выход пользователя из прибора");
-			eventNames.Add("Ошибка управления");
-			eventNames.Add("Введен новый пользователь");
-			eventNames.Add("Изменена учетная информация пользователя");
-			eventNames.Add("Произведена настройка сети");
-			eventNames.Add("Неизвестный тип");
-			eventNames.Add("Устройство с таким адресом не описано при конфигурации");
-			eventNames.Add("При конфигурации описан другой тип");
-			eventNames.Add("Изменился заводской номер");
-			eventNames.Add("Пожар-1");
-			eventNames.Add("Пожар-2");
-			eventNames.Add("Сработка-1");
-			eventNames.Add("Сработка-2");
-			eventNames.Add("Внимание");
-			eventNames.Add("Неисправность");
-			eventNames.Add("Тест");
-			eventNames.Add("Запыленность");
-			eventNames.Add("Информация");
-			eventNames.Add("Состояние");
-			eventNames.Add("Режим работы");
-			eventNames.Add("Параметры");
-			eventNames.Add("Норма");
-			eventNames.Add("Вход пользователя в систему");
-			eventNames.Add("Выход пользователя из системы");
-			eventNames.Add("Команда оператора");
-			return eventNames;
 		}
 	}
 }
