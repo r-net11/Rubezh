@@ -16,7 +16,6 @@
 		HandDetector,
 		AM_1,
 		AMP_1,
-		AM1_O,
 		AM1_T,
         RM_1,
 		MRO_2,
@@ -45,6 +44,8 @@
 		RSR2_MAP4_Group,
 		RSR2_MVK8_Group,
 		RSR2_HeatDetector,
-		RSR2_Bush
+		RSR2_Bush,
+        Shu,
+        Shuv
     }
 }
