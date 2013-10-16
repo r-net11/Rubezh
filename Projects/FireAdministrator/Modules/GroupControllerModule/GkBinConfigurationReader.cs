@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define LOCALCONFIG
+//#define SETCONFIGTOFILE
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,11 +15,12 @@ namespace GKModule
 {
 	public class GkBinConfigurationReader
 	{
-		public XDeviceConfiguration DeviceConfiguration;
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-
+		public XDeviceConfiguration DeviceConfiguration;
+		
+#if !LOCALCONFIG
 		public void ReadConfiguration(XDevice gkDevice)
 		{
 			IpAddress = gkDevice.GetGKIpAddress();
@@ -70,7 +73,10 @@ namespace GKModule
 					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
 				}
 			}
+#if SETCONFIGTOFILE
+			/* Опция включения записи конфигурации в файл */
 			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
+#endif
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
 			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
 			{
@@ -80,39 +86,42 @@ namespace GKModule
 
 			XManager.UpdateConfiguration();
 		}
-
-		//public void ReadConfiguration(XDevice device)
-		//{
-		//    var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
-		//    ControllerDevices = new Dictionary<ushort, XDevice>();
-		//    DeviceConfiguration = new XDeviceConfiguration();
-		//    var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-		//    var rootDevice = new XDevice()
-		//    {
-		//        Driver = rootDriver,
-		//        DriverUID = rootDriver.UID
-		//    };
-		//    DeviceConfiguration.RootDevice = rootDevice;
-		//    ushort descriptorNo = 0;
-		//    int count = 0;
-		//    while (true)
-		//    {
-		//        descriptorNo++;
-		//        byte packNo = 1;
-		//        var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-		//        var data = new List<byte>(descriptorNoBytes);
-		//        data.Add(packNo);
-		//        var bytes = allbytes[count];
-		//        count ++;
-		//        if (bytes.Count < 5)
-		//            break;
-		//        if (bytes[3] == 0xff && bytes[4] == 0xff)
-		//            break;
-		//        Parce(bytes.Skip(3).ToList(), descriptorNo);
-		//    }
-		//    XManager.UpdateConfiguration();
-		//}
-
+#endif
+#if LOCALCONFIG
+		#region Чтение конфигурации из байтового потока
+		public void ReadConfiguration(XDevice device)
+		{
+			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
+			ControllerDevices = new Dictionary<ushort, XDevice>();
+			DeviceConfiguration = new XDeviceConfiguration();
+			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			var rootDevice = new XDevice()
+			{
+				Driver = rootDriver,
+				DriverUID = rootDriver.UID
+			};
+			DeviceConfiguration.RootDevice = rootDevice;
+			ushort descriptorNo = 0;
+			int count = 0;
+			while (true)
+			{
+				descriptorNo++;
+				byte packNo = 1;
+				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
+				var data = new List<byte>(descriptorNoBytes);
+				data.Add(packNo);
+				var bytes = allbytes[count];
+				count++;
+				if (bytes.Count < 5)
+					break;
+				if (bytes[3] == 0xff && bytes[4] == 0xff)
+					break;
+				Parce(bytes.Skip(3).ToList(), descriptorNo);
+			}
+			XManager.UpdateConfiguration();
+		}
+		#endregion
+#endif
 		void Parce(List<byte> bytes, int descriptorNo)
 		 {
 			var internalType = BytesHelper.SubstructShort(bytes, 0);

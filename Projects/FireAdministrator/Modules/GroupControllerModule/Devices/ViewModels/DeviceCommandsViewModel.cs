@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -13,7 +12,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
-using System.Linq;
+
 
 namespace GKModule.Models
 {
@@ -146,8 +145,6 @@ namespace GKModule.Models
 				//    return;
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				gkBinConfigurationReader.ReadConfiguration(device);
-				//var remoteDevice = gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-				//var localDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
 				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration);
 				DialogService.ShowModalWindow(deviceConfigurationViewModel);
 
