@@ -6,46 +6,79 @@ namespace GKModule.ViewModels
 {
 	public class PropertiesViewModel : BaseViewModel
 	{
-		public XDevice XDevice { get; private set; }
+		public XDevice Device { get; private set; }
 		public XDirection XDirection { get; private set; }
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<ShortPropertyViewModel> ShortProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
+		public bool HasAUParameters { get; private set; }
 
 		public PropertiesViewModel(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
-			{
-			}
-			XDevice = device;
+			Device = device;
+			Update();
+		}
+		public void Update()
+		{
 			StringProperties = new List<StringPropertyViewModel>();
-			ShortProperties = new List<ShortPropertyViewModel>();
-			BoolProperties = new List<BoolPropertyViewModel>();
 			EnumProperties = new List<EnumPropertyViewModel>();
-
-			if (device == null)
-				return;
-			foreach (var driverProperty in device.Driver.Properties)
+			if (Device != null)
 			{
-				switch (driverProperty.DriverPropertyType)
+				foreach (var driverProperty in Device.Driver.Properties)
 				{
-					case XDriverPropertyTypeEnum.EnumType:
-						EnumProperties.Add(new EnumPropertyViewModel(driverProperty, device));
-						break;
+					if (driverProperty.IsAUParameter)
+					{
+						switch (driverProperty.DriverPropertyType)
+						{
+							case XDriverPropertyTypeEnum.EnumType:
+								EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
+								break;
 
-					case XDriverPropertyTypeEnum.StringType:
-						StringProperties.Add(new StringPropertyViewModel(driverProperty, device));
-						break;
+							case XDriverPropertyTypeEnum.StringType:
+							case XDriverPropertyTypeEnum.IntType:
+							case XDriverPropertyTypeEnum.BoolType:
+								StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
+								break;
+						}
 
-					case XDriverPropertyTypeEnum.IntType:
-						ShortProperties.Add(new ShortPropertyViewModel(driverProperty, device));
-						break;
-
-					case XDriverPropertyTypeEnum.BoolType:
-						BoolProperties.Add(new BoolPropertyViewModel(driverProperty, device));
-						break;
+						HasAUParameters = true;
+					}
 				}
+			}
+
+			OnPropertyChanged("StringProperties");
+			OnPropertyChanged("EnumProperties");
+			UpdateDeviceParameterMissmatchType();
+		}
+
+		public void UpdateDeviceParameterMissmatchType()
+		{
+			if (StringProperties.Count + EnumProperties.Count > 0)
+			{
+				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
+				foreach (var auProperty in StringProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				foreach (var auProperty in EnumProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				DeviceParameterMissmatchType = maxDeviceParameterMissmatchType;
+			}
+		}
+
+		DeviceParameterMissmatchType _deviceParameterMissmatchType;
+		public DeviceParameterMissmatchType DeviceParameterMissmatchType
+		{
+			get { return _deviceParameterMissmatchType; }
+			set
+			{
+				_deviceParameterMissmatchType = value;
+				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}
 	}

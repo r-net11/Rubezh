@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
-				_text = Convert.ToString(property.StringValue);
+				_text = Convert.ToString(property.Value);
 			else
 				_text = Convert.ToString(driverProperty.Default);
 		}
@@ -24,8 +24,7 @@ namespace GKModule.ViewModels
 			{
 				_text = value;
 				OnPropertyChanged("Text");
-				SaveStringValue(value);
-				_device.OnChanged();
+				Save(Convert.ToUInt16(value));
 			}
 		}
 	}

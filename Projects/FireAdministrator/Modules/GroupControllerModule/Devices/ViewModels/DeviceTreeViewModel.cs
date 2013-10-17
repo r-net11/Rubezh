@@ -11,7 +11,9 @@ namespace GKModule.ViewModels
 	{
 		public DeviceTreeViewModel(XDevice device, List<XZone> zones, List<XDirection> directions)
 		{
-			Objects = new ObservableCollection<ObjectViewModel>();
+			Devices = new List<ObjectViewModel>();
+			Zones = new List<ObjectViewModel>();
+			Directions = new List<ObjectViewModel>();
 			IitializeObjects(device, zones, directions);
 		}
 		void IitializeObjects(XDevice device, List<XZone> zones, List<XDirection> directions)
@@ -24,31 +26,33 @@ namespace GKModule.ViewModels
 			{
 				var objectViewModel = new ObjectViewModel(zone);
 				Objects.Add(objectViewModel);
+				Zones.Add(objectViewModel);
 			}
 			foreach (var direction in directions)
 			{
 				var objectViewModel = new ObjectViewModel(direction);
 				Objects.Add(objectViewModel);
+				Directions.Add(objectViewModel);
 			}
 		}
 
 		ObjectViewModel InitializeDevices(XDevice device)
 		{
 			var objectViewModel = new ObjectViewModel(device);
-			Objects.Add(objectViewModel);
+			if (!device.Driver.IsGroupDevice)
+			{
+				Objects.Add(objectViewModel);
+				Devices.Add(objectViewModel);
+			}
 			foreach (var childDevice in device.Children)
 			{
 				InitializeDevices(childDevice);
-				//var childObjectViewModel = InitializeDevices(childDevice);
-				//Objects.Add(childObjectViewModel);
 			}
 			return objectViewModel;
 		}
 
-		public static void CompareTrees(DeviceTreeViewModel deviceTreeViewModel1, DeviceTreeViewModel deviceTreeViewModel2)
+		public static void CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
 		{
-			var objects1 = deviceTreeViewModel1.Objects;
-			var objects2 = deviceTreeViewModel2.Objects;
 			int max = Math.Max(objects1.Count, objects2.Count);
 			for (int i = 0; i < max; i++)
 			{
@@ -112,7 +116,21 @@ namespace GKModule.ViewModels
 				ExpandChild(deviceViewModel);
 			}
 		}
-		public ObservableCollection<ObjectViewModel> Objects { get; set; }
+		public ObservableCollection<ObjectViewModel> Objects
+		{
+			get
+			{
+				var objects = new List<ObjectViewModel>();
+				objects.AddRange(Devices);
+				objects.AddRange(Zones);
+				objects.AddRange(Directions);
+				return new ObservableCollection<ObjectViewModel>(objects);
+			}
+		}
+
+		public List<ObjectViewModel> Devices { get; private set; }
+		public List<ObjectViewModel> Zones { get; private set; }
+		public List<ObjectViewModel> Directions { get; private set; }
 
 		ObjectViewModel _selectedObject;
 		public ObjectViewModel SelectedObject

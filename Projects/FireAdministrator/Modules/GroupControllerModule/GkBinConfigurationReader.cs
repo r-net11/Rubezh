@@ -1,4 +1,4 @@
-﻿//#define LOCALCONFIG
+﻿#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -127,7 +127,7 @@ namespace GKModule
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
-			//var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
+			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
 			if(internalType == 0)
 				return;
 			var letters = new List<byte>();
@@ -157,8 +157,8 @@ namespace GKModule
 				{
 					Driver = driver,
 					DriverUID = driver.UID,
-					IntAddress = (byte)(adressOnController % 256),
-					ShleifNo = (byte)(adressOnController / 256 + 1),
+					IntAddress = (byte)(physicalAdress % 256),
+					ShleifNo = (byte)(physicalAdress / 256 + 1),
 				};
 				if (driver.DriverType == XDriverType.GK)
 				{
