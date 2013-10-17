@@ -54,9 +54,9 @@ namespace GKModule.ViewModels
 
 		public bool FilterEventName(JournalItem journalItem)
 		{
-			if (JournalFilter.EventNames.Count > 0)
+            if (JournalFilter.EventNames.Count > 0)
 			{
-				return JournalFilter.EventNames.Contains(journalItem.Name);
+				return JournalFilter.EventNames.Any(x => x.Name == journalItem.Name);
 			}
 			return true;
 		}

@@ -132,6 +132,10 @@
         <Views:InstructionZonesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:InstructionDirectionsViewModel}">
+        <Views:InstructionDirectionsView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:InstructionDevicesViewModel}">
         <Views:InstructionsDevicesView />
     </DataTemplate>
@@ -150,6 +154,18 @@
 
     <DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
         <Views:GuardMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
+        <Views:OPCDevicesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:OPCZonesViewModel}">
+        <Views:OPCZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:OPCDirectionsViewModel}">
+        <Views:OPCDirectionsView />
     </DataTemplate>
 
 </ResourceDictionary>

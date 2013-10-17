@@ -29,6 +29,9 @@ namespace GKModule
 		FiltersViewModel FiltersViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
+		OPCDevicesViewModel OPCDevicesViewModel;
+		OPCZonesViewModel OPCZonesViewModel;
+		OPCDirectionsViewModel OPCDirectionsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
@@ -48,6 +51,9 @@ namespace GKModule
 			FiltersViewModel = new FiltersViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
+			OPCDevicesViewModel = new OPCDevicesViewModel();
+			OPCZonesViewModel = new OPCZonesViewModel();
+			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
 		}
@@ -62,6 +68,9 @@ namespace GKModule
 			GuardViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
+			OPCDevicesViewModel.Initialize();
+			OPCZonesViewModel.Initialize();
+			OPCDirectionsViewModel.Initialize();
 
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
@@ -79,7 +88,14 @@ namespace GKModule
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
-                    new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
+					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
+						new List<NavigationItem>()
+						{
+							new NavigationItem<ShowXOPCDevicesEvent, Guid>(OPCDevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+						}),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 				};
 		}
@@ -127,6 +143,7 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
+			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
 		}
 	}

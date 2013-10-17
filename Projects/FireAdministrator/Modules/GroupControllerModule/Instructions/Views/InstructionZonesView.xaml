@@ -12,7 +12,7 @@
         <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Выбранные зоны" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="Выбранные направления" Width="*" Binding="{Binding Zone.Name}" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
@@ -24,7 +24,7 @@
         <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}" MouseDoubleClick="SelectedAvailableZoneDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Зона" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTextColumn Header="Направление" Width="*" Binding="{Binding Zone.Name}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

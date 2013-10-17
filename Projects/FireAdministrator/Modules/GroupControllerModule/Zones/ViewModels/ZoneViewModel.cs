@@ -60,5 +60,18 @@ namespace GKModule.ViewModels
 			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
 			OnPropertyChanged(() => VisualizationState);
 		}
-    }
+
+		#region OPC
+		public bool IsOPCUsed
+		{
+			get { return Zone.IsOPCUsed; }
+			set
+			{
+				Zone.IsOPCUsed = value;
+				OnPropertyChanged("IsOPCUsed");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		#endregion
+	}
 }

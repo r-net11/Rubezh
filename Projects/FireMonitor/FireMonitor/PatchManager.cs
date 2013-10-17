@@ -25,33 +25,6 @@ namespace FireMonitor
 			if (patchNo > 0)
 				return;
 
-			var assembly = Assembly.GetEntryAssembly();
-			if (assembly != null)
-			{
-				var localFiresecDBFileName = Path.Combine(Path.GetDirectoryName(assembly.Location), "GkJournalDatabase.sdf");
-				var appDatalFiresecDBFileName = AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf");
-				if (File.Exists(localFiresecDBFileName))
-				{
-					if (File.Exists(appDatalFiresecDBFileName))
-					{
-						File.Delete(appDatalFiresecDBFileName);
-					}
-					File.Move(localFiresecDBFileName, appDatalFiresecDBFileName);
-				}
-			}
-			if (Directory.Exists("ClientSettings"))
-			{
-				Directory.Delete("ClientSettings", true);
-			}
-			if (Directory.Exists("Configuration"))
-			{
-				Directory.Delete("Configuration", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
-
 			PatchHelper.SetPatchNo("Monitor", 1);
 		}
 	}

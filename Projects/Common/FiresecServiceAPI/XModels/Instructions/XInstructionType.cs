@@ -7,7 +7,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Общая инструкция")]
 		General,
 
-		[DescriptionAttribute("Инструкция для зон и приборов")]
+		[DescriptionAttribute("Инструкция для устройств, зон и направлений")]
 		Details
 	}
 }

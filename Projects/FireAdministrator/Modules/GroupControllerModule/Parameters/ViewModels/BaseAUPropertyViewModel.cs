@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using GKModule.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.DeviceProperties
 {
@@ -22,10 +23,17 @@ namespace GKModule.DeviceProperties
 				Save(driverProperty.Default, false);
 			}
 
+			if (Device.DeviceProperties == null)
+			{
+				Device.DeviceProperties = new List<XProperty>();
+			}
+			
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{
-				DeviceAUParameterValue = Convert.ToString(deviceProperty.Value);
+				DeviceAUParameterValue = deviceProperty.Value.ToString();
+				//if ((deviceProperty.DriverProperty != null) && (deviceProperty.DriverProperty.DriverPropertyType == XDriverPropertyTypeEnum.EnumType))
+					//DeviceAUParameterValue = deviceProperty.DriverProperty.Parameters.FirstOrDefault(x => x.Value == deviceProperty.Value).Name;
 			}
 			else
 				DeviceAUParameterValue = "Неизвестно";
@@ -85,7 +93,7 @@ namespace GKModule.DeviceProperties
 		{
 			if (useSaveService)
 			{
-				ServiceFactory.SaveService.FSParametersChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);

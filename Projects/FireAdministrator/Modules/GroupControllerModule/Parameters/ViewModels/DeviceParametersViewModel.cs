@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common.GK;
 using Firesec_50;
 using FiresecAPI.XModels;
@@ -68,9 +69,9 @@ namespace GKModule.ViewModels
 			}
 			OnPropertyChanged("RootDevices");
 
-			 foreach (var deviceViewModel in AllDevices)
+			foreach (var deviceViewModel in AllDevices)
 			{
-			    deviceViewModel.Device.AUParametersChanged += () => { UpdateDeviceParameterMissmatch(); };
+				deviceViewModel.Device.AUParametersChanged += () => { UpdateDeviceParameterMissmatch(); };
 			}
 			UpdateDeviceParameterMissmatch();
 		}
@@ -170,7 +171,7 @@ namespace GKModule.ViewModels
 				//SelectedDevice.Device.Properties.Clear();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
 				SelectedDevice.Update();
-				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
+				ServiceFactory.SaveService.GKChanged = true; // TODO Для ГК свой флаг
 			}
 		}
 
@@ -185,6 +186,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				ReadDevices(devices);
 				foreach (var device in devices)
 				{
@@ -215,13 +217,22 @@ namespace GKModule.ViewModels
 
 		void WriteDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
 			DatabaseManager.Convert();
+			var i = 0;
 			foreach (var device in devices)
 			{
+				i++;
+				FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
 				ParametersHelper.SetSingleParameter(device);
+				Thread.Sleep(100);
 			}
 			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void ReadDevices(List<XDevice> devices)
@@ -310,7 +321,7 @@ namespace GKModule.ViewModels
 					deviceProperty.Value = property.Value;
 				}
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 
@@ -392,6 +403,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				if (Validate(devices))
 				{
 					foreach (var device in devices)
@@ -424,6 +436,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				foreach (var device in devices)
 				{
 					CopyFromDeviceToSystem(device);
@@ -457,7 +470,7 @@ namespace GKModule.ViewModels
 				};
 				device.Properties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void CopyFromSystemToDevice(XDevice device)
@@ -472,7 +485,7 @@ namespace GKModule.ViewModels
 				};
 				device.DeviceProperties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 
@@ -485,7 +498,7 @@ namespace GKModule.ViewModels
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
 					{
-						MessageBoxService.Show("Значение параметра \n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
 						return false;
 					}
 				}
@@ -522,20 +535,18 @@ namespace GKModule.ViewModels
 					device.Properties = new List<XProperty>();
 				foreach (var driverProperty in device.Driver.Properties)
 				{
-					if (driverProperty.IsAUParameter)
+					var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+					if (property == null)
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-						if (property == null)
+						property = new XProperty()
 						{
-							property = new XProperty()
-							{
-								Name = driverProperty.Name,
-								StringValue = driverProperty.StringDefault
-							};
-							device.Properties.Add(property);
-						}
-						property.DriverProperty = driverProperty;
+							Name = driverProperty.Name,
+							Value = driverProperty.Default,
+							StringValue = driverProperty.StringDefault
+						};
+						device.Properties.Add(property);
 					}
+					property.DriverProperty = driverProperty;
 				}
 				device.Properties.RemoveAll(x => x.DriverProperty == null);
 			}

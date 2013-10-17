@@ -106,7 +106,7 @@ namespace XFiresecAPI
 			{
 				if (journalFilter.EventNames == null)
 				{
-					journalFilter.EventNames = new List<string>();
+                    journalFilter.EventNames = new List<JournalDescriptionState>();
 					result = false;
 				}
 			}
@@ -173,6 +173,9 @@ namespace XFiresecAPI
 
 				if (device.Properties == null)
 					device.Properties = new List<XProperty>();
+
+				if (device.DeviceProperties == null)
+					device.DeviceProperties = new List<XProperty>();
 			}
 			foreach (var zone in Zones)
 			{

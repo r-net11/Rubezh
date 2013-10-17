@@ -6,8 +6,51 @@ ParameterTemplates	Шаблоны параметров
 	Name				Название
 	DeviceParameterTemplates	Парметры устройства
 		XDevice			Устройство
+
 RootDevice		Рутовое устройство
+	UID				Идентификатор
+	DriverUID			Идентификатор драйвера
+	ShleifNo			Номер шлейфа
+	IntAddress			Адрес(на шлейфе)
+	Description			Описание
+	PredefinedName			Предопределенное имя(для индикаторов, реле, выходов)
+	Children			Дети(такого же типа)
+	Properties			Свойства(не записываемые в устройство)
+		Name				Название
+		Value				Значение
+		StringValue			Строковое значение(например, ip адрес)
+	DeviceProperties		Свойства адресного устройства(записываемые в устройство)
+	ZoneUIDs			Идентификаторы зон
+	DeviceLogic			Логика
+		Clauses				Клаузы
+			ClauseConditionType		Условие Если/Если НЕ
+			StateType			Бит условия
+			ZoneUIDs			Идентификаторы зон
+			DeviceUIDs			Идентификаторы устройств
+			DirectionUIDs			Идентификаторы направлений
+			ClauseOperationType		Условие [Во всех из/в одной из][устройств/зон/направлений/]
+			ClauseJounOperationType
+		ZoneLogicMROMessageNo		Номер сообщения МРО
+		ZoneLogicMROMessageType		Тип добавления сообщения МРО(Добавить/Заменить)
+	IsNotUsed			Признак не использовать(для групповых РМ, АМ, АМП)
+	PumpStationProperty		Логика НС
+		DirectionUIDs			Идентификаторы направлений
+		PumpStationPumps		Насосы
+			DeviceUID			Идентификатор устройства
+			PumpStationPumpType		Тип насоса(основной/резервный)
+		PumpsCount			Количество основных насосов
+		DelayTime			Время разновременного пуска
+	PlanElementUIDs			Идентификаторы элементов на плане
+	AllowMultipleVizualization	Разрешить множественную визуализацию на плане
+	IsOPCUsed			Экспортировать в виде OPC тэга
 Zones			Зоны
+	UID			Идентификатор
+	No			Номер
+	Name			Название
+	Description		Описание
+	Fire1Count		Количество датчиков для перехода в состояние Пожар-1
+	Fire2Count		Количество датчиков для перехода в состояние Пожар-2
+	IsOPCUsed	Экспортировать в виде OPC тэга
 Directions		Направления
 JournalFilters		Фильтры журнала
 Instructions		Инструкции

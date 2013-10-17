@@ -66,5 +66,5 @@
     <DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
         <Views:DeviceTooltipView />
     </DataTemplate>
-    
+
 </ResourceDictionary>

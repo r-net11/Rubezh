@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 			var parameterTemplateViewModel = new ParameterTemplateViewModel(parameterTemplate);
 			ParameterTemplates.Add(parameterTemplateViewModel);
 			SelectedParameterTemplate = parameterTemplateViewModel;
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanRemove()
 		{
@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 			XManager.ParameterTemplates.RemoveAll(x => x.UID == SelectedParameterTemplate.ParameterTemplate.UID);
 			ParameterTemplates.Remove(SelectedParameterTemplate);
 			SelectedParameterTemplate = ParameterTemplates.FirstOrDefault();
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		public RelayCommand EditCommand { get; private set; }
 

@@ -13,6 +13,7 @@ namespace XFiresecAPI
 			UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
 			Devices = new List<Guid>();
+            Directions = new List<Guid>();
 			Name = "";
 			Text = "";
 		}
@@ -35,7 +36,10 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<Guid> Devices { get; set; }
 
-		[DataMember]
+        [DataMember]
+        public List<Guid> Directions { get; set; }
+
+        [DataMember]
 		public string Text { get; set; }
 
 		public bool HasText
@@ -56,5 +60,5 @@ namespace XFiresecAPI
 				return File.Exists(MediaSource);
 			}
 		}
-	}
+    }
 }

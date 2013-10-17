@@ -13,7 +13,7 @@ namespace Controls.Converters
 			var result = stateClass.ToDescription();
 			if (stateClass == XStateClass.Fire1)
 				return "Сработка 1";
-			if (stateClass == XStateClass.Fire1)
+			if (stateClass == XStateClass.Fire2)
 				return "Сработка 2";
 			XDevice device = parameter as XDevice;
 			if (device != null)

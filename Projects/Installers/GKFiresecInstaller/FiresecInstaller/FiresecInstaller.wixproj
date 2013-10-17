@@ -46,6 +46,8 @@
     <Compile Include="OPC\Files.wxs" />
     <Compile Include="OPC\Shortcuts.wxs" />
     <Compile Include="OPC\Uninstall.wxs" />
+    <Compile Include="SDK\Features.wxs" />
+    <Compile Include="SDK\Files.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
@@ -109,6 +111,7 @@
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="ManagementConsole" />
+    <Folder Include="SDK" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />

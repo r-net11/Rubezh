@@ -60,10 +60,10 @@ namespace GKProcessor
 			{
 				var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
 				var journalItem = internalJournalItem.ToJournalItem();
-				if (internalJournalItem != null && internalJournalItem.Device != null)
-				{
-					GetState(internalJournalItem.Device);
-				}
+				//if (internalJournalItem != null && internalJournalItem.Device != null)
+				//{
+				//    GetState(internalJournalItem.Device);
+				//}
 				return journalItem;
 			}
 			return null;
@@ -102,6 +102,20 @@ namespace GKProcessor
 				GKDBHelper.AddMany(journalItems);
 				ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 			}
+
+			var gkObjectNos = new HashSet<ushort>();
+			foreach (var journalItem in journalItems)
+			{
+				gkObjectNos.Add(journalItem.GKObjectNo);
+			}
+			foreach (var gkObjectNo in gkObjectNos)
+			{
+				var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == gkObjectNo);
+				if (binaryObject != null)
+				{
+					GetState(binaryObject.BinaryBase);
+				}
+			}
 		}
 
 		void ChangeAM1TMessage(BinaryObjectBase binaryObjectBase, JournalItem journalItem)
@@ -139,7 +153,7 @@ namespace GKProcessor
 			foreach (var direction in XManager.Directions)
 			{
 				bool mustGetState = false;
-				switch(direction.DirectionState.StateClass)
+				switch (direction.DirectionState.StateClass)
 				{
 					case XStateClass.TurningOn:
 						mustGetState = direction.DirectionState.OnDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
@@ -159,22 +173,25 @@ namespace GKProcessor
 
 			foreach (var device in XManager.Devices)
 			{
-				bool mustGetState = false;
-				switch (device.DeviceState.StateClass)
+				if (!device.Driver.IsGroupDevice)
 				{
-					case XStateClass.TurningOn:
-						mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.On:
-						mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.TurningOff:
-						mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-						break;
-				}
-				if (mustGetState)
-				{
-					GetState(device);
+					bool mustGetState = false;
+					switch (device.DeviceState.StateClass)
+					{
+						case XStateClass.TurningOn:
+							mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+						case XStateClass.On:
+							mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+						case XStateClass.TurningOff:
+							mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							break;
+					}
+					if (mustGetState)
+					{
+						GetState(device);
+					}
 				}
 			}
 		}

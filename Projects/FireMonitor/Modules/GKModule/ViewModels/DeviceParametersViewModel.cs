@@ -49,33 +49,24 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public override void OnShow()
+		int _percentsCompleted;
+		public int PercentsCompleted
 		{
-			CancelBackgroundWorker = false;
-			foreach (var device in Devices)
+			get { return _percentsCompleted; }
+			set
 			{
-				device.IsCurrent = false;
+				_percentsCompleted = value;
+				OnPropertyChanged("PercentsCompleted");
 			}
-
-			if (BackgroundWorker == null)
-			{
-				BackgroundWorker = new BackgroundWorker();
-				BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
-				BackgroundWorker.RunWorkerAsync();
-			}
-		}
-
-		public override void OnHide()
-		{
-			CancelBackgroundWorker = true;
 		}
 
 		void UpdateAuParameters(object sender, DoWorkEventArgs e)
 		{
 			while (true)
 			{
-				foreach (var deviceParameterViewModel in Devices)
+				for (int i = 0; i < Devices.Count; i++)
 				{
+					var deviceParameterViewModel = Devices[i];
 					if (CancelBackgroundWorker)
 					{
 						Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -96,6 +87,19 @@ namespace GKModule.ViewModels
 					deviceParameterViewModel.IsCurrent = true;
 					ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
 					deviceParameterViewModel.IsCurrent = false;
+
+					if (deviceParameterViewModel.Smokiness == "опрос")
+						deviceParameterViewModel.Smokiness = "ошибка";
+					if (deviceParameterViewModel.Temperature == "опрос")
+						deviceParameterViewModel.Temperature = "ошибка";
+					if (deviceParameterViewModel.Dustinness == "опрос")
+						deviceParameterViewModel.Dustinness = "ошибка";
+					if (deviceParameterViewModel.LastServiceTime == "опрос")
+						deviceParameterViewModel.LastServiceTime = "ошибка";
+					if (deviceParameterViewModel.Resistance == "опрос")
+						deviceParameterViewModel.Resistance = "ошибка";
+
+					PercentsCompleted = ((i + 1) * 100) / Devices.Count;
 				}
 			}
 		}
@@ -131,6 +135,27 @@ namespace GKModule.ViewModels
 						break;
 				}
 			}
+		}
+
+		public override void OnShow()
+		{
+			CancelBackgroundWorker = false;
+			foreach (var device in Devices)
+			{
+				device.IsCurrent = false;
+			}
+
+			if (BackgroundWorker == null)
+			{
+				BackgroundWorker = new BackgroundWorker();
+				BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+				BackgroundWorker.RunWorkerAsync();
+			}
+		}
+
+		public override void OnHide()
+		{
+			CancelBackgroundWorker = true;
 		}
 	}
 }

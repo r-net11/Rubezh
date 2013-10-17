@@ -11,17 +11,17 @@ namespace XFiresecAPI
 		{
 			ClauseJounOperationType = ClauseJounOperationType.Or;
 			StateType = XStateBit.Fire1;
-			ZoneUIDs = new List<Guid>();
 			DeviceUIDs = new List<Guid>();
+			ZoneUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
 
-			Zones = new List<XZone>();
 			Devices = new List<XDevice>();
+			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 		}
 
-		public List<XZone> Zones { get; set; }
 		public List<XDevice> Devices { get; set; }
+		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 
 		[DataMember]
@@ -31,10 +31,10 @@ namespace XFiresecAPI
 		public XStateBit StateType { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> DeviceUIDs { get; set; }
 
 		[DataMember]
-		public List<Guid> DeviceUIDs { get; set; }
+		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }

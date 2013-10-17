@@ -6,4 +6,5 @@
   <?define Administrator.TargetFileName="FireAdministrator.exe"?>
   <?define Administrator.TargetPath="..\..\..\..\..\FireAdministrator\bin\Release\FireAdministrator.exe"?>
   <?define Administrator.Deploy.TargetDir="..\..\..\..\..\Deploy\ConfigurationAdministrator\"?>
+  <?define Administrator.DeployFirmware.TargetDir="..\..\..\..\..\Deploy\GKFirmware\"?>
 </Include>

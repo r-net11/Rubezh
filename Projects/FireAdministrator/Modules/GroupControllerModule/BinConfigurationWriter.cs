@@ -8,6 +8,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.Diagnostics;
+using FiresecClient;
 
 namespace GKModule
 {
@@ -101,9 +102,10 @@ namespace GKModule
 						}
 						if (!GoToWorkingRegime(gkDatabase.RootDevice))
 						{
-							//error = "Не удалось перевести ГК в рабочий режим";
+							error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
+						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 						return;
 					}
 					if (error != null)
@@ -258,10 +260,14 @@ namespace GKModule
 		public static bool GoToWorkingRegime(XDevice device)
 		{
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
+			if (LoadingService.IsCanceled)
+				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 100; i++)
 			{
+				if (LoadingService.IsCanceled)
+					return true;
 				var sendResult = SendManager.Send(device, 0, 1, 1);
 				if (!sendResult.HasError)
 				{

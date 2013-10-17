@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
+using Common.GK;
 
 namespace FireAdministrator
 {
@@ -52,6 +53,8 @@ namespace FireAdministrator
 		{
 			if (e.Cancel)
 				return;
+
+			GKDBHelper.AddMessage("Выход пользователя из системы", FiresecManager.CurrentUser.Name);
 
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)

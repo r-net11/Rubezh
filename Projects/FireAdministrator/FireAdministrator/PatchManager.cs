@@ -25,15 +25,6 @@ namespace FireAdministrator
 			if (patchNo > 0)
 				return;
 
-			if (Directory.Exists("Configuration"))
-			{
-				Directory.Delete("Configuration", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
-
 			PatchHelper.SetPatchNo("Administrator", 1);
 		}
 	}

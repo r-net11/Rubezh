@@ -1,0 +1,36 @@
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <property name="debug" value="true"/>
+  <property name="intellectFolder" value="..\..\ItvIntegration"/>
+
+  <property name="ToPlansFolder" value="..\..\ItvIntegration\Projects\Common\Infrustructure.Plans"/>
+  <property name="FromPlansFolder" value="..\Projects\Common\Infrustructure.Plans"/>
+
+  <target name="run">
+    <call target="Copy" />
+  </target>
+
+  <target name="Copy">
+    <copy todir="..\Projects\GKSDK\Assemblies" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\GKSDK\GKSDK\bin\Debug">
+        <include name="Common.dll" />
+        <include name="Common.GK.dll" />
+        <include name="Controls.dll" />
+        <include name="Firesec.dll" />
+        <include name="FiresecAPI.dll" />
+        <include name="FiresecClient.dll" />
+        <include name="FS2API.dll" />
+        <include name="FS2Client.dll" />
+        <include name="FSAgentAPI.dll" />
+        <include name="FSAgentClient.dll" />
+        <include name="GKProcessor.dll" />
+        <include name="Infrastructure.Common.dll" />
+        <include name="Infrustructure.Plans.dll" />
+        <include name="Microsoft.Practices.Prism.dll" />
+        <include name="Xceed.Wpf.Toolkit.dll" />
+        <include name="NLog.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+</project>

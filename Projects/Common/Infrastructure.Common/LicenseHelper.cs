@@ -26,18 +26,22 @@ namespace Infrastructure.Common
             GCHandle pinnedArray = GCHandle.Alloc(bytesarray, GCHandleType.Pinned);
             IntPtr pointer = pinnedArray.AddrOfPinnedObject();
 			uint statusNew = 0;
-            try
-            {
-                statusNew = hasp_login(4294901762, pointer, 0);
-                if ((isMultiClient) && (statusNew != 0x07))
-                    return true;
-            }
-            catch(AccessViolationException e)
-            {
-                pinnedArray.Free();
-                var status = hasp_logout(0);
-                return true;
-            }
+			try
+			{
+				statusNew = hasp_login(4294901762, pointer, 0);
+				if ((isMultiClient) && (statusNew != 0x07))
+					return true;
+			}
+			catch (DllNotFoundException e1)
+			{
+				return false;
+			}
+			catch (AccessViolationException e)
+			{
+				pinnedArray.Free();
+				var status = hasp_logout(0);
+				return true;
+			}
 			pinnedArray.Free();
 			if (statusNew == 0)
 				return true;

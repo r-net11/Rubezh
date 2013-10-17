@@ -9,6 +9,7 @@ namespace Common.GK
 {
     public static class GKDBHelper
     {
+		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 
@@ -59,7 +60,7 @@ namespace Common.GK
 
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
 				using (var dataContext = new SqlCeConnection(ConnectionString))
 				{
@@ -156,11 +157,11 @@ namespace Common.GK
 								query += ")";
 							}
 
-							if (archiveFilter.EventNames.Count > 0)
+							if (archiveFilter.JournalDescriptionState.Count > 0)
 							{
 								query += "\n AND (";
 								int index = 0;
-								foreach (var eventName in archiveFilter.EventNames)
+								foreach (var eventName in archiveFilter.JournalDescriptionState)
 								{
 									if (index > 0)
 										query += "\n OR ";

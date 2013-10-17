@@ -45,7 +45,10 @@
                                             <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="16" Source="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}"/>
+                                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" Margin="2"/>    
+                                                        </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -54,7 +57,11 @@
 											    ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
+                                                            <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Margin="2"/>
+                                                        </StackPanel>
+                                                        
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>

@@ -52,6 +52,7 @@ namespace Infrastructure.Designer
 			};
 			editItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.EditCommand"));
 			ContextMenu = new ContextMenu();
+			ContextMenu.HasDropShadow = false;
 			ContextMenu.Items.Add(pasteItem);
 			ContextMenu.Items.Add(editItem);
 			_moveAdorner = new MoveAdorner(this);

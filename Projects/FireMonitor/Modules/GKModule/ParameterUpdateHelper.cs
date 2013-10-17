@@ -25,7 +25,6 @@ namespace GKModule
 				foreach (var auParameter in device.Driver.AUParameters)
 				{
 					var bytes = new List<byte>();
-					var databaseNo = device.GetDatabaseNo(DatabaseType.Kau);
 					bytes.Add((byte)device.Driver.DriverTypeNo);
 					bytes.Add(device.IntAddress);
 					bytes.Add((byte)(device.ShleifNo - 1));
@@ -33,7 +32,7 @@ namespace GKModule
 					var result = SendManager.Send(device.KauDatabaseParent, 4, 131, 2, bytes);
 					if (!result.HasError)
 					{
-						for (int i = 0; i < 100; i++)
+						for (int i = 0; i < 1000; i++)
 						{
 							var no = device.GetDatabaseNo(DatabaseType.Gk);
 							result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));

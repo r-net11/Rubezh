@@ -11,12 +11,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">
                     <Border Name="Border" Background="White" BorderBrush="Black" BorderThickness="1">
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="-8 0 0 0" />
                     </Border>
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="HasDropShadow" Value="true">
-                            <Setter TargetName="Border" Property="Padding" Value="0,3,0,3"/>
-                            <Setter TargetName="Border" Property="CornerRadius" Value="4"/>
+                            <!--<Setter TargetName="Border" Property="CornerRadius" Value="4"/>-->
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -202,8 +202,8 @@
     <Style TargetType="{x:Type local:XDataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
         <Setter Property="ContextMenu">
             <Setter.Value>
-                <ContextMenu>
-                    <MenuItem Command="{Binding AddCommand}" >
+                <ContextMenu OverridesDefaultStyle="True">
+                    <MenuItem Command="{Binding AddCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Controls;component/Images/BlueAdd.png" Width="16" VerticalAlignment="Center"/>

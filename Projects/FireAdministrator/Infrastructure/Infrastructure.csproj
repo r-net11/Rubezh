@@ -132,6 +132,9 @@
     <Compile Include="Events\ShowOPCSettingsEvent.cs" />
     <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowDevicePropertiesEvent.cs" />
+    <Compile Include="Events\ShowXOPCDevicesEvent.cs" />
+    <Compile Include="Events\ShowXOPCZonesEvent.cs" />
+    <Compile Include="Events\ShowXOPCDirectionsEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />

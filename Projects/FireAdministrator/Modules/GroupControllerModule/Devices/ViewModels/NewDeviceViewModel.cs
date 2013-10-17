@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
 			{
-				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
+				if (driver.DriverType == XDriverType.AMP_1)
 					continue;
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);

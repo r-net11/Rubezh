@@ -34,7 +34,16 @@
                             <TextBlock Text="{Binding JournalFilterViewModel.JournalFilter.Description, Mode=OneWay}" FontWeight="Bold" Visibility="{Binding JournalFilterViewModel.HasDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <TextBlock Text="{Binding JournalFilterViewModel.LastRecordsCountString, Mode=OneWay}"/>
                             <TextBlock Text="События:" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <ItemsControl ItemsSource="{Binding JournalFilterViewModel.JournalFilter.EventNames, Mode=OneWay}" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <ItemsControl ItemsSource="{Binding JournalFilterViewModel.JournalFilter.EventNames, Mode=OneWay}" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                             <TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <ItemsControl ItemsSource="{Binding JournalFilterViewModel.StateClasses}" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ItemsControl.ItemTemplate>

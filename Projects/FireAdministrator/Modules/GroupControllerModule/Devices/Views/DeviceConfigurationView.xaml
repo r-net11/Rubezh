@@ -33,13 +33,13 @@
                 </Trigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Device.HasMissingDifferences}" Value="true" />
+                        <Condition Binding="{Binding HasMissingDifferences}" Value="true" />
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="Red" />
                 </MultiDataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Device.HasDifferences}" Value="true" />
+                        <Condition Binding="{Binding HasDifferences}" Value="true" />
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Background" Value="Pink" />
                 </MultiDataTrigger>
@@ -83,7 +83,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" DataContext="{Binding LocalDevice}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+            <DataGrid Grid.Column="0" DataContext="{Binding LocalDeviceViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
                       Name="DataGrid1" ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
                       CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
@@ -93,22 +93,22 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Name="textBlock" Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Name="textBlock" Text="{Binding PresentationName}" HorizontalAlignment="Stretch" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Адрес" Width="50">
+                    <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" />
+                                <TextBlock Text="{Binding PresentationAddress}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Grid.Column="1" DataContext= "{Binding RemoteDevice}" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
+            <DataGrid Grid.Column="1" DataContext= "{Binding RemoteDeviceViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
                       Name="DataGrid2" ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
                       CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
@@ -118,16 +118,16 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Stretch" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Адрес" Width="50">
+                    <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" />
+                                <TextBlock Text="{Binding PresentationAddress}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

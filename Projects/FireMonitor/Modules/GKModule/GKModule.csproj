@@ -83,10 +83,12 @@
     <Compile Include="Alarms\Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Alarms\Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
-    <Compile Include="Alarms\Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
@@ -115,7 +117,7 @@
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
@@ -195,7 +197,7 @@
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Watcher\UsersWatchManager.cs" />
-    <Compile Include="GKModuleLoader.cs" />
+    <Compile Include="Watcher\GKModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

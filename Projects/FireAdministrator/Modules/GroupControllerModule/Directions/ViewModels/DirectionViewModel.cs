@@ -291,13 +291,26 @@ namespace GKModule.ViewModels
 		{
 			get { return _visualizetionState; }
 		}
-		public void Update(XDirection xdirection)
+		public void Update(XDirection direction)
 		{
-			Direction = xdirection;
+			Direction = direction;
 			OnPropertyChanged("Direction");
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 			Update();
 		}
+
+		#region OPC
+		public bool IsOPCUsed
+		{
+			get { return Direction.IsOPCUsed; }
+			set
+			{
+				Direction.IsOPCUsed = value;
+				OnPropertyChanged("IsOPCUsed");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		#endregion
 	}
 }
