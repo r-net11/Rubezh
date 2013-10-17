@@ -117,6 +117,12 @@ namespace Infrastructure.Common.TreeList
 		{
 			SortDirection = column == SortColumn ? (SortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending) : ListSortDirection.Ascending;
 			SortColumn = column;
+			RunSort(itemComparer);
+		}
+		public void RunSort(IItemComparer itemComparer)
+		{
+			if (SortDirection == null)
+				SortDirection = ListSortDirection.Ascending;
 			ItemComparer = itemComparer;
 			var selected = SelectedTreeNode;
 			Sort();

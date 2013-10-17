@@ -76,6 +76,7 @@ namespace Infrastructure.Common
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("DeviceLibraryConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceConfiguration", 1, 1));
 					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("XDeviceLibraryConfiguration", 1, 1));
+					zipConfigurationItemsCollection.ZipConfigurationItems.Add(new FiresecAPI.Models.ZipConfigurationItem("LayoutsConfiguration", 1, 1));
 					AddConfigurationToZip(zipFile, zipConfigurationItemsCollection, "ZipConfigurationItemsCollection.xml");
 				}
 

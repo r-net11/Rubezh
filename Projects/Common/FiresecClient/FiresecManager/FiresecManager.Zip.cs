@@ -42,33 +42,29 @@ namespace FiresecClient
 							SecurityConfiguration = ZipSerializeHelper.DeSerialize<SecurityConfiguration>(configurationFileName);
 							isFullConfiguration = true;
 							break;
-
 						case "PlansConfiguration.xml":
 							PlansConfiguration = ZipSerializeHelper.DeSerialize<PlansConfiguration>(configurationFileName);
 							break;
-
 						case "SystemConfiguration.xml":
 							SystemConfiguration = ZipSerializeHelper.DeSerialize<SystemConfiguration>(configurationFileName);
 							break;
-
 						case "DriversConfiguration.xml":
 							FiresecConfiguration.DriversConfiguration = ZipSerializeHelper.DeSerialize<DriversConfiguration>(configurationFileName);
 							break;
-
 						case "DeviceConfiguration.xml":
 							FiresecConfiguration.DeviceConfiguration = ZipSerializeHelper.DeSerialize<DeviceConfiguration>(configurationFileName);
 							break;
-
 						case "DeviceLibraryConfiguration.xml":
 							DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<DeviceLibraryConfiguration>(configurationFileName);
 							break;
-
 						case "XDeviceConfiguration.xml":
 							XManager.DeviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(configurationFileName);
 							break;
-
 						case "XDeviceLibraryConfiguration.xml":
 							XManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationFileName);
+							break;
+						case "LayoutsConfiguration.xml":
+							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName);
 							break;
 					}
 				}

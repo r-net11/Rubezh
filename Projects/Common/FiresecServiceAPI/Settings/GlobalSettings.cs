@@ -119,7 +119,7 @@ namespace FiresecAPI
 		public List<string> GetModules()
 		{
 
-			var modules = Modules.Replace("\r\n", ";").Split(';');
+			var modules = Modules.Trim().Replace("\r\n", ";").Split(';');
 			return modules.ToList();
 		}
 

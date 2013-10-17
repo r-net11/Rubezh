@@ -160,6 +160,17 @@ namespace Infrastructure
 			}
 		}
 
+		bool _layoutsChanged;
+		public bool LayoutsChanged
+		{
+			get { return _layoutsChanged; }
+			set
+			{
+				_layoutsChanged = value;
+				OnChanged();
+			}
+		}
+		 
 		public event Action Changed;
 		private void OnChanged()
 		{
@@ -171,7 +182,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || LayoutsChanged;
 			}
 		}
 
@@ -201,6 +212,7 @@ namespace Infrastructure
 			CamerasChanged = value;
 			OPCChanged = value;
 			EmailsChanged = value;
+			LayoutsChanged = value;
 			OnChanged();
 		}
 	}
