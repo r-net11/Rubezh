@@ -13,7 +13,7 @@ namespace Common.GK
 			JournalItemTypes = new List<JournalItemType>();
 			StateClasses = new List<XStateClass>();
 			GKAddresses = new List<string>();
-			Events = new List<XEvent>();
+            JournalDescriptionState = new List<JournalDescriptionState>();
 			UseDeviceDateTime = false;
 
 			DeviceUIDs = new List<Guid>();
@@ -27,7 +27,7 @@ namespace Common.GK
 		public List<JournalItemType> JournalItemTypes { get; set; }
 		public List<XStateClass> StateClasses { get; set; }
 		public List<string> GKAddresses { get; set; }
-		public List<XEvent> Events { get; set; }
+        public List<JournalDescriptionState> JournalDescriptionState { get; set; }
 		public List<Guid> DeviceUIDs { get; set; }
 		public List<Guid> ZoneUIDs { get; set; }
 		public List<Guid> DirectionUIDs { get; set; }

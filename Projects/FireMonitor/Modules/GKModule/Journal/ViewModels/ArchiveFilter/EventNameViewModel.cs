@@ -7,14 +7,14 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class EventNameViewModel : BaseViewModel
+    public class JournalDescriptionStateViewModel : BaseViewModel
     {
-        public EventNameViewModel(XEvent xEvent)
+        public JournalDescriptionStateViewModel(JournalDescriptionState journalDescriptionState)
         {
-            XEvent = xEvent;
+            JournalDescriptionState = journalDescriptionState;
         }
 
-        public XEvent XEvent { get; private set; }
+        public JournalDescriptionState JournalDescriptionState { get; private set; }
 
         bool _isChecked;
         public bool IsChecked

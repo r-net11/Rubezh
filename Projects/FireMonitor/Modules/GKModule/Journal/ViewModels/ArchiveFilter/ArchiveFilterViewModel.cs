@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			InitializeJournalItemTypes(archiveFilter);
 			InitializeStateClasses(archiveFilter);
 			InitializeGKAddresses(archiveFilter);
-			InitializeEventNames(archiveFilter);
+			InitializeJournalDescriptionStates(archiveFilter);
 			InitializeDevices(archiveFilter);
 			InitializeZones(archiveFilter);
 			InitializeDirections(archiveFilter);
@@ -94,16 +94,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void InitializeEventNames(XArchiveFilter archiveFilter)
+		public void InitializeJournalDescriptionStates(XArchiveFilter archiveFilter)
 		{
-			EventNames = new List<EventNameViewModel>();
-			foreach (var xEvent in EventHelper.GetAllEvents())
+			JournalDescriptionStates = new List<JournalDescriptionStateViewModel>();
+            foreach (var xEvent in JournalDescriptionStateHelper.JournalDescriptionStates)
 			{
-				EventNames.Add(new EventNameViewModel(xEvent));
+				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(xEvent));
 			}
-			foreach (var xEvent in archiveFilter.Events)
+			foreach (var xEvent in archiveFilter.JournalDescriptionState)
 			{
-                var eventNameViewModel = EventNames.FirstOrDefault(x => x.XEvent == xEvent);
+                var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == xEvent);
 				if (eventNameViewModel != null)
 				{
 					eventNameViewModel.IsChecked = true;
@@ -291,7 +291,7 @@ namespace GKModule.ViewModels
 		public List<JournalItemTypeViewModel> JournalItemTypes { get; private set; }
 		public List<StateClassViewModel> StateClasses { get; private set; }
 		public List<GKAddressViewModel> GKAddresses { get; private set; }
-		public List<EventNameViewModel> EventNames { get; private set; }
+		public List<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
 
@@ -318,10 +318,10 @@ namespace GKModule.ViewModels
 				if (addresses.IsChecked)
 					archiveFilter.GKAddresses.Add(addresses.Address);
 			}
-			foreach (var eventName in EventNames)
+			foreach (var eventName in JournalDescriptionStates)
 			{
 				if (eventName.IsChecked)
-					archiveFilter.Events.Add(eventName.XEvent);
+                    archiveFilter.JournalDescriptionState.Add(eventName.JournalDescriptionState);
 			}
 			foreach (var archiveDevice in AllDevices)
 			{

@@ -106,7 +106,7 @@ namespace XFiresecAPI
 			{
 				if (journalFilter.EventNames == null)
 				{
-					journalFilter.EventNames = new List<XEvent>();
+                    journalFilter.EventNames = new List<JournalDescriptionState>();
 					result = false;
 				}
 			}

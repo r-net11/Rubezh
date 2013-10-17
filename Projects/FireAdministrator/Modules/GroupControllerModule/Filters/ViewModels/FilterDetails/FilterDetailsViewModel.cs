@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Common.GK;
 
 namespace GKModule.ViewModels
 {
@@ -19,10 +20,10 @@ namespace GKModule.ViewModels
 				StateClasses.Add(new FilterStateClassViewModel(stateClass));
 			}
 
-			EventNames = new ObservableCollection<XEventViewModel>();
-			foreach (var xEvent in EventHelper.GetAllEvents())
+			EventNames = new ObservableCollection<JournalDescriptionStateViewModel>();
+            foreach (var journalDescriptionState in JournalDescriptionStateHelper.JournalDescriptionStates)
 			{
-				EventNames.Add(new XEventViewModel(xEvent));
+                EventNames.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
 			}
 
 			if (journalFilter == null)
@@ -57,7 +58,7 @@ namespace GKModule.ViewModels
             {
                 foreach (var xEvent in JournalFilter.EventNames)
                 {
-                    if (xEvent.Name == eventViewModel.XEvent.Name)
+                    if (xEvent.Name == eventViewModel.JournalDescriptionState.Name)
                         eventViewModel.IsChecked = true;
                 }
             }
@@ -97,7 +98,7 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<FilterStateClassViewModel> StateClasses { get; private set; }
-		public ObservableCollection<XEventViewModel> EventNames { get; private set; }
+		public ObservableCollection<JournalDescriptionStateViewModel> EventNames { get; private set; }
 
 		List<XStateClass> GetAvailableStateClasses()
 		{
@@ -121,7 +122,7 @@ namespace GKModule.ViewModels
 			JournalFilter.Description = Description;
 			JournalFilter.LastRecordsCount = LastRecordsCount;
 			JournalFilter.StateClasses = StateClasses.Where(x => x.IsChecked).Select(x => x.StateClass).Cast<XStateClass>().ToList();
-            JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.XEvent).ToList();
+            JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.JournalDescriptionState).ToList();
 			return base.Save();
 		}
 	}

@@ -157,11 +157,11 @@ namespace Common.GK
 								query += ")";
 							}
 
-							if (archiveFilter.Events.Count > 0)
+							if (archiveFilter.JournalDescriptionState.Count > 0)
 							{
 								query += "\n AND (";
 								int index = 0;
-								foreach (var eventName in archiveFilter.Events)
+								foreach (var eventName in archiveFilter.JournalDescriptionState)
 								{
 									if (index > 0)
 										query += "\n OR ";
