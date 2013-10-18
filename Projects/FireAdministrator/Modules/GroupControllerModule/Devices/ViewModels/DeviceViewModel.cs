@@ -9,9 +9,11 @@ using System.Windows.Shapes;
 using Common.GK;
 using DeviceControls;
 using FiresecAPI.Models;
+using FiresecAPI.XModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
@@ -47,6 +49,12 @@ namespace GKModule.ViewModels
 			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
+			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
+			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
+			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
+
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -54,12 +62,139 @@ namespace GKModule.ViewModels
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
-			device.Changed += new System.Action(OnChanged);
+			device.Changed += OnChanged;
 
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
-			device.AUParametersChanged += () => { UpdateProperties(); };
+			device.AUParametersChanged += UpdateProperties;
 		}
+
+		#region Capy and Paste
+		public static XDriver DriverCopy;
+		public static List<XProperty> PropertiesCopy;
+
+		public RelayCommand CopyParamCommand { get; private set; }
+		void OnCopy()
+		{
+			DriverCopy = Device.Driver;
+			PropertiesCopy = new List<XProperty>();
+			foreach (var property in Device.Properties)
+			{
+				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null && driverProperty.IsAUParameter)
+				{
+					var propertyCopy = new XProperty()
+					{
+						StringValue = property.StringValue,
+						Name = property.Name,
+						Value = property.Value
+					};
+					PropertiesCopy.Add(propertyCopy);
+				}
+			}
+		}
+		bool CanCopy()
+		{
+			return HasAUProperties;
+		}
+
+		public RelayCommand PasteParamCommand { get; private set; }
+		void OnPaste()
+		{
+			CopyParametersFromBuffer(Device);
+			PropertiesViewModel.Update();
+			//UpdateDeviceParameterMissmatch();
+		}
+		bool CanPaste()
+		{
+			return DriverCopy != null && Device.Driver.DriverType == DriverCopy.DriverType;
+		}
+
+		public RelayCommand PasteAllParamCommand { get; private set; }
+		void OnPasteAll()
+		{
+			foreach (var device in XManager.GetAllDeviceChildren(Device))
+			{
+				CopyParametersFromBuffer(device);
+			}
+			PropertiesViewModel.Update();
+			//UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteAll()
+		{
+			return Children.Count() > 0 && DriverCopy != null;
+		}
+
+		static void CopyParametersFromBuffer(XDevice device)
+		{
+			foreach (var property in PropertiesCopy)
+			{
+				var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (deviceProperty != null)
+				{
+					deviceProperty.Value = property.Value;
+				}
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		#endregion
+
+		#region Template
+		public RelayCommand PasteTemplateCommand { get; private set; }
+		void OnPasteTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
+				PropertiesViewModel.Update();
+			}
+			//UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteTemplate()
+		{
+			return HasAUProperties;
+		}
+
+		public RelayCommand PasteAllTemplateCommand { get; private set; }
+		void OnPasteAllTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				var devices = XManager.GetAllDeviceChildren(Device);
+				devices.Add(Device);
+				foreach (var device in devices)
+				{
+					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.PropertiesViewModel.Update();
+				}
+			}
+			//UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteAllTemplate()
+		{
+			return Children.Count() > 0;
+		}
+
+		static void CopyParametersFromTemplate(XParameterTemplate parameterTemplate, XDevice device)
+		{
+			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == device.Driver.UID);
+			if (deviceParameterTemplate != null)
+			{
+				foreach (var property in deviceParameterTemplate.XDevice.Properties)
+				{
+					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty != null)
+					{
+						deviceProperty.Value = property.Value;
+					}
+				}
+			}
+		}
+		#endregion
 
 		public RelayCommand WriteCommand { get; private set; }
 		public RelayCommand SyncFromSystemToDeviceCommand { get; private set; }
@@ -76,7 +211,6 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-
 
 		public RelayCommand WriteAllCommand { get; private set; }
 		public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
@@ -157,12 +291,12 @@ namespace GKModule.ViewModels
 			return Children.Count() > 0;
 		}
 
-		void CopyFromDeviceToSystem(XDevice device)
+		static void CopyFromDeviceToSystem(XDevice device)
 		{
 			device.Properties.RemoveAll(x => x.Name != "IPAddress");
 			foreach (var property in device.DeviceProperties)
 			{
-				var clonedProperty = new XProperty()
+				var clonedProperty = new XProperty
 				{
 					Name = property.Name,
 					Value = property.Value
@@ -172,7 +306,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
-		void CopyFromSystemToDevice(XDevice device)
+		static void CopyFromSystemToDevice(XDevice device)
 		{
 			device.DeviceProperties.Clear();
 			foreach (var property in device.Properties)
@@ -187,7 +321,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.FSParametersChanged = true;
 		}
 
-		bool Validate(List<XDevice> devices)
+		bool Validate(IEnumerable<XDevice> devices)
 		{
 			foreach (var device in devices)
 			{
@@ -204,7 +338,7 @@ namespace GKModule.ViewModels
 			return true;
 		}
 
-		bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
+		static bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
 		{
 			int value;
 			return
@@ -221,9 +355,9 @@ namespace GKModule.ViewModels
 		{
 			if (CheckNeedSave())
 			{
-				ReadDevices(new List<XDevice>() { Device });
+				ReadDevices(new List<XDevice> { Device });
 				PropertiesViewModel.Update();
-				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -254,14 +388,14 @@ namespace GKModule.ViewModels
 			return devices;
 		}
 
-		bool CheckNeedSave()
+		static bool CheckNeedSave()
 		{
 			if (ServiceFactory.SaveService.FSChanged)
 			{
-				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == MessageBoxResult.Yes)
 				{
 					var cancelEventArgs = new CancelEventArgs();
-					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					ServiceFactoryBase.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;
 				}
 				return false;
@@ -360,7 +494,7 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.SaveService.GKChanged = true;
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
-				GKModule.Plans.Designer.Helper.BuildMap();
+				Plans.Designer.Helper.BuildMap();
 			}
 		}
 		public bool CanAdd()
@@ -401,7 +535,7 @@ namespace GKModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			GKModule.Plans.Designer.Helper.BuildMap();
+			Plans.Designer.Helper.BuildMap();
 		}
 		bool CanRemove()
 		{
@@ -451,7 +585,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool _isZoneGrayed = false;
+		bool _isZoneGrayed;
 		public bool IsZoneGrayed
 		{
 			get { return _isZoneGrayed; }
@@ -479,8 +613,8 @@ namespace GKModule.ViewModels
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
 			IsSelected = true;
-			var plansElement = new ElementXDevice()
-			{
+			var plansElement = new ElementXDevice
+			                   	{
 				XDeviceUID = Device.UID
 			};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
@@ -494,7 +628,7 @@ namespace GKModule.ViewModels
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
 			var brush = DevicePictureCache.GetXBrush(Device);
-			return new Rectangle()
+			return new Rectangle
 			{
 				Fill = brush,
 				Height = PainterCache.PointZoom * PainterCache.Zoom,
@@ -506,7 +640,7 @@ namespace GKModule.ViewModels
 		void OnShowOnPlan()
 		{
 			if (Device.PlanElementUIDs.Count > 0)
-				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs);
+				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs);
 		}
 
 		public RelayCommand<bool> AllowMultipleVizualizationCommand { get; private set; }
@@ -576,7 +710,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
 			}
 		}
 		bool CanShowZone()
@@ -587,7 +721,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
 		}
 		bool CanShowParent()
 		{
@@ -602,7 +736,7 @@ namespace GKModule.ViewModels
 				if (Device.Driver.DriverType != value.DriverType)
 				{
 					XManager.ChangeDriver(Device, value);
-					this.Nodes.Clear();
+					Nodes.Clear();
 					foreach (var childDevice in Device.Children)
 					{
 						DevicesViewModel.Current.AddDevice(childDevice, this);
@@ -665,8 +799,6 @@ namespace GKModule.ViewModels
 
 			if (driver.IsAutoCreate)
 				return false;
-			//if (driver.IsGroupDevice)
-			//    return false;
 			if (Device.Parent.Driver.IsGroupDevice)
 				return false;
 			return driver.IsDeviceOnShleif;
@@ -688,15 +820,7 @@ namespace GKModule.ViewModels
 			get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
 		}
 
-		//public RelayCommand GetAUPropertiesCommand { get; private set; }
-		//void OnGetAUProperties()
-		//{
-		//    DatabaseManager.Convert();
-		//    ParametersHelper.GetSingleParameter(Device);
-		//    ServiceFactory.SaveService.GKChanged = true;
-		//}
-
-		void ReadDevices(List<XDevice> devices)
+		static void ReadDevices(IEnumerable<XDevice> devices)
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запрос параметров");
@@ -715,7 +839,7 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		void WriteDevices(List<XDevice> devices)
+		static void WriteDevices(IEnumerable<XDevice> devices)
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
@@ -734,14 +858,7 @@ namespace GKModule.ViewModels
 			//FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-
-		//public RelayCommand SetAUPropertiesCommand { get; private set; }
-		//void OnSetAUProperties()
-		//{
-		//    DatabaseManager.Convert();
-		//    ParametersHelper.SetSingleParameter(Device);
-		//}
-
+		
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }
 		void OnResetAUProperties()
 		{

@@ -171,7 +171,7 @@ namespace GKModule.ViewModels
 				//SelectedDevice.Device.Properties.Clear();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
 				SelectedDevice.Update();
-				ServiceFactory.SaveService.GKChanged = true; // TODO Для ГК свой флаг
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

@@ -90,8 +90,99 @@
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding ReadCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BParametersRead.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Считать параметры" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding ReadAllCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BParametersReadAll.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Считать параметры дочерних устройств" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding WriteCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BParametersWrite.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Записать параметры" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding WriteAllCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BParametersWriteAll.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Записать параметры дочерних устройств" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding CopyParamCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Копировать параметры" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding PasteParamCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Вставить параметры" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding PasteAllParamCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Вставить во все дочерние устройства" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding PasteTemplateCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BBriefcase.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Применить шаблон" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding PasteAllTemplateCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BBriefcaseAll.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Применить шаблон ко всем дочерним устройствам" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator />
+            <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BLeft.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Из устройства в систему" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BLeftLeft.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Из всех дочерних устройств в систему" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
         </ContextMenu>
-		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
@@ -321,8 +412,8 @@
                         <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
                         <Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadAll.png" />
                         <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
-                        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
-                        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
+                        <Controls:ToolBarButton Command="{Binding CopyParamCommand}" ToolTip="Копировать параметры (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
+                        <Controls:ToolBarButton Command="{Binding PasteParamCommand}" ToolTip="Вставить параметры (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
                     </StackPanel>
                 </Grid>
             </Grid>
