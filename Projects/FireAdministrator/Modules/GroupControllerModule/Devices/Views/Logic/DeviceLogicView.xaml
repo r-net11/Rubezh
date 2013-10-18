@@ -11,8 +11,6 @@
         <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
         <Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
         <Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
-        <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
-        <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
     </UserControl.Resources>
 
     <Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -134,7 +132,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsSonar, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsMRO_2M, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                         <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

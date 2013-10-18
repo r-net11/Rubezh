@@ -96,7 +96,7 @@ namespace GKModule.ViewModels
 		}
 
 		#region IsMRO_2M
-		public bool IsSonar
+		public bool IsMRO_2M
 		{
 			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
 		}
