@@ -94,7 +94,7 @@
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Name="textBlock" Text="{Binding PresentationName}" HorizontalAlignment="Stretch" />
+                                    <TextBlock Name="textBlock" Text="{Binding Name}" HorizontalAlignment="Stretch" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -102,7 +102,7 @@
                     <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationAddress}" />
+                                <TextBlock Text="{Binding Address}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -119,7 +119,7 @@
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsEnabled="False" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding PresentationName}" HorizontalAlignment="Stretch" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -127,7 +127,7 @@
                     <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationAddress}" />
+                                <TextBlock Text="{Binding Address}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
