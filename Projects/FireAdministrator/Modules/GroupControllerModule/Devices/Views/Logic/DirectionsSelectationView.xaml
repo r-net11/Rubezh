@@ -23,7 +23,16 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" Width="Auto"/>
+                    <GridViewColumn Header="№" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Выбранные направления" />
                     <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
                 </GridView>

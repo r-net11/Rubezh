@@ -6,6 +6,7 @@ using Infrastructure.Events;
 using SettingsModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
 
 namespace SettingsModule
 {
@@ -15,7 +16,9 @@ namespace SettingsModule
 
 		public override void CreateViewModels()
 		{
-			SettingsViewModel = new SettingsViewModel();
+            ServiceFactory.Events.GetEvent<EditValidationEvent>().Subscribe(OnEditValidation);
+            
+            SettingsViewModel = new SettingsViewModel();
 			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel("Настройки", SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
 		}
 
@@ -35,5 +38,11 @@ namespace SettingsModule
 		{
 			get { return "Настройки"; }
 		}
+
+        void OnEditValidation(object obj)
+        {
+            var errorsFilterViewModel = new ErrorsFilterViewModel();
+            DialogService.ShowModalWindow(errorsFilterViewModel);
+        }
 	}
 }

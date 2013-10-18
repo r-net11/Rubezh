@@ -28,5 +28,9 @@ namespace GKModule.Validation
 		{
 			get { return Object.DottedAddress; }
 		}
+        public override string ImageSource
+        {
+            get { return Object.Driver.ImageSource; }
+        }
 	}
 }
