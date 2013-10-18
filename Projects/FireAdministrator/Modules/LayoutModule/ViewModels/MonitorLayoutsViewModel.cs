@@ -67,11 +67,12 @@ namespace LayoutModule.ViewModels
 			set
 			{
 				using (new TimeCounter("MonitorLayoutsViewModel.SelectedPlan: {0}", true, true))
-				{
-					_selectedLayout = value;
-					OnPropertyChanged(() => SelectedLayout);
-					MonitorLayoutViewModel.LayoutViewModel = SelectedLayout;
-				}
+					if (value != SelectedLayout)
+					{
+						_selectedLayout = value;
+						OnPropertyChanged(() => SelectedLayout);
+						MonitorLayoutViewModel.LayoutViewModel = SelectedLayout;
+					}
 			}
 		}
 

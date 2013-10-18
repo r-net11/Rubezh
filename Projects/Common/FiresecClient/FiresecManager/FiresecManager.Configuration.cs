@@ -85,6 +85,7 @@ namespace FiresecClient
 			{
 				if (LayoutsConfiguration == null)
 					LayoutsConfiguration = new LayoutsConfiguration();
+				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
 				FiresecConfiguration.UpdateConfiguration();
 				UpdatePlansConfiguration();
