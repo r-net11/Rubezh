@@ -1,7 +1,11 @@
-﻿
-namespace Infrastructure.Common
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Common.GK
 {
-	public class PatchIndex
+    public class PatchIndex
     {
         public string Type { get; private set; }
         public string Id { get; private set; }

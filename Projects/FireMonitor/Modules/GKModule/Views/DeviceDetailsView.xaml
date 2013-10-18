@@ -129,7 +129,13 @@
             <TabItem Header="Параметры" Visibility="{Binding DevicePropertiesViewModel.HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                 <DataGrid ItemsSource="{Binding DevicePropertiesViewModel.Properties}" CanUserSortColumns="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" Width="*" />
+                        <DataGridTemplateColumn Width="*" Header="Параметр">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>

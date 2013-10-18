@@ -30,6 +30,7 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Grid.Row="0" Content="Название" HorizontalAlignment="Right" />
                     <Label Grid.Column="0" Grid.Row="1" Content="Состояние" HorizontalAlignment="Right" />

@@ -122,7 +122,6 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="FileConfigurationHelper.cs" />
-    <Compile Include="PatchManager.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\ValidationService.cs" />
