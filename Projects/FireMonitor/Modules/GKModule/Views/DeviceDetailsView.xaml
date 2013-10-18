@@ -50,24 +50,28 @@
                         <ItemsControl.Items>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
-                                <Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Driver.ImageSource}" />
                                 <WrapPanel>
                                     <TextBlock>
-									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
-									</Hyperlink>
+									    <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+										    <StackPanel Orientation="Horizontal">
+                                                <Image Width="16" Source="{Binding Device.Driver.ImageSource}" />
+                                                <TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Hyperlink>
 								</TextBlock>
                                 </WrapPanel>
                             </StackPanel>
 
                             <WrapPanel>
                                 <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Подключено к: " />
-                                <Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
                                 <TextBlock>
-								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.Driver.ShortName}" TextWrapping="Wrap" />
-								</Hyperlink>
-							</TextBlock>
+								    <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="{Binding Device.Parent.Driver.ImageSource}" />
+                                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.Driver.ShortName}" TextWrapping="Wrap" />
+                                        </StackPanel>
+								    </Hyperlink>
+							    </TextBlock>
                                 <WrapPanel.Style>
                                     <Style>
                                         <Style.Triggers>

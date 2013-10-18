@@ -128,6 +128,7 @@
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetector_Helper.cs" />
+    <Compile Include="Journal\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\InternalJournalItem.cs" />
     <Compile Include="Journal\JournalDescriptionStateHelper.cs" />
     <Compile Include="Journal\JournalItem.cs" />
