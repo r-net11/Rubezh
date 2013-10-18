@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace SkudModule.ViewModels
 {
@@ -132,30 +133,42 @@ namespace SkudModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			PassCardTemplates.Add(new PassCardTemplateViewModel(new FiresecAPI.Models.Skud.PassCardTemplate()));
-			//var planDetailsViewModel = new DesignerPropertiesViewModel(null);
-			//if (DialogService.ShowModalWindow(planDetailsViewModel))
-			//    OnPlanPaste(planDetailsViewModel.Plan, true);
+			var dialog = new PassCardTemplatePropertiesViewModel(null);
+			if (DialogService.ShowModalWindow(dialog))
+				using (new WaitWrapper())
+				{
+					var passCardTemplateViewModel = new PassCardTemplateViewModel(dialog.PassCardTemplate);
+					PassCardTemplates.Add(passCardTemplateViewModel);
+					SelectedPassCardTemplate = passCardTemplateViewModel;
+					// ADD TO DATABASE/MARK AS UNSAVED
+					DesignerCanvas.DesignerChanged();
+				}
 		}
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			//string message = string.Format(SelectedPlan.PlanFolder != null ? "Вы уверены, что хотите удалить папку '{0}'?" : "Вы уверены, что хотите удалить план '{0}'?", SelectedPlan.Caption);
-			//if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
-			//    OnPlanRemove(false);
+			string message = string.Format("Вы уверены, что хотите удалить шаблон пропуска '{0}'?", SelectedPassCardTemplate.Caption);
+			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
+				using (new WaitWrapper())
+				{
+					PassCardTemplates.Remove(SelectedPassCardTemplate);
+					// DROP FROM DATABASE
+					DesignerCanvas.DesignerChanged();
+					SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
+				}
 		}
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			//SaveCancelDialogViewModel dialog = SelectedPlan.PlanFolder != null ? (SaveCancelDialogViewModel)new FolderPropertiesViewModel(SelectedPlan.PlanFolder) : new DesignerPropertiesViewModel(SelectedPlan.Plan);
-			//if (DialogService.ShowModalWindow(dialog))
-			//{
-			//    SelectedPlan.Update();
-			//    DesignerCanvas.Update();
-			//    PlanDesignerViewModel.Update();
-			//    DesignerCanvas.Refresh();
-			//    ServiceFactory.SaveService.PlansChanged = true;
-			//}
+			var dialog = new PassCardTemplatePropertiesViewModel(SelectedPassCardTemplate.PassCardTemplate);
+			if (DialogService.ShowModalWindow(dialog))
+			{
+				SelectedPassCardTemplate.Update();
+				DesignerCanvas.Update();
+				// UPDATE DATAVSE
+				DesignerCanvas.Refresh();
+				DesignerCanvas.DesignerChanged();
+			}
 		}
 		private bool CanEditRemove()
 		{

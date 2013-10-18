@@ -1256,6 +1256,9 @@
     <Resource Include="Images\Pause.png" />
     <Resource Include="Images\BRefresh.png" />
     <Resource Include="Images\BFilterClear.png" />
+    <Resource Include="Images\Layouts.png" />
+    <Resource Include="Images\BLayouts.png" />
+    <Resource Include="Images\BFolder.png" />
     <Resource Include="GKIcons\Shu.png" />
     <Resource Include="GKIcons\Shuv.png" />
     <Content Include="Sounds\Sound1.wav" />

@@ -231,6 +231,7 @@
     <Compile Include="Windows\LoadingService.cs" />
     <Compile Include="Windows\ShortcutService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\IInitializable.cs" />
     <Compile Include="Windows\ViewModels\MinimizeTarget.cs" />
     <Compile Include="Windows\ViewModels\RightContentViewModel.cs" />
     <Compile Include="Windows\ViewModels\ISelectable.cs" />

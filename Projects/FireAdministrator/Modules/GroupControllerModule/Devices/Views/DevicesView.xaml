@@ -102,7 +102,7 @@
 		<Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="180" MinHeight="150" />
+            <RowDefinition Height="180" MinHeight="150" MaxHeight="300" />
         </Grid.RowDefinitions>
 		<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="False">
 			<tree:TreeList.Resources>
@@ -243,69 +243,88 @@
 		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedDevice}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-				<StackPanel Margin="5" HorizontalAlignment="Left">
-					<StackPanel Orientation="Horizontal">
-						<Image Width="16" Margin="2 2 5 2" Source="{Binding Driver.ImageSource}" />
-						<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="{Binding Driver.Name}" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Margin="2 2 5 2" Foreground="White" Text="Подключено к " />
-						<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White">
-							<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
-							</Hyperlink>
-						</TextBlock>
-						<StackPanel.Style>
-							<Style>
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}">
-										<Setter Property="StackPanel.Visibility" Value="Collapsed" />
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</StackPanel.Style>
-					</StackPanel>
-					<WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-						<Label Content="Зона или Логика: " />
-						<Label Content="Зона или Логика не указана" Foreground="White" FontStyle="Italic" >
-							<Label.Style>
-								<Style>
-									<Setter Property="Label.Visibility" Value="Collapsed" />
-									<Style.Triggers>
-										<DataTrigger Binding="{Binding PresentationZone}" Value="">
-											<Setter Property="Label.Visibility" Value="Visible" />
-										</DataTrigger>
-									</Style.Triggers>
-								</Style>
-							</Label.Style>
-						</Label>
-						<TextBlock VerticalAlignment="Center">
-							<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-							</Hyperlink>
-							<TextBlock.Style>
-								<Style>
-									<Style.Triggers>
-										<DataTrigger Binding="{Binding PresentationZone}" Value="">
-											<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-										</DataTrigger>
-									</Style.Triggers>
-								</Style>
-							</TextBlock.Style>
-						</TextBlock>
-					</WrapPanel>
-					<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-				</StackPanel>
-			</ScrollViewer>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding GetAUPropertiesCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" />
-                <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding SetAUPropertiesCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры в устройство" />
-                <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
-            </StackPanel>
+				    <StackPanel Margin="5" HorizontalAlignment="Left">
+					    <StackPanel Orientation="Horizontal">
+						    <Image Width="16" Margin="2 2 5 2" Source="{Binding Driver.ImageSource}" />
+						    <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="{Binding Driver.Name}" />
+					    </StackPanel>
+					    <StackPanel Orientation="Horizontal">
+						    <TextBlock Margin="2 2 5 2" Foreground="White" Text="Подключено к " />
+						    <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White">
+							    <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
+								    <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
+							    </Hyperlink>
+						    </TextBlock>
+						    <StackPanel.Style>
+							    <Style>
+								    <Style.Triggers>
+									    <DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}">
+										    <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+									    </DataTrigger>
+								    </Style.Triggers>
+							    </Style>
+						    </StackPanel.Style>
+					    </StackPanel>
+					    <WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+						    <Label Content="Зона или Логика: " />
+						    <Label Content="Зона или Логика не указана" Foreground="White" FontStyle="Italic" >
+							    <Label.Style>
+								    <Style>
+									    <Setter Property="Label.Visibility" Value="Collapsed" />
+									    <Style.Triggers>
+										    <DataTrigger Binding="{Binding PresentationZone}" Value="">
+											    <Setter Property="Label.Visibility" Value="Visible" />
+										    </DataTrigger>
+									    </Style.Triggers>
+								    </Style>
+							    </Label.Style>
+						    </Label>
+						    <TextBlock VerticalAlignment="Center">
+							    <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+								    <TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+							    </Hyperlink>
+							    <TextBlock.Style>
+								    <Style>
+									    <Style.Triggers>
+										    <DataTrigger Binding="{Binding PresentationZone}" Value="">
+											    <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+										    </DataTrigger>
+									    </Style.Triggers>
+								    </Style>
+							    </TextBlock.Style>
+						    </TextBlock>
+					    </WrapPanel>
+					    <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+				    </StackPanel>
+			    </ScrollViewer>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
+                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" Margin="5 0" />
+                    </StackPanel>
+                    <!--<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" />
+                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WriteCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры в устройство" />
+                        <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
+                    </StackPanel>-->
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" ImageSource="/Controls;component/Images/ParametersRead.png" />
+                        <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
+                        <Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadAll.png" />
+                        <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
+                        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать параметры (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
+                        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить параметры (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Border>
 	</Grid>

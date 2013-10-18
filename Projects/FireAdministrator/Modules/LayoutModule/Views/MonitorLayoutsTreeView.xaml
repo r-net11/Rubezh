@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="LayoutModule.Views.MonitorLayoutsTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:LayoutModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:LayoutViewModelComparer x:Key="LayoutViewModelComparer" />
+	</UserControl.Resources>
+	<drag:TreeListDragDropDecorator IsSource="True" IsTarget="True" TreeNodeDropCommand="{Binding TreeNodeDropCommand}">
+		<tree:TreeList SelectedTreeNode="{Binding Layouts.SelectedLayout}" Source="{Binding Layouts.Layouts}" tree:SortBehavior.DefaultSortComparer="{StaticResource LayoutViewModelComparer}">
+			<tree:TreeList.Resources>
+				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+					<MouseBinding Command="{Binding DataContext.Layouts.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
+				</InputBindingCollection>
+				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}">
+					<MenuItem Command="{Binding AddSubLayoutCommand}" Visibility="{Binding SelectedLayout.IsFolder, Converter={StaticResource BoolToVisibilityConverter}}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить дочерний шаблон" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding AddSubFolderCommand}" Visibility="{Binding SelectedLayout.IsFolder, Converter={StaticResource BoolToVisibilityConverter}}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BFolderOpen.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить дочернюю папку" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding EditCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Редактировать" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding RemoveCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Удалить" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<Separator />
+					<MenuItem Command="{Binding LayoutCopyCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Копировать" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding LayoutCutCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Вырезать" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding LayoutPasteCommand}" CommandParameter="{StaticResource False}" Visibility="{Binding SelectedLayout.IsFolder, Converter={StaticResource BoolToVisibilityConverter}}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+				</ContextMenu>
+			</tree:TreeList.Resources>
+			<tree:TreeList.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
+					<Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />
+					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+					<Setter Property="Focusable" Value="True" />
+				</Style>
+			</tree:TreeList.ItemContainerStyle>
+			<tree:TreeList.ContextMenu>
+				<ContextMenu>
+					<MenuItem Command="{Binding Layouts.AddCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить шаблон" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Command="{Binding Layouts.AddFolderCommand}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BFolderOpen.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить папку" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<Separator />
+					<MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+				</ContextMenu>
+			</tree:TreeList.ContextMenu>
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Width="250" Header="Шаблоны">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Border Background="Transparent">
+									<StackPanel Orientation="Horizontal">
+										<Image Source="/Controls;component/Images/BFolder.png" Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Image Source="/Controls;component/Images/BLayouts.png" Visibility="{Binding IsLayout, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" />
+									</StackPanel>
+								</Border>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+	</drag:TreeListDragDropDecorator>
+</UserControl>

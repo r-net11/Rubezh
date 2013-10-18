@@ -28,7 +28,10 @@ namespace GKModule.ViewModels
 			LocalDeviceViewModel = new DeviceTreeViewModel(localDeviceClone, localConfiguration.Zones, localConfiguration.Directions);
 			RemoteDeviceViewModel = new DeviceTreeViewModel(remoteDeviceClone, remoteConfiguration.Zones, remoteConfiguration.Directions);
 
-			DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel, RemoteDeviceViewModel);
+			DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices);
+			DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones);
+			DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions);
+
 			ChangeCommand = new RelayCommand(OnChange);
 		}
 		public DeviceTreeViewModel LocalDeviceViewModel { get; set; }

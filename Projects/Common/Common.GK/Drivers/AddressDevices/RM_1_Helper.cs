@@ -37,12 +37,12 @@ namespace Common.GK
 				Default = 1,
                 IsLowByte = true
 			};
-			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Замкнуто", 1);
-			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Мерцает", 2);
-			GKDriversHelper.AddPropertyParameter(property1, "Замкнуто Разомкнуто", 3);
-			GKDriversHelper.AddPropertyParameter(property1, "Замкнуто Мерцает", 4);
-			GKDriversHelper.AddPropertyParameter(property1, "Мерцает Разомкнуто", 5);
-			GKDriversHelper.AddPropertyParameter(property1, "Мерцает Замкнуто", 6);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Выключено, Пуск - Включено", 1);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Выключено, Пуск - Мерцает", 2);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Включено,  Пуск - Выключено", 3);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Включено,  Пуск - Мерцает", 4);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Мерцает,   Пуск - Выключено", 5);
+			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Мерцает,   Пуск - Включено", 6);
 			driver.Properties.Add(property1);
 
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", 0, 0, 0, 255).IsLowByte=true;

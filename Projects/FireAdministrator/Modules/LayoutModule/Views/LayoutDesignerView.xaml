@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="LayoutModule.Views.LayoutDesignerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:aero="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=Xceed.Wpf.AvalonDock.Themes.Aero" xmlns:expression="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=Xceed.Wpf.AvalonDock.Themes.Expression" xmlns:metro="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=Xceed.Wpf.AvalonDock.Themes.Metro" xmlns:vs2010="clr-namespace:Xceed.Wpf.AvalonDock.Themes;assembly=Xceed.Wpf.AvalonDock.Themes.VS2010" xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock">
+	<UserControl.Resources>
+		<!--  <conv:LayoutPartConverter x:Key="LayoutPartConverter" />  -->
+	</UserControl.Resources>
+	<DockPanel>
+		<StackPanel Margin="10" DockPanel.Dock="Top">
+			<ComboBox x:Name="cb">
+				<vs2010:VS2010Theme />
+				<aero:AeroTheme />
+				<expression:ExpressionDarkTheme />
+				<expression:ExpressionLightTheme />
+				<metro:MetroTheme />
+			</ComboBox>
+		</StackPanel>
+		<xcad:DockingManager Theme="{Binding Mode=TwoWay, ElementName=cb, Path=SelectedItem}" ActiveContent="{Binding ActiveLayoutPart, Mode=TwoWay}" AllowMixedOrientation="True" DocumentsSource="{Binding LayoutParts}" ShowSystemMenu="False">
+			<!--
+				<xcad:DockingManager.Theme>
+				<vs2010:VS2010Theme />
+				</xcad:DockingManager.Theme>
+			-->
+			<xcad:DockingManager.LayoutItemContainerStyle>
+				<Style TargetType="{x:Type xcad:LayoutItem}">
+					<Setter Property="Title" Value="{Binding Model.Title}" />
+				</Style>
+			</xcad:DockingManager.LayoutItemContainerStyle>
+			<xcad:LayoutRoot x:Name="root">
+				<xcad:LayoutPanel IsMaximized="True">
+					<xcad:LayoutDocumentPane />
+				</xcad:LayoutPanel>
+			</xcad:LayoutRoot>
+		</xcad:DockingManager>
+	</DockPanel>
+</UserControl>

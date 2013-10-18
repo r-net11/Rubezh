@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.TreeList
 {
-	public class TreeNodeViewModel : BaseViewModel
+	public class TreeNodeViewModel : BaseViewModel, IDisposable
 	{
 		private List<int> _sortOrder;
 		private RootTreeNodeViewModel _root;
@@ -111,7 +111,7 @@ namespace Infrastructure.Common.TreeList
 		}
 		public int VisualIndex
 		{
-			get { return ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index); }
+			get { return ParentNode == null || ParentNode._sortOrder == null ? Index : ParentNode._sortOrder.IndexOf(Index); }
 		}
 		public TreeNodeViewModel ParentNode { get; protected set; }
 		public TreeItemCollection Nodes { get; private set; }
@@ -211,12 +211,15 @@ namespace Infrastructure.Common.TreeList
 						{
 							if (InsertSorted && Root != null && Root.ItemComparer != null)
 								InnerSort();
-							int newIndex = InsertSorted && _sortOrder == null ? e.NewStartingIndex : _sortOrder[e.NewStartingIndex];
+							int newVisualIndex = InsertSorted && _sortOrder == null ? e.NewStartingIndex : _sortOrder.IndexOf(e.NewStartingIndex);
 							int index = -1;
-							if (newIndex == 0)
+							if (newVisualIndex == 0)
 								index = Root.Rows.IndexOf(this);
 							else
-								index = Root.Rows.IndexOf(Nodes[newIndex - 1]) + Nodes[newIndex - 1].VisibleChildrenCount;
+							{
+								var previosIndex = _sortOrder == null ? newVisualIndex - 1 : _sortOrder[newVisualIndex - 1];
+								index = Root.Rows.IndexOf(Nodes[previosIndex]) + Nodes[previosIndex].VisibleChildrenCount;
+							}
 							foreach (TreeNodeViewModel node in e.NewItems)
 							{
 								Root.Rows.Insert(index + 1, node);
@@ -365,6 +368,19 @@ namespace Infrastructure.Common.TreeList
 		{
 			return IsSorted ? Nodes[_sortOrder[index]] : Nodes[index];
 		}
+
+		#region IDisposable Members
+
+		public void Dispose()
+		{
+			if (Nodes != null)
+			{
+				Nodes.CollectionChanged -= ChildrenChanged;
+				Nodes = null;
+			}
+		}
+
+		#endregion
 	}
 
 	public class TreeNodeViewModel<T> : TreeNodeViewModel

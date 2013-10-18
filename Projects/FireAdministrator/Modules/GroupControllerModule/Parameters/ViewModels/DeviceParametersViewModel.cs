@@ -460,7 +460,7 @@ namespace GKModule.ViewModels
 
 		void CopyFromDeviceToSystem(XDevice device)
 		{
-			device.Properties.Clear();
+			device.Properties.RemoveAll(x => x.Name != "IPAddress");
 			foreach (var property in device.DeviceProperties)
 			{
 				var clonedProperty = new XProperty()
@@ -574,10 +574,7 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;
 				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 			return true;
 		}

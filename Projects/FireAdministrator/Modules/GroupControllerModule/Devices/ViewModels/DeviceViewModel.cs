@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Shapes;
 using Common.GK;
@@ -36,8 +39,14 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			GetAUPropertiesCommand = new RelayCommand(OnGetAUProperties);
-			SetAUPropertiesCommand = new RelayCommand(OnSetAUProperties);
+
+			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
+			WriteCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
+			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
+			WriteAllCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
+			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
+
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -50,6 +59,214 @@ namespace GKModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
 			device.AUParametersChanged += () => { UpdateProperties(); };
+		}
+
+		public RelayCommand WriteCommand { get; private set; }
+		public RelayCommand SyncFromSystemToDeviceCommand { get; private set; }
+		void OnSyncFromSystemToDevice()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = new List<XDevice>() { Device };
+				if (Validate(devices))
+				{
+					CopyFromSystemToDevice(Device);
+					PropertiesViewModel.Update();
+					WriteDevices(devices);
+				}
+			}
+		}
+
+
+		public RelayCommand WriteAllCommand { get; private set; }
+		public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
+		void SyncFromAllSystemToDevice()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				if (Validate(devices))
+				{
+					foreach (var device in devices)
+					{
+						CopyFromSystemToDevice(device);
+						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+						if (deviceViewModel != null)
+							deviceViewModel.PropertiesViewModel.Update();
+					}
+					WriteDevices(devices);
+				}
+			}
+		}
+
+		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
+		void OnSyncFromDeviceToSystem()
+		{
+			if (CheckNeedSave())
+			{
+				CopyFromDeviceToSystem(Device);
+				PropertiesViewModel.Update();
+				//UpdateDeviceParameterMissmatch();
+			}
+		}
+		//void UpdateDeviceParameterMissmatch()
+		//{
+		//    AllDevices.ForEach(x => x.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal);
+		//    foreach (var deviceViewModel in AllDevices)
+		//    {
+		//        deviceViewModel.UpdateDeviceParameterMissmatchType();
+		//        if (deviceViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unknown)
+		//        {
+		//            deviceViewModel.GetAllParents().ForEach(x => x.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown);
+		//        }
+		//    }
+		//    foreach (var deviceViewModel in AllDevices)
+		//    {
+		//        deviceViewModel.UpdateDeviceParameterMissmatchType();
+		//        if (deviceViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unequal)
+		//        {
+		//            deviceViewModel.GetAllParents().ForEach(x => x.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal);
+		//        }
+		//    }
+		//}
+		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
+		void OnSyncFromAllDeviceToSystem()
+		{
+			if (CheckNeedSave()) 
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				foreach (var device in devices)
+				{
+					CopyFromDeviceToSystem(device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.PropertiesViewModel.Update();
+				}
+			}
+		}
+
+		bool CanSync()
+		{
+			return HasAUProperties;
+		}
+
+		bool CanSyncAll()
+		{
+			return Children.Count() > 0;
+		}
+
+		void CopyFromDeviceToSystem(XDevice device)
+		{
+			device.Properties.RemoveAll(x => x.Name != "IPAddress");
+			foreach (var property in device.DeviceProperties)
+			{
+				var clonedProperty = new XProperty()
+				{
+					Name = property.Name,
+					Value = property.Value
+				};
+				device.Properties.Add(clonedProperty);
+			}
+			ServiceFactory.SaveService.FSParametersChanged = true;
+		}
+
+		void CopyFromSystemToDevice(XDevice device)
+		{
+			device.DeviceProperties.Clear();
+			foreach (var property in device.Properties)
+			{
+				var clonedProperty = new XProperty()
+				{
+					Name = property.Name,
+					Value = property.Value
+				};
+				device.DeviceProperties.Add(clonedProperty);
+			}
+			ServiceFactory.SaveService.FSParametersChanged = true;
+		}
+
+		bool Validate(List<XDevice> devices)
+		{
+			foreach (var device in devices)
+			{
+				foreach (var property in device.Properties)
+				{
+					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (IsPropertyValid(property, driverProperty))
+					{
+						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
+		{
+			int value;
+			return
+					driverProperty != null &&
+					driverProperty.IsAUParameter &&
+					driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&
+					(!int.TryParse(Convert.ToString(property.Value), out value) ||
+					(value < driverProperty.Min || value > driverProperty.Max));
+		}
+
+	
+		public RelayCommand ReadCommand { get; private set; }
+		void OnRead()
+		{
+			if (CheckNeedSave())
+			{
+				ReadDevices(new List<XDevice>() { Device });
+				PropertiesViewModel.Update();
+				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
+			}
+		}
+
+		bool CanReadWrite()
+		{
+			return HasAUProperties;
+		}
+
+		public RelayCommand ReadAllCommand { get; private set; }
+		void OnReadAll()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				ReadDevices(devices);
+			}
+		}
+
+		bool CanReadWriteAll()
+		{
+			return Children.Count() > 0;
+		}
+
+		List<XDevice> GetRealChildren()
+		{
+			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
+			return devices;
+		}
+
+		bool CheckNeedSave()
+		{
+			if (ServiceFactory.SaveService.FSChanged)
+			{
+				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
+				{
+					var cancelEventArgs = new CancelEventArgs();
+					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					return !cancelEventArgs.Cancel;
+				}
+				return false;
+			}
+			return true;
 		}
 
 		void OnChanged()
@@ -471,20 +688,59 @@ namespace GKModule.ViewModels
 			get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
 		}
 
-		public RelayCommand GetAUPropertiesCommand { get; private set; }
-		void OnGetAUProperties()
+		//public RelayCommand GetAUPropertiesCommand { get; private set; }
+		//void OnGetAUProperties()
+		//{
+		//    DatabaseManager.Convert();
+		//    ParametersHelper.GetSingleParameter(Device);
+		//    ServiceFactory.SaveService.GKChanged = true;
+		//}
+
+		void ReadDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
+			LoadingService.Show("Запрос параметров");
 			DatabaseManager.Convert();
-			ParametersHelper.GetSingleParameter(Device);
+			var i = 0;
+			foreach (var device in devices)
+			{
+				i++;
+				//FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
+				ParametersHelper.GetSingleParameter(device);
+			}
+			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
+			//FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства ", 0);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		public RelayCommand SetAUPropertiesCommand { get; private set; }
-		void OnSetAUProperties()
+		void WriteDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
+			LoadingService.Show("Запись параметров");
 			DatabaseManager.Convert();
-			ParametersHelper.SetSingleParameter(Device);
+			var i = 0;
+			foreach (var device in devices)
+			{
+				i++;
+				//FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
+				ParametersHelper.SetSingleParameter(device);
+				Thread.Sleep(100);
+			}
+			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			//FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
+
+		//public RelayCommand SetAUPropertiesCommand { get; private set; }
+		//void OnSetAUProperties()
+		//{
+		//    DatabaseManager.Convert();
+		//    ParametersHelper.SetSingleParameter(Device);
+		//}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }
 		void OnResetAUProperties()
@@ -500,7 +756,6 @@ namespace GKModule.ViewModels
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
 		}
-
 		#region OPC
 		public bool CanOPCUsed
 		{

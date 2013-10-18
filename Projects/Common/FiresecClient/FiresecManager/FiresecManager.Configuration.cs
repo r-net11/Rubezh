@@ -23,6 +23,7 @@ namespace FiresecClient
 		public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
+		public static LayoutsConfiguration LayoutsConfiguration { get; set; }
 
 		public static void UpdateFiles()
 		{
@@ -82,6 +83,8 @@ namespace FiresecClient
 		{
 			try
 			{
+				if (LayoutsConfiguration == null)
+					LayoutsConfiguration = new LayoutsConfiguration();
 				PlansConfiguration.Update();
 				FiresecConfiguration.UpdateConfiguration();
 				UpdatePlansConfiguration();

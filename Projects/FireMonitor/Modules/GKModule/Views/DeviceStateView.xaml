@@ -21,7 +21,10 @@
         <ItemsControl ItemsSource="{Binding DeviceState.AdditionalStates}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding .}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontStyle="Italic" Margin="5, 1, 1, 1" />
+                    </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
