@@ -46,90 +46,100 @@
 		<TabControl Grid.Row="1">
 			<TabItem Header="Основные">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl Background="White">
-                        <ItemsControl.Items>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
-                                <Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Driver.ImageSource}" />
-                                <WrapPanel>
-                                    <TextBlock>
-									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
+					<ItemsControl Background="White">
+						<ItemsControl.Items>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
+								<WrapPanel>
+									<TextBlock>
+										<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="{Binding Device.Driver.ImageSource}" />
+												<TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
+											</StackPanel>
+										</Hyperlink>
+								</TextBlock>
+								</WrapPanel>
+							</StackPanel>
+
+							<WrapPanel>
+								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Подключено к: " />
+								<TextBlock>
+									<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Source="{Binding Device.Parent.Driver.ImageSource}" />
+											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.Driver.ShortName}" TextWrapping="Wrap" />
+										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-                                </WrapPanel>
-                            </StackPanel>
+								<WrapPanel.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}">
+												<Setter Property="StackPanel.Visibility" Value="Collapsed" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</WrapPanel.Style>
+							</WrapPanel>
 
-                            <WrapPanel>
-                                <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Подключено к: " />
-                                <Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
-                                <TextBlock>
-								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.Driver.ShortName}" TextWrapping="Wrap" />
-								</Hyperlink>
-							</TextBlock>
-                                <WrapPanel.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Device.Parent}" Value="{x:Null}">
-                                                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </WrapPanel.Style>
-                            </WrapPanel>
+							<WrapPanel Orientation="Horizontal">
+								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
+								<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
+								<TextBlock>
+									<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+									</Hyperlink>
+								</TextBlock>
+								<WrapPanel.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
+												<Setter Property="StackPanel.Visibility" Value="Collapsed" />
+											</DataTrigger>
+											<DataTrigger Binding="{Binding PresentationZone}" Value="">
+												<Setter Property="StackPanel.Visibility" Value="Collapsed" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</WrapPanel.Style>
+							</WrapPanel>
 
-                            <WrapPanel Orientation="Horizontal">
-                                <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
-                                <Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
-                                <TextBlock>
-								    <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
-									    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-								    </Hyperlink>
-							    </TextBlock>
-                                <WrapPanel.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
-                                                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding PresentationZone}" Value="">
-                                                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </WrapPanel.Style>
-                            </WrapPanel>
-
-                            <ItemsControl ItemsSource="{Binding PlanNames}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="План: "/>
-                                            <TextBlock>
-                                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Width="16" Source="/Controls;component/Images/map_black.png" Margin="1" />
-                                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" Foreground="Black"/>
-                                                    </StackPanel>
-										        </Hyperlink>
-									        </TextBlock>        
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ItemsControl.Items>
-                    </ItemsControl>
-                </ScrollViewer>
+							<ItemsControl ItemsSource="{Binding PlanNames}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="План: "/>
+											<TextBlock>
+												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+													<StackPanel Orientation="Horizontal">
+														<Image Width="16" Source="/Controls;component/Images/map_black.png" Margin="1" />
+														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" Foreground="Black"/>
+													</StackPanel>
+												</Hyperlink>
+											</TextBlock>        
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ItemsControl.Items>
+					</ItemsControl>
+				</ScrollViewer>
 			</TabItem>
-            <TabItem Header="Параметры" Visibility="{Binding DevicePropertiesViewModel.HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
-                <DataGrid ItemsSource="{Binding DevicePropertiesViewModel.Properties}" CanUserSortColumns="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Параметр" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+			<TabItem Header="Параметры" Visibility="{Binding DevicePropertiesViewModel.HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
+				<DataGrid ItemsSource="{Binding DevicePropertiesViewModel.Properties}" CanUserSortColumns="True">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Width="*" Header="Параметр">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</TabItem>
 			<TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
 				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding AUParameterValues}">
 					<DataGrid.Columns>
@@ -193,6 +203,25 @@
 					</Grid>
 				</Grid>
 			</TabItem>
-		</TabControl>
+            <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="МРО-2М" Visibility="{Binding IsMRO, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" Margin="2">
+                    <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding ExecuteMROCommand}" Content="Выполнить" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
 	</Grid>
 </UserControl>

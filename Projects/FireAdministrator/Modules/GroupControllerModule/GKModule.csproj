@@ -70,8 +70,6 @@
     </Compile>
     <Compile Include="Converters\LibraryXStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
-    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
-    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />

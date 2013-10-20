@@ -22,12 +22,14 @@ namespace GKModule.ViewModels
 			{
 				InitializeDevices(device);
 			}
+			if(zones != null)
 			foreach (var zone in zones)
 			{
 				var objectViewModel = new ObjectViewModel(zone);
 				Objects.Add(objectViewModel);
 				Zones.Add(objectViewModel);
 			}
+			if(directions != null)
 			foreach (var direction in directions)
 			{
 				var objectViewModel = new ObjectViewModel(direction);
@@ -76,36 +78,47 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				if (!CompareObjects(objects1[i], objects2[i]))
+				if (!CompareObjects(objects1[i], objects2))
 				{
 					var object1 = (ObjectViewModel)objects1[i].Clone();
 					object1.HasDifferences = true;
+					if(object1.Address == "")
+						continue;
+					//if ((object1.Device != null) && (object2.Device != null) && (object1.Device.IntAddress > object2.Device.IntAddress))
+					//{
+					//    objects1.Insert(i, object2);
+					//    objects2.Insert(i + 1, object1);
+					//}
+					//else
+					//{
+					//    objects1.Insert(i + 1, object2);
+					//    objects2.Insert(i, object1);
+					//}
+					objects2.Add(object1);
+					i++;
+				}
+				if (!CompareObjects(objects2[i], objects1))
+				{
 					var object2 = (ObjectViewModel)objects2[i].Clone();
 					object2.HasDifferences = true;
-					if((object1.PresentationAddress == "")||(object2.PresentationAddress == ""))
+					if (object2.Address == "")
 						continue;
-					if ((object1.Device != null) && (object2.Device != null) && (object1.Device.IntAddress > object2.Device.IntAddress))
-					{
-						objects1.Insert(i, object2);
-						objects2.Insert(i + 1, object1);
-					}
-					else
-					{
-						objects1.Insert(i + 1, object2);
-						objects2.Insert(i, object1);
-					}
+					objects1.Add(object2);
 					i++;
 				}
 			}
 		}
 
-		private static bool CompareObjects(ObjectViewModel objectViewModel1, ObjectViewModel objectViewModel2)
+		private static bool CompareObjects(ObjectViewModel objectViewModel, List<ObjectViewModel> objectViewModels)
 		{
-			if(objectViewModel1.PresentationName != objectViewModel2.PresentationName)
-				return false;
-			if (objectViewModel1.PresentationAddress != objectViewModel2.PresentationAddress)
-				return false;
-			return true;
+			var matchedObjectViewModel = objectViewModels.FirstOrDefault
+				(x =>
+				 (x.Name == objectViewModel.Name) &&
+				 (x.Address == objectViewModel.Address) &&
+				 (x.ParentPath == objectViewModel.ParentPath));
+			if ((matchedObjectViewModel != null) && (!matchedObjectViewModel.HasDifferences))
+				return true;
+			return false;
 		}
 
 		static void ExpandChild(DeviceViewModel parentDeviceViewModel)

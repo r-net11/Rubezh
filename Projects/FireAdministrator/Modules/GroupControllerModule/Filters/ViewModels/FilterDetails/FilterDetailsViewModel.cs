@@ -20,10 +20,10 @@ namespace GKModule.ViewModels
 				StateClasses.Add(new FilterStateClassViewModel(stateClass));
 			}
 
-			EventNames = new ObservableCollection<JournalDescriptionStateViewModel>();
+			JournalDescriptionStates = new ObservableCollection<JournalDescriptionStateViewModel>();
             foreach (var journalDescriptionState in JournalDescriptionStateHelper.JournalDescriptionStates)
 			{
-                EventNames.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
+                JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
 			}
 
 			if (journalFilter == null)
@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 				viewModel => JournalFilter.StateClasses.Any(
 					x => x == viewModel.StateClass)).All(x => x.IsChecked = true);
             
-            foreach (var eventViewModel in EventNames)
+            foreach (var eventViewModel in JournalDescriptionStates)
             {
                 foreach (var xEvent in JournalFilter.EventNames)
                 {
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 		}
 
 		public ObservableCollection<FilterStateClassViewModel> StateClasses { get; private set; }
-		public ObservableCollection<JournalDescriptionStateViewModel> EventNames { get; private set; }
+		public ObservableCollection<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 
 		List<XStateClass> GetAvailableStateClasses()
 		{
@@ -122,9 +122,16 @@ namespace GKModule.ViewModels
 			JournalFilter.Description = Description;
 			JournalFilter.LastRecordsCount = LastRecordsCount;
 			JournalFilter.StateClasses = StateClasses.Where(x => x.IsChecked).Select(x => x.StateClass).Cast<XStateClass>().ToList();
-            JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.JournalDescriptionState).ToList();
+            JournalFilter.EventNames = JournalDescriptionStates.Where(x => x.IsChecked).Select(x => x.JournalDescriptionState).ToList();
 			return base.Save();
 		}
+
+        protected override bool CanSave()
+        {
+            var result = StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
+                JournalDescriptionStates.Where(x => x.IsChecked == true).ToList().Count > 0;
+            return result;
+        }
 	}
 
 	

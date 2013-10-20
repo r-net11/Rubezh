@@ -13,7 +13,7 @@ namespace Common.GK
 				Caption = propertyName,
 				Default = defaultValue,
 				Offset = offset,
-				Mask = 3
+				Mask = (short)((1 << offset) + (1 << (offset + 1)))
 			};
 			var parameter1 = new XDriverPropertyParameter()
 			{

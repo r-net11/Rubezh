@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.InstructionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinHeight="300" MinWidth="300">
+             MinHeight="300" MinWidth="300" Unloaded="UserControl_Unloaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" Name="videoRow"/>
@@ -9,7 +9,7 @@
             <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <Border Name="videoBorder" Grid.Row="0" Padding="5" Background="{DynamicResource BackgroundBrush}" >
-            <MediaElement Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" Unloaded="mediaElement_Unloaded" Source="{Binding Instruction.MediaSource, Mode=OneWay}" Name="mediaElement"/>
+            <MediaElement Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="mediaElement_MediaOpened" MediaEnded="mediaElement_MediaEnded" Source="{Binding Instruction.MediaSource, Mode=OneWay}" Name="mediaElement"/>
         </Border>
         <DockPanel Grid.Row="1" Visibility="{Binding Instruction.HasMedia, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">

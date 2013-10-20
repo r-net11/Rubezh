@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireAdministrator.ViewModels
 {
@@ -12,7 +13,8 @@ namespace FireAdministrator.ViewModels
 		public ValidationErrorsViewModel()
 		{
 			ClickCommand = new RelayCommand(OnClick);
-			Validate();
+            EditValidationCommand = new RelayCommand(OnEditValidation);
+            Validate();
 		}
 
 		public void Validate()
@@ -68,6 +70,12 @@ namespace FireAdministrator.ViewModels
 			if (SelectedError != null)
 				SelectedError.Navigate();
 		}
+
+        public RelayCommand EditValidationCommand { get; private set; }
+        void OnEditValidation()
+        {
+            ServiceFactory.Events.GetEvent<EditValidationEvent>().Publish(null);
+        }
 
 		public void AddErrors(IEnumerable<IValidationError> validationErrors)
 		{

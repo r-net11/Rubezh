@@ -127,6 +127,8 @@
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolInverterConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
@@ -1261,6 +1263,8 @@
     <Resource Include="Images\BFolder.png" />
     <Resource Include="GKIcons\Shu.png" />
     <Resource Include="GKIcons\Shuv.png" />
+    <Resource Include="Images\Bleft.png" />
+    <Resource Include="Images\BleftLeft.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

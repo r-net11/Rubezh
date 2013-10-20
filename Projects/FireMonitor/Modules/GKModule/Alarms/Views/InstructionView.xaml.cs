@@ -8,7 +8,7 @@ namespace GKModule.Views
 {
 	public partial class InstructionView : UserControl
 	{
-        DispatcherTimer timer; 
+        DispatcherTimer timer;
         
         public InstructionView()
 		{
@@ -33,12 +33,6 @@ namespace GKModule.Views
 		{
 			mediaElement.Pause();
 			UpdateVisibilityNotPlaying();
-		}
-
-		private void mediaElement_Unloaded(object sender, RoutedEventArgs e)
-		{
-			mediaElement.Play();
-			UpdateVisibilityPlaying();
 		}
 
 		private void MuteButton_Click(object sender, RoutedEventArgs e)
@@ -74,7 +68,12 @@ namespace GKModule.Views
 
         void timer_Tick(object sender, EventArgs e)
         {
-            slider.Value = mediaElement.Position.TotalSeconds;
+            if (!slider.IsMouseOver)
+                slider.Value = mediaElement.Position.TotalSeconds;
+            else
+            {
+                ;
+            }
         }
 
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
@@ -100,11 +99,15 @@ namespace GKModule.Views
         private void slider_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
         {
             {
-                TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value))); //отлавливаем позицию на которую нужно перемотать трек
-                mediaElement.Position = time; //устанавливаем новую позицию для трека
+                TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value))); 
+                mediaElement.Position = time;
             }
         }
 
-        
-	}
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            mediaElement.Stop();
+        }
+
+    }
 }

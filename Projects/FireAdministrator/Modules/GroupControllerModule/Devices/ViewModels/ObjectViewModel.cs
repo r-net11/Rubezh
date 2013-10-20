@@ -5,8 +5,8 @@ namespace GKModule.ViewModels
 {
 	public class ObjectViewModel : TreeNodeViewModel<ObjectViewModel>
 	{
-		public string PresentationName { get; set; }
-		public string PresentationAddress { get; set; }
+		public string Name { get; set; }
+		public string Address { get; set; }
 		public bool HasDifferences { get; set; }
 		public bool HasMissingDifferences { get; set; }
 		public XDevice Device;
@@ -17,26 +17,41 @@ namespace GKModule.ViewModels
 		{
 			return MemberwiseClone();
 		}
+
+		public string ParentPath
+		{
+			get
+			{
+				var path = "";
+				if (Device != null)
+				{
+					path = ((Device.GKParent == null) ? "" : Device.GKParent.PresentationDriverAndAddress) +
+					       ((Device.KAUParent == null) ? "" : Device.KAUParent.PresentationDriverAndAddress) +
+					       ((Device.KAURSR2Parent == null) ? "" : Device.KAURSR2Parent.PresentationDriverAndAddress);
+				}
+				return path;
+			}
+		}
 		public ObjectViewModel(XDevice device)
 		{
-			PresentationName = device.ShortName;
-			PresentationAddress = "";
-			PresentationAddress = device.PresentationAddress;
+			Name = device.ShortName;
+			Address = "";
+			Address = device.PresentationAddress;
 			ImageSource = "/Controls;component/GKIcons/" + device.Driver.DriverType + ".png"; 
 			Device = device;
 		}
 
 		public ObjectViewModel(XZone zone)
 		{
-			PresentationName = zone.PresentationName;
-			PresentationAddress = "";
+			Name = zone.PresentationName;
+			Address = "";
 			Zone = zone;
 		}
 
 		public ObjectViewModel(XDirection direction)
 		{
-			PresentationName = direction.PresentationName;
-			PresentationAddress = "";
+			Name = direction.PresentationName;
+			Address = "";
 			Direction = direction;
 		}
 	}

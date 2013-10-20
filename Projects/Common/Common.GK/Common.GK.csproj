@@ -128,6 +128,7 @@
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetector_Helper.cs" />
+    <Compile Include="Journal\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\InternalJournalItem.cs" />
     <Compile Include="Journal\JournalDescriptionStateHelper.cs" />
     <Compile Include="Journal\JournalItem.cs" />
@@ -135,6 +136,9 @@
     <Compile Include="Journal\JournalItemType.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\XArchiveFilter.cs" />
+    <Compile Include="Patch.cs" />
+    <Compile Include="PatchIndex.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />

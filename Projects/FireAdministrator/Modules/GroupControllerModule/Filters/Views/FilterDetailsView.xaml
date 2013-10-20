@@ -43,7 +43,7 @@
             </ListBox>
         </TabItem>
         <TabItem Header="События">
-            <ListBox ItemsSource="{Binding EventNames}">
+            <ListBox ItemsSource="{Binding JournalDescriptionStates}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}">

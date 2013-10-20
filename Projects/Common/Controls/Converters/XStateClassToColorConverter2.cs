@@ -45,7 +45,8 @@ namespace Controls.Converters
 				case XStateClass.Test:
 					return Brushes.Green;
 
-				case XStateClass.Norm:
+				case XStateClass.Off:
+                case XStateClass.Norm:
 					return Brushes.Green;
 
 				default:

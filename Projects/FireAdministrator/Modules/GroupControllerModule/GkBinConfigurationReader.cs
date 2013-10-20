@@ -91,6 +91,7 @@ namespace GKModule
 		#region Чтение конфигурации из байтового потока
 		public void ReadConfiguration(XDevice device)
 		{
+			IpAddress = device.GetGKIpAddress();
 			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
@@ -167,8 +168,7 @@ namespace GKModule
 						Name = "IPAddress",
 						StringValue = IpAddress
 					};
-					device.DeviceProperties.Add(ipAddressProperty);
-
+					device.Properties.Add(ipAddressProperty);
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
