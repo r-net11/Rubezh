@@ -10,11 +10,14 @@ namespace FiresecAPI.Models.Layouts
 		public Layout()
 		{
 			Users = new List<Guid>();
+			Parts = new List<Guid>();
 			Caption = "Шаблон";
 		}
 
 		[DataMember]
 		public List<Guid> Users { get; set; }
+		[DataMember]
+		public List<Guid> Parts { get; set; }
 		[DataMember]
 		public Guid UID { get; set; }
 		[DataMember]

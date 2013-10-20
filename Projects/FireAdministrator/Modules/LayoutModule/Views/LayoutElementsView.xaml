@@ -12,6 +12,7 @@
 				<GridViewColumn Header="Элементы">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
+							<!--  <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />  -->
 							<Grid>
 								<Grid.ToolTip>
 									<ToolTip>
@@ -29,7 +30,7 @@
 							</Grid>
 							<DataTemplate.Triggers>
 								<DataTrigger Binding="{Binding IsPresented}" Value="False">
-									<Setter Property="FontWeight" Value="Bold" TargetName="txt" />
+									<Setter TargetName="txt" Property="FontWeight" Value="Bold" />
 								</DataTrigger>
 							</DataTemplate.Triggers>
 						</DataTemplate>

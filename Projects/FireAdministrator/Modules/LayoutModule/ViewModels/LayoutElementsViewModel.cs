@@ -41,13 +41,12 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		bool flag = true;
 		public void Update(Layout layout)
 		{
 			_layout = layout;
-			foreach (var d in LayoutParts)
-				d.IsPresented = flag || d.LayoutPartDescription.AllowMultiple;
-			flag = !flag;
+			foreach (var layoutPart in LayoutParts)
+				layoutPart.IsPresented = _layout != null && _layout.Parts.Contains(layoutPart.LayoutPartDescription.UID);
+			SelectedLayoutPart = LayoutParts.FirstOrDefault();
 		}
 		public void Update()
 		{

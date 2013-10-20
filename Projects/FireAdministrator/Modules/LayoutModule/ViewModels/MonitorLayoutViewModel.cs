@@ -40,6 +40,7 @@ namespace LayoutModule.ViewModels
 
 		public void Update()
 		{
+			LayoutDesignerViewModel.Update(Layout);
 			LayoutUsersViewModel.Update(Layout);
 			LayoutElementsViewModel.Update(Layout);
 		}
