@@ -313,6 +313,16 @@ namespace XFiresecAPI
 			}
 		}
 
+		public XDevice KAURSR2ShleifParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
+			}
+		}
+
 		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }

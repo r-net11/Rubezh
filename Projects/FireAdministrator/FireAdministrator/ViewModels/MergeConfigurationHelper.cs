@@ -130,9 +130,29 @@ namespace FireAdministrator.ViewModels
 			XDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 
-			foreach (var device in XDeviceConfiguration.RootDevice.Children)
+			foreach (var gkDevice in XDeviceConfiguration.RootDevice.Children)
 			{
-				XManager.DeviceConfiguration.RootDevice.Children.Add(device);
+				var ipAddress = "";
+				var ipProperty = gkDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				if (ipProperty != null)
+				{
+					ipAddress = ipProperty.StringValue;
+				}
+				var existingDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
+				if(existingDevice != null)
+				{
+					foreach (var device in gkDevice.Children)
+					{
+						if (!existingDevice.Children.Any(x => x.IntAddress == device.IntAddress))
+						{
+							existingDevice.Children.Add(device);
+						}
+					}
+				}
+				else
+				{
+					XManager.DeviceConfiguration.RootDevice.Children.Add(gkDevice);
+				}
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{

@@ -23,6 +23,7 @@ namespace Common.GK
 				IsPlaceable = true
 			};
 			driver.AutoCreateChildren.Add(XDriverType.KAUIndicator);
+			driver.AutoCreateChildren.Add(XDriverType.RSR2_KAU_Shleif);
 
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);

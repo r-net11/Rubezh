@@ -54,65 +54,32 @@ namespace GKModule.Views
 		public AddressEditor()
 		{
 			InitializeComponent();
-
-			LeftPartMin = (byte)1;
-			LeftPartMax = (byte)8;
-			RightPartMin = (byte)1;
-			RightPartMax = (byte)255;
+			IntAddressMin = (byte)1;
+			IntAddressMax = (byte)255;
 		}
 
-		public byte LeftPartMin { get; set; }
-		public byte LeftPartMax { get; set; }
-		public byte RightPartMin { get; set; }
-		public byte RightPartMax { get; set; }
+		public byte IntAddressMin { get; set; }
+		public byte IntAddressMax { get; set; }
 
-		byte LeftPartLen
+		byte IntAddressLength
 		{
-			get { return (byte)LeftPartMax.ToString().Length; }
-		}
-		byte RightPartLen
-		{
-			get { return (byte)RightPartMax.ToString().Length; }
+			get { return (byte)IntAddressMax.ToString().Length; }
 		}
 
-		string LeftPartFormat
+		string IntAddressFormat
 		{
-			get { return string.Format("D{0}", LeftPartLen); }
-		}
-		string RightPartFormat
-		{
-			get { return string.Format("D{0}", RightPartLen); }
+			get { return string.Format("D{0}", IntAddressLength); }
 		}
 
-		int LeftPart
+		int IntAddress
 		{
 			get
 			{
-				if (Device.Driver.IsDeviceOnShleif)
-					return int.Parse(addressEditor.Text.Remove(addressEditor.Text.IndexOf('.')));
 				return int.Parse(addressEditor.Text);
 			}
 			set
 			{
-				if (Device.Driver.IsDeviceOnShleif)
-					addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(addressEditor.Text.IndexOf('.'));
-				else
-					addressEditor.Text = value.ToString(LeftPartFormat);
-			}
-		}
-
-		int RightPart
-		{
-			get
-			{
-				if (Device.Driver.IsDeviceOnShleif)
-					return int.Parse(addressEditor.Text.Substring(addressEditor.Text.IndexOf('.') + 1));
-				return 0;
-			}
-			set
-			{
-				if (value > 0 && Device.Driver.IsDeviceOnShleif)
-					addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
+				addressEditor.Text = value.ToString(IntAddressFormat);
 			}
 		}
 
@@ -132,25 +99,10 @@ namespace GKModule.Views
 			if (_isSaving)
 				return;
 
-			string text = "";
-			if (Device.Driver.IsDeviceOnShleif)
-				text = Device.ShleifNo.ToString() + "." + Device.IntAddress.ToString(RightPartFormat);
-			else
-				text = Device.IntAddress.ToString(LeftPartFormat);
+			addressEditor.Text = Device.IntAddress.ToString(IntAddressFormat);
 
-			addressEditor.Text = text;
-
-			if (Device.Driver.IsDeviceOnShleif)
-			{
-				addressEditor.MaxLength = LeftPartLen + 1 + RightPartLen;
-				LeftPart = LeftPart;
-				RightPart = RightPart;
-			}
-			else
-			{
-				addressEditor.MaxLength = LeftPartLen;
-				LeftPart = LeftPart;
-			}
+			addressEditor.MaxLength = IntAddressLength;
+			IntAddress = IntAddress;
 
 			addressEditor.Focus();
 			addressEditor.CaretIndex = 0;
@@ -166,17 +118,8 @@ namespace GKModule.Views
 			if (Device == null)
 				return;
 			_isSaving = true;
-			if (Device.Driver.IsDeviceOnShleif)
-			{
-				Device.ShleifNo = (byte)LeftPart;
-				Device.IntAddress = (byte)RightPart;
-				Address = LeftPart.ToString() + '.' + RightPart.ToString();
-			}
-			else
-			{
-				Device.IntAddress = (byte)LeftPart;
-				Address = LeftPart.ToString();
-			}
+			Device.IntAddress = (byte)IntAddress;
+			Address = IntAddress.ToString();
 			_isSaving = false;
 		}
 
@@ -184,94 +127,54 @@ namespace GKModule.Views
 		{
 			if (Device.Driver.IsRangeEnabled)
 			{
-				LeftPartMin = Device.Driver.MinAddress;
-				LeftPartMax = Device.Driver.MaxAddress;
-			}
-			else
-			{
-				LeftPartMin = 1;
-				LeftPartMax = 8;
-				RightPartMin = 1;
-				RightPartMax = 255;
-				if (Device.Driver.MaxAddressOnShleif != 0)
-					RightPartMax = Device.Driver.MaxAddressOnShleif;
-				if (Device.Parent.Driver.IsGroupDevice)
-				{
-					RightPartMin = (byte)Device.Parent.IntAddress;
-					RightPartMax = (byte)(RightPartMin + Device.Parent.Driver.GroupDeviceChildrenCount);
-				}
+				IntAddressMin = Device.Driver.MinAddress;
+				IntAddressMax = Device.Driver.MaxAddress;
 			}
 		}
 
 		void OnTextChanged(object sender, TextChangedEventArgs e)
 		{
 			CheckLeftPart();
-			CheckRightPart();
 			SaveAddress();
 		}
 
 		void CheckLeftPart()
 		{
 			int caretIndex = addressEditor.CaretIndex;
-			int leftPart = LeftPart;
-			if (leftPart < LeftPartMin)
+			int intAddress = IntAddress;
+			if (intAddress < IntAddressMin)
 			{
-				ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-				LeftPart = LeftPartMin;
+				ShowError(string.Format(MessageFormat, intAddress, IntAddressMin, IntAddressMax));
+				IntAddress = IntAddressMin;
 			}
-			else if (leftPart > LeftPartMax)
+			else if (intAddress > IntAddressMax)
 			{
-				ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-				LeftPart = LeftPartMax;
-			}
-			addressEditor.CaretIndex = caretIndex;
-		}
-
-		void CheckRightPart()
-		{
-			int caretIndex = addressEditor.CaretIndex;
-
-			if (RightPart < RightPartMin)
-			{
-				ShowError(string.Format(MessageFormat, RightPart, RightPartMin, RightPartMax));
-				RightPart = RightPartMin;
-			}
-			else if (RightPart > RightPartMax)
-			{
-				ShowError(string.Format(MessageFormat, RightPart, RightPartMin, RightPartMax));
-				RightPart = RightPartMax;
+				ShowError(string.Format(MessageFormat, intAddress, IntAddressMin, IntAddressMax));
+				IntAddress = IntAddressMax;
 			}
 			addressEditor.CaretIndex = caretIndex;
 		}
 
 		void OnRightKey()
 		{
-			if (addressEditor.CaretIndex >= addressEditor.Text.Length)
-				return;
-
-			addressEditor.CaretIndex += 1;
-			if (addressEditor.Text[addressEditor.CaretIndex] == '.')
+			if (addressEditor.CaretIndex < addressEditor.Text.Length)
+			{
 				addressEditor.CaretIndex += 1;
+			}
 		}
 
 		void OnLeftKey()
 		{
-			if (addressEditor.CaretIndex <= 0)
-				return;
-
-			if (addressEditor.Text[addressEditor.CaretIndex - 1] == '.')
-				addressEditor.CaretIndex -= 2;
-			else
+			if (addressEditor.CaretIndex > 0)
+			{
 				addressEditor.CaretIndex -= 1;
+			}
 		}
 
 		void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
 		{
 			if (addressEditor.SelectionStart >= addressEditor.Text.Length)
 				addressEditor.SelectionStart = addressEditor.Text.Length - 1;
-
-			if (addressEditor.Text[addressEditor.SelectionStart] == '.')
-				addressEditor.SelectionStart += 1;
 
 			if (addressEditor.SelectionLength != 1)
 				addressEditor.SelectionLength = 1;
@@ -348,15 +251,15 @@ namespace GKModule.Views
 			};
 			addressEditor.ToolTip = toolTip;
 
-			DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 3), IsEnabled = true };
-			timer.Tick += new EventHandler(delegate(object timerSender, EventArgs timerArgs)
+			var dispatcherTimer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 3), IsEnabled = true };
+			dispatcherTimer.Tick += new EventHandler(delegate(object timerSender, EventArgs timerArgs)
 			{
 				if (toolTip != null)
 				{
 					toolTip.IsOpen = false;
 				}
 				toolTip = null;
-				timer = null;
+				dispatcherTimer = null;
 
 			});
 		}

@@ -19,6 +19,8 @@ namespace Common.GK
 			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(KAU_Shleif_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(RSR2_KAU_Shleif_Helper.Create());
 
 			AddDriverToKau(SmokeDetectorHelper.Create());
 			AddDriverToKau(HeatDetector_Helper.Create());
@@ -64,14 +66,14 @@ namespace Common.GK
 		static void AddDriverToKau(XDriver driver)
 		{
 			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif);
 			kauDriver.Children.Add(driver.DriverType);
 		}
 
 		static void AddDriverToKau_RSR2(XDriver driver)
 		{
 			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 			kauDriver.Children.Add(driver.DriverType);
 		}
 	}

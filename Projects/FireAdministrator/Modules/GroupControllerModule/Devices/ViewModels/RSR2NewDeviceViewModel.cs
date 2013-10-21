@@ -10,13 +10,12 @@ namespace GKModule.ViewModels
 {
 	public class RSR2NewDeviceViewModel : NewDeviceViewModelBase
 	{
-		static int PreviousShleif = 1;
 		XDevice RealParentDevice;
 
 		public RSR2NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
-			RealParentDevice = ParentDevice.KAURSR2Parent;
+			RealParentDevice = ParentDevice.KAURSR2ShleifParent;
 
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
@@ -25,8 +24,19 @@ namespace GKModule.ViewModels
 					Drivers.Add(driver);
 			}
 
+			if (RealParentDevice != null)
+			{
+				SelectedShleif = RealParentDevice.IntAddress;
+			}
+			else
+			{
+				SelectedShleif = 1;
+			}
+
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
+
+		byte SelectedShleif;
 
 		XDriver _selectedDriver;
 		public XDriver SelectedDriver
@@ -35,88 +45,39 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				UpdateShleif();
 				OnPropertyChanged("SelectedDriver");
-			}
-		}
-
-		void UpdateShleif()
-		{
-			AvailableShleifs.Clear();
-			if (ParentDevice != null)
-			{
-				var parentShleif = ParentDevice;
-				if (ParentDevice.Driver.DriverType == XDriverType.MPT)
-					parentShleif = ParentDevice.Parent;
-				if (parentShleif.Driver.IsKauOrRSR2Kau)
-				{
-					for (byte i = 1; i <= 8; i++)
-					{
-						AvailableShleifs.Add(i);
-					}
-				}
-				else
-				{
-					AvailableShleifs.Add(ParentDevice.ShleifNo);
-				}
-			}
-			if (AvailableShleifs.Any(x => x == PreviousShleif))
-			{
-				SelectedShleif = AvailableShleifs.FirstOrDefault(x => x == PreviousShleif);
-			}
-			else
-			{
-				SelectedShleif = AvailableShleifs.FirstOrDefault();
-			}
-		}
-
-		byte _selectedShleif;
-		public byte SelectedShleif
-		{
-			get { return _selectedShleif; }
-			set
-			{
-				_selectedShleif = value;
-				PreviousShleif = value;
-				OnPropertyChanged("SelectedShleif");
 			}
 		}
 
 		bool CreateDevices()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, RealParentDevice, SelectedShleif);
-			var startAddress = (byte)(maxAddress % 256);
-			var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
-
 			for (int i = 0; i < Count; i++)
 			{
-				var address = startAddress + i * step;
-				if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+				if (ParentDevice.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					return true;
-				}
-
-				if (ParentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
-				{
-					var previousDevice = ParentDevice.Children.LastOrDefault();
-					var minDelta = 8 * 256;
-					foreach (var child in ParentDevice.Children)
+					var maxAddressOnShleif = 0;
+					if (ParentDevice.Children.Count > 0)
 					{
-						var delta = (SelectedShleif + 1) * 256 - (child.ShleifNo * 256 + child.IntAddress);
-						if (delta > 0 && delta < minDelta)
-						{
-							minDelta = delta;
-							previousDevice = child;
-						}
+						maxAddressOnShleif = ParentDevice.Children.Max(x => x.IntAddress + Math.Max(0, x.Driver.GroupDeviceChildrenCount - 1));
+					}
+					maxAddressOnShleif += 1;
+
+					if (maxAddressOnShleif + Math.Min(0, SelectedDriver.GroupDeviceChildrenCount - 1) > 255)
+					{
+						return true;
 					}
 
-					var previousDeviceViewModel = ParentDeviceViewModel.Children.FirstOrDefault(x => x.Device == previousDevice);
-					XDevice device = XManager.InsertChild(ParentDevice, previousDevice, SelectedDriver, SelectedShleif, (byte)address);
-					AddedDevice = NewDeviceHelper.InsertDevice(device, previousDeviceViewModel);
+					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)maxAddressOnShleif);
+					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				}
-				else
+				else if (ParentDevice.Parent != null && ParentDevice.Parent.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+					var maxPreviousAddress = ParentDevice.IntAddress + Math.Max(0, ParentDevice.Driver.GroupDeviceChildrenCount - 1) + 1;
+					if(maxPreviousAddress > 255)
+					{
+						return true;
+					}
+					XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, SelectedShleif, (byte)maxPreviousAddress);
 					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
 				}
 			}

@@ -84,16 +84,16 @@ namespace FiresecClient
 
 		public static void RebuildRSR2Addresses(XDevice parentDevice)
 		{
-			for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
+			foreach (var shliefDevice in parentDevice.Children)
 			{
-				var childrenOnShleif = parentDevice.Children.Where(x => x.ShleifNo == shleifNo).ToList();
+				var childrenOnShleif = shliefDevice.Children.Where(x => x.ShleifNo == shliefDevice.IntAddress).ToList();
 				byte currentAddress = 1;
 				foreach (var device in childrenOnShleif)
 				{
 					device.IntAddress = currentAddress;
 					device.OnChanged();
 
-					for (int i = 0; i < device.Children.Count; i++ )
+					for (int i = 0; i < device.Children.Count; i++)
 					{
 						var childDevice = device.Children[i];
 						childDevice.IntAddress = (byte)(currentAddress + i);

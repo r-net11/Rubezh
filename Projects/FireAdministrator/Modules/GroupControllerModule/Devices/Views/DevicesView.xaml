@@ -173,7 +173,7 @@
 											<Grid>
 												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
-											</Grid>
+											</Grid> 
 										</ControlTemplate>
 									</Controls:EditorPresenter.EditTemplate>
 								</Controls:EditorPresenter>

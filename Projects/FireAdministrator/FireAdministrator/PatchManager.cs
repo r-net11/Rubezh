@@ -2,6 +2,8 @@
 using System.IO;
 using Common;
 using Infrastructure.Common;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace FireAdministrator
 {

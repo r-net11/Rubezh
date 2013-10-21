@@ -9,7 +9,8 @@
 
             <Button Content="Перевести в технологический режим" Command="{Binding GoToTechnologicalCommand}" Width="300" Margin="2" />
             <Button Content="Перевести в рабочий режим" Command="{Binding GoToWorkRegimeCommand}" Width="300" Margin="2" />
-            <Button Content="Создать 20000 зон" Command="{Binding CreateTestZonesCommand}" Width="300" Margin="2" />
+            <Button Content="Создать 20000 зон" Command="{Binding CreateTestZonesCommand}" Width="150" Margin="2" />
+            <Button Content="Конвертировать шлейфы" Command="{Binding ConvertShleifCommand}" Width="200" Margin="2" />
         </WrapPanel>
     </Grid>
 </UserControl>
