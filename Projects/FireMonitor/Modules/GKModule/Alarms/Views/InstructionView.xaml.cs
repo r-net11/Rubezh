@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using System;
 using System.Windows.Threading;
+using GKModule.ViewModels;
 
 namespace GKModule.Views
 {
@@ -13,9 +14,22 @@ namespace GKModule.Views
         public InstructionView()
 		{
 			InitializeComponent();
-            mediaElement.Play();
-            UpdateVisibilityPlaying();
-		}
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dataContext = (InstructionViewModel)DataContext;
+            if (dataContext.Instruction.HasMedia)
+            {
+                mediaElement.Play();
+                UpdateVisibilityPlaying();
+            }
+            else
+            {
+                videoBorder.Visibility = Visibility.Collapsed;
+                videoRow.Height = new GridLength(0);
+            }
+        }
 
 		private void PlayButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -70,10 +84,6 @@ namespace GKModule.Views
         {
             if (!slider.IsMouseOver)
                 slider.Value = mediaElement.Position.TotalSeconds;
-            else
-            {
-                ;
-            }
         }
 
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
@@ -98,16 +108,13 @@ namespace GKModule.Views
 
         private void slider_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            {
-                TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value))); 
-                mediaElement.Position = time;
-            }
+            TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value)));
+            mediaElement.Position = time;
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             mediaElement.Stop();
         }
-
     }
 }

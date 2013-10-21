@@ -47,4 +47,5 @@
     <Converters:SubsystemTypeToIconConverter x:Key="SubsystemTypeToIconConverter" />
     <Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
     <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
+    <Converters:StringToImageConverter x:Key="StringToImageConverter" />
 </ResourceDictionary>

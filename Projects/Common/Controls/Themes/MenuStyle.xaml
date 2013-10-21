@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Converters="clr-namespace:Controls.Converters">
+
+    <Converters:StringToImageConverter x:Key="StringToImageConverter" />
 
     <SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
 
@@ -91,17 +94,17 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut"/>
                     <ColumnDefinition Width="13"/>
                 </Grid.ColumnDefinitions>
-                <ContentPresenter Name="Icon" Margin="6,0,6,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                <ContentPresenter Name="Icon" Margin="2,0,2,0" VerticalAlignment="Center" ContentSource="Icon"/>
                 <Border Name="Check" Width="13" Height="13" Visibility="Collapsed" Margin="6,0,6,0" Background="{DynamicResource PressedBackgroundBrush}" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}">
                     <Path Name="CheckMark" Width="7" Height="7" Visibility="Hidden" SnapsToDevicePixels="False" Stroke="{StaticResource GlyphBrush}" StrokeThickness="2" Data="M 0 0 L 7 7 M 0 7 L 7 0" />
                 </Border>
-                <ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" RecognizesAccessKey="True"/>
+                <ContentPresenter Name="HeaderHost" Grid.Column="1" ContentSource="Header" Margin="2 0 0 0" RecognizesAccessKey="True"/>
                 <TextBlock x:Name="InputGestureText" Grid.Column="2" Text="{TemplateBinding InputGestureText}" Margin="5,2,0,2" DockPanel.Dock="Right" />
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="Icon" Value="{x:Null}">
-                <Setter TargetName="Icon" Property="Visibility" Value="Hidden"/>
+                <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>

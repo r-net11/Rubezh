@@ -393,27 +393,15 @@
 				    </StackPanel>
 			    </ScrollViewer>
                 <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                        <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                        <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" Margin="5 0" />
-                        <Controls:ToolBarButton Grid.Column="1" Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" Margin="5 0" />
-                    </StackPanel>
-                    <!--<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры устройства" />
-                        <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WriteCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры в устройство" />
-                        <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
-                    </StackPanel>-->
-                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" />
+                        <Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" />
                         <Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" ImageSource="/Controls;component/Images/ParametersRead.png" />
                         <Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
                         <Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadAll.png" />
                         <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
-                        <Controls:ToolBarButton Command="{Binding CopyParamCommand}" ToolTip="Копировать параметры (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
-                        <Controls:ToolBarButton Command="{Binding PasteParamCommand}" ToolTip="Вставить параметры (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
+                        <Controls:ToolBarButton Command="{Binding CopyParamCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
+                        <Controls:ToolBarButton Command="{Binding PasteParamCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
                     </StackPanel>
                 </Grid>
             </Grid>

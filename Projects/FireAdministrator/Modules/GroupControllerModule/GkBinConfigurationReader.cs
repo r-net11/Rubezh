@@ -169,6 +169,7 @@ namespace GKModule
 						StringValue = IpAddress
 					};
 					device.Properties.Add(ipAddressProperty);
+					device.Parent = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.System);
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -182,7 +183,7 @@ namespace GKModule
 						Value = (byte)(controllerAdress / 256)
 					};
 					device.DeviceProperties.Add(modeProperty);
-
+					device.Parent = GkDevice;
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
 				}

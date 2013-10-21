@@ -19,7 +19,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base("Administrator")
 		{
-			Title = "Администратор ОПС FireSec-2";
+			Title = "Администратор ОПС FireSec";
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;
