@@ -43,7 +43,7 @@ namespace Infrastructure.Common.Windows
 
 		public static void ShowWithCancel(string title, int stepCount = 1)
 		{
-			Show(new LoadingViewModel() { Title = title, StepCount = stepCount, CanCancel = true });
+			Show(new LoadingViewModel() { Title = title, StepCount = stepCount, CanCancel = true, Text = title });
 		}
 		public static bool IsCanceled
 		{
