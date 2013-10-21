@@ -57,6 +57,7 @@
         <File Id="SDK.FSAgentClient.dll" Name="FSAgentClient.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+        <File Id="SDK.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
       </Component>
     </DirectoryRef>

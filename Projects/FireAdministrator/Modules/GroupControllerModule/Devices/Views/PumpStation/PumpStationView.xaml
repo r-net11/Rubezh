@@ -31,7 +31,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" Width="Auto" />
-                    <DataGridTemplateColumn Header="Тип" Width="Auto">
+                    <DataGridTemplateColumn Header="Тип" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding AvailablePumpStationPumpTypes}" SelectedItem="{Binding SelectedPumpStationPumpType, UpdateSourceTrigger=PropertyChanged}"

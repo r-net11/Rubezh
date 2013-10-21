@@ -503,7 +503,7 @@ namespace GKModule.ViewModels
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
-			if (Driver.DriverType == XDriverType.MPT && Parent != null && Parent.Driver.IsKauOrRSR2Kau)
+			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null && Parent.Driver.IsKauOrRSR2Kau)
 				return true;
 			return false;
 		}
@@ -665,7 +665,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowLogic()
 		{
-			return (Driver.HasLogic && !Device.IsNotUsed);
+			return Driver.HasLogic && !Device.IsNotUsed && !Device.IsChildMPTOrMRO();
 		}
 
 		public RelayCommand ShowZonesCommand { get; private set; }
@@ -681,7 +681,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZones()
 		{
-			return (Driver.HasZone);
+			return Driver.HasZone && !Device.IsNotUsed;
 		}
 
 		public RelayCommand ShowZoneOrLogicCommand { get; private set; }
@@ -696,7 +696,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return (Driver.HasZone || Driver.HasLogic);
+			return CanShowZones() || CanShowLogic();
 		}
 
 		public bool IsZoneOrLogic
@@ -792,6 +792,9 @@ namespace GKModule.ViewModels
 		public bool CanDriverBeChanged(XDriver driver)
 		{
 			if (driver == null || Device.Parent == null)
+				return false;
+
+			if (Device.IsChildMPTOrMRO())
 				return false;
 
 			if (Device.Parent.Driver.DriverType == XDriverType.AM_4)

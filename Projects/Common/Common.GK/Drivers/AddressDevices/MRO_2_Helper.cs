@@ -46,7 +46,8 @@ namespace Common.GK
 				Name = "Режим",
 				Caption = "Режим",
 				Default = 2,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsMPTOrMRORegime = true
 			};
 			var property2Parameter1 = new XDriverPropertyParameter()
 			{

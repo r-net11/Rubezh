@@ -46,7 +46,9 @@ namespace Common.GK
 				Caption = "Статус МПТ",
 				Default = 1,
 				Offset = 6,
-				IsLowByte = true
+				IsLowByte = true,
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsMPTOrMRORegime = true
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Ведущий", 1);
 			GKDriversHelper.AddPropertyParameter(property1, "Ведомый", 2);

@@ -141,6 +141,9 @@ namespace XFiresecAPI
 					if (parentDevice.Driver.IsGroupDevice)
 						continue;
 
+					if (parentDevice.Driver.DriverType == XDriverType.MPT || parentDevice.Driver.DriverType == XDriverType.MRO_2)
+						continue;
+
 					address.Append(parentDevice.Address);
 					address.Append(".");
 				}
@@ -359,6 +362,11 @@ namespace XFiresecAPI
 					return false;
 				return true;
 			}
+		}
+
+		public bool IsChildMPTOrMRO()
+		{
+			return Parent != null && (Parent.Driver.DriverType == XDriverType.MPT || Parent.Driver.DriverType == XDriverType.MRO_2);
 		}
 
 		public void InitializeDefaultProperties()

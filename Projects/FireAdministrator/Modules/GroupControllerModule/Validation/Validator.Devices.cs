@@ -103,7 +103,7 @@ namespace GKModule.Validation
 			if (device.Driver.DriverType == XDriverType.GKLine || device.Driver.DriverType == XDriverType.GKRele)
 				return;
 
-			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic)
+			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
 			{
 				if (device.DeviceLogic.Clauses.Count == 0)
 					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));

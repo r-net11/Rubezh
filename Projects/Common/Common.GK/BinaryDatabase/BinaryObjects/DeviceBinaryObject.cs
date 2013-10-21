@@ -93,6 +93,14 @@ namespace Common.GK
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
+					if (driverProperty.IsMPTOrMRORegime)
+					{
+						if (Device.Driver.DriverType == XDriverType.MPT)
+							property.Value = Device.IsChildMPTOrMRO() ? (ushort)2 : (ushort)1;
+						if (Device.Driver.DriverType == XDriverType.MRO_2)
+							property.Value = Device.IsChildMPTOrMRO() ? (ushort)1 : (ushort)2;
+					}
+
 					byte no = driverProperty.No;
 					ushort value = property.Value;
 					if (driverProperty.Offset > 0)

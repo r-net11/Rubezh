@@ -149,7 +149,7 @@ namespace GKModule.ViewModels
 			var code = 0x80 + (int)XStateBit.TurnOnNow_InManual;
 			var code2 = 0;
 			code2 += ((byte)SelectedMROMessageNo << 1);
-			code2 += ((byte)SelectedMROMessageType << 5);
+			code2 += ((byte)SelectedMROMessageType << 4);
 			ObjectCommandSendHelper.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
 		#endregion

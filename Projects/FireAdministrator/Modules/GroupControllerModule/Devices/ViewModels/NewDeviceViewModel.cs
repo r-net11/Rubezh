@@ -24,12 +24,14 @@ namespace GKModule.ViewModels
 					Drivers.Add(driver);
 			}
 
-			if (deviceViewModel.Driver.DriverType == XDriverType.MPT)
+			var driverType = deviceViewModel.Driver.DriverType;
+			if (driverType == XDriverType.MPT || driverType == XDriverType.MRO_2)
 			{
 				Drivers = new ObservableCollection<XDriver>(
 					from XDriver driver in sortedDrivers
-					where driver.DriverType == XDriverType.MPT
+					where driver.DriverType == driverType
 					select driver);
+				PreviousShleif = deviceViewModel.Device.ShleifNo;
 			}
 
 			SelectedDriver = Drivers.FirstOrDefault();

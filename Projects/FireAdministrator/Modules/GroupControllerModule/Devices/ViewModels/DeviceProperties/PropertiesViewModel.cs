@@ -27,7 +27,10 @@ namespace GKModule.ViewModels
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
-					if (driverProperty.IsAUParameter)
+					if (driverProperty.IsMPTOrMRORegime)
+						continue;
+
+					//if (driverProperty.IsAUParameter)
 					{
 						switch (driverProperty.DriverPropertyType)
 						{
