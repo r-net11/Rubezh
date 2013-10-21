@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Services;
+using System.Diagnostics;
+using System.Threading;
 
 namespace GKProcessor
 {

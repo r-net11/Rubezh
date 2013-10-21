@@ -189,7 +189,7 @@ namespace Common.GK
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Дистанционная команда «НОРМА» поступила когда был замкнут включатель «ЗАЩИТА");
+							AddAdditionalState(XStateClass.Failure, "Запрет команды «НОРМА»");
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Низкое напряжение питания привода (ниже 20V)");
 						if (bitArray[2])
@@ -205,17 +205,17 @@ namespace Common.GK
 						if (bitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Обрыв в цепи концевого выключателя «ЗАКРЫТО»");
 						if (bitArray[8 + 0])
-							AddAdditionalState(XStateClass.Failure, "Через датчик тока, включенного последовательно обмоткой прямого вращения двигателя, не проходит ток");
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 2 двигателя");
 						if (bitArray[8 + 1])
-							AddAdditionalState(XStateClass.Failure, "Через датчик тока, включенного последовательно встречной обмоткой прямого вращения двигателя, не проходит ток");
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 1 двигателя");
 						if (bitArray[8 + 2])
 							AddAdditionalState(XStateClass.Failure, "Запрещенное состояние концевых выключателей (Замкнуты/разомкнуты оба концевика)");
 						if (bitArray[8 + 3])
-							AddAdditionalState(XStateClass.Failure, "Лимит времени достижения конечного выключателя");
-						if (bitArray[8 + 4])
-							AddAdditionalState(XStateClass.Failure, "Напряжение запуска реле ниже нормы");
-						if (bitArray[8 + 5])
-							AddAdditionalState(XStateClass.Failure, "Реле не реагирует на команды");
+							AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
+						//if (bitArray[8 + 4])
+						//    AddAdditionalState(XStateClass.Failure, "Напряжение запуска реле ниже нормы");
+						//if (bitArray[8 + 5])
+						//    AddAdditionalState(XStateClass.Failure, "Реле не реагирует на команды");
 						break;
 
 					case XDriverType.MRO_2:
@@ -233,9 +233,9 @@ namespace Common.GK
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Сопротивление в диапазоне 100-340 Ом");
 						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Сопротивление выше на 0,5 Ом");
+							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода выше нормы");
 						if (bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "КЗ илиОбрыв выходной линии");
+							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода ниже нормы");
 						if (bitArray[4])
 							AddAdditionalState(XStateClass.Test, "Тест кнопка");
 						if (bitArray[5])
@@ -247,9 +247,9 @@ namespace Common.GK
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Отсутствуют или испорчены сообщения для воспроизведения");
 						if (bitArray[8 + 1])
-							AddAdditionalState(XStateClass.Info, "КЗ кнопки пуск");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки пуск");
 						if (bitArray[8 + 2])
-							AddAdditionalState(XStateClass.Info, "КЗ кнопки стоп");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки стоп");
 						break;
 
 					case XDriverType.MPT:

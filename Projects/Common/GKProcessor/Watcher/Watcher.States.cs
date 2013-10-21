@@ -81,6 +81,7 @@ namespace GKProcessor
 				binaryState.OffDelay = binaryObjectState.OffDelay;
 				binaryState.LastDateTime = DateTime.Now;
 			});
+
 			return true;
 		}
 

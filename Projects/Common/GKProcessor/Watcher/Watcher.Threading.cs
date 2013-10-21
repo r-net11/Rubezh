@@ -8,7 +8,7 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public bool IsStopping = false;
+		bool IsStopping = false;
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
