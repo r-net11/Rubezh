@@ -1,3 +1,4 @@
+﻿*.docx
 BuildScripts/bin
 buildlog.xml
 /scktsrvr.lnk
