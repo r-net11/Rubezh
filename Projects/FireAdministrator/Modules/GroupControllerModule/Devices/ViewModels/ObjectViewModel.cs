@@ -1,4 +1,5 @@
-﻿using Infrastructure.Common.TreeList;
+﻿using System.Collections.Generic;
+using Infrastructure.Common.TreeList;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -13,25 +14,13 @@ namespace GKModule.ViewModels
 		public XZone Zone;
 		public XDirection Direction;
 		public string ImageSource { get; private set; }
+		public ObjectViewModel Parent { get; set; }
+		public List<ObjectViewModel> Children { get; set; }
 		public object Clone()
 		{
 			return MemberwiseClone();
 		}
 
-		public string ParentPath
-		{
-			get
-			{
-				var path = "";
-				if (Device != null)
-				{
-					path = ((Device.GKParent == null) ? "" : Device.GKParent.PresentationDriverAndAddress) +
-					       ((Device.KAUParent == null) ? "" : Device.KAUParent.PresentationDriverAndAddress) +
-					       ((Device.KAURSR2Parent == null) ? "" : Device.KAURSR2Parent.PresentationDriverAndAddress);
-				}
-				return path;
-			}
-		}
 		public ObjectViewModel(XDevice device)
 		{
 			Name = device.ShortName;
@@ -39,6 +28,7 @@ namespace GKModule.ViewModels
 			Address = device.PresentationAddress;
 			ImageSource = "/Controls;component/GKIcons/" + device.Driver.DriverType + ".png"; 
 			Device = device;
+			Children = new List<ObjectViewModel>();
 		}
 
 		public ObjectViewModel(XZone zone)

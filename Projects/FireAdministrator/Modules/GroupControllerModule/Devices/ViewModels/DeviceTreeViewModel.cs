@@ -20,12 +20,13 @@ namespace GKModule.ViewModels
 		{
 			if (device.Children != null)
 			{
-				InitializeDevices(device);
+				InitializeDevices(new ObjectViewModel(device), new ObjectViewModel(device.Parent));
 			}
 			if(zones != null)
 			foreach (var zone in zones)
 			{
 				var objectViewModel = new ObjectViewModel(zone);
+				objectViewModel.Parent = new ObjectViewModel(device);
 				Objects.Add(objectViewModel);
 				Zones.Add(objectViewModel);
 			}
@@ -33,27 +34,30 @@ namespace GKModule.ViewModels
 			foreach (var direction in directions)
 			{
 				var objectViewModel = new ObjectViewModel(direction);
+				objectViewModel.Parent = new ObjectViewModel(device);
 				Objects.Add(objectViewModel);
 				Directions.Add(objectViewModel);
 			}
 		}
-
-		ObjectViewModel InitializeDevices(XDevice device)
+		void InitializeDevices(ObjectViewModel objectViewModel, ObjectViewModel parentObjectViewModel)
 		{
-			var objectViewModel = new ObjectViewModel(device);
-			if (!device.Driver.IsGroupDevice)
-			{
+			objectViewModel.Parent = parentObjectViewModel;
+			if (objectViewModel.Device.Driver.IsGroupDevice)
+				return;
+				if (parentObjectViewModel != null)
+					parentObjectViewModel.Children.Add(objectViewModel);
 				Objects.Add(objectViewModel);
 				Devices.Add(objectViewModel);
-			}
-			foreach (var childDevice in device.Children)
+			if (objectViewModel.Device.Children.Count > 0)
 			{
-				InitializeDevices(childDevice);
+				foreach (var childDevice in objectViewModel.Device.Children)
+				{
+					InitializeDevices(new ObjectViewModel(childDevice), objectViewModel);
+				}
 			}
-			return objectViewModel;
+			return;
 		}
-
-		public static void CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
+		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
 		{
 			int max = Math.Max(objects1.Count, objects2.Count);
 			for (int i = 0; i < max; i++)
@@ -84,16 +88,6 @@ namespace GKModule.ViewModels
 					object1.HasDifferences = true;
 					if(object1.Address == "")
 						continue;
-					//if ((object1.Device != null) && (object2.Device != null) && (object1.Device.IntAddress > object2.Device.IntAddress))
-					//{
-					//    objects1.Insert(i, object2);
-					//    objects2.Insert(i + 1, object1);
-					//}
-					//else
-					//{
-					//    objects1.Insert(i + 1, object2);
-					//    objects2.Insert(i, object1);
-					//}
 					objects2.Add(object1);
 					i++;
 				}
@@ -107,6 +101,30 @@ namespace GKModule.ViewModels
 					i++;
 				}
 			}
+
+			if (objects1.FirstOrDefault().Device != null)
+			{
+				SortTree(ref objects1);
+				SortTree(ref objects2);
+			}
+			return new List<List<ObjectViewModel>> {objects1, objects2};
+		}
+
+		private static void SortTree(ref List<ObjectViewModel> objectViewModels)
+		{
+			var rootObject = objectViewModels.FirstOrDefault(x => x.Device.Driver.DriverType == XDriverType.GK);
+			objectViewModels = new List<ObjectViewModel>();
+			AddChildren(objectViewModels, rootObject);
+		}
+
+		private static void AddChildren(List<ObjectViewModel> newobjectViewModels, ObjectViewModel rootObject)
+		{
+			foreach (var objectViewModel in rootObject.Children)
+			{
+				newobjectViewModels.Add(objectViewModel);
+				if (objectViewModel.Children.Count() > 0)
+					AddChildren(newobjectViewModels, objectViewModel);
+			}
 		}
 
 		private static bool CompareObjects(ObjectViewModel objectViewModel, List<ObjectViewModel> objectViewModels)
@@ -115,12 +133,11 @@ namespace GKModule.ViewModels
 				(x =>
 				 (x.Name == objectViewModel.Name) &&
 				 (x.Address == objectViewModel.Address) &&
-				 (x.ParentPath == objectViewModel.ParentPath));
+				 ((x.Parent.Name == objectViewModel.Parent.Name) && (x.Parent.Address == objectViewModel.Parent.Address)));
 			if ((matchedObjectViewModel != null) && (!matchedObjectViewModel.HasDifferences))
 				return true;
 			return false;
 		}
-
 		static void ExpandChild(DeviceViewModel parentDeviceViewModel)
 		{
 			parentDeviceViewModel.IsExpanded = true;
@@ -141,9 +158,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<ObjectViewModel> Devices { get; private set; }
-		public List<ObjectViewModel> Zones { get; private set; }
-		public List<ObjectViewModel> Directions { get; private set; }
+		public List<ObjectViewModel> Devices { get; set; }
+		public List<ObjectViewModel> Zones { get; set; }
+		public List<ObjectViewModel> Directions { get; set; }
 
 		ObjectViewModel _selectedObject;
 		public ObjectViewModel SelectedObject
