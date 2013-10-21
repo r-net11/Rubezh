@@ -12,42 +12,48 @@ namespace GKModule.ViewModels
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 			{
-				var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
-				if (parameter != null)
-					_selectedValue = parameter.Name;
+				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
+				if (driverPropertyParameter != null)
+				{
+					_selectedParameter = driverPropertyParameter;
+				}
 			}
 			else
 			{
-				var enumDriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
-				if (enumDriverProperty != null)
-					_selectedValue = enumDriverProperty.Name;
+				var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
+				if (enumdriverProperty != null)
+					_selectedParameter = enumdriverProperty;
 			}
 		}
 
-		public List<string> Values
+		public List<XDriverPropertyParameter> Parameters
+		{
+			get { return DriverProperty.Parameters; }
+		}
+
+		XDriverPropertyParameter _selectedParameter;
+		public XDriverPropertyParameter SelectedParameter
+		{
+			get { return _selectedParameter; }
+			set
+			{
+				_selectedParameter = value;
+				OnPropertyChanged("SelectedParameter");
+				Save(value.Value);
+			}
+		}
+
+		public override string DeviceAUParameterValue
 		{
 			get
 			{
-				var values = new List<string>();
-				foreach (var propertyParameter in _driverProperty.Parameters)
-				{
-					values.Add(propertyParameter.Name);
-				}
-				return values;
-			}
-		}
-
-		string _selectedValue;
-		public string SelectedValue
-		{
-			get { return _selectedValue; }
-			set
-			{
-				_selectedValue = value;
-				OnPropertyChanged("SelectedValue");
-
-				var shortValue = _driverProperty.Parameters.FirstOrDefault(x => x.Name == value).Value;
-				Save(shortValue);
+				var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+				if (deviceProperty == null)
+					return "Неизвестно";
+				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == deviceProperty.Value);
+				if (driverPropertyParameter != null)
+					return driverPropertyParameter.Name;
+				return "Неизвестно";
 			}
 		}
 	}

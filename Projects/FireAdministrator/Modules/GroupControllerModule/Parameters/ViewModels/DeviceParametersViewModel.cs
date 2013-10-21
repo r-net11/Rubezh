@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common.GK;
 using Firesec_50;
 using FiresecAPI.XModels;
@@ -170,7 +171,7 @@ namespace GKModule.ViewModels
 				//SelectedDevice.Device.Properties.Clear();
 				ReadDevices(new List<XDevice>() { SelectedDevice.Device });
 				SelectedDevice.Update();
-				ServiceFactory.SaveService.FSParametersChanged = true; // TODO Для ГК свой флаг
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -185,6 +186,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				ReadDevices(devices);
 				foreach (var device in devices)
 				{
@@ -215,13 +217,22 @@ namespace GKModule.ViewModels
 
 		void WriteDevices(List<XDevice> devices)
 		{
+			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
 			DatabaseManager.Convert();
+			var i = 0;
 			foreach (var device in devices)
 			{
+				i++;
+				FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
 				ParametersHelper.SetSingleParameter(device);
+				Thread.Sleep(100);
 			}
 			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void ReadDevices(List<XDevice> devices)
@@ -310,7 +321,7 @@ namespace GKModule.ViewModels
 					deviceProperty.Value = property.Value;
 				}
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 
@@ -392,6 +403,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				if (Validate(devices))
 				{
 					foreach (var device in devices)
@@ -424,6 +436,7 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
+				devices.Add(SelectedDevice.Device);
 				foreach (var device in devices)
 				{
 					CopyFromDeviceToSystem(device);
@@ -447,7 +460,7 @@ namespace GKModule.ViewModels
 
 		void CopyFromDeviceToSystem(XDevice device)
 		{
-			device.Properties.Clear();
+			device.Properties.RemoveAll(x => x.Name != "IPAddress");
 			foreach (var property in device.DeviceProperties)
 			{
 				var clonedProperty = new XProperty()
@@ -457,7 +470,7 @@ namespace GKModule.ViewModels
 				};
 				device.Properties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		void CopyFromSystemToDevice(XDevice device)
@@ -472,7 +485,7 @@ namespace GKModule.ViewModels
 				};
 				device.DeviceProperties.Add(clonedProperty);
 			}
-			ServiceFactory.SaveService.FSParametersChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 
@@ -561,10 +574,7 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;
 				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 			return true;
 		}

@@ -19,7 +19,7 @@ RootDevice		Рутовое устройство
 		Name				Название
 		Value				Значение
 		StringValue			Строковое значение(например, ip адрес)
-	SystemAUProperties		Свойства адресного устройства(записываемые в устройство)
+	DeviceProperties		Свойства адресного устройства(записываемые в устройство)
 	ZoneUIDs			Идентификаторы зон
 	DeviceLogic			Логика
 		Clauses				Клаузы
@@ -42,7 +42,15 @@ RootDevice		Рутовое устройство
 		DelayTime			Время разновременного пуска
 	PlanElementUIDs			Идентификаторы элементов на плане
 	AllowMultipleVizualization	Разрешить множественную визуализацию на плане
+	IsOPCUsed			Экспортировать в виде OPC тэга
 Zones			Зоны
+	UID			Идентификатор
+	No			Номер
+	Name			Название
+	Description		Описание
+	Fire1Count		Количество датчиков для перехода в состояние Пожар-1
+	Fire2Count		Количество датчиков для перехода в состояние Пожар-2
+	IsOPCUsed	Экспортировать в виде OPC тэга
 Directions		Направления
 JournalFilters		Фильтры журнала
 Instructions		Инструкции

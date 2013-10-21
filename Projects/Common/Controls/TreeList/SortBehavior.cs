@@ -12,6 +12,7 @@ namespace Controls.TreeList
 		public static readonly DependencyProperty CanUseSortProperty = DependencyProperty.RegisterAttached("CanUseSort", typeof(bool), typeof(SortBehavior), new FrameworkPropertyMetadata(true));
 		public static readonly DependencyProperty SortDirectionProperty = DependencyProperty.RegisterAttached("SortDirection", typeof(ListSortDirection?), typeof(SortBehavior));
 		public static readonly DependencyProperty SortComparerProperty = DependencyProperty.RegisterAttached("SortComparer", typeof(IItemComparer), typeof(SortBehavior));
+		public static readonly DependencyProperty DefaultSortComparerProperty = DependencyProperty.RegisterAttached("DefaultSortComparer", typeof(IItemComparer), typeof(SortBehavior), new FrameworkPropertyMetadata(OnDefaultSortComparerChanged));
 
 		[AttachedPropertyBrowsableForType(typeof(ListView))]
 		public static bool GetCanUserSortColumns(ListView element)
@@ -22,6 +23,17 @@ namespace Controls.TreeList
 		public static void SetCanUserSortColumns(ListView element, bool value)
 		{
 			element.SetValue(CanUserSortColumnsProperty, value);
+		}
+
+		[AttachedPropertyBrowsableForType(typeof(ListView))]
+		public static IItemComparer GetDefaultSortComparer(ListView element)
+		{
+			return (IItemComparer)element.GetValue(DefaultSortComparerProperty);
+		}
+		[AttachedPropertyBrowsableForType(typeof(ListView))]
+		public static void SetDefaultSortComparer(ListView element, IItemComparer value)
+		{
+			element.SetValue(DefaultSortComparerProperty, value);
 		}
 
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
@@ -52,7 +64,7 @@ namespace Controls.TreeList
 			return (IItemComparer)element.GetValue(SortComparerProperty);
 		}
 		[AttachedPropertyBrowsableForType(typeof(GridViewColumn))]
-		public static void SetSortComparer(GridViewColumn element, string value)
+		public static void SetSortComparer(GridViewColumn element, IItemComparer value)
 		{
 			element.SetValue(SortComparerProperty, value);
 		}
@@ -71,6 +83,17 @@ namespace Controls.TreeList
 			else
 				listView.RemoveHandler(GridViewColumnHeader.ClickEvent, (RoutedEventHandler)OnColumnHeaderClick);
 		}
+		private static void OnDefaultSortComparerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			var listView = (ListView)d;
+			if (e.NewValue != null)
+			{
+				if (listView.IsLoaded)
+					DoInitialSort(listView);
+				else
+					listView.Loaded += OnLoaded;
+			}
+		}
 
 		private static void OnLoaded(object sender, RoutedEventArgs e)
 		{
@@ -81,6 +104,9 @@ namespace Controls.TreeList
 
 		private static void DoInitialSort(ListView listView)
 		{
+			var defaultComparer = GetDefaultSortComparer(listView);
+			if (defaultComparer != null)
+				DoSort(listView, defaultComparer);
 			var gridView = (GridView)listView.View;
 			var column = gridView.Columns.FirstOrDefault(c => GetSortDirection(c) != null);
 			if (column != null)
@@ -105,6 +131,18 @@ namespace Controls.TreeList
 				tree.Root.RunSort(column, comparer);
 				SetSortDirection(column, tree.Root.SortDirection);
 			}
+		}
+		private static void DoSort(ListView listView, IItemComparer comparer)
+		{
+			var tree = (TreeList)listView;
+			if (tree != null && comparer != null)
+				tree.Root.RunSort(comparer);
+		}
+
+		public static void DoSort(ListView listView)
+		{
+			var comparer = GetDefaultSortComparer(listView);
+			DoSort(listView, comparer);
 		}
 	}
 }

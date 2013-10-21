@@ -6,15 +6,17 @@
     <UserControl.Resources>
         <Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
         <Converters:ZonesToStringConverter x:Key="ZonesToStringConverter" />
+        <Converters:DirectionsToStringConverter x:Key="DirectionsToStringConverter" />
     </UserControl.Resources>
 
     <Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Instruction.Name}" />
+            <DataGridTextColumn Header="Название" Width="100" Binding="{Binding Instruction.Name}" />
             <DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource XInstructionTypeToStringConverter}}" />
             <DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.AlarmType, Converter={StaticResource XAlarmTypeToStringConverter}}" />
-            <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
-            <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
+            <DataGridTextColumn Header="Устройства" Width="100" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
+            <DataGridTextColumn Header="Зоны" Width="100" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
+            <DataGridTextColumn Header="Направления" Width="100" Binding="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" />
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
             <DataGridTextColumn Header="Медиа" MinWidth="100" Binding="{Binding Instruction.MediaSource}" />
         </DataGrid.Columns>

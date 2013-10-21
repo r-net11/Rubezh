@@ -40,20 +40,20 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Автоматика отключена")]
 		AutoOff = 11,
 
-		[DescriptionAttribute("Выключено")]
-		Off = 12,
-
 		[DescriptionAttribute("Выключается")]
-		TurningOff = 13,
+		TurningOff = 12,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 14,
+		Service = 13,
 
 		[DescriptionAttribute("Тест")]
-		Test = 15,
+		Test = 14,
 
 		[DescriptionAttribute("Информация")]
-		Info = 16,
+		Info = 15,
+
+		[DescriptionAttribute("Выключено")]
+		Off = 16,
 
 		[DescriptionAttribute("Неизвестно")]
 		Unknown = 17,

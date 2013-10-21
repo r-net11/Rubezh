@@ -14,5 +14,10 @@ namespace FireAdministrator.Views
         {
             ServiceFactory.Layout.ShowFooter(null);
         }
+
+        private void ToolBarButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

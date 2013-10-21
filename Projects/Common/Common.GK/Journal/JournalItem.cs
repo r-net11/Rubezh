@@ -36,6 +36,8 @@ namespace Common.GK
 		[DataMember]
 		public XSubsystemType SubsystemType { get; set; }
 		[DataMember]
+		public XStateClass ObjectStateClass { get; set; }
+		[DataMember]
 		public InternalJournalItem InternalJournalItem { get; set; }
 	}
 }

@@ -169,6 +169,7 @@
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
     <Compile Include="Models\ConfigurationCash.cs" />
+    <Compile Include="Models\Configuration\LayoutsConfiguration.cs" />
     <Compile Include="Models\Configuration\ZipConfigurationItem.cs" />
     <Compile Include="Models\Configuration\ZipConfigurationItemsCollection.cs" />
     <Compile Include="Models\Configuration\DeviceConfiguration.Invalidate.cs" />
@@ -179,6 +180,8 @@
     <Compile Include="ConfigurationVersion.cs" />
     <Compile Include="Models\Device\DeviceParameterTemplate.cs" />
     <Compile Include="Models\Device\ParameterTemplate.cs" />
+    <Compile Include="Models\Layouts\Layout.cs" />
+    <Compile Include="Models\Layouts\LayoutFolder.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />
@@ -285,6 +288,7 @@
     <Compile Include="XModels\Guard\XGuardUser.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
+    <Compile Include="XModels\Journal\JournalDescriptionState.cs" />
     <Compile Include="XModels\Journal\JournalYesNoType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
@@ -297,6 +301,7 @@
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\States\AdditionalXStateProperty.cs" />
+    <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />

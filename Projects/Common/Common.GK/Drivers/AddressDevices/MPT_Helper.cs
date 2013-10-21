@@ -46,7 +46,9 @@ namespace Common.GK
 				Caption = "Статус МПТ",
 				Default = 1,
 				Offset = 6,
-				IsLowByte = true
+				IsLowByte = true,
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsMPTOrMRORegime = true
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Ведущий", 1);
 			GKDriversHelper.AddPropertyParameter(property1, "Ведомый", 2);
@@ -90,11 +92,11 @@ namespace Common.GK
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
 				"Режим восстанавливается после восстановления датчика «Двери-окна»",
-				"Режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно ключем ТМ", 1, 2).IsLowByte = true;
+				"Режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно ключем ТМ", 1, 1).IsLowByte = true;
 
-			//GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 2,
-			//    "после включения питания  режим «Автоматика включена» включен",
-			//    "после включения питания  режим «Автоматика включена» отключен", 1, 1).IsLowByte = true;
+			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 2,
+				"после включения питания  режим «Автоматика включена» включен",
+				"после включения питания  режим «Автоматика включена» отключен", 1, 1).IsLowByte = true;
 
 			return driver;
 		}
@@ -161,7 +163,7 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		private static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
+		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
 		{
 			var property = new XDriverProperty()
 			{
@@ -170,7 +172,7 @@ namespace Common.GK
 				Caption = propertyName,
 				Default = 1,
 				Offset = offset,
-				Mask = 3,
+				Mask = (short)((1 << offset) + (1 << (offset + 1))),
 				IsLowByte = true
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Замкнутое", 1);

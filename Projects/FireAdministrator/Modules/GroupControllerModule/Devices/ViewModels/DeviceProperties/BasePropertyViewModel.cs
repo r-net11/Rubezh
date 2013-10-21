@@ -2,60 +2,113 @@
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
 	public class BasePropertyViewModel : BaseViewModel
 	{
-		protected XDevice _device;
-		protected XDriverProperty _driverProperty;
+		protected XDevice Device;
+		protected XDriverProperty DriverProperty;
 
 		public BasePropertyViewModel(XDriverProperty driverProperty, XDevice device)
 		{
-			_driverProperty = driverProperty;
-			_device = device;
+			DriverProperty = driverProperty;
+			Device = device;
+
+			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
+			{
+				Save(driverProperty.Default, false);
+			}
+
+			if (Device.DeviceProperties == null)
+			{
+				Device.DeviceProperties = new List<XProperty>();
+			}
+
+			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+			if (deviceProperty != null)
+			{
+				DeviceAUParameterValue = deviceProperty.Value.ToString();
+			}
+			else
+				DeviceAUParameterValue = "Неизвестно";
+
+			UpdateDeviceParameterMissmatchType();
 		}
 
 		public string Caption
 		{
-			get { return _driverProperty.Caption; }
+			get { return DriverProperty.Caption; }
 		}
 
 		public string ToolTip
 		{
-			get { return _driverProperty.ToolTip; }
+			get { return DriverProperty.ToolTip; }
 		}
 
-		protected void Save(ushort value)
+		void UpdateDeviceParameterMissmatchType()
 		{
-			ServiceFactory.SaveService.GKChanged = true;
-
-			var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);
-			if (property == null)
+			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			if (!DriverProperty.IsReadOnly)
 			{
-				property = new XProperty()
+				if (deviceProperty == null)
 				{
-					Name = _driverProperty.Name
-				};
-				_device.Properties.Add(property);
+					DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown;
+				}
+				else
+				{
+					if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
+						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
+					else
+						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
+				}
 			}
-			property.Value = value;
 		}
 
-		protected void SaveStringValue(string value)
+		DeviceParameterMissmatchType _deviceParameterMissmatchType;
+		public DeviceParameterMissmatchType DeviceParameterMissmatchType
 		{
-			var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);
-			if (property == null)
+			get { return _deviceParameterMissmatchType; }
+			set
 			{
-				property = new XProperty()
-				{
-					Name = _driverProperty.Name
-				};
-				_device.Properties.Add(property);
+				_deviceParameterMissmatchType = value;
+				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
-			property.StringValue = value;
+		}
 
-			ServiceFactory.SaveService.GKChanged = true;
+		public virtual string DeviceAUParameterValue { get; protected set; }
+
+		public bool IsEnabled
+		{
+			get { return !DriverProperty.IsReadOnly; }
+		}
+
+		protected void Save(ushort value, bool useSaveService = true)
+		{
+			if (useSaveService)
+			{
+				ServiceFactory.SaveService.FSParametersChanged = true;
+			}
+
+			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			if (systemProperty != null)
+			{
+				systemProperty.Name = DriverProperty.Name;
+				systemProperty.Value = value;
+			}
+			else
+			{
+				var newProperty = new XProperty()
+				{
+					Name = DriverProperty.Name,
+					Value = value
+				};
+				Device.Properties.Add(newProperty);
+			}
+			UpdateDeviceParameterMissmatchType();
+			Device.OnChanged();
 		}
 	}
 }

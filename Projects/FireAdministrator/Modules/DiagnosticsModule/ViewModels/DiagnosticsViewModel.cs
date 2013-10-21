@@ -1,6 +1,8 @@
 ﻿using DiagnosticsModule.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -50,6 +52,8 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test1Command { get; private set; }
 		private void OnTest1()
 		{
+			var vm = new PerformanceViewModel();
+			DialogService.ShowModalWindow(vm);
 		}
 	}
 }

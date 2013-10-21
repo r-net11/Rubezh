@@ -7,6 +7,7 @@ namespace Infrastructure.Common.Validation
         string Source { get; }
         string Address { get; }
         string Error { get; }
+        string ImageSource { get; }
         ValidationErrorLevel ErrorLevel { get; }
         void Navigate();
     }

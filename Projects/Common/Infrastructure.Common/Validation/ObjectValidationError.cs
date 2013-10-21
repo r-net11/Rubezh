@@ -17,6 +17,7 @@ namespace Infrastructure.Common.Validation
 
 		public abstract string Module { get; }
 		public abstract string Source { get; }
+        public abstract string ImageSource { get; }
 		public virtual string Address { get { return Key.ToString(); } }
 
 		public string Error { get; private set; }

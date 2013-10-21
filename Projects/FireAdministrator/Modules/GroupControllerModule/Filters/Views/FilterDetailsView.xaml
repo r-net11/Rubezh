@@ -43,13 +43,13 @@
             </ListBox>
         </TabItem>
         <TabItem Header="События">
-            <ListBox ItemsSource="{Binding EventNames}">
+            <ListBox ItemsSource="{Binding JournalDescriptionStates}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}">
                             <CheckBox IsChecked="{Binding IsChecked}" />
-                            <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            <Image Width="16" Source="{Binding JournalDescriptionState.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                            <TextBlock Text="{Binding JournalDescriptionState.Name}" VerticalAlignment="Center" Margin="2"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

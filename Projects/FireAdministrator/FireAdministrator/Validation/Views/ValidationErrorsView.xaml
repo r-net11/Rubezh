@@ -17,7 +17,16 @@
         <Grid Grid.Column="0">
             <DataGrid Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
+                    <DataGridTemplateColumn Header="Источник">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ImageSource}" Width="16" Margin="1 0 0 0"/>
+                                    <TextBlock Margin="2" Text="{Binding Source}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Ошибка" Binding="{Binding Error}" Width="*" />
                     <DataGridTemplateColumn Header="Уровень">
@@ -34,6 +43,10 @@
                 </DataGrid.InputBindings>
             </DataGrid>
         </Grid>
-        <Controls:ToolBarButton Grid.Column="1" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+        <StackPanel Grid.Column="1" >
+            <Controls:ToolBarButton Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+            <Controls:ToolBarButton Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/Edit.png" Height="32" Width="32" />
+        </StackPanel>
+        
     </Grid>
 </UserControl>

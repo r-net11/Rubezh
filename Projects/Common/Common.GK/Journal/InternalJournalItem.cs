@@ -17,8 +17,6 @@ namespace Common.GK
 		[DataMember]
 		string GKIpAddress;
 		[DataMember]
-		string StringDate;
-		[DataMember]
 		public JournalItemType JournalItemType { get; private set; }
 		[DataMember]
 		public Guid ObjectUID { get; private set; }
@@ -32,35 +30,14 @@ namespace Common.GK
 		string UserName;
 		[DataMember]
 		int ObjectState;
-
-		XSubsystemType SubsytemType
-		{
-			get
-			{
-				if (JournalItemType == GK.JournalItemType.System)
-					return XSubsystemType.System;
-				else
-					return XSubsystemType.GK;
-			}
-		}
+		[DataMember]
+		XStateClass StateClass;
 
 		[DataMember]
 		public ushort GKObjectNo { get; private set; }
 		[DataMember]
 		public int UNUSED_KAUNo { get; private set; }
 
-		[DataMember]
-		byte Day;
-		[DataMember]
-		byte Month;
-		[DataMember]
-		byte Year;
-		[DataMember]
-		byte Hour;
-		[DataMember]
-		byte Minute;
-		[DataMember]
-		byte Second;
 		[DataMember]
 		DateTime DeviceDateTime;
 		[DataMember]
@@ -88,6 +65,17 @@ namespace Common.GK
 		public XZone Zone { get; private set; }
 		[DataMember]
 		public XDirection Direction { get; private set; }
+
+		XSubsystemType SubsytemType
+		{
+			get
+			{
+				if (JournalItemType == GK.JournalItemType.System)
+					return XSubsystemType.System;
+				else
+					return XSubsystemType.GK;
+			}
+		}
 
 		void InitializeFromObjectUID()
 		{
@@ -131,6 +119,7 @@ namespace Common.GK
 				GKObjectNo = GKObjectNo,
 				UserName = UserName,
 				SubsystemType = SubsytemType,
+				StateClass = StateClass,
 				InternalJournalItem = this
 			};
 
@@ -138,14 +127,33 @@ namespace Common.GK
 			{
 				var stateBits = XStatesHelper.StatesFromInt(ObjectState);
 				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits, false, false, false, false, false);
-				journalItem.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
+				journalItem.ObjectStateClass = XStatesHelper.GetMinStateClass(stateClasses);
 			}
 			else
 			{
-				journalItem.StateClass = XStateClass.Info;
+				journalItem.ObjectStateClass = XStateClass.Info;
 			}
 
 			return journalItem;
+		}
+
+		void InitializeDateTime(List<byte> bytes)
+		{
+			var day = bytes[32 + 4];
+			var month = bytes[32 + 5];
+			var year = bytes[32 + 6];
+			var hour = bytes[32 + 7];
+			var minute = bytes[32 + 8];
+			var second = bytes[32 + 9];
+			try
+			{
+				DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
+			}
+			catch
+			{
+				DeviceDateTime = DateTime.MinValue;
+			}
+			SystemDateTime = DateTime.Now;
 		}
 
 		public InternalJournalItem(XDevice gkDevice, List<byte> bytes)
@@ -159,27 +167,13 @@ namespace Common.GK
 			ObjectUID = gkDevice.UID;
 			InitializeFromObjectUID();
 
-			Day = bytes[32 + 4];
-			Month = bytes[32 + 5];
-			Year = bytes[32 + 6];
-			Hour = bytes[32 + 7];
-			Minute = bytes[32 + 8];
-			Second = bytes[32 + 9];
-			StringDate = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
-			try
-			{
-				DeviceDateTime = new DateTime(2000 + Year, Month, Day, Hour, Minute, Second);
-			}
-			catch
-			{
-				DeviceDateTime = DateTime.MinValue;
-			}
-			SystemDateTime = DateTime.Now;
+			InitializeDateTime(bytes);
 
 			UNUSED_KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);
 			Code = bytes[32 + 13];
 
+			StateClass = XStateClass.No;
 			switch (Source)
 			{
 				case JournalSourceType.Controller:
@@ -314,10 +308,9 @@ namespace Common.GK
 							break;
 
 						case 3:
+							EventName = "Пожар-2";
 							if (JournalItemType == GK.JournalItemType.Device)
 								EventName = "Сработка-2";
-							else
-								EventName = "Пожар-2";
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
@@ -329,9 +322,9 @@ namespace Common.GK
 							EventName = "Неисправность";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							if (ObjectDeviceType == 0xE0)
-								EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
-							else
 								EventDescription = StringHelper.ToBUSHFailure(bytes[32 + 15]);
+							else
+								EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
 							break;
 
 						case 6:
@@ -356,12 +349,64 @@ namespace Common.GK
 
 						case 9:
 							EventName = "Состояние";
-							EventDescription = StringHelper.ToState(bytes[32 + 15]);
+							switch (bytes[32 + 15])
+							{
+								case 2:
+									EventDescription = "Включено";
+									StateClass = XStateClass.On;
+									break;
+
+								case 3:
+									EventDescription = "Выключено";
+									StateClass = XStateClass.Off;
+									break;
+
+								case 4:
+									EventDescription = "Включается";
+									StateClass = XStateClass.TurningOn;
+									break;
+
+								case 5:
+									EventDescription = "Выключается";
+									StateClass = XStateClass.TurningOff;
+									break;
+
+								case 30:
+									EventDescription = "Не определено";
+									StateClass = XStateClass.Unknown;
+									break;
+
+								case 31:
+									EventDescription = "Остановлено";
+									StateClass = XStateClass.Info;
+									break;
+							}
 							break;
 
 						case 10:
 							EventName = "Режим работы";
-							EventDescription = StringHelper.ToRegime(bytes[32 + 15]);
+							switch (bytes[32 + 15])
+							{
+								case 0:
+									EventDescription = "Автоматика";
+									StateClass = XStateClass.Norm;
+									break;
+
+								case 1:
+									EventDescription = "Ручное";
+									StateClass = XStateClass.AutoOff;
+									break;
+
+								case 2:
+									EventDescription = "Отключение";
+									StateClass = XStateClass.Off;
+									break;
+
+								case 3:
+									EventDescription = "Не определено";
+									StateClass = XStateClass.Unknown;
+									break;
+							}
 							break;
 
 						case 13:
@@ -379,6 +424,8 @@ namespace Common.GK
 					}
 					break;
 			}
+			if (StateClass == XStateClass.No)
+				StateClass = JournalDescriptionStateHelper.GetStateClassByName(EventName);
 		}
 	}
 
@@ -391,18 +438,6 @@ namespace Common.GK
 			if (b == 1)
 				return JournalYesNoType.Yes;
 			return JournalYesNoType.Unknown;
-		}
-
-		public static string ToRegime(byte b)
-		{
-			switch (b)
-			{
-				case 0: return "Автоматика";
-				case 1: return "Ручное";
-				case 2: return "Отключение";
-				case 3: return "Не определено";
-			}
-			return "";
 		}
 
 		public static string ToFire(byte b)
@@ -691,20 +726,6 @@ namespace Common.GK
 				case 1: return "Администратор";
 				case 2: return "Инсталлятор";
 				case 3: return "Изготовитель";
-			}
-			return "";
-		}
-
-		public static string ToState(byte b)
-		{
-			switch (b)
-			{
-				case 2: return "Включено";
-				case 3: return "Выключено";
-				case 4: return "Включается";
-				case 5: return "Выключается";
-				case 30: return "Не определено";
-				case 31: return "Остановлено";
 			}
 			return "";
 		}

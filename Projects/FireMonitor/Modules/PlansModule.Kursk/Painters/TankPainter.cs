@@ -137,11 +137,11 @@ namespace PlansModule.Kursk.Designer
 			if (_device.DeviceState.AdditionalStates.Count == 0)
 				return TankState.Empty;
 
-			if (_device.DeviceState.AdditionalStates.Any(x => x == "Аварийный уровень"))
+			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Аварийный уровень"))
 				return TankState.Full;
-			if (_device.DeviceState.AdditionalStates.Any(x => x == "Высокий уровень"))
+			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Высокий уровень"))
 				return TankState.Half;
-			if (_device.DeviceState.AdditionalStates.Any(x => x == "Низкий уровень"))
+			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Низкий уровень"))
 				return TankState.Little;
 
 			return TankState.Empty;

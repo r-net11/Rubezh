@@ -11,12 +11,12 @@ namespace GKModule.ViewModels
 {
 	public class InstructionViewModel : DialogViewModel
 	{
-		public InstructionViewModel(XDevice device, XZone zone, XAlarmType alarmType)
+		public InstructionViewModel(XDevice device, XZone zone, XDirection direction, XAlarmType alarmType)
 		{
 			
 			AlarmType = alarmType;
 
-			Instruction = FindInstruction(device, zone);
+			Instruction = FindInstruction(device, zone, direction);
 			Title = Instruction != null ? Instruction.Name : "";
 			HasContent = Instruction != null;
 			if (Instruction != null)
@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 		public XStateBit StateType { get; private set; }
 		public XInstruction Instruction { get; private set; }
 
-		XInstruction FindInstruction(XDevice device, XZone zone)
+        XInstruction FindInstruction(XDevice device, XZone zone, XDirection direction)
 		{
 			var availableStateTypeInstructions = XManager.DeviceConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
@@ -55,6 +55,19 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
+
+            if (direction != null)
+            {
+                foreach (var instruction in availableStateTypeInstructions)
+                {
+                    if (instruction.Directions == null)
+                        break;
+                    if (instruction.Directions.Contains(direction.UID))
+                    {
+                        return instruction;
+                    }
+                }
+            }
 
 			foreach (var instruction in availableStateTypeInstructions)
 			{

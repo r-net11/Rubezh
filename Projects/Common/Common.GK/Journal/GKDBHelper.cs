@@ -4,10 +4,12 @@ using System.Data.SqlServerCe;
 using System.IO;
 using Infrastructure.Common;
 using XFiresecAPI;
+using System.Diagnostics;
+using System.Data;
 
 namespace Common.GK
 {
-    public static class GKDBHelper
+    public static partial class GKDBHelper
     {
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
@@ -58,7 +60,7 @@ namespace Common.GK
 			return journalItem;
 		}
 
-		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
+        public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
@@ -71,8 +73,8 @@ namespace Common.GK
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+                            "(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
@@ -87,6 +89,7 @@ namespace Common.GK
 						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.SystemDateTime ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.DeviceDateTime ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.SubsystemType ?? DBNull.Value);
+                        sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.ObjectStateClass ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -94,7 +97,19 @@ namespace Common.GK
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+        public static void AddColumnToJournal(string columnName, string columnType)
+        {
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand("alter table Journal add column " + columnName.ToString() + " " + columnType.ToString(), connection);
+            connection.Open();
+            sqlCeCommand.ExecuteNonQuery();
+            connection.Close();
+            connection.Dispose();
+        }
+
+        public static List<JournalItem> Select(XArchiveFilter archiveFilter)
         {
 			var journalItems = new List<JournalItem>();
 			string dateTimeTypeString;
@@ -157,11 +172,11 @@ namespace Common.GK
 								query += ")";
 							}
 
-							if (archiveFilter.EventNames.Count > 0)
+							if (archiveFilter.JournalDescriptionState.Count > 0)
 							{
 								query += "\n AND (";
 								int index = 0;
-								foreach (var eventName in archiveFilter.EventNames)
+								foreach (var eventName in archiveFilter.JournalDescriptionState)
 								{
 									if (index > 0)
 										query += "\n OR ";

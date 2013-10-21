@@ -68,12 +68,13 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
-    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\LibraryXStateClassToDeviceStringConverter.cs" />
+    <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
+    <Compile Include="Devices\ViewModels\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
@@ -89,6 +90,7 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
@@ -101,6 +103,11 @@
     </Compile>
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
+    <Compile Include="Instructions\ViewModels\InstructionDirectionsViewModel.cs" />
+    <Compile Include="Instructions\Views\InstructionDirectionsView.xaml.cs">
+      <DependentUpon>InstructionDirectionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
@@ -350,7 +357,7 @@
     <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
     <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
@@ -479,6 +486,10 @@
     <Page Include="Instructions\Views\InstructionDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Instructions\Views\InstructionDirectionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Instructions\Views\InstructionsDevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>

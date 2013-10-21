@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Infrastructure.Common;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace FiresecOPCServer
 {

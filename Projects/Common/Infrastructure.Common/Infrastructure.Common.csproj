@@ -170,7 +170,6 @@
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ManualPdfHelper.cs" />
     <Compile Include="ObservableRangeCollection.cs" />
-    <Compile Include="PatchHelper.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="RegistryHelper\RegistryHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />
@@ -193,6 +192,11 @@
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
     <Compile Include="Services\ISecurityService.cs" />
+    <Compile Include="Services\Layout\ILayoutPartDescription.cs" />
+    <Compile Include="Services\Layout\ILayoutDeclarationModule.cs" />
+    <Compile Include="Services\Layout\ILayoutProviderModule.cs" />
+    <Compile Include="Services\Layout\LayoutPart.cs" />
+    <Compile Include="Services\Layout\LayoutPartDescription.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
     <Compile Include="Services\Resources\ResourceHelper.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="Windows\LoadingService.cs" />
     <Compile Include="Windows\ShortcutService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\IInitializable.cs" />
     <Compile Include="Windows\ViewModels\MinimizeTarget.cs" />
     <Compile Include="Windows\ViewModels\RightContentViewModel.cs" />
     <Compile Include="Windows\ViewModels\ISelectable.cs" />

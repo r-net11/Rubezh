@@ -5,7 +5,6 @@
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
-        <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -75,37 +74,55 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="2 0">
                                     <Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Журнал" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BJournal.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Журнал" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
                                 
                                 <TextBlock Margin="2 0" Visibility="{Binding CanResetCommand, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Hyperlink Command="{Binding ResetCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Сбросить" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BReset.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Сбросить" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
 
                                 <TextBlock Margin="2 0" Visibility="{Binding CanResetIgnoreCommand, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Hyperlink Command="{Binding ResetIgnoreCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Снять отключение" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BResetIgnore.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Снять отключение" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
 
                                 <TextBlock Margin="2 0" Visibility="{Binding CanTurnOnAutomaticCommand, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Hyperlink Command="{Binding TurnOnAutomaticCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Включить автоматику" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BResetIgnore.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Включить автоматику" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
 
                                 <TextBlock Margin="2 0" Visibility="{Binding CanTurnOffCommand, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Hyperlink Command="{Binding TurnOffCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Выключить" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BTurnOff.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Выключить" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
 
                                 <TextBlock Margin="2 0" Visibility="{Binding CanShowInstructionCommand, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Hyperlink Command="{Binding ShowInstructionCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="Инструкции" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="/Controls;component/Images/BInformation.png" VerticalAlignment="Center" Margin="1" />
+                                            <TextBlock Text="Инструкции" VerticalAlignment="Center" Margin="1" />
+                                        </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
                             </StackPanel>
@@ -183,8 +200,14 @@
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
-
-                                    <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" />
+                                    <MenuItem Command="{Binding ShowInstructionCommand}" >
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/BInformation.png" Width="16" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="2" Text="Инструкции" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>

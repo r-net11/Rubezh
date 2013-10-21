@@ -28,5 +28,9 @@ namespace DevicesModule.Validation
         {
             get { return Object.Id.ToString(); }
         }
+        public override string ImageSource
+        {
+            get { return "/Controls;component/Images/Blue_Direction.png"; }
+        }
     }
 }

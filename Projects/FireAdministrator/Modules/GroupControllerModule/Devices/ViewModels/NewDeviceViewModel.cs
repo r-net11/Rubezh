@@ -16,18 +16,20 @@ namespace GKModule.ViewModels
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
 			{
-				if (driver.DriverType == XDriverType.AM1_O || driver.DriverType == XDriverType.AMP_1)
+				if (driver.DriverType == XDriverType.AMP_1)
 					continue;
 				if (ParentDevice.Driver.Children.Contains(driver.DriverType))
 					Drivers.Add(driver);
 			}
 
-			if (deviceViewModel.Driver.DriverType == XDriverType.MPT)
+			var driverType = deviceViewModel.Driver.DriverType;
+			if (driverType == XDriverType.MPT || driverType == XDriverType.MRO_2)
 			{
 				Drivers = new ObservableCollection<XDriver>(
 					from XDriver driver in sortedDrivers
-					where driver.DriverType == XDriverType.MPT
+					where driver.DriverType == driverType
 					select driver);
+				PreviousShleif = deviceViewModel.Device.ShleifNo;
 			}
 
 			var parentShleif = ParentDevice;

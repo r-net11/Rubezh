@@ -118,6 +118,8 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 
 				var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
 				if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
@@ -174,6 +176,7 @@ namespace FireAdministrator
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.PlansConfiguration.Update();
+					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
@@ -183,6 +186,7 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.XInstructionsChanged = true;
+					ServiceFactory.SaveService.LayoutsChanged = true;
 
 					ShowFirstDevice();
 				}

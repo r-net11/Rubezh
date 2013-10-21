@@ -33,6 +33,8 @@
 	<Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:XPumpStationPumpTypeToStringConverter x:Key="XPumpStationPumpTypeToStringConverter" />
+    <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
+    <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />
 	<Converters:BoolToFontStyleConverter x:Key="BoolToFontStyleConverter" />
 	<Converters:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" />
@@ -44,4 +46,6 @@
     <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
     <Converters:SubsystemTypeToIconConverter x:Key="SubsystemTypeToIconConverter" />
     <Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
+    <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
+    <Converters:StringToImageConverter x:Key="StringToImageConverter" />
 </ResourceDictionary>

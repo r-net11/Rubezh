@@ -30,14 +30,16 @@ namespace Common.GK
 			AddDriverToKau(AM_1_Helper.Create());
 			AddDriverToKau(AMP_1_Helper.Create());
 			AddDriverToKau(AM1_T_Helper.Create());
-			AddDriverToKau(AM1_O_Helper.Create());
-
+			
 			AddDriverToKau(RM_1_Helper.Create());
 			AddDriverToKau(MRO_2_Helper.Create());
 			AddDriverToKau(MDU_Helper.Create());
 			AddDriverToKau(MPT_Helper.Create());
 			AddDriverToKau(BUZ_Helper.Create());
 			AddDriverToKau(BUN_Helper.Create());
+            AddDriverToKau(Shu_Helper.Create());
+            AddDriverToKau(Shuv_Helper.Create());
+
 
 			AddDriverToKau(RM_2_Helper.Create());
 			AddDriverToKau(RM_3_Helper.Create());

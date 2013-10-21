@@ -113,6 +113,7 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
+    <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
@@ -126,6 +127,9 @@
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolInverterConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
+    <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
@@ -1255,8 +1259,15 @@
     <Resource Include="Images\Pause.png" />
     <Resource Include="Images\BRefresh.png" />
     <Resource Include="Images\BFilterClear.png" />
+    <Resource Include="Images\Layouts.png" />
+    <Resource Include="Images\BLayouts.png" />
     <Resource Include="GKIcons\KAU_Shleif.png" />
     <Resource Include="GKIcons\RSR2_KAU_Shleif.png" />
+    <Resource Include="Images\BFolder.png" />
+    <Resource Include="GKIcons\Shu.png" />
+    <Resource Include="GKIcons\Shuv.png" />
+    <Resource Include="Images\Bleft.png" />
+    <Resource Include="Images\BleftLeft.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

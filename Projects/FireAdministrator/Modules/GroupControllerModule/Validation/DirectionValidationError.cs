@@ -30,5 +30,10 @@ namespace GKModule.Validation
 		{
 			get { return Object.No.ToString(); }
 		}
+
+        public override string ImageSource
+        {
+            get { return "/Controls;component/Images/Blue_Direction.png"; }
+        }
     }
 }

@@ -6,5 +6,5 @@
 [assembly: AssemblyTitle("Администратор")]
 [assembly: AssemblyDescription("Приложения для конфигурирования проекта")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("Администратор ОПС FireSec-2")]
+[assembly: AssemblyProduct("Администратор ОПС FireSec")]
 
