@@ -9,7 +9,6 @@ namespace LayoutModule.ViewModels
 {
 	public class LayoutPartViewModel : BaseViewModel
 	{
-
 		private string _title;
 		public string Title
 		{
@@ -20,6 +19,5 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Title);
 			}
 		}
-		
 	}
 }

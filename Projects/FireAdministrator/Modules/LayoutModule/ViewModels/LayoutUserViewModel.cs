@@ -43,7 +43,6 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-
 		public void Update()
 		{
 			OnPropertyChanged(() => Name);
