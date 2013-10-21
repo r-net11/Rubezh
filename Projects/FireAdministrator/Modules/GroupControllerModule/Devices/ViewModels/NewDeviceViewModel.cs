@@ -29,11 +29,10 @@ namespace GKModule.ViewModels
 					from XDriver driver in sortedDrivers
 					where driver.DriverType == driverType
 					select driver);
-				PreviousShleif = deviceViewModel.Device.ShleifNo;
 			}
 
 			var parentShleif = ParentDevice;
-			if (ParentDevice.Driver.DriverType == XDriverType.MPT)
+			if (ParentDevice.Driver.DriverType == XDriverType.MPT || ParentDevice.Driver.DriverType == XDriverType.MRO_2)
 				parentShleif = ParentDevice.Parent;
 			if (parentShleif.Driver.DriverType == XDriverType.KAU_Shleif || parentShleif.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
 			{

@@ -503,7 +503,7 @@ namespace GKModule.ViewModels
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
-			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null && Parent.Driver.IsKauOrRSR2Kau)
+			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null)
 				return true;
 			return false;
 		}
