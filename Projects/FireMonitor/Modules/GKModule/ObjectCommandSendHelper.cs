@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Common.GK;
 using FiresecAPI;
 using XFiresecAPI;
@@ -186,6 +187,18 @@ namespace GKModule
 			}
 			return result;
 		}
+
+		public static void SendControlCommandMRO(XBinaryBase binaryBase, byte code, byte code2)
+		{
+			var bytes = new List<byte>();
+			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
+			bytes.Add(code);
+			bytes.Add(code2);
+
+			WatcherManager.Send(OnCompleted, SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
+		}
+
 
 		static void OnCompleted(SendResult sendResult)
 		{

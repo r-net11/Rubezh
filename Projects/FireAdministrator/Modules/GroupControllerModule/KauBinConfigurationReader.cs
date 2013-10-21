@@ -23,7 +23,7 @@ namespace GKModule
 			LoadingService.SaveShowProgress("Чтение базы данных объектов", descriptorAddersses.Count + 1);
 			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
-				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
+				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddersses.Count);
 				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]);
 				devices.Add(device);
 			}

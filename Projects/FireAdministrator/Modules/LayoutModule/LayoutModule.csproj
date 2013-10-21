@@ -91,6 +91,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\LayoutPartDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutUserViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModelComparer.cs" />
