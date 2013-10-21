@@ -40,6 +40,5 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => IsPresented);
 			}
 		}
-		
 	}
 }

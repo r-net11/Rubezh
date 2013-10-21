@@ -97,13 +97,13 @@ namespace GKModule.ViewModels
 		public void InitializeJournalDescriptionStates(XArchiveFilter archiveFilter)
 		{
 			JournalDescriptionStates = new List<JournalDescriptionStateViewModel>();
-            foreach (var xEvent in JournalDescriptionStateHelper.JournalDescriptionStates)
+            foreach (var journalDescriptionState in JournalDescriptionStateHelper.JournalDescriptionStates)
 			{
-				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(xEvent));
+				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
 			}
-			foreach (var xEvent in archiveFilter.JournalDescriptionState)
+			foreach (var journalDescriptionState in archiveFilter.JournalDescriptionState)
 			{
-                var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == xEvent);
+                var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == journalDescriptionState);
 				if (eventNameViewModel != null)
 				{
 					eventNameViewModel.IsChecked = true;
