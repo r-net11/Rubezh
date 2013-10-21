@@ -27,8 +27,8 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" >
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="2, 2, 5, 0" />
-                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" />
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="2, 2, 5, 0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -61,12 +61,12 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" >
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="2, 2, 5, 0" />
-                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" />
+                                    <TextBlock Text="{Binding ShortName}" Margin="0, 4, 0, 0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding DottedAddress}" Header="Адрес" />
+                    <GridViewColumn DisplayMemberBinding="{Binding DottedAddress}" Header="Адрес"/>
                 </GridView>
             </ListView.View>
         </ListView>

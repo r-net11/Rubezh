@@ -200,8 +200,14 @@
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
-
-                                    <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" />
+                                    <MenuItem Command="{Binding ShowInstructionCommand}" >
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/BInformation.png" Width="16" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="2" Text="Инструкции" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>

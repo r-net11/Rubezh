@@ -33,16 +33,13 @@
                 </MenuItem.Header>
             </MenuItem>
             <Separator />
-            <MenuItem Command="{Binding AddCommand}" Header="Добавить дочернее устройство (Ctrl+N)">
-                <MenuItem.Icon>
-                    <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" Margin="5 0 0 0"/>
-                </MenuItem.Icon>
-                <!--<MenuItem.Header>
+            <MenuItem Command="{Binding AddCommand}">
+                <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
                         <TextBlock Margin="2" Text="Добавить дочернее устройство (Ctrl+N)" VerticalAlignment="Center"/>
                     </StackPanel>
-                </MenuItem.Header>-->
+                </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding AddToParentCommand}" >
                 <MenuItem.Header>

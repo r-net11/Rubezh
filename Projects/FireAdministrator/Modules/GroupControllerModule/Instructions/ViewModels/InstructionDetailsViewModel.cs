@@ -222,7 +222,7 @@ namespace GKModule.ViewModels
 			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasMedia)
 				return false;
 			else
-				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty());
+				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty() || InstructionDirections.IsNotNullOrEmpty());
 		}
 
 		protected override bool Save()
