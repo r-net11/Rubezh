@@ -13,29 +13,20 @@
         <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <MenuItem Command="{Binding ShowOnPlanCommand}" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Name="menuItem" Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ShowJournalCommand}" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Показать связанные события" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ShowPropertiesCommand}" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </TextBlock.ContextMenu>

@@ -247,8 +247,8 @@ namespace DevicesModule.ViewModels
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "Журнал событий Firesec-2|*.fscj",
-				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+				Filter = "Журнал событий Firesec|*.fscj",
+				DefaultExt = "Журнал событий Firesec|*.fscj"
 			};
 			if (openDialog.ShowDialog().Value)
 			{
