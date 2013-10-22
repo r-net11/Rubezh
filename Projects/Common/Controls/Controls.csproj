@@ -1273,6 +1273,10 @@
     <Resource Include="Images\BleftLeft.png" />
     <Resource Include="Images\Bleft.png" />
     <Resource Include="Images\BleftLeft.png" />
+    <Resource Include="FSIcons\RSR2_Siren.png" />
+    <Resource Include="FSIcons\RSR2_Table.png" />
+    <Resource Include="GKIcons\RSR2_Siren.png" />
+    <Resource Include="GKIcons\RSR2_Table.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
