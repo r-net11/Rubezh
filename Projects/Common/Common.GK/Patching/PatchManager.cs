@@ -21,7 +21,7 @@ namespace Common.GK
             {
                 GKDBHelper.AddColumnToJournal("ObjectStateClass", "tinyint");
             }));
-        }
+		}
 
         public static void Patch()
         {
