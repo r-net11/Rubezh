@@ -1,9 +1,7 @@
-﻿using System;
-using System.Configuration;
-using System.Windows;
-using FiresecClient.Itv;
+﻿using FiresecClient.Itv;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ItvIntegration
 {

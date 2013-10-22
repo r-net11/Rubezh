@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Threading;
-using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 using Common.GK;
+using GKProcessor.Events;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
@@ -14,7 +14,7 @@ namespace GKSDK
 		public JournalsViewModel()
 		{
 			JournalItems = new ObservableCollection<JournalItem>();
-			//ItvManager.NewJournalRecord += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewJournalRecord(x); }); });
+			ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalItems);
 		}
 
 		public void SafeCall(Action action)
@@ -23,9 +23,13 @@ namespace GKSDK
 				Application.Current.Dispatcher.BeginInvoke(action);
 		}
 
-		void OnNewJournalRecord(JournalItem journalItems)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
-			JournalItems.Add(journalItems);
+			//SafeCall(() => { OnNewJournalRecord(x); });
+			foreach (var journalItem in journalItems)
+			{
+				JournalItems.Add(journalItem);
+			}
 		}
 
 		public ObservableCollection<JournalItem> JournalItems { get; private set; }

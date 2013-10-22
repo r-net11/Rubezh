@@ -72,8 +72,7 @@
     <Reference Include="FSAgentClient">
       <HintPath>..\Assemblies\FSAgentClient.dll</HintPath>
     </Reference>
-    <Reference Include="GKProcessor, Version=1.3.0.25484, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="GKProcessor">
       <HintPath>..\Assemblies\GKProcessor.dll</HintPath>
     </Reference>
     <Reference Include="Infrastructure.Common, Version=1.3.0.25475, Culture=neutral, processorArchitecture=x86">
@@ -114,8 +113,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DeviceCommandViewModel.cs" />
-    <Compile Include="Infrastructure\BaseViewModel.cs" />
-    <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="JournalsViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="ZonesViewModel.cs" />
@@ -153,7 +150,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

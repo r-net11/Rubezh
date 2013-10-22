@@ -3,61 +3,51 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Fragment>
     <DirectoryRef Id="SDKLOCATION">
-      <Component Id="SDK.Files" Guid="EC4360B0-C071-4C71-A9CD-F29F234251B5">
-        <File Id="SDK.ItvIntegration.sln" Name="ItvIntegration.sln" Source="..\..\..\..\..\SDK\" />
+      <Component Id="SDK.Files" Guid="07D52906-FC75-4D59-B512-9471E4440A8C">
+        <File Id="SDK.GKSDK_Release.sln" Name="GKSDK_Release.sln" Source="..\..\..\..\..\GKSDK\" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SDKLOCATION_ItvIntegration">
-      <Component Id="SDK.Files.Integration" Guid="{9D04B950-652B-48A1-99C8-33F2E627DB75}">
-        <File Id="SDK.App.xaml" Name="App.xaml" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.App.xaml.cs" Name="App.xaml.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.DevicesViewModel.cs" Name="DevicesViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.DeviceViewModel.cs" Name="DeviceViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.ItvIntegration.csproj" Name="ItvIntegration.csproj" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.JournalsViewModel.cs" Name="JournalsViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.MainViewModel.cs" Name="MainViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.MainWindow.xaml" Name="MainWindow.xaml" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.MainWindow.xaml.cs" Name="MainWindow.xaml.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.ZonesViewModel.cs" Name="ZonesViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-        <File Id="SDK.ZoneViewModel.cs" Name="ZoneViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\" />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="SDKLOCATION_Infrastructure">
-      <Component Id="SDK.Files.Infrastructure" Guid="{0EE55EC1-4D72-41CD-85E4-73D0C2015077}">
-        <File Id="SDK.BaseViewModel.cs" Name="BaseViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Infrastructure\" />
-        <File Id="SDK.RelayCommand.cs" Name="RelayCommand.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Infrastructure\" />
+      <Component Id="SDK.Files.Integration" Guid="4EA94C81-C6D5-4AFA-AC97-EE68E4F4F8DA">
+        <File Id="SDK.GKSDK.csproj" Name="GKSDK.csproj" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.App.xaml" Name="App.xaml" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.App.xaml.cs" Name="App.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.DevicesViewModel.cs" Name="DevicesViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.DeviceViewModel.cs" Name="DeviceViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.JournalsViewModel.cs" Name="JournalsViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.MainViewModel.cs" Name="MainViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.MainWindow.xaml" Name="MainWindow.xaml" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.MainWindow.xaml.cs" Name="MainWindow.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.ZonesViewModel.cs" Name="ZonesViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.ZoneViewModel.cs" Name="ZoneViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SDKLOCATION_Properties">
-      <Component Id="SDK.Files.Properties" Guid="{978C1A33-7CD6-4A51-94E1-1921373AAAD0}">
-        <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Resources.Designer.cs" Name="Resources.Designer.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Resources.resx" Name="Resources.resx" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Settings.Designer.cs" Name="Settings.Designer.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Settings.settings" Name="Settings.settings" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
+      <Component Id="SDK.Files.Properties" Guid="156F0865-3818-4DDF-9FA9-E991E012AE14">
+        <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="..\..\..\..\..\GKSDK\GKSDK\\Properties\" />
+        <File Id="SDK.Resources.resx" Name="Resources.resx" Source="..\..\..\..\..\GKSDK\GKSDK\Properties\" />
+        <File Id="SDK.Settings.settings" Name="Settings.settings" Source="..\..\..\..\..\GKSDK\GKSDK\Properties\" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SDKLOCATION_Assemblies">
-      <Component Id="SDK.Files.Assemblies" Guid="{F9AE0506-BCC5-4DF4-9C26-41F4E665CBE4}">
-        <File Id="SDK.Common.dll" Name="Common.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.Controls.dll" Name="Controls.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.Firesec.dll" Name="Firesec.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FiresecAPI.dll" Name="FiresecAPI.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FiresecClient.dll" Name="FiresecClient.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FiresecClient.ITV.dll" Name="FiresecClient.ITV.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FS2API.dll" Name="FS2API.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FS2Client.dll" Name="FS2Client.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.FSAgentClient.dll" Name="FSAgentClient.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
-        <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+      <Component Id="SDK.Files.Assemblies" Guid="2DE527E0-7B10-4407-8E67-C904AD81A586">
+        <File Id="SDK.Common.dll" Name="Common.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.Controls.dll" Name="Controls.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.Firesec.dll" Name="Firesec.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FiresecAPI.dll" Name="FiresecAPI.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FiresecClient.dll" Name="FiresecClient.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FS2API.dll" Name="FS2API.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FS2Client.dll" Name="FS2Client.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.FSAgentClient.dll" Name="FSAgentClient.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
+        <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="..\..\..\..\..\GKSDK\Assemblies\" />
       </Component>
     </DirectoryRef>
   </Fragment>
