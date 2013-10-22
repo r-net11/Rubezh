@@ -72,9 +72,8 @@
     <Compile Include="Watcher\Watcher.Progress.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
-    <Compile Include="Watcher\Watcher.Main.cs" />
+    <Compile Include="Watcher\Watcher.Threading.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
-    <Compile Include="Watcher\Watcher.JournalAdditionalStates.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.GK\Common.GK.csproj">

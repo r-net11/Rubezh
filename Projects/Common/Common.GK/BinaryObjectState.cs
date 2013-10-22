@@ -212,6 +212,10 @@ namespace Common.GK
 							AddAdditionalState(XStateClass.Failure, "Запрещенное состояние концевых выключателей (Замкнуты/разомкнуты оба концевика)");
 						if (bitArray[8 + 3])
 							AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
+						//if (bitArray[8 + 4])
+						//    AddAdditionalState(XStateClass.Failure, "Напряжение запуска реле ниже нормы");
+						//if (bitArray[8 + 5])
+						//    AddAdditionalState(XStateClass.Failure, "Реле не реагирует на команды");
 						break;
 
 					case XDriverType.MRO_2:

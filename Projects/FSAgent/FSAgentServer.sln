@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "..\Common\Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDB", "..\Common\FiresecDB\FiresecDB.csproj", "{2D008E4B-D69F-4248-B92E-AF54D2D19196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.GK", "..\Common\Common.GK\Common.GK.csproj", "{987CDFB8-DC44-4873-9E19-7666DE222820}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,18 +139,6 @@ Global
 		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|x64.ActiveCfg = Release|Any CPU
 		{2D008E4B-D69F-4248-B92E-AF54D2D19196}.Release|x86.ActiveCfg = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Any CPU.Build.0 = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|x64.ActiveCfg = Release|Any CPU
-		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +149,5 @@ Global
 		{D57CB190-A30E-4A3D-A674-F1766CE1CC72} = {EFD8C1FF-EF69-46F2-87E5-EC868DF60625}
 		{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE} = {EFD8C1FF-EF69-46F2-87E5-EC868DF60625}
 		{2D008E4B-D69F-4248-B92E-AF54D2D19196} = {EFD8C1FF-EF69-46F2-87E5-EC868DF60625}
-		{987CDFB8-DC44-4873-9E19-7666DE222820} = {EFD8C1FF-EF69-46F2-87E5-EC868DF60625}
 	EndGlobalSection
 EndGlobal

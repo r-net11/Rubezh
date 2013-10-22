@@ -52,7 +52,7 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						GetAllStates(false);
+						GetAllStates();
 					}
 				}
 				var gkDevice = XManager.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);

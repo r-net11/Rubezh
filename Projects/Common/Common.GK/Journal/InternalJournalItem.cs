@@ -23,8 +23,6 @@ namespace Common.GK
 		[DataMember]
 		string EventName;
 		[DataMember]
-		string UserFriendlyEventName;
-		[DataMember]
 		JournalYesNoType EventYesNo;
 		[DataMember]
 		string EventDescription;
@@ -114,7 +112,6 @@ namespace Common.GK
 				SystemDateTime = SystemDateTime,
 				ObjectUID = ObjectUID,
 				Name = EventName,
-				UserFriendlyName = UserFriendlyEventName,
 				YesNo = EventYesNo,
 				Description = EventDescription,
 				ObjectState = ObjectState,
@@ -184,12 +181,10 @@ namespace Common.GK
 					{
 						case 0:
 							EventName = "Технология";
-							UserFriendlyEventName = "Перевод в технологический режим";
 							break;
 
 						case 2:
 							EventName = "Установка часов";
-							UserFriendlyEventName = "Синхронизация времени прибора с временем ПК";
 							break;
 
 						case 3:
@@ -206,7 +201,6 @@ namespace Common.GK
 
 						case 6:
 							EventName = "Работа";
-							UserFriendlyEventName = "Работа шкафа";
 							break;
 
 						case 7:
@@ -249,8 +243,7 @@ namespace Common.GK
 							break;
 
 						default:
-							EventName = "Неизвестный код события контроллекра";
-							EventDescription = Code.ToString();
+							EventName = "Неизвестный код события контроллекра: " + Code;
 							break;
 					}
 					break;
@@ -279,8 +272,7 @@ namespace Common.GK
 							break;
 
 						default:
-							EventName = "Неизвестный код события устройства";
-							EventDescription = Code.ToString();
+							EventName = "Неизвестный код события устройства: " + Code;
 							break;
 					}
 					break;
@@ -329,10 +321,6 @@ namespace Common.GK
 						case 5:
 							EventName = "Неисправность";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
-
-							if (EventYesNo == JournalYesNoType.No)
-								UserFriendlyEventName = "Неисправность устранена";
-
 							if (ObjectDeviceType == 0xE0)
 								EventDescription = StringHelper.ToBUSHFailure(bytes[32 + 15]);
 							else
@@ -340,46 +328,15 @@ namespace Common.GK
 							break;
 
 						case 6:
-							UserFriendlyEventName = EventName = "Тест";
+							EventName = "Тест";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
-
-							switch (bytes[32 + 15])
-							{
-								case 1:
-									EventDescription = "Кнопка";
-									UserFriendlyEventName = "Тест кнопка";
-									break;
-
-								case 2:
-									EventDescription = "Указка";
-									UserFriendlyEventName = "Тест лазер";
-									break;
-							}
-
-							if (EventYesNo == JournalYesNoType.No)
-								UserFriendlyEventName += " устранено";
-
+							EventDescription = StringHelper.ToTest(bytes[32 + 15]);
 							break;
 
 						case 7:
-							UserFriendlyEventName = EventName = "Запыленность";
+							EventName = "Запыленность";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
-
-							switch (bytes[32 + 15])
-							{
-								case 1:
-									EventDescription = "Предварительная";
-									UserFriendlyEventName = "Предварительная запыленность";
-									break;
-
-								case 2:
-									EventDescription = "Критическая";
-									UserFriendlyEventName = "Критическая запыленность";
-									break;
-							}
-
-							if (EventYesNo == JournalYesNoType.No)
-								UserFriendlyEventName += " устранена";
+							EventDescription = StringHelper.ToDustinness(bytes[32 + 15]);
 							break;
 
 						case 8:
@@ -396,37 +353,31 @@ namespace Common.GK
 							{
 								case 2:
 									EventDescription = "Включено";
-									UserFriendlyEventName = "Включено";
 									StateClass = XStateClass.On;
 									break;
 
 								case 3:
 									EventDescription = "Выключено";
-									UserFriendlyEventName = "Выключено";
 									StateClass = XStateClass.Off;
 									break;
 
 								case 4:
 									EventDescription = "Включается";
-									UserFriendlyEventName = "Включается";
 									StateClass = XStateClass.TurningOn;
 									break;
 
 								case 5:
 									EventDescription = "Выключается";
-									UserFriendlyEventName = "Выключается";
 									StateClass = XStateClass.TurningOff;
 									break;
 
 								case 30:
 									EventDescription = "Не определено";
-									UserFriendlyEventName = "Состояние не определено";
 									StateClass = XStateClass.Unknown;
 									break;
 
 								case 31:
 									EventDescription = "Остановлено";
-									UserFriendlyEventName = "Остановлено";
 									StateClass = XStateClass.Info;
 									break;
 							}
@@ -438,25 +389,21 @@ namespace Common.GK
 							{
 								case 0:
 									EventDescription = "Автоматика";
-									UserFriendlyEventName = "Перевод в автоматический режим";
 									StateClass = XStateClass.Norm;
 									break;
 
 								case 1:
 									EventDescription = "Ручное";
-									UserFriendlyEventName = "Перевод в ручной режим";
 									StateClass = XStateClass.AutoOff;
 									break;
 
 								case 2:
 									EventDescription = "Отключение";
-									UserFriendlyEventName = "Перевод в отключенный режим";
 									StateClass = XStateClass.Off;
 									break;
 
 								case 3:
 									EventDescription = "Не определено";
-									UserFriendlyEventName = "Перевод в неопределенный режим";
 									StateClass = XStateClass.Unknown;
 									break;
 							}
@@ -464,7 +411,6 @@ namespace Common.GK
 
 						case 13:
 							EventName = "Параметры";
-							UserFriendlyEventName = "Запись параметра объекта";
 							EventDescription = "Номер объекта КАУ: " + Code;
 							break;
 
@@ -473,16 +419,11 @@ namespace Common.GK
 							break;
 
 						default:
-							EventName = "Неизвестный код события объекта:";
-							EventDescription = Code.ToString();
+							EventName = "Неизвестный код события объекта: " + Code;
 							break;
 					}
 					break;
 			}
-
-			if (string.IsNullOrEmpty(UserFriendlyEventName))
-				UserFriendlyEventName = EventName;
-
 			if (StateClass == XStateClass.No)
 				StateClass = JournalDescriptionStateHelper.GetStateClassByName(EventName);
 		}
@@ -674,6 +615,26 @@ namespace Common.GK
 				case 19: return "КЗ  ДУ ПУСК         ";
 				case 20: return "Обр ДУ СТОП         ";
 				case 21: return "КЗ  ДУ СТОП         ";
+			}
+			return "";
+		}
+
+		public static string ToTest(byte b)
+		{
+			switch (b)
+			{
+				case 1: return "Кнопка";
+				case 2: return "Указка";
+			}
+			return "";
+		}
+
+		public static string ToDustinness(byte b)
+		{
+			switch (b)
+			{
+				case 1: return "Предварительная";
+				case 2: return "Критическая";
 			}
 			return "";
 		}

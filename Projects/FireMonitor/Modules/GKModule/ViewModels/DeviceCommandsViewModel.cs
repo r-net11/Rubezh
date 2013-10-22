@@ -105,8 +105,8 @@ namespace GKModule.ViewModels
 			return DeviceState.StateBits.Contains(XStateBit.Fire2) || DeviceState.StateBits.Contains(XStateBit.Fire1);
 		}
 
-		#region IsMRO
-		public bool IsMRO
+		#region IsMRO_2M
+		public bool IsMRO_2M
 		{
 			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
 		}
@@ -150,8 +150,6 @@ namespace GKModule.ViewModels
 			var code2 = 0;
 			code2 += ((byte)SelectedMROMessageNo << 1);
 			code2 += ((byte)SelectedMROMessageType << 4);
-			//code2 = 18;
-			code2 = 20;
 			ObjectCommandSendHelper.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
 		#endregion

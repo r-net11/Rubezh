@@ -10,6 +10,7 @@ using Microsoft.Practices.Prism.Events;
 using FiresecClient;
 using FiresecAPI.Models;
 using System.Threading;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {

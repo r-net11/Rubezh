@@ -5,16 +5,17 @@ using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 using Common.GK;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {
-    public class JournalsViewModel : BaseViewModel
-    {
-        public JournalsViewModel()
-        {
+	public class JournalsViewModel : BaseViewModel
+	{
+		public JournalsViewModel()
+		{
 			JournalItems = new ObservableCollection<JournalItem>();
 			//ItvManager.NewJournalRecord += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewJournalRecord(x); }); });
-        }
+		}
 
 		public void SafeCall(Action action)
 		{
@@ -28,5 +29,5 @@ namespace GKSDK
 		}
 
 		public ObservableCollection<JournalItem> JournalItems { get; private set; }
-    }
+	}
 }

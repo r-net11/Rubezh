@@ -48,8 +48,6 @@
 		RSR2_HeatDetector,
 		RSR2_Bush,
         Shu,
-        Shuv,
-        RSR2_Siren,
-        RSR2_Table
+        Shuv
     }
 }
