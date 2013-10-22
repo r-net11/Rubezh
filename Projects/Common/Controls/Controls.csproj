@@ -1266,11 +1266,6 @@
     <Resource Include="Images\BFolder.png" />
     <Resource Include="GKIcons\Shu.png" />
     <Resource Include="GKIcons\Shuv.png" />
-    <Resource Include="Images\BFolder.png" />
-    <Resource Include="GKIcons\Shu.png" />
-    <Resource Include="GKIcons\Shuv.png" />
-    <Resource Include="Images\Bleft.png" />
-    <Resource Include="Images\BleftLeft.png" />
     <Resource Include="Images\Bleft.png" />
     <Resource Include="Images\BleftLeft.png" />
     <Resource Include="FSIcons\RSR2_Siren.png" />

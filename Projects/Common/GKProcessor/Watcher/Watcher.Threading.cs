@@ -21,6 +21,7 @@ namespace GKProcessor
 
 		public void StartThread()
 		{
+			IsStopping = false;
 			if (RunThread == null)
 			{
 				StopEvent = new AutoResetEvent(false);
@@ -106,7 +107,7 @@ namespace GKProcessor
 						break;
 				}
 
-				//LastUpdateTime = DateTime.Now;
+				LastUpdateTime = DateTime.Now;
 			}
 		}
 	}
