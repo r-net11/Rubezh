@@ -18,7 +18,7 @@ namespace Common.GK
 			if (device.IsNotUsed)
 				return;
 
-			if (!device.Driver.IsGroupDevice)
+			if (!(device.Driver.IsGroupDevice || device.Driver.DriverType == XDriverType.KAU_Shleif || device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif))
 				AllDevices.Add(device);
 
 			foreach (var child in device.Children)

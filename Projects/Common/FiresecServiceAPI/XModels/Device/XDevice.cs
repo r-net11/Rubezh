@@ -370,6 +370,8 @@ namespace XFiresecAPI
 					return false;
 				if (Driver.DriverType == XDriverType.System)
 					return false;
+				if (Driver.DriverType == XDriverType.KAU_Shleif || Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+					return false;
 				return true;
 			}
 		}

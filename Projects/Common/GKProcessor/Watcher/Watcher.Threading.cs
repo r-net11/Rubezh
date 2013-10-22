@@ -33,7 +33,6 @@ namespace GKProcessor
 		public void StopThread()
 		{
 			IsStopping = true;
-
 			if (StopEvent != null)
 			{
 				StopEvent.Set();
