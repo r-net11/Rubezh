@@ -106,7 +106,7 @@ namespace GKProcessor
 						break;
 				}
 
-				LastUpdateTime = DateTime.Now;
+				//LastUpdateTime = DateTime.Now;
 			}
 		}
 	}
