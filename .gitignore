@@ -1,4 +1,5 @@
-﻿BuildScripts/bin
+﻿BuildScripts/bin/GK
+BuildScripts/bin/Integration
 buildlog.xml
 /scktsrvr.lnk
 /build.bat

@@ -118,17 +118,6 @@ namespace XFiresecAPI
 			get { return XStatesHelper.GetMinStateClass(StateClasses); }
 		}
 
-		//List<string> _additionalStates;
-		//public List<string> AdditionalStates
-		//{
-		//    get { return _additionalStates; }
-		//    set
-		//    {
-		//        _additionalStates = value;
-		//        OnStateChanged();
-		//    }
-		//}
-
 		public List<XAdditionalState> AdditionalStates { get; set; }
 
 		List<AdditionalXStateProperty> _additionalStateProperties;

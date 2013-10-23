@@ -18,6 +18,8 @@ namespace Common.GK
 		[DataMember]
 		public string Name { get; set; }
 		[DataMember]
+		public string UserFriendlyName { get; set; }
+		[DataMember]
 		public JournalYesNoType YesNo { get; set; }
 		[DataMember]
 		public string Description { get; set; }

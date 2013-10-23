@@ -62,10 +62,6 @@ namespace GKProcessor
 			{
 				var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
 				var journalItem = internalJournalItem.ToJournalItem();
-				//if (internalJournalItem != null && internalJournalItem.Device != null)
-				//{
-				//    GetState(internalJournalItem.Device);
-				//}
 				return journalItem;
 			}
 			return null;
@@ -105,18 +101,11 @@ namespace GKProcessor
 				ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 			}
 
-			var gkObjectNos = new HashSet<ushort>();
 			foreach (var journalItem in journalItems)
 			{
-				gkObjectNos.Add(journalItem.GKObjectNo);
-			}
-			foreach (var gkObjectNo in gkObjectNos)
-			{
-				var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == gkObjectNo);
-				if (binaryObject != null)
-				{
-					GetState(binaryObject.BinaryBase);
-				}
+#if DEBUG
+				ParseAdditionalStates(journalItem);
+#endif
 			}
 		}
 

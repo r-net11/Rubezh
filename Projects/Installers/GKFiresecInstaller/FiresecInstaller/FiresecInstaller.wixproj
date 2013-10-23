@@ -98,6 +98,7 @@
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
+    <Content Include="SDK\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="ManagementConsole\Variables.wxi" />

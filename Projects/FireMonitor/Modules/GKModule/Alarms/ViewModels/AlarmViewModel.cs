@@ -204,7 +204,7 @@ namespace GKModule.ViewModels
 			if (Alarm.Zone != null)
 				return (Alarm.AlarmType == XAlarmType.Fire1 || Alarm.AlarmType == XAlarmType.Fire2);
 			if (Alarm.Device != null)
-				return Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Fire2) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Fire1);
+				return Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire1);
 			return false;
 		}
 		public bool CanResetCommand
@@ -217,7 +217,7 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
 				}
@@ -225,7 +225,7 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForZone(Alarm.Zone);
 				}
@@ -233,7 +233,7 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 				{
 					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
 				}
@@ -246,19 +246,19 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;
@@ -316,14 +316,14 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.On) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.TurningOn))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.On) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.TurningOn))
 				{
 					ObjectCommandSendHelper.TurnOffDeviceAnyway(Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.On) || Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.On) || Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn))
 				{
 					ObjectCommandSendHelper.TurnOffDirectionAnyway(Alarm.Direction);
 				}
@@ -338,14 +338,14 @@ namespace GKModule.ViewModels
 				if (!Alarm.Device.Driver.IsControlDevice)
 					return false;
 
-				return Alarm.Device.DeviceState.StateBits.Contains(XStateBit.On) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.TurningOn);
+				return Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.On) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.TurningOn);
 			}
 			if (Alarm.Direction != null)
 			{
 				if (Alarm.AlarmType != XAlarmType.NPTOn)
 					return false;
 
-				return Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.On) || Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn);
+				return Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.On) || Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn);
 			}
 			return false;
 		}

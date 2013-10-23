@@ -102,12 +102,31 @@ namespace Common.GK
             if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
                 return;
             var connection = new SqlCeConnection(ConnectionString);
-            var sqlCeCommand = new SqlCeCommand("alter table Journal add column " + columnName.ToString() + " " + columnType.ToString(), connection);
-            connection.Open();
-            sqlCeCommand.ExecuteNonQuery();
+			if (!IsColumnExists(columnName))
+			{
+				var sqlCeCommand = new SqlCeCommand("alter table Journal add column " + columnName.ToString() + " " + columnType.ToString(), connection);
+				connection.Open();
+				sqlCeCommand.ExecuteNonQuery();
+			}
             connection.Close();
             connection.Dispose();
         }
+
+		static bool IsColumnExists(string columnName)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return false;
+			var connection = new SqlCeConnection(ConnectionString);
+			var sqlCeCommand = new SqlCeCommand(
+				"select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = 'Journal'",
+				connection);
+			connection.Open();
+			var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
+			bool result = reader.Read();
+			connection.Close();
+			connection.Dispose();
+			return result;
+		}
 
         public static List<JournalItem> Select(XArchiveFilter archiveFilter)
         {

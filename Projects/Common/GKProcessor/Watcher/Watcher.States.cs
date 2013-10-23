@@ -18,14 +18,17 @@ namespace GKProcessor
 	{
 		bool IsAnyDBMissmatch = false;
 
-		void GetAllStates()
+		void GetAllStates(bool showProgress)
 		{
+			Trace.WriteLine("GetAllStates");
 			IsAnyDBMissmatch = false;
 
-			StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
+			if (showProgress)
+				StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
-				bool result = GetState(binaryObject.BinaryBase);
+				LastUpdateTime = DateTime.Now;
+				var result = GetState(binaryObject.BinaryBase);
 				if (!result)
 				{
 					if (binaryObject.Device != null && binaryObject.Device.Driver.DriverType == XDriverType.GK)
@@ -34,9 +37,18 @@ namespace GKProcessor
 						break;
 					}
 				}
-				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
+				if (showProgress)
+					DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
-			StopProgress();
+			foreach (var device in XManager.Devices)
+			{
+				if (device.Driver.DriverType == XDriverType.KAU_Shleif || device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+				{
+					device.DeviceState.OnStateChanged();
+				}
+			}
+			if (showProgress)
+				StopProgress();
 
 			if (IsAnyDBMissmatch)
 			{
@@ -45,6 +57,14 @@ namespace GKProcessor
 					var baseState = binaryObject.BinaryBase.GetXBaseState();
 					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
 					baseState.IsGKMissmatch = true;
+				}
+			}
+			else
+			{
+				foreach (var binaryObject in GkDatabase.BinaryObjects)
+				{
+					var baseState = binaryObject.BinaryBase.GetXBaseState();
+					baseState.IsGKMissmatch = false;
 				}
 			}
 			CheckTechnologicalRegime();

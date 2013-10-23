@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKSDK
