@@ -36,15 +36,15 @@ namespace GKModule.ViewModels
 				LocalDeviceViewModel = new DeviceTreeViewModel(localDeviceClone, null, null);
 				RemoteDeviceViewModel = new DeviceTreeViewModel(remoteDeviceClone, null, null);
 			}
-			var compareDevices = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices);
+            var compareDevices = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices, device.Driver.DriverType);
 			LocalDeviceViewModel.Devices = compareDevices[0];
 			RemoteDeviceViewModel.Devices = compareDevices[1];
             if (device.Driver.DriverType == XDriverType.GK)
             {
-                var compareZones = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones);
+                var compareZones = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones, device.Driver.DriverType);
                 LocalDeviceViewModel.Zones = compareZones[0];
                 RemoteDeviceViewModel.Zones = compareZones[1];
-                var compareDirections = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions);
+                var compareDirections = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions, device.Driver.DriverType);
                 LocalDeviceViewModel.Directions = compareDirections[0];
                 RemoteDeviceViewModel.Directions = compareDirections[1];
             }

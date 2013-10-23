@@ -67,7 +67,7 @@ namespace GKModule.ViewModels
 			}
 			return;
 		}
-		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
+		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, XDriverType driverType)
 		{
 			foreach (var object1 in objects1)
 			{
@@ -105,8 +105,8 @@ namespace GKModule.ViewModels
 
 			if (objects1.FirstOrDefault().IsDevice)
 			{
-				SortTree(ref objects1);
-				SortTree(ref objects2);
+                SortTree(ref objects1, driverType);
+                SortTree(ref objects2, driverType);
 			}
             else
 			{
@@ -116,17 +116,17 @@ namespace GKModule.ViewModels
 			return new List<List<ObjectViewModel>> {objects1, objects2};
 		}
 
-		private static void SortTree(ref List<ObjectViewModel> objectViewModels)
+		private static void SortTree(ref List<ObjectViewModel> objectViewModels, XDriverType driverType)
 		{
-			var rootObject = objectViewModels.FirstOrDefault(x => x.Device.Driver.DriverType == XDriverType.GK);
+            var rootObject = objectViewModels.FirstOrDefault(x => x.Device.Driver.DriverType == driverType);
 			objectViewModels = new List<ObjectViewModel>();
+		    objectViewModels.Add(rootObject);
 			AddChildren(objectViewModels, rootObject);
-			//objectViewModels = objectViewModels.OrderBy(x => x.Address).ToList().OrderBy(x => x.Name).ToList();
 		}
 
 		private static void AddChildren(List<ObjectViewModel> newobjectViewModels, ObjectViewModel rootObject)
 		{
-            rootObject.Children = rootObject.Children.OrderBy(x => x.Address).ToList().OrderBy(x => x.Name).ToList();
+            rootObject.Children = rootObject.Children.OrderBy(x => x.Name).ToList().OrderBy(x => x.Address).ToList();
 			foreach (var objectViewModel in rootObject.Children)
 			{
 				newobjectViewModels.Add(objectViewModel);
