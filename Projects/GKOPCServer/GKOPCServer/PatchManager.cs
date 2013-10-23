@@ -1,15 +1,16 @@
 ﻿using System.IO;
 using Infrastructure.Common;
+using Common.GK;
 
 namespace GKOPCServer
 {
 	public static class PatchManager
 	{
-		public static void Patch()
+		public static void Initialize()
 		{
 			try
 			{
-				Patch1();
+				Patcher.AddPatchToList("GKOPC", "Patch1", ()=>Patch1());
 			}
 			catch { }
 		}

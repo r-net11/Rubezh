@@ -2,26 +2,23 @@
 using Infrastructure.Common;
 using FiresecClient;
 using XFiresecAPI;
+using Common.GK;
 
 namespace FiresecOPCServer
 {
 	public static class PatchManager
 	{
-		public static void Patch()
+		public static void Initialize()
 		{
 			try
 			{
-				Patch1();
-			}
+                Patcher.AddPatchToList("OPC","DeleteConfigurationLogs",()=>Patch1());
+            }
 			catch { }
 		}
 
 		static void Patch1()
 		{
-			var patchNo = PatchHelper.GetPatchNo("OPC");
-			if (patchNo > 0)
-				return;
-
 			if (Directory.Exists("Configuration"))
 			{
 				Directory.Delete("Configuration", true);
@@ -30,8 +27,6 @@ namespace FiresecOPCServer
 			{
 				Directory.Delete("Logs", true);
 			}
-
-			PatchHelper.SetPatchNo("Administrator", 1);
-		}
+        }
 	}
 }

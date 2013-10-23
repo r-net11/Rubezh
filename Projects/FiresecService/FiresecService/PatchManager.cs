@@ -11,17 +11,18 @@ using Infrastructure.Common;
 using System.Collections.Generic;
 using Ionic.Zip;
 using System.Text;
+using Common.GK;
 
 namespace FiresecService
 {
 	public static class PatchManager
 	{
-		public static void Patch()
+		public static void Initialize()
 		{
 			try
 			{
-				Patch1();
-			}
+                Patcher.AddPatchToList("Service", "Patch1", ()=>Patch1());
+            }
 			catch(Exception e)
 			{
 				Logger.Error(e, "PatchManager.Patch");
@@ -30,10 +31,6 @@ namespace FiresecService
 
 		static void Patch1()
 		{
-			var patchNo = PatchHelper.GetPatchNo("Server");
-			if (patchNo >= 10)
-				return;
-
 			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 
@@ -47,9 +44,7 @@ namespace FiresecService
 			AddConfigurationToZip(zipFile, xDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml");
 			//AddConfigurationToZip(zipFile, driversConfiguration, "DriversConfiguration.xml");
 			zipFile.Save(fileName);
-
-			PatchHelper.SetPatchNo("Server", 9);
-		}
+        }
 
 		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
 		{

@@ -9,6 +9,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using Common.GK;
 
 namespace FiresecService
 {
@@ -23,7 +24,8 @@ namespace FiresecService
 			try
 			{
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				PatchManager.Patch();
+				PatchManager.Initialize();
+                Patcher.Patch();
 				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();

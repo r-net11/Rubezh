@@ -5,17 +5,18 @@ using System.Text;
 using System.IO;
 using Infrastructure.Common;
 using Common;
+using Common.GK;
 
 namespace FSAgentServer
 {
 	public static class PatchManager
 	{
-		public static void Patch()
+		public static void Initialize()
 		{
 			try
 			{
-				Patch1();
-			}
+                Patcher.AddPatchToList("FSAgent","DeletePicturesLogs",()=>Patch1());
+            }
 			catch(Exception e)
 			{
 				Logger.Error(e, "PatchManager.Patch");
@@ -24,10 +25,6 @@ namespace FSAgentServer
 
 		static void Patch1()
 		{
-			var patchNo = PatchHelper.GetPatchNo("FSAgent");
-			if (patchNo > 0)
-				return;
-
 			if (Directory.Exists("Pictures"))
 			{
 				Directory.Delete("Pictures", true);
@@ -36,8 +33,6 @@ namespace FSAgentServer
 			{
 				Directory.Delete("Logs", true);
 			}
-
-			PatchHelper.SetPatchNo("FSAgent", 1);
-		}
+        }
 	}
 }

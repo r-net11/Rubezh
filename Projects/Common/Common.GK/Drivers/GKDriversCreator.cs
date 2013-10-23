@@ -63,6 +63,8 @@ namespace Common.GK
 			AddDriverToKau_RSR2(RSR2_HeatDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_CombinedDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_Pump_Helper.Create());
+            AddDriverToKau_RSR2(RSR2_Siren_Helper.Create());
+            AddDriverToKau_RSR2(RSR2_Table_Helper.Create());
 		}
 
 		static void AddDriverToKau(XDriver driver)
