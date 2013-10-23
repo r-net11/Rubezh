@@ -9,7 +9,6 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
-using Common.GK;
 
 namespace FiresecService
 {

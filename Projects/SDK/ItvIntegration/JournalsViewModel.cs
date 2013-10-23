@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Threading;
-using FiresecAPI.Models;
-using FiresecClient.Itv;
 using System.Collections.ObjectModel;
 using System.Windows;
+using FiresecAPI.Models;
+using FiresecClient.Itv;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ItvIntegration
 {

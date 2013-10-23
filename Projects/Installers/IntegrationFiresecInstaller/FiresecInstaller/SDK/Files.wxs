@@ -4,7 +4,6 @@
   <Fragment>
     <DirectoryRef Id="SDKLOCATION">
       <Component Id="SDK.Files" Guid="EC4360B0-C071-4C71-A9CD-F29F234251B5">
-        <!--<File Id="SDK.ITV.rar" Name="ITV.rar" Source="..\..\..\..\..\..\..\..\" KeyPath="yes" />-->
         <File Id="SDK.ItvIntegration.sln" Name="ItvIntegration.sln" Source="..\..\..\..\..\SDK\" />
       </Component>
     </DirectoryRef>
@@ -26,19 +25,10 @@
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="SDKLOCATION_Infrastructure">
-      <Component Id="SDK.Files.Infrastructure" Guid="{0EE55EC1-4D72-41CD-85E4-73D0C2015077}">
-        <File Id="SDK.BaseViewModel.cs" Name="BaseViewModel.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Infrastructure\" />
-        <File Id="SDK.RelayCommand.cs" Name="RelayCommand.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Infrastructure\" />
-      </Component>
-    </DirectoryRef>
-
     <DirectoryRef Id="SDKLOCATION_Properties">
       <Component Id="SDK.Files.Properties" Guid="{978C1A33-7CD6-4A51-94E1-1921373AAAD0}">
         <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Resources.Designer.cs" Name="Resources.Designer.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
         <File Id="SDK.Resources.resx" Name="Resources.resx" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
-        <File Id="SDK.Settings.Designer.cs" Name="Settings.Designer.cs" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
         <File Id="SDK.Settings.settings" Name="Settings.settings" Source="..\..\..\..\..\SDK\ItvIntegration\Properties\" />
       </Component>
     </DirectoryRef>

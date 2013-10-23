@@ -36,13 +36,6 @@ namespace GKProcessor
 				}
 				DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
-			foreach (var device in XManager.Devices)
-			{
-				if (device.Driver.DriverType == XDriverType.KAU_Shleif || device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
-				{
-					device.DeviceState.OnStateChanged();
-				}
-			}
 			StopProgress();
 
 			if (IsAnyDBMissmatch)

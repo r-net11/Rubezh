@@ -21,7 +21,6 @@ namespace GKProcessor
 
 		public void StartThread()
 		{
-			IsStopping = false;
 			if (RunThread == null)
 			{
 				StopEvent = new AutoResetEvent(false);
@@ -33,6 +32,7 @@ namespace GKProcessor
 		public void StopThread()
 		{
 			IsStopping = true;
+
 			if (StopEvent != null)
 			{
 				StopEvent.Set();
