@@ -18,7 +18,7 @@ namespace Common.GK
 			if (device.IsNotUsed)
 				return;
 
-			if (!device.Driver.IsGroupDevice)
+			if (device.IsRealDevice)
 				AllDevices.Add(device);
 
 			foreach (var child in device.Children)
