@@ -16,6 +16,9 @@ namespace GKModule.ViewModels
 		public string ImageSource { get; private set; }
 		public ObjectViewModel Parent { get; set; }
 		public List<ObjectViewModel> Children { get; set; }
+        public bool IsDevice { get; set; }
+        public bool IsZone { get; set; }
+        public bool IsDirection { get; set; }
 		public object Clone()
 		{
 			return MemberwiseClone();

@@ -39,11 +39,15 @@ namespace GKModule.ViewModels
 			var compareDevices = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices);
 			LocalDeviceViewModel.Devices = compareDevices[0];
 			RemoteDeviceViewModel.Devices = compareDevices[1];
-			//if (device.Driver.DriverType == XDriverType.GK)
-			//{
-			//    DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones);
-			//    DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions);
-			//}
+            if (device.Driver.DriverType == XDriverType.GK)
+            {
+                var compareZones = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones);
+                LocalDeviceViewModel.Zones = compareZones[0];
+                RemoteDeviceViewModel.Zones = compareZones[1];
+                var compareDirections = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions);
+                LocalDeviceViewModel.Directions = compareDirections[0];
+                RemoteDeviceViewModel.Directions = compareDirections[1];
+            }
 			ChangeCommand = new RelayCommand(OnChange);
 		}
 		public DeviceTreeViewModel LocalDeviceViewModel { get; set; }
