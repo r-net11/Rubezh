@@ -88,17 +88,18 @@ namespace GKProcessor
 				return false;
 			}
 			ConnectionChanged(true);
-			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
-			CheckDBMissmatch(binaryBase, binaryObjectState);
+			var binaryObjectStateHelper = new BinaryObjectStateHelper();
+            binaryObjectStateHelper.Parse(sendResult.Bytes);
+			CheckDBMissmatch(binaryBase, binaryObjectStateHelper);
 			ApplicationService.Invoke(() =>
 			{
 				var binaryState = binaryBase.GetXBaseState();
-				binaryState.StateBits = binaryObjectState.StateBits;
-				binaryState.AdditionalStates = binaryObjectState.AdditionalStates;
-				binaryState.AdditionalStateProperties = binaryObjectState.AdditionalStateProperties;
-				binaryState.OnDelay = binaryObjectState.OnDelay;
-				binaryState.HoldDelay = binaryObjectState.HoldDelay;
-				binaryState.OffDelay = binaryObjectState.OffDelay;
+				binaryState.StateBits = binaryObjectStateHelper.StateBits;
+				binaryState.AdditionalStates = binaryObjectStateHelper.AdditionalStates;
+				binaryState.AdditionalStateProperties = binaryObjectStateHelper.AdditionalStateProperties;
+				binaryState.OnDelay = binaryObjectStateHelper.OnDelay;
+				binaryState.HoldDelay = binaryObjectStateHelper.HoldDelay;
+				binaryState.OffDelay = binaryObjectStateHelper.OffDelay;
 				binaryState.LastDateTime = DateTime.Now;
 			});
 
@@ -117,7 +118,7 @@ namespace GKProcessor
 			}
 		}
 
-		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectState binaryObjectState)
+		void CheckDBMissmatch(XBinaryBase binaryBase, BinaryObjectStateHelper binaryObjectState)
 		{
 			bool isMissmatch = false;
 			if (binaryBase is XDevice)

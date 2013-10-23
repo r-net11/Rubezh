@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Common.GK
 {
-	public class BinaryObjectState
+	public class BinaryObjectStateHelper
 	{
 		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
@@ -22,7 +22,7 @@ namespace Common.GK
 		public int HoldDelay { get; private set; }
 		public int OffDelay { get; private set; }
 
-		public BinaryObjectState(List<byte> bytes)
+		public void Parse(List<byte> bytes)
 		{
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
@@ -34,17 +34,17 @@ namespace Common.GK
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
 
 			StateBits = XStatesHelper.StatesFromInt(state);
-			SetAdditionalParameters(bytes);
+            ParseAdditionalParameters(bytes);
 		}
 
-		void SetAdditionalParameters(List<byte> bytes)
+		public void ParseAdditionalParameters(List<byte> bytes)
 		{
 			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<XAdditionalState>();
 			var additionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
 			{
-				var additionalShortParameter = BytesHelper.SubstructShort(bytes, 48 + i * 2);
+                var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);
 				additionalShortParameters.Add(additionalShortParameter);
 			}
 

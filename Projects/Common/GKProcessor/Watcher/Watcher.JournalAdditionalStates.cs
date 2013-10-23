@@ -73,5 +73,35 @@ namespace GKProcessor
 			}
 			return null;
 		}
+
+        void GetDeviceStateFromKAU(BinaryObjectBase binaryObjectBase)
+        {
+            return;
+            var no = binaryObjectBase.BinaryBase.GetDatabaseNo(DatabaseType.Kau);
+            if (no == 0)
+                return;
+            var sendResult = SendManager.Send(binaryObjectBase.BinaryBase.KauDatabaseParent, 2, 12, 32, BytesHelper.ShortToBytes(no));
+            if (sendResult.HasError)
+            {
+                ConnectionChanged(false);
+                return;
+            }
+            if (sendResult.Bytes.Count != 32)
+            {
+                IsAnyDBMissmatch = true;
+                ApplicationService.Invoke(() => { binaryObjectBase.BinaryBase.GetXBaseState().IsGKMissmatch = true; });
+                return;
+            }
+            ConnectionChanged(true);
+            var binaryObjectStateHelper = new BinaryObjectStateHelper();
+            binaryObjectStateHelper.ParseAdditionalParameters(sendResult.Bytes);
+            ApplicationService.Invoke(() =>
+            {
+                var binaryState = binaryObjectBase.BinaryBase.GetXBaseState();
+                binaryState.AdditionalStates = binaryObjectStateHelper.AdditionalStates;
+                binaryState.LastDateTime = DateTime.Now;
+            });
+            Trace.WriteLine("binaryObjectStateHelper.AdditionalStates.Count = " + binaryObjectStateHelper.AdditionalStates.Count);
+        }
 	}
 }

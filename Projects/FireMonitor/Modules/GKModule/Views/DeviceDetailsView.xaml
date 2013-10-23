@@ -222,6 +222,7 @@
                         </ComboBox>
                     </StackPanel>
                     <Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding ExecuteMROCommand}" Content="Выполнить" />
+                    <TextBox Text="{Binding MROCode}" />
                 </StackPanel>
             </TabItem>
         </TabControl>

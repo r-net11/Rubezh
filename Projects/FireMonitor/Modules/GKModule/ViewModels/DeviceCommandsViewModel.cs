@@ -152,8 +152,21 @@ namespace GKModule.ViewModels
 			code2 += ((byte)SelectedMROMessageType << 4);
 			code2 = 18;
 			code2 = 20;
+            code2 = MROCode;
 			ObjectCommandSendHelper.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
+
+        int _mroCode;
+        public int MROCode
+        {
+            get { return _mroCode; }
+            set
+            {
+                _mroCode = value;
+                OnPropertyChanged("MROCode");
+            }
+        }
+
 		#endregion
 	}
 }

@@ -67,47 +67,53 @@ namespace GKProcessor
 			return null;
 		}
 
-		void ReadAndPublish(int startIndex, int endIndex)
-		{
-			var journalItems = new List<JournalItem>();
-			for (int index = startIndex + 1; index <= endIndex; index++)
-			{
-				var journalItem = ReadJournal(index);
-				if (journalItem != null)
-				{
-					ApplicationService.Invoke(() =>
-					{
-						LoadingService.DoStep(journalItem.GKJournalRecordNo.ToString());
-					});
+        void ReadAndPublish(int startIndex, int endIndex)
+        {
+            var journalItems = new List<JournalItem>();
+            for (int index = startIndex + 1; index <= endIndex; index++)
+            {
+                var journalItem = ReadJournal(index);
+                if (journalItem != null)
+                {
+                    ApplicationService.Invoke(() =>
+                    {
+                        LoadingService.DoStep(journalItem.GKJournalRecordNo.ToString());
+                    });
 
-					journalItems.Add(journalItem);
-					var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
-					if (binaryObject != null)
-					{
-						ChangeAM1TMessage(binaryObject, journalItem);
-						CheckAdditionalStates(binaryObject);
-						ApplicationService.Invoke(() =>
-						{
-							CheckServiceRequired(binaryObject.BinaryBase, journalItem);
-							binaryObject.BinaryBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-							ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
-						});
-					}
-				}
-			}
-			if (journalItems.Count > 0)
-			{
-				GKDBHelper.AddMany(journalItems);
-				ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
-			}
+                    journalItems.Add(journalItem);
+                    var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
+                    if (binaryObject != null)
+                    {
+                        ChangeAM1TMessage(binaryObject, journalItem);
+                        CheckAdditionalStates(binaryObject);
+                        ApplicationService.Invoke(() =>
+                        {
+                            CheckServiceRequired(binaryObject.BinaryBase, journalItem);
+                            binaryObject.BinaryBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+                            ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+                        });
+                    }
+                }
+            }
+            if (journalItems.Count > 0)
+            {
+                GKDBHelper.AddMany(journalItems);
+                ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
+            }
 
-			foreach (var journalItem in journalItems)
-			{
+            foreach (var journalItem in journalItems)
+            {
 #if DEBUG
-				ParseAdditionalStates(journalItem);
+                ParseAdditionalStates(journalItem);
 #endif
-			}
-		}
+
+                var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
+                if (binaryObject != null)
+                {
+                    GetDeviceStateFromKAU(binaryObject);
+                }
+            }
+        }
 
 		void ChangeAM1TMessage(BinaryObjectBase binaryObjectBase, JournalItem journalItem)
 		{
