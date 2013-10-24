@@ -9,11 +9,21 @@ namespace GKModule.ViewModels
 		public StringPropertyViewModel(XDriverProperty driverProperty, XDevice device)
 			: base(driverProperty, device)
 		{
-			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-			if (property != null)
-				_text = Convert.ToString(property.Value);
-			else
-				_text = Convert.ToString(driverProperty.Default);
+		    var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+		    if (property != null)
+            {
+		        if (driverProperty.Name == "IPAddress")
+		            _text = property.StringValue;
+		        else
+                    _text = Convert.ToString(property.Value);
+            }
+            else
+		    {
+                if (driverProperty.Name == "IPAddress")
+                    _text = driverProperty.StringDefault;
+                else
+                    _text = Convert.ToString(driverProperty.Default);
+		    }
 		}
 
 		string _text;
@@ -24,7 +34,10 @@ namespace GKModule.ViewModels
 			{
 				_text = value;
 				OnPropertyChanged("Text");
-				Save(Convert.ToUInt16(value));
+                if (DriverProperty.Name == "IPAddress")
+                    Save(value);
+                else
+                    Save(Convert.ToUInt16(value));
 			}
 		}
 	}

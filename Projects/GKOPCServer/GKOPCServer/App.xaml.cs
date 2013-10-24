@@ -16,7 +16,8 @@ namespace GKOPCServer
 		{
 			try
 			{
-				PatchManager.Patch();
+				PatchManager.Initialize();
+                Patcher.Patch();
 				ThemeHelper.LoadThemeFromRegister();
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))

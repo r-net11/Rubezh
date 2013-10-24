@@ -14,6 +14,7 @@ namespace GKModule.ViewModels
 		public BasePropertyViewModel(XDriverProperty driverProperty, XDevice device)
 		{
 			DriverProperty = driverProperty;
+            IsAUParameter = driverProperty.IsAUParameter;
 			Device = device;
 
 			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
@@ -37,6 +38,7 @@ namespace GKModule.ViewModels
 			UpdateDeviceParameterMissmatchType();
 		}
 
+        public bool IsAUParameter { get; set; }
 		public string Caption
 		{
 			get { return DriverProperty.Caption; }
@@ -59,7 +61,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
+                    if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
 						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 					else
 						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
@@ -89,7 +91,7 @@ namespace GKModule.ViewModels
 		{
 			if (useSaveService)
 			{
-				ServiceFactory.SaveService.FSParametersChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
@@ -110,5 +112,31 @@ namespace GKModule.ViewModels
 			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
+
+        protected void Save(string value, bool useSaveService = true)
+        {
+            if (useSaveService)
+            {
+                ServiceFactory.SaveService.GKChanged = true;
+            }
+
+            var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+            if (systemProperty != null)
+            {
+                systemProperty.Name = DriverProperty.Name;
+                systemProperty.StringValue = value;
+            }
+            else
+            {
+                var newProperty = new XProperty()
+                {
+                    Name = DriverProperty.Name,
+                    StringValue = value
+                };
+                Device.Properties.Add(newProperty);
+            }
+            UpdateDeviceParameterMissmatchType();
+            Device.OnChanged();
+        }
 	}
 }

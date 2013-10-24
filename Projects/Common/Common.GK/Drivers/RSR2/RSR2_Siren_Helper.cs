@@ -35,7 +35,7 @@ namespace Common.GK
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 5, 0, 65535);
+            GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 5, 0, 65535);
             GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 16, 1, 65535);
 
             var property1 = new XDriverProperty()
@@ -65,24 +65,11 @@ namespace Common.GK
             GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 8);
             driver.Properties.Add(property2);
 
-            //var property3 = new XDriverProperty()
-            //{
-            //    No = 2,
-            //    Name = "Состояние контакта для режима Включено",
-            //    Caption = "Состояние контакта для режима Включено",
-            //    Default = 16,
-            //    IsLowByte = true,
-            //    Mask = 0x06
-            //};
-            //GKDriversHelper.AddPropertyParameter(property3, "Гашение", 0);
-            //GKDriversHelper.AddPropertyParameter(property3, "Горение", 2);
-            //GKDriversHelper.AddPropertyParameter(property3, "Мерцание", 4);
-            //driver.Properties.Add(property3);
-
             driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
             driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
-			
-			return driver;
-		}
-	}
+
+            return driver;
+        }
+    }
 }
+

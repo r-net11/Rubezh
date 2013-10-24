@@ -19,7 +19,7 @@ namespace FireAdministrator
 		{
 			base.OnStartup(e);
 			string fileName;
-			PatchManager.Patch();
+			Patcher.Patch();
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();

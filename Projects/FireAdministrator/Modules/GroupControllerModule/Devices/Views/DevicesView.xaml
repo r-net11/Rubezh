@@ -90,7 +90,13 @@
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <Separator />
+            <MenuItem>
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/BParametersReadWrite.png" Width="16" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Параметры" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </MenuItem.Header>
             <MenuItem Command="{Binding ReadCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -181,6 +187,7 @@
                         <TextBlock Margin="2" Text="Из всех дочерних устройств в систему" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
+            </MenuItem>
             </MenuItem>
         </ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />

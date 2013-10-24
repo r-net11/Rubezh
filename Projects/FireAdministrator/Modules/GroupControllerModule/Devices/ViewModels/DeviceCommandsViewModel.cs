@@ -30,10 +30,7 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			GetAllParametersCommand = new RelayCommand(OnGetAllParameters);
-			SetAllParametersCommand = new RelayCommand(OnSetAllParameters, CanSetAllParameters);
-            GetSingleParameterCommand = new RelayCommand(OnGetSingleParameter, CanGetSetSingleParameter);
-            SetSingleParameterCommand = new RelayCommand(OnSetSingleParameter, CanSetSingleParameter);
+
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 
 			_devicesViewModel = devicesViewModel;
@@ -160,54 +157,6 @@ namespace GKModule.Models
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
 		}
-
-		public RelayCommand GetAllParametersCommand { get; private set; }
-		void OnGetAllParameters()
-		{
-			ParametersHelper.GetAllParameters();
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand SetAllParametersCommand { get; private set; }
-		void OnSetAllParameters()
-		{
-			ParametersHelper.SetAllParameters();
-		}
-		bool CanSetAllParameters()
-		{
-			return CanGetSetSingleParameter() && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
-		}
-
-		public RelayCommand GetSingleParameterCommand { get; private set; }
-		void OnGetSingleParameter()
-		{
-			DatabaseManager.Convert();
-			ParametersHelper.GetSingleParameter(SelectedDevice.Device);
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-        public RelayCommand SetSingleParameterCommand { get; private set; }
-        void OnSetSingleParameter()
-		{
-			DatabaseManager.Convert();
-            ParametersHelper.SetSingleParameter(SelectedDevice.Device);
-		}
-		bool CanSetSingleParameter()
-		{
-			return CanGetSetSingleParameter() && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
-		}
-
-        bool CanGetSetSingleParameter()
-        {
-            if(SelectedDevice == null)
-                return false;
-            if(SelectedDevice.Device.Driver.DriverType == XDriverType.System)
-                return false;
-            if(SelectedDevice.Device.Driver.IsGroupDevice)
-                return false;
-            return true;
-        }
-
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
@@ -232,7 +181,6 @@ namespace GKModule.Models
 		{
 			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
-
 		static string ChangeFile()
 		{
 			var openDialog = new OpenFileDialog()
@@ -244,7 +192,6 @@ namespace GKModule.Models
 				return openDialog.FileName;
 			return null;
 		}
-
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
@@ -258,7 +205,6 @@ namespace GKModule.Models
 			}
 			return true;
 		}
-
 		bool CheckNeedSave()
 		{
 			if (ServiceFactory.SaveService.GKChanged)

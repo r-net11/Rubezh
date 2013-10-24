@@ -44,8 +44,8 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Column="1" >
-            <Controls:ToolBarButton Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
-            <Controls:ToolBarButton Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/Edit.png" Height="32" Width="32" />
+            <Controls:ToolBarButton ToolTip="Закрыть панель валидации" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+            <Controls:ToolBarButton ToolTip="Настройка фильтра ошибок" Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/Edit.png" Height="32" Width="32" />
         </StackPanel>
         
     </Grid>
