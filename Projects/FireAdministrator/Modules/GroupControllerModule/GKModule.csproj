@@ -71,6 +71,7 @@
     <Compile Include="Converters\LibraryXStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
     <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
