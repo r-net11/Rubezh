@@ -178,10 +178,10 @@ namespace GKModule.Validation
 			{
 				if (childDevice.Driver.HasAddress)
 				{
-					if (addresses.Contains(childDevice.ShleifNo * 256 + childDevice.IntAddress))
+					if (addresses.Contains(childDevice.ShleifNoNew * 256 + childDevice.IntAddress))
 						Errors.Add(new DeviceValidationError(childDevice, string.Format("Дублируется адрес устройства"), ValidationErrorLevel.CannotWrite));
 					else
-						addresses.Add(childDevice.ShleifNo * 256 + childDevice.IntAddress);
+						addresses.Add(childDevice.ShleifNoNew * 256 + childDevice.IntAddress);
 				}
 			}
 		}
@@ -199,16 +199,13 @@ namespace GKModule.Validation
 		{
 			if (device.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
-				var realChildren = KauChildrenHelper.GetRealChildren(device);
-				realChildren.Remove(device);
-				for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
+				foreach (var shleifDevice in device.Children)
 				{
-					var childrenOnShleif = realChildren.Where(x => x.ShleifNo == shleifNo).ToList();
-					for (int i = 0; i < childrenOnShleif.Count(); i++)
+					for (int i = 0; i < shleifDevice.Children.Count(); i++)
 					{
-						if (childrenOnShleif[i].IntAddress != i + 1)
+						if (shleifDevice.Children[i].IntAddress != i + 1)
 						{
-							Errors.Add(new DeviceValidationError(childrenOnShleif[i], string.Format("Последовательность адресов шлейфа " + shleifNo + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(shleifDevice.Children[i], string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
 							break;
 						}
 					}
@@ -231,7 +228,7 @@ namespace GKModule.Validation
 			foreach (var child in device.Children)
 			{
 				allChildren.Add(child);
-				if (child.Driver.DriverType == XDriverType.MPT)
+				if (child.Driver.DriverType == XDriverType.MPT || child.Driver.DriverType == XDriverType.MRO_2)
 				{
 					AddChild(child);
 				}

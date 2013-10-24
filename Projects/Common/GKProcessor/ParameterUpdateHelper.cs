@@ -27,7 +27,7 @@ namespace GKProcessor
 					var databaseNo = device.GetDatabaseNo(DatabaseType.Kau);
 					bytes.Add((byte)device.Driver.DriverTypeNo);
 					bytes.Add(device.IntAddress);
-					bytes.Add((byte)(device.ShleifNo - 1));
+					bytes.Add((byte)(device.ShleifNoNew - 1));
 					bytes.Add(auParameter.No);
 					var result = SendManager.Send(device.KauDatabaseParent, 4, 131, 2, bytes);
 					if (!result.HasError)

@@ -60,7 +60,7 @@ namespace FiresecClient
 			return deviceTo;
 		}
 
-		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte shleifNo, byte intAddress)
+		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte intAddress)
 		{
 			var device = new XDevice()
 			{
@@ -76,13 +76,12 @@ namespace FiresecClient
 			return device;
 		}
 
-		public static XDevice InsertChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte shleifNo, byte intAddress)
+		public static XDevice InsertChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte intAddress)
 		{
 			var device = new XDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = shleifNo,
 				IntAddress = intAddress,
 				Parent = parentDevice
 			};
@@ -101,7 +100,7 @@ namespace FiresecClient
 				var autoCreateDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
-					AddChild(device, autoCreateDriver, 0, i);
+					AddChild(device, autoCreateDriver, i);
 				}
 			}
 			if (device.Driver.DriverType == XDriverType.GK)
