@@ -24,7 +24,6 @@ namespace FiresecClient
 		{
 			deviceTo.DriverUID = deviceFrom.DriverUID;
 			deviceTo.Driver = deviceFrom.Driver;
-			deviceTo.ShleifNo = deviceFrom.ShleifNo;
 			deviceTo.IntAddress = deviceFrom.IntAddress;
 			deviceTo.Description = deviceFrom.Description;
 
@@ -67,7 +66,6 @@ namespace FiresecClient
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = shleifNo,
 				IntAddress = intAddress,
 				Parent = parentDevice
 			};

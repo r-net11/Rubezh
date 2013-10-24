@@ -247,18 +247,13 @@ namespace XFiresecAPI
 					return;
 				}
 
-				var addresses = address.Split('.');
-				byte shleifPart = byte.Parse(addresses[0]);
-				byte addressPart = byte.Parse(addresses[1]);
-
-				ShleifNo = shleifPart;
-				IntAddress = addressPart;
+				byte intAddress = byte.Parse(address);
+				IntAddress = intAddress;
 
 				if (Driver.IsGroupDevice)
 				{
 					for (int i = 0; i < Children.Count; i++)
 					{
-						Children[i].ShleifNo = ShleifNo;
 						Children[i].IntAddress = (byte)(IntAddress + i);
 					}
 				}
@@ -404,8 +399,6 @@ namespace XFiresecAPI
 			{
 				if (!Driver.HasAddress)
 					return 0;
-				if (Driver.IsDeviceOnShleif)
-					return ShleifNo * 256 + IntAddress;
 				return IntAddress;
 			}
 		}

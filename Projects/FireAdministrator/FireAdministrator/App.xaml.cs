@@ -18,8 +18,8 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
+			PatchManager.Patch();
 			string fileName;
-			Patcher.Patch();
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();
