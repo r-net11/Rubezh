@@ -55,7 +55,7 @@
 										<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="{Binding Device.Driver.ImageSource}" />
-												<TextBlock Margin="2" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
+												<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" />
 											</StackPanel>
 										</Hyperlink>
 								</TextBlock>
@@ -136,8 +136,14 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTextColumn Header="Значение" Binding="{Binding Value}" Width="*" />
-					</DataGrid.Columns>
+                        <DataGridTemplateColumn Width="*" Header="Значение">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Value}" ToolTip="{Binding Value}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
 			<TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
