@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 			get { return DriverProperty.ToolTip; }
 		}
 
-		void UpdateDeviceParameterMissmatchType()
+		protected void UpdateDeviceParameterMissmatchType()
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
@@ -112,31 +112,5 @@ namespace GKModule.ViewModels
 			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
-
-        protected void Save(string value, bool useSaveService = true)
-        {
-            if (useSaveService)
-            {
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-
-            var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-            if (systemProperty != null)
-            {
-                systemProperty.Name = DriverProperty.Name;
-                systemProperty.StringValue = value;
-            }
-            else
-            {
-                var newProperty = new XProperty()
-                {
-                    Name = DriverProperty.Name,
-                    StringValue = value
-                };
-                Device.Properties.Add(newProperty);
-            }
-            UpdateDeviceParameterMissmatchType();
-            Device.OnChanged();
-        }
 	}
 }

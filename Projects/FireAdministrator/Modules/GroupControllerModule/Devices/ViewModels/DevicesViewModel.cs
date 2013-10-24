@@ -412,8 +412,8 @@ namespace GKModule.ViewModels
                         new RibbonMenuItemViewModel("Считать параметры дочерних устройств", "/Controls;component/Images/BParametersReadAll.png"),
                         new RibbonMenuItemViewModel("Записать параметры дочерних устройств", "/Controls;component/Images/BParametersWriteAll.png"),
 
-                        new RibbonMenuItemViewModel("Из устройства в систему", "/Controls;component/Images/BLeft.png"),
-                        new RibbonMenuItemViewModel("Из всех дочерних устройств в систему", "/Controls;component/Images/BLeftLeft.png"),
+                        new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "/Controls;component/Images/BLeft.png"),
+                        new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "/Controls;component/Images/BLeftLeft.png"),
                         
                         new RibbonMenuItemViewModel("Копировать параметры", "/Controls;component/Images/BCopy.png"),
                         new RibbonMenuItemViewModel("Вставить параметры", "/Controls;component/Images/BPaste.png"),

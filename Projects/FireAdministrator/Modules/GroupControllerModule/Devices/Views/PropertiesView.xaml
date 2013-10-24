@@ -14,11 +14,15 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Margin="2">
+        <Grid Width="1000" />
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="group1" Width="600" />
-                <ColumnDefinition SharedSizeGroup="group2" Width="400" />
+                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                <ColumnDefinition SharedSizeGroup="group3" Width="*" />
             </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
+            <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
         </Grid>
         <ItemsControl ItemsSource="{Binding StringProperties}">
             <ItemsControl.ItemTemplate>
@@ -36,6 +40,38 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding ShortProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
+                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding BoolProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group2" Width="*" />
+                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ItemsControl ItemsSource="{Binding EnumProperties}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -46,7 +82,7 @@
                             <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" ToolTip="{Binding SelectedParameter.Name}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>

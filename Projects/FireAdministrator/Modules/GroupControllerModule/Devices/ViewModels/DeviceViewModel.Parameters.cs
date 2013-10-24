@@ -158,7 +158,22 @@ namespace GKModule.ViewModels
                 }
             }
         }
+		void InitializeParamsCommands()
+		{
+			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
+			WriteCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
+			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
+			WriteAllCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
+			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
+			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
+			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
+			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+		}
         public RelayCommand WriteAllCommand { get; private set; }
         public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
         void SyncFromAllSystemToDevice()
@@ -221,7 +236,7 @@ namespace GKModule.ViewModels
 
         static void CopyFromDeviceToSystem(XDevice device)
         {
-            device.Properties.RemoveAll(x => x.Name != "IPAddress");
+            device.Properties.RemoveAll(x => x.DriverProperty.IsAUParameter);
             foreach (var property in device.DeviceProperties)
             {
                 var clonedProperty = new XProperty
@@ -347,7 +362,8 @@ namespace GKModule.ViewModels
                 i++;
                 //FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
                 ParametersHelper.SetSingleParameter(device);
-                Thread.Sleep(100);
+				if ((devices.Count() > 1)&&(i < devices.Count()))
+					Thread.Sleep(100);
             }
             LoadingService.Close();
             if (ParametersHelper.ErrorLog != "")
