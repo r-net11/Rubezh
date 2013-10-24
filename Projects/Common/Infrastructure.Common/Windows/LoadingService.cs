@@ -10,7 +10,7 @@ namespace Infrastructure.Common.Windows
 		{
 			ApplicationService.Invoke(() =>
 			{
-				LoadingService.ShowProgress("", name, count);
+				LoadingService.Show("", name, count);
 			});
 		}
 		public static void SaveDoStep(string name)
@@ -28,23 +28,31 @@ namespace Infrastructure.Common.Windows
 			});
 		}
 
-		public static void ShowProgress(string title, string text, int stepCount = 1)
+		public static void Show(string title, string text, int stepCount = 1)
 		{
 			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, Text = text });
 		}
-		public static void ShowProgressIndeterminate(string title, string text)
-		{
-			Show(new ProgressViewModel() { Title = title, IsIndeterminate = true, Text = text });
-		}
+
 		public static void Show(string title, int stepCount = 1)
 		{
-			Show(new LoadingViewModel() { Title = title, StepCount = stepCount });
+			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, Text = title });
+		}
+		
+		public static void ShowIndeterminate(string title, string text)
+		{
+			Show(new ProgressViewModel() { Title = title, IsIndeterminate = true, Text = text });
 		}
 
 		public static void ShowWithCancel(string title, int stepCount = 1)
 		{
-			Show(new LoadingViewModel() { Title = title, StepCount = stepCount, CanCancel = true, Text = title });
+			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, CanCancel = true, Text = title });
 		}
+
+		public static void ShowLoading(string title, int stepCount = 1)
+		{
+			Show(new LoadingViewModel() { Title = title, StepCount = stepCount });
+		}
+
 		public static bool IsCanceled
 		{
 			get { return _progressViewModel != null && _progressViewModel.IsCanceled; }

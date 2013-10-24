@@ -29,7 +29,7 @@ namespace FireAdministrator
 				{
 					CreateModules();
 
-					LoadingService.Show("Чтение конфигурации", 4);
+					LoadingService.ShowLoading("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount() + 6);
 
 					LoadingService.DoStep("Синхронизация файлов");
