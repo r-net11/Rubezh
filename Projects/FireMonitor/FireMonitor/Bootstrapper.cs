@@ -38,7 +38,7 @@ namespace FireMonitor
 				{
 					CreateModules();
 
-					LoadingService.Show("Чтение конфигурации", 15);
+					LoadingService.ShowLoading("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
 					if (!App.IsMulticlient)
