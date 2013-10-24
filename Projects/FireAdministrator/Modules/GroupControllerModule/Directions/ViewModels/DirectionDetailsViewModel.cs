@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 {
     public class DirectionDetailsViewModel : SaveCancelDialogViewModel
     {
-		public XDirection XDirection { get; set; }
+		public XDirection Direction { get; private set; }
 
 		public DirectionDetailsViewModel(XDirection direction = null)
 		{
@@ -25,18 +25,18 @@ namespace GKModule.ViewModels
             {
                 Title = "Создание новоого направления";
 
-				XDirection = new XDirection()
+				Direction = new XDirection()
                 {
                     Name = "Новое направление",
                     No = 1
                 };
 				if (XManager.Directions.Count != 0)
-					XDirection.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
+					Direction.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
             }
             else
             {
 				Title = string.Format("Свойства направления: {0}", direction.PresentationName);
-				XDirection = direction;
+				Direction = direction;
             }
             CopyProperties();
 
@@ -63,12 +63,15 @@ namespace GKModule.ViewModels
 
         void CopyProperties()
         {
-			Name = XDirection.Name;
-			No = XDirection.No;
-			Delay = XDirection.Delay;
-			Hold = XDirection.Hold;
-			Regime = XDirection.Regime;
-			Description = XDirection.Description;
+			Name = Direction.Name;
+			No = Direction.No;
+			Delay = Direction.Delay;
+			Hold = Direction.Hold;
+			Regime = Direction.Regime;
+			Description = Direction.Description;
+			IsNS = Direction.IsNS;
+			MainPumpsCount = Direction.MainPumpsCount;
+			PumpsDeltaTime = Direction.PumpsDeltaTime;
         }
 
         string _name;
@@ -140,40 +143,78 @@ namespace GKModule.ViewModels
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
+		#region NS
+		bool _isNS;
+		public bool IsNS
+		{
+			get { return _isNS; }
+			set
+			{
+				_isNS = value;
+				OnPropertyChanged("IsNS");
+			}
+		}
+
+		int _mainPumpsCount;
+		public int MainPumpsCount
+		{
+			get { return _mainPumpsCount; }
+			set
+			{
+				_mainPumpsCount = value;
+				OnPropertyChanged("MainPumpsCount");
+			}
+		}
+
+		int _pumpsDeltaTime;
+		public int PumpsDeltaTime
+		{
+			get { return _pumpsDeltaTime; }
+			set
+			{
+				_pumpsDeltaTime = value;
+				OnPropertyChanged("PumpsDeltaTime");
+			}
+		}
+		#endregion
+
 		protected override bool Save()
 		{
-			if (XDirection.No != No && XManager.Directions.Any(x => x.No == No))
+			if (Direction.No != No && XManager.Directions.Any(x => x.No == No))
             {
                 MessageBoxService.Show("Направление с таким номером уже существует");
                 return false;
             }
 
-			XDirection.Name = Name;
-			XDirection.No = No;
-			XDirection.Delay = Delay;
-			XDirection.Hold = Hold;
-			XDirection.Regime = Regime;
-			XDirection.Description = Description;
+			Direction.Name = Name;
+			Direction.No = No;
+			Direction.Delay = Delay;
+			Direction.Hold = Hold;
+			Direction.Regime = Regime;
+			Direction.Description = Description;
+			Direction.IsNS = IsNS;
+			Direction.MainPumpsCount = MainPumpsCount;
+			Direction.PumpsDeltaTime = PumpsDeltaTime;
 			return base.Save();
 		}
 
 		public RelayCommand GetDirectionPropertiesCommand { get; private set; }
 		void OnGetDirectionProperties()
 		{
-			ParametersHelper.GetSingleDirectionParameter(XDirection);
+			ParametersHelper.GetSingleDirectionParameter(Direction);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand SetDirectionPropertiesCommand { get; private set; }
 		void OnSetDirectionProperties()
 		{
-			XDirection.Name = Name;
-			XDirection.No = No;
-			XDirection.Description = Description;
-			XDirection.Delay = Delay;
-			XDirection.Hold = Hold;
-			XDirection.Regime = Regime;
-			ParametersHelper.SetSingleDirectionParameter(XDirection);
+			Direction.Name = Name;
+			Direction.No = No;
+			Direction.Description = Description;
+			Direction.Delay = Delay;
+			Direction.Hold = Hold;
+			Direction.Regime = Regime;
+			ParametersHelper.SetSingleDirectionParameter(Direction);
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }

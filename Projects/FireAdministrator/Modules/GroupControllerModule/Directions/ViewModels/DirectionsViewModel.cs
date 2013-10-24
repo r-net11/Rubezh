@@ -31,13 +31,10 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-
 			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanDeleteZone);
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
-
 			DeleteDeviceCommand = new RelayCommand(OnDeleteDevice, CanDeleteDevice);
 			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
-
 			DeleteOutputDeviceCommand = new RelayCommand(OnDeleteOutputDevice, CanDeleteOutputDevice);
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
 			
@@ -104,8 +101,8 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				XManager.AddDirection(directionDetailsViewModel.XDirection);
-				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.XDirection);
+				XManager.AddDirection(directionDetailsViewModel.Direction);
+				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
 				Directions.Add(directionViewModel);
 				SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
@@ -134,12 +131,12 @@ namespace GKModule.ViewModels
 		{
 			OnEdit(SelectedDirection.Direction);
 		}
-		void OnEdit(XDirection xdirection)
+		void OnEdit(XDirection direction)
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(xdirection);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				SelectedDirection.Direction = directionDetailsViewModel.XDirection;
+				SelectedDirection.Direction = directionDetailsViewModel.Direction;
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -161,7 +158,6 @@ namespace GKModule.ViewModels
 			SelectedDirection.ChangeZones();
 			OnPropertyChanged("ZonesCount");
 		}
-
 		bool CanDeleteZone()
 		{
 			return SelectedDirection!=null && SelectedDirection.SelectedZone != null;
@@ -183,7 +179,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DevicesCount");
 			SelectedDirection.SelectedDevice = null;
 		}
-
 		bool CanDeleteDevice()
 		{
 			return SelectedDirection != null && SelectedDirection.SelectedDevice != null;
@@ -205,13 +200,10 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("OutputDevicesCount");
 			SelectedDirection.SelectedOutputDevice = null;
 		}
-
 		bool CanDeleteOutputDevice()
 		{
 			return SelectedDirection != null && SelectedDirection.SelectedOutputDevice != null;
 		}
-
-
 
 		public int ZonesCount
 		{
@@ -252,8 +244,8 @@ namespace GKModule.ViewModels
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.XDirection.UID;
-				createDirectionEventArg.XDirection = result.XDirection;
+				createDirectionEventArg.DirectionUID = result.Direction.UID;
+				createDirectionEventArg.Direction = result.Direction;
 			}
 		}
 		public void EditDirection(Guid directionUID)

@@ -5,47 +5,52 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class PumpStationCreator2
+	public class PumpStationCreator
 	{
 		GkDatabase GkDatabase;
 		XDevice PumpStationDevice;
+		List<XDirection> Directions;
 		List<XDevice> FirePumpDevices;
 		List<XDevice> FailurePumpDevices;
-		XDevice AM1TDevice;
 		List<XDelay> Delays;
 		ushort DelayTime;
 		ushort PumpsCount;
 		XDelay MainDelay;
 
-		public PumpStationCreator2(GkDatabase gkDatabase, XDevice pumpStationDevice, XDirection direction)
+		public PumpStationCreator(GkDatabase gkDatabase, XDevice pumpStationDevice)
 		{
 			GkDatabase = gkDatabase;
 			PumpStationDevice = pumpStationDevice;
-			DelayTime = (ushort)direction.PumpsDeltaTime;
-			PumpsCount = (ushort)direction.MainPumpsCount;
+			DelayTime = pumpStationDevice.PumpStationProperty.DelayTime;
+			PumpsCount = pumpStationDevice.PumpStationProperty.PumpsCount;
+
+			Directions = new List<XDirection>();
+			foreach (var directionUID in pumpStationDevice.PumpStationProperty.DirectionUIDs)
+			{
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == directionUID);
+				if (direction != null)
+				{
+					Directions.Add(direction);
+				}
+			}
 
 			Delays = new List<XDelay>();
 
 			FirePumpDevices = new List<XDevice>();
 			FailurePumpDevices = new List<XDevice>();
-			foreach (var NSDeviceUID in direction.NSDeviceUIDs)
+			foreach (var pumpStationPump in pumpStationDevice.PumpStationProperty.PumpStationPumps.OrderBy(x => x.PumpStationPumpType))
 			{
-				var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == NSDeviceUID);
-				if (nsDevice != null)
-					if (nsDevice.Driver.DriverType == XDriverType.Pump || nsDevice.Driver.DriverType == XDriverType.RSR2_Bush)
-					{
-						if (nsDevice.IntAddress <= 8)
-						{
-							FirePumpDevices.Add(nsDevice);
-						}
-						else
-						{
-							FailurePumpDevices.Add(nsDevice);
-						}
-					}
-				if (nsDevice.Driver.DriverType == XDriverType.AM1_T)
+				var pumpDevice = XManager.Devices.FirstOrDefault(x => x.UID == pumpStationPump.DeviceUID);
+				if (pumpDevice != null)
 				{
-					AM1TDevice = nsDevice;
+					if (pumpDevice.IntAddress <= 8)
+					{
+						FirePumpDevices.Add(pumpDevice);
+					}
+					else
+					{
+						FailurePumpDevices.Add(pumpDevice);
+					}
 				}
 			}
 		}
@@ -109,6 +114,64 @@ namespace Common.GK
 				var formula = new FormulaBuilder();
 				formula.AddClauseFormula(PumpStationDevice.DeviceLogic);
 				formula.AddStandardTurning(mainDelayBinaryObject.BinaryBase);
+
+				formula.Add(FormulaOperationType.END);
+				mainDelayBinaryObject.Formula = formula;
+				mainDelayBinaryObject.FormulaBytes = formula.GetBytes();
+			}
+		}
+
+		void Create_OLD_MainDelayLogic()
+		{
+			var mainDelayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == MainDelay.UID);
+			if (mainDelayBinaryObject != null)
+			{
+				var formula = new FormulaBuilder();
+				var deviceBinaryObject = new DeviceBinaryObject(PumpStationDevice, DatabaseType.Gk);
+
+				if (Directions.Count > 0)
+				{
+					var inputDirectionsCount = 0;
+					foreach (var direction in Directions)
+					{
+						formula.AddGetBit(XStateBit.On, direction);
+						if (inputDirectionsCount > 0)
+						{
+							formula.Add(FormulaOperationType.OR);
+						}
+						inputDirectionsCount++;
+					}
+					foreach (var failurePumpDevice in FailurePumpDevices)
+					{
+						formula.AddGetBit(XStateBit.Failure, failurePumpDevice);
+						formula.Add(FormulaOperationType.COM);
+						formula.Add(FormulaOperationType.AND);
+					}
+
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, MainDelay);
+				}
+
+				if (Directions.Count > 0)
+				{
+					var inputDirectionsCount = 0;
+					foreach (var direction in Directions)
+					{
+						formula.AddGetBit(XStateBit.Off, direction);
+						if (inputDirectionsCount > 0)
+						{
+							formula.Add(FormulaOperationType.OR);
+						}
+						inputDirectionsCount++;
+					}
+					foreach (var failurePumpDevice in FailurePumpDevices)
+					{
+						formula.AddGetBit(XStateBit.Failure, failurePumpDevice);
+						formula.Add(FormulaOperationType.COM);
+						formula.Add(FormulaOperationType.AND);
+					}
+
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, MainDelay);
+				}
 
 				formula.Add(FormulaOperationType.END);
 				mainDelayBinaryObject.Formula = formula;
@@ -218,11 +281,11 @@ namespace Common.GK
 
 		void SetCrossReferences()
 		{
-			//foreach (var direction in Directions)
-			//{
-			//    MainDelay.InputObjects.Add(direction);
-			//    direction.OutputObjects.Add(MainDelay);
-			//}
+			foreach (var direction in Directions)
+			{
+				MainDelay.InputObjects.Add(direction);
+				direction.OutputObjects.Add(MainDelay);
+			}
 
 			foreach (var pumpDevice in FirePumpDevices)
 			{

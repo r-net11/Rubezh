@@ -28,10 +28,6 @@ namespace SettingsModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			//return new List<NavigationItem>()
-			//{
-			//    new NavigationItem<ShowSettingsEvent>(SettingsViewModel, "Настройки", "/Controls;component/Images/settings.png"),
-			//};
 			return null;
 		}
 		public override string Name
@@ -41,8 +37,7 @@ namespace SettingsModule
 
         void OnEditValidation(object obj)
         {
-            var errorsFilterViewModel = new ErrorsFilterViewModel();
-            DialogService.ShowModalWindow(errorsFilterViewModel);
+			SettingsViewModel.ShowErrorsFilterCommand.Execute();
         }
 	}
 }

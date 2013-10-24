@@ -215,6 +215,12 @@ namespace XFiresecAPI
 					direction.DirectionDevices = new List<XDirectionDevice>();
 					result = false;
 				}
+
+				if (direction.NSDeviceUIDs == null)
+				{
+					direction.NSDeviceUIDs = new List<Guid>();
+					result = false;
+				}
 			}
 
 			foreach (var journalFilter in JournalFilters)

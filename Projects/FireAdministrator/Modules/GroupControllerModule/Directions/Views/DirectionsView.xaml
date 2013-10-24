@@ -28,8 +28,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -45,6 +45,13 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
+                <DataGridTemplateColumn Width="Auto" Header="НС" SortMemberPath="Direction.IsNS">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="НС" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </Controls:XDataGrid>
 
@@ -78,16 +85,16 @@
                     <MenuItem Command="{Binding DeleteOutputDeviceCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem Command="{Binding ChangeOutputDevicesCommand}" >
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
@@ -108,8 +115,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
-                                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" VerticalAlignment="Center"/>
+                                            <Image Width="16" Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+                                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding DirectionZone.Zone.No}" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -125,8 +132,8 @@
                                                         <ComboBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <Image Margin="1 0 0 0" Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
-                                                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center"/>
+                                                                    <Image Margin="1 0 0 0" Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" />
+                                                                    <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
                                                                 </StackPanel>
                                                             </DataTemplate>
                                                         </ComboBox.ItemTemplate>
@@ -147,16 +154,16 @@
                     <MenuItem Command="{Binding DeleteZoneCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
-                    <MenuItem Command="{Binding ChangeZonesCommand}" >
+                    <MenuItem Command="{Binding ChangeZonesCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
@@ -177,7 +184,7 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Margin="1 0 0 0" Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16"/>
+                                            <Image Margin="1 0 0 0" Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" />
                                             <TextBlock Margin="2" Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -214,16 +221,16 @@
                     <MenuItem Command="{Binding DeleteDeviceCommand}">
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem Command="{Binding ChangeDevicesCommand}" >
                         <MenuItem.Header>
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center"/>
+                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
                             </StackPanel>
                         </MenuItem.Header>
                     </MenuItem>

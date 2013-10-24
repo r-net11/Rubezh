@@ -51,6 +51,20 @@ namespace XFiresecAPI
 		[DataMember]
 		public byte ShleifNo { get; set; }
 
+		public byte ShleifNoNew
+		{
+			get
+			{
+				var allParents = AllParents;
+				var shleif = allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU_Shleif || x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
+				if (shleif != null)
+				{
+					return shleif.IntAddress;
+				}
+				return 0;
+			}
+		}
+
 		[DataMember]
 		public byte IntAddress { get; set; }
 

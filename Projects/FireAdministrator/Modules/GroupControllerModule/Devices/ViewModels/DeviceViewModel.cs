@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			
+
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
@@ -53,22 +53,23 @@ namespace GKModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
 
-            ReadCommand = new RelayCommand(OnRead, CanReadWrite);
-            WriteCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
-            ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
-            WriteAllCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
-            SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
-            SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
+			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
+			WriteCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
+			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
+			WriteAllCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
+			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
-            CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
-            PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
-            PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
-            PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
-            PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
-            ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
+			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
+			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 
 			device.AUParametersChanged += UpdateProperties;
-            }
+		}
+
 		List<XDevice> GetRealChildren()
 		{
 			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();

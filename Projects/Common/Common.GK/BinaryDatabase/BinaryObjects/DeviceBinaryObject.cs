@@ -22,7 +22,7 @@ namespace Common.GK
 
 			ushort address = 0;
 			if (Device.Driver.IsDeviceOnShleif)
-				address = (ushort)((Device.ShleifNo - 1) * 256 + Device.IntAddress);
+				address = (ushort)((Device.ShleifNoNew - 1) * 256 + Device.IntAddress);
 			SetAddress(address);
 
 			SetFormulaBytes();

@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			InputDevices = new List<XDevice>();
             OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
+			NSDeviceUIDs = new List<Guid>();
 		}
 		public XDirectionState DirectionState { get; set; }
 		public override XBaseState GetXBaseState() { return DirectionState; }
@@ -53,6 +54,18 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
+
+		[DataMember]
+		public bool IsNS { get; set; }
+
+		[DataMember]
+		public List<Guid> NSDeviceUIDs { get; set; }
+
+		[DataMember]
+		public int MainPumpsCount { get; set; }
+
+		[DataMember]
+		public int PumpsDeltaTime { get; set; }
 
 		public string PresentationName
 		{
