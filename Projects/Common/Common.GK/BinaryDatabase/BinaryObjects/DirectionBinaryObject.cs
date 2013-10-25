@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using XFiresecAPI;
 
@@ -29,45 +30,68 @@ namespace Common.GK
             Formula = new FormulaBuilder();
             if (Direction.InputZones.Count > 0 || Direction.InputDevices.Count > 0)
             {
-                AddFormula();
+				var inputObjectsCount = 0;
+				foreach (var directionZone in Direction.DirectionZones)
+				{
+					Formula.AddGetBitOff(directionZone.StateBit, directionZone.Zone);
+					if (inputObjectsCount > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					inputObjectsCount++;
+				}
+				foreach (var directionDevice in Direction.DirectionDevices)
+				{
+					Formula.AddGetBitOff(directionDevice.StateBit, directionDevice.Device);
+					if (inputObjectsCount > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					inputObjectsCount++;
+				}
+
+				if (Direction.IsNS)
+				{
+					var failureDevices = new List<XDevice>();
+					foreach (var nsDevice in Direction.NSDevices)
+					{
+						switch (nsDevice.Driver.DriverType)
+						{
+							case XDriverType.Pump:
+							case XDriverType.RSR2_Bush:
+								if (nsDevice.IntAddress > 8)
+								{
+									failureDevices.Add(nsDevice);
+								}
+								break;
+							case XDriverType.AM1_T:
+								failureDevices.Add(nsDevice);
+								break;
+						}
+					}
+
+					foreach (var failureDevice in failureDevices)
+					{
+						Formula.AddGetBit(XStateBit.Failure, failureDevice);
+						Formula.Add(FormulaOperationType.COM);
+						Formula.Add(FormulaOperationType.AND);
+					}
+				}
+
+				Formula.Add(FormulaOperationType.DUP);
+
+				Formula.AddGetBit(XStateBit.Norm, Direction);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
+				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Direction);
+
+				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
+				Formula.AddGetBit(XStateBit.Norm, Direction);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
+				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Direction);
             }
             Formula.Add(FormulaOperationType.END);
             FormulaBytes = Formula.GetBytes();
         }
-
-        void AddFormula()
-		{
-			var inputObjectsCount = 0;
-			foreach (var directionZone in Direction.DirectionZones)
-			{
-				Formula.AddGetBitOff(directionZone.StateBit, directionZone.Zone);
-				if (inputObjectsCount > 0)
-				{
-					Formula.Add(FormulaOperationType.OR);
-				}
-				inputObjectsCount++;
-			}
-			foreach (var directionDevice in Direction.DirectionDevices)
-            {
-				Formula.AddGetBitOff(directionDevice.StateBit, directionDevice.Device);
-                if (inputObjectsCount > 0)
-                {
-                    Formula.Add(FormulaOperationType.OR);
-                }
-                inputObjectsCount++;
-            }
-
-			Formula.Add(FormulaOperationType.DUP);
-
-			Formula.AddGetBit(XStateBit.Norm, Direction);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Direction);
-
-			Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-			Formula.AddGetBit(XStateBit.Norm, Direction);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Direction);
-		}
 
 		void SetPropertiesBytes()
 		{

@@ -16,6 +16,7 @@ namespace XFiresecAPI
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
             OutputDevices = new List<XDevice>();
+			NSDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 			NSDeviceUIDs = new List<Guid>();
 		}
@@ -24,6 +25,7 @@ namespace XFiresecAPI
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }
+		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -62,10 +64,10 @@ namespace XFiresecAPI
 		public List<Guid> NSDeviceUIDs { get; set; }
 
 		[DataMember]
-		public int MainPumpsCount { get; set; }
+		public int NSPumpsCount { get; set; }
 
 		[DataMember]
-		public int PumpsDeltaTime { get; set; }
+		public int NSDeltaTime { get; set; }
 
 		public string PresentationName
 		{

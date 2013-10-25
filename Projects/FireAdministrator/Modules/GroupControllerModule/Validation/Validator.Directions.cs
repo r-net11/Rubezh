@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
@@ -20,7 +21,16 @@ namespace GKModule.Validation
 					if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
 						ValidateDirectionInputCount(direction);
 					if (MustValidate("В направлении отсутствуют выходные устройства"))
-						ValidateDirectionOutputCount(direction);
+					{
+						if (direction.IsNS)
+						{
+							ValidateDirectionNS(direction);
+						}
+						else
+						{
+							ValidateDirectionOutputCount(direction);
+						}
+					}
 
 					ValidateEmptyZoneInDirection(direction);
 				}
@@ -59,17 +69,35 @@ namespace GKModule.Validation
 
 		static void ValidateDirectionOutputCount(XDirection direction)
 		{
-			var pumpStationCount = 0;
-			foreach (var device in XManager.Devices)
+			if (direction.OutputDevices.Count == 0)
+				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
+		}
+
+		static void ValidateDirectionNS(XDirection direction)
+		{
+			var nsDevices = new List<XDevice>();
+			foreach (var nsDeviceUID in direction.NSDeviceUIDs)
 			{
-				if (device.Driver.DriverType == XDriverType.PumpStation)
+				var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+				if (nsDevice != null)
 				{
-					if (device.PumpStationProperty.DirectionUIDs.Contains(direction.UID))
-						pumpStationCount++;
+					nsDevices.Add(nsDevice);
 				}
 			}
-			if (direction.OutputDevices.Count == 0 && pumpStationCount == 0)
-				Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
+			var pumpsCount = nsDevices.Count(x => x.Driver.DriverType == XDriverType.Pump || x.Driver.DriverType == XDriverType.RSR2_Bush);
+			if (pumpsCount == 0)
+			{
+				Errors.Add(new DirectionValidationError(direction, "В насосной станции отсутствуют насосы", ValidationErrorLevel.CannotWrite));
+			}
+			else
+			{
+				if (direction.NSPumpsCount > pumpsCount)
+					Errors.Add(new DirectionValidationError(direction, "В насосной количество основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
+			}
+
+			var am1_TCount = nsDevices.Count(x => x.Driver.DriverType == XDriverType.AM1_T);
+			if (am1_TCount > 1)
+				Errors.Add(new DirectionValidationError(direction, "В насосной станции количество подключенных технологических меток больше 1", ValidationErrorLevel.CannotWrite));
 		}
 
 		static bool ValidateEmptyDirection(XDirection direction)

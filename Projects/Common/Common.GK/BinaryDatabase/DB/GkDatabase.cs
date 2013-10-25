@@ -73,11 +73,12 @@ namespace Common.GK
 				var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
 				BinaryObjects.Add(directionBinaryObject);
 			}
-			foreach (var device in RootDevice.Children)
+
+			foreach (var direction in Directions)
 			{
-				if (device.Driver.DriverType == XDriverType.PumpStation)
+				if (direction.IsNS)
 				{
-					var pumpStationCreator = new PumpStationCreator(this, device);
+					var pumpStationCreator = new PumpStationCreator(this, direction);
 					pumpStationCreator.Create();
 				}
 			}

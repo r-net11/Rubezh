@@ -38,6 +38,7 @@ namespace FiresecClient
 				direction.InputZones = new List<XZone>();
 				direction.InputDevices = new List<XDevice>();
 				direction.OutputDevices = new List<XDevice>();
+				direction.NSDevices = new List<XDevice>();
 			}
 		}
 
@@ -173,6 +174,18 @@ namespace FiresecClient
 					}
 				}
 				direction.DirectionZones = directionZones;
+
+				var nsDeviceUIDs = new List<Guid>();
+				foreach (var nsDeviceUID in direction.NSDeviceUIDs)
+				{
+					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					if (nsDevice != null)
+					{
+						nsDeviceUIDs.Add(nsDevice.UID);
+						direction.NSDevices.Add(nsDevice);
+					}
+				}
+				direction.NSDeviceUIDs = nsDeviceUIDs;
 			}
 		}
 

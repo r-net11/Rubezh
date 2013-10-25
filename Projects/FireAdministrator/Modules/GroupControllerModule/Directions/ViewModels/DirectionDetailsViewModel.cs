@@ -70,8 +70,8 @@ namespace GKModule.ViewModels
 			Regime = Direction.Regime;
 			Description = Direction.Description;
 			IsNS = Direction.IsNS;
-			MainPumpsCount = Direction.MainPumpsCount;
-			PumpsDeltaTime = Direction.PumpsDeltaTime;
+			NSPumpsCount = Direction.NSPumpsCount;
+			NSDeltaTime = Direction.NSDeltaTime;
         }
 
         string _name;
@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 		}
 
 		int _mainPumpsCount;
-		public int MainPumpsCount
+		public int NSPumpsCount
 		{
 			get { return _mainPumpsCount; }
 			set
@@ -167,7 +167,7 @@ namespace GKModule.ViewModels
 		}
 
 		int _pumpsDeltaTime;
-		public int PumpsDeltaTime
+		public int NSDeltaTime
 		{
 			get { return _pumpsDeltaTime; }
 			set
@@ -193,8 +193,8 @@ namespace GKModule.ViewModels
 			Direction.Regime = Regime;
 			Direction.Description = Description;
 			Direction.IsNS = IsNS;
-			Direction.MainPumpsCount = MainPumpsCount;
-			Direction.PumpsDeltaTime = PumpsDeltaTime;
+			Direction.NSPumpsCount = NSPumpsCount;
+			Direction.NSDeltaTime = NSDeltaTime;
 			return base.Save();
 		}
 

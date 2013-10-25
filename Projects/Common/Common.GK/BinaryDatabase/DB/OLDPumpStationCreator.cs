@@ -5,7 +5,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class PumpStationCreator
+	public class OLDPumpStationCreator
 	{
 		GkDatabase GkDatabase;
 		XDevice PumpStationDevice;
@@ -17,7 +17,7 @@ namespace Common.GK
 		ushort PumpsCount;
 		XDelay MainDelay;
 
-		public PumpStationCreator(GkDatabase gkDatabase, XDevice pumpStationDevice)
+		public OLDPumpStationCreator(GkDatabase gkDatabase, XDevice pumpStationDevice)
 		{
 			GkDatabase = gkDatabase;
 			PumpStationDevice = pumpStationDevice;
