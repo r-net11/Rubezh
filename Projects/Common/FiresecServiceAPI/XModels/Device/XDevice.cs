@@ -119,7 +119,10 @@ namespace XFiresecAPI
 				if (Driver.IsDeviceOnShleif == false)
 					return IntAddress.ToString();
 
-				return ShleifNo.ToString() + "." + IntAddress.ToString();
+				var shleifNo = ShleifNoNew;
+				if (shleifNo != 0)
+					return shleifNo.ToString() + "." + IntAddress.ToString();
+				return IntAddress.ToString(); ;
 			}
 		}
 
@@ -130,7 +133,7 @@ namespace XFiresecAPI
 				var address = Address;
 				if (Driver.IsGroupDevice)
 				{
-					var lastAddressInGroup = ShleifNo.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
+					var lastAddressInGroup = Parent.IntAddress.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
 					address += " - " + lastAddressInGroup;
 				}
 				return address;
@@ -153,6 +156,9 @@ namespace XFiresecAPI
 				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
 				{
 					if (parentDevice.Driver.IsGroupDevice)
+						continue;
+
+					if (parentDevice.Driver.DriverType == XDriverType.KAU_Shleif || parentDevice.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
 						continue;
 
 					if (parentDevice.Driver.DriverType == XDriverType.MPT || parentDevice.Driver.DriverType == XDriverType.MRO_2)

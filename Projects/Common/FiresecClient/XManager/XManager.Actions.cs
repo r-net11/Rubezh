@@ -86,9 +86,8 @@ namespace FiresecClient
 		{
 			foreach (var shliefDevice in parentDevice.Children)
 			{
-				var childrenOnShleif = shliefDevice.Children.Where(x => x.ShleifNo == shliefDevice.IntAddress).ToList();
 				byte currentAddress = 1;
-				foreach (var device in childrenOnShleif)
+				foreach (var device in shliefDevice.Children)
 				{
 					device.IntAddress = currentAddress;
 					device.OnChanged();
@@ -267,7 +266,7 @@ namespace FiresecClient
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, groupDriver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, groupDriver, (byte)(device.IntAddress + i));
 				}
 			}
 

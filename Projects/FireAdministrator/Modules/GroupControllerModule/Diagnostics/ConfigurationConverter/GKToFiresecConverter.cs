@@ -70,10 +70,10 @@ namespace GKModule.Diagnostics
 				if (device.Driver == null)
 					continue;
 				device.DriverUID = device.Driver.UID;
-				device.IntAddress = ((xDevice.ShleifNo - 1) % 2 + 1) * 256 + xDevice.IntAddress;
+				device.IntAddress = ((xDevice.ShleifNoNew - 1) % 2 + 1) * 256 + xDevice.IntAddress;
 				if (parentDevice == null)
 				{
-					var panelDevice = PanelDevices[(parentXDevice.IntAddress - 1) * 4 + (xDevice.ShleifNo - 1) / 2];
+					var panelDevice = PanelDevices[(parentXDevice.IntAddress - 1) * 4 + (xDevice.ShleifNoNew - 1) / 2];
 					panelDevice.Children.Add(device);
 				}
 				else

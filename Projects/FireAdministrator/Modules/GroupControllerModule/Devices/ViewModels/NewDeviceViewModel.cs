@@ -34,19 +34,9 @@ namespace GKModule.ViewModels
 			var parentShleif = ParentDevice;
 			if (ParentDevice.Driver.DriverType == XDriverType.MPT || ParentDevice.Driver.DriverType == XDriverType.MRO_2)
 				parentShleif = ParentDevice.Parent;
-			if (parentShleif.Driver.DriverType == XDriverType.KAU_Shleif || parentShleif.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
-			{
-				SelectedShleif = parentShleif.IntAddress;
-			}
-			else
-			{
-				SelectedShleif = 1;
-			}
 
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
-
-		byte SelectedShleif;
 
 		XDriver _selectedDriver;
 		public XDriver SelectedDriver
@@ -76,7 +66,7 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
 			StartAddress = (byte)(maxAddress % 256);
 		}
 
@@ -86,7 +76,7 @@ namespace GKModule.ViewModels
 
 			for (int i = StartAddress; i < StartAddress + Count * step; i++)
 			{
-				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
+				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
 				{
 					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return false;
@@ -106,7 +96,7 @@ namespace GKModule.ViewModels
 					return true;
 				}
 
-				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)address);
 				AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 			}
 			return true;

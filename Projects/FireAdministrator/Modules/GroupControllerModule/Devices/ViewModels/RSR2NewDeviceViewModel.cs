@@ -24,19 +24,8 @@ namespace GKModule.ViewModels
 					Drivers.Add(driver);
 			}
 
-			if (RealParentDevice != null)
-			{
-				SelectedShleif = RealParentDevice.IntAddress;
-			}
-			else
-			{
-				SelectedShleif = 1;
-			}
-
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
-
-		byte SelectedShleif;
 
 		XDriver _selectedDriver;
 		public XDriver SelectedDriver
@@ -67,7 +56,7 @@ namespace GKModule.ViewModels
 						return true;
 					}
 
-					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)maxAddressOnShleif);
+					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)maxAddressOnShleif);
 					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				}
 				else if (ParentDevice.Parent != null && ParentDevice.Parent.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
@@ -77,7 +66,7 @@ namespace GKModule.ViewModels
 					{
 						return true;
 					}
-					XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, SelectedShleif, (byte)maxPreviousAddress);
+					XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, (byte)maxPreviousAddress);
 					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
 				}
 			}

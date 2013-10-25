@@ -32,7 +32,7 @@
                 <Label Grid.Row="6" Grid.Column="0" Content="Использовать как насосную станцию" HorizontalAlignment="Right" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" Margin="2" ContextMenu="{x:Null}" x:Name="nameTextBox">
+                <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
                     <controls:XAutoCompleteBox.TextBoxStyle>
                         <Style TargetType="TextBox">
                             <Setter Property="MaxLength" Value="20" />
@@ -44,7 +44,7 @@
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Regime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <ComboBox Grid.Row="5" Grid.Column="1" Margin="2" SelectedValue="{Binding Regime}" SelectedValuePath="Tag">
+                <ComboBox Grid.Row="5" Grid.Column="1" SelectedValue="{Binding Regime}" SelectedValuePath="Tag" Margin="2" >
                     <ComboBox.Items>
                         <ComboBoxItem Content="Включено" Tag="1" />
                         <ComboBoxItem Content="Выключено" Tag="2" />
@@ -68,8 +68,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Количество основных насосов" Margin="2" HorizontalAlignment="Right" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" />
+                <Label Grid.Row="0" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MainPumpsCount, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding PumpsDeltaTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
             </Grid>

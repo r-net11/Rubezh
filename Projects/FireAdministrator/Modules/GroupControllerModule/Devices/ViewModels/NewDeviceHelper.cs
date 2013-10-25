@@ -7,7 +7,7 @@ namespace GKModule.ViewModels
 {
 	public static class NewDeviceHelper
 	{
-		public static byte GetMinAddress(XDriver driver, XDevice device, byte shleifNo)
+		public static byte GetMinAddress(XDriver driver, XDevice device)
 		{
 			XDevice parentDevice = device;
 			if (parentDevice.Driver.DriverType == XDriverType.MPT || parentDevice.Driver.DriverType == XDriverType.MRO_2)
@@ -37,9 +37,6 @@ namespace GKModule.ViewModels
 					if ((child.IntAddress < driver.MinAddress) && (child.IntAddress > driver.MaxAddress))
 						continue;
 				}
-
-				if (child.ShleifNo != shleifNo)
-					continue;
 
 				if (child.Driver.IsGroupDevice)
 				{
@@ -101,7 +98,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}
@@ -124,7 +121,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}
