@@ -15,18 +15,15 @@ namespace GKModule.ViewModels
 {
     public class JournalsViewModel : ViewPartViewModel
     {
-        public JournalsViewModel()
-        {
-            Journals = new List<JournalViewModel>();
-            Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
-            SelectedJournal = Journals.FirstOrDefault();
-
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
-        }
-
 		public void Initialize()
 		{
+			Journals = new List<JournalViewModel>();
+			Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
+			SelectedJournal = Journals.FirstOrDefault();
+
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+
 			foreach (var journalFilter in XManager.DeviceConfiguration.JournalFilters)
 			{
 				var filteredJournalViewModel = new JournalViewModel(journalFilter);
@@ -84,6 +81,5 @@ namespace GKModule.ViewModels
                 }
             }
         }
-
     }
 }
