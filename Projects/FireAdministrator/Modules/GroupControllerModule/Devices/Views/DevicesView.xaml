@@ -176,7 +176,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/BLeft.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Из устройства в систему" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Копировать параметры из устройства в систему" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -184,7 +184,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/BLeftLeft.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Из всех дочерних устройств в систему" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Копировать параметры из всех дочерних устройств в систему" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
