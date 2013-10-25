@@ -45,9 +45,9 @@ namespace GKModule.ViewModels
 		{
 		    objectViewModel.IsDevice = true;
 			objectViewModel.Parent = parentObjectViewModel;
-				if (parentObjectViewModel != null)
+			if ((parentObjectViewModel != null) && (!objectViewModel.IsVirtualDevice))
 					parentObjectViewModel.Children.Add(objectViewModel);
-				if (!objectViewModel.Device.Driver.IsGroupDevice)
+			if (!objectViewModel.IsVirtualDevice)
 				{
 					Objects.Add(objectViewModel);
 					Devices.Add(objectViewModel);
@@ -56,9 +56,14 @@ namespace GKModule.ViewModels
 			{
 				foreach (var childDevice in objectViewModel.Device.Children)
 				{
-					if (objectViewModel.Device.Driver.IsGroupDevice)
+					if (objectViewModel.IsVirtualDevice)
 					{
 						parentObjectViewModel.Children.Remove(objectViewModel);
+						if (objectViewModel.Parent.IsVirtualDevice)
+						{
+							objectViewModel.Parent.Parent.Children.Remove(objectViewModel.Parent);
+							InitializeDevices(new ObjectViewModel(childDevice),objectViewModel.Parent.Parent);
+						}
 						InitializeDevices(new ObjectViewModel(childDevice),objectViewModel.Parent);
 					}
 					else
@@ -67,6 +72,7 @@ namespace GKModule.ViewModels
 			}
 			return;
 		}
+
 		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, XDriverType driverType)
 		{
 			foreach (var object1 in objects1)

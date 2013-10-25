@@ -99,5 +99,15 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}
+
+		public bool HasParameters
+		{
+			get
+			{
+				if (Device == null)
+					return false;
+				return Device.Properties.Count != 0;
+			}
+		}
 	}
 }

@@ -27,8 +27,7 @@ namespace GKModule.ViewModels
 		public ObjectViewModel(XDevice device)
 		{
 			Name = device.ShortName;
-			Address = "";
-			Address = device.PresentationAddress;
+			Address = InitializeAddress(device);
 			ImageSource = "/Controls;component/GKIcons/" + device.Driver.DriverType + ".png"; 
 			Device = device;
 			Children = new List<ObjectViewModel>();
@@ -46,6 +45,34 @@ namespace GKModule.ViewModels
 			Name = direction.PresentationName;
 			Address = "";
 			Direction = direction;
+		}
+
+		string InitializeAddress(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.GK)
+			{
+				return device.Address;
+			}
+			if (device.Driver.HasAddress == false)
+				return "";
+
+			if (device.Driver.IsDeviceOnShleif == false)
+				return device.IntAddress.ToString();
+			if (device.ShleifNo != 0)
+				return device.ShleifNo.ToString() + "." + device.IntAddress.ToString();
+			return device.IntAddress.ToString(); ;
+		}
+
+		public bool IsVirtualDevice
+		{
+			get
+			{
+				if (Device == null)
+					return false;
+				if ((Device.Driver.IsGroupDevice) || (Device.Driver.DriverType == XDriverType.KAU_Shleif) || (Device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif))
+					return true;
+				return false;
+			}
 		}
 	}
 }

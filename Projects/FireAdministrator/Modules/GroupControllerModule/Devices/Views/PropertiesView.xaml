@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <StackPanel Margin="2">
         <Grid Width="1000" />
-        <Grid>
+        <Grid Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                 <ColumnDefinition SharedSizeGroup="group2" Width="*" />
