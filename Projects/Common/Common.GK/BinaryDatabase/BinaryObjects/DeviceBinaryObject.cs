@@ -20,10 +20,10 @@ namespace Common.GK
 		{
 			DeviceType = BytesHelper.ShortToBytes(Device.Driver.DriverTypeNo);
 
-			ushort address = 0;
+			var address = 0;
 			if (Device.Driver.IsDeviceOnShleif)
-				address = (ushort)((Device.ShleifNoNew - 1) * 256 + Device.IntAddress);
-			SetAddress(address);
+				address = (Device.ShleifNoNew - 1) * 256 + Device.IntAddress;
+			SetAddress((ushort)address);
 
 			SetFormulaBytes();
 			SetPropertiesBytes();

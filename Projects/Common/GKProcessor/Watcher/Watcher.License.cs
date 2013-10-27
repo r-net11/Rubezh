@@ -35,6 +35,8 @@ namespace GKProcessor
 							GKDBHelper.AddMessage("Отсутствует лицензия", "");
 						else
 							GKDBHelper.AddMessage("Лицензия обнаружена", "");
+
+						DiagnosticsManager.Add("hasLicense=" + hasLicense);
 					}
 
 					if (hasLicense)

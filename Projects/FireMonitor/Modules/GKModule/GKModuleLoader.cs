@@ -57,6 +57,13 @@ namespace GKModule
 			AlarmsViewModel = new AlarmsViewModel();
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
+			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Subscribe(OnShowGKDebug);
+		}
+
+		void OnShowGKDebug(object obj)
+		{
+			var diagnosticsViewModel = new DiagnosticsViewModel();
+			DialogService.ShowWindow(diagnosticsViewModel);
 		}
 
 		void OnShowAlarms(XAlarmType? alarmType)

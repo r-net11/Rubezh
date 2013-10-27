@@ -30,9 +30,6 @@ namespace XFiresecAPI
 				if (!Device.IsRealDevice)
 					return new List<XStateBit>() { XStateBit.Norm };
 
-				if (Device.Driver.DriverType == XDriverType.PumpStation)
-					return new List<XStateBit>() { XStateBit.Norm };
-
 				if (_states == null)
 					_states = new List<XStateBit>();
 				_states.Remove(XStateBit.Save);

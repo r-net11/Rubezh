@@ -7,7 +7,7 @@
 		GKIndicator,
 		GKLine,
 		GKRele,
-		PumpStation,
+		//PumpStation,
         KAU,
 		KAU_Shleif,
         KAUIndicator,

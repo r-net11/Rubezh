@@ -102,11 +102,6 @@ namespace Common.GK
 						XDevice device = binaryBase as XDevice;
 						AddDevice(device);
 					}
-					if (binaryBase is XZone)
-					{
-						XZone zone = binaryBase as XZone;
-						AddZone(zone);
-					}
 				}
 			}
 		}

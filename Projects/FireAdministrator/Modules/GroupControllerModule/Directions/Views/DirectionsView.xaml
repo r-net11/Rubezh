@@ -122,7 +122,37 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Device.DottedAddress}" Width="100" />
-                            <GridViewColumn Header="Зона или Логика" DisplayMemberBinding="{Binding PresentationZone}" Width="100" />
+                            <GridViewColumn Width="300" Header="Логика">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Controls:EditorPresenter>
+                                            <Controls:EditorPresenter.ViewTemplate>
+                                                <ControlTemplate>
+                                                    <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding NSPresentationZone}" Visibility="{Binding IsNSLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <TextBlock.Style>
+											        <Style TargetType="TextBlock">
+												        <Style.Triggers>
+													        <DataTrigger Binding="{Binding IsZoneGrayed}" Value="True">
+														        <Setter Property="TextBlock.Foreground" Value="Gray" />
+													        </DataTrigger>
+												        </Style.Triggers>
+											        </Style>
+										        </TextBlock.Style>
+												<TextBlock.InputBindings>
+													<MouseBinding Command="{Binding ShowNSLogicCommand}" MouseAction="LeftClick" />
+												</TextBlock.InputBindings>
+												<TextBlock.ToolTip>
+													<WrapPanel>
+														<TextBlock Text="{Binding NSPresentationZone}" TextWrapping="Wrap" />
+													</WrapPanel>
+												</TextBlock.ToolTip>
+											</TextBlock>
+                                                </ControlTemplate>
+                                            </Controls:EditorPresenter.ViewTemplate>
+                                        </Controls:EditorPresenter>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -186,7 +216,6 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
-
             </ListView>
             <Grid.ContextMenu>
                 <ContextMenu>

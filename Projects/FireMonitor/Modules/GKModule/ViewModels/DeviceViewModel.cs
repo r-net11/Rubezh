@@ -51,6 +51,16 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(Device); }
 		}
 
+		public string PresentationZoneWithNS
+		{
+			get
+			{
+				if (Device.Driver.DriverType == XDriverType.Pump || Device.Driver.DriverType == XDriverType.RSR2_Bush)
+					return XManager.GetPresentationZone(Device.NSLogic);
+				return XManager.GetPresentationZone(Device);
+			}
+		}
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{

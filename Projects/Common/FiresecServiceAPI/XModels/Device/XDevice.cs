@@ -18,6 +18,7 @@ namespace XFiresecAPI
 			DeviceProperties = new List<XProperty>();
 			ZoneUIDs = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
+			NSLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
@@ -25,7 +26,6 @@ namespace XFiresecAPI
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 			DevicesInLogic = new List<XDevice>();
-			PumpStationProperty = new XPumpStationProperty();
 		}
 
 		public XDeviceState DeviceState { get; set; }
@@ -90,10 +90,10 @@ namespace XFiresecAPI
 		public XDeviceLogic DeviceLogic { get; set; }
 
 		[DataMember]
-		public bool IsNotUsed { get; set; }
+		public XDeviceLogic NSLogic { get; set; }
 
 		[DataMember]
-		public XPumpStationProperty PumpStationProperty { get; set; }
+		public bool IsNotUsed { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }

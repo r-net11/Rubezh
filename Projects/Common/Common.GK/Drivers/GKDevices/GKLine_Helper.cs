@@ -15,7 +15,7 @@ namespace Common.GK
 				Name = "Выход ГК",
 				ShortName = "Выход ГК",
 				IsControlDevice = true,
-				HasLogic = true,
+				HasLogic = false,
 				CanEditAddress = false,
                 HasAddress = false,
 				IsAutoCreate = true,

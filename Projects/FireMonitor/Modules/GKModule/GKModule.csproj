@@ -86,6 +86,10 @@
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Converters\XStateClassToIconConverter2.cs" />
+    <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
+      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
@@ -253,6 +257,10 @@
     <Page Include="Alarms\Views\InstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

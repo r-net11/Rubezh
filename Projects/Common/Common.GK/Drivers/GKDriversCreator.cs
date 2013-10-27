@@ -15,7 +15,6 @@ namespace Common.GK
 			XManager.DriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(PumpStation_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());

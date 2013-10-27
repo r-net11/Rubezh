@@ -14,6 +14,12 @@ namespace GKModule.ViewModels
 {
     public partial class DeviceViewModel
     {
+		List<XDevice> GetRealChildren()
+		{
+			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
+			return devices;
+		}
+
         #region Capy and Paste
         public static XDriver DriverCopy;
         public static List<XProperty> PropertiesCopy;

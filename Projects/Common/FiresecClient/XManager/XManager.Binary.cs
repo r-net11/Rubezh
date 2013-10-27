@@ -45,8 +45,7 @@ namespace FiresecClient
 			foreach (var zone in Zones)
 			{
 				zone.ClearBinaryData();
-                zone.InputObjects.Add(zone);
-				zone.OutputObjects.Add(zone);
+				LinkBinaryObjects(zone, zone);
 			}
 			foreach (var direction in Directions)
 			{
@@ -59,18 +58,15 @@ namespace FiresecClient
                 {
 					foreach (var zone in clause.Zones)
 					{
-                        AddInputOutputObject(device.InputObjects, zone);
-						AddInputOutputObject(zone.OutputObjects, device);
+						LinkBinaryObjects(device, zone);
 					}
                     foreach (var clauseDevice in clause.Devices)
                     {
-                        AddInputOutputObject(device.InputObjects, clauseDevice);
-                        AddInputOutputObject(clauseDevice.OutputObjects, device);
+						LinkBinaryObjects(device, clauseDevice);
                     }
 					foreach (var direction in clause.Directions)
                     {
-						AddInputOutputObject(device.InputObjects, direction);
-						AddInputOutputObject(direction.OutputObjects, device);
+						LinkBinaryObjects(device, direction);
                     }
                 }
             }
@@ -79,8 +75,7 @@ namespace FiresecClient
 			{
 				foreach (var device in zone.Devices)
 				{
-					AddInputOutputObject(zone.InputObjects, device);
-					AddInputOutputObject(device.OutputObjects, zone);
+					LinkBinaryObjects(zone, device);
 				}
 			}
 
@@ -88,14 +83,12 @@ namespace FiresecClient
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					AddInputOutputObject(direction.InputObjects, zone);
-					AddInputOutputObject(zone.OutputObjects, direction);
+					LinkBinaryObjects(direction, zone);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					AddInputOutputObject(direction.InputObjects, device);
-					AddInputOutputObject(device.OutputObjects, direction);
+					LinkBinaryObjects(direction, device);
 				}
 			}
 		}
@@ -154,6 +147,12 @@ namespace FiresecClient
 					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
 				}
 			}
+		}
+
+		public static void LinkBinaryObjects(XBinaryBase inputBinaryBase, XBinaryBase outputBinaryBase)
+		{
+			AddInputOutputObject(inputBinaryBase.InputObjects, outputBinaryBase);
+			AddInputOutputObject(outputBinaryBase.OutputObjects, inputBinaryBase);
 		}
 
         static void AddInputOutputObject(List<XBinaryBase> objects, XBinaryBase newObject)

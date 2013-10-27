@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 	{
 		public XDevice Device { get; private set; }
 
-		public DeviceLogicViewModel(XDevice device)
+		public DeviceLogicViewModel(XDevice device, XDeviceLogic deviceLogic)
 		{
 			Title = "Настройка логики устройства " + device.PresentationDriverAndAddress;
 			Device = device;
@@ -25,12 +25,12 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
-			if (device.DeviceLogic.Clauses.Count == 0)
+			if (deviceLogic.Clauses.Count == 0)
 			{
-				device.DeviceLogic.Clauses.Add(new XClause());
+				deviceLogic.Clauses.Add(new XClause());
 			}
 			Clauses = new ObservableCollection<ClauseViewModel>();
-			foreach (var clause in device.DeviceLogic.Clauses)
+			foreach (var clause in deviceLogic.Clauses)
 			{
 				var clauseViewModel = new ClauseViewModel(clause, device);
 				Clauses.Add(clauseViewModel);
@@ -38,8 +38,8 @@ namespace GKModule.ViewModels
 			}
 			UpdateJoinOperatorVisibility();
 
-			SelectedMROMessageNo = device.DeviceLogic.ZoneLogicMROMessageNo;
-			SelectedMROMessageType = device.DeviceLogic.ZoneLogicMROMessageType;
+			SelectedMROMessageNo = deviceLogic.ZoneLogicMROMessageNo;
+			SelectedMROMessageType = deviceLogic.ZoneLogicMROMessageType;
 		}
 
 		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
@@ -136,6 +136,11 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			return base.Save();
+		}
+
+		public XDeviceLogic GetModel()
+		{
 			var deviceLogic = new XDeviceLogic();
 			foreach (var clauseViewModel in Clauses)
 			{
@@ -171,9 +176,7 @@ namespace GKModule.ViewModels
 				deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
 				deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
 			}
-
-			XManager.ChangeDeviceLogic(Device, deviceLogic);
-			return base.Save();
+			return deviceLogic;
 		}
 	}
 }

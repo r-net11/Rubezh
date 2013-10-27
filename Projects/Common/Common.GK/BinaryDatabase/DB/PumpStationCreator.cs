@@ -13,7 +13,7 @@ namespace Common.GK
 		List<XDevice> FirePumpDevices;
 		List<XDevice> FailurePumpDevices;
 		XDevice AM1TDevice;
-		List<XDelay> Delays;
+		List<PumpDelay> PumpDelays;
 		ushort NSDeltaTime;
 		ushort NSPumpsCount;
 
@@ -24,7 +24,7 @@ namespace Common.GK
 			NSDeltaTime = (ushort)direction.NSDeltaTime;
 			NSPumpsCount = (ushort)direction.NSPumpsCount;
 
-			Delays = new List<XDelay>();
+			PumpDelays = new List<PumpDelay>();
 
 			FirePumpDevices = new List<XDevice>();
 			FailurePumpDevices = new List<XDevice>();
@@ -56,11 +56,11 @@ namespace Common.GK
 			CreateDelays();
 			SetCrossReferences();
 
-			foreach (var delay in Delays)
+			foreach (var pumpDelay in PumpDelays)
 			{
-				GkDatabase.AddDelay(delay);
-				var deviceBinaryObject = new DelayBinaryObject(delay);
-				GkDatabase.BinaryObjects.Add(deviceBinaryObject);
+				GkDatabase.AddDelay(pumpDelay.Delay);
+				var delayBinaryObject = new DelayBinaryObject(pumpDelay.Delay);
+				GkDatabase.BinaryObjects.Add(delayBinaryObject);
 			}
 
 			CreateDelaysLogic();
@@ -73,51 +73,6 @@ namespace Common.GK
 			failureDevices.AddRange(FailurePumpDevices);
 			if (AM1TDevice != null)
 				failureDevices.Add(AM1TDevice);
-
-			//var formula = new FormulaBuilder();
-			//if (Direction.InputZones.Count > 0 || Direction.InputDevices.Count > 0)
-			//{
-			//    var inputObjectsCount = 0;
-			//    foreach (var directionZone in Direction.DirectionZones)
-			//    {
-			//        formula.AddGetBitOff(directionZone.StateBit, directionZone.Zone);
-			//        if (inputObjectsCount > 0)
-			//        {
-			//            formula.Add(FormulaOperationType.OR);
-			//        }
-			//        inputObjectsCount++;
-			//    }
-			//    foreach (var directionDevice in Direction.DirectionDevices)
-			//    {
-			//        formula.AddGetBitOff(directionDevice.StateBit, directionDevice.Device);
-			//        if (inputObjectsCount > 0)
-			//        {
-			//            formula.Add(FormulaOperationType.OR);
-			//        }
-			//        inputObjectsCount++;
-			//    }
-
-			//    foreach (var failureDevice in failureDevices)
-			//    {
-			//        formula.AddGetBit(XStateBit.Failure, failureDevice);
-			//        formula.Add(FormulaOperationType.COM);
-			//        formula.Add(FormulaOperationType.AND);
-			//    }
-
-			//    formula.Add(FormulaOperationType.DUP);
-
-			//    formula.AddGetBit(XStateBit.Norm, Direction);
-			//    formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			//    formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Direction);
-
-			//    formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-			//    formula.AddGetBit(XStateBit.Norm, Direction);
-			//    formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			//    formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Direction);
-			//}
-			//formula.Add(FormulaOperationType.END);
-			//var directionBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Direction != null && x.Direction.UID == Direction.UID);
-			//directionBinaryObject.FormulaBytes = formula.GetBytes();
 
 			foreach (var failureDevice in failureDevices)
 			{
@@ -141,8 +96,13 @@ namespace Common.GK
 					SetTime = 2,
 					DelayRegime = DelayRegime.On
 				};
+				var pumpDelay = new PumpDelay
+				{
+					Delay = delay,
+					Device = pumpDevice
+				};
 
-				Delays.Add(delay);
+				PumpDelays.Add(pumpDelay);
 				pumpIndex++;
 			}
 		}
@@ -150,11 +110,11 @@ namespace Common.GK
 		void CreateDelaysLogic()
 		{
 			bool firstDelay = true;
-			for (int i = 0; i < Delays.Count; i++)
+			for (int i = 0; i < PumpDelays.Count; i++)
 			{
-				var delay = Delays[i];
+				var pumpDelay = PumpDelays[i];
 
-				var delayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == delay.UID);
+				var delayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
 				if (firstDelay)
@@ -169,26 +129,28 @@ namespace Common.GK
 							formula.Add(FormulaOperationType.ADD);
 						}
 					}
-					formula.Add(FormulaOperationType.DUP);
 					formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
 					formula.Add(FormulaOperationType.LT);
+
+					formula.AddClauseFormula(pumpDelay.Device.NSLogic);
+
+					formula.Add(FormulaOperationType.DUP);
 					formula.AddGetBit(XStateBit.On, Direction);
 					formula.Add(FormulaOperationType.AND);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, delay);
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
 
-					formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
-					formula.Add(FormulaOperationType.GE);
+					formula.Add(FormulaOperationType.COM);
 					formula.AddGetBit(XStateBit.Off, Direction);
 					formula.Add(FormulaOperationType.OR);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, delay);
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 				}
 				else
 				{
-					var prevDelay = Delays[i - 1];
-					formula.AddGetBit(XStateBit.On, prevDelay);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, delay);
-					formula.AddGetBit(XStateBit.Off, prevDelay);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, delay);
+					var prevDelay = PumpDelays[i - 1];
+					formula.AddGetBit(XStateBit.On, prevDelay.Delay);
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
+					formula.AddGetBit(XStateBit.Off, prevDelay.Delay);
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 				}
 				firstDelay = false;
 
@@ -228,8 +190,8 @@ namespace Common.GK
 
 					formula.AddGetBit(XStateBit.On, Direction);
 					formula.Add(FormulaOperationType.AND);
-					var pumpDelay = Delays.FirstOrDefault(x => x.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress);
-					formula.AddGetBit(XStateBit.On, pumpDelay);
+					var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
+					formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
 					formula.Add(FormulaOperationType.AND);
 					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice); // включить насос
 
@@ -247,34 +209,33 @@ namespace Common.GK
 
 		void SetCrossReferences()
 		{
-			var firstDelay = Delays.FirstOrDefault();
+			var firstDelay = PumpDelays.FirstOrDefault();
 			if (firstDelay != null)
 			{
-				firstDelay.InputObjects.Add(Direction);
-				Direction.OutputObjects.Add(firstDelay);
+				XManager.LinkBinaryObjects(firstDelay.Delay, Direction);
 			}
 
 			foreach (var pumpDevice in FirePumpDevices)
 			{
-				foreach (var delay in Delays)
+				foreach (var pumpDelay in PumpDelays)
 				{
-					if (delay.Name == "Задержка пуска ШУН " + pumpDevice.DottedAddress || delay.Name == "Задержка пуска НС")
+					if (pumpDelay.Device.UID == pumpDevice.UID)
 					{
-						pumpDevice.InputObjects.Add(delay);
-						delay.OutputObjects.Add(pumpDevice);
+						XManager.LinkBinaryObjects(pumpDevice, pumpDelay.Delay);
 					}
+					XManager.LinkBinaryObjects(pumpDevice, Direction);
 				}
 			}
 
-			for (int i = 0; i < Delays.Count; i++)
+			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				XDelay prevDelay = null;
-				XDelay currentDelay = Delays[i];
+				XDelay currentDelay = PumpDelays[i].Delay;
 				XDelay nextDelay = null;
 				if (i > 0)
-					prevDelay = Delays[i - 1];
-				if (i < Delays.Count - 1)
-					nextDelay = Delays[i + 1];
+					prevDelay = PumpDelays[i - 1].Delay;
+				if (i < PumpDelays.Count - 1)
+					nextDelay = PumpDelays[i + 1].Delay;
 
 				if (prevDelay != null)
 					currentDelay.InputObjects.Add(prevDelay);
@@ -291,5 +252,11 @@ namespace Common.GK
 				}
 			}
 		}
+	}
+
+	class PumpDelay
+	{
+		public XDelay Delay { get; set; }
+		public XDevice Device { get; set; }
 	}
 }

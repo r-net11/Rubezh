@@ -64,9 +64,10 @@ namespace FiresecClient
 
 		static void InitializeLogic()
 		{
-			foreach (var logicDevice in Devices)
+			foreach (var device in Devices)
 			{
-				InvalidateOneLogic(logicDevice);
+				InvalidateOneLogic(device, device.DeviceLogic);
+				InvalidateOneLogic(device, device.NSLogic);
 			}
 		}
 
@@ -82,59 +83,58 @@ namespace FiresecClient
 			}
 		}
 
-		public static void InvalidateOneLogic(XDevice device)
+		public static void InvalidateOneLogic(XDevice device, XDeviceLogic deviceLogic)
 		{
 			var clauses = new List<XClause>();
-			if (device.DeviceLogic.Clauses != null)
-				foreach (var clause in device.DeviceLogic.Clauses)
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				clause.Devices = new List<XDevice>();
+				clause.Zones = new List<XZone>();
+				clause.Directions = new List<XDirection>();
+
+				var zoneUIDs = new List<Guid>();
+				foreach (var zoneUID in clause.ZoneUIDs)
 				{
-					clause.Devices = new List<XDevice>();
-					clause.Zones = new List<XZone>();
-					clause.Directions = new List<XDirection>();
-
-					var zoneUIDs = new List<Guid>();
-					foreach (var zoneUID in clause.ZoneUIDs)
+					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
 					{
-						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
-						if (zone != null)
-						{
-							zoneUIDs.Add(zoneUID);
-							clause.Zones.Add(zone);
-							zone.DevicesInLogic.Add(device);
-						}
+						zoneUIDs.Add(zoneUID);
+						clause.Zones.Add(zone);
+						zone.DevicesInLogic.Add(device);
 					}
-					clause.ZoneUIDs = zoneUIDs;
-
-					var deviceUIDs = new List<Guid>();
-					foreach (var deviceUID in clause.DeviceUIDs)
-					{
-						var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
-						if (clauseDevice != null && !clauseDevice.IsNotUsed)
-						{
-							deviceUIDs.Add(deviceUID);
-							clause.Devices.Add(clauseDevice);
-							clauseDevice.DevicesInLogic.Add(device);
-						}
-					}
-					clause.DeviceUIDs = deviceUIDs;
-
-					var directionUIDs = new List<Guid>();
-					foreach (var directionUID in clause.DirectionUIDs)
-					{
-						var direction = Directions.FirstOrDefault(x => x.UID == directionUID);
-						if (direction != null)
-						{
-							directionUIDs.Add(directionUID);
-							clause.Directions.Add(direction);
-							direction.OutputDevices.Add(device);
-						}
-					}
-					clause.DirectionUIDs = directionUIDs;
-
-					if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
-						clauses.Add(clause);
 				}
-			device.DeviceLogic.Clauses = clauses;
+				clause.ZoneUIDs = zoneUIDs;
+
+				var deviceUIDs = new List<Guid>();
+				foreach (var deviceUID in clause.DeviceUIDs)
+				{
+					var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					{
+						deviceUIDs.Add(deviceUID);
+						clause.Devices.Add(clauseDevice);
+						clauseDevice.DevicesInLogic.Add(device);
+					}
+				}
+				clause.DeviceUIDs = deviceUIDs;
+
+				var directionUIDs = new List<Guid>();
+				foreach (var directionUID in clause.DirectionUIDs)
+				{
+					var direction = Directions.FirstOrDefault(x => x.UID == directionUID);
+					if (direction != null)
+					{
+						directionUIDs.Add(directionUID);
+						clause.Directions.Add(direction);
+						direction.OutputDevices.Add(device);
+					}
+				}
+				clause.DirectionUIDs = directionUIDs;
+
+				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+					clauses.Add(clause);
+			}
+			deviceLogic.Clauses = clauses;
 		}
 
 		static void InitializeDirections()
@@ -181,8 +181,15 @@ namespace FiresecClient
 					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (nsDevice != null)
 					{
-						nsDeviceUIDs.Add(nsDevice.UID);
-						direction.NSDevices.Add(nsDevice);
+						switch (nsDevice.Driver.DriverType)
+						{
+							case XDriverType.AM1_T:
+							case XDriverType.Pump:
+							case XDriverType.RSR2_Bush:
+								nsDeviceUIDs.Add(nsDevice.UID);
+								direction.NSDevices.Add(nsDevice);
+								break;
+						}
 					}
 				}
 				direction.NSDeviceUIDs = nsDeviceUIDs;

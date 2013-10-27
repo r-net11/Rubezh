@@ -92,10 +92,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-			</DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" Header="НС" SortMemberPath="Direction.IsNS">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="НС" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 
-		<DataGrid Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding OutputDevices}" SelectedItem="{Binding SelectedOutputDevice}">
+		<DataGrid Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding OutputDevices}">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedOutputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -121,12 +128,12 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
+                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
 				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding Device.Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
 
-		<DataGrid Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding InputDevices}" SelectedItem="{Binding SelectedInputDevice}">
+		<DataGrid Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding InputDevices}">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedInputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -163,8 +170,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -180,24 +187,24 @@
                                         <MenuItem Command="{Binding SetIgnoreCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Отключить" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Отключить" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding ResetIgnoreCommand}" >
+                                        <MenuItem Command="{Binding ResetIgnoreCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Снять отключение" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Снять отключение" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding ResetFireCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Сбросить" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Сбросить" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
@@ -205,16 +212,16 @@
                                         <MenuItem Command="{Binding ShowOnPlanCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Показать на плане" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding ShowPropertiesCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Свойства" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>

@@ -76,17 +76,8 @@
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
     <Compile Include="Devices\ViewModels\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\PumpDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
-    <Compile Include="Devices\Views\PumpStation\DeviceSelectationView.xaml.cs">
-      <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\PumpStation\PumpStationView.xaml.cs">
-      <DependentUpon>PumpStationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
@@ -403,14 +394,6 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Devices\Views\PumpStation\DeviceSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\PumpStation\PumpStationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\RSR2NewDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>

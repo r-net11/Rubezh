@@ -164,7 +164,6 @@
     <Compile Include="Converters\JournalYesNoTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
-    <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />

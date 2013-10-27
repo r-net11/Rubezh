@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DeviceSelectationView : UserControl
+	public partial class DiagnosticsView : UserControl
 	{
-		public DeviceSelectationView()
+		public DiagnosticsView()
 		{
 			InitializeComponent();
 		}

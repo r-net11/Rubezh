@@ -65,8 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryDatabase\DB\OLDPumpStationCreator.cs" />
-    <Compile Include="BinaryObjectState.cs" />
+    <Compile Include="BinaryObjectStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="BinaryDatabase\BinaryObjects\DelayBinaryObject.cs" />
     <Compile Include="BinaryDatabase\BinaryObjects\FormulaBuilder.cs" />
@@ -81,6 +80,8 @@
     <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
+    <Compile Include="Diagnostics\DiagnosticsItem.cs" />
+    <Compile Include="Diagnostics\DiagnosticsManager.cs" />
     <Compile Include="Drivers\AddressDevices\Shuv_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\Shu_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_Shleif_Helper.cs" />
@@ -99,7 +100,6 @@
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\MRO_2_Helper.cs" />
-    <Compile Include="Drivers\GKDevices\PumpStation_Helper.cs" />
     <Compile Include="Drivers\GKDevices\KAU_RSR2_Helper.cs" />
     <Compile Include="Drivers\GKDriversCreator.cs" />
     <Compile Include="Drivers\AddressDevices\AM_1_Helper.cs" />

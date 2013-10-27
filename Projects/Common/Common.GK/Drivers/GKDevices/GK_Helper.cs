@@ -22,7 +22,6 @@ namespace Common.GK
 			driver.AutoCreateChildren.Add(XDriverType.GKIndicator);
 			driver.AutoCreateChildren.Add(XDriverType.GKLine);
 			driver.AutoCreateChildren.Add(XDriverType.GKRele);
-			driver.Children.Add(XDriverType.PumpStation);
 			driver.Children.Add(XDriverType.KAU);
 			driver.Children.Add(XDriverType.RSR2_KAU);
 

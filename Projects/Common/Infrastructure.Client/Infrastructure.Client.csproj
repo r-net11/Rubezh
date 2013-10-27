@@ -53,6 +53,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="Events\ShowGKDebugEvent.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">

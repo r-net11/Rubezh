@@ -53,11 +53,18 @@ namespace GKModule.ViewModels
 			{
 				foreach (var nsDeviceUID in Direction.NSDeviceUIDs)
 				{
-					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (nsDevice != null)
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					if (device != null)
 					{
-						var deviceViewModel = new DeviceViewModel(nsDevice);
-						NSDevices.Add(deviceViewModel);
+						switch (device.Driver.DriverType)
+						{
+							case XDriverType.AM1_T:
+							case XDriverType.Pump:
+							case XDriverType.RSR2_Bush:
+								var deviceViewModel = new DeviceViewModel(device);
+								NSDevices.Add(deviceViewModel);
+								break;
+						}
 					}
 				}
 			}

@@ -36,12 +36,13 @@ namespace GKModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
+			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
 			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
 			ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
-			
+
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
@@ -54,11 +55,6 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			device.AUParametersChanged += UpdateProperties;
-            }
-		List<XDevice> GetRealChildren()
-		{
-			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
-			return devices;
 		}
 
 		static bool CheckNeedSave()
@@ -218,15 +214,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var pumpStationViewModel = new PumpStationViewModel(Device);
-			if (DialogService.ShowModalWindow(pumpStationViewModel))
-			{
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 		bool CanShowProperties()
 		{
-			return Device.Driver.DriverType == XDriverType.PumpStation;
+			return false;
 		}
 
 		public string PresentationZone
@@ -327,11 +318,14 @@ namespace GKModule.ViewModels
 			return Device.AllowMultipleVizualization != isAllow;
 		}
 
+		#region Zone and Logic
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{
-			if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
+			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.DeviceLogic);
+			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
+				XManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
 				OnPropertyChanged("PresentationZone");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -391,16 +385,45 @@ namespace GKModule.ViewModels
 			return Device.Zones.Count == 1;
 		}
 
-		public RelayCommand ShowParentCommand { get; private set; }
-		void OnShowParent()
+		public RelayCommand ShowNSLogicCommand { get; private set; }
+		void OnShowNSLogic()
 		{
-			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.NSLogic);
+			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			{
+				Device.NSLogic = deviceLogicViewModel.GetModel();
+				OnPropertyChanged("NSPresentationZone");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
-		bool CanShowParent()
+		bool CanShowNSLogic()
 		{
-			return Device.Parent != null;
+			return (Driver.DriverType == XDriverType.Pump && Device.IntAddress <= 8) || Driver.DriverType == XDriverType.RSR2_Bush;
 		}
 
+		public bool IsNSLogic
+		{
+			get { return CanShowNSLogic(); }
+		}
+
+		public string NSPresentationZone
+		{
+			get
+			{
+				var presentationZone = XManager.GetPresentationZone(Device.NSLogic);
+				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
+				if (string.IsNullOrEmpty(presentationZone))
+				{
+					if (CanShowNSLogic())
+						presentationZone = "Нажмите для настройки логики насоса";
+				}
+				return presentationZone;
+			}
+		}
+
+		#endregion
+
+		#region Driver
 		public XDriver Driver
 		{
 			get { return Device.Driver; }
@@ -483,6 +506,18 @@ namespace GKModule.ViewModels
 		public bool CanChangeDriver
 		{
 			get { return CanDriverBeChanged(Device.Driver); }
+		}
+		#endregion
+
+
+		public RelayCommand ShowParentCommand { get; private set; }
+		void OnShowParent()
+		{
+			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+		}
+		bool CanShowParent()
+		{
+			return Device.Parent != null;
 		}
 
 		public bool IsBold { get; set; }
