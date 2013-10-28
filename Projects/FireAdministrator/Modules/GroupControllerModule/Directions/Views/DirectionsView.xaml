@@ -48,7 +48,7 @@
                 <DataGridTemplateColumn Width="Auto" Header="НС" SortMemberPath="Direction.IsNS">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="НС" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
+                            <TextBlock Text="НС" FontWeight="Bold" Background="Yellow" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -191,7 +191,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
-                            <GridViewColumn Header="Состояние" Width="250">
+                            <GridViewColumn Header="Состояние" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Controls:EditorPresenter>

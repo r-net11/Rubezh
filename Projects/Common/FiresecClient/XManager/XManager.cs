@@ -69,6 +69,10 @@ namespace FiresecClient
 			DeviceConfiguration.Update();
 			foreach (var device in DeviceConfiguration.Devices)
 			{
+				if(device.DriverUID == Guid.Empty)
+				{
+					
+				}
 				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{

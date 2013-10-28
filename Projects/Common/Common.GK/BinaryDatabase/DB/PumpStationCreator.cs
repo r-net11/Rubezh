@@ -118,31 +118,31 @@ namespace Common.GK
 				var formula = new FormulaBuilder();
 
 				if (firstDelay)
-				{
-					foreach (var pumpDevice in FirePumpDevices)
-					{
-						formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
-						formula.AddGetBit(XStateBit.On, pumpDevice);
-						formula.Add(FormulaOperationType.OR);
-						if (FirePumpDevices.IndexOf(pumpDevice) > 0)
-						{
-							formula.Add(FormulaOperationType.ADD);
-						}
-					}
-					formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
-					formula.Add(FormulaOperationType.LT);
+                {
+                    foreach (var pumpDevice in FirePumpDevices)
+                    {
+                        formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
+                        formula.AddGetBit(XStateBit.On, pumpDevice);
+                        formula.Add(FormulaOperationType.OR);
+                        if (FirePumpDevices.IndexOf(pumpDevice) > 0)
+                        {
+                            formula.Add(FormulaOperationType.ADD);
+                        }
+                    }
+                    formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
+                    formula.Add(FormulaOperationType.LT);
 
-					formula.AddClauseFormula(pumpDelay.Device.NSLogic);
+                    formula.AddClauseFormula(pumpDelay.Device.NSLogic);
 
-					formula.Add(FormulaOperationType.DUP);
-					formula.AddGetBit(XStateBit.On, Direction);
-					formula.Add(FormulaOperationType.AND);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
+                    formula.Add(FormulaOperationType.DUP);
+                    formula.AddGetBit(XStateBit.On, Direction);
+                    formula.Add(FormulaOperationType.AND);
+                    formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
 
-					formula.Add(FormulaOperationType.COM);
-					formula.AddGetBit(XStateBit.Off, Direction);
-					formula.Add(FormulaOperationType.OR);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
+                    formula.Add(FormulaOperationType.COM);
+                    formula.AddGetBit(XStateBit.Off, Direction);
+                    formula.Add(FormulaOperationType.OR);
+                    formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 				}
 				else
 				{

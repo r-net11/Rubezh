@@ -158,9 +158,9 @@ namespace GKModule.ViewModels
                 var devices = new List<XDevice>() { Device };
                 if (Validate(devices))
                 {
+					WriteDevices(devices);
                     CopyFromSystemToDevice(Device);
                     PropertiesViewModel.Update();
-                    WriteDevices(devices);
                 }
             }
         }
@@ -190,6 +190,7 @@ namespace GKModule.ViewModels
                 devices.Add(Device);
                 if (Validate(devices))
                 {
+					WriteDevices(devices);
                     foreach (var device in devices)
                     {
                         CopyFromSystemToDevice(device);
@@ -197,7 +198,6 @@ namespace GKModule.ViewModels
                         if (deviceViewModel != null)
                             deviceViewModel.PropertiesViewModel.Update();
                     }
-                    WriteDevices(devices);
                 }
             }
         }
@@ -242,30 +242,20 @@ namespace GKModule.ViewModels
 
         static void CopyFromDeviceToSystem(XDevice device)
         {
-            device.Properties.RemoveAll(x => x.DriverProperty.IsAUParameter);
-            foreach (var property in device.DeviceProperties)
+            foreach (var deviceProperty in device.DeviceProperties)
             {
-                var clonedProperty = new XProperty
-                {
-                    Name = property.Name,
-                    Value = property.Value
-                };
-                device.Properties.Add(clonedProperty);
+            	var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
+				property.Value = deviceProperty.Value;
             }
             ServiceFactory.SaveService.GKChanged = true;
         }
 
         static void CopyFromSystemToDevice(XDevice device)
         {
-            device.DeviceProperties.Clear();
             foreach (var property in device.Properties)
             {
-                var clonedProperty = new XProperty()
-                {
-                    Name = property.Name,
-                    Value = property.Value
-                };
-                device.DeviceProperties.Add(clonedProperty);
+				var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
+            	deviceProperty.Value = property.Value;
             }
             ServiceFactory.SaveService.GKChanged = true;
         }
@@ -366,7 +356,6 @@ namespace GKModule.ViewModels
             foreach (var device in devices)
             {
                 i++;
-                //FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
                 ParametersHelper.SetSingleParameter(device);
 				if ((devices.Count() > 1)&&(i < devices.Count()))
 					Thread.Sleep(100);
@@ -374,7 +363,6 @@ namespace GKModule.ViewModels
             LoadingService.Close();
             if (ParametersHelper.ErrorLog != "")
                 MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
-            //FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
             ServiceFactory.SaveService.GKChanged = true;
         }
 
