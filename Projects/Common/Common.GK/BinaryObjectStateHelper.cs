@@ -148,12 +148,24 @@ namespace Common.GK
 							AddAdditionalState(XStateClass.Failure, "Несовместимость сигналов");
 						break;
 
-					case XDriverType.RM_1:
+					case XDriverType.SmokeDetector:
+					case XDriverType.HeatDetector:
+					case XDriverType.CombinedDetector:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Оптический канал или фотоусилитель");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "Температурный канал");
+						break;
+
+					case XDriverType.RM_1:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Контакт не переключается");
+						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Напряжение запуска реле ниже нормы");
-						if (bitArray[4])
-							AddAdditionalState(XStateClass.Test, "Тест");
+						//if (bitArray[4])
+						//    AddAdditionalState(XStateClass.Test, "Тест"); // берется из сообщения тест
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "КЗ выхода");
 						if (bitArray[6])
@@ -175,17 +187,17 @@ namespace Common.GK
 						break;
 
 					case XDriverType.MDU:
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						if (bitArray[3])
-							AddAdditionalState(XStateClass.Info, "Заслонка закрывается");
-						if (bitArray[4])
-							AddAdditionalState(XStateClass.Info, "Заслонка открывается");
-						if (bitArray[7])
-							AddAdditionalState(XStateClass.Test, "Тест кнопка");
-						if (bitArray[8 + 6])
-							AddAdditionalState(XStateClass.Info, "Заслонка закрыта");
-						if (bitArray[8 + 7])
-							AddAdditionalState(XStateClass.Info, "Заслонка открыта");
+						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						//if (bitArray[3])
+						//    AddAdditionalState(XStateClass.Info, "Заслонка закрывается");
+						//if (bitArray[4])
+						//    AddAdditionalState(XStateClass.Info, "Заслонка открывается");
+						//if (bitArray[7])
+						//    AddAdditionalState(XStateClass.Test, "Тест кнопка");
+						//if (bitArray[8 + 6])
+						//    AddAdditionalState(XStateClass.Info, "Заслонка закрыта");
+						//if (bitArray[8 + 7])
+						//    AddAdditionalState(XStateClass.Info, "Заслонка открыта");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
@@ -193,35 +205,35 @@ namespace Common.GK
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Низкое напряжение питания привода (ниже 20V)");
 						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Обрыв в цепи включателя «НОРМА»");
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки НОРМА");
 						if (bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Замыкание в цепи включателя «НОРМА»");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопка НОРМА");
 						if (bitArray[4])
-							AddAdditionalState(XStateClass.Failure, "Обрыв в цепи включателя «ЗАЩИТА");
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопка ЗАЩИТА");
 						if (bitArray[5])
-							AddAdditionalState(XStateClass.Failure, "Замыкание в цепи включателя «ЗАЩИТА»");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки ЗАЩИТА");
 						if (bitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Обрыв в цепи конечного выключателя «ОТКРЫТО»");
+							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ОТКРЫТО");
 						if (bitArray[7])
-							AddAdditionalState(XStateClass.Failure, "Обрыв в цепи концевого выключателя «ЗАКРЫТО»");
+							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ЗАКРЫТО");
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 2 двигателя");
 						if (bitArray[8 + 1])
-							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 1 двигателя");
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 1 ДВИГАТЕЛЯ");
 						if (bitArray[8 + 2])
-							AddAdditionalState(XStateClass.Failure, "Запрещенное состояние концевых выключателей (Замкнуты/разомкнуты оба концевика)");
+							AddAdditionalState(XStateClass.Failure, "Замкнуты/разомкнуты оба концевика");
 						if (bitArray[8 + 3])
 							AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
 						break;
 
 					case XDriverType.MRO_2:
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						if (bitArray[0])
-							AddAdditionalState(XStateClass.Info, "Воспроизведение включено");
-						if (bitArray[1])
-							AddAdditionalState(XStateClass.Info, "Воспроизведение сигнала аналогового входа");
-						if (bitArray[2])
-							AddAdditionalState(XStateClass.Info, "Замена списка сообщений новым сообщением");
+						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						//if (bitArray[0])
+						//    AddAdditionalState(XStateClass.Info, "Воспроизведение включено");
+						//if (bitArray[1])
+						//    AddAdditionalState(XStateClass.Info, "Воспроизведение сигнала аналогового входа");
+						//if (bitArray[2])
+						//    AddAdditionalState(XStateClass.Info, "Замена списка сообщений новым сообщением");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
@@ -232,14 +244,14 @@ namespace Common.GK
 							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода выше нормы");
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода ниже нормы");
-						if (bitArray[4])
-							AddAdditionalState(XStateClass.Test, "Тест кнопка");
+						//if (bitArray[4])
+						//    AddAdditionalState(XStateClass.Test, "Тест кнопка");
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания ниже нормы");
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания ниже нормы");
-						if (bitArray[7])
-							AddAdditionalState(XStateClass.Info, "Сигнал кнопки Стоп");
+						//if (bitArray[7])
+						//    AddAdditionalState(XStateClass.Info, "Сигнал кнопки Стоп");
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Отсутствуют или испорчены сообщения для воспроизведения");
 						if (bitArray[8 + 1])
@@ -250,32 +262,44 @@ namespace Common.GK
 
 					case XDriverType.MPT:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						if (bitArray[2])
-							AddAdditionalState(XStateClass.Info, "Изменение автоматики по неисправности");
-						if (bitArray[3])
-							AddAdditionalState(XStateClass.Info, "Изменение автоматики по кнопке «Стоп»");
-						if (bitArray[4])
-							AddAdditionalState(XStateClass.Info, "Запуск АУП по RSR");
-						if (bitArray[5])
-							AddAdditionalState(XStateClass.Info, "Изменение автоматики по датчику «Двери-окна»");
-						if (bitArray[6])
-							AddAdditionalState(XStateClass.Info, "Автоматика включена");
-						if (bitArray[7])
-							AddAdditionalState(XStateClass.Info, "Изменение автоматики по ТМ");
+						//if (bitArray[2])
+						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по неисправности");
+						//if (bitArray[3])
+						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по кнопке «Стоп»");
+						//if (bitArray[4])
+						//    AddAdditionalState(XStateClass.Info, "Запуск АУП по RSR");
+						//if (bitArray[5])
+						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по датчику «Двери-окна»");
+						//if (bitArray[6])
+						//    AddAdditionalState(XStateClass.Info, "Автоматика включена");
+						//if (bitArray[7])
+						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по ТМ");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания ШС ниже нормы");
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "Ошибка памяти");
-						if (bitArray[4])
-							AddAdditionalState(XStateClass.Test, "Кнопка «Тест»");
+						//if (bitArray[4])
+						//    AddAdditionalState(XStateClass.Test, "Кнопка «Тест»");
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "КЗ ШС");
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Обрыв ШС");
 						if (bitArray[7])
-							AddAdditionalState(XStateClass.Failure, "Напряжение питания прибора ниже нормы");
+							AddAdditionalState(XStateClass.Failure, "Напряжение питания устройства не в норме");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода 1");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода 2");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода 3");
+						if (bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода 4");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "КЗ выхода 5");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
 						if (bitArray[0])
@@ -288,16 +312,82 @@ namespace Common.GK
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 4");
 						if (bitArray[4])
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 5");
-						if (bitArray[5])
-							AddAdditionalState(XStateClass.Info, "Отложенный пуск АУП по датчику «Двери-окна");
-						if (bitArray[6])
-							AddAdditionalState(XStateClass.Info, "Пуск АУП завершен");
-						if (bitArray[7])
-							AddAdditionalState(XStateClass.Info, "Останов тушения по кнопке «Стоп»");
+					//if (bitArray[5])
+					//    AddAdditionalState(XStateClass.Info, "Отложенный пуск АУП по датчику «Двери-окна");
+					//if (bitArray[6])
+					//    AddAdditionalState(XStateClass.Info, "Пуск АУП завершен");
+					//if (bitArray[7])
+					//    AddAdditionalState(XStateClass.Info, "Останов тушения по кнопке «Стоп»");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
+					//bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
+					//if (bitArray[1])
+					//    AddAdditionalState(XStateClass.Info, "Программирование мастер-ключа ТМ");
+					break;
+
+					case XDriverType.Pump:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "ДУ/ДД");
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Info, "Программирование мастер-ключа ТМ");
+							AddAdditionalState(XStateClass.Failure, "Обрыв входа 9");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "КЗ входа 9");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "Обрыв входа 10");
+						if (bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "КЗ входа 10");
+						if (bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Обрыв входа 11");
+						if (bitArray[8 + 0])
+							AddAdditionalState(XStateClass.Failure, "КЗ входа 11");
+						if (bitArray[8 + 2])
+							AddAdditionalState(XStateClass.Failure, "Обрыв входа 12");
+						if (bitArray[8 + 3])
+							AddAdditionalState(XStateClass.Failure, "КЗ входа 12");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[8 + 0])
+							AddAdditionalState(XStateClass.Failure, "Не задан тип");
+						if (bitArray[8 + 2])
+							AddAdditionalState(XStateClass.Failure, "Отказ ПН");
+						if (bitArray[8 + 3])
+							AddAdditionalState(XStateClass.Failure, "Отказ ШУН");
+						break;
+
+					case XDriverType.Valve:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ОТКРЫТО");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "КЗ концевого выключателя ОТКРЫТО");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "Обрыв муфтового выключателя ОТКРЫТО");
+						if (bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "КЗ муфтового выключателя ОТКРЫТО");
+						if (bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ЗАКРЫТО");
+						if (bitArray[8 + 0])
+							AddAdditionalState(XStateClass.Failure, "КЗ концевого выключателя ЗАКРЫТО");
+						if (bitArray[8 + 2])
+							AddAdditionalState(XStateClass.Failure, "Обрыв муфтового выключателя ЗАКРЫТО");
+						if (bitArray[8 + 3])
+							AddAdditionalState(XStateClass.Failure, "КЗ муфтового выключателя ЗАКРЫТО");
+						if (bitArray[8 + 4])
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки Открыть УЗЗ/Закрыть УЗЗ");
+						if (bitArray[8 + 5])
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки Открыть УЗЗ/Закрыть УЗЗ");
+						if (bitArray[8 + 6])
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки СТОП УЗЗ");
+						if (bitArray[8 + 7])
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки СТОП УЗЗ");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						if (bitArray[6])
+							AddAdditionalState(XStateClass.Failure, "КВ/МВ");
+						if (bitArray[8 + 1])
+							AddAdditionalState(XStateClass.Failure, "Не задан режим");
+						if (bitArray[8 + 3])
+							AddAdditionalState(XStateClass.Failure, "Отказ ШУЗ");
 						break;
 				}
 			}

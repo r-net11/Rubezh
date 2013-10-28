@@ -515,78 +515,77 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 0: return "                    ";
-				case 1: return "Питание             ";
-				case 2: return "Оптич канал/Фотоуси ";
-				case 3: return "Температурный канал ";
-				case 4: return "КЗ ШС               ";
-				case 5: return "Обрыв ШС            ";
+				case 1: return "Напряжение питания устройства не в норме"; // РМК, МПТ
+				case 2: return "Оптический канал или фотоусилитель"; // ИЗВЕЩАТЕЛИ
+				case 3: return "Температурный канал"; // ИЗВЕЩАТЕЛИ
+				case 4: return "КЗ ШС"; // МПТ, АМ
+				case 5: return "Обрыв ШС"; // МПТ, АМ
 				case 6: return "Датчик ДАВЛЕНИЕ     ";
 				case 7: return "Датчик МАССА        ";
-				case 8: return "Вскрытие            ";
-				case 9: return "Контакт не переключ ";
-				case 10: return "U запуска не норма  ";
-				case 11: return "КЗ выхода           ";
-				case 12: return "Обрыв выхода        ";
-				case 13: return "U ШС не норма       ";
-				case 14: return "Ошибка памяти       ";
-				case 15: return "КЗ выхода 1         ";
-				case 16: return "КЗ выхода 2         ";
-				case 17: return "КЗ выхода 3         ";
-				case 18: return "КЗ выхода 4         ";
-				case 19: return "КЗ выхода 5         ";
-				case 20: return "Обрыв выхода 1      ";
-				case 21: return "Обрыв выхода 2      ";
-				case 22: return "Обрыв выхода 3      ";
-				case 23: return "Обрыв выхода 4      ";
-				case 24: return "Обрыв выхода 5      ";
+				case 8: return "Вскрытие корпуса"; // АМ
+				case 9: return "Контакт не переключается"; // РМ
+				case 10: return "Напряжение запуска реле ниже нормы"; // РМК
+				case 11: return "КЗ выхода"; // РМК
+				case 12: return "Обрыв выхода"; // РМК
+				case 13: return "Напряжение питания ШС ниже нормы"; // МПТ
+				case 14: return "Ошибка памяти"; // МПТ
+				case 15: return "КЗ выхода 1"; // МПТ
+				case 16: return "КЗ выхода 2"; // МПТ
+				case 17: return "КЗ выхода 3"; // МПТ
+				case 18: return "КЗ выхода 4"; // МПТ
+				case 19: return "КЗ выхода 5"; // МПТ
+				case 20: return "Обрыв выхода 1"; // МПТ
+				case 21: return "Обрыв выхода 2"; // МПТ
+				case 22: return "Обрыв выхода 3"; // МПТ
+				case 23: return "Обрыв выхода 4"; // МПТ
+				case 24: return "Обрыв выхода 5"; // МПТ
 				case 25: return "Несовместим команды ";
 				case 26: return "U привода не норма  ";
-				case 27: return "Обр кнопка НОРМА    ";
-				case 28: return "КЗ кнопка НОРМА     ";
-				case 29: return "Обр кнопка ЗАЩИТА   ";
-				case 30: return "КЗ кнопка ЗАЩИТА    ";
-				case 31: return "Обр конц ОТКРЫТО    ";
-				case 32: return "Обр конц ЗАКРЫТО    ";
-				case 33: return "Обр цепи 1 ДВИГАТЕЛЯ";
-				case 34: return "З/Р оба концевика   ";
-				case 35: return "Истекло время хода  ";
+				case 27: return "Обрыв кнопки НОРМА"; // МДУ
+				case 28: return "КЗ кнопки НОРМА"; // МДУ
+				case 29: return "Обрыв кнопка ЗАЩИТА"; // МДУ
+				case 30: return "КЗ кнопки ЗАЩИТА"; // МДУ
+				case 31: return "Обрыв концевого выключателя ОТКРЫТО"; // МДУ
+				case 32: return "Обрыв концевого выключателя ЗАКРЫТО"; // МДУ
+				case 33: return "Обрыв цепи 1 ДВИГАТЕЛЯ"; // МДУ
+				case 34: return "Замкнуты/разомкнуты оба концевика"; // МДУ
+				case 35: return "Превышение времени хода"; // МДУ
 				case 36: return "Обр в линии РЕЛЕ    ";
 				case 37: return "КЗ в линии РЕЛЕ     ";
 				case 38: return "Выход 1             ";
 				case 39: return "Выход 2             ";
 				case 40: return "Выход 3             ";
-				case 41: return "                    ";
-				case 42: return "Обр конц ОТКРЫТО    ";
-				case 43: return "КЗ конц ОТКРЫТО     ";
-				case 44: return "Обр муфт ОТКРЫТО    ";
-				case 45: return "КЗ муфт ОТКРЫТО     ";
-				case 46: return "Обр конц ЗАКРЫТО    ";
-				case 47: return "КЗ конц ЗАКРЫТО     ";
-				case 48: return "Обр муфт ЗАКРЫТО    ";
-				case 49: return "КЗ муфт ЗАКРЫТО     ";
-				case 50: return "Обр кнопка ОУЗЗ/ЗУЗЗ";
-				case 51: return "КЗ кнопка ОУЗЗ/ЗУЗЗ ";
-				case 52: return "Обр кнопка СТОП УЗЗ ";
-				case 53: return "КЗ кнопка СТОП УЗЗ  ";
-				case 54: return "Обр давление низкое ";
+				case 41: return "";
+				case 42: return "Обрыв концевого выключателя ОТКРЫТО"; // ШУЗ
+				case 43: return "КЗ концевого выключателя ОТКРЫТО"; // ШУЗ
+				case 44: return "Обрыв муфтового выключателя ОТКРЫТО"; // ШУЗ
+				case 45: return "КЗ муфтового выключателя ОТКРЫТО"; // ШУЗ
+				case 46: return "Обрыв концевого выключателя ЗАКРЫТО"; // ШУЗ
+				case 47: return "КЗ концевого выключателя ЗАКРЫТО"; // ШУЗ
+				case 48: return "Обрыв муфтового выключателя ЗАКРЫТО"; // ШУЗ
+				case 49: return "КЗ муфтового выключателя ЗАКРЫТО"; // ШУЗ
+				case 50: return "Обрыв кнопки Открыть УЗЗ/Закрыть УЗЗ"; // ШУЗ
+				case 51: return "КЗ кнопки Открыть УЗЗ/Закрыть УЗЗ"; // ШУЗ
+				case 52: return "Обрыв кнопки СТОП УЗЗ"; // ШУЗ
+				case 53: return "КЗ кнопки СТОП УЗЗ"; // ШУЗ
+				case 54: return "Обрыв давление низкое ";
 				case 55: return "КЗ давление низкое  ";
 				case 56: return "Таймаут по давлению ";
-				case 57: return "КВ/МВ               ";
-				case 58: return "Не задан режим      ";
-				case 59: return "Отказ ШУЗ           ";
-				case 60: return "ДУ/ДД               ";
-				case 61: return "Обрыв входа 9       ";
-				case 62: return "КЗ входа 9          ";
-				case 63: return "Обрыв входа 10      ";
-				case 64: return "КЗ входа 10         ";
-				case 65: return "Обрыв входа 11      ";
-				case 66: return "КЗ входа 11         ";
-				case 67: return "Обрыв входа 12      ";
-				case 68: return "КЗ входа 12         ";
-				case 69: return "Не задан тип        ";
-				case 70: return "Отказ ПН            ";
-				case 71: return "Отказ ШУН           ";
+				case 57: return "КВ/МВ"; // ШУЗ
+				case 58: return "Не задан режим"; // ШУЗ
+				case 59: return "Отказ ШУЗ"; // ШУЗ
+				case 60: return "ДУ/ДД"; // ШУН
+				case 61: return "Обрыв входа 9"; // ШУН
+				case 62: return "КЗ входа 9"; // ШУН
+				case 63: return "Обрыв входа 10"; // ШУН
+				case 64: return "КЗ входа 10"; // ШУН
+				case 65: return "Обрыв входа 11"; // ШУН
+				case 66: return "КЗ входа 11"; // ШУН
+				case 67: return "Обрыв входа 12"; // ШУН
+				case 68: return "КЗ входа 12"; // ШУН
+				case 69: return "Не задан тип"; // ШУН
+				case 70: return "Отказ ПН"; // ШУН
+				case 71: return "Отказ ШУН"; // ШУН
 				case 72: return "Питание 1           ";
 				case 73: return "Питание 2           ";
 				case 74: return "АЛС 1-2             ";
@@ -682,7 +681,6 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 0: return "                    ";
 				case 1: return "Команда от прибора  ";
 				case 2: return "Команда от кнопки   ";
 				case 3: return "Изм автомат по Н    ";

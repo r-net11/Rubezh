@@ -19,21 +19,37 @@ namespace GKProcessor
 		void ParseAdditionalStates(JournalItem journalItem)
 		{
 			var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
-			if (binaryObject!= null && binaryObject.Device != null)
+			if (binaryObject != null && binaryObject.Device != null)
 			{
 				if (journalItem.Name == "Неисправность")
 				{
-					var stateName = FailureToAdditionalState(journalItem.Description);
-					if (stateName != null)
+					switch (journalItem.YesNo)
 					{
-						if (journalItem.YesNo != JournalYesNoType.No)
-						{
-							AddAdditionalState(binaryObject.Device, XStateClass.Failure, stateName);
-						}
-						else
-						{
-							RemoveAdditionalState(binaryObject.Device, stateName);
-						}
+						case JournalYesNoType.Yes:
+							AddAdditionalState(binaryObject.Device, XStateClass.Failure, journalItem.Description);
+							break;
+
+						case JournalYesNoType.No:
+							if (string.IsNullOrEmpty(journalItem.Description))
+							{
+								binaryObject.Device.DeviceState.AdditionalStates.Clear();
+							}
+							else
+							{
+								binaryObject.Device.DeviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
+							}
+							break;
+
+						case JournalYesNoType.Unknown:
+							break;
+					}
+
+					if (journalItem.YesNo != JournalYesNoType.No)
+					{
+						
+					}
+					else
+					{
 					}
 				}
 			}
@@ -50,28 +66,6 @@ namespace GKProcessor
 				};
 				devce.DeviceState.AdditionalStates.Add(additionalState);
 			}
-		}
-
-		void RemoveAdditionalState(XDevice devce, string name)
-		{
-			devce.DeviceState.AdditionalStates.RemoveAll(x => x.Name == name);
-		}
-
-		string FailureToAdditionalState(string name)
-		{
-			switch (name)
-			{
-				case "Обр кнопка НОРМА    ": return "Обрыв в цепи включателя «НОРМА»";
-				case "КЗ кнопка НОРМА     ": return "Замыкание в цепи включателя «НОРМА»";
-				case "Обр кнопка ЗАЩИТА   ": return "Обрыв в цепи включателя «ЗАЩИТА";
-				case "КЗ кнопка ЗАЩИТА    ": return "Замыкание в цепи включателя «ЗАЩИТА»";
-				case "Обр конц ОТКРЫТО    ": return "Обрыв в цепи конечного выключателя «ОТКРЫТО»";
-				case "Обр конц ЗАКРЫТО    ": return "Обрыв в цепи концевого выключателя «ЗАКРЫТО»";
-				case "Обр цепи 1 ДВИГАТЕЛЯ": return "Обрыв цепи 1 двигателя";
-				case "З/Р оба концевика   ": return "Запрещенное состояние концевых выключателей (Замкнуты/разомкнуты оба концевика)";
-				case "Истекло время хода  ": return "Превышение времени хода";
-			}
-			return null;
 		}
 
         void GetDeviceStateFromKAU(BinaryObjectBase binaryObjectBase)
