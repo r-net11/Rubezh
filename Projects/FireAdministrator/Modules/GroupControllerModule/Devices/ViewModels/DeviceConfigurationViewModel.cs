@@ -1,4 +1,7 @@
-﻿using Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
@@ -59,13 +62,47 @@ namespace GKModule.ViewModels
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
+			if(RemoteDevice.Driver.DriverType == XDriverType.GK)
+			{
+				foreach (var kauChild in RemoteDevice.Children)
+				{
+					if(kauChild.Driver.IsKauOrRSR2Kau)
+						AddShleifs(kauChild);
+				}
+			}
+			if(RemoteDevice.Driver.IsKauOrRSR2Kau)
+				AddShleifs(RemoteDevice);
 			if (LocalDevice.Driver.DriverType == XDriverType.GK)
 			{
 				LocalConfiguration.Zones = RemoteConfiguration.Zones;
 				LocalConfiguration.Directions = RemoteConfiguration.Directions;
 			}
 			ServiceFactory.SaveService.GKChanged = true;
+			XManager.UpdateConfiguration();
 			Close(true);
+		}
+		static void AddShleifs(XDevice device)
+		{
+			const int shleifsCount = 8;
+			var deviceChildren = new List<XDevice>(device.Children);
+			device.Children = new List<XDevice>();
+			for (int i = 0; i < shleifsCount; i++)
+			{
+				var shleif = new XDevice();
+				shleif.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif);
+				shleif.DriverUID = shleif.Driver.UID;
+				shleif.IntAddress = (byte)(i + 1);
+				device.Children.Add(shleif);
+			}
+			foreach (var child in deviceChildren)
+			{
+				if ((1 <= child.ShleifNo)&&(child.ShleifNo <= 8))
+				{
+					var shleif = device.Children.FirstOrDefault(x => (x.Driver.DriverType == XDriverType.KAU_Shleif) && (x.IntAddress == child.ShleifNo));
+					shleif.Children.Add(child);
+					child.Parent = shleif;
+				}
+			}
 		}
 	}
 }
