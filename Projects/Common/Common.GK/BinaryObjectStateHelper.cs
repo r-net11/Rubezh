@@ -57,9 +57,9 @@ namespace Common.GK
 					case XDriverType.RSR2_KAU:
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Неисправность питания 1");
+							AddAdditionalState(XStateClass.Failure, "Питание 1");
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Неисправность питания 2");
+							AddAdditionalState(XStateClass.Failure, "Питание 2");
 						if (bitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Отказ АЛС 1 или 2");
 						if (bitArray[3])
@@ -71,33 +71,33 @@ namespace Common.GK
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Вскрытие");
 						if (bitArray[8])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 1");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 1");
 						if (bitArray[9])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 2");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 2");
 						if (bitArray[10])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 3");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 3");
 						if (bitArray[11])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 4");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 4");
 						if (bitArray[12])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 5");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 5");
 						if (bitArray[13])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 6");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 6");
 						if (bitArray[14])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 7");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 7");
 						if (bitArray[15])
-							AddAdditionalState(XStateClass.Failure, "Короткое замыкание АЛС 8");
+							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 8");
 						break;
 
 					case XDriverType.GK:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Неисправность питания 1");
+							AddAdditionalState(XStateClass.Failure, "Питание 1");
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Неисправность питания 2");
+							AddAdditionalState(XStateClass.Failure, "Питание 2");
 						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Неисправность ОЛС");
+							AddAdditionalState(XStateClass.Failure, "ОЛС");
 						if (bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Неисправность РЛС");
+							AddAdditionalState(XStateClass.Failure, "РЛС");
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Вскрытие");
 						break;
@@ -201,9 +201,9 @@ namespace Common.GK
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Запрет команды «НОРМА»");
+							AddAdditionalState(XStateClass.Failure, "Блокировка пуска");
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Низкое напряжение питания привода (ниже 20V)");
+							AddAdditionalState(XStateClass.Failure, "Низкое напряжение питания привода");
 						if (bitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки НОРМА");
 						if (bitArray[3])
@@ -217,7 +217,7 @@ namespace Common.GK
 						if (bitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ЗАКРЫТО");
 						if (bitArray[8 + 0])
-							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 2 двигателя");
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 2 ДВИГАТЕЛЯ");
 						if (bitArray[8 + 1])
 							AddAdditionalState(XStateClass.Failure, "Обрыв цепи 1 ДВИГАТЕЛЯ");
 						if (bitArray[8 + 2])
@@ -237,27 +237,23 @@ namespace Common.GK
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Сопротивление больше 1,5 кОм");
-						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Сопротивление в диапазоне 100-340 Ом");
-						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода выше нормы");
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки ПУСК");
 						if (bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Сопротивление выхода ниже нормы");
+							AddAdditionalState(XStateClass.Failure, "КЗ или обрыв выходной линии");
 						//if (bitArray[4])
 						//    AddAdditionalState(XStateClass.Test, "Тест кнопка");
 						if (bitArray[5])
-							AddAdditionalState(XStateClass.Failure, "Напряжение питания ниже нормы");
+							AddAdditionalState(XStateClass.Failure, "Напряжение питания устройства не в норме");
 						if (bitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Напряжение питания ниже нормы");
+							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки СТОП");
 						//if (bitArray[7])
 						//    AddAdditionalState(XStateClass.Info, "Сигнал кнопки Стоп");
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Отсутствуют или испорчены сообщения для воспроизведения");
 						if (bitArray[8 + 1])
-							AddAdditionalState(XStateClass.Failure, "КЗ кнопки пуск");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки ПУСК");
 						if (bitArray[8 + 2])
-							AddAdditionalState(XStateClass.Failure, "КЗ кнопки стоп");
+							AddAdditionalState(XStateClass.Failure, "КЗ кнопки СТОП");
 						break;
 
 					case XDriverType.MPT:
@@ -329,21 +325,21 @@ namespace Common.GK
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "ДУ/ДД");
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Обрыв входа 9");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 9", PhysicalAddress));
 						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "КЗ входа 9");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 9", PhysicalAddress));
 						if (bitArray[4])
-							AddAdditionalState(XStateClass.Failure, "Обрыв входа 10");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 10", PhysicalAddress));
 						if (bitArray[5])
-							AddAdditionalState(XStateClass.Failure, "КЗ входа 10");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 10", PhysicalAddress));
 						if (bitArray[7])
-							AddAdditionalState(XStateClass.Failure, "Обрыв входа 11");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 11", PhysicalAddress));
 						if (bitArray[8 + 0])
-							AddAdditionalState(XStateClass.Failure, "КЗ входа 11");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 11", PhysicalAddress));
 						if (bitArray[8 + 2])
-							AddAdditionalState(XStateClass.Failure, "Обрыв входа 12");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 12", PhysicalAddress));
 						if (bitArray[8 + 3])
-							AddAdditionalState(XStateClass.Failure, "КЗ входа 12");
+							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 12", PhysicalAddress));
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[8 + 0])
