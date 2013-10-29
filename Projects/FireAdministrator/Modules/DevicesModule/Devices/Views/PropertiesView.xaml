@@ -117,8 +117,8 @@
                                         <Binding Path="IsControl" />
                                     </MultiBinding>
                                 </Grid.Visibility>
-                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-                                <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -137,8 +137,8 @@
                                         <Binding Path="IsControl" />
                                     </MultiBinding>
                                 </Grid.Visibility>
-                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
-                                <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}">
+                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource InversedBoolToVisibilityConverter}}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}" />

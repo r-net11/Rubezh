@@ -254,9 +254,19 @@ namespace GKModule.ViewModels
         {
             foreach (var property in device.Properties)
             {
+				if (!property.DriverProperty.IsAUParameter)
+					continue;
 				var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
-            	deviceProperty.Value = property.Value;
-            }
+				if (deviceProperty == null)
+					device.DeviceProperties.Add(new XProperty
+													{
+														DriverProperty = property.DriverProperty,
+														Name = property.Name,
+														Value = property.Value
+													});
+				else
+					deviceProperty.Value = property.Value;
+			}
             ServiceFactory.SaveService.GKChanged = true;
         }
 
@@ -335,14 +345,14 @@ namespace GKModule.ViewModels
             LoadingService.AddCount(devices.Count());
             foreach (var device in devices)
             {
+				if (LoadingService.IsCanceled)
+					break;
                 i++;
-                //FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
                 ParametersHelper.GetSingleParameter(device);
             }
             LoadingService.Close();
             if (ParametersHelper.ErrorLog != "")
                 MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
-            //FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства ", 0);
             ServiceFactory.SaveService.GKChanged = true;
         }
 
@@ -355,6 +365,8 @@ namespace GKModule.ViewModels
             LoadingService.AddCount(devices.Count());
             foreach (var device in devices)
             {
+				if (LoadingService.IsCanceled)
+					break;
                 i++;
                 ParametersHelper.SetSingleParameter(device);
 				if ((devices.Count() > 1)&&(i < devices.Count()))

@@ -80,6 +80,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Service\CallbacManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FSAgentContract.cs" />
