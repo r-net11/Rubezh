@@ -108,6 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\FiresecDbConverter.designer.cs">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>

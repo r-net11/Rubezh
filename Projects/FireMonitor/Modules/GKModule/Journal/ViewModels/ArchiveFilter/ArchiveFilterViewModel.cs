@@ -34,6 +34,8 @@ namespace GKModule.ViewModels
 			InitializeDevices(archiveFilter);
 			InitializeZones(archiveFilter);
 			InitializeDirections(archiveFilter);
+			InitializeDescriptions(archiveFilter);
+			
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -145,6 +147,11 @@ namespace GKModule.ViewModels
 					archiveDirection.IsChecked = true;
 				}
 			}
+		}
+
+		public void InitializeDescriptions(XArchiveFilter archiveFilter)
+		{
+			ArchiveDescriptions = DescriptionsHelper.GetAllDescriptions();
 		}
 
 		#region Devices
@@ -294,6 +301,7 @@ namespace GKModule.ViewModels
 		public List<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
+		public List<string> ArchiveDescriptions { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{

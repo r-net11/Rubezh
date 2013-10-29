@@ -6,6 +6,7 @@ using FiresecService;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
+using FSAgentServer;
 
 namespace FiresecServiceRunner
 {
@@ -17,6 +18,7 @@ namespace FiresecServiceRunner
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
+			PatchManager.Patch();
 			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 			ServerLoadHelper.SetStatus(FSServerState.Opening);

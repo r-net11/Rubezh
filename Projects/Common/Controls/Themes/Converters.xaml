@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:Controls.Converters">
 
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
 	<Converters:JournalYesNoTypeToStringConverter x:Key="JournalYesNoTypeToStringConverter" />
 	<Converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter" />
 	<Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />

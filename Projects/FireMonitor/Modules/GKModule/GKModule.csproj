@@ -91,6 +91,7 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />

@@ -55,7 +55,7 @@
             </DataGrid.Columns>
         </Controls:XDataGrid>
 
-        <Grid Grid.Row="0" Grid.Column="3" Visibility="{Binding SelectedDirection.Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
+        <Grid Grid.Row="0" Grid.Column="3" Visibility="{Binding SelectedDirection.Direction.IsNS, Converter={StaticResource InversedBoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
