@@ -16,10 +16,9 @@ namespace GKProcessor
 
 		void PingNextState()
 		{
+            return;
 			var binaryObject = GkDatabase.BinaryObjects[pingObjectNo];
 			bool result = GetState(binaryObject.BinaryBase);
-
-            GetDeviceStateFromKAU(binaryObject);
 
 			pingObjectNo++;
 			if (pingObjectNo >= GkDatabase.BinaryObjects.Count)

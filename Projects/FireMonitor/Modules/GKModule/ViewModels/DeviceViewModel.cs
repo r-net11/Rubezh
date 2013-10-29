@@ -8,6 +8,7 @@ using XFiresecAPI;
 using Controls.Converters;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {

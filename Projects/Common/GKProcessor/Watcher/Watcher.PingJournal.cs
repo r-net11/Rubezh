@@ -98,20 +98,14 @@ namespace GKProcessor
             if (journalItems.Count > 0)
             {
                 GKDBHelper.AddMany(journalItems);
-                ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
-            }
-
-            foreach (var journalItem in journalItems)
-            {
-#if DEBUG
-                ParseAdditionalStates(journalItem);
-#endif
-
-                var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
-                if (binaryObject != null)
+                ApplicationService.Invoke(() =>
                 {
-                    GetDeviceStateFromKAU(binaryObject);
-                }
+                    ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
+                    foreach (var journalItem in journalItems)
+                    {
+                        ParseAdditionalStates(journalItem);
+                    }
+                });
             }
         }
 
@@ -170,7 +164,7 @@ namespace GKProcessor
 
 			foreach (var device in XManager.Devices)
 			{
-				if (!device.Driver.IsGroupDevice)
+				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.Driver.DriverType == XDriverType.RSR2_KAU))
 				{
 					bool mustGetState = false;
 					switch (device.DeviceState.StateClass)

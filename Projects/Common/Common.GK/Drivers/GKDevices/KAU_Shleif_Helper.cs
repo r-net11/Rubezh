@@ -14,8 +14,8 @@ namespace Common.GK
 			{
 				DriverType = XDriverType.KAU_Shleif,
 				UID = new Guid("2DF54B82-88E5-4168-9D9D-DDE1CFB71294"),
-				Name = "Шлейф",
-				ShortName = "Шлейф",
+				Name = "АЛС",
+                ShortName = "АЛС",
 				CanEditAddress = false,
 				HasAddress = true,
 				IsAutoCreate = true,
