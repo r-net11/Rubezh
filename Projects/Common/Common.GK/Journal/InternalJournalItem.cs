@@ -480,6 +480,11 @@ namespace Common.GK
 					break;
 			}
 
+			if (Device != null && Device.Driver.DriverType == XDriverType.Pump && EventName == "Неисправность")
+			{
+				EventDescription = StringHelper.GetPumpFailureMessage(EventDescription, Device.IntAddress);
+			}
+
 			if (string.IsNullOrEmpty(UserFriendlyEventName))
 				UserFriendlyEventName = EventName;
 
@@ -515,13 +520,13 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "Напряжение питания устройства не в норме"; // РМК, МПТ
+				case 1: return "Напряжение питания устройства не в норме"; // РМК, МПТ, МРО-2М
 				case 2: return "Оптический канал или фотоусилитель"; // ИЗВЕЩАТЕЛИ
 				case 3: return "Температурный канал"; // ИЗВЕЩАТЕЛИ
 				case 4: return "КЗ ШС"; // МПТ, АМ
 				case 5: return "Обрыв ШС"; // МПТ, АМ
-				case 6: return "Датчик ДАВЛЕНИЕ     ";
-				case 7: return "Датчик МАССА        ";
+				case 6: return "";
+				case 7: return "";
 				case 8: return "Вскрытие корпуса"; // АМ
 				case 9: return "Контакт не переключается"; // РМ
 				case 10: return "Напряжение запуска реле ниже нормы"; // РМК
@@ -539,8 +544,8 @@ namespace Common.GK
 				case 22: return "Обрыв выхода 3"; // МПТ
 				case 23: return "Обрыв выхода 4"; // МПТ
 				case 24: return "Обрыв выхода 5"; // МПТ
-				case 25: return "Несовместим команды ";
-				case 26: return "U привода не норма  ";
+				case 25: return "Блокировка пуска"; // МДУ
+				case 26: return "Низкое напряжение питания привода"; // МДУ
 				case 27: return "Обрыв кнопки НОРМА"; // МДУ
 				case 28: return "КЗ кнопки НОРМА"; // МДУ
 				case 29: return "Обрыв кнопка ЗАЩИТА"; // МДУ
@@ -586,30 +591,30 @@ namespace Common.GK
 				case 69: return "Не задан тип"; // ШУН
 				case 70: return "Отказ ПН"; // ШУН
 				case 71: return "Отказ ШУН"; // ШУН
-				case 72: return "Питание 1           ";
-				case 73: return "Питание 2           ";
-				case 74: return "АЛС 1-2             ";
-				case 75: return "АЛС 3-4             ";
-				case 76: return "АЛС 5-6             ";
-				case 77: return "АЛС 7-8             ";
-				case 78: return "Обр цепи 2 ДВИГАТЕЛЯ";
-				case 79: return "КЗ АЛС1             ";
-				case 80: return "КЗ АЛС2             ";
-				case 81: return "КЗ АЛС3             ";
-				case 82: return "КЗ АЛС4             ";
-				case 83: return "КЗ АЛС5             ";
-				case 84: return "КЗ АЛС6             ";
-				case 85: return "КЗ АЛС7             ";
-				case 86: return "КЗ АЛС8             ";
+				case 72: return "Питание 1"; // КАУ, ГК
+				case 73: return "Питание 2"; // КАУ, ГК
+				case 74: return "Отказ АЛС 1 или 2"; // КАУ
+				case 75: return "Отказ АЛС 3 или 4"; // КАУ
+				case 76: return "Отказ АЛС 5 или 6"; // КАУ
+				case 77: return "Отказ АЛС 7 или 8"; // КАУ
+				case 78: return "Обрыв цепи 2 ДВИГАТЕЛЯ"; // МДУ
+				case 79: return "КЗ АЛС 1"; // КАУ
+				case 80: return "КЗ АЛС 2"; // КАУ
+				case 81: return "КЗ АЛС 3"; // КАУ
+				case 82: return "КЗ АЛС 4"; // КАУ
+				case 83: return "КЗ АЛС 5"; // КАУ
+				case 84: return "КЗ АЛС 6"; // КАУ
+				case 85: return "КЗ АЛС 7"; // КАУ
+				case 86: return "КЗ АЛС 8"; // КАУ
 				case 87: return "Истекло время вкл   ";
 				case 88: return "Истекло время выкл  ";
 				case 89: return "Контакт реле 1      ";
 				case 90: return "Контакт реле 2      ";
-				case 91: return "Обр кнопка ПУСК     ";
-				case 92: return "КЗ кнопка ПУСК      ";
-				case 93: return "Обр кнопка СТОП     ";
-				case 94: return "КЗ кнопка СТОП      ";
-				case 95: return "Сообщения           ";
+				case 91: return "Обрыв кнопки ПУСК"; // МРО-2М
+				case 92: return "КЗ кнопки ПУСК"; // МРО-2М
+				case 93: return "Обрыв кнопки СТОП"; // МРО-2М
+				case 94: return "КЗ кнопки СТОП"; // МРО-2М
+				case 95: return "Отсутствуют или испорчены сообщения для воспроизведения"; // МРО-2М
 				case 96: return "Выход               ";
 				case 97: return "Обр Уровень низкий  ";
 				case 98: return "КЗ  Уровень низкий  ";
@@ -640,9 +645,9 @@ namespace Common.GK
 				case 250: return "Обрыв АЛС 6        ";
 				case 251: return "Обрыв АЛС 7        ";
 				case 252: return "Обрыв АЛС 8        ";
-				case 253: return "ОЛС                ";
-				case 254: return "РЛС                ";
-				case 255: return "Потеря связи       ";
+				case 253: return "ОЛС"; // ГК
+				case 254: return "РЛС"; // ГК
+				case 255: return "Потеря связи";
 			}
 			return "";
 		}
@@ -651,28 +656,28 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 0: return "Вскрытие            ";
-				case 1: return "Контакт не переключ ";
-				case 2: return "Обр Уровень низкий  ";
-				case 3: return "КЗ  Уровень низкий  ";
-				case 4: return "Обр Уровень высокий ";
-				case 5: return "КЗ  Уровень высокий ";
-				case 6: return "Обр Уровень аварийн ";
-				case 7: return "КЗ  Уровень аварийн ";
-				case 8: return "Уровень аварийный   ";
-				case 9: return "Питание силовое     ";
-				case 10: return "Питание контроллера ";
-				case 11: return "Несоответствие      ";
-				case 12: return "Фаза                ";
-				case 13: return "Обр Давление низкое ";
-				case 14: return "КЗ  Давление низкое ";
-				case 15: return "Таймаут по давлению ";
-				case 16: return "Обр Давлен на выходе";
-				case 17: return "КЗ  Давлен на выходе";
-				case 18: return "Обр ДУ ПУСК         ";
-				case 19: return "КЗ  ДУ ПУСК         ";
-				case 20: return "Обр ДУ СТОП         ";
-				case 21: return "КЗ  ДУ СТОП         ";
+				case 0: return "Вскрытие";
+				case 1: return "Контакт не переключ";
+				case 2: return "Обрыв Уровень низкий";
+				case 3: return "КЗ Уровень низкий";
+				case 4: return "Обрыв Уровень высокий";
+				case 5: return "КЗ Уровень высокий";
+				case 6: return "Обрыв Уровень аварийный";
+				case 7: return "КЗ Уровень аварийный";
+				case 8: return "Уровень аварийный";
+				case 9: return "Питание силовое";
+				case 10: return "Питание контроллера";
+				case 11: return "Несоответствие";
+				case 12: return "Фаза";
+				case 13: return "Обрыв Давление низкое";
+				case 14: return "КЗ Давление низкое";
+				case 15: return "Таймаут по давлению";
+				case 16: return "Обрыв Давлен на выходе";
+				case 17: return "КЗ Давлен на выходе";
+				case 18: return "Обрыв ДУ ПУСК";
+				case 19: return "КЗ ДУ ПУСК";
+				case 20: return "Обрыв ДУ СТОП";
+				case 21: return "КЗ ДУ СТОП";
 			}
 			return "";
 		}
@@ -765,6 +770,52 @@ namespace Common.GK
 				case 3: return "Изготовитель";
 			}
 			return "";
+		}
+
+		public static string GetPumpFailureMessage(string name, int address)
+		{
+			switch(name)
+			{
+				case "Обрыв входа 9":
+					if(address <= 8)
+						return "Обрыв ЭКМ на входе насоса";
+					else
+						return "Обрыв ДД/ДУ ПУСК";
+				case "КЗ входа 9":
+					if (address <= 8)
+						return "КЗ ЭКМ на входе насоса";
+					else
+						return "КЗ ДД/ДУ ПУСК";
+
+				case "Обрыв входа 10":
+					if (address <= 8)
+						return "Обрыв УЗН СТАРТ";
+					else
+						return "Обрыв ДД/ДУ СТОП";
+				case "КЗ входа 10":
+					if (address <= 8)
+						return "КЗ УЗН СТАРТ";
+					else
+						return "КЗ ДД/ДУ СТОП";
+
+				case "Обрыв входа 11":
+					if (address <= 8)
+						return "Обрыв УЗН СТОП";
+					else if (address == 14 || address == 15)
+						return "Обрыв ДД АВАРИЯ";
+					break;
+				case "КЗ входа 11":
+					if (address <= 8)
+						return "КЗ УЗН СТОП";
+					else if (address == 14 || address == 15)
+						return "КЗ ДД АВАРИЯ";
+					break;
+
+				case "Обрыв входа 12":
+				case "КЗ входа 12":
+					break;
+			}
+			return name;
 		}
 	}
 }
