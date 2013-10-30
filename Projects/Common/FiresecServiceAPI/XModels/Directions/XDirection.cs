@@ -73,7 +73,7 @@ namespace XFiresecAPI
 
 		public string PresentationName
 		{
-			get { return Name + " - " + No.ToString(); }
+			get { return No + "." + Name; }
 		}
 
 		public override XBinaryInfo BinaryInfo
@@ -91,7 +91,7 @@ namespace XFiresecAPI
 
 		public override string GetBinaryDescription()
 		{
-			return Name + " - " + No.ToString();
+			return PresentationName;
 		}
 
 		public void OnChanged()

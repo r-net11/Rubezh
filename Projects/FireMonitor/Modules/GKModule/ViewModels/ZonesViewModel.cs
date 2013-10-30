@@ -18,10 +18,15 @@ namespace GKModule.ViewModels
 
         public void Initialize()
         {
-            Zones = (from XZone zone in XManager.Zones
-                     orderby zone.No
-                     select new ZoneViewModel(zone.ZoneState)).ToList();
-
+			Zones = new List<ZoneViewModel>();
+			foreach (var zone in XManager.Zones)
+			{
+				if (zone.Devices.Count > 0)
+				{
+					var zoneViewModel = new ZoneViewModel(zone.ZoneState);
+					Zones.Add(zoneViewModel);
+				}
+			}
             SelectedZone = Zones.FirstOrDefault();
         }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using Common.GK;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -42,8 +43,7 @@ namespace GKModule.ViewModels
 
 		void InitializeSelectedDB()
 		{
-			BinaryObjects = new List<BinaryObjectViewModel>();
-
+			BinaryObjects = new ObservableCollection<BinaryObjectViewModel>();
 			foreach (var binaryObject in SelectedDatabase.BinaryObjects)
 			{
 				var binObjectViewModel = new BinaryObjectViewModel(binaryObject);
@@ -52,8 +52,8 @@ namespace GKModule.ViewModels
 			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
 		}
 
-		List<BinaryObjectViewModel> _binaryObjects;
-		public List<BinaryObjectViewModel> BinaryObjects
+		ObservableCollection<BinaryObjectViewModel> _binaryObjects;
+		public ObservableCollection<BinaryObjectViewModel> BinaryObjects
 		{
 			get { return _binaryObjects; }
 			set

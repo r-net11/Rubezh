@@ -139,11 +139,7 @@ namespace GKModule.Validation
 
 		static void ValidateParametersMinMax(XDevice device)
 		{
-			if (device.DeviceProperties == null)
-			{
-				return;
-			}
-			foreach (var property in device.DeviceProperties)
+			foreach (var property in device.Properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null)

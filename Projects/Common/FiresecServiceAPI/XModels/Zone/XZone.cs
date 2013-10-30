@@ -65,7 +65,7 @@ namespace XFiresecAPI
 
 		public override string GetBinaryDescription()
 		{
-			return Name + " - " + No.ToString();
+			return PresentationName;
 		}
 
 		public void OnChanged()

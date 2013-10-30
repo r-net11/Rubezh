@@ -108,7 +108,13 @@ namespace GKModule.ViewModels
 		#region IsMRO
 		public bool IsMRO
 		{
-			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
+			get
+			{
+#if DEBUG
+				return Device.Driver.DriverType == XDriverType.MRO_2;
+#endif
+				return false;
+			}
 		}
 
 		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
@@ -166,7 +172,6 @@ namespace GKModule.ViewModels
                 OnPropertyChanged("MROCode");
             }
         }
-
 		#endregion
 	}
 }

@@ -43,6 +43,20 @@ namespace Common.GK
 			driver.Properties.Add(
 				new XDriverProperty()
 				{
+					Name = "PollInterval",
+					Caption = "Интервал опроса, мс",
+					ToolTip = "Интервал опроса, мс",
+					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+					Min = 10,
+					Max = 1000,
+					Default = 1000,
+					IsAUParameter = false
+				}
+				);
+
+			driver.Properties.Add(
+				new XDriverProperty()
+				{
 					No = 0,
 					Name = "Неответы",
 					Caption = "Неответы",

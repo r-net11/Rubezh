@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Common;
 using Common.GK;
@@ -114,7 +115,13 @@ namespace GKProcessor
 
 				if (StopEvent != null)
 				{
-					if (StopEvent.WaitOne(10))
+					var pollInterval = 10;
+					var property = GkDatabase.RootDevice.Properties.FirstOrDefault(x => x.Name == "PollInterval");
+					if (property != null)
+					{
+						pollInterval = property.Value;
+					}
+					if (StopEvent.WaitOne(pollInterval))
 						break;
 				}
 
