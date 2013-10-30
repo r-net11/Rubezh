@@ -19,6 +19,8 @@ namespace XFiresecAPI
 			NSDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 			NSDeviceUIDs = new List<Guid>();
+			NSPumpsCount = 1;
+			NSDeltaTime = 5;
 		}
 		public XDirectionState DirectionState { get; set; }
 		public override XBaseState GetXBaseState() { return DirectionState; }
