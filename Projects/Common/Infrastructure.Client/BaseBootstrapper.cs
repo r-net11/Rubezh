@@ -163,9 +163,12 @@ namespace Infrastructure.Client
 				{
 					try
 					{
+						if (moduleElement.AssemblyFile == "SKUDModule.dll")
+						{
+							;
+						}
 						if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
 							continue;
-
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))
 						{

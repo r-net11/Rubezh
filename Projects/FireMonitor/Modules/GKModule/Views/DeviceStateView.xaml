@@ -18,7 +18,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding DeviceState.AdditionalStates}">
+        <ItemsControl ItemsSource="{Binding AdditionalStates}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

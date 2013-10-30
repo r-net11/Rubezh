@@ -44,6 +44,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SkudModule.dll"));
+			Modules.Add(new ModuleViewModel("SKUDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 
 			var modulesString = GlobalSettingsHelper.GlobalSettings.Modules.Split('\r', '\n');

@@ -6,11 +6,11 @@ using Infrastructure.Common;
 
 namespace Common.GK
 {
-	public static class PatchManager
+	public static class Patcher
 	{
 		static List<Patch> AllPatches;
 
-		static PatchManager()
+		static Patcher()
 		{
 			AllPatches = new List<Patch>();
 			AllPatches.Add(new Patch("DB", "SubsystemTypePatch", () =>
@@ -23,6 +23,11 @@ namespace Common.GK
 			}));
 		}
 
+		public static void AddPatchToList(string type, string id, PatchDelegate patchDelegate)
+        {
+            AllPatches.Add(new Patch(type, id, patchDelegate));
+        }
+
 		public static void Patch()
 		{
 			try
@@ -31,7 +36,7 @@ namespace Common.GK
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch");
+				Logger.Error(e, "Patcher.Patch");
 			}
 		}
 	}

@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Processor\TagDevice.cs" />
     <Compile Include="Processor\TagZone.cs" />

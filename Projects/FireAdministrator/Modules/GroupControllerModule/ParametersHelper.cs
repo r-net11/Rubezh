@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Common.GK;
-using GKModule.ViewModels;
-using Infrastructure;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -353,7 +351,6 @@ namespace GKModule
 						var result = GetDirectionParameters(commonDatabase, binaryObject, direction);
 						if (!result)
 						{
-							//MessageBoxService.ShowError("Ошибка при получении параметра устройства " + device.PresentationDriverAndAddress);
 							ErrorLog += "\n" + direction.PresentationName;
 						}
 					}
