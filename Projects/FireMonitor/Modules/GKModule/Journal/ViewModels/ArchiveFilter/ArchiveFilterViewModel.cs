@@ -151,7 +151,19 @@ namespace GKModule.ViewModels
 
 		public void InitializeDescriptions(XArchiveFilter archiveFilter)
 		{
-			ArchiveDescriptions = DescriptionsHelper.GetAllDescriptions();
+			ArchiveDescriptions = new List<DescriptionViewModel>();
+			foreach (var description in DescriptionsHelper.GetAllDescriptions())
+			{
+				ArchiveDescriptions.Add(new DescriptionViewModel(description));
+			}
+			foreach (var description in archiveFilter.Descriptions)
+			{
+				var descriptionViewModel = ArchiveDescriptions.FirstOrDefault(x => x.Description == description);
+				if(descriptionViewModel != null)
+				{
+					descriptionViewModel.IsChecked = true;
+				}
+			}
 		}
 
 		#region Devices
@@ -301,7 +313,7 @@ namespace GKModule.ViewModels
 		public List<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
-		public List<string> ArchiveDescriptions { get; private set; }
+		public List<DescriptionViewModel> ArchiveDescriptions { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{
@@ -345,6 +357,11 @@ namespace GKModule.ViewModels
 			{
 				if (archiveDirection.IsChecked)
 					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.UID);
+			}
+			foreach (var description in ArchiveDescriptions)
+			{
+				if (description.IsChecked)
+					archiveFilter.Descriptions.Add(description.Description);
 			}
 			return archiveFilter;
 		}

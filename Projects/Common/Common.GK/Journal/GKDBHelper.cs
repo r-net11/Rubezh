@@ -205,6 +205,20 @@ namespace Common.GK
 								query += ")";
 							}
 
+							if (archiveFilter.Descriptions.Count > 0)
+							{
+								query += "\n AND (";
+								int index = 0;
+								foreach (var description in archiveFilter.Descriptions)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									query += "Description = '" + description + "'";
+								}
+								query += ")";
+							}
+
 							var objectUIDs = new List<Guid>();
 							objectUIDs.AddRange(archiveFilter.DeviceUIDs);
 							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
