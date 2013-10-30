@@ -321,9 +321,11 @@ namespace Common.GK
 					break;
 
 					case XDriverType.Pump:
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "ДУ/ДД");
+					bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[8 + 0])
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 9", PhysicalAddress));
 						if (bitArray[2])
@@ -341,7 +343,9 @@ namespace Common.GK
 						if (bitArray[8 + 3])
 							AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 12", PhysicalAddress));
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
+						if (!bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Не задан тип");
 						if (bitArray[8 + 2])
@@ -352,6 +356,10 @@ namespace Common.GK
 
 					case XDriverType.Valve:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Обрыв концевого выключателя ОТКРЫТО");
 						if (bitArray[2])
@@ -377,7 +385,9 @@ namespace Common.GK
 						if (bitArray[8 + 7])
 							AddAdditionalState(XStateClass.Failure, "КЗ кнопки СТОП УЗЗ");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
+						if (!bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "КВ/МВ");
 						if (bitArray[8 + 1])
