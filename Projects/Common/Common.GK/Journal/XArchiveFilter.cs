@@ -14,6 +14,7 @@ namespace Common.GK
 			StateClasses = new List<XStateClass>();
 			GKAddresses = new List<string>();
             JournalDescriptionState = new List<JournalDescriptionState>();
+			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 
 			DeviceUIDs = new List<Guid>();
@@ -28,6 +29,7 @@ namespace Common.GK
 		public List<XStateClass> StateClasses { get; set; }
 		public List<string> GKAddresses { get; set; }
         public List<JournalDescriptionState> JournalDescriptionState { get; set; }
+		public List<string> Descriptions { get; set; }
 		public List<Guid> DeviceUIDs { get; set; }
 		public List<Guid> ZoneUIDs { get; set; }
 		public List<Guid> DirectionUIDs { get; set; }

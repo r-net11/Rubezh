@@ -27,14 +27,17 @@ namespace GKProcessor
                     switch (journalItem.YesNo)
                     {
                         case JournalYesNoType.Yes:
-                            if (!deviceState.AdditionalStates.Any(x => x.Name == journalItem.Description))
+                            if (!string.IsNullOrEmpty(journalItem.Description))
                             {
-                                var additionalState = new XAdditionalState()
+                                if (!deviceState.AdditionalStates.Any(x => x.Name == journalItem.Description))
                                 {
-                                    StateClass = XStateClass.Failure,
-                                    Name = journalItem.Description
-                                };
-                                deviceState.AdditionalStates.Add(additionalState);
+                                    var additionalState = new XAdditionalState()
+                                    {
+                                        StateClass = XStateClass.Failure,
+                                        Name = journalItem.Description
+                                    };
+                                    deviceState.AdditionalStates.Add(additionalState);
+                                }
                             }
                             break;
 

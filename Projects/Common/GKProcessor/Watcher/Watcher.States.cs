@@ -38,7 +38,7 @@ namespace GKProcessor
 					}
 				}
 				if (showProgress)
-					DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
+					DoProgress(binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
 			foreach (var device in XManager.Devices)
 			{

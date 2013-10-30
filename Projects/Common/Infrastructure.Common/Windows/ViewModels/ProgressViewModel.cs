@@ -56,6 +56,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		bool _canCancel;
+		public bool CanCancel
+		{
+			get { return _canCancel; }
+			set
+			{
+				_canCancel = value;
+				OnPropertyChanged("CanCancel");
+			}
+		}
+
+
 		public void DoStep(string text)
 		{
 			CurrentStep++;
@@ -75,7 +87,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Close();
 		}
 
-		public bool CanCancel { get; set; }
+		
 		public bool IsCanceled { get; private set; }
 
 		public RelayCommand CancelCommand { get; private set; }
