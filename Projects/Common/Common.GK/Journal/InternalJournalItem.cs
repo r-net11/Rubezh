@@ -527,7 +527,7 @@ namespace Common.GK
 				case 5: return "Обрыв ШС"; // МПТ, АМ
 				case 6: return "";
 				case 7: return "";
-				case 8: return "Вскрытие корпуса"; // АМ
+				case 8: return "Вскрытие корпуса"; // АМ, ШУН, ШУЗ
 				case 9: return "Контакт не переключается"; // РМ
 				case 10: return "Напряжение запуска реле ниже нормы"; // РМК
 				case 11: return "КЗ выхода"; // РМК
@@ -778,12 +778,12 @@ namespace Common.GK
 			{
 				case "Обрыв входа 9":
 					if(address <= 8)
-						return "Обрыв ЭКМ на входе насоса";
+						return "Обрыв линии ЭКМ на входе насоса";
 					else
 						return "Обрыв ДД/ДУ ПУСК";
 				case "КЗ входа 9":
 					if (address <= 8)
-						return "КЗ ЭКМ на входе насоса";
+						return "КЗ линии ЭКМ на входе насоса";
 					else
 						return "КЗ ДД/ДУ ПУСК";
 

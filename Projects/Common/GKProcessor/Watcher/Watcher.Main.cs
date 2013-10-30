@@ -40,7 +40,7 @@ namespace GKProcessor
 			}
 			if (RunThread != null)
 			{
-				RunThread.Join(TimeSpan.FromSeconds(1));
+				RunThread.Join(TimeSpan.FromSeconds(5));
 			}
 			RunThread = null;
 		}
