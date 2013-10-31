@@ -38,7 +38,7 @@ namespace GKProcessor
 					}
 				}
 				if (showProgress)
-					DoProgress("Опрос объекта ГК " + binaryObject.BinaryBase.BinaryInfo.ToString());
+					DoProgress(binaryObject.BinaryBase.BinaryInfo.ToString());
 			}
 			foreach (var device in XManager.Devices)
 			{
@@ -94,13 +94,13 @@ namespace GKProcessor
 			ApplicationService.Invoke(() =>
 			{
 				var binaryState = binaryBase.GetXBaseState();
-				binaryState.StateBits = binaryObjectStateHelper.StateBits;
 				binaryState.AdditionalStates = binaryObjectStateHelper.AdditionalStates;
 				binaryState.AdditionalStateProperties = binaryObjectStateHelper.AdditionalStateProperties;
 				binaryState.OnDelay = binaryObjectStateHelper.OnDelay;
 				binaryState.HoldDelay = binaryObjectStateHelper.HoldDelay;
 				binaryState.OffDelay = binaryObjectStateHelper.OffDelay;
 				binaryState.LastDateTime = DateTime.Now;
+				binaryState.StateBits = binaryObjectStateHelper.StateBits; // OnStateChanged();
 			});
 
 			return true;

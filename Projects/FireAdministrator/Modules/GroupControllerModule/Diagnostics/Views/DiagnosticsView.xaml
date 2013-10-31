@@ -2,15 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <WrapPanel>
-            <Button Content="Посмотреть бинарную конфигурацию" Command="{Binding ConvertToBinCommand}" Width="300" Margin="2" />
-            <Button Content="Конвертировать из формата Рубеж-2АМ" Command="{Binding ConvertFromFiresecCommand}" Width="300" Margin="2" />
-            <Button Content="Конвертировать в формат Рубеж-2АМ" Command="{Binding ConvertToFiresecCommand}" Width="300" Margin="2" />
+        <Border Background="White" CornerRadius="5">
+            <WrapPanel Margin="5">
+                <Button Content="Посмотреть бинарную конфигурацию" Command="{Binding ConvertToBinCommand}" Width="300" Margin="2" />
+                <Button Content="Конвертировать из формата Рубеж-2АМ" Command="{Binding ConvertFromFiresecCommand}" Width="300" Margin="2" />
+                <Button Content="Конвертировать в формат Рубеж-2АМ" Command="{Binding ConvertToFiresecCommand}" Width="300" Margin="2" />
 
-            <Button Content="Перевести в технологический режим" Command="{Binding GoToTechnologicalCommand}" Width="300" Margin="2" />
-            <Button Content="Перевести в рабочий режим" Command="{Binding GoToWorkRegimeCommand}" Width="300" Margin="2" />
-            <Button Content="Создать 20000 зон" Command="{Binding CreateTestZonesCommand}" Width="150" Margin="2" />
-            <Button Content="Конвертировать шлейфы" Command="{Binding ConvertShleifCommand}" Width="200" Margin="2" />
-        </WrapPanel>
+                <Button Content="Перевести в технологический режим" Command="{Binding GoToTechnologicalCommand}" Width="300" Margin="2" />
+                <Button Content="Перевести в рабочий режим" Command="{Binding GoToWorkRegimeCommand}" Width="300" Margin="2" />
+                <Button Content="Создать 20000 зон" Command="{Binding CreateTestZonesCommand}" Width="150" Margin="2" />
+                <Button Content="Конвертировать шлейфы" Command="{Binding ConvertShleifCommand}" Width="200" Margin="2" />
+            </WrapPanel>
+        </Border>
     </Grid>
 </UserControl>

@@ -132,18 +132,14 @@ namespace GKModule.Validation
 		{
 			if (device.Driver.DriverType == XDriverType.Pump)
 			{
-				if (device.IntAddress < 1 || device.IntAddress > 15)
-					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 15", ValidationErrorLevel.CannotWrite));
+				if (!((device.IntAddress > 0 && device.IntAddress <= 8) || device.IntAddress == 12 || device.IntAddress == 14))
+					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8, 12, 14", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
 		static void ValidateParametersMinMax(XDevice device)
 		{
-			if (device.DeviceProperties == null)
-			{
-				return;
-			}
-			foreach (var property in device.DeviceProperties)
+			foreach (var property in device.Properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null)

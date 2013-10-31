@@ -115,18 +115,6 @@
                                 <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding OutputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding FormulaBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding StringFomula, Mode=OneWay}" Margin="1" />
-                                <!--<ItemsControl Grid.Row="9" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding FormulaOperationType}" Foreground="White" Width="60" />
-                                                <TextBlock Text="{Binding FirstOperand}" Foreground="White" Width="15" />
-                                                <TextBlock Text="{Binding SecondOperand}" Foreground="White" Width="15" />
-                                                <TextBlock Text="{Binding Comment}" Foreground="White" Margin="5, 0, 0, 0" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>-->
                                 <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="12" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />

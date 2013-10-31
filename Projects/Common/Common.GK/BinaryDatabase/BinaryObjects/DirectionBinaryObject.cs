@@ -59,7 +59,7 @@ namespace Common.GK
 						{
 							case XDriverType.Pump:
 							case XDriverType.RSR2_Bush:
-								if (nsDevice.IntAddress > 8)
+								if (nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
 								{
 									failureDevices.Add(nsDevice);
 								}

@@ -19,6 +19,8 @@ namespace XFiresecAPI
 			NSDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 			NSDeviceUIDs = new List<Guid>();
+			NSPumpsCount = 1;
+			NSDeltaTime = 5;
 		}
 		public XDirectionState DirectionState { get; set; }
 		public override XBaseState GetXBaseState() { return DirectionState; }
@@ -71,7 +73,7 @@ namespace XFiresecAPI
 
 		public string PresentationName
 		{
-			get { return Name + " - " + No.ToString(); }
+			get { return No + "." + Name; }
 		}
 
 		public override XBinaryInfo BinaryInfo
@@ -89,7 +91,7 @@ namespace XFiresecAPI
 
 		public override string GetBinaryDescription()
 		{
-			return Name + " - " + No.ToString();
+			return PresentationName;
 		}
 
 		public void OnChanged()

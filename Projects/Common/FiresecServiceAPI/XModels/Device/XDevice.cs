@@ -213,14 +213,10 @@ namespace XFiresecAPI
 					{
 						case 12:
 							return "Жокей насос";
-						case 13:
-							return "Компрессор";
 						case 14:
 							return "Дренажный Насос";
-						case 15:
-							return "Насос Компенсации утечек";
 					}
-					return "Насос";
+					return "Насос с неизвестным типом";
 				}
 				return Driver.ShortName;
 			}

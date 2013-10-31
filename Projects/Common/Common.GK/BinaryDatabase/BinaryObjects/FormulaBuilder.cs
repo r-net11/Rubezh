@@ -27,12 +27,12 @@ namespace Common.GK
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddGetBitOff(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 			Add(FormulaOperationType.GETBIT,
 				(byte)XStateBit.Ignore,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk));
@@ -40,20 +40,20 @@ namespace Common.GK
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddGetBit(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
-		public void AddPutBit(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddPutBit(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Запись состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Запись состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
 		public void AddArgumentPutBit(byte bit, XBinaryBase binaryBase)
@@ -159,13 +159,51 @@ namespace Common.GK
 
 		public string GetStringFomula()
 		{
+			var stackDepth = 0;
 			var stringBuilder = new StringBuilder();
 			foreach (var formulaOperation in FormulaOperations)
 			{
 				stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
 				stringBuilder.Append(formulaOperation.FirstOperand + "\t");
 				stringBuilder.Append(formulaOperation.SecondOperand + "\t");
-				stringBuilder.Append(formulaOperation.Comment);
+				stringBuilder.Append(formulaOperation.Comment + "\t");
+
+				switch (formulaOperation.FormulaOperationType)
+				{
+					case FormulaOperationType.CONST:
+					case FormulaOperationType.DUP:
+					case FormulaOperationType.GETBIT:
+					case FormulaOperationType.GETBYTE:
+					case FormulaOperationType.GETWORD:
+						stackDepth += 1;
+						break;
+
+					case FormulaOperationType.ADD:
+					case FormulaOperationType.AND:
+					case FormulaOperationType.EQ:
+					case FormulaOperationType.GE:
+					case FormulaOperationType.GT:
+					case FormulaOperationType.LE:
+					case FormulaOperationType.LT:
+					case FormulaOperationType.MUL:
+					case FormulaOperationType.OR:
+					case FormulaOperationType.PUTBIT:
+					case FormulaOperationType.PUTBYTE:
+					case FormulaOperationType.PUTWORD:
+					case FormulaOperationType.SUB:
+					case FormulaOperationType.XOR:
+						stackDepth -= 1;
+						break;
+
+					case FormulaOperationType.COM:
+					case FormulaOperationType.END:
+					case FormulaOperationType.NE:
+					case FormulaOperationType.NEG:
+						stackDepth += 0;
+						break;
+				}
+				stringBuilder.Append(stackDepth + "\t");
+
 				stringBuilder.AppendLine("");
 			}
 			return stringBuilder.ToString();

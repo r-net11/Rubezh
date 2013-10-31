@@ -184,10 +184,17 @@ namespace FiresecClient
 						switch (nsDevice.Driver.DriverType)
 						{
 							case XDriverType.AM1_T:
-							case XDriverType.Pump:
 							case XDriverType.RSR2_Bush:
 								nsDeviceUIDs.Add(nsDevice.UID);
 								direction.NSDevices.Add(nsDevice);
+								break;
+
+							case XDriverType.Pump:
+								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+								{
+									nsDeviceUIDs.Add(nsDevice.UID);
+									direction.NSDevices.Add(nsDevice);
+								}
 								break;
 						}
 					}

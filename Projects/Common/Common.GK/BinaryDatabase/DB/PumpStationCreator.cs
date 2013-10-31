@@ -11,7 +11,7 @@ namespace Common.GK
 		GkDatabase GkDatabase;
 		XDirection Direction;
 		List<XDevice> FirePumpDevices;
-		List<XDevice> FailurePumpDevices;
+		List<XDevice> NonFirePumpDevices;
 		XDevice AM1TDevice;
 		List<PumpDelay> PumpDelays;
 		ushort NSDeltaTime;
@@ -27,7 +27,7 @@ namespace Common.GK
 			PumpDelays = new List<PumpDelay>();
 
 			FirePumpDevices = new List<XDevice>();
-			FailurePumpDevices = new List<XDevice>();
+			NonFirePumpDevices = new List<XDevice>();
 			foreach (var nsDevice in direction.NSDevices)
 			{
 				switch (nsDevice.Driver.DriverType)
@@ -38,9 +38,9 @@ namespace Common.GK
 						{
 							FirePumpDevices.Add(nsDevice);
 						}
-						else
+						else if (nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
 						{
-							FailurePumpDevices.Add(nsDevice);
+							NonFirePumpDevices.Add(nsDevice);
 						}
 						break;
 					case XDriverType.AM1_T:
@@ -64,13 +64,14 @@ namespace Common.GK
 			}
 
 			CreateDelaysLogic();
-			SetPumpDevicesLogic();
+			SetFirePumpDevicesLogic();
+			SetNonFirePumpDevicesLogic();
 		}
 
 		void CreateDirectionFormulaBytes()
 		{
 			var failureDevices = new List<XDevice>();
-			failureDevices.AddRange(FailurePumpDevices);
+			failureDevices.AddRange(NonFirePumpDevices);
 			if (AM1TDevice != null)
 				failureDevices.Add(AM1TDevice);
 
@@ -160,7 +161,7 @@ namespace Common.GK
 			}
 		}
 
-		void SetPumpDevicesLogic()
+		void SetFirePumpDevicesLogic()
 		{
 			foreach (var pumpDevice in FirePumpDevices)
 			{
@@ -203,6 +204,30 @@ namespace Common.GK
 
 					pumpBinaryObject.Formula = formula;
 					pumpBinaryObject.FormulaBytes = formula.GetBytes();
+				}
+			}
+		}
+
+		void SetNonFirePumpDevicesLogic()
+		{
+			foreach (var pumpDevice in NonFirePumpDevices)
+			{
+				if (pumpDevice.IntAddress == 12)
+				{
+					var pumpBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+					if (pumpBinaryObject != null)
+					{
+						var formula = new FormulaBuilder();
+						formula.AddGetBit(XStateBit.On, Direction);
+						formula.Add(FormulaOperationType.DUP, 0, 0);
+						formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpBinaryObject.BinaryBase);
+						formula.Add(FormulaOperationType.COM);
+						formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpBinaryObject.BinaryBase);
+						formula.Add(FormulaOperationType.END);
+						pumpBinaryObject.Formula = formula;
+						pumpBinaryObject.FormulaBytes = formula.GetBytes();
+					}
+					XManager.LinkBinaryObjects(pumpBinaryObject.BinaryBase, Direction);
 				}
 			}
 		}
