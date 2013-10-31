@@ -11,10 +11,15 @@ namespace GKModule.ViewModels
 	{
 		public void Initialize()
 		{
-			Directions = (from XDirection direction in XManager.Directions
-						  orderby direction.No
-						  select new DirectionViewModel(direction.DirectionState)).ToList();
-
+			Directions = new List<DirectionViewModel>();
+			foreach (var direction in XManager.Directions)
+			{
+				if (direction.InputZones.Count + direction.InputDevices.Count > 0)
+				{
+					var directionViewModel = new DirectionViewModel(direction.DirectionState);
+					Directions.Add(directionViewModel);
+				}
+			}
 			SelectedDirection = Directions.FirstOrDefault();
 		}
 

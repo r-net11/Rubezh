@@ -156,7 +156,8 @@ namespace GKProcessor
 					isMissmatch = true;
 			}
 
-			if (binaryBase.GetBinaryDescription() != binaryObjectState.Description)
+            var description = binaryBase.GetBinaryDescription();
+            if (binaryBase.GetBinaryDescription().TrimEnd(' ') != binaryObjectState.Description)
 				isMissmatch = true;
 
 			binaryBase.GetXBaseState().IsRealMissmatch = isMissmatch;
