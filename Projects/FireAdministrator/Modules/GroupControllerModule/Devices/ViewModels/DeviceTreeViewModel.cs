@@ -41,6 +41,7 @@ namespace GKModule.ViewModels
 				Directions.Add(objectViewModel);
 			}
 		}
+
 		void InitializeDevices(ObjectViewModel objectViewModel, ObjectViewModel parentObjectViewModel)
 		{
 		    objectViewModel.IsDevice = true;
@@ -109,7 +110,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			if (objects1.FirstOrDefault().IsDevice)
+			if ((objects1.Count != 0)&&(objects1.FirstOrDefault().IsDevice))
 			{
                 SortTree(ref objects1, driverType);
                 SortTree(ref objects2, driverType);
