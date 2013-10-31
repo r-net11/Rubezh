@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
             Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
             RegisterShortcuts();
@@ -91,7 +92,7 @@ namespace GKModule.ViewModels
 
         bool CanDeleteAll()
         {
-            return Zones.Count > 0;
+        	return Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false).Count() > 0;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -130,6 +131,25 @@ namespace GKModule.ViewModels
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
 				Helper.BuildMap();
+			}
+		}
+
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
+			if (dialogResult == MessageBoxResult.Yes)
+			{
+				var emptyZones = new List<ZoneViewModel>(
+					Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false)
+				);
+				foreach (var emptyZone in emptyZones)
+				{
+					XManager.Zones.Remove(emptyZone.Zone);
+					Zones.Remove(emptyZone);
+				}
+				SelectedZone = Zones.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
