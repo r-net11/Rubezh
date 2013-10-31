@@ -32,7 +32,7 @@
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" />
+                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
                     <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>

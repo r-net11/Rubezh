@@ -465,7 +465,6 @@ namespace Common.GK
 						case 13:
 							EventName = "Параметры";
 							UserFriendlyEventName = "Запись параметра объекта";
-							EventDescription = "Номер объекта КАУ: " + Code;
 							break;
 
 						case 14:
