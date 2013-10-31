@@ -50,11 +50,20 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Passport.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Sex.cs" />
+    <Compile Include="Models\TestHelper.cs" />
     <Compile Include="SKUDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\SKUDViewModel.cs" />
     <Compile Include="Views\SKUDView.xaml.cs">
       <DependentUpon>SKUDView.xaml</DependentUpon>

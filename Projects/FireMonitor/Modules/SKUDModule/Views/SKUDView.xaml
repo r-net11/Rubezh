@@ -1,7 +1,18 @@
 ﻿<UserControl x:Class="SKUDModule.Views.SKUDView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Loaded="UserControl_Loaded">
     <Grid>
-        <TextBlock Text="SKUDModule" FontWeight="ExtraBold" FontSize="35" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <DataGrid ItemsSource="{Binding Employees}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FirstName" Binding="{Binding Employee.Person.FirstName}"/>
+                <DataGridTextColumn Header="SecondName" Binding="{Binding Employee.Person.SecondName}"/>
+                <DataGridTextColumn Header="LastName" Binding="{Binding Employee.Person.LastName}"/>
+                <DataGridTextColumn Header="Group" Binding="{Binding Employee.Group.Name}"/>
+                <DataGridTextColumn Header="Department" Binding="{Binding Employee.Department.Name}"/>
+                <DataGridTextColumn Header="Position" Binding="{Binding Employee.Position.Name}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SKUDModule.ViewModels;
 
 namespace SKUDModule.Views
 {
@@ -22,6 +23,12 @@ namespace SKUDModule.Views
 		public SKUDView()
 		{
 			InitializeComponent();
+		}
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			var dataContext = DataContext as SKUDViewModel;
+			dataContext.Initialize();
 		}
 	}
 }

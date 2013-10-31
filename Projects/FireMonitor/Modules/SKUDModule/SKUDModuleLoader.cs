@@ -36,7 +36,7 @@ namespace SKUDModule
 
 		public override void Initialize()
 		{
-			;
+			//SKUDViewModel.Initialize();
 		}
 
 		public override string Name
