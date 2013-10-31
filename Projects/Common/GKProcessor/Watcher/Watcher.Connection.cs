@@ -55,7 +55,7 @@ namespace GKProcessor
 						GetAllStates(false);
 					}
 				}
-				var gkDevice = XManager.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
+                var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
 				if (gkDevice == null)
 				{
 					var uidEquality = XManager.Devices.Any(x => x.UID == GkDatabase.RootDevice.UID);
