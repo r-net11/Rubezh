@@ -317,7 +317,8 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.Pump || device.Driver.DriverType == XDriverType.RSR2_Bush || device.Driver.DriverType == XDriverType.AM1_T)
+				if ((device.Driver.DriverType == XDriverType.Pump && (device.IntAddress <= 8 || device.IntAddress == 12 || device.IntAddress ==  14)) ||
+					device.Driver.DriverType == XDriverType.RSR2_Bush || device.Driver.DriverType == XDriverType.AM1_T)
 					sourceDevices.Add(device);
 			}
 

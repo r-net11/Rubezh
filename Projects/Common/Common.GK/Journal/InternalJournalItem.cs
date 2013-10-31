@@ -554,7 +554,7 @@ namespace Common.GK
 				case 32: return "Обрыв концевого выключателя ЗАКРЫТО"; // МДУ
 				case 33: return "Обрыв цепи 1 ДВИГАТЕЛЯ"; // МДУ
 				case 34: return "Замкнуты/разомкнуты оба концевика"; // МДУ
-                case 35: return "Превышение времени хода"; // МДУ, ШУЗ
+				case 35: return "Превышение времени хода"; // МДУ, ШУЗ
 				case 36: return "Обр в линии РЕЛЕ    ";
 				case 37: return "КЗ в линии РЕЛЕ     ";
 				case 38: return "Выход 1             ";
@@ -774,41 +774,54 @@ namespace Common.GK
 
 		public static string GetPumpFailureMessage(string name, int address)
 		{
-			switch(name)
+			switch (name)
 			{
 				case "Обрыв входа 1":
-					if(address <= 8)
+					if (address <= 8)
 						return "Обрыв линии ЭКМ на входе насоса";
-					else
-						return "Обрыв ДД/ДУ ПУСК";
+					if (address == 12)
+						return "Обрыв линии связи с датчиком низкого давления";
+					if (address == 14)
+						return "Обрыв линии связи с датчиком верхнего уровня";
+					break;
 				case "КЗ входа 1":
 					if (address <= 8)
 						return "КЗ линии ЭКМ на входе насоса";
-					else
-						return "КЗ ДД/ДУ ПУСК";
+					if (address == 12)
+						return "КЗ линии связи с датчиком низкого давления";
+					if (address == 14)
+						return "КЗ линии связи с датчиком верхнего уровня";
+					break;
 
 				case "Обрыв входа 2":
 					if (address <= 8)
-						return "Обрыв УЗН СТАРТ";
-					else
-						return "Обрыв ДД/ДУ СТОП";
+						return "Обрыв линии дистанционного управления";
+					if (address == 12)
+						return "Обрыв линии связи с датчиком высокого давления";
+					if (address == 14)
+						return "Обрыв линии связи с датчиком нижнего уровня";
+					break;
+
 				case "КЗ входа 2":
 					if (address <= 8)
-						return "КЗ УЗН СТАРТ";
-					else
-						return "КЗ ДД/ДУ СТОП";
+						return "КЗ линии дистанционного управления";
+					if (address == 12)
+						return "КЗ линии связи с датчиком высокого давления";
+					if (address == 14)
+						return "КЗ линии связи с датчиком нижнего уровня";
+					break;
 
 				case "Обрыв входа 3":
 					if (address <= 8)
-						return "Обрыв УЗН СТОП";
-					else if (address == 14 || address == 15)
-						return "Обрыв ДД АВАРИЯ";
+						return "Обрыв линии дистанционного управления";
+					if (address == 14)
+						return "Обрыв линии связи с датчиком аварийного уровня";
 					break;
 				case "КЗ входа 3":
 					if (address <= 8)
-						return "КЗ УЗН СТОП";
-					else if (address == 14 || address == 15)
-						return "КЗ ДД АВАРИЯ";
+						return "КЗ линии дистанционного управления";
+					if (address == 14)
+						return "КЗ линии связи с датчиком аварийного уровня";
 					break;
 
 				case "Обрыв входа 4":

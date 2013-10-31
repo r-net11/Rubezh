@@ -27,12 +27,12 @@ namespace Common.GK
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddGetBitOff(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 			Add(FormulaOperationType.GETBIT,
 				(byte)XStateBit.Ignore,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk));
@@ -40,20 +40,20 @@ namespace Common.GK
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddGetBit(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.GETBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
-		public void AddPutBit(XStateBit stateType, XBinaryBase binaryBase)
+		public void AddPutBit(XStateBit stateBit, XBinaryBase binaryBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
-				(byte)stateType,
+				(byte)stateBit,
 				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Запись состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				"Запись состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
 		public void AddArgumentPutBit(byte bit, XBinaryBase binaryBase)

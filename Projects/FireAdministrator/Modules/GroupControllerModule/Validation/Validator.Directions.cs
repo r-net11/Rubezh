@@ -84,7 +84,7 @@ namespace GKModule.Validation
 					nsDevices.Add(nsDevice);
 				}
 			}
-			var pumpsCount = nsDevices.Count(x => x.Driver.DriverType == XDriverType.Pump || x.Driver.DriverType == XDriverType.RSR2_Bush);
+			var pumpsCount = nsDevices.Count(x => (x.Driver.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.Driver.DriverType == XDriverType.RSR2_Bush);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new DirectionValidationError(direction, "В насосной станции отсутствуют насосы", ValidationErrorLevel.CannotWrite));

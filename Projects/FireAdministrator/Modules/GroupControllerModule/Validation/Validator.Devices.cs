@@ -132,8 +132,8 @@ namespace GKModule.Validation
 		{
 			if (device.Driver.DriverType == XDriverType.Pump)
 			{
-				if (device.IntAddress < 1 || device.IntAddress > 15)
-					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 15", ValidationErrorLevel.CannotWrite));
+				if (!((device.IntAddress > 0 && device.IntAddress <= 8) || device.IntAddress == 12 || device.IntAddress == 14))
+					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8, 12, 14", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
