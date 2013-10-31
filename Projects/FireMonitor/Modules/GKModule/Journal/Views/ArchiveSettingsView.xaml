@@ -8,50 +8,59 @@
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-        <StackPanel>
-            <Label Content="При переходе на вкладку архива, показывать записи" />
-            <ListBox Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
+    <TabControl>
+        <TabItem Header="Временной диапазон">
+            <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+                <StackPanel>
+                    <Label Content="При переходе на вкладку архива, показывать записи" />
+                    <ListBox Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
                          ItemsSource="{Binding ArchiveDefaultStates}"
                          DataContextChanged="_archiveDefaultStateTypes_DataContextChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton Margin="5" Checked="RadioButton_Checked"
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Margin="5" Checked="RadioButton_Checked"
                                      Content="{Binding ArchiveDefaultStateType, Converter={StaticResource ArchiveDefaultStateTypeToStringConverter}}"
                                      IsChecked="{Binding IsActive}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5 ">
-                <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount}" />
-                <Label Content="количество часов" VerticalAlignment="Center" />
-            </WrapPanel>
-            <WrapPanel Name="_countDaysPanel" HorizontalAlignment="Left" Margin="11 5">
-                <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding DaysCount}" />
-                <Label Content="количество дней" VerticalAlignment="Center" />
-            </WrapPanel>
-            <Grid HorizontalAlignment="Left">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Name="_startDatePanel" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="С" />
-                    <Calendar Name="_startDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5 ">
+                        <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount}" />
+                        <Label Content="количество часов" VerticalAlignment="Center" />
+                    </WrapPanel>
+                    <WrapPanel Name="_countDaysPanel" HorizontalAlignment="Left" Margin="11 5">
+                        <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding DaysCount}" />
+                        <Label Content="количество дней" VerticalAlignment="Center" />
+                    </WrapPanel>
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Name="_startDatePanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Content="С" />
+                            <Calendar Name="_startDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedDate="{Binding StartDate}" />
-                </StackPanel>
-                <StackPanel Grid.Column="1" Name="_endDatePanel" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Label Content="До" />
-                    <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Name="_endDatePanel" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Content="До" />
+                            <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
                                   DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   SelectedDate="{Binding EndDate}" />
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-            </Grid>
-            <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Foreground="White" Margin="11 5"/>
-            <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Foreground="White" Margin="11 5"/>
-        </StackPanel>
-    </Border>
+            </Border>
+        </TabItem>
+        <TabItem Header="Дополнительные колонки">
+            <StackPanel>
+                <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Foreground="White" Margin="11 5"/>
+                <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Foreground="White" Margin="11 5"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+    
 </UserControl>

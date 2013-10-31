@@ -19,8 +19,15 @@ namespace GKModule.ViewModels
 					break;
 
 				case ObjectType.Zone:
+					ImageSource = "/Controls;component/Images/zone.png";
+					break;
+
 				case ObjectType.Direction:
-					ImageSource = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
+					ImageSource = "/Controls;component/Images/Blue_Direction.png";
+					break;
+
+				case ObjectType.Delay:
+					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 			}
 

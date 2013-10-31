@@ -8,7 +8,7 @@ using SKUDModule.Models;
 
 namespace SKUDModule.ViewModels
 {
-	public class SKUDViewModel:ViewPartViewModel
+	public class SKUDViewModel : ViewPartViewModel
 	{
 		public void Initialize()
 		{

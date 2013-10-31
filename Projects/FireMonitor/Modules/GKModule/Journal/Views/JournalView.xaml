@@ -24,8 +24,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" VerticalAlignment="Center">
+                                <Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock VerticalAlignment="Center">
 				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 					                    <TextBlock Text="{Binding PresentationName}" />
 				                    </Hyperlink>
@@ -38,8 +39,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

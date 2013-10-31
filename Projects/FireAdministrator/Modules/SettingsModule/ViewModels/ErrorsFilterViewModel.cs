@@ -22,7 +22,7 @@ namespace SettingsModule.ViewModels
 			ErrorFilters.Add(new ErrorFilterViewModel("В направлении отсутствуют входные устройства или зоны"));
 			ErrorFilters.Add(new ErrorFilterViewModel("В направлении отсутствуют выходные устройства"));
 			ErrorFilters.Add(new ErrorFilterViewModel("Количество подключенных к зоне датчиков"));
-
+			
 			foreach (var ignoredError in GlobalSettingsHelper.GlobalSettings.IgnoredErrors)
 			{
 				var errorFilter = ErrorFilters.FirstOrDefault(x => x.Name == ignoredError);
@@ -47,6 +47,17 @@ namespace SettingsModule.ViewModels
 			}
 			GlobalSettingsHelper.Save();
 			return true;
+		}
+
+		bool isLogicAllowed;
+		public bool IsLogicAllowed
+		{
+			get { return isLogicAllowed; }
+			set
+			{
+				isLogicAllowed = value;
+				OnPropertyChanged("IsLogicAllowed");
+			}
 		}
 	}
 }
