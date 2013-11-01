@@ -20,14 +20,6 @@ namespace FiresecOPCServer
 
 		static void Patch1()
 		{
-			if (Directory.Exists("Configuration"))
-			{
-				Directory.Delete("Configuration", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
 		}
 	}
 }

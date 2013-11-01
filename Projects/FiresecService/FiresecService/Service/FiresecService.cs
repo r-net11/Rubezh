@@ -56,7 +56,7 @@ namespace FiresecService.Service
 
 			if (ClientsManager.Add(uid, clientCredentials))
 			{
-				AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec-2)");
+				AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec)");
 			}
 
 			return operationResult;
@@ -83,10 +83,10 @@ namespace FiresecService.Service
 				return operationResult;
 
 			MainViewModel.Current.EditClient(uid, login);
-			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
+			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec)");
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);
-			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec-2)");
+			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec)");
 
 			operationResult.Result = true;
 			return operationResult;
@@ -110,7 +110,7 @@ namespace FiresecService.Service
 				clientInfo.WaitEvent.Set();
 				if (clientInfo.ClientCredentials != null)
 				{
-					AddInfoMessage(clientInfo.ClientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec-2)");
+					AddInfoMessage(clientInfo.ClientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec)");
 				}
 			}
 			ClientsManager.Remove(uid);

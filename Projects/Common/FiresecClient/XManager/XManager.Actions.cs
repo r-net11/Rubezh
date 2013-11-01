@@ -54,8 +54,9 @@ namespace FiresecClient
 			device.InitializeDefaultProperties();
 		}
 
-		public static void RemoveDevice(XDevice parentDevice, XDevice device)
+		public static void RemoveDevice(XDevice device)
 		{
+			var parentDevice = device.Parent;
 			foreach (var zone in device.Zones)
 			{
 				zone.Devices.Remove(device);
@@ -230,6 +231,7 @@ namespace FiresecClient
                 }
                 direction.DirectionDevices.Add(directionDevice);
                 direction.InputDevices.Add(device);
+				device.Directions.Add(direction);
                 device.OnChanged();
             }
 			direction.OnChanged();

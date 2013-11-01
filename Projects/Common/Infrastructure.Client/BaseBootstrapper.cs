@@ -119,10 +119,12 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
-					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+					if (Application.Current != null)
+						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 					LoadingService.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
-					Application.Current.Shutdown();
+					if (Application.Current != null)
+						Application.Current.Shutdown();
 					return false;
 				}
 			return true;

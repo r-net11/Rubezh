@@ -25,6 +25,15 @@ namespace GKModule
 				var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 				if (gkDatabase != null)
 				{
+				//    foreach (var binaryObject in gkDatabase.BinaryObjects)
+				//    {
+				//        if (binaryObject.AllBytes.Count % 256 == 0)
+				//        {
+				//            ;
+				//        }
+				//    }
+				//    return;
+
 					var result = Ping(gkDatabase);
 					if (!result)
 						return;
@@ -160,8 +169,6 @@ namespace GKModule
 
 		public static void WriteConfigFileToGK()
 		{
-			//ReadConfigFileFromGK();
-			//return;
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.Driver.DriverType == XDriverType.GK);
 			GoToTechnologicalRegime(gkDevice);
 			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");

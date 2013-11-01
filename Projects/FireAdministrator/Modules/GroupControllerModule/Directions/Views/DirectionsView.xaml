@@ -117,7 +117,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding NSDevices}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedNSDevice}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Выходные устройства" MinWidth="200" Width="Auto">
+                    <DataGridTemplateColumn Header="Устройства НС" MinWidth="200" Width="Auto">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

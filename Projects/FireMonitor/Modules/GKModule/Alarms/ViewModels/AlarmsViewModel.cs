@@ -169,7 +169,6 @@ namespace GKModule.ViewModels
 
 			UpdateAlarms();
 			AlarmGroupsViewModel.Current.Update(alarms);
-			CheckInstructions();
 		}
 
 		public void Sort(XAlarmType? alarmType)
@@ -198,11 +197,6 @@ namespace GKModule.ViewModels
 			{
 				SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
 			}
-		}
-
-		void CheckInstructions()
-		{
-
 		}
 
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
@@ -237,27 +231,41 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			foreach (var device in XManager.Devices)
+			try
 			{
-				if (!device.Driver.IsDeviceOnShleif)
-					continue;
+				if (XManager.Devices == null)
+					Logger.Error("AlarmsViewModel XManager.Devices == null");
+				if (XManager.Zones == null)
+					Logger.Error("AlarmsViewModel XManager.Zones == null");
+				if (XManager.Directions == null)
+					Logger.Error("AlarmsViewModel XManager.Directions == null");
 
-				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
-					return true;
+				foreach (var device in XManager.Devices)
+				{
+					if (!device.Driver.IsDeviceOnShleif)
+						continue;
+
+					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var zone in XManager.Zones)
+				{
+					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+
+				foreach (var direction in XManager.Directions)
+				{
+					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+				return false;
 			}
-
-			foreach (var zone in XManager.Zones)
+			catch
 			{
-				if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
-					return true;
+				return false;
 			}
-
-			foreach (var direction in XManager.Directions)
-			{
-				if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
-					return true;
-			}
-			return false;
 		}
 
 		public void ResetAll()

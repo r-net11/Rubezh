@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ManagementConsole.ManagementConsoleView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Консоль управления ОПС Firesec-2"
+        Title="Консоль управления ОПС Firesec"
         MinHeight="500" MinWidth="500" SizeToContent="WidthAndHeight"
         Closing="Window_Closing">
     <Grid>
@@ -13,10 +13,10 @@
             <TabItem Header="Автозапуск">
                 <StackPanel Background="LightBlue" Margin="1">
                     <TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Margin="2" />
-                    <CheckBox Content="Сервер приложений ОПС FireSec-2" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12" />
-                    <CheckBox Content="Агент FireSec-2" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12" />
-                    <CheckBox Content="OPC Сервер ОПС FireSec-2" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12" />
-                    <CheckBox Content="OPC Сервер ГК ОПС FireSec-2" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" FontSize="12" />
+                    <CheckBox Content="Сервер приложений ОПС FireSec" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12" />
+                    <CheckBox Content="Агент FireSec" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12" />
+                    <CheckBox Content="OPC Сервер ОПС FireSec" IsChecked="{Binding IsOpcServerAuto}" Margin="5 1" FontSize="12" />
+                    <CheckBox Content="OPC Сервер ГК ОПС FireSec" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" FontSize="12" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Сбор логов">

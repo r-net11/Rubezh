@@ -12,7 +12,7 @@ namespace FiresecOPCServer.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "OPC Сервер ОПС FireSec-2";
+			Title = "OPC Сервер ОПС FireSec";
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			RegisterCommand = new RelayCommand(OnRegister);
 		}

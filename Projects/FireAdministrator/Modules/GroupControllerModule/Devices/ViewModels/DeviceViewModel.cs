@@ -190,7 +190,12 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			XManager.RemoveDevice(Parent.Device, Device);
+			var allDevices = XManager.GetAllDeviceChildren(Device);
+			allDevices.Add(Device);
+			foreach (var device in allDevices)
+			{
+				XManager.RemoveDevice(device);
+			}
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -198,13 +203,16 @@ namespace GKModule.ViewModels
 				parent.Nodes.Remove(this);
 				parent.Update();
 
-				ServiceFactory.SaveService.GKChanged = true;
-
 				index = Math.Min(index, parent.ChildrenCount - 1);
-				DevicesViewModel.Current.AllDevices.Remove(this);
+				foreach (var device in allDevices)
+				{
+					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.UID == device.UID);
+				}
+				//DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			Plans.Designer.Helper.BuildMap();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanRemove()
 		{

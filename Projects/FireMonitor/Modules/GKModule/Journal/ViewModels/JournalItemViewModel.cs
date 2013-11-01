@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Diagnostics;
+using System;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -29,65 +31,72 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
 
-			PresentationName = "<Нет в конфигурации>";
-			switch (JournalItem.JournalItemType)
+			try
 			{
-				case JournalItemType.Device:
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (device != null)
-					{
-						DeviceState = device.DeviceState;
-						PresentationName = device.ShortName + " " + device.DottedAddress;
-					}
-					break;
+				PresentationName = "<Нет в конфигурации>";
+				switch (JournalItem.JournalItemType)
+				{
+					case JournalItemType.Device:
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (device != null)
+						{
+							DeviceState = device.DeviceState;
+							PresentationName = device.ShortName + " " + device.DottedAddress;
+						}
+						break;
 
-				case JournalItemType.Zone:
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (zone != null)
-					{
-						ZoneState = zone.ZoneState;
-						PresentationName = zone.PresentationName;
-					}
-					break;
+					case JournalItemType.Zone:
+						var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (zone != null)
+						{
+							ZoneState = zone.ZoneState;
+							PresentationName = zone.PresentationName;
+						}
+						break;
 
-				case JournalItemType.Direction:
-					var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (direction != null)
-					{
-						DirectionState = direction.DirectionState;
-						PresentationName = direction.PresentationName;
-					}
-					break;
+					case JournalItemType.Direction:
+						var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (direction != null)
+						{
+							DirectionState = direction.DirectionState;
+							PresentationName = direction.PresentationName;
+						}
+						break;
 
-				case JournalItemType.GK:
-					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (gkDevice != null)
-					{
-						DeviceState = gkDevice.DeviceState;
-						PresentationName = DeviceState.Device.ShortNameAndDottedAddress;
-					}
-					break;
+					case JournalItemType.GK:
+						var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (gkDevice != null)
+						{
+							DeviceState = gkDevice.DeviceState;
+							PresentationName = DeviceState.Device.ShortNameAndDottedAddress;
+						}
+						break;
 
-				case JournalItemType.User:
-					PresentationName = JournalItem.UserName;
-					break;
+					case JournalItemType.User:
+						PresentationName = JournalItem.UserName;
+						break;
 
-				case JournalItemType.System:
-					PresentationName = JournalItem.UserName;
-					break;
+					case JournalItemType.System:
+						PresentationName = JournalItem.UserName;
+						break;
+				}
+
+
+				var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+				var stringBuilder = new StringBuilder();
+				foreach (var state in states)
+				{
+					if (state == XStateBit.Save)
+						continue;
+
+					stringBuilder.Append(state.ToDescription() + " ");
+				}
+				StringStates = stringBuilder.ToString();
 			}
-
-
-			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stringBuilder = new StringBuilder();
-			foreach (var state in states)
+			catch (Exception e)
 			{
-				if (state == XStateBit.Save)
-					continue;
-
-				stringBuilder.Append(state.ToDescription() + " ");
+				Logger.Error(e, "JournalItemViewModel ctr");
 			}
-			StringStates = stringBuilder.ToString();
 		}
 
 		public string ImageSource

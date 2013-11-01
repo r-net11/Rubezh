@@ -26,14 +26,6 @@ namespace FSAgentServer
 
 		static void Patch1()
 		{
-			if (Directory.Exists("Pictures"))
-			{
-				Directory.Delete("Pictures", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
 		}
 	}
 }

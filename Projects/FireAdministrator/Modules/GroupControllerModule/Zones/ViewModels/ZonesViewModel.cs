@@ -145,7 +145,7 @@ namespace GKModule.ViewModels
 				);
 				foreach (var emptyZone in emptyZones)
 				{
-					XManager.Zones.Remove(emptyZone.Zone);
+					XManager.RemoveZone(emptyZone.Zone);
 					Zones.Remove(emptyZone);
 				}
 				SelectedZone = Zones.FirstOrDefault();

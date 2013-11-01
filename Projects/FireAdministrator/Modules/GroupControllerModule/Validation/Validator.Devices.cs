@@ -197,11 +197,14 @@ namespace GKModule.Validation
 			{
 				foreach (var shleifDevice in device.Children)
 				{
-					for (int i = 0; i < shleifDevice.Children.Count(); i++)
+					var realChldren = XManager.GetAllDeviceChildren(shleifDevice);
+					realChldren.RemoveAll(x => x.Driver.IsGroupDevice);
+					for (int i = 0; i < realChldren.Count(); i++)
 					{
-						if (shleifDevice.Children[i].IntAddress != i + 1)
+						var realDevice = realChldren[i];
+						if (realDevice.IntAddress != i + 1)
 						{
-							Errors.Add(new DeviceValidationError(shleifDevice.Children[i], string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
 							break;
 						}
 					}

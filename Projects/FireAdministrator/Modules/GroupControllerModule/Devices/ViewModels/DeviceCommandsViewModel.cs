@@ -94,8 +94,6 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			BinConfigurationWriter.WriteConfigFileToGK();
-			return;
 			if (CheckNeedSave())
 			{
 				if (ValidateConfiguration())

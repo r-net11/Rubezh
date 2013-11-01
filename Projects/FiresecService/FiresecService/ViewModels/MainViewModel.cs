@@ -15,7 +15,7 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			Title = "Сервер приложений ОПС FireSec-2";
+			Title = "Сервер приложений ОПС FireSec";
 			Clients = new ObservableCollection<ClientViewModel>();
 		}
 
