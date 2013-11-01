@@ -91,6 +91,10 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Button Grid.Row="1" Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="300" Margin="2" />
-    </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" >
+            <Button Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
+            <Button Content="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
+            <Button Content="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
+        </StackPanel>
+ </Grid>
 </UserControl>

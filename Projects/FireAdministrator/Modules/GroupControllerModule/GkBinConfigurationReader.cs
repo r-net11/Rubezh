@@ -1,4 +1,4 @@
-﻿//#define LOCALCONFIG
+﻿#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -27,35 +27,37 @@ namespace GKModule
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			var rootDevice = new XDevice()
+			DeviceConfiguration.RootDevice = new XDevice()
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			DeviceConfiguration.RootDevice = rootDevice;
-
 			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
 
-			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", ushort.MaxValue + 1);
+			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", 50000);
 
 			ushort descriptorNo = 0;
+#if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
+#endif
 			while (true)
 			{
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
 
-				byte packNo = 1;
-				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-				var data = new List<byte>(descriptorNoBytes);
-				data.Add(packNo);
+				const byte packNo = 1;
+				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
 				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
 				var bytes = sendResult.Bytes;
+#if SETCONFIGTOFILE
 				allBytes.Add(bytes);
+#endif
 				if (sendResult.HasError || bytes.Count == 0)
-					break;
-
+				{
+					MessageBoxService.ShowError("Возникла ошибка при чтении объекта " + descriptorNo);
+					return;
+				}
 				if (bytes.Count < 5)
 					break;
 
@@ -131,17 +133,7 @@ namespace GKModule
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
 			if(internalType == 0)
 				return;
-			var letters = new List<byte>();
-			for (int i = 8; i <= 39; i++)
-			{
-				byte letter = (byte)bytes[i];
-				letters.Add(letter);
-			}
-			
-			var memoryStream = new MemoryStream(letters.ToArray());
-			var description = memoryStream.ToString();
-			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
-			description = description.TrimEnd();
+			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
@@ -153,7 +145,6 @@ namespace GKModule
 				}
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
-
 				var device = new XDevice()
 				{
 					Driver = driver,

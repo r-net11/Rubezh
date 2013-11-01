@@ -52,6 +52,7 @@ namespace GKModule.ViewModels
                 RemoteDeviceViewModel.Directions = compareDirections[1];
             }
 			ChangeCommand = new RelayCommand(OnChange);
+			NextDifferenceCommand = new RelayCommand(OnNextDifference);
 		}
 		public DeviceTreeViewModel LocalDeviceViewModel { get; set; }
 		public DeviceTreeViewModel RemoteDeviceViewModel { get; set; }
@@ -80,6 +81,16 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
 			Close(true);
+		}
+
+		public RelayCommand NextDifferenceCommand { get; private set; }
+		void OnNextDifference()
+		{
+			var startindex = LocalDeviceViewModel.SelectedObject != null? LocalDeviceViewModel.Objects.IndexOf(LocalDeviceViewModel.SelectedObject) + 1: 0;
+			var endindex = LocalDeviceViewModel.Objects.Count - startindex;
+			var newSelected = LocalDeviceViewModel.Objects.ToList().GetRange(startindex, endindex).FirstOrDefault(x => x.HasDifferences);
+			if (newSelected != null)
+			    LocalDeviceViewModel.SelectedObject = newSelected;
 		}
 		static void AddShleifs(XDevice device)
 		{
