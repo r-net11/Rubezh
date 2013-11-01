@@ -162,6 +162,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				ServiceFactory.SaveService.GKChanged = true;
+				newDeviceViewModel.AddedDevice.Device.ShleifNo = newDeviceViewModel.AddedDevice.Device.ShleifNoNew;
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				Plans.Designer.Helper.BuildMap();
 			}

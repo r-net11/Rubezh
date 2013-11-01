@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Common.GK;
 using GKModule.Converter;
@@ -25,6 +26,8 @@ namespace GKModule.ViewModels
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 			ConvertShleifCommand = new RelayCommand(OnConvertShleif);
+			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
+			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
@@ -123,5 +126,50 @@ namespace GKModule.ViewModels
 				kauDevice.Children.AddRange(shleifDevices);
 			}
 		}
+
+		public RelayCommand WriteConfigFileToGKCommand { get; private set; }
+		void OnWriteConfigFileToGK()
+		{
+			var gkDevice = XManager.Devices.FirstOrDefault(y => y.Driver.DriverType == XDriverType.GK);
+			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
+			var configFileName = Path.Combine(folderName, "Config.fscp");
+			if (!File.Exists(configFileName))
+				return;
+			var bytesList = File.ReadAllBytes(configFileName).ToList();
+			var tempBytes = new List<List<byte>>();
+			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
+			for (int i = 0; i < bytesList.Count(); i += 256)
+			{
+				var bytesBlock = BitConverter.GetBytes((ushort)(i / 256 + 1)).ToList();
+				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
+				tempBytes.Add(bytesBlock.GetRange(2, bytesBlock.Count - 2));
+				SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
+			}
+			var endBlock = BitConverter.GetBytes((ushort)(bytesList.Count() / 256 + 1)).ToList();
+			SendManager.Send(gkDevice, 0, 22, 0, endBlock);
+			BytesHelper.BytesToFile("output.txt", tempBytes);
+			//GoToWorkingRegime(gkDevice);
+		}
+
+		public RelayCommand ReadConfigFileFromGKCommand { get; private set; }
+		void OnReadConfigFileFromGK()
+		{
+			var gkDevice = XManager.Devices.FirstOrDefault(y => y.Driver.DriverType == XDriverType.GK);
+			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+			var bytesList = new List<List<byte>>();
+			ushort i = 1;
+			while (true)
+			{
+				var data = new List<byte>(BitConverter.GetBytes(i++));
+				var sendResult = SendManager.Send(gkDevice, 2, 23, 256, data);
+				bytesList.Add(sendResult.Bytes);
+				if (sendResult.HasError || sendResult.Bytes.Count() < 256)
+					break;
+			}
+			BytesHelper.BytesToFile("input.txt", bytesList);
+			//GoToWorkingRegime(gkDevice);
+		}
+
 	}
 }

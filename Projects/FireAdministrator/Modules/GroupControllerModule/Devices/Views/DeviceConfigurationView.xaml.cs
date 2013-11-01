@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GKModule.Views
 {
@@ -15,11 +16,13 @@ namespace GKModule.Views
 		private void dataGrid1RowSelected(object sender, RoutedEventArgs e)
 		{
 			DataGrid2.SelectedIndex = DataGrid1.SelectedIndex;
+			DataGrid1.ScrollIntoView(DataGrid1.SelectedItem);
 		}
 
 		private void dataGrid2RowSelected(object sender, RoutedEventArgs e)
 		{
 			DataGrid1.SelectedIndex = DataGrid2.SelectedIndex;
+			DataGrid2.ScrollIntoView(DataGrid2.SelectedItem);
 		}
 
 		private void DataGrid1_ScrollChanged(object sender, ScrollChangedEventArgs e)

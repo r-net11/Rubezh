@@ -27,7 +27,7 @@ namespace Common.GK
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
-			Description = BytesHelper.BytesToStringDescription(bytes.Skip(8).Take(32).ToList()).TrimEnd(' ');
+			Description = BytesHelper.BytesToStringDescription(bytes);
 			int serialNo = BytesHelper.SubstructInt(bytes, 40);
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
