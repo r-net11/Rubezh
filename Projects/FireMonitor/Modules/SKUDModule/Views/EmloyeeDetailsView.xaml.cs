@@ -11,16 +11,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SKUDModule.ViewModels;
 
 namespace SKUDModule.Views
 {
 	/// <summary>
-	/// Логика взаимодействия для SKUDView.xaml
+	/// Логика взаимодействия для EmloyeeDetailsView.xaml
 	/// </summary>
-	public partial class SKUDView : UserControl
+	public partial class EmployeeDetailsView : UserControl
 	{
-		public SKUDView()
+		public EmployeeDetailsView()
 		{
 			InitializeComponent();
 		}

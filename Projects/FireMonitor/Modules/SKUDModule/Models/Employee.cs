@@ -9,9 +9,10 @@ namespace SKUDModule.Models
 	{
 		public Employee()
 		{
-			;
+			Person = new Person();
 		}
 
+		public int Id { get; set; }
 		public Person Person { get; set; }
 		public string ClockNumber { get; set; }
 		public Department Department { get; set; }

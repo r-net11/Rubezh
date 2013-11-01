@@ -6,13 +6,13 @@ namespace GKProcessor
 	{
 		public static bool MustShowProgress = true;
 
-		void StartProgress(string name, int count)
+		void StartProgress(string name, int count, bool canCancel = true)
 		{
 			if (MustShowProgress)
 			{
 				ApplicationService.Invoke(() =>
 				{
-					LoadingService.ShowWithCancel(name, count);
+					LoadingService.Show(name, count, canCancel);
 				});
 			}
 		}
