@@ -24,7 +24,7 @@ namespace GKProcessor
 			IsAnyDBMissmatch = false;
 
 			if (showProgress)
-				StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count);
+				StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count, false);
 			foreach (var binaryObject in GkDatabase.BinaryObjects)
 			{
 				LastUpdateTime = DateTime.Now;

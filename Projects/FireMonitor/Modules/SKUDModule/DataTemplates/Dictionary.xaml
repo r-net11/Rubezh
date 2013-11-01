@@ -7,4 +7,7 @@
         <Views:SKUDView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeDetailsViewModel}">
+        <Views:EmployeeDetailsView />
+    </DataTemplate>
 </ResourceDictionary>

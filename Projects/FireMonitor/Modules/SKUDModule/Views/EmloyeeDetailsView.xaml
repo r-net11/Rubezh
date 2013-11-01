@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SKUDModule.Views.EmployeeDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="200">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Height" Value="24"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="FirstName"/>
+            <Label Content="SecondName"/>
+            <Label Content="LastName"/>
+            <Label Content="Group"/>
+            <Label Content="Department"/>
+            <Label Content="Position"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBox Text="{Binding Employee.Person.FirstName}"/>
+            <TextBox Text="{Binding Employee.Person.SecondName}"/>
+            <TextBox Text="{Binding Employee.Person.LastName}"/>
+            <TextBox Text="{Binding Employee.Group.Name}"/>
+            <TextBox Text="{Binding Employee.Department.Name}"/>
+            <TextBox Text="{Binding Employee.Position.Name}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

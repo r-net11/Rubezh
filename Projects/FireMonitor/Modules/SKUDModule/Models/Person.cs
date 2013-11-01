@@ -9,7 +9,7 @@ namespace SKUDModule.Models
 	{
 		public Person()
 		{
-			;
+			Passport = new Passport();
 		}
 
 		public string LastName { get; set; }
@@ -26,8 +26,5 @@ namespace SKUDModule.Models
 		public string Address { get; set; }
 		public string AddressFact { get; set; }
 		public string Comment { get; set; }
-
-
-
 	}
 }

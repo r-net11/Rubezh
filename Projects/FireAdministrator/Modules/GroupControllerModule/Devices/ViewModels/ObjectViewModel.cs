@@ -59,8 +59,8 @@ namespace GKModule.ViewModels
 			if (device.Driver.IsDeviceOnShleif == false)
 				return device.IntAddress.ToString();
 			if (device.ShleifNo != 0)
-				return device.ShleifNo.ToString() + "." + device.IntAddress.ToString();
-			return device.IntAddress.ToString(); ;
+				return device.ShleifNo + "." + device.IntAddress;
+			return device.IntAddress.ToString();
 		}
 
 		public bool IsVirtualDevice

@@ -65,14 +65,18 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Gender.cs" />
-    <Compile Include="Models\TestHelper.cs" />
+    <Compile Include="Models\TestDataHelper.cs" />
     <Compile Include="SKUDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="ViewModels\EmployeeDetailsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\SKUDViewModel.cs" />
+    <Compile Include="Views\EmloyeeDetailsView.xaml.cs">
+      <DependentUpon>EmloyeeDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SKUDView.xaml.cs">
       <DependentUpon>SKUDView.xaml</DependentUpon>
     </Compile>
@@ -106,6 +110,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\EmloyeeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SKUDView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

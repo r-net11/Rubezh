@@ -11,12 +11,7 @@ namespace SKUDModule.Models
 		{
 			;
 		}
-
-		public Group(string name)
-		{
-			Name = name;
-		}
-
+		public int Id { get; set; }
 		public string Name { get; set; }
 	}
 }

@@ -128,9 +128,8 @@ namespace GKModule.ViewModels
 
         protected override bool CanSave()
         {
-            var result = StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
+			return StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
                 JournalDescriptionStates.Where(x => x.IsChecked == true).ToList().Count > 0;
-            return result;
         }
 	}
 

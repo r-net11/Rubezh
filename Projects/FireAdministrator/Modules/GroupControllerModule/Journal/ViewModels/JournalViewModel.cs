@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 			}
 
 			JournalItems.Clear();
-			LoadingService.ShowWithCancel("Чтение записей журнала", 2 + EndIndex - StartIndex);
+			LoadingService.Show("Чтение записей журнала", 2 + EndIndex - StartIndex, true);
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				if (LoadingService.IsCanceled)
