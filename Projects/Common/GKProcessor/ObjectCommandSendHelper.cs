@@ -162,16 +162,16 @@ namespace GKProcessor
 			}
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, XStateBit stateType)
+		static bool SendControlCommand(XBase xBase, XStateBit stateBit)
 		{
-			var code = 0x80 + (int)stateType;
-			return SendControlCommand(binaryBase, (byte)code);
+			var code = 0x80 + (int)stateBit;
+			return SendControlCommand(xBase, (byte)code);
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, byte code, bool mustValidatePassword = true)
+		static bool SendControlCommand(XBase xBase, byte code, bool mustValidatePassword = true)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+			var databaseNo = xBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 
@@ -182,7 +182,7 @@ namespace GKProcessor
 			}
 			if (result)
 			{
-				WatcherManager.Send(OnCompleted, SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
+				WatcherManager.Send(OnCompleted, SendPriority.Normal, xBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 			return result;
 		}

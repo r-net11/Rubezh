@@ -222,7 +222,7 @@
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="Diagnostics\Converters\BytesToStringConverter.cs" />
-    <Compile Include="Diagnostics\ViewModels\BinaryObjectViewModel.cs" />
+    <Compile Include="Diagnostics\ViewModels\DescriptorViewModel.cs" />
     <Compile Include="Diagnostics\ViewModels\DatabasesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceBytesHelper.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />

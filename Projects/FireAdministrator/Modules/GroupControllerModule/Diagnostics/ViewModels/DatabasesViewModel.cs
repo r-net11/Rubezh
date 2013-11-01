@@ -43,34 +43,34 @@ namespace GKModule.ViewModels
 
 		void InitializeSelectedDB()
 		{
-			BinaryObjects = new ObservableCollection<BinaryObjectViewModel>();
-			foreach (var binaryObject in SelectedDatabase.BinaryObjects)
+			Descriptors = new ObservableCollection<DescriptorViewModel>();
+			foreach (var descriptor in SelectedDatabase.Descriptors)
 			{
-				var binObjectViewModel = new BinaryObjectViewModel(binaryObject);
-				BinaryObjects.Add(binObjectViewModel);
+				var binObjectViewModel = new DescriptorViewModel(descriptor);
+				Descriptors.Add(binObjectViewModel);
 			}
-			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
+			SelectedDescriptor = Descriptors.FirstOrDefault();
 		}
 
-		ObservableCollection<BinaryObjectViewModel> _binaryObjects;
-		public ObservableCollection<BinaryObjectViewModel> BinaryObjects
+		ObservableCollection<DescriptorViewModel> _descriptors;
+		public ObservableCollection<DescriptorViewModel> Descriptors
 		{
-			get { return _binaryObjects; }
+			get { return _descriptors; }
 			set
 			{
-				_binaryObjects = value;
-				OnPropertyChanged("BinaryObjects");
+				_descriptors = value;
+				OnPropertyChanged("Descriptors");
 			}
 		}
 
-		BinaryObjectViewModel _selectedBinaryObject;
-		public BinaryObjectViewModel SelectedBinaryObject
+		DescriptorViewModel _selectedDescriptor;
+		public DescriptorViewModel SelectedDescriptor
 		{
-			get { return _selectedBinaryObject; }
+			get { return _selectedDescriptor; }
 			set
 			{
-				_selectedBinaryObject = value;
-				OnPropertyChanged("SelectedBinaryObject");
+				_selectedDescriptor = value;
+				OnPropertyChanged("SelectedDescriptor");
 			}
 		}
 	}

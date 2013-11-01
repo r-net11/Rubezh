@@ -149,13 +149,13 @@ namespace FiresecClient
 			}
 		}
 
-		public static void LinkBinaryObjects(XBinaryBase inputBinaryBase, XBinaryBase outputBinaryBase)
+		public static void LinkBinaryObjects(XBase inputXBase, XBase outputXBase)
 		{
-			AddInputOutputObject(inputBinaryBase.InputObjects, outputBinaryBase);
-			AddInputOutputObject(outputBinaryBase.OutputObjects, inputBinaryBase);
+			AddInputOutputObject(inputXBase.InputXBases, outputXBase);
+			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);
 		}
 
-        static void AddInputOutputObject(List<XBinaryBase> objects, XBinaryBase newObject)
+        static void AddInputOutputObject(List<XBase> objects, XBase newObject)
         {
             if (!objects.Contains(newObject))
                 objects.Add(newObject);

@@ -24,7 +24,7 @@ namespace GKProcessor
 				foreach (var auParameter in device.Driver.AUParameters)
 				{
 					var bytes = new List<byte>();
-					var databaseNo = device.GetDatabaseNo(DatabaseType.Kau);
+					var databaseNo = device.KAUDescriptorNo;
 					bytes.Add((byte)device.Driver.DriverTypeNo);
 					bytes.Add(device.IntAddress);
 					bytes.Add((byte)(device.ShleifNoNew - 1));
@@ -34,7 +34,7 @@ namespace GKProcessor
 					{
 						for (int i = 0; i < 100; i++)
 						{
-							var no = device.GetDatabaseNo(DatabaseType.Gk);
+							var no = device.GKDescriptorNo;
 							result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 							if (result.Bytes.Count > 0)
 							{
@@ -86,7 +86,7 @@ namespace GKProcessor
 			}
 			else if (device.KauDatabaseParent != null && device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
 			{
-				var no = device.GetDatabaseNo(DatabaseType.Gk);
+				var no = device.GKDescriptorNo;
 				var result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 				if (!result.HasError)
 				{

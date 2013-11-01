@@ -27,53 +27,53 @@ namespace Common.GK
 			FormulaOperations.Add(formulaOperation);
 		}
 
-		public void AddGetBitOff(XStateBit stateBit, XBinaryBase binaryBase)
+		public void AddGetBitOff(XStateBit stateBit, XBase xBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateBit,
-				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				xBase.GKDescriptorNo,
+				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
 			Add(FormulaOperationType.GETBIT,
 				(byte)XStateBit.Ignore,
-				binaryBase.GetDatabaseNo(DatabaseType.Gk));
+				xBase.GKDescriptorNo);
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);
 		}
 
-		public void AddGetBit(XStateBit stateBit, XBinaryBase binaryBase)
+		public void AddGetBit(XStateBit stateBit, XBase xBase)
 		{
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateBit,
-				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Проверка состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				xBase.GKDescriptorNo,
+				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
 		}
 
-		public void AddPutBit(XStateBit stateBit, XBinaryBase binaryBase)
+		public void AddPutBit(XStateBit stateBit, XBase xBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
 				(byte)stateBit,
-				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Запись состояния " + stateBit.ToDescription() + " " + XBinaryBaseToString(binaryBase));
+				xBase.GKDescriptorNo,
+				"Запись состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
 		}
 
-		public void AddArgumentPutBit(byte bit, XBinaryBase binaryBase)
+		public void AddArgumentPutBit(byte bit, XBase xBase)
 		{
 			Add(FormulaOperationType.PUTBIT,
 				(byte)bit,
-				binaryBase.GetDatabaseNo(DatabaseType.Gk),
-				"Запись бита-параметра " + XBinaryBaseToString(binaryBase));
+				xBase.GKDescriptorNo,
+				"Запись бита-параметра " + xBase.DescriptorInfo);
 		}
 
-		public void AddStandardTurning(XBinaryBase binaryBase)
+		public void AddStandardTurning(XBase xBase)
 		{
 			Add(FormulaOperationType.DUP);
-			AddGetBit(XStateBit.Norm, binaryBase);
+			AddGetBit(XStateBit.Norm, xBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateBit.TurnOn_InAutomatic, binaryBase);
+			AddPutBit(XStateBit.TurnOn_InAutomatic, xBase);
 			Add(FormulaOperationType.COM);
-			AddGetBit(XStateBit.Norm, binaryBase);
+			AddGetBit(XStateBit.Norm, xBase);
 			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			AddPutBit(XStateBit.TurnOff_InAutomatic, binaryBase);
+			AddPutBit(XStateBit.TurnOff_InAutomatic, xBase);
 		}
 
 		public void AddClauseFormula(XDeviceLogic deviceLogic)
@@ -81,24 +81,24 @@ namespace Common.GK
 			var clauseIndex = 0;
 			foreach (var clause in deviceLogic.Clauses)
 			{
-				var baseObjects = new List<XBinaryBase>();
+				var xBases = new List<XBase>();
 				foreach (var zone in clause.Zones)
 				{
-					baseObjects.Add(zone);
+					xBases.Add(zone);
 				}
 				foreach (var device in clause.Devices)
 				{
-					baseObjects.Add(device);
+					xBases.Add(device);
 				}
 				foreach (var direction in clause.Directions)
 				{
-					baseObjects.Add(direction);
+					xBases.Add(direction);
 				}
 
 				var objectIndex = 0;
-				foreach (var baseObject in baseObjects)
+				foreach (var xBase in xBases)
 				{
-					AddGetBitOff(clause.StateType, baseObject);
+					AddGetBitOff(clause.StateType, xBase);
 
 					if (objectIndex > 0)
 					{
@@ -140,11 +140,6 @@ namespace Common.GK
 			}
 		}
 
-		string XBinaryBaseToString(XBinaryBase binaryBase)
-		{
-			return binaryBase.BinaryInfo.Type + " " + binaryBase.BinaryInfo.Name + " " + binaryBase.BinaryInfo.Address;
-		}
-
 		public List<byte> GetBytes()
 		{
 			var bytes = new List<byte>();
@@ -157,17 +152,11 @@ namespace Common.GK
 			return bytes;
 		}
 
-		public string GetStringFomula()
+		public bool CalculateStackLevels()
 		{
 			var stackDepth = 0;
-			var stringBuilder = new StringBuilder();
 			foreach (var formulaOperation in FormulaOperations)
 			{
-				stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
-				stringBuilder.Append(formulaOperation.FirstOperand + "\t");
-				stringBuilder.Append(formulaOperation.SecondOperand + "\t");
-				stringBuilder.Append(formulaOperation.Comment + "\t");
-
 				switch (formulaOperation.FormulaOperationType)
 				{
 					case FormulaOperationType.CONST:
@@ -202,11 +191,9 @@ namespace Common.GK
 						stackDepth += 0;
 						break;
 				}
-				stringBuilder.Append(stackDepth + "\t");
-
-				stringBuilder.AppendLine("");
+				formulaOperation.StackLevel = stackDepth;
 			}
-			return stringBuilder.ToString();
+			return stackDepth > 0;
 		}
 	}
 }

@@ -42,8 +42,8 @@ namespace GKModule
 
 					for (int i = 0; i < 3; i++)
 					{
-						var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
-						gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
+						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
+						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						LoadingService.Show("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryObjectsCount, true);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
@@ -169,17 +169,17 @@ namespace GKModule
 		
 		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
-			foreach (var binaryObject in commonDatabase.BinaryObjects)
+			foreach (var descriptor in commonDatabase.Descriptors)
 			{
 				if (LoadingService.IsCanceled)
 					return false;
 
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
-					binaryObject.BinaryBase.GetBinaryDescription() + " " +
-					"(" + binaryObject.GetNo().ToString() + ")" +
-					" из " + commonDatabase.BinaryObjects.Count.ToString();
+					descriptor.XBase.GetDescriptorName() + " " +
+					"(" + descriptor.GetDescriptorNo().ToString() + ")" +
+					" из " + commonDatabase.Descriptors.Count.ToString();
 				LoadingService.DoStep(progressStage);
-				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
+				var packs = BinConfigurationWriter.CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;
@@ -196,20 +196,20 @@ namespace GKModule
 			return true;
 		}
 
-		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
+		static List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
 		{
-			var objectNo = (ushort)(binaryObject.GetNo());
+			var objectNo = (ushort)(descriptor.GetDescriptorNo());
 
 			var packs = new List<List<byte>>();
-			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
+			for (int packNo = 0; packNo <= descriptor.AllBytes.Count / 256; packNo++)
 			{
-				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
-				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
+				int packLenght = Math.Min(256, descriptor.AllBytes.Count - packNo * 256);
+				var packBytes = descriptor.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
 				if (packBytes.Count > 0)
 				{
 					var resultBytes = new List<byte>();
-					ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());
 					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
 					resultBytes.Add((byte)(packNo + 1));
 					resultBytes.AddRange(packBytes);
@@ -318,7 +318,7 @@ namespace GKModule
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
-			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
+			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}
 

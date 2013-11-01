@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XZone : XBinaryBase
+	public class XZone : XBase
 	{
 		public XZone()
 		{
@@ -50,20 +50,12 @@ namespace XFiresecAPI
 			get { return No + "." + Name; }
 		}
 
-		public override XBinaryInfo BinaryInfo
+		public override string DescriptorInfo
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Зона",
-					Name = Name,
-					Address = No.ToString()
-				};
-			}
+			get { return "Зона " + Name + " " + No.ToString(); }
 		}
 
-		public override string GetBinaryDescription()
+		public override string GetDescriptorName()
 		{
 			return PresentationName;
 		}

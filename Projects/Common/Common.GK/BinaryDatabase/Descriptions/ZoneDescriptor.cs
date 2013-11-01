@@ -4,12 +4,12 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class ZoneBinaryObject : BinaryObjectBase
+	public class ZoneDescriptor : BaseDescriptor
 	{
-		public ZoneBinaryObject(XZone zone)
+		public ZoneDescriptor(XZone zone)
 		{
 			DatabaseType = DatabaseType.Gk;
-			ObjectType = ObjectType.Zone;
+			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
 			Build();
 		}

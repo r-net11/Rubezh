@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDirection : XBinaryBase
+	public class XDirection : XBase
 	{
 		public XDirection()
 		{
@@ -76,20 +76,12 @@ namespace XFiresecAPI
 			get { return No + "." + Name; }
 		}
 
-		public override XBinaryInfo BinaryInfo
+		public override string DescriptorInfo
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Направление",
-					Name = Name,
-					Address = No.ToString()
-				};
-			}
+			get { return "Направление " + Name + " " + No.ToString(); }
 		}
 
-		public override string GetBinaryDescription()
+		public override string GetDescriptorName()
 		{
 			return PresentationName;
 		}

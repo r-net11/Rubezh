@@ -81,15 +81,15 @@ namespace GKProcessor
                     });
 
                     journalItems.Add(journalItem);
-                    var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
-                    if (binaryObject != null)
+                    var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+                    if (descriptor != null)
                     {
-                        ChangeAM1TMessage(binaryObject, journalItem);
-                        CheckAdditionalStates(binaryObject);
+                        ChangeAM1TMessage(descriptor, journalItem);
+                        CheckAdditionalStates(descriptor);
                         ApplicationService.Invoke(() =>
                         {
-                            CheckServiceRequired(binaryObject.BinaryBase, journalItem);
-                            binaryObject.BinaryBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+                            CheckServiceRequired(descriptor.XBase, journalItem);
+                            descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
                             ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
                         });
                     }
@@ -109,11 +109,11 @@ namespace GKProcessor
             }
         }
 
-		void ChangeAM1TMessage(BinaryObjectBase binaryObjectBase, JournalItem journalItem)
+		void ChangeAM1TMessage(BaseDescriptor descriptor, JournalItem journalItem)
 		{
-			if (binaryObjectBase.Device != null)
+			if (descriptor.Device != null)
 			{
-				var device = binaryObjectBase.Device;
+				var device = descriptor.Device;
 				if (device.Driver.DriverType == XDriverType.AM1_T)
 				{
 					if (journalItem.Name == "Пожар-1")

@@ -5,12 +5,12 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class DirectionBinaryObject : BinaryObjectBase
+	public class DirectionDescriptor : BaseDescriptor
 	{
-		public DirectionBinaryObject(XDirection direction, DatabaseType databaseType)
+		public DirectionDescriptor(XDirection direction)
 		{
-			DatabaseType = databaseType;
-			ObjectType = ObjectType.Direction;
+			DatabaseType = DatabaseType.Gk;
+			DescriptorType = DescriptorType.Direction;
 			Direction = direction;
 			Build();
 		}

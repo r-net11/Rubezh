@@ -8,7 +8,7 @@ using FiresecAPI.Models;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDevice : XBinaryBase
+	public class XDevice : XBase
 	{
 		public XDevice()
 		{
@@ -342,20 +342,13 @@ namespace XFiresecAPI
 			get { return KAURSR2Parent != null; }
 		}
 
-		public override XBinaryInfo BinaryInfo
+
+		public override string DescriptorInfo
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Устройство",
-					Name = ShortName,
-					Address = Address
-				};
-			}
+			get { return "Устройство " + ShortName + " " + Address; }
 		}
 
-		public override string GetBinaryDescription()
+		public override string GetDescriptorName()
 		{
 			return PresentationDriverAndAddress;
 		}

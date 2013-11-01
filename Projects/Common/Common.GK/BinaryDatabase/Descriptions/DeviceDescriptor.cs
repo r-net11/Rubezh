@@ -6,12 +6,12 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class DeviceBinaryObject : BinaryObjectBase
+	public class DeviceDescriptor : BaseDescriptor
 	{
-		public DeviceBinaryObject(XDevice device, DatabaseType databaseType)
+		public DeviceDescriptor(XDevice device, DatabaseType databaseType)
 		{
 			DatabaseType = databaseType;
-			ObjectType = ObjectType.Device;
+			DescriptorType = DescriptorType.Device;
 			Device = device;
 			Build();
 		}

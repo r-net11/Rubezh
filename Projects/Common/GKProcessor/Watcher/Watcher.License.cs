@@ -25,9 +25,9 @@ namespace GKProcessor
 					if (hasLicense != HasLicense)
 					{
 						HasLicense = hasLicense;
-						foreach (var binaryObject in GkDatabase.BinaryObjects)
+						foreach (var descriptor in GkDatabase.Descriptors)
 						{
-							var baseState = binaryObject.BinaryBase.GetXBaseState();
+							var baseState = descriptor.XBase.GetXBaseState();
 							baseState.IsNoLicense = !hasLicense;
 						}
 

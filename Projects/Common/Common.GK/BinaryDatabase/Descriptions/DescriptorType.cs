@@ -1,6 +1,6 @@
 ﻿namespace Common.GK
 {
-	public enum ObjectType
+	public enum DescriptorType
 	{
 		Device,
 		Zone,

@@ -59,8 +59,8 @@ namespace Common.GK
 			foreach (var pumpDelay in PumpDelays)
 			{
 				GkDatabase.AddDelay(pumpDelay.Delay);
-				var delayBinaryObject = new DelayBinaryObject(pumpDelay.Delay);
-				GkDatabase.BinaryObjects.Add(delayBinaryObject);
+				var delayDescriptor = new DelayDescriptor(pumpDelay.Delay);
+				GkDatabase.Descriptors.Add(delayDescriptor);
 			}
 
 			CreateDelaysLogic();
@@ -77,8 +77,8 @@ namespace Common.GK
 
 			foreach (var failureDevice in failureDevices)
 			{
-				Direction.InputObjects.Add(failureDevice);
-				failureDevice.OutputObjects.Add(Direction);
+				Direction.InputXBases.Add(failureDevice);
+				failureDevice.OutputXBases.Add(Direction);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace Common.GK
 			{
 				var pumpDelay = PumpDelays[i];
 
-				var delayBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
+				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
 				if (firstDelay)
@@ -156,8 +156,8 @@ namespace Common.GK
 				firstDelay = false;
 
 				formula.Add(FormulaOperationType.END);
-				delayBinaryObject.Formula = formula;
-				delayBinaryObject.FormulaBytes = formula.GetBytes();
+				delayDescriptor.Formula = formula;
+				delayDescriptor.FormulaBytes = formula.GetBytes();
 			}
 		}
 
@@ -165,8 +165,8 @@ namespace Common.GK
 		{
 			foreach (var pumpDevice in FirePumpDevices)
 			{
-				var pumpBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
-				if (pumpBinaryObject != null)
+				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				if (pumpDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
 					var inputPumpsCount = 0;
@@ -202,8 +202,8 @@ namespace Common.GK
 					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDevice); // выключить насос
 					formula.Add(FormulaOperationType.END);
 
-					pumpBinaryObject.Formula = formula;
-					pumpBinaryObject.FormulaBytes = formula.GetBytes();
+					pumpDescriptor.Formula = formula;
+					pumpDescriptor.FormulaBytes = formula.GetBytes();
 				}
 			}
 		}
@@ -214,20 +214,20 @@ namespace Common.GK
 			{
 				if (pumpDevice.IntAddress == 12)
 				{
-					var pumpBinaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
-					if (pumpBinaryObject != null)
+					var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+					if (pumpDescriptor != null)
 					{
 						var formula = new FormulaBuilder();
 						formula.AddGetBit(XStateBit.On, Direction);
 						formula.Add(FormulaOperationType.DUP, 0, 0);
-						formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpBinaryObject.BinaryBase);
+						formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDescriptor.XBase);
 						formula.Add(FormulaOperationType.COM);
-						formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpBinaryObject.BinaryBase);
+						formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDescriptor.XBase);
 						formula.Add(FormulaOperationType.END);
-						pumpBinaryObject.Formula = formula;
-						pumpBinaryObject.FormulaBytes = formula.GetBytes();
+						pumpDescriptor.Formula = formula;
+						pumpDescriptor.FormulaBytes = formula.GetBytes();
 					}
-					XManager.LinkBinaryObjects(pumpBinaryObject.BinaryBase, Direction);
+					XManager.LinkBinaryObjects(pumpDescriptor.XBase, Direction);
 				}
 			}
 		}
@@ -263,16 +263,16 @@ namespace Common.GK
 					nextDelay = PumpDelays[i + 1].Delay;
 
 				if (prevDelay != null)
-					currentDelay.InputObjects.Add(prevDelay);
+					currentDelay.InputXBases.Add(prevDelay);
 				if (nextDelay != null)
-					currentDelay.OutputObjects.Add(nextDelay);
+					currentDelay.OutputXBases.Add(nextDelay);
 
 				if (i == 1)
 				{
 					foreach (var pumpDevice in FirePumpDevices)
 					{
-						currentDelay.InputObjects.Add(pumpDevice);
-						pumpDevice.OutputObjects.Add(currentDelay);
+						currentDelay.InputXBases.Add(pumpDevice);
+						pumpDevice.OutputXBases.Add(currentDelay);
 					}
 				}
 			}

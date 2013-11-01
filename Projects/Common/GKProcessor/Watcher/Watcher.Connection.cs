@@ -39,7 +39,7 @@ namespace GKProcessor
 						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						ObjectUID = GkDatabase.RootDevice.UID,
-						GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),
+						GKObjectNo = GkDatabase.RootDevice.GKDescriptorNo,
 						JournalItemType = JournalItemType.GK,
 						StateClass = XStateClass.Unknown,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"

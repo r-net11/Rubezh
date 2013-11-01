@@ -83,19 +83,19 @@ namespace Common.GK
 		{
 			if (GKObjectNo != 0)
 			{
-				Device = XManager.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Device = XManager.Devices.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Device != null)
 				{
 					JournalItemType = JournalItemType.Device;
 					ObjectUID = Device.UID;
 				}
-				Zone = XManager.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Zone = XManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Zone != null)
 				{
 					JournalItemType = JournalItemType.Zone;
 					ObjectUID = Zone.UID;
 				}
-				Direction = XManager.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				Direction = XManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == GKObjectNo);
 				if (Direction != null)
 				{
 					JournalItemType = JournalItemType.Direction;

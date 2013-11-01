@@ -17,11 +17,11 @@ namespace GKProcessor
 		void PingNextState()
 		{
             return;
-			var binaryObject = GkDatabase.BinaryObjects[pingObjectNo];
-			bool result = GetState(binaryObject.BinaryBase);
+			var descriptor = GkDatabase.Descriptors[pingObjectNo];
+			bool result = GetState(descriptor.XBase);
 
 			pingObjectNo++;
-			if (pingObjectNo >= GkDatabase.BinaryObjects.Count)
+			if (pingObjectNo >= GkDatabase.Descriptors.Count)
 			{
 				pingObjectNo = 0;
 				CheckTechnologicalRegime();

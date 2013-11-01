@@ -4,12 +4,12 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class DelayBinaryObject : BinaryObjectBase
+	public class DelayDescriptor : BaseDescriptor
 	{
-		public DelayBinaryObject(XDelay delay)
+		public DelayDescriptor(XDelay delay)
 		{
 			DatabaseType = DatabaseType.Gk;
-			ObjectType = ObjectType.Delay;
+			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
 			Build();
 		}

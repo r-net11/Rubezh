@@ -67,17 +67,17 @@
   <ItemGroup>
     <Compile Include="BinaryObjectStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\DelayBinaryObject.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\FormulaBuilder.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\DelayDescriptor.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\FormulaBuilder.cs" />
     <Compile Include="BinaryDatabase\DB\CommonDatabase.cs" />
     <Compile Include="BinaryDatabase\DatabaseManager.cs" />
     <Compile Include="BinaryDatabase\DB\GkDatabase.cs" />
     <Compile Include="BinaryDatabase\DB\KauDatabase.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\BinaryObjectBase.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\DeviceBinaryObject.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\DirectionBinaryObject.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\ObjectType.cs" />
-    <Compile Include="BinaryDatabase\BinaryObjects\ZoneBinaryObject.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\BaseDescriptor.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\DeviceDescriptor.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\DirectionDescriptor.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\DescriptorType.cs" />
+    <Compile Include="BinaryDatabase\Descriptions\ZoneDescriptor.cs" />
     <Compile Include="BinaryDatabase\DB\PumpStationCreator.cs" />
     <Compile Include="BinaryDatabase\KauChildrenHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />

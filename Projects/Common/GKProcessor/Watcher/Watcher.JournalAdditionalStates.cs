@@ -18,10 +18,10 @@ namespace GKProcessor
     {
         void ParseAdditionalStates(JournalItem journalItem)
         {
-            var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
-            if (binaryObject != null && binaryObject.Device != null)
+            var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+            if (descriptor != null && descriptor.Device != null)
             {
-                var deviceState = binaryObject.Device.DeviceState;
+                var deviceState = descriptor.Device.DeviceState;
                 if (journalItem.Name == "Неисправность")
                 {
                     switch (journalItem.YesNo)

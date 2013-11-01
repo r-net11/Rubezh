@@ -163,16 +163,16 @@ namespace GKModule
 			}
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, XStateBit stateType)
+		static bool SendControlCommand(XBase xBase, XStateBit stateType)
 		{
 			var code = 0x80 + (int)stateType;
-			return SendControlCommand(binaryBase, (byte)code);
+			return SendControlCommand(xBase, (byte)code);
 		}
 
-		static bool SendControlCommand(XBinaryBase binaryBase, byte code, bool mustValidatePassword = true)
+		static bool SendControlCommand(XBase xBase, byte code, bool mustValidatePassword = true)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+			var databaseNo = xBase.GetDatabaseNo(DatabaseType.Gk);
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 
@@ -183,20 +183,20 @@ namespace GKModule
 			}
 			if (result)
 			{
-				WatcherManager.Send(OnCompleted, SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
+				WatcherManager.Send(OnCompleted, SendPriority.Normal, xBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 			return result;
 		}
 
-		public static void SendControlCommandMRO(XBinaryBase binaryBase, byte code, byte code2)
+		public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+			var databaseNo = xBase.GetDatabaseNo(DatabaseType.Gk);
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 			bytes.Add(code2);
 
-			WatcherManager.Send(OnCompleted, SendPriority.Normal, binaryBase.GkDatabaseParent, 3, 13, 0, bytes);
+			WatcherManager.Send(OnCompleted, SendPriority.Normal, xBase.GkDatabaseParent, 3, 13, 0, bytes);
 		}
 
 		static void OnCompleted(SendResult sendResult)

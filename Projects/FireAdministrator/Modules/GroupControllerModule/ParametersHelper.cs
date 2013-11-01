@@ -17,17 +17,17 @@ namespace GKModule
 			DatabaseManager.Convert();
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
-				LoadingService.Show("Запрос параметров", kauDatabase.BinaryObjects.Count);
+				LoadingService.Show("Запрос параметров", kauDatabase.Descriptors.Count);
 				try
 				{
-					foreach (var binaryObject in kauDatabase.BinaryObjects)
+					foreach (var descriptor in kauDatabase.Descriptors)
 					{
-						if (binaryObject.Device != null)
+						if (descriptor.Device != null)
 						{
-							var result = GetDeviceParameters(kauDatabase, binaryObject);
+							var result = GetDeviceParameters(kauDatabase, descriptor);
 							if (!result)
 							{
-								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + binaryObject.Device.PresentationDriverAndAddress);
+								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + descriptor.Device.PresentationDriverAndAddress);
 								return;
 							}
 						}
@@ -49,17 +49,17 @@ namespace GKModule
 			DatabaseManager.Convert();
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
-				LoadingService.Show("Запись параметров", kauDatabase.BinaryObjects.Count);
+				LoadingService.Show("Запись параметров", kauDatabase.Descriptors.Count);
 				try
 				{
-					foreach (var binaryObject in kauDatabase.BinaryObjects)
+					foreach (var descriptor in kauDatabase.Descriptors)
 					{
-						if (binaryObject.Device != null)
+						if (descriptor.Device != null)
 						{
-							var result = SetDeviceParameters(kauDatabase, binaryObject);
+							var result = SetDeviceParameters(kauDatabase, descriptor);
 							if (!string.IsNullOrEmpty(result))
 							{
-								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + binaryObject.Device.PresentationDriverAndAddress + "\n" + result);
+								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + descriptor.Device.PresentationDriverAndAddress + "\n" + result);
 								return;
 							}
 						}
@@ -91,10 +91,10 @@ namespace GKModule
 				}
 				if (commonDatabase != null)
 				{
-					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-					if (binaryObject != null)
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
+					if (descriptor != null)
 					{
-						var result = SetDeviceParameters(commonDatabase, binaryObject);
+						var result = SetDeviceParameters(commonDatabase, descriptor);
 						if (result != null)
 						{
 							ErrorLog += "\n" + device.PresentationDriverAndAddress;
@@ -125,10 +125,10 @@ namespace GKModule
 				}
 				if (commonDatabase != null)
 				{
-					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Device == device);
-					if (binaryObject != null)
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
+					if (descriptor != null)
 					{
-						var result = GetDeviceParameters(commonDatabase, binaryObject);
+						var result = GetDeviceParameters(commonDatabase, descriptor);
 						if (!result)
 						{
 							ErrorLog += "\n" + device.PresentationDriverAndAddress;
@@ -142,9 +142,9 @@ namespace GKModule
 			}
 		}
 
-		static bool GetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static bool GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
-			var no = binaryObject.GetNo();
+			var no = descriptor.GetDescriptorNo();
 			LoadingService.DoStep("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
@@ -165,9 +165,9 @@ namespace GKModule
 				binProperties.Add(binProperty);
 			}
 
-			if (binaryObject.Device != null)
+			if (descriptor.Device != null)
 			{
-				foreach (var driverProperty in binaryObject.Device.Driver.Properties)
+				foreach (var driverProperty in descriptor.Device.Driver.Properties)
 				{
 					if (!driverProperty.IsAUParameter)
 						continue;
@@ -194,11 +194,11 @@ namespace GKModule
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = binaryObject.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property == null)
 						{
-							var systemProperty = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-							binaryObject.Device.DeviceProperties.Add(new XProperty()
+							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+							descriptor.Device.DeviceProperties.Add(new XProperty()
 							                                         	{
 							                                         		DriverProperty = systemProperty.DriverProperty,
 							                                         		Name = systemProperty.Name,
@@ -216,16 +216,16 @@ namespace GKModule
 					}
 				}
 			}
-			binaryObject.Device.OnAUParametersChanged();
+			descriptor.Device.OnAUParametersChanged();
 			return true;
 		}
-		static string SetDeviceParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
-			if (binaryObject.Device != null)
+			if (descriptor.Device != null)
 			{
-				foreach (var property in binaryObject.Device.Properties)
+				foreach (var property in descriptor.Device.Properties)
 				{
-					var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
 					{
 						if (driverProperty.Min != 0)
@@ -244,13 +244,13 @@ namespace GKModule
 				}
 			}
 
-			if (binaryObject.Parameters.Count > 0)
+			if (descriptor.Parameters.Count > 0)
 			{
 				var rootDevice = commonDatabase.RootDevice;
-				var no = binaryObject.GetNo();
+				var no = descriptor.GetDescriptorNo();
 				var bytes = new List<byte>();
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
-				bytes.AddRange(binaryObject.Parameters);
+				bytes.AddRange(descriptor.Parameters);
 				LoadingService.DoStep("Запись параметров объекта " + no);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 				if (sendResult.HasError)
@@ -274,10 +274,10 @@ namespace GKModule
 				}
 				if (commonDatabase != null)
 				{
-					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Direction == direction);
-					if (binaryObject != null)
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
+					if (descriptor != null)
 					{
-						var result = SetDirectionParameters(commonDatabase, binaryObject);
+						var result = SetDirectionParameters(commonDatabase, descriptor);
 						if (!string.IsNullOrEmpty(result))
 						{
 							MessageBoxService.ShowError("Ошибка при записи параметра направления " + direction.PresentationName + "\n" + result);
@@ -290,13 +290,13 @@ namespace GKModule
 				Logger.Error(e, "ParametersHelper.SetDirectionParameters");
 			}
 		}
-		static string SetDirectionParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject)
+		static string SetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
-			if (binaryObject.Device != null)
+			if (descriptor.Device != null)
 			{
-				foreach (var property in binaryObject.Device.DeviceProperties)
+				foreach (var property in descriptor.Device.DeviceProperties)
 				{
-					var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
 					{
 						if (driverProperty.Min != 0)
@@ -315,13 +315,13 @@ namespace GKModule
 				}
 			}
 
-			if (binaryObject.Parameters.Count > 0)
+			if (descriptor.Parameters.Count > 0)
 			{
 				var rootDevice = commonDatabase.RootDevice;
-				var no = binaryObject.GetNo();
+				var no = descriptor.GetDescriptorNo();
 				var bytes = new List<byte>();
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
-				bytes.AddRange(binaryObject.Parameters);
+				bytes.AddRange(descriptor.Parameters);
 				LoadingService.DoStep("Запись параметров объекта " + no);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 				if (sendResult.HasError)
@@ -345,10 +345,10 @@ namespace GKModule
 				}
 				if (commonDatabase != null)
 				{
-					var binaryObject = commonDatabase.BinaryObjects.FirstOrDefault(x => x.Direction == direction);
-					if (binaryObject != null)
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
+					if (descriptor != null)
 					{
-						var result = GetDirectionParameters(commonDatabase, binaryObject, direction);
+						var result = GetDirectionParameters(commonDatabase, descriptor, direction);
 						if (!result)
 						{
 							ErrorLog += "\n" + direction.PresentationName;
@@ -361,9 +361,9 @@ namespace GKModule
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
 		}
-		static bool GetDirectionParameters(CommonDatabase commonDatabase, BinaryObjectBase binaryObject, XDirection direction)
+		static bool GetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, XDirection direction)
 		{
-			var no = binaryObject.GetNo();
+			var no = descriptor.GetDescriptorNo();
 			LoadingService.DoStep("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
@@ -384,9 +384,9 @@ namespace GKModule
 				binProperties.Add(binProperty);
 			}
 
-			if (binaryObject.Device != null)
+			if (descriptor.Device != null)
 			{
-				foreach (var driverProperty in binaryObject.Device.Driver.Properties)
+				foreach (var driverProperty in descriptor.Device.Driver.Properties)
 				{
 					if (!driverProperty.IsAUParameter)
 						continue;
@@ -413,7 +413,7 @@ namespace GKModule
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = binaryObject.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
 						{
 							property.Value = paramValue;

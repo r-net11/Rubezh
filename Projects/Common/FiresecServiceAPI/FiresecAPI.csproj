@@ -309,8 +309,7 @@
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
-    <Compile Include="XModels\XBinaryBase.cs" />
-    <Compile Include="XModels\XBinaryInfo.cs" />
+    <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>

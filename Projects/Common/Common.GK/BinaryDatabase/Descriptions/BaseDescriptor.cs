@@ -5,14 +5,14 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public abstract class BinaryObjectBase
+	public abstract class BaseDescriptor
 	{
 		public DatabaseType DatabaseType { get; set; }
+		public DescriptorType DescriptorType { get; protected set; }
 		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
 		public XDelay Delay { get; protected set; }
-		public ObjectType ObjectType { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -31,7 +31,7 @@ namespace Common.GK
 		public List<byte> AllBytes { get; private set; }
 		public FormulaBuilder Formula { get; set; }
 
-		public BinaryObjectBase()
+		public BaseDescriptor()
 		{
 			Formula = new FormulaBuilder();
 		}
@@ -44,17 +44,17 @@ namespace Common.GK
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					if (BinaryBase.KauDatabaseParent != null)
+					if (XBase.KauDatabaseParent != null)
 					{
-						ushort lineNo = XManager.GetKauLine(BinaryBase.KauDatabaseParent);
-						int intAddress = BinaryBase.KauDatabaseParent.IntAddress;
+						ushort lineNo = XManager.GetKauLine(XBase.KauDatabaseParent);
+						int intAddress = XBase.KauDatabaseParent.IntAddress;
 						ControllerAdress = (ushort)(lineNo * 256 + intAddress);
-						AdressOnController = BinaryBase.GetDatabaseNo(DatabaseType.Kau);
+						AdressOnController = XBase.KAUDescriptorNo;
 					}
 					else
 					{
 						ControllerAdress = 0x200;
-						AdressOnController = BinaryBase.GetDatabaseNo(DatabaseType.Gk);
+						AdressOnController = XBase.GKDescriptorNo;
 					}
 					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
 					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
@@ -74,14 +74,14 @@ namespace Common.GK
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				foreach (var inputBinaryBase in BinaryBase.InputObjects)
+				foreach (var inputXBase in XBase.InputXBases)
 				{
-					var no = inputBinaryBase.GetDatabaseNo(DatabaseType);
+					var no = inputXBase.GKDescriptorNo;
 					InputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
-				foreach (var outputBinaryBase in BinaryBase.OutputObjects)
+				foreach (var outputXBase in XBase.OutputXBases)
 				{
-					var no = outputBinaryBase.GetDatabaseNo(DatabaseType);
+					var no = outputXBase.GKDescriptorNo;
 					OutputDependenses.AddRange(BitConverter.GetBytes(no));
 				}
 			}
@@ -92,7 +92,7 @@ namespace Common.GK
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					Description = BytesHelper.StringDescriptionToBytes(BinaryBase.GetBinaryDescription());
+					Description = BytesHelper.StringDescriptionToBytes(XBase.GetDescriptorName());
 					break;
 
 				case DatabaseType.Kau:
@@ -145,45 +145,39 @@ namespace Common.GK
 			AllBytes.AddRange(Parameters);
 		}
 
-		public XBinaryBase BinaryBase
+		public XBase XBase
 		{
 			get
 			{
-				switch (ObjectType)
+				switch (DescriptorType)
 				{
-					case ObjectType.Device:
+					case DescriptorType.Device:
 						return Device;
 
-					case ObjectType.Zone:
+					case DescriptorType.Zone:
 						return Zone;
 
-					case ObjectType.Direction:
+					case DescriptorType.Direction:
 						return Direction;
 
-					case ObjectType.Delay:
+					case DescriptorType.Delay:
 						return Delay;
 				}
 				return null;
 			}
 		}
 
-		public ushort GetNo()
+		public ushort GetDescriptorNo()
 		{
-			return BinaryBase.GetDatabaseNo(DatabaseType);
-		}
+			switch (DatabaseType)
+			{
+				case DatabaseType.Gk:
+					return XBase.GKDescriptorNo;
 
-		public ushort KauDescriptorNo
-		{
-			get { return BinaryBase.GetDatabaseNo(DatabaseType.Kau); }
-		}
-		public ushort GkDescriptorNo
-		{
-			get { return BinaryBase.GetDatabaseNo(DatabaseType.Gk); }
-		}
-
-		public string StringFomula
-		{
-			get { return Formula.GetStringFomula(); }
+				case DatabaseType.Kau:
+					return XBase.KAUDescriptorNo;
+			}
+			return 0;
 		}
 
 		public abstract void Build();
