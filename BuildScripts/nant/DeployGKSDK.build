@@ -33,7 +33,6 @@
     <copy todir="..\..\Projects\GKSDK\Assemblies" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\GKSDK\GKSDK\bin\Debug">
         <include name="Common.dll" />
-        <include name="Common.GK.dll" />
         <include name="Controls.dll" />
         <include name="Firesec.dll" />
         <include name="FiresecAPI.dll" />

@@ -1,56 +1,59 @@
-﻿using System;
+﻿#define LOCALCONFIG
+//#define SETCONFIGTOFILE
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using Common;
-using Common.GK;
 using FiresecClient;
-using Infrastructure.Common.Windows;
+using GKProcessor;
 using XFiresecAPI;
 
 namespace GKProcessor
 {
 	public class GkBinConfigurationReader
 	{
-		public XDeviceConfiguration DeviceConfiguration;
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-
+		public XDeviceConfiguration DeviceConfiguration;
+		
+#if !LOCALCONFIG
 		public void ReadConfiguration(XDevice gkDevice)
 		{
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			var rootDevice = new XDevice()
+			DeviceConfiguration.RootDevice = new XDevice()
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			DeviceConfiguration.RootDevice = rootDevice;
-
 			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
 
-			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", ushort.MaxValue + 1);
+			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", 50000);
 
 			ushort descriptorNo = 0;
+#if SETCONFIGTOFILE
+			var allBytes = new List<List<byte>>();
+#endif
 			while (true)
 			{
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
 
-				byte packNo = 1;
-				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-				var data = new List<byte>(descriptorNoBytes);
-				data.Add(packNo);
+				const byte packNo = 1;
+				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
 				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
 				var bytes = sendResult.Bytes;
+#if SETCONFIGTOFILE
+				allBytes.Add(bytes);
+#endif
 				if (sendResult.HasError || bytes.Count == 0)
-					break;
-
+				{
+					MessageBoxService.ShowError("Возникла ошибка при чтении объекта " + descriptorNo);
+					return;
+				}
 				if (bytes.Count < 5)
 					break;
 
@@ -68,7 +71,10 @@ namespace GKProcessor
 					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
 				}
 			}
-
+#if SETCONFIGTOFILE
+			/* Опция включения записи конфигурации в файл */
+			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
+#endif
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
 			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
 			{
@@ -78,33 +84,63 @@ namespace GKProcessor
 
 			XManager.UpdateConfiguration();
 		}
-
-		void Parce(List<byte> bytes, int descriptorNo)
+#endif
+#if LOCALCONFIG
+		#region Чтение конфигурации из байтового потока
+		public void ReadConfiguration(XDevice device)
 		{
+			IpAddress = device.GetGKIpAddress();
+			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
+			ControllerDevices = new Dictionary<ushort, XDevice>();
+			DeviceConfiguration = new XDeviceConfiguration();
+			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			var rootDevice = new XDevice()
+			{
+				Driver = rootDriver,
+				DriverUID = rootDriver.UID
+			};
+			DeviceConfiguration.RootDevice = rootDevice;
+			ushort descriptorNo = 0;
+			int count = 0;
+			while (true)
+			{
+				descriptorNo++;
+				byte packNo = 1;
+				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
+				var data = new List<byte>(descriptorNoBytes);
+				data.Add(packNo);
+				var bytes = allbytes[count];
+				count++;
+				if (bytes.Count < 5)
+					break;
+				if (bytes[3] == 0xff && bytes[4] == 0xff)
+					break;
+				Parce(bytes.Skip(3).ToList(), descriptorNo);
+			}
+			XManager.UpdateConfiguration();
+		}
+		#endregion
+#endif
+		void Parce(List<byte> bytes, int descriptorNo)
+		 {
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
-
-			var letters = new List<byte>();
-			for (int i = 8; i <= 28; i++)
-			{
-				byte letter = (byte)bytes[i];
-				letters.Add(letter);
-			}
-			
-			var memoryStream = new MemoryStream(letters.ToArray());
-			var description = memoryStream.ToString();
-			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
-
+			if(internalType == 0)
+				return;
+			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
+				{
 					driver = XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
+					if (bytes[0x3a] == 1)
+						driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+				}
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
-
 				var device = new XDevice()
 				{
 					Driver = driver,
@@ -120,7 +156,7 @@ namespace GKProcessor
 						StringValue = IpAddress
 					};
 					device.Properties.Add(ipAddressProperty);
-
+					device.Parent = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.System);
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -133,17 +169,18 @@ namespace GKProcessor
 						Name = "Mode",
 						Value = (byte)(controllerAdress / 256)
 					};
-					device.Properties.Add(modeProperty);
-
+					device.DeviceProperties.Add(modeProperty);
+					device.Parent = GkDevice;
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
 				}
-				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau)
+				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != XDriverType.System)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
 						controllerDevice.Value.Children.Add(device);
+						device.Parent = controllerDevice.Value;
 					}
 				}
 				DeviceConfiguration.Devices.Add(device);

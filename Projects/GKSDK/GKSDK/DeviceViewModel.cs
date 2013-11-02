@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace GKSDK
 {

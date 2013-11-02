@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using XFiresecAPI;
 using System.Windows.Media;
+using FiresecAPI.Models;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace PlansModule.Kursk.Designer
 {
@@ -23,7 +21,7 @@ namespace PlansModule.Kursk.Designer
 		}
 		public static XDevice GetXDevice(ElementRectangleTank element)
 		{
-			return element.XDeviceUID == Guid.Empty ? null : XManager.DeviceConfiguration.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush && item.UID == element.XDeviceUID).FirstOrDefault();
+			return element.XDeviceUID == Guid.Empty ? null : XManager.DeviceConfiguration.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush && item.UID == element.XDeviceUID).FirstOrDefault();
 		}
 		public static Color GetTankColor(XDevice xdevice)
 		{

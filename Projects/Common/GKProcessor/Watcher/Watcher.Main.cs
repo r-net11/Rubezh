@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using Common;
-using Common.GK;
 using Infrastructure.Common;
 
 namespace GKProcessor

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using DevicesModule.ViewModels;
 
 namespace DevicesModule.DeviceProperties
 {

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
-using Common.GK;
-using Infrastructure.Common;
 
 namespace GKModule.Validation
 {
@@ -50,7 +49,7 @@ namespace GKModule.Validation
 			var deviceAddresses = new HashSet<string>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.System || device.Driver.DriverType == XDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
+				if (device.DriverType == XDriverType.System || device.DriverType == XDriverType.GK || !device.Driver.HasAddress || device.Driver.IsAutoCreate || device.Driver.IsGroupDevice)
 					continue;
 
 				if (!deviceAddresses.Add(device.DottedAddress))
@@ -100,7 +99,7 @@ namespace GKModule.Validation
 
 		static void ValidateDeviceLogic(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GKLine || device.Driver.DriverType == XDriverType.GKRele)
+			if (device.DriverType == XDriverType.GKLine || device.DriverType == XDriverType.GKRele)
 				return;
 
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
@@ -112,7 +111,7 @@ namespace GKModule.Validation
 
 		static void ValidateGKNotEmptyChildren(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				if (device.Children.Count <= 14)
 					Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
@@ -130,7 +129,7 @@ namespace GKModule.Validation
 
 		static void ValidatePumpAddresses(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.Pump)
+			if (device.DriverType == XDriverType.Pump)
 			{
 				if (!((device.IntAddress > 0 && device.IntAddress <= 8) || device.IntAddress == 12 || device.IntAddress == 14))
 					Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8, 12, 14", ValidationErrorLevel.CannotWrite));
@@ -193,7 +192,7 @@ namespace GKModule.Validation
 
 		static void ValidateRSR2AddressFollowing(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.RSR2_KAU)
+			if (device.DriverType == XDriverType.RSR2_KAU)
 			{
 				foreach (var shleifDevice in device.Children)
 				{
@@ -227,7 +226,7 @@ namespace GKModule.Validation
 			foreach (var child in device.Children)
 			{
 				allChildren.Add(child);
-				if (child.Driver.DriverType == XDriverType.MPT || child.Driver.DriverType == XDriverType.MRO_2)
+				if (child.DriverType == XDriverType.MPT || child.DriverType == XDriverType.MRO_2)
 				{
 					AddChild(child);
 				}

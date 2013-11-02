@@ -4,9 +4,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
+using Infrastructure.Common.Services.Ribbon;
 using Infrastructure.Services;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Services.Ribbon;
 
 namespace Infrastructure
 {

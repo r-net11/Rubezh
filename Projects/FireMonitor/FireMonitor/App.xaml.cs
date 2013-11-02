@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

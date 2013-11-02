@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using Common.GK;
+using GKProcessor;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
@@ -23,17 +23,17 @@ namespace GKModule
 
 		public static void Add(string message, string description, XStateClass stateClass, XDevice device)
 		{
-			Add(message, description, stateClass, device.UID, device.GetDatabaseNo(DatabaseType.Gk), JournalItemType.Device);
+			Add(message, description, stateClass, device.UID, device.GKDescriptorNo, JournalItemType.Device);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XZone zone)
 		{
-			Add(message, description, stateClass, zone.UID, zone.GetDatabaseNo(DatabaseType.Gk), JournalItemType.Zone);
+			Add(message, description, stateClass, zone.UID, zone.GKDescriptorNo, JournalItemType.Zone);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XDirection direction)
 		{
-			Add(message, description, stateClass, direction.UID, direction.GetDatabaseNo(DatabaseType.Gk), JournalItemType.Direction);
+			Add(message, description, stateClass, direction.UID, direction.GKDescriptorNo, JournalItemType.Direction);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, Guid objectUID, int gkObjectNo, JournalItemType journalItemType)

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;

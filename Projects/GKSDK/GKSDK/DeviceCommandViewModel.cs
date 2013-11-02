@@ -1,4 +1,6 @@
 ﻿using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace GKSDK
 {

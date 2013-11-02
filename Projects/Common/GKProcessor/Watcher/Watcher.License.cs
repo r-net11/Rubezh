@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using System.Threading;
-using Common.GK;
 using Common;
 
 namespace GKProcessor

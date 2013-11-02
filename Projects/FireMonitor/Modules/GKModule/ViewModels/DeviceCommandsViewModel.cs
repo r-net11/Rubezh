@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 
 		public bool HasReset
 		{
-			get { return Device.Driver.DriverType == XDriverType.AMP_1 || Device.Driver.DriverType == XDriverType.RSR2_MAP4; }
+			get { return Device.DriverType == XDriverType.AMP_1 || Device.DriverType == XDriverType.RSR2_MAP4; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 			get
 			{
 #if DEBUG
-				return Device.Driver.DriverType == XDriverType.MRO_2;
+				return Device.DriverType == XDriverType.MRO_2;
 #endif
 				return false;
 			}

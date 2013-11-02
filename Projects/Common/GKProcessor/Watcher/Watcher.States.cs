@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Common.GK;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using GKProcessor.Events;
@@ -24,14 +23,14 @@ namespace GKProcessor
 			IsAnyDBMissmatch = false;
 
 			if (showProgress)
-				StartProgress("Опрос объектов ГК", GkDatabase.BinaryObjects.Count, false);
+				StartProgress("Опрос объектов ГК", GkDatabase.Descriptors.Count, false);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				LastUpdateTime = DateTime.Now;
 				var result = GetState(descriptor.XBase);
 				if (!result)
 				{
-					if (descriptor.Device != null && descriptor.Device.Driver.DriverType == XDriverType.GK)
+					if (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.GK)
 					{
 						descriptor.Device.DeviceState.IsConnectionLost = true;
 						break;
@@ -42,7 +41,7 @@ namespace GKProcessor
 			}
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.DriverType == XDriverType.KAU_Shleif || device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+				if (device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					device.DeviceState.OnStateChanged();
 				}
@@ -88,19 +87,19 @@ namespace GKProcessor
 				return false;
 			}
 			ConnectionChanged(true);
-			var binaryObjectStateHelper = new BinaryObjectStateHelper();
-            binaryObjectStateHelper.Parse(sendResult.Bytes);
-			CheckDBMissmatch(xBase, binaryObjectStateHelper);
+			var descriptorStateHelper = new DescriptorStateHelper();
+            descriptorStateHelper.Parse(sendResult.Bytes);
+			CheckDBMissmatch(xBase, descriptorStateHelper);
 			ApplicationService.Invoke(() =>
 			{
 				var binaryState = xBase.GetXBaseState();
-				binaryState.AdditionalStates = binaryObjectStateHelper.AdditionalStates;
-				binaryState.AdditionalStateProperties = binaryObjectStateHelper.AdditionalStateProperties;
-				binaryState.OnDelay = binaryObjectStateHelper.OnDelay;
-				binaryState.HoldDelay = binaryObjectStateHelper.HoldDelay;
-				binaryState.OffDelay = binaryObjectStateHelper.OffDelay;
 				binaryState.LastDateTime = DateTime.Now;
-				binaryState.StateBits = binaryObjectStateHelper.StateBits; // OnStateChanged();
+				binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+				binaryState.AdditionalStateProperties = descriptorStateHelper.AdditionalStateProperties;
+				binaryState.OnDelay = descriptorStateHelper.OnDelay;
+				binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
+				binaryState.OffDelay = descriptorStateHelper.OffDelay;
+				binaryState.StateBits = descriptorStateHelper.StateBits; // OnStateChanged();
 			});
 
 			return true;
@@ -111,53 +110,58 @@ namespace GKProcessor
 			if (descriptor is DeviceDescriptor)
 			{
 				var deviceDescriptor = descriptor as DeviceDescriptor;
-				if (deviceDescriptor.Device.Driver.DriverType == XDriverType.GK || deviceDescriptor.Device.Driver.DriverType == XDriverType.KAU)
+				if (deviceDescriptor.Device.DriverType == XDriverType.GK || deviceDescriptor.Device.DriverType == XDriverType.KAU)
 				{
 					GetState(descriptor.XBase);
 				}
 			}
 		}
 
-		void CheckDBMissmatch(XBase xBase, BinaryObjectStateHelper binaryObjectState)
+		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
 		{
 			bool isMissmatch = false;
 			if (xBase is XDevice)
 			{
 				var device = xBase as XDevice;
-				if (device.Driver.DriverTypeNo != binaryObjectState.TypeNo)
+				if (device.Driver.DriverTypeNo != descriptorStateHelper.TypeNo)
 					isMissmatch = true;
 
 				ushort physicalAddress = device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNoNew - 1) * 256 + device.IntAddress);
-				if (device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU
-					&& device.Driver.HasAddress && physicalAddress != binaryObjectState.PhysicalAddress)
+				if (device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU
+					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
 					isMissmatch = true;
 
-				if (device.GetNearestDatabaseNo() != binaryObjectState.AddressOnController)
+				var nearestDescriptorNo = 0;
+				if (device.KauDatabaseParent != null)
+					nearestDescriptorNo = device.KAUDescriptorNo;
+				if (device.GkDatabaseParent != null)
+					nearestDescriptorNo = device.GKDescriptorNo;
+				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
 					isMissmatch = true;
 			}
 			if (xBase is XZone)
 			{
 				var zone = xBase as XZone;
-				if (binaryObjectState.TypeNo != 0x100)
+				if (descriptorStateHelper.TypeNo != 0x100)
 					isMissmatch = true;
 			}
 			if (xBase is XDirection)
 			{
 				var direction = xBase as XDirection;
-				if (binaryObjectState.TypeNo != 0x106)
+				if (descriptorStateHelper.TypeNo != 0x106)
 					isMissmatch = true;
 			}
 			if (xBase is XDelay)
 			{
 				var delay = xBase as XDelay;
-				if (binaryObjectState.TypeNo != 0x101)
+				if (descriptorStateHelper.TypeNo != 0x101)
 					isMissmatch = true;
 			}
 
             var description = xBase.GetDescriptorName();
-            if (xBase.GetDescriptorName().TrimEnd(' ') != binaryObjectState.Description)
+            if (xBase.GetDescriptorName().TrimEnd(' ') != descriptorStateHelper.Description)
 				isMissmatch = true;
 
 			xBase.GetXBaseState().IsRealMissmatch = isMissmatch;

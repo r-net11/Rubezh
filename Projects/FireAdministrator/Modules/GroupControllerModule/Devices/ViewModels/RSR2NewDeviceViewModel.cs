@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -42,7 +39,7 @@ namespace GKModule.ViewModels
 		{
 			for (int i = 0; i < Count; i++)
 			{
-				if (ParentDevice.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+				if (ParentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					var maxAddressOnShleif = 0;
 					if (ParentDevice.Children.Count > 0)
@@ -59,7 +56,7 @@ namespace GKModule.ViewModels
 					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)maxAddressOnShleif);
 					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				}
-				else if (ParentDevice.Parent != null && ParentDevice.Parent.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+				else if (ParentDevice.Parent != null && ParentDevice.Parent.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					var maxPreviousAddress = ParentDevice.IntAddress + Math.Max(0, ParentDevice.Driver.GroupDeviceChildrenCount - 1) + 1;
 					if(maxPreviousAddress > 255)

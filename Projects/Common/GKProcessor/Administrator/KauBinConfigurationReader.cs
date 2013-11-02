@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Common.GK;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -22,7 +22,7 @@ namespace GKProcessor
 			LoadingService.SaveShowProgress("Чтение базы данных объектов", descriptorAddersses.Count + 1);
 			for(int i = 0; i < descriptorAddersses.Count; i++)
 			{
-				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i.ToString() + " из " + descriptorAddersses.Count.ToString());
+				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddersses.Count);
 				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]);
 				devices.Add(device);
 			}
@@ -30,7 +30,7 @@ namespace GKProcessor
 			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
 			LoadingService.SaveClose();
 
-			devices.RemoveAll(x => x.Driver.DriverType == XDriverType.GK || x.Driver.DriverType == XDriverType.GKIndicator);
+			devices.RemoveAll(x => x.DriverType == XDriverType.GK || x.DriverType == XDriverType.GKIndicator);
 			return devices;
 		}
 
@@ -59,7 +59,7 @@ namespace GKProcessor
 
 			var device = new XDevice();
 			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
-			if (device.Driver.DriverType == XDriverType.GKIndicator)
+			if (device.DriverType == XDriverType.GKIndicator)
 				device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 			device.DriverUID = device.Driver.UID;
 			device.ShleifNo = (byte)(address / 256 + 1);

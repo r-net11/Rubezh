@@ -1,27 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Windows.Input;
-using DevicesModule.DeviceProperties;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.Designer;
-using Infrustructure.Plans.Events;
-using Common;
-using DevicesModule.Plans;
-using FiresecAPI;
-using System.ComponentModel;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {

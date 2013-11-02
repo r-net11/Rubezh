@@ -1,17 +1,12 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.IO;
-using System.Runtime.Serialization;
-using Microsoft.Win32;
-using FS2Api;
-using System.ComponentModel;
 using Infrastructure.Events;
-using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {

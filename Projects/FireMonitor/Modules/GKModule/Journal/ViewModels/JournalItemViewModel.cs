@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using FiresecAPI.XModels;
 using FiresecClient;

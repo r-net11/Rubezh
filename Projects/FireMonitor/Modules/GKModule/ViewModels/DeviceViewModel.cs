@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceStateViewModel");
 
-			if (Device.Driver.DriverType == XDriverType.MPT)
+			if (Device.DriverType == XDriverType.MPT)
 			{
 				if (DeviceState.StateClass == XStateClass.TurningOn)
 				{
@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.Driver.DriverType == XDriverType.Pump || Device.Driver.DriverType == XDriverType.RSR2_Bush)
+				if (Device.DriverType == XDriverType.Pump || Device.DriverType == XDriverType.RSR2_Bush)
 					return XManager.GetPresentationZone(Device.NSLogic);
 				return XManager.GetPresentationZone(Device);
 			}

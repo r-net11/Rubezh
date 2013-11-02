@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.Models.Skud;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Skud;
 
 namespace SkudModule.ViewModels
 {

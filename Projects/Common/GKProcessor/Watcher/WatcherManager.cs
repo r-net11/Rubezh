@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;

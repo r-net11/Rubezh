@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Security;
 using System.Windows.Threading;
 using Common;
 using FiresecAPI;

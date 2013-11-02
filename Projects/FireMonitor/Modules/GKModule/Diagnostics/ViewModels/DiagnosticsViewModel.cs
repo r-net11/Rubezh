@@ -12,7 +12,7 @@ using System.Windows.Input;
 using Common;
 using System;
 using GKProcessor.Events;
-using Common.GK;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services.DragDrop;
-using FiresecClient;
-using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

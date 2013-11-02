@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Common.GK;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -22,10 +22,10 @@ namespace GKModule.ViewModels
 
 		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
-			var internalAddress = journalItem.InternalJournalItem.ObjectDeviceAddress;
-			var internalType = journalItem.InternalJournalItem.ObjectDeviceType;
+			var descriptorAddress = journalItem.DescriptorAddress;
+			var descriptorType = journalItem.DescriptorType;
 
-			if (internalType == 0)
+			if (descriptorType == 0)
 			{
 				TypeName = "ГК";
 				Address = "";
@@ -33,19 +33,19 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			Address = internalAddress.ToString();
+			Address = descriptorAddress.ToString();
 
-			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == descriptorType);
 			if (driver != null)
 			{
 				TypeName = driver.ShortName;
 				if (driver.IsDeviceOnShleif)
-					Address = (internalAddress / 256 + 1).ToString() + "." + (internalAddress % 256).ToString();
+					Address = (descriptorAddress / 256 + 1).ToString() + "." + (descriptorAddress % 256).ToString();
 				if (!driver.HasAddress)
 					Address = "";
 				ImageSource = driver.ImageSource;
 			}
-			switch (internalType)
+			switch (descriptorType)
 			{
 				case 0x100:
 					TypeName = "Зона";

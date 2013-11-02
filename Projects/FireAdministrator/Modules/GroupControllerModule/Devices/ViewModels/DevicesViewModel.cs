@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Models;
 using GKModule.Plans.Designer;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Microsoft.Win32;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using Microsoft.Win32;
-using System.IO;
-using System.Runtime.Serialization;
-using Common.GK.Journal;
-using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -192,16 +192,16 @@ namespace GKModule.ViewModels
 			if (_deviceToCopy != null && SelectedDevice != null)
 			{
 				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
-					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.DriverType);
 				else
-					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.DriverType);
 			}
 			return false;
 		}
 
 		void PasteDevice(XDevice device)
 		{
-			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.Driver.DriverType == XDriverType.KAUIndicator)
+			if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
 			{
 				return;
 			}

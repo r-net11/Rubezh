@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XFiresecAPI;
-using Common.GK;
+using GKProcessor;
 using System.Threading;
 using GKModule.ViewModels;
 
@@ -20,7 +20,7 @@ namespace GKModule
 
 		public static void UpdateDevice(XDevice device)
 		{
-			if (device.KauDatabaseParent != null && device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
+			if (device.KauDatabaseParent != null && device.KauDatabaseParent.DriverType == XDriverType.KAU)
 			{
 				foreach (var auParameter in device.Driver.AUParameters)
 				{
@@ -34,7 +34,7 @@ namespace GKModule
 					{
 						for (int i = 0; i < 1000; i++)
 						{
-							var no = device.GetDatabaseNo(DatabaseType.Gk);
+							var no = device.GKDescriptorNo;
 							result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 							if (result.Bytes.Count > 0)
 							{
@@ -47,7 +47,7 @@ namespace GKModule
 									{
 										stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
-									if ((device.Driver.DriverType == XDriverType.Valve || device.Driver.DriverType == XDriverType.Pump)
+									if ((device.DriverType == XDriverType.Valve || device.DriverType == XDriverType.Pump)
 										&& auParameter.Name == "Режим работы")
 									{
 										stringValue = "Неизвестно";
@@ -84,9 +84,9 @@ namespace GKModule
 					}
 				}
 			}
-			else if (device.KauDatabaseParent != null && device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
+			else if (device.KauDatabaseParent != null && device.KauDatabaseParent.DriverType == XDriverType.RSR2_KAU)
 			{
-				var no = device.GetDatabaseNo(DatabaseType.Gk);
+				var no = device.GKDescriptorNo;
 				var result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 				if (!result.HasError)
 				{

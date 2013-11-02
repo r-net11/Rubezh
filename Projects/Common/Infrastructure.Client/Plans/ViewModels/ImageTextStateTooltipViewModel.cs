@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Client.Plans.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Plans.ViewModels
 {

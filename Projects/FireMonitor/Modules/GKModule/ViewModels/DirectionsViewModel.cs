@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 					if (device != null)
 					{
-						switch (device.Driver.DriverType)
+						switch (device.DriverType)
 						{
 							case XDriverType.AM_1:
 							case XDriverType.Pump:

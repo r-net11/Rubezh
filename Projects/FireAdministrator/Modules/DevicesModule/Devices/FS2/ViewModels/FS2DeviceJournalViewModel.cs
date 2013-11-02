@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FS2Api;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
 using System.IO;
-using Microsoft.Win32;
 using System.Runtime.Serialization;
+using FS2Api;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels
 {

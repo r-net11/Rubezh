@@ -8,7 +8,7 @@ namespace XFiresecAPI
 	{
 		public XBase()
 		{
-			ClearBinaryData();
+			ClearDescriptor();
 		}
 
 		public List<XBase> InputXBases { get; set; }
@@ -20,19 +20,10 @@ namespace XFiresecAPI
 		public ushort GKDescriptorNo { get; set; }
 		public ushort KAUDescriptorNo { get; set; }
 
-		public void ClearBinaryData()
+		public void ClearDescriptor()
 		{
 			InputXBases = new List<XBase>();
 			OutputXBases = new List<XBase>();
-		}
-
-		public ushort GetNearestDatabaseNo()
-		{
-			if (KauDatabaseParent != null)
-				return KAUDescriptorNo;
-			if (GkDatabaseParent != null)
-				return GKDescriptorNo;
-			return 0;
 		}
 
 		public abstract string DescriptorInfo { get; }

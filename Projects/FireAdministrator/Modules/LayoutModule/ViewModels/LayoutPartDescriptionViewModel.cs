@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
+﻿using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule.ViewModels
 {

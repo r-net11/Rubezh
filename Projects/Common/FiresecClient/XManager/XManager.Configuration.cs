@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.XModels;
 using XFiresecAPI;
-using System.Text;
 
 namespace FiresecClient
 {
@@ -182,7 +181,7 @@ namespace FiresecClient
 					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (nsDevice != null)
 					{
-						switch (nsDevice.Driver.DriverType)
+						switch (nsDevice.DriverType)
 						{
 							case XDriverType.AM1_T:
 							case XDriverType.RSR2_Bush:
@@ -234,7 +233,7 @@ namespace FiresecClient
 
 		public static void UpdateGKPredefinedName(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK && device.Children.Count >= 15)
+			if (device.DriverType == XDriverType.GK && device.Children.Count >= 15)
 			{
 				device.Children[0].PredefinedName = "Неисправность";
 				device.Children[1].PredefinedName = "Пожар 1";

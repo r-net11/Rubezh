@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Common.GK;
+using FiresecClient;
 using GKModule.Converter;
 using GKModule.Diagnostics;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
-using XFiresecAPI;
-using System.Collections.Generic;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -60,21 +60,21 @@ namespace GKModule.ViewModels
 		public RelayCommand GoToTechnologicalCommand { get; private set; }
 		void OnGoToTechnological()
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
-			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
+			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XFiresecAPI.XDriverType.GK);
+			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand GoToWorkRegimeCommand { get; private set; }
 		void OnGoToWorkRegime()
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XFiresecAPI.XDriverType.GK);
-			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
+			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XFiresecAPI.XDriverType.GK);
+			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand CreateTestZonesCommand { get; private set; }
 		void OnCreateTestZones()
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.HandDetector);
+			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.HandDetector);
 			for (int i = 0; i < 20000; i++)
 			{
 				var zone = new XZone()
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 
 		void PatchShleif(XDriverType kauDriverType, XDriverType shleifDriverType)
 		{
-			var kauDevices = XManager.Devices.Where(x => x.Driver.DriverType == kauDriverType);
+			var kauDevices = XManager.Devices.Where(x => x.DriverType == kauDriverType);
 			foreach (var kauDevice in kauDevices)
 			{
 				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == shleifDriverType);
@@ -116,13 +116,13 @@ namespace GKModule.ViewModels
 				}
 				foreach (var device in kauDevice.Children)
 				{
-					if (device.Driver.DriverType != XDriverType.KAUIndicator)
+					if (device.DriverType != XDriverType.KAUIndicator)
 					{
 						var shleifDevice = shleifDevices.FirstOrDefault(x => x.IntAddress == device.ShleifNo);
 						shleifDevice.Children.Add(device);
 					}
 				}
-				kauDevice.Children.RemoveAll(x => x.Driver.DriverType != XDriverType.KAUIndicator);
+				kauDevice.Children.RemoveAll(x => x.DriverType != XDriverType.KAUIndicator);
 				kauDevice.Children.AddRange(shleifDevices);
 			}
 		}
@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteConfigFileToGKCommand { get; private set; }
 		void OnWriteConfigFileToGK()
 		{
-			var gkDevice = XManager.Devices.FirstOrDefault(y => y.Driver.DriverType == XDriverType.GK);
+			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
 			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
@@ -155,7 +155,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadConfigFileFromGKCommand { get; private set; }
 		void OnReadConfigFileFromGK()
 		{
-			var gkDevice = XManager.Devices.FirstOrDefault(y => y.Driver.DriverType == XDriverType.GK);
+			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
 			var bytesList = new List<List<byte>>();
 			ushort i = 1;

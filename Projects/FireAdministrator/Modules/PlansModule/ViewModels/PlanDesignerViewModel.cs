@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Common;
 using FiresecAPI.Models;
-using Common;
-using Infrastructure.Common;
-using PlansModule.Designer;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
-using Infrastructure.Designer.ViewModels;
+using PlansModule.Designer;
 using PlansModule.InstrumentAdorners;
 
 namespace PlansModule.ViewModels

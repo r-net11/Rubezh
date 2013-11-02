@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Common.GK;
 using FiresecAPI.XModels;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
         }
         bool CanPaste()
         {
-            return DriverCopy != null && Device.Driver.DriverType == DriverCopy.DriverType;
+            return DriverCopy != null && Device.DriverType == DriverCopy.DriverType;
         }
 
         public RelayCommand PasteAllParamCommand { get; private set; }

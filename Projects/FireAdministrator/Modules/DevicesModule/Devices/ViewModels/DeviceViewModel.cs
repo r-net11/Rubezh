@@ -11,12 +11,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
 using Infrustructure.Plans.Helper;
-using Infrastructure.Common.TreeList;
+using Infrustructure.Plans.Painters;
 
 namespace DevicesModule.ViewModels
 {

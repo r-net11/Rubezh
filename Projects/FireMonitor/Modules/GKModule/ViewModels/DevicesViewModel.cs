@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in AllDevices)
 			{
-				if(device.Device.Driver.DriverType == XDriverType.KAU || device.Device.Driver.DriverType == XDriverType.RSR2_KAU)
+				if(device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 

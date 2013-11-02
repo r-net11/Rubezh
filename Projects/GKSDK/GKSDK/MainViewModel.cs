@@ -1,12 +1,12 @@
 ﻿using System.Threading;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {
@@ -14,6 +14,7 @@ namespace GKSDK
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
+		public DirectionsViewModel DirectionsViewModel { get; private set; }
 		public JournalsViewModel JournalsViewModel { get; private set; }
 
 		public MainViewModel()
@@ -22,6 +23,7 @@ namespace GKSDK
 
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
+			DirectionsViewModel = new DirectionsViewModel();
 			JournalsViewModel = new JournalsViewModel();
 		}
 

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure;
-using Infrustructure.Plans.Designer;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using SkudModule.ViewModels;
+﻿using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using SkudModule.ViewModels;
 
 namespace SkudModule.Designer
 {

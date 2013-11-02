@@ -84,7 +84,7 @@ namespace GKModule.Validation
 					nsDevices.Add(nsDevice);
 				}
 			}
-			var pumpsCount = nsDevices.Count(x => (x.Driver.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.Driver.DriverType == XDriverType.RSR2_Bush);
+			var pumpsCount = nsDevices.Count(x => (x.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.DriverType == XDriverType.RSR2_Bush);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new DirectionValidationError(direction, "В насосной станции отсутствуют насосы", ValidationErrorLevel.CannotWrite));
@@ -95,7 +95,7 @@ namespace GKModule.Validation
 					Errors.Add(new DirectionValidationError(direction, "В насосной количество основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
 			}
 
-			var am1_TCount = nsDevices.Count(x => x.Driver.DriverType == XDriverType.AM1_T);
+			var am1_TCount = nsDevices.Count(x => x.DriverType == XDriverType.AM1_T);
 			if (am1_TCount > 1)
 				Errors.Add(new DirectionValidationError(direction, "В насосной станции количество подключенных технологических меток больше 1", ValidationErrorLevel.CannotWrite));
 		}

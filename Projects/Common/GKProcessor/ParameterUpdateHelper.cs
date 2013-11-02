@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XFiresecAPI;
-using Common.GK;
 using System.Threading;
+using XFiresecAPI;
 
 namespace GKProcessor
 {
@@ -19,7 +16,7 @@ namespace GKProcessor
 
 		public static void UpdateDevice(XDevice device)
 		{
-			if (device.KauDatabaseParent != null && device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
+			if (device.KauDatabaseParent != null && device.KauDatabaseParent.DriverType == XDriverType.KAU)
 			{
 				foreach (var auParameter in device.Driver.AUParameters)
 				{
@@ -47,7 +44,7 @@ namespace GKProcessor
 									{
 										stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
-									if ((device.Driver.DriverType == XDriverType.Valve || device.Driver.DriverType == XDriverType.Pump)
+									if ((device.DriverType == XDriverType.Valve || device.DriverType == XDriverType.Pump)
 										&& auParameter.Name == "Режим работы")
 									{
 										stringValue = "Неизвестно";
@@ -84,7 +81,7 @@ namespace GKProcessor
 					}
 				}
 			}
-			else if (device.KauDatabaseParent != null && device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
+			else if (device.KauDatabaseParent != null && device.KauDatabaseParent.DriverType == XDriverType.RSR2_KAU)
 			{
 				var no = device.GKDescriptorNo;
 				var result = SendManager.Send(device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));

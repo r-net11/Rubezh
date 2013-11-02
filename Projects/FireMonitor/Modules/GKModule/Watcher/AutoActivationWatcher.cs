@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure;
 using GKModule.Events;
-using Common.GK;
+using GKProcessor;
 using System.Windows;
 using FiresecClient;
 using Infrastructure.Events;

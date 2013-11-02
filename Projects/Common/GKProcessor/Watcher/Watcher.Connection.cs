@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.GK;
 using FiresecClient;
 using GKProcessor.Events;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using Infrastructure.Common.Services;
 
 namespace GKProcessor
 {

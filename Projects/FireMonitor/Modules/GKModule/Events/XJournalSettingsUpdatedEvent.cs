@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Common.GK;
+using GKProcessor;
 using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events

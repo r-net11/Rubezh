@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using FiresecAPI;
+using DevicesModule.Guard;
+using DevicesModule.Validation;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.ViewModels;
-using DevicesModule.Guard;
-using DevicesModule.Validation;
-using Infrastructure.Common.Ribbon;
 
 namespace DevicesModule.ViewModels
 {

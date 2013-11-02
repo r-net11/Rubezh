@@ -11,26 +11,28 @@
 
     <DirectoryRef Id="SDKLOCATION_ItvIntegration">
       <Component Id="SDK.Files.Integration" Guid="4EA94C81-C6D5-4AFA-AC97-EE68E4F4F8DA">
-        <File Id="SDK.GKSDK.csproj" Name="GKSDK.csproj" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.App.xaml" Name="App.xaml" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.GKSDK.csproj" Name="GKSDK.csproj" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.App.xaml" Name="App.xaml" Source="$(var.SDK.TargetDir)" />
         <File Id="SDK.App.xaml.cs" Name="App.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.DevicesViewModel.cs" Name="DevicesViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.DeviceViewModel.cs" Name="DeviceViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.JournalsViewModel.cs" Name="JournalsViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.MainViewModel.cs" Name="MainViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.MainWindow.xaml" Name="MainWindow.xaml" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.MainWindow.xaml.cs" Name="MainWindow.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.ZonesViewModel.cs" Name="ZonesViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
-        <File Id="SDK.ZoneViewModel.cs" Name="ZoneViewModel.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
+        <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.DevicesViewModel.cs" Name="DevicesViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.DeviceViewModel.cs" Name="DeviceViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.JournalsViewModel.cs" Name="JournalsViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.MainViewModel.cs" Name="MainViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.MainWindow.xaml" Name="MainWindow.xaml" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.MainWindow.xaml.cs" Name="MainWindow.xaml.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.ZonesViewModel.cs" Name="ZonesViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.ZoneViewModel.cs" Name="ZoneViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.DirectionsViewModel.cs" Name="DirectionsViewModel.cs" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.DirectionViewModel.cs" Name="DirectionViewModel.cs" Source="$(var.SDK.TargetDir)" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SDKLOCATION_Properties">
       <Component Id="SDK.Files.Properties" Guid="156F0865-3818-4DDF-9FA9-E991E012AE14">
-        <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="..\..\..\..\..\GKSDK\GKSDK\\Properties\" />
-        <File Id="SDK.Resources.resx" Name="Resources.resx" Source="..\..\..\..\..\GKSDK\GKSDK\Properties\" />
-        <File Id="SDK.Settings.settings" Name="Settings.settings" Source="..\..\..\..\..\GKSDK\GKSDK\Properties\" />
+        <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="$(var.SDK.TargetDir)Properties\" />
+        <File Id="SDK.Resources.resx" Name="Resources.resx" Source="$(var.SDK.TargetDir)Properties\" />
+        <File Id="SDK.Settings.settings" Name="Settings.settings" Source="$(var.SDK.TargetDir)Properties\" />
       </Component>
     </DirectoryRef>
 

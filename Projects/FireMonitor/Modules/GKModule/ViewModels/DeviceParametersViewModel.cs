@@ -8,6 +8,7 @@ using FiresecClient;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {

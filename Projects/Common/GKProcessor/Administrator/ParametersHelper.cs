@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.GK;
-using Infrastructure;
+using GKProcessor;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -81,24 +80,16 @@ namespace GKProcessor
 		{
 			try
 			{
-				CommonDatabase commonDatabase = null;
-				if (device.KauDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
-				}
-				else if (device.GkDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
-				}
+				var commonDatabase = GetCommonDatabase(device);
 				if (commonDatabase != null)
 				{
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
 					if (descriptor != null)
 					{
 						var result = SetDeviceParameters(commonDatabase, descriptor);
-						if (!string.IsNullOrEmpty(result))
+						if (result != null)
 						{
-							MessageBoxService.ShowError("Ошибка при записи параметра устройства " + device.PresentationDriverAndAddress + "\n" + result);
+							ErrorLog += "\n" + device.PresentationDriverAndAddress;
 						}
 					}
 				}
@@ -115,15 +106,7 @@ namespace GKProcessor
 		{
 			try
 			{
-				CommonDatabase commonDatabase = null;
-				if (device.KauDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == device.KauDatabaseParent);
-				}
-				else if (device.GkDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == device.GkDatabaseParent);
-				}
+				var commonDatabase = GetCommonDatabase(device);
 				if (commonDatabase != null)
 				{
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
@@ -160,8 +143,8 @@ namespace GKProcessor
 				ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
 				var binProperty = new BinProperty()
 				{
-					ParamNo = paramNo,
-					ParamValue = paramValue
+					No = paramNo,
+					Value = paramValue
 				};
 				binProperties.Add(binProperty);
 			}
@@ -173,10 +156,10 @@ namespace GKProcessor
 					if (!driverProperty.IsAUParameter)
 						continue;
 
-					var binProperty = binProperties.FirstOrDefault(x => x.ParamNo == driverProperty.No);
+					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					if (binProperty != null)
 					{
-						var paramValue = (ushort)binProperty.ParamValue;
+						var paramValue = (ushort)binProperty.Value;
 						if (driverProperty.IsLowByte)
 						{
 							paramValue = (ushort)(paramValue << 8);
@@ -195,7 +178,17 @@ namespace GKProcessor
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						if (property == null)
+						{
+							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+							descriptor.Device.DeviceProperties.Add(new XProperty()
+							    {
+							        DriverProperty = systemProperty.DriverProperty,
+							        Name = systemProperty.Name,
+							        Value = paramValue
+							    });
+						}
 						if (property != null)
 						{
 							property.Value = paramValue;
@@ -255,15 +248,7 @@ namespace GKProcessor
 			DatabaseManager.Convert();
 			try
 			{
-				CommonDatabase commonDatabase = null;
-				if (direction.KauDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == direction.KauDatabaseParent);
-				}
-				else if (direction.GkDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == direction.GkDatabaseParent);
-				}
+				var commonDatabase = GetCommonDatabase(direction);
 				if (commonDatabase != null)
 				{
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
@@ -282,11 +267,12 @@ namespace GKProcessor
 				Logger.Error(e, "ParametersHelper.SetDirectionParameters");
 			}
 		}
+
 		static string SetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
 			if (descriptor.Device != null)
 			{
-				foreach (var property in descriptor.Device.Properties)
+				foreach (var property in descriptor.Device.DeviceProperties)
 				{
 					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
@@ -327,15 +313,7 @@ namespace GKProcessor
 			DatabaseManager.Convert();
 			try
 			{
-				CommonDatabase commonDatabase = null;
-				if (direction.KauDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == direction.KauDatabaseParent);
-				}
-				else if (direction.GkDatabaseParent != null)
-				{
-					commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == direction.GkDatabaseParent);
-				}
+				var commonDatabase = GetCommonDatabase(direction);
 				if (commonDatabase != null)
 				{
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
@@ -354,6 +332,7 @@ namespace GKProcessor
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
 		}
+
 		static bool GetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, XDirection direction)
 		{
 			var no = descriptor.GetDescriptorNo();
@@ -371,8 +350,8 @@ namespace GKProcessor
 				ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
 				var binProperty = new BinProperty()
 				{
-					ParamNo = paramNo,
-					ParamValue = paramValue
+					No = paramNo,
+					Value = paramValue
 				};
 				binProperties.Add(binProperty);
 			}
@@ -384,10 +363,10 @@ namespace GKProcessor
 					if (!driverProperty.IsAUParameter)
 						continue;
 
-					var binProperty = binProperties.FirstOrDefault(x => x.ParamNo == driverProperty.No);
+					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					if (binProperty != null)
 					{
-						var paramValue = (ushort)binProperty.ParamValue;
+						var paramValue = (ushort)binProperty.Value;
 						if (driverProperty.IsLowByte)
 						{
 							paramValue = (ushort)(paramValue << 8);
@@ -406,7 +385,7 @@ namespace GKProcessor
 						{
 							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
 						}
-						var property = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property != null)
 						{
 							property.Value = paramValue;
@@ -418,14 +397,22 @@ namespace GKProcessor
 					}
 				}
 			}
-			AllParametersChanged(binProperties[0].ParamValue, binProperties[1].ParamValue, binProperties[2].ParamValue);
+			AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
 			return true;
 		}
-	}
 
-	class BinProperty
-	{
-		public byte ParamNo { get; set; }
-		public ushort ParamValue { get; set; }
+		static CommonDatabase GetCommonDatabase(XBase xBase)
+		{
+			CommonDatabase commonDatabase = null;
+			if (xBase.KauDatabaseParent != null)
+			{
+				commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == xBase.KauDatabaseParent);
+			}
+			else if (xBase.GkDatabaseParent != null)
+			{
+				commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == xBase.GkDatabaseParent);
+			}
+			return commonDatabase;
+		}
 	}
 }

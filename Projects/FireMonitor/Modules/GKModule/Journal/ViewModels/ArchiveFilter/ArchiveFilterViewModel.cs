@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

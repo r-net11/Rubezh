@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 			foreach (var device in XManager.Devices)
 			{
 				if ((device.Driver.IsGroupDevice)
-					&& device.Driver.DriverType != XDriverType.GK && device.Driver.DriverType != XDriverType.KAU && device.Driver.DriverType != XDriverType.RSR2_KAU)
+					&& device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU)
 					continue;
 
 				foreach (var stateClass in device.DeviceState.StateClasses)
@@ -83,14 +83,14 @@ namespace GKModule.ViewModels
 							break;
 
 						case XStateClass.Fire1:
-							if (device.Driver.DriverType == XDriverType.AMP_1)
+							if (device.DriverType == XDriverType.AMP_1)
 							{
 								alarms.Add(new Alarm(XAlarmType.Fire1, device));
 							}
 							break;
 
 						case XStateClass.Fire2:
-							if (device.Driver.DriverType == XDriverType.AMP_1)
+							if (device.DriverType == XDriverType.AMP_1)
 							{
 								alarms.Add(new Alarm(XAlarmType.Fire2, device));
 							}
@@ -294,7 +294,7 @@ namespace GKModule.ViewModels
 				}
 				foreach (var device in XManager.Devices)
 				{
-					if (device.Driver.DriverType == XDriverType.AMP_1)
+					if (device.DriverType == XDriverType.AMP_1)
 					{
 						if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
 						{

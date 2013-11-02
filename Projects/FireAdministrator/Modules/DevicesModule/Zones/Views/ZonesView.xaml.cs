@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 using FiresecClient;
-using System.Collections.Generic;
 
 namespace DevicesModule.Views
 {

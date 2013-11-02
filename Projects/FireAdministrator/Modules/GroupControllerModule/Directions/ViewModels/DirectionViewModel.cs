@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (device != null)
 					{
-						switch (device.Driver.DriverType)
+						switch (device.DriverType)
 						{
 							case XDriverType.AM1_T:
 							case XDriverType.Pump:
@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 		{
 			if (Direction.IsNS)
 			{
-				if (!Direction.OutputDevices.All(x => x.Driver.DriverType == XDriverType.AM1_T || x.Driver.DriverType == XDriverType.Pump || x.Driver.DriverType == XDriverType.RSR2_Bush))
+				if (!Direction.OutputDevices.All(x => x.DriverType == XDriverType.AM1_T || x.DriverType == XDriverType.Pump || x.DriverType == XDriverType.RSR2_Bush))
 					SetNewOutputDevices(new List<XDevice>());
 			}
 			else
@@ -317,8 +317,8 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if ((device.Driver.DriverType == XDriverType.Pump && (device.IntAddress <= 8 || device.IntAddress == 12 || device.IntAddress ==  14)) ||
-					device.Driver.DriverType == XDriverType.RSR2_Bush || device.Driver.DriverType == XDriverType.AM1_T)
+				if ((device.DriverType == XDriverType.Pump && (device.IntAddress <= 8 || device.IntAddress == 12 || device.IntAddress ==  14)) ||
+					device.DriverType == XDriverType.RSR2_Bush || device.DriverType == XDriverType.AM1_T)
 					sourceDevices.Add(device);
 			}
 

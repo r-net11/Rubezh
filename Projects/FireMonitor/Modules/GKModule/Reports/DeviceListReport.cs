@@ -29,7 +29,7 @@ namespace GKModule.Reports
 			{
 				foreach (var device in XManager.Devices)
 				{
-					if (device.Driver.DriverType == XFiresecAPI.XDriverType.System)
+					if (device.DriverType == XFiresecAPI.XDriverType.System)
 						continue;
 					if (device.Driver.IsGroupDevice)
 						continue;

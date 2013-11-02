@@ -31,6 +31,10 @@ namespace XFiresecAPI
 		public XDeviceState DeviceState { get; set; }
 		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }
+		public XDriverType DriverType
+		{
+			get { return Driver.DriverType; }
+		}
 		public XDevice Parent { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
@@ -56,7 +60,7 @@ namespace XFiresecAPI
 			get
 			{
 				var allParents = AllParents;
-				var shleif = allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU_Shleif || x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
+				var shleif = allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif);
 				if (shleif != null)
 				{
 					return shleif.IntAddress;
@@ -108,7 +112,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 				{
 					var ipAddress = GetGKIpAddress();
 					return ipAddress != null ? ipAddress : "";
@@ -144,7 +148,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 				{
 					return Address;
 				}
@@ -158,10 +162,10 @@ namespace XFiresecAPI
 					if (parentDevice.Driver.IsGroupDevice)
 						continue;
 
-					if (parentDevice.Driver.DriverType == XDriverType.KAU_Shleif || parentDevice.Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+					if (parentDevice.DriverType == XDriverType.KAU_Shleif || parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
 						continue;
 
-					if (parentDevice.Driver.DriverType == XDriverType.MPT || parentDevice.Driver.DriverType == XDriverType.MRO_2)
+					if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -205,7 +209,7 @@ namespace XFiresecAPI
 			{
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
-				if (Driver.DriverType == XDriverType.Pump)
+				if (DriverType == XDriverType.Pump)
 				{
 					if (IntAddress <= 8)
 						return "Пожарный насос";
@@ -241,7 +245,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 					return ShortName + " " + GetGKIpAddress();
 
 				if (Driver.HasAddress)
@@ -283,7 +287,7 @@ namespace XFiresecAPI
 			{
 				if (Parent != null && Parent.Driver.IsGroupDevice)
 					return false;
-				if(AllParents.Any(x => x.Driver.DriverType == XDriverType.RSR2_KAU))
+				if(AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
 					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
@@ -304,7 +308,7 @@ namespace XFiresecAPI
 
 		public XDevice GKParent
 		{
-			get { return AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK); }
+			get { return AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK); }
 		}
 
 		public XDevice KAUParent
@@ -313,7 +317,7 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU || x.Driver.DriverType == XDriverType.RSR2_KAU);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU);
 			}
 		}
 
@@ -323,7 +327,7 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.RSR2_KAU);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
 			}
 		}
 
@@ -333,7 +337,7 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 			}
 		}
 
@@ -355,7 +359,7 @@ namespace XFiresecAPI
 
 		public string GetGKIpAddress()
 		{
-			if (Driver.DriverType == XDriverType.GK)
+			if (DriverType == XDriverType.GK)
 			{
 				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
 				if (ipProperty != null)
@@ -372,9 +376,9 @@ namespace XFiresecAPI
 			{
 				if (Driver.IsGroupDevice)
 					return false;
-				if (Driver.DriverType == XDriverType.System)
+				if (DriverType == XDriverType.System)
 					return false;
-				if (Driver.DriverType == XDriverType.KAU_Shleif || Driver.DriverType == XDriverType.RSR2_KAU_Shleif)
+				if (DriverType == XDriverType.KAU_Shleif || DriverType == XDriverType.RSR2_KAU_Shleif)
 					return false;
 				return true;
 			}
@@ -382,7 +386,7 @@ namespace XFiresecAPI
 
 		public bool IsChildMPTOrMRO()
 		{
-			return Parent != null && (Parent.Driver.DriverType == XDriverType.MPT || Parent.Driver.DriverType == XDriverType.MRO_2);
+			return Parent != null && (Parent.DriverType == XDriverType.MPT || Parent.DriverType == XDriverType.MRO_2);
 		}
 
 		public void InitializeDefaultProperties()

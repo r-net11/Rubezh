@@ -10,7 +10,7 @@ namespace GKModule.ViewModels
 		public static byte GetMinAddress(XDriver driver, XDevice device)
 		{
 			XDevice parentDevice = device;
-			if (parentDevice.Driver.DriverType == XDriverType.MPT || parentDevice.Driver.DriverType == XDriverType.MRO_2)
+			if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
 				parentDevice = parentDevice.Parent;
 
 			byte maxAddress = 0;
@@ -47,7 +47,7 @@ namespace GKModule.ViewModels
 				if (child.IntAddress > maxAddress)
 					maxAddress = (byte)child.IntAddress;
 
-				if (child.Driver.DriverType == XDriverType.MPT || child.Driver.DriverType == XDriverType.MRO_2)
+				if (child.DriverType == XDriverType.MPT || child.DriverType == XDriverType.MRO_2)
 				{
 					foreach (var child2 in child.Children)
 					{

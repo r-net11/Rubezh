@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -125,7 +124,7 @@ namespace GKModule.ViewModels
 
 		private static void SortTree(ref List<ObjectViewModel> objectViewModels, XDriverType driverType)
 		{
-            var rootObject = objectViewModels.FirstOrDefault(x => x.Device.Driver.DriverType == driverType);
+            var rootObject = objectViewModels.FirstOrDefault(x => x.Device.DriverType == driverType);
 			objectViewModels = new List<ObjectViewModel>();
 		    objectViewModels.Add(rootObject);
 			AddChildren(objectViewModels, rootObject);

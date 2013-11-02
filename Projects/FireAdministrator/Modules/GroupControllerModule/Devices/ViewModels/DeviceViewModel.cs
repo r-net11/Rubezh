@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Shapes;
-using Common.GK;
 using DeviceControls;
 using FiresecAPI.Models;
-using FiresecAPI.XModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,9 +14,9 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Helper;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
-using Infrustructure.Plans.Helper;
 
 namespace GKModule.ViewModels
 {
@@ -169,7 +165,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
-			if(Device.AllParents.Any(x=>x.Driver.DriverType == XDriverType.RSR2_KAU))
+			if(Device.AllParents.Any(x=>x.DriverType == XDriverType.RSR2_KAU))
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
@@ -438,7 +434,7 @@ namespace GKModule.ViewModels
 			get { return Device.Driver; }
 			set
 			{
-				if (Device.Driver.DriverType != value.DriverType)
+				if (Device.DriverType != value.DriverType)
 				{
 					XManager.ChangeDriver(Device, value);
 					Nodes.Clear();
@@ -469,7 +465,7 @@ namespace GKModule.ViewModels
 			AvailvableDrivers.Clear();
 			if (CanChangeDriver)
 			{
-				switch (Device.Parent.Driver.DriverType)
+				switch (Device.Parent.DriverType)
 				{
 					case XDriverType.AM_4:
 						AvailvableDrivers.Add(XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AM_1));
@@ -481,9 +477,9 @@ namespace GKModule.ViewModels
 						break;
 
 					default:
-						foreach (var driverType in Device.Parent.Driver.Children)
+						foreach (var device in Device.Parent.Children)
 						{
-							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.DriverType);
 							if (CanDriverBeChanged(driver))
 							{
 								AvailvableDrivers.Add(driver);

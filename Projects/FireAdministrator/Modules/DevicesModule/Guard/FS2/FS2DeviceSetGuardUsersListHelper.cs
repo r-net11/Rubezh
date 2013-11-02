@@ -1,9 +1,9 @@
-﻿using FiresecAPI;
+﻿using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using System.Collections.Generic;
 
 namespace DevicesModule.Guard
 {

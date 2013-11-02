@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using Infrastructure.Common.Validation;
 using FiresecClient;
+using Infrastructure.Common.Validation;
 
 namespace DevicesModule.Validation
 {

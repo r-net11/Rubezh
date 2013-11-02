@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
-using System.Collections.Generic;
 
 namespace Infrastructure.Common.Windows
 {

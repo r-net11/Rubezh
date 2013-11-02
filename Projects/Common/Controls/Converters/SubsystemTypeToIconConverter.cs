@@ -2,7 +2,6 @@
 using System.Windows.Data;
 using FiresecAPI;
 using XFiresecAPI;
-using FiresecAPI.Models;
 
 namespace Controls.Converters
 {

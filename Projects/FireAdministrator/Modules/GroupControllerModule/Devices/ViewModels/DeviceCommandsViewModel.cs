@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Common.GK;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.ViewModels;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -13,8 +14,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
-using System.Linq;
-
 
 namespace GKModule.Models
 {
@@ -56,7 +55,7 @@ namespace GKModule.Models
 		}
 		bool CanShowInfo()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == XDriverType.GK));
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -74,7 +73,7 @@ namespace GKModule.Models
 		}
 		bool CanSynchroniseTime()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
+			return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
@@ -88,7 +87,7 @@ namespace GKModule.Models
 		}
 		bool CanReadJournal()
 		{
-			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
+			return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand WriteConfigCommand { get; private set; }
@@ -107,7 +106,7 @@ namespace GKModule.Models
         {
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null &&
-				SelectedDevice.Device.Driver.DriverType == XDriverType.GK;
+				SelectedDevice.Device.DriverType == XDriverType.GK;
         }
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
@@ -142,11 +141,11 @@ namespace GKModule.Models
 				//    SelectedDevice.ExpandChildren();
 				//}
 			}
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				gkBinConfigurationReader.ReadConfiguration(device);
-				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.Driver.DriverType == device.Driver.DriverType) && (x.Address == device.Address))));
+				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.DriverType == device.DriverType) && (x.Address == device.Address))));
 				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
 				DialogService.ShowModalWindow(deviceConfigurationViewModel);
 			}

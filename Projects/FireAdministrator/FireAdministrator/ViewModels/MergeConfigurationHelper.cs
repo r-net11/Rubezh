@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Win32;
-using Infrastructure;
-using FiresecClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using System.IO;
-using Infrastructure.Common;
 using Common;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Ionic.Zip;
-using System.Diagnostics;
+using Microsoft.Win32;
 using XFiresecAPI;
 
 namespace FireAdministrator.ViewModels

@@ -1,6 +1,6 @@
-﻿using System.Windows.Data;
-using System;
+﻿using System;
 using System.Windows;
+using System.Windows.Data;
 namespace Controls.Converters
 {
     public class InversedBoolToVisibilityConverter : IValueConverter

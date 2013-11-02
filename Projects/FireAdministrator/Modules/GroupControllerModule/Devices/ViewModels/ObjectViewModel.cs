@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 		{
 			Name = device.ShortName;
 			Address = InitializeAddress(device);
-			ImageSource = "/Controls;component/GKIcons/" + device.Driver.DriverType + ".png"; 
+			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png"; 
 			Device = device;
 			Children = new List<ObjectViewModel>();
 		}
@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 
 		string InitializeAddress(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				return device.Address;
 			}
@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 			{
 				if (Device == null)
 					return false;
-				if ((Device.Driver.IsGroupDevice) || (Device.Driver.DriverType == XDriverType.KAU_Shleif) || (Device.Driver.DriverType == XDriverType.RSR2_KAU_Shleif))
+				if ((Device.Driver.IsGroupDevice) || (Device.DriverType == XDriverType.KAU_Shleif) || (Device.DriverType == XDriverType.RSR2_KAU_Shleif))
 					return true;
 				return false;
 			}

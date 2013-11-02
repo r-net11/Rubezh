@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using XFiresecAPI;
 using Infrastructure.Common.Windows;
@@ -172,7 +172,7 @@ namespace GKModule
 		static bool SendControlCommand(XBase xBase, byte code, bool mustValidatePassword = true)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = xBase.GetDatabaseNo(DatabaseType.Gk);
+			var databaseNo = xBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 
@@ -191,7 +191,7 @@ namespace GKModule
 		public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
 		{
 			var bytes = new List<byte>();
-			var databaseNo = xBase.GetDatabaseNo(DatabaseType.Gk);
+			var databaseNo = xBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 			bytes.Add(code2);

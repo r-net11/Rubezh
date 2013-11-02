@@ -1,8 +1,7 @@
 ﻿using DiagnosticsModule.Views;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {

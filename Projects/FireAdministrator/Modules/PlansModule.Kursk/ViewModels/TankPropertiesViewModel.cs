@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
-using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Kursk.Designer;
+using XFiresecAPI;
 
 namespace PlansModule.Kursk.ViewModels
 {
@@ -20,7 +18,7 @@ namespace PlansModule.Kursk.ViewModels
 			_element = element;
 			Title = "Свойства фигуры: Бак";
 
-			Devices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.Driver.DriverType == XDriverType.RSR2_Bush));
+			Devices = new ObservableCollection<XDevice>(XManager.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush));
 			if (_element.XDeviceUID != Guid.Empty)
 				SelectedDevice = Devices.FirstOrDefault(x => x.UID == _element.XDeviceUID);
 		}

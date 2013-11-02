@@ -103,7 +103,7 @@ namespace FiresecClient
 					AddChild(device, autoCreateDriver, i);
 				}
 			}
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				UpdateGKPredefinedName(device);
 			}
@@ -115,7 +115,7 @@ namespace FiresecClient
 			{
 				var childDevice = device.Children[i - 1];
 
-				if (device.Driver.Children.Contains(childDevice.Driver.DriverType) == false)
+				if (device.Driver.Children.Contains(childDevice.DriverType) == false)
 				{
 					device.Children.RemoveAt(i - 1);
 				}
@@ -132,7 +132,7 @@ namespace FiresecClient
 						Driver = autoCreateDriver,
 						IntAddress = i
 					};
-					if (device.Children.Any(x => x.Driver.DriverType == newDevice.Driver.DriverType && x.Address == newDevice.Address) == false)
+					if (device.Children.Any(x => x.DriverType == newDevice.DriverType && x.Address == newDevice.Address) == false)
 					{
 						device.Children.Add(newDevice);
 						newDevice.Parent = device;
@@ -143,7 +143,7 @@ namespace FiresecClient
 
 		public static bool IsValidIpAddress(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
 				var address = device.GetGKIpAddress();

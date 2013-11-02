@@ -18,7 +18,7 @@ namespace Controls.Converters
 			XDevice device = parameter as XDevice;
 			if (device != null)
 			{
-				if (device.Driver.DriverType == XDriverType.Valve)
+				if (device.DriverType == XDriverType.Valve)
 				{
 					switch (stateClass)
 					{

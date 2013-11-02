@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
-using System;
 
 namespace FiresecClient
 {
@@ -78,7 +78,7 @@ namespace FiresecClient
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
 
-			if (parentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
+			if (parentDevice.DriverType == XDriverType.RSR2_KAU)
 				RebuildRSR2Addresses(parentDevice);
 			device.OnChanged();
 		}

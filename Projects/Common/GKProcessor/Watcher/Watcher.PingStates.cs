@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Common.GK;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using GKProcessor.Events;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;

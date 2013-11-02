@@ -1,5 +1,4 @@
 ﻿using System;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Client.Plans

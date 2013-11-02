@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Client;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Events;
 using SettingsModule.ViewModels;
-using Infrastructure;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
 
 namespace SettingsModule
 {

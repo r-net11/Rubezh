@@ -26,7 +26,6 @@
         <File Id="Monitor.MuliclientAPI.dll" Name="MuliclientAPI.dll" Source="$(var.Monitor.TargetDir)" />
         
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Monitor.TargetDir)" />

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.XModels;
 
@@ -13,7 +12,7 @@ namespace XFiresecAPI
 		{
 			Device = device;
 
-			if (device.Driver.DriverType == XDriverType.System)
+			if (device.DriverType == XDriverType.System)
 				IsInitialState = false;
 
 			MeasureParameter = new XMeasureParameter();

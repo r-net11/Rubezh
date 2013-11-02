@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -32,7 +31,7 @@ namespace GKModule.ViewModels
 			}
 
 			var parentShleif = ParentDevice;
-			if (ParentDevice.Driver.DriverType == XDriverType.MPT || ParentDevice.Driver.DriverType == XDriverType.MRO_2)
+			if (ParentDevice.DriverType == XDriverType.MPT || ParentDevice.DriverType == XDriverType.MRO_2)
 				parentShleif = ParentDevice.Parent;
 
 			SelectedDriver = Drivers.FirstOrDefault();

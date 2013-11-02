@@ -3,12 +3,11 @@ using System.Reflection;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Client;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Client.Login.ViewModels
 {

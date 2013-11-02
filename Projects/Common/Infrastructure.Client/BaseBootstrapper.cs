@@ -15,8 +15,6 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services.Ribbon;
-using System.Diagnostics;
 
 namespace Infrastructure.Client
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
 using Common;
-using Common.GK;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;

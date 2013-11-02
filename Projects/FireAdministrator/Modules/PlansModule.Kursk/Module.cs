@@ -3,13 +3,7 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using PlansModule.Kursk.ViewModels;
 
 namespace PlansModule.Kursk
 {

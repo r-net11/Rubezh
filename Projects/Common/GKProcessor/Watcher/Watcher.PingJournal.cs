@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.GK;
 using FiresecAPI.XModels;
 using GKProcessor.Events;
 using Infrastructure;
@@ -43,8 +42,8 @@ namespace GKProcessor
 				return -1;
 			}
 			ConnectionChanged(true);
-			var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
-			return internalJournalItem.GKNo;
+			var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+			return journalParser.JournalItem.GKJournalRecordNo.Value;
 		}
 
 		JournalItem ReadJournal(int index)
@@ -60,9 +59,8 @@ namespace GKProcessor
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
-				var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
-				var journalItem = internalJournalItem.ToJournalItem();
-				return journalItem;
+				var journalParser = new JournalParser(GkDatabase.RootDevice, sendResult.Bytes);
+				return journalParser.JournalItem;
 			}
 			return null;
 		}
@@ -114,7 +112,7 @@ namespace GKProcessor
 			if (descriptor.Device != null)
 			{
 				var device = descriptor.Device;
-				if (device.Driver.DriverType == XDriverType.AM1_T)
+				if (device.DriverType == XDriverType.AM1_T)
 				{
 					if (journalItem.Name == "Пожар-1")
 					{
@@ -164,7 +162,7 @@ namespace GKProcessor
 
 			foreach (var device in XManager.Devices)
 			{
-				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.Driver.DriverType == XDriverType.RSR2_KAU))
+				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.DriverType == XDriverType.RSR2_KAU))
 				{
 					bool mustGetState = false;
 					switch (device.DeviceState.StateClass)

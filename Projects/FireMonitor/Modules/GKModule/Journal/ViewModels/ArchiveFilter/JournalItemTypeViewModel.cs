@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 
 namespace GKModule.ViewModels

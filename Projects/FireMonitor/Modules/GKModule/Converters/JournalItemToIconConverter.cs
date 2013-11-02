@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 
 namespace GKModule.Converters

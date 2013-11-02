@@ -21,17 +21,17 @@ namespace FiresecClient
 				zone.KauDatabaseParent = null;
 				zone.GkDatabaseParent = null;
 
-				var kauParents = new HashSet<XDevice>();
+				var gkParents = new HashSet<XDevice>();
 				foreach (var device in zone.Devices)
 				{
-					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.IsKauOrRSR2Kau);
-					kauParents.Add(kauParent);
+					var gkParent = device.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+					gkParents.Add(gkParent);
 				}
 
-				var kauDevice = kauParents.FirstOrDefault();
-				if (kauDevice != null)
+				var gkDevice = gkParents.FirstOrDefault();
+				if (gkDevice != null)
 				{
-					zone.GkDatabaseParent = kauDevice.Parent;
+					zone.GkDatabaseParent = gkDevice;
 				}
 			}
 		}
@@ -40,16 +40,16 @@ namespace FiresecClient
 		{
 			foreach (var device in Devices)
 			{
-				device.ClearBinaryData();
+				device.ClearDescriptor();
 			}
 			foreach (var zone in Zones)
 			{
-				zone.ClearBinaryData();
+				zone.ClearDescriptor();
 				LinkBinaryObjects(zone, zone);
 			}
 			foreach (var direction in Directions)
 			{
-				direction.ClearBinaryData();
+				direction.ClearDescriptor();
 			}
 
             foreach (var device in Devices)
@@ -129,8 +129,6 @@ namespace FiresecClient
 				var inputZone = direction.InputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
-					if (inputZone.KauDatabaseParent != null)
-						direction.GkDatabaseParent = inputZone.KauDatabaseParent.Parent;
 					if (inputZone.GkDatabaseParent != null)
 						direction.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
@@ -138,13 +136,13 @@ namespace FiresecClient
 				var inputDevice = direction.InputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
-					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 
 				var outputDevice = direction.OutputDevices.FirstOrDefault();
 				if (outputDevice != null)
 				{
-					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 			}
 		}

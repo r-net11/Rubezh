@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using Common.GK;
+using GKProcessor;
 using GKProcessor.Events;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {
-    public class JournalsViewModel : BaseViewModel
-    {
-        public JournalsViewModel()
-        {
+	public class JournalsViewModel : BaseViewModel
+	{
+		public JournalsViewModel()
+		{
 			JournalItems = new ObservableCollection<JournalItem>();
 			ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalItems);
-        }
+		}
 
 		public void SafeCall(Action action)
 		{
@@ -32,5 +33,5 @@ namespace GKSDK
 		}
 
 		public ObservableCollection<JournalItem> JournalItems { get; private set; }
-    }
+	}
 }

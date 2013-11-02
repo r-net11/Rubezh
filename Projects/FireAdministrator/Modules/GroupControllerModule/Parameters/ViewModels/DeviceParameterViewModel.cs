@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecClient;
 using GKModule.DeviceProperties;
 using Infrastructure.Common.TreeList;
-using FiresecClient;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels

@@ -60,7 +60,7 @@ namespace GKModule.Reports
 			var count = 0;
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.DriverType == driver.DriverType)
+				if (device.DriverType == driver.DriverType)
 				{
 					if (device.Parent.Driver.IsGroupDevice)
 						continue;

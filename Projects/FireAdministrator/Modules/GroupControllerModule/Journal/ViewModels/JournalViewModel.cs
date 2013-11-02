@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using Common.GK;
+using System.Runtime.Serialization;
+using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 using Microsoft.Win32;
-using System.IO;
-using System.Runtime.Serialization;
-using Common.GK.Journal;
-using FiresecClient;
-
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -36,8 +33,8 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Ошибка связи с устройством");
 				return false;
 			}
-			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
-			TotalCount = internalJournalItem.GKNo;
+			var journalParser = new JournalParser(Device, sendResult.Bytes);
+			TotalCount = journalParser.JournalItem.GKJournalRecordNo.Value;
 			StartIndex = Math.Max(1, TotalCount - 100);
 			EndIndex = TotalCount;
 			return true;
@@ -135,9 +132,8 @@ namespace GKModule.ViewModels
 					MessageBoxService.Show("Ошибка связи с устройством");
 					break;
 				}
-				var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
-				var journalItem = internalJournalItem.ToJournalItem();
-				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				var journalParser = new JournalParser(Device, sendResult.Bytes);
+				var journalItemViewModel = new JournalItemViewModel(journalParser.JournalItem);
 				JournalItems.Add(journalItemViewModel);
 			}
 			IsNotEmpty = true;

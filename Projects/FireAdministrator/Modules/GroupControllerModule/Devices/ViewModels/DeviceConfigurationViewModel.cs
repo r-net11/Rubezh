@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -21,13 +20,13 @@ namespace GKModule.ViewModels
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
 
-			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => (x.Driver.DriverType == device.Driver.DriverType)&&(x.Address == device.Address));
-			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => (x.Driver.DriverType == device.Driver.DriverType) && (x.Address == device.Address));
+			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => (x.DriverType == device.DriverType)&&(x.Address == device.Address));
+			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => (x.DriverType == device.DriverType) && (x.Address == device.Address));
 
 			var localDeviceClone = (XDevice) LocalDevice.Clone();
 			var remoteDeviceClone = (XDevice) RemoteDevice.Clone();
 
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				LocalDeviceViewModel = new DeviceTreeViewModel(localDeviceClone, localConfiguration.Zones,
 															   localConfiguration.Directions);
@@ -39,15 +38,15 @@ namespace GKModule.ViewModels
 				LocalDeviceViewModel = new DeviceTreeViewModel(localDeviceClone, null, null);
 				RemoteDeviceViewModel = new DeviceTreeViewModel(remoteDeviceClone, null, null);
 			}
-            var compareDevices = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices, device.Driver.DriverType);
+            var compareDevices = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices, device.DriverType);
 			LocalDeviceViewModel.Devices = compareDevices[0];
 			RemoteDeviceViewModel.Devices = compareDevices[1];
-            if (device.Driver.DriverType == XDriverType.GK)
+            if (device.DriverType == XDriverType.GK)
             {
-                var compareZones = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones, device.Driver.DriverType);
+                var compareZones = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones, device.DriverType);
                 LocalDeviceViewModel.Zones = compareZones[0];
                 RemoteDeviceViewModel.Zones = compareZones[1];
-                var compareDirections = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions, device.Driver.DriverType);
+                var compareDirections = DeviceTreeViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions, device.DriverType);
                 LocalDeviceViewModel.Directions = compareDirections[0];
                 RemoteDeviceViewModel.Directions = compareDirections[1];
             }
@@ -63,7 +62,7 @@ namespace GKModule.ViewModels
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
-			if(RemoteDevice.Driver.DriverType == XDriverType.GK)
+			if(RemoteDevice.DriverType == XDriverType.GK)
 			{
 				foreach (var kauChild in RemoteDevice.Children)
 				{
@@ -73,7 +72,7 @@ namespace GKModule.ViewModels
 			}
 			if(RemoteDevice.Driver.IsKauOrRSR2Kau)
 				AddShleifs(RemoteDevice);
-			if (LocalDevice.Driver.DriverType == XDriverType.GK)
+			if (LocalDevice.DriverType == XDriverType.GK)
 			{
 				LocalConfiguration.Zones = RemoteConfiguration.Zones;
 				LocalConfiguration.Directions = RemoteConfiguration.Directions;
@@ -109,7 +108,7 @@ namespace GKModule.ViewModels
 			{
 				if ((1 <= child.ShleifNo)&&(child.ShleifNo <= 8))
 				{
-					var shleif = device.Children.FirstOrDefault(x => (x.Driver.DriverType == XDriverType.KAU_Shleif) && (x.IntAddress == child.ShleifNo));
+					var shleif = device.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif) && (x.IntAddress == child.ShleifNo));
 					shleif.Children.Add(child);
 					child.Parent = shleif;
 				}
