@@ -43,17 +43,11 @@ namespace GKProcessor
 					switch (code)
 					{
 						case 0:
-							JournalItem.Name = "Технология";
-							JournalItem.UserFriendlyName = "Перевод в технологический режим";
+							JournalItem.Name = "Перевод в технологический режим";
 							break;
 
 						case 2:
-							JournalItem.Name = "Установка часов";
-							JournalItem.UserFriendlyName = "Синхронизация времени прибора с временем ПК";
-							break;
-
-						case 3:
-							JournalItem.Name = "Запись информации о блоке";
+							JournalItem.Name = "Синхронизация времени прибора с временем ПК";
 							break;
 
 						case 4:
@@ -66,7 +60,6 @@ namespace GKProcessor
 
 						case 6:
 							JournalItem.Name = "Работа";
-							JournalItem.UserFriendlyName = "Работа шкафа";
 							break;
 
 						case 7:
@@ -191,7 +184,7 @@ namespace GKProcessor
 							JournalItem.YesNo = JournalStringsHelper.ToYesNo(bytes[32 + 14]);
 
 							if (JournalItem.YesNo == JournalYesNoType.No)
-								JournalItem.UserFriendlyName = "Неисправность устранена";
+								JournalItem.Name = "Неисправность устранена";
 
 							if (JournalItem.DescriptorType == 0xE0)
 								JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
@@ -200,46 +193,42 @@ namespace GKProcessor
 							break;
 
 						case 6:
-							JournalItem.UserFriendlyName = JournalItem.Name = "Тест";
+							JournalItem.Name = "Тест";
 							JournalItem.YesNo = JournalStringsHelper.ToYesNo(bytes[32 + 14]);
 
 							switch (bytes[32 + 15])
 							{
 								case 1:
 									JournalItem.Description = "Кнопка";
-									JournalItem.UserFriendlyName = "Тест кнопка";
 									break;
 
 								case 2:
 									JournalItem.Description = "Указка";
-									JournalItem.UserFriendlyName = "Тест лазер";
 									break;
 							}
 
 							if (JournalItem.YesNo == JournalYesNoType.No)
-								JournalItem.UserFriendlyName += " устранено";
+								JournalItem.Name = "Тест устранен";
 
 							break;
 
 						case 7:
-							JournalItem.UserFriendlyName = JournalItem.Name = "Запыленность";
+							JournalItem.Name = "Запыленность";
 							JournalItem.YesNo = JournalStringsHelper.ToYesNo(bytes[32 + 14]);
 
 							switch (bytes[32 + 15])
 							{
 								case 1:
 									JournalItem.Description = "Предварительная";
-									JournalItem.UserFriendlyName = "Предварительная запыленность";
 									break;
 
 								case 2:
 									JournalItem.Description = "Критическая";
-									JournalItem.UserFriendlyName = "Критическая запыленность";
 									break;
 							}
 
 							if (JournalItem.YesNo == JournalYesNoType.No)
-								JournalItem.UserFriendlyName += " устранена";
+								JournalItem.Name = "Запыленность устранена";
 							break;
 
 						case 8:
@@ -255,39 +244,27 @@ namespace GKProcessor
 							switch (bytes[32 + 15])
 							{
 								case 2:
-									JournalItem.Description = "Включено";
-									JournalItem.UserFriendlyName = "Включено";
-									JournalItem.StateClass = XStateClass.On;
+									JournalItem.Name = "Включено";
 									break;
 
 								case 3:
-									JournalItem.Description = "Выключено";
-									JournalItem.UserFriendlyName = "Выключено";
-									JournalItem.StateClass = XStateClass.Off;
+									JournalItem.Name = "Выключено";
 									break;
 
 								case 4:
-									JournalItem.Description = "Включается";
-									JournalItem.UserFriendlyName = "Включается";
-									JournalItem.StateClass = XStateClass.TurningOn;
+									JournalItem.Name = "Включается";
 									break;
 
 								case 5:
-									JournalItem.Description = "Выключается";
-									JournalItem.UserFriendlyName = "Выключается";
-									JournalItem.StateClass = XStateClass.TurningOff;
+									JournalItem.Name = "Выключается";
 									break;
 
 								case 30:
-									JournalItem.Description = "Не определено";
-									JournalItem.UserFriendlyName = "Состояние не определено";
-									JournalItem.StateClass = XStateClass.Unknown;
+									JournalItem.Name = "Состояние не определено";
 									break;
 
 								case 31:
-									JournalItem.Description = "Остановлено";
-									JournalItem.UserFriendlyName = "Остановлено";
-									JournalItem.StateClass = XStateClass.Info;
+									JournalItem.Name = "Остановлено";
 									break;
 							}
 							break;
@@ -297,34 +274,25 @@ namespace GKProcessor
 							switch (bytes[32 + 15])
 							{
 								case 0:
-									JournalItem.Description = "Автоматика";
-									JournalItem.UserFriendlyName = "Перевод в автоматический режим";
-									JournalItem.StateClass = XStateClass.Norm;
+									JournalItem.Name = "Перевод в автоматический режим";
 									break;
 
 								case 1:
-									JournalItem.Description = "Ручное";
-									JournalItem.UserFriendlyName = "Перевод в ручной режим";
-									JournalItem.StateClass = XStateClass.AutoOff;
+									JournalItem.Name = "Перевод в ручной режим";
 									break;
 
 								case 2:
-									JournalItem.Description = "Отключение";
-									JournalItem.UserFriendlyName = "Перевод в отключенный режим";
-									JournalItem.StateClass = XStateClass.Off;
+									JournalItem.Name = "Перевод в отключенный режим";
 									break;
 
 								case 3:
-									JournalItem.Description = "Не определено";
-									JournalItem.UserFriendlyName = "Перевод в неопределенный режим";
-									JournalItem.StateClass = XStateClass.Unknown;
+									JournalItem.Name = "Перевод в неопределенный режим";
 									break;
 							}
 							break;
 
 						case 13:
-							JournalItem.Name = "Параметры";
-							JournalItem.UserFriendlyName = "Запись параметра объекта";
+							JournalItem.Name = "Запись параметра";
 							break;
 
 						case 14:
@@ -342,11 +310,6 @@ namespace GKProcessor
 			if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
 			{
 				JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, Device.IntAddress);
-			}
-
-			if (string.IsNullOrEmpty(JournalItem.UserFriendlyName))
-			{
-				JournalItem.UserFriendlyName = JournalItem.Name;
 			}
 
 			if (JournalItem.StateClass == XStateClass.No)

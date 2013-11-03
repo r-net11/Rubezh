@@ -124,7 +124,6 @@
     <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
