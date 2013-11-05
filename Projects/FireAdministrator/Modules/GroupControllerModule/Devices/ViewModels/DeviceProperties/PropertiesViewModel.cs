@@ -92,10 +92,10 @@ namespace GKModule.ViewModels
 		DeviceParameterMissmatchType _deviceParameterMissmatchType;
 		public DeviceParameterMissmatchType DeviceParameterMissmatchType
 		{
-			get { return _deviceParameterMissmatchType; }
+			get{return _deviceParameterMissmatchType;}
 			set
 			{
-				_deviceParameterMissmatchType = value;
+				_deviceParameterMissmatchType = value;// == DeviceParameterMissmatchType.Unknown ? DeviceParameterMissmatchType.Equal : value;
 				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}

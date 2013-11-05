@@ -150,12 +150,11 @@ namespace GKModule.ViewModels
         #endregion
 
         public RelayCommand WriteCommand { get; private set; }
-        public RelayCommand SyncFromSystemToDeviceCommand { get; private set; }
-        void OnSyncFromSystemToDevice()
+        void OnWriteCommand()
         {
             if (CheckNeedSave())
             {
-                var devices = new List<XDevice>() { Device };
+                var devices = new List<XDevice> { Device };
                 if (Validate(devices))
                 {
 					WriteDevices(devices);
@@ -164,12 +163,13 @@ namespace GKModule.ViewModels
                 }
             }
         }
+
 		void InitializeParamsCommands()
 		{
 			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
-			WriteCommand = new RelayCommand(OnSyncFromSystemToDevice, CanSync);
+			WriteCommand = new RelayCommand(OnWriteCommand, CanSync);
 			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
-			WriteAllCommand = new RelayCommand(SyncFromAllSystemToDevice, CanSyncAll);
+			WriteAllCommand = new RelayCommand(OnWriteAll, CanSyncAll);
 			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
@@ -181,8 +181,7 @@ namespace GKModule.ViewModels
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 		}
         public RelayCommand WriteAllCommand { get; private set; }
-        public RelayCommand SyncFromAllSystemToDeviceCommand { get; private set; }
-        void SyncFromAllSystemToDevice()
+        void OnWriteAll()
         {
             if (CheckNeedSave())
             {
@@ -201,6 +200,25 @@ namespace GKModule.ViewModels
                 }
             }
         }
+
+		public void SyncFromAllSystemToDevice()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				if (Validate(devices))
+				{
+					foreach (var device in devices)
+					{
+						CopyFromSystemToDevice(device);
+						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+						if (deviceViewModel != null)
+							deviceViewModel.PropertiesViewModel.Update();
+					}
+				}
+			}
+		}
 
         public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
         void OnSyncFromDeviceToSystem()
@@ -297,8 +315,7 @@ namespace GKModule.ViewModels
                     (!int.TryParse(Convert.ToString(property.Value), out value) ||
                     (value < driverProperty.Min || value > driverProperty.Max));
         }
-
-
+		
         public RelayCommand ReadCommand { get; private set; }
         void OnRead()
         {

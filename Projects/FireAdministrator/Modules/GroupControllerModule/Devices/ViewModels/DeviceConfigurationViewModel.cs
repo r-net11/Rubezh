@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.ObjectBuilder2;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -52,6 +54,7 @@ namespace GKModule.ViewModels
             }
 			ChangeCommand = new RelayCommand(OnChange);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference);
+			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference);
 		}
 		public DeviceTreeViewModel LocalDeviceViewModel { get; set; }
 		public DeviceTreeViewModel RemoteDeviceViewModel { get; set; }
@@ -85,12 +88,41 @@ namespace GKModule.ViewModels
 		public RelayCommand NextDifferenceCommand { get; private set; }
 		void OnNextDifference()
 		{
+			var objects = new List<ObjectViewModel>(LocalDeviceViewModel.Objects.Count);
+			LocalDeviceViewModel.Objects.ForEach(item => objects.Add((ObjectViewModel)item.Clone()));
+
+			foreach (var objectViewModel in RemoteDeviceViewModel.Objects)
+			{
+				if (objectViewModel.HasDifferences)
+					objects.FirstOrDefault(x => ObjectViewModel.Equels(x, objectViewModel)).HasDifferences = true;
+			}
+
 			var startindex = LocalDeviceViewModel.SelectedObject != null? LocalDeviceViewModel.Objects.IndexOf(LocalDeviceViewModel.SelectedObject) + 1: 0;
 			var endindex = LocalDeviceViewModel.Objects.Count - startindex;
-			var newSelected = LocalDeviceViewModel.Objects.ToList().GetRange(startindex, endindex).FirstOrDefault(x => x.HasDifferences);
+			var newSelected = LocalDeviceViewModel.Objects.FirstOrDefault(x => ObjectViewModel.Equels(x,objects.ToList().GetRange(startindex, endindex).FirstOrDefault(y => y.HasDifferences)));
 			if (newSelected != null)
 			    LocalDeviceViewModel.SelectedObject = newSelected;
 		}
+
+		public RelayCommand PreviousDifferenceCommand { get; private set; }
+		void OnPreviousDifference()
+		{
+			var objects = new List<ObjectViewModel>(LocalDeviceViewModel.Objects.Count);
+			LocalDeviceViewModel.Objects.ForEach(item => objects.Add((ObjectViewModel)item.Clone()));
+
+			foreach (var objectViewModel in RemoteDeviceViewModel.Objects)
+			{
+				if (objectViewModel.HasDifferences)
+					objects.LastOrDefault(x => ObjectViewModel.Equels(x, objectViewModel)).HasDifferences = true;
+			}
+
+			const int startindex = 0;
+			var endindex = LocalDeviceViewModel.SelectedObject != null ? LocalDeviceViewModel.Objects.IndexOf(LocalDeviceViewModel.SelectedObject) : LocalDeviceViewModel.Objects.Count;
+			var newSelected = LocalDeviceViewModel.Objects.LastOrDefault(x => ObjectViewModel.Equels(x, objects.ToList().GetRange(startindex, endindex).LastOrDefault(y => y.HasDifferences)));
+			if (newSelected != null)
+				LocalDeviceViewModel.SelectedObject = newSelected;
+		}
+
 		static void AddShleifs(XDevice device)
 		{
 			const int shleifsCount = 8;

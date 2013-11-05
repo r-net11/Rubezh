@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
@@ -77,7 +78,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var object1 in objects1)
 			{
-				if(!CompareObjects(object1, objects2))
+				if(!ContainsObject(object1, objects2))
 				{
 					var newObject = (ObjectViewModel)object1.Clone();
                     newObject.Children = new List<ObjectViewModel>();
@@ -94,7 +95,7 @@ namespace GKModule.ViewModels
 
 			foreach (var object2 in objects2)
 			{
-				if (!CompareObjects(object2, objects1))
+				if (!ContainsObject(object2, objects1))
 				{
 					var newObject = (ObjectViewModel)object2.Clone();
                     newObject.Children = new List<ObjectViewModel>();
@@ -141,7 +142,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		private static bool CompareObjects(ObjectViewModel objectViewModel, List<ObjectViewModel> objectViewModels)
+		private static bool ContainsObject(ObjectViewModel objectViewModel, List<ObjectViewModel> objectViewModels)
 		{
 			var matchedObjectViewModel = objectViewModels.FirstOrDefault
 				(x =>
