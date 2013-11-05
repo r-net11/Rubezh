@@ -477,9 +477,9 @@ namespace GKModule.ViewModels
 						break;
 
 					default:
-						foreach (var device in Device.Parent.Children)
+						foreach (var driverType in Device.Parent.Driver.Children)
 						{
-							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.DriverType);
+							var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
 							if (CanDriverBeChanged(driver))
 							{
 								AvailvableDrivers.Add(driver);
@@ -513,7 +513,6 @@ namespace GKModule.ViewModels
 			get { return CanDriverBeChanged(Device.Driver); }
 		}
 		#endregion
-
 
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()

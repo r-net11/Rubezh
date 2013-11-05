@@ -160,10 +160,12 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
+			WatcherManager.IsConfigurationReloading = true;
 			LoadingService.DoStep("Загрузка конфигурации ГК");
             XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();
+			WatcherManager.IsConfigurationReloading = false;
 			if (firstTime)
 				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;

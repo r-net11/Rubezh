@@ -162,6 +162,11 @@ namespace GKProcessor
 				if (LoadingService.IsCanceled)
 					return false;
 
+				if (commonDatabase is GkDatabase && descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv)
+				{
+					;
+				}
+
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
 					descriptor.XBase.GetDescriptorName() + " " +
 					"(" + descriptor.GetDescriptorNo().ToString() + ")" +
@@ -194,7 +199,7 @@ namespace GKProcessor
 				int packLenght = Math.Min(256, descriptor.AllBytes.Count - packNo * 256);
 				var packBytes = descriptor.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				if (packBytes.Count > 0)
+				if (packBytes.Count > 0)// || (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv))
 				{
 					var resultBytes = new List<byte>();
 					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());

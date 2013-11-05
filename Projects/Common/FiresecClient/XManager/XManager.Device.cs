@@ -37,14 +37,22 @@ namespace FiresecClient
 				});
 			}
 
-			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
+			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs;
+			deviceTo.Zones = deviceFrom.Zones;
 			foreach (var clause in deviceFrom.DeviceLogic.Clauses)
 			{
 				var clonedClause = new XClause()
 				{
+					ClauseConditionType = clause.ClauseConditionType,
+					ClauseJounOperationType = clause.ClauseJounOperationType,
+					ClauseOperationType = clause.ClauseOperationType,
+					StateType = clause.StateType,
 					DeviceUIDs = clause.DeviceUIDs,
 					ZoneUIDs = clause.ZoneUIDs,
-					DirectionUIDs = clause.DirectionUIDs
+					DirectionUIDs = clause.DirectionUIDs,
+					Devices = clause.Devices,
+					Zones = clause.Zones,
+					Directions = clause.Directions,
 				};
 				deviceTo.DeviceLogic.Clauses.Add(clonedClause);
 			}

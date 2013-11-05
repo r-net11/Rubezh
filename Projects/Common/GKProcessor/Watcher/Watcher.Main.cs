@@ -62,52 +62,56 @@ namespace GKProcessor
 
 			while (true)
 			{
+
 				if (CheckLicense())
 				{
-					if (IsAnyDBMissmatch)
+					if (WatcherManager.IsConfigurationReloading)
 					{
-						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 6)
+						if (IsAnyDBMissmatch)
 						{
-							GetAllStates(false);
-							LastMissmatchCheckTime = DateTime.Now;
+							if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
+							{
+								GetAllStates(false);
+								LastMissmatchCheckTime = DateTime.Now;
+							}
 						}
-					}
-					else
-					{
-						try
+						else
 						{
-							CheckTasks();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
-						}
+							try
+							{
+								CheckTasks();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
+							}
 
-						try
-						{
-							CheckDelays();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
-						}
+							try
+							{
+								CheckDelays();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
+							}
 
-						try
-						{
-							PingJournal();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
-						}
+							try
+							{
+								PingJournal();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
+							}
 
-						try
-						{
-							PingNextState();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+							try
+							{
+								PingNextState();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+							}
 						}
 					}
 				}
