@@ -329,7 +329,7 @@ namespace GKProcessor
 			if (Source == JournalSourceType.Object)
 			{
 				var stateBits = XStatesHelper.StatesFromInt(JournalItem.ObjectState);
-				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits, false, false, false, false, false);
+				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits);
 				JournalItem.ObjectStateClass = XStatesHelper.GetMinStateClass(stateClasses);
 			}
 			else

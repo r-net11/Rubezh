@@ -22,15 +22,6 @@ namespace GKProcessor
 				var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 				if (gkDatabase != null)
 				{
-				//    foreach (var binaryObject in gkDatabase.BinaryObjects)
-				//    {
-				//        if (binaryObject.AllBytes.Count % 256 == 0)
-				//        {
-				//            ;
-				//        }
-				//    }
-				//    return;
-
 					var result = Ping(gkDatabase);
 					if (!result)
 						return;
@@ -41,7 +32,7 @@ namespace GKProcessor
 					{
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
-						LoadingService.Show("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryDescriptorsCount, true);
+						LoadingService.Show("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : ""), summaryDescriptorsCount, true);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)

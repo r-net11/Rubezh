@@ -109,7 +109,7 @@ namespace GKProcessor
 
 		void CreateDelaysLogic()
 		{
-			bool firstDelay = true;
+			//bool firstDelay = true;
 			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				var pumpDelay = PumpDelays[i];
@@ -117,8 +117,8 @@ namespace GKProcessor
 				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
-				if (firstDelay)
-                {
+				//if (firstDelay)
+				//{
                     foreach (var pumpDevice in FirePumpDevices)
                     {
                         formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
@@ -143,16 +143,16 @@ namespace GKProcessor
                     formula.AddGetBit(XStateBit.Off, Direction);
                     formula.Add(FormulaOperationType.OR);
                     formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
-				}
-				else
-				{
-					var prevDelay = PumpDelays[i - 1];
-					formula.AddGetBit(XStateBit.On, prevDelay.Delay);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
-					formula.AddGetBit(XStateBit.Off, prevDelay.Delay);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
-				}
-				firstDelay = false;
+				//}
+				//else
+				//{
+				//    var prevDelay = PumpDelays[i - 1];
+				//    formula.AddGetBit(XStateBit.On, prevDelay.Delay);
+				//    formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
+				//    formula.AddGetBit(XStateBit.Off, prevDelay.Delay);
+				//    formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
+				//}
+				//firstDelay = false;
 
 				formula.Add(FormulaOperationType.END);
 				delayDescriptor.Formula = formula;
