@@ -27,11 +27,11 @@ namespace Controls.Converters
 				case XStateClass.Attention:
 					return Brushes.Yellow;
 
-				case XStateClass.Failure:
-					return Brushes.Pink;
+				//case XStateClass.Failure:
+				//    return Brushes.Pink;
 
-				case XStateClass.Service:
-					return Brushes.Yellow;
+				//case XStateClass.Service:
+				//    return Brushes.Yellow;
 
 				case XStateClass.Ignore:
 					return Brushes.Yellow;
@@ -42,8 +42,8 @@ namespace Controls.Converters
 				case XStateClass.AutoOff:
 					return Brushes.Yellow;
 
-				case XStateClass.Test:
-					return Brushes.Green;
+				//case XStateClass.Test:
+				//    return Brushes.Green;
 
 				case XStateClass.Off:
                 case XStateClass.Norm:
