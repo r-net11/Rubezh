@@ -17,7 +17,6 @@
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
                 <DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*"/>
                 <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>

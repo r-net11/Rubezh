@@ -8,15 +8,6 @@ namespace GKProcessor
 {
 	public static class JournalStringsHelper
 	{
-		public static JournalYesNoType ToYesNo(byte b)
-		{
-			if (b == 0)
-				return JournalYesNoType.No;
-			if (b == 1)
-				return JournalYesNoType.Yes;
-			return JournalYesNoType.Unknown;
-		}
-
 		public static string ToFire(byte b)
 		{
 			switch (b)

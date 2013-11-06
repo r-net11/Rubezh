@@ -14,7 +14,19 @@ namespace GKProcessor
 			AllPatches = new List<Patch>();
 			AllPatches.Add(new Patch("DB.Patcher_RemoveTypeColumn", () =>
 			{
-				GKDBHelper.ExecuteNonQuery("alter table Patches drop column Type");
+				GKDBHelper.DropColumn("Type", "Patches");
+			}));
+			AllPatches.Add(new Patch("DB.Journal_RemoveYesNoColumn", () =>
+			{
+				GKDBHelper.DropColumn("YesNo", "Journal");
+			}));
+			AllPatches.Add(new Patch("DB.Journal_ChangeDescriptionColumnSize", () =>
+			{
+				GKDBHelper.AlterColumnType("Description", "nvarchar(4000)", "Journal");
+			}));
+			AllPatches.Add(new Patch("DB.Patches_ChangeDescriptionColumnSize", () =>
+			{
+				GKDBHelper.AlterColumnType("Id", "nvarchar(4000)", "Patches");
 			}));
 		}
 

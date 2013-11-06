@@ -116,22 +116,27 @@ namespace GKProcessor
 				{
 					if (journalItem.Name == "Пожар-1")
 					{
-						if (journalItem.YesNo == JournalYesNoType.Yes)
+						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+						if (property != null)
 						{
-							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
-							if (property != null)
-							{
-								journalItem.Name = property.StringValue;
-							}
+							journalItem.Name = property.StringValue;
 						}
-						else if (journalItem.YesNo == JournalYesNoType.No)
-						{
-							var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
-							if (property != null)
-							{
-								journalItem.Name = property.StringValue;
-							}
-						}
+						//if (journalItem.YesNo == JournalYesNoType.Yes)
+						//{
+						//    var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+						//    if (property != null)
+						//    {
+						//        journalItem.Name = property.StringValue;
+						//    }
+						//}
+						//else if (journalItem.YesNo == JournalYesNoType.No)
+						//{
+						//    var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
+						//    if (property != null)
+						//    {
+						//        journalItem.Name = property.StringValue;
+						//    }
+						//}
 					}
 				}
 			}

@@ -6,17 +6,8 @@ namespace GKProcessor
 	class Patch
 	{
 		PatchDelegate PatchDelegate;
-		string index;
-		public string Index 
-		{
-			get { return index; }
-			private set
-			{
-				if (value.Length > 20)
-					index = value.Substring(0, 20);
-			}
-		}
-
+		public string Index{ get; private set; }
+		
 		public Patch(string index, PatchDelegate patchDelegate)
 		{
 			Index = index;

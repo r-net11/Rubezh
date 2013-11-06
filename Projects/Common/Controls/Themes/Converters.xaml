@@ -2,7 +2,6 @@
 
 	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
-	<Converters:JournalYesNoTypeToStringConverter x:Key="JournalYesNoTypeToStringConverter" />
 	<Converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter" />
 	<Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 	<Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />

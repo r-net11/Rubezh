@@ -179,7 +179,8 @@ namespace GKProcessor
 			if (xBase is XDevice)
 			{
 				var device = xBase as XDevice;
-				bool isDusted = journalItem.YesNo == JournalYesNoType.Yes;
+				//bool isDusted = journalItem.YesNo == JournalYesNoType.Yes;
+				bool isDusted = false;
 				ApplicationService.Invoke(() => { device.DeviceState.IsService = isDusted; });
 			}
 		}

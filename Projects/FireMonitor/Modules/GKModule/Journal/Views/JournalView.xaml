@@ -18,7 +18,6 @@
                 <DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" MinWidth="40" MaxWidth="40"  />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
                 <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>

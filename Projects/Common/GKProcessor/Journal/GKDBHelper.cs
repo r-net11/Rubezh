@@ -9,23 +9,23 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-    public static partial class GKDBHelper
-    {
+	public static partial class GKDBHelper
+	{
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 
 		public static void Add(JournalItem journalItem)
-        {
-            try
-            {
+		{
+			try
+			{
 				AddMany(new List<JournalItem>() { journalItem });
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "GKDBHelper.Add");
-            }
-        }
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "GKDBHelper.Add");
+			}
+		}
 
 		public static void AddMany(List<JournalItem> journalItems)
 		{
@@ -60,7 +60,7 @@ namespace GKProcessor
 			return journalItem;
 		}
 
-        public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
+		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
@@ -73,23 +73,22 @@ namespace GKProcessor
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-                            "(JournalItemType,ObjectUID,Name,YesNo,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15)";
+							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.YesNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.Description ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.ObjectState ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.GKObjectNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKIpAddress ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.StateClass ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.UserName ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.SystemDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.DeviceDateTime ?? DBNull.Value);
-						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.SubsystemType ?? DBNull.Value);
-                        sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.ObjectStateClass ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Description ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p5", (object)journalItem.ObjectState ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p6", (object)journalItem.GKObjectNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p7", (object)journalItem.GKIpAddress ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p8", (object)journalItem.GKJournalRecordNo ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p9", (object)journalItem.StateClass ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p10", (object)journalItem.UserName ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p11", (object)journalItem.SystemDateTime ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.DeviceDateTime ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.SubsystemType ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.ObjectStateClass ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -97,20 +96,50 @@ namespace GKProcessor
 			}
 		}
 
-        public static void AddColumnToJournal(string columnName, string columnType)
-        {
-            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-                return;
-            var connection = new SqlCeConnection(ConnectionString);
-			if (!IsColumnExists(columnName))
+		public static void AddColumn(string columnName, string columnType, string tableName)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return;
+			var connection = new SqlCeConnection(ConnectionString);
+			if (!IsColumnExists(columnName, tableName))
 			{
-				var sqlCeCommand = new SqlCeCommand("alter table Journal add column " + columnName.ToString() + " " + columnType.ToString(), connection);
+				var sqlCeCommand = new SqlCeCommand("alter table "+ tableName +" add column " + columnName.ToString() + " " + columnType.ToString(), connection);
 				connection.Open();
 				sqlCeCommand.ExecuteNonQuery();
 			}
-            connection.Close();
-            connection.Dispose();
-        }
+			connection.Close();
+			connection.Dispose();
+		}
+
+		public static void AlterColumnType(string columnName, string columnType, string tableName)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return;
+			var connection = new SqlCeConnection(ConnectionString);
+			if (!IsColumnExists(columnName, tableName))
+			{
+				var sqlCeCommand = new SqlCeCommand("alter table " + tableName + " alter column " + columnName.ToString() + " " + columnType.ToString(), connection);
+				connection.Open();
+				sqlCeCommand.ExecuteNonQuery();
+			}
+			connection.Close();
+			connection.Dispose();
+		}
+
+		public static void DropColumn(string columnName, string tableName)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return;
+			var connection = new SqlCeConnection(ConnectionString);
+			if (IsColumnExists(columnName, tableName))
+			{
+				var sqlCeCommand = new SqlCeCommand("alter table " + tableName + " drop column " + columnName.ToString(), connection);
+				connection.Open();
+				sqlCeCommand.ExecuteNonQuery();
+			}
+			connection.Close();
+			connection.Dispose();
+		}
 
 		public static void ExecuteNonQuery(string commandString)
 		{
@@ -124,13 +153,13 @@ namespace GKProcessor
 			connection.Dispose();
 		}
 
-		static bool IsColumnExists(string columnName)
+		static bool IsColumnExists(string columnName, string tableName)
 		{
 			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 				return false;
 			var connection = new SqlCeConnection(ConnectionString);
 			var sqlCeCommand = new SqlCeCommand(
-				"select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = 'Journal'",
+				"select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = '" + tableName + "'",
 				connection);
 			connection.Open();
 			var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
@@ -140,8 +169,8 @@ namespace GKProcessor
 			return result;
 		}
 
-        public static List<JournalItem> Select(XArchiveFilter archiveFilter)
-        {
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+		{
 			var journalItems = new List<JournalItem>();
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
@@ -268,7 +297,7 @@ namespace GKProcessor
 				Logger.Error(e, "GKDBHelper.Select");
 			}
 			return journalItems;
-        }
+		}
 
 		public static int GetLastGKID(string gkIPAddress)
 		{
@@ -305,8 +334,8 @@ namespace GKProcessor
 			return -1;
 		}
 
-        public static List<string> GetGKIPAddresses()
-        {
+		public static List<string> GetGKIPAddresses()
+		{
 			try
 			{
 				var result = new List<string>();
@@ -338,7 +367,7 @@ namespace GKProcessor
 				Logger.Error(e, "GKDBHelper.GetGKIPAddresses");
 			}
 			return new List<string>();
-        }
+		}
 
 		public static List<JournalItem> GetTopLast(int count)
 		{
@@ -390,9 +419,6 @@ namespace GKProcessor
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 				journalItem.Name = reader.GetString(reader.GetOrdinal("Name"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("YesNo")))
-				journalItem.YesNo = (JournalYesNoType)reader.GetByte(reader.GetOrdinal("YesNo"));
-
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
 				journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
 
@@ -415,5 +441,5 @@ namespace GKProcessor
 				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
 			return journalItem;
 		}
-    }
+	}
 }

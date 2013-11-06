@@ -162,7 +162,6 @@
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
-    <Compile Include="Converters\JournalYesNoTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />

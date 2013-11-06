@@ -20,8 +20,6 @@ namespace GKProcessor
 		[DataMember]
 		public string UserFriendlyName { get; set; }
 		[DataMember]
-		public JournalYesNoType YesNo { get; set; }
-		[DataMember]
 		public string Description { get; set; }
 		[DataMember]
 		public int ObjectState { get; set; }

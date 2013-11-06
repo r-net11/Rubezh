@@ -95,12 +95,6 @@ namespace GKModule.ViewModels
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
-
-			foreach (var item in journalItems)
-			{
-				var objectState = item.ObjectStateClass.ToDescription();
-				Trace.WriteLine(objectState);
-			}
 		}
 
 		void OnSettingsChanged(object o)
