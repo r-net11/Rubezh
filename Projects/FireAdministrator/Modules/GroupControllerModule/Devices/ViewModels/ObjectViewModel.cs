@@ -74,5 +74,10 @@ namespace GKModule.ViewModels
 				return false;
 			}
 		}
+
+		public static bool Equels(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			return (object1 != null && object2 != null) && (object1.Name == object2.Name) &&(object1.Address == object2.Address) && (object1.Parent.Name == object2.Parent.Name) && (object1.Parent.Address == object2.Parent.Address);
+		}
 	}
 }

@@ -136,7 +136,7 @@ namespace GKProcessor
 				var nearestDescriptorNo = 0;
 				if (device.KauDatabaseParent != null)
 					nearestDescriptorNo = device.KAUDescriptorNo;
-				if (device.GkDatabaseParent != null)
+				else if (device.GkDatabaseParent != null)
 					nearestDescriptorNo = device.GKDescriptorNo;
 				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
 					isMissmatch = true;

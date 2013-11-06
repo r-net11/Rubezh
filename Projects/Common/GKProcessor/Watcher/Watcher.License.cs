@@ -18,7 +18,7 @@ namespace GKProcessor
 		{
 			try
 			{
-				if ((DateTime.Now - StartTime).TotalSeconds > 6 && (DateTime.Now - LastLicenseCheckTime).TotalSeconds > 6)
+				if ((DateTime.Now - StartTime).TotalSeconds > 600 && (DateTime.Now - LastLicenseCheckTime).TotalSeconds > 600)
 				{
 					var hasLicense = LicenseHelper.CheckLicense(false);
 					if (hasLicense != HasLicense)

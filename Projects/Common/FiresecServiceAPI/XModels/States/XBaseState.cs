@@ -108,7 +108,30 @@ namespace XFiresecAPI
 
 		public virtual List<XStateClass> StateClasses
 		{
-			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime, IsNoLicense, IsInitialState); }
+			get
+			{
+				if (IsNoLicense)
+				{
+					return new List<XStateClass>() { XStateClass.HasNoLicense };
+				}
+				if (IsConnectionLost)
+				{
+					return new List<XStateClass>() { XStateClass.ConnectionLost };
+				}
+				if (IsGKMissmatch)
+				{
+					return new List<XStateClass>() { XStateClass.DBMissmatch };
+				}
+				if (IsInTechnologicalRegime)
+				{
+					return new List<XStateClass>() { XStateClass.TechnologicalRegime };
+				}
+				if (IsInitialState)
+				{
+					return new List<XStateClass>() { XStateClass.Unknown };
+				}
+				return XStatesHelper.StateBitsToStateClasses(StateBits);
+			}
 		}
 
 		public virtual XStateClass StateClass
