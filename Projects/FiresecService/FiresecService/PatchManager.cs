@@ -5,11 +5,11 @@ using System.Text;
 using System.IO;
 using Infrastructure.Common;
 using Common;
-using Common.GK;
 using Ionic.Zip;
 using XFiresecAPI;
 using FiresecAPI;
 using System.Runtime.Serialization;
+using GKProcessor;
 
 namespace FSAgentServer
 {
@@ -19,7 +19,7 @@ namespace FSAgentServer
 		{
 			try
 			{
-				Patcher.AddPatchToList("FiresecService", "Config_1", () => Patch1());
+				Patcher.AddPatchToList("FiresecService.Config_1", () => Patch1());
 				Patcher.Patch();
 			}
 			catch (Exception e)

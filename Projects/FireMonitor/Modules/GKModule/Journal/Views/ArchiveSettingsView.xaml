@@ -56,10 +56,13 @@
             </Border>
         </TabItem>
         <TabItem Header="Дополнительные колонки">
-            <StackPanel>
-                <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Foreground="White" Margin="11 5"/>
-                <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Foreground="White" Margin="11 5"/>
-            </StackPanel>
+            <Border Background="White" CornerRadius="5">
+                <StackPanel>
+                    <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Margin="11 5"/>
+                    <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Margin="11 5"/>
+                </StackPanel>
+            </Border>
+            
         </TabItem>
     </TabControl>
     

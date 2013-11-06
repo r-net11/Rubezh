@@ -16,7 +16,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using GKProcessor;
 using GKProcessor.Events;
 
 namespace GKModule

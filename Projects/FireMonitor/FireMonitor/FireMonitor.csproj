@@ -115,6 +115,7 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="MulticlientController.cs" />
     <Compile Include="Notifier.cs" />
+    <Compile Include="PatchManager.cs" />
     <Compile Include="Services\ProgressWatcher.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />

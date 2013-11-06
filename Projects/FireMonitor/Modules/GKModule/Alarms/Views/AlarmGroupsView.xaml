@@ -15,7 +15,17 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Content="Сброс" ToolTip="Сбросить все(F4)" Command="{Binding ResetCommand}" MouseDown="Button_MouseDown" FontSize="20" Width="70" Height="70" />
+        <Controls:AlarmButton 
+            Grid.Column="0" 
+            Command="{Binding ResetCommand}" 
+            Width="70" 
+            Height="70" 
+            Margin="5 2"
+            Content="Сброс" 
+            MouseDown="Button_MouseDown"
+            ToolTip="Сбросить все(F4)" 
+            FontSize="15">
+        </Controls:AlarmButton>
         <ItemsControl Grid.Column="1" ItemsSource="{Binding AlarmGroups}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

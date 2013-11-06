@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.IO;
-using Infrastructure.Common;
-using Common;
 using GKProcessor;
+using Common;
 
-namespace FSAgentServer
+namespace FireMonitor
 {
 	public static class PatchManager
 	{

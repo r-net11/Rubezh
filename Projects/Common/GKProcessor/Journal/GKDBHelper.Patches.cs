@@ -30,7 +30,7 @@ namespace GKProcessor
                 return;
             var connection = new SqlCeConnection(ConnectionString);
             var sqlCeCommand = new SqlCeCommand(
-                "CREATE TABLE Patches (Type nvarchar(20) not null, Id nvarchar(20) not null)",
+                "CREATE TABLE Patches (Id nvarchar(20) not null)",
                 connection);
             connection.Open();
             sqlCeCommand.ExecuteNonQuery();
@@ -38,49 +38,47 @@ namespace GKProcessor
             connection.Dispose();
         }
 
-        public static void AddPatchToDB(PatchIndex patch)
+        public static void AddPatchIndexToDB(string Index)
         {
             if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
                 return;
-            if (patch == null || patch.Id == null || patch.Type == null)
+            if (string.IsNullOrEmpty(Index))
                 return;
             var connection = new SqlCeConnection(ConnectionString);
-            var sqlCeCommand = new SqlCeCommand("Insert Into Patches (Type,Id) Values (@p1,@p2)", connection);
-            sqlCeCommand.Parameters.AddWithValue("@p1", (object)patch.Type);
-            sqlCeCommand.Parameters.AddWithValue("@p2", (object)patch.Id);
+            var sqlCeCommand = new SqlCeCommand("Insert Into Patches (Id) Values (@p1)", connection);
+            sqlCeCommand.Parameters.AddWithValue("@p1", (object)Index);
             connection.Open();
             sqlCeCommand.ExecuteNonQuery();
             connection.Close();
             connection.Dispose();
         }
 
-        static List<PatchIndex> GetAllPatches()
+        static List<string> GetAllPatches()
         {
             if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
                 return null;
             var connection = new SqlCeConnection(ConnectionString);
             var sqlCeCommand = new SqlCeCommand("SELECT * FROM Patches", connection);
-            var patchIndexes = new List<PatchIndex>();
+            var patchIndexes = new List<string>();
             connection.Open();
             var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
             while (reader.Read())
             {
-                patchIndexes.Add(new PatchIndex(reader.GetValue(0).ToString(), reader.GetValue(1).ToString()));
+                patchIndexes.Add(reader.GetValue(0).ToString());
             }
             connection.Close();
             connection.Dispose();
-
-            return patchIndexes;
+			return patchIndexes;
         }
 
-        public static List<PatchIndex> ReadAllPatches()
+        public static List<string> ReadAllPatches()
         {
             if (IsPatchesTableExists())
                 return GetAllPatches();
             else
             {
                 CreatePatchesTable();
-                return new List<PatchIndex>();
+                return new List<string>();
             }
         }
     }

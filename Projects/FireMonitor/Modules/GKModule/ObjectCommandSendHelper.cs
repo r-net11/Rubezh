@@ -5,7 +5,6 @@ using FiresecAPI;
 using XFiresecAPI;
 using Infrastructure.Common.Windows;
 using Infrastructure;
-using GKProcessor;
 
 namespace GKModule
 {

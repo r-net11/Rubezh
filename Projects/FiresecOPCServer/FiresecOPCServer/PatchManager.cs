@@ -2,7 +2,7 @@
 using Infrastructure.Common;
 using FiresecClient;
 using XFiresecAPI;
-using Common.GK;
+using GKProcessor;
 
 namespace FiresecOPCServer
 {
@@ -12,14 +12,9 @@ namespace FiresecOPCServer
 		{
 			try
 			{
-				Patcher.AddPatchToList("OPC", "DeleteConfigurationLogs", () => Patch1());
 				Patcher.Patch();
 			}
 			catch { }
-		}
-
-		static void Patch1()
-		{
 		}
 	}
 }

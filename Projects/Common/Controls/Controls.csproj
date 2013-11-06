@@ -1253,6 +1253,7 @@
     <Resource Include="Images\BlueEdit.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="StateClassIcons\Manual.png" />
     <Resource Include="StateClassIcons\HasNoLicense.png" />
     <Resource Include="StateClassIcons\Test.png" />
     <Resource Include="Sounds\Empire.mp3" />

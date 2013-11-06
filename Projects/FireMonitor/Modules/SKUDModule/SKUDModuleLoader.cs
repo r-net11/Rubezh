@@ -12,6 +12,7 @@ using System.Linq;
 using Infrastructure;
 using SKUDModule.ViewModels;
 using Microsoft.Practices.Prism.Events;
+using System.Diagnostics;
 
 namespace SKUDModule
 {
@@ -36,7 +37,7 @@ namespace SKUDModule
 
 		public override void Initialize()
 		{
-			//SKUDViewModel.Initialize();
+			;
 		}
 
 		public override string Name

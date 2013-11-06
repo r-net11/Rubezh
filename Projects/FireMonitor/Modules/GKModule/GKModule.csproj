@@ -85,6 +85,7 @@
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
+    <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter2.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">

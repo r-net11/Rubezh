@@ -36,7 +36,7 @@ SELECT @DepId = MIN(Id) FROM [dbo].[Department]
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
-	('Иванов','Иван','Иваныч',NULL,NULL,NULL,NULL,'12-21-75',NULL,'777',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	('Иванов','Иван','Иваныч',NULL,NULL,NULL,NULL,'01-01-01',NULL,'777',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
@@ -45,7 +45,7 @@ VALUES
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
-	('Петров','Петр','Петрович',NULL,NULL,NULL,NULL,'03-18-86',NULL,'666',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	('Петров','Петр','Петрович',NULL,NULL,NULL,NULL,'03-12-18',NULL,'666',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
@@ -55,7 +55,7 @@ SELECT @DepId = MAX(Id) FROM [dbo].[Department]
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
-	('Сидоров','Иван','Петрович',NULL,NULL,NULL,NULL,'12-21-05',NULL,'999',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	('Сидоров','Иван','Петрович',NULL,NULL,NULL,NULL,'12-12-05',NULL,'999',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
@@ -64,7 +64,7 @@ VALUES
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
-	('Сидоров','Сидор','Сидорович',NULL,NULL,NULL,NULL,'12-21-05',NULL,'999',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+	('Сидоров','Сидор','Сидорович',NULL,NULL,NULL,NULL,'12-12-05',NULL,'999',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 

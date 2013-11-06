@@ -7,11 +7,11 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using FiresecClient;
-
-using System.Windows.Data;
 using FiresecAPI;
+using System.Windows.Data;
 using Infrastructure.Models;
 using GKProcessor.Events;
+using System.Diagnostics;
 
 
 namespace GKModule.ViewModels
@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 	public class JournalViewModel : BaseViewModel
 	{
 		public JournalFilterViewModel JournalFilterViewModel { get; private set; }
-
+		
 		public JournalViewModel(XJournalFilter journalFilter)
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
@@ -95,6 +95,12 @@ namespace GKModule.ViewModels
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
+
+			foreach (var item in journalItems)
+			{
+				var objectState = item.ObjectStateClass.ToDescription();
+				Trace.WriteLine(objectState);
+			}
 		}
 
 		void OnSettingsChanged(object o)

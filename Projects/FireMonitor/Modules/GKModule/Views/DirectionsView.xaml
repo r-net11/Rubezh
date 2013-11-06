@@ -234,8 +234,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn MinWidth="100" Binding="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Header="Состояние" />
-			</DataGrid.Columns>
+				<DataGridTemplateColumn Header="Состояние" MinWidth="100" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Width="16" Source="{Binding StateType, Converter={StaticResource XStateTypeToIconConverter}}" />
+                                <TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

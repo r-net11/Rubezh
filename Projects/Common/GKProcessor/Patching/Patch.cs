@@ -6,18 +6,27 @@ namespace GKProcessor
 	class Patch
 	{
 		PatchDelegate PatchDelegate;
-		public PatchIndex PatchIndex { get; private set; }
-
-		public Patch(string type, string id, PatchDelegate patchDelegate)
+		string index;
+		public string Index 
 		{
-			PatchIndex = new PatchIndex(type, id);
+			get { return index; }
+			private set
+			{
+				if (value.Length > 20)
+					index = value.Substring(0, 20);
+			}
+		}
+
+		public Patch(string index, PatchDelegate patchDelegate)
+		{
+			Index = index;
 			PatchDelegate = patchDelegate;
 		}
 
 		public void Apply()
 		{
 			PatchDelegate();
-			GKDBHelper.AddPatchToDB(PatchIndex);
+			GKDBHelper.AddPatchIndexToDB(Index);
 		}
 	}
 }

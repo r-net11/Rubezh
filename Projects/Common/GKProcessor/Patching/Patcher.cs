@@ -12,26 +12,24 @@ namespace GKProcessor
 		static Patcher()
 		{
 			AllPatches = new List<Patch>();
-			AllPatches.Add(new Patch("DB", "SubsystemTypePatch", () =>
+			AllPatches.Add(new Patch("DB.Patcher_RemoveTypeColumn", () =>
 			{
-				GKDBHelper.AddColumnToJournal("Subsystem", "tinyint");
-			}));
-			AllPatches.Add(new Patch("DB", "ObjectStateClass", () =>
-			{
-				GKDBHelper.AddColumnToJournal("ObjectStateClass", "tinyint");
+				GKDBHelper.ExecuteNonQuery("alter table Patches drop column Type");
 			}));
 		}
 
-		public static void AddPatchToList(string type, string id, PatchDelegate patchDelegate)
+		public static void AddPatchToList(string index, PatchDelegate patchDelegate)
         {
-            AllPatches.Add(new Patch(type, id, patchDelegate));
+            AllPatches.Add(new Patch(index, patchDelegate));
         }
 
 		public static void Patch()
 		{
 			try
 			{
-				AllPatches.Where(x => !GKDBHelper.ReadAllPatches().Any(y => y.Equals(x.PatchIndex))).ToList().ForEach(x => x.Apply());
+				var indexes = GKDBHelper.ReadAllPatches();
+				var patchesToApply = AllPatches.Where(x => !indexes.Any(index => index == x.Index)).ToList();
+				patchesToApply.ForEach(x => x.Apply());
 			}
 			catch (Exception e)
 			{

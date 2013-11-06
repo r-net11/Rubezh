@@ -112,6 +112,18 @@ namespace GKProcessor
             connection.Dispose();
         }
 
+		public static void ExecuteNonQuery(string commandString)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return;
+			var connection = new SqlCeConnection(ConnectionString);
+			var sqlCeCommand = new SqlCeCommand(commandString, connection);
+			connection.Open();
+			sqlCeCommand.ExecuteNonQuery();
+			connection.Close();
+			connection.Dispose();
+		}
+
 		static bool IsColumnExists(string columnName)
 		{
 			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
