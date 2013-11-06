@@ -18,6 +18,7 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			Update();
+			device.AUParametersChanged += On_AUParametersChanged;
 		}
 		public void Update()
 		{
@@ -95,7 +96,7 @@ namespace GKModule.ViewModels
 			get{return _deviceParameterMissmatchType;}
 			set
 			{
-				_deviceParameterMissmatchType = value;// == DeviceParameterMissmatchType.Unknown ? DeviceParameterMissmatchType.Equal : value;
+				_deviceParameterMissmatchType = value;
 				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
 		}
@@ -108,6 +109,11 @@ namespace GKModule.ViewModels
 					return false;
 				return Device.Properties.Count != 0;
 			}
+		}
+
+		void On_AUParametersChanged()
+		{
+			Update();
 		}
 	}
 }

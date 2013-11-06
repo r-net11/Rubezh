@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views" xmlns:viewModel="clr-namespace:GKModule.ViewModels">
 
 	<UserControl.Resources>
-        <Converters:DeviceParameterMissmatchTypeToColorConverter2 x:Key="DeviceParameterMissmatchTypeToColorConverter2" />
+        <Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
         <Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
 			<Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
@@ -228,7 +228,7 @@
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-                                                    <TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
+                                                    <TextBlock Foreground ="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
                                                 </StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
