@@ -277,11 +277,11 @@ namespace GKModule.ViewModels
 				var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
 				if (deviceProperty == null)
 					device.DeviceProperties.Add(new XProperty
-													{
-														DriverProperty = property.DriverProperty,
-														Name = property.Name,
-														Value = property.Value
-													});
+						{
+							DriverProperty = property.DriverProperty,
+							Name = property.Name,
+							Value = property.Value
+						});
 				else
 					deviceProperty.Value = property.Value;
 			}
