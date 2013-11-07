@@ -65,7 +65,7 @@ namespace GKProcessor
 
 				if (CheckLicense())
 				{
-					if (WatcherManager.IsConfigurationReloading)
+					if (!WatcherManager.IsConfigurationReloading)
 					{
 						if (IsAnyDBMissmatch)
 						{
