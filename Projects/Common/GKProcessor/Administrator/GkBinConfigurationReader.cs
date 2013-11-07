@@ -1,4 +1,4 @@
-﻿#define LOCALCONFIG
+﻿//#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,8 @@ using System.Linq;
 using FiresecClient;
 using GKProcessor;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
+using Common;
 
 namespace GKProcessor
 {
