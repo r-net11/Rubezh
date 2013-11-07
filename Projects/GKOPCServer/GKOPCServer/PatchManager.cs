@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Infrastructure.Common;
-using Common.GK;
+using GKProcessor;
 
 namespace GKOPCServer
 {
@@ -10,7 +10,7 @@ namespace GKOPCServer
 		{
 			try
 			{
-				Patcher.AddPatchToList("GKOPC", "Patch1", () => Patch1());
+				Patcher.AddPatchToList("GKOPC.Patch1", () => Patch1());
 				Patcher.Patch();
 			}
 			catch { }
