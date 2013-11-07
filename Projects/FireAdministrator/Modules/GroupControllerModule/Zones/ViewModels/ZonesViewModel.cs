@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
             Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
             RegisterShortcuts();
@@ -90,7 +90,7 @@ namespace GKModule.ViewModels
             return SelectedZone != null;
         }
 
-        bool CanDeleteAll()
+        bool CanDeleteAllEmpty()
         {
         	return Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false).Count() > 0;
         }

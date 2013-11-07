@@ -110,6 +110,7 @@ namespace GKModule.ViewModels
 				Device.Properties.Add(newProperty);
 			}
 			UpdateDeviceParameterMissmatchType();
+			DevicesViewModel.Current.SelectedDevice.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
 	}

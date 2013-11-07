@@ -69,10 +69,6 @@ namespace FiresecClient
 			DeviceConfiguration.Update();
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				if(device.DriverUID == Guid.Empty)
-				{
-					
-				}
 				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
@@ -81,14 +77,22 @@ namespace FiresecClient
 			}
 			DeviceConfiguration.Reorder();
 
-			InitializeMissingDefaultProperties();
+			InitializeProperties();
             Invalidate();
 		}
 
-		public static void InitializeMissingDefaultProperties()
+		public static void InitializeProperties()
 		{
 			foreach (var device in Devices)
 			{
+				foreach (var property in device.Properties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
+				foreach (var property in device.DeviceProperties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
 				device.InitializeDefaultProperties();
 			}
 		}

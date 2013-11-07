@@ -11,9 +11,14 @@ namespace GKModule.Converters
 		{
 			switch ((XStateClass)value)
 			{
-				case XStateClass.Fire2:
-					return Brushes.Red;
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.ConnectionLost:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.HasNoLicense:
+					return Brushes.Gray;
 
+				case XStateClass.Fire2:
 				case XStateClass.Fire1:
 					return Brushes.Red;
 
@@ -29,18 +34,14 @@ namespace GKModule.Converters
 				case XStateClass.Ignore:
 					return Brushes.Yellow;
 
-				case XStateClass.Unknown:
-					return Brushes.Gray;
-
 				case XStateClass.On:
+				case XStateClass.TurningOn:
 					return Brushes.LightBlue;
 
 				case XStateClass.AutoOff:
 					return Brushes.Yellow;
 
 				case XStateClass.Test:
-					return Brushes.Transparent;
-
 				case XStateClass.Norm:
 					return Brushes.Transparent;
 

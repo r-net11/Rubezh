@@ -118,7 +118,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Системная Дата" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата в системе" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" />

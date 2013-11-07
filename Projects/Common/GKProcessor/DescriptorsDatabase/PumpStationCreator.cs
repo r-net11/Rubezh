@@ -76,14 +76,12 @@ namespace GKProcessor
 
 			foreach (var failureDevice in failureDevices)
 			{
-				Direction.InputXBases.Add(failureDevice);
-				failureDevice.OutputXBases.Add(Direction);
+				XManager.LinkXBasees(Direction, failureDevice);
 			}
 		}
 
 		void CreateDelays()
 		{
-			int pumpIndex = 1;
 			foreach (var pumpDevice in FirePumpDevices)
 			{
 				var delayTime = 0;
@@ -93,7 +91,7 @@ namespace GKProcessor
 				{
 					Name = "Задержка пуска ШУН " + pumpDevice.DottedAddress,
 					DelayTime = (ushort)delayTime,
-					SetTime = 2,
+					SetTime = 5,
 					DelayRegime = DelayRegime.On
 				};
 				var pumpDelay = new PumpDelay
@@ -103,61 +101,50 @@ namespace GKProcessor
 				};
 
 				PumpDelays.Add(pumpDelay);
-				pumpIndex++;
 			}
 		}
 
 		void CreateDelaysLogic()
 		{
-			//bool firstDelay = true;
 			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				var pumpDelay = PumpDelays[i];
-
 				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
 				var formula = new FormulaBuilder();
 
-				//if (firstDelay)
-				//{
-                    foreach (var pumpDevice in FirePumpDevices)
-                    {
-                        formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
-                        formula.AddGetBit(XStateBit.On, pumpDevice);
-                        formula.Add(FormulaOperationType.OR);
-                        if (FirePumpDevices.IndexOf(pumpDevice) > 0)
-                        {
-                            formula.Add(FormulaOperationType.ADD);
-                        }
-                    }
-                    formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
-                    formula.Add(FormulaOperationType.LT);
-
-                    formula.AddClauseFormula(pumpDelay.Device.NSLogic);
-
-                    formula.Add(FormulaOperationType.DUP);
-                    formula.AddGetBit(XStateBit.On, Direction);
-                    formula.Add(FormulaOperationType.AND);
-                    formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
-
-                    formula.Add(FormulaOperationType.COM);
-                    formula.AddGetBit(XStateBit.Off, Direction);
-                    formula.Add(FormulaOperationType.OR);
-                    formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
-				//}
-				//else
-				//{
-				//    var prevDelay = PumpDelays[i - 1];
-				//    formula.AddGetBit(XStateBit.On, prevDelay.Delay);
-				//    formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
-				//    formula.AddGetBit(XStateBit.Off, prevDelay.Delay);
-				//    formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
-				//}
-				//firstDelay = false;
+				AddCountFirePumpDevicesFormula(formula);
+				formula.AddGetBit(XStateBit.On, Direction);
+				if (i > 0)
+				{
+					var prevDelay = PumpDelays[i - 1];
+					formula.AddGetBit(XStateBit.On, prevDelay.Delay);
+					formula.Add(FormulaOperationType.AND);
+				}
+				formula.Add(FormulaOperationType.AND);
+				formula.AddStandardTurning(pumpDelay.Delay);
 
 				formula.Add(FormulaOperationType.END);
 				delayDescriptor.Formula = formula;
 				delayDescriptor.FormulaBytes = formula.GetBytes();
 			}
+		}
+
+		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
+		{
+			var inputPumpsCount = 0;
+			foreach (var firePumpDevice in FirePumpDevices)
+			{
+				formula.AddGetBit(XStateBit.TurningOn, firePumpDevice);
+				formula.AddGetBit(XStateBit.On, firePumpDevice);
+				formula.Add(FormulaOperationType.OR);
+				if (inputPumpsCount > 0)
+				{
+					formula.Add(FormulaOperationType.ADD); // посчитать количество включеных насосов
+				}
+				inputPumpsCount++;
+			}
+			formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
+			formula.Add(FormulaOperationType.LT);
 		}
 
 		void SetFirePumpDevicesLogic()
@@ -171,17 +158,17 @@ namespace GKProcessor
 					var inputPumpsCount = 0;
 					foreach (var otherPumpDevice in FirePumpDevices)
 					{
-						if (otherPumpDevice.UID == pumpDevice.UID)
-							continue;
-
-						formula.AddGetBit(XStateBit.TurningOn, otherPumpDevice);
-						formula.AddGetBit(XStateBit.On, otherPumpDevice);
-						formula.Add(FormulaOperationType.OR);
-						if (inputPumpsCount > 0)
+						if (otherPumpDevice.UID != pumpDevice.UID)
 						{
-							formula.Add(FormulaOperationType.ADD); // почситать количество включеных насосов
+							formula.AddGetBit(XStateBit.TurningOn, otherPumpDevice);
+							formula.AddGetBit(XStateBit.On, otherPumpDevice);
+							formula.Add(FormulaOperationType.OR);
+							if (inputPumpsCount > 0)
+							{
+								formula.Add(FormulaOperationType.ADD); // посчитать количество включеных насосов
+							}
+							inputPumpsCount++;
 						}
-						inputPumpsCount++;
 					}
 					formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
 					formula.Add(FormulaOperationType.LT);
@@ -193,12 +180,19 @@ namespace GKProcessor
 					var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
 					formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
 					formula.Add(FormulaOperationType.AND);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice); // включить насос
 
+					if (pumpDevice.NSLogic.Clauses.Count > 0)
+					{
+						formula.AddClauseFormula(pumpDevice.NSLogic);
+					}
+					formula.Add(FormulaOperationType.AND);
+
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice); // включить насос
 					formula.AddGetBit(XStateBit.Off, Direction);
 					formula.AddGetBit(XStateBit.Norm, pumpDevice);
 					formula.Add(FormulaOperationType.AND); // бит дежурный у самого насоса
 					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDevice); // выключить насос
+
 					formula.Add(FormulaOperationType.END);
 
 					pumpDescriptor.Formula = formula;
@@ -226,28 +220,31 @@ namespace GKProcessor
 						pumpDescriptor.Formula = formula;
 						pumpDescriptor.FormulaBytes = formula.GetBytes();
 					}
-					XManager.LinkBinaryObjects(pumpDescriptor.XBase, Direction);
+					XManager.LinkXBasees(pumpDescriptor.XBase, Direction);
 				}
 			}
 		}
 
 		void SetCrossReferences()
 		{
-			var firstDelay = PumpDelays.FirstOrDefault();
-			if (firstDelay != null)
+			foreach (var pumpDelay in PumpDelays)
 			{
-				XManager.LinkBinaryObjects(firstDelay.Delay, Direction);
+				XManager.LinkXBasees(pumpDelay.Delay, Direction);
+				foreach (var pumpDevice in FirePumpDevices)
+				{
+					XManager.LinkXBasees(pumpDelay.Delay, pumpDevice);
+				}
 			}
 
 			foreach (var pumpDevice in FirePumpDevices)
 			{
+				XManager.LinkXBasees(pumpDevice, Direction);
 				foreach (var pumpDelay in PumpDelays)
 				{
 					if (pumpDelay.Device.UID == pumpDevice.UID)
 					{
-						XManager.LinkBinaryObjects(pumpDevice, pumpDelay.Delay);
+						XManager.LinkXBasees(pumpDevice, pumpDelay.Delay);
 					}
-					XManager.LinkBinaryObjects(pumpDevice, Direction);
 				}
 			}
 
@@ -265,15 +262,6 @@ namespace GKProcessor
 					currentDelay.InputXBases.Add(prevDelay);
 				if (nextDelay != null)
 					currentDelay.OutputXBases.Add(nextDelay);
-
-				if (i == 1)
-				{
-					foreach (var pumpDevice in FirePumpDevices)
-					{
-						currentDelay.InputXBases.Add(pumpDevice);
-						pumpDevice.OutputXBases.Add(currentDelay);
-					}
-				}
 			}
 		}
 	}

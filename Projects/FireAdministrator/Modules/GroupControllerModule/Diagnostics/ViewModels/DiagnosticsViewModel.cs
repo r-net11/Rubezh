@@ -141,14 +141,14 @@ namespace GKModule.ViewModels
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			for (int i = 0; i < bytesList.Count(); i += 256)
 			{
-				var bytesBlock = BitConverter.GetBytes((ushort)(i / 256 + 1)).ToList();
+				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
-				tempBytes.Add(bytesBlock.GetRange(2, bytesBlock.Count - 2));
+				tempBytes.Add(bytesBlock.GetRange(4, bytesBlock.Count - 4));
 				SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
 			}
-			var endBlock = BitConverter.GetBytes((ushort)(bytesList.Count() / 256 + 1)).ToList();
+			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
 			SendManager.Send(gkDevice, 0, 22, 0, endBlock);
-			BytesHelper.BytesToFile("output.txt", tempBytes);
+			//BytesHelper.BytesToFile("output.txt", tempBytes);
 			//GoToWorkingRegime(gkDevice);
 		}
 
@@ -158,17 +158,36 @@ namespace GKModule.ViewModels
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
 			var bytesList = new List<List<byte>>();
-			ushort i = 1;
+			var allbytes = new List<byte>();
+			uint i = 1;
 			while (true)
 			{
 				var data = new List<byte>(BitConverter.GetBytes(i++));
-				var sendResult = SendManager.Send(gkDevice, 2, 23, 256, data);
+				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 				bytesList.Add(sendResult.Bytes);
+				allbytes.AddRange(sendResult.Bytes);
 				if (sendResult.HasError || sendResult.Bytes.Count() < 256)
 					break;
 			}
-			BytesHelper.BytesToFile("input.txt", bytesList);
+			//BytesHelper.BytesToFile("input.txt", bytesList);
+			ByteArrayToFile("gkConfig.fscp", allbytes.ToArray());
 			//GoToWorkingRegime(gkDevice);
+		}
+
+		public bool ByteArrayToFile(string fileName, byte[] byteArray)
+		{
+			try
+			{
+				var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+				fileStream.Write(byteArray, 0, byteArray.Length);
+				fileStream.Close();
+				return true;
+			}
+			catch (Exception exception)
+			{
+				Console.WriteLine("Exception caught in process: {0}",exception);
+			}
+			return false;
 		}
 
 	}

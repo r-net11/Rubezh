@@ -45,7 +45,7 @@ namespace FiresecClient
 			foreach (var zone in Zones)
 			{
 				zone.ClearDescriptor();
-				LinkBinaryObjects(zone, zone);
+				LinkXBasees(zone, zone);
 			}
 			foreach (var direction in Directions)
 			{
@@ -58,15 +58,15 @@ namespace FiresecClient
                 {
 					foreach (var zone in clause.Zones)
 					{
-						LinkBinaryObjects(device, zone);
+						LinkXBasees(device, zone);
 					}
                     foreach (var clauseDevice in clause.Devices)
                     {
-						LinkBinaryObjects(device, clauseDevice);
+						LinkXBasees(device, clauseDevice);
                     }
 					foreach (var direction in clause.Directions)
                     {
-						LinkBinaryObjects(device, direction);
+						LinkXBasees(device, direction);
                     }
                 }
             }
@@ -75,7 +75,7 @@ namespace FiresecClient
 			{
 				foreach (var device in zone.Devices)
 				{
-					LinkBinaryObjects(zone, device);
+					LinkXBasees(zone, device);
 				}
 			}
 
@@ -83,12 +83,12 @@ namespace FiresecClient
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					LinkBinaryObjects(direction, zone);
+					LinkXBasees(direction, zone);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					LinkBinaryObjects(direction, device);
+					LinkXBasees(direction, device);
 				}
 			}
 		}
@@ -147,7 +147,7 @@ namespace FiresecClient
 			}
 		}
 
-		public static void LinkBinaryObjects(XBase inputXBase, XBase outputXBase)
+		public static void LinkXBasees(XBase inputXBase, XBase outputXBase)
 		{
 			AddInputOutputObject(inputXBase.InputXBases, outputXBase);
 			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);

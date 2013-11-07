@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			Menu = new DirectionsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanDeleteZone);
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
@@ -108,7 +109,7 @@ namespace GKModule.ViewModels
 			}
 			return null;
 		}
-
+		
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
@@ -121,6 +122,32 @@ namespace GKModule.ViewModels
 				ServiceFactory.SaveService.GKChanged = true;
 				Helper.BuildMap();
 			}
+		}
+
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?");
+			if (dialogResult == MessageBoxResult.Yes)
+			{
+				var emptyDirections = new List<DirectionViewModel>
+					(Directions.Where(direction => 
+						XManager.Devices.Any(x => x.Directions.Any(z => z.UID == direction.Direction.UID)) == false
+						&& XManager.Zones.Any(x => x.Directions.Any(z => z.UID == direction.Direction.UID)) == false));
+				foreach (var emptyDirection in emptyDirections)
+				{
+					XManager.RemoveDirection(emptyDirection.Direction);
+					Directions.Remove(emptyDirection);
+				}
+				SelectedDirection = Directions.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanDeleteAllEmpty()
+		{
+			return Directions.Where(direction => 
+				XManager.Devices.Any(x => x.Directions.Any(z => z.UID == direction.Direction.UID)) == false
+				&& XManager.Zones.Any(x => x.Directions.Any(z => z.UID == direction.Direction.UID)) == false).Count() > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
