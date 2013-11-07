@@ -30,7 +30,7 @@
 
             <DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Объект" MinWidth="150">
+                    <DataGridTemplateColumn Header="Объект" Width="*" MinWidth="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
