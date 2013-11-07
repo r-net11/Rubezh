@@ -1,5 +1,4 @@
-﻿
-namespace GKProcessor
+﻿namespace GKProcessor
 {
 	public delegate void PatchDelegate();
 

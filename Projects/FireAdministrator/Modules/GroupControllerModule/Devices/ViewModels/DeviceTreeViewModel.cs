@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceTreeViewModel:BaseViewModel
+	public class DeviceTreeViewModel : BaseViewModel
 	{
 		public DeviceTreeViewModel(XDevice device, List<XZone> zones, List<XDirection> directions)
 		{
@@ -22,37 +22,37 @@ namespace GKModule.ViewModels
 			{
 				InitializeDevices(new ObjectViewModel(device), new ObjectViewModel(device.Parent));
 			}
-			if(zones != null)
-			foreach (var zone in zones)
-			{
-				var objectViewModel = new ObjectViewModel(zone);
-			    objectViewModel.IsZone = true;
-				objectViewModel.Parent = new ObjectViewModel(device);
-				Objects.Add(objectViewModel);
-				Zones.Add(objectViewModel);
-			}
-			if(directions != null)
-			foreach (var direction in directions)
-			{
-				var objectViewModel = new ObjectViewModel(direction);
-                objectViewModel.IsDirection = true;
-				objectViewModel.Parent = new ObjectViewModel(device);
-				Objects.Add(objectViewModel);
-				Directions.Add(objectViewModel);
-			}
+			if (zones != null)
+				foreach (var zone in zones)
+				{
+					var objectViewModel = new ObjectViewModel(zone);
+					objectViewModel.IsZone = true;
+					objectViewModel.Parent = new ObjectViewModel(device);
+					Objects.Add(objectViewModel);
+					Zones.Add(objectViewModel);
+				}
+			if (directions != null)
+				foreach (var direction in directions)
+				{
+					var objectViewModel = new ObjectViewModel(direction);
+					objectViewModel.IsDirection = true;
+					objectViewModel.Parent = new ObjectViewModel(device);
+					Objects.Add(objectViewModel);
+					Directions.Add(objectViewModel);
+				}
 		}
 
 		void InitializeDevices(ObjectViewModel objectViewModel, ObjectViewModel parentObjectViewModel)
 		{
-		    objectViewModel.IsDevice = true;
+			objectViewModel.IsDevice = true;
 			objectViewModel.Parent = parentObjectViewModel;
 			if ((parentObjectViewModel != null) && (!objectViewModel.IsVirtualDevice))
-					parentObjectViewModel.Children.Add(objectViewModel);
+				parentObjectViewModel.Children.Add(objectViewModel);
 			if (!objectViewModel.IsVirtualDevice)
-				{
-					Objects.Add(objectViewModel);
-					Devices.Add(objectViewModel);
-				}
+			{
+				Objects.Add(objectViewModel);
+				Devices.Add(objectViewModel);
+			}
 			if (objectViewModel.Device.Children.Count > 0)
 			{
 				foreach (var childDevice in objectViewModel.Device.Children)
@@ -63,9 +63,9 @@ namespace GKModule.ViewModels
 						if (objectViewModel.Parent.IsVirtualDevice)
 						{
 							objectViewModel.Parent.Parent.Children.Remove(objectViewModel.Parent);
-							InitializeDevices(new ObjectViewModel(childDevice),objectViewModel.Parent.Parent);
+							InitializeDevices(new ObjectViewModel(childDevice), objectViewModel.Parent.Parent);
 						}
-						InitializeDevices(new ObjectViewModel(childDevice),objectViewModel.Parent);
+						InitializeDevices(new ObjectViewModel(childDevice), objectViewModel.Parent);
 					}
 					else
 						InitializeDevices(new ObjectViewModel(childDevice), objectViewModel);
@@ -78,18 +78,18 @@ namespace GKModule.ViewModels
 		{
 			foreach (var object1 in objects1)
 			{
-				if(!ContainsObject(object1, objects2))
+				if (!ContainsObject(object1, objects2))
 				{
 					var newObject = (ObjectViewModel)object1.Clone();
-                    newObject.Children = new List<ObjectViewModel>();
+					newObject.Children = new List<ObjectViewModel>();
 					newObject.HasDifferences = true;
-                    objects2.Add(newObject);
-                    if (newObject.IsDevice)
-                    {
-                        var object2Parent = objects2.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
-                        object2Parent.Children.Add(newObject);
-                        newObject.Parent = object2Parent;
-                    }
+					objects2.Add(newObject);
+					if (newObject.IsDevice)
+					{
+						var object2Parent = objects2.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
+						object2Parent.Children.Add(newObject);
+						newObject.Parent = object2Parent;
+					}
 				}
 			}
 
@@ -98,42 +98,42 @@ namespace GKModule.ViewModels
 				if (!ContainsObject(object2, objects1))
 				{
 					var newObject = (ObjectViewModel)object2.Clone();
-                    newObject.Children = new List<ObjectViewModel>();
+					newObject.Children = new List<ObjectViewModel>();
 					newObject.HasDifferences = true;
-                    objects1.Add(newObject);
-                    if (newObject.IsDevice)
-                    {
-                        var object1Parent = objects1.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
-                        object1Parent.Children.Add(newObject);
-                        newObject.Parent = object1Parent;
-                    }
+					objects1.Add(newObject);
+					if (newObject.IsDevice)
+					{
+						var object1Parent = objects1.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
+						object1Parent.Children.Add(newObject);
+						newObject.Parent = object1Parent;
+					}
 				}
 			}
 
-			if ((objects1.Count != 0)&&(objects1.FirstOrDefault().IsDevice))
+			if ((objects1.Count != 0) && (objects1.FirstOrDefault().IsDevice))
 			{
-                SortTree(ref objects1, driverType);
-                SortTree(ref objects2, driverType);
+				SortTree(ref objects1, driverType);
+				SortTree(ref objects2, driverType);
 			}
-            else
+			else
 			{
-                objects1 = objects1.OrderBy(x => x.Name).ToList();
-                objects2 = objects2.OrderBy(x => x.Name).ToList();
+				objects1 = objects1.OrderBy(x => x.Name).ToList();
+				objects2 = objects2.OrderBy(x => x.Name).ToList();
 			}
-			return new List<List<ObjectViewModel>> {objects1, objects2};
+			return new List<List<ObjectViewModel>> { objects1, objects2 };
 		}
 
 		private static void SortTree(ref List<ObjectViewModel> objectViewModels, XDriverType driverType)
 		{
-            var rootObject = objectViewModels.FirstOrDefault(x => x.Device.DriverType == driverType);
+			var rootObject = objectViewModels.FirstOrDefault(x => x.Device.DriverType == driverType);
 			objectViewModels = new List<ObjectViewModel>();
-		    objectViewModels.Add(rootObject);
+			objectViewModels.Add(rootObject);
 			AddChildren(objectViewModels, rootObject);
 		}
 
 		private static void AddChildren(List<ObjectViewModel> newobjectViewModels, ObjectViewModel rootObject)
 		{
-            rootObject.Children = rootObject.Children.OrderBy(x => x.Name).ToList().OrderBy(x => x.Address).ToList();
+			rootObject.Children = rootObject.Children.OrderBy(x => x.Name).ToList().OrderBy(x => x.Address).ToList();
 			foreach (var objectViewModel in rootObject.Children)
 			{
 				newobjectViewModels.Add(objectViewModel);

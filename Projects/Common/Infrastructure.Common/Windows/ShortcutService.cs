@@ -20,13 +20,17 @@ namespace Infrastructure.Common.Windows
 			if (KeyPressed != null && !e.Handled)
 				KeyPressed(this, e);
 			if (!e.Handled && ApplicationService.ApplicationWindow.IsKeyboardFocusWithin)
+			{
 				foreach (var keyGesture in Shortcuts.Keys)
+				{
 					if (e.Key == keyGesture.Key && keyGesture.Modifiers == Keyboard.Modifiers)
 					{
 						RelayCommand command = Shortcuts[keyGesture];
 						if (command.CanExecute(null))
 							command.Execute();
 					}
+				}
+			}
 		}
 	}
 }

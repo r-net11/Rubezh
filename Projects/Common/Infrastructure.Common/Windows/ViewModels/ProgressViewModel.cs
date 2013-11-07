@@ -67,7 +67,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
-
 		public void DoStep(string text)
 		{
 			CurrentStep++;
@@ -87,7 +86,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Close();
 		}
 
-		
 		public bool IsCanceled { get; private set; }
 
 		public RelayCommand CancelCommand { get; private set; }
