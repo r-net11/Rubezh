@@ -17,7 +17,16 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
+                <DataGridTemplateColumn Header="Событие" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
                 <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
@@ -30,16 +39,6 @@
 					                    <TextBlock Text="{Binding PresentationName}" />
 				                    </Hyperlink>
                                 </TextBlock>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
-                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

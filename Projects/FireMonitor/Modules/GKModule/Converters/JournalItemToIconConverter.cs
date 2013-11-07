@@ -18,7 +18,7 @@ namespace GKModule.Converters
 				case JournalItemType.Device:
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (device == null)
-						return "";
+						return "/Controls;component/Images/blank.png";
 					return device.Driver.ImageSource;
 
 				case JournalItemType.Zone:
@@ -37,7 +37,7 @@ namespace GKModule.Converters
 					return "/Controls;component/Images/PC.png";
 
 				default:
-					return "";
+					return "/Controls;component/Images/blank.png";
 			}
 		}
 

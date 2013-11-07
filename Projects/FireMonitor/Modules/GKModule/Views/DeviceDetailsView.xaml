@@ -161,17 +161,17 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="РЕЖИМ" FontWeight="Bold"/>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Background="White">
+                        <TextBlock Margin="2" HorizontalAlignment="Center" FontSize="16" Text="РЕЖИМ" FontWeight="Bold"/>
                         <Image Margin="2" Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" />
-                        <TextBlock Margin="2" Foreground="White" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
+                        <TextBlock Margin="2" FontSize="16" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
                     </StackPanel>
-					<Grid Grid.Row="1" Background="White">
+                    <Grid Grid.Row="1" Background="White">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
+                            <ColumnDefinition />
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0">
+                        <StackPanel Grid.Column="0">
 							<Button Width="200" Height="50" Margin="2" Command="{Binding SetAutomaticStateCommand}" Content="Автоматика" />
 							<Button Width="200" Height="50" Margin="2" Command="{Binding SetManualStateCommand}" Content="Ручное" />
 							<Button Width="200" Height="50" Margin="2" Command="{Binding SetIgnoreStateCommand}" Content="Отключение" />
@@ -195,11 +195,12 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Orientation="Horizontal">
-						<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Режим" />
-						<TextBlock Margin="2" Foreground="White" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
-					</StackPanel>
-					<Grid Grid.Row="2" Background="White">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Background="White">
+                        <TextBlock Margin="2" HorizontalAlignment="Center" FontSize="16" Text="РЕЖИМ" FontWeight="Bold"/>
+                        <Image Margin="2" Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" />
+                        <TextBlock Margin="2" FontSize="16" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
+                    </StackPanel>
+                    <Grid Grid.Row="2" Background="White">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
