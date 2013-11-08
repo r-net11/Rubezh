@@ -19,26 +19,26 @@
 				<Views:DeviceStateView TextElement.Foreground="White" Margin="2 0 0 0" />
 			</StackPanel>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-				<StackPanel>
+                <StackPanel TextBlock.Foreground="Red">
 					<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Margin="2" Foreground="White" Text="Задержка на включение" />
+                        <TextBlock Text="Задержка на включение" Margin="2" />
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="{Binding DeviceState.OnDelay}" />
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="Сек" />
+                            <TextBlock Text="{Binding DeviceState.OnDelay}" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock Margin="2" Foreground="White" Text="Удержание" />
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="{Binding DeviceState.HoldDelay}" />
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="Сек" />
+                            <TextBlock Text="{Binding DeviceState.HoldDelay}" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Visibility="{Binding HasOffDelay, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock Margin="2" Foreground="White" Text="Задержка на выключение" />
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="{Binding DeviceState.OffDelay}" />
-							<TextBlock Margin="2" FontSize="24" Foreground="Red" Text="Сек" />
+                            <TextBlock Text="{Binding DeviceState.OffDelay}" FontSize="24" Margin="2" />
+                            <TextBlock Text="Сек" FontSize="24" Margin="2" />
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>

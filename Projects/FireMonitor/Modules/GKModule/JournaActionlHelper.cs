@@ -36,6 +36,11 @@ namespace GKModule
 			Add(message, description, stateClass, direction.UID, direction.GKDescriptorNo, JournalItemType.Direction);
 		}
 
+		public static void Add(string message, string description, XStateClass stateClass, XDelay delay)
+		{
+			Add(message, description, stateClass, delay.UID, delay.GKDescriptorNo, JournalItemType.Delay);
+		}
+
 		public static void Add(string message, string description, XStateClass stateClass, Guid objectUID, int gkObjectNo, JournalItemType journalItemType)
 		{
 			var journalItem = new JournalItem()
@@ -47,6 +52,8 @@ namespace GKModule
 				Name = message,
 				Description = description,
 				ObjectUID = objectUID,
+				// ObjectName
+				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)gkObjectNo,
 				UserName = FiresecManager.CurrentUser.Name
 			};

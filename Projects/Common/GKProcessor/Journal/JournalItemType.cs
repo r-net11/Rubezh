@@ -19,7 +19,10 @@ namespace GKProcessor
 		[DescriptionAttribute("Направление")]
 		Direction = 4,
 
+		[DescriptionAttribute("Задержка")]
+		Delay = 5,
+
 		[DescriptionAttribute("Полльзователь")]
-		User = 5
+		User = 6
 	}
 }

@@ -90,6 +90,7 @@ namespace GKModule
 			}
 		}
 
+		#region Direction
 		public static void SetAutomaticRegimeForDirection(XDirection direction)
 		{
 			if (SendControlCommand(direction, XStateBit.SetRegime_Automatic))
@@ -137,7 +138,57 @@ namespace GKModule
 				JournaActionlHelper.Add("Команда оператора", "Выключить", XStateClass.Info, direction);
 			}
 		}
+		#endregion
 
+		#region Delay
+		public static void SetAutomaticRegimeForDelay(XDelay delay)
+		{
+			if (SendControlCommand(delay, XStateBit.SetRegime_Automatic))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, delay);
+			}
+		}
+
+		public static void SetManualRegimeForDelay(XDelay delay)
+		{
+			if (ObjectCommandSendHelper.SendControlCommand(delay, XStateBit.SetRegime_Manual))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, delay);
+			}
+		}
+
+		public static void SetIgnoreRegimeForDelay(XDelay delay)
+		{
+			if (ObjectCommandSendHelper.SendControlCommand(delay, XStateBit.SetRegime_Off))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, delay);
+			}
+		}
+
+		public static void TurnOnDelay(XDelay delay)
+		{
+			if (ObjectCommandSendHelper.SendControlCommand(delay, XStateBit.TurnOn_InManual))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Включить", XStateClass.Info, delay);
+			}
+		}
+
+		public static void TurnOnNowDelay(XDelay delay)
+		{
+			if (ObjectCommandSendHelper.SendControlCommand(delay, XStateBit.TurnOnNow_InManual))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Включить немедленно", XStateClass.Info, delay);
+			}
+		}
+
+		public static void TurnOffDelay(XDelay delay)
+		{
+			if (ObjectCommandSendHelper.SendControlCommand(delay, XStateBit.TurnOff_InManual))
+			{
+				JournaActionlHelper.Add("Команда оператора", "Выключить", XStateClass.Info, delay);
+			}
+		}
+		#endregion
 		public static void TurnOffDeviceAnyway(XDevice device)
 		{
 			var stateType = XStateBit.TurnOff_InManual;

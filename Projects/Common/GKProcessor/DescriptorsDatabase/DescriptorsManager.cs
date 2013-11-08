@@ -4,7 +4,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class DatabaseManager
+	public static class DescriptorsManager
 	{
 		public static List<KauDatabase> KauDatabases { get; private set; }
 		public static List<GkDatabase> GkDatabases { get; private set; }

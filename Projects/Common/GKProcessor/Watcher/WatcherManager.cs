@@ -18,7 +18,7 @@ namespace GKProcessor
 		public static void Start()
 		{
 			Watchers = new List<Watcher>();
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				if (!XManager.IsValidIpAddress(gkDatabase.RootDevice))
 				{

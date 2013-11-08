@@ -26,12 +26,14 @@ namespace GKModule
 		static DeviceParametersViewModel DeviceParametersViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
+		static DelaysViewModel DelaysViewModel;
 		NavigationItem _journalNavigationItem;
 		static JournalsViewModel JournalsViewModel;
 		static ArchiveViewModel ArchiveViewModel;
 		static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
+		NavigationItem _delaysNavigationItem;
 		private PlanPresenter _planPresenter;
 
 		public GKModuleLoader()
@@ -51,6 +53,7 @@ namespace GKModule
 			DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
+			DelaysViewModel = new DelaysViewModel();
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
@@ -111,10 +114,15 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
+			_delaysNavigationItem.IsVisible = false;
+#if DEBUG
+			_delaysNavigationItem.IsVisible = true;
+#endif
 			DevicesViewModel.Initialize();
 			DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
+			DelaysViewModel.Initialize();
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}
@@ -122,6 +130,7 @@ namespace GKModule
 		{
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty);
+			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/delay.png", null, null, Guid.Empty);
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
@@ -132,6 +141,7 @@ namespace GKModule
 					new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Измерения", "/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
+					_delaysNavigationItem,
 					_journalNavigationItem,
 					new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 				};
@@ -163,7 +173,14 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
             XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DatabaseManager.Convert();
+			DescriptorsManager.Convert();
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+			{
+				foreach (var delay in gkDatabase.Delays)
+				{
+					delay.DelayState = new XDelayState();
+				}
+			}
 			WatcherManager.IsConfigurationReloading = false;
 			if (firstTime)
 				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });

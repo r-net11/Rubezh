@@ -180,6 +180,9 @@
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DelaysViewModel.cs" />
+    <Compile Include="ViewModels\DelayViewModel.cs" />
+    <Compile Include="ViewModels\DelayDetailsViewModel.cs" />
     <Compile Include="Views\DeviceParametersView.xaml.cs">
       <DependentUpon>DeviceParametersView.xaml</DependentUpon>
     </Compile>
@@ -200,6 +203,12 @@
     </Compile>
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelaysView.xaml.cs">
+      <DependentUpon>DelaysView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelayDetailsView.xaml.cs">
+      <DependentUpon>DelayDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Watcher\UsersWatchManager.cs" />
@@ -286,6 +295,14 @@
     <Page Include="Journal\Views\JournalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DelaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DelayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Resource Include="Reports\DriverCounterReport.xaml">
       <SubType>Designer</SubType>

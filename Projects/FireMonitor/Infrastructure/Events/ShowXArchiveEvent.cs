@@ -12,5 +12,6 @@ namespace Infrastructure.Events
 		public XDevice Device { get; set; }
 		public XDirection Direction { get; set; }
 		public XZone Zone { get; set; }
+		public XDelay Delay { get; set; }
 	}
 }

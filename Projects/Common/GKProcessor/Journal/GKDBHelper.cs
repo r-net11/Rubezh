@@ -264,6 +264,7 @@ namespace GKProcessor
 							objectUIDs.AddRange(archiveFilter.DeviceUIDs);
 							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
 							objectUIDs.AddRange(archiveFilter.DirectionUIDs);
+							objectUIDs.AddRange(archiveFilter.DelayUIDs);
 							if (objectUIDs.Count > 0)
 							{
 								int index = 0;

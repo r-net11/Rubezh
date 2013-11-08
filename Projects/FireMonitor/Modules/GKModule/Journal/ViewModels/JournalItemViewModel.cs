@@ -21,6 +21,7 @@ namespace GKModule.ViewModels
 		public XDeviceState DeviceState { get; private set; }
 		public XZoneState ZoneState { get; private set; }
 		public XDirectionState DirectionState { get; private set; }
+		public XDelayState DelayState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
 
@@ -33,7 +34,6 @@ namespace GKModule.ViewModels
 
 			try
 			{
-				PresentationName = "<Нет в конфигурации>";
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
@@ -63,6 +63,21 @@ namespace GKModule.ViewModels
 						}
 						break;
 
+					case JournalItemType.Delay:
+						XDelay delay = null;
+						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+						{
+							delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (delay != null)
+								break;
+						}
+						if (delay != null)
+						{
+							DelayState = delay.DelayState;
+							PresentationName = delay.Name;
+						}
+						break;
+
 					case JournalItemType.GK:
 						var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (gkDevice != null)
@@ -81,15 +96,19 @@ namespace GKModule.ViewModels
 						break;
 				}
 
+				if (PresentationName == null)
+					PresentationName = JournalItem.ObjectName;
+				if(PresentationName == null)
+					PresentationName = "<Нет в конфигурации>";
 
 				var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 				var stringBuilder = new StringBuilder();
 				foreach (var state in states)
 				{
-					if (state == XStateBit.Save)
-						continue;
-
-					stringBuilder.Append(state.ToDescription() + " ");
+					if (state != XStateBit.Save)
+					{
+						stringBuilder.Append(state.ToDescription() + " ");
+					}
 				}
 				StringStates = stringBuilder.ToString();
 			}
@@ -112,6 +131,8 @@ namespace GKModule.ViewModels
 						return "/Controls;component/Images/zone.png";
 					case JournalItemType.Direction:
 						return "/Controls;component/Images/Blue_Direction.png";
+					case JournalItemType.Delay:
+						return "/Controls;component/Images/Delay.png";
 					case JournalItemType.GK:
 						return "/Controls;component/GKIcons/GK.png";
 					case JournalItemType.User:
@@ -150,6 +171,10 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
+				case JournalItemType.Delay:
+					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
+					break;
+
 				case JournalItemType.GK:
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
 					break;
@@ -165,6 +190,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+				case JournalItemType.Delay:
 				case JournalItemType.GK:
 					return true;
 			}

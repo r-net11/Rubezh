@@ -14,8 +14,8 @@ namespace GKProcessor
 
 		public static void GetAllParameters()
 		{
-			DatabaseManager.Convert();
-			foreach (var kauDatabase in DatabaseManager.KauDatabases)
+			DescriptorsManager.Convert();
+			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
 				LoadingService.Show("Запрос параметров", kauDatabase.Descriptors.Count);
 				try
@@ -46,8 +46,8 @@ namespace GKProcessor
 
 		public static void SetAllParameters()
 		{
-			DatabaseManager.Convert();
-			foreach (var kauDatabase in DatabaseManager.KauDatabases)
+			DescriptorsManager.Convert();
+			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
 				LoadingService.Show("Запись параметров", kauDatabase.Descriptors.Count);
 				try
@@ -245,7 +245,7 @@ namespace GKProcessor
 
 		public static void SetSingleDirectionParameter(XDirection direction)
 		{
-			DatabaseManager.Convert();
+			DescriptorsManager.Convert();
 			try
 			{
 				var commonDatabase = GetCommonDatabase(direction);
@@ -310,7 +310,7 @@ namespace GKProcessor
 
 		public static void GetSingleDirectionParameter(XDirection direction)
 		{
-			DatabaseManager.Convert();
+			DescriptorsManager.Convert();
 			try
 			{
 				var commonDatabase = GetCommonDatabase(direction);
@@ -406,11 +406,11 @@ namespace GKProcessor
 			CommonDatabase commonDatabase = null;
 			if (xBase.KauDatabaseParent != null)
 			{
-				commonDatabase = DatabaseManager.KauDatabases.FirstOrDefault(x => x.RootDevice == xBase.KauDatabaseParent);
+				commonDatabase = DescriptorsManager.KauDatabases.FirstOrDefault(x => x.RootDevice == xBase.KauDatabaseParent);
 			}
 			else if (xBase.GkDatabaseParent != null)
 			{
-				commonDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice == xBase.GkDatabaseParent);
+				commonDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice == xBase.GkDatabaseParent);
 			}
 			return commonDatabase;
 		}

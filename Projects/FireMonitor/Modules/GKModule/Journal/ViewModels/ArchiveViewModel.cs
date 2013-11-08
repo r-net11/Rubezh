@@ -54,6 +54,8 @@ namespace GKModule.ViewModels
 				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
 			if (showXArchiveEventArgs.Direction != null)
 				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
+			if (showXArchiveEventArgs.Delay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
 			IsFilterOn = true;
 		}
 

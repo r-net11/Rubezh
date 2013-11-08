@@ -17,9 +17,9 @@ namespace GKProcessor
 		{
 			try
 			{
-				DatabaseManager.Convert();
+				DescriptorsManager.Convert();
 
-				var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 				if (gkDatabase != null)
 				{
 					var result = Ping(gkDatabase);

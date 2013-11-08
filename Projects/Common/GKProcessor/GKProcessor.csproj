@@ -57,7 +57,7 @@
     <Compile Include="Administrator\KauBinConfigurationReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="AUParameterValue.cs" />
-    <Compile Include="DescriptorsDatabase\DatabaseManager.cs" />
+    <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />

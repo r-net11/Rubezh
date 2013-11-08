@@ -27,6 +27,9 @@ namespace GKModule.Converters
 				case JournalItemType.Direction:
 					return "/Controls;component/Images/Blue_Direction.png";
 
+				case JournalItemType.Delay:
+					return "/Controls;component/Images/Delay.png";
+
 				case JournalItemType.GK:
 					return "/Controls;component/GKIcons/GK.png";
 
