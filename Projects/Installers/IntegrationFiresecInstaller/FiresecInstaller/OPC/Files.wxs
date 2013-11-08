@@ -26,6 +26,7 @@
         <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.OPC.TargetDir)" />
+        <File Id="OPC.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FS2API.dll" Name="FS2API.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FS2Client.dll" Name="FS2Client.dll" Source="$(var.OPC.TargetDir)" />

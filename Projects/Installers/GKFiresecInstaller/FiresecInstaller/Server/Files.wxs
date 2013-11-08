@@ -22,6 +22,7 @@
         <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.FS2API.dll" Name="FS2API.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Server.TargetDir)" />
