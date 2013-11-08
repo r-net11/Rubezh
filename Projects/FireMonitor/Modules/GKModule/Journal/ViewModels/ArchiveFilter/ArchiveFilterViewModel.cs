@@ -158,12 +158,13 @@ namespace GKModule.ViewModels
 			}
 			foreach (var description in archiveFilter.Descriptions)
 			{
-				var descriptionViewModel = ArchiveDescriptions.FirstOrDefault(x => x.Description == description);
+				var descriptionViewModel = ArchiveDescriptions.FirstOrDefault(x => x.Description.Name == description);
 				if(descriptionViewModel != null)
 				{
 					descriptionViewModel.IsChecked = true;
 				}
 			}
+			var checke = ArchiveDescriptions.Where(x => x.IsChecked == true).ToList(); 
 		}
 
 		#region Devices
@@ -361,7 +362,7 @@ namespace GKModule.ViewModels
 			foreach (var description in ArchiveDescriptions)
 			{
 				if (description.IsChecked)
-					archiveFilter.Descriptions.Add(description.Description);
+					archiveFilter.Descriptions.Add(description.Description.Name);
 			}
 			return archiveFilter;
 		}
@@ -377,6 +378,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("RootDevices");
 			OnPropertyChanged("ArchiveZones");
 			OnPropertyChanged("ArchiveDirections");
+			OnPropertyChanged("ArchiveDescriptions");
+			OnPropertyChanged("JournalDescriptionStates");
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

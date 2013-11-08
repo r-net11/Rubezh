@@ -160,6 +160,7 @@
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Archive\DescriptionType.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
     <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />

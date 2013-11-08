@@ -114,11 +114,14 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="250" MinWidth="250" Header="Выходные устройства">
+				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Выходные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Views:DeviceView />
-						</DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+                                <TextBlock Margin="2" Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
@@ -128,9 +131,30 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding Device.Description}" Header="Примечание" />
 			</DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <Views:DeviceStateView />
+                            </StackPanel>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
 		</DataGrid>
 
 		<DataGrid Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding InputDevices}">
@@ -145,23 +169,47 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="250" MinWidth="250" Header="Входные устройства">
+				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Views:DeviceView />
-						</DataTemplate>
+							<StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+                                <TextBlock Margin="2" Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Device.PresentationAddress}" />
+							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding Device.Description}" Header="Примечание" />
+                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
 			</DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <Views:DeviceStateView />
+                            </StackPanel>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
 		</DataGrid>
 
 		<DataGrid Grid.Row="1" Grid.Column="0" Margin="2" ItemsSource="{Binding InputZones}">

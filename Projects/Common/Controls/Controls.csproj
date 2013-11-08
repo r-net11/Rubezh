@@ -126,6 +126,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolInverterConverter.cs" />
+    <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
@@ -1273,6 +1274,7 @@
     <Resource Include="GKIcons\RSR2_Siren.png" />
     <Resource Include="GKIcons\RSR2_Table.png" />
     <Resource Include="Images\blank.png" />
+    <Resource Include="GKIcons\battery.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

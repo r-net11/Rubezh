@@ -29,6 +29,7 @@ namespace GKProcessor
 			AddDriverToKau(AM_1_Helper.Create());
 			AddDriverToKau(AMP_1_Helper.Create());
 			AddDriverToKau(AM1_T_Helper.Create());
+			AddDriverToKau(Battery_Helper.Create());
 			
 			AddDriverToKau(RM_1_Helper.Create());
 			AddDriverToKau(MRO_2_Helper.Create());

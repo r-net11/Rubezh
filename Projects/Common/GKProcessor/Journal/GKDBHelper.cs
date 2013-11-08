@@ -234,14 +234,14 @@ namespace GKProcessor
 
 							if (archiveFilter.JournalDescriptionState.Count > 0)
 							{
-								query += "\n AND (";
+								query += "\n and (";
 								int index = 0;
 								foreach (var eventName in archiveFilter.JournalDescriptionState)
 								{
 									if (index > 0)
 										query += "\n OR ";
 									index++;
-									query += "Name = '" + eventName + "'";
+									query += "Name = '" + eventName.Name + "'";
 								}
 								query += ")";
 							}
@@ -439,6 +439,9 @@ namespace GKProcessor
 
 			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectStateClass")))
+				journalItem.ObjectStateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("ObjectStateClass"));
 			return journalItem;
 		}
 	}

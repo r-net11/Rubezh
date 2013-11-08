@@ -109,6 +109,7 @@
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_4_Group_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\Battery_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Bush_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_CombinedDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_HandDetector_Helper.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
     <Compile Include="JournaActionlHelper.cs" />
+    <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
     <Compile Include="Journal\GKDBHelper.Patches.cs" />

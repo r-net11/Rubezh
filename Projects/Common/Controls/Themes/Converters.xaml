@@ -47,4 +47,5 @@
     <Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
     <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
     <Converters:StringToImageConverter x:Key="StringToImageConverter" />
+    <Converters:DescriptionTypeToIconConverter x:Key="DescriptionTypeToIconConverter" />
 </ResourceDictionary>

@@ -102,8 +102,5 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ShowIP");
 			OnPropertyChanged("ShowSubsystem");
 		}
-
-		
 	}
-
 }

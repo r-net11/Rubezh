@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
 	public class DescriptionViewModel : BaseViewModel
 	{
-		public DescriptionViewModel(string description)
+		public DescriptionViewModel(Description description)
 		{
 			Description = description;
 		}
 
-		public string Description { get; private set; }
+		public Description Description { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

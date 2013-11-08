@@ -126,5 +126,17 @@ namespace GKProcessor
 			}
 			driver.AvailableStateClasses.Add(stateClass);
 		}
+
+		public static void AddDefaultStateBitsClasses(XDriver driver)
+		{
+			driver.AvailableStateBits.Add(XStateBit.Norm);
+			driver.AvailableStateBits.Add(XStateBit.Failure);
+			driver.AvailableStateBits.Add(XStateBit.Ignore);
+			driver.AvailableStateClasses.Add(XStateClass.No);
+			driver.AvailableStateClasses.Add(XStateClass.Norm);
+			driver.AvailableStateClasses.Add(XStateClass.Failure);
+			driver.AvailableStateClasses.Add(XStateClass.Ignore);
+			driver.AvailableStateClasses.Add(XStateClass.Unknown);
+		}
 	}
 }
