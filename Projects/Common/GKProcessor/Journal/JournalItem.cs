@@ -38,9 +38,6 @@ namespace GKProcessor
 		[DataMember]
 		public XStateClass ObjectStateClass { get; set; }
 		[DataMember]
-		public JournalParser JournalParser { get; set; }
-
-		[DataMember]
 		public ushort DescriptorType { get; set; }
 		[DataMember]
 		public ushort DescriptorAddress { get; set; }
