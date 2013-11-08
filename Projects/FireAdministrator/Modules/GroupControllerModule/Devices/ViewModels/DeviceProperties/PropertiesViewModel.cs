@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 
 		public void UpdateDeviceParameterMissmatchType()
 		{
-			if (StringProperties.Count + EnumProperties.Count > 0)
+			if (StringProperties.Count + ShortProperties.Count + BoolProperties.Count + EnumProperties.Count > 0)
 			{
 				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 				foreach (var auProperty in StringProperties)

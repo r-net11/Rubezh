@@ -78,17 +78,23 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Задержка">
+                <DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</DataTemplate>
+                            <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Удержание">
+                <DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
+                                <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

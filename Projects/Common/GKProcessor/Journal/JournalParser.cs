@@ -181,10 +181,8 @@ namespace GKProcessor
 
 						case 5:
 							JournalItem.Name = "Неисправность";
-							//JournalItem.YesNo = JournalStringsHelper.ToYesNo(bytes[32 + 14]);
-
-							//if (JournalItem.YesNo == JournalYesNoType.No)
-							//	JournalItem.Name = "Неисправность устранена";
+							if (bytes[32 + 14] == 0)
+								JournalItem.Name = "Неисправность устранена";
 
 							if (JournalItem.DescriptorType == 0xE0)
 								JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
@@ -194,7 +192,8 @@ namespace GKProcessor
 
 						case 6:
 							JournalItem.Name = "Тест";
-							//JournalItem.YesNo = JournalStringsHelper.ToYesNo(bytes[32 + 14]);
+							if (bytes[32 + 14] == 0)
+								JournalItem.Name = "Тест устранен";
 
 							switch (bytes[32 + 15])
 							{
@@ -206,15 +205,13 @@ namespace GKProcessor
 									JournalItem.Description = "Указка";
 									break;
 							}
-
-							//if (JournalItem.YesNo == JournalYesNoType.No)
-							//	JournalItem.Name = "Тест устранен";
-
 							break;
 
 						case 7:
 							JournalItem.Name = "Запыленность";
-							
+							if (bytes[32 + 14] == 0)
+								JournalItem.Name = "Запыленность устранена";
+
 							switch (bytes[32 + 15])
 							{
 								case 1:
@@ -225,9 +222,6 @@ namespace GKProcessor
 									JournalItem.Description = "Критическая";
 									break;
 							}
-
-							//if (JournalItem.YesNo == JournalYesNoType.No)
-							//	JournalItem.Name = "Запыленность устранена";
 							break;
 
 						case 8:

@@ -42,9 +42,9 @@
             </Grid.ColumnDefinitions>
             <DataGrid Grid.Column="0" DataContext="{Binding LocalDeviceViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
                       Name="DataGrid1" ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
-                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2" >
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройства в конфигурации" Width="250" >
+                    <DataGridTemplateColumn Header="Устройства в конфигурации" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
@@ -59,7 +59,7 @@
                     <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}"/>
+                                <TextBlock Text="{Binding Address}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -67,9 +67,9 @@
             </DataGrid>
             <DataGrid Grid.Column="1" DataContext= "{Binding RemoteDeviceViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
                       Name="DataGrid2" ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
-                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2" >
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройства в приборе" Width="250" >
+                    <DataGridTemplateColumn Header="Устройства в приборе" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
@@ -81,10 +81,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Адрес" MinWidth="80" >
+                    <DataGridTemplateColumn Header="Адрес" MinWidth="80">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}"/>
+                                <TextBlock Text="{Binding Address}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

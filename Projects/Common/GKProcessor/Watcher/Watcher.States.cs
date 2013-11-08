@@ -88,7 +88,7 @@ namespace GKProcessor
 			}
 			ConnectionChanged(true);
 			var descriptorStateHelper = new DescriptorStateHelper();
-            descriptorStateHelper.Parse(sendResult.Bytes);
+			descriptorStateHelper.Parse(sendResult.Bytes);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 			ApplicationService.Invoke(() =>
 			{
@@ -160,8 +160,8 @@ namespace GKProcessor
 					isMissmatch = true;
 			}
 
-            var description = xBase.GetDescriptorName();
-            if (xBase.GetDescriptorName().TrimEnd(' ') != descriptorStateHelper.Description)
+			var description = xBase.GetDescriptorName();
+			if (xBase.GetDescriptorName().TrimEnd(' ') != descriptorStateHelper.Description)
 				isMissmatch = true;
 
 			xBase.GetXBaseState().IsRealMissmatch = isMissmatch;
@@ -173,15 +173,16 @@ namespace GKProcessor
 
 		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
 		{
-			if (journalItem.Name != "Запыленность")
-				return;
-
-			if (xBase is XDevice)
+			if (journalItem.Name == "Запыленность" || journalItem.Name == "Запыленность устранена")
 			{
-				var device = xBase as XDevice;
-				//bool isDusted = journalItem.YesNo == JournalYesNoType.Yes;
-				bool isDusted = false;
-				ApplicationService.Invoke(() => { device.DeviceState.IsService = isDusted; });
+				if (xBase is XDevice)
+				{
+					var device = xBase as XDevice;
+					if (journalItem.Name == "Запыленность")
+						ApplicationService.Invoke(() => { device.DeviceState.IsService = true; });
+					if (journalItem.Name == "Запыленность устранена")
+						ApplicationService.Invoke(() => { device.DeviceState.IsService = false; });
+				}
 			}
 		}
 

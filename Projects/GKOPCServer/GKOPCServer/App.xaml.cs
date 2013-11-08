@@ -3,7 +3,6 @@ using System.Windows;
 using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
-using Common.GK;
 
 namespace GKOPCServer
 {

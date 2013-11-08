@@ -192,7 +192,7 @@ namespace GKProcessor
 				}
 				formulaOperation.StackLevel = stackDepth;
 			}
-			return stackDepth > 0;
+			return stackDepth != 0;
 		}
 	}
 }

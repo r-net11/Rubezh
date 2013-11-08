@@ -7,7 +7,6 @@ using GKOPCServer.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using GKProcessor;
-using Common.GK;
 using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 

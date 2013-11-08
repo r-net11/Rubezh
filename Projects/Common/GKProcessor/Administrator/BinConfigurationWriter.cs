@@ -314,11 +314,5 @@ namespace GKProcessor
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}
-
-		static void SyncronizeTime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
-			DeviceBytesHelper.WriteDateTime(device);
-		}
 	}
 }

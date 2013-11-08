@@ -53,7 +53,7 @@ namespace Infrastructure.Common.Windows
 			get { return _progressViewModel != null && _progressViewModel.IsCanceled; }
 		}
 
-		private static void Show(ProgressViewModel progressViewModel)
+		static void Show(ProgressViewModel progressViewModel)
 		{
 			Close();
 			_progressViewModel = progressViewModel;
