@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
         {
             CopyParametersFromBuffer(Device);
             PropertiesViewModel.Update();
-            //UpdateDeviceParameterMissmatch();
+            UpdateDeviceParameterMissmatch();
         }
         bool CanPaste()
         {
@@ -71,7 +71,7 @@ namespace GKModule.ViewModels
                 if (deviceViewModel != null)
                     deviceViewModel.PropertiesViewModel.Update();
             }
-            //UpdateDeviceParameterMissmatch();
+            UpdateDeviceParameterMissmatch();
         }
         bool CanPasteAll()
         {
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
                 CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
                 PropertiesViewModel.Update();
             }
-            //UpdateDeviceParameterMissmatch();
+            UpdateDeviceParameterMissmatch();
         }
         bool CanPasteTemplate()
         {
@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
                         deviceViewModel.PropertiesViewModel.Update();
                 }
             }
-            //UpdateDeviceParameterMissmatch();
+            UpdateDeviceParameterMissmatch();
         }
         bool CanPasteAllTemplate()
         {
@@ -161,6 +161,7 @@ namespace GKModule.ViewModels
                     CopyFromSystemToDevice(Device);
                     PropertiesViewModel.Update();
                 }
+				UpdateDeviceParameterMissmatch();
             }
         }
 
@@ -180,6 +181,7 @@ namespace GKModule.ViewModels
 			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 		}
+
         public RelayCommand WriteAllCommand { get; private set; }
         void OnWriteAll()
         {
@@ -198,6 +200,7 @@ namespace GKModule.ViewModels
                             deviceViewModel.PropertiesViewModel.Update();
                     }
                 }
+				UpdateDeviceParameterMissmatch();
             }
         }
 
@@ -217,6 +220,7 @@ namespace GKModule.ViewModels
 							deviceViewModel.PropertiesViewModel.Update();
 					}
 				}
+				UpdateDeviceParameterMissmatch();
 			}
 		}
 
@@ -227,7 +231,7 @@ namespace GKModule.ViewModels
             {
                 CopyFromDeviceToSystem(Device);
                 PropertiesViewModel.Update();
-                //UpdateDeviceParameterMissmatch();
+                UpdateDeviceParameterMissmatch();
             }
         }
 
@@ -245,6 +249,7 @@ namespace GKModule.ViewModels
                     if (deviceViewModel != null)
                         deviceViewModel.PropertiesViewModel.Update();
                 }
+				UpdateDeviceParameterMissmatch();
             }
         }
 
@@ -409,5 +414,27 @@ namespace GKModule.ViewModels
             PropertiesViewModel = new PropertiesViewModel(Device);
             OnPropertyChanged("PropertiesViewModel");
         }
+
+		void UpdateDeviceParameterMissmatch()
+		{
+			var allDevices = DevicesViewModel.Current.AllDevices;
+			allDevices.ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal);
+			foreach (var deviceViewModel in allDevices)
+			{
+				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
+				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unknown)
+				{
+					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown);
+				}
+			}
+			foreach (var deviceViewModel in allDevices)
+			{
+				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
+				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unequal)
+				{
+					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal);
+				}
+			}
+		}
     }
 }

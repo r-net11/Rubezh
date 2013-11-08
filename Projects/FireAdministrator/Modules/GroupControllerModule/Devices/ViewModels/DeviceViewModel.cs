@@ -51,27 +51,7 @@ namespace GKModule.ViewModels
 			UpdateDriver();
 			InitializeParamsCommands();
 			device.AUParametersChanged += UpdateDeviceParameterMissmatch;
-		}
-
-		void UpdateDeviceParameterMissmatch()
-		{
-			DevicesViewModel.Current.AllDevices.ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal);
-			foreach (var deviceViewModel in DevicesViewModel.Current.AllDevices)
-			{
-				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
-				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unknown)
-				{
-					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown);
-				}
-			}
-			foreach (var deviceViewModel in DevicesViewModel.Current.AllDevices)
-			{
-				deviceViewModel.PropertiesViewModel.UpdateDeviceParameterMissmatchType();
-				if (deviceViewModel.PropertiesViewModel.DeviceParameterMissmatchType == DeviceParameterMissmatchType.Unequal)
-				{
-					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal);
-				}
-			}
+			device.Changed += UpdateDeviceParameterMissmatch;
 		}
 
 		static bool CheckNeedSave()
