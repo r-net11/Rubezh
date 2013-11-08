@@ -45,6 +45,5 @@ namespace GKProcessor
 		public string UserName { get; set; }
 		[DataMember]
 		public XSubsystemType SubsystemType { get; set; }
-		[DataMember]
 	}
 }
