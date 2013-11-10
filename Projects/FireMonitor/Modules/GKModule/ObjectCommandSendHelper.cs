@@ -66,9 +66,9 @@ namespace GKModule
 			}
 		}
 
-		public static void SetAutomaticRegimeForDevice(XDevice device)
+		public static void SetAutomaticRegimeForDevice(XDevice device, bool mustValidatePassword = true)
 		{
-			if (SendControlCommand(device, XStateBit.SetRegime_Automatic))
+			if (SendControlCommand(device, XStateBit.SetRegime_Automatic, mustValidatePassword))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, device);
 			}
@@ -82,9 +82,9 @@ namespace GKModule
 			}
 		}
 
-		public static void SetIgnoreRegimeForDevice(XDevice device)
+		public static void SetIgnoreRegimeForDevice(XDevice device, bool mustValidatePassword = true)
 		{
-			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.SetRegime_Off))
+			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.SetRegime_Off, mustValidatePassword))
 			{
 				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, device);
 			}
@@ -189,6 +189,7 @@ namespace GKModule
 			}
 		}
 		#endregion
+
 		public static void TurnOffDeviceAnyway(XDevice device)
 		{
 			var stateType = XStateBit.TurnOff_InManual;
@@ -213,10 +214,10 @@ namespace GKModule
 			}
 		}
 
-		static bool SendControlCommand(XBase xBase, XStateBit stateType)
+		static bool SendControlCommand(XBase xBase, XStateBit stateType, bool mustValidatePassword = true)
 		{
 			var code = 0x80 + (int)stateType;
-			return SendControlCommand(xBase, (byte)code);
+			return SendControlCommand(xBase, (byte)code, mustValidatePassword);
 		}
 
 		static bool SendControlCommand(XBase xBase, byte code, bool mustValidatePassword = true)

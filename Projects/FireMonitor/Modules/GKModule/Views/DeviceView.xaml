@@ -12,27 +12,59 @@
         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
             <TextBlock.ContextMenu>
-                <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ContextMenu>
+                    <MenuItem Command="{Binding SetIgnoreCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Отключить" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding ResetIgnoreCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Снять отключение" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding SetIgnoreAllCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Отключить все дочерние устройства" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding ResetIgnoreAllCommand}">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="Снять отключения всех дочерних устройств" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
                     <MenuItem Name="menuItem" Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
                         <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
+                            <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события">
                         <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
+                            <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
                         <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
                     <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>

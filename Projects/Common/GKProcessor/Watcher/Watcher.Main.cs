@@ -62,9 +62,13 @@ namespace GKProcessor
 
 			while (true)
 			{
-
 				if (CheckLicense())
 				{
+					if (WatcherManager.IsConfigurationReloading)
+					{
+						if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
+							WatcherManager.IsConfigurationReloading = false;
+					}
 					if (!WatcherManager.IsConfigurationReloading)
 					{
 						if (IsAnyDBMissmatch)

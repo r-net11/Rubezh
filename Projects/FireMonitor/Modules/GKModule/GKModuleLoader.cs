@@ -169,6 +169,7 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
+			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
 			WatcherManager.IsConfigurationReloading = true;
 			LoadingService.DoStep("Загрузка конфигурации ГК");
             XManager.UpdateConfiguration();

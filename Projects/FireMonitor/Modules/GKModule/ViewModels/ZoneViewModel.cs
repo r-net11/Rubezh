@@ -23,6 +23,8 @@ namespace GKModule.ViewModels
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
+			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -70,6 +72,7 @@ namespace GKModule.ViewModels
 			return ZoneState.StateBits.Contains(XStateBit.Fire2) || ZoneState.StateBits.Contains(XStateBit.Fire1) || ZoneState.StateBits.Contains(XStateBit.Attention);
 		}
 
+		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
@@ -89,6 +92,61 @@ namespace GKModule.ViewModels
 		{
             return ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
+		#endregion
+
+		#region IgnoreAll
+		public RelayCommand SetIgnoreAllCommand { get; private set; }
+		void OnSetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				foreach (var device in Zone.Devices)
+				{
+					if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetIgnoreRegimeForDevice(device, false);
+					}
+				}
+			}
+		}
+		bool CanSetIgnoreAll()
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				return false;
+			foreach (var device in Zone.Devices)
+			{
+				if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+			return false;
+		}
+
+		public RelayCommand ResetIgnoreAllCommand { get; private set; }
+		void OnResetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				foreach (var device in Zone.Devices)
+				{
+					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegimeForDevice(device, false);
+					}
+				}
+			}
+		}
+		bool CanResetIgnoreAll()
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				return false;
+			foreach (var device in Zone.Devices)
+			{
+				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+			return false;
+		}
+		#endregion
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()

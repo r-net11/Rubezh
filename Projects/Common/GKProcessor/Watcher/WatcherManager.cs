@@ -14,6 +14,7 @@ namespace GKProcessor
 	{
 		public static List<Watcher> Watchers { get; private set; }
 		public static bool IsConfigurationReloading { get; set; }
+		public static DateTime LastConfigurationReloadingTime { get; set; }
 
 		public static void Start()
 		{
