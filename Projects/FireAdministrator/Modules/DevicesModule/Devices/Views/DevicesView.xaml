@@ -5,7 +5,6 @@
 		xmlns:viewModel="clr-namespace:DevicesModule.ViewModels" xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True">
 
 	<UserControl.Resources>
-		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 		<Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
 			<Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
 			<Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />

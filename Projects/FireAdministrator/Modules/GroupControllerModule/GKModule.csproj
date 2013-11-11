@@ -106,7 +106,6 @@
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ClauseConditionConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="DeviceLibrary\ImageConverters.cs" />
     <Compile Include="DeviceLibrary\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="DeviceLibrary\ViewModels\XDeviceViewModel.cs" />

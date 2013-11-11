@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:Views="clr-namespace:DevicesModule.Views" xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinWidth="600" MinHeight="600" AllowDrop="False">
-    <UserControl.Resources>
-        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

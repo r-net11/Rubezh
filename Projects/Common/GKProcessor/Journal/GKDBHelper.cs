@@ -73,8 +73,8 @@ namespace GKProcessor
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass,ObjectName) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
@@ -89,6 +89,7 @@ namespace GKProcessor
 						sqlCeCommand.Parameters.AddWithValue("@p12", (object)journalItem.DeviceDateTime ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.SubsystemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.ObjectStateClass ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.ObjectName ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -443,6 +444,9 @@ namespace GKProcessor
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectStateClass")))
 				journalItem.ObjectStateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("ObjectStateClass"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
+				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
 			return journalItem;
 		}
 	}

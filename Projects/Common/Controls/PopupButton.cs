@@ -43,7 +43,7 @@ namespace Controls
 			};
 			_popup.SetBinding(Popup.IsOpenProperty, "IsChecked");
 			_popup.SetBinding(Popup.WidthProperty, "Width");
-			SetBinding(PopupButton.IsHitTestVisibleProperty, new Binding("IsOpen") { Source = _popup, Mode = BindingMode.OneWay, Converter = new BoolInverterConverter() });
+			SetBinding(PopupButton.IsHitTestVisibleProperty, new Binding("IsOpen") { Source = _popup, Mode = BindingMode.OneWay, Converter = new InverseBooleanConverter() });
 		}
 
 		private Popup _popup;

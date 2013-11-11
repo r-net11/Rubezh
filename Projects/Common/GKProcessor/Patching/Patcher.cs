@@ -28,9 +28,13 @@ namespace GKProcessor
 			{
 				GKDBHelper.AlterColumnType("Id", "nvarchar(4000)", "Patches");
 			}));
+			AllPatches.Add(new Patch("DB.AddObjectName", () =>
+			{
+				GKDBHelper.AddColumn("ObjectName", "nvarchar(4000)", "Journal");
+			}));
 		}
 
-		public static void AddPatchToList(string index, PatchDelegate patchDelegate)
+		public static void AddPatch(string index, PatchDelegate patchDelegate)
         {
             AllPatches.Add(new Patch(index, patchDelegate));
         }
@@ -39,9 +43,15 @@ namespace GKProcessor
 		{
 			try
 			{
+				
 				var indexes = GKDBHelper.ReadAllPatches();
-				var patchesToApply = AllPatches.Where(x => !indexes.Any(index => index == x.Index)).ToList();
-				patchesToApply.ForEach(x => x.Apply());
+				foreach (var patch in AllPatches)
+				{
+					if (!indexes.Any(x => x == patch.Index))
+						patch.Apply();
+				}
+				//var patchesToApply = AllPatches.Where(x => !indexes.Any(index => index == x.Index)).ToList();
+				//patchesToApply.ForEach(x => x.Apply());
 			}
 			catch (Exception e)
 			{

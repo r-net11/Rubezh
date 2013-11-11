@@ -117,6 +117,7 @@
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
+    <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ClauseOperationTypeToIconConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
@@ -125,9 +126,9 @@
     <Compile Include="Converters\BoolToFontStyleConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
-    <Compile Include="Converters\BoolInverterConverter.cs" />
     <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />

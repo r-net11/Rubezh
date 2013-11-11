@@ -24,14 +24,15 @@ namespace GKModule.ViewModels
 		public XDelayState DelayState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
-
+		
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
-			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
+			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowInTree);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
-
+			IsExistsInConfig = true;
+			
 			try
 			{
 				switch (JournalItem.JournalItemType)
@@ -97,7 +98,11 @@ namespace GKModule.ViewModels
 				}
 
 				if (PresentationName == null)
+				{
 					PresentationName = JournalItem.ObjectName;
+					IsExistsInConfig = false;
+				}
+
 				if(PresentationName == null)
 					PresentationName = "<Нет в конфигурации>";
 
@@ -118,39 +123,47 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string ImageSource
+		public bool CanShow
 		{
 			get
 			{
-				switch (JournalItem.JournalItemType)
-				{
-					case JournalItemType.Device:
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
-					case JournalItemType.Zone:
-						return "/Controls;component/Images/zone.png";
-					case JournalItemType.Direction:
-						return "/Controls;component/Images/Blue_Direction.png";
-					case JournalItemType.Delay:
-						return "/Controls;component/Images/Delay.png";
-					case JournalItemType.GK:
-						return "/Controls;component/GKIcons/GK.png";
-					case JournalItemType.User:
-						return "/Controls;component/Images/Chip.png";
-					case JournalItemType.System:
-						return "/Controls;component/Images/PC.png";
-					default:
-						return "/Controls;component/StateClassIcons/Off.png";
-				}
+				return CanShowInTree() || CanShowOnPlan();
 			}
 		}
+
+		//public string ImageSource
+		//{
+		//    get
+		//    {
+		//        switch (JournalItem.JournalItemType)
+		//        {
+		//            case JournalItemType.Device:
+		//                var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+		//                return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
+		//            case JournalItemType.Zone:
+		//                return "/Controls;component/Images/zone.png";
+		//            case JournalItemType.Direction:
+		//                return "/Controls;component/Images/Blue_Direction.png";
+		//            case JournalItemType.Delay:
+		//                return "/Controls;component/Images/Delay.png";
+		//            case JournalItemType.GK:
+		//                return "/Controls;component/GKIcons/GK.png";
+		//            case JournalItemType.User:
+		//                return "/Controls;component/Images/Chip.png";
+		//            case JournalItemType.System:
+		//                return "/Controls;component/Images/PC.png";
+		//            default:
+		//                return "/Controls;component/StateClassIcons/Off.png";
+		//        }
+		//    }
+		//}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
 		void OnShowObjectOrPlan()
 		{
 			if (CanShowOnPlan())
 				OnShowOnPlan();
-			else if (CanShowObject())
+			else if (CanShowInTree())
 				OnShowObject();
 		}
 
@@ -180,9 +193,12 @@ namespace GKModule.ViewModels
 					break;
 			}
 		}
-		bool CanShowObject()
+
+		public bool IsExistsInConfig { get; private set; }
+
+		bool CanShowInTree()
 		{
-			if (PresentationName == "<Нет в конфигурации>")
+			if (!IsExistsInConfig)
 				return false;
 
 			switch (JournalItem.JournalItemType)
@@ -218,9 +234,9 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowOnPlan()
 		{
-			if (PresentationName == "<Нет в конфигурации>")
+			if (!IsExistsInConfig)
 				return false;
-
+			
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:

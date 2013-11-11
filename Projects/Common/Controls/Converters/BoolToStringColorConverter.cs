@@ -1,17 +1,15 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Data;
+using System.Drawing;
 
 namespace Controls.Converters
 {
-    public class BoolInverterConverter : IValueConverter
+    public class BoolToStringColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-			if (value is bool)
-			{
-				return !((bool)value);
-			}
-			return null;  
+			return (bool)value ? Brushes.Black : Brushes.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

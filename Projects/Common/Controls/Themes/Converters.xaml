@@ -41,11 +41,13 @@
 	<Converters:BoolToMinimizeTextConverter x:Key="BoolToMinimizeTextConverter" />
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
-	<Converters:BoolInverterConverter x:Key="BoolInverterConverter" />
-    <Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
+	<Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
     <Converters:SubsystemTypeToIconConverter x:Key="SubsystemTypeToIconConverter" />
     <Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
     <Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
     <Converters:StringToImageConverter x:Key="StringToImageConverter" />
     <Converters:DescriptionTypeToIconConverter x:Key="DescriptionTypeToIconConverter" />
+    <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />
+    
 </ResourceDictionary>

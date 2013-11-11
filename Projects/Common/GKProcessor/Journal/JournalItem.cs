@@ -35,7 +35,7 @@ namespace GKProcessor
 		public string GKIpAddress { get; set; }
 		[DataMember]
 		public XStateClass ObjectStateClass { get; set; }
-
+		
 		[DataMember]
 		public ushort DescriptorType { get; set; }
 		[DataMember]
