@@ -13,35 +13,35 @@ namespace GKModule
 	{
 		public static void Add(string message, string description)
 		{
-			Add(message, description, XStateClass.Info, Guid.Empty, 0, JournalItemType.System);
+			Add(message, description, XStateClass.Info, Guid.Empty, 0, JournalItemType.System, null);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass)
 		{
-			Add(message, description, stateClass, Guid.Empty, 0, JournalItemType.System);
+			Add(message, description, stateClass, Guid.Empty, 0, JournalItemType.System, null);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XDevice device)
 		{
-			Add(message, description, stateClass, device.UID, device.GKDescriptorNo, JournalItemType.Device);
+			Add(message, description, stateClass, device.UID, device.GKDescriptorNo, JournalItemType.Device, device.DottedPresentationAddress + device.ShortName);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XZone zone)
 		{
-			Add(message, description, stateClass, zone.UID, zone.GKDescriptorNo, JournalItemType.Zone);
+			Add(message, description, stateClass, zone.UID, zone.GKDescriptorNo, JournalItemType.Zone, zone.PresentationName);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XDirection direction)
 		{
-			Add(message, description, stateClass, direction.UID, direction.GKDescriptorNo, JournalItemType.Direction);
+			Add(message, description, stateClass, direction.UID, direction.GKDescriptorNo, JournalItemType.Direction, direction.PresentationName);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass, XDelay delay)
 		{
-			Add(message, description, stateClass, delay.UID, delay.GKDescriptorNo, JournalItemType.Delay);
+			Add(message, description, stateClass, delay.UID, delay.GKDescriptorNo, JournalItemType.Delay, delay.Name);
 		}
 
-		public static void Add(string message, string description, XStateClass stateClass, Guid objectUID, int gkObjectNo, JournalItemType journalItemType)
+		public static void Add(string message, string description, XStateClass stateClass, Guid objectUID, int gkObjectNo, JournalItemType journalItemType, string objectName)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -52,7 +52,7 @@ namespace GKModule
 				Name = message,
 				Description = description,
 				ObjectUID = objectUID,
-				// ObjectName
+				ObjectName = objectName,
 				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)gkObjectNo,
 				UserName = FiresecManager.CurrentUser.Name,

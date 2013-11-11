@@ -351,11 +351,14 @@ namespace GKProcessor
 					JournalItem.ObjectName = Direction.PresentationName;
 				}
 
-				foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+				if (DescriptorsManager.GkDatabases != null)
 				{
-					Delay = gkDatabase.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
-					if (Delay != null)
-						break;
+					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+					{
+						Delay = gkDatabase.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+						if (Delay != null)
+							break;
+					}
 				}
 				if (Delay != null)
 				{

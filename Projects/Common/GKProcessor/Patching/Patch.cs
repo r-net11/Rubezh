@@ -15,8 +15,12 @@
 
 		public void Apply()
 		{
-			PatchDelegate();
-			GKDBHelper.AddPatchIndexToDB(Index);
+			try
+			{
+				PatchDelegate();
+				GKDBHelper.AddPatchIndexToDB(Index);
+			}
+			catch { }
 		}
 	}
 }

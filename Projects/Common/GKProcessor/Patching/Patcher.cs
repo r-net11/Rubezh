@@ -35,23 +35,20 @@ namespace GKProcessor
 		}
 
 		public static void AddPatch(string index, PatchDelegate patchDelegate)
-        {
-            AllPatches.Add(new Patch(index, patchDelegate));
-        }
+		{
+			AllPatches.Add(new Patch(index, patchDelegate));
+		}
 
 		public static void Patch()
 		{
 			try
 			{
-				
 				var indexes = GKDBHelper.ReadAllPatches();
 				foreach (var patch in AllPatches)
 				{
 					if (!indexes.Any(x => x == patch.Index))
 						patch.Apply();
 				}
-				//var patchesToApply = AllPatches.Where(x => !indexes.Any(index => index == x.Index)).ToList();
-				//patchesToApply.ForEach(x => x.Apply());
 			}
 			catch (Exception e)
 			{

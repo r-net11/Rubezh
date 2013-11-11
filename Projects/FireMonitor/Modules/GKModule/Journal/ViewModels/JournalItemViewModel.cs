@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.System:
-						//PresentationName = JournalItem.UserName;
+						PresentationName = "";
 						break;
 				}
 
@@ -130,33 +130,6 @@ namespace GKModule.ViewModels
 				return CanShowInTree() || CanShowOnPlan();
 			}
 		}
-
-		//public string ImageSource
-		//{
-		//    get
-		//    {
-		//        switch (JournalItem.JournalItemType)
-		//        {
-		//            case JournalItemType.Device:
-		//                var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-		//                return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
-		//            case JournalItemType.Zone:
-		//                return "/Controls;component/Images/zone.png";
-		//            case JournalItemType.Direction:
-		//                return "/Controls;component/Images/Blue_Direction.png";
-		//            case JournalItemType.Delay:
-		//                return "/Controls;component/Images/Delay.png";
-		//            case JournalItemType.GK:
-		//                return "/Controls;component/GKIcons/GK.png";
-		//            case JournalItemType.User:
-		//                return "/Controls;component/Images/Chip.png";
-		//            case JournalItemType.System:
-		//                return "/Controls;component/Images/PC.png";
-		//            default:
-		//                return "/Controls;component/StateClassIcons/Off.png";
-		//        }
-		//    }
-		//}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }
 		void OnShowObjectOrPlan()

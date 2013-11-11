@@ -23,16 +23,14 @@ namespace GKModule.Models
 
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
+			_devicesViewModel = devicesViewModel;
+
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
-
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
-
-			_devicesViewModel = devicesViewModel;
 		}
 
 		public DeviceViewModel SelectedDevice
