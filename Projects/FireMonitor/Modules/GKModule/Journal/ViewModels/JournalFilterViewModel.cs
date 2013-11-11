@@ -11,7 +11,7 @@ using GKModule.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class JournalFilterViewModel: BaseViewModel
+	public class JournalFilterViewModel : BaseViewModel
 	{
 		public XJournalFilter JournalFilter { get; private set; }
 		public List<StateClassViewModel> StateClasses { get; private set; }
@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 
 		public bool FilterEventName(JournalItem journalItem)
 		{
-            if (JournalFilter.EventNames.Count > 0)
+			if (JournalFilter.EventNames.Count > 0)
 			{
 				return JournalFilter.EventNames.Any(x => x.Name == journalItem.Name);
 			}

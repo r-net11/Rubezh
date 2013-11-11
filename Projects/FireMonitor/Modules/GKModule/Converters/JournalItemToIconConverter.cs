@@ -33,11 +33,11 @@ namespace GKModule.Converters
 				case JournalItemType.GK:
 					return "/Controls;component/GKIcons/GK.png";
 
-				case JournalItemType.User:
+				case JournalItemType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
-				case JournalItemType.System:
-					return "/Controls;component/Images/PC.png";
+				//case JournalItemType.System:
+				//    return "/Controls;component/Images/PC.png";
 
 				default:
 					return "/Controls;component/Images/blank.png";

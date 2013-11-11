@@ -12,158 +12,158 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public partial class DeviceViewModel
-    {
+	public partial class DeviceViewModel
+	{
 		List<XDevice> GetRealChildren()
 		{
 			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 			return devices;
 		}
 
-        #region Capy and Paste
-        public static XDriver DriverCopy;
-        public static List<XProperty> PropertiesCopy;
+		#region Capy and Paste
+		public static XDriver DriverCopy;
+		public static List<XProperty> PropertiesCopy;
 
-        public RelayCommand CopyParamCommand { get; private set; }
-        void OnCopy()
-        {
-            DriverCopy = Device.Driver;
-            PropertiesCopy = new List<XProperty>();
-            foreach (var property in Device.Properties)
-            {
-                var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                if (driverProperty != null && driverProperty.IsAUParameter)
-                {
-                    var propertyCopy = new XProperty()
-                    {
-                        StringValue = property.StringValue,
-                        Name = property.Name,
-                        Value = property.Value
-                    };
-                    PropertiesCopy.Add(propertyCopy);
-                }
-            }
-        }
-        bool CanCopy()
-        {
-            return HasAUProperties;
-        }
+		public RelayCommand CopyParamCommand { get; private set; }
+		void OnCopy()
+		{
+			DriverCopy = Device.Driver;
+			PropertiesCopy = new List<XProperty>();
+			foreach (var property in Device.Properties)
+			{
+				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null && driverProperty.IsAUParameter)
+				{
+					var propertyCopy = new XProperty()
+					{
+						StringValue = property.StringValue,
+						Name = property.Name,
+						Value = property.Value
+					};
+					PropertiesCopy.Add(propertyCopy);
+				}
+			}
+		}
+		bool CanCopy()
+		{
+			return HasAUProperties;
+		}
 
-        public RelayCommand PasteParamCommand { get; private set; }
-        void OnPaste()
-        {
-            CopyParametersFromBuffer(Device);
-            PropertiesViewModel.Update();
-            UpdateDeviceParameterMissmatch();
-        }
-        bool CanPaste()
-        {
-            return DriverCopy != null && Device.DriverType == DriverCopy.DriverType;
-        }
+		public RelayCommand PasteParamCommand { get; private set; }
+		void OnPaste()
+		{
+			CopyParametersFromBuffer(Device);
+			PropertiesViewModel.Update();
+			UpdateDeviceParameterMissmatch();
+		}
+		bool CanPaste()
+		{
+			return DriverCopy != null && Device.DriverType == DriverCopy.DriverType;
+		}
 
-        public RelayCommand PasteAllParamCommand { get; private set; }
-        void OnPasteAll()
-        {
-            foreach (var device in XManager.GetAllDeviceChildren(Device))
-            {
-                CopyParametersFromBuffer(device);
-                var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-                if (deviceViewModel != null)
-                    deviceViewModel.PropertiesViewModel.Update();
-            }
-            UpdateDeviceParameterMissmatch();
-        }
-        bool CanPasteAll()
-        {
-            return Children.Count() > 0 && DriverCopy != null;
-        }
+		public RelayCommand PasteAllParamCommand { get; private set; }
+		void OnPasteAll()
+		{
+			foreach (var device in XManager.GetAllDeviceChildren(Device))
+			{
+				CopyParametersFromBuffer(device);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+				if (deviceViewModel != null)
+					deviceViewModel.PropertiesViewModel.Update();
+			}
+			UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteAll()
+		{
+			return Children.Count() > 0 && DriverCopy != null;
+		}
 
-        static void CopyParametersFromBuffer(XDevice device)
-        {
-            foreach (var property in PropertiesCopy)
-            {
-                var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
-                if (deviceProperty != null)
-                {
-                    deviceProperty.Value = property.Value;
-                }
-            }
-            ServiceFactory.SaveService.GKChanged = true;
-        }
-        #endregion
+		static void CopyParametersFromBuffer(XDevice device)
+		{
+			foreach (var property in PropertiesCopy)
+			{
+				var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (deviceProperty != null)
+				{
+					deviceProperty.Value = property.Value;
+				}
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		#endregion
 
-        #region Template
-        public RelayCommand PasteTemplateCommand { get; private set; }
-        void OnPasteTemplate()
-        {
-            var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
-            if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
-            {
-                CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
-                PropertiesViewModel.Update();
-            }
-            UpdateDeviceParameterMissmatch();
-        }
-        bool CanPasteTemplate()
-        {
-            return HasAUProperties;
-        }
+		#region Template
+		public RelayCommand PasteTemplateCommand { get; private set; }
+		void OnPasteTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, Device);
+				PropertiesViewModel.Update();
+			}
+			UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteTemplate()
+		{
+			return HasAUProperties;
+		}
 
-        public RelayCommand PasteAllTemplateCommand { get; private set; }
-        void OnPasteAllTemplate()
-        {
-            var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
-            if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
-            {
-                var devices = XManager.GetAllDeviceChildren(Device);
-                devices.Add(Device);
-                foreach (var device in devices)
-                {
-                    CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
-                    var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-                    if (deviceViewModel != null)
-                        deviceViewModel.PropertiesViewModel.Update();
-                }
-            }
-            UpdateDeviceParameterMissmatch();
-        }
-        bool CanPasteAllTemplate()
-        {
-            return Children.Count() > 0;
-        }
+		public RelayCommand PasteAllTemplateCommand { get; private set; }
+		void OnPasteAllTemplate()
+		{
+			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
+			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
+			{
+				var devices = XManager.GetAllDeviceChildren(Device);
+				devices.Add(Device);
+				foreach (var device in devices)
+				{
+					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.PropertiesViewModel.Update();
+				}
+			}
+			UpdateDeviceParameterMissmatch();
+		}
+		bool CanPasteAllTemplate()
+		{
+			return Children.Count() > 0;
+		}
 
-        static void CopyParametersFromTemplate(XParameterTemplate parameterTemplate, XDevice device)
-        {
-            var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == device.Driver.UID);
-            if (deviceParameterTemplate != null)
-            {
-                foreach (var property in deviceParameterTemplate.XDevice.Properties)
-                {
-                    var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
-                    if (deviceProperty != null)
-                    {
-                        deviceProperty.Value = property.Value;
-                    }
-                }
-            }
-        }
-        #endregion
+		static void CopyParametersFromTemplate(XParameterTemplate parameterTemplate, XDevice device)
+		{
+			var deviceParameterTemplate = parameterTemplate.DeviceParameterTemplates.FirstOrDefault(x => x.XDevice.DriverUID == device.Driver.UID);
+			if (deviceParameterTemplate != null)
+			{
+				foreach (var property in deviceParameterTemplate.XDevice.Properties)
+				{
+					var deviceProperty = device.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty != null)
+					{
+						deviceProperty.Value = property.Value;
+					}
+				}
+			}
+		}
+		#endregion
 
-        public RelayCommand WriteCommand { get; private set; }
-        void OnWriteCommand()
-        {
-            if (CheckNeedSave())
-            {
-                var devices = new List<XDevice> { Device };
-                if (Validate(devices))
-                {
+		public RelayCommand WriteCommand { get; private set; }
+		void OnWriteCommand()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = new List<XDevice> { Device };
+				if (Validate(devices))
+				{
 					WriteDevices(devices);
-                    CopyFromSystemToDevice(Device);
-                    PropertiesViewModel.Update();
-                }
+					CopyFromSystemToDevice(Device);
+					PropertiesViewModel.Update();
+				}
 				UpdateDeviceParameterMissmatch();
-            }
-        }
+			}
+		}
 
 		void InitializeParamsCommands()
 		{
@@ -182,27 +182,27 @@ namespace GKModule.ViewModels
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 		}
 
-        public RelayCommand WriteAllCommand { get; private set; }
-        void OnWriteAll()
-        {
-            if (CheckNeedSave())
-            {
-                var devices = GetRealChildren();
-                devices.Add(Device);
-                if (Validate(devices))
-                {
+		public RelayCommand WriteAllCommand { get; private set; }
+		void OnWriteAll()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				if (Validate(devices))
+				{
 					WriteDevices(devices);
-                    foreach (var device in devices)
-                    {
-                        CopyFromSystemToDevice(device);
-                        var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-                        if (deviceViewModel != null)
-                            deviceViewModel.PropertiesViewModel.Update();
-                    }
-                }
+					foreach (var device in devices)
+					{
+						CopyFromSystemToDevice(device);
+						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+						if (deviceViewModel != null)
+							deviceViewModel.PropertiesViewModel.Update();
+					}
+				}
 				UpdateDeviceParameterMissmatch();
-            }
-        }
+			}
+		}
 
 		public void SyncFromAllSystemToDevice()
 		{
@@ -224,59 +224,59 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
-        void OnSyncFromDeviceToSystem()
-        {
-            if (CheckNeedSave())
-            {
-                CopyFromDeviceToSystem(Device);
-                PropertiesViewModel.Update();
-                UpdateDeviceParameterMissmatch();
-            }
-        }
-
-        public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
-        void OnSyncFromAllDeviceToSystem()
-        {
-            if (CheckNeedSave())
-            {
-                var devices = GetRealChildren();
-                devices.Add(Device);
-                foreach (var device in devices)
-                {
-                    CopyFromDeviceToSystem(device);
-                    var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-                    if (deviceViewModel != null)
-                        deviceViewModel.PropertiesViewModel.Update();
-                }
+		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
+		void OnSyncFromDeviceToSystem()
+		{
+			if (CheckNeedSave())
+			{
+				CopyFromDeviceToSystem(Device);
+				PropertiesViewModel.Update();
 				UpdateDeviceParameterMissmatch();
-            }
-        }
+			}
+		}
 
-        bool CanSync()
-        {
-            return HasAUProperties;
-        }
+		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
+		void OnSyncFromAllDeviceToSystem()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				foreach (var device in devices)
+				{
+					CopyFromDeviceToSystem(device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.PropertiesViewModel.Update();
+				}
+				UpdateDeviceParameterMissmatch();
+			}
+		}
 
-        bool CanSyncAll()
-        {
-            return Children.Count() > 0;
-        }
+		bool CanSync()
+		{
+			return HasAUProperties;
+		}
 
-        static void CopyFromDeviceToSystem(XDevice device)
-        {
-            foreach (var deviceProperty in device.DeviceProperties)
-            {
-            	var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
+		bool CanSyncAll()
+		{
+			return Children.Count() > 0;
+		}
+
+		static void CopyFromDeviceToSystem(XDevice device)
+		{
+			foreach (var deviceProperty in device.DeviceProperties)
+			{
+				var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
 				property.Value = deviceProperty.Value;
-            }
-            ServiceFactory.SaveService.GKChanged = true;
-        }
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 
-        static void CopyFromSystemToDevice(XDevice device)
-        {
-            foreach (var property in device.Properties)
-            {
+		static void CopyFromSystemToDevice(XDevice device)
+		{
+			foreach (var property in device.Properties)
+			{
 				if (!property.DriverProperty.IsAUParameter)
 					continue;
 				var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
@@ -290,130 +290,130 @@ namespace GKModule.ViewModels
 				else
 					deviceProperty.Value = property.Value;
 			}
-            ServiceFactory.SaveService.GKChanged = true;
-        }
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 
-        bool Validate(IEnumerable<XDevice> devices)
-        {
-            foreach (var device in devices)
-            {
-                foreach (var property in device.Properties)
-                {
-                    var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                    if (IsPropertyValid(property, driverProperty))
-                    {
-                        MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+		bool Validate(IEnumerable<XDevice> devices)
+		{
+			foreach (var device in devices)
+			{
+				foreach (var property in device.Properties)
+				{
+					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (IsPropertyValid(property, driverProperty))
+					{
+						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						return false;
+					}
+				}
+			}
+			return true;
+		}
 
-        static bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
-        {
-            int value;
-            return
-                    driverProperty != null &&
-                    driverProperty.IsAUParameter &&
-                    driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&
-                    (!int.TryParse(Convert.ToString(property.Value), out value) ||
-                    (value < driverProperty.Min || value > driverProperty.Max));
-        }
-		
-        public RelayCommand ReadCommand { get; private set; }
-        void OnRead()
-        {
-            if (CheckNeedSave())
-            {
-                ReadDevices(new List<XDevice> { Device });
-                PropertiesViewModel.Update();
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-        }
+		static bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
+		{
+			int value;
+			return
+					driverProperty != null &&
+					driverProperty.IsAUParameter &&
+					driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&
+					(!int.TryParse(Convert.ToString(property.Value), out value) ||
+					(value < driverProperty.Min || value > driverProperty.Max));
+		}
 
-        bool CanReadWrite()
-        {
-            return HasAUProperties;
-        }
+		public RelayCommand ReadCommand { get; private set; }
+		void OnRead()
+		{
+			if (CheckNeedSave())
+			{
+				ReadDevices(new List<XDevice> { Device });
+				PropertiesViewModel.Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
-        public RelayCommand ReadAllCommand { get; private set; }
-        void OnReadAll()
-        {
-            if (CheckNeedSave())
-            {
-                var devices = GetRealChildren();
-                devices.Add(Device);
-                ReadDevices(devices);
-            }
-        }
+		bool CanReadWrite()
+		{
+			return HasAUProperties;
+		}
 
-        bool CanReadWriteAll()
-        {
-            return Children.Count() > 0;
-        }
+		public RelayCommand ReadAllCommand { get; private set; }
+		void OnReadAll()
+		{
+			if (CheckNeedSave())
+			{
+				var devices = GetRealChildren();
+				devices.Add(Device);
+				ReadDevices(devices);
+			}
+		}
 
-        public bool HasAUProperties
-        {
-            get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
-        }
+		bool CanReadWriteAll()
+		{
+			return Children.Count() > 0;
+		}
 
-        static void ReadDevices(IEnumerable<XDevice> devices)
-        {
-            ParametersHelper.ErrorLog = "";
-            LoadingService.Show("Запрос параметров");
-            DescriptorsManager.Convert();
-            var i = 0;
-            LoadingService.AddCount(devices.Count());
-            foreach (var device in devices)
-            {
+		public bool HasAUProperties
+		{
+			get { return Device.Driver.Properties.Count(x => x.IsAUParameter) > 0; }
+		}
+
+		static void ReadDevices(IEnumerable<XDevice> devices)
+		{
+			ParametersHelper.ErrorLog = "";
+			LoadingService.Show("Запрос параметров");
+			DescriptorsManager.Convert();
+			var i = 0;
+			LoadingService.AddCount(devices.Count());
+			foreach (var device in devices)
+			{
 				if (LoadingService.IsCanceled)
 					break;
-                i++;
-                ParametersHelper.GetSingleParameter(device);
-            }
-            LoadingService.Close();
-            if (ParametersHelper.ErrorLog != "")
-                MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
-            ServiceFactory.SaveService.GKChanged = true;
-        }
+				i++;
+				ParametersHelper.GetSingleParameter(device);
+			}
+			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 
-        static void WriteDevices(IEnumerable<XDevice> devices)
-        {
-            ParametersHelper.ErrorLog = "";
-            LoadingService.Show("Запись параметров");
-            DescriptorsManager.Convert();
-            var i = 0;
-            LoadingService.AddCount(devices.Count());
-            foreach (var device in devices)
-            {
+		static void WriteDevices(IEnumerable<XDevice> devices)
+		{
+			ParametersHelper.ErrorLog = "";
+			LoadingService.Show("Запись параметров");
+			DescriptorsManager.Convert();
+			var i = 0;
+			LoadingService.AddCount(devices.Count());
+			foreach (var device in devices)
+			{
 				if (LoadingService.IsCanceled)
 					break;
-                i++;
-                ParametersHelper.SetSingleParameter(device);
-				if ((devices.Count() > 1)&&(i < devices.Count()))
+				i++;
+				ParametersHelper.SetSingleParameter(device);
+				if ((devices.Count() > 1) && (i < devices.Count()))
 					Thread.Sleep(100);
-            }
-            LoadingService.Close();
-            if (ParametersHelper.ErrorLog != "")
-                MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
-            ServiceFactory.SaveService.GKChanged = true;
-        }
+			}
+			LoadingService.Close();
+			if (ParametersHelper.ErrorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			ServiceFactory.SaveService.GKChanged = true;
+		}
 
-        public RelayCommand ResetAUPropertiesCommand { get; private set; }
-        void OnResetAUProperties()
-        {
-            foreach (var property in Device.Properties)
-            {
-                var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-                if (driverProperty != null)
-                {
-                    property.Value = driverProperty.Default;
-                }
-            }
-            PropertiesViewModel = new PropertiesViewModel(Device);
-            OnPropertyChanged("PropertiesViewModel");
-        }
+		public RelayCommand ResetAUPropertiesCommand { get; private set; }
+		void OnResetAUProperties()
+		{
+			foreach (var property in Device.Properties)
+			{
+				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null)
+				{
+					property.Value = driverProperty.Default;
+				}
+			}
+			PropertiesViewModel = new PropertiesViewModel(Device);
+			OnPropertyChanged("PropertiesViewModel");
+		}
 
 		void UpdateDeviceParameterMissmatch()
 		{
@@ -436,5 +436,5 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-    }
+	}
 }

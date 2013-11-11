@@ -54,7 +54,9 @@ namespace GKProcessor
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
 				Name = message,
-				UserName = userName
+				ObjectStateClass = XStateClass.Norm,
+				UserName = userName,
+				SubsystemType = XSubsystemType.System
 			};
 			Add(journalItem);
 			return journalItem;

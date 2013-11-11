@@ -91,7 +91,6 @@ namespace DiagnosticsModule.ViewModels
 			}
 		}
 
-
 		public RelayCommand RefreshCommand { get; private set; }
 		private void OnRefresh()
 		{

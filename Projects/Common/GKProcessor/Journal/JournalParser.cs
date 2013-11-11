@@ -70,7 +70,7 @@ namespace GKProcessor
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalItemType = JournalItemType.User;
+							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 8:
@@ -80,7 +80,7 @@ namespace GKProcessor
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
 							bytes1.AddRange(bytes2);
 							JournalItem.UserName = Encoding.Default.GetString(bytes1.ToArray(), 0, bytes1.Count);
-							JournalItem.JournalItemType = JournalItemType.User;
+							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 9:
@@ -90,12 +90,12 @@ namespace GKProcessor
 
 						case 10:
 							JournalItem.Name = "Введен новый пользователь";
-							JournalItem.JournalItemType = JournalItemType.User;
+							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 11:
 							JournalItem.Name = "Изменена учетная информация пользователя";
-							JournalItem.JournalItemType = JournalItemType.User;
+							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 12:
@@ -311,14 +311,7 @@ namespace GKProcessor
 				JournalItem.StateClass = JournalDescriptionStateHelper.GetStateClassByName(JournalItem.Name);
 			}
 
-			if (JournalItem.JournalItemType == JournalItemType.System)
-			{
-				JournalItem.SubsystemType = XSubsystemType.System;
-			}
-			else
-			{
-				JournalItem.SubsystemType = XSubsystemType.GK;
-			}
+			JournalItem.SubsystemType = XSubsystemType.GK;
 
 			if (Source == JournalSourceType.Object)
 			{

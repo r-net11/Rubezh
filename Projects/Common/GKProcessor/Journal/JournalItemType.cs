@@ -22,7 +22,7 @@ namespace GKProcessor
 		[DescriptionAttribute("Задержка")]
 		Delay = 5,
 
-		[DescriptionAttribute("Полльзователь")]
-		User = 6
+		[DescriptionAttribute("Пользователь прибора")]
+		GkUser = 6
 	}
 }

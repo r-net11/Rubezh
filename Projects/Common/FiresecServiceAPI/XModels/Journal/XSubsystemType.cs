@@ -7,7 +7,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Система")]
 		System = 0,
 
-		[DescriptionAttribute("ГК")]
+		[DescriptionAttribute("Прибор")]
 		GK = 1,
 	}
 }

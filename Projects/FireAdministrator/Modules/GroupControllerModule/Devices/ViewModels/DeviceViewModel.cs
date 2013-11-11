@@ -45,11 +45,11 @@ namespace GKModule.ViewModels
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
-			device.Changed += OnChanged;
 
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
 			InitializeParamsCommands();
+			device.Changed += OnChanged;
 			device.AUParametersChanged += UpdateDeviceParameterMissmatch;
 			device.Changed += UpdateDeviceParameterMissmatch;
 		}

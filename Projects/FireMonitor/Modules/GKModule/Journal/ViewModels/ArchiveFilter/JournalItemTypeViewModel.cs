@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 					case JournalItemType.GK:
 						return "/Controls;component/GKIcons/GK.png";
 
-					case JournalItemType.User:
+					case JournalItemType.GkUser:
 						return "/Controls;component/Images/Chip.png";
 
 					case JournalItemType.System:

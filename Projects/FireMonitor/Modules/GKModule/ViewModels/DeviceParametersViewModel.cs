@@ -37,7 +37,16 @@ namespace GKModule.ViewModels
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 
-		public ObservableCollection<DeviceParameterViewModel> Devices { get; private set; }
+		ObservableCollection<DeviceParameterViewModel> _devices;
+		public ObservableCollection<DeviceParameterViewModel> Devices
+		{
+			get { return _devices; }
+			set
+			{
+				_devices = value;
+				OnPropertyChanged("Devices");
+			}
+		}
 
 		DeviceParameterViewModel _selectedDevice;
 		public DeviceParameterViewModel SelectedDevice

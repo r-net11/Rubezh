@@ -65,7 +65,7 @@ namespace GKOPCServer
 			UILogger.Log("Обновление конфигурации");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DatabaseManager.Convert();
+			DescriptorsManager.Convert();
 
 			UILogger.Log("Старт мониторинга");
 			WatcherManager.Start();

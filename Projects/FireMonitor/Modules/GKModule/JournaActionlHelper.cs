@@ -55,7 +55,8 @@ namespace GKModule
 				// ObjectName
 				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)gkObjectNo,
-				UserName = FiresecManager.CurrentUser.Name
+				UserName = FiresecManager.CurrentUser.Name,
+				SubsystemType = XSubsystemType.System
 			};
 			Add(journalItem);
 		}

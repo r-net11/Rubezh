@@ -44,6 +44,22 @@ namespace GKModule.ViewModels
 		public RelayCommand ConvertToBinCommand { get; private set; }
 		void OnConvertToBin()
 		{
+			var kauRSR2device = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+			if (kauRSR2device != null)
+			{
+				foreach (var shleifDevice in kauRSR2device.Children)
+				{
+					if (shleifDevice.DriverType == XDriverType.KAU_Shleif)
+					{
+						var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+						shleifDevice.Driver = driver;
+						shleifDevice.DriverUID = driver.UID;
+					}
+				}
+			}
+			ServiceFactory.SaveService.GKChanged = true;
+			return;
+
 			DescriptorsManager.Convert();
 			var databasesViewModel = new DatabasesViewModel();
 			DialogService.ShowModalWindow(databasesViewModel);
