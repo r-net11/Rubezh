@@ -71,7 +71,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public int NSDeltaTime { get; set; }
 
-		public string PresentationName
+		public override string PresentationName
 		{
 			get { return No + "." + Name; }
 		}

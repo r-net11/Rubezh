@@ -31,12 +31,12 @@ namespace GKProcessor
 		{
 			try
 			{
-				if (journalItems.Count == 0)
-					return;
-
-				lock (locker)
+				if (journalItems.Count > 0)
 				{
-					InsertJournalRecordToDb(journalItems);
+					lock (locker)
+					{
+						InsertJournalRecordToDb(journalItems);
+					}
 				}
 			}
 			catch (Exception e)
@@ -449,6 +449,9 @@ namespace GKProcessor
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
 				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
+				journalItem.SubsystemType = (XSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
 			return journalItem;
 		}
 	}

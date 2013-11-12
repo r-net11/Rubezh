@@ -88,7 +88,7 @@ namespace GKProcessor
 			}
 			ConnectionChanged(true);
 			var descriptorStateHelper = new DescriptorStateHelper();
-			descriptorStateHelper.Parse(sendResult.Bytes);
+			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 			ApplicationService.Invoke(() =>
 			{

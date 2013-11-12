@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 
         public void Initialize()
         {
-			Zones = new List<ZoneViewModel>();
+			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in XManager.Zones)
 			{
 				if (zone.Devices.Count > 0)
@@ -30,8 +30,8 @@ namespace GKModule.ViewModels
             SelectedZone = Zones.FirstOrDefault();
         }
 
-        List<ZoneViewModel> _zones;
-        public List<ZoneViewModel> Zones
+        ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
         {
             get { return _zones; }
             set

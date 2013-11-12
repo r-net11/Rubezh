@@ -13,7 +13,7 @@ namespace GKModule
 	{
 		public static void Add(string message, string description)
 		{
-			Add(message, description, XStateClass.Info, Guid.Empty, 0, JournalItemType.System, null);
+			Add(message, description, XStateClass.Norm, Guid.Empty, 0, JournalItemType.System, null);
 		}
 
 		public static void Add(string message, string description, XStateClass stateClass)

@@ -19,7 +19,7 @@ namespace FSAgentServer
 		{
 			try
 			{
-				Patcher.AddPatchToList("FiresecService.Config_2", () => Patch1());
+				Patcher.AddPatch("FiresecService.Config_2", () => Patch1());
 				Patcher.Patch();
 			}
 			catch (Exception e)

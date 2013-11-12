@@ -346,6 +346,10 @@ namespace XFiresecAPI
 			get { return KAURSR2Parent != null; }
 		}
 
+		public override string PresentationName
+		{
+			get { return ShortName + " " + DottedPresentationAddress; }
+		}
 
 		public override string DescriptorInfo
 		{

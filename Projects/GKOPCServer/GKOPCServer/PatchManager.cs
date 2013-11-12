@@ -10,7 +10,7 @@ namespace GKOPCServer
 		{
 			try
 			{
-				Patcher.AddPatchToList("GKOPC.Patch1", () => Patch1());
+				Patcher.AddPatch("GKOPC.Patch1", () => Patch1());
 				Patcher.Patch();
 			}
 			catch { }

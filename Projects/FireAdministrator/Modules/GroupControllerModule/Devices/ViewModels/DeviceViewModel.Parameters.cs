@@ -277,18 +277,19 @@ namespace GKModule.ViewModels
 		{
 			foreach (var property in device.Properties)
 			{
-				if (!property.DriverProperty.IsAUParameter)
-					continue;
-				var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
-				if (deviceProperty == null)
-					device.DeviceProperties.Add(new XProperty
-						{
-							DriverProperty = property.DriverProperty,
-							Name = property.Name,
-							Value = property.Value
-						});
-				else
-					deviceProperty.Value = property.Value;
+				if (property.DriverProperty != null && property.DriverProperty.IsAUParameter)
+				{
+					var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty == null)
+						device.DeviceProperties.Add(new XProperty
+							{
+								DriverProperty = property.DriverProperty,
+								Name = property.Name,
+								Value = property.Value
+							});
+					else
+						deviceProperty.Value = property.Value;
+				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}

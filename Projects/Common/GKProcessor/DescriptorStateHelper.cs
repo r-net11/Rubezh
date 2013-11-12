@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.XModels;
 using FiresecClient;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -16,12 +17,13 @@ namespace GKProcessor
 		public List<XStateBit> StateBits { get; private set; }
 		public List<XAdditionalState> AdditionalStates { get; private set; }
 		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
+		List<ushort> additionalShortParameters = new List<ushort>();
 
 		public int OnDelay { get; private set; }
 		public int HoldDelay { get; private set; }
 		public int OffDelay { get; private set; }
 
-		public void Parse(List<byte> bytes)
+		public void Parse(List<byte> bytes, XBase xBase)
 		{
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
@@ -34,13 +36,33 @@ namespace GKProcessor
 
 			StateBits = XStatesHelper.StatesFromInt(state);
             ParseAdditionalParameters(bytes);
+
+			if (xBase is XDevice)
+			{
+				XDevice xDevice = xBase as XDevice;
+				XDevice kauParent = xDevice.KAUParent;
+				if(kauParent == null)
+					kauParent = xDevice.KAURSR2Parent;
+				if (kauParent != null)
+				{
+					var property = xDevice.Properties.FirstOrDefault(x => x.Name == "ConnectionLostCount");
+					if (property != null)
+					{
+						var connectionLostParameter = additionalShortParameters[9];
+						if (connectionLostParameter >= property.Value)
+						{
+							Trace.WriteLine("ConnectionLost " + xBase.PresentationName);
+						}
+					}
+				}
+			}
 		}
 
 		public void ParseAdditionalParameters(List<byte> bytes)
 		{
 			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<XAdditionalState>();
-			var additionalShortParameters = new List<ushort>();
+			//var additionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
 			{
                 var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);
@@ -163,8 +185,6 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Контакт не переключается");
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Напряжение запуска реле ниже нормы");
-						//if (bitArray[4])
-						//    AddAdditionalState(XStateClass.Test, "Тест"); // берется из сообщения тест
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "КЗ выхода");
 						if (bitArray[6])
@@ -186,18 +206,6 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.MDU:
-						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						//if (bitArray[3])
-						//    AddAdditionalState(XStateClass.Info, "Заслонка закрывается");
-						//if (bitArray[4])
-						//    AddAdditionalState(XStateClass.Info, "Заслонка открывается");
-						//if (bitArray[7])
-						//    AddAdditionalState(XStateClass.Test, "Тест кнопка");
-						//if (bitArray[8 + 6])
-						//    AddAdditionalState(XStateClass.Info, "Заслонка закрыта");
-						//if (bitArray[8 + 7])
-						//    AddAdditionalState(XStateClass.Info, "Заслонка открыта");
-
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Блокировка пуска");
@@ -226,27 +234,15 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.MRO_2:
-						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						//if (bitArray[0])
-						//    AddAdditionalState(XStateClass.Info, "Воспроизведение включено");
-						//if (bitArray[1])
-						//    AddAdditionalState(XStateClass.Info, "Воспроизведение сигнала аналогового входа");
-						//if (bitArray[2])
-						//    AddAdditionalState(XStateClass.Info, "Замена списка сообщений новым сообщением");
-
 						bitArray = new BitArray(new int[1] { additionalShortParameters[1] });
 						if (bitArray[0])
 							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки ПУСК");
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "КЗ или обрыв выходной линии");
-						//if (bitArray[4])
-						//    AddAdditionalState(XStateClass.Test, "Тест кнопка");
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания устройства не в норме");
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Обрыв кнопки СТОП");
-						//if (bitArray[7])
-						//    AddAdditionalState(XStateClass.Info, "Сигнал кнопки Стоп");
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Отсутствуют или испорчены сообщения для воспроизведения");
 						if (bitArray[8 + 1])
@@ -257,26 +253,10 @@ namespace GKProcessor
 
 					case XDriverType.MPT:
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						//if (bitArray[2])
-						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по неисправности");
-						//if (bitArray[3])
-						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по кнопке «Стоп»");
-						//if (bitArray[4])
-						//    AddAdditionalState(XStateClass.Info, "Запуск АУП по RSR");
-						//if (bitArray[5])
-						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по датчику «Двери-окна»");
-						//if (bitArray[6])
-						//    AddAdditionalState(XStateClass.Info, "Автоматика включена");
-						//if (bitArray[7])
-						//    AddAdditionalState(XStateClass.Info, "Изменение автоматики по ТМ");
-
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						if (bitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Напряжение питания ШС ниже нормы");
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "Ошибка памяти");
-						//if (bitArray[4])
-						//    AddAdditionalState(XStateClass.Test, "Кнопка «Тест»");
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "КЗ ШС");
 						if (bitArray[6])
@@ -307,16 +287,6 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 4");
 						if (bitArray[4])
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 5");
-					//if (bitArray[5])
-					//    AddAdditionalState(XStateClass.Info, "Отложенный пуск АУП по датчику «Двери-окна");
-					//if (bitArray[6])
-					//    AddAdditionalState(XStateClass.Info, "Пуск АУП завершен");
-					//if (bitArray[7])
-					//    AddAdditionalState(XStateClass.Info, "Останов тушения по кнопке «Стоп»");
-
-					//bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
-					//if (bitArray[1])
-					//    AddAdditionalState(XStateClass.Info, "Программирование мастер-ключа ТМ");
 					break;
 
 					case XDriverType.Pump:

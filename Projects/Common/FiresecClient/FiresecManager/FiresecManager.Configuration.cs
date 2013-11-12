@@ -109,18 +109,27 @@ namespace FiresecClient
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
-				foreach (var xdevice in XManager.Devices)
+				foreach (var xDevice in XManager.Devices)
 				{
-					if (!xdeviceMap.ContainsKey(xdevice.UID))
-						xdeviceMap.Add(xdevice.UID, xdevice);
+					if (!xdeviceMap.ContainsKey(xDevice.UID))
+						xdeviceMap.Add(xDevice.UID, xDevice);
 				}
-				//XManager.Devices.ForEach(xdevice => xdeviceMap.Add(xdevice.UID, xdevice));
 				var zoneMap = new Dictionary<Guid, Zone>();
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
-				var xzoneMap = new Dictionary<Guid, XZone>();
-				XManager.Zones.ForEach(xzone => xzoneMap.Add(xzone.UID, xzone));
+
+				var xZoneMap = new Dictionary<Guid, XZone>();
+				foreach (var xzone in XManager.Zones)
+				{
+					if (!xZoneMap.ContainsKey(xzone.UID))
+					xZoneMap.Add(xzone.UID, xzone);
+				}
 				var xdirectionMap = new Dictionary<Guid, XDirection>();
-				XManager.Directions.ForEach(xdirection => xdirectionMap.Add(xdirection.UID, xdirection));
+				foreach (var xdirection in XManager.Directions)
+				{
+					if (!xdirectionMap.ContainsKey(xdirection.UID))
+						xdirectionMap.Add(xdirection.UID, xdirection);
+				}
+
 				var planMap = new Dictionary<Guid, Plan>();
 				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
 				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
@@ -153,15 +162,15 @@ namespace FiresecClient
 					}
 					foreach (var xzone in plan.ElementPolygonXZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
-						if (xzoneMap.ContainsKey(xzone.ZoneUID))
-							xzoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
+						if (xZoneMap.ContainsKey(xzone.ZoneUID))
+							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
 					}
 					foreach (var xzone in plan.ElementRectangleXZones)
 					{
-						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xzoneMap.ContainsKey(xzone.ZoneUID) ? xzoneMap[xzone.ZoneUID] : null);
-						if (xzoneMap.ContainsKey(xzone.ZoneUID))
-							xzoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
+						UpdateZoneType(xzone, xzone.ZoneUID != Guid.Empty && xZoneMap.ContainsKey(xzone.ZoneUID) ? xZoneMap[xzone.ZoneUID] : null);
+						if (xZoneMap.ContainsKey(xzone.ZoneUID))
+							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
 					}
 					foreach (var xdirection in plan.ElementRectangleXDirections)
 					{

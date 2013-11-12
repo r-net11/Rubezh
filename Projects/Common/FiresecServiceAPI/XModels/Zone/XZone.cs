@@ -45,7 +45,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
-		public string PresentationName
+		public override string PresentationName
 		{
 			get { return No + "." + Name; }
 		}

@@ -33,6 +33,11 @@ namespace XFiresecAPI
 		[DataMember]
 		public DelayRegime DelayRegime { get; set; }
 
+		public override string PresentationName
+		{
+			get { return Name; }
+		}
+
 		public override string DescriptorInfo
 		{
 			get { return "Задержка " + Name; }
