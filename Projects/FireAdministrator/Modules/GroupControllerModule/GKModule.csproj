@@ -72,7 +72,7 @@
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
-    <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
     <Compile Include="Devices\ViewModels\ObjectViewModel.cs" />
@@ -122,10 +122,10 @@
     <Compile Include="DeviceLibrary\Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\DeviceConfigurationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ConfigurationCompareViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceConfigurationView.xaml.cs">
-      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
+      <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
@@ -398,7 +398,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DeviceConfigurationView.xaml">
+    <Page Include="Devices\Views\ConfigurationCompareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

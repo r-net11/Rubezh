@@ -128,8 +128,8 @@ namespace GKModule.Models
 				remoteDevice.Children = remoteDevices;
 				var remoteKauConfiguration = new XDeviceConfiguration();
 				remoteKauConfiguration.Devices.Add(remoteDevice);
-				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(XManager.DeviceConfiguration, remoteKauConfiguration, device);
-				DialogService.ShowModalWindow(deviceConfigurationViewModel);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, remoteKauConfiguration, device);
+				DialogService.ShowModalWindow(configurationCompareViewModel);
 				//{
 				//    XManager.UpdateConfiguration();
 				//    SelectedDevice.CollapseChildren();
@@ -144,10 +144,11 @@ namespace GKModule.Models
 			if (device.DriverType == XDriverType.GK)
 			{
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
-				gkBinConfigurationReader.ReadConfiguration(device);
+				if (!gkBinConfigurationReader.ReadConfiguration(device))
+					return;
 				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.DriverType == device.DriverType) && (x.Address == device.Address))));
-				var deviceConfigurationViewModel = new DeviceConfigurationViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
-				DialogService.ShowModalWindow(deviceConfigurationViewModel);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
+				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}
 			ServiceFactory.SaveService.FSChanged = true;
 			ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);

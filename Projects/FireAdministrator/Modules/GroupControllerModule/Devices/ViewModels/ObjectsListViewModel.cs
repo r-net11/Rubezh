@@ -7,9 +7,13 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceTreeViewModel : BaseViewModel
+	public class ObjectsListViewModel : BaseViewModel
 	{
-		public DeviceTreeViewModel(XDevice device, List<XZone> zones, List<XDirection> directions)
+		public List<ObjectViewModel> Devices { get; set; }
+		public List<ObjectViewModel> Zones { get; set; }
+		public List<ObjectViewModel> Directions { get; set; }
+
+		public ObjectsListViewModel(XDevice device, List<XZone> zones, List<XDirection> directions)
 		{
 			Devices = new List<ObjectViewModel>();
 			Zones = new List<ObjectViewModel>();
@@ -86,7 +90,7 @@ namespace GKModule.ViewModels
 					objects2.Add(newObject);
 					if (newObject.IsDevice)
 					{
-						var object2Parent = objects2.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
+						var object2Parent = objects2.FirstOrDefault(x => x.Name == newObject.Parent.Name && x.Address == newObject.Parent.Address);
 						object2Parent.Children.Add(newObject);
 						newObject.Parent = object2Parent;
 					}
@@ -103,7 +107,7 @@ namespace GKModule.ViewModels
 					objects1.Add(newObject);
 					if (newObject.IsDevice)
 					{
-						var object1Parent = objects1.FirstOrDefault(x => (x.Name == newObject.Parent.Name) && (x.Address == newObject.Parent.Address));
+						var object1Parent = objects1.FirstOrDefault(x => x.Name == newObject.Parent.Name && x.Address == newObject.Parent.Address);
 						object1Parent.Children.Add(newObject);
 						newObject.Parent = object1Parent;
 					}
@@ -172,10 +176,6 @@ namespace GKModule.ViewModels
 				return new ObservableCollection<ObjectViewModel>(objects);
 			}
 		}
-
-		public List<ObjectViewModel> Devices { get; set; }
-		public List<ObjectViewModel> Zones { get; set; }
-		public List<ObjectViewModel> Directions { get; set; }
 
 		ObjectViewModel _selectedObject;
 		public ObjectViewModel SelectedObject

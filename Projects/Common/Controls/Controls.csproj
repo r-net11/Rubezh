@@ -1276,6 +1276,8 @@
     <Resource Include="GKIcons\RSR2_Table.png" />
     <Resource Include="Images\blank.png" />
     <Resource Include="GKIcons\battery.png" />
+    <Resource Include="Images\nextDifference.png" />
+    <Resource Include="Images\previousDifference.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

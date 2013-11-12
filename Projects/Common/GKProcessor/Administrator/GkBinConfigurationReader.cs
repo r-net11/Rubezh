@@ -1,5 +1,5 @@
 ﻿//#define LOCALCONFIG
-//#define SETCONFIGTOFILE
+#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace GKProcessor
 		public XDeviceConfiguration DeviceConfiguration;
 		
 #if !LOCALCONFIG
-		public void ReadConfiguration(XDevice gkDevice)
+		public bool ReadConfiguration(XDevice gkDevice)
 		{
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
@@ -54,7 +54,8 @@ namespace GKProcessor
 				if (sendResult.HasError || bytes.Count == 0)
 				{
 					MessageBoxService.ShowError("Возникла ошибка при чтении объекта " + descriptorNo);
-					return;
+					LoadingService.SaveClose();
+					return false;
 				}
 				if (bytes.Count < 5)
 					break;
@@ -83,8 +84,8 @@ namespace GKProcessor
 				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
 			}
 			LoadingService.SaveClose();
-
 			XManager.UpdateConfiguration();
+			return true;
 		}
 #endif
 #if LOCALCONFIG
@@ -190,11 +191,11 @@ namespace GKProcessor
 			}
 
 			ushort no = 0;
-			var descriptionParts = description.Split(new string[1] { " - " }, StringSplitOptions.None);
+			var descriptionParts = description.Split(new string[1] { "." }, StringSplitOptions.None);
 			if (descriptionParts.Count() == 2)
 			{
-				description = descriptionParts[0];
-				no = (ushort)Int32.Parse(descriptionParts[1]);
+				no = (ushort)Int32.Parse(descriptionParts[0]);
+				description = descriptionParts[1];
 			}
 
 			if (internalType == 0x100)

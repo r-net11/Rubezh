@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 		public ObjectViewModel(XZone zone)
 		{
 			Name = zone.PresentationName;
+			ImageSource = "/Controls;component/Images/zone.png";
 			Address = "";
 			Zone = zone;
 		}
@@ -43,6 +44,7 @@ namespace GKModule.ViewModels
 		public ObjectViewModel(XDirection direction)
 		{
 			Name = direction.PresentationName;
+			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
 			Direction = direction;
 		}
