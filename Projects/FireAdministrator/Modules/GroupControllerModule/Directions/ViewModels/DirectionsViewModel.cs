@@ -146,7 +146,7 @@ namespace GKModule.ViewModels
 		{
 			emptyDirections = new List<DirectionViewModel>
 				(Directions.Where
-				 	(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count + x.Direction.NSDevices.Count == 0));
+				 	(x => x.Devices.Count + x.OutputDevices.Count + x.Zones.Count + x.NSDevices.Count == 0));
 			return emptyDirections.Count > 0;
 		}
 

@@ -128,10 +128,9 @@ namespace GKModule.ViewModels
 
 		static void AddShleifs(XDevice device)
 		{
-			const int shleifsCount = 8;
 			var deviceChildren = new List<XDevice>(device.Children);
 			device.Children = new List<XDevice>();
-			for (int i = 0; i < shleifsCount; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				var shleif = new XDevice();
 				shleif.Driver = device.Driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
@@ -141,9 +140,9 @@ namespace GKModule.ViewModels
 			}
 			foreach (var child in deviceChildren)
 			{
-				if ((1 <= child.ShleifNo)&&(child.ShleifNo <= 8))
+				if ((1 <= child.ShleifNo) && (child.ShleifNo <= 8))
 				{
-					var shleif = device.Children.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif && x.IntAddress == child.ShleifNo);
+					var shleif = device.Children.FirstOrDefault(x => ((x.DriverType == XDriverType.KAU_Shleif) || (x.DriverType == XDriverType.RSR2_KAU_Shleif)) && x.IntAddress == child.ShleifNo);
 					shleif.Children.Add(child);
 					child.Parent = shleif;
 				}
