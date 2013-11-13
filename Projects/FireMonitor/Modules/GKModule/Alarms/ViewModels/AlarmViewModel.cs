@@ -23,7 +23,6 @@ namespace GKModule.ViewModels
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			TurnOnAutomaticCommand = new RelayCommand(OnTurnOnAutomatic, CanTurnOnAutomatic);
-			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowInstructionCommand = new RelayCommand(OnShowInstruction, CanShowInstruction);
@@ -309,49 +308,6 @@ namespace GKModule.ViewModels
 		public bool CanTurnOnAutomaticCommand
 		{
 			get { return CanTurnOnAutomatic(); }
-		}
-
-		public RelayCommand TurnOffCommand { get; private set; }
-		void OnTurnOff()
-		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.On) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.TurningOn))
-				{
-					ObjectCommandSendHelper.TurnOffDeviceAnyway(Alarm.Device);
-				}
-			}
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.On) || Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn))
-				{
-					ObjectCommandSendHelper.TurnOffDirectionAnyway(Alarm.Direction);
-				}
-			}
-		}
-		bool CanTurnOff()
-		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.AlarmType != XAlarmType.Turning)
-					return false;
-				if (!Alarm.Device.Driver.IsControlDevice)
-					return false;
-
-				return Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.On) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.TurningOn);
-			}
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.AlarmType != XAlarmType.NPTOn)
-					return false;
-
-				return Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.On) || Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn);
-			}
-			return false;
-		}
-		public bool CanTurnOffCommand
-		{
-			get { return CanTurnOff(); }
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

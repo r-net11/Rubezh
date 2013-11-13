@@ -86,7 +86,7 @@ namespace GKModule
 		{
 			if (ObjectCommandSendHelper.SendControlCommand(device, XStateBit.SetRegime_Off, mustValidatePassword))
 			{
-				JournaActionlHelper.Add("Команда оператора", "Перевод в ручной режим", XStateClass.Info, device);
+				JournaActionlHelper.Add("Команда оператора", "Перевод в отключенный режим", XStateClass.Info, device);
 			}
 		}
 
@@ -189,30 +189,6 @@ namespace GKModule
 			}
 		}
 		#endregion
-
-		public static void TurnOffDeviceAnyway(XDevice device)
-		{
-			var stateType = XStateBit.TurnOff_InManual;
-			if (device.DeviceState.StateBits.Contains(XStateBit.Norm))
-				ObjectCommandSendHelper.SendControlCommand(device, XStateBit.TurnOff_InAutomatic);
-
-			if (ObjectCommandSendHelper.SendControlCommand(device, stateType))
-			{
-				JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, device);
-			}
-		}
-
-		public static void TurnOffDirectionAnyway(XDirection direction)
-		{
-			var stateType = XStateBit.TurnOff_InManual;
-			if (direction.DirectionState.StateBits.Contains(XStateBit.Norm))
-				ObjectCommandSendHelper.SendControlCommand(direction, XStateBit.TurnOff_InAutomatic);
-
-			if (ObjectCommandSendHelper.SendControlCommand(direction, stateType))
-			{
-				JournaActionlHelper.Add("Команда оператора", "Выключение", XStateClass.Info, direction);
-			}
-		}
 
 		static bool SendControlCommand(XBase xBase, XStateBit stateType, bool mustValidatePassword = true)
 		{

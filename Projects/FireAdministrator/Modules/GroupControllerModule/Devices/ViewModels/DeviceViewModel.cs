@@ -143,6 +143,7 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			var x = CanAdd();
 			NewDeviceViewModelBase newDeviceViewModel;
 			if (Device.IsConnectedToKAURSR2OrIsKAURSR2)
 				newDeviceViewModel = new RSR2NewDeviceViewModel(this);
@@ -170,7 +171,7 @@ namespace GKModule.ViewModels
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
-			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null)
+			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null && Parent.Device.DriverType != XDriverType.MPT && Parent.Device.DriverType != XDriverType.MRO_2)
 				return true;
 			return false;
 		}

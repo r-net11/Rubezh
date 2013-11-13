@@ -157,10 +157,11 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
+#if DEBUG
 				case JournalItemType.Delay:
 					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
 					break;
-
+#endif
 				case JournalItemType.GK:
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
 					break;
@@ -179,7 +180,9 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+#if DEBUG
 				case JournalItemType.Delay:
+#endif
 				case JournalItemType.GK:
 					return true;
 			}

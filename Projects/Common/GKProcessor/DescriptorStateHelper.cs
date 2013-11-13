@@ -41,17 +41,16 @@ namespace GKProcessor
 			{
 				XDevice xDevice = xBase as XDevice;
 				XDevice kauParent = xDevice.KAUParent;
-				if(kauParent == null)
-					kauParent = xDevice.KAURSR2Parent;
 				if (kauParent != null)
 				{
-					var property = xDevice.Properties.FirstOrDefault(x => x.Name == "ConnectionLostCount");
+					var property = kauParent.Properties.FirstOrDefault(x => x.Name == "ConnectionLostCount");
 					if (property != null)
 					{
 						var connectionLostParameter = additionalShortParameters[9];
-						if (connectionLostParameter >= property.Value)
+						//if (connectionLostParameter >= property.Value)
 						{
-							Trace.WriteLine("ConnectionLost " + xBase.PresentationName);
+							Trace.WriteLine("ConnectionLost " + xBase.PresentationName + ": " + property.Value + " : " +
+								connectionLostParameter / 256 + " : " + connectionLostParameter % 256);
 						}
 					}
 				}
@@ -62,7 +61,6 @@ namespace GKProcessor
 		{
 			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<XAdditionalState>();
-			//var additionalShortParameters = new List<ushort>();
 			for (int i = 0; i < 10; i++)
 			{
                 var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);

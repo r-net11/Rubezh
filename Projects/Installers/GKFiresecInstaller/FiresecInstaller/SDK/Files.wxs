@@ -11,7 +11,7 @@
 
     <DirectoryRef Id="SDKLOCATION_GKSDK">
       <Component Id="SDK.Files.Integration" Guid="4EA94C81-C6D5-4AFA-AC97-EE68E4F4F8DA">
-        <File Id="SDK.GKSDK.csproj" Name="GKSDK.csproj" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.GKSDK_Release.csproj" Name="GKSDK.csproj" Source="$(var.SDK.TargetDir)" />
         <File Id="SDK.App.xaml" Name="App.xaml" Source="$(var.SDK.TargetDir)" />
         <File Id="SDK.App.xaml.cs" Name="App.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
         <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="$(var.SDK.TargetDir)" />

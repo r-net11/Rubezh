@@ -34,7 +34,6 @@ namespace GKModule.Validation
 				ValidatePumpAddresses(device);
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
-				ValidateAddressEquality(device);
 				ValidateRSR2AddressFollowing(device);
 			}
 		}
@@ -55,7 +54,7 @@ namespace GKModule.Validation
 				if (!deviceAddresses.Add(device.DottedAddress))
 				{
 					var x = device.DottedAddress;
-					Errors.Add(new DeviceValidationError(device, "Дублируется адрес", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, "Дублируется адрес устройства", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
@@ -162,21 +161,6 @@ namespace GKModule.Validation
 				{
 					if (clauseDevices.IsNotUsed)
 						Errors.Add(new DeviceValidationError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave));
-				}
-			}
-		}
-
-		static void ValidateAddressEquality(XDevice device)
-		{
-			var addresses = new List<int>();
-			foreach (var childDevice in DeviceValidationHelper.GetAllChildrenForDevice(device))
-			{
-				if (childDevice.Driver.HasAddress)
-				{
-					if (addresses.Contains(childDevice.ShleifNoNew * 256 + childDevice.IntAddress))
-						Errors.Add(new DeviceValidationError(childDevice, string.Format("Дублируется адрес устройства"), ValidationErrorLevel.CannotWrite));
-					else
-						addresses.Add(childDevice.ShleifNoNew * 256 + childDevice.IntAddress);
 				}
 			}
 		}

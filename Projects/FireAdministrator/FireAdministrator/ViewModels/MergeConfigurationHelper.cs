@@ -117,7 +117,6 @@ namespace FireAdministrator.ViewModels
 			if (XManager.Directions.Count > 0)
 				maxDirectionNo = XManager.Directions.Max(x => x.No);
 
-
 			if (XDeviceConfiguration == null)
 				XDeviceConfiguration = new XDeviceConfiguration();
 			if (PlansConfiguration == null)
@@ -138,13 +137,17 @@ namespace FireAdministrator.ViewModels
 					ipAddress = ipProperty.StringValue;
 				}
 				var existingDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
-				if(existingDevice != null)
+				if (existingDevice != null)
 				{
 					foreach (var device in gkDevice.Children)
 					{
-						if (!existingDevice.Children.Any(x => x.IntAddress == device.IntAddress))
+						var driver = XManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+						if (driver.DriverType == XDriverType.KAU || driver.DriverType == XDriverType.RSR2_KAU)
 						{
-							existingDevice.Children.Add(device);
+							if (!existingDevice.Children.Any(x => x.Driver != null && (x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress))
+							{
+								existingDevice.Children.Add(device);
+							}
 						}
 					}
 				}

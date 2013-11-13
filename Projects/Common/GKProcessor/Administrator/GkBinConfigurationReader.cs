@@ -1,5 +1,5 @@
 ﻿//#define LOCALCONFIG
-#define SETCONFIGTOFILE
+//#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
 using System.Linq;

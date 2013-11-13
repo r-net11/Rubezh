@@ -125,7 +125,7 @@
 						<DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Margin="2" Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -180,7 +180,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Margin="2" Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

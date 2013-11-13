@@ -115,10 +115,10 @@
 												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
 													<StackPanel Orientation="Horizontal">
 														<Image Width="16" Source="/Controls;component/Images/map_black.png" Margin="1" />
-														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" Foreground="Black"/>
+														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" Foreground="Black" />
 													</StackPanel>
 												</Hyperlink>
-											</TextBlock>        
+											</TextBlock>
 										</StackPanel>
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
@@ -133,14 +133,14 @@
 						<DataGridTemplateColumn Width="*" Header="Параметр">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}"/>
+									<TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="*" Header="Значение">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Value}" ToolTip="{Binding Value}"/>
+                                    <TextBlock Text="{Binding Value}" ToolTip="{Binding Value}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -162,9 +162,9 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Background="White">
-                        <TextBlock Margin="2" HorizontalAlignment="Center" FontSize="16" Text="РЕЖИМ" FontWeight="Bold"/>
-                        <Image Margin="2" Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" />
-                        <TextBlock Margin="2" FontSize="16" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
+                        <TextBlock Text="РЕЖИМ" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2" />
+                        <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
+                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" />
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">
 						<Grid.ColumnDefinitions>
@@ -189,29 +189,17 @@
 				</Grid>
 			</TabItem>
 			<TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" Visibility="{Binding IsBiStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" Background="White">
-                        <TextBlock Margin="2" HorizontalAlignment="Center" FontSize="16" Text="РЕЖИМ" FontWeight="Bold"/>
-                        <Image Margin="2" Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" />
-                        <TextBlock Margin="2" FontSize="16" Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" />
-                    </StackPanel>
-                    <Grid Grid.Row="2" Background="White">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						<Button Grid.Row="0" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetAutomaticStateCommand}" Content="Снять отключение" />
-						<Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetIgnoreStateCommand}" Content="Отключение" />
-						<Button Grid.Row="2" Width="200" Height="50" Margin="2" Command="{Binding ResetCommand}" Content="Сбросить" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</Grid>
-				</Grid>
-			</TabItem>
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetAutomaticStateCommand}" Content="Снять отключение" />
+                    <Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetIgnoreStateCommand}" Content="Отключение" />
+                    <Button Grid.Row="2" Width="200" Height="50" Margin="2" Command="{Binding ResetCommand}" Content="Сбросить" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+            </TabItem>
             <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="МРО-2М" Visibility="{Binding IsMRO, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel Margin="2" Background="White">
                     <StackPanel Orientation="Horizontal" Margin="2">

@@ -53,9 +53,6 @@ namespace GKProcessor
 			{
 				var inputDependensyNo = BytesHelper.SubstructShort(bytes, 8 + i * 2);
 			}
-			Trace.WriteLine(descriptorAdderss + " " + BytesHelper.BytesToString(descriptorAdderssesBytes) +
-				deviceType.ToString() + " " + address.ToString() + " " + parametersOffset.ToString() + " " + inputDependensesCount.ToString() + " "
-				);
 
 			var device = new XDevice();
 			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
