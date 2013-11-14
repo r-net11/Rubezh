@@ -336,9 +336,11 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Direction.NSDeviceUIDs = new List<Guid>();
+				Direction.NSDevices = new List<XDevice>();
 				foreach (var device in devicesSelectationViewModel.DevicesList)
 				{
 					Direction.NSDeviceUIDs.Add(device.UID);
+					Direction.NSDevices.Add(device);
 				}
 				InitializeDependences();
 				ServiceFactory.SaveService.GKChanged = true;

@@ -113,14 +113,6 @@ namespace GKModule.Models
 		void OnReadConfiguration()
 		{
 			var device = SelectedDevice.Device;
-
-			//var sendResult = SendManager.Send(device, 0, 1, 1);
-			//if (sendResult.HasError)
-			//{
-			//    MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
-			//    return;
-			//}
-
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
 				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
@@ -130,16 +122,6 @@ namespace GKModule.Models
 				remoteKauConfiguration.Devices.Add(remoteDevice);
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, remoteKauConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
-				//{
-				//    XManager.UpdateConfiguration();
-				//    SelectedDevice.CollapseChildren();
-				//    SelectedDevice.ClearChildren();
-				//    foreach (var remoteDevice in remoteDevices)
-				//    {
-				//        DevicesViewModel.Current.AddDevice(remoteDevice, SelectedDevice);
-				//    }
-				//    SelectedDevice.ExpandChildren();
-				//}
 			}
 			if (device.DriverType == XDriverType.GK)
 			{
@@ -150,7 +132,6 @@ namespace GKModule.Models
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}
-			ServiceFactory.SaveService.FSChanged = true;
 			ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 		}
 		bool CanReadConfiguration()
@@ -215,10 +196,7 @@ namespace GKModule.Models
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;
 				}
-				else
-				{
-					return false;
-				}
+				return false;
 			}
 			return true;
 		}

@@ -28,6 +28,10 @@ namespace XFiresecAPI
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }
 		public List<XDevice> NSDevices { get; set; }
+		public bool IsEmpty
+		{
+			get { return InputDevices.Count + OutputDevices.Count + DirectionZones.Count + NSDevices.Count == 0; }
+		}
 
 		[DataMember]
 		public Guid UID { get; set; }

@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 
         bool CanDeleteAllEmpty()
         {
-        	return Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false).Count() > 0;
+			return Zones.Where(zone => zone.Zone.IsEmpty).Count() > 0;
         }
 
         public RelayCommand AddCommand { get; private set; }

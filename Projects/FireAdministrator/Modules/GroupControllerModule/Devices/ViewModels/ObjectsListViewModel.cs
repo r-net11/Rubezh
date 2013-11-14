@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
@@ -13,158 +12,90 @@ namespace GKModule.ViewModels
 		public List<ObjectViewModel> Zones { get; set; }
 		public List<ObjectViewModel> Directions { get; set; }
 
-		public ObjectsListViewModel(XDevice device, List<XZone> zones, List<XDirection> directions)
+		public ObjectsListViewModel (XDevice device, XDeviceConfiguration xDeviceConfiguration)
 		{
 			Devices = new List<ObjectViewModel>();
 			Zones = new List<ObjectViewModel>();
 			Directions = new List<ObjectViewModel>();
-			IitializeObjects(device, zones, directions);
-		}
-		void IitializeObjects(XDevice device, List<XZone> zones, List<XDirection> directions)
-		{
-			if (device.Children != null)
+
+			var devices = xDeviceConfiguration.Devices;
+			var zones = xDeviceConfiguration.Zones;
+			var directions = xDeviceConfiguration.Directions;
+			xDeviceConfiguration.Update();
+
+			foreach (var childDevice in devices)
 			{
-				InitializeDevices(new ObjectViewModel(device), new ObjectViewModel(device.Parent));
+				var objectViewModel = new ObjectViewModel(childDevice) { ObjectType = ObjectType.Device};
+				var parent = childDevice.AllParents.FirstOrDefault(x => x.ShortName == device.ShortName && x.Address == device.Address);
+				if (parent != null && childDevice.IsRealDevice)
+					Devices.Add(objectViewModel);
 			}
+
 			if (zones != null)
-				foreach (var zone in zones)
+				foreach (var zone in zones.Where(x => !x.IsEmpty))
 				{
-					var objectViewModel = new ObjectViewModel(zone);
-					objectViewModel.IsZone = true;
-					objectViewModel.Parent = new ObjectViewModel(device);
-					Objects.Add(objectViewModel);
+					var objectViewModel = new ObjectViewModel(zone) {ObjectType = ObjectType.Zone};
 					Zones.Add(objectViewModel);
 				}
 			if (directions != null)
-				foreach (var direction in directions)
+				foreach (var direction in directions.Where(x => !x.IsEmpty))
 				{
-					var objectViewModel = new ObjectViewModel(direction);
-					objectViewModel.IsDirection = true;
-					objectViewModel.Parent = new ObjectViewModel(device);
-					Objects.Add(objectViewModel);
+					var objectViewModel = new ObjectViewModel(direction) { ObjectType = ObjectType.Direction };
 					Directions.Add(objectViewModel);
 				}
 		}
 
-		void InitializeDevices(ObjectViewModel objectViewModel, ObjectViewModel parentObjectViewModel)
-		{
-			objectViewModel.IsDevice = true;
-			objectViewModel.Parent = parentObjectViewModel;
-			if ((parentObjectViewModel != null) && (!objectViewModel.IsVirtualDevice))
-				parentObjectViewModel.Children.Add(objectViewModel);
-			if (!objectViewModel.IsVirtualDevice)
-			{
-				Objects.Add(objectViewModel);
-				Devices.Add(objectViewModel);
-			}
-			if (objectViewModel.Device.Children.Count > 0)
-			{
-				foreach (var childDevice in objectViewModel.Device.Children)
-				{
-					if (objectViewModel.IsVirtualDevice)
-					{
-						parentObjectViewModel.Children.Remove(objectViewModel);
-						if (objectViewModel.Parent.IsVirtualDevice)
-						{
-							objectViewModel.Parent.Parent.Children.Remove(objectViewModel.Parent);
-							InitializeDevices(new ObjectViewModel(childDevice), objectViewModel.Parent.Parent);
-						}
-						InitializeDevices(new ObjectViewModel(childDevice), objectViewModel.Parent);
-					}
-					else
-						InitializeDevices(new ObjectViewModel(childDevice), objectViewModel);
-				}
-			}
-			return;
-		}
-
 		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, XDriverType driverType)
 		{
+			var unionObjects = new List<ObjectViewModel>();
 			foreach (var object1 in objects1)
 			{
-				if (!ContainsObject(object1, objects2))
-				{
-					var newObject = (ObjectViewModel)object1.Clone();
-					newObject.Children = new List<ObjectViewModel>();
-					newObject.HasDifferences = true;
-					objects2.Add(newObject);
-					if (newObject.IsDevice)
-					{
-						var object2Parent = objects2.FirstOrDefault(x => x.Name == newObject.Parent.Name && x.Address == newObject.Parent.Address);
-						object2Parent.Children.Add(newObject);
-						newObject.Parent = object2Parent;
-					}
-				}
+				var newObject = (ObjectViewModel)object1.Clone();
+				unionObjects.Add(newObject);
 			}
-
 			foreach (var object2 in objects2)
 			{
-				if (!ContainsObject(object2, objects1))
-				{
-					var newObject = (ObjectViewModel)object2.Clone();
-					newObject.Children = new List<ObjectViewModel>();
-					newObject.HasDifferences = true;
-					objects1.Add(newObject);
-					if (newObject.IsDevice)
-					{
-						var object1Parent = objects1.FirstOrDefault(x => x.Name == newObject.Parent.Name && x.Address == newObject.Parent.Address);
-						object1Parent.Children.Add(newObject);
-						newObject.Parent = object1Parent;
-					}
-				}
+				if (!unionObjects.Any(x => x == object2))
+					unionObjects.Add(object2);
 			}
+			unionObjects.Sort();
+			//foreach (var object1 in objects1)
+			//{
+			//    if (!ContainsObject(object1, objects2))
+			//    {
+			//        var newObject = (ObjectViewModel)object1.Clone();
+			//        newObject.HasDifferences = true;
+			//        objects2.Add(newObject);
+			//    }
+			//}
 
-			if ((objects1.Count != 0) && (objects1.FirstOrDefault().IsDevice))
-			{
-				SortTree(ref objects1, driverType);
-				SortTree(ref objects2, driverType);
-			}
-			else
-			{
-				objects1 = objects1.OrderBy(x => x.Name).ToList();
-				objects2 = objects2.OrderBy(x => x.Name).ToList();
-			}
-			return new List<List<ObjectViewModel>> { objects1, objects2 };
+			//foreach (var object2 in objects2)
+			//{
+			//    if (!ContainsObject(object2, objects1))
+			//    {
+			//        var newObject = (ObjectViewModel)object2.Clone();
+			//        newObject.HasDifferences = true;
+			//        objects1.Add(newObject);
+			//    }
+			//}
+
+			//if ((objects1.Count != 0) && (!objects1.FirstOrDefault().IsDevice))
+			//{
+			//    objects1 = objects1.OrderBy(x => x.Name).ToList();
+			//    objects2 = objects2.OrderBy(x => x.Name).ToList();
+			//});
+			return new List<List<ObjectViewModel>> { unionObjects, unionObjects };
 		}
 
-		private static void SortTree(ref List<ObjectViewModel> objectViewModels, XDriverType driverType)
-		{
-			var rootObject = objectViewModels.FirstOrDefault(x => x.Device.DriverType == driverType);
-			objectViewModels = new List<ObjectViewModel>();
-			objectViewModels.Add(rootObject);
-			AddChildren(objectViewModels, rootObject);
-		}
-
-		private static void AddChildren(List<ObjectViewModel> newobjectViewModels, ObjectViewModel rootObject)
-		{
-			rootObject.Children = rootObject.Children.OrderBy(x => x.Name).ToList().OrderBy(x => x.Address).ToList();
-			foreach (var objectViewModel in rootObject.Children)
-			{
-				newobjectViewModels.Add(objectViewModel);
-				if (objectViewModel.Children.Count() > 0)
-					AddChildren(newobjectViewModels, objectViewModel);
-			}
-		}
 
 		private static bool ContainsObject(ObjectViewModel objectViewModel, List<ObjectViewModel> objectViewModels)
 		{
-			var matchedObjectViewModel = objectViewModels.FirstOrDefault
-				(x =>
-				 (x.Name == objectViewModel.Name) &&
-				 (x.Address == objectViewModel.Address) &&
-				 ((x.Parent.Name == objectViewModel.Parent.Name) && (x.Parent.Address == objectViewModel.Parent.Address)));
+			var matchedObjectViewModel = objectViewModels.FirstOrDefault (x => ObjectViewModel.Equels(x, objectViewModel));
 			if ((matchedObjectViewModel != null) && (matchedObjectViewModel.HasDifferences == false))
 				return true;
 			return false;
 		}
-		static void ExpandChild(DeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = true;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-			{
-				ExpandChild(deviceViewModel);
-			}
-		}
+
 		public ObservableCollection<ObjectViewModel> Objects
 		{
 			get

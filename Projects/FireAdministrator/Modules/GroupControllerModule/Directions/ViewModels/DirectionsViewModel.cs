@@ -144,10 +144,7 @@ namespace GKModule.ViewModels
 		private List<DirectionViewModel> emptyDirections;
 		bool CanDeleteAllEmpty()
 		{
-			emptyDirections = new List<DirectionViewModel>
-				(Directions.Where
-				 	(x => x.Devices.Count + x.OutputDevices.Count + x.Zones.Count + x.NSDevices.Count == 0));
-			return emptyDirections.Count > 0;
+			return Directions.Where(x => x.Direction.IsEmpty).Count() > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

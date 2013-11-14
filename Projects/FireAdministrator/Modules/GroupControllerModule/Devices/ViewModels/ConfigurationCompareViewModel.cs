@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Practices.ObjectBuilder2;
 using XFiresecAPI;
-using System.Collections;
 
 namespace GKModule.ViewModels
 {
@@ -17,7 +14,8 @@ namespace GKModule.ViewModels
 		XDevice RemoteDevice { get; set; }
 		XDeviceConfiguration LocalConfiguration { get; set; }
 		XDeviceConfiguration RemoteConfiguration { get; set; }
-		
+		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
+		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device)
 		{
 			Title = "Сравнение конфигураций";
@@ -27,39 +25,66 @@ namespace GKModule.ViewModels
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
-
 			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType&& x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 
-			var localDeviceClone = (XDevice) LocalDevice.Clone();
-			var remoteDeviceClone = (XDevice) RemoteDevice.Clone();
+			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
+			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
 
+			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Devices, RemoteObjectsViewModel.Devices, device.DriverType);
+			LocalObjectsViewModel.Devices = compareDevices[0];
+			RemoteObjectsViewModel.Devices = compareDevices[1];
 			if (device.DriverType == XDriverType.GK)
 			{
-				LocalDeviceViewModel = new ObjectsListViewModel(localDeviceClone, localConfiguration.Zones,localConfiguration.Directions);
-				RemoteDeviceViewModel = new ObjectsListViewModel(remoteDeviceClone, remoteConfiguration.Zones,remoteConfiguration.Directions);
+				var compareZones = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Zones, RemoteObjectsViewModel.Zones, device.DriverType);
+				LocalObjectsViewModel.Zones = compareZones[0];
+				RemoteObjectsViewModel.Zones = compareZones[1];
+				var compareDirections = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Directions, RemoteObjectsViewModel.Directions, device.DriverType);
+				LocalObjectsViewModel.Directions = compareDirections[0];
+				RemoteObjectsViewModel.Directions = compareDirections[1];
 			}
-			else
-			{
-				LocalDeviceViewModel = new ObjectsListViewModel(localDeviceClone, null, null);
-				RemoteDeviceViewModel = new ObjectsListViewModel(remoteDeviceClone, null, null);
-			}
-            var compareDevices = ObjectsListViewModel.CompareTrees(LocalDeviceViewModel.Devices, RemoteDeviceViewModel.Devices, device.DriverType);
-			LocalDeviceViewModel.Devices = compareDevices[0];
-			RemoteDeviceViewModel.Devices = compareDevices[1];
-            if (device.DriverType == XDriverType.GK)
-            {
-                var compareZones = ObjectsListViewModel.CompareTrees(LocalDeviceViewModel.Zones, RemoteDeviceViewModel.Zones, device.DriverType);
-                LocalDeviceViewModel.Zones = compareZones[0];
-                RemoteDeviceViewModel.Zones = compareZones[1];
-                var compareDirections = ObjectsListViewModel.CompareTrees(LocalDeviceViewModel.Directions, RemoteDeviceViewModel.Directions, device.DriverType);
-                LocalDeviceViewModel.Directions = compareDirections[0];
-                RemoteDeviceViewModel.Directions = compareDirections[1];
-            }
 			InitializeMismatchedIndexes();
 		}
-		public ObjectsListViewModel LocalDeviceViewModel { get; set; }
-		public ObjectsListViewModel RemoteDeviceViewModel { get; set; }
+		
+		List<int> mismatchedIndexes;
+		void InitializeMismatchedIndexes()
+		{
+			mismatchedIndexes = new List<int>();
+			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
+			{
+				var item = LocalObjectsViewModel.Objects[i];
+				if ((item.HasDifferences || RemoteObjectsViewModel.Objects[i].HasDifferences) && !mismatchedIndexes.Contains(i))
+					mismatchedIndexes.Add(i);
+			}
+		}
+
+		int SelectedIndex
+		{
+			get { return LocalObjectsViewModel.Objects.IndexOf(LocalObjectsViewModel.SelectedObject); }
+		}
+
+		public RelayCommand NextDifferenceCommand { get; private set; }
+		void OnNextDifference()
+		{
+			var nextIndex = mismatchedIndexes.FirstOrDefault(x => x > SelectedIndex);
+			LocalObjectsViewModel.SelectedObject = LocalObjectsViewModel.Objects[nextIndex];
+		}
+		bool CanNextDifference()
+		{
+			return mismatchedIndexes.Any(x => x > SelectedIndex);
+		}
+
+		public RelayCommand PreviousDifferenceCommand { get; private set; }
+		void OnPreviousDifference()
+		{
+			var previousIndex = mismatchedIndexes.LastOrDefault(x => x < SelectedIndex);
+			LocalObjectsViewModel.SelectedObject = LocalObjectsViewModel.Objects[previousIndex];
+		}
+		bool CanPreviousDifference()
+		{
+			return mismatchedIndexes.Any(x => x < SelectedIndex);
+		}
+
 		public RelayCommand ChangeCommand { get; private set; }
 		void OnChange()
 		{
@@ -67,15 +92,15 @@ namespace GKModule.ViewModels
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
-			if(RemoteDevice.DriverType == XDriverType.GK)
+			if (RemoteDevice.DriverType == XDriverType.GK)
 			{
 				foreach (var kauChild in RemoteDevice.Children)
 				{
-					if(kauChild.Driver.IsKauOrRSR2Kau)
+					if (kauChild.Driver.IsKauOrRSR2Kau)
 						AddShleifs(kauChild);
 				}
 			}
-			if(RemoteDevice.Driver.IsKauOrRSR2Kau)
+			if (RemoteDevice.Driver.IsKauOrRSR2Kau)
 				AddShleifs(RemoteDevice);
 			if (LocalDevice.DriverType == XDriverType.GK)
 			{
@@ -87,46 +112,7 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		List<int> mismatchedIndexes;
-		void InitializeMismatchedIndexes()
-		{
-			mismatchedIndexes = new List<int>();
-			foreach (var item in LocalDeviceViewModel.Objects)
-			{
-				var itemIndex = LocalDeviceViewModel.Objects.IndexOf(item);
-				if ((item.HasDifferences || RemoteDeviceViewModel.Objects[itemIndex].HasDifferences)&&(!mismatchedIndexes.Contains(itemIndex)))
-					mismatchedIndexes.Add(itemIndex);
-			}
-		}
-
-		int selectedIndex
-		{
-			get { return LocalDeviceViewModel.Objects.IndexOf(LocalDeviceViewModel.SelectedObject); }
-		}
-
-		public RelayCommand NextDifferenceCommand { get; private set; }
-		void OnNextDifference()
-		{
-			var nextIndex = mismatchedIndexes.FirstOrDefault(x => x > selectedIndex);
-			LocalDeviceViewModel.SelectedObject = LocalDeviceViewModel.Objects[nextIndex];
-		}
-		bool CanNextDifference()
-		{
-			return mismatchedIndexes.Any(x => x > selectedIndex);
-		}
-
-		public RelayCommand PreviousDifferenceCommand { get; private set; }
-		void OnPreviousDifference()
-		{
-			var previousIndex = mismatchedIndexes.LastOrDefault(x => x < selectedIndex);
-			LocalDeviceViewModel.SelectedObject = LocalDeviceViewModel.Objects[previousIndex];
-		}
-		bool CanPreviousDifference()
-		{
-			return mismatchedIndexes.Any(x => x < selectedIndex);
-		}
-
-		static void AddShleifs(XDevice device)
+		void AddShleifs(XDevice device)
 		{
 			var deviceChildren = new List<XDevice>(device.Children);
 			device.Children = new List<XDevice>();
@@ -140,7 +126,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var child in deviceChildren)
 			{
-				if ((1 <= child.ShleifNo) && (child.ShleifNo <= 8))
+				if (1 <= child.ShleifNo && child.ShleifNo <= 8)
 				{
 					var shleif = device.Children.FirstOrDefault(x => ((x.DriverType == XDriverType.KAU_Shleif) || (x.DriverType == XDriverType.RSR2_KAU_Shleif)) && x.IntAddress == child.ShleifNo);
 					shleif.Children.Add(child);

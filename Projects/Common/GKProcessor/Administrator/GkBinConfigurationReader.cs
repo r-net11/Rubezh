@@ -1,4 +1,4 @@
-﻿//#define LOCALCONFIG
+﻿#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -60,8 +60,6 @@ namespace GKProcessor
 				if (bytes.Count < 5)
 					break;
 
-				var inputDescriptorNo = BytesHelper.SubstructShort(bytes, 0);
-				var inputPackNo = bytes[2];
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
 
@@ -90,7 +88,7 @@ namespace GKProcessor
 #endif
 #if LOCALCONFIG
 		#region Чтение конфигурации из байтового потока
-		public void ReadConfiguration(XDevice device)
+		public bool ReadConfiguration(XDevice device)
 		{
 			IpAddress = device.GetGKIpAddress();
 			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
@@ -121,6 +119,7 @@ namespace GKProcessor
 				Parce(bytes.Skip(3).ToList(), descriptorNo);
 			}
 			XManager.UpdateConfiguration();
+			return true;
 		}
 		#endregion
 #endif
@@ -138,22 +137,25 @@ namespace GKProcessor
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
 				{
-					driver = XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
 					if (bytes[0x3a] == 1)
+					{
 						driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+					}
 				}
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
-				var device = new XDevice()
+
+				var shleifNo = (byte)(physicalAdress / 256) + 1;
+				var device = new XDevice
 				{
 					Driver = driver,
 					DriverUID = driver.UID,
 					IntAddress = (byte)(physicalAdress % 256),
-					ShleifNo = (byte)(physicalAdress / 256 + 1),
 				};
 				if (driver.DriverType == XDriverType.GK)
 				{
-					var ipAddressProperty = new XProperty()
+					var ipAddressProperty = new XProperty
 					{
 						Name = "IPAddress",
 						StringValue = IpAddress
@@ -167,7 +169,7 @@ namespace GKProcessor
 				if (driver.IsKauOrRSR2Kau)
 				{
 					device.IntAddress = (byte)(controllerAdress % 256);
-					var modeProperty = new XProperty()
+					var modeProperty = new XProperty
 					{
 						Name = "Mode",
 						Value = (byte)(controllerAdress / 256)
@@ -176,30 +178,42 @@ namespace GKProcessor
 					device.Parent = GkDevice;
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
+					for (int i = 0; i < 8; i++)
+					{
+						var shleif = new XDevice();
+						shleif.Driver = driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+						shleif.DriverUID = shleif.Driver.UID;
+						shleif.IntAddress = (byte)(i + 1);
+						shleif.Parent = device;
+						device.Children.Add(shleif);
+					}
 				}
 				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != XDriverType.System)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
-						controllerDevice.Value.Children.Add(device);
-						device.Parent = controllerDevice.Value;
+						if((1 <= shleifNo && shleifNo <= 8)&&(physicalAdress != 0))
+						{
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+							shleif.Children.Add(device);
+							device.Parent = shleif;
+						}
+						else
+						{
+							controllerDevice.Value.Children.Add(device);
+							device.Parent = controllerDevice.Value;
+						}
 					}
 				}
 				DeviceConfiguration.Devices.Add(device);
 				return;
 			}
 
-			ushort no = 0;
-			var descriptionParts = description.Split(new string[1] { "." }, StringSplitOptions.None);
-			if (descriptionParts.Count() == 2)
-			{
-				no = (ushort)Int32.Parse(descriptionParts[0]);
-				description = descriptionParts[1];
-			}
-
 			if (internalType == 0x100)
 			{
+				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
+				description = description.Substring(description.IndexOf("."));
 				var zone = new XZone()
 				{
 					Name = description,
@@ -210,6 +224,8 @@ namespace GKProcessor
 			}
 			if (internalType == 0x106)
 			{
+				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
+				description = description.Substring(description.IndexOf("."));
 				var direction = new XDirection()
 				{
 					Name = description,
