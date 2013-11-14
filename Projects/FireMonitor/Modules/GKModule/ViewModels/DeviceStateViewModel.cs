@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecAPI;
 using Controls.Converters;
 using System.Collections.ObjectModel;
 
@@ -46,15 +47,14 @@ namespace GKModule.ViewModels
         public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
         public ObservableCollection<XAdditionalState> AdditionalStates { get; private set; }
 
-        public string StateClassName
-        {
-            get
-            {
-                var converter = new XStateClassToDeviceStringConverter();
-                var result = (string)converter.Convert(DeviceState.StateClass, null, DeviceState.Device, null);
-                return result;
-            }
-        }
+		public string StateClassName
+		{
+			get
+			{
+				var result = XStateClassViewModel.GetStateName(DeviceState.StateClass, DeviceState.Device);
+				return result;
+			}
+		}
     }
 
     public class XStateClassViewModel : BaseViewModel
@@ -72,10 +72,43 @@ namespace GKModule.ViewModels
         {
             get
             {
-                var converter = new XStateClassToDeviceStringConverter();
-                var result = (string)converter.Convert(StateClass, null, Device, null);
+				var result = GetStateName(StateClass, Device);
                 return result;
             }
         }
+
+		public static string GetStateName(XStateClass stateClass, XDevice device)
+		{
+			var result = stateClass.ToDescription();
+			if (stateClass == XStateClass.Fire1)
+				return "Сработка 1";
+			if (stateClass == XStateClass.Fire2)
+				return "Сработка 2";
+			if (device != null)
+			{
+				if (device.DriverType == XDriverType.Valve)
+				{
+					switch (stateClass)
+					{
+						case XStateClass.Off:
+							result = "Закрыто";
+							break;
+
+						case XStateClass.On:
+							result = "Открыто";
+							break;
+
+						case XStateClass.TurningOff:
+							result = "Закрывается";
+							break;
+
+						case XStateClass.TurningOn:
+							result = "Открывается";
+							break;
+					}
+				}
+			}
+			return result;
+		}
     }
 }

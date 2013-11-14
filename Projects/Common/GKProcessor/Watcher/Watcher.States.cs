@@ -19,7 +19,6 @@ namespace GKProcessor
 
 		void GetAllStates(bool showProgress)
 		{
-			Trace.WriteLine("GetAllStates");
 			IsAnyDBMissmatch = false;
 
 			if (showProgress)

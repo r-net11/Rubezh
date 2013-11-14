@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			ObjectCommandSendHelper.ResetZone(Zone);
+			ObjectCommandSendHelper.Reset(Zone);
 		}
 		bool CanResetFire()
 		{
@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForZone(Zone);
+			ObjectCommandSendHelper.SetIgnoreRegime(Zone);
 		}
 		bool CanSetIgnore()
 		{
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForZone(Zone);
+			ObjectCommandSendHelper.SetAutomaticRegime(Zone);
 		}
 		bool CanResetIgnore()
 		{
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 				{
 					if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetIgnoreRegimeForDevice(device, false);
+						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
 					}
 				}
 			}
@@ -130,7 +130,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegimeForDevice(device, false);
+						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
 					}
 				}
 			}

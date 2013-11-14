@@ -30,12 +30,11 @@ namespace GKModule.Converters
 				case JournalItemType.Delay:
 					return "/Controls;component/Images/Delay.png";
 
-				case JournalItemType.GK:
-					return "/Controls;component/GKIcons/GK.png";
-
 				case JournalItemType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
+				//case JournalItemType.GK:
+				//    return "/Controls;component/GKIcons/GK.png";
 				//case JournalItemType.System:
 				//    return "/Controls;component/Images/PC.png";
 

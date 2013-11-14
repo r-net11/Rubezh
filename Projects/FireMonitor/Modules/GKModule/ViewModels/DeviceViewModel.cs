@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetIgnoreRegime(Device);
 		}
 		bool CanSetIgnore()
 		{
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetAutomaticRegime(Device);
 		}
 		bool CanResetIgnore()
 		{
@@ -133,20 +133,23 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetIgnoreRegimeForDevice(device, false);
+						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
 					}
 				}
 			}
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-				return false;
-			var devices = XManager.GetAllDeviceChildren(Device);
-			foreach (var device in devices)
+			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 			{
-				if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
-					return true;
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+					return false;
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
 			}
 			return false;
 		}
@@ -161,20 +164,23 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegimeForDevice(device, false);
+						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
 					}
 				}
 			}
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-				return false;
-			var devices = XManager.GetAllDeviceChildren(Device);
-			foreach (var device in devices)
+			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 			{
-				if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
-					return true;
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+					return false;
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
 			}
 			return false;
 		}

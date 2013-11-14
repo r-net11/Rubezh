@@ -45,7 +45,6 @@ namespace GKProcessor
 						if (device.DriverType == XDriverType.GK)
 						{
 							WriteDateTime(device);
-							Trace.WriteLine("TimeSynchronisationHelper");
 						}
 					}
 

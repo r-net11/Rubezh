@@ -58,6 +58,20 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public XStateClass ObjectStateClass
+		{
+			get
+			{
+				if (Alarm.Device != null)
+					return Alarm.Device.DeviceState.StateClass;
+				if (Alarm.Zone != null)
+					return Alarm.Zone.ZoneState.StateClass;
+				if (Alarm.Direction != null)
+					return Alarm.Direction.DirectionState.StateClass;
+				return XStateClass.Norm;
+			}
+		}
+
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
 
 		void InitializePlans()
@@ -195,7 +209,7 @@ namespace GKModule.ViewModels
 			}
 			if (Alarm.Device != null)
 			{
-				ObjectCommandSendHelper.ResetDevice(Alarm.Device);
+				ObjectCommandSendHelper.Reset(Alarm.Device);
 			}
 		}
 		bool CanReset()
@@ -218,7 +232,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
 				}
 			}
 
@@ -226,7 +240,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForZone(Alarm.Zone);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Zone);
 				}
 			}
 
@@ -234,7 +248,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
 				}
 			}
 		}
@@ -274,14 +288,14 @@ namespace GKModule.ViewModels
 			{
 				if (!Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Norm))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
 			{
 				if (!Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Norm))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
 				}
 			}
 		}

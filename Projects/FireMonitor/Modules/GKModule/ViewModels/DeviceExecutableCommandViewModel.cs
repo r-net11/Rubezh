@@ -7,23 +7,40 @@ namespace GKModule.ViewModels
 {
 	public class DeviceExecutableCommandViewModel : BaseViewModel
 	{
-		public XStateBit StateType { get; private set; }
+		public XStateBit StateBit { get; private set; }
 		public XDevice Device { get; private set; }
+		public string Name { get; private set; }
 
 		public DeviceExecutableCommandViewModel(XDevice device, XStateBit stateType)
 		{
-			Device = device;
-			StateType = stateType;
 			ExecuteControlCommand = new RelayCommand(OnExecuteControl);
+			Device = device;
+			StateBit = stateType;
+			Name = ((XStateBit)stateType).ToDescription();
+			if (Device.DriverType == XDriverType.Valve)
+			{
+				switch (stateType)
+				{
+					case XStateBit.TurnOn_InManual:
+						Name = "Открыть";
+						break;
+					case XStateBit.TurnOnNow_InManual:
+						Name = "Открыть немедленно";
+						break;
+					case XStateBit.TurnOff_InManual:
+						Name = "Закрыть";
+						break;
+					case XStateBit.Stop_InManual:
+						Name = "Остановить";
+						break;
+				}
+			}
 		}
 
 		public RelayCommand ExecuteControlCommand { get; private set; }
 		void OnExecuteControl()
 		{
-			ObjectCommandSendHelper.ExecuteDeviceCommand(Device, StateType);
-			//var code = 0x80 + (int)StateType;
-			//ObjectCommandSendHelper.SendControlCommand(Device, (byte)code);
-			//JournaActionlHelper.Add("Команда оператора", StateType.ToDescription(), XStateClass.Info, Device);
+			ObjectCommandSendHelper.ExecuteDeviceCommand(Device, StateBit);
 		}
 	}
 }

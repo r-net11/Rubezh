@@ -3,7 +3,7 @@ using System.Windows.Data;
 using Controls;
 using XFiresecAPI;
 
-namespace GKModule.Converters
+namespace Controls.Converters
 {
 	public class XStateClassToIconConverter2 : IValueConverter
 	{

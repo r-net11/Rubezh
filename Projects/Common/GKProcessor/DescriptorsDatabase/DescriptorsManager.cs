@@ -9,7 +9,7 @@ namespace GKProcessor
 		public static List<KauDatabase> KauDatabases { get; private set; }
 		public static List<GkDatabase> GkDatabases { get; private set; }
 
-		public static void Convert()
+		public static void Create()
 		{
 			XManager.Invalidate();
 			XManager.Prepare();

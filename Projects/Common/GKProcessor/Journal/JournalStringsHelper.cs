@@ -20,6 +20,46 @@ namespace GKProcessor
 			return "";
 		}
 
+		public static string ToState(byte b)
+		{
+			switch (b)
+			{
+				case 1: return "Отсчет задержки";
+				case 2: return "Включено";
+				case 3: return "Выключено";
+				case 4: return "Включается";
+				case 5: return "Выключается";
+				case 6: return "Кнопка";
+				case 7: return "Изменение автоматики по неисправности";
+				case 8: return "Изменение автоматики по кнопке СТОП";
+				case 9: return "Изменение автоматики по датчику ДВЕРИ-ОКНА";
+				case 10: return "Изменение автоматики по ТМ";
+				case 11: return "Автоматика включена";
+				case 12: return "Ручной пуск АУП от ИПР";
+				case 13: return "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА";
+				case 14: return "Пуск АУП завершен";
+				case 15: return "Останов тушения по кнопке СТОП";
+				case 16: return "Программирование мастер-ключа";
+
+				case 17: return "Отсчет удержания";
+				case 18: return "Уровень высокий";
+				case 19: return "Уровень низкий";
+				case 20: return "Ход по команде с УЗЗ";
+
+				case 21: return "У ДУ сообщение ПУСК НЕВОЗМОЖЕН";
+				case 22: return "Авария пневмоемкости";
+				case 23: return "Уровень аварийный";
+				case 24: return "Запрет пуска НС";
+				case 25: return "Запрет пуска компрессора";
+				case 26: return "Команда с УЗН";
+				case 27: return "Перевод в режим ручного управления";
+
+				case 30: return "Состояние не определено";
+				case 31: return "Остановлено";
+			}
+			return "Состояние";
+		}
+
 		public static string ToFailure(byte b)
 		{
 			switch (b)
@@ -192,10 +232,10 @@ namespace GKProcessor
 			{
 				case 1: return "Команда от прибора";
 				case 2: return "Команда от кнопки";
-				case 3: return "Изм автомат по Н";
-				case 4: return "Изм автомат по СТОП";
-				case 5: return "Изм автомат по Д-О";
-				case 6: return "Изм автомат по ТМ";
+				case 3: return "Изменение автоматики по неисправности";
+				case 4: return "Изменение автомат по СТОП";
+				case 5: return "Изменение автоматики по Д-О";
+				case 6: return "Изменение автоматики по ТМ";
 				case 7: return "Ручной пуск";
 				case 8: return "Отлож пуск АУП Д-О";
 				case 9: return "Пуск АУП завершен";

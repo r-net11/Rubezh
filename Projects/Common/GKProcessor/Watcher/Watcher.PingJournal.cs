@@ -114,29 +114,21 @@ namespace GKProcessor
 				var device = descriptor.Device;
 				if (device.DriverType == XDriverType.AM1_T)
 				{
-					if (journalItem.Name == "Пожар-1")
+					if (journalItem.Name == "Сработка-1" || journalItem.Name == "Сработка-2")
 					{
-						var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
+						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
 						if (property != null)
 						{
-							journalItem.Name = property.StringValue;
+							journalItem.Description = property.StringValue;
 						}
-						//if (journalItem.YesNo == JournalYesNoType.Yes)
-						//{
-						//    var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для нормы");
-						//    if (property != null)
-						//    {
-						//        journalItem.Name = property.StringValue;
-						//    }
-						//}
-						//else if (journalItem.YesNo == JournalYesNoType.No)
-						//{
-						//    var property = device.Properties.FirstOrDefault(x => x.Name == "Сообщение для сработки");
-						//    if (property != null)
-						//    {
-						//        journalItem.Name = property.StringValue;
-						//    }
-						//}
+					}
+					if (journalItem.Name == "Норма")
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
+						if (property != null)
+						{
+							journalItem.Description = property.StringValue;
+						}
 					}
 				}
 			}

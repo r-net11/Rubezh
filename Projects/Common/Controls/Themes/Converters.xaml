@@ -25,11 +25,11 @@
 	<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
-	<Converters:XStateClassToDeviceStringConverter x:Key="XStateClassToDeviceStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
     <Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
+    <Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
 	<Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
     <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />

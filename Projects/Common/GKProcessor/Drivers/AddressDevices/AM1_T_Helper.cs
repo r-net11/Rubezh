@@ -46,7 +46,7 @@ namespace GKProcessor
 			{
 				IsAUParameter = false,
 				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				Name = "Сообщение для нормы",
+				Name = "NormMessage",
 				Caption = "Сообщение для нормы",
 				StringDefault = "Сообщение для нормы"
 			};
@@ -56,7 +56,7 @@ namespace GKProcessor
 			{
 				IsAUParameter = false,
 				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				Name = "Сообщение для сработки",
+				Name = "OnMessage",
 				Caption = "Сообщение для сработки",
 				StringDefault = "Сообщение для сработки"
 			};

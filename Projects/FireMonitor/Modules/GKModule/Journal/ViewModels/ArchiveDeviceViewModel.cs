@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 
 		public bool CanCheck
 		{
-			get { return Device.DriverType != XDriverType.System && !Device.Driver.IsGroupDevice; }
+			get { return Device.IsRealDevice; }
 		}
 	}
 }

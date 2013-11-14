@@ -161,10 +161,10 @@
     <Compile Include="Converters\XInstructionTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToIconConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
-    <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />

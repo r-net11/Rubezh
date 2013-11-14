@@ -5,11 +5,11 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding StateClassName}" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+            <TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding StateClasses}">
             <ItemsControl.ItemTemplate>

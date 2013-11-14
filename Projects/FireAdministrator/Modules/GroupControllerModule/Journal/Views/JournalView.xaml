@@ -16,23 +16,23 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
                 <DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTemplateColumn Header="Событие" Width="Auto">
+                <DataGridTemplateColumn Header="Событие" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
                                 <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*"/>
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
 				            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -47,8 +47,8 @@
                                     <MenuItem Command="{Binding ShowObjectCommand}">
                                         <MenuItem.Header>
                                             <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center"/>
+                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
+                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center" />
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -110,7 +110,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
-                <Button Content="Сохранить" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="100"/>
+                <Button Content="Сохранить" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="100" />
             </StackPanel>
         </StackPanel>
     </Grid>

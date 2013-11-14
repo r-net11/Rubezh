@@ -23,7 +23,6 @@ namespace GKModule.ViewModels
 		public XDirectionState DirectionState { get; private set; }
 		public XDelayState DelayState { get; private set; }
 		public string PresentationName { get; private set; }
-		public string StringStates { get; private set; }
 		
 		public JournalItemViewModel(JournalItem journalItem)
 		{
@@ -79,19 +78,11 @@ namespace GKModule.ViewModels
 						}
 						break;
 
-					case JournalItemType.GK:
-						var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (gkDevice != null)
-						{
-							DeviceState = gkDevice.DeviceState;
-							PresentationName = DeviceState.Device.ShortNameAndDottedAddress;
-						}
-						break;
-
 					case JournalItemType.GkUser:
 						PresentationName = JournalItem.UserName;
 						break;
 
+					case JournalItemType.GK:
 					case JournalItemType.System:
 						PresentationName = "";
 						break;
@@ -105,17 +96,6 @@ namespace GKModule.ViewModels
 
 				if(PresentationName == null)
 					PresentationName = "<Нет в конфигурации>";
-
-				var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-				var stringBuilder = new StringBuilder();
-				foreach (var state in states)
-				{
-					if (state != XStateBit.Save)
-					{
-						stringBuilder.Append(state.ToDescription() + " ");
-					}
-				}
-				StringStates = stringBuilder.ToString();
 			}
 			catch (Exception e)
 			{

@@ -58,7 +58,7 @@ namespace GKProcessor
 				new XDriverProperty()
 				{
 					No = 0,
-					Name = "Неответы",
+					Name = "ConnectionLostCount",
 					Caption = "Неответы",
 					ToolTip = "Неответы",
 					Min = 0,

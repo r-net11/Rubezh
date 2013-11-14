@@ -81,37 +81,37 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForDelay(Delay);
+			ObjectCommandSendHelper.SetAutomaticRegime(Delay);
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-			ObjectCommandSendHelper.SetManualRegimeForDelay(Delay);
+			ObjectCommandSendHelper.SetManualRegime(Delay);
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForDelay(Delay);
+			ObjectCommandSendHelper.SetIgnoreRegime(Delay);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			ObjectCommandSendHelper.TurnOnDelay(Delay);
+			ObjectCommandSendHelper.TurnOn(Delay);
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			ObjectCommandSendHelper.TurnOnNowDelay(Delay);
+			ObjectCommandSendHelper.TurnOnNow(Delay);
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			ObjectCommandSendHelper.TurnOffDelay(Delay);
+			ObjectCommandSendHelper.TurnOff(Delay);
 		}
 
 		public bool HasOnDelay

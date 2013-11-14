@@ -21,24 +21,23 @@ namespace GKProcessor
 		public JournalParser(XDevice gkDevice, List<byte> bytes)
 		{
 			JournalItem = new JournalItem();
+			JournalItem.SubsystemType = XSubsystemType.GK;
+			JournalItem.JournalItemType = JournalItemType.GK;
 
 			JournalItem.GKIpAddress = XManager.GetIpAddress(gkDevice);
 			JournalItem.GKJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			JournalItem.GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			var UNUSED_KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
-			JournalItem.JournalItemType = JournalItemType.GK;
-			JournalItem.ObjectUID = gkDevice.UID;
 			InitializeFromObjectUID();
-
 			InitializeDateTime(bytes);
 
 			var UNUSED_KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
-			var Source = (JournalSourceType)(int)(bytes[32 + 12]);
+			var source = (JournalSourceType)(int)(bytes[32 + 12]);
 			var code = bytes[32 + 13];
 
 			JournalItem.StateClass = XStateClass.No;
-			switch (Source)
+			switch (source)
 			{
 				case JournalSourceType.Controller:
 					switch (code)
@@ -234,33 +233,34 @@ namespace GKProcessor
 							break;
 
 						case 9:
-							JournalItem.Name = "Состояние";
-							switch (bytes[32 + 15])
-							{
-								case 2:
-									JournalItem.Name = "Включено";
-									break;
+							JournalItem.Name = JournalStringsHelper.ToState(bytes[32 + 15]);
+							//JournalItem.Name = "Состояние";
+							//switch (bytes[32 + 15])
+							//{
+							//    case 2:
+							//        JournalItem.Name = "Включено";
+							//        break;
 
-								case 3:
-									JournalItem.Name = "Выключено";
-									break;
+							//    case 3:
+							//        JournalItem.Name = "Выключено";
+							//        break;
 
-								case 4:
-									JournalItem.Name = "Включается";
-									break;
+							//    case 4:
+							//        JournalItem.Name = "Включается";
+							//        break;
 
-								case 5:
-									JournalItem.Name = "Выключается";
-									break;
+							//    case 5:
+							//        JournalItem.Name = "Выключается";
+							//        break;
 
-								case 30:
-									JournalItem.Name = "Состояние не определено";
-									break;
+							//    case 30:
+							//        JournalItem.Name = "Состояние не определено";
+							//        break;
 
-								case 31:
-									JournalItem.Name = "Остановлено";
-									break;
-							}
+							//    case 31:
+							//        JournalItem.Name = "Остановлено";
+							//        break;
+							//}
 							break;
 
 						case 10:
@@ -311,9 +311,7 @@ namespace GKProcessor
 				JournalItem.StateClass = JournalDescriptionStateHelper.GetStateClassByName(JournalItem.Name);
 			}
 
-			JournalItem.SubsystemType = XSubsystemType.GK;
-
-			if (Source == JournalSourceType.Object)
+			if (source == JournalSourceType.Object)
 			{
 				var stateBits = XStatesHelper.StatesFromInt(JournalItem.ObjectState);
 				var stateClasses = XStatesHelper.StateBitsToStateClasses(stateBits);
@@ -321,7 +319,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				JournalItem.ObjectStateClass = XStateClass.Info;
+				JournalItem.ObjectStateClass = XStateClass.Norm;
 			}
 		}
 

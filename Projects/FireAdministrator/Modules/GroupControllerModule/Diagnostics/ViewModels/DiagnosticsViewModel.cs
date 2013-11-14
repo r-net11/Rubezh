@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ConvertToBinCommand { get; private set; }
 		void OnConvertToBin()
 		{
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			var databasesViewModel = new DatabasesViewModel();
 			DialogService.ShowModalWindow(databasesViewModel);
 		}

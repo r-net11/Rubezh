@@ -33,6 +33,11 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
+			if (Device.DriverType == XDriverType.Pump && Device.IntAddress == 12)
+			{
+				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, XStateBit.ForbidStart_InManual);
+				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
+			}
 		}
 
 		public bool IsTriStateControl
@@ -67,19 +72,19 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetAutomaticRegime(Device);
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-			ObjectCommandSendHelper.SetManualRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetManualRegime(Device);
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetIgnoreRegime(Device);
 		}
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
@@ -98,7 +103,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			ObjectCommandSendHelper.ResetDevice(Device);
+			ObjectCommandSendHelper.Reset(Device);
 		}
 		bool CanReset()
 		{

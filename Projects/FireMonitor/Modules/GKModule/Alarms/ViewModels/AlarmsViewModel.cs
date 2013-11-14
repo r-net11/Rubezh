@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 
 				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(device);
+					ObjectCommandSendHelper.SetAutomaticRegime(device);
 				}
 			}
 
@@ -217,7 +217,7 @@ namespace GKModule.ViewModels
 			{
 				if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForZone(zone);
+					ObjectCommandSendHelper.SetAutomaticRegime(zone);
 				}
 			}
 
@@ -225,7 +225,7 @@ namespace GKModule.ViewModels
 			{
 				if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(direction);
+					ObjectCommandSendHelper.SetAutomaticRegime(direction);
 				}
 			}
 		}
@@ -302,7 +302,7 @@ namespace GKModule.ViewModels
 								passwordValidated = ServiceFactory.SecurityService.Validate();
 
 							if (passwordValidated)
-								ObjectCommandSendHelper.ResetDevice(device);
+								ObjectCommandSendHelper.Reset(device);
 						}
 					}
 				}

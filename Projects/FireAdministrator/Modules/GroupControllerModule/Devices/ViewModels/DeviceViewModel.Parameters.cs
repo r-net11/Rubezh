@@ -363,7 +363,7 @@ namespace GKModule.ViewModels
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запрос параметров");
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)
@@ -383,7 +383,7 @@ namespace GKModule.ViewModels
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)

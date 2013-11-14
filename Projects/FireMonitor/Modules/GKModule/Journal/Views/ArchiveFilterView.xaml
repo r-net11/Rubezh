@@ -113,7 +113,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            
 
             <TabItem Header="Устройства">
                 <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">

@@ -35,6 +35,7 @@ namespace GKModule.ViewModels
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
+			ForbidStartCommand = new RelayCommand(OnForbidStart);
 
 			Title = Direction.PresentationName;
 			TopMost = true;
@@ -95,37 +96,43 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Direction);
+			ObjectCommandSendHelper.SetAutomaticRegime(Direction);
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-			ObjectCommandSendHelper.SetManualRegimeForDirection(Direction);
+			ObjectCommandSendHelper.SetManualRegime(Direction);
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForDirection(Direction);
+			ObjectCommandSendHelper.SetIgnoreRegime(Direction);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
-			ObjectCommandSendHelper.TurnOnDirection(Direction);
+			ObjectCommandSendHelper.TurnOn(Direction);
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
 		void OnTurnOnNow()
 		{
-			ObjectCommandSendHelper.TurnOnNowDirection(Direction);
+			ObjectCommandSendHelper.TurnOnNow(Direction);
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
-			ObjectCommandSendHelper.TurnOffDirection(Direction);
+			ObjectCommandSendHelper.TurnOff(Direction);
+		}
+
+		public RelayCommand ForbidStartCommand { get; private set; }
+		void OnForbidStart()
+		{
+			ObjectCommandSendHelper.Stop(Direction);
 		}
 
 		public bool HasOnDelay

@@ -174,7 +174,7 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
             XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				foreach (var delay in gkDatabase.Delays)

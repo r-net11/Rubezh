@@ -16,11 +16,11 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
                 <DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTemplateColumn Header="Событие" Width="Auto">
+                <DataGridTemplateColumn Header="Событие"  Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
                                 <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
@@ -31,8 +31,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -61,7 +61,7 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <TextBlock Grid.Row="1" Margin="0 5" Text="{Binding CreationDateTimeString}" Foreground="White"/>
-        <TextBlock Grid.Row="2" Margin="0 5" Text="{Binding RecordsCountString}" Foreground="White"/>
+        <TextBlock Grid.Row="1" Margin="0 5" Text="{Binding CreationDateTimeString}" Foreground="White" />
+        <TextBlock Grid.Row="2" Margin="0 5" Text="{Binding RecordsCountString}" Foreground="White" />
     </Grid>
 </UserControl>

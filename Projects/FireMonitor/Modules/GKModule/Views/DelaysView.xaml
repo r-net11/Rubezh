@@ -5,9 +5,7 @@
     xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
     xmlns:Views="clr-namespace:GKModule.Views"
     xmlns:Converters="clr-namespace:GKModule.Converters" >
-<UserControl.Resources>
-    <Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-</UserControl.Resources>
+
 	<Grid>
         <DataGrid ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" Margin="2">
 			<DataGrid.Resources>

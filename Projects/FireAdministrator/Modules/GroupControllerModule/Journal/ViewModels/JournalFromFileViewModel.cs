@@ -9,6 +9,7 @@ namespace GKModule.ViewModels
 		public JournalFromFileViewModel(JournalItemsCollection journalItemsCollection)
 		{
 			Title = "Журнал событий ГК";
+			DescriptorsManager.Create();
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			journalItemsCollection.JournalItems.ForEach(x => JournalItems.Add(new JournalItemViewModel(x)));
 			CreationDateTimeString = "Файл создан " + journalItemsCollection.CreationDateTime.ToString();

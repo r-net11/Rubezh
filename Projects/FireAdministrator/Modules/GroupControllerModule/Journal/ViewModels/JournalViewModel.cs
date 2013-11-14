@@ -23,6 +23,7 @@ namespace GKModule.ViewModels
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
+			DescriptorsManager.Create();
 		}
 
 		public bool Initialize()
@@ -106,7 +107,7 @@ namespace GKModule.ViewModels
 				_isNotEmpty = value;
 				OnPropertyChanged("IsNotEmpty");
 			}
-			
+
 		}
 
 		public RelayCommand ReadCommand { get; private set; }

@@ -14,7 +14,7 @@ namespace GKProcessor
 
 		public static void GetAllParameters()
 		{
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
 				LoadingService.Show("Запрос параметров", kauDatabase.Descriptors.Count);
@@ -46,7 +46,7 @@ namespace GKProcessor
 
 		public static void SetAllParameters()
 		{
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
 				LoadingService.Show("Запись параметров", kauDatabase.Descriptors.Count);
@@ -245,7 +245,7 @@ namespace GKProcessor
 
 		public static void SetSingleDirectionParameter(XDirection direction)
 		{
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			try
 			{
 				var commonDatabase = GetCommonDatabase(direction);
@@ -310,7 +310,7 @@ namespace GKProcessor
 
 		public static void GetSingleDirectionParameter(XDirection direction)
 		{
-			DescriptorsManager.Convert();
+			DescriptorsManager.Create();
 			try
 			{
 				var commonDatabase = GetCommonDatabase(direction);

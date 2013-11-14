@@ -34,9 +34,12 @@
                                 <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
                                 <TextBlock VerticalAlignment="Center" Margin="2">
                                     <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                        <TextBlock Text="{Binding ObjectName}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Source="{Binding ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
+                                            <TextBlock Text="{Binding ObjectName}" />
+                                        </StackPanel>
                                     </Hyperlink>
-                                </TextBlock>    
+                                </TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

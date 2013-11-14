@@ -172,15 +172,15 @@
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
-							<Button Width="200" Height="50" Margin="2" Command="{Binding SetAutomaticStateCommand}" Content="Автоматика" />
-							<Button Width="200" Height="50" Margin="2" Command="{Binding SetManualStateCommand}" Content="Ручное" />
-							<Button Width="200" Height="50" Margin="2" Command="{Binding SetIgnoreStateCommand}" Content="Отключение" />
+                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
 						</StackPanel>
 						<StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
 							<ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
-										<Button Width="200" Height="50" Margin="2" Command="{Binding ExecuteControlCommand}" Content="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" />
+                                        <Button Command="{Binding ExecuteControlCommand}" Content="{Binding Name}" Width="200" Height="50" Margin="2" />
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
@@ -195,9 +195,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetAutomaticStateCommand}" Content="Снять отключение" />
-                    <Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding SetIgnoreStateCommand}" Content="Отключение" />
-                    <Button Grid.Row="2" Width="200" Height="50" Margin="2" Command="{Binding ResetCommand}" Content="Сбросить" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Button Grid.Row="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
+                    <Button Grid.Row="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
+                    <Button Grid.Row="2" Content="Сбросить" Command="{Binding ResetCommand}" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" Width="200" Height="50" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="МРО-2М" Visibility="{Binding IsMRO, Converter={StaticResource BoolToVisibilityConverter}}">
