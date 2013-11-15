@@ -112,14 +112,13 @@ namespace GKModule.Models
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		void OnReadConfiguration()
 		{
+			DescriptorsManager.Create();
 			var device = SelectedDevice.Device;
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
 				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
-				var remoteDevice = (XDevice) device.Clone();
-				remoteDevice.Children = remoteDevices;
 				var remoteKauConfiguration = new XDeviceConfiguration();
-				remoteKauConfiguration.Devices.Add(remoteDevice);
+				remoteKauConfiguration.Devices.AddRange(remoteDevices);
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, remoteKauConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}

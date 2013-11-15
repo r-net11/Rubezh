@@ -32,18 +32,16 @@ namespace GKProcessor
 			};
 			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
-
 			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", 50000);
-
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
 #endif
+			LoadingService.Show("Чтение конфигурации");
 			while (true)
 			{
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
-
 				const byte packNo = 1;
 				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
 				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
@@ -81,8 +79,8 @@ namespace GKProcessor
 			{
 				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
 			}
-			LoadingService.SaveClose();
 			XManager.UpdateConfiguration();
+			LoadingService.SaveClose();
 			return true;
 		}
 #endif
@@ -103,6 +101,7 @@ namespace GKProcessor
 			DeviceConfiguration.RootDevice = rootDevice;
 			ushort descriptorNo = 0;
 			int count = 0;
+			LoadingService.Show("Чтение конфигурации");
 			while (true)
 			{
 				descriptorNo++;
@@ -119,6 +118,7 @@ namespace GKProcessor
 				Parce(bytes.Skip(3).ToList(), descriptorNo);
 			}
 			XManager.UpdateConfiguration();
+			LoadingService.SaveClose();
 			return true;
 		}
 		#endregion
@@ -201,6 +201,10 @@ namespace GKProcessor
 						}
 						else
 						{
+							if (controllerDevice.Value.Driver.DriverType == XDriverType.GK)
+								device.IntAddress = (byte) (controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 2);
+							else
+								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
 							controllerDevice.Value.Children.Add(device);
 							device.Parent = controllerDevice.Value;
 						}
@@ -219,6 +223,7 @@ namespace GKProcessor
 					Name = description,
 					No = no
 				};
+				zone.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Zones.Add(zone);
 				return;
 			}
@@ -231,6 +236,7 @@ namespace GKProcessor
 					Name = description,
 					No = no
 				};
+				direction.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Directions.Add(direction);
 				return;
 			}

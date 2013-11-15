@@ -31,18 +31,10 @@ namespace GKModule.ViewModels
 			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
 
-			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Devices, RemoteObjectsViewModel.Devices, device.DriverType);
-			LocalObjectsViewModel.Devices = compareDevices[0];
-			RemoteObjectsViewModel.Devices = compareDevices[1];
-			if (device.DriverType == XDriverType.GK)
-			{
-				var compareZones = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Zones, RemoteObjectsViewModel.Zones, device.DriverType);
-				LocalObjectsViewModel.Zones = compareZones[0];
-				RemoteObjectsViewModel.Zones = compareZones[1];
-				var compareDirections = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Directions, RemoteObjectsViewModel.Directions, device.DriverType);
-				LocalObjectsViewModel.Directions = compareDirections[0];
-				RemoteObjectsViewModel.Directions = compareDirections[1];
-			}
+			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Objects.ToList(), RemoteObjectsViewModel.Objects.ToList(), device.DriverType);
+			LocalObjectsViewModel.Objects = compareDevices[0];
+			RemoteObjectsViewModel.Objects = compareDevices[1];
+
 			InitializeMismatchedIndexes();
 		}
 		
@@ -92,47 +84,16 @@ namespace GKModule.ViewModels
 			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
-			if (RemoteDevice.DriverType == XDriverType.GK)
-			{
-				foreach (var kauChild in RemoteDevice.Children)
-				{
-					if (kauChild.Driver.IsKauOrRSR2Kau)
-						AddShleifs(kauChild);
-				}
-			}
-			if (RemoteDevice.Driver.IsKauOrRSR2Kau)
-				AddShleifs(RemoteDevice);
 			if (LocalDevice.DriverType == XDriverType.GK)
 			{
-				LocalConfiguration.Zones = RemoteConfiguration.Zones;
-				LocalConfiguration.Directions = RemoteConfiguration.Directions;
+				LocalConfiguration.Zones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.Zones.AddRange(RemoteConfiguration.Zones);
+				LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.Directions.AddRange(RemoteConfiguration.Directions);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
 			Close(true);
-		}
-
-		void AddShleifs(XDevice device)
-		{
-			var deviceChildren = new List<XDevice>(device.Children);
-			device.Children = new List<XDevice>();
-			for (int i = 0; i < 8; i++)
-			{
-				var shleif = new XDevice();
-				shleif.Driver = device.Driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
-				shleif.DriverUID = shleif.Driver.UID;
-				shleif.IntAddress = (byte)(i + 1);
-				device.Children.Add(shleif);
-			}
-			foreach (var child in deviceChildren)
-			{
-				if (1 <= child.ShleifNo && child.ShleifNo <= 8)
-				{
-					var shleif = device.Children.FirstOrDefault(x => ((x.DriverType == XDriverType.KAU_Shleif) || (x.DriverType == XDriverType.RSR2_KAU_Shleif)) && x.IntAddress == child.ShleifNo);
-					shleif.Children.Add(child);
-					child.Parent = shleif;
-				}
-			}
 		}
 	}
 }

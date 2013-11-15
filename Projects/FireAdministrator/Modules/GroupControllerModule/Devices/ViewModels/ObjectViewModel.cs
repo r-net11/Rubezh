@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 			return Compare(a, b);
 		}
 
-		int Compare(object a, object b)
+		public int Compare(object a, object b)
 		{
 			var object1 = (ObjectViewModel)a;
 			var object2 = (ObjectViewModel)b;
@@ -29,13 +29,13 @@ namespace GKModule.ViewModels
 			if (object1.ObjectType == ObjectType.Device)
 			{
 				var orderNo1 = 
-					(object1.Device.KAUParent != null? object1.Device.KAUParent.IntAddress * 256 * 256 :0) +
-					(object1.Device.KAURSR2ShleifParent != null? object1.Device.KAURSR2ShleifParent.IntAddress * 256: 0) +
-					object1.Device.IntAddress;
+					(object1.Device.KAUParent != null ? object1.Device.KAUParent.IntAddress * 256 * 256 :0) +
+					(object1.Device.ShleifNoNew * 256) +
+					(!object1.Device.Driver.IsKauOrRSR2Kau ? object1.Device.IntAddress : 0);
 				var orderNo2 = 
 					(object2.Device.KAUParent != null ? object2.Device.KAUParent.IntAddress * 256 * 256 : 0) +
-					(object2.Device.KAURSR2ShleifParent != null ? object2.Device.KAURSR2ShleifParent.IntAddress * 256 : 0) +
-					object2.Device.IntAddress;
+					(object2.Device.ShleifNoNew * 256) +
+					(!object2.Device.Driver.IsKauOrRSR2Kau ? object2.Device.IntAddress : 0);
 				if (orderNo1 > orderNo2)
 					return 1;
 				if (orderNo1 < orderNo2)
