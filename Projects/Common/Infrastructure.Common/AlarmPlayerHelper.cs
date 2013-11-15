@@ -20,12 +20,19 @@ namespace Infrastructure.Common
 
         static void PlayBeep()
         {
-            do
-            {
-                Console.Beep(_frequency, 600);
-                Thread.Sleep(1000);
-            }
-            while (_isContinious);
+			try
+			{
+				do
+				{
+					Console.Beep(_frequency, 600);
+					Thread.Sleep(1000);
+				}
+				while (_isContinious);
+			}
+			catch (Exception e)
+			{
+				return;
+			}
         }
 
         static void StopPlayPCSpeaker()

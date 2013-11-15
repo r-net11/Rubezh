@@ -36,10 +36,9 @@ namespace GKProcessor
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						ObjectUID = GkDatabase.RootDevice.UID,
-						GKObjectNo = GkDatabase.RootDevice.GKDescriptorNo,
-						JournalItemType = JournalItemType.GK,
+						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
+						ObjectStateClass = XStateClass.Norm,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
 					};
 
@@ -50,7 +49,7 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						GetAllStates(false);
+						//GetAllStates(false);
 					}
 				}
                 var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);

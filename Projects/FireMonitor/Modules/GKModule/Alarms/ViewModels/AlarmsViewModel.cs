@@ -83,22 +83,18 @@ namespace GKModule.ViewModels
 							break;
 
 						case XStateClass.Fire1:
-							if (device.DriverType == XDriverType.AMP_1)
-							{
-								alarms.Add(new Alarm(XAlarmType.Fire1, device));
-							}
+							alarms.Add(new Alarm(XAlarmType.Fire1, device));
 							break;
 
 						case XStateClass.Fire2:
-							if (device.DriverType == XDriverType.AMP_1)
+							if (device.DriverType != XDriverType.AM1_T)
 							{
 								alarms.Add(new Alarm(XAlarmType.Fire2, device));
 							}
 							break;
 					}
 				}
-				if (!device.DeviceState.StateBits.Contains(XStateBit.Norm) && !device.DeviceState.StateBits.Contains(XStateBit.Ignore)
-					&& !device.DeviceState.IsConnectionLost && device.Driver.IsControlDevice)
+				if (device.DeviceState.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
@@ -154,8 +150,7 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-				if (!direction.DirectionState.StateBits.Contains(XStateBit.Norm) && !direction.DirectionState.StateBits.Contains(XStateBit.Ignore) &&
-				!direction.DirectionState.IsConnectionLost)
+				if (direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
 				}

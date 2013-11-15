@@ -54,10 +54,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (DeviceState.StateBits.Contains(XStateBit.Norm))
+				if (!DeviceState.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -107,7 +107,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanReset()
 		{
-			return DeviceState.StateBits.Contains(XStateBit.Fire2) || DeviceState.StateBits.Contains(XStateBit.Fire1);
+			return DeviceState.StateClasses.Contains(XStateClass.Fire2) || DeviceState.StateClasses.Contains(XStateClass.Fire1);
 		}
 
 		#region IsMRO

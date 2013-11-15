@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetFire()
 		{
-			return ZoneState.StateBits.Contains(XStateBit.Fire2) || ZoneState.StateBits.Contains(XStateBit.Fire1) || ZoneState.StateBits.Contains(XStateBit.Attention);
+			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		#region Ignore
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-            return !ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -90,7 +90,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-            return ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 		#endregion
 

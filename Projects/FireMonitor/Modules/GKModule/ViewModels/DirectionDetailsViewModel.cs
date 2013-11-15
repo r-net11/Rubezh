@@ -78,10 +78,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DirectionState.StateBits.Contains(XStateBit.Ignore))
+				if (DirectionState.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (DirectionState.StateBits.Contains(XStateBit.Norm))
+				if (!DirectionState.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -137,11 +137,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.StateBits.Contains(XStateBit.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return DirectionState.StateClasses.Contains(XStateClass.TurningOn) && DirectionState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.StateBits.Contains(XStateBit.On) && DirectionState.HoldDelay > 0; }
+			get { return DirectionState.StateClasses.Contains(XStateClass.On) && DirectionState.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -186,5 +186,10 @@ namespace GKModule.ViewModels
 			get { return Direction.UID.ToString(); }
 		}
 		#endregion
+
+		public override void OnClosed()
+		{
+			DirectionState.StateChanged -= new Action(OnStateChanged);
+		}
 	}
 }

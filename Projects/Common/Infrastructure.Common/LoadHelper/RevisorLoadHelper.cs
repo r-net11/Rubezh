@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.IO;
+using Common;
 
 namespace Infrastructure.Common
 {
@@ -11,17 +13,25 @@ namespace Infrastructure.Common
 			RegistrySettingsHelper.SetBool("IsException", false);
 
 			var proc = Process.GetProcessesByName("Revisor");
-			var revisorpath = RegistrySettingsHelper.GetString("RevisorPath");
-			if (String.IsNullOrEmpty(revisorpath))
+			var revisorPath = RegistrySettingsHelper.GetString("RevisorPath");
+			if (String.IsNullOrEmpty(revisorPath))
 			{
-				revisorpath = @"Revisor.exe";
+				var executableFolder = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+				revisorPath = executableFolder + @"\Revisor.exe";
 #if DEBUG
-				revisorpath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
+				revisorPath = @"..\..\..\Revisor\Revisor\bin\Debug\Revisor.exe";
 #endif
 			}
-			if ((proc.Count() == 0) && (Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost"))
+			if (proc.Count() == 0 && Process.GetCurrentProcess().ProcessName != "FireMonitor.vshost")
 			{
-				Process.Start(revisorpath);
+				if (File.Exists(revisorPath))
+				{
+					Process.Start(revisorPath);
+				}
+				else
+				{
+					Logger.Error("RevisorLoadHelper RevisorPath not found " + revisorPath);
+				}
 			}
 		}
 	}

@@ -73,7 +73,10 @@ namespace GKProcessor
 			{
 				XManager.LinkXBasees(Direction, failureDevice);
 			}
-			XManager.LinkXBasees(Direction, AM1TDevice);
+			if (AM1TDevice != null)
+			{
+				XManager.LinkXBasees(Direction, AM1TDevice);
+			}
 		}
 
 		void CreateDelays()

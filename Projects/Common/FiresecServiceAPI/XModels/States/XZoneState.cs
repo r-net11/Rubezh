@@ -10,7 +10,7 @@ namespace XFiresecAPI
 		{
 		}
 
-		List<XStateBit> _states = new List<XStateBit>();
+		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{
 			get
@@ -19,16 +19,16 @@ namespace XFiresecAPI
 					return new List<XStateBit>();
 				else
 				{
-					if (_states == null)
-						_states = new List<XStateBit>();
-					return _states;
+					if (_stateBits == null)
+						_stateBits = new List<XStateBit>();
+					return _stateBits;
 				}
 			}
 			set
 			{
-				_states = value;
-				if (_states == null)
-					_states = new List<XStateBit>();
+				_stateBits = value;
+				if (_stateBits == null)
+					_stateBits = new List<XStateBit>();
 				OnStateChanged();
 			}
 		}

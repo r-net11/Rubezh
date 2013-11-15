@@ -68,6 +68,15 @@ namespace FiresecAPI.XModels
 				stateClasses.Add(XStateClass.AutoOff);
 			}
 
+			if (stateBits.Contains(XStateBit.Ignore))
+			{
+				stateClasses.Remove(XStateClass.AutoOff);
+			}
+
+			//if (stateClasses.Count == 0)
+			//{
+			//    stateClasses.Add(XStateClass.Norm);
+			//}
 			return stateClasses.ToList();
 		}
 

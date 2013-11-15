@@ -46,9 +46,9 @@ namespace GKModule.ViewModels
                 var stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine(Delay.Name);
 				stringBuilder.AppendLine("Состояние: " + DelayState.StateClass.ToDescription());
-				foreach (var stateType in DelayState.StateBits)
+				foreach (var stateClass in DelayState.StateClasses)
 				{
-					stringBuilder.AppendLine(stateType.ToDescription());
+					stringBuilder.AppendLine(stateClass.ToDescription());
 				}
 				return stringBuilder.ToString();
 			}
@@ -72,11 +72,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DelayState.StateBits.Contains(XStateBit.TurningOn) && DelayState.OnDelay > 0; }
+			get { return DelayState.StateClasses.Contains(XStateClass.TurningOn) && DelayState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DelayState.StateBits.Contains(XStateBit.On) && DelayState.HoldDelay > 0; }
+			get { return DelayState.StateClasses.Contains(XStateClass.On) && DelayState.HoldDelay > 0; }
 		}
 	}
 }

@@ -46,7 +46,8 @@ namespace FiresecClient
 			foreach (var device in Devices)
 			{
 				var zoneUIDs = new List<Guid>();
-				if (device.ZoneUIDs != null)
+				if (device.Driver.HasZone)
+				{
 					foreach (var zoneUID in device.ZoneUIDs)
 					{
 						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -57,6 +58,7 @@ namespace FiresecClient
 							zone.Devices.Add(device);
 						}
 					}
+				}
 				device.ZoneUIDs = zoneUIDs;
 			}
 		}

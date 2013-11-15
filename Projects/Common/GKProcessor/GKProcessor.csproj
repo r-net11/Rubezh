@@ -128,7 +128,6 @@
     <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
-    <Compile Include="JournaActionlHelper.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
@@ -141,8 +140,6 @@
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
     <Compile Include="Journal\XArchiveFilter.cs" />
-    <Compile Include="ObjectCommandSendHelper.cs" />
-    <Compile Include="ParameterUpdateHelper.cs" />
     <Compile Include="Patching\Patch.cs" />
     <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

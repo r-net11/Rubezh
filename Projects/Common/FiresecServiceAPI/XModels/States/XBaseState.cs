@@ -154,17 +154,6 @@ namespace XFiresecAPI
 		}
 
 		public List<XAdditionalState> AdditionalStates { get; set; }
-		//public List<XAdditionalState> AdditionalStates
-		//{
-		//    get
-		//    {
-		//        if (IsGKConnectionLost)
-		//        {
-		//            return new List<XAdditionalState>() { new XAdditionalState() { StateClass = XStateClass.Failure, Name = "Потеря связи" } };
-		//        }
-		//        return InternalAdditionalStates;
-		//    }
-		//}
 		public List<AdditionalXStateProperty> AdditionalStateProperties { get; set; }
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }

@@ -212,15 +212,15 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.TurningOn) && DeviceState.OnDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOn) && DeviceState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.On) && DeviceState.HoldDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.On) && DeviceState.HoldDelay > 0; }
 		}
 		public bool HasOffDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.TurningOff) && DeviceState.OffDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOff) && DeviceState.OffDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -259,7 +259,7 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		//public IEnumerable<Plan> PlanNames
+
 		public ObservableCollection<PlanViewModel> PlanNames
 		{
 			get
@@ -299,6 +299,7 @@ namespace GKModule.ViewModels
 		public override void OnClosed()
 		{
 			CancelBackgroundWorker = true;
+			DeviceState.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 
