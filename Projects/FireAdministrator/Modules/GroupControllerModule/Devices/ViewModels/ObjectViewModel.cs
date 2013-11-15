@@ -30,11 +30,11 @@ namespace GKModule.ViewModels
 			{
 				var orderNo1 = 
 					(object1.Device.KAUParent != null ? object1.Device.KAUParent.IntAddress * 256 * 256 :0) +
-					(object1.Device.ShleifNoNew * 256) +
+					(object1.Device.ShleifNo * 256) +
 					(!object1.Device.Driver.IsKauOrRSR2Kau ? object1.Device.IntAddress : 0);
 				var orderNo2 = 
 					(object2.Device.KAUParent != null ? object2.Device.KAUParent.IntAddress * 256 * 256 : 0) +
-					(object2.Device.ShleifNoNew * 256) +
+					(object2.Device.ShleifNo * 256) +
 					(!object2.Device.Driver.IsKauOrRSR2Kau ? object2.Device.IntAddress : 0);
 				if (orderNo1 > orderNo2)
 					return 1;

@@ -53,23 +53,6 @@ namespace XFiresecAPI
 		public Guid DriverUID { get; set; }
 
 		[DataMember]
-		public byte ShleifNo { get; set; }
-
-		public byte ShleifNoNew
-		{
-			get
-			{
-				var allParents = AllParents;
-				var shleif = allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif);
-				if (shleif != null)
-				{
-					return shleif.IntAddress;
-				}
-				return 0;
-			}
-		}
-
-		[DataMember]
 		public byte IntAddress { get; set; }
 
 		[DataMember]
@@ -108,6 +91,20 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
+		public byte ShleifNo
+		{
+			get
+			{
+				var allParents = AllParents;
+				var shleif = allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif);
+				if (shleif != null)
+				{
+					return shleif.IntAddress;
+				}
+				return 0;
+			}
+		}
+
 		public string Address
 		{
 			get
@@ -123,7 +120,7 @@ namespace XFiresecAPI
 				if (Driver.IsDeviceOnShleif == false)
 					return IntAddress.ToString();
 
-				var shleifNo = ShleifNoNew;
+				var shleifNo = ShleifNo;
 				if (shleifNo != 0)
 					return shleifNo.ToString() + "." + IntAddress.ToString();
 				return IntAddress.ToString(); ;

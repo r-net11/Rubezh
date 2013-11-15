@@ -22,7 +22,7 @@ namespace GKProcessor
 
 			var address = 0;
 			if (Device.Driver.IsDeviceOnShleif)
-				address = (Device.ShleifNoNew - 1) * 256 + Device.IntAddress;
+				address = (Device.ShleifNo - 1) * 256 + Device.IntAddress;
 			SetAddress((ushort)address);
 
 			SetFormulaBytes();

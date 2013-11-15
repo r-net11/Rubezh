@@ -13,7 +13,7 @@ namespace GKProcessor
 				Caption = propertyName,
 				Default = defaultValue,
 				Offset = offset,
-				Mask = (short)((1 << offset) + (1 << (offset + 1)))
+				Mask = 3
 			};
 			var parameter1 = new XDriverPropertyParameter()
 			{

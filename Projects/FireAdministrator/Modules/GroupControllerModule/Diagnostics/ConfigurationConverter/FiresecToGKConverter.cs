@@ -91,13 +91,16 @@ namespace GKModule.Converter
 				UID = fsDevice.UID,
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = (byte)shleifNo,
 				IntAddress = (byte)(fsDevice.IntAddress & 0xff),
 				Description = fsDevice.Description
 			};
 			XManager.DeviceConfiguration.Devices.Add(device);
-			kauDevice.Children.Add(device);
-			device.Parent = kauDevice;
+			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.ShleifNo == shleifNo);
+			if (shleifDevice != null)
+			{
+				shleifDevice.Children.Add(device);
+				device.Parent = shleifDevice;
+			}
 
 			foreach (var fsChildDevice in fsDevice.Children)
 			{

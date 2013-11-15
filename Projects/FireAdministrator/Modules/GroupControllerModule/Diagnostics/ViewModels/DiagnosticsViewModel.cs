@@ -25,7 +25,6 @@ namespace GKModule.ViewModels
 			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
-			ConvertShleifCommand = new RelayCommand(OnConvertShleif);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
 		}
@@ -86,45 +85,6 @@ namespace GKModule.ViewModels
 				device.ZoneUIDs.Add(zone.UID);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand ConvertShleifCommand { get; private set; }
-		void OnConvertShleif()
-		{
-			PatchShleif(XDriverType.KAU, XDriverType.KAU_Shleif);
-			PatchShleif(XDriverType.RSR2_KAU, XDriverType.RSR2_KAU_Shleif);
-			XManager.UpdateConfiguration();
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-		}
-
-		void PatchShleif(XDriverType kauDriverType, XDriverType shleifDriverType)
-		{
-			var kauDevices = XManager.Devices.Where(x => x.DriverType == kauDriverType);
-			foreach (var kauDevice in kauDevices)
-			{
-				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == shleifDriverType);
-				var shleifDevices = new List<XDevice>();
-				for (int i = 0; i < 8; i++)
-				{
-					var device = new XDevice()
-					{
-						IntAddress = (byte)(i + 1),
-						Driver = driver,
-						DriverUID = driver.UID
-					};
-					shleifDevices.Add(device);
-				}
-				foreach (var device in kauDevice.Children)
-				{
-					if (device.DriverType != XDriverType.KAUIndicator)
-					{
-						var shleifDevice = shleifDevices.FirstOrDefault(x => x.IntAddress == device.ShleifNo);
-						shleifDevice.Children.Add(device);
-					}
-				}
-				kauDevice.Children.RemoveAll(x => x.DriverType != XDriverType.KAUIndicator);
-				kauDevice.Children.AddRange(shleifDevices);
-			}
 		}
 
 		public RelayCommand WriteConfigFileToGKCommand { get; private set; }

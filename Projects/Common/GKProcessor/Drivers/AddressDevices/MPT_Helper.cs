@@ -172,7 +172,7 @@ namespace GKProcessor
 				Caption = propertyName,
 				Default = 1,
 				Offset = offset,
-				Mask = (short)((1 << offset) + (1 << (offset + 1))),
+				Mask = 3,
 				IsLowByte = true
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Замкнутое", 1);
