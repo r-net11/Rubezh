@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using XFiresecAPI;
 
@@ -63,15 +64,20 @@ namespace GKProcessor
 									failureDevices.Add(nsDevice);
 								}
 								break;
-							case XDriverType.AM1_T:
-								failureDevices.Add(nsDevice);
-								break;
 						}
 					}
 
 					foreach (var failureDevice in failureDevices)
 					{
 						Formula.AddGetBit(XStateBit.Failure, failureDevice);
+						Formula.Add(FormulaOperationType.COM);
+						Formula.Add(FormulaOperationType.AND);
+					}
+
+					var am1TDevice = Direction.NSDevices.FirstOrDefault(x=>x.DriverType == XDriverType.AM1_T);
+					if (am1TDevice != null)
+					{
+						Formula.AddGetBit(XStateBit.Fire2, am1TDevice);
 						Formula.Add(FormulaOperationType.COM);
 						Formula.Add(FormulaOperationType.AND);
 					}

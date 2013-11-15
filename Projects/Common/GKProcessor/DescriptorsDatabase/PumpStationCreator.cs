@@ -69,15 +69,11 @@ namespace GKProcessor
 
 		void CreateDirectionFormulaBytes()
 		{
-			var failureDevices = new List<XDevice>();
-			failureDevices.AddRange(NonFirePumpDevices);
-			if (AM1TDevice != null)
-				failureDevices.Add(AM1TDevice);
-
-			foreach (var failureDevice in failureDevices)
+			foreach (var failureDevice in NonFirePumpDevices)
 			{
 				XManager.LinkXBasees(Direction, failureDevice);
 			}
+			XManager.LinkXBasees(Direction, AM1TDevice);
 		}
 
 		void CreateDelays()

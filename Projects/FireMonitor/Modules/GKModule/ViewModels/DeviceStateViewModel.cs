@@ -10,42 +10,42 @@ using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
-    public class DeviceStateViewModel : BaseViewModel
-    {
-        public XDeviceState DeviceState { get; private set; }
+	public class DeviceStateViewModel : BaseViewModel
+	{
+		public XDeviceState DeviceState { get; private set; }
 
-        public DeviceStateViewModel(XDeviceState deviceState)
-        {
-            DeviceState = deviceState;
-            StateClasses = new ObservableCollection<XStateClassViewModel>();
-            AdditionalStates = new ObservableCollection<XAdditionalState>();
-            DeviceState.StateChanged += new Action(OnStateChanged);
-            OnStateChanged();
-        }
+		public DeviceStateViewModel(XDeviceState deviceState)
+		{
+			DeviceState = deviceState;
+			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			AdditionalStates = new ObservableCollection<XAdditionalState>();
+			DeviceState.StateChanged += new Action(OnStateChanged);
+			OnStateChanged();
+		}
 
-        void OnStateChanged()
-        {
-            OnPropertyChanged("DeviceState");
-            OnPropertyChanged("StateClassName");
+		void OnStateChanged()
+		{
+			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("StateClassName");
 
-            StateClasses.Clear();
-            foreach (var stateClass in DeviceState.StateClasses)
-            {
-                if (stateClass != DeviceState.StateClass)
-                {
-                    StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
-                }
-            }
+			StateClasses.Clear();
+			foreach (var stateClass in DeviceState.StateClasses)
+			{
+				if (stateClass != DeviceState.StateClass)
+				{
+					StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
+				}
+			}
 
-            AdditionalStates.Clear();
-            foreach (var additionalState in DeviceState.AdditionalStates)
-            {
-                AdditionalStates.Add(additionalState);
-            }
-        }
+			AdditionalStates.Clear();
+			foreach (var additionalState in DeviceState.AdditionalStates)
+			{
+				AdditionalStates.Add(additionalState);
+			}
+		}
 
-        public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
-        public ObservableCollection<XAdditionalState> AdditionalStates { get; private set; }
+		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
+		public ObservableCollection<XAdditionalState> AdditionalStates { get; private set; }
 
 		public string StateClassName
 		{
@@ -55,60 +55,80 @@ namespace GKModule.ViewModels
 				return result;
 			}
 		}
-    }
+	}
 
-    public class XStateClassViewModel : BaseViewModel
-    {
-        public XStateClass StateClass { get; private set; }
-        XDevice Device { get; set; }
+	public class XStateClassViewModel : BaseViewModel
+	{
+		public XStateClass StateClass { get; private set; }
+		XDevice Device { get; set; }
 
-        public XStateClassViewModel(XDevice device, XStateClass stateClass)
-        {
-            Device = device;
-            StateClass = stateClass;
-        }
+		public XStateClassViewModel(XDevice device, XStateClass stateClass)
+		{
+			Device = device;
+			StateClass = stateClass;
+		}
 
-        public string StateClassName
-        {
-            get
-            {
+		public string StateClassName
+		{
+			get
+			{
 				var result = GetStateName(StateClass, Device);
-                return result;
-            }
-        }
+				return result;
+			}
+		}
 
 		public static string GetStateName(XStateClass stateClass, XDevice device)
 		{
-			var result = stateClass.ToDescription();
-			if (stateClass == XStateClass.Fire1)
-				return "Сработка 1";
-			if (stateClass == XStateClass.Fire2)
-				return "Сработка 2";
 			if (device != null)
 			{
 				if (device.DriverType == XDriverType.Valve)
 				{
 					switch (stateClass)
 					{
-						case XStateClass.Off:
-							result = "Закрыто";
-							break;
-
 						case XStateClass.On:
-							result = "Открыто";
-							break;
+							return "Открыто";
 
-						case XStateClass.TurningOff:
-							result = "Закрывается";
-							break;
+						case XStateClass.Off:
+							return "Закрыто";
 
 						case XStateClass.TurningOn:
-							result = "Открывается";
-							break;
+							return "Открывается";
+
+						case XStateClass.TurningOff:
+							return "Закрывается";
+					}
+				}
+				if (device.DriverType == XDriverType.AM1_T)
+				{
+					if (stateClass == XStateClass.Fire2)
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
+						if (property != null)
+						{
+							if (!string.IsNullOrEmpty(property.StringValue))
+								return property.StringValue;
+						}
+					}
+					if (stateClass == XStateClass.Norm)
+					{
+						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
+						if (property != null)
+						{
+							if (!string.IsNullOrEmpty(property.StringValue))
+								return property.StringValue;
+						}
 					}
 				}
 			}
-			return result;
+			if (stateClass == XStateClass.Fire1)
+			{
+				return "Сработка 1";
+			}
+			if (stateClass == XStateClass.Fire2)
+			{
+				return "Сработка 2";
+			}
+			return stateClass.ToDescription();
 		}
-    }
+	}
 }

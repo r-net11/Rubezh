@@ -114,7 +114,7 @@ namespace GKProcessor
 				var device = descriptor.Device;
 				if (device.DriverType == XDriverType.AM1_T)
 				{
-					if (journalItem.Name == "Сработка-1" || journalItem.Name == "Сработка-2")
+					if (journalItem.Name == "Сработка-2")
 					{
 						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
 						if (property != null)
@@ -129,6 +129,27 @@ namespace GKProcessor
 						{
 							journalItem.Description = property.StringValue;
 						}
+					}
+				}
+				if (device.DriverType == XDriverType.Valve)
+				{
+					switch (journalItem.Name)
+					{
+						case "Включено":
+							journalItem.Name = "Открыто";
+							break;
+
+						case "Выключено":
+							journalItem.Name = "Закрыто";
+							break;
+
+						case "Включается":
+							journalItem.Name = "Открывается";
+							break;
+
+						case "Выключается":
+							journalItem.Name = "Закрывается";
+							break;
 					}
 				}
 			}

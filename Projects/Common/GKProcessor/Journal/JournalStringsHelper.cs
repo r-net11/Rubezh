@@ -240,7 +240,7 @@ namespace GKProcessor
 				case 8: return "Отлож пуск АУП Д-О";
 				case 9: return "Пуск АУП завершен";
 				case 10: return "Стоп по кнопке СТОП";
-				case 11: return "Прогр мастер-ключа";
+				case 11: return "Программирование мастер-ключа";
 				case 12: return "Датчик ДАВЛЕНИЕ";
 				case 13: return "Датчик МАССА";
 				case 14: return "Сигнал из памяти";
@@ -256,9 +256,9 @@ namespace GKProcessor
 				case 24: return "Уровень низкий";
 				case 25: return "Уровень высокий";
 				case 26: return "Уровень норма";
-				case 27: return "Автоматика";
-				case 28: return "Ручное";
-				case 29: return "Отключение";
+				case 27: return "Перевод в автоматический режим со шкафа";
+				case 28: return "Перевод в ручной режим со шкафа";
+				case 29: return "Перевод в отключенный режим со шкафа";
 				case 30: return "Неопределено";
 				case 31: return "Пуск невозможен";
 				case 32: return "Авария пневмоемкости";

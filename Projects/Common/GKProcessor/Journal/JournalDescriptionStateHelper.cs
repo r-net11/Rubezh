@@ -46,6 +46,11 @@ namespace GKProcessor
 			Add("Информация", XStateClass.Info, "Событие инициируется устройством");
 			Add("Состояние", XStateClass.Info, "Изменение состояния объекта");
 
+			Add("Открыто", XStateClass.Info, "");
+			Add("Закрыто", XStateClass.Info, "");
+			Add("Открывается", XStateClass.Info, "");
+			Add("Закрывается", XStateClass.Info, "");
+
 			Add("Отсчет задержки", XStateClass.Info, "");
 			Add("Включено", XStateClass.On, "Изменение состояния на Включено");
 			Add("Выключено", XStateClass.Off, "Изменение состояния на Выключено");
@@ -73,7 +78,7 @@ namespace GKProcessor
 			Add("Запрет пуска компрессора", XStateClass.Info, "");
 			Add("Команда с УЗН", XStateClass.Info, "");
 			Add("Перевод в режим ручного управления", XStateClass.Info, "");
-			Add("Состояние не определено", XStateClass.Unknown, "Изменение состояния на неопределенное");
+			Add("Состояние не определено", XStateClass.Info, "Изменение состояния на неопределенное");
 			Add("Остановлено", XStateClass.Info, "Изменение состояния на Остановлено");
 
 			Add("Режим работы", XStateClass.Info, "Изменение режима работы: ручной, автоматический, отключено");

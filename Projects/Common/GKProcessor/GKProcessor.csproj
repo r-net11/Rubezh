@@ -159,7 +159,7 @@
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
     <Compile Include="Watcher\Watcher.License.cs" />
-    <Compile Include="Watcher\Watcher.PingJournal.cs" />
+    <Compile Include="Watcher\Watcher.Journal.cs" />
     <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.Progress.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
