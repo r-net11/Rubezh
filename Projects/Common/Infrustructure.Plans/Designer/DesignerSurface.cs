@@ -182,7 +182,6 @@ namespace Infrustructure.Plans.Designer
 						item.Render(dc);
 				_designerCanvas.RenderForeground(dc);
 			}
-
 		}
 	}
 }

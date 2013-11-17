@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using FiresecAPI;
 using FiresecAPI.XModels;
 
 namespace XFiresecAPI
@@ -33,6 +32,20 @@ namespace XFiresecAPI
 		}
 
 		public bool IsInitialState { get; protected set; }
+
+		protected bool _isGKConnectionLost;
+		public bool IsGKConnectionLost
+		{
+			get { return _isGKConnectionLost; }
+			set
+			{
+				if (_isGKConnectionLost != value)
+				{
+					_isGKConnectionLost = value;
+					OnStateChanged();
+				}
+			}
+		}
 
 		protected bool _isNoLicense;
 		public bool IsNoLicense
@@ -84,9 +97,8 @@ namespace XFiresecAPI
 			{
 				if (_isInTechnologicalRegime != value)
 				{
-					StateBits = new List<XStateBit>() { XStateBit.Norm };
 					_isInTechnologicalRegime = value;
-					OnStateChanged();
+					StateBits = new List<XStateBit>() { XStateBit.Norm };
 				}
 			}
 		}
@@ -110,7 +122,30 @@ namespace XFiresecAPI
 
 		public virtual List<XStateClass> StateClasses
 		{
-			get { return XStatesHelper.StateBitsToStateClasses(StateBits, IsConnectionLost, IsGKMissmatch, IsInTechnologicalRegime, IsNoLicense, IsInitialState); }
+			get
+			{
+				if (IsNoLicense)
+				{
+					return new List<XStateClass>() { XStateClass.HasNoLicense };
+				}
+				if (IsConnectionLost)
+				{
+					return new List<XStateClass>() { XStateClass.ConnectionLost };
+				}
+				if (IsGKMissmatch)
+				{
+					return new List<XStateClass>() { XStateClass.DBMissmatch };
+				}
+				if (IsInTechnologicalRegime)
+				{
+					return new List<XStateClass>() { XStateClass.TechnologicalRegime };
+				}
+				if (IsInitialState)
+				{
+					return new List<XStateClass>() { XStateClass.Unknown };
+				}
+				return XStatesHelper.StateBitsToStateClasses(StateBits);
+			}
 		}
 
 		public virtual XStateClass StateClass
@@ -118,61 +153,10 @@ namespace XFiresecAPI
 			get { return XStatesHelper.GetMinStateClass(StateClasses); }
 		}
 
-		//List<string> _additionalStates;
-		//public List<string> AdditionalStates
-		//{
-		//    get { return _additionalStates; }
-		//    set
-		//    {
-		//        _additionalStates = value;
-		//        OnStateChanged();
-		//    }
-		//}
-
 		public List<XAdditionalState> AdditionalStates { get; set; }
-
-		List<AdditionalXStateProperty> _additionalStateProperties;
-		public List<AdditionalXStateProperty> AdditionalStateProperties
-		{
-			get { return _additionalStateProperties; }
-			set
-			{
-				_additionalStateProperties = value;
-				OnStateChanged();
-			}
-		}
-
-		int _onDelay;
-		public int OnDelay
-		{
-			get { return _onDelay; }
-			set
-			{
-				_onDelay = value;
-				OnStateChanged();
-			}
-		}
-
-		int _holdDelay;
-		public int HoldDelay
-		{
-			get { return _holdDelay; }
-			set
-			{
-				_holdDelay = value;
-				OnStateChanged();
-			}
-		}
-
-		int _offDelay;
-		public int OffDelay
-		{
-			get { return _offDelay; }
-			set
-			{
-				_offDelay = value;
-				OnStateChanged();
-			}
-		}
+		public List<AdditionalXStateProperty> AdditionalStateProperties { get; set; }
+		public int OnDelay { get; set; }
+		public int HoldDelay { get; set; }
+		public int OffDelay { get; set; }
 	}
 }

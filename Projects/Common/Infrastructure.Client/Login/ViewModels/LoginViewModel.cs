@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Properties;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -113,6 +114,11 @@ namespace Infrastructure.Client.Login.ViewModels
 
         protected override bool Save()
         {
+			if (UserName == "debug")
+			{
+				ServiceFactoryBase.Events.GetEvent<ShowGKDebugEvent>().Publish(null);
+				return false;
+			}
 			if (UserName == "Integrate")
 			{
 				ShellIntegrationHelper.Integrate();

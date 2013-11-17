@@ -1,4 +1,4 @@
-﻿using Infrastructure.Common;
+using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.TreeList;
 

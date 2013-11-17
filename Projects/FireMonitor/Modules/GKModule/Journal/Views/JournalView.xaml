@@ -10,99 +10,100 @@
 
     <Grid>
         <Grid.RowDefinitions>
-        <RowDefinition Height="*" />
-        <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                    <DataGridTextColumn Header="Системная дата" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                    <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
-                    <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" MinWidth="40" MaxWidth="40"  />
-                    <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
-                    <DataGridTemplateColumn Header="Объект" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center"/>
-                                    <TextBlock Margin="2" VerticalAlignment="Center">
-				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTemplateColumn Header="Событие" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
+                <DataGridTemplateColumn Header="Объект" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
+                                <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
+				                    <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}" IsEnabled="{Binding CanShow}">
 					                    <TextBlock Text="{Binding PresentationName}" />
 				                    </Hyperlink>
                                 </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto"/>
-                    <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed"/>
-                </DataGrid.Columns>
-                <DataGrid.RowStyle>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Style.Setters>
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding ShowOnPlanCommand}" >
-                                            <MenuItem.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </MenuItem.Header>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding ShowObjectCommand}" >
-                                            <MenuItem.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                            </MenuItem.Header>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style.Setters>
-                    </Style>
-                </DataGrid.RowStyle>
-                <DataGrid.CellStyle>
-                    <Style TargetType="{x:Type DataGridCell}">
-                        <Style.Setters>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                            <ContentPresenter VerticalAlignment="Center" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                                <Setter Property="Foreground" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.CellStyle>
-            </DataGrid>
-            <StackPanel Visibility="Collapsed">
-                <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked" IsChecked="{Binding ShowIP, Mode=OneWay}"/>
-                <CheckBox Content="Показывать Ip" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked" IsChecked="{Binding ShowSubsystem, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTextColumn Header="Объект из БД" Binding="{Binding JournalItem.ObjectName}" Width="Auto" />-->
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" Width="Auto" />
+                <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto" />
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed" />
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Setters>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding ShowOnPlanCommand}" >
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <MenuItem Command="{Binding ShowObjectCommand}" >
+                                        <MenuItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
+        <StackPanel Visibility="Collapsed">
+            <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked" IsChecked="{Binding ShowIP, Mode=OneWay}"/>
+            <CheckBox Content="Показывать Ip" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked" IsChecked="{Binding ShowSubsystem, Mode=OneWay}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
@@ -111,33 +112,45 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="18" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="18" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Системная Дата" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата в системе" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Состояния" />
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Класс состояния" />
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Объект" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Пользователь" />
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="IP-адрес ГК" />
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Подсистема" />
                 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
+                
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                    <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+                </StackPanel>
+                
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
-                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
-                <TextBlock Grid.Row="6" Grid.Column="1" Margin="2">
-				    <Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">
-					    <TextBlock Text="{Binding PresentationName}" />
-				    </Hyperlink>
-                </TextBlock>
+                
+                <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                    <Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
+                    <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
+				        <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding CanShow}">
+					        <TextBlock Text="{Binding PresentationName}" />
+				        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalItem.UserName}" Width="Auto" />
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" />
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" />
             </Grid>
             <Grid Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
@@ -150,13 +163,11 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Запись ГК" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Запись КАУ" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Компонент ГК" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Компонент ГК" />
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKNo}" Margin="2" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.UNUSED_KAUNo}" Margin="2" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.InternalJournalItem.GKObjectNo}" Margin="2" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.GKJournalRecordNo}" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.GKObjectNo}" Margin="2" />
             </Grid>
         </StackPanel>
-        </Grid>
+    </Grid>
 </UserControl>

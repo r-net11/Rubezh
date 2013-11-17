@@ -1,10 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using GKModule.ViewModels;
 using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace GKModule.DeviceProperties
 {

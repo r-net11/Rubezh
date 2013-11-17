@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -77,14 +77,22 @@ namespace FiresecClient
 			}
 			DeviceConfiguration.Reorder();
 
-			InitializeMissingDefaultProperties();
+			InitializeProperties();
             Invalidate();
 		}
 
-		public static void InitializeMissingDefaultProperties()
+		public static void InitializeProperties()
 		{
 			foreach (var device in Devices)
 			{
+				foreach (var property in device.Properties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
+				foreach (var property in device.DeviceProperties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
 				device.InitializeDefaultProperties();
 			}
 		}
@@ -108,7 +116,7 @@ namespace FiresecClient
 		public static string GetIpAddress(XDevice device)
 		{
 			XDevice gkDevice = null;
-            switch (device.Driver.DriverType)
+            switch (device.DriverType)
             {
                 case XDriverType.GK:
                     gkDevice = device;
@@ -131,7 +139,7 @@ namespace FiresecClient
 
 		public static bool IsManyGK()
 		{
-			return DeviceConfiguration.Devices.Where(x => x.Driver.DriverType == XDriverType.GK).Count() > 1;
+			return DeviceConfiguration.Devices.Where(x => x.DriverType == XDriverType.GK).Count() > 1;
 		}
 	}
 }

@@ -1,9 +1,6 @@
-﻿using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.TreeList;
+﻿using System;
 using FiresecAPI.Models;
-using FiresecClient;
-using System.Linq;
-using System;
+using Infrastructure.Common.TreeList;
 
 namespace LayoutModule.ViewModels
 {
@@ -42,7 +39,6 @@ namespace LayoutModule.ViewModels
 					_isActiveChanged(this);
 			}
 		}
-
 
 		public void Update()
 		{

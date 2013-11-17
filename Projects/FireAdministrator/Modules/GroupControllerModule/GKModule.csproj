@@ -71,21 +71,13 @@
     <Compile Include="Converters\LibraryXStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
-    <Compile Include="Devices\ViewModels\DeviceTreeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
+    <Compile Include="Devices\ViewModels\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
     <Compile Include="Devices\ViewModels\ObjectViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\DeviceSelectationViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\PumpDeviceViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PumpStation\PumpStationViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
-    <Compile Include="Devices\Views\PumpStation\DeviceSelectationView.xaml.cs">
-      <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\PumpStation\PumpStationView.xaml.cs">
-      <DependentUpon>PumpStationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
@@ -113,11 +105,7 @@
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KauBinConfigurationReader.cs" />
-    <Compile Include="GkBinConfigurationReader.cs" />
-    <Compile Include="BinConfigurationWriter.cs" />
     <Compile Include="Converters\ClauseConditionConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="DeviceLibrary\ImageConverters.cs" />
     <Compile Include="DeviceLibrary\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="DeviceLibrary\ViewModels\XDeviceViewModel.cs" />
@@ -134,10 +122,10 @@
     <Compile Include="DeviceLibrary\Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\DeviceConfigurationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ConfigurationCompareViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceConfigurationView.xaml.cs">
-      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
+      <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
@@ -200,6 +188,7 @@
     </Compile>
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
+    <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
@@ -228,11 +217,9 @@
       <DependentUpon>ParameterTemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
-    <Compile Include="ParametersHelper.cs" />
     <Compile Include="Diagnostics\Converters\BytesToStringConverter.cs" />
-    <Compile Include="Diagnostics\ViewModels\BinaryObjectViewModel.cs" />
+    <Compile Include="Diagnostics\ViewModels\DescriptorViewModel.cs" />
     <Compile Include="Diagnostics\ViewModels\DatabasesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceBytesHelper.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
@@ -403,14 +390,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\PumpStation\DeviceSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\PumpStation\PumpStationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\RSR2NewDeviceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -419,7 +398,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DeviceConfigurationView.xaml">
+    <Page Include="Devices\Views\ConfigurationCompareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -609,10 +588,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.GK\Common.GK.csproj">
-      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
-      <Name>Common.GK</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
@@ -636,6 +611,10 @@
     <ProjectReference Include="..\..\..\Common\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>

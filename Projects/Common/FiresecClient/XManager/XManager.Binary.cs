@@ -21,17 +21,17 @@ namespace FiresecClient
 				zone.KauDatabaseParent = null;
 				zone.GkDatabaseParent = null;
 
-				var kauParents = new HashSet<XDevice>();
+				var gkParents = new HashSet<XDevice>();
 				foreach (var device in zone.Devices)
 				{
-					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.IsKauOrRSR2Kau);
-					kauParents.Add(kauParent);
+					var gkParent = device.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+					gkParents.Add(gkParent);
 				}
 
-				var kauDevice = kauParents.FirstOrDefault();
-				if (kauDevice != null)
+				var gkDevice = gkParents.FirstOrDefault();
+				if (gkDevice != null)
 				{
-					zone.GkDatabaseParent = kauDevice.Parent;
+					zone.GkDatabaseParent = gkDevice;
 				}
 			}
 		}
@@ -40,17 +40,16 @@ namespace FiresecClient
 		{
 			foreach (var device in Devices)
 			{
-				device.ClearBinaryData();
+				device.ClearDescriptor();
 			}
 			foreach (var zone in Zones)
 			{
-				zone.ClearBinaryData();
-                zone.InputObjects.Add(zone);
-				zone.OutputObjects.Add(zone);
+				zone.ClearDescriptor();
+				LinkXBasees(zone, zone);
 			}
 			foreach (var direction in Directions)
 			{
-				direction.ClearBinaryData();
+				direction.ClearDescriptor();
 			}
 
             foreach (var device in Devices)
@@ -59,18 +58,15 @@ namespace FiresecClient
                 {
 					foreach (var zone in clause.Zones)
 					{
-                        AddInputOutputObject(device.InputObjects, zone);
-						AddInputOutputObject(zone.OutputObjects, device);
+						LinkXBasees(device, zone);
 					}
                     foreach (var clauseDevice in clause.Devices)
                     {
-                        AddInputOutputObject(device.InputObjects, clauseDevice);
-                        AddInputOutputObject(clauseDevice.OutputObjects, device);
+						LinkXBasees(device, clauseDevice);
                     }
 					foreach (var direction in clause.Directions)
                     {
-						AddInputOutputObject(device.InputObjects, direction);
-						AddInputOutputObject(direction.OutputObjects, device);
+						LinkXBasees(device, direction);
                     }
                 }
             }
@@ -79,8 +75,7 @@ namespace FiresecClient
 			{
 				foreach (var device in zone.Devices)
 				{
-					AddInputOutputObject(zone.InputObjects, device);
-					AddInputOutputObject(device.OutputObjects, zone);
+					LinkXBasees(zone, device);
 				}
 			}
 
@@ -88,14 +83,12 @@ namespace FiresecClient
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					AddInputOutputObject(direction.InputObjects, zone);
-					AddInputOutputObject(zone.OutputObjects, direction);
+					LinkXBasees(direction, zone);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					AddInputOutputObject(direction.InputObjects, device);
-					AddInputOutputObject(device.OutputObjects, direction);
+					LinkXBasees(direction, device);
 				}
 			}
 		}
@@ -136,8 +129,6 @@ namespace FiresecClient
 				var inputZone = direction.InputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
-					if (inputZone.KauDatabaseParent != null)
-						direction.GkDatabaseParent = inputZone.KauDatabaseParent.Parent;
 					if (inputZone.GkDatabaseParent != null)
 						direction.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
@@ -145,18 +136,24 @@ namespace FiresecClient
 				var inputDevice = direction.InputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
-					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+					direction.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 
 				var outputDevice = direction.OutputDevices.FirstOrDefault();
 				if (outputDevice != null)
 				{
-					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
+					direction.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 			}
 		}
 
-        static void AddInputOutputObject(List<XBinaryBase> objects, XBinaryBase newObject)
+		public static void LinkXBasees(XBase inputXBase, XBase outputXBase)
+		{
+			AddInputOutputObject(inputXBase.InputXBases, outputXBase);
+			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);
+		}
+
+        static void AddInputOutputObject(List<XBase> objects, XBase newObject)
         {
             if (!objects.Contains(newObject))
                 objects.Add(newObject);

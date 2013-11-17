@@ -21,9 +21,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<string> PermissionStrings { get; set; }
-
-		[Obsolete]
-		[DataMember]
-		public UInt64 Id { get; set; }
     }
 }

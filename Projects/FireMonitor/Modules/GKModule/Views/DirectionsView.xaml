@@ -5,9 +5,7 @@
     xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
     xmlns:Views="clr-namespace:GKModule.Views"
     xmlns:Converters="clr-namespace:GKModule.Converters" >
-<UserControl.Resources>
-    <Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-</UserControl.Resources>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition />
@@ -17,7 +15,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Row="0" Grid.Column="0" Margin="2" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedDirection.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -78,24 +76,37 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Задержка">
+                <DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+                            <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
+                                <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="Auto" MinWidth="100" Header="Удержание">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-                            <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
+                <DataGridTemplateColumn Width="Auto" Header="НС" SortMemberPath="Direction.IsNS">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="НС" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 
-		<DataGrid Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding OutputDevices}" SelectedItem="{Binding SelectedOutputDevice}">
+        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedOutputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -107,11 +118,14 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="250" MinWidth="250" Header="Выходные устройства">
+				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Выходные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Views:DeviceView />
-						</DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
@@ -121,12 +135,33 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding Device.Description}" Header="Примечание" />
+                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
 			</DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <Views:DeviceStateView />
+                            </StackPanel>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
 		</DataGrid>
 
-		<DataGrid Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding InputDevices}" SelectedItem="{Binding SelectedInputDevice}">
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding InputDevices}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedInputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -138,33 +173,57 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="250" MinWidth="250" Header="Входные устройства">
+				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Views:DeviceView />
-						</DataTemplate>
+							<StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Device.PresentationAddress}" />
+							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2"/>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
-				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding Device.Description}" Header="Примечание" />
+                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
 			</DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <Views:DeviceStateView />
+                            </StackPanel>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
 		</DataGrid>
 
-		<DataGrid Grid.Row="1" Grid.Column="0" Margin="2" ItemsSource="{Binding InputZones}">
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="2">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="Auto" Header="№">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -180,24 +239,24 @@
                                         <MenuItem Command="{Binding SetIgnoreCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Отключить" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Отключить" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding ResetIgnoreCommand}" >
+                                        <MenuItem Command="{Binding ResetIgnoreCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Снять отключение" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Снять отключение" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding ResetFireCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Сбросить" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Сбросить" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
@@ -205,16 +264,16 @@
                                         <MenuItem Command="{Binding ShowOnPlanCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Показать на плане" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <MenuItem Command="{Binding ShowPropertiesCommand}" >
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                                                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
+                                                    <TextBlock Text="Свойства" VerticalAlignment="Center" Margin="2" />
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
@@ -227,8 +286,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn MinWidth="100" Binding="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Header="Состояние" />
-			</DataGrid.Columns>
+				<DataGridTemplateColumn Header="Состояние" MinWidth="100" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Width="16" Source="{Binding StateType, Converter={StaticResource XStateTypeToIconConverter}}" />
+                                <TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

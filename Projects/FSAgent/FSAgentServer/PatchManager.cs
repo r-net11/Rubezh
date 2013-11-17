@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Infrastructure.Common;
 using Common;
+using GKProcessor;
 
 namespace FSAgentServer
 {
@@ -14,30 +15,12 @@ namespace FSAgentServer
 		{
 			try
 			{
-				Patch1();
+				Patcher.Patch();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "PatchManager.Patch");
 			}
-		}
-
-		static void Patch1()
-		{
-			var patchNo = PatchHelper.GetPatchNo("FSAgent");
-			if (patchNo > 0)
-				return;
-
-			if (Directory.Exists("Pictures"))
-			{
-				Directory.Delete("Pictures", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
-
-			PatchHelper.SetPatchNo("FSAgent", 1);
 		}
 	}
 }

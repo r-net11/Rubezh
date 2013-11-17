@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Win32;
-using Infrastructure;
-using FiresecClient;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using System.IO;
-using Infrastructure.Common;
 using Common;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Ionic.Zip;
-using System.Diagnostics;
+using Microsoft.Win32;
 using XFiresecAPI;
 
 namespace FireAdministrator.ViewModels
@@ -118,7 +117,6 @@ namespace FireAdministrator.ViewModels
 			if (XManager.Directions.Count > 0)
 				maxDirectionNo = XManager.Directions.Max(x => x.No);
 
-
 			if (XDeviceConfiguration == null)
 				XDeviceConfiguration = new XDeviceConfiguration();
 			if (PlansConfiguration == null)
@@ -130,9 +128,33 @@ namespace FireAdministrator.ViewModels
 			XDeviceConfiguration.Update();
 			PlansConfiguration.Update();
 
-			foreach (var device in XDeviceConfiguration.RootDevice.Children)
+			foreach (var gkDevice in XDeviceConfiguration.RootDevice.Children)
 			{
-				XManager.DeviceConfiguration.RootDevice.Children.Add(device);
+				var ipAddress = "";
+				var ipProperty = gkDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				if (ipProperty != null)
+				{
+					ipAddress = ipProperty.StringValue;
+				}
+				var existingDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
+				if (existingDevice != null)
+				{
+					foreach (var device in gkDevice.Children)
+					{
+						var driver = XManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+						if (driver.DriverType == XDriverType.KAU || driver.DriverType == XDriverType.RSR2_KAU)
+						{
+							if (!existingDevice.Children.Any(x => x.Driver != null && (x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress))
+							{
+								existingDevice.Children.Add(device);
+							}
+						}
+					}
+				}
+				else
+				{
+					XManager.DeviceConfiguration.RootDevice.Children.Add(gkDevice);
+				}
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{

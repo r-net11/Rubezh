@@ -1,18 +1,4 @@
-BuildScripts/bin
+﻿BuildScripts/bin/GK
+BuildScripts/bin/Integration
 buildlog.xml
-/scktsrvr.lnk
-/build.bat
-/FiresecService.lnk
-/Solution - FireAdministrator.lnk
-/Solution - FireMonitor.lnk
-/Solution - FiresecService.lnk
-/Projects/FireAdministrator/Modules/LibraryModule/m1trered.tmp_proj
-/Tasks.lnk
-/big_config.fsc2
-/Documentation/~$Tasks.ods
-/startup.bat
-/my_config.fsc2
-/Other/Images
-/Other/SVG Images
-/3rdParty/Firesec/Saved configurations FS2/test.fscp
 Documents/Manual/Ñîñòîÿíèÿ.docx

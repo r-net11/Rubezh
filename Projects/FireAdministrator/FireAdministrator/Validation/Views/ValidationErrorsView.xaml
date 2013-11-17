@@ -8,7 +8,6 @@
         <Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
         <Converters:ErrorLevelToStringConverter x:Key="ErrorLevelToStringConverter" />
     </UserControl.Resources>
-    
     <Grid Height="200" Margin="5, 0, 0, 5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -21,8 +20,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ImageSource}" Width="16" Margin="1 0 0 0"/>
-                                    <TextBlock Margin="2" Text="{Binding Source}"/>
+                                    <Image Source="{Binding ImageSource}" Width="16" Margin="1 0 0 0" />
+                                    <TextBlock Margin="2" Text="{Binding Source}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -33,7 +32,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Rectangle Width="100" Height="30" Fill="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"
-                                    ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}"/>
+                                    ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -44,9 +43,8 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Column="1" >
-            <Controls:ToolBarButton Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
-            <Controls:ToolBarButton Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/Edit.png" Height="32" Width="32" />
+            <Controls:ToolBarButton ToolTip="Закрыть панель валидации" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+            <Controls:ToolBarButton ToolTip="Настройка фильтра ошибок" Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/settings.png" Height="32" Width="32" />
         </StackPanel>
-        
     </Grid>
 </UserControl>

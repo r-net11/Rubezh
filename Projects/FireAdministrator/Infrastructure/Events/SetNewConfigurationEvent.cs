@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {

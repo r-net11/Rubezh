@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 
+
 namespace FiresecService
 {
 	public static class Bootstrapper
@@ -23,7 +24,6 @@ namespace FiresecService
 			try
 			{
 				Environment.CurrentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-				PatchManager.Patch();
 				FiresecDB.DatabaseHelper.ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("Firesec.sdf") + ";Password=adm;Max Database Size=4000";
 				Logger.Trace(SystemInfo.GetString());
 				var resourceService = new ResourceService();

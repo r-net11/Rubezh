@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using Common.GK;
-using Firesec_50;
+using System.Windows.Input;
 using FiresecAPI.XModels;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using System.ComponentModel;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 
 namespace GKModule.ViewModels
@@ -219,7 +218,7 @@ namespace GKModule.ViewModels
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запись параметров");
-			DatabaseManager.Convert();
+			DescriptorsManager.Create();
 			var i = 0;
 			foreach (var device in devices)
 			{
@@ -239,7 +238,7 @@ namespace GKModule.ViewModels
 		{
 			ParametersHelper.ErrorLog = "";
 			LoadingService.Show("Запрос параметров");
-			DatabaseManager.Convert();
+			DescriptorsManager.Create();
 			var i = 0;
 			foreach (var device in devices)
 			{
@@ -293,7 +292,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return SelectedDevice != null && DriverCopy != null && SelectedDevice.Device.Driver.DriverType == DriverCopy.DriverType && SelectedDevice.Children.Count() == 0;
+			return SelectedDevice != null && DriverCopy != null && SelectedDevice.Device.DriverType == DriverCopy.DriverType && SelectedDevice.Children.Count() == 0;
 		}
 
 		public RelayCommand PasteAllCommand { get; private set; }

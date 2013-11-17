@@ -1,61 +1,63 @@
-﻿using System;
+﻿#define LOCALCONFIG
+//#define SETCONFIGTOFILE
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using Common;
-using Common.GK;
 using FiresecClient;
-using Infrastructure.Common.Windows;
+using GKProcessor;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
+using Common;
 
 namespace GKProcessor
 {
 	public class GkBinConfigurationReader
 	{
-		public XDeviceConfiguration DeviceConfiguration;
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-
-		public void ReadConfiguration(XDevice gkDevice)
+		public XDeviceConfiguration DeviceConfiguration;
+		
+#if !LOCALCONFIG
+		public bool ReadConfiguration(XDevice gkDevice)
 		{
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			var rootDevice = new XDevice()
+			DeviceConfiguration.RootDevice = new XDevice()
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			DeviceConfiguration.RootDevice = rootDevice;
-
 			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
-
-			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", ushort.MaxValue + 1);
-
+			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", 50000);
 			ushort descriptorNo = 0;
+#if SETCONFIGTOFILE
+			var allBytes = new List<List<byte>>();
+#endif
+			LoadingService.Show("Чтение конфигурации");
 			while (true)
 			{
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
-
-				byte packNo = 1;
-				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
-				var data = new List<byte>(descriptorNoBytes);
-				data.Add(packNo);
+				const byte packNo = 1;
+				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
 				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
 				var bytes = sendResult.Bytes;
+#if SETCONFIGTOFILE
+				allBytes.Add(bytes);
+#endif
 				if (sendResult.HasError || bytes.Count == 0)
-					break;
-
+				{
+					MessageBoxService.ShowError("Возникла ошибка при чтении объекта " + descriptorNo);
+					LoadingService.SaveClose();
+					return false;
+				}
 				if (bytes.Count < 5)
 					break;
 
-				var inputDescriptorNo = BytesHelper.SubstructShort(bytes, 0);
-				var inputPackNo = bytes[2];
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
 
@@ -68,59 +70,98 @@ namespace GKProcessor
 					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
 				}
 			}
-
+#if SETCONFIGTOFILE
+			/* Опция включения записи конфигурации в файл */
+			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
+#endif
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
 			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
 			{
 				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
 			}
-			LoadingService.SaveClose();
-
 			XManager.UpdateConfiguration();
+			LoadingService.SaveClose();
+			return true;
 		}
-
-		void Parce(List<byte> bytes, int descriptorNo)
+#endif
+#if LOCALCONFIG
+		#region Чтение конфигурации из байтового потока
+		public bool ReadConfiguration(XDevice device)
 		{
+			IpAddress = device.GetGKIpAddress();
+			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
+			ControllerDevices = new Dictionary<ushort, XDevice>();
+			DeviceConfiguration = new XDeviceConfiguration();
+			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			var rootDevice = new XDevice()
+			{
+				Driver = rootDriver,
+				DriverUID = rootDriver.UID
+			};
+			DeviceConfiguration.RootDevice = rootDevice;
+			ushort descriptorNo = 0;
+			int count = 0;
+			LoadingService.Show("Чтение конфигурации");
+			while (true)
+			{
+				descriptorNo++;
+				byte packNo = 1;
+				var descriptorNoBytes = new List<byte>(BitConverter.GetBytes(descriptorNo));
+				var data = new List<byte>(descriptorNoBytes);
+				data.Add(packNo);
+				var bytes = allbytes[count];
+				count++;
+				if (bytes.Count < 5)
+					break;
+				if (bytes[3] == 0xff && bytes[4] == 0xff)
+					break;
+				Parce(bytes.Skip(3).ToList(), descriptorNo);
+			}
+			XManager.UpdateConfiguration();
+			LoadingService.SaveClose();
+			return true;
+		}
+		#endregion
+#endif
+		void Parce(List<byte> bytes, int descriptorNo)
+		 {
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
-
-			var letters = new List<byte>();
-			for (int i = 8; i <= 28; i++)
-			{
-				byte letter = (byte)bytes[i];
-				letters.Add(letter);
-			}
-			
-			var memoryStream = new MemoryStream(letters.ToArray());
-			var description = memoryStream.ToString();
-			description = Encoding.GetEncoding(1251).GetString(letters.ToArray());
-
+			if(internalType == 0)
+				return;
+			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)
-					driver = XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau);
+				{
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+					if (bytes[0x3a] == 1)
+					{
+						driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+					}
+				}
 				if (driver.DriverType == XDriverType.GKIndicator && descriptorNo > 14)
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
 
-				var device = new XDevice()
+				var shleifNo = (byte)(physicalAdress / 256) + 1;
+				var device = new XDevice
 				{
 					Driver = driver,
 					DriverUID = driver.UID,
 					IntAddress = (byte)(physicalAdress % 256),
-					ShleifNo = (byte)(physicalAdress / 256 + 1),
 				};
 				if (driver.DriverType == XDriverType.GK)
 				{
-					var ipAddressProperty = new XProperty()
+					var ipAddressProperty = new XProperty
 					{
 						Name = "IPAddress",
 						StringValue = IpAddress
 					};
 					device.Properties.Add(ipAddressProperty);
-
+					device.Parent = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.System);
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -128,53 +169,74 @@ namespace GKProcessor
 				if (driver.IsKauOrRSR2Kau)
 				{
 					device.IntAddress = (byte)(controllerAdress % 256);
-					var modeProperty = new XProperty()
+					var modeProperty = new XProperty
 					{
 						Name = "Mode",
 						Value = (byte)(controllerAdress / 256)
 					};
-					device.Properties.Add(modeProperty);
-
+					device.DeviceProperties.Add(modeProperty);
+					device.Parent = GkDevice;
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
+					for (int i = 0; i < 8; i++)
+					{
+						var shleif = new XDevice();
+						shleif.Driver = driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+						shleif.DriverUID = shleif.Driver.UID;
+						shleif.IntAddress = (byte)(i + 1);
+						shleif.Parent = device;
+						device.Children.Add(shleif);
+					}
 				}
-				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau)
+				if (driver.DriverType != XDriverType.GK && !driver.IsKauOrRSR2Kau && driver.DriverType != XDriverType.System)
 				{
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
-						controllerDevice.Value.Children.Add(device);
+						if((1 <= shleifNo && shleifNo <= 8)&&(physicalAdress != 0))
+						{
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+							shleif.Children.Add(device);
+							device.Parent = shleif;
+						}
+						else
+						{
+							if (controllerDevice.Value.Driver.DriverType == XDriverType.GK)
+								device.IntAddress = (byte) (controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 2);
+							else
+								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
+							controllerDevice.Value.Children.Add(device);
+							device.Parent = controllerDevice.Value;
+						}
 					}
 				}
 				DeviceConfiguration.Devices.Add(device);
 				return;
 			}
 
-			ushort no = 0;
-			var descriptionParts = description.Split(new string[1] { " - " }, StringSplitOptions.None);
-			if (descriptionParts.Count() == 2)
-			{
-				description = descriptionParts[0];
-				no = (ushort)Int32.Parse(descriptionParts[1]);
-			}
-
 			if (internalType == 0x100)
 			{
+				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
+				description = description.Substring(description.IndexOf("."));
 				var zone = new XZone()
 				{
 					Name = description,
 					No = no
 				};
+				zone.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Zones.Add(zone);
 				return;
 			}
 			if (internalType == 0x106)
 			{
+				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
+				description = description.Substring(description.IndexOf("."));
 				var direction = new XDirection()
 				{
 					Name = description,
 					No = no
 				};
+				direction.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Directions.Add(direction);
 				return;
 			}

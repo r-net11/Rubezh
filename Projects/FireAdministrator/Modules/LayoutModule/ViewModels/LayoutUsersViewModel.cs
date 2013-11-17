@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecClient;
+using System.Linq;
 using FiresecAPI.Models;
-using Infrastructure;
 using FiresecAPI.Models.Layouts;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

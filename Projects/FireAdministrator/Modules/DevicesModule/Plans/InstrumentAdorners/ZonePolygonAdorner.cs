@@ -2,12 +2,12 @@
 using System.Windows.Shapes;
 using DevicesModule.Plans.Designer;
 using DevicesModule.Plans.ViewModels;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
-using DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.InstrumentAdorners
 {

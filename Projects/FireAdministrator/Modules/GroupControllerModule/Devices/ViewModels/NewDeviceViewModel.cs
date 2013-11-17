@@ -3,15 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class NewDeviceViewModel : NewDeviceViewModelBase
 	{
-		static int PreviousShleif = 1;
-
 		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
@@ -24,13 +21,18 @@ namespace GKModule.ViewModels
 					Drivers.Add(driver);
 			}
 
-			if (deviceViewModel.Driver.DriverType == XDriverType.MPT)
+			var driverType = deviceViewModel.Driver.DriverType;
+			if (driverType == XDriverType.MPT || driverType == XDriverType.MRO_2)
 			{
 				Drivers = new ObservableCollection<XDriver>(
 					from XDriver driver in sortedDrivers
-					where driver.DriverType == XDriverType.MPT
+					where driver.DriverType == driverType
 					select driver);
 			}
+
+			var parentShleif = ParentDevice;
+			if (ParentDevice.DriverType == XDriverType.MPT || ParentDevice.DriverType == XDriverType.MRO_2)
+				parentShleif = ParentDevice.Parent;
 
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
@@ -42,51 +44,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				UpdateShleif();
 				OnPropertyChanged("SelectedDriver");
-			}
-		}
-
-		void UpdateShleif()
-		{
-			AvailableShleifs.Clear();
-			if (ParentDevice != null)
-			{
-				var parentShleif = ParentDevice;
-				if (ParentDevice.Driver.DriverType == XDriverType.MPT)
-					parentShleif = ParentDevice.Parent;
-				if (parentShleif.Driver.IsKauOrRSR2Kau)
-				{
-					for (byte i = 1; i <= 8; i++)
-					{
-						AvailableShleifs.Add(i);
-					}
-				}
-				else
-				{
-					AvailableShleifs.Add(1);
-				}
-			}
-
-			if (AvailableShleifs.Any(x => x == PreviousShleif))
-			{
-				SelectedShleif = AvailableShleifs.FirstOrDefault(x => x == PreviousShleif);
-			}
-			else
-			{
-				SelectedShleif = AvailableShleifs.FirstOrDefault();
-			}
-		}
-
-		byte _selectedShleif;
-		public byte SelectedShleif
-		{
-			get { return _selectedShleif; }
-			set
-			{
-				_selectedShleif = value;
-				PreviousShleif = value;
-				OnPropertyChanged("SelectedShleif");
 				UpdateAddressRange();
 			}
 		}
@@ -107,7 +65,7 @@ namespace GKModule.ViewModels
 
 		void UpdateAddressRange()
 		{
-			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice, SelectedShleif);
+			int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, ParentDevice);
 			StartAddress = (byte)(maxAddress % 256);
 		}
 
@@ -117,7 +75,7 @@ namespace GKModule.ViewModels
 
 			for (int i = StartAddress; i < StartAddress + Count * step; i++)
 			{
-				if (ParentDevice.Children.Any(x => x.IntAddress == i && x.ShleifNo == SelectedShleif))
+				if (ParentDevice.Children.Any(x => x.Driver.HasAddress && x.IntAddress == i))
 				{
 					MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return false;
@@ -137,7 +95,7 @@ namespace GKModule.ViewModels
 					return true;
 				}
 
-				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, SelectedShleif, (byte)address);
+				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)address);
 				AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 			}
 			return true;

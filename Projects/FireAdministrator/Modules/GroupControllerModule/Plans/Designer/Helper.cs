@@ -27,17 +27,24 @@ namespace GKModule.Plans.Designer
 				if (!_xdeviceMap.ContainsKey(xdevice.UID))
 					_xdeviceMap.Add(xdevice.UID, xdevice);
 			}
-			//XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
 		}
 		public static void BuildXZoneMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();
-			XManager.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+			foreach (var xzone in XManager.Zones)
+			{
+				if (!_xzoneMap.ContainsKey(xzone.UID))
+					_xzoneMap.Add(xzone.UID, xzone);
+			}
 		}
 		public static void BuildXDirectionMap()
 		{
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
-			XManager.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
+			foreach (var xdirection in XManager.Directions)
+			{
+				if (!_xdirectionMap.ContainsKey(xdirection.UID))
+					_xdirectionMap.Add(xdirection.UID, xdirection);
+			}
 		}
 	
 		public static string GetXZoneTitle(IElementZone element)

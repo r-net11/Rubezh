@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Painters;
 using Infrastructure.Client.Plans.ViewModels;
+using Infrustructure.Plans.Painters;
 
 namespace GKModule.Plans.Designer
 {

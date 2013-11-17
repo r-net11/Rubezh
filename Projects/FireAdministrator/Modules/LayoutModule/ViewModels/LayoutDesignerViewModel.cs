@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Services.Layout;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
-using Xceed.Wpf.AvalonDock;
-using System.IO;
-using System.Threading.Tasks;
-using Infrastructure;
 using System.Collections.Specialized;
-using Xceed.Wpf.AvalonDock.Layout;
-using System.Reflection;
+using System.IO;
+using System.Linq;
+using FiresecAPI.Models.Layouts;
+using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
+using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace LayoutModule.ViewModels
 {

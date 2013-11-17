@@ -4,17 +4,18 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using Common.GK;
+using FiresecAPI;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
-using GKModule.Journal.ViewModels;
 using Microsoft.Win32;
 using FiresecClient;
 using Infrastructure.Events;
 using GKModule.Events;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -30,7 +31,6 @@ namespace GKModule.ViewModels
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-			ExportToPdfCommand = new RelayCommand(OnExportToPdfCommand, CanExportToPdfCommand);
 			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
@@ -54,6 +54,8 @@ namespace GKModule.ViewModels
 				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
 			if (showXArchiveEventArgs.Direction != null)
 				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
+			if (showXArchiveEventArgs.Delay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
 			IsFilterOn = true;
 		}
 
@@ -150,24 +152,6 @@ namespace GKModule.ViewModels
 				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
 				MessageBoxService.ShowException(e);
 			}
-		}
-
-		public RelayCommand ExportToPdfCommand { get; private set; }
-		private void OnExportToPdfCommand()
-		{
-			try
-			{
-				ArchivePdfCreater.Create(JournalItems);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ArchiveViewModel.OnExportToPdfCommand");
-				MessageBoxService.ShowException(e);
-			}
-		}
-		private bool CanExportToPdfCommand()
-		{
-			return JournalItems.Count > 0;
 		}
 
 		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)

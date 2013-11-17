@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using DevicesModule.Plans.Designer;
 
 namespace DevicesModule.ViewModels
 {

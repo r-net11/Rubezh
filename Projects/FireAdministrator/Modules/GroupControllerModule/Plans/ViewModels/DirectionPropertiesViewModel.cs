@@ -54,8 +54,8 @@ namespace GKModule.Plans.ViewModels
 			Guid xdirectionUID = _element.DirectionUID;
 			var createDirectionEventArg = new CreateXDirectionEventArg();
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
-			if (createDirectionEventArg.XDirection != null)
-				_element.DirectionUID = createDirectionEventArg.XDirection.UID;
+			if (createDirectionEventArg.Direction != null)
+				_element.DirectionUID = createDirectionEventArg.Direction.UID;
 			Helper.BuildMap();
 			Helper.SetXDirection(_element);
 			UpdateDirections(xdirectionUID);

@@ -1,8 +1,9 @@
 ﻿using DiagnosticsModule.Views;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Common;
+using System;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -19,7 +20,6 @@ namespace DiagnosticsModule.ViewModels
 		{
 			IsThreadStoping = true;
 		}
-
 		bool IsThreadStoping = false;
 
 		string _text;
@@ -47,13 +47,19 @@ namespace DiagnosticsModule.ViewModels
 			driversView.ShowDialog();
 		}
 
-		int counter = 0;
-
 		public RelayCommand Test1Command { get; private set; }
 		private void OnTest1()
 		{
-			var vm = new PerformanceViewModel();
-			DialogService.ShowModalWindow(vm);
+            try
+            {
+                var a = 0;
+                var x = 1 / a;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e);
+            }
+            //Logger.Error("Tet Error");
 		}
 	}
 }

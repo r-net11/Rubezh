@@ -7,6 +7,7 @@ using FiresecClient;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
@@ -33,6 +34,11 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
+			if (Device.DriverType == XDriverType.Pump && Device.IntAddress == 12)
+			{
+				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, XStateBit.ForbidStart_InManual);
+				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
+			}
 		}
 
 		public bool IsTriStateControl
@@ -49,10 +55,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (DeviceState.StateBits.Contains(XStateBit.Norm))
+				if (!DeviceState.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -67,19 +73,19 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetAutomaticRegime(Device);
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
 		void OnSetManualState()
 		{
-			ObjectCommandSendHelper.SetManualRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetManualRegime(Device);
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
 		void OnSetIgnoreState()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForDevice(Device);
+			ObjectCommandSendHelper.SetIgnoreRegime(Device);
 		}
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
@@ -92,23 +98,29 @@ namespace GKModule.ViewModels
 
 		public bool HasReset
 		{
-			get { return Device.Driver.DriverType == XDriverType.AMP_1 || Device.Driver.DriverType == XDriverType.RSR2_MAP4; }
+			get { return Device.DriverType == XDriverType.AMP_1 || Device.DriverType == XDriverType.RSR2_MAP4; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			ObjectCommandSendHelper.ResetDevice(Device);
+			ObjectCommandSendHelper.Reset(Device);
 		}
 		bool CanReset()
 		{
-			return DeviceState.StateBits.Contains(XStateBit.Fire2) || DeviceState.StateBits.Contains(XStateBit.Fire1);
+			return DeviceState.StateClasses.Contains(XStateClass.Fire2) || DeviceState.StateClasses.Contains(XStateClass.Fire1);
 		}
 
-		#region IsMRO_2M
-		public bool IsMRO_2M
+		#region IsMRO
+		public bool IsMRO
 		{
-			get { return Device.Driver.DriverType == XDriverType.MRO_2; }
+			get
+			{
+#if DEBUG
+				return Device.DriverType == XDriverType.MRO_2;
+#endif
+				return false;
+			}
 		}
 
 		public List<ZoneLogicMROMessageNo> AvailableMROMessageNos
@@ -149,9 +161,23 @@ namespace GKModule.ViewModels
 			var code = 0x80 + (int)XStateBit.TurnOnNow_InManual;
 			var code2 = 0;
 			code2 += ((byte)SelectedMROMessageNo << 1);
-			code2 += ((byte)SelectedMROMessageType << 5);
-			ObjectCommandSendHelper.SendControlCommandMRO(Device, (byte)code, (byte)code2);
+			code2 += ((byte)SelectedMROMessageType << 4);
+			code2 = 18;
+			code2 = 20;
+            code2 = MROCode;
+			Watcher.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
+
+        int _mroCode;
+        public int MROCode
+        {
+            get { return _mroCode; }
+            set
+            {
+                _mroCode = value;
+                OnPropertyChanged("MROCode");
+            }
+        }
 		#endregion
 	}
 }

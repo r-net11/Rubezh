@@ -170,6 +170,7 @@
     <Compile Include="Mail\MailHelper.cs" />
     <Compile Include="ManualPdfHelper.cs" />
     <Compile Include="ObservableRangeCollection.cs" />
+    <Compile Include="Patch\XDeviceLibraryConfigurationPatchHelper.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="RegistryHelper\RegistryHelper.cs" />
     <Compile Include="RegistrySettingsHelper.cs" />
@@ -208,7 +209,6 @@
     <Compile Include="Services\Ribbon\RibbonService.cs" />
     <Compile Include="SeviceRightsHelper.cs" />
     <Compile Include="ShellIntegrationHelper.cs" />
-    <Compile Include="StackTraceHelper.cs" />
     <Compile Include="TreeList\IItemComparer.cs" />
     <Compile Include="TreeList\ITreeList.cs" />
     <Compile Include="TreeList\ITreeNodeModel.cs" />

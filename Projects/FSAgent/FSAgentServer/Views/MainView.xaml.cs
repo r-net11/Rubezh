@@ -50,7 +50,7 @@ namespace FSAgentServer.Views
 		}
 		private void OnClose(object sender, EventArgs e)
 		{
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить драйвер ОПС Firesec-2?") == MessageBoxResult.Yes)
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить драйвер ОПС Firesec?") == MessageBoxResult.Yes)
 			{
 				_window.Close();
 				NotifyIconService.Stop();

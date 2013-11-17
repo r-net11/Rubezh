@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecClient.Itv;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ItvIntegration
 {

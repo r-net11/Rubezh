@@ -8,6 +8,7 @@ using XFiresecAPI;
 using Controls.Converters;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -27,9 +28,13 @@ namespace GKModule.ViewModels
 			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
+			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
+			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowJournalCommand = new RelayCommand(OnShowJournal, CanShowJournal);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 		}
 
 		void OnStateChanged()
@@ -37,7 +42,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceStateViewModel");
 
-			if (Device.Driver.DriverType == XDriverType.MPT)
+			if (Device.DriverType == XDriverType.MPT)
 			{
 				if (DeviceState.StateClass == XStateClass.TurningOn)
 				{
@@ -49,6 +54,16 @@ namespace GKModule.ViewModels
 		public string PresentationZone
 		{
 			get { return XManager.GetPresentationZone(Device); }
+		}
+
+		public string PresentationZoneWithNS
+		{
+			get
+			{
+				if (Device.DriverType == XDriverType.Pump || Device.DriverType == XDriverType.RSR2_Bush)
+					return XManager.GetPresentationZone(Device.NSLogic);
+				return XManager.GetPresentationZone(Device);
+			}
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -70,12 +85,106 @@ namespace GKModule.ViewModels
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
+		public bool CanShowJournal()
+		{
+			return Device.IsRealDevice;
+		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 		}
+		public bool CanShowProperties()
+		{
+			return Device.IsRealDevice;
+		}
+
+		#region Ignore
+		public RelayCommand SetIgnoreCommand { get; private set; }
+		void OnSetIgnore()
+		{
+			ObjectCommandSendHelper.SetIgnoreRegime(Device);
+		}
+		bool CanSetIgnore()
+		{
+			return Device.IsRealDevice && !Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+		}
+
+		public RelayCommand ResetIgnoreCommand { get; private set; }
+		void OnResetIgnore()
+		{
+			ObjectCommandSendHelper.SetAutomaticRegime(Device);
+		}
+		bool CanResetIgnore()
+		{
+			return Device.IsRealDevice && Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+		}
+		#endregion
+
+		#region IgnoreAll
+		public RelayCommand SetIgnoreAllCommand { get; private set; }
+		void OnSetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
+					}
+				}
+			}
+		}
+		bool CanSetIgnoreAll()
+		{
+			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+			{
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+					return false;
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+			}
+			return false;
+		}
+
+		public RelayCommand ResetIgnoreAllCommand { get; private set; }
+		void OnResetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+					}
+				}
+			}
+		}
+		bool CanResetIgnoreAll()
+		{
+			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+			{
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+					return false;
+				var devices = XManager.GetAllDeviceChildren(Device);
+				foreach (var device in devices)
+				{
+					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+						return true;
+				}
+			}
+			return false;
+		}
+		#endregion
 
 		public bool IsBold { get; set; }
 	}

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
@@ -12,11 +13,11 @@ namespace GKModule.ViewModels
 			Title = "Бинарный формат конфигурации";
 
 			Databases = new List<CommonDatabase>();
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				Databases.Add(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseManager.KauDatabases)
+			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
 				Databases.Add(kauDatabase);
 			}
@@ -42,35 +43,34 @@ namespace GKModule.ViewModels
 
 		void InitializeSelectedDB()
 		{
-			BinaryObjects = new List<BinaryObjectViewModel>();
-
-			foreach (var binaryObject in SelectedDatabase.BinaryObjects)
+			Descriptors = new ObservableCollection<DescriptorViewModel>();
+			foreach (var descriptor in SelectedDatabase.Descriptors)
 			{
-				var binObjectViewModel = new BinaryObjectViewModel(binaryObject);
-				BinaryObjects.Add(binObjectViewModel);
+				var binObjectViewModel = new DescriptorViewModel(descriptor);
+				Descriptors.Add(binObjectViewModel);
 			}
-			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
+			SelectedDescriptor = Descriptors.FirstOrDefault();
 		}
 
-		List<BinaryObjectViewModel> _binaryObjects;
-		public List<BinaryObjectViewModel> BinaryObjects
+		ObservableCollection<DescriptorViewModel> _descriptors;
+		public ObservableCollection<DescriptorViewModel> Descriptors
 		{
-			get { return _binaryObjects; }
+			get { return _descriptors; }
 			set
 			{
-				_binaryObjects = value;
-				OnPropertyChanged("BinaryObjects");
+				_descriptors = value;
+				OnPropertyChanged("Descriptors");
 			}
 		}
 
-		BinaryObjectViewModel _selectedBinaryObject;
-		public BinaryObjectViewModel SelectedBinaryObject
+		DescriptorViewModel _selectedDescriptor;
+		public DescriptorViewModel SelectedDescriptor
 		{
-			get { return _selectedBinaryObject; }
+			get { return _selectedDescriptor; }
 			set
 			{
-				_selectedBinaryObject = value;
-				OnPropertyChanged("SelectedBinaryObject");
+				_selectedDescriptor = value;
+				OnPropertyChanged("SelectedDescriptor");
 			}
 		}
 	}

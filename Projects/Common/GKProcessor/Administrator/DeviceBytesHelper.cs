@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Common;
-using Common.GK;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 

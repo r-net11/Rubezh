@@ -8,10 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using System.IO;
-using System.Runtime.Serialization;
-using Common.GK.Journal;
 
 namespace FireAdministrator.ViewModels
 {

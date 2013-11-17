@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using XFiresecAPI;
-using Common.GK;
-using FiresecClient;
 using System.Diagnostics;
+using System.Threading;
 using Common;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace GKProcessor
 {
@@ -45,10 +42,9 @@ namespace GKProcessor
 				{
 					foreach (var device in XManager.DeviceConfiguration.RootDevice.Children)
 					{
-						if (device.Driver.DriverType == XDriverType.GK)
+						if (device.DriverType == XDriverType.GK)
 						{
 							WriteDateTime(device);
-							Trace.WriteLine("TimeSynchronisationHelper");
 						}
 					}
 

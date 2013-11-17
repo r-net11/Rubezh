@@ -6,7 +6,6 @@
     <UserControl.Resources>
         <Converters:XStateClassToJournalColorConverter x:Key="XStateClassToJournalColorConverter" />
     </UserControl.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -17,25 +16,23 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
                 <DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo, Converter={StaticResource JournalYesNoTypeToStringConverter}}" />
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
-                <DataGridTemplateColumn Header="Класс состояния" Width="Auto">
+                <DataGridTemplateColumn Header="Событие"  Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Stretch"/>
-                                <TextBlock Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -64,7 +61,7 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <TextBlock Grid.Row="1" Margin="0 5" Text="{Binding CreationDateTimeString}" Foreground="White"/>
-        <TextBlock Grid.Row="2" Margin="0 5" Text="{Binding RecordsCountString}" Foreground="White"/>
+        <TextBlock Grid.Row="1" Margin="0 5" Text="{Binding CreationDateTimeString}" Foreground="White" />
+        <TextBlock Grid.Row="2" Margin="0 5" Text="{Binding RecordsCountString}" Foreground="White" />
     </Grid>
 </UserControl>

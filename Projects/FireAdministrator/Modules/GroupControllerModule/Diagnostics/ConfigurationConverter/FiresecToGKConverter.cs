@@ -45,7 +45,7 @@ namespace GKModule.Converter
 			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
 			for (int i = 0; i < kauCount; i++)
 			{
-				XManager.AddChild(gkDevice, XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), 0, (byte)(i + 1));
+				XManager.AddChild(gkDevice, XManager.Drivers.FirstOrDefault(x => x.IsKauOrRSR2Kau), (byte)(i + 1));
 			}
 			XManager.UpdateConfiguration();
 		}
@@ -64,7 +64,7 @@ namespace GKModule.Converter
 			XManager.DeviceConfiguration.RootDevice = systemDevice;
 
 			var gkDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-			gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
+			gkDevice = XManager.AddChild(systemDevice, gkDriver, 1);
 			gkDevice.UID = Guid.NewGuid();
 			XManager.DeviceConfiguration.Devices.Add(gkDevice);
 		}
@@ -91,13 +91,16 @@ namespace GKModule.Converter
 				UID = fsDevice.UID,
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = (byte)shleifNo,
 				IntAddress = (byte)(fsDevice.IntAddress & 0xff),
 				Description = fsDevice.Description
 			};
 			XManager.DeviceConfiguration.Devices.Add(device);
-			kauDevice.Children.Add(device);
-			device.Parent = kauDevice;
+			var shleifDevice = kauDevice.Children.FirstOrDefault(x => x.ShleifNo == shleifNo);
+			if (shleifDevice != null)
+			{
+				shleifDevice.Children.Add(device);
+				device.Parent = shleifDevice;
+			}
 
 			foreach (var fsChildDevice in fsDevice.Children)
 			{

@@ -9,6 +9,7 @@ using FiresecClient;
 using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -17,7 +18,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Ribbon;
 
 namespace GKModule.ViewModels
 {
@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
             Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAllEmpty);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
             RegisterShortcuts();
@@ -89,9 +90,9 @@ namespace GKModule.ViewModels
             return SelectedZone != null;
         }
 
-        bool CanDeleteAll()
+        bool CanDeleteAllEmpty()
         {
-            return Zones.Count > 0;
+			return Zones.Where(zone => zone.Zone.IsEmpty).Count() > 0;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -130,6 +131,25 @@ namespace GKModule.ViewModels
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
 				Helper.BuildMap();
+			}
+		}
+
+		public RelayCommand DeleteAllEmptyCommand { get; private set; }
+		void OnDeleteAllEmpty()
+		{
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
+			if (dialogResult == MessageBoxResult.Yes)
+			{
+				var emptyZones = new List<ZoneViewModel>(
+					Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false)
+				);
+				foreach (var emptyZone in emptyZones)
+				{
+					XManager.RemoveZone(emptyZone.Zone);
+					Zones.Remove(emptyZone);
+				}
+				SelectedZone = Zones.FirstOrDefault();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

@@ -1,9 +1,8 @@
 ﻿using System.Windows.Media;
-using FiresecAPI.Models;
+using FiresecAPI.Models.Skud;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;
-using FiresecAPI.Models.Skud;
 
 namespace SkudModule.ViewModels
 {

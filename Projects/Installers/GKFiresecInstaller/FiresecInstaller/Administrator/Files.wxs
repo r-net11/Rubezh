@@ -22,7 +22,7 @@
         <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />        
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
@@ -37,6 +37,17 @@
         <File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
+      </Component>
+
+      <Component Id="Administrator.DB" Guid="5619BD45-25EA-4635-8BBA-4D8E81F06B2F">
+        <File Id="Administrator.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Administrator.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.PLANS_MODULE" Guid="BD07AEDD-C503-4B25-980D-3409EBE75D1A">

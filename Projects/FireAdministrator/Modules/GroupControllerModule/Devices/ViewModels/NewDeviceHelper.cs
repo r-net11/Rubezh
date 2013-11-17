@@ -7,10 +7,10 @@ namespace GKModule.ViewModels
 {
 	public static class NewDeviceHelper
 	{
-		public static byte GetMinAddress(XDriver driver, XDevice device, byte shleifNo)
+		public static byte GetMinAddress(XDriver driver, XDevice device)
 		{
 			XDevice parentDevice = device;
-			if (parentDevice.Driver.DriverType == XDriverType.MPT)
+			if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
 				parentDevice = parentDevice.Parent;
 
 			byte maxAddress = 0;
@@ -38,9 +38,6 @@ namespace GKModule.ViewModels
 						continue;
 				}
 
-				if (child.ShleifNo != shleifNo)
-					continue;
-
 				if (child.Driver.IsGroupDevice)
 				{
 					if (child.IntAddress + child.Driver.GroupDeviceChildrenCount - 1 > maxAddress)
@@ -50,12 +47,12 @@ namespace GKModule.ViewModels
 				if (child.IntAddress > maxAddress)
 					maxAddress = (byte)child.IntAddress;
 
-				if (child.Driver.DriverType == XDriverType.MPT)
+				if (child.DriverType == XDriverType.MPT || child.DriverType == XDriverType.MRO_2)
 				{
-					foreach (var childMPT in child.Children)
+					foreach (var child2 in child.Children)
 					{
-						if (childMPT.IntAddress > maxAddress)
-							maxAddress = (byte)childMPT.IntAddress;
+						if (child2.IntAddress > maxAddress)
+							maxAddress = (byte)child2.IntAddress;
 					}
 				}
 			}
@@ -101,7 +98,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}
@@ -124,7 +121,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}

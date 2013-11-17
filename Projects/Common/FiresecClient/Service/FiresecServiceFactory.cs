@@ -5,7 +5,6 @@ using Common;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
-using Infrastructure.Common.Windows;
 
 namespace FiresecClient
 {

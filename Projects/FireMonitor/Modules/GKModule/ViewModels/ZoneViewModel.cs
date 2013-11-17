@@ -23,6 +23,8 @@ namespace GKModule.ViewModels
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
+			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -63,32 +65,88 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetFireCommand { get; private set; }
 		void OnResetFire()
 		{
-			ObjectCommandSendHelper.ResetZone(Zone);
+			ObjectCommandSendHelper.Reset(Zone);
 		}
 		bool CanResetFire()
 		{
-			return ZoneState.StateBits.Contains(XStateBit.Fire2) || ZoneState.StateBits.Contains(XStateBit.Fire1) || ZoneState.StateBits.Contains(XStateBit.Attention);
+			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
 		}
 
+		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
 		void OnSetIgnore()
 		{
-			ObjectCommandSendHelper.SetIgnoreRegimeForZone(Zone);
+			ObjectCommandSendHelper.SetIgnoreRegime(Zone);
 		}
 		bool CanSetIgnore()
 		{
-            return !ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegimeForZone(Zone);
+			ObjectCommandSendHelper.SetAutomaticRegime(Zone);
 		}
 		bool CanResetIgnore()
 		{
-            return ZoneState.StateBits.Contains(XStateBit.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
+		#endregion
+
+		#region IgnoreAll
+		public RelayCommand SetIgnoreAllCommand { get; private set; }
+		void OnSetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				foreach (var device in Zone.Devices)
+				{
+					if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
+					}
+				}
+			}
+		}
+		bool CanSetIgnoreAll()
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				return false;
+			foreach (var device in Zone.Devices)
+			{
+				if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+			return false;
+		}
+
+		public RelayCommand ResetIgnoreAllCommand { get; private set; }
+		void OnResetIgnoreAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				foreach (var device in Zone.Devices)
+				{
+					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+					}
+				}
+			}
+		}
+		bool CanResetIgnoreAll()
+		{
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				return false;
+			foreach (var device in Zone.Devices)
+			{
+				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					return true;
+			}
+			return false;
+		}
+		#endregion
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()

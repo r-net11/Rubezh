@@ -44,19 +44,19 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SkudModule.dll"));
+			Modules.Add(new ModuleViewModel("SKUDModule.dll"));
+			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 
-			var modulesString = GlobalSettingsHelper.GlobalSettings.Modules.Split('\r', '\n');
-			foreach (var moduleName in modulesString)
-			{
-				if (moduleName != "")
-				{
-					var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
-					if (moduleViewModel != null)
-					{
-						moduleViewModel.IsSelected = true;
-					}
-				}
-			}
+            if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
+                GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
+            foreach (var moduleName in GlobalSettingsHelper.GlobalSettings.ModuleItems)
+            {
+                var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
+                if (moduleViewModel != null)
+                {
+                    moduleViewModel.IsSelected = true;
+                }
+            }
 
 			ManagementConsoleViewModel.Curent.HasChanges = false;
 		}
@@ -199,23 +199,20 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
-			var modulesString = "";
+            GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)
 			{
 				if (moduleViewModel.IsSelected)
 				{
-					modulesString += moduleViewModel.Name + "\r\n";
+                    GlobalSettingsHelper.GlobalSettings.ModuleItems.Add(moduleViewModel.Name);
 				}
 			}
-			if (modulesString.EndsWith("\r\n"))
-				modulesString = modulesString.Remove(modulesString.Length - 2, 2);
-			GlobalSettingsHelper.GlobalSettings.Modules = modulesString;
 
 			GlobalSettingsHelper.Save();
 			ManagementConsoleViewModel.Curent.HasChanges = false;
 		}
 
-		void OnPropertyChanged(string propertyName)
+		new void OnPropertyChanged(string propertyName)
 		{
 			base.OnPropertyChanged(propertyName);
 			ManagementConsoleViewModel.Curent.HasChanges = true;

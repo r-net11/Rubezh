@@ -58,6 +58,7 @@
     <Compile Include="Layout\Views\LayoutPartImageView.xaml.cs">
       <DependentUpon>LayoutPartImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\ShowGKDebugEvent.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">

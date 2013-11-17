@@ -85,8 +85,13 @@
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
-    <Compile Include="Converters\XStateClassToIconConverter2.cs" />
+    <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
+    <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
+      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
@@ -111,15 +116,13 @@
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DeviceControlRegimeToStringConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\JournalItemToIconConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
-    <Compile Include="JournaActionlHelper.cs" />
+    <Compile Include="Helpers\JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchivePdfCreater.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
@@ -144,8 +147,8 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectCommandSendHelper.cs" />
-    <Compile Include="ParameterUpdateHelper.cs" />
+    <Compile Include="Helpers\ObjectCommandSendHelper.cs" />
+    <Compile Include="Helpers\ParameterUpdateHelper.cs" />
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />
@@ -161,7 +164,7 @@
     <Compile Include="Reports\JournalReport.cs" />
     <Compile Include="Reports\JournalReportPdf.cs" />
     <Compile Include="Reports\ReportArchiveFilter.cs" />
-    <Compile Include="ShowOnPlanHelper.cs" />
+    <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="ViewModels\DeviceControlRegime.cs" />
     <Compile Include="ViewModels\DeviceExecutableCommandViewModel.cs" />
     <Compile Include="ViewModels\DeviceParametersViewModel.cs" />
@@ -175,6 +178,9 @@
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DelaysViewModel.cs" />
+    <Compile Include="ViewModels\DelayViewModel.cs" />
+    <Compile Include="ViewModels\DelayDetailsViewModel.cs" />
     <Compile Include="Views\DeviceParametersView.xaml.cs">
       <DependentUpon>DeviceParametersView.xaml</DependentUpon>
     </Compile>
@@ -196,9 +202,15 @@
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DelaysView.xaml.cs">
+      <DependentUpon>DelaysView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DelayDetailsView.xaml.cs">
+      <DependentUpon>DelayDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Watcher\UsersWatchManager.cs" />
-    <Compile Include="Watcher\GKModuleLoader.cs" />
+    <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -254,6 +266,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Diagnostics\Views\DiagnosticsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -277,6 +293,14 @@
     <Page Include="Journal\Views\JournalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DelaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DelayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Resource Include="Reports\DriverCounterReport.xaml">
       <SubType>Designer</SubType>
@@ -341,10 +365,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.GK\Common.GK.csproj">
-      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
-      <Name>Common.GK</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>

@@ -3,7 +3,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using System;
 
 namespace DevicesModule.ViewModels
 {

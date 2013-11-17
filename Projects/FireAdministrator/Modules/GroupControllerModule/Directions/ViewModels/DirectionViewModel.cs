@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -21,6 +22,7 @@ namespace GKModule.ViewModels
 			Zones = new ObservableCollection<DirectionZoneViewModel>();
 			Devices = new ObservableCollection<DirectionDeviceViewModel>();
 			OutputDevices = new ObservableCollection<DeviceViewModel>();
+			NSDevices = new ObservableCollection<DeviceViewModel>();
 			Update();
 		}
 
@@ -46,10 +48,40 @@ namespace GKModule.ViewModels
 				var deviceViewModel = new DeviceViewModel(outputDevice);
 				OutputDevices.Add(deviceViewModel);
 			}
+
+			NSDevices.Clear();
+			{
+				foreach (var nsDeviceUID in Direction.NSDeviceUIDs)
+				{
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					if (device != null)
+					{
+						switch (device.DriverType)
+						{
+							case XDriverType.AM1_T:
+							case XDriverType.Pump:
+							case XDriverType.RSR2_Bush:
+								var deviceViewModel = new DeviceViewModel(device);
+								NSDevices.Add(deviceViewModel);
+								break;
+						}
+					}
+				}
+			}
 		}
 
 		public void Update()
 		{
+			if (Direction.IsNS)
+			{
+				if (!Direction.OutputDevices.All(x => x.DriverType == XDriverType.AM1_T || x.DriverType == XDriverType.Pump || x.DriverType == XDriverType.RSR2_Bush))
+					SetNewOutputDevices(new List<XDevice>());
+			}
+			else
+			{
+				Direction.NSDeviceUIDs = new List<Guid>();
+			}
+
 			InitializeDependences();
 			OnPropertyChanged("Direction");
 			if (Direction.PlanElementUIDs == null)
@@ -61,6 +93,7 @@ namespace GKModule.ViewModels
 		public ObservableCollection<DirectionZoneViewModel> Zones { get; private set; }
 		public ObservableCollection<DirectionDeviceViewModel> Devices { get; private set; }
 		public ObservableCollection<DeviceViewModel> OutputDevices { get; private set; }
+		public ObservableCollection<DeviceViewModel> NSDevices { get; private set; }
 
 		DirectionZoneViewModel _selectedZone;
 		public DirectionZoneViewModel SelectedZone
@@ -95,6 +128,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		DeviceViewModel _selectedNSDevice;
+		public DeviceViewModel SelectedNSDevice
+		{
+			get { return _selectedNSDevice; }
+			set
+			{
+				_selectedNSDevice = value;
+				OnPropertyChanged("SelectedNSDevice");
+			}
+		}
+
 		public void ChangeZones()
 		{
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.InputZones);
@@ -120,6 +164,7 @@ namespace GKModule.ViewModels
 		public void ChangeDevices()
 		{
 			var sourceDevices = new List<XDevice>();
+
 			foreach (var device in XManager.Devices)
 			{
 				if (device.Driver.IsDeviceOnShleif)
@@ -156,20 +201,30 @@ namespace GKModule.ViewModels
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.OutputDevices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
-				foreach (var device in Direction.OutputDevices)
-				{
-					foreach (var clause in device.DeviceLogic.Clauses)
-					{
-						clause.Directions.RemoveAll(x => x == Direction);
-						clause.DirectionUIDs.RemoveAll(x => x == Direction.UID);
-					}
-					device.DeviceLogic.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
-					device.OnChanged();
-				}
-				Direction.OutputDevices.Clear();
+				SetNewOutputDevices(devicesSelectationViewModel.DevicesList);
+				InitializeDependences();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
-				var devices = devicesSelectationViewModel.DevicesList;
-				foreach (var device in devices)
+		public void SetNewOutputDevices(List<XDevice> devices)
+		{
+			foreach (var device in Direction.OutputDevices)
+			{
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
+					clause.Directions.RemoveAll(x => x == Direction);
+					clause.DirectionUIDs.RemoveAll(x => x == Direction.UID);
+				}
+				device.DeviceLogic.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
+				device.OnChanged();
+			}
+			Direction.OutputDevices.Clear();
+
+			Direction.OutputDevices = devices;
+			if (!Direction.IsNS)
+			{
+				foreach (var device in Direction.OutputDevices)
 				{
 					var alreadyHasDirectionClause = false;
 					foreach (var clause in device.DeviceLogic.Clauses)
@@ -201,21 +256,13 @@ namespace GKModule.ViewModels
 						device.OnChanged();
 					}
 				}
-				Direction.OutputDevices = devices;
-
-				InitializeDependences();
-				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-
 
 		public void DeleteOutputDevice(XDevice deviceToRemove)
 		{
 			var devices = new List<XDevice>(Direction.OutputDevices);
 			devices.Remove(deviceToRemove);
-			//Direction.OutputDevices = devices;
-			//InitializeDependences();
-			//ServiceFactory.SaveService.GKChanged = true;
 			foreach (var device in Direction.OutputDevices)
 			{
 				foreach (var clause in device.DeviceLogic.Clauses)
@@ -263,6 +310,41 @@ namespace GKModule.ViewModels
 
 			InitializeDependences();
 			ServiceFactory.SaveService.GKChanged = true;
+		}
+
+		public void ChangeNSDevices()
+		{
+			var sourceDevices = new List<XDevice>();
+			foreach (var device in XManager.Devices)
+			{
+				if ((device.DriverType == XDriverType.Pump && (device.IntAddress <= 8 || device.IntAddress == 12 || device.IntAddress ==  14)) ||
+					device.DriverType == XDriverType.RSR2_Bush || device.DriverType == XDriverType.AM1_T)
+					sourceDevices.Add(device);
+			}
+
+			var nsDevces = new List<XDevice>();
+			foreach (var nsDeviceUID in Direction.NSDeviceUIDs)
+			{
+				var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+				if (nsDevice != null)
+				{
+					nsDevces.Add(nsDevice);
+				}
+			}
+
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(nsDevces, sourceDevices);
+			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			{
+				Direction.NSDeviceUIDs = new List<Guid>();
+				Direction.NSDevices = new List<XDevice>();
+				foreach (var device in devicesSelectationViewModel.DevicesList)
+				{
+					Direction.NSDeviceUIDs.Add(device.UID);
+					Direction.NSDevices.Add(device);
+				}
+				InitializeDependences();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		public string Name

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Common.GK;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using GKProcessor.Events;
@@ -16,11 +15,12 @@ namespace GKProcessor
 
 		void PingNextState()
 		{
-			var binaryObject = GkDatabase.BinaryObjects[pingObjectNo];
-			bool result = GetState(binaryObject.BinaryBase);
+            return;
+			var descriptor = GkDatabase.Descriptors[pingObjectNo];
+			bool result = GetState(descriptor.XBase);
 
 			pingObjectNo++;
-			if (pingObjectNo >= GkDatabase.BinaryObjects.Count)
+			if (pingObjectNo >= GkDatabase.Descriptors.Count)
 			{
 				pingObjectNo = 0;
 				CheckTechnologicalRegime();

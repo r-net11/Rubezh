@@ -68,7 +68,7 @@ namespace XFiresecAPI
 		TurnOn_InManual = 20,
 
 		[DescriptionAttribute("Выключить")]
-		TurnOff_InManual= 21,
+		TurnOff_InManual = 21,
 
 		[DescriptionAttribute("Включить немедленно")]
 		TurnOnNow_InManual = 22,
@@ -79,8 +79,8 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Перевести в режим Отключение")]
 		SetRegime_Off = 24,
 
-        [DescriptionAttribute("Сброс")]
-        Reset = 25,
+		[DescriptionAttribute("Сброс")]
+		Reset = 25,
 
 		[DescriptionAttribute("Резерв")]
 		Reserve2 = 26,

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
 using XFiresecAPI;
@@ -24,7 +21,7 @@ namespace GKModule.Converters
             XDevice device = parameter as XDevice;
             if (device != null)
             {
-                if (device.Driver.DriverType == XDriverType.Valve)
+                if (device.DriverType == XDriverType.Valve)
                 {
                     switch (stateClass)
                     {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDelay : XBinaryBase
+	public class XDelay : XBase
 	{
 		public XDelay()
 		{
@@ -34,20 +33,17 @@ namespace XFiresecAPI
 		[DataMember]
 		public DelayRegime DelayRegime { get; set; }
 
-		public override XBinaryInfo BinaryInfo
+		public override string PresentationName
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Задержка",
-					Name = Name,
-					Address = ""
-				};
-			}
+			get { return Name; }
 		}
 
-		public override string GetBinaryDescription()
+		public override string DescriptorInfo
+		{
+			get { return "Задержка " + Name; }
+		}
+
+		public override string GetDescriptorName()
 		{
 			return Name;
 		}

@@ -1,10 +1,9 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using FS2Api;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using FS2Api;
-using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {

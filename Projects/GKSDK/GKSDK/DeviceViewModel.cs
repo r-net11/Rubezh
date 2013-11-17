@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
 using System.Windows;
+using FiresecAPI.Models;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace GKSDK
 {
-    public class DeviceViewModel : BaseViewModel
-    {
-        public DeviceViewModel(XDevice device)
-        {
-            AddToIgnoreListCommand = new RelayCommand(OnAddToIgnoreList, CanAddToIgnoreList);
-            RemoveFromIgnoreListCommand = new RelayCommand(OnRemoveFromIgnoreList, CanRemoveFromIgnoreList);
-            Device = device;
-            DeviceState = device.DeviceState;
+	public class DeviceViewModel : BaseViewModel
+	{
+		public DeviceViewModel(XDevice device)
+		{
+			AddToIgnoreListCommand = new RelayCommand(OnAddToIgnoreList, CanAddToIgnoreList);
+			RemoveFromIgnoreListCommand = new RelayCommand(OnRemoveFromIgnoreList, CanRemoveFromIgnoreList);
+			Device = device;
+			DeviceState = device.DeviceState;
 			_stateClass = DeviceState.StateClass;
 			DeviceState.StateChanged += new Action(OnStateChanged);
-            Name = Device.Driver.ShortName + " - " + Device.DottedAddress;
+			Name = Device.Driver.ShortName + " - " + Device.DottedAddress;
 
-            DeviceCommands = new List<DeviceCommandViewModel>();
-        }
+			DeviceCommands = new List<DeviceCommandViewModel>();
+		}
 
 		public void SafeCall(Action action)
 		{
@@ -28,14 +29,14 @@ namespace GKSDK
 				Application.Current.Dispatcher.BeginInvoke(action);
 		}
 
-        void OnStateChanged()
-        {
+		void OnStateChanged()
+		{
 			StateClass = DeviceState.StateClass;
-        }
+		}
 
-        public XDevice Device { get; private set; }
-        public XDeviceState DeviceState { get; private set; }
-        public string Name { get; private set; }
+		public XDevice Device { get; private set; }
+		public XDeviceState DeviceState { get; private set; }
+		public string Name { get; private set; }
 
 		XStateClass _stateClass;
 		public XStateClass StateClass
@@ -48,24 +49,24 @@ namespace GKSDK
 			}
 		}
 
-        public RelayCommand AddToIgnoreListCommand { get; private set; }
-        void OnAddToIgnoreList()
-        {
-        }
-        bool CanAddToIgnoreList()
-        {
+		public RelayCommand AddToIgnoreListCommand { get; private set; }
+		void OnAddToIgnoreList()
+		{
+		}
+		bool CanAddToIgnoreList()
+		{
 			return true;
-        }
+		}
 
-        public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
-        void OnRemoveFromIgnoreList()
-        {
-        }
-        bool CanRemoveFromIgnoreList()
-        {
-            return true;
-        }
+		public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
+		void OnRemoveFromIgnoreList()
+		{
+		}
+		bool CanRemoveFromIgnoreList()
+		{
+			return true;
+		}
 
-        public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
-    }
+		public List<DeviceCommandViewModel> DeviceCommands { get; private set; }
+	}
 }

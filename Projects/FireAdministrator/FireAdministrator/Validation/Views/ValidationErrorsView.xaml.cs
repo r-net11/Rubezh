@@ -3,21 +3,16 @@ using Infrastructure;
 
 namespace FireAdministrator.Views
 {
-    public partial class ValidationErrorsView : UserControl
-    {
-        public ValidationErrorsView()
-        {
-            InitializeComponent();
-        }
+	public partial class ValidationErrorsView : UserControl
+	{
+		public ValidationErrorsView()
+		{
+			InitializeComponent();
+		}
 
-        void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ServiceFactory.Layout.ShowFooter(null);
-        }
-
-        private void ToolBarButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-        }
-    }
+		void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			ServiceFactory.Layout.ShowFooter(null);
+		}
+	}
 }

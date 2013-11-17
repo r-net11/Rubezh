@@ -47,21 +47,7 @@ namespace FiresecAPI.Models
 				{
 					user.UID = Guid.NewGuid();
 					result = false;
-					var userRole = UserRoles.FirstOrDefault(x => x.Id == user.RoleId);
-					if (userRole != null)
-					{
-						user.RoleUID = userRole.UID;
-					}
 				}
-			}
-			foreach (var userRole in UserRoles)
-			{
-				userRole.Id = 0;
-			}
-			foreach (var user in Users)
-			{
-				user.RoleId = 0;
-				user.Id = 0;
 			}
 			return result;
 		}

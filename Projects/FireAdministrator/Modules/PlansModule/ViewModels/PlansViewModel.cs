@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
@@ -12,11 +11,10 @@ using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Events;
-using PlansModule.Designer;
 using Infrastructure.Designer.ViewModels;
-using PlansModule.InstrumentAdorners;
+using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using PlansModule.Designer;
 using PlansModule.Designer.DesignerItems;
 
 namespace PlansModule.ViewModels

@@ -1,12 +1,9 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using FiresecAPI.Models.Skud;
-using SkudModule.Designer;
+﻿using System.Collections.Generic;
 using Common;
+using FiresecAPI.Models.Skud;
 using Infrastructure.Common;
-using Infrastructure.Client.Plans;
-using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
+using SkudModule.Designer;
 
 namespace SkudModule.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;

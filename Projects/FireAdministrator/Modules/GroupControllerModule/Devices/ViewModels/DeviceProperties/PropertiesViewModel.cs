@@ -18,27 +18,34 @@ namespace GKModule.ViewModels
 		{
 			Device = device;
 			Update();
+			device.AUParametersChanged += On_AUParametersChanged;
 		}
 		public void Update()
 		{
 			StringProperties = new List<StringPropertyViewModel>();
+			ShortProperties = new List<ShortPropertyViewModel>();
+			BoolProperties = new List<BoolPropertyViewModel>();
 			EnumProperties = new List<EnumPropertyViewModel>();
 			if (Device != null)
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
-					if (driverProperty.IsAUParameter)
+					if (driverProperty.IsMPTOrMRORegime)
+						continue;
 					{
 						switch (driverProperty.DriverPropertyType)
 						{
+							case XDriverPropertyTypeEnum.StringType:
+								StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
+								break;
+							case XDriverPropertyTypeEnum.IntType:
+								ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
+								break;
+							case XDriverPropertyTypeEnum.BoolType:
+								BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
+								break;
 							case XDriverPropertyTypeEnum.EnumType:
 								EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
-								break;
-
-							case XDriverPropertyTypeEnum.StringType:
-							case XDriverPropertyTypeEnum.IntType:
-							case XDriverPropertyTypeEnum.BoolType:
-								StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
 								break;
 						}
 
@@ -48,16 +55,28 @@ namespace GKModule.ViewModels
 			}
 
 			OnPropertyChanged("StringProperties");
+			OnPropertyChanged("ShortProperties");
+			OnPropertyChanged("BoolProperties");
 			OnPropertyChanged("EnumProperties");
 			UpdateDeviceParameterMissmatchType();
 		}
 
 		public void UpdateDeviceParameterMissmatchType()
 		{
-			if (StringProperties.Count + EnumProperties.Count > 0)
+			if (StringProperties.Count + ShortProperties.Count + BoolProperties.Count + EnumProperties.Count > 0)
 			{
 				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 				foreach (var auProperty in StringProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				foreach (var auProperty in ShortProperties)
+				{
+					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
+						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
+				}
+				foreach (var auProperty in BoolProperties)
 				{
 					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
 						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
@@ -74,12 +93,27 @@ namespace GKModule.ViewModels
 		DeviceParameterMissmatchType _deviceParameterMissmatchType;
 		public DeviceParameterMissmatchType DeviceParameterMissmatchType
 		{
-			get { return _deviceParameterMissmatchType; }
+			get{return _deviceParameterMissmatchType;}
 			set
 			{
 				_deviceParameterMissmatchType = value;
 				OnPropertyChanged("DeviceParameterMissmatchType");
 			}
+		}
+
+		public bool HasParameters
+		{
+			get
+			{
+				if (Device == null)
+					return false;
+				return Device.Properties.Count != 0;
+			}
+		}
+
+		void On_AUParametersChanged()
+		{
+			Update();
 		}
 	}
 }

@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\ShowSKUDEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Events\NewFS2JournalItemsEvent.cs" />
     <Compile Include="Events\ShowXDirectionOnPlanEvent.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
     <Compile Include="Events\GetFS2FilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\FS2ProgressInfoEvent.cs" />
+    <Compile Include="Events\ShowXDelayEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />

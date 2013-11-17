@@ -8,6 +8,7 @@ using FiresecClient;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
@@ -36,7 +37,16 @@ namespace GKModule.ViewModels
 			SelectedDevice = Devices.FirstOrDefault();
 		}
 
-		public ObservableCollection<DeviceParameterViewModel> Devices { get; private set; }
+		ObservableCollection<DeviceParameterViewModel> _devices;
+		public ObservableCollection<DeviceParameterViewModel> Devices
+		{
+			get { return _devices; }
+			set
+			{
+				_devices = value;
+				OnPropertyChanged("Devices");
+			}
+		}
 
 		DeviceParameterViewModel _selectedDevice;
 		public DeviceParameterViewModel SelectedDevice

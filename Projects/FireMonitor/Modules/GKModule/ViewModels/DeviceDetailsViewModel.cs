@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Media;
-using Common.GK;
+using GKProcessor;
 using DeviceControls;
 using FiresecClient;
 using Infrastructure;
@@ -107,12 +107,12 @@ namespace GKModule.ViewModels
 
 		void OnUpdateAuParameters()
 		{
-			if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.KAU)
+			if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.DriverType == XDriverType.KAU)
 			{
 				foreach (var auParameter in Device.Driver.AUParameters)
 				{
 					var bytes = new List<byte>();
-					var databaseNo = Device.GetDatabaseNo(DatabaseType.Kau);
+					var databaseNo = Device.KAUDescriptorNo;
 					bytes.Add((byte)Device.Driver.DriverTypeNo);
 					bytes.Add(Device.IntAddress);
 					bytes.Add((byte)(Device.ShleifNo - 1));
@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 					{
 						for (int i = 0; i < 100; i++)
 						{
-							var no = Device.GetDatabaseNo(DatabaseType.Gk);
+							var no = Device.GKDescriptorNo;
 							result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 							if (result.Bytes.Count > 0)
 							{
@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 									{
 										stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 									}
-									if ((Device.Driver.DriverType == XDriverType.Valve || Device.Driver.DriverType == XDriverType.Pump)
+									if ((Device.DriverType == XDriverType.Valve || Device.DriverType == XDriverType.Pump)
 										&& auParameter.Name == "Режим работы")
 									{
 										stringValue = "Неизвестно";
@@ -169,9 +169,9 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
-			else if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.Driver.DriverType == XDriverType.RSR2_KAU)
+			else if (Device.KauDatabaseParent != null && Device.KauDatabaseParent.DriverType == XDriverType.RSR2_KAU)
 			{
-				var no = Device.GetDatabaseNo(DatabaseType.Gk);
+				var no = Device.GKDescriptorNo;
 				var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
 				if (!result.HasError)
 				{
@@ -212,15 +212,15 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.TurningOn) && DeviceState.OnDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOn) && DeviceState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.On) && DeviceState.HoldDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.On) && DeviceState.HoldDelay > 0; }
 		}
 		public bool HasOffDelay
 		{
-			get { return DeviceState.StateBits.Contains(XStateBit.TurningOff) && DeviceState.OffDelay > 0; }
+			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOff) && DeviceState.OffDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -259,7 +259,7 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
-		//public IEnumerable<Plan> PlanNames
+
 		public ObservableCollection<PlanViewModel> PlanNames
 		{
 			get
@@ -299,6 +299,7 @@ namespace GKModule.ViewModels
 		public override void OnClosed()
 		{
 			CancelBackgroundWorker = true;
+			DeviceState.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 
@@ -321,36 +322,6 @@ namespace GKModule.ViewModels
 		void OnShowOnPlan()
 		{
 			ShowOnPlanHelper.ShowDevice(Device, Plan);
-		}
-	}
-
-	public class AUParameterValue : BaseViewModel
-	{
-		public XDevice Device { get; set; }
-		public string Name { get; set; }
-		public bool IsDelay { get; set; }
-		public XAUParameter DriverParameter { get; set; }
-
-		int _value;
-		public int Value
-		{
-			get { return _value; }
-			set
-			{
-				_value = value;
-				OnPropertyChanged("Value");
-			}
-		}
-
-		string _stringValue;
-		public string StringValue
-		{
-			get { return _stringValue; }
-			set
-			{
-				_stringValue = value;
-				OnPropertyChanged("StringValue");
-			}
 		}
 	}
 }

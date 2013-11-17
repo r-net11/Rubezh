@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using Common;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 using Microsoft.Win32;
-using Common;
-using System.Windows;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -222,7 +222,7 @@ namespace GKModule.ViewModels
 			if (string.IsNullOrWhiteSpace(Text) && !Instruction.HasMedia)
 				return false;
 			else
-				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty());
+				return InstructionType == XInstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty() || InstructionDirections.IsNotNullOrEmpty());
 		}
 
 		protected override bool Save()

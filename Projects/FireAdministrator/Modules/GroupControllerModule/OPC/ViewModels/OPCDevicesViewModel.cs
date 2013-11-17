@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.ViewModels;
 using FiresecClient;
-using XFiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -27,7 +26,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in AllDevices)
 			{
-				if (device.Device.Driver.DriverType == XDriverType.KAU || device.Device.Driver.DriverType == XDriverType.RSR2_KAU)
+				if (device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 

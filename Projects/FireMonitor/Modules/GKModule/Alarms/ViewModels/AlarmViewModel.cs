@@ -23,7 +23,6 @@ namespace GKModule.ViewModels
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			TurnOnAutomaticCommand = new RelayCommand(OnTurnOnAutomatic, CanTurnOnAutomatic);
-			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowInstructionCommand = new RelayCommand(OnShowInstruction, CanShowInstruction);
@@ -56,6 +55,20 @@ namespace GKModule.ViewModels
 				if (Alarm.Direction != null)
 					return "/Controls;component/Images/Blue_Direction.png";
 				return null;
+			}
+		}
+
+		public XStateClass ObjectStateClass
+		{
+			get
+			{
+				if (Alarm.Device != null)
+					return Alarm.Device.DeviceState.StateClass;
+				if (Alarm.Zone != null)
+					return Alarm.Zone.ZoneState.StateClass;
+				if (Alarm.Direction != null)
+					return Alarm.Direction.DirectionState.StateClass;
+				return XStateClass.Norm;
 			}
 		}
 
@@ -196,15 +209,22 @@ namespace GKModule.ViewModels
 			}
 			if (Alarm.Device != null)
 			{
-				ObjectCommandSendHelper.ResetDevice(Alarm.Device);
+				ObjectCommandSendHelper.Reset(Alarm.Device);
 			}
 		}
 		bool CanReset()
 		{
 			if (Alarm.Zone != null)
+			{
 				return (Alarm.AlarmType == XAlarmType.Fire1 || Alarm.AlarmType == XAlarmType.Fire2);
+			}
 			if (Alarm.Device != null)
-				return Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Fire2) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Fire1);
+			{
+				if (Alarm.Device.DriverType == XDriverType.AMP_1 || Alarm.Device.DriverType == XDriverType.RSR2_MAP4)
+				{
+					return Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire1);
+				}
+			}
 			return false;
 		}
 		public bool CanResetCommand
@@ -217,25 +237,25 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
 				}
 			}
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForZone(Alarm.Zone);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Zone);
 				}
 			}
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
 				}
 			}
 		}
@@ -246,19 +266,19 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.ZoneState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Ignore))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;
@@ -273,85 +293,37 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				if (!Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Norm))
+				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDevice(Alarm.Device);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
 				}
 			}
 			if (Alarm.Direction != null)
 			{
-				if (!Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Norm))
+				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
 				{
-					ObjectCommandSendHelper.SetAutomaticRegimeForDirection(Alarm.Direction);
+					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
 				}
 			}
 		}
 		bool CanTurnOnAutomatic()
 		{
-			if (Alarm.AlarmType != XAlarmType.AutoOff)
-				return false;
-
-			if (Alarm.Device != null)
+			if (Alarm.AlarmType == XAlarmType.AutoOff)
 			{
-				if (!Alarm.Device.Driver.IsControlDevice)
-					return false;
-
-				if (!Alarm.Device.DeviceState.StateBits.Contains(XStateBit.Norm))
-					return true;
-			}
-			if (Alarm.Direction != null)
-			{
-				if (!Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.Norm))
-					return true;
+				if (Alarm.Device != null)
+				{
+					return Alarm.Device.Driver.IsControlDevice && Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff);
+				}
+				if (Alarm.Direction != null)
+				{
+					return Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff);
+				}
 			}
 			return false;
 		}
 		public bool CanTurnOnAutomaticCommand
 		{
 			get { return CanTurnOnAutomatic(); }
-		}
-
-		public RelayCommand TurnOffCommand { get; private set; }
-		void OnTurnOff()
-		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.Device.DeviceState.StateBits.Contains(XStateBit.On) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.TurningOn))
-				{
-					ObjectCommandSendHelper.TurnOffDeviceAnyway(Alarm.Device);
-				}
-			}
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.On) || Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn))
-				{
-					ObjectCommandSendHelper.TurnOffDirectionAnyway(Alarm.Direction);
-				}
-			}
-		}
-		bool CanTurnOff()
-		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.AlarmType != XAlarmType.Turning)
-					return false;
-				if (!Alarm.Device.Driver.IsControlDevice)
-					return false;
-
-				return Alarm.Device.DeviceState.StateBits.Contains(XStateBit.On) || Alarm.Device.DeviceState.StateBits.Contains(XStateBit.TurningOn);
-			}
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.AlarmType != XAlarmType.NPTOn)
-					return false;
-
-				return Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.On) || Alarm.Direction.DirectionState.StateBits.Contains(XStateBit.TurningOn);
-			}
-			return false;
-		}
-		public bool CanTurnOffCommand
-		{
-			get { return CanTurnOff(); }
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -384,7 +356,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return (Alarm.Device != null) || (Alarm.Direction != null) || (Alarm.Zone != null);
+			return Alarm.Device != null || Alarm.Direction != null || Alarm.Zone != null;
 		}
 
 		public RelayCommand ShowInstructionCommand { get; private set; }

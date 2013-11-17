@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using Common.GK;
+using GKProcessor;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -39,7 +39,7 @@ namespace FireMonitor
 				{
 					CreateModules();
 
-					LoadingService.Show("Чтение конфигурации", 15);
+					LoadingService.ShowLoading("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
 					if (!App.IsMulticlient)

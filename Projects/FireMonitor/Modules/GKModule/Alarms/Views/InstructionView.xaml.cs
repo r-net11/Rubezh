@@ -3,18 +3,32 @@ using System.Windows;
 using System.Windows.Media;
 using System;
 using System.Windows.Threading;
+using GKModule.ViewModels;
 
 namespace GKModule.Views
 {
 	public partial class InstructionView : UserControl
 	{
-        DispatcherTimer timer;
-        
-        public InstructionView()
+		DispatcherTimer timer;
+
+		public InstructionView()
 		{
 			InitializeComponent();
-            mediaElement.Play();
-            UpdateVisibilityPlaying();
+		}
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			var dataContext = (InstructionViewModel)DataContext;
+			if (dataContext.Instruction.HasMedia)
+			{
+				mediaElement.Play();
+				UpdateVisibilityPlaying();
+			}
+			else
+			{
+				videoBorder.Visibility = Visibility.Collapsed;
+				videoRow.Height = new GridLength(0);
+			}
 		}
 
 		private void PlayButton_Click(object sender, RoutedEventArgs e)
@@ -52,37 +66,33 @@ namespace GKModule.Views
 
 		private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
 		{
-            if (!mediaElement.HasVideo)
-            {
-                MuteButton.Visibility = Visibility.Collapsed;
-                videoBorder.Visibility = Visibility.Collapsed;
-                videoRow.Height = new GridLength(0);
-            }
-            
-            slider.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(100);
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
-        }
+			if (!mediaElement.HasVideo)
+			{
+				MuteButton.Visibility = Visibility.Collapsed;
+				videoBorder.Visibility = Visibility.Collapsed;
+				videoRow.Height = new GridLength(0);
+			}
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            if (!slider.IsMouseOver)
-                slider.Value = mediaElement.Position.TotalSeconds;
-            else
-            {
-                ;
-            }
-        }
+			slider.Maximum = mediaElement.NaturalDuration.TimeSpan.TotalSeconds;
+			timer = new DispatcherTimer();
+			timer.Interval = TimeSpan.FromMilliseconds(100);
+			timer.Tick += new EventHandler(timer_Tick);
+			timer.Start();
+		}
 
-        private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            mediaElement.Stop();
-            UpdateVisibilityNotPlaying();
-        }
-        
-        void UpdateVisibilityPlaying()
+		void timer_Tick(object sender, EventArgs e)
+		{
+			if (!slider.IsMouseOver)
+				slider.Value = mediaElement.Position.TotalSeconds;
+		}
+
+		private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
+		{
+			mediaElement.Stop();
+			UpdateVisibilityNotPlaying();
+		}
+
+		void UpdateVisibilityPlaying()
 		{
 			PlayButton.Visibility = Visibility.Collapsed;
 			StopButton.Visibility = Visibility.Visible;
@@ -96,18 +106,15 @@ namespace GKModule.Views
 			PauseButton.Visibility = Visibility.Collapsed;
 		}
 
-        private void slider_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            {
-                TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value))); 
-                mediaElement.Position = time;
-            }
-        }
+		private void slider_LostMouseCapture(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			TimeSpan time = new TimeSpan(0, 0, Convert.ToInt32(Math.Round(slider.Value)));
+			mediaElement.Position = time;
+		}
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            mediaElement.Stop();
-        }
-
-    }
+		private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+		{
+			mediaElement.Stop();
+		}
+	}
 }

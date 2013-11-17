@@ -7,7 +7,6 @@ using GKOPCServer.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using GKProcessor;
-using Common.GK;
 using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
 
@@ -66,7 +65,7 @@ namespace GKOPCServer
 			UILogger.Log("Обновление конфигурации");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DatabaseManager.Convert();
+			DescriptorsManager.Create();
 
 			UILogger.Log("Старт мониторинга");
 			WatcherManager.Start();

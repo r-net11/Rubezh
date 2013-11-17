@@ -1,11 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using Microsoft.Win32;
-using System;
-using Common;
+﻿using System;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using Common;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels
 {

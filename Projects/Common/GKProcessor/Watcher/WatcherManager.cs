@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
@@ -14,11 +13,13 @@ namespace GKProcessor
 	public static class WatcherManager
 	{
 		public static List<Watcher> Watchers { get; private set; }
+		public static bool IsConfigurationReloading { get; set; }
+		public static DateTime LastConfigurationReloadingTime { get; set; }
 
 		public static void Start()
 		{
 			Watchers = new List<Watcher>();
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				if (!XManager.IsValidIpAddress(gkDatabase.RootDevice))
 				{

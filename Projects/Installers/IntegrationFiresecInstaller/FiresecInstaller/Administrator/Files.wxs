@@ -9,13 +9,6 @@
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
         <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FireAdministrator.exe.manifest" Name="FireAdministrator.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
-        <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />
@@ -28,14 +21,21 @@
         <File Id="Administrator.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.System.Windows.Controls.Input.Toolkit.dll" Name="System.Windows.Controls.Input.Toolkit.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.PLANS_MODULE" Guid="BD07AEDD-C503-4B25-980D-3409EBE75D1A">

@@ -213,7 +213,7 @@ namespace Firesec
 				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == firesecDevice.PathId);
 				if (device == null)
 				{
-					LoadingErrorManager.Add("Для устройства " + firesecDevice.PresentationAddressAndName + " не найдено устройство в конфигурации firesec-2");
+					LoadingErrorManager.Add("Для устройства " + firesecDevice.PresentationAddressAndName + " не найдено устройство в конфигурации firesec");
 				}
 			}
 		}

@@ -38,6 +38,10 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\..\3rdParty\MSSQLCEv35\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,33 +57,116 @@
     <Compile Include="Administrator\KauBinConfigurationReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="AUParameterValue.cs" />
+    <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
+    <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
+    <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
+    <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
+    <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\BinProperty.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DelayDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DescriptorType.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DeviceDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\DirectionDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
+    <Compile Include="DescriptorStateHelper.cs" />
+    <Compile Include="BytesHelper.cs" />
+    <Compile Include="Diagnostics\DiagnosticsItem.cs" />
+    <Compile Include="Diagnostics\DiagnosticsManager.cs" />
+    <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\AMP_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\AM_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\BUN_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\BUZ_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\CombinedDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\HandDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\HeatDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MDU_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MPT_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MRO_2_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\RM_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\Shuv_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\Shu_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAUIndicator_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAU_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAU_RSR2_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAU_Shleif_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\RSR2_KAU_ShleifHelper.cs" />
+    <Compile Include="Drivers\GKDriversCreator.cs" />
+    <Compile Include="Drivers\GKDriversHelper.cs" />
+    <Compile Include="Drivers\GroupDevices\AMP_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\AM_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_2_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_AM_4_Group_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\Battery_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Bush_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_CombinedDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_HandDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_HeatDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MAP4_Group_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MAP4_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MDU_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MVK8_Group_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_MVK8_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_RM_1_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_RM_2_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Siren_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Table_Helper.cs" />
     <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
-    <Compile Include="JournaActionlHelper.cs" />
-    <Compile Include="ObjectCommandSendHelper.cs" />
-    <Compile Include="ParameterUpdateHelper.cs" />
+    <Compile Include="Journal\Description.cs" />
+    <Compile Include="Journal\DescriptionsHelper.cs" />
+    <Compile Include="Journal\GKDBHelper.cs" />
+    <Compile Include="Journal\GKDBHelper.Patches.cs" />
+    <Compile Include="Journal\JournalParser.cs" />
+    <Compile Include="Journal\JournalDescriptionStateHelper.cs" />
+    <Compile Include="Journal\JournalItem.cs" />
+    <Compile Include="Journal\JournalItemsCollection.cs" />
+    <Compile Include="Journal\JournalItemType.cs" />
+    <Compile Include="Journal\JournalSourceType.cs" />
+    <Compile Include="Journal\JournalStringsHelper.cs" />
+    <Compile Include="Journal\XArchiveFilter.cs" />
+    <Compile Include="Patching\Patch.cs" />
+    <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Sending\SendManager.cs" />
+    <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <Compile Include="Watcher\SendPriority.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
     <Compile Include="Watcher\Watcher.License.cs" />
-    <Compile Include="Watcher\Watcher.Parameters.cs" />
-    <Compile Include="Watcher\Watcher.PingJournal.cs" />
+    <Compile Include="Watcher\Watcher.Journal.cs" />
     <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.Progress.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
-    <Compile Include="Watcher\Watcher.Threading.cs" />
+    <Compile Include="Watcher\Watcher.Main.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
+    <Compile Include="Watcher\Watcher.JournalAdditionalStates.cs" />
+    <Compile Include="Watcher\Watcher.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common.GK\Common.GK.csproj">
-      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
-      <Name>Common.GK</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
@@ -100,6 +187,13 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

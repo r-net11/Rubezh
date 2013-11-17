@@ -41,8 +41,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var converter = new XStateClassToDeviceStringConverter();
-				var result = (string)converter.Convert(DeviceState.StateClass, null, DeviceState.Device, null);
+				var result = XStateClassViewModel.GetStateName(DeviceState.StateClass, DeviceState.Device);
 				return result;
 			}
 		}

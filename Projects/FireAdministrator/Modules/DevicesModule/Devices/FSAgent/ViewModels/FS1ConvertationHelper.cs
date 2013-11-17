@@ -5,10 +5,8 @@ using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Ionic.Zip;
 
@@ -25,14 +23,14 @@ namespace Infrastructure
 			{
 				WaitHelper.Execute(() =>
 				{
-					LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
+					LoadingService.Show("Конвертирование конфигурации", 6);
 					var convertationResult = FiresecManager.FiresecDriver.Convert();
 					if (convertationResult.HasError)
 					{
 						MessageBoxService.ShowError(convertationResult.Error);
 						return;
 					}
-					LoadingService.ShowProgress("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
+					LoadingService.Show("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
 					FiresecManager.FiresecDriver.Synchronyze(false);
 
 					ServiceFactory.SaveService.FSChanged = false;

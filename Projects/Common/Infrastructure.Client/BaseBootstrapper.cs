@@ -15,7 +15,6 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services.Ribbon;
 
 namespace Infrastructure.Client
 {
@@ -115,10 +114,12 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.InitializeModules");
-					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+					if (Application.Current != null)
+						Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 					LoadingService.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.\n" + e.Message, module.Name));
-					Application.Current.Shutdown();
+					if (Application.Current != null)
+						Application.Current.Shutdown();
 					return false;
 				}
 			return true;
@@ -155,14 +156,12 @@ namespace Infrastructure.Client
 				ModuleSection moduleSection = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
 				InvestigateAssembly(Assembly.GetEntryAssembly());
-				var globalSettingsModules = GlobalSettingsHelper.GlobalSettings.GetModules();
 				foreach (ModuleElement moduleElement in moduleSection.Modules)
 				{
 					try
 					{
-						if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
+                        if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
 							continue;
-
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))
 						{

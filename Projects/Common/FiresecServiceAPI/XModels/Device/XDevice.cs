@@ -8,7 +8,7 @@ using FiresecAPI.Models;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDevice : XBinaryBase
+	public class XDevice : XBase
 	{
 		public XDevice()
 		{
@@ -18,6 +18,7 @@ namespace XFiresecAPI
 			DeviceProperties = new List<XProperty>();
 			ZoneUIDs = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
+			NSLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 			AllowMultipleVizualization = false;
@@ -25,12 +26,15 @@ namespace XFiresecAPI
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 			DevicesInLogic = new List<XDevice>();
-			PumpStationProperty = new XPumpStationProperty();
 		}
 
 		public XDeviceState DeviceState { get; set; }
 		public override XBaseState GetXBaseState() { return DeviceState; }
 		public XDriver Driver { get; set; }
+		public XDriverType DriverType
+		{
+			get { return Driver.DriverType; }
+		}
 		public XDevice Parent { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
@@ -47,9 +51,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public Guid DriverUID { get; set; }
-
-		[DataMember]
-		public byte ShleifNo { get; set; }
 
 		[DataMember]
 		public byte IntAddress { get; set; }
@@ -76,10 +77,10 @@ namespace XFiresecAPI
 		public XDeviceLogic DeviceLogic { get; set; }
 
 		[DataMember]
-		public bool IsNotUsed { get; set; }
+		public XDeviceLogic NSLogic { get; set; }
 
 		[DataMember]
-		public XPumpStationProperty PumpStationProperty { get; set; }
+		public bool IsNotUsed { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
@@ -90,11 +91,25 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
+		public byte ShleifNo
+		{
+			get
+			{
+				var allParents = AllParents;
+				var shleif = allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif);
+				if (shleif != null)
+				{
+					return shleif.IntAddress;
+				}
+				return 0;
+			}
+		}
+
 		public string Address
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 				{
 					var ipAddress = GetGKIpAddress();
 					return ipAddress != null ? ipAddress : "";
@@ -105,7 +120,10 @@ namespace XFiresecAPI
 				if (Driver.IsDeviceOnShleif == false)
 					return IntAddress.ToString();
 
-				return ShleifNo.ToString() + "." + IntAddress.ToString();
+				var shleifNo = ShleifNo;
+				if (shleifNo != 0)
+					return shleifNo.ToString() + "." + IntAddress.ToString();
+				return IntAddress.ToString(); ;
 			}
 		}
 
@@ -116,7 +134,7 @@ namespace XFiresecAPI
 				var address = Address;
 				if (Driver.IsGroupDevice)
 				{
-					var lastAddressInGroup = ShleifNo.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
+					var lastAddressInGroup = Parent.IntAddress.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
 					address += " - " + lastAddressInGroup;
 				}
 				return address;
@@ -127,7 +145,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 				{
 					return Address;
 				}
@@ -139,6 +157,12 @@ namespace XFiresecAPI
 				foreach (var parentDevice in allParents.Where(x => x.Driver.HasAddress))
 				{
 					if (parentDevice.Driver.IsGroupDevice)
+						continue;
+
+					if (parentDevice.DriverType == XDriverType.KAU_Shleif || parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
+						continue;
+
+					if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -182,7 +206,7 @@ namespace XFiresecAPI
 			{
 				if (!string.IsNullOrEmpty(PredefinedName))
 					return PredefinedName;
-				if (Driver.DriverType == XDriverType.Pump)
+				if (DriverType == XDriverType.Pump)
 				{
 					if (IntAddress <= 8)
 						return "Пожарный насос";
@@ -190,14 +214,10 @@ namespace XFiresecAPI
 					{
 						case 12:
 							return "Жокей насос";
-						case 13:
-							return "Компрессор";
 						case 14:
 							return "Дренажный Насос";
-						case 15:
-							return "Насос Компенсации утечек";
 					}
-					return "Насос";
+					return "Насос с неизвестным типом";
 				}
 				return Driver.ShortName;
 			}
@@ -222,7 +242,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver.DriverType == XDriverType.GK)
+				if (DriverType == XDriverType.GK)
 					return ShortName + " " + GetGKIpAddress();
 
 				if (Driver.HasAddress)
@@ -244,18 +264,13 @@ namespace XFiresecAPI
 					return;
 				}
 
-				var addresses = address.Split('.');
-				byte shleifPart = byte.Parse(addresses[0]);
-				byte addressPart = byte.Parse(addresses[1]);
-
-				ShleifNo = shleifPart;
-				IntAddress = addressPart;
+				byte intAddress = byte.Parse(address);
+				IntAddress = intAddress;
 
 				if (Driver.IsGroupDevice)
 				{
 					for (int i = 0; i < Children.Count; i++)
 					{
-						Children[i].ShleifNo = ShleifNo;
 						Children[i].IntAddress = (byte)(IntAddress + i);
 					}
 				}
@@ -269,7 +284,7 @@ namespace XFiresecAPI
 			{
 				if (Parent != null && Parent.Driver.IsGroupDevice)
 					return false;
-				if(AllParents.Any(x => x.Driver.DriverType == XDriverType.RSR2_KAU))
+				if(AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
 					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
@@ -290,7 +305,7 @@ namespace XFiresecAPI
 
 		public XDevice GKParent
 		{
-			get { return AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK); }
+			get { return AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK); }
 		}
 
 		public XDevice KAUParent
@@ -299,7 +314,7 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU || x.Driver.DriverType == XDriverType.RSR2_KAU);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU);
 			}
 		}
 
@@ -309,7 +324,17 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.RSR2_KAU);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+			}
+		}
+
+		public XDevice KAURSR2ShleifParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 			}
 		}
 
@@ -318,27 +343,24 @@ namespace XFiresecAPI
 			get { return KAURSR2Parent != null; }
 		}
 
-		public override XBinaryInfo BinaryInfo
+		public override string PresentationName
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Устройство",
-					Name = ShortName,
-					Address = Address
-				};
-			}
+			get { return ShortName + " " + DottedPresentationAddress; }
 		}
 
-		public override string GetBinaryDescription()
+		public override string DescriptorInfo
+		{
+			get { return "Устройство " + ShortName + " " + Address; }
+		}
+
+		public override string GetDescriptorName()
 		{
 			return PresentationDriverAndAddress;
 		}
 
 		public string GetGKIpAddress()
 		{
-			if (Driver.DriverType == XDriverType.GK)
+			if (DriverType == XDriverType.GK)
 			{
 				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
 				if (ipProperty != null)
@@ -355,10 +377,17 @@ namespace XFiresecAPI
 			{
 				if (Driver.IsGroupDevice)
 					return false;
-				if (Driver.DriverType == XDriverType.System)
+				if (DriverType == XDriverType.System)
+					return false;
+				if (DriverType == XDriverType.KAU_Shleif || DriverType == XDriverType.RSR2_KAU_Shleif)
 					return false;
 				return true;
 			}
+		}
+
+		public bool IsChildMPTOrMRO()
+		{
+			return Parent != null && (Parent.DriverType == XDriverType.MPT || Parent.DriverType == XDriverType.MRO_2);
 		}
 
 		public void InitializeDefaultProperties()
@@ -384,8 +413,6 @@ namespace XFiresecAPI
 			{
 				if (!Driver.HasAddress)
 					return 0;
-				if (Driver.IsDeviceOnShleif)
-					return ShleifNo * 256 + IntAddress;
 				return IntAddress;
 			}
 		}

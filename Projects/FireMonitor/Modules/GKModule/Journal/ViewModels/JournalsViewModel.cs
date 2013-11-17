@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -10,23 +10,21 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Events;
 using GKProcessor.Events;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
     public class JournalsViewModel : ViewPartViewModel
     {
-        public JournalsViewModel()
-        {
-            Journals = new List<JournalViewModel>();
-            Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
-            SelectedJournal = Journals.FirstOrDefault();
-
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
-            ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
-        }
-
 		public void Initialize()
 		{
+			Journals = new ObservableCollection<JournalViewModel>();
+			Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
+			SelectedJournal = Journals.FirstOrDefault();
+
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
+
 			foreach (var journalFilter in XManager.DeviceConfiguration.JournalFilters)
 			{
 				var filteredJournalViewModel = new JournalViewModel(journalFilter);
@@ -37,11 +35,14 @@ namespace GKModule.ViewModels
 		public void GetTopLast()
 		{
 			var journalItems = GKDBHelper.GetTopLast(100);
-			Journals.ForEach(x => x.OnNewJournal(journalItems));
+			foreach (var journal in Journals)
+			{
+				journal.OnNewJournal(journalItems);
+			}
 		}
 
-        List<JournalViewModel> _journals;
-        public List<JournalViewModel> Journals
+        ObservableCollection<JournalViewModel> _journals;
+		public ObservableCollection<JournalViewModel> Journals
         {
             get { return _journals; }
             set
@@ -84,6 +85,5 @@ namespace GKModule.ViewModels
                 }
             }
         }
-
     }
 }

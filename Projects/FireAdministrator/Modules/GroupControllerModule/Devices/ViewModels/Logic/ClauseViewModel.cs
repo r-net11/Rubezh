@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<XStateBit>();
 						StateTypes.Add(XStateBit.Norm);
 						StateTypes.Add(XStateBit.Fire2);
-						if (Device.Driver.DriverType != XDriverType.MPT)
+						if (Device.DriverType != XDriverType.MPT)
 						{
 							StateTypes.Add(XStateBit.Fire1);
 							StateTypes.Add(XStateBit.On);
@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateBit>();
 						StateTypes.Add(XStateBit.Fire2);
-						if (Device.Driver.DriverType != XDriverType.MPT)
+						if (Device.DriverType != XDriverType.MPT)
 						{
 							StateTypes.Add(XStateBit.Fire1);
 							StateTypes.Add(XStateBit.Attention);
@@ -200,7 +200,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (Device.Driver.DriverType == XDriverType.GKLine || Device.Driver.DriverType == XDriverType.GKRele)
+				if (Device.DriverType == XDriverType.GKLine || Device.DriverType == XDriverType.GKRele)
 				{
 
 				}

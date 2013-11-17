@@ -6,9 +6,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media.Imaging;
 
 namespace PlansModule.Designer
 {

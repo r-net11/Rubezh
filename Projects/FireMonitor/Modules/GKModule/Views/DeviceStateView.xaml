@@ -5,8 +5,7 @@
     <StackPanel DataContext="{Binding DeviceStateViewModel}">
         <StackPanel Orientation="Horizontal">
             <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-            <TextBlock Text="Состояние" Margin="5, 0, 0, 0" FontWeight="Bold" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding StateClassName}" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+            <TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding StateClasses}">
             <ItemsControl.ItemTemplate>
@@ -18,7 +17,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding DeviceState.AdditionalStates}">
+        <ItemsControl ItemsSource="{Binding AdditionalStates}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

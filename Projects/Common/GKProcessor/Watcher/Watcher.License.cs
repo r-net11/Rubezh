@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using System.Threading;
-using Common.GK;
 using Common;
 
 namespace GKProcessor
@@ -25,9 +24,9 @@ namespace GKProcessor
 					if (hasLicense != HasLicense)
 					{
 						HasLicense = hasLicense;
-						foreach (var binaryObject in GkDatabase.BinaryObjects)
+						foreach (var descriptor in GkDatabase.Descriptors)
 						{
-							var baseState = binaryObject.BinaryBase.GetXBaseState();
+							var baseState = descriptor.XBase.GetXBaseState();
 							baseState.IsNoLicense = !hasLicense;
 						}
 
@@ -35,6 +34,8 @@ namespace GKProcessor
 							GKDBHelper.AddMessage("Отсутствует лицензия", "");
 						else
 							GKDBHelper.AddMessage("Лицензия обнаружена", "");
+
+						DiagnosticsManager.Add("hasLicense=" + hasLicense);
 					}
 
 					if (hasLicense)

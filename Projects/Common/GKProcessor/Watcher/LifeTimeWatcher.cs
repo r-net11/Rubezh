@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using XFiresecAPI;
-using Common.GK;
-using FiresecClient;
-using System.Diagnostics;
 using Common;
 
 namespace GKProcessor
@@ -54,6 +47,7 @@ namespace GKProcessor
 						if ((DateTime.Now - watcher.LastUpdateTime).TotalMinutes > 5)
 						{
 							Logger.Error("LifeTimeWatcher.OnRun watcher");
+							GKDBHelper.AddMessage("Зависание процесса отпроса", "");
 							watcher.ConnectionChanged(false);
 							watcher.StopThread();
 							watcher.StartThread();

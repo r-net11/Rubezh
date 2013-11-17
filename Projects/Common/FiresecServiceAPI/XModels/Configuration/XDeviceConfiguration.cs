@@ -111,65 +111,13 @@ namespace XFiresecAPI
 				}
 			}
 
-			if (Devices == null)
-			{
-				Devices = new List<XDevice>();
-				result = false;
-			}
-			if (Zones == null)
-			{
-				Zones = new List<XZone>();
-				result = false;
-			}
-			if (Directions == null)
-			{
-				Directions = new List<XDirection>();
-				result = false;
-			}
-
 			foreach (var device in Devices)
 			{
-				if (device.ZoneUIDs == null)
+				if (device.NSLogic == null)
 				{
-					device.ZoneUIDs = new List<Guid>();
+					device.NSLogic = new XDeviceLogic();
 					result = false;
 				}
-
-				if (device.DeviceLogic == null)
-				{
-					device.DeviceLogic = new XDeviceLogic();
-					result = false;
-				}
-				if (device.DeviceLogic.Clauses == null)
-				{
-					device.DeviceLogic.Clauses = new List<XClause>();
-					result = false;
-				}
-				foreach (var clause in device.DeviceLogic.Clauses)
-				{
-					if (clause.ZoneUIDs == null)
-					{
-						clause.ZoneUIDs = new List<Guid>();
-						result = false;
-					}
-
-					if (clause.DeviceUIDs == null)
-					{
-						clause.DeviceUIDs = new List<Guid>();
-						result = false;
-					}
-
-					if (clause.DirectionUIDs == null)
-					{
-						clause.DirectionUIDs = new List<Guid>();
-						result = false;
-					}
-				}
-				if (device.PumpStationProperty == null)
-					device.PumpStationProperty = new XPumpStationProperty();
-
-				if (device.PumpStationProperty.PumpStationPumps == null)
-					device.PumpStationProperty.PumpStationPumps = new List<XPumpStationPump>();
 
 				if (device.Properties == null)
 					device.Properties = new List<XProperty>();
@@ -179,11 +127,6 @@ namespace XFiresecAPI
 			}
 			foreach (var zone in Zones)
 			{
-				if (zone.UID == Guid.Empty)
-				{
-					zone.UID = Guid.NewGuid();
-					result = false;
-				}
 			}
 			if (ParameterTemplates == null)
 			{
@@ -204,15 +147,9 @@ namespace XFiresecAPI
 			}
 			foreach (var direction in Directions)
 			{
-				if (direction.DirectionZones == null)
+				if (direction.NSDeviceUIDs == null)
 				{
-					direction.DirectionZones = new List<XDirectionZone>();
-					result = false;
-				}
-
-				if (direction.DirectionDevices == null)
-				{
-					direction.DirectionDevices = new List<XDirectionDevice>();
+					direction.NSDeviceUIDs = new List<Guid>();
 					result = false;
 				}
 			}
@@ -224,12 +161,6 @@ namespace XFiresecAPI
 					journalFilter.StateClasses = new List<XStateClass>();
 					result = false;
 				}
-			}
-
-			if (Instructions == null)
-			{
-				Instructions = new List<XInstruction>();
-				result = false;
 			}
 
 			if (GuardUsers == null)

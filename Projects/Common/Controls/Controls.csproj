@@ -120,6 +120,7 @@
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
+    <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ClauseOperationTypeToIconConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
@@ -128,10 +129,13 @@
     <Compile Include="Converters\BoolToFontStyleConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
-    <Compile Include="Converters\BoolInverterConverter.cs" />
+    <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
@@ -160,13 +164,11 @@
     <Compile Include="Converters\XInstructionTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToIconConverter2.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
-    <Compile Include="Converters\JournalYesNoTypeToStringConverter.cs" />
-    <Compile Include="Converters\XStateClassToDeviceStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter2.cs" />
-    <Compile Include="Converters\XPumpStationPumpTypeToStringConverter.cs" />
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
@@ -1260,6 +1262,7 @@
     <Resource Include="Images\BlueEdit.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="StateClassIcons\Manual.png" />
     <Resource Include="StateClassIcons\HasNoLicense.png" />
     <Resource Include="StateClassIcons\Test.png" />
     <Resource Include="Sounds\Empire.mp3" />
@@ -1268,6 +1271,8 @@
     <Resource Include="Images\BFilterClear.png" />
     <Resource Include="Images\Layouts.png" />
     <Resource Include="Images\BLayouts.png" />
+    <Resource Include="GKIcons\KAU_Shleif.png" />
+    <Resource Include="GKIcons\RSR2_KAU_Shleif.png" />
     <Resource Include="Images\BFolder.png" />
     <Resource Include="GKIcons\Shu.png" />
     <Resource Include="GKIcons\Shuv.png" />
@@ -1318,6 +1323,14 @@
     <Resource Include="Images\BMap.png" />
     <Resource Include="Images\BBook.png" />
     <Resource Include="Images\BArchive.png" />
+    <Resource Include="FSIcons\RSR2_Siren.png" />
+    <Resource Include="FSIcons\RSR2_Table.png" />
+    <Resource Include="GKIcons\RSR2_Siren.png" />
+    <Resource Include="GKIcons\RSR2_Table.png" />
+    <Resource Include="Images\blank.png" />
+    <Resource Include="GKIcons\battery.png" />
+    <Resource Include="Images\nextDifference.png" />
+    <Resource Include="Images\previousDifference.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

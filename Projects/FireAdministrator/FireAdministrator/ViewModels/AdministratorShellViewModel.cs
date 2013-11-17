@@ -1,12 +1,12 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace FireAdministrator.ViewModels
 {
@@ -19,7 +19,7 @@ namespace FireAdministrator.ViewModels
 		public AdministratorShellViewModel()
 			: base("Administrator")
 		{
-			Title = "Администратор ОПС FireSec-2";
+			Title = "Администратор ОПС FireSec";
 			Height = 700;
 			Width = 1000;
 			MinWidth = 1000;

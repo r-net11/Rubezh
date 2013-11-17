@@ -4,19 +4,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using DevicesModule.Plans.Designer;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.Designer;
-using Infrastructure.Common.Ribbon;
+using Infrustructure.Plans.Events;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels
 {

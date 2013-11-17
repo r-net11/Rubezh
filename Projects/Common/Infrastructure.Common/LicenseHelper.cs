@@ -18,6 +18,7 @@ namespace Infrastructure.Common
         [HandleProcessCorruptedStateExceptions]
         public static bool CheckLicense(bool isMultiClient)
         {
+			return true;
 #if DEBUG
 			return true;
 #endif

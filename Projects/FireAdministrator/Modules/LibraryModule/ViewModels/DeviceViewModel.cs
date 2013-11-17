@@ -1,9 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.TreeList;
-using System.Collections.Generic;
 
 namespace LibraryModule.ViewModels
 {

@@ -32,7 +32,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, StackTraceHelper.GetStackTrace());
+				Logger.Error(e);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, StackTraceHelper.GetStackTrace());
+				Logger.Error(e);
 			}
 		}
 	}

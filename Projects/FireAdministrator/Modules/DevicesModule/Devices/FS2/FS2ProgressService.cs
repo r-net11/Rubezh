@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure;
 using System.ComponentModel;
-using Infrastructure.Common.Windows;
 using System.Windows.Threading;
 using Common;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {

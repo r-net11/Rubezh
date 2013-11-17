@@ -3,6 +3,7 @@ using System.Windows;
 using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
+using Common.GK;
 
 namespace FiresecOPCServer
 {
@@ -16,7 +17,7 @@ namespace FiresecOPCServer
 			try
 			{
 				PatchManager.Patch();
-				ThemeHelper.LoadThemeFromRegister();
+                ThemeHelper.LoadThemeFromRegister();
 				AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 				using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				{

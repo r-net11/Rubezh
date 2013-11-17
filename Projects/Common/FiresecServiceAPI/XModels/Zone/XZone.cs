@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XZone : XBinaryBase
+	public class XZone : XBase
 	{
 		public XZone()
 		{
@@ -23,6 +23,10 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
         public List<XDevice> DevicesInLogic { get; set; }
+		public bool IsEmpty
+		{
+			get { return Devices.Count == 0; }
+		}
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -45,27 +49,19 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
-		public string PresentationName
+		public override string PresentationName
 		{
 			get { return No + "." + Name; }
 		}
 
-		public override XBinaryInfo BinaryInfo
+		public override string DescriptorInfo
 		{
-			get
-			{
-				return new XBinaryInfo()
-				{
-					Type = "Зона",
-					Name = Name,
-					Address = No.ToString()
-				};
-			}
+			get { return "Зона " + Name + " " + No.ToString(); }
 		}
 
-		public override string GetBinaryDescription()
+		public override string GetDescriptorName()
 		{
-			return Name + " - " + No.ToString();
+			return PresentationName;
 		}
 
 		public void OnChanged()

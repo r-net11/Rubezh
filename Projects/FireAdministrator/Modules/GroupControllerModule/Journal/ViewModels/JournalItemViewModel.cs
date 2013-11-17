@@ -1,15 +1,22 @@
 ﻿using System.Linq;
-using Common.GK;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class JournalItemViewModel : BaseViewModel
 	{
+		public JournalItem JournalItem { get; private set; }
+		public string PresentationName { get; private set; }
+		public string TypeName { get; private set; }
+		public string Address { get; private set; }
+		public string ImageSource { get; private set; }
+
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
@@ -17,15 +24,12 @@ namespace GKModule.ViewModels
 
 			InitializeTypeAddressImageSource(journalItem);
 			PresentationName = TypeName + " " + Address;
-			InitializePresentationName(journalItem);
+			InitializePresentationName();
 		}
 
 		void InitializeTypeAddressImageSource(JournalItem journalItem)
 		{
-			var internalAddress = journalItem.InternalJournalItem.ObjectDeviceAddress;
-			var internalType = journalItem.InternalJournalItem.ObjectDeviceType;
-
-			if (internalType == 0)
+			if (journalItem.DescriptorType == 0)
 			{
 				TypeName = "ГК";
 				Address = "";
@@ -33,47 +37,55 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			Address = internalAddress.ToString();
+			Address = journalItem.DescriptorAddress.ToString();
 
-			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == journalItem.DescriptorType);
 			if (driver != null)
 			{
 				TypeName = driver.ShortName;
 				if (driver.IsDeviceOnShleif)
-					Address = (internalAddress / 256 + 1).ToString() + "." + (internalAddress % 256).ToString();
+					Address = (journalItem.DescriptorAddress / 256 + 1).ToString() + "." + (journalItem.DescriptorAddress % 256).ToString();
 				if (!driver.HasAddress)
 					Address = "";
 				ImageSource = driver.ImageSource;
 			}
-			switch (internalType)
+			else
 			{
-				case 0x100:
-					TypeName = "Зона";
-					ImageSource = "/Controls;component/Images/zone.png";
-					break;
+				switch (journalItem.DescriptorType)
+				{
+					case 0x100:
+						TypeName = "Зона";
+						ImageSource = "/Controls;component/Images/zone.png";
+						break;
 
-				case 0x101:
-					TypeName = "Задержка";
-					ImageSource = "/Controls;component/Images/Delay.png";
-					break;
+					case 0x101:
+						TypeName = "Задержка";
+						ImageSource = "/Controls;component/Images/Delay.png";
+						break;
 
-				case 0x106:
-					TypeName = "Направление";
-					ImageSource = "/Controls;component/Images/Blue_Direction.png";
-					break;
+					case 0x106:
+						TypeName = "Направление";
+						ImageSource = "/Controls;component/Images/Blue_Direction.png";
+						break;
+				}
 			}
 		}
 
-		void InitializePresentationName(JournalItem journalItem)
+		void InitializePresentationName()
 		{
-			JournalItem = journalItem;
+			if (!string.IsNullOrEmpty(JournalItem.ObjectName))
+			{
+				PresentationName = JournalItem.ObjectName;
+				return;
+			}
+
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (device != null)
 					{
-						PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
+						PresentationName = device.PresentationName;
 					}
 					break;
 
@@ -93,12 +105,24 @@ namespace GKModule.ViewModels
 					}
 					break;
 
+				case JournalItemType.Delay:
+					XDelay delay = null;
+					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+					{
+						delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+						if (delay != null)
+							break;
+					}
+					if (delay != null)
+					{
+						PresentationName = delay.Name;
+					}
+					break;
+
 				case JournalItemType.System:
 					break;
 			}
 		}
-
-
 
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
@@ -134,11 +158,5 @@ namespace GKModule.ViewModels
 			}
 			return false;
 		}
-
-		public JournalItem JournalItem { get; private set; }
-		public string PresentationName { get; private set; }
-		public string TypeName { get; private set; }
-		public string Address { get; private set; }
-		public string ImageSource { get; private set; }
 	}
 }

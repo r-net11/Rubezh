@@ -14,7 +14,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand ShowImitatorCommand { get; private set; }
         void OnShowImitator()
         {
-			ImitatorService.Show();
+            ImitatorService.Show();
         }
     }
 }

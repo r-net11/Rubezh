@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.XModels;
 
@@ -13,13 +12,13 @@ namespace XFiresecAPI
 		{
 			Device = device;
 
-			if (device.Driver.DriverType == XDriverType.System)
+			if (device.DriverType == XDriverType.System)
 				IsInitialState = false;
 
 			MeasureParameter = new XMeasureParameter();
 		}
 
-		List<XStateBit> _states = new List<XStateBit>();
+		List<XStateBit> _stateBitss = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{
 			get
@@ -30,19 +29,16 @@ namespace XFiresecAPI
 				if (!Device.IsRealDevice)
 					return new List<XStateBit>() { XStateBit.Norm };
 
-				if (Device.Driver.DriverType == XDriverType.PumpStation)
-					return new List<XStateBit>() { XStateBit.Norm };
-
-				if (_states == null)
-					_states = new List<XStateBit>();
-				_states.Remove(XStateBit.Save);
-				return _states;
+				if (_stateBitss == null)
+					_stateBitss = new List<XStateBit>();
+				_stateBitss.Remove(XStateBit.Save);
+				return _stateBitss;
 			}
 			set
 			{
-				_states = value;
-				if (_states == null)
-					_states = new List<XStateBit>();
+				_stateBitss = value;
+				if (_stateBitss == null)
+					_stateBitss = new List<XStateBit>();
 				OnStateChanged();
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 				{

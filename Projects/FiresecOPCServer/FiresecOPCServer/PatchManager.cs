@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using Infrastructure.Common;
+using FiresecClient;
+using XFiresecAPI;
+using GKProcessor;
 
 namespace FiresecOPCServer
 {
@@ -9,27 +12,9 @@ namespace FiresecOPCServer
 		{
 			try
 			{
-				Patch1();
+				Patcher.Patch();
 			}
 			catch { }
-		}
-
-		static void Patch1()
-		{
-			var patchNo = PatchHelper.GetPatchNo("OPC");
-			if (patchNo > 0)
-				return;
-
-			if (Directory.Exists("Configuration"))
-			{
-				Directory.Delete("Configuration", true);
-			}
-			if (Directory.Exists("Logs"))
-			{
-				Directory.Delete("Logs", true);
-			}
-
-			PatchHelper.SetPatchNo("Administrator", 1);
 		}
 	}
 }

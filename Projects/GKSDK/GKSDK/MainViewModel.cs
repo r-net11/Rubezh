@@ -1,15 +1,12 @@
-﻿using System;
-using System.Configuration;
-using System.Windows;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Services;
-using Common.GK;
+﻿using System.Threading;
 using GKProcessor;
-using Microsoft.Practices.Prism.Events;
-using FiresecClient;
 using FiresecAPI.Models;
-using System.Threading;
+using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
+using Microsoft.Practices.Prism.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKSDK
 {
@@ -17,6 +14,7 @@ namespace GKSDK
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ZonesViewModel ZonesViewModel { get; private set; }
+		public DirectionsViewModel DirectionsViewModel { get; private set; }
 		public JournalsViewModel JournalsViewModel { get; private set; }
 
 		public MainViewModel()
@@ -25,6 +23,7 @@ namespace GKSDK
 
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
+			DirectionsViewModel = new DirectionsViewModel();
 			JournalsViewModel = new JournalsViewModel();
 		}
 
@@ -38,7 +37,7 @@ namespace GKSDK
 				Thread.Sleep(5000);
 				if (i == 10)
 				{
-					//UILogger.Log("Ошибка соединения с сервером: " + message);
+					MessageBoxService.ShowError("Ошибка соединения с сервером: " + message);
 					return;
 				}
 			}
@@ -47,18 +46,11 @@ namespace GKSDK
 			Watcher.MustShowProgress = false;
 			GKDBHelper.CanAdd = false;
 
-			//UILogger.Log("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration("GKSDK/Configuration");
-
-			//UILogger.Log("Создание драйверов");
 			GKDriversCreator.Create();
-
-			//UILogger.Log("Обновление конфигурации");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();
-
-			//UILogger.Log("Старт мониторинга");
 			WatcherManager.Start();
 		}
 	}

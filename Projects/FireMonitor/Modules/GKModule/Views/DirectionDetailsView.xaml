@@ -31,19 +31,19 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right" TextBlock.Foreground="Red">
                 <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+                    <TextBlock Text="Задержка на включение" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DirectionState.OnDelay}" Foreground="Red" FontSize="24" Margin="2" />
-                        <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding DirectionState.OnDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Удержание" Foreground="White" Margin="2" />
+                    <TextBlock Text="Удержание" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DirectionState.HoldDelay}" Foreground="Red" FontSize="24" Margin="2" />
-                        <TextBlock Text="Сек" Foreground="Red" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding DirectionState.HoldDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -123,9 +123,10 @@
                             <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <Button Content="Включить" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Включить немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Выключить" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Стоп" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
                         </StackPanel>
                     </Grid>
                 </Grid>

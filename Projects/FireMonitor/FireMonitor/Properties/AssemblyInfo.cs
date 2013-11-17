@@ -6,7 +6,7 @@
 [assembly: AssemblyTitle("Оперативная задача")]
 [assembly: AssemblyDescription("Приложения для оперативного мониторинга ситуации на объекте")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("Оперативная задача ОПС 'FireSec-2'")]
+[assembly: AssemblyProduct("Оперативная задача ОПС 'FireSec'")]
 
 //Чтобы начать построение локализованных приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj

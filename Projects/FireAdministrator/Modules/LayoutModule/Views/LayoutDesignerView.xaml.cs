@@ -1,13 +1,11 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Xceed.Wpf.AvalonDock;
+using System.Windows.Controls;
 
 namespace LayoutModule.Views
 {
-	/// <summary>
-	/// Interaction logic for LayoutDesignerView.xaml
-	/// </summary>
 	public partial class LayoutDesignerView : UserControl
 	{
 		public static readonly DependencyProperty ManagerProperty = DependencyProperty.Register("Manager", typeof(DockingManager), typeof(LayoutDesignerView), new UIPropertyMetadata(null));

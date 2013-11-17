@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Common;
-using Common.GK;
+using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -15,9 +17,9 @@ namespace GKProcessor
 		{
 			try
 			{
-				DatabaseManager.Convert();
+				DescriptorsManager.Create();
 
-				var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 				if (gkDatabase != null)
 				{
 					var result = Ping(gkDatabase);
@@ -28,17 +30,27 @@ namespace GKProcessor
 
 					for (int i = 0; i < 3; i++)
 					{
-						var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
-						gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
-						LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + i : ""), summaryObjectsCount);
+						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
+						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
+						LoadingService.Show("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : ""), summaryDescriptorsCount, true);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
 						{
 							error = "Не удалось перевести ГК в технологический режим";
-							break;
+							continue;
 						}
-						EraseDatabase(gkDatabase.RootDevice);
+						if (LoadingService.IsCanceled)
+							return;
+
+						if(!EraseDatabase(gkDatabase.RootDevice))
+						{
+							error = "Не удалось стереть базу данных ГК";
+							continue;
+						}
+
+						if (LoadingService.IsCanceled)
+							return;
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
@@ -46,21 +58,37 @@ namespace GKProcessor
 							if (!result)
 							{
 								error = "Не удалось перевести КАУ в технологический режим";
-								break;
+								continue;
 							}
-							EraseDatabase(kauDatabase.RootDevice);
+
+							if (LoadingService.IsCanceled)
+								return;
+
+							if (!EraseDatabase(kauDatabase.RootDevice))
+							{
+								error = "Не удалось стереть базу данных КАУ";
+								continue;
+							}
+
+							if (LoadingService.IsCanceled)
+								return;
+
 							var writeResult = WriteConfigToDevice(kauDatabase);
+							if (LoadingService.IsCanceled)
+								return;
 							if (!writeResult)
 							{
 								error = "Не удалось записать дескриптор КАУ";
-								break;
+								continue;
 							}
 						}
 						var writeResult2 = WriteConfigToDevice(gkDatabase);
+						if (LoadingService.IsCanceled)
+							return;
 						if (!writeResult2)
 						{
 							error = "Не удалось записать дескриптор ГК";
-							break;
+							continue;
 						}
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
@@ -76,11 +104,12 @@ namespace GKProcessor
 							error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
+						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 						return;
 					}
 					if (error != null)
 					{
-						MessageBoxService.ShowError("Во время записи конфигурации возникла ошибка" + "/n" + error);
+						result = MessageBoxService.ShowQuestion("Во время записи конфигурации возникла ошибка" + Environment.NewLine + error + Environment.NewLine + "Перевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
 					}
 				}
 			}
@@ -115,16 +144,35 @@ namespace GKProcessor
 			return true;
 		}
 
+		public static bool Clear(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 16, 0);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
+				return false;
+			}
+			return true;
+		}
+		
 		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
-			foreach (var binaryObject in commonDatabase.BinaryObjects)
+			foreach (var descriptor in commonDatabase.Descriptors)
 			{
+				if (LoadingService.IsCanceled)
+					return false;
+
+				if (commonDatabase is GkDatabase && descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv)
+				{
+					;
+				}
+
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
-					binaryObject.BinaryBase.GetBinaryDescription() + " " +
-					"(" + binaryObject.GetNo().ToString() + ")" +
-					" из " + commonDatabase.BinaryObjects.Count.ToString();
+					descriptor.XBase.GetDescriptorName() + " " +
+					"(" + descriptor.GetDescriptorNo().ToString() + ")" +
+					" из " + commonDatabase.Descriptors.Count.ToString();
 				LoadingService.DoStep(progressStage);
-				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
+				var packs = BinConfigurationWriter.CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;
@@ -132,7 +180,8 @@ namespace GKProcessor
 					if (sendResult.HasError)
 					{
 						LoadingService.Close();
-						return MessageBoxService.ShowQuestion(sendResult.Error + "\n\nПперевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
+						Trace.WriteLine(progressStage);
+						return false;
 					}
 				}
 			}
@@ -140,20 +189,20 @@ namespace GKProcessor
 			return true;
 		}
 
-		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
+		static List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
 		{
-			var objectNo = (ushort)(binaryObject.GetNo());
+			var objectNo = (ushort)(descriptor.GetDescriptorNo());
 
 			var packs = new List<List<byte>>();
-			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
+			for (int packNo = 0; packNo <= descriptor.AllBytes.Count / 256; packNo++)
 			{
-				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
-				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
+				int packLenght = Math.Min(256, descriptor.AllBytes.Count - packNo * 256);
+				var packBytes = descriptor.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				if (packBytes.Count > 0)
+				if (packBytes.Count > 0)// || (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv))
 				{
 					var resultBytes = new List<byte>();
-					ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+					ushort binaryObjectNo = (ushort)(descriptor.GetDescriptorNo());
 					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
 					resultBytes.Add((byte)(packNo + 1));
 					resultBytes.AddRange(packBytes);
@@ -179,7 +228,7 @@ namespace GKProcessor
 				return true;
 
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
-			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
+			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			if (sendResult.HasError)
 			{
 				return false;
@@ -215,10 +264,14 @@ namespace GKProcessor
 		public static bool GoToWorkingRegime(XDevice device)
 		{
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
-			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
+			if (LoadingService.IsCanceled)
+				return true;
+			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 100; i++)
 			{
+				if (LoadingService.IsCanceled)
+					return true;
 				var sendResult = SendManager.Send(device, 0, 1, 1);
 				if (!sendResult.HasError)
 				{
@@ -237,7 +290,7 @@ namespace GKProcessor
 			return false;
 		}
 
-		static void EraseDatabase(XDevice device)
+		static bool EraseDatabase(XDevice device)
 		{
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
@@ -245,27 +298,21 @@ namespace GKProcessor
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{
-					return;
+					return true;
 				}
 				else
 				{
 					Thread.Sleep(TimeSpan.FromSeconds(1));
 				}
 			}
-			MessageBoxService.ShowError("Не удалось стереть базу данных");
+			return false;
 		}
 
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
-			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
+			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
-		}
-
-		static void SyncronizeTime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
-			DeviceBytesHelper.WriteDateTime(device);
 		}
 	}
 }

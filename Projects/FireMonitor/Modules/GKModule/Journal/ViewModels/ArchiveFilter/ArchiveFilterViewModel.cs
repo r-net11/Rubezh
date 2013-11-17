@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -34,6 +34,8 @@ namespace GKModule.ViewModels
 			InitializeDevices(archiveFilter);
 			InitializeZones(archiveFilter);
 			InitializeDirections(archiveFilter);
+			InitializeDescriptions(archiveFilter);
+			
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -97,13 +99,13 @@ namespace GKModule.ViewModels
 		public void InitializeJournalDescriptionStates(XArchiveFilter archiveFilter)
 		{
 			JournalDescriptionStates = new List<JournalDescriptionStateViewModel>();
-            foreach (var xEvent in JournalDescriptionStateHelper.JournalDescriptionStates)
+            foreach (var journalDescriptionState in JournalDescriptionStateHelper.JournalDescriptionStates)
 			{
-				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(xEvent));
+				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
 			}
-			foreach (var xEvent in archiveFilter.JournalDescriptionState)
+			foreach (var journalDescriptionState in archiveFilter.JournalDescriptionState)
 			{
-                var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == xEvent);
+                var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == journalDescriptionState);
 				if (eventNameViewModel != null)
 				{
 					eventNameViewModel.IsChecked = true;
@@ -145,6 +147,24 @@ namespace GKModule.ViewModels
 					archiveDirection.IsChecked = true;
 				}
 			}
+		}
+
+		public void InitializeDescriptions(XArchiveFilter archiveFilter)
+		{
+			ArchiveDescriptions = new List<DescriptionViewModel>();
+			foreach (var description in DescriptionsHelper.GetAllDescriptions())
+			{
+				ArchiveDescriptions.Add(new DescriptionViewModel(description));
+			}
+			foreach (var description in archiveFilter.Descriptions)
+			{
+				var descriptionViewModel = ArchiveDescriptions.FirstOrDefault(x => x.Description.Name == description);
+				if(descriptionViewModel != null)
+				{
+					descriptionViewModel.IsChecked = true;
+				}
+			}
+			var checke = ArchiveDescriptions.Where(x => x.IsChecked == true).ToList(); 
 		}
 
 		#region Devices
@@ -294,6 +314,7 @@ namespace GKModule.ViewModels
 		public List<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
+		public List<DescriptionViewModel> ArchiveDescriptions { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{
@@ -338,6 +359,11 @@ namespace GKModule.ViewModels
 				if (archiveDirection.IsChecked)
 					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.UID);
 			}
+			foreach (var description in ArchiveDescriptions)
+			{
+				if (description.IsChecked)
+					archiveFilter.Descriptions.Add(description.Description.Name);
+			}
 			return archiveFilter;
 		}
 
@@ -352,6 +378,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("RootDevices");
 			OnPropertyChanged("ArchiveZones");
 			OnPropertyChanged("ArchiveDirections");
+			OnPropertyChanged("ArchiveDescriptions");
+			OnPropertyChanged("JournalDescriptionStates");
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

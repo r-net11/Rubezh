@@ -1,0 +1,54 @@
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <property name="debug" value="true"/>
+
+  <target name="run">
+    <call target="CopyFS1" />
+    <call target="Copy" />
+  </target>
+
+  <target name="CopyFS1">
+    <copy todir="..\..\Projects\SDK\Assemblies" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\SDK\ItvIntegration\bin\Debug">
+        <include name="Common.dll" />
+        <include name="Controls.dll" />
+        <include name="Firesec.dll" />
+        <include name="FiresecAPI.dll" />
+        <include name="FiresecClient.dll" />
+        <include name="FiresecClient.ITV.dll" />
+        <include name="FS2API.dll" />
+        <include name="FS2Client.dll" />
+        <include name="FSAgentAPI.dll" />
+        <include name="FSAgentClient.dll" />
+        <include name="Infrastructure.Common.dll" />
+        <include name="Infrustructure.Plans.dll" />
+        <include name="Microsoft.Practices.Prism.dll" />
+        <include name="Xceed.Wpf.Toolkit.dll" />
+        <include name="NLog.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="Copy">
+    <copy todir="..\..\Projects\GKSDK\Assemblies" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\GKSDK\GKSDK\bin\Debug">
+        <include name="Common.dll" />
+        <include name="Controls.dll" />
+        <include name="Firesec.dll" />
+        <include name="FiresecAPI.dll" />
+        <include name="FiresecClient.dll" />
+        <include name="FS2API.dll" />
+        <include name="FS2Client.dll" />
+        <include name="FSAgentAPI.dll" />
+        <include name="FSAgentClient.dll" />
+        <include name="GKProcessor.dll" />
+        <include name="Infrastructure.Common.dll" />
+        <include name="Infrustructure.Plans.dll" />
+        <include name="Microsoft.Practices.Prism.dll" />
+        <include name="Xceed.Wpf.Toolkit.dll" />
+        <include name="NLog.dll" />
+      </fileset>
+    </copy>
+  </target>
+
+</project>

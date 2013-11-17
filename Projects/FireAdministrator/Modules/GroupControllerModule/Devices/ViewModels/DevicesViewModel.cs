@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Models;
 using GKModule.Plans.Designer;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Microsoft.Win32;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using Microsoft.Win32;
-using System.IO;
-using System.Runtime.Serialization;
-using Common.GK.Journal;
-using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -192,25 +192,24 @@ namespace GKModule.ViewModels
 			if (_deviceToCopy != null && SelectedDevice != null)
 			{
 				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
-					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.DriverType);
 				else
-					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType);
+					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.DriverType);
 			}
 			return false;
 		}
 
 		void PasteDevice(XDevice device)
 		{
-			if (SelectedDevice.Device.Driver.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.Driver.DriverType == XDriverType.KAUIndicator)
+			if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
 			{
 				return;
 			}
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
-				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device, SelectedDevice.Device.ShleifNo);
-				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)SelectedDevice.Device.ShleifNo, (byte)(maxAddress % 256 + 1));
+				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
+				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
 				XManager.CopyDevice(device, addedDevice);
-				addedDevice.ShleifNo = (byte)SelectedDevice.Device.ShleifNo;
 				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
@@ -232,8 +231,8 @@ namespace GKModule.ViewModels
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "Журнал событий Firesec-2|*.fscj",
-				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+				Filter = "Журнал событий Firesec|*.fscj",
+				DefaultExt = "Журнал событий Firesec|*.fscj"
 			};
 			if (openDialog.ShowDialog().Value)
 			{
@@ -372,6 +371,18 @@ namespace GKModule.ViewModels
 			RibbonItems[0][0].Command = SelectedDevice == null ? null : SelectedDevice.AddCommand;
 			RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
 			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
+            
+            RibbonItems[1][6][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
+            RibbonItems[1][6][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
+            RibbonItems[1][6][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
+            RibbonItems[1][6][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
+            RibbonItems[1][6][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
+            RibbonItems[1][6][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
+            RibbonItems[1][6][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
+            RibbonItems[1][6][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
+            RibbonItems[1][6][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
+            RibbonItems[1][6][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
+            RibbonItems[1][6][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
 		}
 		private void SetRibbonItems()
 		{
@@ -394,11 +405,24 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
 					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "/Controls;component/Images/BJournal.png"),
 					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "/Controls;component/Images/BParametersSync.png"),
-					new RibbonMenuItemViewModel("Считать параметры из всех устройств", DeviceCommandsViewModel.GetAllParametersCommand, "/Controls;component/Images/BParametersReadAll.png") { IsNewGroup = true },
-					new RibbonMenuItemViewModel("Записать параметры во все устройства", DeviceCommandsViewModel.SetAllParametersCommand, "/Controls;component/Images/BParametersWriteAll.png"),
-					new RibbonMenuItemViewModel("Считать параметры одного устройства", DeviceCommandsViewModel.GetSingleParameterCommand, "/Controls;component/Images/BParametersRead.png"),
-					new RibbonMenuItemViewModel("Записать параметры в одно устройство", DeviceCommandsViewModel.SetSingleParameterCommand, "/Controls;component/Images/BParametersWrite.png"),
-					new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
+					new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>
+                    {
+                        new RibbonMenuItemViewModel("Считать параметры", "/Controls;component/Images/BParametersRead.png"),
+                        new RibbonMenuItemViewModel("Записать параметры", "/Controls;component/Images/BParametersWrite.png"),
+                        new RibbonMenuItemViewModel("Считать параметры дочерних устройств", "/Controls;component/Images/BParametersReadAll.png"),
+                        new RibbonMenuItemViewModel("Записать параметры дочерних устройств", "/Controls;component/Images/BParametersWriteAll.png"),
+
+                        new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "/Controls;component/Images/BLeft.png"),
+                        new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "/Controls;component/Images/BLeftLeft.png"),
+                        
+                        new RibbonMenuItemViewModel("Копировать параметры", "/Controls;component/Images/BCopy.png"),
+                        new RibbonMenuItemViewModel("Вставить параметры", "/Controls;component/Images/BPaste.png"),
+                        new RibbonMenuItemViewModel("Вставить во все дочерние устройства", "/Controls;component/Images/BPasteAll.png"),
+                        
+                        new RibbonMenuItemViewModel("Применить шаблон", "/Controls;component/Images/BBriefcase.png"),
+                        new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "/Controls;component/Images/BBriefcaseAll.png"),
+                    }, "/Controls;component/Images/BParametersReadWrite.png"),
+                    new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}

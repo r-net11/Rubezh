@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using FiresecClient;
-
-using System.Windows.Data;
 using FiresecAPI;
+using System.Windows.Data;
 using Infrastructure.Models;
 using GKProcessor.Events;
+using System.Diagnostics;
 
 
 namespace GKModule.ViewModels
@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 	public class JournalViewModel : BaseViewModel
 	{
 		public JournalFilterViewModel JournalFilterViewModel { get; private set; }
-
+		
 		public JournalViewModel(XJournalFilter journalFilter)
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
@@ -102,8 +102,5 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ShowIP");
 			OnPropertyChanged("ShowSubsystem");
 		}
-
-		
 	}
-
 }

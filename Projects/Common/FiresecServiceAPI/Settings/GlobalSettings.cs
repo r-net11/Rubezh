@@ -17,28 +17,13 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			Server_EnableRemoteConnections = false;
-			Modules =
-				"DevicesModule.dll" + "\r\n" +
-				"PlansModule.dll" + "\r\n" +
-				"PlansModule.Kursk.dll" + "\r\n" +
-				//"LibraryModule.dll" + "\r\n" +
-				"SecurityModule.dll" + "\r\n" +
-				//"FiltersModule.dll" + "\r\n" +
-				"SoundsModule.dll" + "\r\n" +
-				//"InstructionsModule.dll" + "\r\n" +
-				"SettingsModule.dll" + "\r\n" +
-				"GKModule.dll" + "\r\n" +
-				//"OPCModule.dll" + "\r\n" +
-				//"NotificationModule.dll" + "\r\n" +
-				"VideoModule.dll" + "\r\n" +
-				"DiagnosticsModule.dll" + "\r\n" +
-				//"AlarmModule.dll" + "\r\n" +
-				//"JournalModule.dll" + "\r\n" +
-				"ReportsModule.dll";
+            
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
 			FS_Login = "adm";
 			FS_Password = "";
+
+            SetDefaultModules();
 
 			Monitor_F1_Enabled = false;
 			Monitor_F2_Enabled = true;
@@ -90,8 +75,8 @@ namespace FiresecAPI
 		[DataMember]
 		public string LibVlcDllsPath { get; set; }
 
-		[DataMember]
-		public string Modules { get; set; }
+        [DataMember]
+        public List<string> ModuleItems { get; set; }
 
 		[DataMember]
 		public bool Monitor_F1_Enabled { get; set; }
@@ -116,11 +101,26 @@ namespace FiresecAPI
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }
 
-		public List<string> GetModules()
+		public void SetDefaultModules()
 		{
-
-			var modules = Modules.Trim().Replace("\r\n", ";").Split(';');
-			return modules.ToList();
+            ModuleItems = new List<string>();
+            ModuleItems.Add("DevicesModule.dll");
+            ModuleItems.Add("PlansModule.dll");
+            ModuleItems.Add("PlansModule.Kursk.dll");
+            //ModuleItems.Add("LibraryModule.dll");
+            ModuleItems.Add("SecurityModule.dll");
+            //ModuleItems.Add("FiltersModule.dll");
+            ModuleItems.Add("SoundsModule.dll");
+            //ModuleItems.Add("InstructionsModule.dll");
+            ModuleItems.Add("SettingsModule.dll");
+            ModuleItems.Add("GKModule.dll");
+            //ModuleItems.Add("OPCModule.dll");
+            //ModuleItems.Add("NotificationModule.dll");
+            ModuleItems.Add("VideoModule.dll");
+            ModuleItems.Add("DiagnosticsModule.dll");
+            //ModuleItems.Add("AlarmModule.dll");
+            //ModuleItems.Add("JournalModule.dll");
+            ModuleItems.Add("ReportsModule.dll");
 		}
 
 		public bool IsDebug

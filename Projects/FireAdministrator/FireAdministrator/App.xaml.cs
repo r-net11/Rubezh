@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Windows;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using Common.GK;
 
 namespace FireAdministrator
 {
@@ -18,8 +18,8 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			string fileName;
 			PatchManager.Patch();
+			string fileName;
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ThemeHelper.LoadThemeFromRegister();

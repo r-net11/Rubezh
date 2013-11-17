@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -125,8 +125,6 @@ namespace FireMonitor
 		{
 			if (e.Cancel)
 				return;
-
-			GKDBHelper.AddMessage("Выход пользователя из системы", FiresecManager.CurrentUser.Name);
 
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)

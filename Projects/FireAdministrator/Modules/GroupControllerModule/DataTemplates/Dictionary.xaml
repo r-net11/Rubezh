@@ -40,16 +40,8 @@
 		<Views:DatabasesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceConfigurationViewModel}">
-        <Views:DeviceConfigurationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationViewModel}">
-        <Views:PumpStationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
-        <Views:DeviceSelectationView />
+    <DataTemplate DataType="{x:Type ViewModels:ConfigurationCompareViewModel}">
+        <Views:ConfigurationCompareView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">

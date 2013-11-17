@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
+using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Common.GK;
 
 namespace GKModule.ViewModels
 {
@@ -128,9 +128,8 @@ namespace GKModule.ViewModels
 
         protected override bool CanSave()
         {
-            var result = StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
+			return StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
                 JournalDescriptionStates.Where(x => x.IsChecked == true).ToList().Count > 0;
-            return result;
         }
 	}
 

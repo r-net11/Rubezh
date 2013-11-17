@@ -5,9 +5,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-    public class DirectionValidationError : ObjectValidationError<XDirection, ShowXDirectionEvent, Guid>
-    {
-        public DirectionValidationError(XDirection direction, string error, ValidationErrorLevel level)
+	public class DirectionValidationError : ObjectValidationError<XDirection, ShowXDirectionEvent, Guid>
+	{
+		public DirectionValidationError(XDirection direction, string error, ValidationErrorLevel level)
 			: base(direction, error, level)
 		{
 		}
@@ -31,9 +31,9 @@ namespace GKModule.Validation
 			get { return Object.No.ToString(); }
 		}
 
-        public override string ImageSource
-        {
-            get { return "/Controls;component/Images/Blue_Direction.png"; }
-        }
-    }
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Blue_Direction.png"; }
+		}
+	}
 }

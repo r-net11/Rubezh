@@ -24,7 +24,6 @@ namespace FiresecClient
 		{
 			deviceTo.DriverUID = deviceFrom.DriverUID;
 			deviceTo.Driver = deviceFrom.Driver;
-			deviceTo.ShleifNo = deviceFrom.ShleifNo;
 			deviceTo.IntAddress = deviceFrom.IntAddress;
 			deviceTo.Description = deviceFrom.Description;
 
@@ -38,14 +37,22 @@ namespace FiresecClient
 				});
 			}
 
-			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
+			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs;
+			deviceTo.Zones = deviceFrom.Zones;
 			foreach (var clause in deviceFrom.DeviceLogic.Clauses)
 			{
 				var clonedClause = new XClause()
 				{
+					ClauseConditionType = clause.ClauseConditionType,
+					ClauseJounOperationType = clause.ClauseJounOperationType,
+					ClauseOperationType = clause.ClauseOperationType,
+					StateType = clause.StateType,
 					DeviceUIDs = clause.DeviceUIDs,
 					ZoneUIDs = clause.ZoneUIDs,
-					DirectionUIDs = clause.DirectionUIDs
+					DirectionUIDs = clause.DirectionUIDs,
+					Devices = clause.Devices,
+					Zones = clause.Zones,
+					Directions = clause.Directions,
 				};
 				deviceTo.DeviceLogic.Clauses.Add(clonedClause);
 			}
@@ -61,13 +68,12 @@ namespace FiresecClient
 			return deviceTo;
 		}
 
-		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte shleifNo, byte intAddress)
+		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte intAddress)
 		{
 			var device = new XDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = shleifNo,
 				IntAddress = intAddress,
 				Parent = parentDevice
 			};
@@ -78,13 +84,12 @@ namespace FiresecClient
 			return device;
 		}
 
-		public static XDevice InsertChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte shleifNo, byte intAddress)
+		public static XDevice InsertChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte intAddress)
 		{
 			var device = new XDevice()
 			{
 				DriverUID = driver.UID,
 				Driver = driver,
-				ShleifNo = shleifNo,
 				IntAddress = intAddress,
 				Parent = parentDevice
 			};
@@ -103,10 +108,10 @@ namespace FiresecClient
 				var autoCreateDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
-					AddChild(device, autoCreateDriver, 0, i);
+					AddChild(device, autoCreateDriver, i);
 				}
 			}
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				UpdateGKPredefinedName(device);
 			}
@@ -118,7 +123,7 @@ namespace FiresecClient
 			{
 				var childDevice = device.Children[i - 1];
 
-				if (device.Driver.Children.Contains(childDevice.Driver.DriverType) == false)
+				if (device.Driver.Children.Contains(childDevice.DriverType) == false)
 				{
 					device.Children.RemoveAt(i - 1);
 				}
@@ -135,7 +140,7 @@ namespace FiresecClient
 						Driver = autoCreateDriver,
 						IntAddress = i
 					};
-					if (device.Children.Any(x => x.Driver.DriverType == newDevice.Driver.DriverType && x.Address == newDevice.Address) == false)
+					if (device.Children.Any(x => x.DriverType == newDevice.DriverType && x.Address == newDevice.Address) == false)
 					{
 						device.Children.Add(newDevice);
 						newDevice.Parent = device;
@@ -146,7 +151,7 @@ namespace FiresecClient
 
 		public static bool IsValidIpAddress(XDevice device)
 		{
-			if (device.Driver.DriverType == XDriverType.GK)
+			if (device.DriverType == XDriverType.GK)
 			{
 				const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
 				var address = device.GetGKIpAddress();

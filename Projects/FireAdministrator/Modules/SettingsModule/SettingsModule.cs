@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Client;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Events;
 using SettingsModule.ViewModels;
-using Infrastructure;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
 
 namespace SettingsModule
 {
@@ -28,10 +26,6 @@ namespace SettingsModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			//return new List<NavigationItem>()
-			//{
-			//    new NavigationItem<ShowSettingsEvent>(SettingsViewModel, "Настройки", "/Controls;component/Images/settings.png"),
-			//};
 			return null;
 		}
 		public override string Name
@@ -41,8 +35,7 @@ namespace SettingsModule
 
         void OnEditValidation(object obj)
         {
-            var errorsFilterViewModel = new ErrorsFilterViewModel();
-            DialogService.ShowModalWindow(errorsFilterViewModel);
+			SettingsViewModel.ShowErrorsFilterCommand.Execute();
         }
 	}
 }

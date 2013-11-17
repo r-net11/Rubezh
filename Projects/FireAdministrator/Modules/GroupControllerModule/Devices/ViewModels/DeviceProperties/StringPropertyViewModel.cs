@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Infrastructure;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
@@ -10,10 +10,7 @@ namespace GKModule.ViewModels
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-			if (property != null)
-				_text = Convert.ToString(property.Value);
-			else
-				_text = Convert.ToString(driverProperty.Default);
+			_text = property != null ? property.StringValue : driverProperty.StringDefault;
 		}
 
 		string _text;
@@ -24,8 +21,37 @@ namespace GKModule.ViewModels
 			{
 				_text = value;
 				OnPropertyChanged("Text");
-				Save(Convert.ToUInt16(value));
+                //if (DriverProperty.Name == "IPAddress")
+				Save(value);
+				//else
+				//    Save(Convert.ToUInt16(value));
 			}
+		}
+
+		protected void Save(string value, bool useSaveService = true)
+		{
+			if (useSaveService)
+			{
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+
+			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+			if (systemProperty != null)
+			{
+				systemProperty.Name = DriverProperty.Name;
+				systemProperty.StringValue = value;
+			}
+			else
+			{
+				var newProperty = new XProperty()
+				{
+					Name = DriverProperty.Name,
+					StringValue = value
+				};
+				Device.Properties.Add(newProperty);
+			}
+			UpdateDeviceParameterMissmatchType();
+			Device.OnChanged();
 		}
 	}
 }

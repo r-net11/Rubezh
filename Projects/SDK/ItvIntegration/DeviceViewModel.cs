@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient.Itv;
-using System.Windows;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ItvIntegration
 {

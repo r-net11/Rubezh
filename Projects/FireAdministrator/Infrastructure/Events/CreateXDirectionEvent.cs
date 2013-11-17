@@ -12,6 +12,6 @@ namespace Infrastructure.Events
 	{
 		public bool Cancel { get; set; }
         public Guid DirectionUID { get; set; }
-		public XDirection XDirection { get; set; }
+		public XDirection Direction { get; set; }
 	}
 }

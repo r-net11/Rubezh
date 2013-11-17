@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 using GKModule.ViewModels;
 

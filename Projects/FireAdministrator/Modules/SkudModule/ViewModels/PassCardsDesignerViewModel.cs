@@ -4,11 +4,10 @@ using System.Linq;
 using Common;
 using Controls.Menu.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecClient;
-using Infrastructure.Common.Windows;
 
 namespace SkudModule.ViewModels
 {

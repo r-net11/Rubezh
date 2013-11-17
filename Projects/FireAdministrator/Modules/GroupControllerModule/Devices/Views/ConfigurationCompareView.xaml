@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="GKModule.Views.ConfigurationCompareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinWidth="800" MinHeight="600">
+    <UserControl.Resources>
+        <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding HasDifferences}" Value="true" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="Red" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" DataContext="{Binding LocalObjectsViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
+                      Name="DataGrid1" ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Устройства в конфигурации" MinWidth="220"  Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Name="textBlock" Text="{Binding Name}" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Адрес" MinWidth="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Address}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Grid.Column="1" DataContext= "{Binding RemoteObjectsViewModel}" ItemsSource="{Binding Objects}" SelectedItem="{Binding SelectedObject}"
+                      Name="DataGrid2" ScrollViewer.ScrollChanged="DataGrid2_ScrollChanged" Selector.SelectionChanged ="dataGrid2RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
+                      CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Устройства в приборе" MinWidth="220" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Адрес" MinWidth="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Address}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" >
+            <Button Content="Заменить текущую конфигурацию" Command="{Binding ChangeCommand}" HorizontalAlignment="Left" Width="250" Margin="2" />
+            <Controls:ToolBarButton ImageSource="/Controls;component/Images/nextDifference.png" ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
+            <Controls:ToolBarButton ImageSource="/Controls;component/Images/previousDifference.png" ToolTip="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
+        </StackPanel>
+ </Grid>
+</UserControl>

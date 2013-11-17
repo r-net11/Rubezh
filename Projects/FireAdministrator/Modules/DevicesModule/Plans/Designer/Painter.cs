@@ -1,10 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System;
 
 namespace DevicesModule.Plans.Designer
 {

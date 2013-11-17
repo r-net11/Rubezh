@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using FiresecAPI.XModels;
 using FiresecClient;
@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Diagnostics;
+using System;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -19,99 +21,93 @@ namespace GKModule.ViewModels
 		public XDeviceState DeviceState { get; private set; }
 		public XZoneState ZoneState { get; private set; }
 		public XDirectionState DirectionState { get; private set; }
+		public XDelayState DelayState { get; private set; }
 		public string PresentationName { get; private set; }
-		public string StringStates { get; private set; }
-
+		
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
-			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
+			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowInTree);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
-
-			PresentationName = "<Нет в конфигурации>";
-			switch (JournalItem.JournalItemType)
-			{
-				case JournalItemType.Device:
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (device != null)
-					{
-						DeviceState = device.DeviceState;
-						PresentationName = device.ShortName + " " + device.DottedAddress;
-					}
-					break;
-
-				case JournalItemType.Zone:
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (zone != null)
-					{
-						ZoneState = zone.ZoneState;
-						PresentationName = zone.PresentationName;
-					}
-					break;
-
-				case JournalItemType.Direction:
-					var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (direction != null)
-					{
-						DirectionState = direction.DirectionState;
-						PresentationName = direction.PresentationName;
-					}
-					break;
-
-				case JournalItemType.GK:
-					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (gkDevice != null)
-					{
-						DeviceState = gkDevice.DeviceState;
-						PresentationName = DeviceState.Device.ShortNameAndDottedAddress;
-					}
-					break;
-
-				case JournalItemType.User:
-					PresentationName = JournalItem.UserName;
-					break;
-
-				case JournalItemType.System:
-					PresentationName = JournalItem.UserName;
-					break;
-			}
-
-
-			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-			var stringBuilder = new StringBuilder();
-			foreach (var state in states)
-			{
-				if (state == XStateBit.Save)
-					continue;
-
-				stringBuilder.Append(state.ToDescription() + " ");
-			}
-			StringStates = stringBuilder.ToString();
-		}
-
-		public string ImageSource
-		{
-			get
+			IsExistsInConfig = true;
+			
+			try
 			{
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
 						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						return device == null ? "/Controls;component/StateClassIcons/Off.png" : device.Driver.ImageSource;
+						if (device != null)
+						{
+							DeviceState = device.DeviceState;
+							PresentationName = device.ShortName + " " + device.DottedAddress;
+						}
+						break;
+
 					case JournalItemType.Zone:
-						return "/Controls;component/Images/zone.png";
+						var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (zone != null)
+						{
+							ZoneState = zone.ZoneState;
+							PresentationName = zone.PresentationName;
+						}
+						break;
+
 					case JournalItemType.Direction:
-						return "/Controls;component/Images/Blue_Direction.png";
+						var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (direction != null)
+						{
+							DirectionState = direction.DirectionState;
+							PresentationName = direction.PresentationName;
+						}
+						break;
+
+					case JournalItemType.Delay:
+						XDelay delay = null;
+						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+						{
+							delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (delay != null)
+								break;
+						}
+						if (delay != null)
+						{
+							DelayState = delay.DelayState;
+							PresentationName = delay.Name;
+						}
+						break;
+
+					case JournalItemType.GkUser:
+						PresentationName = JournalItem.UserName;
+						break;
+
 					case JournalItemType.GK:
-						return "/Controls;component/GKIcons/GK.png";
-					case JournalItemType.User:
-						return "/Controls;component/Images/Chip.png";
 					case JournalItemType.System:
-						return "/Controls;component/Images/PC.png";
-					default:
-						return "/Controls;component/StateClassIcons/Off.png";
+						PresentationName = "";
+						break;
 				}
+
+				if (PresentationName == null)
+				{
+					PresentationName = JournalItem.ObjectName;
+					IsExistsInConfig = false;
+				}
+
+				if(PresentationName == null)
+					PresentationName = "<Нет в конфигурации>";
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalItemViewModel ctr");
+			}
+		}
+
+		public bool CanShow
+		{
+			get
+			{
+				return CanShowInTree() || CanShowOnPlan();
 			}
 		}
 
@@ -120,7 +116,7 @@ namespace GKModule.ViewModels
 		{
 			if (CanShowOnPlan())
 				OnShowOnPlan();
-			else if (CanShowObject())
+			else if (CanShowInTree())
 				OnShowObject();
 		}
 
@@ -141,14 +137,22 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
+#if DEBUG
+				case JournalItemType.Delay:
+					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
+					break;
+#endif
 				case JournalItemType.GK:
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
 					break;
 			}
 		}
-		bool CanShowObject()
+
+		public bool IsExistsInConfig { get; private set; }
+
+		bool CanShowInTree()
 		{
-			if (PresentationName == "<Нет в конфигурации>")
+			if (!IsExistsInConfig)
 				return false;
 
 			switch (JournalItem.JournalItemType)
@@ -156,6 +160,9 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+#if DEBUG
+				case JournalItemType.Delay:
+#endif
 				case JournalItemType.GK:
 					return true;
 			}
@@ -183,9 +190,9 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowOnPlan()
 		{
-			if (PresentationName == "<Нет в конфигурации>")
+			if (!IsExistsInConfig)
 				return false;
-
+			
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:

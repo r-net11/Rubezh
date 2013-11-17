@@ -1,17 +1,16 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
+using FS2Api;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Diagnostics;
-using FS2Api;
-using System.IO;
-using Microsoft.Win32;
-using System.Runtime.Serialization;
-using System.ComponentModel;
 using Infrastructure.Events;
+using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels
 {
@@ -247,8 +246,8 @@ namespace DevicesModule.ViewModels
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "Журнал событий Firesec-2|*.fscj",
-				DefaultExt = "Журнал событий Firesec-2|*.fscj"
+				Filter = "Журнал событий Firesec|*.fscj",
+				DefaultExt = "Журнал событий Firesec|*.fscj"
 			};
 			if (openDialog.ShowDialog().Value)
 			{

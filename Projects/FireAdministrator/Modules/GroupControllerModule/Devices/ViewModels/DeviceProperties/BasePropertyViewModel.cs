@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -14,6 +14,7 @@ namespace GKModule.ViewModels
 		public BasePropertyViewModel(XDriverProperty driverProperty, XDevice device)
 		{
 			DriverProperty = driverProperty;
+            IsAUParameter = driverProperty.IsAUParameter;
 			Device = device;
 
 			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
@@ -37,6 +38,7 @@ namespace GKModule.ViewModels
 			UpdateDeviceParameterMissmatchType();
 		}
 
+        public bool IsAUParameter { get; set; }
 		public string Caption
 		{
 			get { return DriverProperty.Caption; }
@@ -47,7 +49,7 @@ namespace GKModule.ViewModels
 			get { return DriverProperty.ToolTip; }
 		}
 
-		void UpdateDeviceParameterMissmatchType()
+		protected void UpdateDeviceParameterMissmatchType()
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
@@ -59,7 +61,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
+                    if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
 						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 					else
 						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
@@ -89,7 +91,7 @@ namespace GKModule.ViewModels
 		{
 			if (useSaveService)
 			{
-				ServiceFactory.SaveService.FSParametersChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);

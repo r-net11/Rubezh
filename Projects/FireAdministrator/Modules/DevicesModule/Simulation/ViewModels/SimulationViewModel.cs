@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.ViewModels;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using Common.GK;
+using GKProcessor;
 using FiresecClient;
 
 namespace GKModule.Converters
@@ -18,7 +18,7 @@ namespace GKModule.Converters
 				case JournalItemType.Device:
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 					if (device == null)
-						return "";
+						return "/Controls;component/Images/blank.png";
 					return device.Driver.ImageSource;
 
 				case JournalItemType.Zone:
@@ -27,17 +27,19 @@ namespace GKModule.Converters
 				case JournalItemType.Direction:
 					return "/Controls;component/Images/Blue_Direction.png";
 
-				case JournalItemType.GK:
-					return "/Controls;component/GKIcons/GK.png";
+				case JournalItemType.Delay:
+					return "/Controls;component/Images/Delay.png";
 
-				case JournalItemType.User:
+				case JournalItemType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
-				case JournalItemType.System:
-					return "/Controls;component/Images/PC.png";
+				//case JournalItemType.GK:
+				//    return "/Controls;component/GKIcons/GK.png";
+				//case JournalItemType.System:
+				//    return "/Controls;component/Images/PC.png";
 
 				default:
-					return "";
+					return "/Controls;component/Images/blank.png";
 			}
 		}
 

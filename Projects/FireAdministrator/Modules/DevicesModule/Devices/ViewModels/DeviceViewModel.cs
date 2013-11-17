@@ -11,11 +11,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
-using System.Windows.Controls;
-using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels
 {
@@ -89,9 +88,9 @@ namespace DevicesModule.ViewModels
 			get { return Device.HasDifferences; }
 			set { }
 		}
-        public bool HasMissingDifferences
+		public bool HasMissingDifferences
 		{
-            get { return Device.HasMissingDifferences; }
+			get { return Device.HasMissingDifferences; }
 			set { }
 		}
 

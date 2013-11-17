@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Common.GK;
+﻿﻿using System.Collections.Generic;
 using FiresecClient;
 using System.Threading;
 using Infrastructure.Common.Windows;

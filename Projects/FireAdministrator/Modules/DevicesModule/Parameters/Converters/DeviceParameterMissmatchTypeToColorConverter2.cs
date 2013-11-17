@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using DevicesModule.ViewModels;
 using System.Windows.Media;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.Converters
 {

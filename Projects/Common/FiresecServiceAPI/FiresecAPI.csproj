@@ -160,6 +160,7 @@
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Archive\DescriptionType.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
     <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
@@ -211,9 +212,6 @@
     <Compile Include="XModels\Delay\XDelay.cs" />
     <Compile Include="XModels\Device\XDeviceParameterTemplate.cs" />
     <Compile Include="XModels\Device\XParameterTemplate.cs" />
-    <Compile Include="XModels\Device\XPumpStationProperty.cs" />
-    <Compile Include="XModels\Device\XPumpStationPump.cs" />
-    <Compile Include="XModels\Device\XPumpStationPumpType.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
@@ -284,13 +282,14 @@
     <Compile Include="XModels\Driver\XDriverType.cs" />
     <Compile Include="XModels\Driver\XDriverTypeMappedProperty.cs" />
     <Compile Include="XModels\Filters\XJournalFilter.cs" />
+    <Compile Include="XModels\Firmware\HexFileCollectionInfo.cs" />
+    <Compile Include="XModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Guard\XGuardUser.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\JournalDescriptionState.cs" />
-    <Compile Include="XModels\Journal\JournalYesNoType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />
@@ -313,8 +312,7 @@
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
-    <Compile Include="XModels\XBinaryBase.cs" />
-    <Compile Include="XModels\XBinaryInfo.cs" />
+    <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>

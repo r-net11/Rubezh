@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Common.GK;
+using GKProcessor;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -47,9 +47,9 @@ namespace GKModule.ViewModels
                 var stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine(Direction.PresentationName);
 				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
-				foreach (var stateType in DirectionState.StateBits)
+				foreach (var stateClass in DirectionState.StateClasses)
 				{
-					stringBuilder.AppendLine(stateType.ToDescription());
+					stringBuilder.AppendLine(stateClass.ToDescription());
 				}
                 stringBuilder.AppendLine("Задержка: " + Direction.Delay.ToString());
 				return stringBuilder.ToString();
@@ -84,11 +84,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.StateBits.Contains(XStateBit.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return DirectionState.StateClasses.Contains(XStateClass.TurningOn) && DirectionState.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.StateBits.Contains(XStateBit.On) && DirectionState.HoldDelay > 0; }
+			get { return DirectionState.StateClasses.Contains(XStateClass.On) && DirectionState.HoldDelay > 0; }
 		}
 	}
 }

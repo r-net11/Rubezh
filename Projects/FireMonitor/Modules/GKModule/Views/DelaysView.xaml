@@ -1,0 +1,77 @@
+﻿<UserControl 
+    x:Class="GKModule.Views.DelaysView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+    xmlns:Views="clr-namespace:GKModule.Views"
+    xmlns:Converters="clr-namespace:GKModule.Converters" >
+
+	<Grid>
+        <DataGrid ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" Margin="2">
+			<DataGrid.Resources>
+				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.SelectedDelay.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+				</InputBindingCollection>
+			</DataGrid.Resources>
+			<DataGrid.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+				</Style>
+			</DataGrid.ItemContainerStyle>
+			<DataGrid.Columns>
+                <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center"/>
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding DelayState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+                                <TextBlock Width="200" Text="{Binding Delay.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+									<TextBlock.ContextMenu>
+										<ContextMenu>
+                                            <MenuItem Command="{Binding ShowJournalCommand}" >
+                                                <MenuItem.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Margin="2" Text="Показать связанные события" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+                                            <MenuItem Command="{Binding ShowPropertiesCommand}" >
+                                                <MenuItem.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                                                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </MenuItem.Header>
+                                            </MenuItem>
+										</ContextMenu>
+									</TextBlock.ContextMenu>
+								</TextBlock>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+                            <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding DelayState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+                            <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
+                                <TextBlock Text="{Binding DelayState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="сек" Margin="2" />
+                            </StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+            </DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

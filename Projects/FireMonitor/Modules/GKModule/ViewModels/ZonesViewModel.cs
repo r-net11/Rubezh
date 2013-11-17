@@ -18,15 +18,20 @@ namespace GKModule.ViewModels
 
         public void Initialize()
         {
-            Zones = (from XZone zone in XManager.Zones
-                     orderby zone.No
-                     select new ZoneViewModel(zone.ZoneState)).ToList();
-
+			Zones = new ObservableCollection<ZoneViewModel>();
+			foreach (var zone in XManager.Zones)
+			{
+				if (zone.Devices.Count > 0)
+				{
+					var zoneViewModel = new ZoneViewModel(zone.ZoneState);
+					Zones.Add(zoneViewModel);
+				}
+			}
             SelectedZone = Zones.FirstOrDefault();
         }
 
-        List<ZoneViewModel> _zones;
-        public List<ZoneViewModel> Zones
+        ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
         {
             get { return _zones; }
             set

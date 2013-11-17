@@ -30,7 +30,7 @@
 				<Button Command="{Binding Content.ApplicationMaximizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}}" Focusable="False">
 					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
 				</Button>
-				<Button Command="{Binding Content.ApplicationNormalizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" Focusable="False">
+                <Button Command="{Binding Content.ApplicationNormalizeCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Нормальный размер" Visibility="{Binding Content.IsMaximized, Converter={StaticResource InversedBoolToVisibilityConverter}}" Focusable="False">
 					<Image Height="12" Margin="-2" Source="/Controls;component/Images/Normalize.png" />
 				</Button>
 			</StackPanel>

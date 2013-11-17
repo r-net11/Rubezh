@@ -44,7 +44,6 @@ namespace GKModule.Reports
 			var table = new DataTable("Journal");
 			table.Columns.Add("DateTime");
 			table.Columns.Add("Name");
-			table.Columns.Add("YesNo");
 			table.Columns.Add("Description");
 			table.Columns.Add("ObjectName");
 			table.Columns.Add("StateClass");
@@ -67,7 +66,6 @@ namespace GKModule.Reports
 				table.Rows.Add(
 					journalItem.DeviceDateTime,
 					journalItem.Name,
-					journalItem.YesNo.ToDescription(),
 					journalItem.Description,
 					objectName,
 					journalItem.StateClass.ToDescription());

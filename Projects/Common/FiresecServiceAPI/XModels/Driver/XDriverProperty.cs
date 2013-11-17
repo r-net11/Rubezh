@@ -65,5 +65,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public double Multiplier { get; set; }
+
+		[DataMember]
+		public bool IsMPTOrMRORegime { get; set; }
 	}
 }

@@ -7,8 +7,9 @@
 		GKIndicator,
 		GKLine,
 		GKRele,
-		PumpStation,
+		//PumpStation,
         KAU,
+		KAU_Shleif,
         KAUIndicator,
 		SmokeDetector,
 		HeatDetector,
@@ -30,6 +31,7 @@
 		AM_4,
 		AMP_4,
 		RSR2_KAU,
+		RSR2_KAU_Shleif,
 		RSR2_HandDetector,
 		RSR2_SmokeDetector,
 		RSR2_CombinedDetector,
@@ -45,7 +47,10 @@
 		RSR2_MVK8_Group,
 		RSR2_HeatDetector,
 		RSR2_Bush,
+		Battery,
         Shu,
-        Shuv
+        Shuv,
+        RSR2_Siren,
+        RSR2_Table
     }
 }

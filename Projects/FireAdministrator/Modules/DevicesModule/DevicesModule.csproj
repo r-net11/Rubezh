@@ -117,7 +117,6 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
-    <Compile Include="Devices\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="Devices\FS2\FS2ProgressService.cs" />

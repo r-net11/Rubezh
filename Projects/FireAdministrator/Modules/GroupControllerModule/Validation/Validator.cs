@@ -23,7 +23,7 @@ namespace GKModule.Validation
 
         static bool IsManyGK()
         {
-            return XManager.Devices.Where(x=>x.Driver.DriverType == XDriverType.GK).Count() > 1;
+            return XManager.Devices.Where(x=>x.DriverType == XDriverType.GK).Count() > 1;
         }
 
         static bool AreDevicesInSameGK(List<XDevice> devices)

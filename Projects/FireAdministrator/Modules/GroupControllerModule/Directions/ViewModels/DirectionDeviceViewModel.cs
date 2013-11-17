@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Infrastructure;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -12,6 +13,16 @@ namespace GKModule.ViewModels
         }
 
         public XDirectionDevice DirectionDevice { get; private set; }
+
+		public string PresentationZone
+		{
+			get
+			{
+				if (DirectionDevice.Device.IsNotUsed)
+					return null;
+				return XManager.GetPresentationZone(DirectionDevice.Device);
+			}
+		}
 
         public XStateBit StateType
         {

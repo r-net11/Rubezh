@@ -5,7 +5,6 @@
 						 Level="1" Display="expand" ConfigurableDirectory="SDKLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="SDK.Files" />
       <ComponentRef Id="SDK.Files.Integration" />
-      <ComponentRef Id="SDK.Files.Infrastructure" />
       <ComponentRef Id="SDK.Files.Properties" />
       <ComponentRef Id="SDK.Files.Assemblies" />
     </Feature>

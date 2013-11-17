@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Common.GK;
 using FiresecClient;
 using GKProcessor.Events;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using Infrastructure.Common.Services;
 
 namespace GKProcessor
 {
@@ -38,10 +36,9 @@ namespace GKProcessor
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						ObjectUID = GkDatabase.RootDevice.UID,
-						GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),
-						JournalItemType = JournalItemType.GK,
+						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
+						ObjectStateClass = XStateClass.Norm,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
 					};
 
@@ -52,10 +49,10 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						GetAllStates();
+						//GetAllStates(false);
 					}
 				}
-				var gkDevice = XManager.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
+                var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
 				if (gkDevice == null)
 				{
 					var uidEquality = XManager.Devices.Any(x => x.UID == GkDatabase.RootDevice.UID);

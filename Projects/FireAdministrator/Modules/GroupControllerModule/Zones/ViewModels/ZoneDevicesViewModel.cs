@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,7 +8,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Collections;
 
 namespace GKModule.ViewModels
 {
@@ -63,10 +63,10 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				if ((device.Driver.DriverType == XDriverType.GKIndicator) ||
-					(device.Driver.DriverType == XDriverType.GKLine) ||
-					(device.Driver.DriverType == XDriverType.GKRele) ||
-					(device.Driver.DriverType == XDriverType.KAUIndicator))
+				if ((device.DriverType == XDriverType.GKIndicator) ||
+					(device.DriverType == XDriverType.GKLine) ||
+					(device.DriverType == XDriverType.GKRele) ||
+					(device.DriverType == XDriverType.KAUIndicator))
 					continue;
 
 				var deviceViewModel = new ZoneDeviceViewModel(device)

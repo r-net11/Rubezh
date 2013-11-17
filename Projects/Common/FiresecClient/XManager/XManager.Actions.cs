@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
-using System;
 
 namespace FiresecClient
 {
@@ -54,8 +54,9 @@ namespace FiresecClient
 			device.InitializeDefaultProperties();
 		}
 
-		public static void RemoveDevice(XDevice parentDevice, XDevice device)
+		public static void RemoveDevice(XDevice device)
 		{
+			var parentDevice = device.Parent;
 			foreach (var zone in device.Zones)
 			{
 				zone.Devices.Remove(device);
@@ -77,23 +78,22 @@ namespace FiresecClient
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
 
-			if (parentDevice.Driver.DriverType == XDriverType.RSR2_KAU)
+			if (parentDevice.DriverType == XDriverType.RSR2_KAU)
 				RebuildRSR2Addresses(parentDevice);
 			device.OnChanged();
 		}
 
 		public static void RebuildRSR2Addresses(XDevice parentDevice)
 		{
-			for (int shleifNo = 1; shleifNo <= 8; shleifNo++)
+			foreach (var shliefDevice in parentDevice.Children)
 			{
-				var childrenOnShleif = parentDevice.Children.Where(x => x.ShleifNo == shleifNo).ToList();
 				byte currentAddress = 1;
-				foreach (var device in childrenOnShleif)
+				foreach (var device in shliefDevice.Children)
 				{
 					device.IntAddress = currentAddress;
 					device.OnChanged();
 
-					for (int i = 0; i < device.Children.Count; i++ )
+					for (int i = 0; i < device.Children.Count; i++)
 					{
 						var childDevice = device.Children[i];
 						childDevice.IntAddress = (byte)(currentAddress + i);
@@ -231,6 +231,7 @@ namespace FiresecClient
                 }
                 direction.DirectionDevices.Add(directionDevice);
                 direction.InputDevices.Add(device);
+				device.Directions.Add(direction);
                 device.OnChanged();
             }
 			direction.OnChanged();
@@ -248,7 +249,7 @@ namespace FiresecClient
 				}
 			}
 			device.DeviceLogic = deviceLogic;
-			InvalidateOneLogic(device);
+			InvalidateOneLogic(device, device.DeviceLogic);
 			device.OnChanged();
 		}
 
@@ -267,7 +268,7 @@ namespace FiresecClient
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, groupDriver, device.ShleifNo, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, groupDriver, (byte)(device.IntAddress + i));
 				}
 			}
 

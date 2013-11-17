@@ -88,9 +88,9 @@ namespace GKModule.Plans.Designer
 			if (_showText)
 			{
 				var text = _direction.DirectionState.StateClass.ToDescription();
-				if (_direction.DirectionState.StateBits.Contains(XStateBit.TurningOn) && _direction.DirectionState.OnDelay > 0)
+				if (_direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn) && _direction.DirectionState.OnDelay > 0)
 					text += "\n" + string.Format("Задержка: {0} сек", _direction.DirectionState.OnDelay);
-				else if (_direction.DirectionState.StateBits.Contains(XStateBit.On) && _direction.DirectionState.HoldDelay > 0)
+				else if (_direction.DirectionState.StateClasses.Contains(XStateClass.On) && _direction.DirectionState.HoldDelay > 0)
 					text += "\n" + string.Format("Удержание: {0} сек", _direction.DirectionState.HoldDelay);
 				if (string.IsNullOrEmpty(text))
 					_textDrawing = null;
