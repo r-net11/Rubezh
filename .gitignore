@@ -2,3 +2,11 @@
 BuildScripts/bin/Integration
 buildlog.xml
 Documents/Manual/Ñîñòîÿíèÿ.docx
+
+/Solution - FireAdministrator.lnk
+/Solution - FireMonitor.lnk
+/Solution - FiresecService.lnk
+/Tasks.lnk
+/build.bat
+/scktsrvr.lnk
+/startup.bat
