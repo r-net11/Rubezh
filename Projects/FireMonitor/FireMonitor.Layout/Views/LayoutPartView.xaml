@@ -1,0 +1,5 @@
+﻿<UserControl x:Class="FireMonitor.Layout.Views.LayoutPartView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Border Background="{DynamicResource BaseWindowBackgroundBrush}">
+		<ContentPresenter Content="{Binding Content}" />
+	</Border>
+</UserControl>
