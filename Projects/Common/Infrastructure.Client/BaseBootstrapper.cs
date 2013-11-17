@@ -41,7 +41,6 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 		}
-
 		protected void BeforeInitialize(bool firstTime)
 		{
 			foreach (IModule module in _modules)
@@ -60,7 +59,6 @@ namespace Infrastructure.Client
 					Application.Current.Shutdown();
 				}
 		}
-
 		protected void AterInitialize()
 		{
 			foreach (IModule module in _modules)
@@ -75,7 +73,6 @@ namespace Infrastructure.Client
 					Application.Current.Shutdown();
 				}
 		}
-
 		protected void CreateViewModels()
 		{
 			foreach (IModule module in _modules)
@@ -157,6 +154,7 @@ namespace Infrastructure.Client
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection moduleSection = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
+				InvestigateAssembly(Assembly.GetEntryAssembly());
 				var globalSettingsModules = GlobalSettingsHelper.GlobalSettings.GetModules();
 				foreach (ModuleElement moduleElement in moduleSection.Modules)
 				{
@@ -170,9 +168,7 @@ namespace Infrastructure.Client
 						{
 							Assembly assembly = GetAssemblyByFileName(path);
 							if (assembly != null)
-								foreach (Type t in assembly.GetExportedTypes())
-									if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-										_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+								InvestigateAssembly(assembly);
 						}
 					}
 					catch (Exception e)
@@ -209,6 +205,12 @@ namespace Infrastructure.Client
 				if (assembly.Location == path)
 					return assembly;
 			return null;
+		}
+		private void InvestigateAssembly(Assembly assembly)
+		{
+			foreach (Type t in assembly.GetExportedTypes())
+				if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+					_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
 		}
 	}
 }

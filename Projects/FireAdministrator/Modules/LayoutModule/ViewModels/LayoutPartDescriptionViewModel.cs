@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.TreeList;
+﻿using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.TreeList;
 
 namespace LayoutModule.ViewModels
 {
@@ -15,7 +10,9 @@ namespace LayoutModule.ViewModels
 		public LayoutPartDescriptionViewModel(ILayoutPartDescription layoutPartDescription)
 		{
 			LayoutPartDescription = layoutPartDescription;
-			_isPresented = true;
+			VisualizationState = VisualizationState.Prohibit;
+			AddCommand = new RelayCommand(OnAddCommand, CanAddCommand);
+			DragCommand = new RelayCommand(OnDragCommand, CanAddCommand);
 		}
 
 		public string Name
@@ -26,20 +23,57 @@ namespace LayoutModule.ViewModels
 		{
 			get { return LayoutPartDescription.Description; }
 		}
-		public string ImageSource
+		public string IconSource
 		{
-			get { return LayoutPartDescription.ImageSource; }
+			get { return LayoutPartDescription.IconSource; }
 		}
-		private bool _isPresented;
-		public bool IsPresented
+		public object Content
 		{
-			get { return _isPresented; }
+			get { return LayoutPartDescription.Content; }
+		}
+		public VisualizationState VisualizationState { get; private set; }
+		private int _count;
+		public int Count
+		{
+			get { return _count; }
 			set
 			{
-				_isPresented = value;
-				OnPropertyChanged(() => IsPresented);
+				_count = value;
+				OnPropertyChanged(() => Count);
+				switch (Count)
+				{
+					case -1:
+						VisualizationState = VisualizationState.Prohibit;
+						break;
+					case 0:
+						VisualizationState = VisualizationState.NotPresent;
+						break;
+					default:
+						VisualizationState = LayoutPartDescription.AllowMultiple ? VisualizationState.Multiple : VisualizationState.Single;
+						break;
+				}
+				OnPropertyChanged(() => VisualizationState);
 			}
 		}
-		
+
+		public bool IsPresented
+		{
+			get { return VisualizationState != VisualizationState.NotPresent; }
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		private void OnAddCommand()
+		{
+			LayoutDesignerViewModel.Instance.AddLayoutPart(this, false);
+		}
+		public RelayCommand DragCommand { get; private set; }
+		private void OnDragCommand()
+		{
+			LayoutDesignerViewModel.Instance.AddLayoutPart(this, true);
+		}
+		private bool CanAddCommand()
+		{
+			return VisualizationState != VisualizationState.Prohibit && (VisualizationState == VisualizationState.NotPresent || LayoutPartDescription.AllowMultiple);
+		}
 	}
 }

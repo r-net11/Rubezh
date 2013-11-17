@@ -28,7 +28,7 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ListViewItem">
-					<Border Name="Bd" Grid.Row="0" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
+					<Border Name="Bd" Grid.Row="0" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
 						<Controls:TreeGridViewRowPresenter x:Name="PART_Header">
 							<Controls:TreeGridViewRowPresenter.Resources>
 								<Style TargetType="{x:Type ContentPresenter}">
@@ -60,7 +60,7 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ScrollViewer}">
-					<Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+					<Grid Background="{TemplateBinding Background}">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
@@ -70,10 +70,10 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Background="{DynamicResource BackgroundBrush}">
 							<GridViewHeaderRowPresenter AllowsColumnReorder="False" Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
-						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" SnapsToDevicePixels="True" StrokeThickness="0" />
+						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" StrokeThickness="0" />
 						<ScrollContentPresenter Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" KeyboardNavigation.DirectionalNavigation="Local" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Cursor="Arrow" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						<ScrollBar Name="PART_HorizontalScrollBar" Grid.Row="2" Grid.Column="0" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
@@ -103,7 +103,6 @@
 		<Setter Property="Controls:ListViewLayoutManager.MinWidth" Value="50" />
 		<Setter Property="Controls:ListViewLayoutManager.Columns" Value="{Binding View.Columns, RelativeSource={RelativeSource Self}}" />
 		<Setter Property="SelectionMode" Value="Single" />
-
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ListView}">

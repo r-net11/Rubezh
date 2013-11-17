@@ -12,6 +12,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor
 {
@@ -23,7 +24,7 @@ namespace FireMonitor
 			LoadingErrorManager.Clear();
 			AppConfigHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 
 			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password, App.IsMulticlient))
 			{
@@ -70,13 +71,8 @@ namespace FireMonitor
 						LoadingService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 						Notifier.Initialize();
-						var shell = new MonitorShellViewModel();
-						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
-						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
-						if (!RunShell(shell))
-							result = false;
-						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
-						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
+
+						result = Run();
 						SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
 					}
 					else
@@ -86,7 +82,8 @@ namespace FireMonitor
 					}
 					LoadingService.Close();
 
-					AterInitialize();
+					if (result)
+						AterInitialize();
 
 					//MutexHelper.KeepAlive();
 					ProgressWatcher.Run();
@@ -111,6 +108,22 @@ namespace FireMonitor
 				return false;
 			}
 			return result;
+		}
+		protected virtual bool Run()
+		{
+			var result = true;
+			var shell = CreateShell();
+			((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
+			if (!RunShell(shell))
+				result = false;
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
+			((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
+			return result;
+		}
+		protected virtual ShellViewModel CreateShell()
+		{
+			return new MonitorShellViewModel();
 		}
 
 		bool IsRestarting = false;

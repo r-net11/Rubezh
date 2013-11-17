@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlansModule.Kursk", "Module
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKProcessor", "..\Common\GKProcessor\GKProcessor.csproj", "{62564D14-0234-4947-8218-2C7D74721023}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireMonitor.Layout", "FireMonitor.Layout\FireMonitor.Layout.csproj", "{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -495,6 +497,20 @@ Global
 		{62564D14-0234-4947-8218-2C7D74721023}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{62564D14-0234-4947-8218-2C7D74721023}.Release|x64.ActiveCfg = Release|Any CPU
 		{62564D14-0234-4947-8218-2C7D74721023}.Release|x86.ActiveCfg = Release|Any CPU
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|Any CPU.ActiveCfg = Debug|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|Mixed Platforms.ActiveCfg = Debug|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|Mixed Platforms.Build.0 = Debug|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|x64.ActiveCfg = Debug|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|x64.Build.0 = Debug|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|x86.ActiveCfg = Debug|x86
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Debug|x86.Build.0 = Debug|x86
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|Any CPU.ActiveCfg = Release|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|Mixed Platforms.ActiveCfg = Release|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|Mixed Platforms.Build.0 = Release|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|x64.ActiveCfg = Release|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|x64.Build.0 = Release|X64
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|x86.ActiveCfg = Release|x86
+		{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

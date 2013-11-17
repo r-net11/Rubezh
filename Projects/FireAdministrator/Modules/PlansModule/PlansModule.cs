@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Client.Layout;
+using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Designer;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using Infrastructure.Designer;
 
 namespace PlansModule
 {
-	public class PlansModule : ModuleBase
+	public class PlansModule : ModuleBase, ILayoutDeclarationModule
 	{
 		PlansViewModel PlansViewModel;
 
@@ -73,5 +76,23 @@ namespace PlansModule
 		{
 			PainterCache.Dispose();
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription()
+			{
+				Name = "Планы",
+				Description = "Планы",
+				Index = 150,
+				UID = LayoutPartIdentities.Plans,
+				IconSource = "/Controls;component/Images/BMap.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BMap.png" },
+			};
+		}
+
+		#endregion
 	}
 }

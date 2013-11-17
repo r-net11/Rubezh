@@ -102,6 +102,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\..\..\3rdParty\ExtendedWPFToolkit_Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
@@ -168,6 +171,7 @@
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
+    <Compile Include="Layout\RubezhTheme.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
@@ -234,6 +238,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Layout\Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Menu\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1265,6 +1273,51 @@
     <Resource Include="GKIcons\Shuv.png" />
     <Resource Include="Images\Bleft.png" />
     <Resource Include="Images\BleftLeft.png" />
+    <Resource Include="Images\Layout\ContentPreview.png" />
+    <Resource Include="Images\Layout\IndicatorsPreview.png" />
+    <Resource Include="Images\Layout\NavigationPreview.png" />
+    <Resource Include="Images\BAlarm.png" />
+    <Resource Include="Layout\Images\DockAnchorableBottom.png" />
+    <Resource Include="Layout\Images\DockAnchorableLeft.png" />
+    <Resource Include="Layout\Images\DockAnchorableRight.png" />
+    <Resource Include="Layout\Images\DockAnchorableTop.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableBottom.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableLeft.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableRight.png" />
+    <Resource Include="Layout\Images\DockDocumentAsAnchorableTop.png" />
+    <Resource Include="Layout\Images\DockDocumentBottom.png" />
+    <Resource Include="Layout\Images\DockDocumentInside.png" />
+    <Resource Include="Layout\Images\DockDocumentLeft.png" />
+    <Resource Include="Layout\Images\DockDocumentRight.png" />
+    <Resource Include="Layout\Images\DockDocumentTop.png" />
+    <Resource Include="Layout\Images\DockPaneEmpty.png" />
+    <Resource Include="Layout\Images\DockPaneLargeEmpty.png" />
+    <Resource Include="Layout\Images\HTabGroup.png" />
+    <Resource Include="Layout\Images\Locked.png" />
+    <Resource Include="Layout\Images\PinAutoHide.png" />
+    <Resource Include="Layout\Images\PinAutoHide_Black.png" />
+    <Resource Include="Layout\Images\PinAutoHide_Dark.png" />
+    <Resource Include="Layout\Images\PinClose.png" />
+    <Resource Include="Layout\Images\PinClose_Black.png" />
+    <Resource Include="Layout\Images\PinClose_Dark.png" />
+    <Resource Include="Layout\Images\PinDocMenu.png" />
+    <Resource Include="Layout\Images\PinDocMenu_Black.png" />
+    <Resource Include="Layout\Images\PinMaximize.png" />
+    <Resource Include="Layout\Images\PinMaximize_Black.png" />
+    <Resource Include="Layout\Images\PinMaximize_Dark.png" />
+    <Resource Include="Layout\Images\PinMenu.png" />
+    <Resource Include="Layout\Images\PinMenu_Black.png" />
+    <Resource Include="Layout\Images\PinMenu_Dark.png" />
+    <Resource Include="Layout\Images\PinRestore.png" />
+    <Resource Include="Layout\Images\PinRestore_Black.png" />
+    <Resource Include="Layout\Images\PinRestore_Dark.png" />
+    <Resource Include="Layout\Images\VTabGroup.png" />
+    <Resource Include="Images\BLevels.png" />
+    <Resource Include="Images\BBug.png" />
+    <Resource Include="Images\BVideo.png" />
+    <Resource Include="Images\BMap.png" />
+    <Resource Include="Images\BBook.png" />
+    <Resource Include="Images\BArchive.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

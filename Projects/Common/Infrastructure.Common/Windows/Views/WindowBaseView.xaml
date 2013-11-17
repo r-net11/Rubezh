@@ -6,7 +6,7 @@
                        Converter={StaticResource NullToImageConverter}}"
         KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
         Topmost="{Binding TopMost}"
-        Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal">
+        Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal" SnapsToDevicePixels="True">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="5" />

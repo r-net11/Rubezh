@@ -7,10 +7,12 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace PlansModule
 {
-	public class PlansModuleLoader : ModuleBase
+	public class PlansModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		private PlansViewModel _plansViewModel;
 		private NavigationItem _planNavigationItem;
@@ -40,5 +42,20 @@ namespace PlansModule
 			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы", "/Controls;component/Images/map.png");
 			return new List<NavigationItem>() { _planNavigationItem };
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Планы",
+				UID = LayoutPartIdentities.Plans,
+				IconSource = "/Controls;component/Images/Map.png",
+				Content = _plansViewModel,
+			};
+		}
+
+		#endregion
 	}
 }

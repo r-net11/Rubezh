@@ -20,7 +20,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
-using Infrustructure.Plans.Helper;
 
 namespace GKModule.ViewModels
 {

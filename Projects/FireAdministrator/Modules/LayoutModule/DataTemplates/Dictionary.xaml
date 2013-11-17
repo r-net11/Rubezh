@@ -32,4 +32,8 @@
 		<Views:LayoutPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartViewModel}">
+		<Views:LayoutPartView />
+	</DataTemplate>
+	
 </ResourceDictionary>

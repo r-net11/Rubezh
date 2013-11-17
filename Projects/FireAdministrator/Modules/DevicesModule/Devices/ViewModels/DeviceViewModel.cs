@@ -15,7 +15,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using System.Windows.Controls;
-using Infrustructure.Plans.Helper;
 using Infrastructure.Common.TreeList;
 
 namespace DevicesModule.ViewModels

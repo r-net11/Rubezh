@@ -6,10 +6,12 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace ReportsModule
 {
-	public class ReportsModuleLoader : ModuleBase
+	public class ReportsModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		private ReportsViewModel _reportViewModel;
 
@@ -41,5 +43,20 @@ namespace ReportsModule
 		{
 			get { return "Отчеты"; }
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Отчеты",
+				UID = LayoutPartIdentities.Reports,
+				IconSource = "/Controls;component/Images/Levels.png",
+				Content = _reportViewModel,
+			};
+		}
+
+		#endregion
 	}
 }

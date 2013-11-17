@@ -10,8 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Common.PDF;
-using System.IO;
 
 namespace ReportsModule.ViewModels
 {

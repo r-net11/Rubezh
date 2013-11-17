@@ -10,10 +10,12 @@ using FiresecClient;
 using System;
 using System.Linq;
 using Infrastructure;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace VideoModule
 {
-	public class VideoModuleLoader : ModuleBase
+	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		VideoViewModel VideoViewModel;
 		NavigationItem _videoNavigationItem;
@@ -73,5 +75,20 @@ namespace VideoModule
 		{
 			VideoService.Close();
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Видео",
+				UID = LayoutPartIdentities.Video,
+				IconSource = "/Controls;component/Images/Video1.png",
+				Content = VideoViewModel,
+			};
+		}
+
+		#endregion
 	}
 }

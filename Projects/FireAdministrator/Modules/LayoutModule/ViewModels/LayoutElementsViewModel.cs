@@ -8,6 +8,7 @@ using Infrastructure.Common.TreeList;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common;
 
 namespace LayoutModule.ViewModels
 {
@@ -44,8 +45,18 @@ namespace LayoutModule.ViewModels
 		public void Update(Layout layout)
 		{
 			_layout = layout;
+			var map = new Dictionary<Guid, int>();
+			if (_layout != null)
+				foreach (var layoutPart in _layout.Parts)
+					if (map.ContainsKey(layoutPart.DescriptionUID))
+						map[layoutPart.DescriptionUID]++;
+					else
+						map.Add(layoutPart.DescriptionUID, 1);
 			foreach (var layoutPart in LayoutParts)
-				layoutPart.IsPresented = _layout != null && _layout.Parts.Contains(layoutPart.LayoutPartDescription.UID);
+				if (map.ContainsKey(layoutPart.LayoutPartDescription.UID))
+					layoutPart.Count = map[layoutPart.LayoutPartDescription.UID];
+				else
+					layoutPart.Count = 0;
 			SelectedLayoutPart = LayoutParts.FirstOrDefault();
 		}
 		public void Update()

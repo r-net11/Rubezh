@@ -9,8 +9,11 @@ using GKModule.Validation;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
+using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
@@ -18,7 +21,7 @@ using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
-	public class GroupControllerModule : ModuleBase, IValidationModule
+	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		DevicesViewModel DevicesViewModel;
 		DeviceParametersViewModel DeviceParametersViewModel;
@@ -146,5 +149,83 @@ namespace GKModule
 			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription()
+			{
+				Name = "Состояния",
+				Description = "Панель состояний",
+				Index = 110,
+				UID = LayoutPartIdentities.Alarms,
+				IconSource = "/Controls;component/Images/BAlarm.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAlarm.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Устройства",
+				Description = "Панель с устройствами",
+				Index = 111,
+				UID = LayoutPartIdentities.GDevices,
+				IconSource = "/Controls;component/Images/BTree.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BTree.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Измерения",
+				Description = "Панель измерений",
+				Index = 112,
+				UID = LayoutPartIdentities.DeviceParameters,
+				IconSource = "/Controls;component/Images/BAllParameters.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAllParameters.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Зоны",
+				Description = "Панель зон",
+				Index = 113,
+				UID = LayoutPartIdentities.Zones,
+				IconSource = "/Controls;component/Images/BZones.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BZones.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Направления",
+				Description = "Панель направления",
+				Index = 114,
+				UID = LayoutPartIdentities.Directions,
+				IconSource = "/Controls;component/Images/BDirection.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BDirection.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Журнал событий",
+				Description = "Панель журнал событий",
+				Index = 115,
+				UID = LayoutPartIdentities.Journals,
+				IconSource = "/Controls;component/Images/BBook.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBook.png" },
+			};
+			yield return new LayoutPartDescription()
+			{
+				Name = "Архив",
+				Description = "Панель архив",
+				Index = 116,
+				UID = LayoutPartIdentities.Archive,
+				IconSource = "/Controls;component/Images/BArchive.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BArchive.png" },
+			};
+		}
+
+		#endregion
 	}
 }

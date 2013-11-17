@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -12,9 +10,10 @@ namespace Infrastructure.Common.Services.Layout
 		public Guid UID { get; set; }
 		public int Index { get; set; }
 		public string Name { get; set; }
-		public string ImageSource { get; set; }
+		public string IconSource { get; set; }
 		public string Description { get; set; }
 		public bool AllowMultiple { get; set; }
+		public BaseViewModel Content { get; set; }
 
 		#endregion
 	}

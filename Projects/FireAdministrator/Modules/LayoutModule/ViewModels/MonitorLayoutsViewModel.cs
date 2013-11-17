@@ -300,5 +300,11 @@ namespace LayoutModule.ViewModels
 				}, "/Controls;component/Images/BLayouts.png") { Order = 2 }
 			};
 		}
+
+		public override void OnHide()
+		{
+			LayoutDesignerViewModel.Instance.SaveLayout();
+			base.OnHide();
+		}
 	}
 }

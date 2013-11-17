@@ -180,6 +180,7 @@
     <Compile Include="ConfigurationVersion.cs" />
     <Compile Include="Models\Device\DeviceParameterTemplate.cs" />
     <Compile Include="Models\Device\ParameterTemplate.cs" />
+    <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Layouts\LayoutFolder.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />

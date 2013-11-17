@@ -3,6 +3,7 @@
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="../Login/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Plans/DataTemplates/Dictionary.xaml" />
+		<ResourceDictionary Source="../Layout/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

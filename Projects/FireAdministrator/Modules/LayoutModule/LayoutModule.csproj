@@ -66,20 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock">
-      <HintPath>..\..\..\..\3rdParty\AvalonDock\AvalonDock_2_0_2000\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
-      <HintPath>..\..\..\..\3rdParty\AvalonDock\AvalonDock.Themes.Aero\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Expression">
-      <HintPath>..\..\..\..\3rdParty\AvalonDock\AvalonDock.Themes.Expression\Xceed.Wpf.AvalonDock.Themes.Expression.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
-      <HintPath>..\..\..\..\3rdParty\AvalonDock\AvalonDock.Themes.Metro\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
-      <HintPath>..\..\..\..\3rdParty\AvalonDock\AvalonDock.Themes.VS2010\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -91,6 +80,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\LayoutUpdateStrategy.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutUserViewModel.cs" />
@@ -112,6 +102,9 @@
     </Compile>
     <Compile Include="Views\LayoutFolderPropertiesView.xaml.cs">
       <DependentUpon>LayoutFolderPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartView.xaml.cs">
+      <DependentUpon>LayoutPartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPropertiesView.xaml.cs">
       <DependentUpon>LayoutPropertiesView.xaml</DependentUpon>
@@ -183,7 +176,6 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -198,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutFolderPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

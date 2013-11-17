@@ -5,10 +5,12 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace DiagnosticsModule
 {
-    public class DiagnosticsModuleLoader : ModuleBase
+	public class DiagnosticsModuleLoader : ModuleBase, ILayoutProviderModule
     {
         DiagnosticsViewModel DiagnosticsViewModel;
 
@@ -40,5 +42,20 @@ namespace DiagnosticsModule
 		{
 			DiagnosticsViewModel.StopThreads();
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Диагностика",
+				UID = LayoutPartIdentities.Diagnostics,
+				IconSource = "/Controls;component/Images/Bug.png",
+				Content = DiagnosticsViewModel,
+			};
+		}
+
+		#endregion
 	}
 }

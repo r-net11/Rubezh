@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Reports;
 using GKModule.ViewModels;
+using GKProcessor;
+using GKProcessor.Events;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using GKProcessor;
-using GKProcessor.Events;
 
 namespace GKModule
 {
-	public class GKModuleLoader : ModuleBase, IReportProviderModule
+	public class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static DeviceParametersViewModel DeviceParametersViewModel;
@@ -154,7 +155,7 @@ namespace GKModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			LoadingService.DoStep("Загрузка конфигурации ГК");
-            XManager.UpdateConfiguration();
+			XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DatabaseManager.Convert();
 			if (firstTime)
@@ -170,5 +171,62 @@ namespace GKModule
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Состояния",
+				UID = LayoutPartIdentities.Alarms,
+				IconSource = "/Controls;component/Images/Alarm.png",
+				Content = AlarmsViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Устройства",
+				UID = LayoutPartIdentities.GDevices,
+				IconSource = "/Controls;component/Images/Tree.png",
+				Content = DevicesViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Измерения",
+				UID = LayoutPartIdentities.DeviceParameters,
+				IconSource = "/Controls;component/Images/AllParameters.png",
+				Content = DeviceParametersViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Зоны",
+				UID = LayoutPartIdentities.Zones,
+				IconSource = "/Controls;component/Images/Zones.png",
+				Content = ZonesViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Направления",
+				UID = LayoutPartIdentities.Directions,
+				IconSource = "/Controls;component/Images/Direction.png",
+				Content = DirectionsViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Журнал событий",
+				UID = LayoutPartIdentities.Journals,
+				IconSource = "/Controls;component/Images/Book.png",
+				Content = JournalsViewModel,
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Архив",
+				UID = LayoutPartIdentities.Archive,
+				IconSource = "/Controls;component/Images/Archive.png",
+				Content = ArchiveViewModel,
+			};
+		}
+
+		#endregion
 	}
 }

@@ -42,6 +42,10 @@ namespace FireMonitor
 			PatchManager.Patch();
 		}
 
+		protected virtual Bootstrapper CreateBootstrapper()
+		{
+			return new Bootstrapper();
+		}
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
@@ -60,7 +64,7 @@ namespace FireMonitor
 				bool trace = false;
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-				Bootstrapper = new Bootstrapper();
+				Bootstrapper = CreateBootstrapper();
 				var result = true;
 				using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
 				{
@@ -109,7 +113,6 @@ namespace FireMonitor
 				Logger.Error(e, "App.StartRevisor");
 			}
 		}
-
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			IsClosingOnException = true;
@@ -118,7 +121,6 @@ namespace FireMonitor
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}
-
 		void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			if (e.Cancel)
@@ -180,14 +182,13 @@ namespace FireMonitor
 				}
 			}
 		}
-
 		bool CheckIntegrateCommandLineArguments(string[] args)
 		{
 			if (args != null)
 			{
 				if (args.Count() == 1)
 				{
-					switch(args[0])
+					switch (args[0])
 					{
 						case "/integrate":
 							ShellIntegrationHelper.Integrate();

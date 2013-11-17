@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models;
-using Infrastructure;
+using FiresecClient;
+using Infrastructure.Client;
+using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Validation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure.Client;
 using LayoutModule.ViewModels;
-using FiresecClient;
-using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule
 {
-	public class LayoutModule : ModuleBase, ILayoutDeclarationModule
+	public class LayoutModule : ModuleBase
 	{
 		private MonitorLayoutsViewModel _monitorLayoutsViewModel;
 
@@ -29,20 +27,13 @@ namespace LayoutModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
-				{
-					new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, "Макеты ОЗ", "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
-				};
+			{
+				new NavigationItem<ShowMonitorLayoutEvent, Guid>(_monitorLayoutsViewModel, "Макеты ОЗ", "/Controls;component/Images/Layouts.png", null, null, Guid.Empty),
+			};
 		}
 		public override string Name
 		{
 			get { return "Конфигуратор макетов ОЗ"; }
-		}
-		public override void RegisterResource()
-		{
-			base.RegisterResource();
-			//var resourceService = new ResourceService();
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-			//resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Parameters/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
@@ -61,8 +52,8 @@ namespace LayoutModule
 				Name = "XXXX",
 				Description = "xxxx xxx xxxx",
 				Index = 10,
-				UID = Guid.NewGuid(),
-				ImageSource = "/Controls;component/Images/BCopy.png",
+				UID = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}"),
+				IconSource = "/Controls;component/Images/BCopy.png",
 				AllowMultiple = true,
 			};
 			yield return new LayoutPartDescription()
@@ -70,18 +61,20 @@ namespace LayoutModule
 				Name = "YYYY",
 				Description = "yyyy yyyyyyy yyyy",
 				Index = 1,
-				UID = Guid.NewGuid(),
-				ImageSource = "/Controls;component/Images/BCut.png",
+				UID = new Guid("{8EC166C3-5D1C-4BBD-AE33-A91EC58FB74B}"),
+				IconSource = "/Controls;component/Images/BCut.png",
 				AllowMultiple = false,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BCut.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
 				Name = "ZZZZ",
 				Description = "zzzz zzzz zzzzzzzzzzzzzzzzz",
 				Index = 100,
-				UID = Guid.NewGuid(),
-				ImageSource = "/Controls;component/Images/BPaste.png",
+				UID = new Guid("{7FA6996D-0E0F-4409-BFF9-064EFEAF5C35}"),
+				IconSource = "/Controls;component/Images/BPaste.png",
 				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BPaste.png" },
 			};
 		}
 

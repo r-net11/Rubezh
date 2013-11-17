@@ -192,10 +192,13 @@
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
     <Compile Include="Services\ISecurityService.cs" />
+    <Compile Include="Services\Layout\UnknownLayoutPartPresenter.cs" />
+    <Compile Include="Services\Layout\ILayoutPartPresenter.cs" />
+    <Compile Include="Services\Layout\LayoutPartPresenter.cs" />
+    <Compile Include="Services\Layout\UnknownLayoutPartDescription.cs" />
     <Compile Include="Services\Layout\ILayoutPartDescription.cs" />
     <Compile Include="Services\Layout\ILayoutDeclarationModule.cs" />
     <Compile Include="Services\Layout\ILayoutProviderModule.cs" />
-    <Compile Include="Services\Layout\LayoutPart.cs" />
     <Compile Include="Services\Layout\LayoutPartDescription.cs" />
     <Compile Include="Services\Resources\IResourceService.cs" />
     <Compile Include="Services\Resources\ResourceDescription.cs" />
@@ -228,6 +231,7 @@
     <Compile Include="Validation\ValidationErrorLevel.cs" />
     <Compile Include="Validation\IValidationError.cs" />
     <Compile Include="Validation\IValidationModule.cs" />
+    <Compile Include="VisualizationState.cs" />
     <Compile Include="Windows\Converters\PanelTooltipConverter.cs" />
     <Compile Include="Windows\DataTemplates\MulticlientDataTemplateSelector.cs" />
     <Compile Include="Windows\ILayoutService.cs" />

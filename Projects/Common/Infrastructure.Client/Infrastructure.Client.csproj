@@ -53,6 +53,11 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="Layout\LayoutPartIdentities.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartImageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartImageView.xaml.cs">
+      <DependentUpon>LayoutPartImageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">
@@ -123,6 +128,14 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Login\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

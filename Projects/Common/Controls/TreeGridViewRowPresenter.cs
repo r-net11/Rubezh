@@ -127,7 +127,7 @@ namespace Controls
 				if (x != 0)
 				{
 					var line = _lines[x];
-					Rect lineRect = new Rect(rect.X, rect.Y, 1, rect.Height);
+					Rect lineRect = new Rect(rect.X - 1.5, rect.Y, 1, rect.Height);
 					line.Measure(lineRect.Size);
 					line.Arrange(lineRect);
 				}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -10,8 +11,9 @@ namespace Infrastructure.Common.Services.Layout
 		int Index { get; }
 		Guid UID { get; }
 		string Name { get; }
-		string ImageSource { get; }
+		string IconSource { get; }
 		string Description { get; }
 		bool AllowMultiple { get; }
+		BaseViewModel Content { get; }
 	}
 }

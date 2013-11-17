@@ -16,8 +16,8 @@ namespace LayoutModule.ViewModels
 
 		public MonitorLayoutViewModel()
 		{
-			LayoutDesignerViewModel = new LayoutDesignerViewModel();
 			LayoutElementsViewModel = new LayoutElementsViewModel();
+			LayoutDesignerViewModel = new LayoutDesignerViewModel(LayoutElementsViewModel);
 			LayoutUsersViewModel = new LayoutUsersViewModel();
 		}
 
