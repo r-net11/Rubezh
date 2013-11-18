@@ -33,7 +33,8 @@ namespace FiresecClient
 				deviceTo.Properties.Add(new XProperty()
 				{
 					Name = property.Name,
-					Value = property.Value
+					Value = property.Value,
+					DriverProperty = property.DriverProperty
 				});
 			}
 

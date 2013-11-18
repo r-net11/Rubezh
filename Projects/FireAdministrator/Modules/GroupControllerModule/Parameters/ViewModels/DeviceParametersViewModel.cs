@@ -541,7 +541,8 @@ namespace GKModule.ViewModels
 						{
 							Name = driverProperty.Name,
 							Value = driverProperty.Default,
-							StringValue = driverProperty.StringDefault
+							StringValue = driverProperty.StringDefault,
+							DriverProperty = driverProperty
 						};
 						device.Properties.Add(property);
 					}

@@ -38,7 +38,8 @@ namespace GKModule.ViewModels
 					{
 						StringValue = property.StringValue,
 						Name = property.Name,
-						Value = property.Value
+						Value = property.Value,
+						DriverProperty = driverProperty
 					};
 					PropertiesCopy.Add(propertyCopy);
 				}

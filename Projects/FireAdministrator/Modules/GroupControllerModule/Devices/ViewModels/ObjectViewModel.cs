@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class ObjectViewModel : BaseViewModel, IComparer, IComparable  
+	public class ObjectViewModel : BaseViewModel, IComparable  
 	{
 		int IComparable.CompareTo(object a)
 		{
 			return Compare(this, a);
-		}
-		int IComparer.Compare(object a, object b)
-		{
-			return Compare(a, b);
 		}
 
 		public int Compare(object a, object b)
@@ -52,10 +46,13 @@ namespace GKModule.ViewModels
 				return 0;
 			}
 
-			if (object1.Direction.No > object2.Direction.No)
-				return 1;
-			if (object1.Direction.No < object2.Direction.No)
-				return -1;
+			if (object1.ObjectType == ObjectType.Direction)
+			{
+				if (object1.Direction.No > object2.Direction.No)
+					return 1;
+				if (object1.Direction.No < object2.Direction.No)
+					return -1;
+			}
 			return 0;
 		}
 
@@ -75,42 +72,35 @@ namespace GKModule.ViewModels
 
 		public ObjectViewModel(XDevice device)
 		{
+			Device = device;
 			Name = device.ShortName;
 			Address = device.Address;
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
-			Device = device;
+			ObjectType = ObjectType.Device;
 		}
 
 		public ObjectViewModel(XZone zone)
 		{
+			Zone = zone;
 			Name = zone.PresentationName;
 			ImageSource = "/Controls;component/Images/zone.png";
 			Address = "";
-			Zone = zone;
+			ObjectType = ObjectType.Zone;
 		}
 
 		public ObjectViewModel(XDirection direction)
 		{
+			Direction = direction;
 			Name = direction.PresentationName;
 			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
-			Direction = direction;
+			ObjectType = ObjectType.Zone;
 		}
-
-		public static bool Equels(ObjectViewModel object1, ObjectViewModel object2)
-		{
-			if((object1.ObjectType == ObjectType.Device)&&(object2.ObjectType == ObjectType.Device))
-				return (object1.Name == object2.Name) && (object1.Address == object2.Address) && (object1.Device.Parent.ShortName == object2.Device.Parent.ShortName) && (object1.Device.Parent.Address == object2.Device.Parent.Address);
-			if (((object1.ObjectType == ObjectType.Zone) && (object2.ObjectType == ObjectType.Zone)) || ((object1.ObjectType == ObjectType.Direction) && (object2.ObjectType == ObjectType.Direction)))
-				return (object1.Name == object2.Name);
-			return false;
-		}
-		
 	}
 	public enum ObjectType
 	{
-		Device,
-		Zone,
-		Direction
+		Device = 0,
+		Zone = 1,
+		Direction = 2
 	}
 }

@@ -186,16 +186,15 @@ namespace GKProcessor
 							    {
 							        DriverProperty = systemProperty.DriverProperty,
 							        Name = systemProperty.Name,
-							        Value = paramValue
+							        Value = paramValue,
 							    });
 						}
 						if (property != null)
 						{
 							property.Value = paramValue;
+							property.DriverProperty = driverProperty;
 							if (property.DriverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
-							{
 								property.Value = (ushort)(property.Value > 0 ? 1 : 0);
-							}
 						}
 					}
 					else

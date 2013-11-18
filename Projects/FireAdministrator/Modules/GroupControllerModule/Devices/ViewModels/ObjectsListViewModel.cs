@@ -9,30 +9,26 @@ namespace GKModule.ViewModels
 {
 	public class ObjectsListViewModel : BaseViewModel
 	{
-
-		public ObjectsListViewModel (XDevice device, XDeviceConfiguration xDeviceConfiguration)
+		public ObjectsListViewModel (XDevice device, XDeviceConfiguration deviceConfiguration)
 		{
-			var devices = xDeviceConfiguration.Devices;
-			var zones = xDeviceConfiguration.Zones;
-			var directions = xDeviceConfiguration.Directions;
-			xDeviceConfiguration.Update();
+			deviceConfiguration.Update();
 			Objects = new List<ObjectViewModel>();
 
-			foreach (var childDevice in devices)
+			foreach (var childDevice in deviceConfiguration.Devices)
 			{
-				var objectViewModel = new ObjectViewModel(childDevice) { ObjectType = ObjectType.Device};
+				var objectViewModel = new ObjectViewModel(childDevice);
 				var parent = childDevice.AllParents.FirstOrDefault(x => x.ShortName == device.ShortName && x.Address == device.Address);
 				if (parent != null && childDevice.IsRealDevice)
 					Objects.Add(objectViewModel);
 			}
-			if (zones != null)
-				foreach (var zone in zones.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+			if (deviceConfiguration.Zones != null)
+				foreach (var zone in deviceConfiguration.Zones.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
-					var objectViewModel = new ObjectViewModel(zone) {ObjectType = ObjectType.Zone};
+					var objectViewModel = new ObjectViewModel(zone);
 					Objects.Add(objectViewModel);
 				}
-			if (directions != null)
-				foreach (var direction in directions.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+			if (deviceConfiguration.Directions != null)
+				foreach (var direction in deviceConfiguration.Directions.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
 					var objectViewModel = new ObjectViewModel(direction) { ObjectType = ObjectType.Direction };
 					Objects.Add(objectViewModel);

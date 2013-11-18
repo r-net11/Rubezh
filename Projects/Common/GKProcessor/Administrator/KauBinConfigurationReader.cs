@@ -9,10 +9,12 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class KauBinConfigurationReader
+	public class KauBinConfigurationReader
 	{
 		static XDevice KauDevice { get; set; }
-		public static List<XDevice> ReadConfiguration(XDevice kauDevice)
+		public XDeviceConfiguration DeviceConfiguration;
+
+		public bool ReadConfiguration(XDevice kauDevice)
 		{
 			KauDevice = (XDevice) kauDevice.Clone();
 			KauDevice.Children = new List<XDevice>();
@@ -25,26 +27,25 @@ namespace GKProcessor
 				shleif.Parent = KauDevice;
 				KauDevice.Children.Add(shleif);
 			}
-
-			var devices = new List<XDevice>();
-			devices.Add(KauDevice);
-			LoadingService.SaveShowProgress("Перевод КАУ в технологический режим", 1);
+			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
+			LoadingService.Show("Перевод КАУ в технологический режим");
 			BinConfigurationWriter.GoToTechnologicalRegime(kauDevice);
-			LoadingService.SaveShowProgress("Получение дескрипторов устройств", 1);
+			LoadingService.Show("Получение дескрипторов устройств");
 			var descriptorAddersses = GetDescriptorAddresses(kauDevice);
-
-			LoadingService.SaveShowProgress("Чтение базы данных объектов", descriptorAddersses.Count + 1);
-			LoadingService.Show("Чтение конфигурации");
+			LoadingService.Show("Чтение конфигурации", descriptorAddersses.Count + 1, true);
 			for(int i = 1; i < descriptorAddersses.Count; i++)
 			{
+				if (LoadingService.IsCanceled)
+					return true;
 				LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddersses.Count);
-				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]);
-				devices.Add(device);
+				var device = GetDescriptorInfo(kauDevice, descriptorAddersses[i]); //TODO выйти из метода если ошибка при считывание
+				DeviceConfiguration.RootDevice.Children.Add(device);
 			}
 			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
 			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
+			DeviceConfiguration.Update();
 			LoadingService.SaveClose();
-			return devices;
+			return true;
 		}
 
 		static XDevice GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
@@ -63,21 +64,18 @@ namespace GKProcessor
 			int shleifNo = (byte)(address / 256 + 1);
 			var device = new XDevice();
 			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+			device.DriverUID = device.Driver.UID;
 			if ((1 <= shleifNo && shleifNo <= 8) && (address != 0))
 			{
 				var shleif = KauDevice.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 				shleif.Children.Add(device);
-				device.Parent = shleif;
 				device.IntAddress = (byte)(address % 256);
+				return shleif;
 			}
-			else
-			{
-				device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
-				device.IntAddress = (byte)(KauDevice.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
-				KauDevice.Children.Add(device);
-				device.Parent = KauDevice;
-			}
-			device.DriverUID = device.Driver.UID;
+			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
+			device.IntAddress = 1;
+			KauDevice.Children.Add(device);
+			device.Parent = KauDevice;
 			return device;
 		}
 

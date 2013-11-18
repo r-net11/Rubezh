@@ -116,10 +116,10 @@ namespace GKModule.Models
 			var device = SelectedDevice.Device;
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
-				var remoteDevices = KauBinConfigurationReader.ReadConfiguration(device);
-				var remoteKauConfiguration = new XDeviceConfiguration();
-				remoteKauConfiguration.Devices.AddRange(remoteDevices);
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, remoteKauConfiguration, device);
+				var kauBinConfigurationReader = new KauBinConfigurationReader();
+				if (!kauBinConfigurationReader.ReadConfiguration(device))
+					return;
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, kauBinConfigurationReader.DeviceConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}
 			if (device.DriverType == XDriverType.GK)
@@ -127,7 +127,9 @@ namespace GKModule.Models
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				if (!gkBinConfigurationReader.ReadConfiguration(device))
 					return;
-				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.DriverType == device.DriverType) && (x.Address == device.Address))));
+				gkBinConfigurationReader.DeviceConfiguration.Update(); //TODO внутрь
+				XManager.UpdateConfiguration();
+				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.DriverType == device.DriverType) && (x.Address == device.Address)))); //TODO внутрь
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}
