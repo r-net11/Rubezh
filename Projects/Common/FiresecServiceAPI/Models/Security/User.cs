@@ -38,13 +38,5 @@ namespace FiresecAPI.Models
 		{
 			return PermissionStrings.Contains(permissionType.ToString());
 		}
-
-		[Obsolete]
-		[DataMember]
-		public UInt64 Id { get; set; }
-
-		[Obsolete]
-		[DataMember]
-		public UInt64 RoleId { get; set; }
     }
 }

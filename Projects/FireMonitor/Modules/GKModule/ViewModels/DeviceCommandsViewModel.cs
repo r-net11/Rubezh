@@ -7,6 +7,7 @@ using FiresecClient;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
@@ -164,7 +165,7 @@ namespace GKModule.ViewModels
 			code2 = 18;
 			code2 = 20;
             code2 = MROCode;
-			ObjectCommandSendHelper.SendControlCommandMRO(Device, (byte)code, (byte)code2);
+			Watcher.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
 
         int _mroCode;

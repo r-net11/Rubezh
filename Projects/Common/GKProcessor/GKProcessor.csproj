@@ -164,6 +164,7 @@
     <Compile Include="Watcher\Watcher.Main.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
     <Compile Include="Watcher\Watcher.JournalAdditionalStates.cs" />
+    <Compile Include="Watcher\Watcher.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

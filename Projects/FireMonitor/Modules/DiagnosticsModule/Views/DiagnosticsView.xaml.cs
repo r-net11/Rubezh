@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Infrastructure;
-using Infrastructure.Events;
+﻿using System.Windows.Controls;
 
 namespace DiagnosticsModule.Views
 {

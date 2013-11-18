@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -13,61 +14,62 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
+using GKProcessor;
 
 namespace DiagnosticsModule.ViewModels
 {
-	[Serializable]
-	public class DiagnosticsViewModel : ViewPartViewModel
-	{
-		public DiagnosticsViewModel()
-		{
-			Test1Command = new RelayCommand(OnTest1);
-			TestPdfCommand = new RelayCommand(OnTestPdfCommand);
-			TestPdf2Command = new RelayCommand(OnTestPdf2Command);
-		}
+    [Serializable]
+    public class DiagnosticsViewModel : ViewPartViewModel
+    {
+        public DiagnosticsViewModel()
+        {
+            TurnOnOffRMCommand = new RelayCommand(OnTurnOnOffRM);
+        }
 
-		public void StopThreads()
-		{
-			IsThreadStoping = true;
-		}
+        public void StopThreads()
+        {
+            IsThreadStoping = true;
+        }
+        bool IsThreadStoping = false;
 
-		bool IsThreadStoping = false;
+        string _text;
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged("Text");
+            }
+        }
 
-		string _text;
-		public string Text
-		{
-			get { return _text; }
-			set
-			{
-				_text = value;
-				OnPropertyChanged("Text");
-			}
-		}
+        public RelayCommand TurnOnOffRMCommand { get; private set; }
+        void OnTurnOnOffRM()
+        {
+            var rmDevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.RM_1);
+            var flag = false;
 
-		public RelayCommand Test1Command { get; private set; }
-		void OnTest1()
-		{
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				while (true)
-				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-				}
-			}));
-			thread.IsBackground = true;
-			thread.Start();
-		}
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    if (IsThreadStoping)
+                        return;
+                    Thread.Sleep(TimeSpan.FromMilliseconds(3000));
+                    flag = !flag;
 
-		public RelayCommand TestPdfCommand { get; private set; }
-		void OnTestPdfCommand()
-		{
-			DialogService.ShowWindow(new PdfViewerViewModel());
-		}
-
-		public RelayCommand TestPdf2Command { get; private set; }
-		void OnTestPdf2Command()
-		{
-			DialogService.ShowWindow(new ReportsViewModel());
-		}
-	}
+                    ApplicationService.Invoke(() =>
+                    {
+                        if (flag)
+                            Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual, false);
+                        else
+                            Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual, false);
+                    });
+                }
+            }));
+            thread.IsBackground = true;
+            thread.Start();
+        }
+    }
 }
