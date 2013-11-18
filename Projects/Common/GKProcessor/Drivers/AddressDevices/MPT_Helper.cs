@@ -84,19 +84,19 @@ namespace GKProcessor
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 6,
 				"Происходит останов задержки запуска при открытии дверей или окон(срабатывание датчика «Двери-окна») и рестарт после закрытия дверей и окон",
-				"Не происходит останов задержки запуска при срабатывании датчика «Двери-окна»", 1, 1).IsLowByte = true;
+				"Не происходит останов задержки запуска при срабатывании датчика «Двери-окна»").IsLowByte = true;
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Блокировка отключения автоматики", 0,
 				"Режим «Автоматика включена» отключается при неисправности источника питания прибора, при неисправности ШС, при срабатывании датчика «Двери-окна»",
-				"Режим «Автоматика включена» не отключается при неисправности источника питания прибора, при неисправности ШС, при срабатывании датчика «Двери-окна»", 1, 1).IsLowByte = true;
+				"Режим «Автоматика включена» не отключается при неисправности источника питания прибора, при неисправности ШС, при срабатывании датчика «Двери-окна»").IsLowByte = true;
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
 				"Режим восстанавливается после восстановления датчика «Двери-окна»",
-				"Режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно ключем ТМ", 1, 1).IsLowByte = true;
+				"Режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно ключем ТМ").IsLowByte = true;
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 2,
 				"после включения питания  режим «Автоматика включена» включен",
-				"после включения питания  режим «Автоматика включена» отключен", 1, 1).IsLowByte = true;
+				"после включения питания  режим «Автоматика включена» отключен").IsLowByte = true;
 
 			return driver;
 		}
@@ -109,7 +109,6 @@ namespace GKProcessor
 				Name = propertyName,
 				Caption = propertyName,
 				Default = 4,
-				Offset = 0,
 				IsLowByte = true
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
@@ -170,13 +169,12 @@ namespace GKProcessor
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = 1,
-				Offset = offset,
-				Mask = 3,
+				Default = (ushort)(defaultValue << offset),
+				Mask = (short)((1 << offset) + (1 << (offset + 1))),
 				IsLowByte = true
 			};
-			GKDriversHelper.AddPropertyParameter(property, "Замкнутое", 1);
-			GKDriversHelper.AddPropertyParameter(property, "Разомкнутое", 2);
+			GKDriversHelper.AddPropertyParameter(property, "Замкнутое", 1 << offset);
+			GKDriversHelper.AddPropertyParameter(property, "Разомкнутое", 2 << offset);
 			driver.Properties.Add(property);
 		}
 	}

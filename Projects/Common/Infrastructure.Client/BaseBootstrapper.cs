@@ -160,6 +160,11 @@ namespace Infrastructure.Client
 				{
 					try
 					{
+						if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
+						{
+							GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
+							GlobalSettingsHelper.Save();
+						}
                         if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
 							continue;
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);

@@ -4,34 +4,33 @@ namespace GKProcessor
 {
 	public static class GKDriversHelper
 	{
-		public static XDriverProperty AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort defaultValue = 0)
+		public static XDriverProperty AddPlainEnumProprety(XDriver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name)
 		{
 			var property = new XDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = defaultValue,
-				Offset = offset,
-				Mask = 3
+				Default = (ushort)(1 << offset),
+				Mask = (short)((1 << offset) + (1 << (offset + 1)))
 			};
 			var parameter1 = new XDriverPropertyParameter()
 			{
 				Name = parameter1Name,
-				Value = (ushort)startValue
+				Value = (ushort)(1 << offset)
 			};
 			var parameter2 = new XDriverPropertyParameter()
 			{
 				Name = parameter2Name,
-				Value = (ushort)(startValue + 1)
+				Value = (ushort)(2 << offset)
 			};
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
-			xDriver.Properties.Add(property);
+			driver.Properties.Add(property);
 			return property;
 		}
 
-		public static XDriverProperty AddPlainEnumProprety2(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int mask)
+		public static XDriverProperty AddPlainEnumProprety2(XDriver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int mask)
 		{
 			var property = new XDriverProperty()
 			{
@@ -39,7 +38,6 @@ namespace GKProcessor
 				Name = propertyName,
 				Caption = propertyName,
 				Default = 0,
-				Offset = 0,
 				Mask = (byte)mask
 			};
 			var parameter1 = new XDriverPropertyParameter()
@@ -54,7 +52,7 @@ namespace GKProcessor
 			};
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
-			xDriver.Properties.Add(property);
+			driver.Properties.Add(property);
 			return property;
 		}
 
