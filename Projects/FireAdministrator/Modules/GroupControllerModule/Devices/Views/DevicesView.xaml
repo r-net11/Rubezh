@@ -9,27 +9,27 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-            <MenuItem Command="{Binding CopyCommand}" >
+            <MenuItem Command="{Binding CopyCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Копировать (Ctrl+C)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Копировать (Ctrl+C)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding CutCommand}" >
+            <MenuItem Command="{Binding CutCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Вырезать (Ctrl+Х)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Вырезать (Ctrl+Х)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding PasteCommand}" >
+            <MenuItem Command="{Binding PasteCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Вставить (Ctrl+V)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Вставить (Ctrl+V)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -37,40 +37,40 @@
             <MenuItem Command="{Binding AddCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Добавить дочернее устройство (Ctrl+N)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Добавить дочернее устройство (Ctrl+N)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding AddToParentCommand}" >
+            <MenuItem Command="{Binding AddToParentCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BAddChild.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Добавить к родительскому устройству (Ctrl+M)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BAddChild.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Добавить к родительскому устройству (Ctrl+M)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding RemoveCommand}" >
+            <MenuItem Command="{Binding RemoveCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Удалить (Ctrl+Del)" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Удалить (Ctrl+Del)" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding ShowLogicCommand}" >
+            <MenuItem Command="{Binding ShowLogicCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BLogic.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Настройка логики исполнительного устройства по состоянию зон" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BLogic.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Настройка логики исполнительного устройства по состоянию зон" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Command="{Binding ShowPropertiesCommand}" >
+            <MenuItem Command="{Binding ShowPropertiesCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -78,55 +78,55 @@
             <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/Eye2.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Разрешить множественную визуализацию" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/Eye2.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Разрешить множественную визуализацию" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/Eye3.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Запретить множественную визуализацию" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/Eye3.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Запретить множественную визуализацию" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem>
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersReadWrite.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Параметры" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BParametersReadWrite.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Параметры" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             <MenuItem Command="{Binding ReadCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersRead.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Считать параметры" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BParametersRead.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Считать параметры" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding ReadAllCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersReadAll.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Считать параметры дочерних устройств" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BParametersReadAll.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Считать параметры дочерних устройств" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding WriteCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersWrite.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Записать параметры" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BParametersWrite.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Записать параметры" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding WriteAllCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersWriteAll.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Записать параметры дочерних устройств" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BParametersWriteAll.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Записать параметры дочерних устройств" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -134,24 +134,24 @@
             <MenuItem Command="{Binding CopyParamCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Копировать параметры" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Копировать параметры" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding PasteParamCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Вставить параметры" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Вставить параметры" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding PasteAllParamCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Вставить во все дочерние устройства" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Вставить во все дочерние устройства" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -159,16 +159,16 @@
             <MenuItem Command="{Binding PasteTemplateCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BBriefcase.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Применить шаблон" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BBriefcase.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Применить шаблон" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding PasteAllTemplateCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BBriefcaseAll.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Применить шаблон ко всем дочерним устройствам" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BBriefcaseAll.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Применить шаблон ко всем дочерним устройствам" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -176,16 +176,16 @@
             <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BLeft.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Копировать параметры из устройства в систему" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BLeft.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Копировать параметры из устройства в систему" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}">
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BLeftLeft.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Копировать параметры из всех дочерних устройств в систему" VerticalAlignment="Center"/>
+                        <Image Source="/Controls;component/Images/BLeftLeft.png" Width="16" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Копировать параметры из всех дочерних устройств в систему" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -352,10 +352,13 @@
 						    <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="{Binding Driver.Name}" />
 					    </StackPanel>
 					    <StackPanel Orientation="Horizontal">
-						    <TextBlock Margin="2 2 5 2" Foreground="White" Text="Подключено к " />
+                            <TextBlock Text="Подключено к " Foreground="White" Width="120" Margin="2 2 5 2" />
 						    <TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White">
 							    <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
-								    <TextBlock Margin="2" Text="{Binding Device.Parent.Driver.ShortName}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
+								        <TextBlock Text="{Binding Device.Parent.PresentationName}" Margin="2" />
+                                    </StackPanel>
 							    </Hyperlink>
 						    </TextBlock>
 						    <StackPanel.Style>
@@ -369,22 +372,25 @@
 						    </StackPanel.Style>
 					    </StackPanel>
 					    <WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-						    <Label Content="Зона или Логика: " />
-						    <Label Content="Зона или Логика не указана" Foreground="White" FontStyle="Italic" >
-							    <Label.Style>
+                            <TextBlock Text="Зона или Логика " Foreground="White" Width="120" Margin="2 2 5 2" />
+                            <TextBlock Text="Зона или Логика не указана" Foreground="White" FontStyle="Italic" Margin="2 2 5 2">
+                                <TextBlock.Style>
 								    <Style>
-									    <Setter Property="Label.Visibility" Value="Collapsed" />
+                                    <Setter Property="TextBlock.Visibility" Value="Collapsed" />
 									    <Style.Triggers>
 										    <DataTrigger Binding="{Binding PresentationZone}" Value="">
-											    <Setter Property="Label.Visibility" Value="Visible" />
+                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
 										    </DataTrigger>
 									    </Style.Triggers>
 								    </Style>
-							    </Label.Style>
-						    </Label>
+                                </TextBlock.Style>
+                            </TextBlock>
 						    <TextBlock VerticalAlignment="Center">
 							    <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-								    <TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
+								        <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" Margin="2" />
+                                    </StackPanel>
 							    </Hyperlink>
 							    <TextBlock.Style>
 								    <Style>

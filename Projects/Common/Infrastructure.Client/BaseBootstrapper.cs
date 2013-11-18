@@ -158,16 +158,11 @@ namespace Infrastructure.Client
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection moduleSection = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
-				var globalSettingsModules = GlobalSettingsHelper.GlobalSettings.GetModules();
 				foreach (ModuleElement moduleElement in moduleSection.Modules)
 				{
 					try
 					{
-						if (moduleElement.AssemblyFile == "SKUDModule.dll")
-						{
-							;
-						}
-						if (!globalSettingsModules.Contains(moduleElement.AssemblyFile))
+                        if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
 							continue;
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))

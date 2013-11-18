@@ -28,7 +28,10 @@ namespace ManagementConsole
 			Curent = this;
 			SaveLogsCommand = new RelayCommand(OnSaveLogs);
 			RemoveLogsCommand = new RelayCommand(OnRemoveLogs);
-			ResetCommand = new RelayCommand(OnReset);
+			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
+            ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
+            ResetXLibaryCommand = new RelayCommand(OnResetXLibary);
+            ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			GlobalSettingsViewModel = new GlobalSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
 			HasChanges = false;
@@ -237,24 +240,50 @@ namespace ManagementConsole
 			}
 		}
 
-		public RelayCommand ResetCommand { get; private set; }
-		public void OnReset()
+		public RelayCommand ResetDatabaseCommand { get; private set; }
+		public void OnResetDatabase()
 		{
-			var result = MessageBox.Show("Вы уверены, что хотите сбросить все настройки, базу данных и конфигурацию");
-			if (result != MessageBoxResult.OK)
+            var result = MessageBox.Show("Вы уверены, что хотите сбросить базу данных?");
+			if (result == MessageBoxResult.OK)
 			{
-				return;
+                File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
+                File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
+                File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 			}
-			GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
-			GlobalSettingsHelper.Save();
-			GlobalSettingsViewModel = new GlobalSettingsViewModel();
-
-			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
-			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Firesec.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "Firesec.sdf"), true);
-			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "FSDB.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "FSDB.sdf"), true);
-			File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "GkJournalDatabase.sdf"), AppDataFolderHelper.GetFileInFolder("DB", "GkJournalDatabase.sdf"), true);
 		}
 
+        public RelayCommand ResetConfigurationCommand { get; private set; }
+        public void OnResetConfiguration()
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите сбросить по конфигурацию?");
+            if (result == MessageBoxResult.OK)
+            {
+                File.Copy(AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp"), AppDataFolderHelper.GetFileInFolder("Server", "Config.fscp"), true);
+            }
+        }
+
+        public RelayCommand ResetXLibaryCommand { get; private set; }
+        public void OnResetXLibary()
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств?");
+            if (result == MessageBoxResult.OK)
+            {
+                XDeviceLibraryConfigurationPatchHelper.Patch();
+            }
+        }
+
+        public RelayCommand ResetSettingsCommand { get; private set; }
+        public void OnResetSettings()
+        {
+            var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки?");
+            if (result == MessageBoxResult.OK)
+            {
+                GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
+                GlobalSettingsHelper.Save();
+                GlobalSettingsViewModel = new GlobalSettingsViewModel();
+                OnPropertyChanged("GlobalSettingsViewModel");
+            }
+        }
 
 		bool _hasChanges;
 		public bool HasChanges
@@ -267,7 +296,7 @@ namespace ManagementConsole
 			}
 		}
 
-		void OnPropertyChanged(string propertyName)
+		new void OnPropertyChanged(string propertyName)
 		{
 			base.OnPropertyChanged(propertyName);
 			HasChanges = true;

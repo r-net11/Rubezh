@@ -69,7 +69,7 @@
 									<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="{Binding Device.Parent.Driver.ImageSource}" />
-											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.Driver.ShortName}" TextWrapping="Wrap" />
+											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Device.Parent.PresentationName}" TextWrapping="Wrap" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>

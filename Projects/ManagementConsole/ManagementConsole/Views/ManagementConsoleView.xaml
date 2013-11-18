@@ -95,7 +95,10 @@
             </TabItem>
             <TabItem Header="Сброс">
                 <StackPanel>
-                    <Button Content="Сбросить" Command="{Binding ResetCommand}" Width="100" Margin="2" />
+                    <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить настройки" Command="{Binding ResetSettingsCommand}" Width="300" Margin="2" />
                 </StackPanel>
             </TabItem>
         </TabControl>

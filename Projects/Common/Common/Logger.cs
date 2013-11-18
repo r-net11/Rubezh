@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using NLog;
+using System.Diagnostics;
+using System.Text;
 
 namespace Common
 {
@@ -34,6 +36,7 @@ namespace Common
 				}
 				catch { }
 		}
+
 		public static void Error(string message)
 		{
 			Error(message, _empty);
@@ -68,7 +71,7 @@ namespace Common
 			WriteLog(LogLevel.Trace, message, args);
 		}
 
-		private static void WriteLog(LogLevel level, string message, params object[] args)
+		static void WriteLog(LogLevel level, string message, params object[] args)
 		{
 			lock (_logger)
 				try
@@ -79,5 +82,18 @@ namespace Common
 				{
 				}
 		}
+
+        static string GetStackTrace()
+        {
+            var stringBuilder = new StringBuilder();
+            var stackTrace = new StackTrace(true);
+            for (int i = 0; i < stackTrace.FrameCount; i++)
+            {
+                var stackFrame = stackTrace.GetFrame(i);
+                var frameString = stackFrame.GetMethod().Name + " " + stackFrame.GetFileName() + ":" + stackFrame.GetFileLineNumber();
+                stringBuilder.AppendLine(frameString);
+            }
+            return stringBuilder.ToString();
+        }
 	}
 }
