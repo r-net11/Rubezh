@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0">
             <TabItem Header="Автозапуск">
-                <StackPanel Background="LightBlue" Margin="1">
+                <StackPanel Margin="2">
                     <TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Margin="2" />
                     <CheckBox Content="Сервер приложений ОПС FireSec" IsChecked="{Binding IsServerAuto}" Margin="5,5,5,1" FontSize="12" />
                     <CheckBox Content="Агент FireSec" IsChecked="{Binding IsFsAgentAuto}" Margin="5 1" FontSize="12" />
@@ -19,15 +19,15 @@
                     <CheckBox Content="OPC Сервер ГК ОПС FireSec" IsChecked="{Binding IsGKOpcServerAuto}" Margin="5 1" FontSize="12" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Сбор логов">
-                <StackPanel Background="LightBlue" Margin="2">
+            <TabItem Header="Логи">
+                <StackPanel Margin="2">
                     <TextBox Text="{Binding LogsFolderPath, Mode=OneWay}" Margin="2" />
-                    <Button Background="#C0C0C0" Content="Собрать логи" Command="{Binding SaveLogsCommand}" Height="25" FontSize="13" Margin="2" />
-                    <Button Background="#C0C0C0" Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+                    <Button Content="Собрать логи" Command="{Binding SaveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+                    <Button Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Соединение" DataContext="{Binding GlobalSettingsViewModel}">
-                <Grid>
+                <Grid Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -57,7 +57,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">
-                <ItemsControl ItemsSource="{Binding Modules}">
+                <ItemsControl ItemsSource="{Binding Modules}" Margin="2">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -68,7 +68,7 @@
                 </ItemsControl>
             </TabItem>
             <TabItem Header="FS1" DataContext="{Binding GlobalSettingsViewModel}">
-                <Grid>
+                <Grid Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -94,7 +94,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Сброс">
-                <StackPanel>
+                <StackPanel Margin="2">
                     <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
                     <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
                     <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />

@@ -88,13 +88,16 @@ namespace GKProcessor
                         {
                             CheckServiceRequired(descriptor.XBase, journalItem);
                             descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-                            ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
                         });
                     }
                 }
             }
             if (journalItems.Count > 0)
             {
+				ApplicationService.Invoke(() =>
+				{
+					ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+				});
                 GKDBHelper.AddMany(journalItems);
                 ApplicationService.Invoke(() =>
                 {
