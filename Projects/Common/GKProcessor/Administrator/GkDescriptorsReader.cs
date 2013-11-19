@@ -11,7 +11,7 @@ using Common;
 
 namespace GKProcessor
 {
-	public class GkBinConfigurationReader
+	public class GkDescriptorsReader
 	{
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
@@ -32,7 +32,7 @@ namespace GKProcessor
 				DriverUID = rootDriver.UID
 			};
 			LoadingService.Show("Перевод ГК в технологический режим");
-			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
 			LoadingService.Show("Чтение конфигурации", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
@@ -68,7 +68,7 @@ namespace GKProcessor
 			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
 #endif
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
-			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
+			if (!GkDescriptorsWriter.GoToWorkingRegime(gkDevice))
 			{
 				ParsingError = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}

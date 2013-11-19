@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public class KauBinConfigurationReader
+	public class KauDescriptorsReader
 	{
 		static XDevice KauDevice { get; set; }
 		public XDeviceConfiguration DeviceConfiguration;
@@ -29,7 +29,7 @@ namespace GKProcessor
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
 			LoadingService.Show("Перевод КАУ в технологический режим");
-			BinConfigurationWriter.GoToTechnologicalRegime(kauDevice);
+			GkDescriptorsWriter.GoToTechnologicalRegime(kauDevice);
 			LoadingService.Show("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
@@ -44,7 +44,7 @@ namespace GKProcessor
 				}
 			}
 			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
-			BinConfigurationWriter.GoToWorkingRegime(kauDevice);
+			GkDescriptorsWriter.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
 			LoadingService.SaveClose();
 			if (ParsingError != "")
@@ -71,15 +71,16 @@ namespace GKProcessor
 			int shleifNo = (byte)(address / 256 + 1);
 			var device = new XDevice();
 			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
-			device.DriverUID = device.Driver.UID;
 			if ((1 <= shleifNo && shleifNo <= 8) && (address != 0))
 			{
+				device.DriverUID = device.Driver.UID;
 				var shleif = KauDevice.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 				shleif.Children.Add(device);
 				device.IntAddress = (byte)(address % 256);
 				return true;
 			}
 			device.Driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAUIndicator);
+			device.DriverUID = device.Driver.UID;
 			device.IntAddress = 1;
 			KauDevice.Children.Add(device);
 			return true;

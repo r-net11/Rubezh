@@ -96,7 +96,7 @@ namespace GKModule.Models
 				if (ValidateConfiguration())
 				{
 					GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
-					BinConfigurationWriter.WriteConfig(SelectedDevice.Device);
+					GkDescriptorsWriter.WriteConfig(SelectedDevice.Device);
 					SelectedDevice.SyncFromAllSystemToDevice();
 				}
 			}
@@ -116,7 +116,7 @@ namespace GKModule.Models
 			var device = SelectedDevice.Device;
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
-				var kauBinConfigurationReader = new KauBinConfigurationReader();
+				var kauBinConfigurationReader = new KauDescriptorsReader();
 				if (!kauBinConfigurationReader.ReadConfiguration(device))
 					return;
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, kauBinConfigurationReader.DeviceConfiguration, device);
@@ -124,7 +124,7 @@ namespace GKModule.Models
 			}
 			if (device.DriverType == XDriverType.GK)
 			{
-				var gkBinConfigurationReader = new GkBinConfigurationReader();
+				var gkBinConfigurationReader = new GkDescriptorsReader();
 				if (!gkBinConfigurationReader.ReadConfiguration(device))
 					return;
 				XManager.UpdateConfiguration();
@@ -145,9 +145,9 @@ namespace GKModule.Models
 				return;
 			var firmWareBytes = HexHelper.HexFileToBytesList(updateFilePath);
 			var selectedDevice = SelectedDevice.Device;
-			BinConfigurationWriter.GoToTechnologicalRegime(selectedDevice);
+			GkDescriptorsWriter.GoToTechnologicalRegime(selectedDevice);
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(selectedDevice);
-			BinConfigurationWriter.Clear(selectedDevice);
+			GkDescriptorsWriter.Clear(selectedDevice);
 			var data = new List<byte>();
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{

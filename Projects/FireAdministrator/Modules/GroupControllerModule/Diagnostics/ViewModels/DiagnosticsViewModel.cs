@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 		void OnWriteConfigFileToGK()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
 			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
 			if (!File.Exists(configFileName))
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 		void OnReadConfigFileFromGK()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
+			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
 			var bytesList = new List<List<byte>>();
 			var allbytes = new List<byte>();
 			uint i = 1;
