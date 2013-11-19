@@ -127,9 +127,7 @@ namespace GKModule.Models
 				var gkBinConfigurationReader = new GkBinConfigurationReader();
 				if (!gkBinConfigurationReader.ReadConfiguration(device))
 					return;
-				gkBinConfigurationReader.DeviceConfiguration.Update(); //TODO внутрь
 				XManager.UpdateConfiguration();
-				XManager.UpdateGKPredefinedName(gkBinConfigurationReader.DeviceConfiguration.Devices.FirstOrDefault((x => (x.DriverType == device.DriverType) && (x.Address == device.Address)))); //TODO внутрь
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
 				DialogService.ShowModalWindow(configurationCompareViewModel);
 			}

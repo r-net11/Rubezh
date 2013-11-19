@@ -1,4 +1,4 @@
-﻿//#define LOCALCONFIG
+﻿#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -59,15 +59,9 @@ namespace GKProcessor
 
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
-
-				try
-				{
-					Parse(bytes.Skip(3).ToList(), descriptorNo);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "GkBinConfigurationReader.ReadConfiguration");
-				}
+				
+				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
+					break;
 			}
 #if SETCONFIGTOFILE
 			/* Опция включения записи конфигурации в файл */
@@ -84,6 +78,8 @@ namespace GKProcessor
 				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
 				return false;
 			}
+			DeviceConfiguration.Update();
+			XManager.UpdateGKPredefinedName(GkDevice);
 			return true;
 		}
 #endif
@@ -118,21 +114,29 @@ namespace GKProcessor
 					break;
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
-				Parce(bytes.Skip(3).ToList(), descriptorNo);
+				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
+					break;
 			}
 			LoadingService.SaveClose();
+			if (ParsingError != "")
+			{
+				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
+				return false;
+			}
+			DeviceConfiguration.Update();
+			XManager.UpdateGKPredefinedName(GkDevice);
 			return true;
 		}
 		#endregion
 #endif
-		void Parse(List<byte> bytes, int descriptorNo)
+		bool Parse(List<byte> bytes, int descriptorNo)
 		 {
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
 			if(internalType == 0)
-				return;
+				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (driver != null)
@@ -202,36 +206,47 @@ namespace GKProcessor
 						}
 					}
 				}
-				return;
+				return true;
 			}
 
-			if (internalType == 0x100)
+			if(internalType == 0x100 || internalType == 0x106)
 			{
-				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
-				description = description.Substring(description.IndexOf(".") + 1);
-				var zone = new XZone
+				ushort no;
+				try
 				{
-				    Name = description,
-				    No = no,
-				    GkDatabaseParent = GkDevice
-				};
-				DeviceConfiguration.Zones.Add(zone);
-				return;
-			}
-			if (internalType == 0x106)
-			{
-				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
-				description = description.Substring(description.IndexOf(".") + 1);
-				var direction = new XDirection
+					no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
+					description = description.Substring(description.IndexOf(".") + 1);
+				}
+				catch
 				{
-				    Name = description,
-				    No = no,
-				    GkDatabaseParent = GkDevice
-				};
-				DeviceConfiguration.Directions.Add(direction);
-				return;
+					ParsingError = "Невозможно получить номер объекта с дескриптором " + descriptorNo;
+					return false;
+				}
+
+				if (internalType == 0x100)
+				{
+					var zone = new XZone
+					{
+						Name = description,
+						No = no,
+						GkDatabaseParent = GkDevice
+					};
+					DeviceConfiguration.Zones.Add(zone);
+					return true;
+				}
+				if (internalType == 0x106)
+				{
+					var direction = new XDirection
+					{
+						Name = description,
+						No = no,
+						GkDatabaseParent = GkDevice
+					};
+					DeviceConfiguration.Directions.Add(direction);
+					return true;
+				}
 			}
-			return;
+			return true;
 		}
 	}
 }
