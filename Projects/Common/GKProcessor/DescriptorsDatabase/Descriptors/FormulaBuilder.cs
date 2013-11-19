@@ -169,6 +169,7 @@ namespace GKProcessor
 					case FormulaOperationType.ADD:
 					case FormulaOperationType.AND:
 					case FormulaOperationType.EQ:
+					case FormulaOperationType.NE:
 					case FormulaOperationType.GE:
 					case FormulaOperationType.GT:
 					case FormulaOperationType.LE:
@@ -185,7 +186,6 @@ namespace GKProcessor
 
 					case FormulaOperationType.COM:
 					case FormulaOperationType.END:
-					case FormulaOperationType.NE:
 					case FormulaOperationType.NEG:
 						stackDepth += 0;
 						break;
