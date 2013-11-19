@@ -42,7 +42,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region RootPanel
 
-        private LayoutPanel _rootPanel;
+		private LayoutPanel _rootPanel;
         public LayoutPanel RootPanel
         {
             get { return _rootPanel; }
@@ -70,8 +70,10 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region TopSide
 
-        private LayoutAnchorSide _topSide = null;
-        public LayoutAnchorSide TopSide
+		[field: NonSerialized]
+		private LayoutAnchorSide _topSide = null;
+		[XmlIgnore]
+		public LayoutAnchorSide TopSide
         {
             get { return _topSide; }
             set
@@ -91,8 +93,10 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region RightSide
 
-        private LayoutAnchorSide _rightSide;
-        public LayoutAnchorSide RightSide
+		[field: NonSerialized]
+		private LayoutAnchorSide _rightSide;
+		[XmlIgnore]
+		public LayoutAnchorSide RightSide
         {
             get { return _rightSide; }
             set
@@ -112,8 +116,10 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region LeftSide
 
-        private LayoutAnchorSide _leftSide = null;
-        public LayoutAnchorSide LeftSide
+		[field: NonSerialized]
+		private LayoutAnchorSide _leftSide = null;
+		[XmlIgnore]
+		public LayoutAnchorSide LeftSide
         {
             get { return _leftSide; }
             set
@@ -133,8 +139,10 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region BottomSide
 
-        private LayoutAnchorSide _bottomSide = null;
-        public LayoutAnchorSide BottomSide
+		[field: NonSerialized]
+		private LayoutAnchorSide _bottomSide = null;
+		[XmlIgnore]
+		public LayoutAnchorSide BottomSide
         {
             get { return _bottomSide; }
             set
@@ -153,9 +161,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
         #endregion
 
         #region FloatingWindows
-        ObservableCollection<LayoutFloatingWindow> _floatingWindows = null;
+		[field: NonSerialized]
+		ObservableCollection<LayoutFloatingWindow> _floatingWindows = null;
 
-        public ObservableCollection<LayoutFloatingWindow> FloatingWindows
+		[XmlIgnore]
+		public ObservableCollection<LayoutFloatingWindow> FloatingWindows
         {
             get 
             {
@@ -192,9 +202,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #region HiddenAnchorables
 
-        ObservableCollection<LayoutAnchorable> _hiddenAnchorables = null;
+		[field: NonSerialized]
+		ObservableCollection<LayoutAnchorable> _hiddenAnchorables = null;
 
-        public ObservableCollection<LayoutAnchorable> Hidden
+		[XmlIgnore]
+		public ObservableCollection<LayoutAnchorable> Hidden
         {
             get
             {

@@ -64,6 +64,7 @@ namespace FireAdministrator
 			AddConfiguration(folderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
 			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 			AddConfiguration(folderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+			AddConfiguration(folderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 
 			var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(folderName, "Content"));

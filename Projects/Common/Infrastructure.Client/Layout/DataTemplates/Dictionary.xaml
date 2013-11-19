@@ -1,10 +1,11 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:Infrastructure.Client.Layout.Views"
-                    xmlns:ViewModels="clr-namespace:Infrastructure.Client.Layout.ViewModels">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:Infrastructure.Client.Layout.ViewModels" xmlns:Views="clr-namespace:Infrastructure.Client.Layout.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPartImageViewModel}">
 		<Views:LayoutPartImageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartTitleViewModel}">
+		<Views:LayoutPartTitleView />
 	</DataTemplate>
 
 </ResourceDictionary>

@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Layout.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -44,7 +45,7 @@ namespace LayoutModule.ViewModels
 		}
 		public object Content
 		{
-			get { return LayoutPartDescriptionViewModel.Content; }
+			get { return LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource }; }
 		}
 	}
 }

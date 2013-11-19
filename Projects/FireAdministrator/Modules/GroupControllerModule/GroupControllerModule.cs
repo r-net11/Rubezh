@@ -162,7 +162,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.Alarms,
 				IconSource = "/Controls;component/Images/BAlarm.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAlarm.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAlarm.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -172,7 +172,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.GDevices,
 				IconSource = "/Controls;component/Images/BTree.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BTree.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BTree.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -182,7 +182,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.DeviceParameters,
 				IconSource = "/Controls;component/Images/BAllParameters.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAllParameters.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAllParameters.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -192,7 +192,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.Zones,
 				IconSource = "/Controls;component/Images/BZones.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BZones.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BZones.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -202,7 +202,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.Directions,
 				IconSource = "/Controls;component/Images/BDirection.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BDirection.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BDirection.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -212,7 +212,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.Journals,
 				IconSource = "/Controls;component/Images/BBook.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBook.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBook.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -222,7 +222,7 @@ namespace GKModule
 				UID = LayoutPartIdentities.Archive,
 				IconSource = "/Controls;component/Images/BArchive.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BArchive.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BArchive.png" },
 			};
 		}
 

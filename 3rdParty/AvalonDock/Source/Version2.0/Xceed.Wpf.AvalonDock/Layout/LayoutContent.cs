@@ -383,93 +383,92 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         public virtual void ReadXml(System.Xml.XmlReader reader)
         {
-            if (reader.MoveToAttribute("Title"))
-                Title = reader.Value;
+			//if (reader.MoveToAttribute("Title"))
+			//    Title = reader.Value;
             //if (reader.MoveToAttribute("IconSource"))
             //    IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
 
-            if (reader.MoveToAttribute("IsSelected"))
-                IsSelected = bool.Parse(reader.Value);
+			//if (reader.MoveToAttribute("IsSelected"))
+			//    IsSelected = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
-            if (reader.MoveToAttribute("IsLastFocusedDocument"))
-                IsLastFocusedDocument = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("PreviousContainerId"))
-                PreviousContainerId = reader.Value;
-            if (reader.MoveToAttribute("PreviousContainerIndex"))
-                PreviousContainerIndex = int.Parse(reader.Value);
+			//if (reader.MoveToAttribute("IsLastFocusedDocument"))
+			//    IsLastFocusedDocument = bool.Parse(reader.Value);
+			//if (reader.MoveToAttribute("PreviousContainerId"))
+			//    PreviousContainerId = reader.Value;
+			//if (reader.MoveToAttribute("PreviousContainerIndex"))
+			//    PreviousContainerIndex = int.Parse(reader.Value);
 
-            if (reader.MoveToAttribute("FloatingLeft"))
-                FloatingLeft = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-            if (reader.MoveToAttribute("FloatingTop"))
-                FloatingTop = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-            if (reader.MoveToAttribute("FloatingWidth"))
-                FloatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-            if (reader.MoveToAttribute("FloatingHeight"))
-                FloatingHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-            if (reader.MoveToAttribute("IsMaximized"))
-                IsMaximized = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("CanClose"))
-                CanClose = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("CanFloat"))
-                CanFloat = bool.Parse(reader.Value);
-            if (reader.MoveToAttribute("LastActivationTimeStamp"))
-                LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
+			//if (reader.MoveToAttribute("FloatingLeft"))
+			//    FloatingLeft = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+			//if (reader.MoveToAttribute("FloatingTop"))
+			//    FloatingTop = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+			//if (reader.MoveToAttribute("FloatingWidth"))
+			//    FloatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+			//if (reader.MoveToAttribute("FloatingHeight"))
+			//    FloatingHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+			//if (reader.MoveToAttribute("IsMaximized"))
+			//    IsMaximized = bool.Parse(reader.Value);
+			//if (reader.MoveToAttribute("CanClose"))
+			//    CanClose = bool.Parse(reader.Value);
+			//if (reader.MoveToAttribute("CanFloat"))
+			//    CanFloat = bool.Parse(reader.Value);
+			//if (reader.MoveToAttribute("LastActivationTimeStamp"))
+			//    LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
 
             reader.Read();
         }
 
         public virtual void WriteXml(System.Xml.XmlWriter writer)
         {
-            if (!string.IsNullOrWhiteSpace(Title))
-                writer.WriteAttributeString("Title", Title);
+			//if (!string.IsNullOrWhiteSpace(Title))
+			//    writer.WriteAttributeString("Title", Title);
 
             //if (IconSource != null)
             //    writer.WriteAttributeString("IconSource", IconSource.ToString());
 
-            if (IsSelected)
-                writer.WriteAttributeString("IsSelected", IsSelected.ToString());
+			//if (IsSelected)
+			//    writer.WriteAttributeString("IsSelected", IsSelected.ToString());
 
-            if (IsLastFocusedDocument)
-                writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
+			//if (IsLastFocusedDocument)
+			//    writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
 
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
 
 
-            if (ToolTip != null && ToolTip is string)
-                if (!string.IsNullOrWhiteSpace((string)ToolTip))
-                    writer.WriteAttributeString("ToolTip", (string)ToolTip);
+			//if (ToolTip != null && ToolTip is string)
+			//    if (!string.IsNullOrWhiteSpace((string)ToolTip))
+			//        writer.WriteAttributeString("ToolTip", (string)ToolTip);
 
-            if (FloatingLeft != 0.0)
-                writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
-            if (FloatingTop != 0.0)
-                writer.WriteAttributeString("FloatingTop", FloatingTop.ToString(CultureInfo.InvariantCulture));
-            if (FloatingWidth != 0.0)
-                writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
-            if (FloatingHeight != 0.0)
-                writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString(CultureInfo.InvariantCulture));
+			//if (FloatingLeft != 0.0)
+			//    writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
+			//if (FloatingTop != 0.0)
+			//    writer.WriteAttributeString("FloatingTop", FloatingTop.ToString(CultureInfo.InvariantCulture));
+			//if (FloatingWidth != 0.0)
+			//    writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
+			//if (FloatingHeight != 0.0)
+			//    writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString(CultureInfo.InvariantCulture));
 
-            if (IsMaximized)
-                writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
-            if (!CanClose)
-                writer.WriteAttributeString("CanClose", CanClose.ToString());
-            if (!CanFloat)
-                writer.WriteAttributeString("CanFloat", CanFloat.ToString());
+			//if (IsMaximized)
+			//    writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
+			//if (!CanClose)
+			//    writer.WriteAttributeString("CanClose", CanClose.ToString());
+			//if (!CanFloat)
+			//    writer.WriteAttributeString("CanFloat", CanFloat.ToString());
 
-            if (LastActivationTimeStamp != null)
-                writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
+			//if (LastActivationTimeStamp != null)
+			//    writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
-            if (_previousContainer != null)
-            {
-                var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-                if (paneSerializable != null)
-                {
-                    writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
-                    writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
-                }
-            }
-
+			//if (_previousContainer != null)
+			//{
+			//    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+			//    if (paneSerializable != null)
+			//    {
+			//        writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
+			//        writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
+			//    }
+			//}
         }
 
         #region FloatingWidth

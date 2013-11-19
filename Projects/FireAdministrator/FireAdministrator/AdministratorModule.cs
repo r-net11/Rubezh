@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Client.Layout;
-using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
@@ -35,13 +34,22 @@ namespace FireAdministrator
 		{
 			yield return new LayoutPartDescription()
 			{
+				Name = "Заглушка",
+				Description = "Пустая панель",
+				Index = 0,
+				UID = LayoutPartIdentities.EmptySpace,
+				IconSource = "/Controls;component/Images/BExit.png",
+				AllowMultiple = true,
+			};
+			yield return new LayoutPartDescription()
+			{
 				Name = "Индикаторы",
 				Description = "Панель индикаторов состояния",
 				Index = 1,
 				UID = LayoutPartIdentities.Indicator,
 				IconSource = "/Controls;component/Images/BAlarm.png",
 				AllowMultiple = false,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/IndicatorsPreview.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/IndicatorsPreview.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -51,7 +59,7 @@ namespace FireAdministrator
 				UID = LayoutPartIdentities.Navigation,
 				IconSource = "/Controls;component/Images/BTree.png",
 				AllowMultiple = false,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/NavigationPreview.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/NavigationPreview.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -61,7 +69,7 @@ namespace FireAdministrator
 				UID = LayoutPartIdentities.Content,
 				IconSource = "/Controls;component/Images/BLayouts.png",
 				AllowMultiple = false,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/ContentPreview.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/ContentPreview.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -71,7 +79,7 @@ namespace FireAdministrator
 				UID = LayoutPartIdentities.Reports,
 				IconSource = "/Controls;component/Images/BLevels.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BLevels.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BLevels.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -81,7 +89,7 @@ namespace FireAdministrator
 				UID = LayoutPartIdentities.Diagnostics,
 				IconSource = "/Controls;component/Images/BBug.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBug.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBug.png" },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -91,7 +99,7 @@ namespace FireAdministrator
 				UID = LayoutPartIdentities.Video,
 				IconSource = "/Controls;component/Images/BVideo.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BVideo.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BVideo.png" },
 			};
 		}
 

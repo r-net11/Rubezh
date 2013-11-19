@@ -114,6 +114,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AlarmButton.cs" />
+    <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
@@ -1331,6 +1332,7 @@
     <Resource Include="GKIcons\battery.png" />
     <Resource Include="Images\nextDifference.png" />
     <Resource Include="Images\previousDifference.png" />
+    <Resource Include="Images\Exit.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

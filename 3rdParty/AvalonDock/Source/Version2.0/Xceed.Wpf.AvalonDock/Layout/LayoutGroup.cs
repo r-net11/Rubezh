@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
@@ -207,22 +208,49 @@ namespace Xceed.Wpf.AvalonDock.Layout
                 }
 
                 XmlSerializer serializer = null;
-                if (reader.LocalName == "LayoutAnchorablePaneGroup")
-                    serializer = new XmlSerializer(typeof(LayoutAnchorablePaneGroup));
-                else if (reader.LocalName == "LayoutAnchorablePane")
-                    serializer = new XmlSerializer(typeof(LayoutAnchorablePane));
-                else if (reader.LocalName == "LayoutAnchorable")
-                    serializer = new XmlSerializer(typeof(LayoutAnchorable));
-                else if (reader.LocalName == "LayoutDocumentPaneGroup")
-                    serializer = new XmlSerializer(typeof(LayoutDocumentPaneGroup));
-                else if (reader.LocalName == "LayoutDocumentPane")
-                    serializer = new XmlSerializer(typeof(LayoutDocumentPane));
-                else if (reader.LocalName == "LayoutDocument")
-                    serializer = new XmlSerializer(typeof(LayoutDocument));
-                else if (reader.LocalName == "LayoutAnchorGroup")
-                    serializer = new XmlSerializer(typeof(LayoutAnchorGroup));
-                else if (reader.LocalName == "LayoutPanel")
-                    serializer = new XmlSerializer(typeof(LayoutPanel));
+				switch (reader.LocalName)
+				{
+					case "LayoutAnchorablePaneGroup":
+						serializer = XmlSerializerCache.Get<LayoutAnchorablePaneGroup>();
+						break;
+					case "LayoutAnchorablePane":
+						serializer = XmlSerializerCache.Get<LayoutAnchorablePane>();
+						break;
+					case "LayoutAnchorable":
+						serializer = XmlSerializerCache.Get<LayoutAnchorable>();
+						break;
+					case "LayoutDocumentPaneGroup":
+						serializer = XmlSerializerCache.Get<LayoutDocumentPaneGroup>();
+						break;
+					case "LayoutDocumentPane":
+						serializer = XmlSerializerCache.Get<LayoutDocumentPane>();
+						break;
+					case "LayoutDocument":
+						serializer = XmlSerializerCache.Get<LayoutDocument>();
+						break;
+					case "LayoutAnchorGroup":
+						serializer = XmlSerializerCache.Get<LayoutAnchorGroup>();
+						break;
+					case "LayoutPanel":
+						serializer = XmlSerializerCache.Get<LayoutPanel>();
+						break;
+				}
+				//if (reader.LocalName == "LayoutAnchorablePaneGroup")
+				//    serializer = new XmlSerializer(typeof(LayoutAnchorablePaneGroup));
+				//else if (reader.LocalName == "LayoutAnchorablePane")
+				//    serializer = new XmlSerializer(typeof(LayoutAnchorablePane));
+				//else if (reader.LocalName == "LayoutAnchorable")
+				//    serializer = new XmlSerializer(typeof(LayoutAnchorable));
+				//else if (reader.LocalName == "LayoutDocumentPaneGroup")
+				//    serializer = new XmlSerializer(typeof(LayoutDocumentPaneGroup));
+				//else if (reader.LocalName == "LayoutDocumentPane")
+				//    serializer = new XmlSerializer(typeof(LayoutDocumentPane));
+				//else if (reader.LocalName == "LayoutDocument")
+				//    serializer = new XmlSerializer(typeof(LayoutDocument));
+				//else if (reader.LocalName == "LayoutAnchorGroup")
+				//    serializer = new XmlSerializer(typeof(LayoutAnchorGroup));
+				//else if (reader.LocalName == "LayoutPanel")
+				//    serializer = new XmlSerializer(typeof(LayoutPanel));
 
                 Children.Add((T)serializer.Deserialize(reader));
             }

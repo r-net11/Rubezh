@@ -89,7 +89,7 @@ namespace PlansModule
 				UID = LayoutPartIdentities.Plans,
 				IconSource = "/Controls;component/Images/BMap.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BMap.png" },
+				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BMap.png" },
 			};
 		}
 

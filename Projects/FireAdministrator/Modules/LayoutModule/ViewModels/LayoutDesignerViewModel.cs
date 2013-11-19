@@ -118,6 +118,7 @@ namespace LayoutModule.ViewModels
 		}
 		private void LayoutChanged(object sender, EventArgs e)
 		{
+			ServiceFactory.SaveService.LayoutsChanged = true;
 			//SaveLayout();
 		}
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)

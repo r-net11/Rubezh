@@ -52,15 +52,15 @@ namespace Xceed.Wpf.AvalonDock.Layout
         {
             base.WriteXml(writer);
 
-            if (!string.IsNullOrWhiteSpace(Description))
-                writer.WriteAttributeString("Description", Description);
+			//if (!string.IsNullOrWhiteSpace(Description))
+			//    writer.WriteAttributeString("Description", Description);
 
         }
 
         public override void ReadXml(System.Xml.XmlReader reader)
         {
-            if (reader.MoveToAttribute("Description"))
-                Description = reader.Value;
+			//if (reader.MoveToAttribute("Description"))
+			//    Description = reader.Value;
 
             base.ReadXml(reader);
         }

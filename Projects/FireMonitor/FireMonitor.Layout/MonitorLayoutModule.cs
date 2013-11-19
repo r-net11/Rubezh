@@ -37,6 +37,13 @@ namespace FireMonitor.Layout
 		{
 			yield return new LayoutPartPresenter()
 			{
+				Name = "Заглушка",
+				UID = LayoutPartIdentities.EmptySpace,
+				IconSource = "/Controls;component/Images/Exit.png",
+				Content = new EmptyPartViewModel(),
+			};
+			yield return new LayoutPartPresenter()
+			{
 				Name = "Индикаторы",
 				UID = LayoutPartIdentities.Indicator,
 				IconSource = "/Controls;component/Images/Alarm.png",

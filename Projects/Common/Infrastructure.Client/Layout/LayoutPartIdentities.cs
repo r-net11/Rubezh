@@ -4,6 +4,7 @@ namespace Infrastructure.Client.Layout
 {
 	public static class LayoutPartIdentities
 	{
+		public static readonly Guid EmptySpace = new Guid("{21557D9C-779D-4720-ACE5-645E8F7EB211}");
 		public static readonly Guid Indicator = new Guid("{8B0BF10A-AD4C-48CC-B1D0-ADF39552B936}");
 		public static readonly Guid Navigation = new Guid("{8EC166C3-5D1C-4BBD-AE33-A91EC58FB74B}");
 		public static readonly Guid Content = new Guid("{7FA6996D-0E0F-4409-BFF9-064EFEAF5C35}");

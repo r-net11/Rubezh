@@ -43,7 +43,7 @@ namespace PlansModule.ViewModels
 				if (e.Element is ElementSubPlan)
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
 			});
-			
+
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanDesignerViewModel.IsCollapsedChanged += new EventHandler(PlanDesignerViewModel_IsCollapsedChanged);
 			OnPropertyChanged(() => PlanDesignerViewModel);
@@ -84,17 +84,12 @@ namespace PlansModule.ViewModels
 						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
 							Helper.UpgradeBackground(elementBase);
 					}
+				SelectedPlan = null;
 				Plans = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
 					AddPlan(plan, null);
-
-				for (int i = 0; i < Plans.Count; i++)
-				{
-					Plans[i].CollapseChildren();
-					Plans[i].ExpandChildren();
-				}
-
-				SelectedPlan = null;
+				if (SelectedPlan != null)
+					SelectedPlan.ExpandToThis();
 			}
 		}
 		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
@@ -104,6 +99,8 @@ namespace PlansModule.ViewModels
 				Plans.Add(planViewModel);
 			else
 				parentPlanViewModel.AddChild(planViewModel);
+			if (SelectedPlan == null && !planViewModel.IsFolder)
+				SelectedPlan = planViewModel;
 
 			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);

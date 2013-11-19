@@ -196,6 +196,7 @@
     <Compile Include="Layout\Serialization\LayoutSerializationCallbackEventArgs.cs" />
     <Compile Include="Layout\Serialization\LayoutSerializer.cs" />
     <Compile Include="Layout\Serialization\XmlLayoutSerializer.cs" />
+    <Compile Include="Layout\Serialization\XmlSerializerCache.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

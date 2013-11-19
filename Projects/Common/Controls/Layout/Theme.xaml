@@ -360,15 +360,12 @@
 	</Style>
 
 	<ContextMenu x:Key="DocumentContextMenu" Style="{StaticResource DocumentContextMenuStyle}">
-		<MenuItem Command="{Binding Path=CloseCommand}" Header="{x:Static avalonDockProperties:Resources.Document_Close}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<MenuItem Command="{Binding Path=CloseAllButThisCommand}" Header="{x:Static avalonDockProperties:Resources.Document_CloseAllButThis}" />
-		<!--  <MenuItem Command="{Binding Path=FloatCommand}" Header="{x:Static avalonDockProperties:Resources.Document_Float}" />  -->
-		<!--  <MenuItem Command="{Binding Path=DockAsDocumentCommand}" Header="{x:Static avalonDockProperties:Resources.Document_DockAsDocument}" />  -->
-		<!--  <Separator Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />  -->
-		<MenuItem Command="{Binding Path=NewHorizontalTabGroupCommand}" Header="{x:Static avalonDockProperties:Resources.Document_NewHorizontalTabGroup}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<MenuItem Command="{Binding Path=NewVerticalTabGroupCommand}" Header="{x:Static avalonDockProperties:Resources.Document_NewVerticalTabGroup}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<MenuItem Command="{Binding Path=MoveToNextTabGroupCommand}" Header="{x:Static avalonDockProperties:Resources.Document_MoveToNextTabGroup}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-		<MenuItem Command="{Binding Path=MoveToPreviousTabGroupCommand}" Header="{x:Static avalonDockProperties:Resources.Document_MoveToPreviousTabGroup}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<MenuItem Command="{Binding Path=CloseCommand}" Header="Закрыть" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<MenuItem Command="{Binding Path=CloseAllButThisCommand}" Header="Закрыть все кроме этого" />
+		<MenuItem Command="{Binding Path=NewHorizontalTabGroupCommand}" Header="Новая горизонтальная группа вкладок" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<MenuItem Command="{Binding Path=NewVerticalTabGroupCommand}" Header="Новая вертикальная группа вкладок" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<MenuItem Command="{Binding Path=MoveToNextTabGroupCommand}" Header="Перейти к следующей группе вкладок" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<MenuItem Command="{Binding Path=MoveToPreviousTabGroupCommand}" Header="Перейти к предыдущей группе вкладок" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 	</ContextMenu>
 
 	<!--  DockingManager  -->
@@ -441,7 +438,7 @@
 								<Border Grid.ColumnSpan="2" Background="Transparent" />
 								<ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}" ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager}, Mode=FindAncestor}}" />
 								<!--  Close button should be moved out to the container style  -->
-								<Button x:Name="DocumentCloseButton" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource AvalonDock_ButtonStyle}" ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}" Visibility="Hidden">
+								<Button x:Name="DocumentCloseButton" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource AvalonDock_ButtonStyle}" ToolTip="Закрыть" Visibility="Hidden">
 									<Image x:Name="PART_ImgPinClose" Source="/Controls;component/Layout/Images/PinClose.png" />
 								</Button>
 							</Grid>
