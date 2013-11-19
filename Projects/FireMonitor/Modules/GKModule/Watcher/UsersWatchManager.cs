@@ -16,8 +16,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 
-			ApplicationService.Closing -= new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
-			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+			ApplicationService.Closed -= new EventHandler(ApplicationService_Closed);
+			ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
 		}
 
 		public static void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
@@ -32,7 +32,7 @@ namespace GKModule
 			}
 		}
 
-		static void ApplicationService_Closing(object sender, CancelEventArgs e)
+		static void ApplicationService_Closed(object sender, EventArgs e)
 		{
 			JournaActionlHelper.Add("Выход пользователя из системы", "");
 		}

@@ -41,7 +41,7 @@ namespace GKProcessor
 			var property8 = new XDriverProperty()
 			{
 				No = 8,
-				Name = "Тип шкафа",
+				Name = "Type",
 				Caption = "Тип шкафа",
 				Default = 1
 			};

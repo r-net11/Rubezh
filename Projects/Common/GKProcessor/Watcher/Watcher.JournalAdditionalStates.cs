@@ -16,15 +16,7 @@ namespace GKProcessor
 				{
 					if (!string.IsNullOrEmpty(journalItem.Description))
 					{
-						if (!deviceState.AdditionalStates.Any(x => x.Name == journalItem.Description))
-						{
-							var additionalState = new XAdditionalState()
-							{
-								StateClass = XStateClass.Failure,
-								Name = journalItem.Description
-							};
-							deviceState.AdditionalStates.Add(additionalState);
-						}
+						AddAdditionalState(deviceState, journalItem.Description);
 					}
 				}
 				if (journalItem.Name == "Неисправность устранена")
@@ -38,7 +30,36 @@ namespace GKProcessor
 						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
 					}
 				}
+				if (journalItem.Name == "Информация")
+				{
+					switch(journalItem.Description)
+					{
+						case "Низкий уровень":
+						case "Высокий уровень":
+						case "Аварийный уровень":
+							AddAdditionalState(deviceState, journalItem.Description);
+							break;
+						case "Уровень норма":
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Низкий уровень");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+							break;
+					}
+				}
 				deviceState.OnStateChanged();
+			}
+		}
+
+		void AddAdditionalState(XDeviceState deviceState, string description)
+		{
+			if (!deviceState.AdditionalStates.Any(x => x.Name == description))
+			{
+				var additionalState = new XAdditionalState()
+				{
+					StateClass = XStateClass.Failure,
+					Name = description
+				};
+				deviceState.AdditionalStates.Add(additionalState);
 			}
 		}
 	}

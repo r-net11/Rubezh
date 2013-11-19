@@ -1,4 +1,4 @@
-﻿#define LOCALCONFIG
+﻿//#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;

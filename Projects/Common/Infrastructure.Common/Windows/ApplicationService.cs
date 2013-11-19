@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Windows
 	{
 		public static event EventHandler Starting;
 		public static event CancelEventHandler Closing;
+		public static event EventHandler Closed;
 		public static event Action ShuttingDown;
 		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
@@ -49,6 +50,7 @@ namespace Infrastructure.Common.Windows
 			if (isMaximized.HasValue)
 				windowBaseView.SetValue(Window.WindowStateProperty, isMaximized.Value ? WindowState.Maximized : WindowState.Minimized);
 			windowBaseView.Closing += new CancelEventHandler(win_Closing);
+			windowBaseView.Closed += new EventHandler(win_Closed);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -65,6 +67,7 @@ namespace Infrastructure.Common.Windows
 			model.Run();
 			ApplicationWindow = windowBaseView;
 		}
+
 		public static FrameworkElement BuildControl(ShellViewModel model)
 		{
 			model.Header.ShowIconAndTitle = false;
@@ -157,10 +160,16 @@ namespace Infrastructure.Common.Windows
 			Shell = shell;
 		}
 
-		private static void win_Closing(object sender, CancelEventArgs e)
+		static void win_Closing(object sender, CancelEventArgs e)
 		{
 			if (Closing != null)
 				Closing(sender, e);
+		}
+
+		static void win_Closed(object sender, EventArgs e)
+		{
+			if (Closed != null)
+				Closed(sender, e);
 		}
 
 		public static void Restart()

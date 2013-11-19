@@ -42,11 +42,11 @@ namespace GKModule.Reports
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
 			var table = new DataTable("Journal");
-			table.Columns.Add("DateTime");
+			table.Columns.Add("DeviceDateTime");
+			table.Columns.Add("SystemDateTime");
 			table.Columns.Add("Name");
 			table.Columns.Add("Description");
 			table.Columns.Add("ObjectName");
-			table.Columns.Add("StateClass");
 			foreach (var journalItem in ReportArchiveFilter.JournalItems)
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
@@ -65,10 +65,10 @@ namespace GKModule.Reports
 				}
 				table.Rows.Add(
 					journalItem.DeviceDateTime,
+					journalItem.SystemDateTime,
 					journalItem.Name,
 					journalItem.Description,
-					objectName,
-					journalItem.StateClass.ToDescription());
+					objectName);
 			}
 			data.DataTables.Add(table);
 			PdfProvider.ReportData = data;
