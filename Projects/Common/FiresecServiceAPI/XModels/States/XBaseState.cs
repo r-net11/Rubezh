@@ -16,7 +16,6 @@ namespace XFiresecAPI
 		public XBaseState()
 		{
 			AdditionalStates = new List<XAdditionalState>();
-			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			IsInitialState = true;
 		}
 
@@ -154,7 +153,6 @@ namespace XFiresecAPI
 		}
 
 		public List<XAdditionalState> AdditionalStates { get; set; }
-		public List<AdditionalXStateProperty> AdditionalStateProperties { get; set; }
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }

@@ -16,7 +16,6 @@ namespace GKProcessor
 		public ushort TypeNo { get; private set; }
 		public List<XStateBit> StateBits { get; private set; }
 		public List<XAdditionalState> AdditionalStates { get; private set; }
-		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 		List<ushort> additionalShortParameters = new List<ushort>();
 
 		public int OnDelay { get; private set; }
@@ -82,7 +81,6 @@ namespace GKProcessor
 
 		void ParseAdditionalParameters(List<byte> bytes)
 		{
-			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<XAdditionalState>();
 			for (int i = 0; i < 10; i++)
 			{
@@ -392,21 +390,8 @@ namespace GKProcessor
 			}
 			else
 			{
-				if (TypeNo == 0x106)
+				if (TypeNo == 0x101 || TypeNo == 0x106)
 				{
-					var property1 = new AdditionalXStateProperty()
-					{
-						Name = "Задержка",
-						Value = additionalShortParameters[0]
-					};
-					AdditionalStateProperties.Add(property1);
-					var property2 = new AdditionalXStateProperty()
-					{
-						Name = "Удержание",
-						Value = additionalShortParameters[1]
-					};
-					AdditionalStateProperties.Add(property2);
-
 					OnDelay = additionalShortParameters[0];
 					HoldDelay = additionalShortParameters[1];
 				}

@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 					{
 						switch (device.DriverType)
 						{
-							case XDriverType.AM_1:
+							case XDriverType.AM1_T:
 							case XDriverType.Pump:
 							case XDriverType.RSR2_Bush:
 								var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);

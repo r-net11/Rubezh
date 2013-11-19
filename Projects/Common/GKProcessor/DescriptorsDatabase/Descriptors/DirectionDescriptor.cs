@@ -52,7 +52,6 @@ namespace GKProcessor
 
 				if (Direction.IsNS)
 				{
-					var failureDevices = new List<XDevice>();
 					foreach (var nsDevice in Direction.NSDevices)
 					{
 						switch (nsDevice.DriverType)
@@ -61,17 +60,12 @@ namespace GKProcessor
 							case XDriverType.RSR2_Bush:
 								if (nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
 								{
-									failureDevices.Add(nsDevice);
+									Formula.AddGetBit(XStateBit.Failure, nsDevice);
+									Formula.Add(FormulaOperationType.COM);
+									Formula.Add(FormulaOperationType.AND);
 								}
 								break;
 						}
-					}
-
-					foreach (var failureDevice in failureDevices)
-					{
-						Formula.AddGetBit(XStateBit.Failure, failureDevice);
-						Formula.Add(FormulaOperationType.COM);
-						Formula.Add(FormulaOperationType.AND);
 					}
 
 					var am1TDevice = Direction.NSDevices.FirstOrDefault(x=>x.DriverType == XDriverType.AM1_T);
