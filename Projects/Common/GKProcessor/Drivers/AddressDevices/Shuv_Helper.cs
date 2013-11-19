@@ -33,9 +33,9 @@ namespace GKProcessor
             driver.AvailableCommandBits.Add(XStateBit.Stop_InManual);
 
             GKDriversHelper.AddPlainEnumProprety2(driver, 0x82, "Внешний сигнал шкафа управления", 0, "Сигнал с кнопок «Пуск» и «Стоп»", "Сигнал с датчика", 0);
-            GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания запуска, мин. 0 - неограничено", 0, 0, 0, 255);
-            GKDriversHelper.AddIntProprety(driver, 0x84, "Время отложенного запуска, с", 0, 0, 0, 255);
-            GKDriversHelper.AddIntProprety(driver, 0x85, "Время ожидания выхода на режим, с. 0 - не ждать сигнала", 0, 0, 0, 255);
+            GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания запуска, мин. 0 - неограничено", 0, 0, 255);
+            GKDriversHelper.AddIntProprety(driver, 0x84, "Время отложенного запуска, с", 0, 0, 255);
+            GKDriversHelper.AddIntProprety(driver, 0x85, "Время ожидания выхода на режим, с. 0 - не ждать сигнала", 0, 0, 255);
 
             return driver;
         }

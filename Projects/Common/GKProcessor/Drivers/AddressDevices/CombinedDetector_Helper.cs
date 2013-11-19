@@ -24,8 +24,8 @@ namespace GKProcessor
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 0, 18, 5, 20);
-			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 0, 70, 54, 85);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 18, 5, 20);
+			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 70, 54, 85);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
 			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Температура, C", InternalName = "Temperature" });

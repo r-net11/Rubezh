@@ -73,7 +73,7 @@ namespace GKProcessor
 				ParsingError = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
 			LoadingService.SaveClose();
-			if(ParsingError != "")
+			if(ParsingError != null)
 			{
 				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
 				return false;

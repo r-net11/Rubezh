@@ -96,15 +96,13 @@ namespace GKProcessor
 					if (driverProperty.IsMPTOrMRORegime)
 					{
 						if (Device.DriverType == XDriverType.MPT)
-							property.Value = Device.IsChildMPTOrMRO() ? (ushort)2 : (ushort)1;
+							property.Value = Device.IsChildMPTOrMRO() ? (ushort)(2 << 6) : (ushort)(1 << 6);
 						if (Device.DriverType == XDriverType.MRO_2)
 							property.Value = Device.IsChildMPTOrMRO() ? (ushort)1 : (ushort)2;
 					}
 
 					byte no = driverProperty.No;
 					ushort value = property.Value;
-					if (driverProperty.Offset > 0)
-						value = (ushort)(value << driverProperty.Offset);
 					if (driverProperty.Mask > 0)
 					{
 						if (driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)

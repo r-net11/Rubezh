@@ -23,7 +23,7 @@ namespace GKProcessor
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по дыму, 0.001*дБ/м", 0, 800, 50, 1000);
+			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по дыму, 0.001*дБ/м", 800, 50, 1000);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Дым 1, 0.001*дБ/м" });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Дым 2, 0.001*дБ/м" });

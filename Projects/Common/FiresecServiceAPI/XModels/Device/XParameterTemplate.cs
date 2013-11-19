@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.XModels
+namespace XFiresecAPI
 {
 	[DataContract]
 	public class XParameterTemplate

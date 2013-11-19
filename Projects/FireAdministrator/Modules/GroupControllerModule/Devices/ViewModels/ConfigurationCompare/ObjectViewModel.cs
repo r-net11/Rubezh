@@ -97,6 +97,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Zone;
 		}
 	}
+
 	public enum ObjectType
 	{
 		Device = 0,

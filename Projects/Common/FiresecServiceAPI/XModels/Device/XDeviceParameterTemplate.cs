@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using XFiresecAPI;
 
-namespace FiresecAPI.XModels
+namespace XFiresecAPI
 {
 	[DataContract]
 	public class XDeviceParameterTemplate

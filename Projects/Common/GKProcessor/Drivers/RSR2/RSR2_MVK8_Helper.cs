@@ -35,9 +35,9 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 0, 10, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 0, 1, 1, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 0, 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 10, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 1, 1, 65535);
 
 			var property1 = new XDriverProperty()
 			{
@@ -95,7 +95,7 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property4, "Обрыв и КЗ", 3);
 			driver.Properties.Add(property4);
 
-			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 0, 80, 1, 1000);
+			GKDriversHelper.AddIntProprety(driver, 5, "Норма питания, 0.1В", 80, 1, 1000);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });

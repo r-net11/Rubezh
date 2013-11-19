@@ -4,7 +4,7 @@ namespace GKProcessor
 {
 	public static class GKDriversHelper
 	{
-		public static XDriverProperty AddPlainEnumProprety(XDriver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name)
+		public static XDriverProperty AddPlainEnumProprety(XDriver driver, byte no, byte offset, string propertyName, string parameter1Name, string parameter2Name)
 		{
 			var property = new XDriverProperty()
 			{
@@ -56,20 +56,19 @@ namespace GKProcessor
 			return property;
 		}
 
-		public static void AddBoolProprety(XDriver xDriver, byte no, string propertyName, byte offset)
+		public static void AddBoolProprety(XDriver driver, byte no, string propertyName)
 		{
 			var property = new XDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
-				Offset = offset
+				DriverPropertyType = XDriverPropertyTypeEnum.BoolType
 			};
-			xDriver.Properties.Add(property);
+			driver.Properties.Add(property);
 		}
 
-		public static XDriverProperty AddIntProprety(XDriver xDriver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
+		public static XDriverProperty AddIntProprety(XDriver driver, byte no, string propertyName, int defaultValue, int min, int max)
 		{
 			var property = new XDriverProperty()
 			{
@@ -77,12 +76,11 @@ namespace GKProcessor
 				Name = propertyName,
 				Caption = propertyName,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Offset = offset,
 				Default = (ushort)defaultValue,
 				Min = (ushort)min,
 				Max = (ushort)max
 			};
-			xDriver.Properties.Add(property);
+			driver.Properties.Add(property);
 			return property;
 		}
 
