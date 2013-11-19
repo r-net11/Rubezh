@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public class KauDescriptorsReader
+	public class KauDescriptorsReader : IDescriptorReader
 	{
 		static XDevice KauDevice { get; set; }
-		public XDeviceConfiguration DeviceConfiguration;
-		public string ParsingError = "";
+		public XDeviceConfiguration DeviceConfiguration { get; private set; }
+		public string ParsingError { get; private set; }
 		List<int> descriptorAddresses;
+
 		public bool ReadConfiguration(XDevice kauDevice)
 		{
 			KauDevice = (XDevice) kauDevice.Clone();
@@ -47,12 +46,7 @@ namespace GKProcessor
 			GkDescriptorsWriter.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
 			LoadingService.SaveClose();
-			if (ParsingError != "")
-			{
-				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
-				return false;
-			}
-			return true;
+			return String.IsNullOrEmpty(ParsingError);
 		}
 
 		bool GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
@@ -63,7 +57,7 @@ namespace GKProcessor
 			var bytes = sendResult.Bytes;
 			if (bytes.Count != 256)
 			{
-				ParsingError = "bytes.Count != 256";
+				ParsingError = "Длина дескриптора не соответствует нужному значению";
 				return false;
 			}
 			var deviceType = BytesHelper.SubstructShort(bytes, 0);

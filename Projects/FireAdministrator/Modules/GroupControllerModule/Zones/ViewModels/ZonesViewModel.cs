@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 		private bool _lockSelection;
 		public static ZonesViewModel Current { get; private set; }
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
-
+		List<ZoneViewModel> EmptyZones { get; set; }
         public ZonesViewModel()
         {
 			Menu = new ZonesMenuViewModel(this);
@@ -92,7 +92,8 @@ namespace GKModule.ViewModels
 
         bool CanDeleteAllEmpty()
         {
-			return Zones.Where(zone => zone.Zone.IsEmpty).Count() > 0;
+			EmptyZones = Zones.Where(x => x.Zone.IsEmpty).ToList();
+			return EmptyZones.Count > 0;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -140,10 +141,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				var emptyZones = new List<ZoneViewModel>(
-					Zones.Where(zone => XManager.Devices.Any(x => x.ZoneUIDs.Any(z => z == zone.Zone.UID)) == false)
-				);
-				foreach (var emptyZone in emptyZones)
+				foreach (var emptyZone in EmptyZones)
 				{
 					XManager.RemoveZone(emptyZone.Zone);
 					Zones.Remove(emptyZone);
@@ -300,6 +298,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Удалить все пустые зоны", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}

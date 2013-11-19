@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.HasDifferences || RemoteObjectsViewModel.Objects[i].HasDifferences) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || RemoteObjectsViewModel.Objects[i].IsAbsent) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}
@@ -111,7 +111,9 @@ namespace GKModule.ViewModels
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
 				if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.HasDifferences = true;
+					newObject.IsAbsent = true;
+				else if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsPresent = true;
 				unionObjects1.Add(newObject);
 			}
 
@@ -120,7 +122,9 @@ namespace GKModule.ViewModels
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
 				if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.HasDifferences = true;
+					newObject.IsAbsent = true;
+				else if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsPresent = true;
 				unionObjects2.Add(newObject);
 			}
 			LocalObjectsViewModel.Objects = unionObjects1;

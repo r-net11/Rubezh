@@ -114,29 +114,23 @@ namespace GKModule.Models
 		{
 			DescriptorsManager.Create();
 			var device = SelectedDevice.Device;
-			if (device.Driver.IsKauOrRSR2Kau)
+			var descriptorReader = device.Driver.IsKauOrRSR2Kau? (IDescriptorReader) new KauDescriptorsReader(): new GkDescriptorsReader();
+			if (descriptorReader.ReadConfiguration(device))
 			{
-				var kauBinConfigurationReader = new KauDescriptorsReader();
-				if (!kauBinConfigurationReader.ReadConfiguration(device))
-					return;
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, kauBinConfigurationReader.DeviceConfiguration, device);
-				DialogService.ShowModalWindow(configurationCompareViewModel);
-			}
-			if (device.DriverType == XDriverType.GK)
-			{
-				var gkBinConfigurationReader = new GkDescriptorsReader();
-				if (!gkBinConfigurationReader.ReadConfiguration(device))
-					return;
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, gkBinConfigurationReader.DeviceConfiguration, device);
-				DialogService.ShowModalWindow(configurationCompareViewModel);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, descriptorReader.DeviceConfiguration, device);
+				if (DialogService.ShowModalWindow(configurationCompareViewModel))
+					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
-			ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+			else
+				MessageBoxService.ShowError(descriptorReader.ParsingError, "Ошибка при чтении конфигурации");
 		}
+
 		bool CanReadConfiguration()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
 		}
+
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
@@ -147,7 +141,7 @@ namespace GKModule.Models
 			var selectedDevice = SelectedDevice.Device;
 			GkDescriptorsWriter.GoToTechnologicalRegime(selectedDevice);
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(selectedDevice);
-			GkDescriptorsWriter.Clear(selectedDevice);
+			DeviceBytesHelper.Clear(selectedDevice);
 			var data = new List<byte>();
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
@@ -157,10 +151,12 @@ namespace GKModule.Models
 				SendManager.Send(selectedDevice, 260, 0x12, 0, data);
 			}
 		}
+
 		bool CanUpdateFirmwhare()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
+
 		static string ChangeFile()
 		{
 			var openDialog = new OpenFileDialog()
@@ -172,6 +168,7 @@ namespace GKModule.Models
 				return openDialog.FileName;
 			return null;
 		}
+
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
@@ -185,6 +182,7 @@ namespace GKModule.Models
 			}
 			return true;
 		}
+
 		bool CheckNeedSave()
 		{
 			if (ServiceFactory.SaveService.GKChanged)

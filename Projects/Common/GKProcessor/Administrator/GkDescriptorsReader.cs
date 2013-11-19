@@ -11,13 +11,13 @@ using Common;
 
 namespace GKProcessor
 {
-	public class GkDescriptorsReader
+	public class GkDescriptorsReader : IDescriptorReader
 	{
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-		public XDeviceConfiguration DeviceConfiguration;
-		public string ParsingError = "";
+		public XDeviceConfiguration DeviceConfiguration { get; private set; }
+		public string ParsingError { get; private set; }
 		
 #if !LOCALCONFIG
 		public bool ReadConfiguration(XDevice gkDevice)
@@ -118,9 +118,8 @@ namespace GKProcessor
 					break;
 			}
 			LoadingService.SaveClose();
-			if (ParsingError != "")
+			if (!String.IsNullOrEmpty(ParsingError))
 			{
-				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
 				return false;
 			}
 			DeviceConfiguration.Update();
