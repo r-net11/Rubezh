@@ -105,7 +105,7 @@ namespace GKModule.ViewModels
 				var newProperty = new XProperty()
 				{
 					Name = DriverProperty.Name,
-					Value = value
+					Value = value,
 				};
 				Device.Properties.Add(newProperty);
 			}

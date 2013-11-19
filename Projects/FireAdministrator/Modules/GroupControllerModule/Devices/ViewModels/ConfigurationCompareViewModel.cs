@@ -16,6 +16,7 @@ namespace GKModule.ViewModels
 		XDeviceConfiguration RemoteConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
+
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device)
 		{
 			Title = "Сравнение конфигураций";
@@ -25,13 +26,13 @@ namespace GKModule.ViewModels
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
-			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType&& x.Address == device.Address);
+			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 
 			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
 
-			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Objects.ToList(), RemoteObjectsViewModel.Objects.ToList(), device.DriverType);
+			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, device.DriverType);
 			LocalObjectsViewModel.Objects = compareDevices[0];
 			RemoteObjectsViewModel.Objects = compareDevices[1];
 

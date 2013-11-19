@@ -2,7 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:GKModule.Converters"
              MinWidth="400" MinHeight="500">
+    <UserControl.Resources>
+        <Converters:LibraryXStateClassToDeviceStringConverter x:Key="LibraryXStateClassToDeviceStringConverter" />
+    </UserControl.Resources>
 
     <DataGrid Focusable="True" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True">
         <DataGrid.Resources>
@@ -20,8 +24,8 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0"/>
-                            <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource XStateClassToDeviceStringConverter}}"/>
+                            <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0" />
+                            <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource LibraryXStateClassToDeviceStringConverter}}" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

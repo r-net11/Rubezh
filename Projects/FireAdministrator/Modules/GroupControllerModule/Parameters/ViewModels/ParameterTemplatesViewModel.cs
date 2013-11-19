@@ -137,7 +137,8 @@ namespace GKModule.ViewModels
 									property = new XProperty()
 									{
 										Name = driverProperty.Name,
-										Value = driverProperty.Default
+										Value = driverProperty.Default,
+										DriverProperty = driverProperty
 									};
 									deviceParameterTemplate.XDevice.Properties.Add(property);
 								}

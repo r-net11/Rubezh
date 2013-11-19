@@ -12,6 +12,8 @@ using System.Windows.Input;
 using Common;
 using System;
 using GKProcessor.Events;
+using Infrastructure.Common.Services;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -197,30 +199,33 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
 		void OnResetIgnoreAll()
 		{
-			foreach (var device in XManager.Devices)
+			if (ServiceFactoryBase.SecurityService != null && ServiceFactoryBase.SecurityService.Validate())
 			{
-				if (!device.Driver.IsDeviceOnShleif)
-					continue;
-
-				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+				foreach (var device in XManager.Devices)
 				{
-					ObjectCommandSendHelper.SetAutomaticRegime(device);
+					if (!device.Driver.IsDeviceOnShleif)
+						continue;
+
+					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+					}
 				}
-			}
 
-			foreach (var zone in XManager.Zones)
-			{
-				if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+				foreach (var zone in XManager.Zones)
 				{
-					ObjectCommandSendHelper.SetAutomaticRegime(zone);
+					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegime(zone, false);
+					}
 				}
-			}
 
-			foreach (var direction in XManager.Directions)
-			{
-				if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+				foreach (var direction in XManager.Directions)
 				{
-					ObjectCommandSendHelper.SetAutomaticRegime(direction);
+					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+					{
+						ObjectCommandSendHelper.SetAutomaticRegime(direction, false);
+					}
 				}
 			}
 		}

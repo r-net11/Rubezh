@@ -1,4 +1,4 @@
-﻿#define LOCALCONFIG
+﻿//#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ namespace GKProcessor
 		XDevice GkDevice;
 		string IpAddress;
 		public XDeviceConfiguration DeviceConfiguration;
+		public string ParsingError = "";
 		
 #if !LOCALCONFIG
 		public bool ReadConfiguration(XDevice gkDevice)
@@ -30,16 +31,17 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			LoadingService.SaveShowProgress("Перевод ГК в технологический режим", 1);
+			LoadingService.Show("Перевод ГК в технологический режим");
 			BinConfigurationWriter.GoToTechnologicalRegime(gkDevice);
-			LoadingService.SaveShowProgress("Чтение базы данных объектов ГК", 50000);
+			LoadingService.Show("Чтение конфигурации", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
 #endif
-			LoadingService.Show("Чтение конфигурации");
 			while (true)
 			{
+				if (LoadingService.IsCanceled)
+					return true;
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
 				const byte packNo = 1;
@@ -49,21 +51,18 @@ namespace GKProcessor
 #if SETCONFIGTOFILE
 				allBytes.Add(bytes);
 #endif
-				if (sendResult.HasError || bytes.Count == 0)
+				if (sendResult.HasError || bytes.Count < 5)
 				{
-					MessageBoxService.ShowError("Возникла ошибка при чтении объекта " + descriptorNo);
-					LoadingService.SaveClose();
-					return false;
-				}
-				if (bytes.Count < 5)
+					ParsingError = "Возникла ошибка при чтении объекта " + descriptorNo;
 					break;
+				}
 
 				if (bytes[3] == 0xff && bytes[4] == 0xff)
 					break;
 
 				try
 				{
-					Parce(bytes.Skip(3).ToList(), descriptorNo);
+					Parse(bytes.Skip(3).ToList(), descriptorNo);
 				}
 				catch (Exception e)
 				{
@@ -77,10 +76,14 @@ namespace GKProcessor
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
 			if (!BinConfigurationWriter.GoToWorkingRegime(gkDevice))
 			{
-				MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+				ParsingError = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
-			XManager.UpdateConfiguration();
 			LoadingService.SaveClose();
+			if(ParsingError != "")
+			{
+				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
+				return false;
+			}
 			return true;
 		}
 #endif
@@ -117,13 +120,12 @@ namespace GKProcessor
 					break;
 				Parce(bytes.Skip(3).ToList(), descriptorNo);
 			}
-			XManager.UpdateConfiguration();
 			LoadingService.SaveClose();
 			return true;
 		}
 		#endregion
 #endif
-		void Parce(List<byte> bytes, int descriptorNo)
+		void Parse(List<byte> bytes, int descriptorNo)
 		 {
 			var internalType = BytesHelper.SubstructShort(bytes, 0);
 			var controllerAdress = BytesHelper.SubstructShort(bytes, 2);
@@ -155,13 +157,7 @@ namespace GKProcessor
 				};
 				if (driver.DriverType == XDriverType.GK)
 				{
-					var ipAddressProperty = new XProperty
-					{
-						Name = "IPAddress",
-						StringValue = IpAddress
-					};
-					device.Properties.Add(ipAddressProperty);
-					device.Parent = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.System);
+					device.Properties.Add(new XProperty{Name = "IPAddress",StringValue = IpAddress});
 					ControllerDevices.Add(controllerAdress, device);
 					DeviceConfiguration.RootDevice.Children.Add(device);
 					GkDevice = device;
@@ -175,7 +171,6 @@ namespace GKProcessor
 						Value = (byte)(controllerAdress / 256)
 					};
 					device.DeviceProperties.Add(modeProperty);
-					device.Parent = GkDevice;
 					ControllerDevices.Add(controllerAdress, device);
 					GkDevice.Children.Add(device);
 					for (int i = 0; i < 8; i++)
@@ -184,7 +179,6 @@ namespace GKProcessor
 						shleif.Driver = driver.DriverType == XDriverType.KAU ? XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif) : XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 						shleif.DriverUID = shleif.Driver.UID;
 						shleif.IntAddress = (byte)(i + 1);
-						shleif.Parent = device;
 						device.Children.Add(shleif);
 					}
 				}
@@ -195,9 +189,8 @@ namespace GKProcessor
 					{
 						if((1 <= shleifNo && shleifNo <= 8)&&(physicalAdress != 0))
 						{
-							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif && x.IntAddress == shleifNo);
 							shleif.Children.Add(device);
-							device.Parent = shleif;
 						}
 						else
 						{
@@ -206,37 +199,35 @@ namespace GKProcessor
 							else
 								device.IntAddress = (byte)(controllerDevice.Value.Children.Where(x => !x.Driver.HasAddress).Count() + 1);
 							controllerDevice.Value.Children.Add(device);
-							device.Parent = controllerDevice.Value;
 						}
 					}
 				}
-				DeviceConfiguration.Devices.Add(device);
 				return;
 			}
 
 			if (internalType == 0x100)
 			{
 				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
-				description = description.Substring(description.IndexOf("."));
-				var zone = new XZone()
+				description = description.Substring(description.IndexOf(".") + 1);
+				var zone = new XZone
 				{
-					Name = description,
-					No = no
+				    Name = description,
+				    No = no,
+				    GkDatabaseParent = GkDevice
 				};
-				zone.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Zones.Add(zone);
 				return;
 			}
 			if (internalType == 0x106)
 			{
 				var no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
-				description = description.Substring(description.IndexOf("."));
-				var direction = new XDirection()
+				description = description.Substring(description.IndexOf(".") + 1);
+				var direction = new XDirection
 				{
-					Name = description,
-					No = no
+				    Name = description,
+				    No = no,
+				    GkDatabaseParent = GkDevice
 				};
-				direction.GkDatabaseParent = GkDevice;
 				DeviceConfiguration.Directions.Add(direction);
 				return;
 			}

@@ -5,13 +5,13 @@ using XFiresecAPI;
 
 namespace GKModule.Converters
 {
-    public class LibraryXStateClassToIconConverter : IValueConverter
+	public class LibraryXStateClassToIconConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var stateClass = (XStateClass)value;
-            if (stateClass == XStateClass.No)
-                return "";
+			if (stateClass == XStateClass.No)
+				return null;
 			return stateClass.ToIconSource();
 		}
 

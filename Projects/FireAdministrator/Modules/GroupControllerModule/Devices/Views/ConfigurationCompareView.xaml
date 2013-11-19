@@ -42,7 +42,7 @@
                       Name="DataGrid1" ScrollViewer.ScrollChanged="DataGrid1_ScrollChanged" Selector.SelectionChanged ="dataGrid1RowSelected" VirtualizingStackPanel.IsVirtualizing="True"
                       CellStyle="{StaticResource DataGridCellStyle}" MinWidth="300" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройства в конфигурации" MinWidth="220"  Width="*">
+                    <DataGridTemplateColumn Header="Устройства в конфигурации" MinWidth="220" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -90,5 +90,5 @@
             <Controls:ToolBarButton ImageSource="/Controls;component/Images/nextDifference.png" ToolTip="Следующее несовпадение" Command="{Binding NextDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
             <Controls:ToolBarButton ImageSource="/Controls;component/Images/previousDifference.png" ToolTip="Предыдущее несовпадение" Command="{Binding PreviousDifferenceCommand}" HorizontalAlignment="Left" Margin="2" />
         </StackPanel>
- </Grid>
+    </Grid>
 </UserControl>
