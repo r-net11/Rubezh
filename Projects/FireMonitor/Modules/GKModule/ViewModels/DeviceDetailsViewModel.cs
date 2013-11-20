@@ -64,6 +64,18 @@ namespace GKModule.ViewModels
 				};
 				AUParameterValues.Add(auParameterValue);
 			}
+
+			ThreadSafeAUParameterValues = new ObservableCollection<AUParameterValue>();
+			foreach (var auParameter in Device.Driver.AUParameters)
+			{
+				var auParameterValue = new AUParameterValue()
+				{
+					Name = auParameter.Name,
+					IsDelay = auParameter.IsDelay
+				};
+				ThreadSafeAUParameterValues.Add(auParameterValue);
+			}
+
 			BackgroundWorker = new BackgroundWorker();
 			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
 			BackgroundWorker.RunWorkerAsync();
@@ -163,11 +175,19 @@ namespace GKModule.ViewModels
 												break;
 										}
 									}
+
+									var auParameterValue = ThreadSafeAUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
+									auParameterValue.Value = parameterValue;
+									auParameterValue.StringValue = stringValue;
+
 									Dispatcher.BeginInvoke(new Action(() =>
 									{
-										var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == auParameter.Name);
-										auParameterValue.Value = parameterValue;
-										auParameterValue.StringValue = stringValue;
+										foreach (var threadSafeAUParameterValue in ThreadSafeAUParameterValues)
+										{
+											var localAUParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == threadSafeAUParameterValue.Name);
+											localAUParameterValue.Value = threadSafeAUParameterValue.Value;
+											localAUParameterValue.StringValue = threadSafeAUParameterValue.StringValue;
+										}
 									}));
 
 									break;
@@ -207,6 +227,8 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
+
+		public ObservableCollection<AUParameterValue> ThreadSafeAUParameterValues;
 
 		ObservableCollection<AUParameterValue> _auParameterValues;
 		public ObservableCollection<AUParameterValue> AUParameterValues
