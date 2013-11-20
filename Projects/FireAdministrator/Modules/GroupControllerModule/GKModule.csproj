@@ -72,10 +72,10 @@
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.Parameters.cs" />
-    <Compile Include="Devices\ViewModels\ObjectsListViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectsListViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\HexHelper.cs" />
-    <Compile Include="Devices\ViewModels\ObjectViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
@@ -122,7 +122,7 @@
     <Compile Include="DeviceLibrary\Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\ViewModels\ConfigurationCompareViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>

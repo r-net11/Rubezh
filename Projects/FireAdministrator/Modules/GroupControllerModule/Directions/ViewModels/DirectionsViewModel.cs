@@ -131,7 +131,7 @@ namespace GKModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 
-				foreach (var emptyDirection in emptyDirections)
+				foreach (var emptyDirection in EmptyDirections)
 				{
 					XManager.RemoveDirection(emptyDirection.Direction);
 					Directions.Remove(emptyDirection);
@@ -141,10 +141,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		private List<DirectionViewModel> emptyDirections;
+		List<DirectionViewModel> EmptyDirections;
 		bool CanDeleteAllEmpty()
 		{
-			return Directions.Where(x => x.Direction.IsEmpty).Count() > 0;
+			EmptyDirections =  Directions.Where(x => x.Direction.IsEmpty).ToList();
+			return EmptyDirections.Count  > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -355,6 +356,7 @@ namespace GKModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("Удалить все пустые направления", DeleteAllEmptyCommand, "/Controls;component/Images/BDeleteEmpty.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
 			};
 		}

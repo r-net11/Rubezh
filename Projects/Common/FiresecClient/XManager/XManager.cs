@@ -35,6 +35,10 @@ namespace FiresecClient
 		{
 			get { return DriversConfiguration.XDrivers; }
 		}
+		public static List<XParameterTemplate> ParameterTemplates
+		{
+			get { return XManager.DeviceConfiguration.ParameterTemplates; }
+		}
 
 		public static void SetEmptyConfiguration()
 		{

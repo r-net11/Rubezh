@@ -58,8 +58,8 @@ namespace GKModule.ViewModels
 
 		public string Name { get; set; }
 		public string Address { get; set; }
-		public bool HasDifferences { get; set; }
-		public bool HasMissingDifferences { get; set; }
+		public bool IsAbsent { get; set; }
+		public bool IsPresent { get; set; }
 		public XDevice Device;
 		public XZone Zone;
 		public XDirection Direction;
@@ -97,6 +97,7 @@ namespace GKModule.ViewModels
 			ObjectType = ObjectType.Zone;
 		}
 	}
+
 	public enum ObjectType
 	{
 		Device = 0,

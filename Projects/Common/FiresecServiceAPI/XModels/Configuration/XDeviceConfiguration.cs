@@ -128,11 +128,6 @@ namespace XFiresecAPI
 			foreach (var zone in Zones)
 			{
 			}
-			if (ParameterTemplates == null)
-			{
-				ParameterTemplates = new List<XParameterTemplate>();
-				result = false;
-			}
 
 			foreach (var parameterTemplate in ParameterTemplates)
 			{

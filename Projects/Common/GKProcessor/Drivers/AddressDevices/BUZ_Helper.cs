@@ -32,9 +32,9 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.Stop_InManual);
 
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки, с", 0, 180, 1, 250);
-			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", 0, 0, 0, 360);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки, с", 180, 1, 250);
+			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", 0, 0, 360);
 
 			GKDriversHelper.AddPlainEnumProprety2(driver, 0x8d, "Концевой выключатель «Открыто»", 0, "НР", "НЗ", 1);
 			GKDriversHelper.AddPlainEnumProprety2(driver, 0x8d, "Муфтовый выключатель Открыто/ДУ Открыть", 1, "НР", "НЗ", 2);

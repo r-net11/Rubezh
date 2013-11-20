@@ -11,7 +11,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class BinConfigurationWriter
+	public static class GkDescriptorsWriter
 	{
 		public static void WriteConfig(XDevice gkDevice)
 		{
@@ -115,7 +115,7 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "BinConfigurationWriter.WriteConfig");
+				Logger.Error(e, "GKDescriptorsWriter.WriteConfig");
 			}
 			finally
 			{
@@ -143,18 +143,7 @@ namespace GKProcessor
 			}
 			return true;
 		}
-
-		public static bool Clear(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 16, 0);
-			if (sendResult.HasError)
-			{
-				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
-				return false;
-			}
-			return true;
-		}
-		
+	
 		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			foreach (var descriptor in commonDatabase.Descriptors)
@@ -172,7 +161,7 @@ namespace GKProcessor
 					"(" + descriptor.GetDescriptorNo().ToString() + ")" +
 					" из " + commonDatabase.Descriptors.Count.ToString();
 				LoadingService.DoStep(progressStage);
-				var packs = BinConfigurationWriter.CreateDescriptors(descriptor);
+				var packs = GkDescriptorsWriter.CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;
@@ -311,7 +300,7 @@ namespace GKProcessor
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
-			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
+			var endBytes = GkDescriptorsWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}
 	}

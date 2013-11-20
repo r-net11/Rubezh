@@ -53,12 +53,12 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter3);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1В", 0, 80, 1, 1000);
-			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1, 0.1В", 0, 250, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2, 0.1В", 0, 750, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3, 0.1В", 0, 1500, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 0, 4500, 1, 10000);
-			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 0, 6000, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог питания, 0.1В", 80, 1, 1000);
+			GKDriversHelper.AddIntProprety(driver, 2, "Порог 1, 0.1В", 250, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 3, "Порог 2, 0.1В", 750, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 4, "Порог 3, 0.1В", 1500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 4500, 1, 10000);
+			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 6000, 1, 10000);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Питание, В" });

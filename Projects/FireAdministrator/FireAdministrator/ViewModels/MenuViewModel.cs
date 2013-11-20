@@ -86,6 +86,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
+			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 			if (string.IsNullOrEmpty(FileName))
 			{
 				OnSaveAs();
@@ -106,6 +107,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SaveAsCommand { get; private set; }
 		void OnSaveAs()
 		{
+			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 			WaitHelper.Execute(() =>
 			{
 				var fileName = FileConfigurationHelper.SaveToFile();
@@ -117,6 +119,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand SaveAllCommand { get; private set; }
 		void OnSaveAll()
 		{
+			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 			FileConfigurationHelper.SaveAllToFile();
 		}
 
@@ -142,6 +145,7 @@ namespace FireAdministrator.ViewModels
 					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 					return;
 				}
+				ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 				ConfigManager.SetNewConfig();
 			}
 		}

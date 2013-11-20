@@ -234,33 +234,6 @@ namespace GKProcessor
 
 						case 9:
 							JournalItem.Name = JournalStringsHelper.ToState(bytes[32 + 15]);
-							//JournalItem.Name = "Состояние";
-							//switch (bytes[32 + 15])
-							//{
-							//    case 2:
-							//        JournalItem.Name = "Включено";
-							//        break;
-
-							//    case 3:
-							//        JournalItem.Name = "Выключено";
-							//        break;
-
-							//    case 4:
-							//        JournalItem.Name = "Включается";
-							//        break;
-
-							//    case 5:
-							//        JournalItem.Name = "Выключается";
-							//        break;
-
-							//    case 30:
-							//        JournalItem.Name = "Состояние не определено";
-							//        break;
-
-							//    case 31:
-							//        JournalItem.Name = "Остановлено";
-							//        break;
-							//}
 							break;
 
 						case 10:

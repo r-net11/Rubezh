@@ -27,21 +27,20 @@ namespace GKModule.Reports
 
 		public void Print(Document document)
 		{
-			var table = PDFHelper.CreateTable(document, 6);
+			var table = PDFHelper.CreateTable(document, 5);
 			table.HeaderRows = 2;
-			table.SetWidths(new float[] { 1f, 1f, 0.5f, 2f, 2f, 1f });
+			table.SetWidths(new float[] { 1f, 1f, 1f, 2f, 2f });
 			var cell = PDFHelper.GetCell(string.Format("Журнал событий с {0:dd.MM.yyyy HH:mm:ss} по {1:dd.MM.yyyy HH:mm:ss}", ReportData.ReportDocumentValues["StartDate"], ReportData.ReportDocumentValues["EndDate"]), PDFStyle.HeaderFont, PDFStyle.HeaderBackground);
 			cell.Colspan = 8;
 			cell.HorizontalAlignment = Element.ALIGN_CENTER;
 			table.AddCell(cell);
 			var headers = new string[] 
 			{
-				"Дата",
+				"Дата в приборе",
+				"Дата в системе",
 				"Название",
-				"Д/Н",
 				"Описание",
-				"Объект",
-				"Состояние",
+				"Объект"
 			};
 			foreach (var heder in headers)
 			{
@@ -51,12 +50,11 @@ namespace GKModule.Reports
 			};
 			foreach (DataRow row in ReportData.DataTables[0].Rows)
 			{
-				table.AddCell(PDFHelper.GetCell(row["DateTime"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
+				table.AddCell(PDFHelper.GetCell(row["DeviceDateTime"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
+				table.AddCell(PDFHelper.GetCell(row["SystemDateTime"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
 				table.AddCell(PDFHelper.GetCell(row["Name"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
-				table.AddCell(PDFHelper.GetCell(row["YesNo"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
 				table.AddCell(PDFHelper.GetCell(row["Description"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
 				table.AddCell(PDFHelper.GetCell(row["ObjectName"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
-				table.AddCell(PDFHelper.GetCell(row["StateClass"].ToString(), PDFStyle.TextFont, Element.ALIGN_CENTER));
 			}
 			document.Add(table);
 		}

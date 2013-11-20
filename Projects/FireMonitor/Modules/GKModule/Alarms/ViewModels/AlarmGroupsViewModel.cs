@@ -24,6 +24,11 @@ namespace GKModule.ViewModels
 
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
 
+		public int Count
+		{
+			get { return 0; }
+		}
+
 		public void Update(List<Alarm> alarms)
 		{
 			foreach (var alarmGroup in AlarmGroups)

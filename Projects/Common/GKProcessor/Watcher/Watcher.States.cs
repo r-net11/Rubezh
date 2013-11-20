@@ -94,7 +94,6 @@ namespace GKProcessor
 				var binaryState = xBase.GetXBaseState();
 				binaryState.LastDateTime = DateTime.Now;
 				binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
-				binaryState.AdditionalStateProperties = descriptorStateHelper.AdditionalStateProperties;
 				binaryState.OnDelay = descriptorStateHelper.OnDelay;
 				binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
 				binaryState.OffDelay = descriptorStateHelper.OffDelay;

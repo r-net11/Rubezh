@@ -30,27 +30,26 @@ namespace GKModule.ViewModels
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
-					//if (driverProperty.IsMPTOrMRORegime)
-					//    continue;
-					{
-						switch (driverProperty.DriverPropertyType)
-						{
-							case XDriverPropertyTypeEnum.StringType:
-								StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
-								break;
-							case XDriverPropertyTypeEnum.IntType:
-								ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
-								break;
-							case XDriverPropertyTypeEnum.BoolType:
-								BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
-								break;
-							case XDriverPropertyTypeEnum.EnumType:
-								EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
-								break;
-						}
+					if (driverProperty.IsMPTOrMRORegime)
+						continue;
 
-						HasAUParameters = true;
+					switch (driverProperty.DriverPropertyType)
+					{
+						case XDriverPropertyTypeEnum.StringType:
+							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
+							break;
+						case XDriverPropertyTypeEnum.IntType:
+							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
+							break;
+						case XDriverPropertyTypeEnum.BoolType:
+							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
+							break;
+						case XDriverPropertyTypeEnum.EnumType:
+							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
+							break;
 					}
+
+					HasAUParameters = true;
 				}
 			}
 

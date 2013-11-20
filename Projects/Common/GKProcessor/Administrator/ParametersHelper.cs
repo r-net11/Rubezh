@@ -169,7 +169,6 @@ namespace GKProcessor
 						{
 							paramValue = (ushort)(paramValue / 256);
 						}
-						paramValue = (ushort)(paramValue >> driverProperty.Offset);
 						if (driverProperty.Mask != 0)
 						{
 							paramValue = (byte)(paramValue & driverProperty.Mask);
@@ -379,7 +378,6 @@ namespace GKProcessor
 						{
 							paramValue = (ushort)(paramValue / 256);
 						}
-						paramValue = (ushort)(paramValue >> driverProperty.Offset);
 						if (driverProperty.Mask != 0)
 						{
 							paramValue = (byte)(paramValue & driverProperty.Mask);

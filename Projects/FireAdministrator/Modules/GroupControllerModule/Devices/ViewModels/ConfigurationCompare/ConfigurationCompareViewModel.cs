@@ -31,11 +31,7 @@ namespace GKModule.ViewModels
 
 			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
-
-			var compareDevices = ObjectsListViewModel.CompareTrees(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, device.DriverType);
-			LocalObjectsViewModel.Objects = compareDevices[0];
-			RemoteObjectsViewModel.Objects = compareDevices[1];
-
+			CompareTrees();
 			InitializeMismatchedIndexes();
 		}
 		
@@ -46,7 +42,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.HasDifferences || RemoteObjectsViewModel.Objects[i].HasDifferences) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || RemoteObjectsViewModel.Objects[i].IsAbsent) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}
@@ -95,6 +91,44 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
 			Close(true);
+		}
+
+		public void CompareTrees()
+		{
+			var objects1 = LocalObjectsViewModel.Objects;
+			var objects2 = RemoteObjectsViewModel.Objects;
+
+			var unionObjects = objects1.Select(object1 => (ObjectViewModel)object1.Clone()).ToList();
+			foreach (var object2 in objects2)
+			{
+				if (!unionObjects.Any(x => x.Compare(x, object2) == 0))
+					unionObjects.Add(object2);
+			}
+			unionObjects.Sort();
+
+			var unionObjects1 = new List<ObjectViewModel>();
+			foreach (var unionObject in unionObjects)
+			{
+				var newObject = (ObjectViewModel)unionObject.Clone();
+				if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsAbsent = true;
+				else if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsPresent = true;
+				unionObjects1.Add(newObject);
+			}
+
+			var unionObjects2 = new List<ObjectViewModel>();
+			foreach (var unionObject in unionObjects)
+			{
+				var newObject = (ObjectViewModel)unionObject.Clone();
+				if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsAbsent = true;
+				else if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
+					newObject.IsPresent = true;
+				unionObjects2.Add(newObject);
+			}
+			LocalObjectsViewModel.Objects = unionObjects1;
+			RemoteObjectsViewModel.Objects = unionObjects2;
 		}
 	}
 }

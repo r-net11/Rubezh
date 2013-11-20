@@ -35,38 +35,6 @@ namespace GKModule.ViewModels
 				}
 		}
 
-		public static List<List<ObjectViewModel>> CompareTrees(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, XDriverType driverType)
-		{
-			var unionObjects = objects1.Select(object1 => (ObjectViewModel) object1.Clone()).ToList();
-
-			foreach (var object2 in objects2)
-			{
-				if (!unionObjects.Any(x => x.Compare(x, object2) == 0))
-				    unionObjects.Add(object2);
-			}
-			unionObjects.Sort();
-
-			var unionObjects1 = new List<ObjectViewModel>();
-			foreach (var unionObject in unionObjects)
-			{
-				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.HasDifferences = true;
-				unionObjects1.Add(newObject);
-			}
-
-			var unionObjects2 = new List<ObjectViewModel>();
-			foreach (var unionObject in unionObjects)
-			{
-				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.HasDifferences = true;
-				unionObjects2.Add(newObject);
-			}
-
-			return new List<List<ObjectViewModel>> { unionObjects1, unionObjects2 };
-		}
-
 		public List<ObjectViewModel> Objects { get; set; }
 
 		ObjectViewModel _selectedObject;

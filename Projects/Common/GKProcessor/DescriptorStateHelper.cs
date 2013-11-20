@@ -10,13 +10,13 @@ namespace GKProcessor
 {
 	public class DescriptorStateHelper
 	{
+		XBase XBase;
 		public ushort AddressOnController { get; private set; }
 		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public ushort TypeNo { get; private set; }
 		public List<XStateBit> StateBits { get; private set; }
 		public List<XAdditionalState> AdditionalStates { get; private set; }
-		public List<AdditionalXStateProperty> AdditionalStateProperties { get; private set; }
 		List<ushort> additionalShortParameters = new List<ushort>();
 
 		public int OnDelay { get; private set; }
@@ -25,6 +25,7 @@ namespace GKProcessor
 
 		public void Parse(List<byte> bytes, XBase xBase)
 		{
+			XBase = xBase;
 			ushort controllerAddress = BytesHelper.SubstructShort(bytes, 2);
 			AddressOnController = BytesHelper.SubstructShort(bytes, 4);
 			PhysicalAddress = BytesHelper.SubstructShort(bytes, 6);
@@ -82,7 +83,6 @@ namespace GKProcessor
 
 		void ParseAdditionalParameters(List<byte> bytes)
 		{
-			AdditionalStateProperties = new List<AdditionalXStateProperty>();
 			AdditionalStates = new List<XAdditionalState>();
 			for (int i = 0; i < 10; i++)
 			{
@@ -152,6 +152,16 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.RSR2_Bush:
+						var bushType = 1;
+						if (XBase is XDevice)
+						{
+							XDevice device = XBase as XDevice;
+							var property = device.Properties.FirstOrDefault(x => x.Name == "Type");
+							if (property != null)
+							{
+								bushType = property.Value;
+							}
+						}
 						var sensorBitArray = new BitArray(new int[1] { additionalShortParameters[4] % 256 });
 						var breakBitArray = new BitArray(new int[1] { additionalShortParameters[5] % 256 });
 						var kzBitArray = new BitArray(new int[1] { additionalShortParameters[6] % 256 });
@@ -163,19 +173,48 @@ namespace GKProcessor
 						if (sensorBitArray[2])
 							AddAdditionalState(XStateClass.Failure, "Аварийный уровень");
 
-						if (breakBitArray[0] && !kzBitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Обрыв Низкий уровень");
-						if (breakBitArray[1] && !kzBitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Обрыв Высокий уровень");
-						if (breakBitArray[2] && !kzBitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Обрыв Аварийный уровень");
+						if (bushType == 1)
+						{
+							if (breakBitArray[0] && !kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "Обрыв Низкий уровень");
+							if (breakBitArray[1] && !kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "Обрыв Высокий уровень");
+							if (breakBitArray[2] && !kzBitArray[2])
+								AddAdditionalState(XStateClass.Failure, "Обрыв Аварийный уровень");
 
-						if (kzBitArray[0])
-							AddAdditionalState(XStateClass.Failure, "КЗ Низкий уровень");
-						if (kzBitArray[1])
-							AddAdditionalState(XStateClass.Failure, "КЗ Высокий уровень");
-						if (kzBitArray[2])
-							AddAdditionalState(XStateClass.Failure, "КЗ Аварийный уровень");
+							if (kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "КЗ Низкий уровень");
+							if (kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "КЗ Высокий уровень");
+							if (kzBitArray[2])
+								AddAdditionalState(XStateClass.Failure, "КЗ Аварийный уровень");
+						}
+						if (bushType == 2)
+						{
+							if (breakBitArray[0] && !kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "Обрыв Давление низкое");
+							if (breakBitArray[1] && !kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "Обрыв Давление на выходе");
+							if (breakBitArray[2] && !kzBitArray[2])
+								AddAdditionalState(XStateClass.Failure, "Таймаут по давлению");
+
+							if (kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "КЗ Давление низкое");
+							if (kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "КЗ Давление на выходе");
+						}
+						if (bushType == 3)
+						{
+							if (breakBitArray[0] && !kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "Обрыв ДУ ПУСК");
+							if (breakBitArray[1] && !kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "Обрыв ДУ ПУСК");
+
+							if (kzBitArray[0])
+								AddAdditionalState(XStateClass.Failure, "КЗ ДУ ПУСК");
+							if (kzBitArray[1])
+								AddAdditionalState(XStateClass.Failure, "КЗ ДУ СТОП");
+						}
 
 						var failureBitArray = new BitArray(new int[1] { additionalShortParameters[5] / 256 });
 						if (failureBitArray[0])
@@ -392,21 +431,8 @@ namespace GKProcessor
 			}
 			else
 			{
-				if (TypeNo == 0x106)
+				if (TypeNo == 0x101 || TypeNo == 0x106)
 				{
-					var property1 = new AdditionalXStateProperty()
-					{
-						Name = "Задержка",
-						Value = additionalShortParameters[0]
-					};
-					AdditionalStateProperties.Add(property1);
-					var property2 = new AdditionalXStateProperty()
-					{
-						Name = "Удержание",
-						Value = additionalShortParameters[1]
-					};
-					AdditionalStateProperties.Add(property2);
-
 					OnDelay = additionalShortParameters[0];
 					HoldDelay = additionalShortParameters[1];
 				}

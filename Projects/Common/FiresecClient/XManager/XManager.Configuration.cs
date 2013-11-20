@@ -72,18 +72,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static List<XParameterTemplate> ParameterTemplates
-		{
-			get
-			{
-				if (XManager.DeviceConfiguration.ParameterTemplates == null)
-				{
-					XManager.DeviceConfiguration.ParameterTemplates = new List<XParameterTemplate>();
-				}
-				return XManager.DeviceConfiguration.ParameterTemplates;
-			}
-		}
-
 		public static void InvalidateOneLogic(XDevice device, XDeviceLogic deviceLogic)
 		{
 			var clauses = new List<XClause>();

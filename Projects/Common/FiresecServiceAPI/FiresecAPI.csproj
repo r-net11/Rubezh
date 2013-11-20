@@ -300,7 +300,6 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
-    <Compile Include="XModels\States\AdditionalXStateProperty.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />

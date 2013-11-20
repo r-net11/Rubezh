@@ -181,6 +181,35 @@ namespace GKProcessor
 				}
 			}
 
+			var delays = new List<XDelay>();
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+			{
+				foreach (var delay in gkDatabase.Delays)
+				{
+					delays.Add(delay);
+				}
+			}
+			foreach (var delay in delays)
+			{
+				bool mustGetState = false;
+				switch (delay.DelayState.StateClass)
+				{
+					case XStateClass.TurningOn:
+						mustGetState = delay.DelayState.OnDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.On:
+						mustGetState = delay.DelayState.HoldDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						break;
+					case XStateClass.TurningOff:
+						mustGetState = delay.DelayState.OffDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						break;
+				}
+				if (mustGetState)
+				{
+					GetState(delay);
+				}
+			}
+
 			foreach (var device in XManager.Devices)
 			{
 				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.DriverType == XDriverType.RSR2_KAU))

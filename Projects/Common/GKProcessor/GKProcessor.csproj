@@ -51,10 +51,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Administrator\BinConfigurationWriter.cs" />
+    <Compile Include="Administrator\GkDescriptorsWriter.cs" />
     <Compile Include="Administrator\DeviceBytesHelper.cs" />
-    <Compile Include="Administrator\GkBinConfigurationReader.cs" />
-    <Compile Include="Administrator\KauBinConfigurationReader.cs" />
+    <Compile Include="Administrator\GkDescriptorsReader.cs" />
+    <Compile Include="Administrator\IDescriptorReader.cs" />
+    <Compile Include="Administrator\KauDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="AUParameterValue.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />

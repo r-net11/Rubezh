@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
     xmlns:Views="clr-namespace:GKModule.Views"
-    xmlns:Converters="clr-namespace:GKModule.Converters" >
+    xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -31,8 +31,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center"/>
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" Margin="2"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
+                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -45,27 +45,27 @@
                                 <TextBlock Width="200" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-											<MenuItem Command="{Binding ShowOnPlanCommand}" >
+											<MenuItem Command="{Binding ShowOnPlanCommand}">
                                                 <MenuItem.Header>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
+                                                        <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
+                                                        <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center" />
                                                     </StackPanel>
                                                 </MenuItem.Header>
                                             </MenuItem>
-                                            <MenuItem Command="{Binding ShowJournalCommand}" >
+                                            <MenuItem Command="{Binding ShowJournalCommand}">
                                                 <MenuItem.Header>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="2" Text="Показать связанные события" VerticalAlignment="Center"/>
+                                                        <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center" />
+                                                        <TextBlock Margin="2" Text="Показать связанные события" VerticalAlignment="Center" />
                                                     </StackPanel>
                                                 </MenuItem.Header>
                                             </MenuItem>
-                                            <MenuItem Command="{Binding ShowPropertiesCommand}" >
+                                            <MenuItem Command="{Binding ShowPropertiesCommand}">
                                                 <MenuItem.Header>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
+                                                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
+                                                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center" />
                                                     </StackPanel>
                                                 </MenuItem.Header>
                                             </MenuItem>
@@ -121,10 +121,7 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Выходные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <Views:DeviceView />
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -135,16 +132,6 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
-                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
 			</DataGrid.Columns>
             <DataGrid.RowStyle>
@@ -152,7 +139,7 @@
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
                                 <Views:DeviceStateView />
                             </StackPanel>
                         </Setter.Value>
@@ -176,26 +163,21 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <Views:DeviceView />
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2"/>
+							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="25" Header="Состояние">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
-                                <TextBlock Margin="2" Text="{Binding Device.DeviceState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                            <StackPanel>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -207,7 +189,7 @@
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
                                 <Views:DeviceStateView />
                             </StackPanel>
                         </Setter.Value>
@@ -236,7 +218,7 @@
 								<TextBlock Text="{Binding Zone.Name}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">
-                                        <MenuItem Command="{Binding SetIgnoreCommand}" >
+                                        <MenuItem Command="{Binding SetIgnoreCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
@@ -252,7 +234,7 @@
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding ResetFireCommand}" >
+                                        <MenuItem Command="{Binding ResetFireCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center" />
@@ -261,7 +243,7 @@
                                             </MenuItem.Header>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem Command="{Binding ShowOnPlanCommand}" >
+                                        <MenuItem Command="{Binding ShowOnPlanCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
@@ -269,7 +251,7 @@
                                                 </StackPanel>
                                             </MenuItem.Header>
                                         </MenuItem>
-                                        <MenuItem Command="{Binding ShowPropertiesCommand}" >
+                                        <MenuItem Command="{Binding ShowPropertiesCommand}">
                                             <MenuItem.Header>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />

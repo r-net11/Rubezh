@@ -23,8 +23,8 @@ namespace GKProcessor
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
             GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
-			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 0, 70, 0, 100);
-			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 0, 5, 1, 50);
+			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по температуре, C", 70, 0, 100);
+			GKDriversHelper.AddIntProprety(driver, 1, "Порог срабатывания по градиенту температуры, C/мин", 5, 1, 50);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Температура, C", InternalName = "Temperature" });
 			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Градиент температуры, C/мин", InternalName = "TemperatureDelta" });

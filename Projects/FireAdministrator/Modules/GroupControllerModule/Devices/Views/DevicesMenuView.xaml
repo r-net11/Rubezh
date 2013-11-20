@@ -10,19 +10,61 @@
         <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="/Controls;component/Images/copy.png" />
         <Controls:ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать (Ctrl+Х)" ImageSource="/Controls;component/Images/cut.png" />
         <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="/Controls;component/Images/paste.png" />
-        <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
+        <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
             <MenuItem>
                 <MenuItem.Header>
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding ReadConfigurationCommand}" Header="Считать конфигурацию" />
-                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в прибор" />
+                <MenuItem Command="{Binding ReadConfigurationCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BParametersRead.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Считать конфигурацию" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Command="{Binding WriteConfigCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BParametersWrite.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Записать конфигурацию в прибор" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
                 <Separator />
-                <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация об устройстве" />
-                <MenuItem Command="{Binding SynchroniseTimeCommand}" Header="Синхронизация времени" />
-                <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
-                <MenuItem Command="{Binding UpdateFirmwhareCommand}" Header="Обновление ПО" />
+                <MenuItem Command="{Binding ShowInfoCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BInformation.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Информация об устройстве" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Command="{Binding SynchroniseTimeCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BWatch.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Синхронизация времени" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Command="{Binding ReadJournalCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BJournal.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Журнал событий" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Command="{Binding UpdateFirmwhareCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/BParametersSync.png" Height="24" Margin="2"/>
+                            <TextBlock Text="Обновление ПО" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
             </MenuItem>
         </Menu>
     </StackPanel>

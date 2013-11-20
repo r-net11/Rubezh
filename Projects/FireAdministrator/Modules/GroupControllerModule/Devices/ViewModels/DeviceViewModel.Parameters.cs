@@ -215,6 +215,8 @@ namespace GKModule.ViewModels
 				{
 					foreach (var device in devices)
 					{
+						if (!CompareSystemAndDeviceProperties(device))
+							continue;
 						CopyFromSystemToDevice(device);
 						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
 						if (deviceViewModel != null)
@@ -223,6 +225,11 @@ namespace GKModule.ViewModels
 				}
 				UpdateDeviceParameterMissmatch();
 			}
+		}
+
+		bool CompareSystemAndDeviceProperties(XDevice device)
+		{
+			return device.Properties.All(property => device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name).Value == property.Value);
 		}
 
 		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }

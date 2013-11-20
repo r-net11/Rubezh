@@ -45,8 +45,8 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Мерцает,   Пуск - Включено", 6);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", 0, 0, 0, 255).IsLowByte=true;
-			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания, с", 8, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск, с", 0, 0, 255).IsLowByte=true;
+			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания, с", 0, 0, 255).IsHieghByte = true;
 
 			var property2 = new XDriverProperty()
 			{
