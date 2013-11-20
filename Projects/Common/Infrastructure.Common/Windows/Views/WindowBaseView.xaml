@@ -4,7 +4,7 @@
         FontFamily="Arial" FontSize="12"
         Icon="{Binding Icon,
                        Converter={StaticResource NullToImageConverter}}"
-        KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="NoResize"
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded" ResizeMode="CanMinimize"
         Topmost="{Binding TopMost}"
         Unloaded="Window_Unloaded" WindowStartupLocation="CenterScreen" WindowStyle="None" x:ClassModifier="internal" SnapsToDevicePixels="True">
 	<Grid>

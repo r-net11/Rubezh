@@ -30,6 +30,8 @@ namespace Infrastructure.Designer
 		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(ServiceFactoryBase.Events)
 		{
+			GridLineController = new GridLineController(this);
+			RemoveGridLinesCommand = new RelayCommand(OnRemoveGridLinesCommand);
 			PlanDesignerViewModel = planDesignerViewModel;
 			Toolbox = new ToolboxViewModel(this);
 			ServiceFactoryBase.DragDropService.DragOver += OnDragServiceDragOver;
@@ -38,26 +40,18 @@ namespace Infrastructure.Designer
 			Width = 100;
 			Height = 100;
 			Focusable = false;
-
+			
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
 			{
 				Header = DesignerCanvasHelper.BuildMenuHeader("Вставить (Ctrl+V)", "pack://application:,,,/Controls;component/Images/BPaste.png"),
+				Command = PlanDesignerViewModel.PasteCommand,
 				CommandParameter = this
 			};
-			pasteItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.PasteCommand"));
-			var editItem = new MenuItem()
-			{
-				Header = DesignerCanvasHelper.BuildMenuHeader("Редактировать", "pack://application:,,,/Controls;component/Images/BEdit.png")
-			};
-			editItem.SetBinding(MenuItem.CommandProperty, new Binding("Toolbox.PlansViewModel.EditCommand"));
 			ContextMenu = new ContextMenu();
 			ContextMenu.HasDropShadow = false;
 			ContextMenu.Items.Add(pasteItem);
-			ContextMenu.Items.Add(editItem);
 			_moveAdorner = new MoveAdorner(this);
-			GridLineController = new GridLineController(this);
-			RemoveGridLinesCommand = new RelayCommand(OnRemoveGridLinesCommand);
 		}
 
 		public override double Zoom

@@ -3,6 +3,8 @@ using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.ViewModels;
+using Infrastructure.Designer;
+using System.Windows.Controls;
 
 namespace PlansModule.Designer
 {
@@ -13,6 +15,12 @@ namespace PlansModule.Designer
 		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(planDesignerViewModel)
 		{
+			var editItem = new MenuItem()
+			{
+				Header = DesignerCanvasHelper.BuildMenuHeader("Редактировать", "pack://application:,,,/Controls;component/Images/BEdit.png"),
+				Command = planDesignerViewModel.PlansViewModel.EditCommand
+			};
+			ContextMenu.Items.Add(editItem);
 		}
 
 		public void Initialize(Plan plan)

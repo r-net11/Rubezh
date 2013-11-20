@@ -8,7 +8,7 @@
 		<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 			<ContentPresenter Content="{Binding PlanDesignerViewModel}" />
 		</Border>
-		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
 		<Grid Grid.Column="2">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="{Binding LayersHeight, Mode=TwoWay}" MinHeight="200" />
@@ -16,7 +16,7 @@
 				<RowDefinition Height="*" MinHeight="200" />
 			</Grid.RowDefinitions>
 			<ContentPresenter Grid.Row="0" Content="{Binding ElementsViewModel}" />
-			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" GridSplitterFix.Attach="True" />
 			<ContentPresenter Grid.Row="2" Content="{Binding PlansTreeViewModel}" />
 		</Grid>
 	</Grid>

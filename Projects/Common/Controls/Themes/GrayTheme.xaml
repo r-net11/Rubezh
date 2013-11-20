@@ -47,7 +47,7 @@
     <SolidColorBrush x:Key="WindowBackgroundBrush" Color="White" />
     <SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
 
-    <LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1">
+	<LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1" Opacity="0">
         <GradientStop Color="#505050" Offset="0" />
         <GradientStop Color="#404040" Offset="1" />
     </LinearGradientBrush>
