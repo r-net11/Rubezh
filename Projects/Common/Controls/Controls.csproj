@@ -1333,6 +1333,8 @@
     <Resource Include="Images\nextDifference.png" />
     <Resource Include="Images\previousDifference.png" />
     <Resource Include="Images\Exit.png" />
+    <Resource Include="Images\Watch.png" />
+    <Resource Include="Images\PasteAll.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

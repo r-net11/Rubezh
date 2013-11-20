@@ -15,5 +15,8 @@ namespace GKProcessor
 
 		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }
+
+		[DataMember]
+		public string GkIP { get; set; }
 	}
 }

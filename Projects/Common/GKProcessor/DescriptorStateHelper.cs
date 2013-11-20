@@ -36,7 +36,7 @@ namespace GKProcessor
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
 
 			StateBits = XStatesHelper.StatesFromInt(state);
-            ParseAdditionalParameters(bytes);
+			ParseAdditionalParameters(bytes);
 
 			CheckConnectionLost(xBase);
 		}
@@ -86,7 +86,7 @@ namespace GKProcessor
 			AdditionalStates = new List<XAdditionalState>();
 			for (int i = 0; i < 10; i++)
 			{
-                var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);
+				var additionalShortParameter = BytesHelper.SubstructShort(bytes, bytes.Count - 20 + i * 2);
 				additionalShortParameters.Add(additionalShortParameter);
 			}
 
@@ -221,12 +221,16 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Вскрытие");
 						if (failureBitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Неисправность контакта");
-						if (failureBitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Авария контакта");
+						if (failureBitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Питание силовое");
 						if (failureBitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Неисправность одной или обеих фаз(контроль нагрузки)");
 						if (failureBitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Несовместимость сигналов");
+
+						failureBitArray = new BitArray(new int[1] { additionalShortParameters[5] % 256 });
+						if (failureBitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Питание контроллера");
 						break;
 
 					case XDriverType.SmokeDetector:
@@ -347,35 +351,35 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 4");
 						if (bitArray[4])
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 5");
-					break;
+						break;
 
 					case XDriverType.Pump:
-                    //bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                    //    if (bitArray[8 + 0])
-                    //        AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						//    if (bitArray[8 + 0])
+						//        AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
-                    var addressOnShleif = PhysicalAddress % 256;
+						var addressOnShleif = PhysicalAddress % 256;
 						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
 						if (bitArray[1])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 1", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 1", addressOnShleif));
 						if (bitArray[2])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 1", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 1", addressOnShleif));
 						if (bitArray[4])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 2", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 2", addressOnShleif));
 						if (bitArray[5])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 2", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 2", addressOnShleif));
 						if (bitArray[7])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 3", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 3", addressOnShleif));
 						if (bitArray[8 + 0])
-                            AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 3", addressOnShleif));
-                        //if (bitArray[8 + 2])
-                        //    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 4", addressOnShleif));
-                        //if (bitArray[8 + 3])
-                        //    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 4", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 3", addressOnShleif));
+						//if (bitArray[8 + 2])
+						//    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 4", addressOnShleif));
+						//if (bitArray[8 + 3])
+						//    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 4", addressOnShleif));
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[4] });
-                        if (!bitArray[3])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+						if (!bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (!bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, "Не задан тип");
 						if (!bitArray[8 + 2])
@@ -385,9 +389,9 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.Valve:
-                        //bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-                        //if (bitArray[7])
-                        //    AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						//if (bitArray[7])
+						//    AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
 						if (bitArray[1])
@@ -416,10 +420,10 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "КЗ кнопки СТОП УЗЗ");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[4] });
-                        if (!bitArray[3])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
-                        if (!bitArray[5])
-                            AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
+						if (!bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+						if (!bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "Превышение времени хода");
 						if (!bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "КВ/МВ");
 						if (!bitArray[8 + 1])

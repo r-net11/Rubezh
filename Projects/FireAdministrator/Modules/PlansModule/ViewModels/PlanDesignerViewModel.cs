@@ -22,7 +22,7 @@ namespace PlansModule.ViewModels
 				new InstrumentViewModel()
 				{
 				    ImageSource="/Controls;component/Images/Subplan.png",
-				    ToolTip="Подплан",
+				    ToolTip="Ссылка на план",
 				    Index = 300,
 				    Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});

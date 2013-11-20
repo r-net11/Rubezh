@@ -85,13 +85,13 @@ namespace GKModule.ViewModels
 							break;
 
 						case XStateClass.Fire1:
-							alarms.Add(new Alarm(XAlarmType.Fire1, device));
+							alarms.Add(new Alarm(XAlarmType.Turning, device));
 							break;
 
 						case XStateClass.Fire2:
 							if (device.DriverType != XDriverType.AM1_T)
 							{
-								alarms.Add(new Alarm(XAlarmType.Fire2, device));
+								alarms.Add(new Alarm(XAlarmType.Turning, device));
 							}
 							break;
 					}

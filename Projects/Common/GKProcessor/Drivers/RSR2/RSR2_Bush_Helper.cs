@@ -47,10 +47,22 @@ namespace GKProcessor
 			};
 			var property8Parameter1 = new XDriverPropertyParameter()
 			{
-				Name = "ДН",
+				Name = "Дренажный насос",
 				Value = 1
 			};
 			property8.Parameters.Add(property8Parameter1);
+			//var property8Parameter2 = new XDriverPropertyParameter()
+			//{
+			//    Name = "Жокей насос",
+			//    Value = 2
+			//};
+			//property8.Parameters.Add(property8Parameter2);
+			//var property8Parameter3 = new XDriverPropertyParameter()
+			//{
+			//    Name = "Пожарный насос",
+			//    Value = 3
+			//};
+			//property8.Parameters.Add(property8Parameter3);
 			driver.Properties.Add(property8);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });

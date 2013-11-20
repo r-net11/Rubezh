@@ -37,7 +37,7 @@ namespace PlansModule.ViewModels
 			AddFolderCommand = new RelayCommand(OnAddFolder);
 			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddEditRemove);
 
-			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Подпланы");
+			LayerGroupService.Instance.RegisterGroup(Helper.SubPlanAlias, "Ссылки на планы");
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
 				if (e.Element is ElementSubPlan)

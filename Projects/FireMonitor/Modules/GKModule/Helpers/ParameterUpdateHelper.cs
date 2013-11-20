@@ -42,6 +42,15 @@ namespace GKModule
 								if (resievedParameterNo == auParameter.No)
 								{
 									var parameterValue = BytesHelper.SubstructShort(result.Bytes, 64);
+									if (auParameter.IsHighByte)
+									{
+										parameterValue = (ushort)(parameterValue / 256);
+									}
+									else if (auParameter.IsLowByte)
+									{
+										parameterValue = (ushort)(parameterValue << 8);
+										parameterValue = (ushort)(parameterValue >> 8);
+									}
 									var stringValue = parameterValue.ToString();
 									if (auParameter.Name == "Дата последнего обслуживания")
 									{

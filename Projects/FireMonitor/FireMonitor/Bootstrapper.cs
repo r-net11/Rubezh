@@ -143,7 +143,7 @@ namespace FireMonitor
 				ProgressWatcher.Close();
 				ApplicationService.Restart();
 
-				LoadingService.Show("Перезагрузка конфигурации", 10);
+				LoadingService.Show("Перезагрузка конфигурации", "Перезагрузка конфигурации", 10);
 				LoadingService.AddCount(10);
 
 				LoadingService.DoStep("Загрузка конфигурации с сервера");

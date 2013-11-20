@@ -34,7 +34,7 @@ namespace PlansModule.Designer
 			Plan plan = GetPlan(element);
 			if (plan == null && element.PlanUID != Guid.Empty)
 				SetSubPlan(element, null);
-			return plan == null ? "Несвязанный подплан" : plan.Caption;
+			return plan == null ? "Несвязанная ссылка на план" : plan.Caption;
 		}
 		public static void SetSubPlan(ElementSubPlan element)
 		{

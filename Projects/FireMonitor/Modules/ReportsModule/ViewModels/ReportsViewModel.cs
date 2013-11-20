@@ -104,7 +104,7 @@ namespace ReportsModule.ViewModels
 						DateTime dt = DateTime.Now;
 						try
 						{
-							LoadingService.Show("Идет построение отчета", 0);
+							LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
 							InProgress = true;
 							DocumentPaginator = SelectedReport.GenerateReport();
 						}

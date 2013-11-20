@@ -151,7 +151,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Вставить во все дочерние устройства" VerticalAlignment="Center" />
+                        <TextBlock Margin="2" Text="Вставить параметры во все дочерние устройства" VerticalAlignment="Center" />
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -416,6 +416,7 @@
                         <Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
                         <Controls:ToolBarButton Command="{Binding CopyParamCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
                         <Controls:ToolBarButton Command="{Binding PasteParamCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
+                        <Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ToolTip = "Вставить параметры во все дочерние устройства" ImageSource = "/Controls;component/Images/PasteAll.png" />
                     </StackPanel>
                 </Grid>
             </Grid>

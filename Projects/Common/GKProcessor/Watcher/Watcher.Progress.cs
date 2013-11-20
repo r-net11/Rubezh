@@ -12,7 +12,7 @@ namespace GKProcessor
 			{
 				ApplicationService.Invoke(() =>
 				{
-					LoadingService.Show(name, count, canCancel);
+					LoadingService.Show(name, name, count, canCancel);
 				});
 			}
 		}

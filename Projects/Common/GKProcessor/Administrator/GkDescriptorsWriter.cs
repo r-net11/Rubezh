@@ -32,7 +32,9 @@ namespace GKProcessor
 					{
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
-						LoadingService.Show("Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : ""), summaryDescriptorsCount, true);
+
+						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : "");
+						LoadingService.Show(title, title, summaryDescriptorsCount, true);
 
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)

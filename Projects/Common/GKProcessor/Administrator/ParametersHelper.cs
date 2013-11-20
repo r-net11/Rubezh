@@ -17,7 +17,7 @@ namespace GKProcessor
 			DescriptorsManager.Create();
 			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
-				LoadingService.Show("Запрос параметров", kauDatabase.Descriptors.Count);
+				LoadingService.Show("Запрос параметров", "Запрос параметров", kauDatabase.Descriptors.Count);
 				try
 				{
 					foreach (var descriptor in kauDatabase.Descriptors)
@@ -49,7 +49,7 @@ namespace GKProcessor
 			DescriptorsManager.Create();
 			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
 			{
-				LoadingService.Show("Запись параметров", kauDatabase.Descriptors.Count);
+				LoadingService.Show("Запись параметров", "Запись параметров", kauDatabase.Descriptors.Count);
 				try
 				{
 					foreach (var descriptor in kauDatabase.Descriptors)

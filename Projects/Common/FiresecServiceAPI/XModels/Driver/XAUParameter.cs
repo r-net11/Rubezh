@@ -15,6 +15,12 @@ namespace XFiresecAPI
 		public bool IsDelay { get; set; }
 
 		[DataMember]
+		public bool IsHighByte { get; set; }
+
+		[DataMember]
+		public bool IsLowByte { get; set; }
+
+		[DataMember]
 		public string InternalName { get; set; }
 	}
 }

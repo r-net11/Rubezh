@@ -152,15 +152,17 @@ namespace GKModule.ViewModels
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
+				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
+				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
 			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				ServiceFactory.SaveService.GKChanged = true;
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				Plans.Designer.Helper.BuildMap();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 		public bool CanAdd()
@@ -205,7 +207,7 @@ namespace GKModule.ViewModels
 				{
 					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.UID == device.UID);
 				}
-				//DevicesViewModel.Current.AllDevices.Remove(this);
+				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			Plans.Designer.Helper.BuildMap();

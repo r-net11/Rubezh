@@ -28,19 +28,11 @@ namespace Infrastructure.Common.Windows
 			});
 		}
 
-		public static void Show(string title, string text, int stepCount = 1, bool canCancel = false)
+		public static void Show(string title, string text = null, int stepCount = 1, bool canCancel = false)
 		{
+			if (text == null)
+				text = title;
 			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, CanCancel = canCancel, Text = text });
-		}
-
-		public static void Show(string title, int stepCount = 1, bool canCancel = false)
-		{
-			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, Text = title, CanCancel = canCancel });
-		}
-		
-		public static void ShowIndeterminate(string title, string text)
-		{
-			Show(new ProgressViewModel() { Title = title, IsIndeterminate = true, Text = text });
 		}
 
 		public static void ShowLoading(string title, int stepCount = 1)

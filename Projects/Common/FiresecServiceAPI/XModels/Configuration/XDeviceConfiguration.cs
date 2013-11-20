@@ -18,10 +18,8 @@ namespace XFiresecAPI
 			JournalFilters = new List<XJournalFilter>();
 			Instructions = new List<XInstruction>();
 			GuardUsers = new List<XGuardUser>();
+			ParameterTemplates = new List<XParameterTemplate>();
 		}
-
-		[DataMember]
-		public List<XParameterTemplate> ParameterTemplates { get; set; }
 
 		public List<XDevice> Devices { get; set; }
 
@@ -42,6 +40,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XGuardUser> GuardUsers { get; set; }
+
+		[DataMember]
+		public List<XParameterTemplate> ParameterTemplates { get; set; }
 
 		public void Update()
 		{
@@ -97,33 +98,12 @@ namespace XFiresecAPI
 
 			Update();
 
-			if (JournalFilters == null)
-			{
-				JournalFilters = new List<XJournalFilter>();
-				result = false;
-			}
 			foreach (var journalFilter in JournalFilters)
 			{
-				if (journalFilter.EventNames == null)
-				{
-                    journalFilter.EventNames = new List<JournalDescriptionState>();
-					result = false;
-				}
 			}
 
 			foreach (var device in Devices)
 			{
-				if (device.NSLogic == null)
-				{
-					device.NSLogic = new XDeviceLogic();
-					result = false;
-				}
-
-				if (device.Properties == null)
-					device.Properties = new List<XProperty>();
-
-				if (device.DeviceProperties == null)
-					device.DeviceProperties = new List<XProperty>();
 			}
 			foreach (var zone in Zones)
 			{
@@ -133,35 +113,14 @@ namespace XFiresecAPI
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
-					if (deviceParameterTemplate.XDevice.Properties == null)
-					{
-						deviceParameterTemplate.XDevice.Properties = new List<XProperty>();
-						result = false;
-					}
 				}
 			}
 			foreach (var direction in Directions)
 			{
-				if (direction.NSDeviceUIDs == null)
-				{
-					direction.NSDeviceUIDs = new List<Guid>();
-					result = false;
-				}
 			}
 
 			foreach (var journalFilter in JournalFilters)
 			{
-				if (journalFilter.StateClasses == null)
-				{
-					journalFilter.StateClasses = new List<XStateClass>();
-					result = false;
-				}
-			}
-
-			if (GuardUsers == null)
-			{
-				GuardUsers = new List<XGuardUser>();
-				result = false;
 			}
 
 			return result;

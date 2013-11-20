@@ -71,7 +71,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center"/>
-                        <TextBlock Margin="2" Text="Вставить во все дочерние устройства" VerticalAlignment="Center"/>
+                        <TextBlock Margin="2" Text="Вставить параметры во все дочерние устройства" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>

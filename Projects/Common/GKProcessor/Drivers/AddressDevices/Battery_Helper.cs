@@ -40,11 +40,16 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter2);
 			driver.Properties.Add(property1);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ1", InternalName = "InnerVoltage_1" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ2", InternalName = "InnerVoltage_2" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 1", InternalName = "OuterVoltage_1" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 2", InternalName = "OuterVoltage_2" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение в сети", InternalName = "CircuitVoltage_2" });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ1", InternalName = "InnerVoltage_1", IsHighByte = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ2", InternalName = "InnerVoltage_2", IsLowByte = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 1", InternalName = "OuterVoltage_1", IsHighByte = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 2", InternalName = "OuterVoltage_2", IsLowByte = true });
+			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети", InternalName = "CircuitVoltage", IsLowByte = true });
+			//driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети HighByte", InternalName = "CircuitVoltage_2", IsHighByte = true });
+
+			//driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ1", InternalName = "InnerVoltage_1"});
+			//driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 1", InternalName = "OuterVoltage_1"});
+			//driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети", InternalName = "CircuitVoltage_2"});
 
 			return driver;
 		}

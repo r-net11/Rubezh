@@ -109,6 +109,7 @@ namespace FireAdministrator.ViewModels
 
 		void MergeXDeviceConfiguration()
 		{
+			var errors = new StringBuilder();
 			var maxZoneNo = 0;
 			if (XManager.Zones.Count > 0)
 				maxZoneNo = XManager.Zones.Max(x=>x.No);
@@ -136,17 +137,22 @@ namespace FireAdministrator.ViewModels
 				{
 					ipAddress = ipProperty.StringValue;
 				}
-				var existingDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
-				if (existingDevice != null)
+				var existingGKDevice = XManager.DeviceConfiguration.RootDevice.Children.FirstOrDefault(x => x.Address == ipAddress);
+				if (existingGKDevice != null)
 				{
 					foreach (var device in gkDevice.Children)
 					{
 						var driver = XManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 						if (driver.DriverType == XDriverType.KAU || driver.DriverType == XDriverType.RSR2_KAU)
 						{
-							if (!existingDevice.Children.Any(x => x.Driver != null && (x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress))
+							var existingKAUDevice = existingGKDevice.Children.FirstOrDefault(x => x.Driver != null && (x.DriverType == XDriverType.KAU || x.DriverType == XDriverType.RSR2_KAU) && x.IntAddress == device.IntAddress);
+							if (existingKAUDevice == null)
 							{
-								existingDevice.Children.Add(device);
+								existingGKDevice.Children.Add(device);
+							}
+							else
+							{
+								errors.AppendLine("Устройство " + existingKAUDevice.PresentationName + " не было добавленно в конфигурацию из за совпадения адресов");
 							}
 						}
 					}
@@ -174,6 +180,12 @@ namespace FireAdministrator.ViewModels
 
 			XManager.UpdateConfiguration();
 			FiresecManager.UpdateConfiguration();
+
+			var errorsString = errors.ToString();
+			if (!string.IsNullOrEmpty(errorsString))
+			{
+				MessageBoxService.ShowError(errorsString, "В результате слияния конфигурации возникли ошибки");
+			}
 		}
 
 		void CreateNewUIDs()
@@ -235,6 +247,11 @@ namespace FireAdministrator.ViewModels
 				{
 					var deviceUID = directionDevice.DeviceUID;
 					directionDevice.DeviceUID = DeviceUIDs[deviceUID];
+				}
+				for (int i = 0; i < direction.NSDeviceUIDs.Count; i++)
+				{
+					var deviceUID = direction.NSDeviceUIDs[i];
+					direction.NSDeviceUIDs[i] = DeviceUIDs[deviceUID];
 				}
 			}
 

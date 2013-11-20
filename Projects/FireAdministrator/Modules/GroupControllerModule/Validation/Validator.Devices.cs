@@ -35,6 +35,7 @@ namespace GKModule.Validation
                 ValidateParametersMinMax(device);
                 ValidateNotUsedLogic(device);
                 ValidateRSR2AddressFollowing(device);
+				ValidateKAUAddressFollowing(device);
             }
 
             ValidateDifferentNS();
@@ -196,6 +197,23 @@ namespace GKModule.Validation
                 }
             }
         }
+
+		static void ValidateKAUAddressFollowing(XDevice device)
+		{
+			if (device.DriverType == XDriverType.GK)
+			{
+				var kauChildren = device.Children.Where(x => x.Driver.IsKauOrRSR2Kau).ToList();
+				for (int i = 0; i < kauChildren.Count; i++)
+				{
+					var kauDevice = kauChildren[i];
+					if (kauDevice.IntAddress != i + 1)
+					{
+						Errors.Add(new DeviceValidationError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+						break;
+					}
+				}
+			}
+		}
 
         static void ValidateDifferentNS()
         {
