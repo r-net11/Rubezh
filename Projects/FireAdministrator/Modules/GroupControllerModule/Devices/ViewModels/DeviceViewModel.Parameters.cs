@@ -67,6 +67,8 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in XManager.GetAllDeviceChildren(Device))
 			{
+				if(device.DriverType != DriverCopy.DriverType)
+					continue;
 				CopyParametersFromBuffer(device);
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
 				if (deviceViewModel != null)
@@ -76,7 +78,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanPasteAll()
 		{
-			return Children.Count() > 0 && DriverCopy != null;
+			return (Children.Count() > 0 && DriverCopy != null) && (XManager.GetAllDeviceChildren(Device).Any(x => x.DriverType == DriverCopy.DriverType));
 		}
 
 		static void CopyParametersFromBuffer(XDevice device)

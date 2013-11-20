@@ -7,17 +7,16 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public class KauDescriptorsReader : IDescriptorReader
+	public class KauDescriptorsReaderBase : DescriptorReaderBase
 	{
 		static XDevice KauDevice { get; set; }
-		public XDeviceConfiguration DeviceConfiguration { get; private set; }
-		public string ParsingError { get; private set; }
 		List<int> descriptorAddresses;
 
-		public bool ReadConfiguration(XDevice kauDevice)
+		override public bool ReadConfiguration(XDevice kauDevice)
 		{
 			KauDevice = (XDevice) kauDevice.Clone();
 			KauDevice.Children = new List<XDevice>();
+			descriptorAddresses = new List<int>();
 			for (int i = 0; i < 8; i++)
 			{
 				var shleif = new XDevice();
@@ -27,16 +26,19 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			LoadingService.Show("Перевод КАУ в технологический режим");
+			LoadingService.Show("Чтение конфигурации", "Перевод КАУ в технологический режим");
 			GkDescriptorsWriter.GoToTechnologicalRegime(kauDevice);
-			LoadingService.Show("Получение дескрипторов устройств");
+			LoadingService.DoStep("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
 				LoadingService.Show("Чтение конфигурации", "Чтение конфигурации", descriptorAddresses.Count + 1, true);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (LoadingService.IsCanceled)
-						return true;
+					{
+						ParsingError = "Операция отменена";
+						break;
+					}
 					LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
 					if (!GetDescriptorInfo(kauDevice, descriptorAddresses[i]))
 						break;

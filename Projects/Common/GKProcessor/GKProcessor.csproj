@@ -54,7 +54,7 @@
     <Compile Include="Administrator\GkDescriptorsWriter.cs" />
     <Compile Include="Administrator\DeviceBytesHelper.cs" />
     <Compile Include="Administrator\GkDescriptorsReader.cs" />
-    <Compile Include="Administrator\IDescriptorReader.cs" />
+    <Compile Include="Administrator\DescriptorReaderBase.cs" />
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
     <Compile Include="AUParameterValue.cs" />

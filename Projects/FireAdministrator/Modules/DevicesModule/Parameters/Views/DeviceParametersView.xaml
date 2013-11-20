@@ -25,7 +25,7 @@
             <Separator />
             <MenuItem Command="{Binding CopyCommand}" Header="Копировать параметры" />
             <MenuItem Command="{Binding PasteCommand}" Header="Вставить параметры" />
-            <MenuItem Command="{Binding PasteAllCommand}" Header="Вставить во все дочерние устройства" />
+            <MenuItem Command="{Binding PasteAllCommand}" Header="Вставить параметры во все дочерние устройства" />
             <Separator />
             <MenuItem Command="{Binding PasteTemplateCommand}" Header="Применить шаблон" />
             <MenuItem Command="{Binding PasteAllTemplateCommand}" Header="Применить шаблон ко всем дочерним устройствам" />

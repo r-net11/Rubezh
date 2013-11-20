@@ -11,27 +11,25 @@ using Common;
 
 namespace GKProcessor
 {
-	public class GkDescriptorsReader : IDescriptorReader
+	public class GkDescriptorsReaderBase : DescriptorReaderBase
 	{
 		Dictionary<ushort, XDevice> ControllerDevices;
 		XDevice GkDevice;
 		string IpAddress;
-		public XDeviceConfiguration DeviceConfiguration { get; private set; }
-		public string ParsingError { get; private set; }
 		
 #if !LOCALCONFIG
-		public bool ReadConfiguration(XDevice gkDevice)
+		override public bool ReadConfiguration(XDevice gkDevice)
 		{
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
 			var rootDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			DeviceConfiguration.RootDevice = new XDevice()
+			DeviceConfiguration.RootDevice = new XDevice
 			{
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			LoadingService.Show("Перевод ГК в технологический режим");
+			LoadingService.Show("Чтение конфигурации", "Перевод ГК в технологический режим", 50000, true);
 			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
 			LoadingService.Show("Чтение конфигурации","Чтение конфигурации", 50000, true);
 			ushort descriptorNo = 0;
@@ -41,7 +39,10 @@ namespace GKProcessor
 			while (true)
 			{
 				if (LoadingService.IsCanceled)
-					return true;
+				{
+					ParsingError = "Операция отменена";
+					break;
+				}
 				descriptorNo++;
 				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
 				const byte packNo = 1;
@@ -75,7 +76,7 @@ namespace GKProcessor
 			LoadingService.SaveClose();
 			if(ParsingError != null)
 			{
-				MessageBoxService.ShowError(ParsingError, "Ошибка при чтении конфигурации");
+				ParsingError = "Ошибка при чтении конфигурации";
 				return false;
 			}
 			DeviceConfiguration.Update();
@@ -85,7 +86,7 @@ namespace GKProcessor
 #endif
 #if LOCALCONFIG
 		#region Чтение конфигурации из байтового потока
-		public bool ReadConfiguration(XDevice device)
+		override public bool ReadConfiguration(XDevice device)
 		{
 			IpAddress = device.GetGKIpAddress();
 			var allbytes = BytesHelper.BytesFromFile("GKConfiguration.txt");
@@ -190,9 +191,9 @@ namespace GKProcessor
 					var controllerDevice = ControllerDevices.FirstOrDefault(x => x.Key == controllerAdress);
 					if (controllerDevice.Value != null)
 					{
-						if((1 <= shleifNo && shleifNo <= 8)&&(physicalAdress != 0))
+						if(1 <= shleifNo && shleifNo <= 8 && physicalAdress != 0)
 						{
-							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif && x.IntAddress == shleifNo);
+							var shleif = controllerDevice.Value.Children.FirstOrDefault(x => (x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && x.IntAddress == shleifNo);
 							shleif.Children.Add(device);
 						}
 						else

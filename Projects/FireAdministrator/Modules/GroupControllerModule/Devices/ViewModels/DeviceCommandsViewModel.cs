@@ -114,7 +114,7 @@ namespace GKModule.Models
 		{
 			DescriptorsManager.Create();
 			var device = SelectedDevice.Device;
-			var descriptorReader = device.Driver.IsKauOrRSR2Kau? (IDescriptorReader) new KauDescriptorsReader(): new GkDescriptorsReader();
+			var descriptorReader = device.Driver.IsKauOrRSR2Kau? (DescriptorReaderBase) new KauDescriptorsReaderBase(): new GkDescriptorsReaderBase();
 			if (descriptorReader.ReadConfiguration(device))
 			{
 				XManager.UpdateConfiguration();

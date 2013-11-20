@@ -417,7 +417,7 @@ namespace GKModule.ViewModels
                         
                         new RibbonMenuItemViewModel("Копировать параметры", "/Controls;component/Images/BCopy.png"),
                         new RibbonMenuItemViewModel("Вставить параметры", "/Controls;component/Images/BPaste.png"),
-                        new RibbonMenuItemViewModel("Вставить во все дочерние устройства", "/Controls;component/Images/BPasteAll.png"),
+                        new RibbonMenuItemViewModel("Вставить параметры во все дочерние устройства", "/Controls;component/Images/BPasteAll.png"),
                         
                         new RibbonMenuItemViewModel("Применить шаблон", "/Controls;component/Images/BBriefcase.png"),
                         new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "/Controls;component/Images/BBriefcaseAll.png"),
