@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 
 		public JournalViewModel(XDevice device)
 		{
-			Title = "Журнал событий ГК ip:" + device.GetGKIpAddress();
+			Title = "Журнал событий ГК " + device.GetGKIpAddress();
 			ReadCommand = new RelayCommand(OnRead);
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 			}
 
 			JournalItems.Clear();
-			LoadingService.Show("Чтение записей журнала", 2 + EndIndex - StartIndex, true);
+			LoadingService.Show("Чтение записей журнала", "Чтение записей журнала", 2 + EndIndex - StartIndex, true);
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				if (LoadingService.IsCanceled)
@@ -166,6 +166,7 @@ namespace GKModule.ViewModels
 							JournalItems = journalItems,
 							RecordCount = TotalCount,
 							CreationDateTime = DateTime.Now,
+							GkIP = Device.GetGKIpAddress()
 						};
 						dataContractSerializer.WriteObject(fileStream, journalItemsCollection);
 					}

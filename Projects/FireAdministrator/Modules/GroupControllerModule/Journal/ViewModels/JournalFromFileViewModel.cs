@@ -10,12 +10,13 @@ namespace GKModule.ViewModels
 		{
 			Title = "Журнал событий ГК";
 			DescriptorsManager.Create();
+			JournalItemsCollection = journalItemsCollection;
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			journalItemsCollection.JournalItems.ForEach(x => JournalItems.Add(new JournalItemViewModel(x)));
-			CreationDateTimeString = "Файл создан " + journalItemsCollection.CreationDateTime.ToString();
-			RecordsCountString = "Записей в журнале прибора " + journalItemsCollection.RecordCount.ToString();
 		}
 
+		public JournalItemsCollection JournalItemsCollection { get; private set; }
+		
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
@@ -24,28 +25,6 @@ namespace GKModule.ViewModels
 			{
 				_journalItems = value;
 				OnPropertyChanged("JournalItems");
-			}
-		}
-
-		string creationDateTimeString;
-		public string CreationDateTimeString
-		{
-			get { return creationDateTimeString; }
-			set
-			{
-				creationDateTimeString = value;
-				OnPropertyChanged("CreationDateTimeString");
-			}
-		}
-
-		string recordsCountString;
-		public string RecordsCountString
-		{
-			get { return recordsCountString; }
-			set
-			{
-				recordsCountString = value;
-				OnPropertyChanged("RecordsCountString");
 			}
 		}
 	}

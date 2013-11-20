@@ -11,6 +11,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}">
             <DataGrid.Columns>
@@ -61,7 +62,17 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <TextBlock Grid.Row="1" Margin="0 5" Text="{Binding CreationDateTimeString}" Foreground="White" />
-        <TextBlock Grid.Row="2" Margin="0 5" Text="{Binding RecordsCountString}" Foreground="White" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 3">
+            <TextBlock Text="IP адрес ГК " Foreground="White" />
+            <TextBlock Text="{Binding JournalItemsCollection.GkIP}" Foreground="White" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0 3">
+            <TextBlock Text="Файл создан " Foreground="White" />
+            <TextBlock Text="{Binding JournalItemsCollection.CreationDateTime}" Foreground="White" />    
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0 3">
+            <TextBlock Text="Записей в журнале прибора " Foreground="White" />
+            <TextBlock Text="{Binding JournalItemsCollection.RecordCount}" Foreground="White" />
+        </StackPanel>
     </Grid>
 </UserControl>

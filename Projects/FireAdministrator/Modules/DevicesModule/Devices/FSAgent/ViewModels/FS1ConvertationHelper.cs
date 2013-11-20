@@ -23,7 +23,7 @@ namespace Infrastructure
 			{
 				WaitHelper.Execute(() =>
 				{
-					LoadingService.Show("Конвертирование конфигурации", 6);
+					LoadingService.Show("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
 					var convertationResult = FiresecManager.FiresecDriver.Convert();
 					if (convertationResult.HasError)
 					{

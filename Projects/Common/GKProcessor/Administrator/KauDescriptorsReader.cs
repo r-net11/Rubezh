@@ -32,7 +32,7 @@ namespace GKProcessor
 			LoadingService.Show("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				LoadingService.Show("Чтение конфигурации", descriptorAddresses.Count + 1, true);
+				LoadingService.Show("Чтение конфигурации", "Чтение конфигурации", descriptorAddresses.Count + 1, true);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (LoadingService.IsCanceled)

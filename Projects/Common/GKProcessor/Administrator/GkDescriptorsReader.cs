@@ -33,7 +33,7 @@ namespace GKProcessor
 			};
 			LoadingService.Show("Перевод ГК в технологический режим");
 			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
-			LoadingService.Show("Чтение конфигурации", 50000, true);
+			LoadingService.Show("Чтение конфигурации","Чтение конфигурации", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
