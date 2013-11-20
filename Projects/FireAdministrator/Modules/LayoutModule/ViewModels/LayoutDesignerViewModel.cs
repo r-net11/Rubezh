@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace LayoutModule.ViewModels
 {
@@ -17,8 +18,10 @@ namespace LayoutModule.ViewModels
 
 		private Layout _layout;
 		private XmlLayoutSerializer _serializer;
+		private bool _loading;
 		public LayoutDesignerViewModel(LayoutElementsViewModel layoutElementsViewModel)
 		{
+			_loading = false;
 			Instance = this;
 			LayoutElementsViewModel = layoutElementsViewModel;
 			Update();
@@ -91,9 +94,12 @@ namespace LayoutModule.ViewModels
 				foreach (var layoutPart in _layout.Parts)
 					layoutParts.Add(new LayoutPartViewModel(layoutPart));
 				LayoutParts = layoutParts;
+				_loading = true;
+				Manager.Layout = new LayoutRoot();
 				if (!string.IsNullOrEmpty(_layout.Content))
 					using (var tr = new StringReader(_layout.Content))
 						_serializer.Deserialize(tr);
+				_loading = false;
 				ActiveLayoutPart = LayoutParts.FirstOrDefault();
 			}
 		}
@@ -118,8 +124,8 @@ namespace LayoutModule.ViewModels
 		}
 		private void LayoutChanged(object sender, EventArgs e)
 		{
-			ServiceFactory.SaveService.LayoutsChanged = true;
-			//SaveLayout();
+			if (!_loading)
+				ServiceFactory.SaveService.LayoutsChanged = true;
 		}
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{

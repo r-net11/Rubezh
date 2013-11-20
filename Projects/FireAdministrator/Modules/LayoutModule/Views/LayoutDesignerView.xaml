@@ -12,10 +12,6 @@
 				<Setter Property="Description" Value="{Binding Model.Description}" />
 			</Style>
 		</xcad:DockingManager.LayoutItemContainerStyle>
-		<xcad:LayoutRoot x:Name="root">
-			<xcad:LayoutPanel IsMaximized="True">
-				<xcad:LayoutDocumentPane />
-			</xcad:LayoutPanel>
-		</xcad:LayoutRoot>
+		<xcad:LayoutRoot />
 	</xcad:DockingManager>
 </UserControl>

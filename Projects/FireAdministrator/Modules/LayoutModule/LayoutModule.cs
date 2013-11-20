@@ -9,6 +9,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using LayoutModule.ViewModels;
+using Infrastructure;
 
 namespace LayoutModule
 {
@@ -19,6 +20,8 @@ namespace LayoutModule
 		public override void CreateViewModels()
 		{
 			_monitorLayoutsViewModel = new MonitorLayoutsViewModel();
+			//ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Unsubscribe(OnBeforeConfigurationSerialize);
+			//ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Subscribe(OnBeforeConfigurationSerialize);
 		}
 		public override void Initialize()
 		{
@@ -41,6 +44,11 @@ namespace LayoutModule
 			LoadingService.DoStep("Загрузка конфигурации макетов ОЗ");
 			FiresecManager.LayoutsConfiguration.Update();
 			return true;
+		}
+
+		private void OnBeforeConfigurationSerialize()
+		{
+			_monitorLayoutsViewModel.SaveConfiguration();
 		}
 	}
 }

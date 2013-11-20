@@ -306,5 +306,9 @@ namespace LayoutModule.ViewModels
 			LayoutDesignerViewModel.Instance.SaveLayout();
 			base.OnHide();
 		}
+		public void SaveConfiguration()
+		{
+			LayoutDesignerViewModel.Instance.SaveLayout();
+		}
 	}
 }
