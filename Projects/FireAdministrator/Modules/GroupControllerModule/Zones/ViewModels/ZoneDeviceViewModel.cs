@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Common.TreeList;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -19,6 +20,15 @@ namespace GKModule.ViewModels
 		public string PresentationAddress
 		{
 			get { return Device.KAUParent.Address + "." + Device.PresentationAddress; }
+		}
+		public string PresentationZone
+		{
+			get
+			{
+				if(Device.Driver.HasLogic)
+					return XManager.GetPresentationZone(Device);
+				return null;
+			}
 		}
 		public string Description
 		{

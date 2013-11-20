@@ -231,6 +231,7 @@ namespace GKModule.ViewModels
 
 		bool CompareSystemAndDeviceProperties(XDevice device)
 		{
+			return true;
 			return device.Properties.All(property => device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name).Value == property.Value);
 		}
 

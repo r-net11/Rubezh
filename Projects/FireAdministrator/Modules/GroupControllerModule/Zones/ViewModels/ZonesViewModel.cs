@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 		public static ZonesViewModel Current { get; private set; }
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 		List<ZoneViewModel> EmptyZones { get; set; }
+
         public ZonesViewModel()
         {
 			Menu = new ZonesMenuViewModel(this);

@@ -99,11 +99,11 @@ namespace GKProcessor
 				case 33: return "Обрыв цепи 1 ДВИГАТЕЛЯ"; // МДУ
 				case 34: return "Замкнуты/разомкнуты оба концевика"; // МДУ
 				case 35: return "Превышение времени хода"; // МДУ, ШУЗ
-				case 36: return "Обр в линии РЕЛЕ    ";
-				case 37: return "КЗ в линии РЕЛЕ     ";
-				case 38: return "Выход 1             ";
-				case 39: return "Выход 2             ";
-				case 40: return "Выход 3             ";
+				case 36: return "Обрыв в линии РЕЛЕ";
+				case 37: return "КЗ в линии РЕЛЕ";
+				case 38: return "Выход 1";
+				case 39: return "Выход 2";
+				case 40: return "Выход 3";
 				case 41: return "";
 				case 42: return "Обрыв концевого выключателя ОТКРЫТО"; // ШУЗ
 				case 43: return "КЗ концевого выключателя ОТКРЫТО"; // ШУЗ
@@ -160,23 +160,23 @@ namespace GKProcessor
 				case 94: return "КЗ кнопки СТОП"; // МРО-2М
 				case 95: return "Отсутствуют или испорчены сообщения для воспроизведения"; // МРО-2М
 				case 96: return "Выход";
-				case 97: return "Обр Уровень низкий";
-				case 98: return "КЗ  Уровень низкий";
-				case 99: return "Обр Уровень высокий";
-				case 100: return "КЗ  Уровень высокий";
-				case 101: return "Обр Уровень аварийн";
-				case 102: return "КЗ  Уровень аварийн";
-				case 103: return "Уровень аварийный";
+				case 97: return "Обрыв Низкий уровень";
+				case 98: return "КЗ Низкий уровень";
+				case 99: return "Обрыв Высокий уровень";
+				case 100: return "КЗ Высокий уровень";
+				case 101: return "Обрыв Аварийный уровень";
+				case 102: return "КЗ Аварийный уровень";
+				case 103: return "Аварийный уровень";
 				case 104: return "Питание силовое";
 				case 105: return "Питание контроллера";
-				case 106: return "Несоответствие";
-				case 107: return "Фаза";
-				case 108: return "Обр Давление на вых";
-				case 109: return "КЗ  Давление на вых";
-				case 110: return "Обр ДУ ПУСК";
-				case 111: return "КЗ  ДУ ПУСК";
-				case 112: return "Обр ДУ СТОП";
-				case 113: return "КЗ  ДУ СТОП";
+				case 106: return "Несовместимость сигналов";
+				case 107: return "Неисправность одной или обеих фаз(контроль нагрузки)";
+				case 108: return "Обрыв Давление на выходе";
+				case 109: return "КЗ Давление на выходе";
+				case 110: return "Обрыв ДУ ПУСК";
+				case 111: return "КЗ ДУ ПУСК";
+				case 112: return "Обрыв ДУ СТОП";
+				case 113: return "КЗ ДУ СТОП";
 				case 241: return "Обрыв АЛС 1-2";
 				case 242: return "Обрыв АЛС 3-4";
 				case 243: return "Обрыв АЛС 5-6";
@@ -209,8 +209,8 @@ namespace GKProcessor
 				case 6: return "Обрыв Аварийный уровень"; //
 				case 7: return "КЗ Аварийный уровень"; //
 				case 8: return "Аварийный уровень"; //
-				case 9: return "Питание силовое";
-				case 10: return "Питание контроллера";
+				case 9: return "Питание силовое"; //
+				case 10: return "Питание контроллера"; //
 				case 11: return "Несовместимость сигналов"; //
 				case 12: return "Неисправность одной или обеих фаз(контроль нагрузки)"; //
 				case 13: return "Обрыв Давление низкое"; //

@@ -28,10 +28,10 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Ошибка" Binding="{Binding Error}" Width="*" />
-                    <DataGridTemplateColumn Header="Уровень">
+                    <DataGridTemplateColumn Header="Уровень" MinWidth="30" MaxWidth="200">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Rectangle Width="100" Height="30" Fill="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"
+                                <Rectangle Height="30" Fill="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"
                                     ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -43,8 +43,8 @@
             </DataGrid>
         </Grid>
         <StackPanel Grid.Column="1" >
-            <Controls:ToolBarButton ToolTip="Закрыть панель валидации" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
-            <Controls:ToolBarButton ToolTip="Настройка фильтра ошибок" Command="{Binding EditValidationCommand}" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/settings.png" Height="32" Width="32" />
+            <Controls:ToolBarButton ToolTip="Закрыть панель валидации" Click="Button_Click" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" VerticalAlignment="Top" Margin="2" />
+            <Controls:ToolBarButton ToolTip="Настройка фильтра ошибок" Command="{Binding EditValidationCommand}" ImageSource="/Controls;component/Images/settings.png" Height="32" Width="32" VerticalAlignment="Top" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

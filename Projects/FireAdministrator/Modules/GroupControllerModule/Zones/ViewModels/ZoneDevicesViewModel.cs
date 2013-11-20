@@ -32,18 +32,32 @@ namespace GKModule.ViewModels
 
 			foreach (var device in XManager.Devices)
 			{
-				if (!device.Driver.HasZone)
-					continue;
-
-				if (device.ZoneUIDs.Contains(Zone.UID))
+				if (device.Driver.HasLogic)
 				{
-					devices.Add(device);
-				}
-				else
-				{
-					if (device.ZoneUIDs.Count == 0)
+					foreach (var clause in device.DeviceLogic.Clauses)
 					{
-						availableDevices.Add(device);
+						foreach (var clauseZone in clause.Zones)
+						{
+							if (clauseZone.UID == zone.UID)
+							{
+								devices.Add(device);
+							}
+						}
+					}
+				}
+
+				if (device.Driver.HasZone)
+				{
+					if (device.ZoneUIDs.Contains(Zone.UID))
+					{
+						devices.Add(device);
+					}
+					else
+					{
+						if (device.ZoneUIDs.Count == 0)
+						{
+							availableDevices.Add(device);
+						}
 					}
 				}
 			}
@@ -59,7 +73,6 @@ namespace GKModule.ViewModels
 			}
 
 			var selectedDevice = Devices.LastOrDefault();
-			//Devices = new ObservableCollection<ZoneDeviceViewModel>(Devices.Where(x => x.Device.Parent == null));
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
@@ -200,7 +213,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanRemove(object parameter)
 		{
-			return SelectedDevice != null;
+			return SelectedDevice != null && SelectedDevice.Device.Driver.HasZone;
 		}
 	}
 }

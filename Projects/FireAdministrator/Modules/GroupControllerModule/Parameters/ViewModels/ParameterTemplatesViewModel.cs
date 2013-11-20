@@ -132,7 +132,7 @@ namespace GKModule.ViewModels
 							if (driverProperty.IsAUParameter)
 							{
 								var property = deviceParameterTemplate.XDevice.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-								if (property == null)
+								if (property == null || parameterTemplate.Name == "По умолчанию")
 								{
 									property = new XProperty()
 									{

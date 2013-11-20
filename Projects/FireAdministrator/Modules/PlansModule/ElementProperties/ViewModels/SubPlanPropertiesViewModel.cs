@@ -12,7 +12,7 @@ namespace PlansModule.ViewModels
 
 		public SubPlanPropertiesViewModel(ElementSubPlan elementSubPlan)
 		{
-			Title = "Свойства фигуры: Подплан";
+			Title = "Свойства фигуры: Ссылка на план";
 			_elementSubPlan = elementSubPlan;
 			Initialize();
 		}

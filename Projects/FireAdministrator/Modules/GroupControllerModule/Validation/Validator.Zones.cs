@@ -16,6 +16,7 @@ namespace GKModule.Validation
 			{
 				if (IsManyGK())
 					ValidateDifferentGK(zone);
+				ValidateZoneHasNoDevices(zone);
 				if (MustValidate("Количество подключенных к зоне датчиков"))
 				{
 					ValidateZoneDetectorCount(zone);
@@ -41,6 +42,14 @@ namespace GKModule.Validation
 
 			if (AreDevicesInSameGK(zone.DevicesInLogic))
 				Errors.Add(new ZoneValidationError(zone, "Зона участвует в логике устройств разных ГК", ValidationErrorLevel.CannotWrite));
+		}
+
+		static void ValidateZoneHasNoDevices(XZone zone)
+		{
+			if (zone.Devices.Count == 0)
+			{
+				Errors.Add(new ZoneValidationError(zone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
+			}
 		}
 
 		static void ValidateZoneDetectorCount(XZone zone)

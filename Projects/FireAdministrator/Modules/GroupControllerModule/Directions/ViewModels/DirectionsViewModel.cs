@@ -130,7 +130,6 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-
 				foreach (var emptyDirection in EmptyDirections)
 				{
 					XManager.RemoveDirection(emptyDirection.Direction);
