@@ -891,6 +891,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
 			layoutElement.IsActive = true;
 			layoutElement.Root.CollectGarbage();
+			layoutElement.Root.Manager.OnLayoutConfigurationChanged();
 		}
 		#endregion
 
@@ -963,6 +964,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			parentDocumentGroup.InsertChildAt(indexOfParentPane + 1, new LayoutDocumentPane(layoutElement));
 			layoutElement.IsActive = true;
 			layoutElement.Root.CollectGarbage();
+			layoutElement.Root.Manager.OnLayoutConfigurationChanged();
 		}
 		#endregion
 
@@ -1026,6 +1028,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			nextDocumentPane.InsertChildAt(0, layoutElement);
 			layoutElement.IsActive = true;
 			layoutElement.Root.CollectGarbage();
+			layoutElement.Root.Manager.OnLayoutConfigurationChanged();
 		}
 
 		#endregion
@@ -1089,6 +1092,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			nextDocumentPane.InsertChildAt(0, layoutElement);
 			layoutElement.IsActive = true;
 			layoutElement.Root.CollectGarbage();
+			layoutElement.Root.Manager.OnLayoutConfigurationChanged();
 		}
 		#endregion
 

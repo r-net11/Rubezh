@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock.Layout;
+using Infrastructure.Common;
 
 namespace LayoutModule.ViewModels
 {
@@ -19,8 +20,10 @@ namespace LayoutModule.ViewModels
 		private Layout _layout;
 		private XmlLayoutSerializer _serializer;
 		private bool _loading;
+		private bool _currentLayoutChanged;
 		public LayoutDesignerViewModel(LayoutElementsViewModel layoutElementsViewModel)
 		{
+			_currentLayoutChanged = false;
 			_loading = false;
 			Instance = this;
 			LayoutElementsViewModel = layoutElementsViewModel;
@@ -64,7 +67,7 @@ namespace LayoutModule.ViewModels
 				if (Manager != null)
 				{
 					Manager.DocumentClosing -= LayoutPartClosing;
-					Manager.LayoutChanged -= LayoutChanged;
+					Manager.LayoutConfigurationChanged -= LayoutConfigurationChanged;
 				}
 				_manager = value;
 				if (_serializer != null)
@@ -74,7 +77,7 @@ namespace LayoutModule.ViewModels
 				}
 				if (_manager != null)
 				{
-					Manager.LayoutChanged += LayoutChanged;
+					Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
 					Manager.DocumentClosing += LayoutPartClosing;
 					Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
 					_serializer = new XmlLayoutSerializer(Manager);
@@ -85,22 +88,26 @@ namespace LayoutModule.ViewModels
 
 		public void Update(Layout layout)
 		{
-			if (_layout != null)
-				SaveLayout();
-			_layout = layout;
-			if (_layout != null)
+			using (new WaitWrapper())
 			{
-				var layoutParts = new ObservableCollection<LayoutPartViewModel>();
-				foreach (var layoutPart in _layout.Parts)
-					layoutParts.Add(new LayoutPartViewModel(layoutPart));
-				LayoutParts = layoutParts;
-				_loading = true;
-				Manager.Layout = new LayoutRoot();
-				if (!string.IsNullOrEmpty(_layout.Content))
-					using (var tr = new StringReader(_layout.Content))
-						_serializer.Deserialize(tr);
-				_loading = false;
-				ActiveLayoutPart = LayoutParts.FirstOrDefault();
+				if (_layout != null)
+					SaveLayout();
+				_layout = layout;
+				_currentLayoutChanged = false;
+				if (_layout != null)
+				{
+					var layoutParts = new ObservableCollection<LayoutPartViewModel>();
+					foreach (var layoutPart in _layout.Parts)
+						layoutParts.Add(new LayoutPartViewModel(layoutPart));
+					LayoutParts = layoutParts;
+					_loading = true;
+					Manager.Layout = new LayoutRoot();
+					if (!string.IsNullOrEmpty(_layout.Content))
+						using (var tr = new StringReader(_layout.Content))
+							_serializer.Deserialize(tr);
+					_loading = false;
+					ActiveLayoutPart = LayoutParts.FirstOrDefault();
+				}
 			}
 		}
 		public void Update()
@@ -109,7 +116,7 @@ namespace LayoutModule.ViewModels
 		}
 		public void SaveLayout()
 		{
-			if (_layout != null)
+			if (_layout != null && _currentLayoutChanged)
 				using (var tw = new StringWriter())
 				{
 					_serializer.Serialize(tw);
@@ -122,10 +129,13 @@ namespace LayoutModule.ViewModels
 			if (!string.IsNullOrWhiteSpace(e.Model.ContentId))
 				e.Content = LayoutParts.FirstOrDefault(item => item.UID == Guid.Parse(e.Model.ContentId));
 		}
-		private void LayoutChanged(object sender, EventArgs e)
+		private void LayoutConfigurationChanged(object sender, EventArgs e)
 		{
 			if (!_loading)
+			{
 				ServiceFactory.SaveService.LayoutsChanged = true;
+				_currentLayoutChanged = true;
+			}
 		}
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{
@@ -162,7 +172,6 @@ namespace LayoutModule.ViewModels
 			var layoutPartViewModel = new LayoutPartViewModel(layoutPartDescriptionViewModel);
 			LayoutParts.Add(layoutPartViewModel);
 			ActiveLayoutPart = layoutPartViewModel;
-			ServiceFactory.SaveService.LayoutsChanged = true;
 			if (dragging)
 				Manager.StartDragging(layoutPartViewModel);
 		}

@@ -430,6 +430,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
             }
 
             HideResizerOverlayWindow();
+			var manager = _model.Root.Manager;
+			if (manager != null)
+				manager.OnLayoutConfigurationChanged();
         }
 
         Border _resizerGhost = null;

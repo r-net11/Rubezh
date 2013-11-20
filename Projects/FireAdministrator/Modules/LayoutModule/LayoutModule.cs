@@ -20,8 +20,8 @@ namespace LayoutModule
 		public override void CreateViewModels()
 		{
 			_monitorLayoutsViewModel = new MonitorLayoutsViewModel();
-			//ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Unsubscribe(OnBeforeConfigurationSerialize);
-			//ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Subscribe(OnBeforeConfigurationSerialize);
+			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Unsubscribe(OnBeforeConfigurationSerialize);
+			ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Subscribe(OnBeforeConfigurationSerialize);
 		}
 		public override void Initialize()
 		{
@@ -46,7 +46,7 @@ namespace LayoutModule
 			return true;
 		}
 
-		private void OnBeforeConfigurationSerialize()
+		private void OnBeforeConfigurationSerialize(object obj)
 		{
 			_monitorLayoutsViewModel.SaveConfiguration();
 		}

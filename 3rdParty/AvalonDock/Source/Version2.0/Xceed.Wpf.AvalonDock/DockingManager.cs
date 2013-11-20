@@ -426,8 +426,6 @@ namespace Xceed.Wpf.AvalonDock
 			return null;
 		}
 
-
-
 		#region DocumentPaneTemplate
 
 		/// <summary>
@@ -1048,7 +1046,6 @@ namespace Xceed.Wpf.AvalonDock
 			//Trace.WriteLine(string.Format("DockingManager.OnMouseMove([{0}])", e.GetPosition(this)));
 			base.OnMouseMove(e);
 		}
-
 
 
 		#region LayoutRootPanel
@@ -2153,6 +2150,7 @@ namespace Xceed.Wpf.AvalonDock
 			{
 				Layout.CollectGarbage();
 			}
+			OnLayoutConfigurationChanged();
 		}
 
 		void DetachDocumentsSource(LayoutRoot layout, IEnumerable documentsSource)
@@ -2202,6 +2200,7 @@ namespace Xceed.Wpf.AvalonDock
 				var evargs = new DocumentClosedEventArgs(document);
 				DocumentClosed(this, evargs);
 			}
+			OnLayoutConfigurationChanged();
 		}
 
 		/// <summary>
@@ -2242,6 +2241,7 @@ namespace Xceed.Wpf.AvalonDock
 						_ExecuteCloseCommand(contentToClose as LayoutAnchorable);
 				}
 			}
+			OnLayoutConfigurationChanged();
 		}
 
 		#region DocumentContextMenu
@@ -2506,6 +2506,7 @@ namespace Xceed.Wpf.AvalonDock
 
 			if (Layout != null)
 				Layout.CollectGarbage();
+			OnLayoutConfigurationChanged();
 		}
 
 		void DetachAnchorablesSource(LayoutRoot layout, IEnumerable anchorablesSource)
@@ -2541,6 +2542,7 @@ namespace Xceed.Wpf.AvalonDock
 					model.ToggleAutoHide();
 
 				model.Close();
+				OnLayoutConfigurationChanged();
 				return;
 			}
 		}
@@ -2552,27 +2554,32 @@ namespace Xceed.Wpf.AvalonDock
 			{
 				//by default hide the anchorable
 				model.Hide();
+				OnLayoutConfigurationChanged();
 			}
 		}
 
 		internal void _ExecuteAutoHideCommand(LayoutAnchorable _anchorable)
 		{
 			_anchorable.ToggleAutoHide();
+			OnLayoutConfigurationChanged();
 		}
 
 		internal void _ExecuteFloatCommand(LayoutContent contentToFloat)
 		{
 			contentToFloat.Float();
+			OnLayoutConfigurationChanged();
 		}
 
 		internal void _ExecuteDockCommand(LayoutAnchorable anchorable)
 		{
 			anchorable.Dock();
+			OnLayoutConfigurationChanged();
 		}
 
 		internal void _ExecuteDockAsDocumentCommand(LayoutContent content)
 		{
 			content.DockAsDocument();
+			OnLayoutConfigurationChanged();
 		}
 
 		#region ActiveContent
@@ -3247,6 +3254,13 @@ namespace Xceed.Wpf.AvalonDock
 		{
 			var layoutContent = Layout.Descendents().OfType<LayoutDocument>().FirstOrDefault(item => item.Content == content);
 			StartDraggingFloatingWindowForContent(layoutContent);
+		}
+
+		public event EventHandler LayoutConfigurationChanged;
+		internal void OnLayoutConfigurationChanged()
+		{
+			if (LayoutConfigurationChanged != null)
+				LayoutConfigurationChanged(this, EventArgs.Empty);
 		}
 	}
 }

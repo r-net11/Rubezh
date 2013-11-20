@@ -308,7 +308,8 @@ namespace LayoutModule.ViewModels
 		}
 		public void SaveConfiguration()
 		{
-			LayoutDesignerViewModel.Instance.SaveLayout();
+			if (IsActive)
+				LayoutDesignerViewModel.Instance.SaveLayout();
 		}
 	}
 }

@@ -411,12 +411,14 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentControl}">
-					<Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-						<ContentPresenter Content="{Binding View}" />
-					</Border>
+					<avalonDockControls:DropDownControlArea x:Name="PART_DropDownControlArea" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+						<Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+							<ContentPresenter Content="{Binding View}" />
+						</Border>
+					</avalonDockControls:DropDownControlArea>
 					<ControlTemplate.Triggers>
 						<DataTrigger Binding="{Binding LayoutItem.LayoutElement.Root.Manager.AllowChangeLayout, RelativeSource={RelativeSource Self}}" Value="True">
-							<Setter TargetName="border" Property="ContextMenu" Value="{Binding LayoutElement.Root.Manager.DocumentContextMenu}" />
+							<Setter TargetName="PART_DropDownControlArea" Property="DropDownContextMenu" Value="{Binding Root.Manager.DocumentContextMenu}" />
 							<Setter TargetName="border" Property="ToolTip" Value="{StaticResource DocumentToolTip}" />
 						</DataTrigger>
 					</ControlTemplate.Triggers>
