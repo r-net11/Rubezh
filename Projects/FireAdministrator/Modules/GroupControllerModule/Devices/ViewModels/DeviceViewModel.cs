@@ -55,12 +55,13 @@ namespace GKModule.ViewModels
 
 		static bool CheckNeedSave()
 		{
-			if (ServiceFactory.SaveService.FSChanged)
+			if (ServiceFactory.SaveService.GKChanged)
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == MessageBoxResult.Yes)
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactoryBase.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
+					ServiceFactory.SaveService.GKChanged = false;
 					return !cancelEventArgs.Cancel;
 				}
 				return false;

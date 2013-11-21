@@ -159,7 +159,7 @@ namespace GKProcessor
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					if (binProperty != null)
 					{
-						var paramValue = (ushort)binProperty.Value;
+						var paramValue = binProperty.Value;
 						if (driverProperty.IsLowByte)
 						{
 							paramValue = (ushort)(paramValue << 8);
@@ -188,21 +188,19 @@ namespace GKProcessor
 							        Value = paramValue,
 							    });
 						}
-						if (property != null)
+						if (property != null && property.Value != paramValue)
 						{
 							property.Value = paramValue;
 							property.DriverProperty = driverProperty;
 							if (property.DriverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
 								property.Value = (ushort)(property.Value > 0 ? 1 : 0);
+							descriptor.Device.OnAUParametersChanged();
 						}
 					}
 					else
-					{
 						return false;
-					}
 				}
 			}
-			descriptor.Device.OnAUParametersChanged();
 			return true;
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
