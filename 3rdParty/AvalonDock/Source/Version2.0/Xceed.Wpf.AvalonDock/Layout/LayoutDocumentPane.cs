@@ -30,6 +30,14 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 		public LayoutDocumentPane(LayoutContent firstChild)
 		{
+			var previousContainer = ((ILayoutPreviousContainer)firstChild).PreviousContainer as ILayoutPositionableElement;
+			if (previousContainer != null)
+			{
+				DockHeight = previousContainer.DockHeight;
+				DockMinHeight = previousContainer.DockMinHeight;
+				DockMinWidth = previousContainer.DockMinWidth;
+				DockWidth = previousContainer.DockWidth;
+			}
 			Children.Add(firstChild);
 		}
 

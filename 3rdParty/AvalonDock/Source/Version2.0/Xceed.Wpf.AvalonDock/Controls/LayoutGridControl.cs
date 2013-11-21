@@ -28,540 +28,535 @@ using System.Windows.Threading;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
-    public abstract class LayoutGridControl<T> : Grid, ILayoutControl where T : class, ILayoutPanelElement
-    {
-        static LayoutGridControl()
-        {
-        }
+	public abstract class LayoutGridControl<T> : Grid, ILayoutControl where T : class, ILayoutPanelElement
+	{
+		static LayoutGridControl()
+		{
+		}
 
-        internal LayoutGridControl(LayoutPositionableGroup<T> model, Orientation orientation)
-        {
-            if (model == null)
-                throw new ArgumentNullException("model");
+		internal LayoutGridControl(LayoutPositionableGroup<T> model, Orientation orientation)
+		{
+			if (model == null)
+				throw new ArgumentNullException("model");
 
-            _model = model;
-            _orientation = orientation;
+			_model = model;
+			_orientation = orientation;
 
-            FlowDirection = System.Windows.FlowDirection.LeftToRight;
-        }
+			FlowDirection = System.Windows.FlowDirection.LeftToRight;
+		}
 
-        LayoutPositionableGroup<T> _model;
-        public ILayoutElement Model
-        {
-            get { return _model; }
-        }
+		LayoutPositionableGroup<T> _model;
+		public ILayoutElement Model
+		{
+			get { return _model; }
+		}
 
-        Orientation _orientation;
+		Orientation _orientation;
 
-        public Orientation Orientation
-        {
-            get { return (_model as ILayoutOrientableGroup).Orientation; }
-        }
+		public Orientation Orientation
+		{
+			get { return (_model as ILayoutOrientableGroup).Orientation; }
+		}
 
-        bool _initialized;
-        ChildrenTreeChange? _asyncRefreshCalled;
+		bool _initialized;
+		ChildrenTreeChange? _asyncRefreshCalled;
 
-        bool AsyncRefreshCalled
-        {
-            get { return _asyncRefreshCalled != null; }
-        }
+		bool AsyncRefreshCalled
+		{
+			get { return _asyncRefreshCalled != null; }
+		}
 
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
+		protected override void OnInitialized(EventArgs e)
+		{
+			base.OnInitialized(e);
 
-            _model.ChildrenTreeChanged += (s, args) =>
-                {
-                    if (_asyncRefreshCalled.HasValue &&
-                        _asyncRefreshCalled.Value == args.Change)
-                        return;
-                    _asyncRefreshCalled = args.Change;
-                    Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _asyncRefreshCalled = null;
-                            UpdateChildren();
-                        }), DispatcherPriority.Normal, null);
-                };
+			_model.ChildrenTreeChanged += (s, args) =>
+				{
+					if (_asyncRefreshCalled.HasValue &&
+						_asyncRefreshCalled.Value == args.Change)
+						return;
+					_asyncRefreshCalled = args.Change;
+					Dispatcher.BeginInvoke(new Action(() =>
+						{
+							_asyncRefreshCalled = null;
+							UpdateChildren();
+						}), DispatcherPriority.Normal, null);
+				};
 
-            this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
-        }
+			this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
+			SizeChanged += new SizeChangedEventHandler(LayoutGridControl_SizeChanged);
+		}
 
-        void OnLayoutUpdated(object sender, EventArgs e)
-        {
-            var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
-            modelWithAtcualSize.ActualWidth = ActualWidth;
-            modelWithAtcualSize.ActualHeight = ActualHeight;
+		void LayoutGridControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
+			modelWithAtcualSize.ActualWidth = ActualWidth;
+			modelWithAtcualSize.ActualHeight = ActualHeight;
+		}
 
-            if (!_initialized)
-            {
-                _initialized = true;
-                UpdateChildren();
-            }
-        }
+		void OnLayoutUpdated(object sender, EventArgs e)
+		{
+			if (!_initialized)
+			{
+				_initialized = true;
+				UpdateChildren();
+			}
+		}
 
-        void UpdateChildren()
-        {
-            var alreadyContainedChildren = Children.OfType<ILayoutControl>().ToArray();
+		void UpdateChildren()
+		{
+			var alreadyContainedChildren = Children.OfType<ILayoutControl>().ToArray();
 
-            DetachOldSplitters();
-            DetachPropertChangeHandler();
+			DetachOldSplitters();
+			DetachPropertChangeHandler();
 
-            Children.Clear();
-            ColumnDefinitions.Clear();
-            RowDefinitions.Clear();
+			Children.Clear();
+			ColumnDefinitions.Clear();
+			RowDefinitions.Clear();
 
-            if (_model == null ||
-                _model.Root == null)
-                return;
+			if (_model == null ||
+				_model.Root == null)
+				return;
 
-            var manager = _model.Root.Manager;
-            if (manager == null)
-                return;
-
-
-            foreach (ILayoutElement child in _model.Children)
-            {
-                var foundContainedChild = alreadyContainedChildren.FirstOrDefault(chVM => chVM.Model == child);
-                if (foundContainedChild != null)
-                    Children.Add(foundContainedChild as UIElement);
-                else
-                    Children.Add(manager.CreateUIElementForModel(child));
-            }
-
-            CreateSplitters();
-
-            UpdateRowColDefinitions();
-
-            AttachNewSplitters();
-            AttachPropertyChangeHandler();
-        }
-
-        private void AttachPropertyChangeHandler()
-        {
-            foreach (var child in InternalChildren.OfType<ILayoutControl>())
-            {
-                child.Model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.OnChildModelPropertyChanged);
-            }
-        }
-
-        private void DetachPropertChangeHandler()
-        {
-            foreach (var child in InternalChildren.OfType<ILayoutControl>())
-            {
-                child.Model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(this.OnChildModelPropertyChanged);
-            }
-        }
-
-        void OnChildModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (AsyncRefreshCalled)
-                return;
-
-            if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
-            {
-                if (ColumnDefinitions.Count == InternalChildren.Count)
-                {
-                    var changedElement = sender as ILayoutPositionableElement;
-                    var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
-                    int indexOfChild = InternalChildren.IndexOf(childFromModel);
-                    ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
-                }
-            }
-            else if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
-            {
-                if (RowDefinitions.Count == InternalChildren.Count)
-                {
-                    var changedElement = sender as ILayoutPositionableElement;
-                    var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
-                    int indexOfChild = InternalChildren.IndexOf(childFromModel);
-                    RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
-                }
-            }
-            else if (e.PropertyName == "IsVisible")
-            {
-                UpdateRowColDefinitions();
-            }
-        }
+			var manager = _model.Root.Manager;
+			if (manager == null)
+				return;
 
 
-        void UpdateRowColDefinitions()
-        {
-            var root = _model.Root;
-            if (root == null)
-                return;
-            var manager = root.Manager;
-            if (manager == null)
-                return;
+			foreach (ILayoutElement child in _model.Children)
+			{
+				var foundContainedChild = alreadyContainedChildren.FirstOrDefault(chVM => chVM.Model == child);
+				if (foundContainedChild != null)
+					Children.Add(foundContainedChild as UIElement);
+				else
+					Children.Add(manager.CreateUIElementForModel(child));
+			}
 
-            FixChildrenDockLengths();
+			CreateSplitters();
 
-            //Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
+			UpdateRowColDefinitions();
 
-            #region Setup GridRows/Cols
-            RowDefinitions.Clear();
-            ColumnDefinitions.Clear();
-            if (Orientation == Orientation.Horizontal)
-            {
-                int iColumn = 0;
-                int iChild = 0;
-                for (int iChildModel = 0; iChildModel < _model.Children.Count; iChildModel++, iColumn++, iChild++)
-                {
-                    var childModel = _model.Children[iChildModel] as ILayoutPositionableElement;
-                    ColumnDefinitions.Add(new ColumnDefinition()
-                    {
-                        Width = childModel.IsVisible ? childModel.DockWidth : new GridLength(0.0, GridUnitType.Pixel),
-                        MinWidth = childModel.IsVisible ? childModel.DockMinWidth : 0.0
-                    });
-                    Grid.SetColumn(InternalChildren[iChild], iColumn);
+			AttachNewSplitters();
+			AttachPropertyChangeHandler();
+		}
 
-                    //append column for splitter
-                    if (iChild < InternalChildren.Count - 1)
-                    {
-                        iChild++;
-                        iColumn++;
+		private void AttachPropertyChangeHandler()
+		{
+			foreach (var child in InternalChildren.OfType<ILayoutControl>())
+			{
+				child.Model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.OnChildModelPropertyChanged);
+			}
+		}
 
-                        bool nextChildModelVisibleExist = false;
-                        for (int i = iChildModel + 1; i < _model.Children.Count; i++)
-                        {
-                            var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
-                            if (nextChildModel.IsVisible)
-                            {
-                                nextChildModelVisibleExist = true;
-                                break;
-                            }
-                        }
+		private void DetachPropertChangeHandler()
+		{
+			foreach (var child in InternalChildren.OfType<ILayoutControl>())
+			{
+				child.Model.PropertyChanged -= new System.ComponentModel.PropertyChangedEventHandler(this.OnChildModelPropertyChanged);
+			}
+		}
 
-                        ColumnDefinitions.Add(new ColumnDefinition()
-                        {
-                            Width = childModel.IsVisible && nextChildModelVisibleExist ? new GridLength(manager.GridSplitterWidth) : new GridLength(0.0, GridUnitType.Pixel)
-                        });
-                        Grid.SetColumn(InternalChildren[iChild], iColumn);
-                    }
-                }
-            }
-            else //if (_model.Orientation == Orientation.Vertical)
-            {
-                int iRow = 0;
-                int iChild = 0;
-                for (int iChildModel = 0; iChildModel < _model.Children.Count; iChildModel++, iRow++, iChild++)
-                {
-                    var childModel = _model.Children[iChildModel] as ILayoutPositionableElement;
-                    RowDefinitions.Add(new RowDefinition()
-                    {
-                        Height = childModel.IsVisible ? childModel.DockHeight : new GridLength(0.0, GridUnitType.Pixel),
-                        MinHeight = childModel.IsVisible ? childModel.DockMinHeight : 0.0
-                    });
-                    Grid.SetRow(InternalChildren[iChild], iRow);
+		void OnChildModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (AsyncRefreshCalled)
+				return;
 
-                    //if (RowDefinitions.Last().Height.Value == 0.0)
-                    //    System.Diagnostics.Debugger.Break();
+			if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
+			{
+				if (ColumnDefinitions.Count == InternalChildren.Count)
+				{
+					var changedElement = sender as ILayoutPositionableElement;
+					var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
+					int indexOfChild = InternalChildren.IndexOf(childFromModel);
+					ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
+				}
+			}
+			else if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
+			{
+				if (RowDefinitions.Count == InternalChildren.Count)
+				{
+					var changedElement = sender as ILayoutPositionableElement;
+					var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
+					int indexOfChild = InternalChildren.IndexOf(childFromModel);
+					RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
+				}
+			}
+			else if (e.PropertyName == "IsVisible")
+			{
+				UpdateRowColDefinitions();
+			}
+		}
 
-                    //append row for splitter (if necessary)
-                    if (iChild < InternalChildren.Count - 1)
-                    {
-                        iChild++;
-                        iRow++;
 
-                        bool nextChildModelVisibleExist = false;
-                        for (int i = iChildModel + 1; i < _model.Children.Count; i++)
-                        {
-                            var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
-                            if (nextChildModel.IsVisible)
-                            {
-                                nextChildModelVisibleExist = true;
-                                break;
-                            }
-                        }
+		void UpdateRowColDefinitions()
+		{
+			var root = _model.Root;
+			if (root == null)
+				return;
+			var manager = root.Manager;
+			if (manager == null)
+				return;
 
-                        RowDefinitions.Add(new RowDefinition()
-                        {
-                            Height = childModel.IsVisible && nextChildModelVisibleExist ? new GridLength(manager.GridSplitterHeight) : new GridLength(0.0, GridUnitType.Pixel)
-                        });
-                        //if (RowDefinitions.Last().Height.Value == 0.0)
-                        //    System.Diagnostics.Debugger.Break();
-                        Grid.SetRow(InternalChildren[iChild], iRow);
-                    }
-                }
-            }
+			FixChildrenDockLengths();
 
-            #endregion
-        }
+			//Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
 
-        ReentrantFlag _fixingChildrenDockLengths = new ReentrantFlag();
-        protected void FixChildrenDockLengths()
-        {
-            using (_fixingChildrenDockLengths.Enter())
-                OnFixChildrenDockLengths();
-        }
+			#region Setup GridRows/Cols
+			RowDefinitions.Clear();
+			ColumnDefinitions.Clear();
+			if (Orientation == Orientation.Horizontal)
+			{
+				int iColumn = 0;
+				int iChild = 0;
+				for (int iChildModel = 0; iChildModel < _model.Children.Count; iChildModel++, iColumn++, iChild++)
+				{
+					var childModel = _model.Children[iChildModel] as ILayoutPositionableElement;
+					ColumnDefinitions.Add(new ColumnDefinition()
+					{
+						Width = childModel.IsVisible ? childModel.DockWidth : new GridLength(0.0, GridUnitType.Pixel),
+						MinWidth = childModel.IsVisible ? childModel.DockMinWidth : 0.0
+					});
+					Grid.SetColumn(InternalChildren[iChild], iColumn);
 
-        protected abstract void OnFixChildrenDockLengths();
+					//append column for splitter
+					if (iChild < InternalChildren.Count - 1)
+					{
+						iChild++;
+						iColumn++;
 
-        #region Splitters
+						ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth) });
+						Grid.SetColumn(InternalChildren[iChild], iColumn);
+						bool nextChildModelVisibleExist = false;
+						if (childModel.IsVisible && childModel.DockWidth != GridLength.Auto)
+							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
+							{
+								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
+								if (nextChildModel.IsVisible && nextChildModel.DockWidth != GridLength.Auto)
+								{
+									nextChildModelVisibleExist = true;
+									break;
+								}
+							}
+						InternalChildren[iChild].Visibility = nextChildModelVisibleExist ? Visibility.Visible : Visibility.Collapsed;
+					}
+				}
+			}
+			else //if (_model.Orientation == Orientation.Vertical)
+			{
+				int iRow = 0;
+				int iChild = 0;
+				for (int iChildModel = 0; iChildModel < _model.Children.Count; iChildModel++, iRow++, iChild++)
+				{
+					var childModel = _model.Children[iChildModel] as ILayoutPositionableElement;
+					RowDefinitions.Add(new RowDefinition()
+					{
+						Height = childModel.IsVisible ? childModel.DockHeight : new GridLength(0.0, GridUnitType.Pixel),
+						MinHeight = childModel.IsVisible ? childModel.DockMinHeight : 0.0
+					});
+					Grid.SetRow(InternalChildren[iChild], iRow);
 
-        void CreateSplitters()
-        {
-            for (int iChild = 1; iChild < Children.Count; iChild++)
-            {
-                var splitter = new LayoutGridResizerControl();
-                splitter.Cursor = this.Orientation == Orientation.Horizontal ? Cursors.SizeWE : Cursors.SizeNS;
-                Children.Insert(iChild, splitter);
-                iChild++;
-            }
-        }
+					//append row for splitter (if necessary)
+					if (iChild < InternalChildren.Count - 1)
+					{
+						iChild++;
+						iRow++;
 
-        void DetachOldSplitters()
-        {
-            foreach (var splitter in Children.OfType<LayoutGridResizerControl>())
-            {
-                splitter.DragStarted -= new System.Windows.Controls.Primitives.DragStartedEventHandler(OnSplitterDragStarted);
-                splitter.DragDelta -= new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnSplitterDragDelta);
-                splitter.DragCompleted -= new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnSplitterDragCompleted);
-            }
-        }
+						RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
+						Grid.SetRow(InternalChildren[iChild], iRow);
+						bool nextChildModelVisibleExist = false;
+						if (childModel.IsVisible && childModel.DockHeight != GridLength.Auto)
+							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
+							{
+								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
+								if (nextChildModel.IsVisible && nextChildModel.DockHeight != GridLength.Auto)
+								{
+									nextChildModelVisibleExist = true;
+									break;
+								}
+							}
+						InternalChildren[iChild].Visibility = nextChildModelVisibleExist ? Visibility.Visible : Visibility.Collapsed;
+					}
+				}
+			}
 
-        void AttachNewSplitters()
-        {
-            foreach (var splitter in Children.OfType<LayoutGridResizerControl>())
-            {
-                splitter.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnSplitterDragStarted);
-                splitter.DragDelta += new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnSplitterDragDelta);
-                splitter.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnSplitterDragCompleted);
-            }
-        }
+			#endregion
+		}
 
-        void OnSplitterDragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
-        {
-            var resizer = sender as LayoutGridResizerControl;
-            ShowResizerOverlayWindow(resizer);
-        }
+		ReentrantFlag _fixingChildrenDockLengths = new ReentrantFlag();
+		protected void FixChildrenDockLengths()
+		{
+			using (_fixingChildrenDockLengths.Enter())
+				OnFixChildrenDockLengths();
+		}
 
-        void OnSplitterDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
-            var rootVisual = this.FindVisualTreeRoot() as Visual;
+		protected abstract void OnFixChildrenDockLengths();
 
-            var trToWnd = TransformToAncestor(rootVisual);
-            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
-                trToWnd.Transform(new Point());
+		#region Splitters
 
-            if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-            {
-                Canvas.SetLeft(_resizerGhost, MathHelper.MinMax(_initialStartPoint.X + transformedDelta.X, 0.0, _resizerWindowHost.Width - _resizerGhost.Width));
-            }
-            else
-            {
-                Canvas.SetTop(_resizerGhost, MathHelper.MinMax(_initialStartPoint.Y + transformedDelta.Y, 0.0, _resizerWindowHost.Height - _resizerGhost.Height));
-            }
-        }
+		void CreateSplitters()
+		{
+			for (int iChild = 1; iChild < Children.Count; iChild++)
+			{
+				var splitter = new LayoutGridResizerControl();
+				splitter.Cursor = this.Orientation == Orientation.Horizontal ? Cursors.SizeWE : Cursors.SizeNS;
+				Children.Insert(iChild, splitter);
+				iChild++;
+			}
+		}
 
-        void OnSplitterDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
-        {
-            LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
-            var rootVisual = this.FindVisualTreeRoot() as Visual;
+		void DetachOldSplitters()
+		{
+			foreach (var splitter in Children.OfType<LayoutGridResizerControl>())
+			{
+				splitter.DragStarted -= new System.Windows.Controls.Primitives.DragStartedEventHandler(OnSplitterDragStarted);
+				splitter.DragDelta -= new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnSplitterDragDelta);
+				splitter.DragCompleted -= new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnSplitterDragCompleted);
+			}
+		}
 
-            var trToWnd = TransformToAncestor(rootVisual);
-            Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
-                trToWnd.Transform(new Point());
+		void AttachNewSplitters()
+		{
+			foreach (var splitter in Children.OfType<LayoutGridResizerControl>())
+			{
+				splitter.DragStarted += new System.Windows.Controls.Primitives.DragStartedEventHandler(OnSplitterDragStarted);
+				splitter.DragDelta += new System.Windows.Controls.Primitives.DragDeltaEventHandler(OnSplitterDragDelta);
+				splitter.DragCompleted += new System.Windows.Controls.Primitives.DragCompletedEventHandler(OnSplitterDragCompleted);
+			}
+		}
 
-            double delta;
-            if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-                delta = Canvas.GetLeft(_resizerGhost) - _initialStartPoint.X;
-            else
-                delta = Canvas.GetTop(_resizerGhost) - _initialStartPoint.Y;
+		void OnSplitterDragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+		{
+			var resizer = sender as LayoutGridResizerControl;
+			ShowResizerOverlayWindow(resizer);
+		}
 
-            int indexOfResizer = InternalChildren.IndexOf(splitter);
+		void OnSplitterDragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+		{
+			LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
+			var rootVisual = this.FindVisualTreeRoot() as Visual;
 
-            var prevChild = InternalChildren[indexOfResizer - 1] as FrameworkElement;
-            var nextChild = GetNextVisibleChild(indexOfResizer);
+			var trToWnd = TransformToAncestor(rootVisual);
+			Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
+				trToWnd.Transform(new Point());
 
-            var prevChildActualSize = prevChild.TransformActualSizeToAncestor();
-            var nextChildActualSize = nextChild.TransformActualSizeToAncestor();
+			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+			{
+				Canvas.SetLeft(_resizerGhost, MathHelper.MinMax(_initialStartPoint.X + transformedDelta.X, 0.0, _resizerWindowHost.Width - _resizerGhost.Width));
+			}
+			else
+			{
+				Canvas.SetTop(_resizerGhost, MathHelper.MinMax(_initialStartPoint.Y + transformedDelta.Y, 0.0, _resizerWindowHost.Height - _resizerGhost.Height));
+			}
+		}
 
-            var prevChildModel = (ILayoutPositionableElement)(prevChild as ILayoutControl).Model;
-            var nextChildModel = (ILayoutPositionableElement)(nextChild as ILayoutControl).Model;
+		void OnSplitterDragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+		{
+			LayoutGridResizerControl splitter = sender as LayoutGridResizerControl;
+			var rootVisual = this.FindVisualTreeRoot() as Visual;
 
-            if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-            {
-              //Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockWidth));
-                if (prevChildModel.DockWidth.IsStar)
-                {
-                    prevChildModel.DockWidth = new GridLength(prevChildModel.DockWidth.Value * (prevChildActualSize.Width + delta) / prevChildActualSize.Width, GridUnitType.Star);
-                }
-                else
-                {
-                    prevChildModel.DockWidth = new GridLength(prevChildModel.DockWidth.Value + delta, GridUnitType.Pixel);
-                }
-                //Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockWidth));
+			var trToWnd = TransformToAncestor(rootVisual);
+			Vector transformedDelta = trToWnd.Transform(new Point(e.HorizontalChange, e.VerticalChange)) -
+				trToWnd.Transform(new Point());
 
-                //Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockWidth));
-                if (nextChildModel.DockWidth.IsStar)
-                {
-                    nextChildModel.DockWidth = new GridLength(nextChildModel.DockWidth.Value * (nextChildActualSize.Width - delta) / nextChildActualSize.Width, GridUnitType.Star);
-                }
-                else
-                {
-                    nextChildModel.DockWidth = new GridLength(nextChildModel.DockWidth.Value - delta, GridUnitType.Pixel);
-                }
-              //Trace.WriteLine(string.Format("NextChild To {0}", nextChildModel.DockWidth));
-            }
-            else
-            {
-              //Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockHeight));
-                if (prevChildModel.DockHeight.IsStar)
-                {
-                    prevChildModel.DockHeight = new GridLength(prevChildModel.DockHeight.Value * (prevChildActualSize.Height + delta) / prevChildActualSize.Height, GridUnitType.Star);
-                }
-                else
-                {
-                    prevChildModel.DockHeight = new GridLength(prevChildModel.DockHeight.Value + delta, GridUnitType.Pixel);
-                }
-                //Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockHeight));
+			double delta;
+			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+				delta = Canvas.GetLeft(_resizerGhost) - _initialStartPoint.X;
+			else
+				delta = Canvas.GetTop(_resizerGhost) - _initialStartPoint.Y;
 
-                //Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockHeight));
-                if (nextChildModel.DockHeight.IsStar)
-                {
-                    nextChildModel.DockHeight = new GridLength(nextChildModel.DockHeight.Value * (nextChildActualSize.Height - delta) / nextChildActualSize.Height, GridUnitType.Star);
-                }
-                else
-                {
-                    nextChildModel.DockHeight = new GridLength(nextChildModel.DockHeight.Value - delta, GridUnitType.Pixel);
-                }
-              //Trace.WriteLine(string.Format("NextChild To {0}", nextChildModel.DockHeight));
-            }
+			int indexOfResizer = InternalChildren.IndexOf(splitter);
 
-            HideResizerOverlayWindow();
+			var prevChild = InternalChildren[indexOfResizer - 1] as FrameworkElement;
+			var nextChild = GetNextVisibleChild(indexOfResizer);
+
+			var prevChildActualSize = prevChild.TransformActualSizeToAncestor();
+			var nextChildActualSize = nextChild.TransformActualSizeToAncestor();
+
+			var prevChildModel = (ILayoutPositionableElement)(prevChild as ILayoutControl).Model;
+			var nextChildModel = (ILayoutPositionableElement)(nextChild as ILayoutControl).Model;
+
+			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+			{
+				//Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockWidth));
+				if (prevChildModel.DockWidth.IsStar)
+				{
+					prevChildModel.DockWidth = new GridLength(prevChildModel.DockWidth.Value * (prevChildActualSize.Width + delta) / prevChildActualSize.Width, GridUnitType.Star);
+				}
+				else
+				{
+					prevChildModel.DockWidth = new GridLength(prevChildModel.DockWidth.Value + delta, GridUnitType.Pixel);
+				}
+				//Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockWidth));
+
+				//Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockWidth));
+				if (nextChildModel.DockWidth.IsStar)
+				{
+					nextChildModel.DockWidth = new GridLength(nextChildModel.DockWidth.Value * (nextChildActualSize.Width - delta) / nextChildActualSize.Width, GridUnitType.Star);
+				}
+				else
+				{
+					nextChildModel.DockWidth = new GridLength(nextChildModel.DockWidth.Value - delta, GridUnitType.Pixel);
+				}
+				//Trace.WriteLine(string.Format("NextChild To {0}", nextChildModel.DockWidth));
+			}
+			else
+			{
+				//Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockHeight));
+				if (prevChildModel.DockHeight.IsStar)
+				{
+					prevChildModel.DockHeight = new GridLength(prevChildModel.DockHeight.Value * (prevChildActualSize.Height + delta) / prevChildActualSize.Height, GridUnitType.Star);
+				}
+				else
+				{
+					prevChildModel.DockHeight = new GridLength(prevChildModel.DockHeight.Value + delta, GridUnitType.Pixel);
+				}
+				//Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockHeight));
+
+				//Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockHeight));
+				if (nextChildModel.DockHeight.IsStar)
+				{
+					nextChildModel.DockHeight = new GridLength(nextChildModel.DockHeight.Value * (nextChildActualSize.Height - delta) / nextChildActualSize.Height, GridUnitType.Star);
+				}
+				else
+				{
+					nextChildModel.DockHeight = new GridLength(nextChildModel.DockHeight.Value - delta, GridUnitType.Pixel);
+				}
+				//Trace.WriteLine(string.Format("NextChild To {0}", nextChildModel.DockHeight));
+			}
+
+			HideResizerOverlayWindow();
 			var manager = _model.Root.Manager;
 			if (manager != null)
 				manager.OnLayoutConfigurationChanged();
-        }
+		}
 
-        Border _resizerGhost = null;
-        Window _resizerWindowHost = null;
-        Vector _initialStartPoint;
+		Border _resizerGhost = null;
+		Window _resizerWindowHost = null;
+		Vector _initialStartPoint;
 
-        FrameworkElement GetNextVisibleChild(int index)
-        {
-            for (int i = index + 1; i < InternalChildren.Count; i++)
-            {
-                if (InternalChildren[i] is LayoutGridResizerControl)
-                    continue;
+		FrameworkElement GetNextVisibleChild(int index)
+		{
+			for (int i = index + 1; i < InternalChildren.Count; i++)
+			{
+				if (InternalChildren[i] is LayoutGridResizerControl)
+					continue;
 
-                if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-                {
-                    if (ColumnDefinitions[i].Width.IsStar || ColumnDefinitions[i].Width.Value > 0)
-                        return InternalChildren[i] as FrameworkElement;
-                }
-                else
-                {
-                    if (RowDefinitions[i].Height.IsStar || RowDefinitions[i].Height.Value > 0)
-                        return InternalChildren[i] as FrameworkElement;
-                }
-            }
+				if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+				{
+					if (ColumnDefinitions[i].Width.IsStar || ColumnDefinitions[i].Width.Value > 0)
+						return InternalChildren[i] as FrameworkElement;
+				}
+				else
+				{
+					if (RowDefinitions[i].Height.IsStar || RowDefinitions[i].Height.Value > 0)
+						return InternalChildren[i] as FrameworkElement;
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        void ShowResizerOverlayWindow(LayoutGridResizerControl splitter)
-        {
-            _resizerGhost = new Border()
-            {
-                Background = splitter.BackgroundWhileDragging,
-                Opacity = splitter.OpacityWhileDragging
-            };
+		void ShowResizerOverlayWindow(LayoutGridResizerControl splitter)
+		{
+			_resizerGhost = new Border()
+			{
+				Background = splitter.BackgroundWhileDragging,
+				Opacity = splitter.OpacityWhileDragging
+			};
 
-            int indexOfResizer = InternalChildren.IndexOf(splitter);
+			int indexOfResizer = InternalChildren.IndexOf(splitter);
 
-            var prevChild = InternalChildren[indexOfResizer - 1] as FrameworkElement;
-            var nextChild = GetNextVisibleChild(indexOfResizer);
+			var prevChild = InternalChildren[indexOfResizer - 1] as FrameworkElement;
+			var nextChild = GetNextVisibleChild(indexOfResizer);
 
-            var prevChildActualSize = prevChild.TransformActualSizeToAncestor();
-            var nextChildActualSize = nextChild.TransformActualSizeToAncestor();
+			var prevChildActualSize = prevChild.TransformActualSizeToAncestor();
+			var nextChildActualSize = nextChild.TransformActualSizeToAncestor();
 
-            var prevChildModel = (ILayoutPositionableElement)(prevChild as ILayoutControl).Model;
-            var nextChildModel = (ILayoutPositionableElement)(nextChild as ILayoutControl).Model;
+			var prevChildModel = (ILayoutPositionableElement)(prevChild as ILayoutControl).Model;
+			var nextChildModel = (ILayoutPositionableElement)(nextChild as ILayoutControl).Model;
 
-            Point ptTopLeftScreen = prevChild.PointToScreenDPIWithoutFlowDirection(new Point());
+			Point ptTopLeftScreen = prevChild.PointToScreenDPIWithoutFlowDirection(new Point());
 
-            Size actualSize;
+			Size actualSize;
 
-            if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-            {
-                actualSize = new Size(
-                    prevChildActualSize.Width - prevChildModel.DockMinWidth + splitter.ActualWidth + nextChildActualSize.Width - nextChildModel.DockMinWidth,
-                    nextChildActualSize.Height);
+			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+			{
+				actualSize = new Size(
+					prevChildActualSize.Width - prevChildModel.DockMinWidth + splitter.ActualWidth + nextChildActualSize.Width - nextChildModel.DockMinWidth,
+					nextChildActualSize.Height);
 
-                _resizerGhost.Width = splitter.ActualWidth;
-                _resizerGhost.Height = actualSize.Height;
-                ptTopLeftScreen.Offset(prevChildModel.DockMinWidth, 0.0);
-            }
-            else
-            {
-                actualSize = new Size(
-                    prevChildActualSize.Width,
-                    prevChildActualSize.Height - prevChildModel.DockMinHeight + splitter.ActualHeight + nextChildActualSize.Height - nextChildModel.DockMinHeight);
+				_resizerGhost.Width = splitter.ActualWidth;
+				_resizerGhost.Height = actualSize.Height;
+				ptTopLeftScreen.Offset(prevChildModel.DockMinWidth, 0.0);
+			}
+			else
+			{
+				actualSize = new Size(
+					prevChildActualSize.Width,
+					prevChildActualSize.Height - prevChildModel.DockMinHeight + splitter.ActualHeight + nextChildActualSize.Height - nextChildModel.DockMinHeight);
 
-                _resizerGhost.Height = splitter.ActualHeight;
-                _resizerGhost.Width = actualSize.Width;
+				_resizerGhost.Height = splitter.ActualHeight;
+				_resizerGhost.Width = actualSize.Width;
 
-                ptTopLeftScreen.Offset(0.0, prevChildModel.DockMinHeight);
-            }
+				ptTopLeftScreen.Offset(0.0, prevChildModel.DockMinHeight);
+			}
 
-            _initialStartPoint = splitter.PointToScreenDPIWithoutFlowDirection(new Point()) - ptTopLeftScreen;
+			_initialStartPoint = splitter.PointToScreenDPIWithoutFlowDirection(new Point()) - ptTopLeftScreen;
 
-            if (Orientation == System.Windows.Controls.Orientation.Horizontal)
-            {
-                Canvas.SetLeft(_resizerGhost, _initialStartPoint.X);
-            }
-            else
-            {
-                Canvas.SetTop(_resizerGhost, _initialStartPoint.Y);
-            }
+			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
+			{
+				Canvas.SetLeft(_resizerGhost, _initialStartPoint.X);
+			}
+			else
+			{
+				Canvas.SetTop(_resizerGhost, _initialStartPoint.Y);
+			}
 
-            Canvas panelHostResizer = new Canvas()
-            {
-                HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
-                VerticalAlignment = System.Windows.VerticalAlignment.Stretch
-            };
+			Canvas panelHostResizer = new Canvas()
+			{
+				HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch,
+				VerticalAlignment = System.Windows.VerticalAlignment.Stretch
+			};
 
-            panelHostResizer.Children.Add(_resizerGhost);
-
-
-            _resizerWindowHost = new Window()
-            {
-                SizeToContent = System.Windows.SizeToContent.Manual,
-                ResizeMode = ResizeMode.NoResize,
-                WindowStyle = System.Windows.WindowStyle.None,
-                ShowInTaskbar = false,
-                AllowsTransparency = true,
-                Background = null,
-                Width = actualSize.Width,
-                Height = actualSize.Height,
-                Left = ptTopLeftScreen.X,
-                Top = ptTopLeftScreen.Y,
-                ShowActivated = false,
-                //Owner = Window.GetWindow(this),
-                Content = panelHostResizer
-            };
-            _resizerWindowHost.Loaded += (s, e) =>
-                {
-                    _resizerWindowHost.SetParentToMainWindowOf(this);
-                };
-            _resizerWindowHost.Show();
-        }
-
-        void HideResizerOverlayWindow()
-        {
-            if (_resizerWindowHost != null)
-            {
-                _resizerWindowHost.Close();
-                _resizerWindowHost = null;
-            }
-        }
-
-        #endregion
+			panelHostResizer.Children.Add(_resizerGhost);
 
 
+			_resizerWindowHost = new Window()
+			{
+				SizeToContent = System.Windows.SizeToContent.Manual,
+				ResizeMode = ResizeMode.NoResize,
+				WindowStyle = System.Windows.WindowStyle.None,
+				ShowInTaskbar = false,
+				AllowsTransparency = true,
+				Background = null,
+				Width = actualSize.Width,
+				Height = actualSize.Height,
+				Left = ptTopLeftScreen.X,
+				Top = ptTopLeftScreen.Y,
+				ShowActivated = false,
+				//Owner = Window.GetWindow(this),
+				Content = panelHostResizer
+			};
+			_resizerWindowHost.Loaded += (s, e) =>
+				{
+					_resizerWindowHost.SetParentToMainWindowOf(this);
+				};
+			_resizerWindowHost.Show();
+		}
+
+		void HideResizerOverlayWindow()
+		{
+			if (_resizerWindowHost != null)
+			{
+				_resizerWindowHost.Close();
+				_resizerWindowHost = null;
+			}
+		}
+
+		#endregion
 
 
-    }
+
+
+	}
 }

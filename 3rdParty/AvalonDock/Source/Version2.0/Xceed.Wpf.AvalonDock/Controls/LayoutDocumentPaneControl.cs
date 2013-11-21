@@ -44,13 +44,18 @@ namespace Xceed.Wpf.AvalonDock.Controls
             SetBinding(FlowDirectionProperty, new Binding("Model.Root.Manager.FlowDirection") { Source = this });
 
             this.LayoutUpdated += new EventHandler(OnLayoutUpdated);
+			SizeChanged += new SizeChangedEventHandler(LayoutDocumentPaneControl_SizeChanged);
         }
+
+		void LayoutDocumentPaneControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
+			modelWithAtcualSize.ActualWidth = ActualWidth;
+			modelWithAtcualSize.ActualHeight = ActualHeight;
+		}
 
         void OnLayoutUpdated(object sender, EventArgs e)
         {
-            var modelWithAtcualSize = _model as ILayoutPositionableElementWithActualSize;
-            modelWithAtcualSize.ActualWidth = ActualWidth;
-            modelWithAtcualSize.ActualHeight = ActualHeight;
         }
 
         protected override void OnGotKeyboardFocus(System.Windows.Input.KeyboardFocusChangedEventArgs e)

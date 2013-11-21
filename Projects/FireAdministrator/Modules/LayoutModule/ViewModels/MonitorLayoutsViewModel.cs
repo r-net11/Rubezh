@@ -20,6 +20,7 @@ namespace LayoutModule.ViewModels
 	{
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
 		public MonitorLayoutsTreeViewModel MonitorLayoutsTreeViewModel { get; private set; }
+		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
 		public MonitorLayoutsViewModel()
 		{
@@ -46,6 +47,7 @@ namespace LayoutModule.ViewModels
 		{
 			using (new TimeCounter("MonitorLayoutsViewModel.Initialize: {0}"))
 			{
+				LayoutUsersViewModel = new LayoutUsersViewModel();
 				Layouts = new ObservableCollection<LayoutViewModel>();
 				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
 				view.CustomSort = new LayoutViewModelComparer();
@@ -101,7 +103,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var layoutDetailsViewModel = new LayoutPropertiesViewModel(null);
+			var layoutDetailsViewModel = new LayoutPropertiesViewModel(null, LayoutUsersViewModel);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
 				OnLayoutPaste(layoutDetailsViewModel.Layout);
 		}
@@ -114,7 +116,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout)))
+			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout, LayoutUsersViewModel)))
 			{
 				SelectedLayout.Update();
 				MonitorLayoutViewModel.Update();

@@ -13,14 +13,16 @@
 						</StackPanel>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem Command="{Binding AddCommand}">
+				<!--
+					<MenuItem Command="{Binding AddCommand}">
 					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить шаблон" />
-						</StackPanel>
+					<StackPanel Orientation="Horizontal">
+					<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+					<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить шаблон" />
+					</StackPanel>
 					</MenuItem.Header>
-				</MenuItem>
+					</MenuItem>
+				-->
 				<MenuItem Command="{Binding RemoveCommand}">
 					<MenuItem.Header>
 						<StackPanel Orientation="Horizontal">
@@ -46,14 +48,16 @@
 						</StackPanel>
 					</MenuItem.Header>
 				</MenuItem>
-				<MenuItem Command="{Binding LayoutPasteCommand}" CommandParameter="{StaticResource False}" Visibility="{Binding SelectedLayout.IsFolder, Converter={StaticResource BoolToVisibilityConverter}}">
+				<!--
+					<MenuItem Command="{Binding LayoutPasteCommand}">
 					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
-						</StackPanel>
+					<StackPanel Orientation="Horizontal">
+					<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+					<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
+					</StackPanel>
 					</MenuItem.Header>
-				</MenuItem>
+					</MenuItem>
+				-->
 			</ContextMenu>
 		</ListView.Resources>
 		<ListView.ItemContainerStyle>

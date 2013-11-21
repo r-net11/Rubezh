@@ -4,6 +4,7 @@ using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Client.Layout.ViewModels;
+using System.Windows;
 
 namespace LayoutModule.ViewModels
 {
@@ -47,5 +48,8 @@ namespace LayoutModule.ViewModels
 		{
 			get { return LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource }; }
 		}
+
+		public GridLength Width { get; set; }
+		public GridLength Height { get; set; }
 	}
 }

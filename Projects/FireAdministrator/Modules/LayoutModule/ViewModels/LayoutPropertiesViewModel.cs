@@ -6,11 +6,14 @@ namespace LayoutModule.ViewModels
 	public class LayoutPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		public Layout Layout { get; private set; }
+		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
-		public LayoutPropertiesViewModel(Layout layout)
+		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel)
 		{
 			Title = "Свойства элемента: Шаблон интерфейса ОЗ";
 			Layout = layout ?? new Layout();
+			LayoutUsersViewModel = layoutUsersViewModel;
+			LayoutUsersViewModel.Update(Layout);
 			CopyProperties();
 		}
 

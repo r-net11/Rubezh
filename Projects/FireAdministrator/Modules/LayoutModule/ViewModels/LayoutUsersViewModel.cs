@@ -19,7 +19,6 @@ namespace LayoutModule.ViewModels
 		{
 			Update();
 			_locked = false;
-			//ServiceFactory.SaveService.Changed+=new Action(SaveService_Changed);
 		}
 
 		private ObservableCollection<LayoutUserViewModel> _users;

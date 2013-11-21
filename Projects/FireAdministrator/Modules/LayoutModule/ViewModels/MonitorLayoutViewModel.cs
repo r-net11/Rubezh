@@ -7,13 +7,11 @@ namespace LayoutModule.ViewModels
 	{
 		public LayoutDesignerViewModel LayoutDesignerViewModel { get; private set; }
 		public LayoutElementsViewModel LayoutElementsViewModel { get; private set; }
-		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
 		public MonitorLayoutViewModel()
 		{
 			LayoutElementsViewModel = new LayoutElementsViewModel();
 			LayoutDesignerViewModel = new LayoutDesignerViewModel(LayoutElementsViewModel);
-			LayoutUsersViewModel = new LayoutUsersViewModel();
 		}
 
 		private LayoutViewModel _layoutViewModel;
@@ -36,7 +34,6 @@ namespace LayoutModule.ViewModels
 		public void Update()
 		{
 			LayoutDesignerViewModel.Update(Layout);
-			LayoutUsersViewModel.Update(Layout);
 			LayoutElementsViewModel.Update(Layout);
 		}
 	}

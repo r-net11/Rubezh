@@ -33,7 +33,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			OnPropertyChanged(ExtractPropertyName(propertyExpression));
 		}
 
-		protected static string ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
+		private static string ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
 		{
 			if (propertyExpression == null)
 				throw new ArgumentNullException("propertyExpression");
