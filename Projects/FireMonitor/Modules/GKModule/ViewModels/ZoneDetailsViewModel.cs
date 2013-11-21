@@ -77,30 +77,39 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
-		void OnResetFire()
-		{
-			ObjectCommandSendHelper.Reset(Zone);
-		}
+        void OnResetFire()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.Reset(Zone);
+            }
+        }
 		bool CanResetFire()
 		{
 			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Zone);
-		}
+        void OnSetIgnore()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.SetIgnoreRegime(Zone);
+            }
+        }
 		bool CanSetIgnore()
 		{
 			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
-		void OnResetIgnore()
-		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Zone);
-		}
+        void OnResetIgnore()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.SetAutomaticRegime(Zone);
+            }
+        }
 		bool CanResetIgnore()
 		{
 			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);

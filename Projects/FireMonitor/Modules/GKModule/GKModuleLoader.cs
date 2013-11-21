@@ -172,8 +172,7 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
-			WatcherManager.IsConfigurationReloading = true;
+			GKServiceManager.GKService.StartConfigurationReloading();
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
@@ -185,7 +184,7 @@ namespace GKModule
 					delay.DelayState = new XDelayState();
 				}
 			}
-			WatcherManager.IsConfigurationReloading = false;
+			GKServiceManager.GKService.StopConfigurationReloading();
 			if (firstTime)
 				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
@@ -194,7 +193,7 @@ namespace GKModule
 		public override void AfterInitialize()
 		{
 			AlarmsViewModel.SubscribeShortcuts();
-			WatcherManager.Start();
+			GKServiceManager.GKService.Start();
 			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();

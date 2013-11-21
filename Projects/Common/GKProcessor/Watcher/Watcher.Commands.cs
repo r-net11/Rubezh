@@ -10,29 +10,20 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-        public static bool SendControlCommand(XBase xBase, XStateBit stateType, bool mustValidatePassword = true)
+        public static void SendControlCommand(XBase xBase, XStateBit stateType)
         {
             var code = 0x80 + (int)stateType;
-            return SendControlCommand(xBase, (byte)code, mustValidatePassword);
+            SendControlCommand(xBase, (byte)code);
         }
 
-        public static bool SendControlCommand(XBase xBase, byte code, bool mustValidatePassword = true)
+        public static void SendControlCommand(XBase xBase, byte code)
         {
             var bytes = new List<byte>();
             var databaseNo = xBase.GKDescriptorNo;
             bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
             bytes.Add(code);
 
-            var result = true;
-            if (mustValidatePassword)
-            {
-                result = ServiceFactoryBase.SecurityService != null && ServiceFactoryBase.SecurityService.Validate();
-            }
-            if (result)
-            {
                 WatcherManager.Send(OnCompleted, SendPriority.Normal, xBase.GkDatabaseParent, 3, 13, 0, bytes);
-            }
-            return result;
         }
 
         public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
@@ -52,7 +43,7 @@ namespace GKProcessor
             {
                 ApplicationService.BeginInvoke(() =>
                 {
-                    MessageBoxService.ShowError("Ошибка при выполнении операции");
+                    //MessageBoxService.ShowError("Ошибка при выполнении операции");
                 });
             }
         }

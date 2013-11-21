@@ -158,6 +158,7 @@
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="FiresecException.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
+    <Compile Include="IGKService.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />
@@ -329,7 +330,7 @@
     <Compile Include="Models\Driver\Parameter.cs" />
     <Compile Include="Models\Driver\Property.cs" />
     <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="StateType.cs" />
+    <Compile Include="Models\StateType.cs" />
     <Compile Include="Models\Security\User.cs" />
     <Compile Include="Models\Zone\Zone.cs" />
     <Compile Include="Models\Zone\ZoneLogic.cs" />

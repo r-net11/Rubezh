@@ -199,8 +199,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
 		void OnResetIgnoreAll()
 		{
-			if (ServiceFactoryBase.SecurityService != null && ServiceFactoryBase.SecurityService.Validate())
-			{
+            if (ServiceFactory.SecurityService.Validate())
+            {
 				foreach (var device in XManager.Devices)
 				{
 					if (!device.Driver.IsDeviceOnShleif)
@@ -208,7 +208,7 @@ namespace GKModule.ViewModels
 
 					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+						ObjectCommandSendHelper.SetAutomaticRegime(device);
 					}
 				}
 
@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 				{
 					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(zone, false);
+						ObjectCommandSendHelper.SetAutomaticRegime(zone);
 					}
 				}
 
@@ -224,7 +224,7 @@ namespace GKModule.ViewModels
 				{
 					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(direction, false);
+						ObjectCommandSendHelper.SetAutomaticRegime(direction);
 					}
 				}
 			}
@@ -268,46 +268,36 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void ResetAll()
-		{
-			if (CanResetAll())
-			{
-				var passwordValidated = false;
-				foreach (var zone in XManager.Zones)
-				{
-					if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire1))
-					{
-						if (!passwordValidated)
-							passwordValidated = ServiceFactory.SecurityService.Validate();
-
-						if (passwordValidated)
-							ObjectCommandSendHelper.ResetFire1(zone, false);
-					}
-					if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
-					{
-						if (!passwordValidated)
-							passwordValidated = ServiceFactory.SecurityService.Validate();
-
-						if (passwordValidated)
-							ObjectCommandSendHelper.ResetFire2(zone, false);
-					}
-				}
-				foreach (var device in XManager.Devices)
-				{
-					if (device.DriverType == XDriverType.AMP_1)
-					{
-						if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
-						{
-							if (!passwordValidated)
-								passwordValidated = ServiceFactory.SecurityService.Validate();
-
-							if (passwordValidated)
-								ObjectCommandSendHelper.Reset(device);
-						}
-					}
-				}
-			}
-		}
+        public void ResetAll()
+        {
+            if (CanResetAll())
+            {
+                if (ServiceFactory.SecurityService.Validate())
+                {
+                    foreach (var zone in XManager.Zones)
+                    {
+                        if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire1))
+                        {
+                            ObjectCommandSendHelper.ResetFire1(zone);
+                        }
+                        if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
+                        {
+                            ObjectCommandSendHelper.ResetFire2(zone);
+                        }
+                    }
+                    foreach (var device in XManager.Devices)
+                    {
+                        if (device.DriverType == XDriverType.AMP_1)
+                        {
+                            if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
+                            {
+                                ObjectCommandSendHelper.Reset(device);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 		bool CanResetAll()
 		{
 			foreach (var zone in XManager.Zones)
@@ -317,6 +307,14 @@ namespace GKModule.ViewModels
 				if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
 					return true;
 			}
+            foreach (var device in XManager.Devices)
+            {
+                if (device.DriverType == XDriverType.AMP_1)
+                {
+                    if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
+                        return true;
+                }
+            }
 			return false;
 		}
 

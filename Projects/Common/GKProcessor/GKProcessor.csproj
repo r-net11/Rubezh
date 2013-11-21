@@ -129,6 +129,7 @@
     <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
+    <Compile Include="Service\GKService.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
@@ -151,6 +152,7 @@
     </Compile>
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
+    <Compile Include="Service\GKServiceManager.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <Compile Include="Watcher\SendPriority.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />

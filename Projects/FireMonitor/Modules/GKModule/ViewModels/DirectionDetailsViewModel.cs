@@ -94,46 +94,67 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
-		void OnSetAutomaticState()
-		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Direction);
-		}
+        void OnSetAutomaticState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.SetAutomaticRegime(Direction);
+            }
+        }
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-		void OnSetManualState()
-		{
-			ObjectCommandSendHelper.SetManualRegime(Direction);
-		}
+        void OnSetManualState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.SetManualRegime(Direction);
+            }
+        }
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-		void OnSetIgnoreState()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Direction);
-		}
+        void OnSetIgnoreState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.SetIgnoreRegime(Direction);
+            }
+        }
 
 		public RelayCommand TurnOnCommand { get; private set; }
-		void OnTurnOn()
-		{
-			ObjectCommandSendHelper.TurnOn(Direction);
-		}
+        void OnTurnOn()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.TurnOn(Direction);
+            }
+        }
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
-		void OnTurnOnNow()
-		{
-			ObjectCommandSendHelper.TurnOnNow(Direction);
-		}
+        void OnTurnOnNow()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.TurnOnNow(Direction);
+            }
+        }
 
 		public RelayCommand TurnOffCommand { get; private set; }
-		void OnTurnOff()
-		{
-			ObjectCommandSendHelper.TurnOff(Direction);
-		}
+        void OnTurnOff()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.TurnOff(Direction);
+            }
+        }
 
 		public RelayCommand ForbidStartCommand { get; private set; }
-		void OnForbidStart()
-		{
-			ObjectCommandSendHelper.Stop(Direction);
-		}
+        void OnForbidStart()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                ObjectCommandSendHelper.Stop(Direction);
+            }
+        }
 
 		public bool HasOnDelay
 		{
