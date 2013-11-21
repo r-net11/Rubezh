@@ -1,10 +1,11 @@
 ﻿using System;
 using FiresecAPI.Models;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
-	public class LayoutUserViewModel : TreeNodeViewModel<LayoutUserViewModel>
+	public class LayoutUserViewModel : BaseViewModel
 	{
 		private Action<LayoutUserViewModel> _isActiveChanged;
 		public User User { get; private set; }

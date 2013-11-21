@@ -10,9 +10,7 @@ namespace LayoutModule.ViewModels
 		public LayoutPropertiesViewModel(Layout layout)
 		{
 			Title = "Свойства элемента: Шаблон интерфейса ОЗ";
-			Layout = layout ?? new Layout()
-			{
-			};
+			Layout = layout ?? new Layout();
 			CopyProperties();
 		}
 

@@ -24,10 +24,6 @@
 		<Views:MonitorLayoutsTreeView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:LayoutFolderPropertiesViewModel}">
-		<Views:LayoutFolderPropertiesView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPropertiesViewModel}">
 		<Views:LayoutPropertiesView />
 	</DataTemplate>

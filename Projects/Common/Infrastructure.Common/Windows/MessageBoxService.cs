@@ -7,6 +7,40 @@ namespace Infrastructure.Common.Windows
 {
 	public static class MessageBoxService
 	{
+		public static void Show2(string message, string title = null)
+		{
+			Show(message, title);
+		}
+		public static bool? ShowQuestion2(string message, string title = null)
+		{
+			var result = ShowQuestion(message, title);
+			switch (result)
+			{
+				case MessageBoxResult.Yes:
+					return true;
+				case MessageBoxResult.No:
+					return false;
+				default:
+					return null;
+			}
+		}
+		public static bool ShowConfirmation2(string message, string title = null)
+		{
+			return ShowConfirmation(message, title) == MessageBoxResult.Yes;
+		}
+		public static void ShowError2(string message, string title = null)
+		{
+			ShowError(message, title);
+		}
+		public static void ShowWarning2(string message, string title = null)
+		{
+			ShowWarning(message, title);
+		}
+		public static void ShowException2(Exception e, string title = null)
+		{
+			ShowException(e, title);
+		}
+
 		public static MessageBoxResult Show(string message, string title = null)
 		{
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Information);

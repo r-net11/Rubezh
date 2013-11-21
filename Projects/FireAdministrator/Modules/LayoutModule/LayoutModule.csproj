@@ -85,7 +85,6 @@
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutUserViewModel.cs" />
     <Compile Include="ViewModels\LayoutViewModelComparer.cs" />
-    <Compile Include="ViewModels\LayoutFolderPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LayoutPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LayoutUsersViewModel.cs" />
     <Compile Include="ViewModels\LayoutElementsViewModel.cs" />
@@ -99,9 +98,6 @@
     </Compile>
     <Compile Include="Views\LayoutElementsView.xaml.cs">
       <DependentUpon>LayoutElementsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LayoutFolderPropertiesView.xaml.cs">
-      <DependentUpon>LayoutFolderPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartView.xaml.cs">
       <DependentUpon>LayoutPartView.xaml</DependentUpon>
@@ -186,10 +182,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutElementsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutFolderPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

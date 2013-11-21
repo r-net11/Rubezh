@@ -183,7 +183,6 @@
     <Compile Include="Models\Device\ParameterTemplate.cs" />
     <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
-    <Compile Include="Models\Layouts\LayoutFolder.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Notification\Email.cs" />
     <Compile Include="Models\Notification\EmailData.cs" />

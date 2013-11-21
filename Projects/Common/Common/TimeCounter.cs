@@ -5,7 +5,7 @@ namespace Common
 {
 	public class TimeCounter : IDisposable
 	{
-		private bool CounterEnabled = false;
+		public static bool CounterEnabled = false;
 		private const string Separator = "===========================================";
 		public string Label { get; private set; }
 		public DateTime Start { get; private set; }

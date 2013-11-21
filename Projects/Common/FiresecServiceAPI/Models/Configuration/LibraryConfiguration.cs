@@ -1,5 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using FiresecAPI.Models.Layouts;
+using System.Collections.Generic;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -8,20 +10,23 @@ namespace FiresecAPI.Models
 	{
 		public LayoutsConfiguration()
 		{
-			Root = new LayoutFolder();
+			Layouts = new List<Layout>();
 		}
 
 		[DataMember]
-		public LayoutFolder Root { get; set; }
+		public List<Layout> Layouts { get; set; }
 
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			if (Root == null)
+			if (Layouts == null)
 			{
-				Root = new LayoutFolder();
+				Layouts = new List<Layout>();
 				result = false;
 			}
+			foreach (var layout in Layouts)
+				if (layout.UID == Guid.Empty)
+					layout.UID = Guid.NewGuid();
 			return result;
 		}
 

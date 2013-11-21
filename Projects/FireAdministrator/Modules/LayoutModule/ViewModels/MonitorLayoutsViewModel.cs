@@ -11,6 +11,8 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows;
+using System.Windows.Data;
 
 namespace LayoutModule.ViewModels
 {
@@ -29,8 +31,11 @@ namespace LayoutModule.ViewModels
 
 		#region ISelectable<Guid> Members
 
-		public void Select(Guid item)
+		public void Select(Guid guid)
 		{
+			var layout = Layouts.FirstOrDefault(item => item.Layout.UID == guid);
+			if (layout != null)
+				SelectedLayout = layout;
 		}
 
 		#endregion
@@ -41,9 +46,13 @@ namespace LayoutModule.ViewModels
 		{
 			using (new TimeCounter("MonitorLayoutsViewModel.Initialize: {0}"))
 			{
-				var root = new LayoutViewModel(FiresecManager.LayoutsConfiguration.Root);
-				Layouts = new ObservableCollection<LayoutViewModel>(root.Children);
-				SelectedLayout = null;
+				Layouts = new ObservableCollection<LayoutViewModel>();
+				ListCollectionView view = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
+				view.CustomSort = new LayoutViewModelComparer();
+				foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+					Layouts.Add(new LayoutViewModel(layout));
+				view.MoveCurrentToFirst();
+				SelectedLayout = (LayoutViewModel)view.CurrentItem;
 			}
 		}
 
@@ -76,19 +85,16 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private object _layoutBuffer;
+		private Layout _layoutBuffer;
 		private void CreateCommands()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			AddFolderCommand = new RelayCommand(OnAddFolder);
-			AddSubLayoutCommand = new RelayCommand(OnAddSubLayout, CanAddSub);
-			AddSubFolderCommand = new RelayCommand(OnAddSubFolder, CanAddSub);
 			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 
 			LayoutCopyCommand = new RelayCommand(OnLayoutCopy, CanLayoutCopyCut);
 			LayoutCutCommand = new RelayCommand(OnLayoutCut, CanLayoutCopyCut);
-			LayoutPasteCommand = new RelayCommand<bool>(OnLayoutPaste, CanLayoutPaste);
+			LayoutPasteCommand = new RelayCommand(OnLayoutPaste, CanLayoutPaste);
 			_layoutBuffer = null;
 		}
 
@@ -97,45 +103,18 @@ namespace LayoutModule.ViewModels
 		{
 			var layoutDetailsViewModel = new LayoutPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
-				OnLayoutPaste(layoutDetailsViewModel.Layout, true);
-		}
-		public RelayCommand AddFolderCommand { get; private set; }
-		private void OnAddFolder()
-		{
-			var viewModel = new LayoutFolderPropertiesViewModel(null);
-			if (DialogService.ShowModalWindow(viewModel))
-				OnLayoutPaste(viewModel.Folder, true);
-		}
-		public RelayCommand AddSubLayoutCommand { get; private set; }
-		private void OnAddSubLayout()
-		{
-			var layoutDetailsViewModel = new LayoutPropertiesViewModel(null);
-			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
-				OnLayoutPaste(layoutDetailsViewModel.Layout, false);
-		}
-		public RelayCommand AddSubFolderCommand { get; private set; }
-		private void OnAddSubFolder()
-		{
-			var viewModel = new LayoutFolderPropertiesViewModel(null);
-			if (DialogService.ShowModalWindow(viewModel))
-				OnLayoutPaste(viewModel.Folder, false);
-		}
-		private bool CanAddSub()
-		{
-			return SelectedLayout != null && SelectedLayout.IsFolder;
+				OnLayoutPaste(layoutDetailsViewModel.Layout);
 		}
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			string message = string.Format(SelectedLayout.IsFolder != null ? "Вы уверены, что хотите удалить папку '{0}'?" : "Вы уверены, что хотите удалить шаблон '{0}'?", SelectedLayout.Caption);
-			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
-				OnLayoutRemove(false);
+			if (MessageBoxService.ShowConfirmation2(string.Format("Вы уверены, что хотите удалить шаблон '{0}'?", SelectedLayout.Caption)))
+				OnLayoutRemove();
 		}
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			SaveCancelDialogViewModel dialog = SelectedLayout.IsFolder ? (SaveCancelDialogViewModel)new LayoutFolderPropertiesViewModel(SelectedLayout.LayoutFolder) : new LayoutPropertiesViewModel(SelectedLayout.Layout);
-			if (DialogService.ShowModalWindow(dialog))
+			if (DialogService.ShowModalWindow(new LayoutPropertiesViewModel(SelectedLayout.Layout)))
 			{
 				SelectedLayout.Update();
 				MonitorLayoutViewModel.Update();
@@ -150,127 +129,55 @@ namespace LayoutModule.ViewModels
 		private void OnLayoutCopy()
 		{
 			using (new WaitWrapper())
-				_layoutBuffer = Utils.Clone(SelectedLayout.LayoutObject);
+				_layoutBuffer = Utils.Clone(SelectedLayout.Layout);
 		}
 		public RelayCommand LayoutCutCommand { get; private set; }
 		private void OnLayoutCut()
 		{
-			using (new WaitWrapper())
-			{
-				_layoutBuffer = SelectedLayout.LayoutObject;
-				OnLayoutRemove(true);
-			}
+			_layoutBuffer = SelectedLayout.Layout;
+			OnLayoutRemove();
 		}
 		private bool CanLayoutCopyCut()
 		{
 			return SelectedLayout != null;
 		}
-		public RelayCommand<bool> LayoutPasteCommand { get; private set; }
-		private void OnLayoutPaste(bool isRoot)
+		public RelayCommand LayoutPasteCommand { get; private set; }
+		private void OnLayoutPaste()
 		{
-			if (!isRoot && SelectedLayout == null)
-				isRoot = true;
-			if (_layoutBuffer is Layout)
-			{
-				var layout = Utils.Clone((Layout)_layoutBuffer);
-				RenewLayout(layout);
-				OnLayoutPaste(layout, isRoot);
-			}
-			else
-			{
-				var folder = Utils.Clone((LayoutFolder)_layoutBuffer);
-				OnLayoutPaste(folder, isRoot);
-			}
+			OnLayoutPaste(_layoutBuffer, true);
 		}
-		private bool CanLayoutPaste(bool isRoot)
+		private bool CanLayoutPaste()
 		{
 			return _layoutBuffer != null;
 		}
-
-		private void OnLayoutPaste(Layout layout, bool isRoot)
+		private void OnLayoutPaste(Layout layout, bool clone = false)
 		{
 			using (new WaitWrapper())
 			{
+				if (clone)
+				{
+					layout = Utils.Clone(layout);
+					RenewLayout(layout);
+				}
 				var viewModel = new LayoutViewModel(layout);
-				if (isRoot)
-					FiresecManager.LayoutsConfiguration.Root.Layouts.Add(layout);
-				else
-					SelectedLayout.LayoutFolder.Layouts.Add(layout);
-				OnLayoutPaste(viewModel, isRoot);
+				FiresecManager.LayoutsConfiguration.Layouts.Add(layout);
+				Layouts.Add(viewModel);
+				SelectedLayout = viewModel;
+				FiresecManager.LayoutsConfiguration.Update();
+				ServiceFactory.SaveService.LayoutsChanged = true;
 			}
 		}
-		private void OnLayoutPaste(LayoutFolder folder, bool isRoot)
-		{
-			using (new WaitWrapper())
-			{
-				var viewModel = new LayoutViewModel(folder);
-				if (isRoot)
-					FiresecManager.LayoutsConfiguration.Root.Folders.Add(folder);
-				else
-					SelectedLayout.LayoutFolder.Folders.Add(folder);
-				OnLayoutPaste(viewModel, isRoot);
-			}
-		}
-		private void OnLayoutPaste(LayoutViewModel layoutViewModel, bool isRoot)
-		{
-			if (isRoot)
-				Layouts.Add(layoutViewModel);
-			else
-			{
-				SelectedLayout.AddChild(layoutViewModel);
-				SelectedLayout.Update();
-				SelectedLayout.IsExpanded = true;
-			}
-			SelectedLayout = layoutViewModel;
-			FiresecManager.LayoutsConfiguration.Update();
-			ServiceFactory.SaveService.LayoutsChanged = true;
-		}
-		private void OnLayoutRemove(bool withChild)
+		private void OnLayoutRemove()
 		{
 			using (new WaitWrapper())
 			{
 				var selectedLayout = SelectedLayout;
-				var parent = SelectedLayout.Parent;
-				var layoutObject = SelectedLayout.LayoutObject;
-				if (parent == null)
-				{
-					Layouts.Remove(selectedLayout);
-					if (selectedLayout.IsLayout)
-						FiresecManager.LayoutsConfiguration.Root.Layouts.Remove(selectedLayout.Layout);
-					else
-						FiresecManager.LayoutsConfiguration.Root.Folders.Remove(selectedLayout.LayoutFolder);
-					if (!withChild && selectedLayout.IsFolder)
-						foreach (var childPlanViewModel in selectedLayout.Children.ToArray())
-						{
-							Layouts.Add(childPlanViewModel);
-							if (childPlanViewModel.IsFolder)
-								FiresecManager.LayoutsConfiguration.Root.Folders.Remove(childPlanViewModel.LayoutFolder);
-							else
-								FiresecManager.LayoutsConfiguration.Root.Layouts.Remove(childPlanViewModel.Layout);
-						}
-				}
-				else
-				{
-					parent.RemoveChild(selectedLayout);
-					if (selectedLayout.IsLayout)
-						parent.LayoutFolder.Layouts.Remove(selectedLayout.Layout);
-					else
-						parent.LayoutFolder.Folders.Remove(selectedLayout.LayoutFolder);
-					if (!withChild && selectedLayout.IsFolder)
-						foreach (var childPlanViewModel in selectedLayout.Children.ToArray())
-						{
-							parent.AddChild(childPlanViewModel);
-							if (childPlanViewModel.IsFolder)
-								parent.LayoutFolder.Folders.Remove(childPlanViewModel.LayoutFolder);
-							else
-								parent.LayoutFolder.Layouts.Remove(childPlanViewModel.Layout);
-						}
-					parent.Update();
-					parent.IsExpanded = true;
-				}
+				var index = Layouts.IndexOf(SelectedLayout);
+				Layouts.Remove(selectedLayout);
+				FiresecManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
 				FiresecManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
-				SelectedLayout = parent == null ? Layouts.FirstOrDefault() : parent;
+				SelectedLayout = index >= Layouts.Count ? Layouts[Layouts.Count - 1] : Layouts[index];
 			}
 		}
 		private void RenewLayout(Layout layout)
@@ -289,10 +196,7 @@ namespace LayoutModule.ViewModels
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
 					new RibbonMenuItemViewModel("Добавить шаблон", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Добавить папку", AddFolderCommand, "/Controls;component/Images/BFolderOpen.png"),
-					new RibbonMenuItemViewModel("Добавить дочерний шаблон", AddSubLayoutCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Добавить дочернюю папку", AddSubFolderCommand, "/Controls;component/Images/BFolderOpen.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png") {IsNewGroup = true},
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "/Controls;component/Images/BDelete.png"),
 					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "/Controls;component/Images/BCopy.png") {IsNewGroup=true},
 					new RibbonMenuItemViewModel("Вырезать", LayoutCutCommand, "/Controls;component/Images/BCut.png"),

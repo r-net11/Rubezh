@@ -9,6 +9,7 @@ namespace FiresecAPI.Models.Layouts
 	{
 		public Layout()
 		{
+			UID = Guid.NewGuid();
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
 			Caption = "Шаблон";

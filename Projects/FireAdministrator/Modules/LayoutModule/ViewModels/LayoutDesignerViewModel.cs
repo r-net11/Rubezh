@@ -10,6 +10,7 @@ using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock.Layout;
 using Infrastructure.Common;
+using Common;
 
 namespace LayoutModule.ViewModels
 {
@@ -76,13 +77,16 @@ namespace LayoutModule.ViewModels
 					_serializer = null;
 				}
 				if (_manager != null)
-				{
-					Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
-					Manager.DocumentClosing += LayoutPartClosing;
-					Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
-					_serializer = new XmlLayoutSerializer(Manager);
-					_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
-				}
+					using (new TimeCounter("Attach to LayoutManager = {0}") )
+					{
+						Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
+						Manager.DocumentClosing += LayoutPartClosing;
+						Manager.LayoutUpdateStrategy = new LayoutUpdateStrategy();
+						_serializer = new XmlLayoutSerializer(Manager);
+						_serializer.LayoutSerializationCallback += LayoutSerializationCallback;
+						if (_layout != null)
+							Update(_layout);
+					}
 			}
 		}
 
@@ -94,7 +98,7 @@ namespace LayoutModule.ViewModels
 					SaveLayout();
 				_layout = layout;
 				_currentLayoutChanged = false;
-				if (_layout != null)
+				if (_layout != null && Manager != null)
 				{
 					var layoutParts = new ObservableCollection<LayoutPartViewModel>();
 					foreach (var layoutPart in _layout.Parts)
