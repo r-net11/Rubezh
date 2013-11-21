@@ -51,9 +51,6 @@ namespace GKProcessor
 							continue;
 						}
 
-						if (LoadingService.IsCanceled)
-							return;
-
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
 							result = GoToTechnologicalRegime(kauDatabase.RootDevice);
@@ -62,9 +59,6 @@ namespace GKProcessor
 								error = "Не удалось перевести КАУ в технологический режим";
 								continue;
 							}
-
-							if (LoadingService.IsCanceled)
-								return;
 
 							if (!EraseDatabase(kauDatabase.RootDevice))
 							{

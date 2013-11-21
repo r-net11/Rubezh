@@ -21,10 +21,7 @@ namespace GKModule.ViewModels
 			{
 				_text = value;
 				OnPropertyChanged("Text");
-                //if (DriverProperty.Name == "IPAddress")
 				Save(value);
-				//else
-				//    Save(Convert.ToUInt16(value));
 			}
 		}
 

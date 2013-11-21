@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using FiresecAPI.XModels;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure;
@@ -14,7 +13,24 @@ namespace GKModule.ViewModels
 {
 	public partial class DeviceViewModel
 	{
-		List<XDevice> GetRealChildren()
+		void InitializeParamsCommands()
+		{
+			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
+			WriteCommand = new RelayCommand(OnWrite, CanSync);
+			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
+			WriteAllCommand = new RelayCommand(OnWriteAll, CanSyncAll);
+			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
+			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
+
+			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
+			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
+			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
+			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
+			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+		}
+
+		public List<XDevice> GetRealChildren()
 		{
 			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 			return devices;
@@ -67,7 +83,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in XManager.GetAllDeviceChildren(Device))
 			{
-				if(device.DriverType != DriverCopy.DriverType)
+				if (device.DriverType != DriverCopy.DriverType)
 					continue;
 				CopyParametersFromBuffer(device);
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
@@ -153,115 +169,79 @@ namespace GKModule.ViewModels
 		#endregion
 
 		public RelayCommand WriteCommand { get; private set; }
-		void OnWriteCommand()
+		void OnWrite()
 		{
-			if (CheckNeedSave())
+			var device = new List<XDevice> { Device };
+			if (Validate(device))
 			{
-				var devices = new List<XDevice> { Device };
-				if (Validate(devices))
-				{
-					WriteDevices(devices);
-					CopyFromSystemToDevice(Device);
-					PropertiesViewModel.Update();
-				}
-				UpdateDeviceParameterMissmatch();
+				WriteDevices(device);
+				SyncFromSystemToDeviceProperties(device);
 			}
 		}
 
-		void InitializeParamsCommands()
-		{
-			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
-			WriteCommand = new RelayCommand(OnWriteCommand, CanSync);
-			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
-			WriteAllCommand = new RelayCommand(OnWriteAll, CanSyncAll);
-			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
-			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
-
-			CopyParamCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteParamCommand = new RelayCommand(OnPaste, CanPaste);
-			PasteAllParamCommand = new RelayCommand(OnPasteAll, CanPasteAll);
-			PasteTemplateCommand = new RelayCommand(OnPasteTemplate, CanPasteTemplate);
-			PasteAllTemplateCommand = new RelayCommand(OnPasteAllTemplate, CanPasteAllTemplate);
-			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
-		}
 
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
 		{
-			if (CheckNeedSave())
+			var devices = GetRealChildren();
+			if (Validate(devices))
 			{
-				var devices = GetRealChildren();
-				devices.Add(Device);
-				if (Validate(devices))
-				{
-					WriteDevices(devices);
-					foreach (var device in devices)
-					{
-						CopyFromSystemToDevice(device);
-						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-						if (deviceViewModel != null)
-							deviceViewModel.PropertiesViewModel.Update();
-					}
-				}
-				UpdateDeviceParameterMissmatch();
+				WriteDevices(devices);
+				SyncFromSystemToDeviceProperties(devices);
 			}
 		}
 
-		public void SyncFromAllSystemToDevice()
+		public void SyncFromSystemToDeviceProperties(List<XDevice> devices)
 		{
-			if (CheckNeedSave())
+			foreach (var device in devices)
 			{
-				var devices = GetRealChildren();
-				devices.Add(Device);
-				if (Validate(devices))
+				foreach (var property in device.Properties)
 				{
-					foreach (var device in devices)
+					var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
+					if (deviceProperty == null)
 					{
-						if (!CompareSystemAndDeviceProperties(device))
-							continue;
-						CopyFromSystemToDevice(device);
-						var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-						if (deviceViewModel != null)
-							deviceViewModel.PropertiesViewModel.Update();
+						device.DeviceProperties.Add(new XProperty
+							{
+								DriverProperty = property.DriverProperty,
+								Name = property.Name,
+								Value = property.Value
+							});
+						ServiceFactory.SaveService.GKChanged = true;
+					}
+					if ((deviceProperty != null) && (deviceProperty.Value != property.Value))
+					{
+						deviceProperty.Value = property.Value;
+						ServiceFactory.SaveService.GKChanged = true;
 					}
 				}
-				UpdateDeviceParameterMissmatch();
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+				if (deviceViewModel != null)
+					deviceViewModel.PropertiesViewModel.Update();
 			}
-		}
-
-		bool CompareSystemAndDeviceProperties(XDevice device)
-		{
-			return true;
-			return device.Properties.All(property => device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name).Value == property.Value);
+			UpdateDeviceParameterMissmatch();
 		}
 
 		public RelayCommand SyncFromDeviceToSystemCommand { get; private set; }
 		void OnSyncFromDeviceToSystem()
 		{
-			if (CheckNeedSave())
-			{
-				CopyFromDeviceToSystem(Device);
-				PropertiesViewModel.Update();
-				UpdateDeviceParameterMissmatch();
-			}
+			CopyFromDeviceToSystem(Device);
+			PropertiesViewModel.Update();
+			UpdateDeviceParameterMissmatch();
 		}
 
 		public RelayCommand SyncFromAllDeviceToSystemCommand { get; private set; }
 		void OnSyncFromAllDeviceToSystem()
 		{
-			if (CheckNeedSave())
+			var devices = GetRealChildren();
+			devices.Add(Device);
+			foreach (var device in devices)
 			{
-				var devices = GetRealChildren();
-				devices.Add(Device);
-				foreach (var device in devices)
-				{
-					CopyFromDeviceToSystem(device);
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-					if (deviceViewModel != null)
-						deviceViewModel.PropertiesViewModel.Update();
-				}
-				UpdateDeviceParameterMissmatch();
+				CopyFromDeviceToSystem(device);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+				if (deviceViewModel != null)
+					deviceViewModel.PropertiesViewModel.Update();
 			}
+			UpdateDeviceParameterMissmatch();
 		}
 
 		bool CanSync()
@@ -271,7 +251,7 @@ namespace GKModule.ViewModels
 
 		bool CanSyncAll()
 		{
-			return Children.Count() > 0;
+			return Children.Any();
 		}
 
 		static void CopyFromDeviceToSystem(XDevice device)
@@ -280,27 +260,6 @@ namespace GKModule.ViewModels
 			{
 				var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
 				property.Value = deviceProperty.Value;
-			}
-			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		static void CopyFromSystemToDevice(XDevice device)
-		{
-			foreach (var property in device.Properties)
-			{
-				if (property.DriverProperty != null && property.DriverProperty.IsAUParameter)
-				{
-					var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
-					if (deviceProperty == null)
-						device.DeviceProperties.Add(new XProperty
-							{
-								DriverProperty = property.DriverProperty,
-								Name = property.Name,
-								Value = property.Value
-							});
-					else
-						deviceProperty.Value = property.Value;
-				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}
@@ -336,12 +295,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			if (CheckNeedSave())
-			{
-				ReadDevices(new List<XDevice> { Device });
-				PropertiesViewModel.Update();
-				ServiceFactory.SaveService.GKChanged = true;
-			}
+			ReadDevices(new List<XDevice> { Device });
+			PropertiesViewModel.Update();
 		}
 
 		bool CanReadWrite()
@@ -352,12 +307,9 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadAllCommand { get; private set; }
 		void OnReadAll()
 		{
-			if (CheckNeedSave())
-			{
-				var devices = GetRealChildren();
-				devices.Add(Device);
-				ReadDevices(devices);
-			}
+			var devices = GetRealChildren();
+			devices.Add(Device);
+			ReadDevices(devices);
 		}
 
 		bool CanReadWriteAll()
@@ -373,7 +325,7 @@ namespace GKModule.ViewModels
 		static void ReadDevices(IEnumerable<XDevice> devices)
 		{
 			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запрос параметров");
+			LoadingService.Show("Запрос параметров", null, 1, true);
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -387,13 +339,12 @@ namespace GKModule.ViewModels
 			LoadingService.Close();
 			if (ParametersHelper.ErrorLog != "")
 				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		static void WriteDevices(IEnumerable<XDevice> devices)
 		{
 			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запись параметров");
+			LoadingService.Show("Запись параметров", null, 1, true);
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -403,13 +354,12 @@ namespace GKModule.ViewModels
 					break;
 				i++;
 				ParametersHelper.SetSingleParameter(device);
-				if ((devices.Count() > 1) && (i < devices.Count()))
+				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);
 			}
 			LoadingService.Close();
 			if (ParametersHelper.ErrorLog != "")
 				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }

@@ -97,7 +97,8 @@ namespace GKModule.Models
 				{
 					GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
 					GkDescriptorsWriter.WriteConfig(SelectedDevice.Device);
-					SelectedDevice.SyncFromAllSystemToDevice();
+					var devices = SelectedDevice.GetRealChildren();
+					SelectedDevice.SyncFromSystemToDeviceProperties(devices);
 				}
 			}
 		}
