@@ -26,7 +26,7 @@ namespace FireMonitor.Layout
 
 		protected override bool Run()
 		{
-			var layouts = GetUserLayouts(FiresecManager.LayoutsConfiguration.Root);
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID)).ToList();
 			if (layouts.Count > 0)
 			{
 				ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
@@ -48,16 +48,6 @@ namespace FireMonitor.Layout
 			DialogService.ShowModalWindow(viewModel);
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			return viewModel.SelectedLayout;
-		}
-		private List<FiresecAPI.Models.Layouts.Layout> GetUserLayouts(LayoutFolder layoutFolder)
-		{
-			var list = new List<FiresecAPI.Models.Layouts.Layout>();
-			foreach (var layout in layoutFolder.Layouts)
-				if (layout.Users.Contains(FiresecManager.CurrentUser.UID))
-					list.Add(layout);
-			foreach (var folder in layoutFolder.Folders)
-				list.AddRange(GetUserLayouts(folder));
-			return list;
 		}
 	}
 }
