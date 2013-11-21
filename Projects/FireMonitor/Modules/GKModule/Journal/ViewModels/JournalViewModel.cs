@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return ArchiveDefaultState.ShowSubsystem;
+				return ClientSettings.ArchiveDefaultState.ShowSubsystem;
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return ArchiveDefaultState.ShowIP;
+				return ClientSettings.ArchiveDefaultState.ShowIP;
 			}
 		}
 

@@ -14,6 +14,9 @@ namespace SettingsModule.ViewModels
 			ErrorFilters = new ObservableCollection<ErrorFilterViewModel>();
 			if (GlobalSettingsHelper.GlobalSettings.IgnoredErrors == null)
 				GlobalSettingsHelper.GlobalSettings.IgnoredErrors = new List<string>();
+			
+			IsLogicAllowed = GlobalSettingsHelper.GlobalSettings.IsLogicAllowed;
+
 			ErrorFilters.Add(new ErrorFilterViewModel("Устройство не подключено к зоне"));
 			ErrorFilters.Add(new ErrorFilterViewModel("Отсутствует логика срабатывания исполнительного устройства"));
 			ErrorFilters.Add(new ErrorFilterViewModel("Устройство должно содержать подключенные устройства"));
@@ -43,6 +46,7 @@ namespace SettingsModule.ViewModels
 					GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Add(errorFilter.Name);
 				}
 			}
+			GlobalSettingsHelper.GlobalSettings.IsLogicAllowed = IsLogicAllowed;
 			GlobalSettingsHelper.Save();
 			return true;
 		}

@@ -101,6 +101,9 @@ namespace FiresecAPI
 		[DataMember]
 		public List<string> IgnoredErrors { get; set; }
 
+		[DataMember]
+		public bool IsLogicAllowed { get; set; }
+
 		public void SetDefaultModules()
 		{
             ModuleItems = new List<string>();

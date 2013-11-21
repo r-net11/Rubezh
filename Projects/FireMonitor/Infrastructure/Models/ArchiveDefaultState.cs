@@ -25,9 +25,9 @@ namespace Infrastructure.Models
 		public DateTime? EndDate { get; set; }
 
 		[DataMember]
-		public static bool ShowIP { get; set; }
+		public bool ShowIP { get; set; }
 
 		[DataMember]
-		public static bool ShowSubsystem { get; set; }
+		public bool ShowSubsystem { get; set; }
 	}
 }

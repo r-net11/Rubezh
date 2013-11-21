@@ -100,7 +100,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/Direction.png",
+							ImageSource="/Controls;component/Images/DirectionRectangle.png",
 							ToolTip="Направление",
 							Adorner = new XDirectionRectangleAdorner(_designerCanvas, _directionsViewModel),
 							Index = 202,
@@ -108,7 +108,7 @@ namespace GKModule.Plans
 						},
 						new InstrumentViewModel()
 						{
-							ImageSource="/Controls;component/Images/Direction.png",
+							ImageSource="/Controls;component/Images/DirectionPolygon.png",
 							ToolTip="Направление",
 							Adorner = new XDirectionPolygonAdorner(_designerCanvas, _directionsViewModel),
 							Index = 203,

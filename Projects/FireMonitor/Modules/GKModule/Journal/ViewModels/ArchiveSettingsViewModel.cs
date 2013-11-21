@@ -14,6 +14,7 @@ namespace GKModule.ViewModels
         {
             Title = "Настройки";
 
+			ArchiveDefaultState = new ArchiveDefaultState();
 			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
             foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
             {
@@ -57,11 +58,12 @@ namespace GKModule.ViewModels
                     break;
             }
 
-			ShowIP = ArchiveDefaultState.ShowIP;
-			ShowSubsystem = ArchiveDefaultState.ShowSubsystem;
+			ShowIP = archiveDefaultState.ShowIP;
+			ShowSubsystem = archiveDefaultState.ShowSubsystem;
         }
 
         public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
+		public ArchiveDefaultState ArchiveDefaultState { get; private set; }
 
         ArchiveDefaultStateType _checkedArchiveDefaultStateType;
         public ArchiveDefaultStateType CheckedArchiveDefaultStateType
@@ -111,42 +113,35 @@ namespace GKModule.ViewModels
             get { return DateTime.Now; }
         }
 
-        public ArchiveDefaultState GetModel()
+		protected override bool Save()
         {
-            var archiveDefaultState = new ArchiveDefaultState();
-            archiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
-            switch (archiveDefaultState.ArchiveDefaultStateType)
-            {
-                case ArchiveDefaultStateType.LastHours:
-                    archiveDefaultState.Count = HoursCount;
-                    break;
+			ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
+			switch (ArchiveDefaultState.ArchiveDefaultStateType)
+			{
+				case ArchiveDefaultStateType.LastHours:
+					ArchiveDefaultState.Count = HoursCount;
+					break;
 
-                case ArchiveDefaultStateType.LastDays:
-                    archiveDefaultState.Count = DaysCount;
-                    break;
+				case ArchiveDefaultStateType.LastDays:
+					ArchiveDefaultState.Count = DaysCount;
+					break;
 
-                case ArchiveDefaultStateType.FromDate:
-                    archiveDefaultState.StartDate = StartDate;
-                    break;
+				case ArchiveDefaultStateType.FromDate:
+					ArchiveDefaultState.StartDate = StartDate;
+					break;
 
-                case ArchiveDefaultStateType.RangeDate:
-                    archiveDefaultState.StartDate = StartDate;
-                    archiveDefaultState.EndDate = EndDate;
-                    break;
+				case ArchiveDefaultStateType.RangeDate:
+					ArchiveDefaultState.StartDate = StartDate;
+					ArchiveDefaultState.EndDate = EndDate;
+					break;
 
-                case ArchiveDefaultStateType.All:
-                default:
-                    break;
-            }
+				case ArchiveDefaultStateType.All:
+				default:
+					break;
+			}
 			ArchiveDefaultState.ShowIP = ShowIP;
 			ArchiveDefaultState.ShowSubsystem = ShowSubsystem;
-			ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Publish(null);
-            return archiveDefaultState;
-        }
-
-        protected override bool Save()
-        {
-            return base.Save();
+			return base.Save();
         }
 
         void OnArchiveDefaultStateCheckedEvent(ArchiveDefaultStateViewModel archiveDefaultState)

@@ -62,7 +62,6 @@
                     <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Margin="11 5"/>
                 </StackPanel>
             </Border>
-            
         </TabItem>
     </TabControl>
     

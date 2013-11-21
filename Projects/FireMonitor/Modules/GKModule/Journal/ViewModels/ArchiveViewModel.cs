@@ -141,8 +141,9 @@ namespace GKModule.ViewModels
 				var archiveSettingsViewModel = new ArchiveSettingsViewModel(ArchiveDefaultState);
 				if (DialogService.ShowModalWindow(archiveSettingsViewModel))
 				{
-					ArchiveDefaultState = archiveSettingsViewModel.GetModel();
+					ArchiveDefaultState = archiveSettingsViewModel.ArchiveDefaultState;
 					ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
+					ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Publish(null);
 					if (IsFilterOn == false)
 						Update(true);
 				}
@@ -204,7 +205,7 @@ namespace GKModule.ViewModels
 		{
 			get 
 			{
-				return ArchiveDefaultState.ShowSubsystem;
+				return ClientSettings.ArchiveDefaultState.ShowSubsystem;
 			}
 		}
 
@@ -212,7 +213,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return ArchiveDefaultState.ShowIP;
+				return ClientSettings.ArchiveDefaultState.ShowIP;
 			}
 		}
 

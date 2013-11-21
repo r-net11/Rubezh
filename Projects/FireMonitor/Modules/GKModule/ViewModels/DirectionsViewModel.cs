@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			InitializeInputOutputObjects();
 		}
 
-		public List<DeviceViewModel> InputDevices { get; private set; }
+		public List<DirectionDeviceViewModel> InputDevices { get; private set; }
 		public List<DirectionZoneViewModel> InputZones { get; private set; }
 		public List<DeviceViewModel> OutputDevices { get; private set; }
 
@@ -64,11 +64,11 @@ namespace GKModule.ViewModels
 			if (SelectedDirection == null)
 				return;
 
-			InputDevices = new List<DeviceViewModel>();
-			foreach (var inputDevice in SelectedDirection.Direction.InputDevices)
+			InputDevices = new List<DirectionDeviceViewModel>();
+			foreach (var inputDevice in SelectedDirection.Direction.DirectionDevices)
 			{
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == inputDevice);
-				InputDevices.Add(deviceViewModel);
+				var directionDeviceViewModel = new DirectionDeviceViewModel(inputDevice);
+				InputDevices.Add(directionDeviceViewModel);
 			}
 			OnPropertyChanged("InputDevices");
 

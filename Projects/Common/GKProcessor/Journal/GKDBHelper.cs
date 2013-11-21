@@ -6,6 +6,7 @@ using System.IO;
 using Common;
 using Infrastructure.Common;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -62,8 +63,32 @@ namespace GKProcessor
 			return journalItem;
 		}
 
+		static List<JournalItem> UpdateItemLengths(List<JournalItem> journalItems)
+		{
+			int descriptionLength = GetColumnLength("Description", "Journal");
+			int nameLength = GetColumnLength("Name", "Journal");
+			int gKIpAddressLength = GetColumnLength("GKIpAddress", "Journal");
+			int userNameLength = GetColumnLength("UserName", "Journal");
+			int objectNameLength = GetColumnLength("ObjectName", "Journal");
+			foreach (var item in journalItems)
+			{
+				if (item.Description != null && item.Description.Length > descriptionLength)
+					item.Description = item.Description.Substring(0, descriptionLength);
+				if (item.Name != null && item.Name.Length > nameLength)
+					item.Name = item.Name.Substring(0, nameLength);
+				if (item.GKIpAddress != null && item.GKIpAddress.Length > gKIpAddressLength)
+					item.GKIpAddress = item.GKIpAddress.Substring(0, gKIpAddressLength);
+				if (item.UserName != null && item.UserName.Length > userNameLength)
+					item.UserName = item.UserName.Substring(0, userNameLength);
+				if (item.ObjectName != null && item.ObjectName.Length > objectNameLength)
+					item.ObjectName = item.ObjectName.Substring(0, objectNameLength);
+			}			
+			return journalItems;
+		}
+
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
+			journalItems = UpdateItemLengths(journalItems);
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
 				using (var dataContext = new SqlCeConnection(ConnectionString))
@@ -167,6 +192,30 @@ namespace GKProcessor
 			connection.Open();
 			var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
 			bool result = reader.Read();
+			connection.Close();
+			connection.Dispose();
+			return result;
+		}
+
+		static int GetColumnLength(string columnName, string tableName)
+		{
+			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+				return 0;
+			int result = 0;
+			var connection = new SqlCeConnection(ConnectionString);
+			var sqlCeCommand = new SqlCeCommand(
+				"select character_maximum_length from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = '" + tableName + "'",
+				connection);
+			connection.Open();
+			var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
+			if (reader.Read())
+			{
+				result = reader.GetInt32(0);
+			}
+			else
+			{
+				result = 0;
+			}
 			connection.Close();
 			connection.Dispose();
 			return result;
