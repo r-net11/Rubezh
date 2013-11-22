@@ -23,10 +23,6 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
         public List<XDevice> DevicesInLogic { get; set; }
-		public bool IsEmpty
-		{
-			get { return Devices.Count == 0; }
-		}
 
 		[DataMember]
 		public Guid UID { get; set; }

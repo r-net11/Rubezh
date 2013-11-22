@@ -31,7 +31,7 @@ namespace GKProcessor
 			LoadingService.DoStep("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				LoadingService.Show("Чтение конфигурации", "Чтение конфигурации", descriptorAddresses.Count + 1, true);
+				LoadingService.Show("Чтение конфигурации " + kauDevice.PresentationDriverAndAddress, "", descriptorAddresses.Count + 1, true);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (LoadingService.IsCanceled)
@@ -45,7 +45,7 @@ namespace GKProcessor
 				}
 			}
 			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
-			GkDescriptorsWriter.GoToWorkingRegime(kauDevice);
+			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
 			LoadingService.SaveClose();
 			return String.IsNullOrEmpty(ParsingError);

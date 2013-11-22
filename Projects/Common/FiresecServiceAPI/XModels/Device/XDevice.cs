@@ -177,7 +177,7 @@ namespace XFiresecAPI
 				if (address.Length > 0 && address[address.Length - 1] == '.')
 					address.Remove(address.Length - 1, 1);
 
-				if (rootDevice != null && rootDevice.Children.Count > 1)
+				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == XDriverType.System)
 				{
 					address.Append("(" + allParents[1].Address + ")");
 				}

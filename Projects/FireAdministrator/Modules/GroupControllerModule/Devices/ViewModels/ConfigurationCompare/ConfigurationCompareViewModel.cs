@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device)
 		{
-			Title = "Сравнение конфигураций " + device.DescriptorInfo;
+			Title = "Сравнение конфигураций " + device.PresentationName;
 			ChangeCommand = new RelayCommand(OnChange);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);

@@ -26,9 +26,8 @@ namespace GKModule.ViewModels
 		private bool _lockSelection;
 		public static ZonesViewModel Current { get; private set; }
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
-		List<ZoneViewModel> EmptyZones { get; set; }
 
-        public ZonesViewModel()
+		public ZonesViewModel()
         {
 			Menu = new ZonesMenuViewModel(this);
             Current = this;
@@ -91,12 +90,6 @@ namespace GKModule.ViewModels
             return SelectedZone != null;
         }
 
-        bool CanDeleteAllEmpty()
-        {
-			EmptyZones = Zones.Where(x => x.Zone.IsEmpty).ToList();
-			return EmptyZones.Count > 0;
-        }
-
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
@@ -142,7 +135,8 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				foreach (var emptyZone in EmptyZones)
+				var emptyZones = Zones.Where(x => !x.Zone.Devices.Any()).ToList();
+				foreach (var emptyZone in emptyZones)
 				{
 					XManager.RemoveZone(emptyZone.Zone);
 					Zones.Remove(emptyZone);
@@ -150,6 +144,11 @@ namespace GKModule.ViewModels
 				SelectedZone = Zones.FirstOrDefault();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		bool CanDeleteAllEmpty()
+		{
+			return Zones.Any(x => !x.Zone.Devices.Any());
 		}
 
         public RelayCommand EditCommand { get; private set; }
