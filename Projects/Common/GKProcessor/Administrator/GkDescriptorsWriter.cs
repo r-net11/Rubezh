@@ -214,10 +214,6 @@ namespace GKProcessor
 
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
 			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
-			if (sendResult.HasError)
-			{
-				return false;
-			}
 
 			for (int i = 0; i < 10; i++)
 			{

@@ -8,15 +8,16 @@ namespace Infrastructure.Common
 {
     public static class AlarmPlayerHelper
     {
+		static SoundPlayer _soundPlayer;
+		static bool _isContinious;
+		static Thread _beepThread;
+		static int _beepFrequency;
+		static bool _isBeepThreadStopping;
+
         static AlarmPlayerHelper()
         {
             _soundPlayer = new SoundPlayer();
         }
-
-        static SoundPlayer _soundPlayer;
-        static Thread _thread;
-        static int _frequency;
-        static bool _isContinious;
 
         static void PlayBeep()
         {
@@ -24,10 +25,16 @@ namespace Infrastructure.Common
 			{
 				do
 				{
-					Console.Beep(_frequency, 600);
+					if (_isBeepThreadStopping)
+						break;
+					Console.Beep(_beepFrequency, 600);
+					if (_isBeepThreadStopping)
+						break;
 					Thread.Sleep(1000);
 				}
 				while (_isContinious);
+				_isBeepThreadStopping = false;
+				_beepThread = null;
 			}
 			catch (Exception e)
 			{
@@ -37,24 +44,24 @@ namespace Infrastructure.Common
 
         static void StopPlayPCSpeaker()
         {
-            if (_thread != null)
-                _thread.Abort();
+			_isBeepThreadStopping = true;
         }
 
-        static void PlayPCSpeaker(BeeperType speaker, bool isContinious)
-        {
-            if (speaker == BeeperType.None)
-                return;
+		static void PlayPCSpeaker(BeeperType beeperType, bool isContinious)
+		{
+			if (beeperType != BeeperType.None)
+			{
+				_beepFrequency = (int)beeperType;
+				_isContinious = isContinious;
 
-            _frequency = (int) speaker;
-            _isContinious = isContinious;
-
-            if (_thread != null)
-                _thread.Abort();
-
-            _thread = new Thread(PlayBeep);
-            _thread.Start();
-        }
+				_isBeepThreadStopping = false;
+				if (_beepThread == null)
+				{
+					_beepThread = new Thread(PlayBeep);
+					_beepThread.Start();
+				}
+			}
+		}
 
         static void PlaySound(string filePath, bool isContinious)
         {

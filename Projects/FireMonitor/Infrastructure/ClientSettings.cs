@@ -43,19 +43,11 @@ namespace Infrastructure
 			try
 			{
 				LoadArchiveDefaultState();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ClientSettings.LoadSettings");
-			}
-
-			try
-			{
 				LoadAutoActivationSettings();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове ClientSettings.LoadAutoActivationSettings");
+				Logger.Error(e, "ClientSettings.LoadSettings");
 			}
 		}
 
@@ -71,11 +63,11 @@ namespace Infrastructure
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове ClientSettings.SaveSettings");
+				Logger.Error(e, "ClientSettings.SaveSettings");
 			}
 		}
 
-		public static void LoadArchiveDefaultState()
+		static void LoadArchiveDefaultState()
 		{
 			if (File.Exists(ArchiveDefaultStateFileName))
 			{
@@ -91,7 +83,7 @@ namespace Infrastructure
 			}
 		}
 
-		public static void LoadAutoActivationSettings()
+		static void LoadAutoActivationSettings()
 		{
 			if (File.Exists(AutoActivationSettingsFileName))
 			{
@@ -107,7 +99,7 @@ namespace Infrastructure
 			}
 		}
 
-		public static void SaveArchiveDefaultState()
+		static void SaveArchiveDefaultState()
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
 			{
@@ -116,7 +108,7 @@ namespace Infrastructure
 			}
 		}
 
-		public static void SaveAutoActivationSettings()
+		static void SaveAutoActivationSettings()
 		{
 			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Create))
 			{

@@ -142,7 +142,7 @@ namespace GKModule.Plans.Designer
 		public static string GetXDeviceTitle(ElementXDevice element)
 		{
 			var device = GetXDevice(element);
-			return device == null ? "Неизвестное устройство" : device.DottedAddress + " " + device.Driver.ShortName;
+			return device == null ? "Неизвестное устройство" : device.PresentationName;
 		}
 		public static string GetXDeviceImageSource(ElementXDevice element)
 		{

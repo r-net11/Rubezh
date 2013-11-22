@@ -13,6 +13,7 @@ namespace GKProcessor
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
 		public XDelay Delay { get; protected set; }
+		public XPim Pim { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -162,6 +163,9 @@ namespace GKProcessor
 
 					case DescriptorType.Delay:
 						return Delay;
+
+					case DescriptorType.Pim:
+						return Pim;
 				}
 				return null;
 			}

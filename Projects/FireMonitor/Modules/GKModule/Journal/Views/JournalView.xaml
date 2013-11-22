@@ -43,7 +43,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <!--<DataGridTextColumn Header="Объект из БД" Binding="{Binding JournalItem.ObjectName}" Width="Auto" />-->
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" Width="Auto" />
                 <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto" />
                 <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed" />

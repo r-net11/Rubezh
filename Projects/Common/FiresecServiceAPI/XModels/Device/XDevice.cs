@@ -233,7 +233,7 @@ namespace XFiresecAPI
 			get
 			{
 				if (Driver.HasAddress)
-					return Address + " - " + Driver.Name;
+					return Address + " - " + ShortName;
 				return Driver.Name;
 			}
 		}

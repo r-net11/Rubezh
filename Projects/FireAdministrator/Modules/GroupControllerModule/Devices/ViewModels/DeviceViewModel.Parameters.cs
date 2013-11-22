@@ -210,7 +210,7 @@ namespace GKModule.ViewModels
 							});
 						ServiceFactory.SaveService.GKChanged = true;
 					}
-					if ((deviceProperty != null) && (deviceProperty.Value != property.Value))
+					if (deviceProperty != null && deviceProperty.Value != property.Value)
 					{
 						deviceProperty.Value = property.Value;
 						ServiceFactory.SaveService.GKChanged = true;

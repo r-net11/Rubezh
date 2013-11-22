@@ -2,9 +2,9 @@
 
 namespace XFiresecAPI
 {
-	public class XDelayState : XBaseState
+	public class XPimState : XBaseState
 	{
-		public XDelay Delay { get; set; }
+		public XPim Pim { get; set; }
 
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits

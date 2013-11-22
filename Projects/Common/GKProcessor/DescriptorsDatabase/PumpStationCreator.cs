@@ -13,6 +13,7 @@ namespace GKProcessor
 		List<XDevice> NonFirePumpDevices;
 		XDevice AM1TDevice;
 		List<PumpDelay> PumpDelays;
+		XPim Pim;
 		ushort NSDeltaTime;
 		ushort NSPumpsCount;
 
@@ -53,7 +54,6 @@ namespace GKProcessor
 		{
 			CreateDirectionFormulaBytes();
 			CreateDelays();
-			SetCrossReferences();
 
 			foreach (var pumpDelay in PumpDelays)
 			{
@@ -65,6 +65,8 @@ namespace GKProcessor
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
 			SetNonFirePumpDevicesLogic();
+			CreatePim();
+			SetCrossReferences();
 		}
 
 		void CreateDirectionFormulaBytes()
@@ -232,6 +234,41 @@ namespace GKProcessor
 			}
 		}
 
+		void CreatePim()
+		{
+			Pim = new XPim()
+			{
+				Name = Direction.PresentationName,
+				DelayTime = 1,
+				SetTime = 1,
+				DelayRegime = DelayRegime.Off
+			};
+			GkDatabase.AddPim(Pim);
+			var pimDescriptor = new PimDescriptor(Pim);
+			GkDatabase.Descriptors.Add(pimDescriptor);
+
+			var formula = new FormulaBuilder();
+
+			var inputPumpsCount = 0;
+			foreach (var firePumpDevice in FirePumpDevices)
+			{
+				formula.AddGetBit(XStateBit.Failure, firePumpDevice);
+				formula.Add(FormulaOperationType.COM);
+				if (inputPumpsCount > 0)
+				{
+					formula.Add(FormulaOperationType.ADD);
+				}
+				inputPumpsCount++;
+			}
+			formula.Add(FormulaOperationType.CONST, 0, 0, "Количество основных пожарных насосов");
+			formula.Add(FormulaOperationType.GT);
+			formula.AddPutBit(XStateBit.Failure, Pim);
+
+			formula.Add(FormulaOperationType.END);
+			pimDescriptor.Formula = formula;
+			pimDescriptor.FormulaBytes = formula.GetBytes();
+		}
+
 		void SetCrossReferences()
 		{
 			foreach (var pumpDelay in PumpDelays)
@@ -269,6 +306,11 @@ namespace GKProcessor
 					currentDelay.InputXBases.Add(prevDelay);
 				if (nextDelay != null)
 					currentDelay.OutputXBases.Add(nextDelay);
+			}
+
+			foreach (var nsDevice in Direction.NSDevices)
+			{
+				XManager.LinkXBasees(Pim, nsDevice);
 			}
 		}
 	}
