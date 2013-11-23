@@ -214,5 +214,77 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
-    }
+
+		#region GK
+		public void GKWriteConfiguration(XDevice device)
+		{
+			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(device); }, "GKWriteConfiguration");
+		}
+
+		public void GKSetNewConfiguration(XDeviceConfiguration deviceConfiguration)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetNewConfiguration(deviceConfiguration); }, "GKSetNewConfiguration");
+		}
+
+		public void GKExecuteDeviceCommand(XDevice device, XStateBit stateType)
+		{
+			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(device, stateType); }, "GKExecuteDeviceCommand");
+		}
+
+		public void GKReset(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKReset(xBase); }, "GKReset");
+		}
+
+		public void GKResetFire1(XZone zone)
+		{
+			SafeOperationCall(() => { FiresecService.GKResetFire1(zone); }, "GKResetFire1");
+		}
+
+		public void GKResetFire2(XZone zone)
+		{
+			SafeOperationCall(() => { FiresecService.GKResetFire2(zone); }, "GKResetFire2");
+		}
+
+		public void GKSetAutomaticRegime(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase); }, "GKSetAutomaticRegime");
+		}
+
+		public void GKSetManualRegime(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase); }, "GKSetManualRegime");
+		}
+
+		public void GKSetIgnoreRegime(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(xBase); }, "GKSetIgnoreRegime");
+		}
+
+		public void GKTurnOn(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOn(xBase); }, "GKTurnOn");
+		}
+
+		public void GKTurnOnNow(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase); }, "GKTurnOnNow");
+		}
+
+		public void GKTurnOff(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOff(xBase); }, "GKTurnOff");
+		}
+
+		public void GKTurnOffNow(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase); }, "GKTurnOffNow");
+		}
+
+		public void GKStop(XBase xBase)
+		{
+			SafeOperationCall(() => { FiresecService.GKStop(xBase); }, "GKStop");
+		}
+		#endregion
+	}
 }

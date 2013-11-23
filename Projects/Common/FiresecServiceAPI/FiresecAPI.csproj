@@ -206,6 +206,13 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
+    <Compile Include="XManager\XManager.Actions.cs" />
+    <Compile Include="XManager\XManager.Binary.cs" />
+    <Compile Include="XManager\XManager.Configuration.cs" />
+    <Compile Include="XManager\XManager.cs" />
+    <Compile Include="XManager\XManager.Device.cs" />
+    <Compile Include="XManager\XManager.PresentationZone.cs" />
+    <Compile Include="XManager\XManager.States.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
@@ -315,6 +322,7 @@
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
+    <Compile Include="XModels\XBaseType.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -100,7 +100,6 @@ namespace GKProcessor
 							error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
-						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 						return;
 					}
 					if (error != null)

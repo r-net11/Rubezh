@@ -3,6 +3,7 @@ using FiresecAPI;
 using XFiresecAPI;
 using Infrastructure.Common;
 using Infrastructure;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -43,7 +44,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.ExecuteDeviceCommand(Device, StateBit);
+				FiresecManager.FiresecService.GKExecuteDeviceCommand(Device, StateBit);
             }
         }
     }

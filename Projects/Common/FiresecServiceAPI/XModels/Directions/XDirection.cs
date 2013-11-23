@@ -9,7 +9,7 @@ namespace XFiresecAPI
 	{
 		public XDirection()
 		{
-            UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
             DirectionZones = new List<XDirectionZone>();
             DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;

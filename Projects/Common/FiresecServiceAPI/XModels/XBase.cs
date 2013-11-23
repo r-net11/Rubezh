@@ -10,7 +10,11 @@ namespace XFiresecAPI
 		public XBase()
 		{
 			ClearDescriptor();
+			TempUID = Guid.NewGuid();
 		}
+
+		[DataMember]
+		public Guid TempUID { get; set; }
 
 		public List<XBase> InputXBases { get; set; }
 		public List<XBase> OutputXBases { get; set; }

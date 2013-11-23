@@ -125,6 +125,7 @@
     <Compile Include="FiresecManager\FiresecManager.FS2.cs" />
     <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
+    <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />
@@ -148,13 +149,6 @@
     <Compile Include="Service\SafeFiresecService.Operations.cs" />
     <Compile Include="Service\SafeFiresecService.Poll.cs" />
     <Compile Include="Service\SafeFiresecService.Threading.cs" />
-    <Compile Include="XManager\XManager.Actions.cs" />
-    <Compile Include="XManager\XManager.Binary.cs" />
-    <Compile Include="XManager\XManager.Configuration.cs" />
-    <Compile Include="XManager\XManager.Device.cs" />
-    <Compile Include="XManager\XManager.cs" />
-    <Compile Include="XManager\XManager.PresentationZone.cs" />
-    <Compile Include="XManager\XManager.States.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -201,6 +195,10 @@
     <ProjectReference Include="..\FS2Client\FS2Client.csproj">
       <Project>{2F47B55E-AE00-45EC-8AC8-797159AC07B7}</Project>
       <Name>FS2Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>

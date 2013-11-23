@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetAutomaticRegime(Direction);
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Direction);
             }
         }
 
@@ -107,7 +107,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetManualRegime(Direction);
+				FiresecManager.FiresecService.GKSetManualRegime(Direction);
             }
         }
 
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetIgnoreRegime(Direction);
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Direction);
             }
         }
 
@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.TurnOn(Direction);
+				FiresecManager.FiresecService.GKTurnOn(Direction);
             }
         }
 
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.TurnOnNow(Direction);
+				FiresecManager.FiresecService.GKTurnOnNow(Direction);
             }
         }
 
@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.TurnOff(Direction);
+				FiresecManager.FiresecService.GKTurnOff(Direction);
             }
         }
 
@@ -152,7 +152,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.Stop(Direction);
+				FiresecManager.FiresecService.GKStop(Direction);
             }
         }
 

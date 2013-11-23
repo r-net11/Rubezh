@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.Reset(Zone);
+				FiresecManager.FiresecService.GKReset(Zone);
             }
         }
 		bool CanResetFire()
@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetIgnoreRegime(Zone);
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
             }
         }
 		bool CanSetIgnore()
@@ -107,7 +107,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetAutomaticRegime(Zone);
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
             }
         }
 		bool CanResetIgnore()

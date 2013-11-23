@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 		{
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetAutomaticRegime(Device);
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
             }
 		}
 
@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetManualRegime(Device);
+				FiresecManager.FiresecService.GKSetManualRegime(Device);
             }
         }
 
@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetIgnoreRegime(Device);
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
             }
         }
 
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 		{
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.Reset(Device);
+				FiresecManager.FiresecService.GKReset(Device);
             }
 		}
 		bool CanReset()

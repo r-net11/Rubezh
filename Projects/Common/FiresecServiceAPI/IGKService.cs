@@ -8,20 +8,19 @@ namespace FiresecAPI
 {
 	public interface IGKService
 	{
-		void Start();
-		void Stop();
-		void SetNewConfiguration(XDeviceConfiguration deviceConfiguration);
-		void ExecuteDeviceCommand(XDevice device, XStateBit stateType);
-		void Reset(XBase xBase);
-		void ResetFire1(XZone zone);
-		void ResetFire2(XZone zone);
-		void SetAutomaticRegime(XBase xBase);
-		void SetManualRegime(XBase xBase);
-		void SetIgnoreRegime(XBase xBase);
-		void TurnOn(XBase xBase);
-		void TurnOnNow(XBase xBase);
-		void TurnOff(XBase xBase);
-		void TurnOffNow(XBase xBase);
-		void Stop(XBase xBase);
+		void GKWriteConfiguration(XDevice device);
+		void GKSetNewConfiguration(XDeviceConfiguration deviceConfiguration);
+		void GKExecuteDeviceCommand(XDevice device, XStateBit stateType);
+		void GKReset(XBase xBase);
+		void GKResetFire1(XZone zone);
+		void GKResetFire2(XZone zone);
+		void GKSetAutomaticRegime(XBase xBase);
+		void GKSetManualRegime(XBase xBase);
+		void GKSetIgnoreRegime(XBase xBase);
+		void GKTurnOn(XBase xBase);
+		void GKTurnOnNow(XBase xBase);
+		void GKTurnOff(XBase xBase);
+		void GKTurnOffNow(XBase xBase);
+		void GKStop(XBase xBase);
 	}
 }

@@ -19,6 +19,7 @@ namespace GKModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
+			TestCommand = new RelayCommand(OnTest);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
@@ -28,6 +29,13 @@ namespace GKModule.ViewModels
 			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			var tempUID = XManager.Devices.FirstOrDefault().TempUID;
+			return;
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Infrastructure.Common.Windows;
+//using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
 namespace FiresecClient
@@ -76,7 +76,7 @@ namespace FiresecClient
 				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
-					MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
+					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
 			}
 			DeviceConfiguration.Reorder();

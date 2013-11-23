@@ -130,7 +130,6 @@
     <Compile Include="Events\GKConnectionChangedEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
-    <Compile Include="Service\GKService.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
@@ -153,7 +152,6 @@
     </Compile>
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
-    <Compile Include="Service\GKServiceManager.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <Compile Include="Watcher\SendPriority.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
@@ -174,10 +172,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">
-      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
-      <Name>FiresecClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>

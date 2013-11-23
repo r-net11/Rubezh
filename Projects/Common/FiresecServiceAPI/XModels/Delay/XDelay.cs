@@ -8,7 +8,7 @@ namespace XFiresecAPI
 	{
 		public XDelay()
 		{
-			UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
 			DelayState = new XDelayState()
 			{
 				Delay = this

@@ -12,7 +12,7 @@ namespace XFiresecAPI
 	{
 		public XDevice()
 		{
-			UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
 			DeviceProperties = new List<XProperty>();

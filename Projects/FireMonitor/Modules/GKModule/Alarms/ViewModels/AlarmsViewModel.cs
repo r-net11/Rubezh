@@ -208,7 +208,7 @@ namespace GKModule.ViewModels
 
 					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(device);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 
@@ -216,7 +216,7 @@ namespace GKModule.ViewModels
 				{
 					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(zone);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(zone);
 					}
 				}
 
@@ -224,7 +224,7 @@ namespace GKModule.ViewModels
 				{
 					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(direction);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
 					}
 				}
 			}
@@ -278,11 +278,11 @@ namespace GKModule.ViewModels
                     {
                         if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire1))
                         {
-                            ObjectCommandSendHelper.ResetFire1(zone);
+							FiresecManager.FiresecService.GKResetFire1(zone);
                         }
                         if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
                         {
-                            ObjectCommandSendHelper.ResetFire2(zone);
+							FiresecManager.FiresecService.GKResetFire2(zone);
                         }
                     }
                     foreach (var device in XManager.Devices)
@@ -291,7 +291,7 @@ namespace GKModule.ViewModels
                         {
                             if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
                             {
-                                ObjectCommandSendHelper.Reset(device);
+								FiresecManager.FiresecService.GKReset(device);
                             }
                         }
                     }

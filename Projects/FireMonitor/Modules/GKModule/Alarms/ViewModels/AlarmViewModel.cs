@@ -201,17 +201,17 @@ namespace GKModule.ViewModels
 					switch (Alarm.AlarmType)
 					{
 						case XAlarmType.Fire1:
-							ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
+							FiresecManager.FiresecService.GKResetFire1(Alarm.Zone);
 							break;
 
 						case XAlarmType.Fire2:
-							ObjectCommandSendHelper.ResetFire2(Alarm.Zone);
+							FiresecManager.FiresecService.GKResetFire2(Alarm.Zone);
 							break;
 					}
 				}
 				if (Alarm.Device != null)
 				{
-					ObjectCommandSendHelper.Reset(Alarm.Device);
+					FiresecManager.FiresecService.GKReset(Alarm.Device);
 				}
 			}
 		}
@@ -244,7 +244,7 @@ namespace GKModule.ViewModels
                 {
                     if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
                     {
-                        ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
                     }
                 }
 
@@ -252,7 +252,7 @@ namespace GKModule.ViewModels
                 {
                     if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
                     {
-                        ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Zone);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
                     }
                 }
 
@@ -260,7 +260,7 @@ namespace GKModule.ViewModels
                 {
                     if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
                     {
-                        ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
                     }
                 }
             }
@@ -303,14 +303,14 @@ namespace GKModule.ViewModels
                 {
                     if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff))
                     {
-                        ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
                     }
                 }
                 if (Alarm.Direction != null)
                 {
                     if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
                     {
-                        ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
                     }
                 }
             }

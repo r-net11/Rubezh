@@ -1,111 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
+using Common;
+using Infrastructure.Common;
+using Ionic.Zip;
 using FiresecAPI;
+using System.Text;
+using FiresecAPI.Models;
 using XFiresecAPI;
+using System;
+using GKProcessor;
 
-namespace GKProcessor
+namespace FiresecService.Service
 {
-	public class GKService : IGKService
+	public partial class FiresecService
 	{
-		public static string UserName;
+		public void GKWriteConfiguration(XDevice device)
+		{
+			GkDescriptorsWriter.WriteConfig(device);
+			//FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+		}
 
-		public GKService()
+		public void GKSetNewConfiguration(XDeviceConfiguration deviceConfiguration)
 		{
 		}
 
-		public void Start()
-		{
-			WatcherManager.Start();
-		}
-
-		public void Stop()
-		{
-		}
-
-		public void StartConfigurationReloading()
-		{
-			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
-			WatcherManager.IsConfigurationReloading = true;
-		}
-
-		public void StopConfigurationReloading()
-		{
-			WatcherManager.IsConfigurationReloading = false;
-		}
-
-		public void SetNewConfiguration(XDeviceConfiguration deviceConfiguration)
-		{
-		}
-
-		public void ExecuteDeviceCommand(XDevice device, XStateBit stateType)
+		public void GKExecuteDeviceCommand(XDevice device, XStateBit stateType)
 		{
 			Watcher.SendControlCommand(device, stateType);
 			AddMessage("Команда оператора", stateType.ToDescription(), XStateClass.Info, device);
 		}
 
-		public void Reset(XBase xBase)
+		public void GKReset(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Reset);
 			AddMessage("Команда оператора", "Сброс", XStateClass.Info, xBase);
 		}
 
-		public void ResetFire1(XZone zone)
+		public void GKResetFire1(XZone zone)
 		{
 			Watcher.SendControlCommand(zone, 0x02);
 			AddMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
 		}
 
-		public void ResetFire2(XZone zone)
+		public void GKResetFire2(XZone zone)
 		{
 			Watcher.SendControlCommand(zone, 0x03);
 			AddMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
 		}
 
-		public void SetAutomaticRegime(XBase xBase)
+		public void GKSetAutomaticRegime(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic);
 			AddMessage("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, xBase);
 		}
 
-		public void SetManualRegime(XBase xBase)
+		public void GKSetManualRegime(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual);
 			AddMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
 		}
 
-		public void SetIgnoreRegime(XBase xBase)
+		public void GKSetIgnoreRegime(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off);
 			AddMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
 		}
 
-		public void TurnOn(XBase xBase)
+		public void GKTurnOn(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual);
 			AddMessage("Команда оператора", "Включить", XStateClass.Info, xBase);
 		}
 
-		public void TurnOnNow(XBase xBase)
+		public void GKTurnOnNow(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual);
 			AddMessage("Команда оператора", "Включить немедленно", XStateClass.Info, xBase);
 		}
 
-		public void TurnOff(XBase xBase)
+		public void GKTurnOff(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual);
 			AddMessage("Команда оператора", "Выключить", XStateClass.Info, xBase);
 		}
 
-		public void TurnOffNow(XBase xBase)
+		public void GKTurnOffNow(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual);
 			AddMessage("Команда оператора", "Выключить немедленно", XStateClass.Info, xBase);
 		}
 
-		public void Stop(XBase xBase)
+		public void GKStop(XBase xBase)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
 			AddMessage("Команда оператора", "Остановка пуска", XStateClass.Info, xBase);
@@ -148,7 +134,7 @@ namespace GKProcessor
 				ObjectName = xBase.PresentationName,
 				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)xBase.GKDescriptorNo,
-				UserName = UserName,
+				//UserName = FiresecManager.CurrentUser.Name,
 				SubsystemType = XSubsystemType.System
 			};
 

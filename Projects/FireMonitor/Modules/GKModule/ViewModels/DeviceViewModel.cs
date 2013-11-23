@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetIgnoreRegime(Device);
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
             }
         }
 		bool CanSetIgnore()
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-                ObjectCommandSendHelper.SetAutomaticRegime(Device);
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
             }
         }
 		bool CanResetIgnore()
@@ -139,7 +139,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetIgnoreRegime(device);
+						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
 				}
 			}
@@ -170,7 +170,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(device);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 			}
