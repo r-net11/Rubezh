@@ -20,15 +20,12 @@ namespace LayoutModule.ViewModels
 
 		public void AfterInsertDocument(LayoutRoot layout, LayoutDocument anchorableShown)
 		{
-			//anchorableShown.Float();
-			//var point = Mouse.GetPosition(layout.Manager);
-			//point = layout.Manager.PointToScreen(point);
-			//anchorableShown.FloatingWidth = 100;
-			//anchorableShown.FloatingHeight = 100;
-			//var method = typeof(DockingManager).GetMethod("StartDraggingFloatingWindowForContent", BindingFlags.NonPublic | BindingFlags.Instance);
-			//method.Invoke(layout.Manager, new object[] { anchorableShown, true });
-			//anchorableShown.FloatingLeft = point.X - 20;
-			//anchorableShown.FloatingTop = point.Y - 20;
+			var parent = anchorableShown.Parent as LayoutDocumentPane;
+			if (parent == null)
+				parent = anchorableShown.FindParent<LayoutDocumentPane>();
+			if (parent != null)
+			{
+			}
 		}
 
 		public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow, ILayoutContainer destinationContainer)

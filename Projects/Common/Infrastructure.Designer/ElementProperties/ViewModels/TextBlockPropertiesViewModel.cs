@@ -7,6 +7,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class TextBlockPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		private const int MaxFontSize = 1000;
 		private ElementTextBlock _elementTextBlock;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
@@ -105,6 +106,8 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			set
 			{
 				_fontSize = value;
+				if (_fontSize > MaxFontSize)
+					_fontSize = MaxFontSize;
 				OnPropertyChanged("FontSize");
 			}
 		}

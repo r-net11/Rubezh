@@ -39,6 +39,8 @@ namespace Xceed.Wpf.AvalonDock.Layout
         double DockMinWidth { get; set; }
         double DockMinHeight { get; set; }
 
+		bool IsDockWidthFixed { get; set; }
+		bool IsDockHeightFixed { get; set; }
 
 
         bool IsVisible { get; }

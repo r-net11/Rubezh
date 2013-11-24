@@ -40,7 +40,7 @@ namespace Infrastructure.Designer
 			Width = 100;
 			Height = 100;
 			Focusable = false;
-			
+
 			DesignerSurface.AllowDrop = true;
 			var pasteItem = new MenuItem()
 			{
@@ -65,13 +65,13 @@ namespace Infrastructure.Designer
 
 		public void RemoveAllSelected()
 		{
-			var elements = SelectedElements;
+			var elements = SelectedElements.ToList();
 			if (elements.Count() == 0)
 				return;
 
-			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
 			foreach (var designerItem in SelectedItems.ToList())
 				RemoveDesignerItem(designerItem);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
 			DesignerChanged();
 		}
 

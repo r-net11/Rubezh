@@ -118,6 +118,44 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#endregion
 
+		#region IsDockWidthFixed
+
+		private bool _isDockWidthFixed = false;
+		public bool IsDockWidthFixed
+		{
+			get { return _isDockWidthFixed; }
+			set
+			{
+				if (_isDockWidthFixed != value)
+				{
+					RaisePropertyChanging("IsDockWidthFixed");
+					_isDockWidthFixed = value;
+					RaisePropertyChanged("IsDockWidthFixed");
+				}
+			}
+		}
+
+		#endregion
+
+		#region IsDockHeightFixed
+
+		private bool _isDockHeightFixed = false;
+		public bool IsDockHeightFixed
+		{
+			get { return _isDockHeightFixed; }
+			set
+			{
+				if (_isDockHeightFixed != value)
+				{
+					RaisePropertyChanging("IsDockHeightFixed");
+					_isDockHeightFixed = value;
+					RaisePropertyChanged("IsDockHeightFixed");
+				}
+			}
+		}
+
+		#endregion
+
 		#region FloatingWidth
 
 		private double _floatingWidth = 0.0;
@@ -253,6 +291,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			if (DockMinHeight != 25.0)
 				writer.WriteAttributeString("DockMinHeight", DockMinHeight.ToString(CultureInfo.InvariantCulture));
 
+			if (IsDockWidthFixed)
+				writer.WriteAttributeString("IsDockWidthFixed", IsDockWidthFixed.ToString());
+			if (IsDockHeightFixed)
+				writer.WriteAttributeString("IsDockHeightFixed", IsDockHeightFixed.ToString());
+
 			//if (FloatingWidth != 0.0)
 			//    writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
 			//if (FloatingHeight != 0.0)
@@ -279,6 +322,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				_dockMinWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
 			if (reader.MoveToAttribute("DocMinHeight"))
 				_dockMinHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+
+			if (reader.MoveToAttribute("IsDockWidthFixed"))
+				_isDockWidthFixed = bool.Parse(reader.Value);
+			if (reader.MoveToAttribute("IsDockHeightFixed"))
+				_isDockHeightFixed = bool.Parse(reader.Value);
 
 			//if (reader.MoveToAttribute("FloatingWidth"))
 			//    _floatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);

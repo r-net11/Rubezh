@@ -12,6 +12,7 @@ namespace PlansModule.ViewModels
 		{
 			Plan = plan;
 			PlanFolder = plan as PlanFolder;
+			IsExpanded = true;
 		}
 
 		public void Update()

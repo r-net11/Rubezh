@@ -80,6 +80,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LayoutUpdateStrategy.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
@@ -93,6 +94,9 @@
     <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
+    <Compile Include="Views\LayoutPartPropertiesView.xaml.cs">
+      <DependentUpon>LayoutPartPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutDesignerView.xaml.cs">
       <DependentUpon>LayoutDesignerView.xaml</DependentUpon>
     </Compile>
@@ -174,6 +178,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LayoutPartPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

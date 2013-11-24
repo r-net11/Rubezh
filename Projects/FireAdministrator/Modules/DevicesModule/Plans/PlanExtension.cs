@@ -276,6 +276,7 @@ namespace DevicesModule.Plans
 			if (deviceInZonesChanged)
 			{
 				var deviceInZones = new Dictionary<Device, Guid>();
+				var handledDevices = new List<Device>();
 				using (new WaitWrapper())
 				using (new TimeCounter("\tUpdateDeviceInZones: {0}"))
 				{
@@ -292,7 +293,7 @@ namespace DevicesModule.Plans
 						if (elementDevice != null)
 						{
 							var device = Designer.Helper.GetDevice(elementDevice);
-							if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
+							if (device == null || device.Driver == null || !device.Driver.IsZoneDevice || handledDevices.Contains(device))
 								continue;
 							var point = new Point(elementDevice.Left, elementDevice.Top);
 							var zones = new List<IElementZone>();
@@ -303,13 +304,25 @@ namespace DevicesModule.Plans
 							{
 								var isInZone = zones.Any(x => x.ZoneUID == device.ZoneUID);
 								if (!isInZone)
-									deviceInZones.Add(device, GetTopZoneUID(zones));
+								{
+									if (!deviceInZones.ContainsKey(device))
+										deviceInZones.Add(device, GetTopZoneUID(zones));
+								}
+								else
+								{
+									handledDevices.Add(device);
+									if (deviceInZones.ContainsKey(device))
+										deviceInZones.Remove(device);
+								}
 							}
 							else if (zones.Count > 0)
 							{
 								var zone = Helper.GetZone(GetTopZoneUID(zones));
 								if (zone != null)
+								{
 									FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
+									handledDevices.Add(device);
+								}
 							}
 						}
 					}

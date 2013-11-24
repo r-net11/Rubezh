@@ -8,12 +8,17 @@ namespace Infrastructure.Common.Services.Layout
 	{
 		public LayoutPartDescription()
 		{
-			WidthType = GridUnitType.Star;
-			HeightType = GridUnitType.Star;
-			Height = 1;
-			Width = 1;
-			MinWidth = 25;
-			MinHeight = 25;
+			Size = new LayoutPartSize()
+			{
+				WidthType = GridUnitType.Star,
+				HeightType = GridUnitType.Star,
+				Height = 1,
+				Width = 1,
+				MinWidth = 25,
+				MinHeight = 25,
+				IsHeightFixed = false,
+				IsWidthFixed = false,
+			};
 		}
 
 		#region ILayoutPartDescription Members
@@ -25,13 +30,7 @@ namespace Infrastructure.Common.Services.Layout
 		public string Description { get; set; }
 		public bool AllowMultiple { get; set; }
 		public BaseViewModel Content { get; set; }
-
-		public GridUnitType WidthType { get; set; }
-		public GridUnitType HeightType { get; set; }
-		public double Width { get; set; }
-		public double Height { get; set; }
-		public double MinWidth { get; set; }
-		public double MinHeight { get; set; }
+		public LayoutPartSize Size { get; private set; }
 
 		#endregion
 	}

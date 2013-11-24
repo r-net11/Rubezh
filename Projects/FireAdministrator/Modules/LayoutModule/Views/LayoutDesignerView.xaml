@@ -10,6 +10,7 @@
 				<Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource NullToImageConverter}}" />
 				<Setter Property="ToolTip" Value="{Binding Model.Title}" />
 				<Setter Property="Description" Value="{Binding Model.Description}" />
+				<Setter Property="ConfigureCommand" Value="{Binding Model.ConfigureCommand}" />
 			</Style>
 		</xcad:DockingManager.LayoutItemContainerStyle>
 		<xcad:LayoutRoot />

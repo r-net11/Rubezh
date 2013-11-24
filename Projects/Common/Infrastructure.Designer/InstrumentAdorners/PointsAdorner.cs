@@ -124,8 +124,8 @@ namespace Infrastructure.Designer.InstrumentAdorners
 						var shape = FindShape(_shapeMap, designerItem);
 						AdornerCanvas.Children.Remove(shape);
 						_shapeMap.Remove(shape);
-						ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { designerItem.Element });
 						((DesignerCanvas)DesignerCanvas).RemoveDesignerItem(designerItem);
+						ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { designerItem.Element });
 					}
 					DesignerCanvas.EndChange();
 					designerItem.IsSelected = false;

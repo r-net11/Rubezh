@@ -15,17 +15,14 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
-using System.Windows.Input;
-using Xceed.Wpf.AvalonDock.Commands;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
+using Xceed.Wpf.AvalonDock.Commands;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
@@ -1096,6 +1093,51 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		}
 		#endregion
 
+		#region ConfigureCommand
+
+		/// <summary>
+		/// ConfigureCommand Dependency Property
+		/// </summary>
+		public static readonly DependencyProperty ConfigureCommandProperty =
+			DependencyProperty.Register("ConfigureCommand", typeof(ICommand), typeof(LayoutItem),
+				new FrameworkPropertyMetadata(null,
+					new PropertyChangedCallback(OnConfigureCommandChanged),
+					new CoerceValueCallback(CoerceConfigureCommandValue)));
+
+		/// <summary>
+		/// Gets or sets the ConfigureCommand property.  This dependency property 
+		/// indicates the command to execute when user click the document сonfigure button.
+		/// </summary>
+		public ICommand ConfigureCommand
+		{
+			get { return (ICommand)GetValue(ConfigureCommandProperty); }
+			set { SetValue(ConfigureCommandProperty, value); }
+		}
+
+		/// <summary>
+		/// Handles changes to the ConfigureCommand property.
+		/// </summary>
+		private static void OnConfigureCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			((LayoutItem)d).OnConfigureCommandChanged(e);
+		}
+
+		/// <summary>
+		/// Provides derived classes an opportunity to handle changes to the ConfigureCommand property.
+		/// </summary>
+		protected virtual void OnConfigureCommandChanged(DependencyPropertyChangedEventArgs e)
+		{
+		}
+
+		/// <summary>
+		/// Coerces the ConfigureCommand value.
+		/// </summary>
+		private static object CoerceConfigureCommandValue(DependencyObject d, object value)
+		{
+			return value;
+		}
+
+		#endregion
 
 
 	}

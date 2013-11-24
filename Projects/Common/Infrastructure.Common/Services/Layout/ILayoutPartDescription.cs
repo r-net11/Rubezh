@@ -16,11 +16,6 @@ namespace Infrastructure.Common.Services.Layout
 		string Description { get; }
 		bool AllowMultiple { get; }
 		BaseViewModel Content { get; }
-		GridUnitType WidthType { get; }
-		GridUnitType HeightType { get; }
-		double Width { get; }
-		double Height { get; }
-		double MinWidth { get; }
-		double MinHeight { get; }
+		LayoutPartSize Size { get; }
 	}
 }

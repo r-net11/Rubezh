@@ -227,11 +227,11 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth) });
 						Grid.SetColumn(InternalChildren[iChild], iColumn);
 						bool nextChildModelVisibleExist = false;
-						if (childModel.IsVisible && childModel.DockWidth != GridLength.Auto)
+						if (childModel.IsVisible && childModel.DockWidth != GridLength.Auto && !childModel.IsDockWidthFixed)
 							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
 							{
 								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
-								if (nextChildModel.IsVisible && nextChildModel.DockWidth != GridLength.Auto)
+								if (nextChildModel.IsVisible && nextChildModel.DockWidth != GridLength.Auto && !nextChildModel.IsDockWidthFixed)
 								{
 									nextChildModelVisibleExist = true;
 									break;
@@ -264,11 +264,11 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
 						Grid.SetRow(InternalChildren[iChild], iRow);
 						bool nextChildModelVisibleExist = false;
-						if (childModel.IsVisible && childModel.DockHeight != GridLength.Auto)
+						if (childModel.IsVisible && childModel.DockHeight != GridLength.Auto && !childModel.IsDockHeightFixed)
 							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
 							{
 								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
-								if (nextChildModel.IsVisible && nextChildModel.DockHeight != GridLength.Auto)
+								if (nextChildModel.IsVisible && nextChildModel.DockHeight != GridLength.Auto && !nextChildModel.IsDockHeightFixed)
 								{
 									nextChildModelVisibleExist = true;
 									break;

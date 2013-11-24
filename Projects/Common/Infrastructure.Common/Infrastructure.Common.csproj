@@ -193,6 +193,7 @@
     <Compile Include="Services\DragDrop\IDragDropService.cs" />
     <Compile Include="Services\DragDrop\TreeNodeDropObject.cs" />
     <Compile Include="Services\ISecurityService.cs" />
+    <Compile Include="Services\Layout\LayoutPartSize.cs" />
     <Compile Include="Services\Layout\UnknownLayoutPartPresenter.cs" />
     <Compile Include="Services\Layout\ILayoutPartPresenter.cs" />
     <Compile Include="Services\Layout\LayoutPartPresenter.cs" />

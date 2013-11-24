@@ -22,7 +22,7 @@ using System.Windows;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
-    abstract class DropTargetBase : DependencyObject
+	abstract class DropTargetBase : DependencyObject
     {
         #region IsDraggingOver
 

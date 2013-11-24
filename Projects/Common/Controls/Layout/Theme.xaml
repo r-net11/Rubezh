@@ -362,6 +362,7 @@
 	</Style>
 
 	<ContextMenu x:Key="DocumentContextMenu" Style="{StaticResource DocumentContextMenuStyle}">
+		<MenuItem Command="{Binding Path=ConfigureCommand}" Header="Свойства" Visibility="{Binding Path=Command, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}" />
 		<MenuItem Command="{Binding Path=CloseCommand}" Header="Закрыть" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 		<MenuItem Command="{Binding Path=CloseAllButThisCommand}" Header="Закрыть все кроме этого" />
 		<MenuItem Command="{Binding Path=NewHorizontalTabGroupCommand}" Header="Новая горизонтальная группа вкладок" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />

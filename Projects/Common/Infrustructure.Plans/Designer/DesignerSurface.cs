@@ -96,7 +96,6 @@ namespace Infrustructure.Plans.Designer
 		protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			var point = e.GetPosition(this);
-			ReleaseMouseCapture();
 			if (_isDragging)
 			{
 				e.Handled = true;
@@ -104,6 +103,7 @@ namespace Infrustructure.Plans.Designer
 				if (_visualItemOver != null)
 					_visualItemOver.DragCompleted(point);
 			}
+			ReleaseMouseCapture();
 			var visualItem = GetVisualItem(point);
 			if (visualItem != null)
 				visualItem.OnMouseUp(point, e);
