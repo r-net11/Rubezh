@@ -11,73 +11,10 @@ namespace GKProcessor
 	public static class ParametersHelper
 	{
 		public static event Action<ushort, ushort, ushort> AllParametersChanged;
-
-		public static void GetAllParameters()
+		
+		public static string SetSingleParameter(XDevice device)
 		{
-			DescriptorsManager.Create();
-			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
-			{
-				LoadingService.Show("Запрос параметров", "Запрос параметров", kauDatabase.Descriptors.Count);
-				try
-				{
-					foreach (var descriptor in kauDatabase.Descriptors)
-					{
-						if (descriptor.Device != null)
-						{
-							var result = GetDeviceParameters(kauDatabase, descriptor);
-							if (!result)
-							{
-								MessageBoxService.ShowError("Ошибка при чтении параметра устройства " + descriptor.Device.PresentationDriverAndAddress);
-								return;
-							}
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "ParametersHelper.GetParametersFromDB");
-				}
-				finally
-				{
-					LoadingService.Close();
-				}
-			}
-		}
-
-		public static void SetAllParameters()
-		{
-			DescriptorsManager.Create();
-			foreach (var kauDatabase in DescriptorsManager.KauDatabases)
-			{
-				LoadingService.Show("Запись параметров", "Запись параметров", kauDatabase.Descriptors.Count);
-				try
-				{
-					foreach (var descriptor in kauDatabase.Descriptors)
-					{
-						if (descriptor.Device != null)
-						{
-							var result = SetDeviceParameters(kauDatabase, descriptor);
-							if (!string.IsNullOrEmpty(result))
-							{
-								MessageBoxService.ShowError("Ошибка при записи параметра устройства " + descriptor.Device.PresentationDriverAndAddress + "\n" + result);
-								return;
-							}
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "ParametersHelper.SetParametersToDB");
-				}
-				finally
-				{
-					LoadingService.Close();
-				}
-			}
-		}
-
-		public static void SetSingleParameter(XDevice device)
-		{
+			var errorLog = "";
 			try
 			{
 				var commonDatabase = GetCommonDatabase(device);
@@ -89,7 +26,7 @@ namespace GKProcessor
 						var result = SetDeviceParameters(commonDatabase, descriptor);
 						if (result != null)
 						{
-							ErrorLog += "\n" + device.PresentationDriverAndAddress;
+							errorLog = "Ошибка";
 						}
 					}
 				}
@@ -98,12 +35,12 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.SetSingleParameter");
 			}
+			return errorLog;
 		}
 
-		public static string ErrorLog { get; set; }
-
-		public static void GetSingleParameter(XDevice device)
+		public static string GetSingleParameter(XDevice device)
 		{
+			var errorLog = "";
 			try
 			{
 				var commonDatabase = GetCommonDatabase(device);
@@ -115,7 +52,7 @@ namespace GKProcessor
 						var result = GetDeviceParameters(commonDatabase, descriptor);
 						if (!result)
 						{
-							ErrorLog += "\n" + device.PresentationDriverAndAddress;
+							errorLog = "Ошибка";
 						}
 					}
 				}
@@ -124,6 +61,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
+			return errorLog;
 		}
 
 		static bool GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
@@ -201,6 +139,7 @@ namespace GKProcessor
 						return false;
 				}
 			}
+			AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
 			return true;
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
@@ -243,8 +182,9 @@ namespace GKProcessor
 			return null;
 		}
 
-		public static void SetSingleDirectionParameter(XDirection direction)
+		public static string SetSingleDirectionParameter(XDirection direction)
 		{
+			var errorLog = "";
 			DescriptorsManager.Create();
 			try
 			{
@@ -254,10 +194,10 @@ namespace GKProcessor
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
 					if (descriptor != null)
 					{
-						var result = SetDirectionParameters(commonDatabase, descriptor);
+						var result = SetDeviceParameters(commonDatabase, descriptor);
 						if (!string.IsNullOrEmpty(result))
 						{
-							MessageBoxService.ShowError("Ошибка при записи параметра направления " + direction.PresentationName + "\n" + result);
+							errorLog = "Ошибка при записи параметра направления " + direction.PresentationName;
 						}
 					}
 				}
@@ -266,50 +206,12 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.SetDirectionParameters");
 			}
+			return errorLog;
 		}
 
-		static string SetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
+		public static string GetSingleDirectionParameter(XDirection direction)
 		{
-			if (descriptor.Device != null)
-			{
-				foreach (var property in descriptor.Device.DeviceProperties)
-				{
-					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-					if (driverProperty != null)
-					{
-						if (driverProperty.Min != 0)
-							if (property.Value < driverProperty.Min)
-								return "Парметр " + driverProperty.Caption + " должен быть больше " + driverProperty.Min.ToString();
-
-						if (driverProperty.Max != 0)
-							if (property.Value > driverProperty.Max)
-								return "Парметр " + driverProperty.Caption + " должен быть меньше " + driverProperty.Max.ToString();
-
-						if (driverProperty.Multiplier != 0)
-						{
-							property.Value = (ushort)(property.Value * driverProperty.Multiplier);
-						}
-					}
-				}
-			}
-
-			if (descriptor.Parameters.Count > 0)
-			{
-				var rootDevice = commonDatabase.RootDevice;
-				var no = descriptor.GetDescriptorNo();
-				var bytes = new List<byte>();
-				bytes.AddRange(BytesHelper.ShortToBytes(no));
-				bytes.AddRange(descriptor.Parameters);
-				LoadingService.DoStep("Запись параметров объекта " + no);
-				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
-				if (sendResult.HasError)
-					return sendResult.Error;
-			}
-			return null;
-		}
-
-		public static void GetSingleDirectionParameter(XDirection direction)
-		{
+			var errorLog = "";
 			DescriptorsManager.Create();
 			try
 			{
@@ -319,10 +221,10 @@ namespace GKProcessor
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
 					if (descriptor != null)
 					{
-						var result = GetDirectionParameters(commonDatabase, descriptor, direction);
+						var result = GetDeviceParameters(commonDatabase, descriptor);
 						if (!result)
 						{
-							ErrorLog += "\n" + direction.PresentationName;
+							errorLog = "Ошибка";
 						}
 					}
 				}
@@ -331,73 +233,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-		}
-
-		static bool GetDirectionParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, XDirection direction)
-		{
-			var no = descriptor.GetDescriptorNo();
-			LoadingService.DoStep("Запрос параметров объекта " + no);
-			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
-			if (sendResult.HasError)
-			{
-				return false;
-			}
-
-			var binProperties = new List<BinProperty>();
-			for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
-			{
-				byte paramNo = sendResult.Bytes[i * 4];
-				ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
-				var binProperty = new BinProperty()
-				{
-					No = paramNo,
-					Value = paramValue
-				};
-				binProperties.Add(binProperty);
-			}
-
-			if (descriptor.Device != null)
-			{
-				foreach (var driverProperty in descriptor.Device.Driver.Properties)
-				{
-					if (!driverProperty.IsAUParameter)
-						continue;
-
-					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
-					if (binProperty != null)
-					{
-						var paramValue = (ushort)binProperty.Value;
-						if (driverProperty.IsLowByte)
-						{
-							paramValue = (ushort)(paramValue << 8);
-							paramValue = (ushort)(paramValue >> 8);
-						}
-						if (driverProperty.IsHieghByte)
-						{
-							paramValue = (ushort)(paramValue / 256);
-						}
-						if (driverProperty.Mask != 0)
-						{
-							paramValue = (byte)(paramValue & driverProperty.Mask);
-						}
-						if (driverProperty.Multiplier != 0)
-						{
-							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
-						}
-						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
-						if (property != null)
-						{
-							property.Value = paramValue;
-						}
-					}
-					else
-					{
-						return false;
-					}
-				}
-			}
-			AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
-			return true;
+			return errorLog;
 		}
 
 		static CommonDatabase GetCommonDatabase(XBase xBase)

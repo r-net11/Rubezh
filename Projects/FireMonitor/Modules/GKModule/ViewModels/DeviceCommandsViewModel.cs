@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using GKProcessor;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -73,20 +74,29 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Device);
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+            }
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-		void OnSetManualState()
-		{
-			ObjectCommandSendHelper.SetManualRegime(Device);
-		}
+        void OnSetManualState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetManualRegime(Device);
+            }
+        }
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-		void OnSetIgnoreState()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Device);
-		}
+        void OnSetIgnoreState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+            }
+        }
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
 
@@ -104,7 +114,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			ObjectCommandSendHelper.Reset(Device);
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKReset(Device);
+            }
 		}
 		bool CanReset()
 		{

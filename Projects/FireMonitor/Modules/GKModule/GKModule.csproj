@@ -148,7 +148,6 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ObjectCommandSendHelper.cs" />
     <Compile Include="Helpers\ParameterUpdateHelper.cs" />
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />

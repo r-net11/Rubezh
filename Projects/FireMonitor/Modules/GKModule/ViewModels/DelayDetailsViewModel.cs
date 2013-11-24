@@ -79,40 +79,58 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
-		void OnSetAutomaticState()
-		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Delay);
-		}
+        void OnSetAutomaticState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Delay);
+            }
+        }
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-		void OnSetManualState()
-		{
-			ObjectCommandSendHelper.SetManualRegime(Delay);
-		}
+        void OnSetManualState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetManualRegime(Delay);
+            }
+        }
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-		void OnSetIgnoreState()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Delay);
-		}
+        void OnSetIgnoreState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Delay);
+            }
+        }
 
 		public RelayCommand TurnOnCommand { get; private set; }
-		void OnTurnOn()
-		{
-			ObjectCommandSendHelper.TurnOn(Delay);
-		}
+        void OnTurnOn()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOn(Delay);
+            }
+        }
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
-		void OnTurnOnNow()
-		{
-			ObjectCommandSendHelper.TurnOnNow(Delay);
-		}
+        void OnTurnOnNow()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOnNow(Delay);
+            }
+        }
 
 		public RelayCommand TurnOffCommand { get; private set; }
-		void OnTurnOff()
-		{
-			ObjectCommandSendHelper.TurnOff(Delay);
-		}
+        void OnTurnOff()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOff(Delay);
+            }
+        }
 
 		public bool HasOnDelay
 		{

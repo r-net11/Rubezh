@@ -89,18 +89,17 @@ namespace GKProcessor
 
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
-							if (!GoToWorkingRegime(kauDatabase.RootDevice))
+							if (!DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice))
 							{
 								error = "Не удалось перевести КАУ в рабочий режим";
 								break;
 							}
 						}
-						if (!GoToWorkingRegime(gkDatabase.RootDevice))
+						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice))
 						{
 							error = "Не удалось перевести ГК в рабочий режим";
 							break;
 						}
-						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 						return;
 					}
 					if (error != null)
@@ -214,10 +213,6 @@ namespace GKProcessor
 
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
 			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
-			if (sendResult.HasError)
-			{
-				return false;
-			}
 
 			for (int i = 0; i < 10; i++)
 			{
@@ -243,35 +238,6 @@ namespace GKProcessor
 					}
 				}
 			}
-			return false;
-		}
-
-		public static bool GoToWorkingRegime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
-			if (LoadingService.IsCanceled)
-				return true;
-			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
-
-			for (int i = 0; i < 100; i++)
-			{
-				if (LoadingService.IsCanceled)
-					return true;
-				var sendResult = SendManager.Send(device, 0, 1, 1);
-				if (!sendResult.HasError)
-				{
-					if (sendResult.Bytes.Count > 0)
-					{
-						var version = sendResult.Bytes[0];
-						if (version <= 127)
-						{
-							return true;
-						}
-					}
-				}
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-			}
-
 			return false;
 		}
 

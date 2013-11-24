@@ -5,6 +5,7 @@
 		Device,
 		Zone,
 		Direction,
-		Delay
+		Delay,
+		Pim
 	}
 }

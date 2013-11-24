@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using GKProcessor;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {

@@ -7,7 +7,7 @@ using FiresecAPI.Models;
 
 namespace FiresecClient
 {
-	public partial class SafeFiresecService : IFiresecService
+	public partial class SafeFiresecService// : IFiresecService
 	{
 		FiresecServiceFactory FiresecServiceFactory;
 		public IFiresecService FiresecService { get; set; }

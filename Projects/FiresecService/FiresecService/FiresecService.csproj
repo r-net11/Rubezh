@@ -119,6 +119,7 @@
     <Compile Include="Processor\SecurityConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
+    <Compile Include="Service\FiresecService.GK.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.Poll.cs" />

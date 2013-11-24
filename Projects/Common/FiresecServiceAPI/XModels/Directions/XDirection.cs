@@ -9,7 +9,7 @@ namespace XFiresecAPI
 	{
 		public XDirection()
 		{
-            UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
             DirectionZones = new List<XDirectionZone>();
             DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
@@ -28,10 +28,6 @@ namespace XFiresecAPI
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }
 		public List<XDevice> NSDevices { get; set; }
-		public bool IsEmpty
-		{
-			get { return InputDevices.Count + OutputDevices.Count + DirectionZones.Count + NSDevices.Count == 0; }
-		}
 
 		[DataMember]
 		public Guid UID { get; set; }

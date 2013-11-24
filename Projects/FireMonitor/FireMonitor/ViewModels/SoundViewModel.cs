@@ -130,8 +130,8 @@ namespace FireMonitor.ViewModels
 					AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(sound.SoundName), sound.BeeperType, sound.IsContinious);
 					return;
 				}
-				AlarmPlayerHelper.Stop();
 			}
+			AlarmPlayerHelper.Stop();
 		}
 
 		public RelayCommand PlaySoundCommand { get; private set; }

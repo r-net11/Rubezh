@@ -21,7 +21,7 @@ namespace GKProcessor
 			Add("Синхронизация времени прибора с временем ПК", XStateClass.Info, "Синхронизация часов ГК и операционной системы");
 			Add("Смена ПО", XStateClass.TechnologicalRegime, "Изменение программного обеспечения ГК и КАУ");
 			Add("Смена БД", XStateClass.TechnologicalRegime, "Изменение базы данных ГК и КАУ");
-			Add("Работа", XStateClass.On, "Работа шкафов управления");
+			Add("Работа", XStateClass.TechnologicalRegime, "Перевод в рабочий режим");
 			Add("Вход пользователя в прибор", XStateClass.Info, "Вход пользователя в ГК");
 			Add("Выход пользователя из прибора", XStateClass.Info, "Выход пользователя из ГК");
 			Add("Ошибка управления", XStateClass.Failure, "Ошибка управления исполнительным устройством");

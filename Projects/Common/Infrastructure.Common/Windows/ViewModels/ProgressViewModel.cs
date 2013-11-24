@@ -86,7 +86,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Close();
 		}
 
-		public bool IsCanceled { get; private set; }
+		public bool IsCanceled { get; set; }
 
 		public RelayCommand CancelCommand { get; private set; }
 		void OnCancel()

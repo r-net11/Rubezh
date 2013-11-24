@@ -12,7 +12,7 @@ namespace XFiresecAPI
 	{
 		public XDevice()
 		{
-			UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
 			DeviceProperties = new List<XProperty>();
@@ -177,7 +177,7 @@ namespace XFiresecAPI
 				if (address.Length > 0 && address[address.Length - 1] == '.')
 					address.Remove(address.Length - 1, 1);
 
-				if (rootDevice != null && rootDevice.Children.Count > 1)
+				if (rootDevice != null && rootDevice.Children.Count > 1 && rootDevice.Driver.DriverType == XDriverType.System)
 				{
 					address.Append("(" + allParents[1].Address + ")");
 				}
@@ -233,7 +233,7 @@ namespace XFiresecAPI
 			get
 			{
 				if (Driver.HasAddress)
-					return Address + " - " + Driver.Name;
+					return Address + " - " + ShortName;
 				return Driver.Name;
 			}
 		}

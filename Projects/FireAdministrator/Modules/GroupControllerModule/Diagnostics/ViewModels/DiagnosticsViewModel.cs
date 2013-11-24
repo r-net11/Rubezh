@@ -19,14 +19,23 @@ namespace GKModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
+			TestCommand = new RelayCommand(OnTest);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
+			ConvertExitToReleCommand = new RelayCommand(OnConvertExitToRele);
 			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			var tempUID = XManager.Devices.FirstOrDefault().TempUID;
+			return;
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
@@ -53,6 +62,32 @@ namespace GKModule.ViewModels
 		{
 			var gkToFiresecConverter = new GKToFiresecConverter();
 			gkToFiresecConverter.Convert();
+			ServiceFactory.SaveService.FSChanged = true;
+		}
+
+		public RelayCommand ConvertExitToReleCommand { get; private set; }
+		void OnConvertExitToRele()
+		{
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GKLine)
+				{
+					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GKRele);
+					device.Driver = driver;
+					device.DriverUID = driver.UID;
+				}
+			}
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GK)
+				{
+					XManager.UpdateGKPredefinedName(device);
+					//device.Children[10].IntAddress = 1;
+					//device.Children[11].IntAddress = 2;
+				}
+			}
+			XManager.UpdateConfiguration();
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			ServiceFactory.SaveService.FSChanged = true;
 		}
 
@@ -149,6 +184,5 @@ namespace GKModule.ViewModels
 			}
 			return false;
 		}
-
 	}
 }

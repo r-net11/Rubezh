@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using GKProcessor;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

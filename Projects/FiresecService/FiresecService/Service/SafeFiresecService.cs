@@ -214,5 +214,112 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
-    }
+
+		#region GK
+		public void GKWriteConfiguration(XDevice device)
+		{
+			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(device); }, "GKWriteConfiguration");
+		}
+
+		public OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(device); }, "GKReadConfiguration");
+		}
+
+		public void GKUpdateFirmware(XDevice device, string fileName)
+		{
+			SafeOperationCall(() => { FiresecService.GKUpdateFirmware(device, fileName); }, "GKUpdateFirmware");
+		}
+
+		public bool GKSyncronyseTime(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device); }, "GKSyncronyseTime");
+		}
+
+		public string GKGetDeviceInfo(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(device); }, "GKGetDeviceInfo");
+		}
+
+		public OperationResult<int> GKGetJournalItemsCount(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device); }, "GKGetJournalItemsCount");
+		}
+
+		public OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device, no); }, "GKReadJournalItem");
+		}
+
+		public OperationResult<bool> GKSetSingleParameter(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(device); }, "GKSetSingleParameter");
+		}
+
+		public OperationResult<bool> GKGetSingleParameter(XDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(device); }, "GKGetSingleParameter");
+		}
+
+		public void GKExecuteDeviceCommand(XDevice device, XStateBit stateType)
+		{
+			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(device, stateType); }, "GKExecuteDeviceCommand");
+		}
+
+		public void GKReset(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKReset(uid, objectType); }, "GKReset");
+		}
+
+		public void GKResetFire1(Guid zoneUid)
+		{
+			SafeOperationCall(() => { FiresecService.GKResetFire1(zoneUid); }, "GKResetFire1");
+		}
+
+		public void GKResetFire2(Guid zoneUid)
+		{
+			SafeOperationCall(() => { FiresecService.GKResetFire2(zoneUid); }, "GKResetFire2");
+		}
+
+		public void GKSetAutomaticRegime(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(uid, objectType); }, "GKSetAutomaticRegime");
+		}
+
+		public void GKSetManualRegime(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetManualRegime(uid, objectType); }, "GKSetManualRegime");
+		}
+
+		public void GKSetIgnoreRegime(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(uid, objectType); }, "GKSetIgnoreRegime");
+		}
+
+		public void GKTurnOn(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOn(uid, objectType); }, "GKTurnOn");
+		}
+
+		public void GKTurnOnNow(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOnNow(uid, objectType); }, "GKTurnOnNow");
+		}
+
+		public void GKTurnOff(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOff(uid, objectType); }, "GKTurnOff");
+		}
+
+		public void GKTurnOffNow(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKTurnOffNow(uid, objectType); }, "GKTurnOffNow");
+		}
+
+		public void GKStop(Guid uid, XBaseObjectType objectType)
+		{
+			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType); }, "GKStop");
+		}
+		#endregion
+	}
 }

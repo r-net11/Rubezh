@@ -4,19 +4,19 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDelay : XBase
+	public class XPim : XBase
 	{
-		public XDelay()
+		public XPim()
 		{
 			UID = TempUID;// Guid.NewGuid();
-			DelayState = new XDelayState()
+			PimState = new XPimState()
 			{
-				Delay = this
+				Pim = this
 			};
 		}
 
-		public XDelayState DelayState { get; set; }
-		public override XBaseState GetXBaseState() { return DelayState; }
+		public XPimState PimState { get; set; }
+		public override XBaseState GetXBaseState() { return PimState; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -40,7 +40,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Задержка " + Name; }
+			get { return "ПИМ " + Name; }
 		}
 
 		public override string GetDescriptorName()

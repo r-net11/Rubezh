@@ -63,10 +63,13 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
-		void OnResetFire()
-		{
-			ObjectCommandSendHelper.Reset(Zone);
-		}
+        void OnResetFire()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKReset(Zone);
+            }
+        }
 		bool CanResetFire()
 		{
 			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
@@ -74,23 +77,29 @@ namespace GKModule.ViewModels
 
 		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Zone);
-		}
+        void OnSetIgnore()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
+            }
+        }
 		bool CanSetIgnore()
 		{
-			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+            return !ZoneState.StateClasses.Contains(XStateClass.Ignore);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Zone);
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+			}
 		}
 		bool CanResetIgnore()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return ZoneState.StateClasses.Contains(XStateClass.Ignore);
 		}
 		#endregion
 
@@ -104,7 +113,7 @@ namespace GKModule.ViewModels
 				{
 					if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
+						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
 				}
 			}
@@ -130,7 +139,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 			}

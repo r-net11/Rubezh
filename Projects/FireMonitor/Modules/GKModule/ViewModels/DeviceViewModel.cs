@@ -102,20 +102,26 @@ namespace GKModule.ViewModels
 
 		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
-		{
-			ObjectCommandSendHelper.SetIgnoreRegime(Device);
-		}
+        void OnSetIgnore()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
+            }
+        }
 		bool CanSetIgnore()
 		{
 			return Device.IsRealDevice && !Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
-		void OnResetIgnore()
-		{
-			ObjectCommandSendHelper.SetAutomaticRegime(Device);
-		}
+        void OnResetIgnore()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
+            }
+        }
 		bool CanResetIgnore()
 		{
 			return Device.IsRealDevice && Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
@@ -133,7 +139,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetIgnoreRegime(device, false);
+						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
 				}
 			}
@@ -164,7 +170,7 @@ namespace GKModule.ViewModels
 				{
 					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
 					{
-						ObjectCommandSendHelper.SetAutomaticRegime(device, false);
+						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
 				}
 			}

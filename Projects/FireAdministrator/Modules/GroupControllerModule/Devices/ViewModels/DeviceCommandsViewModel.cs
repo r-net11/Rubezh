@@ -41,7 +41,7 @@ namespace GKModule.Models
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			var result = DeviceBytesHelper.GetDeviceInfo(SelectedDevice.Device);
+			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
 			if (!string.IsNullOrEmpty(result))
 			{
 				MessageBoxService.Show(result);
@@ -59,7 +59,7 @@ namespace GKModule.Models
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
 		void OnSynchroniseTime()
 		{
-			var result = DeviceBytesHelper.WriteDateTime(SelectedDevice.Device);
+			var result = FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
 			if (result)
 			{
 				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
@@ -95,8 +95,7 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					GKDBHelper.AddMessage("Запись конфигурации в прибор", FiresecManager.CurrentUser.Name);
-					GkDescriptorsWriter.WriteConfig(SelectedDevice.Device);
+					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
 					var devices = SelectedDevice.GetRealChildren();
 					SelectedDevice.SyncFromSystemToDeviceProperties(devices);
 				}
@@ -115,16 +114,16 @@ namespace GKModule.Models
 		{
 			DescriptorsManager.Create();
 			var device = SelectedDevice.Device;
-			var descriptorReader = device.Driver.IsKauOrRSR2Kau? (DescriptorReaderBase) new KauDescriptorsReaderBase(): new GkDescriptorsReaderBase();
-			if (descriptorReader.ReadConfiguration(device))
+			var result = FiresecManager.FiresecService.GKReadConfiguration(device);
+			if (!result.HasError)
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, descriptorReader.DeviceConfiguration, device);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, device);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
-				MessageBoxService.ShowError(descriptorReader.ParsingError, "Ошибка при чтении конфигурации");
+				MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
 		}
 
 		bool CanReadConfiguration()
@@ -135,39 +134,18 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			var updateFilePath = ChangeFile();
-			if (updateFilePath == null)
-				return;
-			var firmWareBytes = HexHelper.HexFileToBytesList(updateFilePath);
-			var selectedDevice = SelectedDevice.Device;
-			GkDescriptorsWriter.GoToTechnologicalRegime(selectedDevice);
-			var softVersion = DeviceBytesHelper.GetDeviceInfo(selectedDevice);
-			DeviceBytesHelper.Clear(selectedDevice);
-			var data = new List<byte>();
-			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
-			{
-				data = new List<byte>(BitConverter.GetBytes((i + 1)*0x100));
-				data.Reverse();
-				data.AddRange(firmWareBytes.GetRange(i, 0x100));
-				SendManager.Send(selectedDevice, 260, 0x12, 0, data);
-			}
-		}
-
-		bool CanUpdateFirmwhare()
-		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
-		}
-
-		static string ChangeFile()
-		{
 			var openDialog = new OpenFileDialog()
 			{
 				Filter = "soft update files|*.hcs",
 				DefaultExt = "soft update files|*.hcs"
 			};
 			if (openDialog.ShowDialog().Value)
-				return openDialog.FileName;
-			return null;
+				FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+		}
+
+		bool CanUpdateFirmwhare()
+		{
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

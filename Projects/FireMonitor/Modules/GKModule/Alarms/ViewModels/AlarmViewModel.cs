@@ -194,22 +194,25 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			if (Alarm.Zone != null)
+			if (ServiceFactory.SecurityService.Validate())
 			{
-				switch (Alarm.AlarmType)
+				if (Alarm.Zone != null)
 				{
-					case XAlarmType.Fire1:
-						ObjectCommandSendHelper.ResetFire1(Alarm.Zone);
-						break;
+					switch (Alarm.AlarmType)
+					{
+						case XAlarmType.Fire1:
+							FiresecManager.FiresecService.GKResetFire1(Alarm.Zone);
+							break;
 
-					case XAlarmType.Fire2:
-						ObjectCommandSendHelper.ResetFire2(Alarm.Zone);
-						break;
+						case XAlarmType.Fire2:
+							FiresecManager.FiresecService.GKResetFire2(Alarm.Zone);
+							break;
+					}
 				}
-			}
-			if (Alarm.Device != null)
-			{
-				ObjectCommandSendHelper.Reset(Alarm.Device);
+				if (Alarm.Device != null)
+				{
+					FiresecManager.FiresecService.GKReset(Alarm.Device);
+				}
 			}
 		}
 		bool CanReset()
@@ -235,29 +238,32 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
-				{
-					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
-				}
-			}
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                if (Alarm.Device != null)
+                {
+                    if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+                    {
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
+                    }
+                }
 
-			if (Alarm.Zone != null)
-			{
-				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
-				{
-					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Zone);
-				}
-			}
+                if (Alarm.Zone != null)
+                {
+                    if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+                    {
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
+                    }
+                }
 
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
-				{
-					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
-				}
-			}
+                if (Alarm.Direction != null)
+                {
+                    if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+                    {
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
+                    }
+                }
+            }
 		}
 		bool CanResetIgnore()
 		{
@@ -289,23 +295,26 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-		void OnTurnOnAutomatic()
-		{
-			if (Alarm.Device != null)
-			{
-				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff))
-				{
-					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Device);
-				}
-			}
-			if (Alarm.Direction != null)
-			{
-				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
-				{
-					ObjectCommandSendHelper.SetAutomaticRegime(Alarm.Direction);
-				}
-			}
-		}
+        void OnTurnOnAutomatic()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                if (Alarm.Device != null)
+                {
+                    if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff))
+                    {
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
+                    }
+                }
+                if (Alarm.Direction != null)
+                {
+                    if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
+                    {
+						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
+                    }
+                }
+            }
+        }
 		bool CanTurnOnAutomatic()
 		{
 			if (Alarm.AlarmType == XAlarmType.AutoOff)

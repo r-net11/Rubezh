@@ -2,6 +2,7 @@
 using FiresecClient;
 using System.Threading;
 using Infrastructure.Common.Windows;
+using XFiresecAPI;
 
 namespace GKProcessor
 {

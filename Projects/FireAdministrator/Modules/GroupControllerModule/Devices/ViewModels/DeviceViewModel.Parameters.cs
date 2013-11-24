@@ -174,6 +174,7 @@ namespace GKModule.ViewModels
 			var device = new List<XDevice> { Device };
 			if (Validate(device))
 			{
+				LoadingService.Show("Запись параметров в устройствo " + Device.PresentationDriverAndAddress, null, 1, true);
 				WriteDevices(device);
 				SyncFromSystemToDeviceProperties(device);
 			}
@@ -186,6 +187,7 @@ namespace GKModule.ViewModels
 			var devices = GetRealChildren();
 			if (Validate(devices))
 			{
+				LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationDriverAndAddress, null, 1, true);
 				WriteDevices(devices);
 				SyncFromSystemToDeviceProperties(devices);
 			}
@@ -208,7 +210,7 @@ namespace GKModule.ViewModels
 							});
 						ServiceFactory.SaveService.GKChanged = true;
 					}
-					if ((deviceProperty != null) && (deviceProperty.Value != property.Value))
+					if (deviceProperty != null && deviceProperty.Value != property.Value)
 					{
 						deviceProperty.Value = property.Value;
 						ServiceFactory.SaveService.GKChanged = true;
@@ -295,6 +297,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
+			LoadingService.Show("Чтение параметров из устройства " + Device.PresentationDriverAndAddress, null, 1, true);
 			ReadDevices(new List<XDevice> { Device });
 			PropertiesViewModel.Update();
 		}
@@ -309,6 +312,7 @@ namespace GKModule.ViewModels
 		{
 			var devices = GetRealChildren();
 			devices.Add(Device);
+			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationDriverAndAddress, null, 1, true);
 			ReadDevices(devices);
 		}
 
@@ -324,8 +328,7 @@ namespace GKModule.ViewModels
 
 		static void ReadDevices(IEnumerable<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запрос параметров", null, 1, true);
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -334,17 +337,18 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
-				ParametersHelper.GetSingleParameter(device);
+				var result = FiresecManager.FiresecService.GKGetSingleParameter(device);
+				if(result.HasError)
+					errorLog += "\n" + device.PresentationName;
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 
 		static void WriteDevices(IEnumerable<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запись параметров", null, 1, true);
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -353,13 +357,15 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
-				ParametersHelper.SetSingleParameter(device);
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(device);
+				if (result.HasError)
+					errorLog += "\n" + device.PresentationName;
 				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + errorLog);
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }

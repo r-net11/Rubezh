@@ -235,11 +235,11 @@ namespace FiresecClient
 				device.Children[7].PredefinedName = "Автоматика отключена";
 				device.Children[8].PredefinedName = "Звук отключен";
 				device.Children[9].PredefinedName = "Останов пуска";
-				device.Children[10].PredefinedName = "Выход 1";
-				device.Children[11].PredefinedName = "Выход 2";
-				device.Children[12].PredefinedName = "Реле 1";
-				device.Children[13].PredefinedName = "Реле 2";
-				device.Children[14].PredefinedName = "Реле 3";
+				device.Children[10].PredefinedName = "Реле 1";
+				device.Children[11].PredefinedName = "Реле 2";
+				device.Children[12].PredefinedName = "Реле 3";
+				device.Children[13].PredefinedName = "Реле 4";
+				device.Children[14].PredefinedName = "Реле 5";
 			}
 		}
 	}

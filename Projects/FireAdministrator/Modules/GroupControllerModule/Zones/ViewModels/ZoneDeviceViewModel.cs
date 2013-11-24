@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		}
 		public string PresentationAddress
 		{
-			get { return Device.KAUParent.Address + "." + Device.PresentationAddress; }
+			get { return Device.DottedPresentationAddress; }
 		}
 		public string PresentationZone
 		{

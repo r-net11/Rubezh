@@ -1,4 +1,4 @@
-﻿//#define LOCALCONFIG
+﻿#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,12 @@ namespace GKProcessor
 #if !LOCALCONFIG
 		override public bool ReadConfiguration(XDevice gkDevice)
 		{
+			var result = DeviceBytesHelper.Ping(gkDevice);
+			if (!result)
+			{
+				ParsingError = "Устройство " + gkDevice.PresentationDriverAndAddress + " недоступно";
+				return false;
+			}
 			IpAddress = gkDevice.GetGKIpAddress();
 			ControllerDevices = new Dictionary<ushort, XDevice>();
 			DeviceConfiguration = new XDeviceConfiguration();
@@ -29,9 +35,9 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			LoadingService.Show("Чтение конфигурации", "Перевод ГК в технологический режим", 50000, true);
+			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationDriverAndAddress, "Перевод ГК в технологический режим", 50000, true);
 			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
-			LoadingService.Show("Чтение конфигурации","Чтение конфигурации", 50000, true);
+			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationDriverAndAddress, "", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
@@ -69,16 +75,13 @@ namespace GKProcessor
 			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
 #endif
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
-			if (!GkDescriptorsWriter.GoToWorkingRegime(gkDevice))
+			if (!DeviceBytesHelper.GoToWorkingRegime(gkDevice))
 			{
 				ParsingError = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
 			LoadingService.SaveClose();
 			if(ParsingError != null)
-			{
-				ParsingError = "Ошибка при чтении конфигурации";
 				return false;
-			}
 			DeviceConfiguration.Update();
 			XManager.UpdateGKPredefinedName(GkDevice);
 			return true;
@@ -101,7 +104,7 @@ namespace GKProcessor
 			DeviceConfiguration.RootDevice = rootDevice;
 			ushort descriptorNo = 0;
 			int count = 0;
-			LoadingService.Show("Чтение конфигурации");
+			LoadingService.Show("Чтение конфигурации " + device.PresentationDriverAndAddress);
 			while (true)
 			{
 				descriptorNo++;

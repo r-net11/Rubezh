@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
@@ -82,6 +83,46 @@ namespace GKProcessor
 			if (sendResult.HasError)
 			{
 				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
+				return false;
+			}
+			return true;
+		}
+
+		public static bool GoToWorkingRegime(XDevice device)
+		{
+			LoadingService.IsCanceled = false;
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
+			if (LoadingService.IsCanceled)
+				return true;
+			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
+
+			for (int i = 0; i < 100; i++)
+			{
+				if (LoadingService.IsCanceled)
+					return true;
+				var sendResult = SendManager.Send(device, 0, 1, 1);
+				if (!sendResult.HasError)
+				{
+					if (sendResult.Bytes.Count > 0)
+					{
+						var version = sendResult.Bytes[0];
+						if (version <= 127)
+						{
+							return true;
+						}
+					}
+				}
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+			}
+
+			return false;
+		}
+
+		public static bool Ping(XDevice gkDevice)
+		{
+			var sendResult = SendManager.Send(gkDevice, 0, 1, 1);
+			if (sendResult.HasError)
+			{
 				return false;
 			}
 			return true;

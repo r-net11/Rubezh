@@ -16,6 +16,7 @@ using FiresecClient;
 using Infrastructure.Events;
 using GKModule.Events;
 using System.Diagnostics;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

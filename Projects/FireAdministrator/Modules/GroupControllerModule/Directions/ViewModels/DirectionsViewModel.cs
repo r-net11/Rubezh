@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -130,7 +131,8 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				foreach (var emptyDirection in EmptyDirections)
+				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count + x.Direction.NSDevices.Count == 0).ToList();
+				foreach (var emptyDirection in emptyDirections)
 				{
 					XManager.RemoveDirection(emptyDirection.Direction);
 					Directions.Remove(emptyDirection);
@@ -140,11 +142,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		List<DirectionViewModel> EmptyDirections;
 		bool CanDeleteAllEmpty()
 		{
-			EmptyDirections =  Directions.Where(x => x.Direction.IsEmpty).ToList();
-			return EmptyDirections.Count  > 0;
+			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count + x.Direction.NSDevices.Count == 0) > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }

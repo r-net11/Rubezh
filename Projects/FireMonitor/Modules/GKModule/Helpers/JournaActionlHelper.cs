@@ -48,26 +48,6 @@ namespace GKModule
 			Add(message, description, stateClass, uid, xBase.GKDescriptorNo, journalItemType, xBase.PresentationName);
 		}
 
-		//public static void Add(string message, string description, XStateClass stateClass, XDevice device)
-		//{
-		//    Add(message, description, stateClass, device.UID, device.GKDescriptorNo, JournalItemType.Device, device.DottedPresentationAddress + device.ShortName);
-		//}
-
-		//public static void Add(string message, string description, XStateClass stateClass, XZone zone)
-		//{
-		//    Add(message, description, stateClass, zone.UID, zone.GKDescriptorNo, JournalItemType.Zone, zone.PresentationName);
-		//}
-
-		//public static void Add(string message, string description, XStateClass stateClass, XDirection direction)
-		//{
-		//    Add(message, description, stateClass, direction.UID, direction.GKDescriptorNo, JournalItemType.Direction, direction.PresentationName);
-		//}
-
-		//public static void Add(string message, string description, XStateClass stateClass, XDelay delay)
-		//{
-		//    Add(message, description, stateClass, delay.UID, delay.GKDescriptorNo, JournalItemType.Delay, delay.Name);
-		//}
-
 		public static void Add(string message, string description, XStateClass stateClass, Guid objectUID, int gkObjectNo, JournalItemType journalItemType, string objectName)
 		{
 			var journalItem = new JournalItem()

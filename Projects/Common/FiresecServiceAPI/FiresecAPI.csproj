@@ -158,6 +158,7 @@
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="FiresecException.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
+    <Compile Include="IGKService.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />
@@ -205,6 +206,13 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
+    <Compile Include="XManager\XManager.Actions.cs" />
+    <Compile Include="XManager\XManager.Binary.cs" />
+    <Compile Include="XManager\XManager.Configuration.cs" />
+    <Compile Include="XManager\XManager.cs" />
+    <Compile Include="XManager\XManager.Device.cs" />
+    <Compile Include="XManager\XManager.PresentationZone.cs" />
+    <Compile Include="XManager\XManager.States.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
@@ -289,6 +297,8 @@
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\JournalDescriptionState.cs" />
+    <Compile Include="XModels\Journal\JournalItem.cs" />
+    <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />
@@ -299,6 +309,7 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
+    <Compile Include="XModels\PIM\XPim.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />
@@ -309,9 +320,11 @@
     <Compile Include="XModels\States\XStateClass.cs" />
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
+    <Compile Include="XModels\States\XPimState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
+    <Compile Include="XModels\XBaseObjectType.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -329,7 +342,7 @@
     <Compile Include="Models\Driver\Parameter.cs" />
     <Compile Include="Models\Driver\Property.cs" />
     <Compile Include="Models\ResetItem.cs" />
-    <Compile Include="StateType.cs" />
+    <Compile Include="Models\StateType.cs" />
     <Compile Include="Models\Security\User.cs" />
     <Compile Include="Models\Zone\Zone.cs" />
     <Compile Include="Models\Zone\ZoneLogic.cs" />

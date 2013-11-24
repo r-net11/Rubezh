@@ -7,6 +7,5 @@
         <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/add.png" />
         <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/edit.png" />
         <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/delete.png" />
-        <Controls:ToolBarButton Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны" ImageSource="/Controls;component/Images/deleteEmpty.png" />
     </StackPanel>
 </UserControl>

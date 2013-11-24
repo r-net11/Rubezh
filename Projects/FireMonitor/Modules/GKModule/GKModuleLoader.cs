@@ -172,8 +172,7 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
-			WatcherManager.IsConfigurationReloading = true;
+			FiresecManager.FiresecService.GKStartConfigurationReloading();
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
@@ -185,7 +184,7 @@ namespace GKModule
 					delay.DelayState = new XDelayState();
 				}
 			}
-			WatcherManager.IsConfigurationReloading = false;
+			FiresecManager.FiresecService.GKStopConfigurationReloading();
 			if (firstTime)
 				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
@@ -194,10 +193,20 @@ namespace GKModule
 		public override void AfterInitialize()
 		{
 			AlarmsViewModel.SubscribeShortcuts();
-			WatcherManager.Start();
+			FiresecManager.FiresecService.GKStart();
 			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
+
+			FiresecManager.FiresecService.NewJournalItems += new Action<List<JournalItem>>(FiresecService_NewJournalItems);
+		}
+
+		void FiresecService_NewJournalItems(List<JournalItem> journalItems)
+		{
+			ApplicationService.Invoke(() =>
+				{
+					ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
+				});
 		}
 
 		#region ILayoutProviderModule Members

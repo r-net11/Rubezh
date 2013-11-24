@@ -9,7 +9,7 @@ namespace XFiresecAPI
 	{
 		public XZone()
 		{
-            UID = Guid.NewGuid();
+			UID = TempUID;// Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
 			Devices = new List<XDevice>();
@@ -23,10 +23,6 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
         public List<XDevice> DevicesInLogic { get; set; }
-		public bool IsEmpty
-		{
-			get { return Devices.Count == 0; }
-		}
 
 		[DataMember]
 		public Guid UID { get; set; }

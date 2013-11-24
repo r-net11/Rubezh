@@ -10,6 +10,7 @@ namespace GKProcessor
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XDelay> Delays { get; set; }
+		public List<XPim> Pims { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(XDevice gkDevice)
@@ -18,6 +19,7 @@ namespace GKProcessor
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 			Delays = new List<XDelay>();
+			Pims = new List<XPim>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkDevice;
@@ -63,6 +65,16 @@ namespace GKProcessor
 				delay.GKDescriptorNo = NextDescriptorNo;
 				delay.GkDatabaseParent = RootDevice;
 				Delays.Add(delay);
+			}
+		}
+
+		public void AddPim(XPim pim)
+		{
+			if (!Pims.Contains(pim))
+			{
+				pim.GKDescriptorNo = NextDescriptorNo;
+				pim.GkDatabaseParent = RootDevice;
+				Pims.Add(pim);
 			}
 		}
 
