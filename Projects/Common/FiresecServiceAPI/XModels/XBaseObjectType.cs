@@ -5,7 +5,7 @@ using System.Text;
 
 namespace XFiresecAPI
 {
-	public enum XBaseType
+	public enum XBaseObjectType
 	{
 		Deivce,
 		Zone,

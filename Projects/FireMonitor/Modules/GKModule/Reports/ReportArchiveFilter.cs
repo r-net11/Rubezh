@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GKProcessor;
 using FiresecClient;
 using GKModule.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.Reports
 {

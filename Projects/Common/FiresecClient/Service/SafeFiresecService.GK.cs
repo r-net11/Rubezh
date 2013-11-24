@@ -217,7 +217,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKReset(xBase); }, "GKReset");
+				SafeOperationCall(() => { FiresecService.GKReset(xBase.TempUID, GetObjectType(xBase)); }, "GKReset");
 			}
 			else
 			{
@@ -230,7 +230,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire1(zone); }, "GKResetFire1");
+				SafeOperationCall(() => { FiresecService.GKResetFire1(zone.UID); }, "GKResetFire1");
 			}
 			else
 			{
@@ -243,7 +243,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire2(zone); }, "GKResetFire2");
+				SafeOperationCall(() => { FiresecService.GKResetFire2(zone.UID); }, "GKResetFire2");
 			}
 			else
 			{
@@ -256,7 +256,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase); }, "GKSetAutomaticRegime");
+				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.TempUID, GetObjectType(xBase)); }, "GKSetAutomaticRegime");
 			}
 			else
 			{
@@ -269,7 +269,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase); }, "GKSetManualRegime");
+				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.TempUID, GetObjectType(xBase)); }, "GKSetManualRegime");
 			}
 			else
 			{
@@ -282,7 +282,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.TempUID, GetObjectType(xBase)); }, "GKTurnOn");
 			}
 			else
 			{
@@ -295,7 +295,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.TempUID, GetObjectType(xBase)); }, "GKTurnOn");
 			}
 			else
 			{
@@ -308,7 +308,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase); }, "GKTurnOnNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.TempUID, GetObjectType(xBase)); }, "GKTurnOnNow");
 			}
 			else
 			{
@@ -321,7 +321,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase); }, "GKTurnOff");
+				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.TempUID, GetObjectType(xBase)); }, "GKTurnOff");
 			}
 			else
 			{
@@ -334,7 +334,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase); }, "GKTurnOffNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.TempUID, GetObjectType(xBase)); }, "GKTurnOffNow");
 			}
 			else
 			{
@@ -347,7 +347,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStop(xBase); }, "GKStop");
+				SafeOperationCall(() => { FiresecService.GKStop(xBase.TempUID, GetObjectType(xBase)); }, "GKStop");
 			}
 			else
 			{
@@ -412,6 +412,21 @@ namespace FiresecClient
 			var journalItems = new List<JournalItem>() { journalItem };
 			if (NewJournalItems != null)
 				NewJournalItems(journalItems);
+		}
+
+		XBaseObjectType GetObjectType(XBase xBase)
+		{
+			if (xBase is XDevice)
+				return XBaseObjectType.Deivce;
+			if (xBase is XZone)
+				return XBaseObjectType.Zone;
+			if (xBase is XDirection)
+				return XBaseObjectType.Direction;
+			if (xBase is XDelay)
+				return XBaseObjectType.Delay;
+			if (xBase is XPim)
+				return XBaseObjectType.Pim;
+			return XBaseObjectType.Deivce;
 		}
     }
 }

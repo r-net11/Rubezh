@@ -198,7 +198,7 @@ namespace GKModule
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 
-			FiresecManager.FiresecService.NewJournalItems += new Action<List<GKProcessor.JournalItem>>(FiresecService_NewJournalItems);
+			FiresecManager.FiresecService.NewJournalItems += new Action<List<JournalItem>>(FiresecService_NewJournalItems);
 		}
 
 		void FiresecService_NewJournalItems(List<JournalItem> journalItems)

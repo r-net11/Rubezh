@@ -324,7 +324,7 @@
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
-    <Compile Include="XModels\XBaseType.cs" />
+    <Compile Include="XModels\XBaseObjectType.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>
