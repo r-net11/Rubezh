@@ -9,7 +9,15 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		void GKWriteConfiguration(XDevice device);
-		void GKSetNewConfiguration(XDeviceConfiguration deviceConfiguration);
+		OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device);
+		void GKUpdateFirmware(XDevice device, string fileName);
+		bool GKSyncronyseTime(XDevice device);
+		string GKGetDeviceInfo(XDevice device);
+		OperationResult<int> GKGetJournalItemsCount(XDevice device);
+		OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no);
+		OperationResult<bool> GKSetSingleParameter(XDevice device);
+		OperationResult<bool> GKGetSingleParameter(XDevice device);
+
 		void GKExecuteDeviceCommand(XDevice device, XStateBit stateType);
 		void GKReset(XBase xBase);
 		void GKResetFire1(XZone zone);

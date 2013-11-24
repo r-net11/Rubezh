@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -28,14 +29,13 @@ namespace GKModule.ViewModels
 
 		public bool Initialize()
 		{
-			var sendResult = SendManager.Send(Device, 0, 6, 64);
-			if (sendResult.HasError)
+			var result = FiresecManager.FiresecService.GKGetJournalItemsCount(Device);
+			if (result.HasError)
 			{
-				MessageBoxService.Show("Ошибка связи с устройством");
+				MessageBoxService.Show(result.Error);
 				return false;
 			}
-			var journalParser = new JournalParser(Device, sendResult.Bytes);
-			TotalCount = journalParser.JournalItem.GKJournalRecordNo.Value;
+			TotalCount = result.Result;
 			StartIndex = Math.Max(1, TotalCount - 100);
 			EndIndex = TotalCount;
 			return true;
@@ -125,16 +125,14 @@ namespace GKModule.ViewModels
 			{
 				if (LoadingService.IsCanceled)
 					break;
-				var data = BitConverter.GetBytes(i).ToList();
 				LoadingService.DoStep("Чтение записи " + i);
-				var sendResult = SendManager.Send(Device, 4, 7, 64, data);
-				if (sendResult.HasError)
+				var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
+				if (result.HasError)
 				{
-					MessageBoxService.Show("Ошибка связи с устройством");
+					MessageBoxService.Show(result.Error);
 					break;
 				}
-				var journalParser = new JournalParser(Device, sendResult.Bytes);
-				var journalItemViewModel = new JournalItemViewModel(journalParser.JournalItem);
+				var journalItemViewModel = new JournalItemViewModel(result.Result);
 				JournalItems.Add(journalItemViewModel);
 			}
 			IsNotEmpty = true;

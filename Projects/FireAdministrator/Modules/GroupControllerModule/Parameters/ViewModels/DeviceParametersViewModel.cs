@@ -216,41 +216,44 @@ namespace GKModule.ViewModels
 
 		void WriteDevices(List<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запись параметров");
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
+			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)
 			{
+				if (LoadingService.IsCanceled)
+					break;
 				i++;
-				FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
-				ParametersHelper.SetSingleParameter(device);
-				Thread.Sleep(100);
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(device);
+				if (result.HasError)
+					errorLog += "\n" + device.PresentationName;
+				if (devices.Count() > 1 && i < devices.Count())
+					Thread.Sleep(100);
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
-			FiresecDriverAuParametersHelper_Progress("Запись параметров в устройство ", 0);
-			ServiceFactory.SaveService.GKChanged = true;
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + errorLog);
 		}
 
 		void ReadDevices(List<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
-			LoadingService.Show("Запрос параметров");
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
+			LoadingService.AddCount(devices.Count());
 			foreach (var device in devices)
 			{
+				if (LoadingService.IsCanceled)
+					break;
 				i++;
-				FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства " + device.PresentationDriverAndAddress, (i * 100) / devices.Count);
-				ParametersHelper.GetSingleParameter(device);
+				var result = FiresecManager.FiresecService.GKGetSingleParameter(device);
+				if (result.HasError)
+					errorLog += "\n" + device.PresentationName;
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
-			FiresecDriverAuParametersHelper_Progress("Чтение параметров устройства ", 0);
-			ServiceFactory.SaveService.GKChanged = true;
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 		#endregion
 

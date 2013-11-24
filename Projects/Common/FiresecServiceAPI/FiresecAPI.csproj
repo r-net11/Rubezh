@@ -297,6 +297,8 @@
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\JournalDescriptionState.cs" />
+    <Compile Include="XModels\Journal\JournalItem.cs" />
+    <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />

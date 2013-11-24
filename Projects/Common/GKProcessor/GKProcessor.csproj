@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administrator\FirmwareUpdateHelper.cs" />
     <Compile Include="Administrator\GkDescriptorsWriter.cs" />
     <Compile Include="Administrator\DeviceBytesHelper.cs" />
     <Compile Include="Administrator\GkDescriptorsReader.cs" />
@@ -136,9 +137,7 @@
     <Compile Include="Journal\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\JournalParser.cs" />
     <Compile Include="Journal\JournalDescriptionStateHelper.cs" />
-    <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
-    <Compile Include="Journal\JournalItemType.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
     <Compile Include="Journal\XArchiveFilter.cs" />

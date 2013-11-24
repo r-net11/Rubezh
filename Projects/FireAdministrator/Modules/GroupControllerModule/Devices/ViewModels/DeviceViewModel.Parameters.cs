@@ -328,7 +328,7 @@ namespace GKModule.ViewModels
 
 		static void ReadDevices(IEnumerable<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -337,16 +337,18 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
-				ParametersHelper.GetSingleParameter(device);
+				var result = FiresecManager.FiresecService.GKGetSingleParameter(device);
+				if(result.HasError)
+					errorLog += "\n" + device.PresentationName;
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + ParametersHelper.ErrorLog);
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 
 		static void WriteDevices(IEnumerable<XDevice> devices)
 		{
-			ParametersHelper.ErrorLog = "";
+			var errorLog = "";
 			DescriptorsManager.Create();
 			var i = 0;
 			LoadingService.AddCount(devices.Count());
@@ -355,13 +357,15 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
-				ParametersHelper.SetSingleParameter(device);
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(device);
+				if (result.HasError)
+					errorLog += "\n" + device.PresentationName;
 				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);
 			}
 			LoadingService.Close();
-			if (ParametersHelper.ErrorLog != "")
-				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + ParametersHelper.ErrorLog);
+			if (errorLog != "")
+				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + errorLog);
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }

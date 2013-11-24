@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Common;
@@ -65,6 +66,125 @@ namespace FiresecClient
 			{
 				GkDescriptorsWriter.WriteConfig(device);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+				AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
+			}
+		}
+
+		public OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall<XDeviceConfiguration>(() => { return FiresecService.GKReadConfiguration(device); }, "GKReadConfiguration");
+			}
+			else
+			{
+				AddMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
+				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device);
+				return new OperationResult<XDeviceConfiguration>() { HasError = !string.IsNullOrEmpty(descriptorReader.ParsingError), Error = descriptorReader.ParsingError, Result = descriptorReader.DeviceConfiguration };
+			}
+		}
+
+		public void GKUpdateFirmware(XDevice device, string fileName)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => { FiresecService.GKUpdateFirmware(device, fileName); }, "GKUpdateFirmware");
+			}
+			else
+			{
+				AddMessage("Обновление ПО прибора", "", XStateClass.Info, device);
+				FirmwareUpdateHelper.Update(device, fileName);
+			}
+		}
+
+		public bool GKSyncronyseTime(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(device); }, "GKSyncronyseTime");
+			}
+			else
+			{
+				AddMessage("Синхронизация времени", "", XStateClass.Info, device);
+				return DeviceBytesHelper.WriteDateTime(device);
+			}
+		}
+
+		public string GKGetDeviceInfo(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(device); }, "GKGetDeviceInfo");
+			}
+			else
+			{
+				AddMessage("Запрос информации об устройсве", "", XStateClass.Info, device);
+				return DeviceBytesHelper.GetDeviceInfo(device);
+			}
+		}
+
+		public OperationResult<int> GKGetJournalItemsCount(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(device); }, "GKGetJournalItemsCount");
+			}
+			else
+			{
+				var sendResult = SendManager.Send(device, 0, 6, 64);
+				if (sendResult.HasError)
+				{
+					return new OperationResult<int>("Ошибка связи с устройством");
+				}
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				var result = journalParser.JournalItem.GKJournalRecordNo.Value;
+				return new OperationResult<int>() { Result = result };
+			}
+		}
+
+		public OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(device, no); }, "GKReadJournalItem");
+			}
+			else
+			{
+				var data = BitConverter.GetBytes(no).ToList();
+				var sendResult = SendManager.Send(device, 4, 7, 64, data);
+				if (sendResult.HasError)
+				{
+					return new OperationResult<JournalItem>("Ошибка связи с устройством");
+				}
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			}
+		}
+
+		public OperationResult<bool> GKSetSingleParameter(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(device); }, "SetSingleParameter");
+			}
+			else
+			{
+				var error = ParametersHelper.SetSingleParameter(device);
+				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			}
+		}
+
+		public OperationResult<bool> GKGetSingleParameter(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall<bool>(() => { return FiresecService.GKGetSingleParameter(device); }, "GetSingleParameter");
+			}
+			else
+			{
+				var error = ParametersHelper.GetSingleParameter(device);
+				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
 			}
 		}
 

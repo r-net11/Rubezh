@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace GKProcessor
+namespace XFiresecAPI
 {
 	public enum JournalItemType
 	{
