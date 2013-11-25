@@ -5,42 +5,30 @@
              xmlns:Converters="clr-namespace:GKModule.Converters" >
 
     <StackPanel Orientation="Horizontal">
-        <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
+        <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
         <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding SetIgnoreCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Отключить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ResetIgnoreCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Снять отключение" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding SetIgnoreAllCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Отключить все дочерние устройства" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding SetIgnoreAllCommand}" Header="Отключить все дочерние устройства">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ResetIgnoreAllCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Снять отключения всех дочерних устройств" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Command="{Binding ResetIgnoreAllCommand}" Header="Снять отключения всех дочерних устройств">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Name="menuItem" Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
                         <MenuItem.Icon>

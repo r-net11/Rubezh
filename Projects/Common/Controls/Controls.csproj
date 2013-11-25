@@ -137,8 +137,8 @@
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
-    <Compile Include="Converters\SubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
+    <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />
     <Compile Include="Converters\XAlarmTypeToStringConverter.cs" />
@@ -1338,6 +1338,7 @@
     <Resource Include="Images\PasteAll.png" />
     <Resource Include="Images\DirectionPolygon.png" />
     <Resource Include="Images\DirectionRectangle.png" />
+    <Resource Include="Images\PCUser.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto" MinHeight="20" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="{Binding Title, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" />
-        <ProgressBar Grid.Row="1" IsIndeterminate="{Binding IsIndeterminate}" Maximum="{Binding StepCount}" Value="{Binding CurrentStep}" Margin="10 3 10 3" />
+        <ProgressBar Grid.Row="1" Maximum="{Binding StepCount}" Value="{Binding CurrentStep}" Margin="10 3 10 3" />
         <TextBlock Grid.Row="1" Text="{Binding Text}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Foreground="Black" Margin="10 3 10 3" />
         <Button Grid.Row="2" Content="Отмена" Command="{Binding CancelCommand}" Visibility="{Binding CanCancel, Converter={StaticResource BoolToVisibilityConverter}}" Width="70" Margin="5" />
     </Grid>

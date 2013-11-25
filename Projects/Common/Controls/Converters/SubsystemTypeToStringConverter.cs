@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI;
-using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace Controls.Converters
 {
@@ -9,12 +9,12 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return ((SubsystemType)value).ToDescription();
+			return ((XSubsystemType)value).ToDescription();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			throw new NotImplementedException();
+			return value;
 		}
 	}
 }

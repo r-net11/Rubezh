@@ -45,7 +45,17 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" Width="Auto" />
                 <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto" />
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" Width="Auto" Visibility="Collapsed" />
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" Width="Auto" Visibility="Collapsed" />
+                <DataGridTemplateColumn Header="Подсистема" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -53,21 +63,15 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding ShowOnPlanCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowObjectCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowObjectCommand}" Header="Показать">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>
@@ -149,7 +153,7 @@
 
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalItem.UserName}" Width="Auto" />
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" />
-                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToIconConverter}}" />
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" />
             </Grid>
             <Grid Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>

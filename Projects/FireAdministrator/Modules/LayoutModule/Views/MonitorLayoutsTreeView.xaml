@@ -5,13 +5,10 @@
 				<MouseBinding Command="{Binding DataContext.Layouts.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
-				<MenuItem Command="{Binding EditCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Редактировать" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding EditCommand}" Header="Редактировать">
+					<MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
+					</MenuItem.Icon>
 				</MenuItem>
 				<!--
 					<MenuItem Command="{Binding AddCommand}">
@@ -23,30 +20,21 @@
 					</MenuItem.Header>
 					</MenuItem>
 				-->
-				<MenuItem Command="{Binding RemoveCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Удалить" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
+                    <MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
+					</MenuItem.Icon>
 				</MenuItem>
 				<Separator />
-				<MenuItem Command="{Binding LayoutCopyCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Копировать" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
+                    <MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
+					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding LayoutCutCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Вырезать" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding LayoutCutCommand}" Header="Вырезать">
+                    <MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
+					</MenuItem.Icon>
 				</MenuItem>
 				<!--
 					<MenuItem Command="{Binding LayoutPasteCommand}">
@@ -69,21 +57,15 @@
 		</ListView.ItemContainerStyle>
 		<ListView.ContextMenu>
 			<ContextMenu>
-				<MenuItem Command="{Binding Layouts.AddCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Добавить шаблон" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить шаблон">
+                    <MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
-							<TextBlock Margin="2" VerticalAlignment="Center" Text="Вставить" />
-						</StackPanel>
-					</MenuItem.Header>
+                <MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить">
+                    <MenuItem.Icon>
+					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+					</MenuItem.Icon>
 				</MenuItem>
 			</ContextMenu>
 		</ListView.ContextMenu>

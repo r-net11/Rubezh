@@ -163,7 +163,7 @@
 					</Grid.RowDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-                        <TextBlock Text="РЕЖИМ" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="Orange"/>
+                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="Orange"/>
                         <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="Orange"/>
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">

@@ -5,16 +5,16 @@ using System.Windows.Media.Imaging;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using Infrastructure.Common;
+using System.Windows.Input;
 
 namespace Infrastructure.Designer
 {
 	public static class DesignerCanvasHelper
 	{
-		public static StackPanel BuildMenuHeader(string title, string imageSourceUri)
+		public static MenuItem BuildMenuItem(string header, string imageSourceUri, ICommand command)
 		{
-			TextBlock textBlock = new TextBlock();
-			textBlock.Text = title;
-			textBlock.VerticalAlignment = VerticalAlignment.Center;
+			var menuItem = new MenuItem();
 
 			Image image = new Image();
 			image.Width = 16;
@@ -25,12 +25,11 @@ namespace Infrastructure.Designer
 			sourceImage.EndInit();
 			image.Source = sourceImage;
 
-			StackPanel stackPanel = new StackPanel();
-			stackPanel.Orientation = Orientation.Horizontal;
-			stackPanel.Children.Add(image);
-			stackPanel.Children.Add(textBlock);
+			menuItem.Icon = image;
+			menuItem.Header = header;
+			menuItem.Command = command;
 
-			return stackPanel;
+			return menuItem;
 		}
 	}
 }

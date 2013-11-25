@@ -12,6 +12,12 @@ namespace GKProcessor
 {
 	public static partial class GKDBHelper
 	{
+		static readonly int DescriptionLength = 100;
+		static readonly int NameLength = 100;
+		static readonly int GKIpAddressLength = 20;
+		static readonly int UserNameLength = 50;
+		static readonly int ObjectNameLength = 100;
+		
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
@@ -65,23 +71,18 @@ namespace GKProcessor
 
 		static List<JournalItem> UpdateItemLengths(List<JournalItem> journalItems)
 		{
-			int descriptionLength = GetColumnLength("Description", "Journal");
-			int nameLength = GetColumnLength("Name", "Journal");
-			int gKIpAddressLength = GetColumnLength("GKIpAddress", "Journal");
-			int userNameLength = GetColumnLength("UserName", "Journal");
-			int objectNameLength = GetColumnLength("ObjectName", "Journal");
 			foreach (var item in journalItems)
 			{
-				if (item.Description != null && item.Description.Length > descriptionLength)
-					item.Description = item.Description.Substring(0, descriptionLength);
-				if (item.Name != null && item.Name.Length > nameLength)
-					item.Name = item.Name.Substring(0, nameLength);
-				if (item.GKIpAddress != null && item.GKIpAddress.Length > gKIpAddressLength)
-					item.GKIpAddress = item.GKIpAddress.Substring(0, gKIpAddressLength);
-				if (item.UserName != null && item.UserName.Length > userNameLength)
-					item.UserName = item.UserName.Substring(0, userNameLength);
-				if (item.ObjectName != null && item.ObjectName.Length > objectNameLength)
-					item.ObjectName = item.ObjectName.Substring(0, objectNameLength);
+				if (item.Description != null && item.Description.Length > DescriptionLength)
+					item.Description = item.Description.Substring(0, DescriptionLength);
+				if (item.Name != null && item.Name.Length > NameLength)
+					item.Name = item.Name.Substring(0, NameLength);
+				if (item.GKIpAddress != null && item.GKIpAddress.Length > GKIpAddressLength)
+					item.GKIpAddress = item.GKIpAddress.Substring(0, GKIpAddressLength);
+				if (item.UserName != null && item.UserName.Length > UserNameLength)
+					item.UserName = item.UserName.Substring(0, UserNameLength);
+				if (item.ObjectName != null && item.ObjectName.Length > ObjectNameLength)
+					item.ObjectName = item.ObjectName.Substring(0, ObjectNameLength);
 			}			
 			return journalItems;
 		}
@@ -308,6 +309,23 @@ namespace GKProcessor
 										query += "\n OR ";
 									index++;
 									query += "Description = '" + description + "'";
+								}
+								query += ")";
+							}
+
+							if (archiveFilter.SubsystemTypes.Count > 0)
+							{
+								query += "\n AND (";
+								int index = 0;
+								foreach (var subsystem in archiveFilter.SubsystemTypes)
+								{
+									if (index > 0)
+										query += "\n OR ";
+									index++;
+									if(subsystem == XSubsystemType.System)
+										query += "Subsystem = 0";
+									else
+										query += "Subsystem = 1";
 								}
 								query += ")";
 							}

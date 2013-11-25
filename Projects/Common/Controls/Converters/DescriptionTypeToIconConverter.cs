@@ -22,7 +22,7 @@ namespace Controls.Converters
 					return "/Controls;component/StateClassIcons/Info.png";
 
 				case DescriptionType.User:
-					return "/Controls;component/Images/PC.png";
+					return "/Controls;component/Images/PCUser.png";
 
                 default:
                     return "/Controls;component/Images/blank.png";

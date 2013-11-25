@@ -40,14 +40,16 @@ namespace Infrastructure.Designer
 			Width = 100;
 			Height = 100;
 			Focusable = false;
-
 			DesignerSurface.AllowDrop = true;
-			var pasteItem = new MenuItem()
-			{
-				Header = DesignerCanvasHelper.BuildMenuHeader("Вставить (Ctrl+V)", "pack://application:,,,/Controls;component/Images/BPaste.png"),
-				Command = PlanDesignerViewModel.PasteCommand,
-				CommandParameter = this
-			};
+			
+			var menuItem = DesignerCanvasHelper.BuildMenuItem(
+				"Вставить (Ctrl+V)", 
+				"pack://application:,,,/Controls;component/Images/BPaste.png", 
+				PlanDesignerViewModel.PasteCommand
+			);
+			menuItem.CommandParameter = this;
+			var pasteItem = menuItem;
+
 			ContextMenu = new ContextMenu();
 			ContextMenu.HasDropShadow = false;
 			ContextMenu.Items.Add(pasteItem);

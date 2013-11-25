@@ -8,7 +8,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Sizable = false;
 			RestrictClose = restrictClose;
 			HideInTaskbar = true;
-			IsIndeterminate = false;
 			CanCancel = canCancel;
 			CancelCommand = new RelayCommand(OnCancel);
 		}
@@ -45,17 +44,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 				ApplicationService.DoEvents();
 			}
 		}
-		bool _isIndeterminate;
-		public bool IsIndeterminate
-		{
-			get { return _isIndeterminate; }
-			set
-			{
-				_isIndeterminate = value;
-				OnPropertyChanged("IsIndeterminate");
-			}
-		}
-
 		bool _canCancel;
 		public bool CanCancel
 		{

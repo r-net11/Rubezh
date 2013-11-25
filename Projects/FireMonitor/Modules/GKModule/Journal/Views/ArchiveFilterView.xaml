@@ -79,7 +79,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}">
-                                <CheckBox IsChecked="{Binding IsChecked}" />
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
                                 <Image Width="16" Source="{Binding JournalDescriptionState.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
                                 <TextBlock Text="{Binding JournalDescriptionState.Name}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
@@ -92,7 +92,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" />
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
                                 <Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
                                 <TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
@@ -100,6 +100,20 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
+            <TabItem Header="Подсистемы">
+                <ListBox ItemsSource="{Binding SubsystemTypes}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            
             <TabItem Header="ГК">
                 <ListBox ItemsSource="{Binding GKAddresses}">
                     <ListBox.ItemTemplate>

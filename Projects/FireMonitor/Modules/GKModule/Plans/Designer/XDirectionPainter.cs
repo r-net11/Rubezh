@@ -188,21 +188,21 @@ namespace GKModule.Plans.Designer
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(new MenuItem()
-				{
-					Header = Helper.SetHeader("Показать в дереве", "pack://application:,,,/Controls;component/Images/BTree.png"),
-					Command = ShowInTreeCommand
-				});
-				_contextMenu.Items.Add(new MenuItem()
-				{
-					Header = Helper.SetHeader("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png"),
-					Command = ShowJournalCommand
-				});
-				_contextMenu.Items.Add(new MenuItem()
-				{
-					Header = Helper.SetHeader("Свойства", "pack://application:,,,/Controls;component/Images/BSettings.png"),
-					Command = ShowPropertiesCommand
-				});
+				_contextMenu.Items.Add(Helper.BuildMenuItem(
+					"Показать в дереве", 
+					"pack://application:,,,/Controls;component/Images/BTree.png", 
+					ShowInTreeCommand
+				));
+				_contextMenu.Items.Add(Helper.BuildMenuItem(
+					"Показать связанные события", 
+					"pack://application:,,,/Controls;component/Images/BJournal.png", 
+					ShowJournalCommand
+				));
+				_contextMenu.Items.Add(Helper.BuildMenuItem(
+					"Свойства", 
+					"pack://application:,,,/Controls;component/Images/BSettings.png", 
+					ShowPropertiesCommand
+				));
 			}
 			return _contextMenu;
 		}

@@ -44,13 +44,10 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding ShowObjectCommand}">
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
-                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center" />
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowObjectCommand}" Header="Показать">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
+                                        </MenuItem.Icon>
                                     </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>

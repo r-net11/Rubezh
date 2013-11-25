@@ -15,11 +15,11 @@ namespace PlansModule.Designer
 		public DesignerCanvas(PlanDesignerViewModel planDesignerViewModel)
 			: base(planDesignerViewModel)
 		{
-			var editItem = new MenuItem()
-			{
-				Header = DesignerCanvasHelper.BuildMenuHeader("Редактировать", "pack://application:,,,/Controls;component/Images/BEdit.png"),
-				Command = planDesignerViewModel.PlansViewModel.EditCommand
-			};
+			var editItem = DesignerCanvasHelper.BuildMenuItem(
+				"Редактировать", 
+				"pack://application:,,,/Controls;component/Images/BEdit.png", 
+				planDesignerViewModel.PlansViewModel.EditCommand
+			);
 			ContextMenu.Items.Add(editItem);
 		}
 

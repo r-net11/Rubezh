@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using GKProcessor;
-using FiresecAPI;
+using FiresecAPI.Models;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class JournalItemTypeViewModel : BaseViewModel
+	public class SubsystemTypeViewModel : BaseViewModel
 	{
-		public JournalItemTypeViewModel(JournalItemType journalItemType)
+		public SubsystemTypeViewModel(XSubsystemType subsystemType)
 		{
-			JournalItemType = journalItemType;
-			Name = journalItemType.ToDescription();
+			SubsystemType = subsystemType;
 		}
 
-		public JournalItemType JournalItemType { get; private set; }
-		public string Name { get; private set; }
+		public XSubsystemType SubsystemType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

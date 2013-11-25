@@ -128,77 +128,50 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding ResetCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Сбросить" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ResetCommand}" Header="Сбросить">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ResetIgnoreCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Снять отключение" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding TurnOnAutomaticCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Включить автоматику" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding TurnOnAutomaticCommand}" Header="Включить автоматику">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding TurnOffCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Выключить" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowOnPlanCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
+                                    <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
+                                        <MenuItem.Icon>
                                                 <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать на плане" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowObjectCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowObjectCommand}" Header="Показать">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowJournalCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Показать связанные события" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowPropertiesCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding ShowInstructionCommand}" >
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="/Controls;component/Images/BInformation.png" Width="16" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="2" Text="Инструкции" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
+                                    <MenuItem Command="{Binding ShowInstructionCommand}" Header="Инструкции">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BInformation.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
                                     </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>

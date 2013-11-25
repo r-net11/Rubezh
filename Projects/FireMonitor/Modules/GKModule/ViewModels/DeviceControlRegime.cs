@@ -4,13 +4,13 @@ namespace GKModule
 {
 	public enum DeviceControlRegime
 	{
-		[Description("Автоматика")]
+		[Description("автоматика")]
 		Automatic,
 
-		[Description("Ручное")]
+		[Description("ручное")]
 		Manual,
 
-		[Description("Отключение")]
+		[Description("отключение")]
 		Ignore
 	}
 }

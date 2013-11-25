@@ -9,6 +9,7 @@ using FiresecClient;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Input;
 
 namespace GKModule.Plans.Designer
 {
@@ -45,11 +46,9 @@ namespace GKModule.Plans.Designer
 			return element.DirectionUID != Guid.Empty && _xdirectionMap.ContainsKey(element.DirectionUID) ? _xdirectionMap[element.DirectionUID] : null;
 		}
 
-		public static StackPanel SetHeader(string title, string imageSourceUri)
+		public static MenuItem BuildMenuItem(string header, string imageSourceUri, ICommand command)
 		{
-			TextBlock textBlock = new TextBlock();
-			textBlock.Text = title;
-			textBlock.VerticalAlignment = VerticalAlignment.Center;
+			var menuItem = new MenuItem();
 
 			Image image = new Image();
 			image.Width = 16;
@@ -60,13 +59,11 @@ namespace GKModule.Plans.Designer
 			sourceImage.EndInit();
 			image.Source = sourceImage;
 
-			StackPanel stackPanel = new StackPanel();
-			stackPanel.Orientation = Orientation.Horizontal;
-			stackPanel.Children.Add(image);
-			stackPanel.Children.Add(textBlock);
+			menuItem.Icon = image;
+			menuItem.Header = header;
+			menuItem.Command = command;
 
-			return stackPanel;
-
+			return menuItem;
 		}
 	}
 }

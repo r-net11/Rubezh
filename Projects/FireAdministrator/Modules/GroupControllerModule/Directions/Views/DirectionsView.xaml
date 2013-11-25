@@ -90,21 +90,15 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding DeleteOutputDeviceCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteOutputDeviceCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ChangeOutputDevicesCommand}" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Изменить" Command="{Binding ChangeOutputDevicesCommand}" >
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
@@ -163,13 +157,13 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding ChangeNSDevicesCommand}" >
-                        <MenuItem.Header>
+                    <MenuItem Header="" Command="{Binding ChangeNSDevicesCommand}" >
+                        <MenuItem.Icon>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
                                 <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
                             </StackPanel>
-                        </MenuItem.Header>
+                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
@@ -219,21 +213,15 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding DeleteZoneCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteZoneCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ChangeZonesCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Изменить" Command="{Binding ChangeZonesCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>
@@ -284,21 +272,15 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding DeleteDeviceCommand}">
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteDeviceCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="{Binding ChangeDevicesCommand}" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Header>
+                    <MenuItem Header="Изменить" Command="{Binding ChangeDevicesCommand}" >
+                        <MenuItem.Icon>
+                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </Grid.ContextMenu>

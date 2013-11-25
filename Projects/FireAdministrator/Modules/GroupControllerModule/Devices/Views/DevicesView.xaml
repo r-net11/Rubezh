@@ -9,186 +9,120 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-            <MenuItem Command="{Binding CopyCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Копировать (Ctrl+C)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Копировать (Ctrl+C)" Command="{Binding CopyCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding CutCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Вырезать (Ctrl+Х)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Вырезать (Ctrl+Х)" Command="{Binding CutCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding PasteCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Вставить (Ctrl+V)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Вставить (Ctrl+V)" Command="{Binding PasteCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
             <Separator />
-            <MenuItem Command="{Binding AddCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Добавить дочернее устройство (Ctrl+N)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Добавить дочернее устройство (Ctrl+N)" Command="{Binding AddCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding AddToParentCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BAddChild.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Добавить к родительскому устройству (Ctrl+M)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Добавить к родительскому устройству (Ctrl+M)" Command="{Binding AddToParentCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BAddChild.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding RemoveCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Удалить (Ctrl+Del)" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Удалить (Ctrl+Del)" Command="{Binding RemoveCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding ShowLogicCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BLogic.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Настройка логики исполнительного устройства по состоянию зон" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Настройка логики исполнительного устройства по состоянию зон" Command="{Binding ShowLogicCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BLogic.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding ShowPropertiesCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Свойства" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
             <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/Eye2.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Разрешить множественную визуализацию" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Разрешить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/Eye2.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/Eye3.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Запретить множественную визуализацию" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
+            <MenuItem Header="Запретить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/Eye3.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
             </MenuItem>
-            <MenuItem>
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/BParametersReadWrite.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Параметры" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            <MenuItem Command="{Binding ReadCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+            <MenuItem Header="Параметры">
+                <MenuItem.Icon>
+                    <Image Source="/Controls;component/Images/BParametersReadWrite.png" Width="16" VerticalAlignment="Center" />
+                </MenuItem.Icon>
+                <MenuItem Header="Считать параметры" Command="{Binding ReadCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BParametersRead.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Считать параметры" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding ReadAllCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Считать параметры дочерних устройств" Command="{Binding ReadAllCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BParametersReadAll.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Считать параметры дочерних устройств" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding WriteCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Записать параметры" Command="{Binding WriteCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BParametersWrite.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Записать параметры" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding WriteAllCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Записать параметры дочерних устройств" Command="{Binding WriteAllCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BParametersWriteAll.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Записать параметры дочерних устройств" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <Separator />
-            <MenuItem Command="{Binding CopyParamCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Копировать параметры" Command="{Binding CopyParamCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Копировать параметры" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding PasteParamCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Вставить параметры" Command="{Binding PasteParamCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Вставить параметры" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding PasteAllParamCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Вставить параметры во все дочерние устройства" Command="{Binding PasteAllParamCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BPasteAll.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Вставить параметры во все дочерние устройства" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <Separator />
-            <MenuItem Command="{Binding PasteTemplateCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Применить шаблон" Command="{Binding PasteTemplateCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BBriefcase.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Применить шаблон" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding PasteAllTemplateCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Применить шаблон ко всем дочерним устройствам" Command="{Binding PasteAllTemplateCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BBriefcaseAll.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Применить шаблон ко всем дочерним устройствам" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <Separator />
-            <MenuItem Command="{Binding SyncFromDeviceToSystemCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Копировать параметры из устройства в систему" Command="{Binding SyncFromDeviceToSystemCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BLeft.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Копировать параметры из устройства в систему" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}">
-                <MenuItem.Header>
-                    <StackPanel Orientation="Horizontal">
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Копировать параметры из всех дочерних устройств в систему" Command="{Binding SyncFromAllDeviceToSystemCommand}">
+                    <MenuItem.Icon>
                         <Image Source="/Controls;component/Images/BLeftLeft.png" Width="16" VerticalAlignment="Center" />
-                        <TextBlock Margin="2" Text="Копировать параметры из всех дочерних устройств в систему" VerticalAlignment="Center" />
-                    </StackPanel>
-                </MenuItem.Header>
-            </MenuItem>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />

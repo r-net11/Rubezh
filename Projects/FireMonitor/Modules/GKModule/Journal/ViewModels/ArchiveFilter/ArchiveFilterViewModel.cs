@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			InitializeZones(archiveFilter);
 			InitializeDirections(archiveFilter);
 			InitializeDescriptions(archiveFilter);
-			
+			InitializeSubsystemTypes(archiveFilter);
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -164,7 +164,23 @@ namespace GKModule.ViewModels
 					descriptionViewModel.IsChecked = true;
 				}
 			}
-			var checke = ArchiveDescriptions.Where(x => x.IsChecked == true).ToList(); 
+		}
+
+		void InitializeSubsystemTypes(XArchiveFilter archiveFilter)
+		{
+			SubsystemTypes = new List<SubsystemTypeViewModel>();
+			foreach (XSubsystemType item in Enum.GetValues(typeof(XSubsystemType)))
+			{
+				SubsystemTypes.Add(new SubsystemTypeViewModel(item));
+			}
+			foreach (var subsystemType in archiveFilter.SubsystemTypes)
+			{
+				var subsystemTypeViewModel = SubsystemTypes.FirstOrDefault(x => x.SubsystemType == subsystemType);
+				if (subsystemTypeViewModel != null)
+				{
+					subsystemTypeViewModel.IsChecked = true;
+				}
+			}
 		}
 
 		#region Devices
@@ -315,6 +331,7 @@ namespace GKModule.ViewModels
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
 		public List<DescriptionViewModel> ArchiveDescriptions { get; private set; }
+		public List<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{
@@ -364,6 +381,11 @@ namespace GKModule.ViewModels
 				if (description.IsChecked)
 					archiveFilter.Descriptions.Add(description.Description.Name);
 			}
+			foreach (var subsystemType in SubsystemTypes)
+			{
+				if (subsystemType.IsChecked)
+					archiveFilter.SubsystemTypes.Add(subsystemType.SubsystemType);
+			}
 			return archiveFilter;
 		}
 
@@ -380,6 +402,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ArchiveDirections");
 			OnPropertyChanged("ArchiveDescriptions");
 			OnPropertyChanged("JournalDescriptionStates");
+			OnPropertyChanged("SubsystemTypes");
 		}
 
 		public RelayCommand SaveCommand { get; private set; }
