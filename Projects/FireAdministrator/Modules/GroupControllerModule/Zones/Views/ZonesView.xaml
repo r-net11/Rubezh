@@ -8,7 +8,7 @@
 		</Grid.ColumnDefinitions>
 
 		<Grid Grid.Column="0">
-			<Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+			<Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SizeChanged="XDataGrid_SizeChanged" x:Name="grid">
 				<DataGrid.Columns>
                     <DataGridTemplateColumn Header="№" SortMemberPath="Zone.No">
 						<DataGridTemplateColumn.CellTemplate>

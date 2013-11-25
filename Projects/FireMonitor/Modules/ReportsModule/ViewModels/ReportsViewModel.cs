@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -101,20 +102,20 @@ namespace ReportsModule.ViewModels
 			if (SelectedReport != null)
 				ApplicationService.BeginInvoke((Action)(() =>
 					{
-						DateTime dt = DateTime.Now;
-						try
-						{
-							LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
-							InProgress = true;
-							DocumentPaginator = SelectedReport.GenerateReport();
-						}
-						finally
-						{
-							LoadingService.Close();
-							InProgress = false;
-						}
-						Debug.WriteLine("Total: {0}", DateTime.Now - dt);
-						Debug.WriteLine("Page Count: {0}", DocumentPaginator == null ? 0 : DocumentPaginator.PageCount);
+						using (new TimeCounter("Total: {0}", true, true))
+						using (new WaitWrapper())
+							try
+							{
+								LoadingService.Show("Идет построение отчета", "Идет построение отчета", 0);
+								ApplicationService.DoEvents();
+								InProgress = true;
+								DocumentPaginator = SelectedReport.GenerateReport();
+							}
+							finally
+							{
+								LoadingService.Close();
+								InProgress = false;
+							}
 					}));
 			else
 				DocumentPaginator = null;
