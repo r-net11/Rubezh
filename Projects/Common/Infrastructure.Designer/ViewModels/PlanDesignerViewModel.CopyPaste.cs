@@ -66,17 +66,19 @@ namespace Infrastructure.Designer.ViewModels
 					var designerItems = new List<DesignerItem>();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
+                    var newItems = new List<DesignerItem>();
 					foreach (var elementBase in _buffer)
 					{
 						var element = elementBase.Clone();
 						element.UID = Guid.NewGuid();
 						var designerItem = DesignerCanvas.CreateElement(element);
 						designerItems.Add(designerItem);
-						designerItem.IsSelected = true;
+                        newItems.Add(designerItem);
 					}
-					MoveToFrontCommand.Execute();
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
-					DesignerCanvas.DesignerChanged();
+                    newItems.ForEach(item => item.IsSelected = true);
+                    MoveToFrontCommand.Execute();
+                    DesignerCanvas.DesignerChanged();
 				}
 		}
 		private bool CanPaste(IInputElement obj)

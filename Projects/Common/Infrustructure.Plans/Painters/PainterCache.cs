@@ -28,9 +28,11 @@ namespace Infrustructure.Plans.Painters
 		public static RectangleGeometry PointGeometry { get; private set; }
 		public static double Zoom { get; private set; }
 		public static double PointZoom { get; private set; }
+        public static bool UseTransparentImage { get; set; }
 
 		static PainterCache()
 		{
+            UseTransparentImage = true;
 			try
 			{
 				TransparentBrush = new SolidColorBrush(Colors.Transparent);
@@ -86,16 +88,16 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static Brush GetBrush(IElementBackground element)
 		{
-			if (element.BackgroundImageSource.HasValue)
-			{
-				CacheBrush(element);
-				return _pictureBrushes[element.BackgroundImageSource.Value];
-				//return GetBrush(element.BackgroundImageSource.Value);
-			}
-			else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
-				return _transparentBackgroundBrush;
-			else
-				return GetBrush(element.BackgroundColor);
+            if (element.BackgroundImageSource.HasValue)
+            {
+                CacheBrush(element);
+                return _pictureBrushes[element.BackgroundImageSource.Value];
+                //return GetBrush(element.BackgroundImageSource.Value);
+            }
+            else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
+                return UseTransparentImage ? _transparentBackgroundBrush : TransparentBrush;
+            else
+                return GetBrush(element.BackgroundColor);
 		}
 		public static Brush GetTransparentBrush(IElementBackground element)
 		{
