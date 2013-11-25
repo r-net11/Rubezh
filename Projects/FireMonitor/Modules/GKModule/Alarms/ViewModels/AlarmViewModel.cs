@@ -8,6 +8,7 @@ using FiresecClient;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Infrustructure.Plans.Elements;
+using FiresecAPI.Models;
 
 namespace GKModule.ViewModels
 {
@@ -268,6 +269,9 @@ namespace GKModule.ViewModels
 		bool CanResetIgnore()
 		{
 			if (Alarm.AlarmType != XAlarmType.Ignore)
+				return false;
+
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 				return false;
 
 			if (Alarm.Device != null)

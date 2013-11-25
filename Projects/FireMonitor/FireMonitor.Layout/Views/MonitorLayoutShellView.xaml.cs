@@ -5,9 +5,6 @@ using Xceed.Wpf.AvalonDock;
 
 namespace FireMonitor.Layout.Views
 {
-	/// <summary>
-	/// Interaction logic for MonitorLayoutShellView.xaml
-	/// </summary>
 	public partial class MonitorLayoutShellView : UserControl
 	{
 		public static readonly DependencyProperty ManagerProperty = DependencyProperty.Register("Manager", typeof(DockingManager), typeof(MonitorLayoutShellView), new UIPropertyMetadata(null));

@@ -11,6 +11,7 @@ using FiresecClient;
 using Infrustructure.Plans.Elements;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -28,9 +29,9 @@ namespace GKModule.ViewModels
 			DelayState.StateChanged += new Action(OnStateChanged);
 
 			ShowCommand = new RelayCommand(OnShow);
-			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
-			SetManualStateCommand = new RelayCommand(OnSetManualState);
-			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
@@ -47,6 +48,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DelayState");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
+			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public List<XStateClass> StateClasses
@@ -86,6 +88,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Delay);
             }
         }
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
@@ -95,6 +101,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetManualRegime(Delay);
             }
         }
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
@@ -104,6 +114,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Delay);
             }
         }
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
         void OnTurnOn()
@@ -151,6 +165,11 @@ namespace GKModule.ViewModels
 		public bool HasPlans
 		{
 			get { return Plans.Count > 0; }
+		}
+
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		#region IWindowIdentity Members

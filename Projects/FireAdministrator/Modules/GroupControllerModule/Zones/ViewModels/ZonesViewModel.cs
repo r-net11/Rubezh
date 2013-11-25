@@ -135,7 +135,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				var emptyZones = Zones.Where(x => !x.Zone.Devices.Any()).ToList();
+				var emptyZones = Zones.Where(x => x.Zone.Devices.Count == 0).ToList();
 				foreach (var emptyZone in emptyZones)
 				{
 					XManager.RemoveZone(emptyZone.Zone);
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Zones.Any(x => !x.Zone.Devices.Any());
+			return Zones.Any(x => x.Zone.Devices.Count == 0);
 		}
 
         public RelayCommand EditCommand { get; private set; }
@@ -156,9 +156,9 @@ namespace GKModule.ViewModels
         {
 			OnEdit(SelectedZone.Zone);
 		}
-		void OnEdit(XZone xzone)
+		void OnEdit(XZone zone)
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(xzone);
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
 				XManager.EditZone(SelectedZone.Zone);

@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 
 			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
-			CompareTrees();
+			CompareObjectLists();
 			InitializeMismatchedIndexes();
 		}
 		
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 			Close(true);
 		}
 
-		public void CompareTrees()
+		public void CompareObjectLists()
 		{
 			var objects1 = LocalObjectsViewModel.Objects;
 			var objects2 = RemoteObjectsViewModel.Objects;

@@ -13,7 +13,7 @@ namespace FireMonitor.Layout.ViewModels
 		public ILayoutPartPresenter LayoutPartPresenter { get; private set; }
 		public LayoutPart LayoutPart { get; private set; }
 
-		public LayoutPartViewModel(LayoutPart layoutPart,ILayoutPartPresenter layoutPartPresenter)
+		public LayoutPartViewModel(LayoutPart layoutPart, ILayoutPartPresenter layoutPartPresenter)
 		{
 			LayoutPart = layoutPart;
 			LayoutPartPresenter = layoutPartPresenter;

@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using System.Collections.ObjectModel;
 using Infrustructure.Plans.Elements;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -43,6 +44,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ResetFireCommand");
 			OnPropertyChanged("SetIgnoreCommand");
 			OnPropertyChanged("ResetIgnoreCommand");
+			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -99,7 +101,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -112,13 +114,18 @@ namespace GKModule.ViewModels
         }
 		bool CanResetIgnore()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
+		}
+
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		#region IWindowIdentity Members

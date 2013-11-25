@@ -23,9 +23,9 @@ namespace GKModule.ViewModels
 			DeviceState.StateChanged -= new System.Action(OnStateChanged);
 			DeviceState.StateChanged += new System.Action(OnStateChanged);
 
-			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
-			SetManualStateCommand = new RelayCommand(OnSetManualState);
-			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			ExecuteMROCommand = new RelayCommand(OnExecuteMRO);
 
@@ -44,12 +44,12 @@ namespace GKModule.ViewModels
 
 		public bool IsTriStateControl
 		{
-			get { return Device.Driver.IsControlDevice; }
+			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		public bool IsBiStateControl
 		{
-			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice; }
+			get { return Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		public DeviceControlRegime ControlRegime
@@ -79,6 +79,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
             }
 		}
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
@@ -88,6 +92,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetManualRegime(Device);
             }
         }
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
@@ -97,6 +105,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
             }
         }
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
 
 		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
 

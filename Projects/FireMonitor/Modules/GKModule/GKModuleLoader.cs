@@ -19,14 +19,13 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using GKProcessor.Events;
 
 namespace GKModule
 {
 	public class GKModuleLoader : ModuleBase, IReportProviderModule, ILayoutProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
-		static DeviceParametersViewModel DeviceParametersViewModel;
+		//static DeviceParametersViewModel DeviceParametersViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
 		static DelaysViewModel DelaysViewModel;
@@ -53,7 +52,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
 			DevicesViewModel = new DevicesViewModel();
-			DeviceParametersViewModel = new DeviceParametersViewModel();
+			//DeviceParametersViewModel = new DeviceParametersViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			DelaysViewModel = new DelaysViewModel();
@@ -122,7 +121,7 @@ namespace GKModule
 			_delaysNavigationItem.IsVisible = true;
 #endif
 			DevicesViewModel.Initialize();
-			DeviceParametersViewModel.Initialize();
+			//DeviceParametersViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 			DelaysViewModel.Initialize();
@@ -141,7 +140,7 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Измерения", "/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
+					//new NavigationItem<ShowXDeviceParametersEvent, Guid>(DeviceParametersViewModel, "Измерения", "/Controls;component/Images/AllParameters.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_delaysNavigationItem,
@@ -227,13 +226,13 @@ namespace GKModule
 				IconSource = "/Controls;component/Images/Tree.png",
 				Content = DevicesViewModel,
 			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Измерения",
-				UID = LayoutPartIdentities.DeviceParameters,
-				IconSource = "/Controls;component/Images/AllParameters.png",
-				Content = DeviceParametersViewModel,
-			};
+			//yield return new LayoutPartPresenter()
+			//{
+			//    Name = "Измерения",
+			//    UID = LayoutPartIdentities.DeviceParameters,
+			//    IconSource = "/Controls;component/Images/AllParameters.png",
+			//    Content = DeviceParametersViewModel,
+			//};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Зоны",

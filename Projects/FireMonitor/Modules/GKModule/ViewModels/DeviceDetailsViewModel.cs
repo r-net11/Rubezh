@@ -16,6 +16,7 @@ using XFiresecAPI;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -89,6 +90,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			OnPropertyChanged("HasOffDelay");
+			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public Brush DevicePicture
@@ -299,7 +301,7 @@ namespace GKModule.ViewModels
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
-					planViewModels.Add(new PlanViewModel(plan, Device));	
+					planViewModels.Add(new PlanViewModel(plan, Device));
 				}
 				return planViewModels;
 			}
@@ -334,7 +336,7 @@ namespace GKModule.ViewModels
 		}
 	}
 
-	public class PlanViewModel:BaseViewModel
+	public class PlanViewModel : BaseViewModel
 	{
 		Plan Plan;
 		XDevice Device;

@@ -34,16 +34,16 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("ОЗ: Не требуется подтверждение тревог")]
 		Oper_NoAlarmConfirm = 104,
 
-		[DescriptionAttribute("ОЗ: Отключение")]
+		[DescriptionAttribute("ОЗ: Отключение в приборах Рубеж")]
 		Oper_AddToIgnoreList = 105,
 
-		[DescriptionAttribute("ОЗ: Снятие отключения")]
+		[DescriptionAttribute("ОЗ: Снятие отключения в приборах Рубеж")]
 		Oper_RemoveFromIgnoreList = 106,
 
-		[DescriptionAttribute("ОЗ: Постановка, снятие зон с охраны")]
-		Oper_SecurityZone = 107,
+		//[DescriptionAttribute("ОЗ: Постановка, снятие зон с охраны")]
+		//Oper_SecurityZone = 107,
 
-		[DescriptionAttribute("ОЗ: Управление исполнительными устройствами")]
+		[DescriptionAttribute("ОЗ: Управление устройствами, зонами и направлениями")]
 		Oper_ControlDevices = 108,
 
 		[DescriptionAttribute("ОЗ: Управление интерфейсом")]

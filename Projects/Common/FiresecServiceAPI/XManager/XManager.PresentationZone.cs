@@ -44,7 +44,7 @@ namespace FiresecClient
 
 				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
 					stringBuilder.Append("Если НЕ ");
-				stringBuilder.Append(clause.StateType.ToDescription() + " в ");
+				stringBuilder.Append(clause.StateType.ToDescription() + " ");
 				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
 				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
 				stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
@@ -122,8 +122,12 @@ namespace FiresecClient
 			return stringBuilder.ToString();
 		}
 
-		public static string GetCommaSeparatedDirections(IEnumerable<XDirection> directions)
+		public static string GetCommaSeparatedDirections(List<XDirection> directions)
 		{
+			if (directions.Count == 1)
+			{
+				return directions[0].PresentationName;
+			}
 			if (directions.Count() > 0)
 			{
 				var orderedDirections = directions.OrderBy(x => x.No).Select(x => x.No).ToList();
@@ -133,7 +137,7 @@ namespace FiresecClient
 				for (int i = 0; i < orderedDirections.Count; i++)
 				{
 					var directionNo = orderedDirections[i];
-					var haveDirectionsBetween = Zones.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
+					var haveDirectionsBetween = Directions.Any(x => (x.No > prevDirectionNo) && (x.No < directionNo));
 					if (haveDirectionsBetween)
 					{
 						groupOfDirections.Add(new List<ushort>() { directionNo });

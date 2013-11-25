@@ -1,4 +1,4 @@
-﻿#define LOCALCONFIG
+﻿//#define LOCALCONFIG
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace GKProcessor
 			var result = DeviceBytesHelper.Ping(gkDevice);
 			if (!result)
 			{
-				ParsingError = "Устройство " + gkDevice.PresentationDriverAndAddress + " недоступно";
+				ParsingError = "Устройство " + gkDevice.PresentationName + " недоступно";
 				return false;
 			}
 			IpAddress = gkDevice.GetGKIpAddress();
@@ -35,9 +35,9 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationDriverAndAddress, "Перевод ГК в технологический режим", 50000, true);
+			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
 			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
-			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationDriverAndAddress, "", 50000, true);
+			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();

@@ -17,6 +17,36 @@ namespace GKProcessor
 	{
 		bool IsAnyDBMissmatch = false;
 
+		bool _isJournalAnyDBMissmatch = false;
+		bool IsJournalAnyDBMissmatch
+		{
+			get { return _isJournalAnyDBMissmatch; }
+			set
+			{
+				if (_isJournalAnyDBMissmatch != value)
+				{
+					_isJournalAnyDBMissmatch = value;
+					ApplicationService.Invoke(() =>
+					{
+						var journalItem = new JournalItem()
+						{
+							SystemDateTime = DateTime.Now,
+							DeviceDateTime = DateTime.Now,
+							GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
+							JournalItemType = JournalItemType.System,
+							StateClass = XStateClass.Unknown,
+							ObjectStateClass = XStateClass.Norm,
+							Name = value ? "База данных прибора соответствует базе данных ПК" : "База данных прибора не соответствует базе данных ПК"
+						};
+
+						var journalItems = new List<JournalItem>() { journalItem };
+						GKDBHelper.AddMany(journalItems);
+						ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
+					});
+				}
+			}
+		}
+
 		void GetAllStates(bool showProgress)
 		{
 			IsAnyDBMissmatch = false;
@@ -65,6 +95,7 @@ namespace GKProcessor
 					baseState.IsGKMissmatch = false;
 				}
 			}
+			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 
 			ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
