@@ -25,5 +25,10 @@ namespace GKModule.Views
 		{
 			height = bottomRow.Height.Value;
 		}
+
+		private void XDataGrid_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+		{
+			var grid = (DataGrid)sender;
+		}
 	}
 }
