@@ -160,4 +160,8 @@
         <Views:OPCDirectionsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:FileWritingViewModel}">
+        <Views:FileWritingView />
+    </DataTemplate>
+
 </ResourceDictionary>

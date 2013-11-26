@@ -15,6 +15,13 @@
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
                 </MenuItem.Header>
 
+                <MenuItem Command="{Binding ReadConfigFileCommand}">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Считать конфигурацию из файла" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
                 <MenuItem Command="{Binding ReadConfigurationCommand}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">

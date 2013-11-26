@@ -104,7 +104,7 @@ namespace FireAdministrator
 		{
 			try
 			{
-				var openDialog = new OpenFileDialog()
+				var openDialog = new OpenFileDialog
 					{
 						Filter = "firesec2 files|*.fscp",
 						DefaultExt = "firesec2 files|*.fscp"

@@ -26,6 +26,7 @@ namespace GKModule.Models
 			_devicesViewModel = devicesViewModel;
 
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
+			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
@@ -42,15 +43,9 @@ namespace GKModule.Models
 		void OnShowInfo()
 		{
 			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
-			if (!string.IsNullOrEmpty(result))
-			{
-				MessageBoxService.Show(result);
-			}
-			else
-			{
-				MessageBoxService.Show("Ошибка при запросе информации об устройстве");
-			}
+			MessageBoxService.Show(!string.IsNullOrEmpty(result) ? result : "Ошибка при запросе информации об устройстве");
 		}
+
 		bool CanShowInfo()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == XDriverType.GK));
@@ -95,6 +90,11 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
+					var fileWritingViewModel = new FileWritingViewModel();
+					if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
+						DialogService.ShowModalWindow(fileWritingViewModel);
+					if (GlobalSettingsHelper.GlobalSettings.WriteFileToGK)
+						GkDescriptorsWriter.WriteConfigFileToGK();
 					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
 					var devices = SelectedDevice.GetRealChildren();
 					SelectedDevice.SyncFromSystemToDeviceProperties(devices);
@@ -113,17 +113,30 @@ namespace GKModule.Models
 		void OnReadConfiguration()
 		{
 			DescriptorsManager.Create();
-			var device = SelectedDevice.Device;
-			var result = FiresecManager.FiresecService.GKReadConfiguration(device);
+			var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
 			if (!result.HasError)
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, device);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
 				MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
+		}
+
+		public RelayCommand ReadConfigFileCommand { get; private set; }
+		void OnReadConfigFile()
+		{
+			var testFileConfig = new GkDescriptorsReaderBase();
+			testFileConfig.ReadConfigFileFromGK();
+			if (testFileConfig.DeviceConfiguration != null)
+			{
+				XManager.UpdateConfiguration();
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, testFileConfig.DeviceConfiguration, SelectedDevice.Device);
+				if (DialogService.ShowModalWindow(configurationCompareViewModel))
+					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+			}
 		}
 
 		bool CanReadConfiguration()

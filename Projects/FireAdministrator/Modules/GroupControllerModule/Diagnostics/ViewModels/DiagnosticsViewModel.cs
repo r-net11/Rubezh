@@ -149,7 +149,6 @@ namespace GKModule.ViewModels
 		void OnReadConfigFileFromGK()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
 			var bytesList = new List<List<byte>>();
 			var allbytes = new List<byte>();
 			uint i = 1;
@@ -164,7 +163,6 @@ namespace GKModule.ViewModels
 			}
 			//BytesHelper.BytesToFile("input.txt", bytesList);
 			ByteArrayToFile("gkConfig.fscp", allbytes.ToArray());
-			//GoToWorkingRegime(gkDevice);
 		}
 
 		public bool ByteArrayToFile(string fileName, byte[] byteArray)

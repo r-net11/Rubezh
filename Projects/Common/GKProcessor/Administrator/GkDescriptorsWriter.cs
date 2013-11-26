@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Common;
 using FiresecClient;
 using GKProcessor;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -262,8 +264,34 @@ namespace GKProcessor
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
-			var endBytes = GkDescriptorsWriter.CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
+			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
+		}
+
+		public static void WriteConfigFileToGK()
+		{
+			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
+			GoToTechnologicalRegime(gkDevice);
+			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
+			var configFileName = Path.Combine(folderName, "fileToGk.fscp");
+
+			ZipFileConfigurationHelper.SaveToZipFile(configFileName, XManager.DeviceConfiguration);
+			if (!File.Exists(configFileName))
+				return;
+			var bytesList = File.ReadAllBytes(configFileName).ToList();
+			var tempBytes = new List<List<byte>>();
+			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
+			for (int i = 0; i < bytesList.Count(); i += 256)
+			{
+				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
+				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
+				tempBytes.Add(bytesBlock.GetRange(4, bytesBlock.Count - 4));
+				SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
+			}
+			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
+			SendManager.Send(gkDevice, 0, 22, 0, endBlock);
+			//BytesHelper.BytesToFile("output.txt", tempBytes);
+			//GoToWorkingRegime(gkDevice);
 		}
 	}
 }
