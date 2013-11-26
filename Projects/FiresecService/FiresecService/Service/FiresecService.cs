@@ -20,8 +20,8 @@ namespace FiresecService.Service
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService
 	{
-		public static readonly SqlCeConnection DataBaseContext =
-			new SqlCeConnection(Settings.Default.FiresecConnectionString);
+		public static readonly SqlCeConnection DataBaseContext = new SqlCeConnection(Settings.Default.FiresecConnectionString);
+		ClientCredentials CurrentClientCredentials;
 
 		void InitializeClientCredentials(ClientCredentials clientCredentials)
 		{
@@ -59,6 +59,7 @@ namespace FiresecService.Service
 				AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec)");
 			}
 
+			CurrentClientCredentials = clientCredentials;
 			return operationResult;
 		}
 
@@ -88,6 +89,7 @@ namespace FiresecService.Service
 			SetUserFullName(clientCredentials);
 			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec)");
 
+			CurrentClientCredentials = clientCredentials;
 			operationResult.Result = true;
 			return operationResult;
 		}

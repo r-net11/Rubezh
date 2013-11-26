@@ -19,7 +19,6 @@ namespace FiresecService.Service
 		public void GKWriteConfiguration(XDevice device)
 		{
 			GkDescriptorsWriter.WriteConfig(device);
-			//FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 			AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
 		}
 
@@ -235,28 +234,15 @@ namespace FiresecService.Service
 				Name = message,
 				Description = description,
 				ObjectUID = uid,
-				ObjectName = xBase.PresentationName,
+				//ObjectName = xBase.PresentationName,
 				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)xBase.GKDescriptorNo,
-				//UserName = FiresecManager.CurrentUser.Name,
+				UserName = CurrentClientCredentials.UserName,
 				SubsystemType = XSubsystemType.System
 			};
 
 			GKDBHelper.Add(journalItem);
-			OnNewJournalItems(journalItem);
-		}
-
-		public event Action<List<JournalItem>> NewJournalItems;
-		void OnNewJournalItems(List<JournalItem> journalItems)
-		{
-			if (NewJournalItems != null)
-				NewJournalItems(journalItems);
-		}
-		void OnNewJournalItems(JournalItem journalItem)
-		{
-			var journalItems = new List<JournalItem>() { journalItem };
-			if (NewJournalItems != null)
-				NewJournalItems(journalItems);
+			NotifyNewGKJournal(new List<JournalItem>() { journalItem });
 		}
 
 		XBase GetXBase(Guid uid, XBaseObjectType objectType)

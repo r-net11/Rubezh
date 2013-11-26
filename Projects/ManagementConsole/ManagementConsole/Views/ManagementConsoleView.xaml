@@ -1,9 +1,14 @@
 ﻿<Window x:Class="ManagementConsole.ManagementConsoleView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
         Title="Консоль управления ОПС Firesec"
         MinHeight="500" MinWidth="500" SizeToContent="WidthAndHeight"
         Closing="Window_Closing">
+    <Window.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -54,6 +59,19 @@
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Сервер ГК" DataContext="{Binding GlobalSettingsViewModel}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Использовать сервер ГК" HorizontalAlignment="Right" Margin="2" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">

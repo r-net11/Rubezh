@@ -10,6 +10,8 @@ using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
+using XFiresecAPI;
+using GKProcessor.Events;
 
 namespace Infrastructure
 {
@@ -46,6 +48,7 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
+				SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewServerJournalItemsEvent(x); }); });
 				SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
 				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 
@@ -90,6 +93,12 @@ namespace Infrastructure
 				}
 			}
 		}
+
+		static void OnNewServerJournalItemsEvent(List<JournalItem> journalItems)
+		{
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
+		}
+
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);

@@ -36,24 +36,24 @@ namespace FiresecService.Service
 
 		public static void Remove(Guid uid)
 		{
-			var clientInfo = ClientInfos.FirstOrDefault(x=>x.UID == uid);
+			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
 			ClientInfos.Remove(clientInfo);
 			MainViewModel.Current.RemoveClient(uid);
 		}
 
-        public static ClientInfo GetClientInfo(Guid uid)
+		public static ClientInfo GetClientInfo(Guid uid)
 		{
-			return ClientInfos.FirstOrDefault(x=>x.UID == uid);
+			return ClientInfos.FirstOrDefault(x => x.UID == uid);
 		}
 
-        public static ClientCredentials GetClientCredentials(Guid uid)
+		public static ClientCredentials GetClientCredentials(Guid uid)
 		{
-			var clientInfo = ClientInfos.FirstOrDefault(x=>x.UID == uid);
-            if (clientInfo != null)
-            {
-                return clientInfo.ClientCredentials;
-            }
-            return null;
+			var clientInfo = ClientInfos.FirstOrDefault(x => x.UID == uid);
+			if (clientInfo != null)
+			{
+				return clientInfo.ClientCredentials;
+			}
+			return null;
 		}
 	}
 
@@ -62,7 +62,7 @@ namespace FiresecService.Service
 		public Guid UID { get; set; }
 		public ClientCredentials ClientCredentials { get; set; }
 		public int CallbackIndex { get; set; }
-        public AutoResetEvent WaitEvent = new AutoResetEvent(false);
-        public bool IsDisconnecting { get; set; }
+		public AutoResetEvent WaitEvent = new AutoResetEvent(false);
+		public bool IsDisconnecting { get; set; }
 	}
 }

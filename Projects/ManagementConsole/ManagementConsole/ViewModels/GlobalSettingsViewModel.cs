@@ -18,6 +18,7 @@ namespace ManagementConsole
 			Login = GlobalSettingsHelper.GlobalSettings.Login;
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
+			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
@@ -184,6 +185,28 @@ namespace ManagementConsole
 			}
 		}
 
+		bool _isGKAsAService;
+		public bool IsGKAsAService
+		{
+			get { return _isGKAsAService; }
+			set
+			{
+				_isGKAsAService = value;
+				OnPropertyChanged("IsGKAsAService");
+			}
+		}
+
+		public bool IsDebug
+		{
+			get
+			{
+#if DEBUG
+				return true;
+#endif
+				return false;
+			}
+		}
+
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
@@ -192,8 +215,10 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.Login = Login;
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
-			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
+			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
+			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
+			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
 			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;
 			GlobalSettingsHelper.GlobalSettings.FS_Port = FS_Port;
 			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;

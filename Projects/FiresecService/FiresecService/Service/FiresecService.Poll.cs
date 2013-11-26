@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using XFiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -13,15 +14,6 @@ namespace FiresecService.Service
     {
 		public string Test(string arg)
 		{
-			var journalRecords = new List<JournalRecord>();
-			var journalRecord = new JournalRecord()
-			{
-				DeviceTime = DateTime.Now,
-				SystemTime = DateTime.Now,
-				Description = arg
-			};
-			journalRecords.Add(journalRecord);
-			NotifyNewJournal(journalRecords);
 			return "Test";
 		}
 
@@ -43,6 +35,16 @@ namespace FiresecService.Service
             }
             return new List<CallbackResult>();
         }
+
+		public void NotifyNewGKJournal(List<JournalItem> journalItems)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.NewGKEvents,
+				JournalItems = journalItems
+			};
+			CallbackManager.Add(callbackResult);
+		}
 
         public void NotifyNewJournal(List<JournalRecord> journalRecords)
         {

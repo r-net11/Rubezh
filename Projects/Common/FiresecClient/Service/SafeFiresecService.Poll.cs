@@ -5,11 +5,13 @@ using Common;
 using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
+		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
@@ -88,6 +90,14 @@ namespace FiresecClient
 									NewJournalRecordEvent(journalRecord);
 							});
 						}
+						break;
+
+					case CallbackResultType.NewGKEvents:
+						SafeOperationCall(() =>
+						{
+							if (NewJournalItemsEvent != null)
+								NewJournalItemsEvent(callbackResult.JournalItems);
+						});
 						break;
 
 					case CallbackResultType.ArchiveCompleted:

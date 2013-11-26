@@ -8,12 +8,13 @@ using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using GKProcessor;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace FiresecClient
 {
     public partial class SafeFiresecService
     {
-		static bool IsGKAsAService = false;
+		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
 		public void GKStart()
 		{
