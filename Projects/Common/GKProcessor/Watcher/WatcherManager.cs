@@ -54,7 +54,10 @@ namespace GKProcessor
 
 		static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			Stop();
+			if (!e.Cancel)
+			{
+				Stop();
+			}
 		}
 		static void ApplicationService_Restarting()
 		{

@@ -45,7 +45,8 @@ namespace Infrastructure.Common.Windows
 			get { return _progressViewModel != null && _progressViewModel.IsCanceled; }
 			set
 			{
-				_progressViewModel.IsCanceled = value;
+				if (_progressViewModel != null)
+					_progressViewModel.IsCanceled = value;
 			}
 		}
 

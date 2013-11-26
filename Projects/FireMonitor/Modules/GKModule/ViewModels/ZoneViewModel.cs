@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-            return !ZoneState.StateClasses.Contains(XStateClass.Ignore);
+			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Ignore);
+			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
 

@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class DelayDetailsView : UserControl
-    {
+	public partial class DelayDetailsView : UserControl
+	{
 		public DelayDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+		{
+			InitializeComponent();
+		}
+	}
 }

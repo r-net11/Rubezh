@@ -19,7 +19,8 @@ namespace FireMonitor.Layout.ViewModels
 		}
 
 		public List<FiresecAPI.Models.Layouts.Layout> Layouts { get; private set; }
-		private FiresecAPI.Models.Layouts.Layout _selectedLayout;
+
+		FiresecAPI.Models.Layouts.Layout _selectedLayout;
 		public FiresecAPI.Models.Layouts.Layout SelectedLayout
 		{
 			get { return _selectedLayout; }

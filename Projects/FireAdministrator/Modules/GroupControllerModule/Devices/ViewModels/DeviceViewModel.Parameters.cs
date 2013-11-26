@@ -174,12 +174,11 @@ namespace GKModule.ViewModels
 			var device = new List<XDevice> { Device };
 			if (Validate(device))
 			{
-				LoadingService.Show("Запись параметров в устройствo " + Device.PresentationDriverAndAddress, null, 1, true);
+				LoadingService.Show("Запись параметров в устройствo " + Device.PresentationName, null, 1, true);
 				WriteDevices(device);
 				SyncFromSystemToDeviceProperties(device);
 			}
 		}
-
 
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
@@ -187,7 +186,7 @@ namespace GKModule.ViewModels
 			var devices = GetRealChildren();
 			if (Validate(devices))
 			{
-				LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationDriverAndAddress, null, 1, true);
+				LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationName, null, 1, true);
 				WriteDevices(devices);
 				SyncFromSystemToDeviceProperties(devices);
 			}
@@ -297,7 +296,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			LoadingService.Show("Чтение параметров из устройства " + Device.PresentationDriverAndAddress, null, 1, true);
+			LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
 			ReadDevices(new List<XDevice> { Device });
 			PropertiesViewModel.Update();
 		}
@@ -312,7 +311,7 @@ namespace GKModule.ViewModels
 		{
 			var devices = GetRealChildren();
 			devices.Add(Device);
-			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationDriverAndAddress, null, 1, true);
+			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
 			ReadDevices(devices);
 		}
 

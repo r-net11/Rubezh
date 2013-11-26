@@ -9,6 +9,7 @@ using Infrustructure.Plans;
 using PlansModule.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule
 {
@@ -19,6 +20,7 @@ namespace PlansModule
 
 		public override void CreateViewModels()
 		{
+            PainterCache.UseTransparentImage = false;
 			EventService.RegisterEventAggregator(ServiceFactory.Events);
 			_plansViewModel = new PlansViewModel();
 		}

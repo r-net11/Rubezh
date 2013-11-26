@@ -41,10 +41,10 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Margin="2 0">
-                                        <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                        <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
                                             <StackPanel Orientation="Horizontal">
                                                 <Image Width="16" Source="/Controls;component/Images/map_black.png" Margin="1" />
-                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" Foreground="Black"/>
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
                                             </StackPanel>
                                         </Hyperlink>
                                     </TextBlock>
@@ -63,7 +63,7 @@
                     </ItemsControl.Items>
                 </ItemsControl>
             </TabItem>
-            <TabItem Header="Управление">
+            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel Background="White">
                     <Button Content="Отключить" Command="{Binding SetIgnoreCommand}" Width="200" Height="50" Margin="2" />
                     <Button Content="Снять отключение" Command="{Binding ResetIgnoreCommand}" Width="200" Height="50" Margin="2" />

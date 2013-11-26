@@ -11,10 +11,10 @@ namespace GKModule.Plans.Views
 
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var listView = sender as ListView;
-			if (listView != null && listView.SelectedItem != null)
+			var dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null)
 			{
-				listView.ScrollIntoView(listView.SelectedItem);
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
 			}
 		}
 	}

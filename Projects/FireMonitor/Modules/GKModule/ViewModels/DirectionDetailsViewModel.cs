@@ -11,6 +11,7 @@ using FiresecClient;
 using Infrustructure.Plans.Elements;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
@@ -29,9 +30,9 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
-			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState);
-			SetManualStateCommand = new RelayCommand(OnSetManualState);
-			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
@@ -49,6 +50,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("DirectionState");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
+			CommandManager.InvalidateRequerySuggested();
 		}
 
 		public List<XStateClass> StateClasses
@@ -71,7 +73,13 @@ namespace GKModule.ViewModels
 		}
 		public int OutputDevicesCount
 		{
-			get { return Direction.OutputDevices.Count; }
+			get
+			{
+				if (!Direction.IsNS)
+					return Direction.OutputDevices.Count;
+				else
+					return Direction.NSDevices.Where(x => (x.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.DriverType == XDriverType.RSR2_Bush).Count();
+			}
 		}
 
 		public DeviceControlRegime ControlRegime
@@ -101,6 +109,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Direction);
             }
         }
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
         void OnSetManualState()
@@ -110,6 +122,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetManualRegime(Direction);
             }
         }
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
         void OnSetIgnoreState()
@@ -119,6 +135,10 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Direction);
             }
         }
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
         void OnTurnOn()
@@ -199,6 +219,11 @@ namespace GKModule.ViewModels
 					Plans.Add(alarmPlanViewModel);
 				}
 			}
+		}
+
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		#region IWindowIdentity Members

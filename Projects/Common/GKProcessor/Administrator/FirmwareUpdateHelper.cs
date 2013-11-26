@@ -23,6 +23,7 @@ namespace GKProcessor
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				SendManager.Send(device, 260, 0x12, 0, data);
 			}
+			DeviceBytesHelper.GoToWorkingRegime(device);
 		}
 
 		static List<byte> HexFileToBytesList(string filePath)

@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-			return Device.IsRealDevice && !Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return Device.IsRealDevice && !Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
         }
 		bool CanResetIgnore()
 		{
-			return Device.IsRealDevice && Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
+			return Device.IsRealDevice && Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
 
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 			{
-				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)
@@ -179,7 +179,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 			{
-				if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)

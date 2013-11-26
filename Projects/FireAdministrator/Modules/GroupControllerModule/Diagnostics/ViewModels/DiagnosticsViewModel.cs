@@ -82,13 +82,11 @@ namespace GKModule.ViewModels
 				if (device.DriverType == XDriverType.GK)
 				{
 					XManager.UpdateGKPredefinedName(device);
-					//device.Children[10].IntAddress = 1;
-					//device.Children[11].IntAddress = 2;
 				}
 			}
 			XManager.UpdateConfiguration();
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			ServiceFactory.SaveService.FSChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand GoToTechnologicalCommand { get; private set; }
