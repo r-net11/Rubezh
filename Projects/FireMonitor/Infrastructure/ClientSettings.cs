@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using Common;
 using Infrastructure.Models;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace Infrastructure
 {
@@ -75,6 +76,8 @@ namespace Infrastructure
 				{
 					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
 					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);
+					if (ArchiveDefaultState.AdditionalColumns == null)
+						ArchiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
 				}
 			}
 			else
