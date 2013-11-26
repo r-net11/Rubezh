@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DatabasesView : UserControl
+	public partial class DescriptorsView : UserControl
 	{
-		public DatabasesView()
+		public DescriptorsView()
 		{
 			InitializeComponent();
 		}

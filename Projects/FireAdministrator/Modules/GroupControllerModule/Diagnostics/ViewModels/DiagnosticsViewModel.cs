@@ -20,16 +20,17 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
+			UpdateDescriptorsCommand = new RelayCommand(OnUpdateDescriptors);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
 			ConvertExitToReleCommand = new RelayCommand(OnConvertExitToRele);
 			GoToTechnologicalCommand = new RelayCommand(OnGoToTechnological);
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
-			CreateTestZonesCommand = new RelayCommand(OnCreateTestZones);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
 		}
+
+		public DescriptorsViewModel DatabasesViewModel { get; private set; }
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
@@ -49,12 +50,24 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		public RelayCommand ConvertToBinCommand { get; private set; }
-		void OnConvertToBin()
+		public RelayCommand UpdateDescriptorsCommand { get; private set; }
+		void OnUpdateDescriptors()
 		{
 			DescriptorsManager.Create();
-			var databasesViewModel = new DatabasesViewModel();
-			DialogService.ShowModalWindow(databasesViewModel);
+			DatabasesViewModel = new DescriptorsViewModel();
+			OnPropertyChanged("DatabasesViewModel");
+			foreach (var database in DatabasesViewModel.Databases)
+			{
+				foreach (var descriptor in database.Descriptors)
+				{
+					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
+					if (isFormulaInvalid)
+					{
+						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.XBase.GKDescriptorNo + " " + descriptor.XBase.PresentationName);
+						return;
+					}
+				}
+			}
 		}
 
 		public RelayCommand ConvertToFiresecCommand { get; private set; }
@@ -101,23 +114,6 @@ namespace GKModule.ViewModels
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XFiresecAPI.XDriverType.GK);
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
-		}
-
-		public RelayCommand CreateTestZonesCommand { get; private set; }
-		void OnCreateTestZones()
-		{
-			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.HandDetector);
-			for (int i = 0; i < 20000; i++)
-			{
-				var zone = new XZone()
-				{
-					No = 10000 + i,
-					Name = "TestZone_" + i
-				};
-				XManager.Zones.Add(zone);
-				device.ZoneUIDs.Add(zone.UID);
-			}
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand WriteConfigFileToGKCommand { get; private set; }

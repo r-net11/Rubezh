@@ -6,12 +6,10 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DatabasesViewModel : DialogViewModel
+	public class DescriptorsViewModel : BaseViewModel
 	{
-		public DatabasesViewModel()
+		public DescriptorsViewModel()
 		{
-			Title = "Бинарный формат конфигурации";
-
 			Databases = new List<CommonDatabase>();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
