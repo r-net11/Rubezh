@@ -18,10 +18,11 @@ namespace GKModule.ViewModels
 	public class JournalItemViewModel : BaseViewModel
 	{
 		public JournalItem JournalItem { get; private set; }
-		public XDeviceState DeviceState { get; private set; }
-		public XZoneState ZoneState { get; private set; }
-		public XDirectionState DirectionState { get; private set; }
-		public XDelayState DelayState { get; private set; }
+		public XDevice Device { get; private set; }
+		public XZone Zone { get; private set; }
+		public XDirection Direction { get; private set; }
+		public XDelay Delay { get; private set; }
+		public XPim Pim { get; private set; }
 		public string PresentationName { get; private set; }
 		
 		public JournalItemViewModel(JournalItem journalItem)
@@ -37,44 +38,52 @@ namespace GKModule.ViewModels
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (device != null)
+						Device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (Device != null)
 						{
-							DeviceState = device.DeviceState;
-							PresentationName = device.ShortName + " " + device.DottedAddress;
+							PresentationName = Device.PresentationName;
 						}
 						break;
 
 					case JournalItemType.Zone:
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (zone != null)
+						Zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (Zone != null)
 						{
-							ZoneState = zone.ZoneState;
-							PresentationName = zone.PresentationName;
+							PresentationName = Zone.PresentationName;
 						}
 						break;
 
 					case JournalItemType.Direction:
-						var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-						if (direction != null)
+						Direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (Direction != null)
 						{
-							DirectionState = direction.DirectionState;
-							PresentationName = direction.PresentationName;
+							PresentationName = Direction.PresentationName;
 						}
 						break;
 
 					case JournalItemType.Delay:
-						XDelay delay = null;
 						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 						{
-							delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
-							if (delay != null)
+							Delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (Delay != null)
 								break;
 						}
-						if (delay != null)
+						if (Delay != null)
 						{
-							DelayState = delay.DelayState;
-							PresentationName = delay.Name;
+							PresentationName = Delay.PresentationName;
+						}
+						break;
+
+					case JournalItemType.Pim:
+						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+						{
+							Pim = gkDatabase.Pims.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (Pim != null)
+								break;
+						}
+						if (Pim != null)
+						{
+							PresentationName = Pim.PresentationName;
 						}
 						break;
 
@@ -162,6 +171,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Direction:
 #if DEBUG
 				case JournalItemType.Delay:
+				case JournalItemType.Pim:
 #endif
 				case JournalItemType.GK:
 					return true;
@@ -175,15 +185,21 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					if (DeviceState != null)
+					if (Device != null)
 					{
-						ShowOnPlanHelper.ShowDevice(DeviceState.Device);
+						ShowOnPlanHelper.ShowDevice(Device);
 					}
 					break;
 				case JournalItemType.Zone:
-					if (ZoneState != null)
+					if (Zone != null)
 					{
-						ShowOnPlanHelper.ShowZone(ZoneState.Zone);
+						ShowOnPlanHelper.ShowZone(Zone);
+					}
+					break;
+				case JournalItemType.Direction:
+					if (Direction != null)
+					{
+						ShowOnPlanHelper.ShowDirection(Direction);
 					}
 					break;
 			}
@@ -196,15 +212,21 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					if (DeviceState != null)
+					if (Device != null)
 					{
-						return ShowOnPlanHelper.CanShowDevice(DeviceState.Device);
+						return ShowOnPlanHelper.CanShowDevice(Device);
 					}
 					break;
 				case JournalItemType.Zone:
-					if (ZoneState != null)
+					if (Zone != null)
 					{
-						return ShowOnPlanHelper.CanShowZone(ZoneState.Zone);
+						return ShowOnPlanHelper.CanShowZone(Zone);
+					}
+					break;
+				case JournalItemType.Direction:
+					if (Direction != null)
+					{
+						return ShowOnPlanHelper.CanShowDirection(Direction);
 					}
 					break;
 			}
