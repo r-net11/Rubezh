@@ -11,7 +11,6 @@ namespace Infrastructure.Client.Layout
 
 		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
-		public static readonly Guid DeviceParameters = new Guid("{220B09D5-6528-47DE-BB97-6038A8078AF9}");
 		public static readonly Guid Zones = new Guid("{753B008A-D326-4A1D-B67D-DAE7A4A6CD1B}");
 		public static readonly Guid Directions = new Guid("{020501DC-00A7-4EA7-B251-D4C98B7C796F}");
 		public static readonly Guid Journals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
