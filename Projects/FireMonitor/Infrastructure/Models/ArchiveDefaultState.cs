@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace Infrastructure.Models
 {
@@ -9,6 +10,7 @@ namespace Infrastructure.Models
 		public ArchiveDefaultState()
 		{
 			ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
+			AdditionalColumns = new List<JournalColumnType>();
 			Count = 1;
 		}
 
@@ -25,9 +27,6 @@ namespace Infrastructure.Models
 		public DateTime? EndDate { get; set; }
 
 		[DataMember]
-		public bool ShowIP { get; set; }
-
-		[DataMember]
-		public bool ShowSubsystem { get; set; }
+		public List<JournalColumnType> AdditionalColumns { get; set; }
 	}
 }

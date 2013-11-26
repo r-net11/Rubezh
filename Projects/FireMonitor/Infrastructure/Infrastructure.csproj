@@ -138,6 +138,7 @@
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />
+    <Compile Include="Models\JournalColumnType.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

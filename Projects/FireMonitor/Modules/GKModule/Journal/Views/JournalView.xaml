@@ -45,7 +45,6 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalItem.UserName}" Width="Auto" />
                 <DataGridTextColumn Header="IP-адрес ГК" Binding="{Binding JournalItem.GKIpAddress}" Width="Auto" />
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" Width="Auto" Visibility="Collapsed" />
                 <DataGridTemplateColumn Header="Подсистема" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -103,8 +102,12 @@
             </DataGrid.CellStyle>
         </DataGrid>
         <StackPanel Visibility="Collapsed">
-            <CheckBox Content="Показывать подсистему" Name="CheckBox_ShowIp" Checked="CheckBox_ShowIp_Checked" Unchecked="CheckBox_ShowIp_Unchecked" IsChecked="{Binding ShowIP, Mode=OneWay}"/>
-            <CheckBox Content="Показывать Ip" Name="CheckBox_ShowSubsystem" Checked="CheckBox_ShowSubsystem_Checked" Unchecked="CheckBox_ShowSubsystem_Unchecked" IsChecked="{Binding ShowSubsystem, Mode=OneWay}"/>
+            <CheckBox 
+                Name="CheckBox_AdditionalColumns" 
+                Checked="CheckBox_AdditionalColumns_Checked" 
+                Unchecked="CheckBox_AdditionalColumns_Checked" 
+                IsChecked="{Binding AdditionalColumnsChanged, Mode=OneWay}"
+            />
         </StackPanel>
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
             <Grid>

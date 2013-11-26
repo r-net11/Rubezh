@@ -86,6 +86,8 @@
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
+    <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
@@ -96,6 +98,7 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
@@ -123,9 +126,9 @@
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Helpers\JournaActionlHelper.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />

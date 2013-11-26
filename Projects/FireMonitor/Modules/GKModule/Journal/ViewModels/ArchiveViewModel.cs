@@ -202,19 +202,22 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool ShowSubsystem
-		{
-			get 
-			{
-				return ClientSettings.ArchiveDefaultState.ShowSubsystem;
-			}
-		}
-
-		public bool ShowIP
+		public List<JournalColumnType> AdditionalColumns
 		{
 			get
 			{
-				return ClientSettings.ArchiveDefaultState.ShowIP;
+				return ClientSettings.ArchiveDefaultState.AdditionalColumns;
+			}
+		}
+
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
+		{
+			get { return additionalColumnsChanged; }
+			set
+			{
+				additionalColumnsChanged = value;
+				OnPropertyChanged("AdditionalColumnsChanged");
 			}
 		}
 
@@ -279,8 +282,7 @@ namespace GKModule.ViewModels
 
 		void OnSettingsChanged(object o)
 		{
-			OnPropertyChanged("ShowIP");
-			OnPropertyChanged("ShowSubsystem");
+			AdditionalColumnsChanged = !AdditionalColumnsChanged; 
 		}
 	}
 }

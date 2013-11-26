@@ -5,6 +5,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -16,7 +17,7 @@ namespace GKModule.ViewModels
 
 			ArchiveDefaultState = new ArchiveDefaultState();
 			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
-            foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
+			foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
             {
                 ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
             }
@@ -58,9 +59,19 @@ namespace GKModule.ViewModels
                     break;
             }
 
-			ShowIP = archiveDefaultState.ShowIP;
-			ShowSubsystem = archiveDefaultState.ShowSubsystem;
-        }
+			AdditionalColumns = new List<JournalColumnTypeViewModel>();
+			if (archiveDefaultState.AdditionalColumns == null)
+				archiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
+			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))
+			{
+				var journalColumnTypeViewModel = new JournalColumnTypeViewModel(journalColumnType);
+				AdditionalColumns.Add(journalColumnTypeViewModel);
+				if (archiveDefaultState.AdditionalColumns.Any(x => x == journalColumnType))
+				{
+					journalColumnTypeViewModel.IsChecked = true;
+				}
+			}
+		}
 
         public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState { get; private set; }
@@ -76,29 +87,8 @@ namespace GKModule.ViewModels
             }
         }
 
-		bool _showIP;
-		public bool ShowIP
-		{
-			get { return _showIP; }
-			set
-			{
-				_showIP = value;
-				OnPropertyChanged("ShowIP");
-			}
-		}
-
-		bool _showSubsystem;
-		public bool ShowSubsystem
-		{
-			get { return _showSubsystem; }
-			set
-			{
-				_showSubsystem = value;
-				OnPropertyChanged("ShowSubsystem");
-			}
-		}
-
-        public int HoursCount { get; set; }
+		public List<JournalColumnTypeViewModel> AdditionalColumns { get; private set; }
+		public int HoursCount { get; set; }
         public int DaysCount { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -139,8 +129,12 @@ namespace GKModule.ViewModels
 				default:
 					break;
 			}
-			ArchiveDefaultState.ShowIP = ShowIP;
-			ArchiveDefaultState.ShowSubsystem = ShowSubsystem;
+			ArchiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
+			foreach (var journalColumnTypeViewModel in AdditionalColumns)
+			{
+				if (journalColumnTypeViewModel.IsChecked)
+					ArchiveDefaultState.AdditionalColumns.Add(journalColumnTypeViewModel.JournalColumnType);
+			}
 			return base.Save();
         }
 

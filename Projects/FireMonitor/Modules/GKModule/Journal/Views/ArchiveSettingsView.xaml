@@ -6,6 +6,8 @@
         MinWidth="500" MinHeight="400">
     <UserControl.Resources>
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
+        <Converters:JournalColumnTypeToIconConverter x:Key="JournalColumnTypeToIconConverter" />
+        <Converters:JournalColumnTypeToStringConverter x:Key="JournalColumnTypeToStringConverter" />
     </UserControl.Resources>
 
     <TabControl>
@@ -57,10 +59,17 @@
         </TabItem>
         <TabItem Header="Дополнительные колонки">
             <Border Background="White" CornerRadius="5">
-                <StackPanel>
-                    <CheckBox Content="Всегда показывать IP" IsChecked="{Binding ShowIP}" Margin="11 5"/>
-                    <CheckBox Content="Показывать подсистему" IsChecked="{Binding ShowSubsystem}" Margin="11 5"/>
-                </StackPanel>
+                <ListBox ItemsSource="{Binding AdditionalColumns}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToIconConverter}}" VerticalAlignment="Center" Margin="0 0 0 1"/>
+                                <TextBlock Text="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToStringConverter}}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Border>
         </TabItem>
     </TabControl>

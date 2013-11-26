@@ -56,7 +56,6 @@
                                 <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="0 0 0 1"/>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
-                            
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

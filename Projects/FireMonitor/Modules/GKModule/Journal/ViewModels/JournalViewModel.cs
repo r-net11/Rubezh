@@ -36,22 +36,25 @@ namespace GKModule.ViewModels
 			get	{ return XManager.IsManyGK(); }
 		}
 
-		public bool ShowSubsystem
+		public List<JournalColumnType> AdditionalColumns
 		{
 			get
 			{
-				return ClientSettings.ArchiveDefaultState.ShowSubsystem;
+				return ClientSettings.ArchiveDefaultState.AdditionalColumns;
 			}
 		}
 
-		public bool ShowIP
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
 		{
-			get
+			get { return additionalColumnsChanged; }
+			set
 			{
-				return ClientSettings.ArchiveDefaultState.ShowIP;
+				additionalColumnsChanged = value;
+				OnPropertyChanged("AdditionalColumnsChanged");
 			}
 		}
-
+		
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
@@ -99,8 +102,7 @@ namespace GKModule.ViewModels
 
 		void OnSettingsChanged(object o)
 		{
-			OnPropertyChanged("ShowIP");
-			OnPropertyChanged("ShowSubsystem");
+			AdditionalColumnsChanged = !AdditionalColumnsChanged; 
 		}
 	}
 }
