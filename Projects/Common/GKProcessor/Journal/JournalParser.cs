@@ -17,6 +17,7 @@ namespace GKProcessor
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
 		public XDelay Delay { get; private set; }
+		public XPim Pim { get; private set; }
 
 		public JournalParser(XDevice gkDevice, List<byte> bytes)
 		{
@@ -330,12 +331,24 @@ namespace GKProcessor
 						if (Delay != null)
 							break;
 					}
+					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+					{
+						Pim = gkDatabase.Pims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+						if (Pim != null)
+							break;
+					}
 				}
 				if (Delay != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Delay;
 					JournalItem.ObjectUID = Delay.UID;
 					JournalItem.ObjectName = Delay.Name;
+				}
+				if (Pim != null)
+				{
+					JournalItem.JournalItemType = JournalItemType.Pim;
+					JournalItem.ObjectUID = Pim.UID;
+					JournalItem.ObjectName = Pim.Name;
 				}
 			}
 		}

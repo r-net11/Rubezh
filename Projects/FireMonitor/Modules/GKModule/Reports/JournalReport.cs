@@ -51,17 +51,17 @@ namespace GKModule.Reports
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				var objectName = "";
-				if (journalItemViewModel.DeviceState != null)
+				if (journalItemViewModel.Device != null)
 				{
-					objectName = journalItemViewModel.DeviceState.Device.PresentationAddressAndDriver;
+					objectName = journalItemViewModel.Device.PresentationAddressAndDriver;
 				}
-				if (journalItemViewModel.ZoneState != null)
+				if (journalItemViewModel.Zone != null)
 				{
-					objectName = journalItemViewModel.ZoneState.Zone.PresentationName;
+					objectName = journalItemViewModel.Zone.PresentationName;
 				}
-				if (journalItemViewModel.DirectionState != null)
+				if (journalItemViewModel.Direction != null)
 				{
-					objectName = journalItemViewModel.DirectionState.Direction.PresentationName;
+					objectName = journalItemViewModel.Direction.PresentationName;
 				}
 				table.Rows.Add(
 					journalItem.DeviceDateTime,

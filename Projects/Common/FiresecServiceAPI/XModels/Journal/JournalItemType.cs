@@ -22,7 +22,10 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Задержка")]
 		Delay = 5,
 
+		[DescriptionAttribute("ПИМ")]
+		Pim = 6,
+
 		[DescriptionAttribute("Пользователь прибора")]
-		GkUser = 6
+		GkUser = 7
 	}
 }

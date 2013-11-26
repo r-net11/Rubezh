@@ -175,16 +175,6 @@ namespace GKModule
 			};
 			yield return new LayoutPartDescription()
 			{
-				Name = "Измерения",
-				Description = "Панель измерений",
-				Index = 112,
-				UID = LayoutPartIdentities.DeviceParameters,
-				IconSource = "/Controls;component/Images/BAllParameters.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAllParameters.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
 				Name = "Зоны",
 				Description = "Панель зон",
 				Index = 113,
