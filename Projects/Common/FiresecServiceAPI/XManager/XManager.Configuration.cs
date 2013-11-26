@@ -68,7 +68,8 @@ namespace FiresecClient
 			foreach (var device in Devices)
 			{
 				InvalidateOneLogic(device, device.DeviceLogic);
-				InvalidateOneLogic(device, device.NSLogic);
+				if(device.NSLogic != null)
+					InvalidateOneLogic(device, device.NSLogic);
 			}
 		}
 

@@ -12,12 +12,6 @@ namespace GKProcessor
 {
 	public static partial class GKDBHelper
 	{
-		static readonly int DescriptionLength = 100;
-		static readonly int NameLength = 100;
-		static readonly int GKIpAddressLength = 20;
-		static readonly int UserNameLength = 50;
-		static readonly int ObjectNameLength = 100;
-		
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
@@ -73,16 +67,16 @@ namespace GKProcessor
 		{
 			foreach (var item in journalItems)
 			{
-				if (item.Description != null && item.Description.Length > DescriptionLength)
-					item.Description = item.Description.Substring(0, DescriptionLength);
-				if (item.Name != null && item.Name.Length > NameLength)
-					item.Name = item.Name.Substring(0, NameLength);
-				if (item.GKIpAddress != null && item.GKIpAddress.Length > GKIpAddressLength)
-					item.GKIpAddress = item.GKIpAddress.Substring(0, GKIpAddressLength);
-				if (item.UserName != null && item.UserName.Length > UserNameLength)
-					item.UserName = item.UserName.Substring(0, UserNameLength);
-				if (item.ObjectName != null && item.ObjectName.Length > ObjectNameLength)
-					item.ObjectName = item.ObjectName.Substring(0, ObjectNameLength);
+				if (item.Description != null && item.Description.Length > 100)
+					item.Description = item.Description.Substring(0, 100);
+				if (item.Name != null && item.Name.Length > 100)
+					item.Name = item.Name.Substring(0, 100);
+				if (item.GKIpAddress != null && item.GKIpAddress.Length > 20)
+					item.GKIpAddress = item.GKIpAddress.Substring(0, 20);
+				if (item.UserName != null && item.UserName.Length > 50)
+					item.UserName = item.UserName.Substring(0, 50);
+				if (item.ObjectName != null && item.ObjectName.Length > 100)
+					item.ObjectName = item.ObjectName.Substring(0, 100);
 			}			
 			return journalItems;
 		}

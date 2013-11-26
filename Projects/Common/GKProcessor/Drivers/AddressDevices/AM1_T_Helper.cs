@@ -20,6 +20,8 @@ namespace GKProcessor
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			var property1 = new XDriverProperty()
 			{

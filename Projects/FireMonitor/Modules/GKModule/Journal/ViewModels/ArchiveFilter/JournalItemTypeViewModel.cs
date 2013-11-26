@@ -30,5 +30,36 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("IsChecked");
 			}
 		}
+
+		public string ImageSource
+		{
+			get
+			{
+				switch (JournalItemType)
+				{
+					case JournalItemType.Device:
+						return "/Controls;component/GKIcons/RSR2_RM_1.png";
+
+					case JournalItemType.Zone:
+						return "/Controls;component/Images/zone.png";
+
+					case JournalItemType.Direction:
+						return "/Controls;component/Images/Blue_Direction.png";
+
+					case JournalItemType.GK:
+						return "/Controls;component/GKIcons/GK.png";
+
+					case JournalItemType.GkUser:
+						return "/Controls;component/Images/Chip.png";
+
+					case JournalItemType.System:
+						return "/Controls;component/Images/PC.png";
+
+					default:
+						return "";
+
+				}
+			}
+		}
 	}
 }

@@ -14,7 +14,6 @@
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                     </Border>
                     <ControlTemplate.Triggers>
-                        
                         <Trigger Property="HasDropShadow" Value="true">
                             <Setter TargetName="Border" Property="CornerRadius" Value="4"/>
                         </Trigger>
