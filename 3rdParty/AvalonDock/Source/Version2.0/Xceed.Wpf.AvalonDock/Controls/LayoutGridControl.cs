@@ -181,7 +181,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 					RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
 				}
 			}
-			else if (e.PropertyName == "IsVisible")
+			else if (e.PropertyName == "IsVisible" || e.PropertyName == "IsDockHeightFixed" || e.PropertyName == "IsDockWidthFixed")
 			{
 				UpdateRowColDefinitions();
 			}

@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Controls;
+using Microsoft.Practices.Unity.Utility;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace LayoutModule.ViewModels
 {
@@ -62,9 +64,18 @@ namespace LayoutModule.ViewModels
 		public RelayCommand ConfigureCommand { get; private set; }
 		private void OnConfigureCommand()
 		{
-			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(GetSize());
+			var document = GetLayoutDocument();
+			var pair = GetLayoutPositionableElements(document);
+			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
+			var size = new LayoutPartSize();
+			ReadSize(size, pair.First, layoutItem);
+			ReadSize(size, pair.Second, layoutItem);
+			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(size);
 			if (DialogService.ShowModalWindow(layoutPartPropertiesViewModel))
-				UpdateSize(layoutPartPropertiesViewModel.LayoutPartSize);
+			{
+				WriteSize(size, pair.First, layoutItem);
+				WriteSize(size, pair.Second, layoutItem);
+			}
 		}
 		private bool CanConfigureCommand()
 		{
@@ -73,24 +84,79 @@ namespace LayoutModule.ViewModels
 
 		public void UpdateSize(LayoutPartSize layoutPartSize)
 		{
-
+			var document = GetLayoutDocument();
+			var pair = GetLayoutPositionableElements(document);
+			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
+			WriteSize(layoutPartSize, pair.First, layoutItem);
+			WriteSize(layoutPartSize, pair.Second, layoutItem);
 		}
-		private LayoutPartSize GetSize()
+		private LayoutDocument GetLayoutDocument()
 		{
 			var manager = LayoutDesignerViewModel.Instance.Manager;
-			var layoutDocument = manager.Layout.Descendents().OfType<LayoutDocument>().FirstOrDefault(item => item.Content == this);
-			var layoutDocumentPane = layoutDocument.Parent as LayoutDocumentPane;
-			var container = (LayoutDocumentPaneGroup)layoutDocumentPane.Parent;
-			switch (container.Orientation)
+			return manager.Layout.Descendents().OfType<LayoutDocument>().FirstOrDefault(item => item.Content == this);
+		}
+		private Pair<ILayoutPositionableElement, ILayoutPositionableElement> GetLayoutPositionableElements(LayoutDocument layoutDocument)
+		{
+			var layoutDocumentPane = (ILayoutPositionableElement)layoutDocument.Parent;
+			ILayoutOrientableGroup container = (ILayoutOrientableGroup)layoutDocumentPane.Parent;
+			var orientation = container.Orientation;
+			if (container.Parent == container.Root)
+				container = null;
+			else
+				while (((ILayoutOrientableGroup)container.Parent).Orientation == orientation)
+				{
+					container = (ILayoutOrientableGroup)container.Parent;
+					if (container.Parent == container.Root)
+					{
+						container = null;
+						break;
+					}
+				}
+			return new Pair<ILayoutPositionableElement, ILayoutPositionableElement>(layoutDocumentPane, (ILayoutPositionableElement)container);
+		}
+		private void ReadSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
+		{
+			if (element != null)
 			{
-				case Orientation.Horizontal:
-					break;
-				case Orientation.Vertical:
-					break;
+				var container = (ILayoutOrientableGroup)element.Parent;
+				switch (container.Orientation)
+				{
+					case Orientation.Horizontal:
+						size.MinWidth = element.DockMinWidth;
+						size.IsWidthFixed = element.IsDockWidthFixed;
+						size.WidthType = element.DockWidth.GridUnitType;
+						size.Width = element.DockWidth.IsAuto ? layoutItem.View.Width : element.DockWidth.Value;
+						break;
+					case Orientation.Vertical:
+						size.MinHeight = element.DockMinHeight;
+						size.IsHeightFixed = element.IsDockHeightFixed;
+						size.HeightType = element.DockHeight.GridUnitType;
+						size.Height = element.DockHeight.IsAuto ? layoutItem.View.Height : element.DockHeight.Value;
+						break;
+				}
 			}
-			return new LayoutPartSize()
+		}
+		private void WriteSize(LayoutPartSize size, ILayoutPositionableElement element, LayoutItem layoutItem)
+		{
+			if (element != null)
 			{
-			};
+				var container = (ILayoutOrientableGroup)element.Parent;
+				switch (container.Orientation)
+				{
+					case Orientation.Horizontal:
+						element.DockMinWidth = size.MinWidth;
+						element.IsDockWidthFixed = size.IsWidthFixed;
+						element.DockWidth = new GridLength(size.Width, size.WidthType);
+						layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? size.Width : double.NaN;
+						break;
+					case Orientation.Vertical:
+						element.DockMinHeight = size.MinHeight;
+						element.IsDockHeightFixed = size.IsHeightFixed;
+						element.DockHeight = new GridLength(size.Height, size.HeightType);
+						layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? size.Height : double.NaN;
+						break;
+				}
+			}
 		}
 	}
 }

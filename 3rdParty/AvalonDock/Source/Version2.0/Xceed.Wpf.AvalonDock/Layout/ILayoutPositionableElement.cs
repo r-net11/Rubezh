@@ -22,7 +22,7 @@ using System.Windows;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    internal interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
+    public interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
     {
         GridLength DockWidth
         {
@@ -47,13 +47,13 @@ namespace Xceed.Wpf.AvalonDock.Layout
     }
 
 
-    internal interface ILayoutPositionableElementWithActualSize
+	public interface ILayoutPositionableElementWithActualSize
     {
         double ActualWidth { get; set; }
         double ActualHeight { get; set; }
     }
 
-    internal interface ILayoutElementForFloatingWindow
+    public interface ILayoutElementForFloatingWindow
     {
         double FloatingWidth { get; set; }
         double FloatingHeight { get; set; }
