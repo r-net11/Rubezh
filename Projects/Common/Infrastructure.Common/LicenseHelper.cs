@@ -18,10 +18,6 @@ namespace Infrastructure.Common
         [HandleProcessCorruptedStateExceptions]
         public static bool CheckLicense(bool isMultiClient)
         {
-			return true;
-#if DEBUG
-			return true;
-#endif
             var encoding = Encoding.GetEncoding("windows-1251");
             byte[] bytesarray = encoding.GetBytes(_vendorCode);
             GCHandle pinnedArray = GCHandle.Alloc(bytesarray, GCHandleType.Pinned);

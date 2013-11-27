@@ -6,6 +6,7 @@ using GKProcessor;
 using GKProcessor.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKSDK
 {

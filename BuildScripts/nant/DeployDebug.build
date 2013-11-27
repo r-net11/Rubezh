@@ -1,0 +1,19 @@
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <target name="run">
+    <call target="CopyFiles" />
+  </target>
+  <target name="CopyFiles">
+    <copy todir="C:\ProgramData\Firesec2\Server" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\Deploy\ConfigurationService">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+    <copy todir="C:\ProgramData\Firesec2\DB" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\Deploy\SqlCE">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+  </target>  
+</project>

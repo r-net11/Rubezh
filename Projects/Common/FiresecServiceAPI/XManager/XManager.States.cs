@@ -75,5 +75,31 @@ namespace FiresecClient
 			}
 			return directionStates;
 		}
+
+		public static XStateClass GetMinStateClass()
+		{
+			var minStateClass = XStateClass.No;
+			foreach (var device in XManager.Devices)
+			{
+				var stateClass = device.DeviceState.StateClass;
+				if (device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
+				{
+					stateClass = XStateClass.Info;
+				}
+				if (stateClass < minStateClass)
+					minStateClass = device.DeviceState.StateClass;
+			}
+			foreach (var zone in XManager.Zones)
+			{
+				if (zone.ZoneState.StateClass < minStateClass)
+					minStateClass = zone.ZoneState.StateClass;
+			}
+			foreach (var direction in XManager.Directions)
+			{
+				if (direction.DirectionState.StateClass < minStateClass)
+					minStateClass = direction.DirectionState.StateClass;
+			}
+			return minStateClass;
+		}
     }
 }

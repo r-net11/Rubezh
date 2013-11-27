@@ -67,7 +67,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding State.XStateClass, Converter={StaticResource LibraryXStateClassToIconConverter}}" Width="16" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource LibraryXStateClassToDeviceStringConverter}}" VerticalAlignment="Center" Margin="2" />
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

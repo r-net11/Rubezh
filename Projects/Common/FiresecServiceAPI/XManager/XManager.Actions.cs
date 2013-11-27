@@ -75,6 +75,11 @@ namespace FiresecClient
 
 				direction.OnChanged();
 			}
+			foreach (var direction in device.NSDirections)
+			{
+				direction.NSDevices.Remove(device);
+				direction.OnChanged();
+			}
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
 
@@ -202,6 +207,11 @@ namespace FiresecClient
                 device.Directions.Remove(direction);
                 device.OnChanged();
             }
+			foreach (var device in direction.NSDevices)
+			{
+				device.NSDirections.Remove(direction);
+				device.OnChanged();
+			}
             direction.InputDevices.Clear();
             var oldDirectionDevices = new List<XDirectionDevice>(direction.DirectionDevices);
             direction.DirectionDevices.Clear();

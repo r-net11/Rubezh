@@ -61,7 +61,7 @@ namespace FireMonitor.ViewModels
 
 		public void OnStateChanged(object obj)
 		{
-			var minState = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)GetMinGKStateClass());
+			var minState = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)XManager.GetMinStateClass());
 
 			if (CurrentStateClass != minState)
 				CurrentStateClass = minState;
@@ -81,39 +81,6 @@ namespace FireMonitor.ViewModels
 				if (device.DeviceState.StateType < minStateType)
 					minStateType = device.DeviceState.StateType;
 			return XStatesHelper.StateTypeToXStateClass(minStateType);
-		}
-
-		XStateClass GetMinGKStateClass()
-		{
-			var minStateClass = XStateClass.Norm;
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DeviceState != null)
-				{
-					var stateClass = device.DeviceState.StateClass;
-					if (stateClass < minStateClass)
-						minStateClass = stateClass;
-				}
-			}
-			foreach (var zone in XManager.Zones)
-			{
-				if (zone.ZoneState != null)
-				{
-					var stateClass = zone.ZoneState.StateClass;
-					if (stateClass < minStateClass)
-						minStateClass = stateClass;
-				}
-			}
-			foreach (var direction in XManager.Directions)
-			{
-				if (direction.DirectionState != null)
-				{
-					var stateClass = direction.DirectionState.StateClass;
-					if (stateClass < minStateClass)
-						minStateClass = stateClass;
-				}
-			}
-			return minStateClass;
 		}
 
 		public void PlayAlarm()

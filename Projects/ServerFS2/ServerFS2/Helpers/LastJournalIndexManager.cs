@@ -90,7 +90,7 @@ namespace ServerFS2.Helpers
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, StackTraceHelper.GetStackTrace());
+					Logger.Error(e, "LastJournalIndexManager.Load");
 				}
 			}
 		}
@@ -109,7 +109,7 @@ namespace ServerFS2.Helpers
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, StackTraceHelper.GetStackTrace());
+					Logger.Error(e, "LastJournalIndexManager.Save");
 				}
 			}
 		}

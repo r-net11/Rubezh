@@ -12,32 +12,36 @@ namespace GKModule.Plans
 {
 	internal class PlanMonitor
 	{
-		private Plan _plan;
-		private Action _callBack;
-		private List<XDeviceState> _xdeviceStates;
-		private List<XZoneState> _xzoneStates;
+		Plan Plan;
+		Action CallBack;
+		List<XDeviceState> DeviceStates;
+		List<XZoneState> ZoneStates;
+		List<XDirectionState> DirectionStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
 		{
-			_plan = plan;
-			_callBack = callBack;
-			_xdeviceStates = new List<XDeviceState>();
-			_xzoneStates = new List<XZoneState>();
+			Plan = plan;
+			CallBack = callBack;
+			DeviceStates = new List<XDeviceState>();
+			ZoneStates = new List<XZoneState>();
+			DirectionStates = new List<XDirectionState>();
 			Initialize();
 		}
 		private void Initialize()
 		{
-			_plan.ElementXDevices.ForEach(item => Initialize(item));
-			_plan.ElementRectangleXZones.ForEach(item => Initialize(item));
-			_plan.ElementPolygonXZones.ForEach(item => Initialize(item));
+			Plan.ElementXDevices.ForEach(item => Initialize(item));
+			Plan.ElementRectangleXZones.ForEach(item => Initialize(item));
+			Plan.ElementPolygonXZones.ForEach(item => Initialize(item));
+			Plan.ElementRectangleXDirections.ForEach(item => Initialize(item));
+			Plan.ElementPolygonXDirections.ForEach(item => Initialize(item));
 		}
 		private void Initialize(ElementXDevice element)
 		{
 			var device = Helper.GetXDevice(element);
 			if (device != null)
 			{
-				_xdeviceStates.Add(device.DeviceState);
-				device.DeviceState.StateChanged += _callBack;
+				DeviceStates.Add(device.DeviceState);
+				device.DeviceState.StateChanged += CallBack;
 			}
 		}
 		private void Initialize(IElementZone element)
@@ -47,8 +51,20 @@ namespace GKModule.Plans
 				var zone = Helper.GetXZone(element);
 				if (zone != null)
 				{
-					_xzoneStates.Add(zone.ZoneState);
-					zone.ZoneState.StateChanged += _callBack;
+					ZoneStates.Add(zone.ZoneState);
+					zone.ZoneState.StateChanged += CallBack;
+				}
+			}
+		}
+		private void Initialize(IElementDirection element)
+		{
+			if (element.DirectionUID != Guid.Empty)
+			{
+				var direction = Helper.GetXDirection(element);
+				if (direction != null)
+				{
+					DirectionStates.Add(direction.DirectionState);
+					direction.DirectionState.StateChanged += CallBack;
 				}
 			}
 		}
@@ -56,17 +72,25 @@ namespace GKModule.Plans
 		public XStateClass GetState()
 		{
 			var result = XStateClass.No;
-			foreach (var state in _xdeviceStates)
+			foreach (var deviceState in DeviceStates)
 			{
-				var stateType = state.StateClass;
-				if (stateType < result)
-					result = stateType;
+				var stateClass = deviceState.StateClass;
+				if (deviceState.Device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
+				{
+					stateClass = XStateClass.Info;
+				}
+				if (stateClass < result)
+					result = stateClass;
 			}
-			foreach (var state in _xzoneStates)
+			foreach (var zoneState in ZoneStates)
 			{
-				var stateType = state.StateClass;
-				if (stateType < result)
-					result = stateType;
+				if (zoneState.StateClass < result)
+					result = zoneState.StateClass;
+			}
+			foreach (var directionState in DirectionStates)
+			{
+				if (directionState.StateClass < result)
+					result = directionState.StateClass;
 			}
 			return result;
 		}

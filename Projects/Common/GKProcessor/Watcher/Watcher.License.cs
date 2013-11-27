@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using System.Threading;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace GKProcessor
 {
@@ -12,33 +13,44 @@ namespace GKProcessor
 	{
 		DateTime LastLicenseCheckTime;
 		DateTime StartTime = DateTime.Now;
+		bool CurrentHasLicense = true;
 		bool HasLicense = true;
 
 		bool CheckLicense()
 		{
+			return true;
+			//#if DEBUG
+			//            return true;
+			//#endif
 			try
 			{
-				if ((DateTime.Now - StartTime).TotalSeconds > 6 && (DateTime.Now - LastLicenseCheckTime).TotalSeconds > 6)
+				if ((DateTime.Now - StartTime).TotalSeconds < 6)
+					return true;
+				var checkInterval = CurrentHasLicense ? 6 : 1;
+				if ((DateTime.Now - LastLicenseCheckTime).TotalSeconds > checkInterval)
 				{
-					var hasLicense = LicenseHelper.CheckLicense(false);
-					if (hasLicense != HasLicense)
+					ApplicationService.Invoke(() =>
+						{
+							CurrentHasLicense = LicenseHelper.CheckLicense(false);
+						});
+					if (CurrentHasLicense != HasLicense)
 					{
-						HasLicense = hasLicense;
+						HasLicense = CurrentHasLicense;
 						foreach (var descriptor in GkDatabase.Descriptors)
 						{
 							var baseState = descriptor.XBase.GetXBaseState();
-							baseState.IsNoLicense = !hasLicense;
+							baseState.IsNoLicense = !CurrentHasLicense;
 						}
 
-						if (hasLicense)
+						if (CurrentHasLicense)
 							GKDBHelper.AddMessage("Отсутствует лицензия", "");
 						else
 							GKDBHelper.AddMessage("Лицензия обнаружена", "");
 
-						DiagnosticsManager.Add("hasLicense=" + hasLicense);
+						DiagnosticsManager.Add("hasLicense=" + CurrentHasLicense);
 					}
 
-					if (hasLicense)
+					if (CurrentHasLicense)
 					{
 						LastLicenseCheckTime = DateTime.Now;
 						return true;
@@ -51,7 +63,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					return true;
+					return CurrentHasLicense;
 				}
 			}
 			catch (Exception e)
