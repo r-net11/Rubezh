@@ -47,7 +47,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand TurnOnOffRMCommand { get; private set; }
         void OnTurnOnOffRM()
         {
-            var rmDevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.RM_1);
+            var rmDevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.RM_1 && x.ShleifNo == 3 && x.IntAddress == 1);
             var flag = false;
 
             var thread = new Thread(new ThreadStart(() =>
