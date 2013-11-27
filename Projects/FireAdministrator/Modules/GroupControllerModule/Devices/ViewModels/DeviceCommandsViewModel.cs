@@ -93,9 +93,7 @@ namespace GKModule.Models
 					var fileWritingViewModel = new FileWritingViewModel();
 					if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
 						DialogService.ShowModalWindow(fileWritingViewModel);
-					if (GlobalSettingsHelper.GlobalSettings.WriteFileToGK)
-						GkDescriptorsWriter.WriteConfigFileToGK();
-					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
+					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
 					var devices = SelectedDevice.GetRealChildren();
 					SelectedDevice.SyncFromSystemToDeviceProperties(devices);
 				}
@@ -128,15 +126,17 @@ namespace GKModule.Models
 		public RelayCommand ReadConfigFileCommand { get; private set; }
 		void OnReadConfigFile()
 		{
-			var testFileConfig = new GkDescriptorsReaderBase();
-			testFileConfig.ReadConfigFileFromGK();
-			if (testFileConfig.DeviceConfiguration != null)
+			DescriptorsManager.Create();
+			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK();
+			if (String.IsNullOrEmpty(GKFileReaderWriter.ParsingError))
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, testFileConfig.DeviceConfiguration, SelectedDevice.Device);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
+			else
+				MessageBoxService.ShowError(GKFileReaderWriter.ParsingError, "Ошибка при чтении конфигурационного файла");
 		}
 
 		bool CanReadConfiguration()

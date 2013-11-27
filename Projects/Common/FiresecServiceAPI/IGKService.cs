@@ -11,7 +11,7 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
-		void GKWriteConfiguration(XDevice device);
+		void GKWriteConfiguration(XDevice device, bool writeFileToGK);
 
 		[OperationContract]
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device);
