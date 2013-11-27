@@ -8,13 +8,18 @@
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
         <Converters:JournalColumnTypeToIconConverter x:Key="JournalColumnTypeToIconConverter" />
         <Converters:JournalColumnTypeToStringConverter x:Key="JournalColumnTypeToStringConverter" />
+        <Style TargetType="{x:Type Label}">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="Black"/>
+            </Style.Setters>
+        </Style>
     </UserControl.Resources>
-
+    
     <TabControl>
         <TabItem Header="Временной диапазон">
-            <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <Border Background="White" CornerRadius="5">
                 <StackPanel>
-                    <Label Content="При переходе на вкладку архива, показывать записи" />
+                    <Label Content="При переходе на вкладку архива, показывать записи" Foreground="Black"/>
                     <ListBox Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
                          ItemsSource="{Binding ArchiveDefaultStates}"
                          DataContextChanged="_archiveDefaultStateTypes_DataContextChanged">

@@ -31,11 +31,6 @@ namespace GKModule.ViewModels
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
-		public bool IsManyGK
-		{
-			get	{ return XManager.IsManyGK(); }
-		}
-
 		public List<JournalColumnType> AdditionalColumns
 		{
 			get

@@ -102,14 +102,6 @@ namespace GKModule.ViewModels
 			get { return ArchiveFilter != null; }
 		}
 
-		public bool IsManyGK
-		{
-			get
-			{
-				return XManager.IsManyGK();
-			}
-		}
-
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
