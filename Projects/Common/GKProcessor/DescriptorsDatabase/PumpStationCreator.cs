@@ -98,13 +98,10 @@ namespace GKProcessor
 				var formula = new FormulaBuilder();
 
 				AddCountFirePumpDevicesFormula(formula);
-				formula.AddGetBit(XStateBit.On, Direction);
-				formula.Add(FormulaOperationType.AND);
 				if (i > 0)
 				{
 					var prevDelay = PumpDelays[i - 1];
 					formula.AddGetBit(XStateBit.On, prevDelay.Delay);
-					formula.Add(FormulaOperationType.OR);
 
 					for (int j = 0; j < i; j++)
 					{
@@ -119,37 +116,26 @@ namespace GKProcessor
 						}
 					}
 					formula.Add(FormulaOperationType.OR);
+
+					formula.Add(FormulaOperationType.AND);
 				}
 
+				formula.AddGetBit(XStateBit.On, Direction);
+				formula.Add(FormulaOperationType.AND);
+
+				formula.AddGetBit(XStateBit.Norm, pumpDelay.Delay);
+				formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDelay.Delay);
 
 				formula.AddGetBit(XStateBit.Off, Direction);
 				formula.AddGetBit(XStateBit.Norm, pumpDelay.Delay);
-				formula.Add(FormulaOperationType.AND);
+				formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Задержки");
 				formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDelay.Delay);
 
 				formula.Add(FormulaOperationType.END);
 				delayDescriptor.Formula = formula;
 				delayDescriptor.FormulaBytes = formula.GetBytes();
 			}
-		}
-
-		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
-		{
-			var inputPumpsCount = 0;
-			foreach (var firePumpDevice in FirePumpDevices)
-			{
-				formula.AddGetBit(XStateBit.TurningOn, firePumpDevice);
-				formula.AddGetBit(XStateBit.On, firePumpDevice);
-				formula.Add(FormulaOperationType.OR);
-				if (inputPumpsCount > 0)
-				{
-					formula.Add(FormulaOperationType.ADD);
-				}
-				inputPumpsCount++;
-			}
-			formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
-			formula.Add(FormulaOperationType.LT);
 		}
 
 		void SetFirePumpDevicesLogic()
@@ -161,32 +147,9 @@ namespace GKProcessor
 					if (pumpDescriptor != null)
 					{
 						var formula = new FormulaBuilder();
-						var inputPumpsCount = 0;
-						foreach (var firePumpDevice in FirePumpDevices)
-						{
-							formula.AddGetBit(XStateBit.TurningOn, firePumpDevice);
-							formula.AddGetBit(XStateBit.On, firePumpDevice);
-							formula.Add(FormulaOperationType.OR);
-							if (inputPumpsCount > 0)
-							{
-								formula.Add(FormulaOperationType.ADD);
-							}
-							inputPumpsCount++;
-						}
-						formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
-						formula.Add(FormulaOperationType.LT);
-						formula.AddGetBit(XStateBit.Norm, pumpDevice);
-						formula.Add(FormulaOperationType.AND);
 
 						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
 						formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
-						formula.Add(FormulaOperationType.AND);
-
-						if (pumpDevice.NSLogic.Clauses.Count > 0)
-						{
-							formula.AddClauseFormula(pumpDevice.NSLogic);
-							formula.Add(FormulaOperationType.AND);
-						}
 
 						if (i > 0)
 						{
@@ -205,8 +168,19 @@ namespace GKProcessor
 							formula.Add(FormulaOperationType.OR);
 						}
 
+						AddCountFirePumpDevicesFormula(formula);
+						formula.Add(FormulaOperationType.AND);
+
+						if (pumpDevice.NSLogic.Clauses.Count > 0)
+						{
+							formula.AddClauseFormula(pumpDevice.NSLogic);
+							formula.Add(FormulaOperationType.AND);
+						}
+
 						formula.AddGetBit(XStateBit.On, pumpDevice);
 						formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
+						formula.Add(FormulaOperationType.OR);
+						formula.AddGetBit(XStateBit.Failure, pumpDevice);
 						formula.Add(FormulaOperationType.OR);
 						formula.Add(FormulaOperationType.COM);
 						formula.Add(FormulaOperationType.AND, comment: "Запрет на включение, если насос включен и не включается");
@@ -214,6 +188,8 @@ namespace GKProcessor
 						formula.AddGetBit(XStateBit.On, Direction);
 						formula.Add(FormulaOperationType.AND);
 
+						formula.AddGetBit(XStateBit.Norm, pumpDevice);
+						formula.Add(FormulaOperationType.AND);
 						formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice);
 
 						formula.AddGetBit(XStateBit.Off, Direction);
@@ -227,6 +203,24 @@ namespace GKProcessor
 						pumpDescriptor.FormulaBytes = formula.GetBytes();
 					}
 				}
+		}
+
+		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
+		{
+			var inputPumpsCount = 0;
+			foreach (var firePumpDevice in FirePumpDevices)
+			{
+				formula.AddGetBit(XStateBit.TurningOn, firePumpDevice);
+				formula.AddGetBit(XStateBit.On, firePumpDevice);
+				formula.Add(FormulaOperationType.OR);
+				if (inputPumpsCount > 0)
+				{
+					formula.Add(FormulaOperationType.ADD);
+				}
+				inputPumpsCount++;
+			}
+			formula.Add(FormulaOperationType.CONST, 0, NSPumpsCount, "Количество основных пожарных насосов");
+			formula.Add(FormulaOperationType.LT);
 		}
 
 		void SetNonFirePumpDevicesLogic()
@@ -272,31 +266,27 @@ namespace GKProcessor
 				formula.AddGetBit(XStateBit.Failure, nsDevice);
 				if (nsDevicesCount > 0)
 				{
-					formula.Add(FormulaOperationType.ADD);
+					formula.Add(FormulaOperationType.OR);
 				}
 				nsDevicesCount++;
 			}
-			formula.Add(FormulaOperationType.CONST, 0, 0);
-			formula.Add(FormulaOperationType.GT);
 			formula.AddPutBit(XStateBit.Failure, Pim);
 
 			nsDevicesCount = 0;
 			foreach (var nsDevice in Direction.NSDevices)
 			{
 				formula.AddGetBit(XStateBit.Norm, nsDevice);
-				formula.Add(FormulaOperationType.COM);
 				if (nsDevicesCount > 0)
 				{
-					formula.Add(FormulaOperationType.ADD);
+					formula.Add(FormulaOperationType.AND);
 				}
 				nsDevicesCount++;
 			}
-			formula.Add(FormulaOperationType.CONST, 0, 0);
-			formula.Add(FormulaOperationType.GT);
+
 			formula.Add(FormulaOperationType.DUP);
-			formula.AddPutBit(XStateBit.SetRegime_Manual, Pim);
-			formula.Add(FormulaOperationType.COM);
 			formula.AddPutBit(XStateBit.SetRegime_Automatic, Pim);
+			formula.Add(FormulaOperationType.COM);
+			formula.AddPutBit(XStateBit.SetRegime_Manual, Pim);
 
 			formula.Add(FormulaOperationType.END);
 			pimDescriptor.Formula = formula;
