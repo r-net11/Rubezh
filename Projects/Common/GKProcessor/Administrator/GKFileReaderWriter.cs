@@ -42,12 +42,14 @@ namespace GKProcessor
 				if (device != null)
 					zone.GkDatabaseParent = device.GKParent;
 			}
-			foreach (var direction in deviceConfiguration.Directions)
+
+			foreach (var device in deviceConfiguration.Devices)
 			{
-				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.ZoneUIDs.Contains(direction.UID));
-				if (device != null)
-					direction.GkDatabaseParent = device.GKParent;
+				InvalidateOneLogic(deviceConfiguration, device, device.DeviceLogic);
+				if (device.NSLogic != null)
+					InvalidateOneLogic(deviceConfiguration, device, device.NSLogic);
 			}
+
 			deviceConfiguration.Update();
 			UpdateConfigurationHelper.UpdateGKPredefinedName(gkDevice);
 			LoadingService.Close();
@@ -83,6 +85,90 @@ namespace GKProcessor
 			sendResult = SendManager.Send(gkDevice, 0, 22, 0, endBlock);
 			if (sendResult.HasError)
 				{ ParsingError = "Невозможно завершить запись файла "; }
+		}
+
+		public static void InvalidateOneLogic(XDeviceConfiguration deviceConfiguration, XDevice device, XDeviceLogic deviceLogic)
+		{
+			var devices = deviceConfiguration.Devices;
+			var zones = deviceConfiguration.Zones;
+			var directions = deviceConfiguration.Directions;
+			ClearAllReferences(devices, zones, directions);
+
+			var clauses = new List<XClause>();
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				clause.Devices = new List<XDevice>();
+				clause.Zones = new List<XZone>();
+				clause.Directions = new List<XDirection>();
+
+				var zoneUIDs = new List<Guid>();
+				foreach (var zoneUID in clause.ZoneUIDs)
+				{
+					var zone = zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zoneUIDs.Add(zoneUID);
+						clause.Zones.Add(zone);
+						zone.DevicesInLogic.Add(device);
+					}
+				}
+				clause.ZoneUIDs = zoneUIDs;
+
+				var deviceUIDs = new List<Guid>();
+				foreach (var deviceUID in clause.DeviceUIDs)
+				{
+					var clauseDevice = devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					{
+						deviceUIDs.Add(deviceUID);
+						clause.Devices.Add(clauseDevice);
+						clauseDevice.DevicesInLogic.Add(device);
+					}
+				}
+				clause.DeviceUIDs = deviceUIDs;
+
+				var directionUIDs = new List<Guid>();
+				foreach (var directionUID in clause.DirectionUIDs)
+				{
+					var direction = directions.FirstOrDefault(x => x.UID == directionUID);
+					if (direction != null)
+					{
+						directionUIDs.Add(directionUID);
+						clause.Directions.Add(direction);
+						direction.OutputDevices.Add(device);
+						device.Directions.Add(direction);
+					}
+				}
+				clause.DirectionUIDs = directionUIDs;
+
+				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+					clauses.Add(clause);
+			}
+			deviceLogic.Clauses = clauses;
+		}
+
+		static void ClearAllReferences(List<XDevice> devices, List<XZone> zones,  List<XDirection> directions )
+		{
+			foreach (var device in devices)
+			{
+				device.Zones = new List<XZone>();
+				device.Directions = new List<XDirection>();
+				device.NSDirections = new List<XDirection>();
+				device.DevicesInLogic = new List<XDevice>();
+			}
+			foreach (var zone in zones)
+			{
+				zone.Devices = new List<XDevice>();
+				zone.Directions = new List<XDirection>();
+				zone.DevicesInLogic = new List<XDevice>();
+			}
+			foreach (var direction in directions)
+			{
+				direction.InputZones = new List<XZone>();
+				direction.InputDevices = new List<XDevice>();
+				direction.OutputDevices = new List<XDevice>();
+				direction.NSDevices = new List<XDevice>();
+			}
 		}
 	}
 }

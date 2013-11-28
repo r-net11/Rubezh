@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using Infrastructure;
@@ -110,10 +111,21 @@ namespace GKModule.ViewModels
 			foreach (var unionObject in unionObjects)
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
+				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+				if (sameObject1 == null)
 					newObject.IsAbsent = true;
-				else if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.IsPresent = true;
+				else
+				{
+					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+					if (sameObject2 == null)
+						newObject.IsPresent = true;
+					else
+					{
+						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
+							newObject.HasDifferentZone = true;
+						newObject.PresentationZone = sameObject1.PresentationZone;
+					}
+				}
 				unionObjects1.Add(newObject);
 			}
 
@@ -121,10 +133,21 @@ namespace GKModule.ViewModels
 			foreach (var unionObject in unionObjects)
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
+				var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+				if (sameObject2 == null)
 					newObject.IsAbsent = true;
-				else if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.IsPresent = true;
+				else 
+				{
+					var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+					if (sameObject1 == null)
+						newObject.IsPresent = true;
+					else
+					{
+						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
+							newObject.HasDifferentZone = true;
+						newObject.PresentationZone = sameObject2.PresentationZone;
+					}
+				}
 				unionObjects2.Add(newObject);
 			}
 			LocalObjectsViewModel.Objects = unionObjects1;
