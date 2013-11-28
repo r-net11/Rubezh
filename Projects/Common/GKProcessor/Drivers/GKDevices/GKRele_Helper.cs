@@ -19,7 +19,7 @@ namespace GKProcessor
 				CanEditAddress = false,
                 HasAddress = false,
 				IsAutoCreate = true,
-				MinAddress = 14,
+				MinAddress = 12,
 				MaxAddress = 16,
 				IsDeviceOnShleif = false,
 				IsPlaceable = true

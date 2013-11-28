@@ -9,7 +9,6 @@ namespace FiresecClient
 {
 	public static partial class UpdateConfigurationHelper
 	{
-		//
 		public static XDeviceConfiguration DeviceConfiguration { get; private set; }
 
 		public static void Update(XDeviceConfiguration deviceConfiguration)
@@ -243,7 +242,7 @@ namespace FiresecClient
 								break;
 
 							case XDriverType.Pump:
-								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
 								{
 									nsDeviceUIDs.Add(nsDevice.UID);
 									direction.NSDevices.Add(nsDevice);

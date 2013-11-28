@@ -38,7 +38,7 @@ namespace GKProcessor
 						{
 							FirePumpDevices.Add(nsDevice);
 						}
-						else if (nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+						else if (nsDevice.IntAddress == 12)
 						{
 							NonFirePumpDevices.Add(nsDevice);
 						}
@@ -55,7 +55,7 @@ namespace GKProcessor
 			CreateDelays();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
-			SetNonFirePumpDevicesLogic();
+			//SetJokeyPumpLogic();
 			CreatePim();
 			SetCrossReferences();
 		}
@@ -223,7 +223,7 @@ namespace GKProcessor
 			formula.Add(FormulaOperationType.LT);
 		}
 
-		void SetNonFirePumpDevicesLogic()
+		void SetJokeyPumpLogic()
 		{
 			foreach (var pumpDevice in NonFirePumpDevices)
 			{
@@ -295,13 +295,11 @@ namespace GKProcessor
 
 		void SetCrossReferences()
 		{
-			foreach (var failureDevice in NonFirePumpDevices)
+			foreach (var nsDevice in Direction.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBasees(Direction, failureDevice);
-			}
-			if (AM1TDevice != null)
-			{
-				UpdateConfigurationHelper.LinkXBasees(Direction, AM1TDevice);
+				UpdateConfigurationHelper.LinkXBasees(Direction, nsDevice);
+				if (nsDevice.DriverType == XDriverType.RSR2_Bush || (nsDevice.DriverType == XDriverType.Pump && (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)))
+				UpdateConfigurationHelper.LinkXBasees(nsDevice, Direction);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
@@ -315,7 +313,6 @@ namespace GKProcessor
 
 			foreach (var nsDevice in Direction.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBasees(nsDevice, Direction);
 				foreach (var pumpDelay in PumpDelays)
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
