@@ -12,13 +12,13 @@ namespace GKProcessor
 {
 	public static class GKFileReaderWriter
 	{
-		public static string ParsingError { get; set; }
+		public static string ParsingError { get; private set; }
+
 		public static XDeviceConfiguration ReadConfigFileFromGK()
 		{
-			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
+			var gkDevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 			if (gkDevice == null)
-				{ ParsingError = "Ошибка конфигурации, не найден ГК в конфигурации"; return null; }
-			var bytesList = new List<List<byte>>();
+			{ ParsingError = "Ошибка конфигурации, не найден ГК в конфигурации"; return null; }
 			var allbytes = new List<byte>();
 			uint i = 1;
 			LoadingService.Show("Чтение конфигурационного файла из " + gkDevice.PresentationName);
@@ -27,15 +27,14 @@ namespace GKProcessor
 				LoadingService.DoStep("Чтение объекта " + i);
 				var data = new List<byte>(BitConverter.GetBytes(i++));
 				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
-				if(sendResult.HasError)
-					{ ParsingError = "Невозможно прочитать блок данных " + i; break; }
-				bytesList.Add(sendResult.Bytes);
+				if (sendResult.HasError)
+				{ ParsingError = "Невозможно прочитать блок данных " + i; break; }
 				allbytes.AddRange(sendResult.Bytes);
 				if (sendResult.Bytes.Count() < 256)
 					break;
 			}
 			var deviceConfiguration = ZipFileConfigurationHelper.LoadFromZipFile(new MemoryStream(allbytes.ToArray()));
-			deviceConfiguration.Devices.ForEach(x => x.Driver = XManager.Drivers.FirstOrDefault(z => z.UID == x.DriverUID));
+			deviceConfiguration.Devices.ForEach(x => x.Driver = XManager.Drivers.FirstOrDefault(y => y.UID == x.DriverUID));
 			foreach (var zone in deviceConfiguration.Zones)
 			{
 				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.ZoneUIDs.Contains(zone.UID));
@@ -43,10 +42,8 @@ namespace GKProcessor
 					zone.GkDatabaseParent = device.GKParent;
 			}
 
-
 			UpdateConfigurationHelper.Update(deviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
-			//UpdateConfigurationHelper.UpdateGKPredefinedName(gkDevice);
 			LoadingService.Close();
 			return deviceConfiguration;
 		}
@@ -64,7 +61,7 @@ namespace GKProcessor
 			var tempBytes = new List<List<byte>>();
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
-				{ ParsingError = "Невозможно начать процедуру записи "; return; }
+			{ ParsingError = "Невозможно начать процедуру записи "; return; }
 			LoadingService.Show("Запись конфигурационного файла в " + gkDevice.PresentationName, null, bytesList.Count);
 			for (int i = 0; i < bytesList.Count(); i += 256)
 			{
@@ -74,13 +71,12 @@ namespace GKProcessor
 				tempBytes.Add(bytesBlock.GetRange(4, bytesBlock.Count - 4));
 				sendResult = SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
 				if (sendResult.HasError)
-					{ ParsingError = "Невозможно записать блок данных " + i; return; }
+				{ ParsingError = "Невозможно записать блок данных " + i; return; }
 			}
 			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
 			sendResult = SendManager.Send(gkDevice, 0, 22, 0, endBlock);
 			if (sendResult.HasError)
-				{ ParsingError = "Невозможно завершить запись файла "; }
+			{ ParsingError = "Невозможно завершить запись файла "; }
 		}
-		
 	}
 }

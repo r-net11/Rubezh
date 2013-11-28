@@ -6,7 +6,7 @@ namespace GKModule.ViewModels
 {
 	class FileWritingViewModel : DialogViewModel
 	{
-		public	FileWritingViewModel()
+		public FileWritingViewModel()
 		{
 			Title = "Запись конфигурационного файла  в ГК";
 			YesCommand = new RelayCommand(OnYes);
