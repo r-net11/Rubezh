@@ -36,10 +36,6 @@
 		<Views:DevicesMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DatabasesViewModel}">
-		<Views:DatabasesView />
-	</DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:ConfigurationCompareViewModel}">
         <Views:ConfigurationCompareView />
     </DataTemplate>

@@ -322,6 +322,11 @@ namespace GKModule.ViewModels
 					sourceDevices.Add(device);
 			}
 
+			foreach (var device in Direction.NSDevices)
+			{
+				device.NSDirections.Remove(Direction);
+			}
+
 			var nsDevces = new List<XDevice>();
 			foreach (var nsDeviceUID in Direction.NSDeviceUIDs)
 			{
@@ -341,6 +346,7 @@ namespace GKModule.ViewModels
 				{
 					Direction.NSDeviceUIDs.Add(device.UID);
 					Direction.NSDevices.Add(device);
+					device.NSDirections.Add(Direction);
 				}
 				InitializeDependences();
 				ServiceFactory.SaveService.GKChanged = true;

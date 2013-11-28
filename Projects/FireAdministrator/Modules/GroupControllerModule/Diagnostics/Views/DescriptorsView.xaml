@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="GKModule.Views.DescriptorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:GKModule.Converters">
+
+    <UserControl.Resources>
+        <Converters:BytesToStringConverter x:Key="BytesToStringConverter" />
+        <Converters:DescriptorNoToStringConverter x:Key="DescriptorNoToStringConverter" />
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="1" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Объект" Width="*" MinWidth="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding Description}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding Descriptor.XBase.GKDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding Descriptor.XBase.KAUDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding Descriptor.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding Descriptor.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Физический адрес" Binding="{Binding Descriptor.PhysicalAdress}" />
+                </DataGrid.Columns>
+                <DataGrid.CellStyle>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Style.Setters>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsFormulaInvalid}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Background" Value="Red" />
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+            </DataGrid>
+
+            <DataGrid Grid.Column="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="База" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding RootDevice.Driver.ImageSource}" />
+                                    <TextBlock Text="{Binding RootDevice.Driver.ShortName}" />
+                                    <TextBlock Text="{Binding RootDevice.Address}" Margin="5, 0, 0, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+
+        <Grid Grid.Row="2" DataContext="{Binding SelectedDescriptor}" Margin="2">
+            <TabControl DataContext="{Binding Descriptor}">
+                <TabItem Header="Байты">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Наименование" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Смещение" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Количество входных зависимостей" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="5" Grid.Column="0" Text="Входные зависимости" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="6" Grid.Column="0" Text="Количество выходных зависимостей" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="7" Grid.Column="0" Text="Выходные зависимости" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="8" Grid.Column="0" Text="Логика" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="9" Grid.Column="0" Text="Количество параметров" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="10" Grid.Column="0" Text="Значения параметров" Margin="0, 0, 5, 0" />
+                                <TextBlock Grid.Row="10" Grid.Column="0" Text="Все" Margin="0, 0, 5, 0" />
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DeviceType, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Offset, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding InputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding InputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding OutputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding OutputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding FormulaBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                            </Grid>
+                        </Border>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Логика">
+                    <DataGrid ItemsSource="{Binding Formula.FormulaOperations}" Margin="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Операция" Binding="{Binding FormulaOperationType}" Width="Auto" />
+                            <DataGridTextColumn Header="Агрумент 1" Binding="{Binding FirstOperand}" Width="Auto" />
+                            <DataGridTextColumn Header="Агрумент 2" Binding="{Binding SecondOperand}" Width="Auto" />
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*" />
+                            <DataGridTextColumn Header="Глубина" Binding="{Binding StackLevel}" Width="Auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Зависимости">
+                    <Grid DataContext="{Binding XBase}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputXBases}" Margin="2">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Входные объекты" Binding="{Binding DescriptorInfo}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OutputXBases}" Margin="2">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Выходные объекты" Binding="{Binding DescriptorInfo}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

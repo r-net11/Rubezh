@@ -57,15 +57,15 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKWriteConfiguration(XDevice device)
+		public void GKWriteConfiguration(XDevice device, bool writeFileToGK = false)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKWriteConfiguration(device); }, "GKWriteConfiguration");
+				SafeOperationCall(() => FiresecService.GKWriteConfiguration(device, writeFileToGK), "GKWriteConfiguration");
 			}
 			else
 			{
-				GkDescriptorsWriter.WriteConfig(device);
+				GkDescriptorsWriter.WriteConfig(device, writeFileToGK);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				AddGKMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
 			}
@@ -74,23 +74,18 @@ namespace FiresecClient
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)
 		{
 			if (IsGKAsAService)
-			{
-				return SafeOperationCall<XDeviceConfiguration>(() => { return FiresecService.GKReadConfiguration(device); }, "GKReadConfiguration");
-			}
-			else
-			{
-				AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
-				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-				descriptorReader.ReadConfiguration(device);
-				return new OperationResult<XDeviceConfiguration>() { HasError = !string.IsNullOrEmpty(descriptorReader.ParsingError), Error = descriptorReader.ParsingError, Result = descriptorReader.DeviceConfiguration };
-			}
+				return SafeOperationCall(() => FiresecService.GKReadConfiguration(device), "GKReadConfiguration");
+			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
+			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
+			descriptorReader.ReadConfiguration(device);
+			return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.ParsingError), Error = descriptorReader.ParsingError, Result = descriptorReader.DeviceConfiguration };
 		}
 
 		public void GKUpdateFirmware(XDevice device, string fileName)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKUpdateFirmware(device, fileName); }, "GKUpdateFirmware");
+				SafeOperationCall(() => FiresecService.GKUpdateFirmware(device, fileName), "GKUpdateFirmware");
 			}
 			else
 			{

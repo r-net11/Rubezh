@@ -85,6 +85,9 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Diagnostics\Views\DescriptorsView.xaml.cs">
+      <DependentUpon>DescriptorsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
@@ -222,7 +225,7 @@
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="Diagnostics\Converters\BytesToStringConverter.cs" />
     <Compile Include="Diagnostics\ViewModels\DescriptorViewModel.cs" />
-    <Compile Include="Diagnostics\ViewModels\DatabasesViewModel.cs" />
+    <Compile Include="Diagnostics\ViewModels\DescriptorsViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
@@ -238,9 +241,6 @@
     <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Diagnostics\Views\DatabasesView.xaml.cs">
-      <DependentUpon>DatabasesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
@@ -401,10 +401,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Diagnostics\Views\DatabasesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Devices\Views\ConfigurationCompareView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -438,6 +434,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Diagnostics\Views\DescriptorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

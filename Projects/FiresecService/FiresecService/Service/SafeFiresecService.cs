@@ -216,9 +216,9 @@ namespace FiresecService.Service
         }
 
 		#region GK
-		public void GKWriteConfiguration(XDevice device)
+		public void GKWriteConfiguration(XDevice device, bool writeFileToGK = false)
 		{
-			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(device); }, "GKWriteConfiguration");
+			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(device, writeFileToGK); }, "GKWriteConfiguration");
 		}
 
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)

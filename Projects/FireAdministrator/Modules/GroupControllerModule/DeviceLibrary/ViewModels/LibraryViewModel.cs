@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 
 				if (value != null)
 				{
-					var driver = FiresecManager.XDrivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.XDriverId);
+					var driver = XManager.Drivers.FirstOrDefault(x => x.UID == SelectedDevice.LibraryDevice.XDriverId);
 					States = new ObservableCollection<StateViewModel>();
 					var libraryStates = from LibraryXState libraryState in SelectedDevice.LibraryDevice.XStates orderby libraryState.XStateClass descending select libraryState;
 					foreach (var libraryState in libraryStates)

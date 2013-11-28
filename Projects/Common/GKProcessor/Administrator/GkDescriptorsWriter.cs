@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecClient;
-using GKProcessor;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
@@ -15,128 +11,75 @@ namespace GKProcessor
 {
 	public static class GkDescriptorsWriter
 	{
-		public static void WriteConfig(XDevice gkDevice)
+		public static void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
 		{
 			try
 			{
 				DescriptorsManager.Create();
-
 				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 				if (gkDatabase != null)
 				{
 					var result = Ping(gkDatabase);
 					if (!result)
 						return;
-
 					string error = null;
-
 					for (int i = 0; i < 3; i++)
 					{
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
-
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : "");
 						LoadingService.Show(title, title, summaryDescriptorsCount, true);
-
 						result = GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
-						{
-							error = "Не удалось перевести ГК в технологический режим";
-							continue;
-						}
+							{ error = "Не удалось перевести ГК в технологический режим"; continue; }
 						if (LoadingService.IsCanceled)
 							return;
-
 						if(!EraseDatabase(gkDatabase.RootDevice))
-						{
-							error = "Не удалось стереть базу данных ГК";
-							continue;
-						}
-
+							{ error = "Не удалось стереть базу данных ГК"; continue; }
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
 							result = GoToTechnologicalRegime(kauDatabase.RootDevice);
 							if (!result)
-							{
-								error = "Не удалось перевести КАУ в технологический режим";
-								continue;
-							}
-
+								{ error = "Не удалось перевести КАУ в технологический режим"; continue; }
 							if (!EraseDatabase(kauDatabase.RootDevice))
-							{
-								error = "Не удалось стереть базу данных КАУ";
-								continue;
-							}
-
-							if (LoadingService.IsCanceled)
-								return;
-
-							var writeResult = WriteConfigToDevice(kauDatabase);
-							if (LoadingService.IsCanceled)
-								return;
-							if (!writeResult)
-							{
-								error = "Не удалось записать дескриптор КАУ";
-								continue;
-							}
+								{ error = "Не удалось стереть базу данных КАУ"; continue;}
+							if (!WriteConfigToDevice(kauDatabase))
+								{ error = "Не удалось записать дескриптор КАУ"; }
 						}
-						var writeResult2 = WriteConfigToDevice(gkDatabase);
-						if (LoadingService.IsCanceled)
-							return;
-						if (!writeResult2)
+						if (writeFileToGK)
 						{
-							error = "Не удалось записать дескриптор ГК";
-							continue;
+							GKFileReaderWriter.WriteConfigFileToGK();
+							if(!String.IsNullOrEmpty(GKFileReaderWriter.ParsingError))
+								{ error = GKFileReaderWriter.ParsingError; break; }
 						}
-
-						foreach (var kauDatabase in gkDatabase.KauDatabases)
-						{
-							if (!DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice))
-							{
-								error = "Не удалось перевести КАУ в рабочий режим";
-								break;
-							}
-						}
+						if (!WriteConfigToDevice(gkDatabase))
+							{ error = "Не удалось записать дескриптор ГК"; continue; }
+						if (gkDatabase.KauDatabases.Any(kauDatabase => !DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice)))
+							{ error = "Не удалось перевести КАУ в рабочий режим"; }
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice))
-						{
-							error = "Не удалось перевести ГК в рабочий режим";
-							break;
-						}
+							{ error = "Не удалось перевести ГК в рабочий режим"; break; }
 						return;
 					}
 					if (error != null)
-					{
-						result = MessageBoxService.ShowQuestion("Во время записи конфигурации возникла ошибка" + Environment.NewLine + error + Environment.NewLine + "Перевести устройства в рабочий режим") == System.Windows.MessageBoxResult.Yes;
-					}
+						MessageBoxService.ShowQuestion("Во время записи конфигурации возникла ошибка" + Environment.NewLine + error + Environment.NewLine + "Перевести устройства в рабочий режим");
 				}
 			}
 			catch (Exception e)
-			{
-				Logger.Error(e, "GKDescriptorsWriter.WriteConfig");
-			}
+				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); }
 			finally
-			{
-				LoadingService.Close();
-			}
+				{ LoadingService.Close(); }
 		}
 
 		static bool Ping(GkDatabase gkDatabase)
 		{
 			var sendResult = SendManager.Send(gkDatabase.RootDevice, 0, 1, 1);
 			if (sendResult.HasError)
-			{
-				MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
-				return false;
-			}
-
+				{ MessageBoxService.ShowError("Устройство " + gkDatabase.RootDevice.PresentationDriverAndAddress + " недоступно"); return false; }
 			foreach (var kauDatabase in gkDatabase.KauDatabases)
 			{
 				sendResult = SendManager.Send(kauDatabase.RootDevice, 0, 1, 1);
 				if (sendResult.HasError)
-				{
-					MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.PresentationDriverAndAddress + " недоступно");
-					return false;
-				}
+					{ MessageBoxService.ShowError("Устройство " + kauDatabase.RootDevice.PresentationDriverAndAddress + " недоступно"); return false; }
 			}
 			return true;
 		}
@@ -147,22 +90,15 @@ namespace GKProcessor
 			{
 				if (LoadingService.IsCanceled)
 					return false;
-
-				if (commonDatabase is GkDatabase && descriptor.Device != null && descriptor.Device.DriverType == XDriverType.Shuv)
-				{
-					;
-				}
-
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
-					descriptor.XBase.GetDescriptorName() + " " +
-					"(" + descriptor.GetDescriptorNo().ToString() + ")" +
-					" из " + commonDatabase.Descriptors.Count.ToString();
+					descriptor.XBase.GetDescriptorName() + " " + "(" + descriptor.GetDescriptorNo() + ")" +
+					" из " + commonDatabase.Descriptors.Count;
 				LoadingService.DoStep(progressStage);
-				var packs = GkDescriptorsWriter.CreateDescriptors(descriptor);
+				var packs = CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
+					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack);
 					if (sendResult.HasError)
 					{
 						LoadingService.Close();
@@ -214,8 +150,7 @@ namespace GKProcessor
 				return true;
 
 			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
-			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
-
+			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
 				if (IsInTechnologicalRegime(device))
@@ -228,7 +163,7 @@ namespace GKProcessor
 
 		static bool IsInTechnologicalRegime(XDevice device)
 		{
-			var sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
+			var sendResult = SendManager.Send(device, 0, 1, 1);
 			if (!sendResult.HasError)
 			{
 				if (sendResult.Bytes.Count > 0)
@@ -266,32 +201,6 @@ namespace GKProcessor
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
 			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
-		}
-
-		public static void WriteConfigFileToGK()
-		{
-			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			GoToTechnologicalRegime(gkDevice);
-			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
-			var configFileName = Path.Combine(folderName, "fileToGk.fscp");
-
-			ZipFileConfigurationHelper.SaveToZipFile(configFileName, XManager.DeviceConfiguration);
-			if (!File.Exists(configFileName))
-				return;
-			var bytesList = File.ReadAllBytes(configFileName).ToList();
-			var tempBytes = new List<List<byte>>();
-			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
-			for (int i = 0; i < bytesList.Count(); i += 256)
-			{
-				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
-				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
-				tempBytes.Add(bytesBlock.GetRange(4, bytesBlock.Count - 4));
-				SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
-			}
-			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
-			SendManager.Send(gkDevice, 0, 22, 0, endBlock);
-			//BytesHelper.BytesToFile("output.txt", tempBytes);
-			//GoToWorkingRegime(gkDevice);
 		}
 	}
 }

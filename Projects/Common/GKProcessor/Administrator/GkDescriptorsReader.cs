@@ -253,44 +253,5 @@ namespace GKProcessor
 			}
 			return true;
 		}
-
-		public void ReadConfigFileFromGK()
-		{
-			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			var bytesList = new List<List<byte>>();
-			var allbytes = new List<byte>();
-			uint i = 1;
-			while (true)
-			{
-				var data = new List<byte>(BitConverter.GetBytes(i++));
-				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
-				bytesList.Add(sendResult.Bytes);
-				allbytes.AddRange(sendResult.Bytes);
-				if (sendResult.HasError || sendResult.Bytes.Count() < 256)
-					break;
-			}
-			//BytesHelper.BytesToFile("input.txt", bytesList);
-			ByteArrayToFile("fileFromGK.fscp", allbytes.ToArray());
-			DeviceConfiguration = ZipFileConfigurationHelper.LoadFromZipFile("fileFromGK.fscp");
-			DeviceConfiguration.Devices.ForEach(x => x.Driver = XManager.Drivers.FirstOrDefault(z => z.UID == x.DriverUID));
-			DeviceConfiguration.Update();
-			XManager.UpdateGKPredefinedName(gkDevice);
-		}
-
-		public bool ByteArrayToFile(string fileName, byte[] byteArray)
-		{
-			try
-			{
-				var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write);
-				fileStream.Write(byteArray, 0, byteArray.Length);
-				fileStream.Close();
-				return true;
-			}
-			catch (Exception exception)
-			{
-				Console.WriteLine("Exception caught in process: {0}", exception);
-			}
-			return false;
-		}
 	}
 }

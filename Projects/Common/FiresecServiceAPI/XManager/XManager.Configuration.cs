@@ -24,6 +24,7 @@ namespace FiresecClient
 			{
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
+				device.NSDirections = new List<XDirection>();
 				device.DevicesInLogic = new List<XDevice>();
 			}
 			foreach (var zone in Zones)
@@ -178,6 +179,7 @@ namespace FiresecClient
 							case XDriverType.RSR2_Bush:
 								nsDeviceUIDs.Add(nsDevice.UID);
 								direction.NSDevices.Add(nsDevice);
+								nsDevice.NSDirections.Add(direction);
 								break;
 
 							case XDriverType.Pump:
@@ -185,6 +187,7 @@ namespace FiresecClient
 								{
 									nsDeviceUIDs.Add(nsDevice.UID);
 									direction.NSDevices.Add(nsDevice);
+									nsDevice.NSDirections.Add(direction);
 								}
 								break;
 						}

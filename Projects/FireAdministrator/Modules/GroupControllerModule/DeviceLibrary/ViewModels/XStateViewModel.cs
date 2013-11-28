@@ -27,12 +27,30 @@ namespace GKModule.ViewModels
 		public LibraryXState State { get; private set; }
 		public XDriver Driver { get; private set; }
 
-		public string ClassName
+		public string Name
 		{
-			get { return State.XStateClass.ToDescription(); }
-		}
+			get
+			{
+				if (Driver != null && Driver.DriverType == XDriverType.Valve)
+				{
+					switch (State.XStateClass)
+					{
+						case XStateClass.On:
+							return "Открыто";
 
-		public string AdditionalName { get; set; }
+						case XStateClass.Off:
+							return "Закрыто";
+
+						case XStateClass.TurningOn:
+							return "Открывается";
+
+						case XStateClass.TurningOff:
+							return "Закрывается";
+					}
+				}
+				return State.XStateClass.ToDescription();
+			}
+		}
 
 		public bool IsLayerEditingVisible
 		{

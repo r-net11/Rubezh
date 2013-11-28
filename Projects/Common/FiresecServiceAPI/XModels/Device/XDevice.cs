@@ -25,6 +25,7 @@ namespace XFiresecAPI
 
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
+			NSDirections = new List<XDirection>();
 			DevicesInLogic = new List<XDevice>();
 		}
 
@@ -38,6 +39,7 @@ namespace XFiresecAPI
 		public XDevice Parent { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
+		public List<XDirection> NSDirections { get; set; }
 		public List<XDevice> DevicesInLogic { get; set; }
 		public bool HasDifferences { get; set; }
 		public bool HasMissingDifferences { get; set; }

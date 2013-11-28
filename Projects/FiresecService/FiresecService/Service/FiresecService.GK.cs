@@ -16,7 +16,7 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public void GKWriteConfiguration(XDevice device)
+		public void GKWriteConfiguration(XDevice device, bool writeFileToGK = false)
 		{
 			GkDescriptorsWriter.WriteConfig(device);
 			AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);

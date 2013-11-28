@@ -8,9 +8,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0">
-            <TabItem Header="Управдение">
+            <TabItem Header="Управление">
                 <WrapPanel>
                     <Button Content="Влючать/выключать РМ" Command="{Binding TurnOnOffRMCommand}" Width="200" Margin="2" />
+                    <Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
                 </WrapPanel>
             </TabItem>
             <TabItem Header="Основные">

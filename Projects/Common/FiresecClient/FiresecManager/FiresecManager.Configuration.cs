@@ -213,19 +213,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static List<XDriver> XDrivers
-		{
-			get
-			{
-				if (FiresecConfiguration == null || FiresecConfiguration.XDriversConfiguration == null || FiresecConfiguration.XDriversConfiguration.XDrivers == null)
-				{
-					Logger.Error("FiresecManager XDrivers = null");
-					return new List<XDriver>();
-				}
-				return FiresecConfiguration.XDriversConfiguration.XDrivers;
-			}
-		}
-
 		public static List<Device> Devices
 		{
 			get

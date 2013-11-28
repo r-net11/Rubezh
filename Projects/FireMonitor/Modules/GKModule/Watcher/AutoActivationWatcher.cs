@@ -38,22 +38,7 @@ namespace GKModule
 				{
 					var journalItemViewModel = new JournalItemViewModel(journalItem);
 
-					var globalStateClass = XStateClass.No;
-					foreach (var device in XManager.Devices)
-					{
-						if (device.DeviceState.StateClass < globalStateClass)
-							globalStateClass = device.DeviceState.StateClass;
-					}
-					foreach (var zone in XManager.Zones)
-					{
-						if (zone.ZoneState.StateClass < globalStateClass)
-							globalStateClass = zone.ZoneState.StateClass;
-					}
-					foreach (var direction in XManager.Directions)
-					{
-						if (direction.DirectionState.StateClass < globalStateClass)
-							globalStateClass = direction.DirectionState.StateClass;
-					}
+					var globalStateClass = XManager.GetMinStateClass();
 
 					if (journalItem.StateClass <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
@@ -85,6 +70,23 @@ namespace GKModule
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
+									}
+								}
+								break;
+
+							case JournalItemType.Direction:
+								var direction = XManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								if (direction != null)
+								{
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXDirections.Any(y => y.DirectionUID == direction.UID); });
+									if (existsOnPlan)
+									{
+										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
+									}
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXDirections.Any(y => y.DirectionUID == direction.UID); });
+									if (existsOnPlan)
+									{
+										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
 									}
 								}
 								break;

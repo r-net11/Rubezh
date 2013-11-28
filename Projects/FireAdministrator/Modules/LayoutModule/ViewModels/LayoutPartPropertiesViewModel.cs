@@ -5,6 +5,7 @@ using Infrastructure.Common.Services.Layout;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System;
+using Infrastructure;
 
 namespace LayoutModule.ViewModels
 {
@@ -119,14 +120,18 @@ namespace LayoutModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			LayoutPartSize.Height = Height;
-			LayoutPartSize.HeightType = HeightType;
-			LayoutPartSize.IsHeightFixed = IsHeightFixed;
-			LayoutPartSize.IsWidthFixed = IsWidthFixed;
-			LayoutPartSize.MinHeight = MinHeight;
-			LayoutPartSize.MinWidth = MinWidth;
-			LayoutPartSize.Width = Width;
-			LayoutPartSize.WidthType = WidthType;
+			if (LayoutPartSize.Height != Height || LayoutPartSize.HeightType != HeightType || LayoutPartSize.IsHeightFixed != IsHeightFixed || LayoutPartSize.IsWidthFixed != IsWidthFixed || LayoutPartSize.MinHeight != MinHeight || LayoutPartSize.MinWidth != MinWidth || LayoutPartSize.Width != Width || LayoutPartSize.WidthType != WidthType)
+			{
+				LayoutPartSize.Height = Height;
+				LayoutPartSize.HeightType = HeightType;
+				LayoutPartSize.IsHeightFixed = IsHeightFixed;
+				LayoutPartSize.IsWidthFixed = IsWidthFixed;
+				LayoutPartSize.MinHeight = MinHeight;
+				LayoutPartSize.MinWidth = MinWidth;
+				LayoutPartSize.Width = Width;
+				LayoutPartSize.WidthType = WidthType;
+				ServiceFactory.SaveService.LayoutsChanged = true;
+			}
 			return base.Save();
 		}
 	}

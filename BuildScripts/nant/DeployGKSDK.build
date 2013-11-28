@@ -47,6 +47,7 @@
         <include name="Microsoft.Practices.Prism.dll" />
         <include name="Xceed.Wpf.Toolkit.dll" />
         <include name="NLog.dll" />
+        <include name="Ionic.Zip.dll" />
       </fileset>
     </copy>
   </target>

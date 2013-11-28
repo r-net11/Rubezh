@@ -11,7 +11,7 @@
 
     <DirectoryRef Id="SDKLOCATION_GKSDK">
       <Component Id="SDK.Files.Integration" Guid="4EA94C81-C6D5-4AFA-AC97-EE68E4F4F8DA">
-        <File Id="SDK.GKSDK_Release.csproj" Name="GKSDK.csproj" Source="$(var.SDK.TargetDir)" />
+        <File Id="SDK.GKSDK_Release.csproj" Name="GKSDK_Release.csproj" Source="$(var.SDK.TargetDir)" />
         <File Id="SDK.App.xaml" Name="App.xaml" Source="$(var.SDK.TargetDir)" />
         <File Id="SDK.App.xaml.cs" Name="App.xaml.cs" Source="..\..\..\..\..\GKSDK\GKSDK\" />
         <File Id="SDK.DeviceCommandViewModel.cs" Name="DeviceCommandViewModel.cs" Source="$(var.SDK.TargetDir)" />
@@ -31,8 +31,6 @@
     <DirectoryRef Id="SDKLOCATION_Properties">
       <Component Id="SDK.Files.Properties" Guid="156F0865-3818-4DDF-9FA9-E991E012AE14">
         <File Id="SDK.AssemblyInfo.cs" Name="AssemblyInfo.cs" Source="$(var.SDK.TargetDir)Properties\" />
-        <File Id="SDK.Resources.resx" Name="Resources.resx" Source="$(var.SDK.TargetDir)Properties\" />
-        <File Id="SDK.Settings.settings" Name="Settings.settings" Source="$(var.SDK.TargetDir)Properties\" />
       </Component>
     </DirectoryRef>
 
@@ -52,6 +50,8 @@
         <File Id="SDK.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.SDK_Assemblies.TargetDir)" />
         <File Id="SDK.NLog.dll" Name="NLog.dll" Source="$(var.SDK_Assemblies.TargetDir)" />
         <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.SDK_Assemblies.TargetDir)" />
+        <File Id="SDK.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.SDK_Assemblies.TargetDir)" />
+        <File Id="SDK.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.SDK_Assemblies.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

@@ -50,7 +50,7 @@ namespace GKSDK
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DatabaseManager.Convert();
+			DescriptorsManager.Create();
 			WatcherManager.Start();
 		}
 	}
