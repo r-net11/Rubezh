@@ -23,13 +23,16 @@ namespace GKProcessor
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
-
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.Stop_InManual);
-
+			
 			var property1 = new XDriverProperty()
 			{
 				No = 0,

@@ -17,7 +17,8 @@ namespace GKProcessor
 				IsPlaceable = true
 			};
 
-			GKDriversHelper.AddDefaultStateBitsClasses(driver);
+			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
 
 			var property1 = new XDriverProperty()
 			{
@@ -45,12 +46,7 @@ namespace GKProcessor
 			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 1", InternalName = "OuterVoltage_1", IsHighByte = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 2", InternalName = "OuterVoltage_2", IsLowByte = true });
 			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети", InternalName = "CircuitVoltage", IsLowByte = true });
-			//driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети HighByte", InternalName = "CircuitVoltage_2", IsHighByte = true });
-
-			//driver.AUParameters.Add(new XAUParameter() { No = 0x81, Name = "Напряжение на АКБ1", InternalName = "InnerVoltage_1"});
-			//driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Напряжение на выходе 1", InternalName = "OuterVoltage_1"});
-			//driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Напряжение в сети", InternalName = "CircuitVoltage_2"});
-
+			
 			return driver;
 		}
 	}
