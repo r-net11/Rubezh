@@ -17,10 +17,11 @@ namespace GKModule.ViewModels
 		XDeviceConfiguration RemoteConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
-
-		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device)
+		public static bool ConfigFromFile { get; private set; }
+		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
+			ConfigFromFile = configFromFile;
 			ChangeCommand = new RelayCommand(OnChange);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
@@ -102,7 +103,7 @@ namespace GKModule.ViewModels
 			var unionObjects = objects1.Select(object1 => (ObjectViewModel)object1.Clone()).ToList();
 			foreach (var object2 in objects2)
 			{
-				if (!unionObjects.Any(x => x.Compare(x, object2) == 0))
+				if (unionObjects.All(x => x.Compare(x, object2) != 0))
 					unionObjects.Add(object2);
 			}
 			unionObjects.Sort();
@@ -113,19 +114,63 @@ namespace GKModule.ViewModels
 				var newObject = (ObjectViewModel)unionObject.Clone();
 				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 				if (sameObject1 == null)
+				{
+					newObject.HasDifferentsDiscription = "отсутствует в конфигурации";
 					newObject.IsAbsent = true;
+				}
 				else
 				{
 					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 					if (sameObject2 == null)
+					{
+						newObject.HasDifferentsDiscription = "отсутствует в устройстве";
 						newObject.IsPresent = true;
+					}
 					else
 					{
 						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-							newObject.HasDifferentZone = true;
+						{
+							if (sameObject1.Device.Driver.HasZone)
+								newObject.HasDifferentsDiscription = "зоны различны";
+							else
+								newObject.HasDifferentsDiscription = "логика различна";
+						}
 						newObject.PresentationZone = sameObject1.PresentationZone;
+						if (sameObject1.ObjectType == ObjectType.Zone)
+						{
+							if (sameObject1.Zone.Fire1Count != sameObject2.Zone.Fire1Count)
+								newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар1";
+							if (sameObject1.Zone.Fire2Count != sameObject2.Zone.Fire2Count)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", число датчиков для формирования Пожар2";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар2";
+							}
+						}
+						if (sameObject1.ObjectType == ObjectType.Direction)
+						{
+							if (sameObject1.Direction.Delay != sameObject2.Direction.Delay)
+								newObject.HasDifferentsDiscription = "Не совпадает параметр Задержка";
+							if (sameObject1.Direction.Hold != sameObject2.Direction.Hold)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", параметр Удержание";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает параметр Удержание";
+							}
+							if (sameObject1.Direction.Regime != sameObject2.Direction.Regime)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", параметр Режим работы";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает параметр Режим работы";
+							}
+						}
 					}
+
 				}
+
 				unionObjects1.Add(newObject);
 			}
 
@@ -135,17 +180,59 @@ namespace GKModule.ViewModels
 				var newObject = (ObjectViewModel)unionObject.Clone();
 				var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 				if (sameObject2 == null)
+				{
+					newObject.HasDifferentsDiscription = "отсутствует в устройстве";
 					newObject.IsAbsent = true;
-				else 
+				}
+				else
 				{
 					var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 					if (sameObject1 == null)
+					{
+						newObject.HasDifferentsDiscription = "отсутствует в конфигурации";
 						newObject.IsPresent = true;
+					}
 					else
 					{
 						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-							newObject.HasDifferentZone = true;
+						{
+							if (sameObject1.Device.Driver.HasZone)
+								newObject.HasDifferentsDiscription = "зоны различны";
+							else
+								newObject.HasDifferentsDiscription = "логика различна";
+						}
 						newObject.PresentationZone = sameObject2.PresentationZone;
+						if (sameObject1.ObjectType == ObjectType.Zone)
+						{
+							if (sameObject1.Zone.Fire1Count != sameObject2.Zone.Fire1Count)
+								newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар1";
+							if (sameObject1.Zone.Fire2Count != sameObject2.Zone.Fire2Count)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", число датчиков для формирования Пожар2";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар2";
+							}
+						}
+						if (sameObject1.ObjectType == ObjectType.Direction)
+						{
+							if (sameObject1.Direction.Delay != sameObject2.Direction.Delay)
+								newObject.HasDifferentsDiscription = "Не совпадает параметр Задержка";
+							if (sameObject1.Direction.Hold != sameObject2.Direction.Hold)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", параметр Удержание";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает параметр Удержание";
+							}
+							if (sameObject1.Direction.Regime != sameObject2.Direction.Regime)
+							{
+								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
+									newObject.HasDifferentsDiscription += ", параметр Режим работы";
+								else
+									newObject.HasDifferentsDiscription = "Не совпадает параметр Режим работы";
+							}
+						}
 					}
 				}
 				unionObjects2.Add(newObject);
