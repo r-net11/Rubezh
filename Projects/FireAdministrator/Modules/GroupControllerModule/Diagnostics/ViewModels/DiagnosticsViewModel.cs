@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.DriverType == XDriverType.GK)
 				{
-					XManager.UpdateGKPredefinedName(device);
+					UpdateConfigurationHelper.UpdateGKPredefinedName(device);
 				}
 			}
 			XManager.UpdateConfiguration();

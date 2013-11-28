@@ -85,7 +85,7 @@ namespace GKProcessor
 			if(ParsingError != null)
 				return false;
 			DeviceConfiguration.Update();
-			XManager.UpdateGKPredefinedName(GkDevice);
+			UpdateConfigurationHelper.UpdateGKPredefinedName(GkDevice);
 			return true;
 		}
 #endif

@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using XFiresecAPI;
+using Common;
 
 namespace FiresecClient
 {
-	public partial class XManager
+	public static partial class UpdateConfigurationHelper
 	{
-		public static void Prepare()
+		public static void PrepareDescriptors(XDeviceConfiguration deviceConfiguration)
 		{
+			DeviceConfiguration = deviceConfiguration;
 			PrepareZones();
-			PrepareInputOutputdependences();
+			PrepareInputOutputDependences();
 			PrepareDeviceLogicDependences();
 			PrepareDirections();
 		}
 
 		static void PrepareZones()
 		{
-			foreach (var zone in Zones)
+			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.KauDatabaseParent = null;
 				zone.GkDatabaseParent = null;
@@ -36,42 +40,42 @@ namespace FiresecClient
 			}
 		}
 
-		static void PrepareInputOutputdependences()
+		static void PrepareInputOutputDependences()
 		{
-			foreach (var device in Devices)
+			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.ClearDescriptor();
 			}
-			foreach (var zone in Zones)
+			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.ClearDescriptor();
 				LinkXBasees(zone, zone);
 			}
-			foreach (var direction in Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				direction.ClearDescriptor();
 			}
 
-            foreach (var device in Devices)
-            {
-                foreach (var clause in device.DeviceLogic.Clauses)
-                {
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
 					foreach (var zone in clause.Zones)
 					{
 						LinkXBasees(device, zone);
 					}
-                    foreach (var clauseDevice in clause.Devices)
-                    {
+					foreach (var clauseDevice in clause.Devices)
+					{
 						LinkXBasees(device, clauseDevice);
-                    }
+					}
 					foreach (var direction in clause.Directions)
-                    {
+					{
 						LinkXBasees(device, direction);
-                    }
-                }
-            }
+					}
+				}
+			}
 
-			foreach (var zone in Zones)
+			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				foreach (var device in zone.Devices)
 				{
@@ -79,7 +83,7 @@ namespace FiresecClient
 				}
 			}
 
-			foreach (var direction in Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				foreach (var zone in direction.InputZones)
 				{
@@ -93,35 +97,35 @@ namespace FiresecClient
 			}
 		}
 
-        static void PrepareDeviceLogicDependences()
-        {
-            foreach (var device in Devices)
-            {
+		static void PrepareDeviceLogicDependences()
+		{
+			foreach (var device in DeviceConfiguration.Devices)
+			{
 				device.DeviceLogic.DependentZones = new List<XZone>();
-                device.DeviceLogic.DependentDevices = new List<XDevice>();
+				device.DeviceLogic.DependentDevices = new List<XDevice>();
 				device.DeviceLogic.DependentDirections = new List<XDirection>();
 
-                foreach (var clause in device.DeviceLogic.Clauses)
-                {
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
 					foreach (var clauseZone in clause.Zones)
 					{
 						device.DeviceLogic.DependentZones.Add(clauseZone);
 					}
 					foreach (var clauseDevice in clause.Devices)
-                    {
+					{
 						device.DeviceLogic.DependentDevices.Add(clauseDevice);
-                    }
+					}
 					foreach (var direction in clause.Directions)
-                    {
+					{
 						device.DeviceLogic.DependentDirections.Add(direction);
-                    }
-                }
-            }
-        }
+					}
+				}
+			}
+		}
 
 		static void PrepareDirections()
 		{
-			foreach (var direction in Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;
@@ -153,10 +157,10 @@ namespace FiresecClient
 			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);
 		}
 
-        static void AddInputOutputObject(List<XBase> objects, XBase newObject)
-        {
-            if (!objects.Contains(newObject))
-                objects.Add(newObject);
-        }
+		static void AddInputOutputObject(List<XBase> objects, XBase newObject)
+		{
+			if (!objects.Contains(newObject))
+				objects.Add(newObject);
+		}
 	}
 }

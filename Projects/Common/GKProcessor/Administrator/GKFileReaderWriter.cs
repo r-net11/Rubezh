@@ -49,7 +49,7 @@ namespace GKProcessor
 					direction.GkDatabaseParent = device.GKParent;
 			}
 			deviceConfiguration.Update();
-			XManager.UpdateGKPredefinedName(gkDevice);
+			UpdateConfigurationHelper.UpdateGKPredefinedName(gkDevice);
 			LoadingService.Close();
 			return deviceConfiguration;
 		}
