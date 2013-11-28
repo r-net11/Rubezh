@@ -9,6 +9,7 @@ namespace FiresecClient
 {
 	public static partial class UpdateConfigurationHelper
 	{
+		//
 		public static void PrepareDescriptors(XDeviceConfiguration deviceConfiguration)
 		{
 			DeviceConfiguration = deviceConfiguration;
