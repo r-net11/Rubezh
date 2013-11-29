@@ -67,7 +67,19 @@
     <DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectationViewModel}">
         <Views:DirectionDeviceSelectationView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
+        <Views:PumpStationsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
+        <Views:PumpStationDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationsMenuViewModel}">
+        <Views:PumpStationsMenuView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>

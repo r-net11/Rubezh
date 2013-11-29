@@ -86,7 +86,7 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			if (CheckNeedSave())
+			if (CheckNeedSave(true))
 			{
 				if (ValidateConfiguration())
 				{
@@ -94,8 +94,7 @@ namespace GKModule.Models
 					if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
 						DialogService.ShowModalWindow(fileWritingViewModel);
 					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
-					var devices = SelectedDevice.GetRealChildren();
-					SelectedDevice.SyncFromSystemToDeviceProperties(devices);
+					ServiceFactory.SaveService.GKChanged = false;
 				}
 			}
 		}
@@ -115,7 +114,7 @@ namespace GKModule.Models
 			if (!result.HasError)
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
@@ -128,15 +127,15 @@ namespace GKModule.Models
 		{
 			DescriptorsManager.Create();
 			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK();
-			if (String.IsNullOrEmpty(GKFileReaderWriter.ParsingError))
+			if (String.IsNullOrEmpty(GKFileReaderWriter.Error))
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
-				MessageBoxService.ShowError(GKFileReaderWriter.ParsingError, "Ошибка при чтении конфигурационного файла");
+				MessageBoxService.ShowError(GKFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
 		}
 
 		bool CanReadConfiguration()
@@ -175,12 +174,14 @@ namespace GKModule.Models
 			return true;
 		}
 
-		bool CheckNeedSave()
+		bool CheckNeedSave(bool isConfigWriting = false)
 		{
 			if (ServiceFactory.SaveService.GKChanged)
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
 				{
+					if (isConfigWriting)
+						SelectedDevice.SyncFromSystemToDeviceProperties(SelectedDevice.GetRealChildren());
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using Infrastructure;
@@ -16,10 +17,12 @@ namespace GKModule.ViewModels
 		XDeviceConfiguration RemoteConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
+		public static bool ConfigFromFile { get; private set; }
 
-		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device)
+		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
+			ConfigFromFile = configFromFile;
 			ChangeCommand = new RelayCommand(OnChange);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
@@ -42,7 +45,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.IsAbsent || RemoteObjectsViewModel.Objects[i].IsAbsent) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || item.HasSecondDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasSecondDifferences) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}
@@ -95,40 +98,94 @@ namespace GKModule.ViewModels
 
 		public void CompareObjectLists()
 		{
-			var objects1 = LocalObjectsViewModel.Objects;
-			var objects2 = RemoteObjectsViewModel.Objects;
-
+			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
+			var unionObjects1 = CreateOneComparedObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, unionObjects, true);
+			var unionObjects2 = CreateOneComparedObjectList(RemoteObjectsViewModel.Objects, LocalObjectsViewModel.Objects, unionObjects, false);
+			LocalObjectsViewModel.Objects = unionObjects1;
+			RemoteObjectsViewModel.Objects = unionObjects2;
+		}
+		List<ObjectViewModel> CreateUnionObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
+		{
 			var unionObjects = objects1.Select(object1 => (ObjectViewModel)object1.Clone()).ToList();
 			foreach (var object2 in objects2)
 			{
-				if (!unionObjects.Any(x => x.Compare(x, object2) == 0))
+				if (unionObjects.All(x => x.Compare(x, object2) != 0))
 					unionObjects.Add(object2);
 			}
 			unionObjects.Sort();
-
+			return unionObjects;
+		}
+		List<ObjectViewModel> CreateOneComparedObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, List<ObjectViewModel> unionObjects, bool IsLocalConfig)
+		{
 			var unionObjects1 = new List<ObjectViewModel>();
 			foreach (var unionObject in unionObjects)
 			{
 				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
+				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+				if (sameObject1 == null)
+				{
+					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации" : "Отсутствует в устройстве";
 					newObject.IsAbsent = true;
-				else if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.IsPresent = true;
+				}
+				else
+				{
+					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
+					if (sameObject2 == null)
+					{
+						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в устройстве" : "Отсутствует в конфигурации";
+						newObject.IsPresent = true;
+					}
+					else
+					{
+						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
+							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Зоны различны" : "Логика различна";
+						newObject.PresentationZone = sameObject1.PresentationZone;
+						if (sameObject1.ObjectType == ObjectType.Zone)
+							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);
+						if (sameObject1.ObjectType == ObjectType.Direction)
+							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
+					}
+
+				}
+
 				unionObjects1.Add(newObject);
 			}
-
-			var unionObjects2 = new List<ObjectViewModel>();
-			foreach (var unionObject in unionObjects)
+			return unionObjects1;
+		}
+		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			string zonesDifferences = null;
+			if (object1.Zone.Fire1Count != object2.Zone.Fire1Count)
+				zonesDifferences = "Не совпадает число датчиков для формирования Пожар1";
+			if (object1.Zone.Fire2Count != object2.Zone.Fire2Count)
 			{
-				var newObject = (ObjectViewModel)unionObject.Clone();
-				if (!objects2.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.IsAbsent = true;
-				else if (!objects1.Any(x => x.Compare(x, unionObject) == 0))
-					newObject.IsPresent = true;
-				unionObjects2.Add(newObject);
+				if (!String.IsNullOrEmpty(zonesDifferences))
+					zonesDifferences += ", число датчиков для формирования Пожар2";
+				else
+					zonesDifferences = "Не совпадает число датчиков для формирования Пожар2";
 			}
-			LocalObjectsViewModel.Objects = unionObjects1;
-			RemoteObjectsViewModel.Objects = unionObjects2;
+			return zonesDifferences;
+		}
+		string GetDirectionsDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			string directionsDifferences = null;
+			if (object1.Direction.Delay != object2.Direction.Delay)
+				directionsDifferences = "Не совпадает параметр Задержка";
+			if (object1.Direction.Hold != object2.Direction.Hold)
+			{
+				if (!String.IsNullOrEmpty(directionsDifferences))
+					directionsDifferences += ", параметр Удержание";
+				else
+					directionsDifferences = "Не совпадает параметр Удержание";
+			}
+			if (object1.Direction.Regime != object2.Direction.Regime)
+			{
+				if (!String.IsNullOrEmpty(directionsDifferences))
+					directionsDifferences += ", параметр Режим работы";
+				else
+					directionsDifferences = "Не совпадает параметр Режим работы";
+			}
+			return directionsDifferences;
 		}
 	}
 }

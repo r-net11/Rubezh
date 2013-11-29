@@ -206,13 +206,13 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
+    <Compile Include="XManager\UpdateConfigurationHelper.cs" />
     <Compile Include="XManager\XManager.Actions.cs" />
-    <Compile Include="XManager\XManager.Binary.cs" />
-    <Compile Include="XManager\XManager.Configuration.cs" />
     <Compile Include="XManager\XManager.cs" />
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.PresentationZone.cs" />
     <Compile Include="XManager\XManager.States.cs" />
+    <Compile Include="XManager\UpdateConfigurationHelper.Descroptors.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
@@ -310,6 +310,7 @@
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
+    <Compile Include="XModels\PumpStation\XPumpStation.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />
@@ -321,6 +322,7 @@
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\States\XPimState.cs" />
+    <Compile Include="XModels\States\XPumpStationState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

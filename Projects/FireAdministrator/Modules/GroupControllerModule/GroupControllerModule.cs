@@ -28,6 +28,7 @@ namespace GKModule
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
+		PumpStationsViewModel PumpStationsViewModel;
 		GuardViewModel GuardViewModel;
 		FiltersViewModel FiltersViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -50,6 +51,7 @@ namespace GKModule
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
+			PumpStationsViewModel = new PumpStationsViewModel();
 			GuardViewModel = new GuardViewModel();
 			FiltersViewModel = new FiltersViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -68,6 +70,7 @@ namespace GKModule
 			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
+			PumpStationsViewModel.Initialize();
 			GuardViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -87,6 +90,7 @@ namespace GKModule
 					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),

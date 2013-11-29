@@ -1,14 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.XModels;
+using System.Text;
 using XFiresecAPI;
+using Common;
 
 namespace FiresecClient
 {
-	public partial class XManager
+	public static partial class UpdateConfigurationHelper
 	{
-		public static void Invalidate()
+		public static XDeviceConfiguration DeviceConfiguration { get; private set; }
+
+		public static void Update(XDeviceConfiguration deviceConfiguration)
+		{
+			DeviceConfiguration = deviceConfiguration;
+			if (DeviceConfiguration == null)
+			{
+				DeviceConfiguration = new XDeviceConfiguration();
+			}
+			if (DeviceConfiguration.RootDevice == null)
+			{
+				var systemDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+				if (systemDriver != null)
+				{
+					DeviceConfiguration.RootDevice = new XDevice()
+					{
+						DriverUID = systemDriver.UID,
+						Driver = systemDriver
+					};
+				}
+				else
+				{
+					Logger.Error("XManager.SetEmptyConfiguration systemDriver = null");
+				}
+			}
+			DeviceConfiguration.ValidateVersion();
+
+			DeviceConfiguration.Update();
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				device.Driver = XManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
+					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
+				}
+			}
+			DeviceConfiguration.Reorder();
+
+			InitializeProperties();
+			Invalidate();
+		}
+
+		static void InitializeProperties()
+		{
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				foreach (var property in device.Properties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
+				foreach (var property in device.DeviceProperties)
+				{
+					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				}
+				device.InitializeDefaultProperties();
+			}
+		}
+
+		static void Invalidate()
 		{
 			ClearAllReferences();
 			InitializeDevicesInZone();
@@ -20,20 +79,20 @@ namespace FiresecClient
 
 		static void ClearAllReferences()
 		{
-			foreach (var device in Devices)
+			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
 				device.NSDirections = new List<XDirection>();
 				device.DevicesInLogic = new List<XDevice>();
 			}
-			foreach (var zone in Zones)
+			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.Devices = new List<XDevice>();
 				zone.Directions = new List<XDirection>();
 				zone.DevicesInLogic = new List<XDevice>();
 			}
-			foreach (var direction in Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				direction.InputZones = new List<XZone>();
 				direction.InputDevices = new List<XDevice>();
@@ -44,14 +103,14 @@ namespace FiresecClient
 
 		static void InitializeDevicesInZone()
 		{
-			foreach (var device in Devices)
+			foreach (var device in DeviceConfiguration.Devices)
 			{
 				var zoneUIDs = new List<Guid>();
 				if (device.Driver.HasZone)
 				{
 					foreach (var zoneUID in device.ZoneUIDs)
 					{
-						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 						if (zone != null)
 						{
 							zoneUIDs.Add(zoneUID);
@@ -66,15 +125,15 @@ namespace FiresecClient
 
 		static void InitializeLogic()
 		{
-			foreach (var device in Devices)
+			foreach (var device in DeviceConfiguration.Devices)
 			{
-				InvalidateOneLogic(device, device.DeviceLogic);
-				if(device.NSLogic != null)
-					InvalidateOneLogic(device, device.NSLogic);
+				InvalidateOneLogic(DeviceConfiguration, device, device.DeviceLogic);
+				if (device.NSLogic != null)
+					InvalidateOneLogic(DeviceConfiguration, device, device.NSLogic);
 			}
 		}
 
-		public static void InvalidateOneLogic(XDevice device, XDeviceLogic deviceLogic)
+		public static void InvalidateOneLogic(XDeviceConfiguration deviceConfiguration, XDevice device, XDeviceLogic deviceLogic)
 		{
 			var clauses = new List<XClause>();
 			foreach (var clause in deviceLogic.Clauses)
@@ -86,7 +145,7 @@ namespace FiresecClient
 				var zoneUIDs = new List<Guid>();
 				foreach (var zoneUID in clause.ZoneUIDs)
 				{
-					var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						zoneUIDs.Add(zoneUID);
@@ -99,7 +158,7 @@ namespace FiresecClient
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
-					var clauseDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
+					var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 					if (clauseDevice != null && !clauseDevice.IsNotUsed)
 					{
 						deviceUIDs.Add(deviceUID);
@@ -112,7 +171,7 @@ namespace FiresecClient
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)
 				{
-					var direction = Directions.FirstOrDefault(x => x.UID == directionUID);
+					var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
 					if (direction != null)
 					{
 						directionUIDs.Add(directionUID);
@@ -131,14 +190,14 @@ namespace FiresecClient
 
 		static void InitializeDirections()
 		{
-			foreach (var direction in Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				var directionDevices = new List<XDirectionDevice>();
 				foreach (var directionDevice in direction.DirectionDevices)
 				{
 					if (directionDevice.DeviceUID != Guid.Empty)
 					{
-						var device = Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
+						var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
 						directionDevice.Device = device;
 						if (device != null)
 						{
@@ -155,7 +214,7 @@ namespace FiresecClient
 				{
 					if (directionZone.ZoneUID != Guid.Empty)
 					{
-						var zone = Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
 						directionZone.Zone = zone;
 						if (zone != null)
 						{
@@ -183,7 +242,7 @@ namespace FiresecClient
 								break;
 
 							case XDriverType.Pump:
-								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
 								{
 									nsDeviceUIDs.Add(nsDevice.UID);
 									direction.NSDevices.Add(nsDevice);
@@ -206,7 +265,7 @@ namespace FiresecClient
 				if (guardUser.ZoneUIDs != null)
 					foreach (var zoneUID in guardUser.ZoneUIDs)
 					{
-						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 						if (zone != null)
 						{
 							guardUser.Zones.Add(zone);

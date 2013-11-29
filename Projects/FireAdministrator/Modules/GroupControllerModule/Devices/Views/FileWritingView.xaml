@@ -4,10 +4,10 @@
              MinWidth="350" MaxWidth="350" MinHeight="100" MaxHeight="100">
     <StackPanel >
         <StackPanel Background="White" >
-            <TextBlock Text="Хотите ли Вы записать конфигурационный файл в ГК?" Margin ="5, 5" FontWeight="Bold"/>
+            <TextBlock Text="Хотите ли Вы записать конфигурационный файл в ГК?" FontWeight="Bold" Margin ="5, 5" />
             <StackPanel Orientation="Horizontal" Background="White" >
                 <Label Content="Запомнить выбор и больше не показывать это окно" Foreground="Black" />
-                <CheckBox IsChecked = "{Binding IsDisabled}" Margin="0, 5, 0, 30"/>
+                <CheckBox IsChecked = "{Binding IsDisabled}" Margin="0, 5, 0, 30" />
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin ="120, 0, 0, 0">

@@ -6,6 +6,6 @@ namespace GKProcessor
 	{
 		public abstract bool ReadConfiguration(XDevice device);
 		public XDeviceConfiguration DeviceConfiguration { get; protected set; }
-		public string ParsingError { get; protected set; }
+		public string Error { get; protected set; }
 	}
 }

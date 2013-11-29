@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
@@ -8,8 +9,19 @@ namespace GKModule.ViewModels
 	{
 		public string Name { get; set; }
 		public string Address { get; set; }
+		public string PresentationZone { get; set; }
 		public bool IsAbsent { get; set; }
 		public bool IsPresent { get; set; }
+		public bool HasSecondDifferences
+		{
+			get
+			{
+				if (IsAbsent || IsPresent || !ConfigurationCompareViewModel.ConfigFromFile)
+					return false;
+				return !String.IsNullOrEmpty(DifferenceDiscription);
+			}
+		}
+		public string DifferenceDiscription { get; set; }
 		public XDevice Device;
 		public XZone Zone;
 		public XDirection Direction;
@@ -25,6 +37,7 @@ namespace GKModule.ViewModels
 			Device = device;
 			Name = device.ShortName;
 			Address = device.DottedPresentationAddress;
+			PresentationZone = device.IsNotUsed ? "" : XManager.GetPresentationZone(Device);
 			ImageSource = "/Controls;component/GKIcons/" + device.DriverType + ".png";
 			ObjectType = ObjectType.Device;
 		}
@@ -35,6 +48,7 @@ namespace GKModule.ViewModels
 			Name = zone.PresentationName;
 			ImageSource = "/Controls;component/Images/zone.png";
 			Address = "";
+			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
 		}
 
@@ -44,6 +58,7 @@ namespace GKModule.ViewModels
 			Name = direction.PresentationName;
 			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
+			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
 		}
 

@@ -12,7 +12,7 @@ namespace GKProcessor
 		public static void Update(XDevice device, string fileName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
-			GkDescriptorsWriter.GoToTechnologicalRegime(device);
+			DeviceBytesHelper.GoToTechnologicalRegime(device);
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			DeviceBytesHelper.Clear(device);
 			var data = new List<byte>();

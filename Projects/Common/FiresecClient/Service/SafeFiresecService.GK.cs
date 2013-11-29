@@ -78,7 +78,7 @@ namespace FiresecClient
 			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
 			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
-			return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.ParsingError), Error = descriptorReader.ParsingError, Result = descriptorReader.DeviceConfiguration };
+			return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
 		public void GKUpdateFirmware(XDevice device, string fileName)

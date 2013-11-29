@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-//using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
 namespace FiresecClient
@@ -31,6 +30,10 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.Directions; }
 		}
+		public static List<XPumpStation> PumpStations
+		{
+			get { return DeviceConfiguration.PumpStations; }
+		}
 		public static List<XDriver> Drivers
 		{
 			get { return DriversConfiguration.XDrivers; }
@@ -48,57 +51,12 @@ namespace FiresecClient
 
 		public static void UpdateConfiguration()
 		{
-			if (DeviceConfiguration == null)
-			{
-				DeviceConfiguration = new XDeviceConfiguration();
-			}
-			if (DeviceConfiguration.RootDevice == null)
-			{
-				var systemDriver = Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-				if (systemDriver != null)
-				{
-					DeviceConfiguration.RootDevice = new XDevice()
-					{
-						DriverUID = systemDriver.UID,
-						Driver = systemDriver
-					};
-				}
-				else
-				{
-					Logger.Error("XManager.SetEmptyConfiguration systemDriver = null");
-				}
-			}
-			DeviceConfiguration.ValidateVersion();
-
-			DeviceConfiguration.Update();
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
-				{
-					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
-				}
-			}
-			DeviceConfiguration.Reorder();
-
-			InitializeProperties();
-            Invalidate();
+			UpdateConfigurationHelper.Update(DeviceConfiguration);
 		}
 
-		public static void InitializeProperties()
+		public static void Prepare()
 		{
-			foreach (var device in Devices)
-			{
-				foreach (var property in device.Properties)
-				{
-					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				}
-				foreach (var property in device.DeviceProperties)
-				{
-					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				}
-				device.InitializeDefaultProperties();
-			}
+			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 		}
 
 		public static ushort GetKauLine(XDevice device)

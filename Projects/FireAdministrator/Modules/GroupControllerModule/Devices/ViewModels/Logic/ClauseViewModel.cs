@@ -200,7 +200,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (Device.DriverType == XDriverType.GKLine || Device.DriverType == XDriverType.GKRele)
+				if (Device.DriverType == XDriverType.GKRele)
 				{
 
 				}

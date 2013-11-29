@@ -11,7 +11,7 @@ namespace GKProcessor
 
 		public static void Create()
 		{
-			XManager.Invalidate();
+			XManager.UpdateConfiguration();
 			XManager.Prepare();
 			CreateDBs();
 			KauDatabases.ForEach(x => x.BuildObjects());
