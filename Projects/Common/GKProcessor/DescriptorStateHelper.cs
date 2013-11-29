@@ -445,12 +445,15 @@ namespace GKProcessor
 
 		void AddAdditionalState(XStateClass stateClass, string name)
 		{
-			var additionalState = new XAdditionalState()
+			if (name != null)
 			{
-				StateClass = stateClass,
-				Name = name
-			};
-			AdditionalStates.Add(additionalState);
+				var additionalState = new XAdditionalState()
+				{
+					StateClass = stateClass,
+					Name = name
+				};
+				AdditionalStates.Add(additionalState);
+			}
 		}
 	}
 }

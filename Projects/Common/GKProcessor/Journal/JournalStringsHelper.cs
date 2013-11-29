@@ -357,13 +357,13 @@ namespace GKProcessor
 
 				case "Обрыв входа 3":
 					if (address <= 8)
-						return "Обрыв линии дистанционного управления";
+						return null;
 					if (address == 14)
 						return "Обрыв линии связи с датчиком аварийного уровня";
 					break;
 				case "КЗ входа 3":
 					if (address <= 8)
-						return "КЗ линии дистанционного управления";
+						return null;
 					if (address == 14)
 						return "КЗ линии связи с датчиком аварийного уровня";
 					break;
