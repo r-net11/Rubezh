@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDirection : XBase
+	public class XPumpStation : XBase
 	{
-		public XDirection()
+		public XPumpStation()
 		{
-			UID = TempUID;// Guid.NewGuid();
-            DirectionZones = new List<XDirectionZone>();
-            DirectionDevices = new List<XDirectionDevice>();
+			UID = TempUID;
+			DirectionZones = new List<XDirectionZone>();
+			DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
-            OutputDevices = new List<XDevice>();
 			NSDevices = new List<XDevice>();
-			PlanElementUIDs = new List<Guid>();
 			NSDeviceUIDs = new List<Guid>();
 			NSPumpsCount = 1;
 			NSDeltaTime = 5;
+			StartLogic = new XDeviceLogic();
+			ForbidLogic = new XDeviceLogic();
 		}
 		public XDirectionState DirectionState { get; set; }
 		public override XBaseState GetXBaseState() { return DirectionState; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
-        public List<XDevice> OutputDevices { get; set; }
 		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
@@ -51,16 +50,13 @@ namespace XFiresecAPI
 		public ushort Regime { get; set; }
 
 		[DataMember]
-        public List<XDirectionZone> DirectionZones { get; set; }
+		public List<XDirectionZone> DirectionZones { get; set; }
 
 		[DataMember]
-        public List<XDirectionDevice> DirectionDevices { get; set; }
+		public List<XDirectionDevice> DirectionDevices { get; set; }
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
-
-		[DataMember]
-		public bool IsNS { get; set; }
 
 		[DataMember]
 		public List<Guid> NSDeviceUIDs { get; set; }
@@ -71,6 +67,12 @@ namespace XFiresecAPI
 		[DataMember]
 		public int NSDeltaTime { get; set; }
 
+		[DataMember]
+		public XDeviceLogic StartLogic { get; set; }
+
+		[DataMember]
+		public XDeviceLogic ForbidLogic { get; set; }
+
 		public override string PresentationName
 		{
 			get { return No + "." + Name; }
@@ -78,7 +80,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Направление " + PresentationName; }
+			get { return "НС " + PresentationName; }
 		}
 
 		public override string GetDescriptorName()
@@ -92,6 +94,5 @@ namespace XFiresecAPI
 				Changed();
 		}
 		public event Action Changed;
-		public List<Guid> PlanElementUIDs { get; set; }
 	}
 }

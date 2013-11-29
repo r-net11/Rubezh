@@ -15,6 +15,7 @@ namespace XFiresecAPI
 			Devices = new List<XDevice>();
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
+			PumpStations = new List<XPumpStation>();
 			JournalFilters = new List<XJournalFilter>();
 			Instructions = new List<XInstruction>();
 			GuardUsers = new List<XGuardUser>();
@@ -31,6 +32,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XDirection> Directions { get; set; }
+
+				[DataMember]
+		public List<XPumpStation> PumpStations { get; set; }
 
 		[DataMember]
 		public List<XJournalFilter> JournalFilters { get; set; }
@@ -97,6 +101,12 @@ namespace XFiresecAPI
 			}
 
 			Update();
+
+			if (PumpStations == null)
+			{
+				PumpStations = new List<XPumpStation>();
+				result = false;
+			}
 
 			foreach (var journalFilter in JournalFilters)
 			{
