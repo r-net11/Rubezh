@@ -38,6 +38,12 @@ namespace GKProcessor
 				GKDBHelper.AlterColumnType("Name", "nvarchar(100)", "Journal");
 				GKDBHelper.AlterColumnType("ObjectName", "nvarchar(100)", "Journal");
 			}));
+			AllPatches.Add(new Patch("DB.Journal_UpdatesSizes2", () =>
+			{
+				GKDBHelper.AlterColumnType("Description", "nvarchar(100)", "Journal");
+				GKDBHelper.AlterColumnType("Name", "nvarchar(100)", "Journal");
+				GKDBHelper.AlterColumnType("ObjectName", "nvarchar(100)", "Journal");
+			}));
 		}
 
 		public static void AddPatch(string index, PatchDelegate patchDelegate)

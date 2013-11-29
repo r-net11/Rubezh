@@ -16,7 +16,7 @@
 			</Grid.ColumnDefinitions>
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding DevicePicture}" BorderThickness="0" />
-				<Views:DeviceStateView TextElement.Foreground="White" Margin="2 0 0 0" />
+				<Views:DeviceStateView TextElement.Foreground="White" Margin="5 0 0 0" />
 			</StackPanel>
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                 <StackPanel TextBlock.Foreground="Red">
@@ -49,7 +49,7 @@
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsControl Background="White">
 						<ItemsControl.Items>
-							<StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
 								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
 								<WrapPanel>
 									<TextBlock>
@@ -59,7 +59,7 @@
 												<TextBlock Text="{Binding Device.PresentationAddressAndDriver}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
 											</StackPanel>
 										</Hyperlink>
-								</TextBlock>
+								    </TextBlock>
 								</WrapPanel>
 							</StackPanel>
 
@@ -84,29 +84,44 @@
 								</WrapPanel.Style>
 							</WrapPanel>
 
-							<WrapPanel Orientation="Horizontal">
-								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
-								<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
-								<TextBlock>
+                            <WrapPanel>
+                                <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
+                                <TextBlock>
 									<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Source="/Controls;component/Images/zone.png" />
+											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-								<WrapPanel.Style>
-									<Style>
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
-												<Setter Property="StackPanel.Visibility" Value="Collapsed" />
-											</DataTrigger>
-											<DataTrigger Binding="{Binding PresentationZone}" Value="">
-												<Setter Property="StackPanel.Visibility" Value="Collapsed" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</WrapPanel.Style>
-							</WrapPanel>
+                                <WrapPanel.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PresentationZone}" Value="{x:Null}">
+                                                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding PresentationZone}" Value="">
+                                                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </WrapPanel.Style>
+                            </WrapPanel>
 
-							<ItemsControl ItemsSource="{Binding PlanNames}">
+                            <StackPanel Orientation="Horizontal">
+                                <WrapPanel>
+                                    <TextBlock>
+										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+											</StackPanel>
+										</Hyperlink>
+								    </TextBlock>
+                                </WrapPanel>
+                            </StackPanel>                            
+
+                            <ItemsControl ItemsSource="{Binding PlanNames}">
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
@@ -161,7 +176,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 5">
                         <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
                         <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
                         <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />

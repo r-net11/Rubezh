@@ -33,6 +33,7 @@ namespace GKModule.ViewModels
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
@@ -175,6 +176,18 @@ namespace GKModule.ViewModels
 				FiresecManager.FiresecService.GKStop(Direction);
             }
         }
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = null,
+				Zone = null,
+				Direction = Direction
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
 
 		public bool HasOnDelay
 		{

@@ -79,6 +79,7 @@ namespace GKModule.ViewModels
                 var SourceDirectionViewModel = SourceDirection as XDirection;
                 if (SourceDirectionViewModel != null)
                     SourceDirectionViewModels.Add(SourceDirectionViewModel);
+
             }
             foreach (var SourceDirectionViewModel in SourceDirectionViewModels)
             {

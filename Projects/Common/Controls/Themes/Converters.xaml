@@ -50,4 +50,6 @@
     <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />
     <Converters:XSubsystemTypeToIconConverter x:Key="XSubsystemTypeToIconConverter" />
+    <Converters:RegimeToStringConverter x:Key="RegimeToStringConverter" />
+    <Converters:DelayRegimeToStringConverter x:Key="DelayRegimeToStringConverter" />
 </ResourceDictionary>

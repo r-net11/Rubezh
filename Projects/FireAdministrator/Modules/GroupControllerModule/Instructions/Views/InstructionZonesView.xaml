@@ -9,22 +9,64 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
+        <DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Выбранные направления" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTemplateColumn Header="№" SortMemberPath="No">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Выбранные зоны" Width="*" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}"/>
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}" MouseDoubleClick="SelectedAvailableZoneDoubleClick">
+        <DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Zone.No}" />
-                <DataGridTextColumn Header="Направление" Width="*" Binding="{Binding Zone.Name}" />
+                <DataGridTemplateColumn Header="№" SortMemberPath="No">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Зоны" Width="*" />
+                <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

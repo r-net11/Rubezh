@@ -10,65 +10,63 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionMode="Extended" SelectionChanged="OnSelectionChanged">
-            <ListView.Resources>
+        <DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+            <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
+                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
                 </InputBindingCollection>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
                     <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
                 </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Выбранные устройства">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" >
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0" VerticalAlignment="Center"/>
-                                    <TextBlock Margin="2" Text="{Binding ShortName}" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding DottedAddress}" Header="Адрес" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Выбранные устройства">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" Text="{Binding ShortName}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionMode="Extended" SelectionChanged="OnSelectionChanged">
-            <ListView.Resources>
+        <DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+            <DataGrid.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
+                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
                 </InputBindingCollection>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
                     <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
                 </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Устройства">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" >
-                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0"  VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding ShortName}" Margin="2" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding DottedAddress}" Header="Адрес"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Устройства">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0"  VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding ShortName}" Margin="2" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

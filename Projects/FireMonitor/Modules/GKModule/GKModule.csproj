@@ -203,6 +203,15 @@
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ToolTip\DelayToolTipView.xaml.cs">
+      <DependentUpon>DelayToolTipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolTip\DirectionToolTipView.xaml.cs">
+      <DependentUpon>DirectionToolTipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolTip\ZoneToolTipView.xaml.cs">
+      <DependentUpon>ZoneToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
@@ -356,6 +365,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolTip\DelayToolTipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolTip\DirectionToolTipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolTip\ZoneToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

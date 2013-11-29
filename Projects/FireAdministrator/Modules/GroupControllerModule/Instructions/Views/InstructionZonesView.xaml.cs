@@ -10,18 +10,13 @@ namespace GKModule.Views
             InitializeComponent();
         }
 
-        private void SelectedAvailableZoneDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var viewModel = DataContext as InstructionZonesViewModel;
-            if (viewModel.AddOneCommand.CanExecute(null))
-                viewModel.AddOneCommand.Execute();
-        }
-
-        private void SelectedInstructionZoneDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var viewModel = DataContext as InstructionZonesViewModel;
-            if (viewModel.RemoveOneCommand.CanExecute(null))
-                viewModel.RemoveOneCommand.Execute();
-        }
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			DataGrid dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null)
+			{
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+			}
+		}
     }
 }

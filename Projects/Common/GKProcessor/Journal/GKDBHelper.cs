@@ -139,7 +139,7 @@ namespace GKProcessor
 			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 				return;
 			var connection = new SqlCeConnection(ConnectionString);
-			if (!IsColumnExists(columnName, tableName))
+			if (IsColumnExists(columnName, tableName))
 			{
 				var sqlCeCommand = new SqlCeCommand("alter table " + tableName + " alter column " + columnName.ToString() + " " + columnType.ToString(), connection);
 				connection.Open();
@@ -185,7 +185,7 @@ namespace GKProcessor
 				"select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = '" + tableName + "'",
 				connection);
 			connection.Open();
-			var reader = sqlCeCommand.ExecuteReader(CommandBehavior.CloseConnection);
+			var reader = sqlCeCommand.ExecuteReader();
 			bool result = reader.Read();
 			connection.Close();
 			connection.Dispose();

@@ -1,11 +1,8 @@
 ﻿<UserControl x:Class="GKModule.Views.JournalFromFileView"
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:Views="clr-namespace:GKModule.Views"
              MinWidth="800" MinHeight="500">
-    <UserControl.Resources>
-        <Converters:XStateClassToJournalColorConverter x:Key="XStateClassToJournalColorConverter" />
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -13,55 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Запись ГК" Binding="{Binding JournalItem.GKJournalRecordNo}" />
-                <DataGridTextColumn Header="Дата и время" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTemplateColumn Header="Событие"  Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
-                                <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
-                <DataGridTemplateColumn Header="Объект" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="{Binding PresentationName}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Setters>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                        <ContentPresenter VerticalAlignment="Center" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToJournalColorConverter}}" />
-                    </Style.Setters>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                            <Setter Property="Foreground" Value="White" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-        </DataGrid>
+        <Views:JournalGridView Grid.Row="0"/>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 3">
             <TextBlock Text="IP адрес ГК " Foreground="White" />
             <TextBlock Text="{Binding JournalItemsCollection.GkIP}" Foreground="White" />

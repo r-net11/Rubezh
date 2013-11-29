@@ -16,15 +16,21 @@
 			<DataGridTemplateColumn Width="*" Header="Зона до">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Margin="1 0" Text="{Binding OldZoneName}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" Visibility="{Binding HasOldZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding OldZoneName}" VerticalAlignment="Center"/>    
+                        </StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Width="*" Header="Зона после">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Margin="1 0" Text="{Binding NewZoneName}" />
-					</DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" Visibility="{Binding HasNewZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding NewZoneName}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>

@@ -10,18 +10,13 @@ namespace GKModule.Views
 			InitializeComponent();
 		}
 
-		private void SelectedAvailableDeviceDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var viewModel = DataContext as InstructionDevicesViewModel;
-			if (viewModel.AddOneCommand.CanExecute(null))
-				viewModel.AddOneCommand.Execute();
-		}
-
-		private void SelectedInstructionDeviceDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var viewModel = DataContext as InstructionDevicesViewModel;
-			if (viewModel.RemoveOneCommand.CanExecute(null))
-				viewModel.RemoveOneCommand.Execute();
+			DataGrid dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null)
+			{
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+			}
 		}
 	}
 }
