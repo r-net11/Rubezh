@@ -12,16 +12,16 @@ namespace GKModule.ViewModels
 		public string PresentationZone { get; set; }
 		public bool IsAbsent { get; set; }
 		public bool IsPresent { get; set; }
-		public bool HasDifferentZones
+		public bool HasSecondDifferences
 		{
 			get
 			{
 				if (IsAbsent || IsPresent || !ConfigurationCompareViewModel.ConfigFromFile)
 					return false;
-				return !String.IsNullOrEmpty(HasDifferentsDiscription);
+				return !String.IsNullOrEmpty(DifferenceDiscription);
 			}
 		}
-		public string HasDifferentsDiscription { get; set; }
+		public string DifferenceDiscription { get; set; }
 		public XDevice Device;
 		public XZone Zone;
 		public XDirection Direction;

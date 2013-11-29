@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.IsAbsent || RemoteObjectsViewModel.Objects[i].IsAbsent) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || item.HasSecondDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasSecondDifferences) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}
@@ -98,9 +98,14 @@ namespace GKModule.ViewModels
 
 		public void CompareObjectLists()
 		{
-			var objects1 = LocalObjectsViewModel.Objects;
-			var objects2 = RemoteObjectsViewModel.Objects;
-
+			var unionObjects = CreateUnionObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects);
+			var unionObjects1 = CreateOneComparedObjectList(LocalObjectsViewModel.Objects, RemoteObjectsViewModel.Objects, unionObjects, true);
+			var unionObjects2 = CreateOneComparedObjectList(RemoteObjectsViewModel.Objects, LocalObjectsViewModel.Objects, unionObjects, false);
+			LocalObjectsViewModel.Objects = unionObjects1;
+			RemoteObjectsViewModel.Objects = unionObjects2;
+		}
+		List<ObjectViewModel> CreateUnionObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2)
+		{
 			var unionObjects = objects1.Select(object1 => (ObjectViewModel)object1.Clone()).ToList();
 			foreach (var object2 in objects2)
 			{
@@ -108,7 +113,10 @@ namespace GKModule.ViewModels
 					unionObjects.Add(object2);
 			}
 			unionObjects.Sort();
-
+			return unionObjects;
+		}
+		List<ObjectViewModel> CreateOneComparedObjectList(List<ObjectViewModel> objects1, List<ObjectViewModel> objects2, List<ObjectViewModel> unionObjects, bool IsLocalConfig)
+		{
 			var unionObjects1 = new List<ObjectViewModel>();
 			foreach (var unionObject in unionObjects)
 			{
@@ -116,7 +124,7 @@ namespace GKModule.ViewModels
 				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 				if (sameObject1 == null)
 				{
-					newObject.HasDifferentsDiscription = "отсутствует в конфигурации";
+					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации" : "Отсутствует в устройстве";
 					newObject.IsAbsent = true;
 				}
 				else
@@ -124,122 +132,60 @@ namespace GKModule.ViewModels
 					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 					if (sameObject2 == null)
 					{
-						newObject.HasDifferentsDiscription = "отсутствует в устройстве";
+						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в устройстве" : "Отсутствует в конфигурации";
 						newObject.IsPresent = true;
 					}
 					else
 					{
 						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-						{
-							if (sameObject1.Device.Driver.HasZone)
-								newObject.HasDifferentsDiscription = "зоны различны";
-							else
-								newObject.HasDifferentsDiscription = "логика различна";
-						}
+							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Зоны различны" : "Логика различна";
 						newObject.PresentationZone = sameObject1.PresentationZone;
 						if (sameObject1.ObjectType == ObjectType.Zone)
-						{
-							if (sameObject1.Zone.Fire1Count != sameObject2.Zone.Fire1Count)
-								newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар1";
-							if (sameObject1.Zone.Fire2Count != sameObject2.Zone.Fire2Count)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", число датчиков для формирования Пожар2";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар2";
-							}
-						}
+							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);
 						if (sameObject1.ObjectType == ObjectType.Direction)
-						{
-							if (sameObject1.Direction.Delay != sameObject2.Direction.Delay)
-								newObject.HasDifferentsDiscription = "Не совпадает параметр Задержка";
-							if (sameObject1.Direction.Hold != sameObject2.Direction.Hold)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", параметр Удержание";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает параметр Удержание";
-							}
-							if (sameObject1.Direction.Regime != sameObject2.Direction.Regime)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", параметр Режим работы";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает параметр Режим работы";
-							}
-						}
+							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
 					}
 
 				}
 
 				unionObjects1.Add(newObject);
 			}
-
-			var unionObjects2 = new List<ObjectViewModel>();
-			foreach (var unionObject in unionObjects)
+			return unionObjects1;
+		}
+		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			string zonesDifferences = null;
+			if (object1.Zone.Fire1Count != object2.Zone.Fire1Count)
+				zonesDifferences = "Не совпадает число датчиков для формирования Пожар1";
+			if (object1.Zone.Fire2Count != object2.Zone.Fire2Count)
 			{
-				var newObject = (ObjectViewModel)unionObject.Clone();
-				var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
-				if (sameObject2 == null)
-				{
-					newObject.HasDifferentsDiscription = "отсутствует в устройстве";
-					newObject.IsAbsent = true;
-				}
+				if (!String.IsNullOrEmpty(zonesDifferences))
+					zonesDifferences += ", число датчиков для формирования Пожар2";
 				else
-				{
-					var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
-					if (sameObject1 == null)
-					{
-						newObject.HasDifferentsDiscription = "отсутствует в конфигурации";
-						newObject.IsPresent = true;
-					}
-					else
-					{
-						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-						{
-							if (sameObject1.Device.Driver.HasZone)
-								newObject.HasDifferentsDiscription = "зоны различны";
-							else
-								newObject.HasDifferentsDiscription = "логика различна";
-						}
-						newObject.PresentationZone = sameObject2.PresentationZone;
-						if (sameObject1.ObjectType == ObjectType.Zone)
-						{
-							if (sameObject1.Zone.Fire1Count != sameObject2.Zone.Fire1Count)
-								newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар1";
-							if (sameObject1.Zone.Fire2Count != sameObject2.Zone.Fire2Count)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", число датчиков для формирования Пожар2";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает число датчиков для формирования Пожар2";
-							}
-						}
-						if (sameObject1.ObjectType == ObjectType.Direction)
-						{
-							if (sameObject1.Direction.Delay != sameObject2.Direction.Delay)
-								newObject.HasDifferentsDiscription = "Не совпадает параметр Задержка";
-							if (sameObject1.Direction.Hold != sameObject2.Direction.Hold)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", параметр Удержание";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает параметр Удержание";
-							}
-							if (sameObject1.Direction.Regime != sameObject2.Direction.Regime)
-							{
-								if (!String.IsNullOrEmpty(newObject.HasDifferentsDiscription))
-									newObject.HasDifferentsDiscription += ", параметр Режим работы";
-								else
-									newObject.HasDifferentsDiscription = "Не совпадает параметр Режим работы";
-							}
-						}
-					}
-				}
-				unionObjects2.Add(newObject);
+					zonesDifferences = "Не совпадает число датчиков для формирования Пожар2";
 			}
-			LocalObjectsViewModel.Objects = unionObjects1;
-			RemoteObjectsViewModel.Objects = unionObjects2;
+			return zonesDifferences;
+		}
+		string GetDirectionsDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			string directionsDifferences = null;
+			if (object1.Direction.Delay != object2.Direction.Delay)
+				directionsDifferences = "Не совпадает параметр Задержка";
+			if (object1.Direction.Hold != object2.Direction.Hold)
+			{
+				if (!String.IsNullOrEmpty(directionsDifferences))
+					directionsDifferences += ", параметр Удержание";
+				else
+					directionsDifferences = "Не совпадает параметр Удержание";
+			}
+			if (object1.Direction.Regime != object2.Direction.Regime)
+			{
+				if (!String.IsNullOrEmpty(directionsDifferences))
+					directionsDifferences += ", параметр Режим работы";
+				else
+					directionsDifferences = "Не совпадает параметр Режим работы";
+			}
+			return directionsDifferences;
 		}
 	}
 }

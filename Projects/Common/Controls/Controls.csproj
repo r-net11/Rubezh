@@ -1339,6 +1339,7 @@
     <Resource Include="Images\DirectionPolygon.png" />
     <Resource Include="Images\DirectionRectangle.png" />
     <Resource Include="Images\PCUser.png" />
+    <Resource Include="Images\BParametersReadFromFile.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

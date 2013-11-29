@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 		void OnWriteConfigFileToGK()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
+			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
 			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
 			if (!File.Exists(configFileName))

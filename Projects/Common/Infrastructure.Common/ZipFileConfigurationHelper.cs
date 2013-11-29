@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 using Ionic.Zip;
 using XFiresecAPI;
@@ -10,6 +9,7 @@ namespace Infrastructure.Common
 {
 	public static class ZipFileConfigurationHelper
 	{
+		public static string Error { get; private set; }
 		public static void SaveToZipFile(string fileName, XDeviceConfiguration deviceConfiguration)
 		{
 			var folderName = AppDataFolderHelper.GetTempFolder();
@@ -32,18 +32,26 @@ namespace Infrastructure.Common
 
 		public static XDeviceConfiguration LoadFromZipFile(MemoryStream memoryStream)
 		{
-			var deviceConfiguration = new XDeviceConfiguration();
 			var zipFile = ZipFile.Read(memoryStream);
 			var dataMemory = new MemoryStream();
 			var firstOrDefault = zipFile.FirstOrDefault();
 			if (firstOrDefault != null) firstOrDefault.Extract(dataMemory);
 			dataMemory.Position = 0;
-			if (dataMemory.Length != 0)
-			{ deviceConfiguration = ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(dataMemory); }
-			memoryStream.Close(); 
-			dataMemory.Close(); 
-			zipFile.Dispose();
-			return deviceConfiguration;
+			try
+			{
+				return ZipSerializeHelper.DeSerialize<XDeviceConfiguration>(dataMemory);
+			}
+			catch
+			{
+				Error = "Не удалось прочитать xml конфигурацию";
+				return null;
+			}
+			finally
+			{
+				memoryStream.Close();
+				zipFile.Dispose();
+				dataMemory.Close();
+			}
 		}
 	}
 }

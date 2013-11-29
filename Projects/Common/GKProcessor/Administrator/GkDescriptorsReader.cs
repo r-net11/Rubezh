@@ -25,7 +25,7 @@ namespace GKProcessor
 			var result = DeviceBytesHelper.Ping(gkDevice);
 			if (!result)
 			{
-				ParsingError = "Устройство " + gkDevice.PresentationName + " недоступно";
+				Error = "Устройство " + gkDevice.PresentationName + " недоступно";
 				return false;
 			}
 			IpAddress = gkDevice.GetGKIpAddress();
@@ -38,7 +38,7 @@ namespace GKProcessor
 				DriverUID = rootDriver.UID
 			};
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
-			GkDescriptorsWriter.GoToTechnologicalRegime(gkDevice);
+			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", 50000, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
@@ -48,7 +48,7 @@ namespace GKProcessor
 			{
 				if (LoadingService.IsCanceled)
 				{
-					ParsingError = "Операция отменена";
+					Error = "Операция отменена";
 					break;
 				}
 				descriptorNo++;
@@ -62,7 +62,7 @@ namespace GKProcessor
 #endif
 				if (sendResult.HasError || bytes.Count < 5)
 				{
-					ParsingError = "Возникла ошибка при чтении объекта " + descriptorNo;
+					Error = "Возникла ошибка при чтении объекта " + descriptorNo;
 					break;
 				}
 
@@ -79,10 +79,10 @@ namespace GKProcessor
 			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
 			if (!DeviceBytesHelper.GoToWorkingRegime(gkDevice))
 			{
-				ParsingError = "Не удалось перевести устройство в рабочий режим в заданное время";
+				Error = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
 			LoadingService.SaveClose();
-			if(ParsingError != null)
+			if(Error != null)
 				return false;
 			DeviceConfiguration.Update();
 			UpdateConfigurationHelper.UpdateGKPredefinedName(GkDevice);
@@ -124,7 +124,7 @@ namespace GKProcessor
 					break;
 			}
 			LoadingService.SaveClose();
-			if (!String.IsNullOrEmpty(ParsingError))
+			if (!String.IsNullOrEmpty(Error))
 			{
 				return false;
 			}
@@ -224,7 +224,7 @@ namespace GKProcessor
 				}
 				catch
 				{
-					ParsingError = "Невозможно получить номер объекта с дескриптором " + descriptorNo;
+					Error = "Невозможно получить номер объекта с дескриптором " + descriptorNo;
 					return false;
 				}
 
