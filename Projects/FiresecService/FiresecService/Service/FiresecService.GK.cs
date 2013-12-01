@@ -16,78 +16,146 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public void GKWriteConfiguration(XDevice device, bool writeFileToGK = false)
+		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
 		{
-			GkDescriptorsWriter.WriteConfig(device);
-			AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
-		}
-
-		public OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)
-		{
-			AddMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
-			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-			descriptorReader.ReadConfiguration(device);
-			return new OperationResult<XDeviceConfiguration>() { HasError = !string.IsNullOrEmpty(descriptorReader.ParsingError), Error = descriptorReader.ParsingError, Result = descriptorReader.DeviceConfiguration };
-		}
-
-		public void GKUpdateFirmware(XDevice device, string fileName)
-		{
-			AddMessage("Обновление ПО прибора", "", XStateClass.Info, device);
-			FirmwareUpdateHelper.Update(device, fileName);
-		}
-
-		public bool GKSyncronyseTime(XDevice device)
-		{
-			AddMessage("Синхронизация времени", "", XStateClass.Info, device);
-			return DeviceBytesHelper.WriteDateTime(device);
-		}
-
-		public string GKGetDeviceInfo(XDevice device)
-		{
-			AddMessage("Запрос информации об устройсве", "", XStateClass.Info, device);
-			return DeviceBytesHelper.GetDeviceInfo(device);
-		}
-
-		public OperationResult<int> GKGetJournalItemsCount(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 6, 64);
-			if (sendResult.HasError)
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
 			{
-				return new OperationResult<int>("Ошибка связи с устройством");
+				GkDescriptorsWriter.WriteConfig(device);
+				AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
 			}
-			var journalParser = new JournalParser(device, sendResult.Bytes);
-			var result = journalParser.JournalItem.GKJournalRecordNo.Value;
-			return new OperationResult<int>() { Result = result };
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no)
+		public OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
 		{
-			var data = BitConverter.GetBytes(no).ToList();
-			var sendResult = SendManager.Send(device, 4, 7, 64, data);
-			if (sendResult.HasError)
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
 			{
-				return new OperationResult<JournalItem>("Ошибка связи с устройством");
+				AddMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
+				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
+				descriptorReader.ReadConfiguration(device);
+				return new OperationResult<XDeviceConfiguration>() { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 			}
-			var journalParser = new JournalParser(device, sendResult.Bytes);
-			return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			else
+			{
+				return new OperationResult<XDeviceConfiguration>("Не найдено устройство в конфигурации");
+			}
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(XDevice device)
+		public void GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
-			var error = ParametersHelper.SetSingleParameter(device);
-			return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddMessage("Обновление ПО прибора", "", XStateClass.Info, device);
+				FirmwareUpdateHelper.Update(device, fileName);
+			}
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(XDevice device)
+		public bool GKSyncronyseTime(Guid deviceUID)
 		{
-			var error = ParametersHelper.GetSingleParameter(device);
-			return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddMessage("Синхронизация времени", "", XStateClass.Info, device);
+				return DeviceBytesHelper.WriteDateTime(device);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
-		public void GKExecuteDeviceCommand(XDevice device, XStateBit stateType)
+		public string GKGetDeviceInfo(Guid deviceUID)
 		{
-			Watcher.SendControlCommand(device, stateType);
-			AddMessage("Команда оператора", stateType.ToDescription(), XStateClass.Info, device);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddMessage("Запрос информации об устройсве", "", XStateClass.Info, device);
+				return DeviceBytesHelper.GetDeviceInfo(device);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public OperationResult<int> GKGetJournalItemsCount(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				var sendResult = SendManager.Send(device, 0, 6, 64);
+				if (sendResult.HasError)
+				{
+					return new OperationResult<int>("Ошибка связи с устройством");
+				}
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				var result = journalParser.JournalItem.GKJournalRecordNo.Value;
+				return new OperationResult<int>() { Result = result };
+			}
+			else
+			{
+				return new OperationResult<int>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				var data = BitConverter.GetBytes(no).ToList();
+				var sendResult = SendManager.Send(device, 4, 7, 64, data);
+				if (sendResult.HasError)
+				{
+					return new OperationResult<JournalItem>("Ошибка связи с устройством");
+				}
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			}
+			else
+			{
+				return new OperationResult<JournalItem>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> GKSetSingleParameter(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				var error = ParametersHelper.SetSingleParameter(device);
+				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> GKGetSingleParameter(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				var error = ParametersHelper.GetSingleParameter(device);
+				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				Watcher.SendControlCommand(device, stateBit);
+				AddMessage("Команда оператора", stateBit.ToDescription(), XStateClass.Info, device);
+			}
 		}
 
 		public void GKReset(Guid uid, XBaseObjectType objectType)
@@ -100,9 +168,9 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKResetFire1(Guid zoneUid)
+		public void GKResetFire1(Guid zoneUID)
 		{
-			var zone = GetXBase(zoneUid, XBaseObjectType.Zone);
+			var zone = GetXBase(zoneUID, XBaseObjectType.Zone);
 			if (zone != null)
 			{
 				Watcher.SendControlCommand(zone, 0x02);
@@ -110,9 +178,9 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKResetFire2(Guid zoneUid)
+		public void GKResetFire2(Guid zoneUID)
 		{
-			var zone = GetXBase(zoneUid, XBaseObjectType.Zone);
+			var zone = GetXBase(zoneUID, XBaseObjectType.Zone);
 			if (zone != null)
 			{
 				Watcher.SendControlCommand(zone, 0x03);

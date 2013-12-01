@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using GKProcessor;
 using FiresecAPI.Models;
@@ -19,6 +20,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
+using Infrastructure.Common.Services;
 
 namespace GKModule
 {
@@ -171,7 +173,11 @@ namespace GKModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			FiresecManager.FiresecService.GKStartConfigurationReloading();
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
+				WatcherManager.IsConfigurationReloading = true;
+			}
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
@@ -183,7 +189,10 @@ namespace GKModule
 					delay.DelayState = new XDelayState();
 				}
 			}
-			FiresecManager.FiresecService.GKStopConfigurationReloading();
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				WatcherManager.IsConfigurationReloading = false;
+			}
 			if (firstTime)
 				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
@@ -192,20 +201,134 @@ namespace GKModule
 		public override void AfterInitialize()
 		{
 			AlarmsViewModel.SubscribeShortcuts();
-			FiresecManager.FiresecService.GKStart();
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				WatcherManager.Start();
+			}
 			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 
-			FiresecManager.FiresecService.NewJournalItems += new Action<List<JournalItem>>(FiresecService_NewJournalItems);
+			FiresecManager.FiresecService.NewJournalItems -= new Action<List<JournalItem>>(OnNewJournalItems);
+			FiresecManager.FiresecService.NewJournalItems += new Action<List<JournalItem>>(OnNewJournalItems);
+
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				GKProcessorManager.GKConnectionChanged -= new Action<bool>(OnGKConnectionChanged);
+				GKProcessorManager.GKConnectionChanged += new Action<bool>(OnGKConnectionChanged);
+
+				GKProcessorManager.StartProgress -= new Action<string, int, bool>(OnStartProgress);
+				GKProcessorManager.StartProgress += new Action<string, int, bool>(OnStartProgress);
+
+				GKProcessorManager.DoProgress -= new Action<string>(OnDoProgress);
+				GKProcessorManager.DoProgress += new Action<string>(OnDoProgress);
+
+				GKProcessorManager.StopProgress -= new Action(OnStopProgress);
+				GKProcessorManager.StopProgress += new Action(OnStopProgress);
+
+				GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+				GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			}
 		}
 
-		void FiresecService_NewJournalItems(List<JournalItem> journalItems)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			ApplicationService.Invoke(() =>
+			{
+				ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
+			});
+		}
+
+		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (gkCallbackResult.JournalItems.Count > 0)
 				{
-					ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
-				});
+					ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(gkCallbackResult.JournalItems);
+				}
+				if (gkCallbackResult.DeviceStates.Count > 0)
+				{
+					foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
+					{
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+						if (device != null)
+						{
+							device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
+							device.DeviceState.StateClass = remoteDeviceState.StateClass;
+							device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
+							device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
+							device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
+							device.DeviceState.OnStateChanged();
+						}
+					}
+				}
+				if (gkCallbackResult.ZoneStates.Count > 0)
+				{
+					foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
+					{
+						var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+						if (zone != null)
+						{
+							zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
+							zone.ZoneState.StateClass = remoteZoneState.StateClass;
+							zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
+							zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
+							zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
+							zone.ZoneState.OnStateChanged();
+						}
+					}
+				}
+				if (gkCallbackResult.DirectionStates.Count > 0)
+				{
+					foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
+					{
+						var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+						if (direction != null)
+						{
+							direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
+							direction.DirectionState.StateClass = remoteDirectionState.StateClass;
+							direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
+							direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
+							direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
+							direction.DirectionState.OnStateChanged();
+						}
+					}
+				}
+				ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+			});
+		}
+
+		void OnGKConnectionChanged(bool isConnected)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected);
+			});
+		}
+
+		void OnStartProgress(string name, int count, bool canCancel = true)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Show(name, name, count, canCancel);
+			});
+		}
+
+		void OnDoProgress(string name)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.DoStep(name);
+			});
+		}
+
+		void OnStopProgress()
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Close();
+			});
 		}
 
 		#region ILayoutProviderModule Members

@@ -114,11 +114,11 @@ namespace XFiresecAPI
 
 			foreach (var device in Devices)
 			{
-				device.TempUID = device.UID;
+				device.BaseUID = device.UID;
 			}
 			foreach (var zone in Zones)
 			{
-				zone.TempUID = zone.UID;
+				zone.BaseUID = zone.UID;
 			}
 
 			foreach (var parameterTemplate in ParameterTemplates)
@@ -129,7 +129,7 @@ namespace XFiresecAPI
 			}
 			foreach (var direction in Directions)
 			{
-				direction.TempUID = direction.UID;
+				direction.BaseUID = direction.UID;
 			}
 
 			foreach (var journalFilter in JournalFilters)

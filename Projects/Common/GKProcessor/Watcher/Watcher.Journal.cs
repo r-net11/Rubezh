@@ -68,49 +68,33 @@ namespace GKProcessor
         void ReadAndPublish(int startIndex, int endIndex)
         {
             var journalItems = new List<JournalItem>();
-            for (int index = startIndex + 1; index <= endIndex; index++)
-            {
-                var journalItem = ReadJournal(index);
-                if (journalItem != null)
-                {
-                    ApplicationService.Invoke(() =>
-                    {
-                        LoadingService.DoStep(journalItem.GKJournalRecordNo.ToString());
-                    });
+			for (int index = startIndex + 1; index <= endIndex; index++)
+			{
+				var journalItem = ReadJournal(index);
+				if (journalItem != null)
+				{
+					GKProcessorManager.OnDoProgress(journalItem.GKJournalRecordNo.ToString());
 
-                    journalItems.Add(journalItem);
-                    var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
-                    if (descriptor != null)
-                    {
-                        ChangeAM1TMessage(descriptor, journalItem);
-                        CheckAdditionalStates(descriptor);
-                        ApplicationService.Invoke(() =>
-                        {
-                            CheckServiceRequired(descriptor.XBase, journalItem);
-                            descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-                        });
-                    }
-                }
-            }
+					journalItems.Add(journalItem);
+					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+					if (descriptor != null)
+					{
+						ChangeJournalOnDevice(descriptor, journalItem);
+						CheckAdditionalStates(descriptor);
+						CheckServiceRequired(descriptor.XBase, journalItem);
+						descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						ParseAdditionalStates(journalItem);
+						OnObjectStateChanged(descriptor.XBase);
+					}
+				}
+			}
             if (journalItems.Count > 0)
             {
-				ApplicationService.Invoke(() =>
-				{
-					ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
-				});
-                GKDBHelper.AddMany(journalItems);
-                ApplicationService.Invoke(() =>
-                {
-                    ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
-                    foreach (var journalItem in journalItems)
-                    {
-                        ParseAdditionalStates(journalItem);
-                    }
-                });
+				AddJournalItems(journalItems);
             }
         }
 
-		void ChangeAM1TMessage(BaseDescriptor descriptor, JournalItem journalItem)
+		void ChangeJournalOnDevice(BaseDescriptor descriptor, JournalItem journalItem)
 		{
 			if (descriptor.Device != null)
 			{
@@ -177,7 +161,12 @@ namespace GKProcessor
 				}
 				if (mustGetState)
 				{
+					var onDelay = direction.DirectionState.OnDelay;
+					var holdDelay = direction.DirectionState.HoldDelay;
+					var offDelay = direction.DirectionState.OffDelay;
 					GetState(direction);
+					if(onDelay != direction.DirectionState.OnDelay || holdDelay != direction.DirectionState.HoldDelay || offDelay != direction.DirectionState.OffDelay)
+						OnObjectStateChanged(direction);
 				}
 			}
 
@@ -206,7 +195,12 @@ namespace GKProcessor
 				}
 				if (mustGetState)
 				{
+					var onDelay = delay.DelayState.OnDelay;
+					var holdDelay = delay.DelayState.HoldDelay;
+					var offDelay = delay.DelayState.OffDelay;
 					GetState(delay);
+					if (onDelay != delay.DelayState.OnDelay || holdDelay != delay.DelayState.HoldDelay || offDelay != delay.DelayState.OffDelay)
+						OnObjectStateChanged(delay);
 				}
 			}
 
@@ -229,7 +223,12 @@ namespace GKProcessor
 					}
 					if (mustGetState)
 					{
+						var onDelay = device.DeviceState.OnDelay;
+						var holdDelay = device.DeviceState.HoldDelay;
+						var offDelay = device.DeviceState.OffDelay;
 						GetState(device);
+						if (onDelay != device.DeviceState.OnDelay || holdDelay != device.DeviceState.HoldDelay || offDelay != device.DeviceState.OffDelay)
+							OnObjectStateChanged(device);
 					}
 				}
 			}

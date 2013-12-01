@@ -25,7 +25,7 @@ namespace XFiresecAPI
 				_stateBits = value;
 				if (_stateBits == null)
 					_stateBits = new List<XStateBit>();
-				OnStateChanged();
+				OnInternalStateChanged();
 			}
 		}
 	}

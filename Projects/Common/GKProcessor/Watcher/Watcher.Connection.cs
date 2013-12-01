@@ -41,10 +41,7 @@ namespace GKProcessor
 						ObjectStateClass = XStateClass.Norm,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
 					};
-
-					var journalItems = new List<JournalItem>() { journalItem };
-					GKDBHelper.AddMany(journalItems);
-					ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
+					AddJournalItem(journalItem);
 
 					IsConnected = isConnected;
 					if (isConnected)
@@ -76,8 +73,7 @@ namespace GKProcessor
 					directionState.IsConnectionLost = !isConnected;
 				}
 
-				if (ServiceFactoryBase.Events != null)
-					ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected); });
+				GKProcessorManager.OnGKConnectionChanged(isConnected);
 			}
 		}
 	}

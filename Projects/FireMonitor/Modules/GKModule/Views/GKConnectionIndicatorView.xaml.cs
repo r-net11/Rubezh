@@ -19,14 +19,14 @@ namespace GKModule.Views
 			DataContext = this;
 		}
 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			OnGKConnectionChanged(true);
 			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Unsubscribe(OnGKConnectionChanged);
 			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Subscribe(OnGKConnectionChanged);
 		}
 
-		private void OnGKConnectionChanged(bool isConnected)
+		void OnGKConnectionChanged(bool isConnected)
 		{
 			IsDeviceConnected = isConnected;
 			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
@@ -35,7 +35,6 @@ namespace GKModule.Views
 		}
 
 		bool _isDeviceConnected;
-
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -59,7 +58,7 @@ namespace GKModule.Views
 			}
 		}
 
-		private ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
 		{
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
@@ -80,7 +79,6 @@ namespace GKModule.Views
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		public void OnPropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)

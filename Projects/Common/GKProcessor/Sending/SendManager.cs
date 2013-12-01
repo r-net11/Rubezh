@@ -113,7 +113,7 @@ namespace GKProcessor
 				var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count, endPoint);
 				if (bytesSent != bytes.Count)
 				{
-					MessageBoxService.Show("Не все данные удалось отправить");
+					return new SendResult("Не все данные удалось отправить");
 				}
 			}
 			catch

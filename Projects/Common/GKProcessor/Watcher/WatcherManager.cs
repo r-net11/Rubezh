@@ -64,7 +64,7 @@ namespace GKProcessor
 			Stop();
 		}
 
-		public static void Send(Action<SendResult> onCompleted, SendPriority sendPriority, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+		public static void Send(Action<SendResult> onCompleted, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
 		{
 			var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
 			if (watcher != null)

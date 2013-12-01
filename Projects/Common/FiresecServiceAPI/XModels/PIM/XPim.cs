@@ -8,7 +8,7 @@ namespace XFiresecAPI
 	{
 		public XPim()
 		{
-			UID = TempUID;// Guid.NewGuid();
+			UID = BaseUID;// Guid.NewGuid();
 			PimState = new XPimState()
 			{
 				Pim = this

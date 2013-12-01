@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var tempUID = XManager.Devices.FirstOrDefault().TempUID;
+			var baseUID = XManager.Devices.FirstOrDefault().BaseUID;
 			return;
 		}
 

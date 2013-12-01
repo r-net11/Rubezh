@@ -157,6 +157,7 @@
     <Compile Include="DriverConfigurationParametersHelper\MROHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="FiresecException.cs" />
+    <Compile Include="GKCallbackResult.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="Models\AddressConverter.cs" />

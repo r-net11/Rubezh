@@ -150,7 +150,44 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
+
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				GKProcessorManager.StartProgress -= new Action<string, int, bool>(OnStartProgress);
+				GKProcessorManager.StartProgress += new Action<string, int, bool>(OnStartProgress);
+
+				GKProcessorManager.DoProgress -= new Action<string>(OnDoProgress);
+				GKProcessorManager.DoProgress += new Action<string>(OnDoProgress);
+
+				GKProcessorManager.StopProgress -= new Action(OnStopProgress);
+				GKProcessorManager.StopProgress += new Action(OnStopProgress);
+			}
+
 			return true;
+		}
+
+		void OnStartProgress(string name, int count, bool canCancel = true)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Show(name, name, count, canCancel);
+			});
+		}
+
+		void OnDoProgress(string name)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.DoStep(name);
+			});
+		}
+
+		void OnStopProgress()
+		{
+			ApplicationService.Invoke(() =>
+			{
+				LoadingService.Close();
+			});
 		}
 
 		#region ILayoutDeclarationModule Members

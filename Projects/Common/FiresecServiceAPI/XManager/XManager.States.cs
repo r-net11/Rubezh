@@ -10,6 +10,7 @@ namespace FiresecClient
             foreach (var device in Devices)
             {
                 var deviceState = new XDeviceState(device);
+				deviceState.UID = device.UID;
 				device.DeviceState = deviceState;
             }
             foreach (var zone in Zones)
@@ -18,6 +19,7 @@ namespace FiresecClient
                 {
                     Zone = zone
                 };
+				zoneState.UID = zone.UID;
 				zone.ZoneState = zoneState;
             }
 			foreach (var direction in Directions)
@@ -26,6 +28,7 @@ namespace FiresecClient
 				{
 					Direction = direction
 				};
+				directionState.UID = direction.UID;
 				direction.DirectionState = directionState;
 			}
         }

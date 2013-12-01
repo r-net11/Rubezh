@@ -9,7 +9,7 @@ namespace XFiresecAPI
 	{
 		public XPumpStation()
 		{
-			UID = TempUID;
+			UID = BaseUID;
 			DirectionZones = new List<XDirectionZone>();
 			DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
