@@ -25,23 +25,30 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DeviceState");
-			OnPropertyChanged("StateClassName");
+			if (DeviceState == null)
+				return;
 
-			StateClasses.Clear();
-			foreach (var stateClass in DeviceState.StateClasses)
+			try
 			{
-				if (stateClass != DeviceState.StateClass)
+				OnPropertyChanged("DeviceState");
+				OnPropertyChanged("StateClassName");
+
+				StateClasses.Clear();
+				foreach (var stateClass in DeviceState.StateClasses)
 				{
-					StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
+					if (stateClass != DeviceState.StateClass)
+					{
+						StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
+					}
+				}
+
+				AdditionalStates.Clear();
+				foreach (var additionalState in DeviceState.AdditionalStates)
+				{
+					AdditionalStates.Add(additionalState);
 				}
 			}
-
-			AdditionalStates.Clear();
-			foreach (var additionalState in DeviceState.AdditionalStates)
-			{
-				AdditionalStates.Add(additionalState);
-			}
+			catch { }
 		}
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }

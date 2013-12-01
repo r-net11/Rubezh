@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecClient;
-using GKProcessor.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
@@ -72,8 +71,6 @@ namespace GKProcessor
 				{
 					directionState.IsConnectionLost = !isConnected;
 				}
-
-				GKProcessorManager.OnGKConnectionChanged(isConnected);
 			}
 		}
 	}

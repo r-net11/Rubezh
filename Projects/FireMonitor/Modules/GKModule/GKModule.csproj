@@ -125,7 +125,6 @@
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
-    <Compile Include="Helpers\JournaActionlHelper.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />

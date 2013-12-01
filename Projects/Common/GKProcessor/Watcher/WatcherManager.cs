@@ -6,7 +6,6 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Infrastructure;
-using GKProcessor.Events;
 
 namespace GKProcessor
 {

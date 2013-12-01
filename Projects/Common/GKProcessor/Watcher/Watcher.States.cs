@@ -2,7 +2,6 @@
 using Common;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using GKProcessor.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;

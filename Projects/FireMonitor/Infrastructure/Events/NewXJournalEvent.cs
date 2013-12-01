@@ -2,7 +2,7 @@
 using Microsoft.Practices.Prism.Events;
 using XFiresecAPI;
 
-namespace GKProcessor.Events
+namespace Infrastructure.Events
 {
 	public class NewXJournalEvent : CompositePresentationEvent<List<JournalItem>>
 	{

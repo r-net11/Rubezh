@@ -11,7 +11,6 @@ using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
 using XFiresecAPI;
-using GKProcessor.Events;
 
 namespace Infrastructure
 {

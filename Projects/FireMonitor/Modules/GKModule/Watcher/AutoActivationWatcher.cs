@@ -10,7 +10,6 @@ using FiresecClient;
 using Infrastructure.Events;
 using XFiresecAPI;
 using GKModule.ViewModels;
-using GKProcessor.Events;
 
 namespace GKModule
 {

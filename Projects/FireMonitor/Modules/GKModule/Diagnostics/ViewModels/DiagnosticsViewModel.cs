@@ -11,7 +11,6 @@ using Infrastructure.Common.Windows;
 using System.Windows.Input;
 using Common;
 using System;
-using GKProcessor.Events;
 using GKProcessor;
 
 namespace GKModule.ViewModels

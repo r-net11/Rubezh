@@ -13,7 +13,7 @@ namespace GKProcessor
 			XManager.DriversConfiguration.XDrivers.Add(GKSystem_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GK_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
-			//XManager.DriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());

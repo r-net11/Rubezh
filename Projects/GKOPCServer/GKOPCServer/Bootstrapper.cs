@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Common;
 using FiresecAPI.Models;
@@ -9,6 +10,7 @@ using Infrastructure.Common.Windows;
 using GKProcessor;
 using Infrastructure.Common.Services;
 using Microsoft.Practices.Prism.Events;
+using XFiresecAPI;
 
 namespace GKOPCServer
 {
@@ -53,7 +55,6 @@ namespace GKOPCServer
 		static void InitializeGK()
 		{
 			ServiceFactoryBase.Events = new EventAggregator();
-			Watcher.MustShowProgress = false;
 			GKDBHelper.CanAdd = false;
 
 			UILogger.Log("Загрузка конфигурации с сервера");
@@ -69,6 +70,12 @@ namespace GKOPCServer
 
 			UILogger.Log("Старт мониторинга");
 			WatcherManager.Start();
+
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+				GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+			}
 		}
 
 		static void OnWorkThread()
@@ -97,6 +104,61 @@ namespace GKOPCServer
 			}
 
 			System.Environment.Exit(1);
+		}
+
+		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (gkCallbackResult.DeviceStates.Count > 0)
+				{
+					foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
+					{
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+						if (device != null)
+						{
+							device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
+							device.DeviceState.StateClass = remoteDeviceState.StateClass;
+							device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
+							device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
+							device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
+							device.DeviceState.OnStateChanged();
+						}
+					}
+				}
+				if (gkCallbackResult.ZoneStates.Count > 0)
+				{
+					foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
+					{
+						var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+						if (zone != null)
+						{
+							zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
+							zone.ZoneState.StateClass = remoteZoneState.StateClass;
+							zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
+							zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
+							zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
+							zone.ZoneState.OnStateChanged();
+						}
+					}
+				}
+				if (gkCallbackResult.DirectionStates.Count > 0)
+				{
+					foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
+					{
+						var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+						if (direction != null)
+						{
+							direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
+							direction.DirectionState.StateClass = remoteDirectionState.StateClass;
+							direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
+							direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
+							direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
+							direction.DirectionState.OnStateChanged();
+						}
+					}
+				}
+			});
 		}
 	}
 }

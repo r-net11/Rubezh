@@ -10,13 +10,6 @@ namespace GKProcessor
 {
 	public static class GKProcessorManager
 	{
-		public static void OnGKConnectionChanged(bool isConnected)
-		{
-			if (GKConnectionChanged != null)
-				GKConnectionChanged(isConnected);
-		}
-		public static event Action<bool> GKConnectionChanged;
-
 		public static void OnStartProgress(string name, int count, bool canCancel = true)
 		{
 			if (DoProgress != null)

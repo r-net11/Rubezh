@@ -6,6 +6,7 @@ using XFiresecAPI;
 using FiresecService.Processor;
 using FiresecClient;
 using GKProcessor;
+using Infrastructure.Common;
 
 namespace FiresecService
 {
@@ -13,27 +14,37 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			XManager.DeviceConfiguration = ZipConfigurationHelper.GetDeviceConfiguration(); ;
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
-			DescriptorsManager.Create();
-			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
-				foreach (var delay in gkDatabase.Delays)
+				XManager.DeviceConfiguration = ZipConfigurationHelper.GetDeviceConfiguration();
+				GKDriversCreator.Create();
+				XManager.UpdateConfiguration();
+				XManager.CreateStates();
+				DescriptorsManager.Create();
+				foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 				{
-					delay.DelayState = new XDelayState();
+					foreach (var delay in gkDatabase.Delays)
+					{
+						delay.DelayState = new XDelayState();
+					}
 				}
 			}
 		}
 
 		public static void Start()
 		{
-			WatcherManager.Start();
+			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				WatcherManager.Start();
+			}
 		}
 
 		public static void Stop()
 		{
-			WatcherManager.Stop();
+			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				WatcherManager.Stop();
+			}
 		}
 	}
 }

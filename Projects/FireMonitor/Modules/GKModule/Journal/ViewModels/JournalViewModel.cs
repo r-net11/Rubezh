@@ -10,8 +10,8 @@ using FiresecClient;
 using FiresecAPI;
 using System.Windows.Data;
 using Infrastructure.Models;
-using GKProcessor.Events;
 using System.Diagnostics;
+using Infrastructure.Events;
 
 
 namespace GKModule.ViewModels

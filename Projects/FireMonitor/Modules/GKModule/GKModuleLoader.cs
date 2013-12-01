@@ -8,7 +8,6 @@ using GKModule.Plans;
 using GKModule.Reports;
 using GKModule.ViewModels;
 using GKProcessor;
-using GKProcessor.Events;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
@@ -50,8 +49,11 @@ namespace GKModule
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
+			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Unsubscribe(OnShowXDeviceDetails);
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Unsubscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournalRecord);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
 			DevicesViewModel = new DevicesViewModel();
 			//DeviceParametersViewModel = new DeviceParametersViewModel();
@@ -61,8 +63,11 @@ namespace GKModule
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			AlarmsViewModel = new AlarmsViewModel();
+			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Unsubscribe(OnShowAlarms);
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Unsubscribe(OnShowArchive);
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowArchive);
+			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Unsubscribe(OnShowGKDebug);
 			ServiceFactory.Events.GetEvent<ShowGKDebugEvent>().Subscribe(OnShowGKDebug);
 		}
 
@@ -214,9 +219,6 @@ namespace GKModule
 
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
-				GKProcessorManager.GKConnectionChanged -= new Action<bool>(OnGKConnectionChanged);
-				GKProcessorManager.GKConnectionChanged += new Action<bool>(OnGKConnectionChanged);
-
 				GKProcessorManager.StartProgress -= new Action<string, int, bool>(OnStartProgress);
 				GKProcessorManager.StartProgress += new Action<string, int, bool>(OnStartProgress);
 
@@ -296,14 +298,6 @@ namespace GKModule
 					}
 				}
 				ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
-			});
-		}
-
-		void OnGKConnectionChanged(bool isConnected)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Publish(isConnected);
 			});
 		}
 

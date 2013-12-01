@@ -43,7 +43,6 @@ namespace GKSDK
 			}
 
 			ServiceFactoryBase.Events = new EventAggregator();
-			Watcher.MustShowProgress = false;
 			GKDBHelper.CanAdd = false;
 
 			FiresecManager.GetConfiguration("GKSDK/Configuration");

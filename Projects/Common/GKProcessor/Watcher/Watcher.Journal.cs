@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.XModels;
-using GKProcessor.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;

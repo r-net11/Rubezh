@@ -147,18 +147,6 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKSetNewConfiguration(XDeviceConfiguration deviceConfiguration)
-		{
-			if (IsGKAsAService)
-			{
-
-			}
-			else
-			{
-
-			}
-		}
-
 		public void GKExecuteDeviceCommand(XDevice device, XStateBit stateBit)
 		{
 			if (IsGKAsAService)
@@ -370,6 +358,17 @@ namespace FiresecClient
 			{
 				GKDBHelper.Add(journalItem);
 				OnNewJournalItems(journalItem);
+			}
+		}
+
+		public void GKAddMessage(string name, string description)
+		{
+			if (IsGKAsAService)
+			{
+			}
+			else
+			{
+				AddGKMessage(name, description, XStateClass.Norm, null, true);
 			}
 		}
 
