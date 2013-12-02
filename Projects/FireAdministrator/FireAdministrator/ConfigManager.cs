@@ -39,7 +39,7 @@ namespace FireAdministrator
 
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.AddGKMessage("Применение конфигурации", "", XStateClass.Norm, null);
+					FiresecManager.FiresecService.GKAddMessage("Применение конфигурации", "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 					if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
 					{

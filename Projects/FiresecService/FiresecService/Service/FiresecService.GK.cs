@@ -28,7 +28,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				GkDescriptorsWriter.WriteConfig(device);
-				AddMessage("Запись конфигурации в прибор", "Сброс", XStateClass.Info, device);
+				AddMessage("Запись конфигурации в прибор", "", XStateClass.Info, device);
 			}
 		}
 
@@ -37,10 +37,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device);
-				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-				descriptorReader.ReadConfiguration(device);
-				return new OperationResult<XDeviceConfiguration>() { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
+				return GKProcessorManager.GKReadConfiguration(device);
 			}
 			else
 			{
@@ -53,8 +50,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddMessage("Обновление ПО прибора", "", XStateClass.Info, device);
-				FirmwareUpdateHelper.Update(device, fileName);
+				GKProcessorManager.GKUpdateFirmware(device, fileName);
 			}
 		}
 
@@ -63,8 +59,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddMessage("Синхронизация времени", "", XStateClass.Info, device);
-				return DeviceBytesHelper.WriteDateTime(device);
+				return GKProcessorManager.GKSyncronyseTime(device);
 			}
 			else
 			{
@@ -77,8 +72,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddMessage("Запрос информации об устройсве", "", XStateClass.Info, device);
-				return DeviceBytesHelper.GetDeviceInfo(device);
+				return GKProcessorManager.GKGetDeviceInfo(device);
 			}
 			else
 			{
@@ -91,14 +85,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				var sendResult = SendManager.Send(device, 0, 6, 64);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<int>("Ошибка связи с устройством");
-				}
-				var journalParser = new JournalParser(device, sendResult.Bytes);
-				var result = journalParser.JournalItem.GKJournalRecordNo.Value;
-				return new OperationResult<int>() { Result = result };
+				return GKProcessorManager.GKGetJournalItemsCount(device);
 			}
 			else
 			{
@@ -111,14 +98,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				var data = BitConverter.GetBytes(no).ToList();
-				var sendResult = SendManager.Send(device, 4, 7, 64, data);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<JournalItem>("Ошибка связи с устройством");
-				}
-				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+				return GKProcessorManager.GKReadJournalItem(device, no);
 			}
 			else
 			{
@@ -131,8 +111,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				var error = ParametersHelper.SetSingleParameter(device);
-				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+				return GKProcessorManager.GKSetSingleParameter(device);
 			}
 			else
 			{
@@ -145,8 +124,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				var error = ParametersHelper.GetSingleParameter(device);
-				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+				return GKProcessorManager.GKGetSingleParameter(device);
 			}
 			else
 			{
@@ -154,13 +132,17 @@ namespace FiresecService.Service
 			}
 		}
 
+		public GKStates GKGetStates()
+		{
+			return GKProcessorManager.GKGetStates();
+		}
+
 		public void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				Watcher.SendControlCommand(device, stateBit);
-				AddMessage("Команда оператора", stateBit.ToDescription(), XStateClass.Info, device);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit);
 			}
 		}
 
@@ -169,28 +151,25 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.Reset);
-				AddMessage("Команда оператора", "Сброс", XStateClass.Info, xBase);
+				GKProcessorManager.GKReset(xBase);
 			}
 		}
 
 		public void GKResetFire1(Guid zoneUID)
 		{
-			var zone = GetXBase(zoneUID, XBaseObjectType.Zone);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				Watcher.SendControlCommand(zone, 0x02);
-				AddMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
+				GKProcessorManager.GKResetFire1(zone);
 			}
 		}
 
 		public void GKResetFire2(Guid zoneUID)
 		{
-			var zone = GetXBase(zoneUID, XBaseObjectType.Zone);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				Watcher.SendControlCommand(zone, 0x03);
-				AddMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
+				GKProcessorManager.GKResetFire2(zone);
 			}
 		}
 
@@ -199,8 +178,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic);
-				AddMessage("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetAutomaticRegime(xBase);
 			}
 		}
 
@@ -209,8 +187,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual);
-				AddMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetManualRegime(xBase);
 			}
 		}
 
@@ -219,8 +196,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off);
-				AddMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetIgnoreRegime(xBase);
 			}
 		}
 
@@ -229,8 +205,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual);
-				AddMessage("Команда оператора", "Включить", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOn(xBase);
 			}
 		}
 
@@ -239,8 +214,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual);
-				AddMessage("Команда оператора", "Включить немедленно", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOnNow(xBase);
 			}
 		}
 
@@ -249,8 +223,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual);
-				AddMessage("Команда оператора", "Выключить", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOff(xBase);
 			}
 		}
 
@@ -259,8 +232,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual);
-				AddMessage("Команда оператора", "Выключить немедленно", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOffNow(xBase);
 			}
 		}
 
@@ -269,8 +241,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
-				AddMessage("Команда оператора", "Остановка пуска", XStateClass.Info, xBase);
+				GKProcessorManager.GKStop(xBase);
 			}
 		}
 

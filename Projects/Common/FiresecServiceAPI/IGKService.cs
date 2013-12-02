@@ -41,6 +41,9 @@ namespace FiresecAPI
 		OperationResult<bool> GKGetSingleParameter(Guid deviceUID);
 
 		[OperationContract]
+		GKStates GKGetStates();
+
+		[OperationContract]
 		void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
 
 		[OperationContract]

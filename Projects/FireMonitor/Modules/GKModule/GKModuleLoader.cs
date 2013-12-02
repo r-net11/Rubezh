@@ -190,6 +190,9 @@ namespace GKModule
 					delay.DelayState = new XDelayState();
 				}
 			}
+
+			InitializeStates();
+
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
 				WatcherManager.IsConfigurationReloading = false;
@@ -210,8 +213,8 @@ namespace GKModule
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 
-			FiresecManager.FiresecService.NewJournalItems -= new Action<List<JournalItem>>(OnNewJournalItems);
-			FiresecManager.FiresecService.NewJournalItems += new Action<List<JournalItem>>(OnNewJournalItems);
+			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
+			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
@@ -228,6 +231,56 @@ namespace GKModule
 				GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 			}
 			ServiceFactory.SubscribeGKEvents();
+		}
+
+		void InitializeStates()
+		{
+			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			foreach (var remoteDeviceState in gkStates.DeviceStates)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				if (device != null)
+				{
+					device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
+					device.DeviceState.StateClass = remoteDeviceState.StateClass;
+					device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
+					device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
+					device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
+				}
+			}
+			foreach (var remoteZoneState in gkStates.ZoneStates)
+			{
+				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				if (zone != null)
+				{
+					zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
+					zone.ZoneState.StateClass = remoteZoneState.StateClass;
+					zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
+					zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
+					zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
+				}
+			}
+			foreach (var remoteDirectionState in gkStates.DirectionStates)
+			{
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+				if (direction != null)
+				{
+					direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
+					direction.DirectionState.StateClass = remoteDirectionState.StateClass;
+					direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
+					direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
+					direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
+				}
+			}
+		}
+
+		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				var journalItems = new List<JournalItem>() { journalItem };
+				ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
+			});
 		}
 
 		void OnNewJournalItems(List<JournalItem> journalItems)

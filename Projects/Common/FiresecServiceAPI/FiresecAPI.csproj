@@ -312,6 +312,7 @@
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
     <Compile Include="XModels\PumpStation\XPumpStation.cs" />
+    <Compile Include="XModels\States\GKStates.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />
