@@ -268,6 +268,10 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(deviceUID); }, "GKGetSingleParameter");
 		}
 
+		public GKStates GKGetStates()
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGetStates(); }, "GKGetStates");
+		}
 		public void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
 		{
 			SafeOperationCall(() => { FiresecService.GKExecuteDeviceCommand(deviceUID, stateBit); }, "GKExecuteDeviceCommand");

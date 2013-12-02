@@ -26,6 +26,7 @@ namespace FiresecClient
 			}
 			else
 			{
+				GKProcessorManager.AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
 				GkDescriptorsWriter.WriteConfig(device, writeFileToGK);
 				if (!String.IsNullOrEmpty(GkDescriptorsWriter.Error))
 				{
@@ -34,7 +35,6 @@ namespace FiresecClient
 					return;
 				}
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-				AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
 			}
 		}
 
@@ -44,11 +44,9 @@ namespace FiresecClient
 			{
 				return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.BaseUID), "GKReadConfiguration");
 			}
+			else
 			{
-				AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, true);
-				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-				descriptorReader.ReadConfiguration(device);
-				return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
+				return GKProcessorManager.GKReadConfiguration(device);
 			}
 		}
 
@@ -60,8 +58,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, true);
-				FirmwareUpdateHelper.Update(device, fileName);
+				GKProcessorManager.GKUpdateFirmware(device, fileName);
 			}
 		}
 
@@ -73,8 +70,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Синхронизация времени", "", XStateClass.Info, device, true);
-				return DeviceBytesHelper.WriteDateTime(device);
+				return GKProcessorManager.GKSyncronyseTime(device);
 			}
 		}
 
@@ -86,8 +82,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Запрос информации об устройсве", "", XStateClass.Info, device, true);
-				return DeviceBytesHelper.GetDeviceInfo(device);
+				return GKProcessorManager.GKGetDeviceInfo(device);
 			}
 		}
 
@@ -99,14 +94,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				var sendResult = SendManager.Send(device, 0, 6, 64);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<int>("Ошибка связи с устройством");
-				}
-				var journalParser = new JournalParser(device, sendResult.Bytes);
-				var result = journalParser.JournalItem.GKJournalRecordNo.Value;
-				return new OperationResult<int>() { Result = result };
+				return GKProcessorManager.GKGetJournalItemsCount(device);
 			}
 		}
 
@@ -118,14 +106,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				var data = BitConverter.GetBytes(no).ToList();
-				var sendResult = SendManager.Send(device, 4, 7, 64, data);
-				if (sendResult.HasError)
-				{
-					return new OperationResult<JournalItem>("Ошибка связи с устройством");
-				}
-				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+				return GKProcessorManager.GKReadJournalItem(device, no);
 			}
 		}
 
@@ -137,8 +118,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				var error = ParametersHelper.SetSingleParameter(device);
-				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+				return GKProcessorManager.GKSetSingleParameter(device);
 			}
 		}
 
@@ -150,8 +130,19 @@ namespace FiresecClient
 			}
 			else
 			{
-				var error = ParametersHelper.GetSingleParameter(device);
-				return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+				return GKProcessorManager.GKGetSingleParameter(device);
+			}
+		}
+
+		public GKStates GKGetStates()
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall<GKStates>(() => { return FiresecService.GKGetStates(); }, "GKGetStates");
+			}
+			else
+			{
+				return GKProcessorManager.GKGetStates();
 			}
 		}
 
@@ -163,8 +154,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(device, stateBit);
-				AddGKMessage("Команда оператора", stateBit.ToDescription(), XStateClass.Info, device);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit);
 			}
 		}
 
@@ -176,8 +166,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.Reset);
-				AddGKMessage("Команда оператора", "Сброс", XStateClass.Info, xBase);
+				GKProcessorManager.GKReset(xBase);
 			}
 		}
 
@@ -189,8 +178,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(zone, 0x02);
-				AddGKMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
+				GKProcessorManager.GKResetFire1(zone);
 			}
 		}
 
@@ -202,8 +190,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(zone, 0x03);
-				AddGKMessage("Команда оператора", "Сброс", XStateClass.Info, zone);
+				GKProcessorManager.GKResetFire2(zone);
 			}
 		}
 
@@ -215,8 +202,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic);
-				AddGKMessage("Команда оператора", "Перевод в автоматический режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetAutomaticRegime(xBase);
 			}
 		}
 
@@ -228,8 +214,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual);
-				AddGKMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetManualRegime(xBase);
 			}
 		}
 
@@ -241,8 +226,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off);
-				AddGKMessage("Команда оператора", "Перевод в ручной режим", XStateClass.Info, xBase);
+				GKProcessorManager.GKSetIgnoreRegime(xBase);
 			}
 		}
 
@@ -254,8 +238,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual);
-				AddGKMessage("Команда оператора", "Включить", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOn(xBase);
 			}
 		}
 
@@ -267,8 +250,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual);
-				AddGKMessage("Команда оператора", "Включить немедленно", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOnNow(xBase);
 			}
 		}
 
@@ -280,8 +262,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual);
-				AddGKMessage("Команда оператора", "Выключить", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOff(xBase);
 			}
 		}
 
@@ -293,8 +274,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual);
-				AddGKMessage("Команда оператора", "Выключить немедленно", XStateClass.Info, xBase);
+				GKProcessorManager.GKTurnOffNow(xBase);
 			}
 		}
 
@@ -306,68 +286,67 @@ namespace FiresecClient
 			}
 			else
 			{
-				Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
-				AddGKMessage("Команда оператора", "Остановка пуска", XStateClass.Info, xBase);
+				GKProcessorManager.GKStop(xBase);
 			}
 		}
 
-		public void AddGKMessage(string message, string description, XStateClass stateClass, XBase xBase, bool isAdministrator = false)
-		{
-			Guid uid = Guid.Empty;
-			var journalItemType = JournalItemType.System;
-			if (xBase != null)
-			{
-				if (xBase is XDevice)
-				{
-					uid = (xBase as XDevice).UID;
-					journalItemType = JournalItemType.Device;
-				}
-				if (xBase is XZone)
-				{
-					uid = (xBase as XZone).UID;
-					journalItemType = JournalItemType.Zone;
-				}
-				if (xBase is XDirection)
-				{
-					uid = (xBase as XDirection).UID;
-					journalItemType = JournalItemType.Direction;
-				}
-				if (xBase is XDelay)
-				{
-					uid = (xBase as XDelay).UID;
-					journalItemType = JournalItemType.Delay;
-				}
-			}
+		//public void AddGKMessage(string message, string description, XStateClass stateClass, XBase xBase, bool isAdministrator = false)
+		//{
+		//    Guid uid = Guid.Empty;
+		//    var journalItemType = JournalItemType.System;
+		//    if (xBase != null)
+		//    {
+		//        if (xBase is XDevice)
+		//        {
+		//            uid = (xBase as XDevice).UID;
+		//            journalItemType = JournalItemType.Device;
+		//        }
+		//        if (xBase is XZone)
+		//        {
+		//            uid = (xBase as XZone).UID;
+		//            journalItemType = JournalItemType.Zone;
+		//        }
+		//        if (xBase is XDirection)
+		//        {
+		//            uid = (xBase as XDirection).UID;
+		//            journalItemType = JournalItemType.Direction;
+		//        }
+		//        if (xBase is XDelay)
+		//        {
+		//            uid = (xBase as XDelay).UID;
+		//            journalItemType = JournalItemType.Delay;
+		//        }
+		//    }
 
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
-				JournalItemType = journalItemType,
-				StateClass = stateClass,
-				Name = message,
-				Description = description,
-				ObjectUID = uid,
-				ObjectStateClass = XStateClass.Norm,
-				UserName = FiresecManager.CurrentUser.Name,
-				SubsystemType = XSubsystemType.System
-			};
-			if (xBase != null)
-			{
-				journalItem.ObjectName = xBase.PresentationName;
-				journalItem.GKObjectNo = (ushort)xBase.GKDescriptorNo;
-			}
+		//    var journalItem = new JournalItem()
+		//    {
+		//        SystemDateTime = DateTime.Now,
+		//        DeviceDateTime = DateTime.Now,
+		//        JournalItemType = journalItemType,
+		//        StateClass = stateClass,
+		//        Name = message,
+		//        Description = description,
+		//        ObjectUID = uid,
+		//        ObjectStateClass = XStateClass.Norm,
+		//        UserName = FiresecManager.CurrentUser.Name,
+		//        SubsystemType = XSubsystemType.System
+		//    };
+		//    if (xBase != null)
+		//    {
+		//        journalItem.ObjectName = xBase.PresentationName;
+		//        journalItem.GKObjectNo = (ushort)xBase.GKDescriptorNo;
+		//    }
 
-			if (isAdministrator)
-			{
-				SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
-			}
-			else
-			{
-				GKDBHelper.Add(journalItem);
-				OnNewJournalItems(journalItem);
-			}
-		}
+		//    if (isAdministrator)
+		//    {
+		//        SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		//    }
+		//    else
+		//    {
+		//        GKDBHelper.Add(journalItem);
+		//        OnNewJournalItems(journalItem);
+		//    }
+		//}
 
 		public void GKAddMessage(string name, string description)
 		{
@@ -376,22 +355,17 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage(name, description, XStateClass.Norm, null, true);
+				GKProcessorManager.AddGKMessage(name, description, XStateClass.Norm, null, true);
 			}
 		}
 
-		public event Action<List<JournalItem>> NewJournalItems;
-		void OnNewJournalItems(List<JournalItem> journalItems)
-		{
-			if (NewJournalItems != null)
-				NewJournalItems(journalItems);
-		}
-		void OnNewJournalItems(JournalItem journalItem)
-		{
-			var journalItems = new List<JournalItem>() { journalItem };
-			if (NewJournalItems != null)
-				NewJournalItems(journalItems);
-		}
+		//public event Action<List<JournalItem>> NewJournalItems;
+		//void OnNewJournalItems(JournalItem journalItem)
+		//{
+		//    var journalItems = new List<JournalItem>() { journalItem };
+		//    if (NewJournalItems != null)
+		//        NewJournalItems(journalItems);
+		//}
 
 		XBaseObjectType GetObjectType(XBase xBase)
 		{

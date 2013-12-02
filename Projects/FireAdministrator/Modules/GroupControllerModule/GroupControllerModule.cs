@@ -18,6 +18,7 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
 
 namespace GKModule
 {
@@ -149,7 +150,9 @@ namespace GKModule
 			LoadingService.DoStep("Загрузка конфигурации ГК");
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
-			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
+
+			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
+			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
@@ -163,7 +166,19 @@ namespace GKModule
 				GKProcessorManager.StopProgress += new Action(OnStopProgress);
 			}
 
+			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
+		}
+
+		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (isAdministrator)
+				{
+					FiresecManager.FiresecService.GKAddMessage(journalItem.Name, journalItem.Description);
+				}
+			});
 		}
 
 		void OnStartProgress(string name, int count, bool canCancel = true)
