@@ -16,6 +16,12 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			GKDBHelper.Add(journalItem);
+			NotifyNewGKJournal(new List<JournalItem>() { journalItem });
+		}
+
 		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -302,15 +308,14 @@ namespace FiresecService.Service
 				Name = message,
 				Description = description,
 				ObjectUID = uid,
-				//ObjectName = xBase.PresentationName,
+				ObjectName = xBase.PresentationName,
 				ObjectStateClass = XStateClass.Norm,
 				GKObjectNo = (ushort)xBase.GKDescriptorNo,
 				UserName = CurrentClientCredentials.UserName,
 				SubsystemType = XSubsystemType.System
 			};
 
-			GKDBHelper.Add(journalItem);
-			NotifyNewGKJournal(new List<JournalItem>() { journalItem });
+			AddJournalItem(journalItem);
 		}
 
 		XBase GetXBase(Guid uid, XBaseObjectType objectType)

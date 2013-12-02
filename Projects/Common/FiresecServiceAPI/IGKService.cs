@@ -11,6 +11,9 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
+		void AddJournalItem(JournalItem journalItem);
+
+		[OperationContract]
 		void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
 
 		[OperationContract]

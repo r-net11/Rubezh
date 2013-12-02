@@ -21,6 +21,7 @@ namespace Infrastructure
 		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		static bool IsSubcsribed = false;
+		static bool IsGKSubcsribed = false;
 
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
@@ -47,7 +48,6 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
-				SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewServerJournalItemsEvent(x); }); });
 				SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
 				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 
@@ -57,6 +57,15 @@ namespace Infrastructure
 				FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 			}
 			IsSubcsribed = true;
+		}
+
+		public static void SubscribeGKEvents()
+		{
+			if (!IsGKSubcsribed)
+			{
+				SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewServerJournalItemsEvent(x); }); });
+			}
+			IsGKSubcsribed = true;
 		}
 
 		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)

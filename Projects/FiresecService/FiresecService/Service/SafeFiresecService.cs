@@ -218,6 +218,11 @@ namespace FiresecService.Service
 		#endregion
 
 		#region GK
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
+
 		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
 		{
 			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");

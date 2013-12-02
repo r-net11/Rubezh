@@ -13,6 +13,8 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+			StateClasses = new List<XStateClass>();
+			StateClass = XStateClass.Unknown;
 		}
 
 		public event Action InternalStateChanged;

@@ -91,9 +91,17 @@ namespace GKProcessor
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 
-			foreach (var descriptor in GkDatabase.Descriptors)
+			foreach(var device in XManager.Devices)
 			{
-				OnObjectStateChanged(descriptor.XBase);
+				OnObjectStateChanged(device);
+			}
+			foreach (var zone in XManager.Zones)
+			{
+				OnObjectStateChanged(zone);
+			}
+			foreach (var direction in XManager.Directions)
+			{
+				OnObjectStateChanged(direction);
 			}
 		}
 

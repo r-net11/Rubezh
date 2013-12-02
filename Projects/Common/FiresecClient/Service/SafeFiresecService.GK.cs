@@ -26,7 +26,7 @@ namespace FiresecClient
 			{
 				GkDescriptorsWriter.WriteConfig(device, writeFileToGK);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-				AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, false);
+				AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace FiresecClient
 				return SafeOperationCall(() => FiresecService.GKReadConfiguration(device.BaseUID), "GKReadConfiguration");
 			}
 			{
-				AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, false);
+				AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, true);
 				var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 				descriptorReader.ReadConfiguration(device);
 				return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
@@ -52,7 +52,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, false);
+				AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, true);
 				FirmwareUpdateHelper.Update(device, fileName);
 			}
 		}
@@ -65,7 +65,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Синхронизация времени", "", XStateClass.Info, device, false);
+				AddGKMessage("Синхронизация времени", "", XStateClass.Info, device, true);
 				return DeviceBytesHelper.WriteDateTime(device);
 			}
 		}
@@ -78,7 +78,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				AddGKMessage("Запрос информации об устройсве", "", XStateClass.Info, device, false);
+				AddGKMessage("Запрос информации об устройсве", "", XStateClass.Info, device, true);
 				return DeviceBytesHelper.GetDeviceInfo(device);
 			}
 		}
@@ -352,7 +352,7 @@ namespace FiresecClient
 
 			if (isAdministrator)
 			{
-
+				SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 			}
 			else
 			{

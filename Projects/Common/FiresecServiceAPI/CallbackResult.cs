@@ -12,15 +12,19 @@ namespace FiresecAPI
 		public CallbackResultType CallbackResultType { get; set; }
 
 		[DataMember]
+		public List<JournalRecord> JournalRecords { get; set; }
+
+		[DataMember]
 		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public List<JournalRecord> JournalRecords { get; set; }
+		public GKCallbackResult GKCallbackResult { get; set; }
 	}
 
 	public enum CallbackResultType
 	{
 		NewGKEvents,
+		GKObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,
 		ConfigurationChanged,
