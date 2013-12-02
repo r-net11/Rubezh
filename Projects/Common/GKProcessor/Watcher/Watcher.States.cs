@@ -219,7 +219,7 @@ namespace GKProcessor
 		#region TechnologicalRegime
 		void CheckTechnologicalRegime()
 		{
-			var isInTechnologicalRegime = IsInTechnologicalRegime(GkDatabase.RootDevice);
+			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				var baseState = descriptor.XBase.GetXBaseState();
@@ -230,7 +230,7 @@ namespace GKProcessor
 			{
 				foreach (var kauDatabase in GkDatabase.KauDatabases)
 				{
-					isInTechnologicalRegime = IsInTechnologicalRegime(kauDatabase.RootDevice);
+					isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
 					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
 					allChildren.Add(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
@@ -240,23 +240,6 @@ namespace GKProcessor
 					}
 				}
 			}
-		}
-
-		bool IsInTechnologicalRegime(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
-			if (!sendResult.HasError)
-			{
-				if (sendResult.Bytes.Count > 0)
-				{
-					var version = sendResult.Bytes[0];
-					if (version > 127)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
 		}
 		#endregion
 	}

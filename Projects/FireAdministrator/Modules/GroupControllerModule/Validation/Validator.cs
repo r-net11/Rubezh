@@ -17,6 +17,7 @@ namespace GKModule.Validation
 			ValidateDevices();
 			ValidateZones();
 			ValidateDirections();
+			ValidatePumpStations();
 			ValidateGuard();
 			return Errors;
 		}

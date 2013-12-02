@@ -47,6 +47,7 @@ namespace GKProcessor
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
 				Descriptors.Add(deviceDescriptor);
 			}
+			Descriptors.ForEach(x => x.InitializeAllBytes());
 		}
 	}
 }

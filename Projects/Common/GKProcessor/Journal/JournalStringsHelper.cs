@@ -222,6 +222,7 @@ namespace GKProcessor
 				case 19: return "КЗ ДУ ПУСК"; //
 				case 20: return "Обрыв ДУ СТОП"; //
 				case 21: return "КЗ ДУ СТОП"; //
+				case 255: return "Потеря связи"; //
 			}
 			return "";
 		}
@@ -231,7 +232,7 @@ namespace GKProcessor
 			switch (b)
 			{
 				case 0: return "";
-				case 1: return "Сетевое напряжение";
+				case 1: return "Отсутствие сетевого напряжения";
 				case 2: return "Выход 1";
 				case 3: return "Напряжение выхода 1 < 9В";
 				case 4: return "Напряжение выхода 1 < 10,4В";
@@ -248,6 +249,7 @@ namespace GKProcessor
 				case 15: return "АКБ 2 Разряд";
 				case 16: return "АКБ 2 Глубокий Разряд";
 				case 17: return "АКБ 2 Отсутствие";
+				case 255: return "Потеря связи"; //
 			}
 			return "";
 		}

@@ -90,9 +90,11 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					var fileWritingViewModel = new FileWritingViewModel();
 					if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
+					{
+						var fileWritingViewModel = new FileWritingViewModel();
 						DialogService.ShowModalWindow(fileWritingViewModel);
+					}
 					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
 					ServiceFactory.SaveService.GKChanged = false;
 				}
@@ -176,13 +178,13 @@ namespace GKModule.Models
 			return true;
 		}
 
-		bool CheckNeedSave(bool isConfigWriting = false)
+		bool CheckNeedSave(bool syncParameters = false)
 		{
 			if (ServiceFactory.SaveService.GKChanged)
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
 				{
-					if (isConfigWriting)
+					if (syncParameters)
 						SelectedDevice.SyncFromSystemToDeviceProperties(SelectedDevice.GetRealChildren());
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);

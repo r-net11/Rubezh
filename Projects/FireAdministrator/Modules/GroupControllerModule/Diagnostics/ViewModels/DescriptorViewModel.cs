@@ -16,15 +16,23 @@ namespace GKModule.ViewModels
 					break;
 
 				case DescriptorType.Zone:
-					ImageSource = "/Controls;component/Images/zone.png";
+					ImageSource = "/Controls;component/Images/Zone.png";
 					break;
 
 				case DescriptorType.Direction:
 					ImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
 
+				case DescriptorType.PumpStation:
+					ImageSource = "/Controls;component/Images/Blue_Direction.png";
+					break;
+
 				case DescriptorType.Delay:
 					ImageSource = "/Controls;component/Images/Delay.png";
+					break;
+
+				case DescriptorType.Pim:
+					ImageSource = null;
 					break;
 			}
 

@@ -16,6 +16,7 @@ namespace FiresecClient
 			PrepareInputOutputDependences();
 			PrepareDeviceLogicDependences();
 			PrepareDirections();
+			PreparePumpStations();
 		}
 
 		static void PrepareZones()
@@ -49,37 +50,27 @@ namespace FiresecClient
 			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.ClearDescriptor();
-				LinkXBasees(zone, zone);
 			}
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				direction.ClearDescriptor();
 			}
+			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			{
+				pumpStation.ClearDescriptor();
+			}
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				foreach (var clause in device.DeviceLogic.Clauses)
-				{
-					foreach (var zone in clause.Zones)
-					{
-						LinkXBasees(device, zone);
-					}
-					foreach (var clauseDevice in clause.Devices)
-					{
-						LinkXBasees(device, clauseDevice);
-					}
-					foreach (var direction in clause.Directions)
-					{
-						LinkXBasees(device, direction);
-					}
-				}
+				LinkDeviceLogic(device, device.DeviceLogic);
 			}
 
 			foreach (var zone in DeviceConfiguration.Zones)
 			{
+				LinkXBases(zone, zone);
 				foreach (var device in zone.Devices)
 				{
-					LinkXBasees(zone, device);
+					LinkXBases(zone, device);
 				}
 			}
 
@@ -87,12 +78,37 @@ namespace FiresecClient
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					LinkXBasees(direction, zone);
+					LinkXBases(direction, zone);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					LinkXBasees(direction, device);
+					LinkXBases(direction, device);
+				}
+			}
+
+			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			{
+				LinkDeviceLogic(pumpStation, pumpStation.StartLogic);
+				LinkDeviceLogic(pumpStation, pumpStation.ForbidLogic);
+			}
+		}
+
+		static void LinkDeviceLogic(XBase xBase, XDeviceLogic deviceLogic)
+		{
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				foreach (var zone in clause.Zones)
+				{
+					LinkXBases(xBase, zone);
+				}
+				foreach (var clauseDevice in clause.Devices)
+				{
+					LinkXBases(xBase, clauseDevice);
+				}
+				foreach (var direction in clause.Directions)
+				{
+					LinkXBases(xBase, direction);
 				}
 			}
 		}
@@ -151,7 +167,35 @@ namespace FiresecClient
 			}
 		}
 
-		public static void LinkXBasees(XBase inputXBase, XBase outputXBase)
+		static void PreparePumpStations()
+		{
+			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			{
+				pumpStation.KauDatabaseParent = null;
+				pumpStation.GkDatabaseParent = null;
+
+				var inputZone = pumpStation.InputZones.FirstOrDefault();
+				if (inputZone != null)
+				{
+					if (inputZone.GkDatabaseParent != null)
+						pumpStation.GkDatabaseParent = inputZone.GkDatabaseParent;
+				}
+
+				var inputDevice = pumpStation.InputDevices.FirstOrDefault();
+				if (inputDevice != null)
+				{
+					pumpStation.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+				}
+
+				var outputDevice = pumpStation.NSDevices.FirstOrDefault();
+				if (outputDevice != null)
+				{
+					pumpStation.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+				}
+			}
+		}
+
+		public static void LinkXBases(XBase inputXBase, XBase outputXBase)
 		{
 			AddInputOutputObject(inputXBase.InputXBases, outputXBase);
 			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);

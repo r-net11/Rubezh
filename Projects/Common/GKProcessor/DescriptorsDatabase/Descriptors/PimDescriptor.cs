@@ -18,10 +18,8 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x107);
 			SetAddress((ushort)0);
-			Parameters = new List<byte>();
 			SetFormulaBytes();
 			SetPropertiesBytes();
-			InitializeAllBytes();
 		}
 
 		void SetFormulaBytes()
@@ -50,7 +48,6 @@ namespace GKProcessor
 				Value = (ushort)Pim.DelayRegime
 			});
 
-			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)
 			{
 				Parameters.Add(binProperty.No);

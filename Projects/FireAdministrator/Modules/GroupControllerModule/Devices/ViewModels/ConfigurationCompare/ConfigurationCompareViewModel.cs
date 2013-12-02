@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
 				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 				if (sameObject1 == null)
 				{
-					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации" : "Отсутствует в устройстве";
+					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации" : "Отсутствует в приборе";
 					newObject.IsAbsent = true;
 				}
 				else
@@ -132,13 +132,13 @@ namespace GKModule.ViewModels
 					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 					if (sameObject2 == null)
 					{
-						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в устройстве" : "Отсутствует в конфигурации";
+						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в приборе" : "Отсутствует в конфигурации";
 						newObject.IsPresent = true;
 					}
 					else
 					{
 						if (sameObject1.PresentationZone != sameObject2.PresentationZone)
-							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Зоны различны" : "Логика различна";
+							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Не совпадает зона" : "Не совпадает логика срабатывания";
 						newObject.PresentationZone = sameObject1.PresentationZone;
 						if (sameObject1.ObjectType == ObjectType.Zone)
 							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);

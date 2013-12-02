@@ -11,6 +11,7 @@ namespace GKProcessor
 	public static class GkDescriptorsWriter
 	{
 		public static string Error { get; private set; }
+
 		public static void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
 		{
 			try

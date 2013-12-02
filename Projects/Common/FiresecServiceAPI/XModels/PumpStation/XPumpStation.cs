@@ -10,11 +10,10 @@ namespace XFiresecAPI
 		public XPumpStation()
 		{
 			UID = BaseUID;
-			DirectionZones = new List<XDirectionZone>();
-			DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
-			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
+			InputZones = new List<XZone>();
+			InputDirections = new List<XDirection>();
 			NSDevices = new List<XDevice>();
 			NSDeviceUIDs = new List<Guid>();
 			NSPumpsCount = 1;
@@ -22,10 +21,11 @@ namespace XFiresecAPI
 			StartLogic = new XDeviceLogic();
 			ForbidLogic = new XDeviceLogic();
 		}
-		public XDirectionState DirectionState { get; set; }
-		public override XBaseState GetXBaseState() { return DirectionState; }
-		public List<XZone> InputZones { get; set; }
+		public XPumpStationState PumpStationState { get; set; }
+		public override XBaseState GetXBaseState() { return PumpStationState; }
 		public List<XDevice> InputDevices { get; set; }
+		public List<XZone> InputZones { get; set; }
+		public List<XDirection> InputDirections { get; set; }
 		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
@@ -50,22 +50,13 @@ namespace XFiresecAPI
 		public ushort Regime { get; set; }
 
 		[DataMember]
-		public List<XDirectionZone> DirectionZones { get; set; }
-
-		[DataMember]
-		public List<XDirectionDevice> DirectionDevices { get; set; }
-
-		[DataMember]
-		public bool IsOPCUsed { get; set; }
-
-		[DataMember]
-		public List<Guid> NSDeviceUIDs { get; set; }
-
-		[DataMember]
 		public int NSPumpsCount { get; set; }
 
 		[DataMember]
 		public int NSDeltaTime { get; set; }
+
+		[DataMember]
+		public List<Guid> NSDeviceUIDs { get; set; }
 
 		[DataMember]
 		public XDeviceLogic StartLogic { get; set; }

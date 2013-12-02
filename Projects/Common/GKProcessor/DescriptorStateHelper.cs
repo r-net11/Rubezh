@@ -431,6 +431,12 @@ namespace GKProcessor
 						if (!bitArray[8 + 3])
 							AddAdditionalState(XStateClass.Failure, "Отказ ШУЗ");
 						break;
+
+					case XDriverType.Battery:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "");
+						break;
 				}
 			}
 			else

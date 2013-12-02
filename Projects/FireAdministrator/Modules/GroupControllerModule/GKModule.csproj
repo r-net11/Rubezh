@@ -180,7 +180,7 @@
       <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
-<Compile Include="Journal\Views\JournalGridView.xaml.cs">
+    <Compile Include="Journal\Views\JournalGridView.xaml.cs">
       <DependentUpon>JournalGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PumpStation\ViewModels\PumpStationDetailsViewModel.cs" />
@@ -323,6 +323,8 @@
     <Compile Include="Validation\Validator.Directions.cs" />
     <Compile Include="Validation\Validator.Zones.cs" />
     <Compile Include="Validation\ZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.PumpStations.cs" />
+    <Compile Include="Validation\PumpStationValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
