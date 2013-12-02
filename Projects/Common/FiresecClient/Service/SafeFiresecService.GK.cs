@@ -2,11 +2,13 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using GKProcessor;
+using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Infrastructure.Common;
 
@@ -25,6 +27,12 @@ namespace FiresecClient
 			else
 			{
 				GkDescriptorsWriter.WriteConfig(device, writeFileToGK);
+				if (!String.IsNullOrEmpty(GkDescriptorsWriter.Error))
+				{
+					LoadingService.IsCanceled = true; 
+					MessageBoxService.ShowError(GkDescriptorsWriter.Error); 
+					return;
+				}
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
 			}

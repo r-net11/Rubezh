@@ -51,22 +51,20 @@ namespace GKProcessor
 							if (!WriteConfigToDevice(kauDatabase))
 								{ Error = "Не удалось записать дескриптор КАУ"; }
 						}
+						if (!WriteConfigToDevice(gkDatabase))
+							{ Error = "Не удалось записать дескриптор ГК"; continue; }
 						if (writeFileToGK)
 						{
 							GKFileReaderWriter.WriteConfigFileToGK();
-							if(!String.IsNullOrEmpty(GKFileReaderWriter.Error))
-								{ Error = GKFileReaderWriter.Error; break; }
+							if (!String.IsNullOrEmpty(GKFileReaderWriter.Error))
+							{ Error = GKFileReaderWriter.Error; break; }
 						}
-						if (!WriteConfigToDevice(gkDatabase))
-							{ Error = "Не удалось записать дескриптор ГК"; continue; }
 						if (gkDatabase.KauDatabases.Any(kauDatabase => !DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice)))
 							{ Error = "Не удалось перевести КАУ в рабочий режим"; }
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice))
-							{ Error = "Не удалось перевести ГК в рабочий режим"; break; }
-						return;
+							{ Error = "Не удалось перевести ГК в рабочий режим"; }
+						break;
 					}
-					if (Error != null)
-						MessageBoxService.ShowQuestion("Во время записи конфигурации возникла ошибка" + Environment.NewLine + Error + Environment.NewLine + "Перевести устройства в рабочий режим");
 				}
 			}
 			catch (Exception e)

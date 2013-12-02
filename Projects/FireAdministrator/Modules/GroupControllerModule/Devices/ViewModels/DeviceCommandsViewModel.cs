@@ -114,7 +114,8 @@ namespace GKModule.Models
 			if (!result.HasError)
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
+					SelectedDevice.Device, false);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
@@ -130,7 +131,8 @@ namespace GKModule.Models
 			if (String.IsNullOrEmpty(GKFileReaderWriter.Error))
 			{
 				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, deviceConfiguration, SelectedDevice.Device, true);
+				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
+					deviceConfiguration, SelectedDevice.Device, true);
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
