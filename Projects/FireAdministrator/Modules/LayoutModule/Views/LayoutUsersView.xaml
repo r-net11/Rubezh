@@ -1,27 +1,29 @@
 ﻿<UserControl x:Class="LayoutModule.Views.LayoutUsersView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<UserControl.Resources>
-		<Style x:Key="IsActiveCheckBoxStyle" TargetType="CheckBox">
+		<Style x:Key="IsActiveCheckBoxStyle" BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
 			<Setter Property="HorizontalAlignment" Value="Center" />
 			<Setter Property="Margin" Value="1" />
 			<Setter Property="ListViewLayoutManager.MinWidth" Value="20" />
 			<Setter Property="Focusable" Value="False" />
-			<!--<Setter Property="Template">
+			<!--
+				<Setter Property="Template">
 				<Setter.Value>
-					<ControlTemplate TargetType="CheckBox">
-						<Image Name="_image" Source="/Controls;component/Images/Eye1.png" />
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="true">
-								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
-								<Setter TargetName="_image" Property="ToolTip" Value="Доступен" />
-							</Trigger>
-							<Trigger Property="IsChecked" Value="false">
-								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye3.png" />
-								<Setter TargetName="_image" Property="ToolTip" Value="Недоступен" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
+				<ControlTemplate TargetType="CheckBox">
+				<Image Name="_image" Source="/Controls;component/Images/Eye1.png" />
+				<ControlTemplate.Triggers>
+				<Trigger Property="IsChecked" Value="true">
+				<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
+				<Setter TargetName="_image" Property="ToolTip" Value="Доступен" />
+				</Trigger>
+				<Trigger Property="IsChecked" Value="false">
+				<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye3.png" />
+				<Setter TargetName="_image" Property="ToolTip" Value="Недоступен" />
+				</Trigger>
+				</ControlTemplate.Triggers>
+				</ControlTemplate>
 				</Setter.Value>
-			</Setter>-->
+				</Setter>
+			-->
 			<Style.Triggers>
 				<Trigger Property="IsChecked" Value="true">
 					<Setter Property="ToolTip" Value="Доступен" />
@@ -32,7 +34,7 @@
 			</Style.Triggers>
 		</Style>
 	</UserControl.Resources>
-	<ListView SelectedItem="{Binding SelectedUser}" ItemsSource="{Binding Users}">
+	<ListView ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
 		<ListView.ItemContainerStyle>
 			<Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
 				<!--  <Setter Property="ContextMenu" Value="{StaticResource contextMenu}" />  -->
@@ -42,7 +44,7 @@
 		</ListView.ItemContainerStyle>
 		<ListView.View>
 			<GridView>
-				<GridViewColumn Width="20" ListViewLayoutManager.CanUserResize="False" Header="">
+				<GridViewColumn Width="20" Header="" ListViewLayoutManager.CanUserResize="False">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox IsChecked="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsActiveCheckBoxStyle}" />

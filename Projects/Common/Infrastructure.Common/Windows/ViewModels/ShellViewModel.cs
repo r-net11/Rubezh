@@ -148,7 +148,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged(() => ToolbarVisible);
 			}
 		}
-		
+
 		private BaseViewModel _toolbar;
 		public BaseViewModel Toolbar
 		{

@@ -53,6 +53,7 @@ namespace LayoutModule.ViewModels
 		{
 			Layout.Caption = Caption;
 			Layout.Description = Description;
+			LayoutUsersViewModel.Save();
 			return base.Save();
 		}
 	}

@@ -13,7 +13,18 @@ namespace FireMonitor.Layout.ViewModels
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
 		public NavigationPartViewModel(MonitorLayoutShellViewModel monitorLayoutShellViewModel)
 		{
+			var properties = new List<string>()
+			{
+				"NavigationItems",
+				"MinimizeCommand",
+				"TextVisibility",
+			};
 			_monitorLayoutShellViewModel = monitorLayoutShellViewModel;
+			_monitorLayoutShellViewModel.PropertyChanged += (s, e) =>
+			{
+				if (properties.Contains(e.PropertyName))
+					OnPropertyChanged(e.PropertyName);
+			};
 		}
 
 		public List<NavigationItem> NavigationItems

@@ -93,11 +93,11 @@
 				<ControlTemplate TargetType="{x:Type DataGrid}">
 					<Grid>
 						<Border Name="mask" Background="DarkGray" CornerRadius="5" BorderThickness="0" Margin="1" />
-						<Grid>
+						<Grid x:Name="borderGrid">
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference mask}}" />
 							</Grid.OpacityMask>
-							<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}">
+							<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}" Width="{Binding ElementName=borderGrid, Path=ActualWidth}">
 								<ScrollViewer Focusable="false" Name="DG_ScrollViewer" Style="{StaticResource FavsScrollViewer}">
 									<ScrollViewer.Template>
 										<ControlTemplate TargetType="{x:Type ScrollViewer}">

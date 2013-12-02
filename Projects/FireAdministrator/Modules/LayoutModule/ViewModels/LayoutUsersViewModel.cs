@@ -70,18 +70,28 @@ namespace LayoutModule.ViewModels
 		}
 		private void IsActiveChanged(LayoutUserViewModel layoutUserViewModel)
 		{
-			if (_layout != null && !_locked)
-			{
-				if (layoutUserViewModel.IsActive && !_layout.Users.Contains(layoutUserViewModel.User.UID))
-					_layout.Users.Add(layoutUserViewModel.User.UID);
-				else if (!layoutUserViewModel.IsActive && _layout.Users.Contains(layoutUserViewModel.User.UID))
-					_layout.Users.Remove(layoutUserViewModel.User.UID);
-				ServiceFactory.SaveService.LayoutsChanged = true;
-			}
+			//if (_layout != null && !_locked)
+			//{
+			//    if (layoutUserViewModel.IsActive && !_layout.Users.Contains(layoutUserViewModel.User.UID))
+			//        _layout.Users.Add(layoutUserViewModel.User.UID);
+			//    else if (!layoutUserViewModel.IsActive && _layout.Users.Contains(layoutUserViewModel.User.UID))
+			//        _layout.Users.Remove(layoutUserViewModel.User.UID);
+			//    ServiceFactory.SaveService.LayoutsChanged = true;
+			//}
 		}
 		private int Comparison(LayoutUserViewModel x, LayoutUserViewModel y)
 		{
 			return string.Compare(x.Name, y.Name);
+		}
+		public void Save()
+		{
+			if (_layout != null)
+			{
+				_layout.Users.Clear();
+				foreach (var layoutUserViewModel in Users)
+					if (layoutUserViewModel.IsActive)
+						_layout.Users.Add(layoutUserViewModel.User.UID);
+			}
 		}
 	}
 }
