@@ -48,6 +48,14 @@ namespace GKModule.ViewModels
 							return "Закрывается";
 					}
 				}
+				if (State.XStateClass == XStateClass.Fire1)
+				{
+					return "Сработка 1";
+				}
+				if (State.XStateClass == XStateClass.Fire2)
+				{
+					return "Сработка 2";
+				}
 				return State.XStateClass.ToDescription();
 			}
 		}

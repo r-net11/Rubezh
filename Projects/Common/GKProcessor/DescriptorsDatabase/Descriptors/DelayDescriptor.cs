@@ -18,10 +18,8 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x101);
 			SetAddress((ushort)0);
-			Parameters = new List<byte>();
 			SetFormulaBytes();
 			SetPropertiesBytes();
-			InitializeAllBytes();
 		}
 
 		void SetFormulaBytes()

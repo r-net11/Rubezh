@@ -47,7 +47,7 @@ namespace GKProcessor
 						if ((DateTime.Now - watcher.LastUpdateTime).TotalMinutes > 5)
 						{
 							Logger.Error("LifeTimeWatcher.OnRun watcher");
-							GKDBHelper.AddMessage("Зависание процесса отпроса", "");
+							watcher.AddMessage("Зависание процесса отпроса", "");
 							watcher.ConnectionChanged(false);
 							watcher.StopThread();
 							watcher.StartThread();

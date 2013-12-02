@@ -10,18 +10,13 @@ namespace GKModule.Views
             InitializeComponent();
         }
 
-        private void SelectedAvailableDirectionDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var viewModel = DataContext as InstructionDirectionsViewModel;
-            if (viewModel.AddOneCommand.CanExecute(null))
-                viewModel.AddOneCommand.Execute();
-        }
-
-        private void SelectedInstructionDirectionDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var viewModel = DataContext as InstructionDirectionsViewModel;
-            if (viewModel.RemoveOneCommand.CanExecute(null))
-                viewModel.RemoveOneCommand.Execute();
-        }
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			DataGrid dataGrid = sender as DataGrid;
+			if (dataGrid != null && dataGrid.SelectedItem != null)
+			{
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+			}
+		}
     }
 }

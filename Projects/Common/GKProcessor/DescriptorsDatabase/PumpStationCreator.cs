@@ -38,7 +38,7 @@ namespace GKProcessor
 						{
 							FirePumpDevices.Add(nsDevice);
 						}
-						else if (nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+						else if (nsDevice.IntAddress == 12)
 						{
 							NonFirePumpDevices.Add(nsDevice);
 						}
@@ -55,7 +55,7 @@ namespace GKProcessor
 			CreateDelays();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
-			SetNonFirePumpDevicesLogic();
+			//SetJokeyPumpLogic();
 			CreatePim();
 			SetCrossReferences();
 		}
@@ -223,7 +223,7 @@ namespace GKProcessor
 			formula.Add(FormulaOperationType.LT);
 		}
 
-		void SetNonFirePumpDevicesLogic()
+		void SetJokeyPumpLogic()
 		{
 			foreach (var pumpDevice in NonFirePumpDevices)
 			{
@@ -240,7 +240,7 @@ namespace GKProcessor
 						pumpDescriptor.Formula = formula;
 						pumpDescriptor.FormulaBytes = formula.GetBytes();
 					}
-					UpdateConfigurationHelper.LinkXBasees(pumpDescriptor.XBase, Direction);
+					UpdateConfigurationHelper.LinkXBases(pumpDescriptor.XBase, Direction);
 				}
 			}
 		}
@@ -295,32 +295,29 @@ namespace GKProcessor
 
 		void SetCrossReferences()
 		{
-			foreach (var failureDevice in NonFirePumpDevices)
+			foreach (var nsDevice in Direction.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBasees(Direction, failureDevice);
-			}
-			if (AM1TDevice != null)
-			{
-				UpdateConfigurationHelper.LinkXBasees(Direction, AM1TDevice);
+				UpdateConfigurationHelper.LinkXBases(Direction, nsDevice);
+				if (nsDevice.DriverType == XDriverType.RSR2_Bush || (nsDevice.DriverType == XDriverType.Pump && (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)))
+				UpdateConfigurationHelper.LinkXBases(nsDevice, Direction);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				UpdateConfigurationHelper.LinkXBasees(pumpDelay.Delay, Direction);
+				UpdateConfigurationHelper.LinkXBases(pumpDelay.Delay, Direction);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					UpdateConfigurationHelper.LinkXBasees(pumpDelay.Delay, pumpDevice);
+					UpdateConfigurationHelper.LinkXBases(pumpDelay.Delay, pumpDevice);
 				}
 			}
 
 			foreach (var nsDevice in Direction.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBasees(nsDevice, Direction);
 				foreach (var pumpDelay in PumpDelays)
 				{
 					if (pumpDelay.Device.UID == nsDevice.UID)
 					{
-						UpdateConfigurationHelper.LinkXBasees(nsDevice, pumpDelay.Delay);
+						UpdateConfigurationHelper.LinkXBases(nsDevice, pumpDelay.Delay);
 					}
 				}
 			}
@@ -343,7 +340,7 @@ namespace GKProcessor
 
 			foreach (var nsDevice in Direction.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBasees(Pim, nsDevice);
+				UpdateConfigurationHelper.LinkXBases(Pim, nsDevice);
 			}
 
 			foreach (var firePumpDevice in FirePumpDevices)
@@ -352,16 +349,16 @@ namespace GKProcessor
 				{
 					if (firePumpDevice.UID != otherFirePumpDevice.UID)
 					{
-						UpdateConfigurationHelper.LinkXBasees(firePumpDevice, otherFirePumpDevice);
+						UpdateConfigurationHelper.LinkXBases(firePumpDevice, otherFirePumpDevice);
 					}
 				}
 			}
 		}
 	}
 
-	class PumpDelay
-	{
-		public XDelay Delay { get; set; }
-		public XDevice Device { get; set; }
-	}
+	//class PumpDelay
+	//{
+	//    public XDelay Delay { get; set; }
+	//    public XDevice Device { get; set; }
+	//}
 }

@@ -34,24 +34,8 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DelayState");
-			OnPropertyChanged("ToolTip");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
-		}
-
-		public string ToolTip
-		{
-			get
-			{
-                var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(Delay.Name);
-				stringBuilder.AppendLine("Состояние: " + DelayState.StateClass.ToDescription());
-				foreach (var stateClass in DelayState.StateClasses)
-				{
-					stringBuilder.AppendLine(stateClass.ToDescription());
-				}
-				return stringBuilder.ToString();
-			}
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

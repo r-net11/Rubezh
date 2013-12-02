@@ -37,21 +37,8 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("ZoneState");
-			OnPropertyChanged("ToolTip");
 		}
-
-		public string ToolTip
-		{
-			get
-			{
-				var toolTip = Zone.PresentationName;
-                toolTip += "\n" + "Состояние: " + ZoneState.StateClass.ToDescription();
-				toolTip += "\n" + "Количество датчиков для перевода в Пожар 1: " + Zone.Fire1Count.ToString();
-				toolTip += "\n" + "Количество датчиков для перевода в Пожар 2: " + Zone.Fire2Count.ToString();
-				return toolTip;
-			}
-		}
-
+		
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{

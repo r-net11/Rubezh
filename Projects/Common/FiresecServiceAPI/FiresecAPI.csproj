@@ -157,6 +157,7 @@
     <Compile Include="DriverConfigurationParametersHelper\MROHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="FiresecException.cs" />
+    <Compile Include="GKCallbackResult.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="Models\AddressConverter.cs" />
@@ -310,6 +311,7 @@
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
+    <Compile Include="XModels\PumpStation\XPumpStation.cs" />
     <Compile Include="XModels\States\XAdditionalState.cs" />
     <Compile Include="XModels\States\XBaseState.cs" />
     <Compile Include="XModels\States\XDelayState.cs" />
@@ -321,6 +323,7 @@
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\States\XPimState.cs" />
+    <Compile Include="XModels\States\XPumpStationState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

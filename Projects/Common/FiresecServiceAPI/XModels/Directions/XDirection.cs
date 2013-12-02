@@ -9,7 +9,7 @@ namespace XFiresecAPI
 	{
 		public XDirection()
 		{
-			UID = TempUID;// Guid.NewGuid();
+			UID = BaseUID;// Guid.NewGuid();
             DirectionZones = new List<XDirectionZone>();
             DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
@@ -78,7 +78,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Направление " + Name + " " + No.ToString(); }
+			get { return "Направление " + PresentationName; }
 		}
 
 		public override string GetDescriptorName()

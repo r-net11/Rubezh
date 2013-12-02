@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
 
-namespace GKProcessor.Events
+namespace Infrastructure.Events
 {
 	public class GKObjectsStateChangedEvent : CompositePresentationEvent<object>
 	{

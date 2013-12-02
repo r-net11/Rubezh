@@ -32,8 +32,8 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" Margin="2" />
-							</StackPanel>
+                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -42,7 +42,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
                                 <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-                                <TextBlock Width="200" Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                <TextBlock Width="200" Text="{Binding Direction.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
@@ -95,6 +95,15 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <Views:DirectionToolTipView />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
 		</DataGrid>
 
         <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="2">
@@ -112,7 +121,7 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Выходные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView />
+                            <Views:DeviceView Margin="2 0"/>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -131,7 +140,7 @@
                         <Setter.Value>
                             <StackPanel>
                                 <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
-                                <Views:DeviceStateView />
+                                <Views:DeviceStateView/>
                             </StackPanel>
                         </Setter.Value>
                     </Setter>
@@ -154,14 +163,14 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView />
+                            <Views:DeviceView Margin="2"/>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2" />
+							<TextBlock Text="{Binding Device.PresentationAddress}" Margin="2 0" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
@@ -169,8 +178,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}" />
-                                <TextBlock Margin="2" Text="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+                                <Image Margin="2" Width="16" Source="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}" />
+                                <TextBlock Text="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -198,7 +207,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Zone.No}" ToolTip="{Binding ToolTip}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
+                                <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -206,7 +215,7 @@
                 <DataGridTemplateColumn Width="*" Header="Входные зоны">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal" ToolTip="{Binding ToolTip}">
+                            <StackPanel Orientation="Horizontal">
                                 <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 								<TextBlock Text="{Binding Zone.Name}" />
 								<StackPanel.ContextMenu>
@@ -257,6 +266,15 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-		</DataGrid>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <Views:ZoneToolTipView />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
 	</Grid>
 </UserControl>

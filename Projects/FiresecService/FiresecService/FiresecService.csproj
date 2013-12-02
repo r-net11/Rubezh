@@ -116,7 +116,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Processor\SecurityConfigurationHelper.cs" />
+    <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\FiresecService.GK.cs" />

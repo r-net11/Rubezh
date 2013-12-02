@@ -9,10 +9,11 @@ using Infrastructure.Common;
 using FiresecAPI;
 using Common;
 using System.Runtime.Serialization;
+using XFiresecAPI;
 
 namespace FiresecService.Processor
 {
-	public static class SecurityConfigurationHelper
+	public static class ZipConfigurationHelper
 	{
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
@@ -23,6 +24,17 @@ namespace FiresecService.Processor
 			securityConfiguration.AfterLoad();
 			zipFile.Dispose();
 			return securityConfiguration;
+		}
+
+		public static XDeviceConfiguration GetDeviceConfiguration()
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			var deviceConfiguration = (XDeviceConfiguration)GetConfigurationFomZip(zipFile, "XDeviceConfiguration.xml", typeof(XDeviceConfiguration));
+			deviceConfiguration.AfterLoad();
+			zipFile.Dispose();
+			return deviceConfiguration;
 		}
 
 		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)

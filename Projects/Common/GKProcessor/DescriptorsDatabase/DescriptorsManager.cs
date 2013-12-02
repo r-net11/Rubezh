@@ -13,13 +13,7 @@ namespace GKProcessor
 		{
 			XManager.UpdateConfiguration();
 			XManager.Prepare();
-			CreateDBs();
-			KauDatabases.ForEach(x => x.BuildObjects());
-			GkDatabases.ForEach(x => x.BuildObjects());
-		}
 
-		static void CreateDBs()
-		{
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();
 
@@ -41,6 +35,9 @@ namespace GKProcessor
 					}
 				}
 			}
+
+			KauDatabases.ForEach(x => x.BuildObjects());
+			GkDatabases.ForEach(x => x.BuildObjects());
 		}
 	}
 }

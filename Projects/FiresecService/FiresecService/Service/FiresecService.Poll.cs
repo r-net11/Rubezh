@@ -46,6 +46,16 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+		public void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.GKObjectStateChanged,
+				GKCallbackResult = gkCallbackResult
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
         public void NotifyNewJournal(List<JournalRecord> journalRecords)
         {
             var callbackResult = new CallbackResult()

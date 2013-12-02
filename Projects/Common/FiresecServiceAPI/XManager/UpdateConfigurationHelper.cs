@@ -9,7 +9,6 @@ namespace FiresecClient
 {
 	public static partial class UpdateConfigurationHelper
 	{
-		//
 		public static XDeviceConfiguration DeviceConfiguration { get; private set; }
 
 		public static void Update(XDeviceConfiguration deviceConfiguration)
@@ -74,6 +73,7 @@ namespace FiresecClient
 			InitializeDevicesInZone();
 			InitializeLogic();
 			InitializeDirections();
+			InitializePumpStations();
 			InitializeGuardUsers();
 			UpdateGKChildrenDescription();
 		}
@@ -99,6 +99,13 @@ namespace FiresecClient
 				direction.InputDevices = new List<XDevice>();
 				direction.OutputDevices = new List<XDevice>();
 				direction.NSDevices = new List<XDevice>();
+			}
+			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			{
+				pumpStation.InputZones = new List<XZone>();
+				pumpStation.InputDevices = new List<XDevice>();
+				pumpStation.InputDirections = new List<XDirection>();
+				pumpStation.NSDevices = new List<XDevice>();
 			}
 		}
 
@@ -243,7 +250,7 @@ namespace FiresecClient
 								break;
 
 							case XDriverType.Pump:
-								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12 || nsDevice.IntAddress == 14)
+								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
 								{
 									nsDeviceUIDs.Add(nsDevice.UID);
 									direction.NSDevices.Add(nsDevice);
@@ -255,6 +262,96 @@ namespace FiresecClient
 				}
 				direction.NSDeviceUIDs = nsDeviceUIDs;
 			}
+		}
+
+		static void InitializePumpStations()
+		{
+			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			{
+				var nsDeviceUIDs = new List<Guid>();
+				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
+				{
+					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					if (nsDevice != null)
+					{
+						switch (nsDevice.DriverType)
+						{
+							case XDriverType.Pump:
+								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
+								{
+									nsDeviceUIDs.Add(nsDevice.UID);
+									pumpStation.NSDevices.Add(nsDevice);
+									//nsDevice.NSDirections.Add(pumpStation);
+								}
+								break;
+						}
+					}
+				}
+				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
+				InvalidatePumpStationLogic(pumpStation, pumpStation.StartLogic);
+				InvalidatePumpStationLogic(pumpStation, pumpStation.ForbidLogic);
+			}
+		}
+
+		public static void InvalidatePumpStationLogic(XPumpStation pumpStation, XDeviceLogic deviceLogic)
+		{
+			var clauses = new List<XClause>();
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				clause.Devices = new List<XDevice>();
+				clause.Zones = new List<XZone>();
+				clause.Directions = new List<XDirection>();
+
+				var deviceUIDs = new List<Guid>();
+				foreach (var deviceUID in clause.DeviceUIDs)
+				{
+					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					{
+						deviceUIDs.Add(deviceUID);
+						clause.Devices.Add(clauseDevice);
+						if (!pumpStation.InputDevices.Contains(clauseDevice))
+							pumpStation.InputDevices.Add(clauseDevice);
+						//clauseDevice.DevicesInLogic.Add(device);
+					}
+				}
+				clause.DeviceUIDs = deviceUIDs;
+
+				var zoneUIDs = new List<Guid>();
+				foreach (var zoneUID in clause.ZoneUIDs)
+				{
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zoneUIDs.Add(zoneUID);
+						clause.Zones.Add(zone);
+						if (!pumpStation.InputZones.Contains(zone))
+							pumpStation.InputZones.Add(zone);
+						//zone.DevicesInLogic.Add(device);
+					}
+				}
+				clause.ZoneUIDs = zoneUIDs;
+
+				var directionUIDs = new List<Guid>();
+				foreach (var directionUID in clause.DirectionUIDs)
+				{
+					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+					if (direction != null)
+					{
+						directionUIDs.Add(directionUID);
+						clause.Directions.Add(direction);
+						if (!pumpStation.InputDirections.Contains(direction))
+							pumpStation.InputDirections.Add(direction);
+						//direction.OutputDevices.Add(device);
+						//device.Directions.Add(direction);
+					}
+				}
+				clause.DirectionUIDs = directionUIDs;
+
+				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+					clauses.Add(clause);
+			}
+			deviceLogic.Clauses = clauses;
 		}
 
 		static void InitializeGuardUsers()

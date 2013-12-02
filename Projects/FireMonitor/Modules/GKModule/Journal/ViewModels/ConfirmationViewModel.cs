@@ -7,6 +7,7 @@ using GKModule.Events;
 using System.Collections.Generic;
 using System;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -27,10 +28,9 @@ namespace GKModule.ViewModels
 		void OnConfirm()
 		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
-			JournaActionlHelper.Add("Подтверждение тревоги",
+			FiresecManager.FiresecService.GKAddMessage("Подтверждение тревоги",
 				JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description +
-				" (время реакции " + deltaSeconds.ToString() + " сек)",
-				XStateClass.Norm);
+				" (время реакции " + deltaSeconds.ToString() + " сек)");
 			Close();
 		}
 	}

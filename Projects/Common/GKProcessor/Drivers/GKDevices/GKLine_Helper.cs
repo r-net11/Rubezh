@@ -18,9 +18,9 @@ namespace GKProcessor
 				HasLogic = false,
 				CanEditAddress = false,
                 HasAddress = false,
-				IsAutoCreate = true,
-				MinAddress = 12,
-				MaxAddress = 13,
+				//IsAutoCreate = true,
+				//MinAddress = 12,
+				//MaxAddress = 13,
 				IsDeviceOnShleif = false,
 				IsPlaceable = true
 			};

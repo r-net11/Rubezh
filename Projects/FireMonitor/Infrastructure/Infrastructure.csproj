@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
+    <Compile Include="Events\NewXJournalEvent.cs" />
     <Compile Include="Events\ShowSKUDEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Events\NewFS2JournalItemsEvent.cs" />

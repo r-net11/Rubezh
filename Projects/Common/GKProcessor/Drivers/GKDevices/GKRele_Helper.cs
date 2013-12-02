@@ -19,7 +19,7 @@ namespace GKProcessor
 				CanEditAddress = false,
                 HasAddress = false,
 				IsAutoCreate = true,
-				MinAddress = 14,
+				MinAddress = 12,
 				MaxAddress = 16,
 				IsDeviceOnShleif = false,
 				IsPlaceable = true
@@ -28,7 +28,7 @@ namespace GKProcessor
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			driver.AvailableStateClasses.Add(XStateClass.On);
-
+			driver.AvailableStateClasses.Add(XStateClass.Ignore);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 

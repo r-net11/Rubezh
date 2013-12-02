@@ -12,6 +12,7 @@ namespace GKProcessor
 		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
+		public XPumpStation PumpStation { get; protected set; }
 		public XDelay Delay { get; protected set; }
 		public XPim Pim { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
@@ -35,6 +36,7 @@ namespace GKProcessor
 		public BaseDescriptor()
 		{
 			Formula = new FormulaBuilder();
+			Parameters = new List<byte>();
 		}
 
 		protected void SetAddress(ushort address)
@@ -160,6 +162,9 @@ namespace GKProcessor
 
 					case DescriptorType.Direction:
 						return Direction;
+
+					case DescriptorType.PumpStation:
+						return PumpStation;
 
 					case DescriptorType.Delay:
 						return Delay;

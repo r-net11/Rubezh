@@ -72,6 +72,11 @@
                                             <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
+                                    <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>

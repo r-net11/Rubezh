@@ -180,6 +180,22 @@
       <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="Journal\Views\JournalGridView.xaml.cs">
+      <DependentUpon>JournalGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PumpStation\ViewModels\PumpStationDetailsViewModel.cs" />
+    <Compile Include="PumpStation\ViewModels\PumpStationsMenuViewModel.cs" />
+    <Compile Include="PumpStation\ViewModels\PumpStationsViewModel.cs" />
+    <Compile Include="PumpStation\ViewModels\PumpStationViewModel.cs" />
+    <Compile Include="PumpStation\Views\PumpStationDetailsView.xaml.cs">
+      <DependentUpon>PumpStationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PumpStation\Views\PumpStationsMenuView.xaml.cs">
+      <DependentUpon>PumpStationsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PumpStation\Views\PumpStationsView.xaml.cs">
+      <DependentUpon>PumpStationsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OPC\ViewModels\OPCDevicesViewModel.cs" />
     <Compile Include="OPC\ViewModels\OPCDirectionsViewModel.cs" />
     <Compile Include="OPC\ViewModels\OPCZonesViewModel.cs" />
@@ -307,6 +323,8 @@
     <Compile Include="Validation\Validator.Directions.cs" />
     <Compile Include="Validation\Validator.Zones.cs" />
     <Compile Include="Validation\ZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.PumpStations.cs" />
+    <Compile Include="Validation\PumpStationValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
@@ -497,9 +515,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Journal\Views\JournalGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Journal\Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PumpStation\Views\PumpStationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PumpStation\Views\PumpStationsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PumpStation\Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="OPC\Views\OPCDevicesView.xaml">
       <SubType>Designer</SubType>

@@ -130,12 +130,14 @@
     <Compile Include="Converters\BoolToFontStyleConverter.cs" />
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
+    <Compile Include="Converters\DelayRegimeToStringConverter.cs" />
     <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\RegimeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
     <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />
@@ -1339,6 +1341,7 @@
     <Resource Include="Images\DirectionPolygon.png" />
     <Resource Include="Images\DirectionRectangle.png" />
     <Resource Include="Images\PCUser.png" />
+    <Resource Include="Images\BParametersReadFromFile.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

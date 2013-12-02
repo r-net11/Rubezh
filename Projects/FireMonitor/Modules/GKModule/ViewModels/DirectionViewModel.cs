@@ -35,25 +35,8 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DirectionState");
-			OnPropertyChanged("ToolTip");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
-		}
-
-		public string ToolTip
-		{
-			get
-			{
-                var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine(Direction.PresentationName);
-				stringBuilder.AppendLine("Состояние: " + DirectionState.StateClass.ToDescription());
-				foreach (var stateClass in DirectionState.StateClasses)
-				{
-					stringBuilder.AppendLine(stateClass.ToDescription());
-				}
-                stringBuilder.AppendLine("Задержка: " + Direction.Delay.ToString());
-				return stringBuilder.ToString();
-			}
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

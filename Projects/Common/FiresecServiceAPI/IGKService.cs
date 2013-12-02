@@ -11,43 +11,46 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
-		void GKWriteConfiguration(XDevice device, bool writeFileToGK);
+		void AddJournalItem(JournalItem journalItem);
 
 		[OperationContract]
-		OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device);
+		void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
 
 		[OperationContract]
-		void GKUpdateFirmware(XDevice device, string fileName);
+		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		bool GKSyncronyseTime(XDevice device);
+		void GKUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]
-		string GKGetDeviceInfo(XDevice device);
+		bool GKSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<int> GKGetJournalItemsCount(XDevice device);
+		string GKGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no);
+		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSingleParameter(XDevice device);
+		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
-		OperationResult<bool> GKGetSingleParameter(XDevice device);
+		OperationResult<bool> GKSetSingleParameter(Guid deviceUID);
 
 		[OperationContract]
-		void GKExecuteDeviceCommand(XDevice device, XStateBit stateType);
+		OperationResult<bool> GKGetSingleParameter(Guid deviceUID);
+
+		[OperationContract]
+		void GKExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
 
 		[OperationContract]
 		void GKReset(Guid uid, XBaseObjectType objectType);
 
 		[OperationContract]
-		void GKResetFire1(Guid zoneUid);
+		void GKResetFire1(Guid zoneUID);
 
 		[OperationContract]
-		void GKResetFire2(Guid zoneUid);
+		void GKResetFire2(Guid zoneUID);
 
 		[OperationContract]
 		void GKSetAutomaticRegime(Guid uid, XBaseObjectType objectType);

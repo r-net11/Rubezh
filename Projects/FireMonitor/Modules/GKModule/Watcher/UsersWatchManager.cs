@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using Infrastructure.Common.Windows;
 using System.ComponentModel;
+using FiresecClient;
 
 namespace GKModule
 {
@@ -24,17 +25,17 @@ namespace GKModule
 		{
 			if (userChangedEventArgs.IsReconnect)
 			{
-				JournaActionlHelper.Add("Смена пользователя", userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
+				FiresecManager.FiresecService.GKAddMessage("Смена пользователя ", userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
 			}
 			else
 			{
-				JournaActionlHelper.Add("Вход пользователя в систему", "");
+				FiresecManager.FiresecService.GKAddMessage("Вход пользователя в систему", "");
 			}
 		}
 
 		static void ApplicationService_Closed(object sender, EventArgs e)
 		{
-			JournaActionlHelper.Add("Выход пользователя из системы", "");
+			FiresecManager.FiresecService.GKAddMessage("Выход пользователя из системы", "");
 		}
 	}
 }

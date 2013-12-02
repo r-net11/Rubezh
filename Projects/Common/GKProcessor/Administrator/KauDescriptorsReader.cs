@@ -27,7 +27,7 @@ namespace GKProcessor
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
 			LoadingService.Show("Чтение конфигурации", "Перевод КАУ в технологический режим");
-			GkDescriptorsWriter.GoToTechnologicalRegime(kauDevice);
+			DeviceBytesHelper.GoToTechnologicalRegime(kauDevice);
 			LoadingService.DoStep("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
@@ -36,7 +36,7 @@ namespace GKProcessor
 				{
 					if (LoadingService.IsCanceled)
 					{
-						ParsingError = "Операция отменена";
+						Error = "Операция отменена";
 						break;
 					}
 					LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
@@ -48,7 +48,7 @@ namespace GKProcessor
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
 			LoadingService.SaveClose();
-			return String.IsNullOrEmpty(ParsingError);
+			return String.IsNullOrEmpty(Error);
 		}
 
 		bool GetDescriptorInfo(XDevice kauDevice, int descriptorAdderss)
@@ -59,7 +59,7 @@ namespace GKProcessor
 			var bytes = sendResult.Bytes;
 			if (bytes.Count != 256)
 			{
-				ParsingError = "Длина дескриптора не соответствует нужному значению";
+				Error = "Длина дескриптора не соответствует нужному значению";
 				return false;
 			}
 			var deviceType = BytesHelper.SubstructShort(bytes, 0);
@@ -95,7 +95,7 @@ namespace GKProcessor
 				var sendResult = SendManager.Send(device, 4, 31, 256, data);
 				if (sendResult.Bytes.Count != 256)
 				{
-					ParsingError = "Не удалось распознать дескриптор";
+					Error = "Не удалось распознать дескриптор";
 					return false;
 				}
 				for (int i = 0; i < 256 / 4; i++)

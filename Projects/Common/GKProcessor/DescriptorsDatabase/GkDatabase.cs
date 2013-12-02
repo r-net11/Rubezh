@@ -9,6 +9,7 @@ namespace GKProcessor
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
+		public List<XPumpStation> PumpStations { get; set; }
 		public List<XDelay> Delays { get; set; }
 		public List<XPim> Pims { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
@@ -18,6 +19,7 @@ namespace GKProcessor
 			Devices = new List<XDevice>();
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
+			PumpStations = new List<XPumpStation>();
 			Delays = new List<XDelay>();
 			Pims = new List<XPim>();
 			KauDatabases = new List<KauDatabase>();
@@ -97,6 +99,14 @@ namespace GKProcessor
 					Directions.Add(direction);
 				}
 			}
+			foreach (var pumpStation in XManager.PumpStations)
+			{
+				if (pumpStation.GkDatabaseParent == RootDevice)
+				{
+					pumpStation.GKDescriptorNo = NextDescriptorNo;
+					PumpStations.Add(pumpStation);
+				}
+			}
 
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
@@ -114,6 +124,11 @@ namespace GKProcessor
 				var directionDescriptor = new DirectionDescriptor(direction);
 				Descriptors.Add(directionDescriptor);
 			}
+			foreach (var pumpStation in PumpStations)
+			{
+				var pumpStationDescriptor = new PumpStationDescriptor(pumpStation);
+				Descriptors.Add(pumpStationDescriptor);
+			}
 
 			foreach (var direction in Directions)
 			{
@@ -124,10 +139,22 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var descriptor in Descriptors)
+			foreach (var direction in Directions)
 			{
-				descriptor.InitializeAllBytes();
+				if (direction.IsNS)
+				{
+					var pumpStationCreator = new PumpStationCreator(this, direction);
+					pumpStationCreator.Create();
+				}
 			}
+
+			foreach (var pumpStation in PumpStations)
+			{
+				var pumpStationCreator2 = new PumpStationCreator2(this, pumpStation);
+				pumpStationCreator2.Create();
+			}
+
+			Descriptors.ForEach(x => x.InitializeAllBytes());
 		}
 
 		void AddKauObjects()

@@ -40,8 +40,11 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" ToolTip="{Binding ToolTip}">
-										<Grid.ContextMenu>
+                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}">
+                                        <Grid.ToolTip>
+                                            <Views:ZoneToolTipView />
+                                        </Grid.ToolTip>
+                                            <Grid.ContextMenu>
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
                                                 <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить">
                                                     <MenuItem.Icon>

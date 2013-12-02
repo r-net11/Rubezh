@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +8,7 @@ using System.Windows.Media.Animation;
 using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
-using GKProcessor.Events;
+using FiresecClient;
 
 namespace GKModule.Views
 {
@@ -19,15 +20,16 @@ namespace GKModule.Views
 			DataContext = this;
 		}
 
-		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			OnGKConnectionChanged(true);
-			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Unsubscribe(OnGKConnectionChanged);
-			ServiceFactory.Events.GetEvent<GKConnectionChangedEvent>().Subscribe(OnGKConnectionChanged);
+			OnGKObjectsStateChangedEvent(true);
+			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChangedEvent);
+			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChangedEvent);
 		}
 
-		private void OnGKConnectionChanged(bool isConnected)
+		void OnGKObjectsStateChangedEvent(object obj)
 		{
+			var isConnected = !XManager.Devices.Any(x => x.DeviceState.IsConnectionLost);
 			IsDeviceConnected = isConnected;
 			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
 			if (IsDeviceConnected)
@@ -35,7 +37,6 @@ namespace GKModule.Views
 		}
 
 		bool _isDeviceConnected;
-
 		public bool IsDeviceConnected
 		{
 			get { return _isDeviceConnected; }
@@ -59,7 +60,7 @@ namespace GKModule.Views
 			}
 		}
 
-		private ObjectAnimationUsingKeyFrames GetAnimation(bool start)
+		ObjectAnimationUsingKeyFrames GetAnimation(bool start)
 		{
 			var animation = new ObjectAnimationUsingKeyFrames();
 			if (!start)
@@ -80,7 +81,6 @@ namespace GKModule.Views
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
 		public void OnPropertyChanged(string propertyName)
 		{
 			if (PropertyChanged != null)

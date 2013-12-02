@@ -88,6 +88,58 @@ namespace GKProcessor
 			return true;
 		}
 
+		public static bool GoToTechnologicalRegime(XDevice device)
+		{
+			if (IsInTechnologicalRegime(device))
+				return true;
+
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
+			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
+			for (int i = 0; i < 10; i++)
+			{
+				if (IsInTechnologicalRegime(device))
+					return true;
+				Thread.Sleep(TimeSpan.FromSeconds(1));
+			}
+
+			return false;
+		}
+
+		public static bool IsInTechnologicalRegime(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 1, 1);
+			if (!sendResult.HasError)
+			{
+				if (sendResult.Bytes.Count > 0)
+				{
+					var version = sendResult.Bytes[0];
+					if (version > 127)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public static bool EraseDatabase(XDevice device)
+		{
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Стирание базы данных");
+			for (int i = 0; i < 3; i++)
+			{
+				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
+				if (!sendResult.HasError)
+				{
+					return true;
+				}
+				else
+				{
+					Thread.Sleep(TimeSpan.FromSeconds(1));
+				}
+			}
+			return false;
+		}
+
 		public static bool GoToWorkingRegime(XDevice device)
 		{
 			LoadingService.IsCanceled = false;

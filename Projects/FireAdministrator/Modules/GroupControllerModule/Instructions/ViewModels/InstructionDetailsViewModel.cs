@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 			var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
 			if (DialogService.ShowModalWindow(instructionZonesViewModel))
 			{
-				InstructionZones = new ObservableCollection<Guid>(instructionZonesViewModel.InstructionZonesList);
+				InstructionZones = new ObservableCollection<Guid>(instructionZonesViewModel.TargetZonesList);
 			}
 		}
 

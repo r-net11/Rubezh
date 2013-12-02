@@ -18,7 +18,16 @@
 				</Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Zone.No}" Header="№" />
+                <DataGridTemplateColumn Header="№" SortMemberPath="No">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center"/>
+                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Zone.Name}" Header="Наименование" Width="*" />
                 <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" />
                 </DataGrid.Columns>

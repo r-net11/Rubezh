@@ -2,7 +2,6 @@
 using Common;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using GKProcessor.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;
@@ -26,23 +25,17 @@ namespace GKProcessor
 				if (_isJournalAnyDBMissmatch != value)
 				{
 					_isJournalAnyDBMissmatch = value;
-					ApplicationService.Invoke(() =>
+					var journalItem = new JournalItem()
 					{
-						var journalItem = new JournalItem()
-						{
-							SystemDateTime = DateTime.Now,
-							DeviceDateTime = DateTime.Now,
-							GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-							JournalItemType = JournalItemType.System,
-							StateClass = XStateClass.Unknown,
-							ObjectStateClass = XStateClass.Norm,
-							Name = value ? "База данных прибора соответствует базе данных ПК" : "База данных прибора не соответствует базе данных ПК"
-						};
-
-						var journalItems = new List<JournalItem>() { journalItem };
-						GKDBHelper.AddMany(journalItems);
-						ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
-					});
+						SystemDateTime = DateTime.Now,
+						DeviceDateTime = DateTime.Now,
+						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
+						JournalItemType = JournalItemType.System,
+						StateClass = XStateClass.Unknown,
+						ObjectStateClass = XStateClass.Norm,
+						Name = value ? "База данных прибора соответствует базе данных ПК" : "База данных прибора не соответствует базе данных ПК"
+					};
+					AddJournalItem(journalItem);
 				}
 			}
 		}
@@ -52,7 +45,7 @@ namespace GKProcessor
 			IsAnyDBMissmatch = false;
 
 			if (showProgress)
-				StartProgress("Опрос объектов ГК", GkDatabase.Descriptors.Count, false);
+				GKProcessorManager.OnStartProgress("Опрос объектов ГК", GkDatabase.Descriptors.Count, false);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				LastUpdateTime = DateTime.Now;
@@ -66,17 +59,17 @@ namespace GKProcessor
 					}
 				}
 				if (showProgress)
-					DoProgress(descriptor.XBase.DescriptorInfo);
+					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorInfo);
 			}
 			foreach (var device in XManager.Devices)
 			{
 				if (device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					device.DeviceState.OnStateChanged();
+					device.DeviceState.OnInternalStateChanged();
 				}
 			}
 			if (showProgress)
-				StopProgress();
+				GKProcessorManager.OnStopProgress();
 
 			if (IsAnyDBMissmatch)
 			{
@@ -98,7 +91,18 @@ namespace GKProcessor
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 
-			ApplicationService.Invoke(() => { ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
+			foreach(var device in XManager.Devices)
+			{
+				OnObjectStateChanged(device);
+			}
+			foreach (var zone in XManager.Zones)
+			{
+				OnObjectStateChanged(zone);
+			}
+			foreach (var direction in XManager.Directions)
+			{
+				OnObjectStateChanged(direction);
+			}
 		}
 
 		bool GetState(XBase xBase)
@@ -113,24 +117,21 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count != 68)
 			{
 				IsAnyDBMissmatch = true;
-				ApplicationService.Invoke(() => { xBase.GetXBaseState().IsGKMissmatch = true; });
+				xBase.GetXBaseState().IsGKMissmatch = true;
 				return false;
 			}
 			ConnectionChanged(true);
 			var descriptorStateHelper = new DescriptorStateHelper();
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
-			ApplicationService.Invoke(() =>
-			{
-				var binaryState = xBase.GetXBaseState();
-				binaryState.LastDateTime = DateTime.Now;
-				binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
-				binaryState.OnDelay = descriptorStateHelper.OnDelay;
-				binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
-				binaryState.OffDelay = descriptorStateHelper.OffDelay;
-				binaryState.StateBits = descriptorStateHelper.StateBits; // OnStateChanged();
-			});
 
+			var binaryState = xBase.GetXBaseState();
+			binaryState.LastDateTime = DateTime.Now;
+			binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+			binaryState.OnDelay = descriptorStateHelper.OnDelay;
+			binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
+			binaryState.OffDelay = descriptorStateHelper.OffDelay;
+			binaryState.StateBits = descriptorStateHelper.StateBits;
 			return true;
 		}
 
@@ -208,9 +209,9 @@ namespace GKProcessor
 				{
 					var device = xBase as XDevice;
 					if (journalItem.Name == "Запыленность")
-						ApplicationService.Invoke(() => { device.DeviceState.IsService = true; });
+						device.DeviceState.IsService = true;
 					if (journalItem.Name == "Запыленность устранена")
-						ApplicationService.Invoke(() => { device.DeviceState.IsService = false; });
+						device.DeviceState.IsService = false;
 				}
 			}
 		}
@@ -218,7 +219,7 @@ namespace GKProcessor
 		#region TechnologicalRegime
 		void CheckTechnologicalRegime()
 		{
-			var isInTechnologicalRegime = IsInTechnologicalRegime(GkDatabase.RootDevice);
+			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				var baseState = descriptor.XBase.GetXBaseState();
@@ -229,7 +230,7 @@ namespace GKProcessor
 			{
 				foreach (var kauDatabase in GkDatabase.KauDatabases)
 				{
-					isInTechnologicalRegime = IsInTechnologicalRegime(kauDatabase.RootDevice);
+					isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
 					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
 					allChildren.Add(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
@@ -239,23 +240,6 @@ namespace GKProcessor
 					}
 				}
 			}
-		}
-
-		bool IsInTechnologicalRegime(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 1, 1, null, true, false, 2000);
-			if (!sendResult.HasError)
-			{
-				if (sendResult.Bytes.Count > 0)
-				{
-					var version = sendResult.Bytes[0];
-					if (version > 127)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
 		}
 		#endregion
 	}

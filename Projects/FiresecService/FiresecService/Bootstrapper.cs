@@ -36,10 +36,15 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
+				UILogger.Log("Создание конфигурации ГК");
+
+				GKProcessor.Create();
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
-				UILogger.Log("Готово");
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
+				UILogger.Log("Запуск ГК");
+				GKProcessor.Start();
+				UILogger.Log("Готово");
 			}
 			catch (Exception e)
 			{

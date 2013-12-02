@@ -12,6 +12,7 @@ using XFiresecAPI;
 using System.Diagnostics;
 using System;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -30,6 +31,7 @@ namespace GKModule.ViewModels
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowInTree);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			JournalItem = journalItem;
 			IsExistsInConfig = true;
 			
@@ -127,6 +129,49 @@ namespace GKModule.ViewModels
 				OnShowOnPlan();
 			else if (CanShowInTree())
 				OnShowObject();
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			switch (JournalItem.JournalItemType)
+			{
+				case JournalItemType.Device:
+					ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+					break;
+
+				case JournalItemType.Zone:
+					DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
+					break;
+
+				case JournalItemType.Direction:
+					DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
+					break;
+
+#if DEBUG
+				case JournalItemType.Delay:
+					DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
+					break;
+#endif
+			}
+		}
+		bool CanShowProperties()
+		{
+			if (!IsExistsInConfig)
+				return false;
+
+			switch (JournalItem.JournalItemType)
+			{
+				case JournalItemType.Device:
+				case JournalItemType.Zone:
+				case JournalItemType.Direction:
+#if DEBUG
+				case JournalItemType.Delay:
+				//case JournalItemType.Pim:
+#endif
+					return true;
+			}
+			return false;
 		}
 
 		public RelayCommand ShowObjectCommand { get; private set; }

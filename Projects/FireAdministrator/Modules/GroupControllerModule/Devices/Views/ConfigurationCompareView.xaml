@@ -13,7 +13,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="ToolTip" Value="{Binding HasDifferentsDiscription}" />
+                <Setter Property="ToolTip" Value="{Binding DifferenceDiscription}" />
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
@@ -23,7 +23,7 @@
                 <DataTrigger Binding ="{Binding IsPresent}" Value="True">
                     <Setter Property="Background" Value="Red" />
                 </DataTrigger >
-                <DataTrigger Binding ="{Binding HasDifferentZones}" Value="True">
+                <DataTrigger Binding ="{Binding HasSecondDifferences}" Value="True">
                     <Setter Property="Background" Value="LightPink" />
                 </DataTrigger >
                 <DataTrigger Binding ="{Binding IsAbsent}" Value="True">

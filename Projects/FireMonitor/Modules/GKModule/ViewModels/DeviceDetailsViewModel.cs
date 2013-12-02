@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			Device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			DeviceState = Device.DeviceState;
@@ -320,6 +321,18 @@ namespace GKModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
 			}
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = Device,
+				Zone = null,
+				Direction = null
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		#region IWindowIdentity Members

@@ -18,15 +18,37 @@ namespace GKProcessor
 		{
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
 			SetAddress((ushort)0);
-			Parameters = new List<byte>();
 			SetFormulaBytes();
-			InitializeAllBytes();
 		}
 
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			AddGkZoneFormula();
+			var fire1Count = AddDeviceFire1();
+			AddDeviceFire2();
+
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.MUL);
+			Formula.Add(FormulaOperationType.ADD);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddGetBit(XStateBit.Fire2, Zone);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutBit(XStateBit.Fire2, Zone);
+
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddGetBit(XStateBit.Fire1, Zone);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutBit(XStateBit.Fire1, Zone);
+
+			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddPutBit(XStateBit.Attention, Zone);
+
+			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}
 
@@ -71,35 +93,6 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.CONST, 0, 0, "Количество устройств в состоянии Пожар2");
 
 			return count;
-		}
-
-		void AddGkZoneFormula()
-		{
-			var fire1Count = AddDeviceFire1();
-			AddDeviceFire2();
-
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
-			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.ADD);
-			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire2Count, "Количество устройств для формирования Пожар2");
-			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateBit.Fire2, Zone);
-			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateBit.Fire2, Zone);
-
-			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.CONST, 0, (ushort)Zone.Fire1Count, "Количество устройств для формирования Пожар1");
-			Formula.Add(FormulaOperationType.GE);
-			Formula.AddGetBit(XStateBit.Fire1, Zone);
-			Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateBit.Fire1, Zone);
-
-			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
-			Formula.Add(FormulaOperationType.GE);
-			Formula.AddPutBit(XStateBit.Attention, Zone);
-
-			Formula.Add(FormulaOperationType.END);
 		}
 	}
 }

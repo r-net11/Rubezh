@@ -2,7 +2,6 @@
 using Common;
 using Infrastructure;
 using Infrastructure.Common.Windows;
-using GKProcessor.Events;
 using XFiresecAPI;
 using System.Threading;
 using System;
@@ -18,6 +17,7 @@ namespace GKProcessor
             return;
 			var descriptor = GkDatabase.Descriptors[pingObjectNo];
 			bool result = GetState(descriptor.XBase);
+			OnObjectStateChanged(descriptor.XBase);
 
 			pingObjectNo++;
 			if (pingObjectNo >= GkDatabase.Descriptors.Count)

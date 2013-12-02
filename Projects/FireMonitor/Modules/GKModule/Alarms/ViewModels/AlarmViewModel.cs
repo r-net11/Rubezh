@@ -371,6 +371,10 @@ namespace GKModule.ViewModels
 		{
 			return Alarm.Device != null || Alarm.Direction != null || Alarm.Zone != null;
 		}
+		public bool CanShowPropertiesCommand
+		{
+			get { return CanShowProperties(); }
+		}
 
 		public RelayCommand ShowInstructionCommand { get; private set; }
 		void OnShowInstruction()

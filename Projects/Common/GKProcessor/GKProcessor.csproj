@@ -63,6 +63,7 @@
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DirectionDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\PumpStationCreator2.cs" />
     <Compile Include="DescriptorStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />
@@ -129,9 +131,7 @@
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Table_Helper.cs" />
-    <Compile Include="Events\GKConnectionChangedEvent.cs" />
-    <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\NewXJournalEvent.cs" />
+    <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
@@ -153,14 +153,12 @@
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
-    <Compile Include="Watcher\SendPriority.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
     <Compile Include="Watcher\Watcher.License.cs" />
     <Compile Include="Watcher\Watcher.Journal.cs" />
     <Compile Include="Watcher\Watcher.PingStates.cs" />
-    <Compile Include="Watcher\Watcher.Progress.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
     <Compile Include="Watcher\Watcher.Main.cs" />
@@ -193,6 +191,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -30,6 +30,10 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.Directions; }
 		}
+		public static List<XPumpStation> PumpStations
+		{
+			get { return DeviceConfiguration.PumpStations; }
+		}
 		public static List<XDriver> Drivers
 		{
 			get { return DriversConfiguration.XDrivers; }

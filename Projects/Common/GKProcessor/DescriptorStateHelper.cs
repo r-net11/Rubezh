@@ -431,6 +431,12 @@ namespace GKProcessor
 						if (!bitArray[8 + 3])
 							AddAdditionalState(XStateClass.Failure, "Отказ ШУЗ");
 						break;
+
+					case XDriverType.Battery:
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "");
+						break;
 				}
 			}
 			else
@@ -445,12 +451,15 @@ namespace GKProcessor
 
 		void AddAdditionalState(XStateClass stateClass, string name)
 		{
-			var additionalState = new XAdditionalState()
+			if (name != null)
 			{
-				StateClass = stateClass,
-				Name = name
-			};
-			AdditionalStates.Add(additionalState);
+				var additionalState = new XAdditionalState()
+				{
+					StateClass = stateClass,
+					Name = name
+				};
+				AdditionalStates.Add(additionalState);
+			}
 		}
 	}
 }

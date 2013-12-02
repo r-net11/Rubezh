@@ -27,7 +27,6 @@ namespace GKProcessor
 
 			SetFormulaBytes();
 			SetPropertiesBytes();
-			InitializeAllBytes();
 		}
 
 		void SetFormulaBytes()
@@ -85,7 +84,6 @@ namespace GKProcessor
 
 			if (DatabaseType == DatabaseType.Gk && Device.Driver.IsDeviceOnShleif)
 			{
-				Parameters = new List<byte>();
 				return;
 			}
 			foreach (var property in Device.Properties)
@@ -137,7 +135,6 @@ namespace GKProcessor
 				}
 			}
 
-			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)
 			{
 				Parameters.Add(binProperty.No);

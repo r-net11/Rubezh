@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -19,6 +21,7 @@ namespace GKModule.ViewModels
 			AddStateCommand = new RelayCommand(OnAddState, CanAddState);
 			RemoveStateCommand = new RelayCommand(OnRemoveState, CanRemoveState);
 			Current = this;
+			var devicesToRemove = new List<LibraryXDevice>();
 			foreach (var libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices)
 			{
 				var driver = XManager.Drivers.FirstOrDefault(x => x.UID == libraryXDevice.XDriverId);
@@ -31,10 +34,17 @@ namespace GKModule.ViewModels
 					if (libraryXDevice.XDriverId.ToString() != "a7bb2fd0-0088-49ae-8c04-7d6fa22c79d6" &&
 						libraryXDevice.XDriverId.ToString() != "64cb0ab4-d9be-4c71-94a1-cf24406daf92")
 					{
+						devicesToRemove.Add(libraryXDevice);
 						Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
 					}
 				}
 			}
+			foreach (var libraryXDevice in devicesToRemove)
+			{
+				XManager.DeviceLibraryConfiguration.XDevices.RemoveAll(x => x == libraryXDevice);
+			}
+			if(devicesToRemove.Count > 0)
+				ServiceFactory.SaveService.XLibraryChanged = true;
 			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices.Where(x => x.Driver != null) orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
 			foreach (var device in devices)

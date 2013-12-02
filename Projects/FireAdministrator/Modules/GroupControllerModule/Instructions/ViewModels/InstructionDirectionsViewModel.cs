@@ -6,6 +6,8 @@ using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -13,20 +15,20 @@ namespace GKModule.ViewModels
     {
         public InstructionDirectionsViewModel(List<Guid> instructionDirectionsList)
         {
-            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
-            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
             Title = "Выбор направлений";
 
             InstructionDirectionsList = new List<Guid>(instructionDirectionsList);
-            InstructionDirections = new ObservableCollection<DirectionViewModel>();
-            AvailableDirections = new ObservableCollection<DirectionViewModel>();
+            TargetDirections = new ObservableCollection<DirectionViewModel>();
+            SourceDirections = new ObservableCollection<DirectionViewModel>();
 
             InitializeDirections();
-            if (InstructionDirections.IsNotNullOrEmpty())
-                SelectedInstructionDirection = InstructionDirections[0];
+            if (TargetDirections.IsNotNullOrEmpty())
+                SelectedTargetDirection = TargetDirections[0];
         }
 
         void InitializeDirections()
@@ -38,121 +40,151 @@ namespace GKModule.ViewModels
                 {
                     var instructionZone = InstructionDirectionsList.FirstOrDefault(x => x == directionViewModel.Direction.UID);
                     if (instructionZone != Guid.Empty)
-                        InstructionDirections.Add(directionViewModel);
+                        TargetDirections.Add(directionViewModel);
                     else
-                        AvailableDirections.Add(directionViewModel);
+                        SourceDirections.Add(directionViewModel);
                 }
                 else
                 {
-                    AvailableDirections.Add(directionViewModel);
+                    SourceDirections.Add(directionViewModel);
                 }
             }
 
-            if (InstructionDirections.IsNotNullOrEmpty())
-                SelectedInstructionDirection = InstructionDirections[0];
-            if (AvailableDirections.IsNotNullOrEmpty())
-                SelectedAvailableDirection = AvailableDirections[0];
+            if (TargetDirections.IsNotNullOrEmpty())
+                SelectedTargetDirection = TargetDirections[0];
+            if (SourceDirections.IsNotNullOrEmpty())
+                SelectedSourceDirection = SourceDirections[0];
         }
 
         public List<Guid> InstructionDirectionsList { get; set; }
-        public ObservableCollection<DirectionViewModel> AvailableDirections { get; set; }
-        public ObservableCollection<DirectionViewModel> InstructionDirections { get; set; }
+        public ObservableCollection<DirectionViewModel> SourceDirections { get; set; }
+        public ObservableCollection<DirectionViewModel> TargetDirections { get; set; }
 
         DirectionViewModel _selectedAvailableDirection;
-        public DirectionViewModel SelectedAvailableDirection
+        public DirectionViewModel SelectedSourceDirection
         {
             get { return _selectedAvailableDirection; }
             set
             {
                 _selectedAvailableDirection = value;
-                OnPropertyChanged("SelectedAvailableDirection");
+				OnPropertyChanged("SelectedSourceDirection");
             }
         }
 
         DirectionViewModel _selectedInstructionDirection;
-        public DirectionViewModel SelectedInstructionDirection
+        public DirectionViewModel SelectedTargetDirection
         {
             get { return _selectedInstructionDirection; }
             set
             {
                 _selectedInstructionDirection = value;
-                OnPropertyChanged("SelectedInstructionDirection");
+				OnPropertyChanged("SelectedTargetDirection");
             }
-        }
-
-        public bool CanAddOne()
-        {
-            return SelectedAvailableDirection != null;
         }
 
         public bool CanAddAll()
         {
-            return AvailableDirections.IsNotNullOrEmpty();
-        }
-
-        public bool CanRemoveOne()
-        {
-            return SelectedInstructionDirection != null;
+            return SourceDirections.IsNotNullOrEmpty();
         }
 
         public bool CanRemoveAll()
         {
-            return InstructionDirections.IsNotNullOrEmpty();
+            return TargetDirections.IsNotNullOrEmpty();
         }
 
-        public RelayCommand AddOneCommand { get; private set; }
-        void OnAddOne()
-        {
-            InstructionDirections.Add(SelectedAvailableDirection);
-            AvailableDirections.Remove(SelectedAvailableDirection);
-            if (AvailableDirections.IsNotNullOrEmpty())
-                SelectedAvailableDirection = AvailableDirections[0];
-            if (InstructionDirections.IsNotNullOrEmpty())
-                SelectedInstructionDirection = InstructionDirections[0];
-        }
+        public RelayCommand<object> AddCommand { get; private set; }
+		public IList SelectedSourceDirections;
+		void OnAdd(object parameter)
+		{
+			var index = SourceDirections.IndexOf(SelectedSourceDirection);
+
+			SelectedSourceDirections = (IList)parameter;
+			var SourceDirectionViewModels = new List<DirectionViewModel>();
+			foreach (var SourceDirection in SelectedSourceDirections)
+			{
+				var SourceDirectionViewModel = SourceDirection as DirectionViewModel;
+				if (SourceDirectionViewModel != null)
+					SourceDirectionViewModels.Add(SourceDirectionViewModel);
+			}
+			foreach (var SourceDirectionViewModel in SourceDirectionViewModels)
+			{
+				TargetDirections.Add(SourceDirectionViewModel);
+				SourceDirections.Remove(SourceDirectionViewModel);
+			}
+			SelectedTargetDirection = TargetDirections.LastOrDefault();
+			OnPropertyChanged("SourceDirections");
+
+			index = Math.Min(index, SourceDirections.Count - 1);
+			if (index > -1)
+				SelectedSourceDirection = SourceDirections[index];
+		}
+		public bool CanAdd(object parameter)
+		{
+			return SelectedSourceDirection != null;
+		}
+
+		public RelayCommand<object> RemoveCommand { get; private set; }
+		public IList SelectedTargetDirections;
+		void OnRemove(object parameter)
+		{
+			var index = TargetDirections.IndexOf(SelectedTargetDirection);
+
+			SelectedTargetDirections = (IList)parameter;
+			var TargetDirectionViewModels = new List<DirectionViewModel>();
+			foreach (var TargetDirection in SelectedTargetDirections)
+			{
+				var TargetDirectionViewModel = TargetDirection as DirectionViewModel;
+				if (TargetDirectionViewModel != null)
+					TargetDirectionViewModels.Add(TargetDirectionViewModel);
+			}
+			foreach (var TargetDirectionViewModel in TargetDirectionViewModels)
+			{
+				SourceDirections.Add(TargetDirectionViewModel);
+				TargetDirections.Remove(TargetDirectionViewModel);
+			}
+			SelectedSourceDirection = SourceDirections.LastOrDefault();
+			OnPropertyChanged("TargetDirections");
+
+			index = Math.Min(index, TargetDirections.Count - 1);
+			if (index > -1)
+				SelectedTargetDirection = TargetDirections[index];
+		}
+		public bool CanRemove(object parameter)
+		{
+			return SelectedTargetDirection != null;
+		}
 
         public RelayCommand AddAllCommand { get; private set; }
         void OnAddAll()
         {
-            foreach (var availableZone in AvailableDirections)
+            foreach (var availableZone in SourceDirections)
             {
-                InstructionDirections.Add(availableZone);
+                TargetDirections.Add(availableZone);
             }
 
-            AvailableDirections.Clear();
-            SelectedAvailableDirection = null;
-            if (InstructionDirections.IsNotNullOrEmpty())
-                SelectedInstructionDirection = InstructionDirections[0];
+            SourceDirections.Clear();
+            SelectedSourceDirection = null;
+            if (TargetDirections.IsNotNullOrEmpty())
+                SelectedTargetDirection = TargetDirections[0];
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
         void OnRemoveAll()
         {
-            foreach (var instructionZone in InstructionDirections)
+            foreach (var instructionZone in TargetDirections)
             {
-                AvailableDirections.Add(instructionZone);
+                SourceDirections.Add(instructionZone);
             }
 
-            InstructionDirections.Clear();
-            SelectedInstructionDirection = null;
-            if (AvailableDirections.IsNotNullOrEmpty())
-                SelectedAvailableDirection = AvailableDirections[0];
+            TargetDirections.Clear();
+            SelectedTargetDirection = null;
+            if (SourceDirections.IsNotNullOrEmpty())
+                SelectedSourceDirection = SourceDirections[0];
         }
 
-        public RelayCommand RemoveOneCommand { get; private set; }
-        void OnRemoveOne()
+		protected override bool Save()
         {
-            AvailableDirections.Add(SelectedInstructionDirection);
-            InstructionDirections.Remove(SelectedInstructionDirection);
-            if (AvailableDirections.IsNotNullOrEmpty())
-                SelectedAvailableDirection = AvailableDirections[0];
-            if (InstructionDirections.IsNotNullOrEmpty())
-                SelectedInstructionDirection = InstructionDirections[0];
-        }
-
-        protected override bool Save()
-        {
-            InstructionDirectionsList = new List<Guid>(from direction in InstructionDirections select direction.Direction.UID);
+            InstructionDirectionsList = new List<Guid>(from direction in TargetDirections select direction.Direction.UID);
             return base.Save();
         }
     }

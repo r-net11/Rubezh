@@ -19,9 +19,9 @@ namespace GKProcessor
 				return;
 			if (remoteLastId > localLastDBNo)
 			{
-				StartProgress("Синхронизация журнала ГК " + gkIpAddress, remoteLastId - localLastDBNo);
+				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, remoteLastId - localLastDBNo);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
-				StopProgress();
+				GKProcessorManager.OnStopProgress();
 				LastId = remoteLastId;
 			}
 		}
@@ -37,19 +37,19 @@ namespace GKProcessor
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{
-					DoProgress((index - startIndex).ToString() + " из " + (endIndex - startIndex).ToString());
+					GKProcessorManager.OnDoProgress((index - startIndex).ToString() + " из " + (endIndex - startIndex).ToString());
 
 					journalItems.Add(journalItem);
 					if (journalItems.Count > 100)
 					{
-						GKDBHelper.AddMany(journalItems);
+						AddJournalItems(journalItems);
 						journalItems = new List<JournalItem>();
 					}
 				}
 			}
 			if (journalItems.Count > 0)
 			{
-				GKDBHelper.AddMany(journalItems);
+				AddJournalItems(journalItems);
 			}
 		}
 	}

@@ -64,6 +64,18 @@
                                     </Hyperlink>
                                 </TextBlock>
                             </WrapPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <WrapPanel>
+                                    <TextBlock>
+										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+											</StackPanel>
+										</Hyperlink>
+								    </TextBlock>
+                                </WrapPanel>
+                            </StackPanel>
                             <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
                                 <ItemsControl ItemsSource="{Binding Plans}">
@@ -98,6 +110,18 @@
                                 <TextBlock Text="Выходных устройств: " />
                                 <TextBlock Text="{Binding OutputDevicesCount}"/>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Задержка: " />
+                                <TextBlock Text="{Binding Direction.Delay}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Удержание: " />
+                                <TextBlock Text="{Binding Direction.Hold}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Режим после удержания: " />
+                                <TextBlock Text="{Binding Direction.Regime, Converter={StaticResource RegimeToStringConverter}}"/>
+                            </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>
                 </ScrollViewer>
@@ -108,7 +132,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 5">
                         <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
                         <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
                         <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />

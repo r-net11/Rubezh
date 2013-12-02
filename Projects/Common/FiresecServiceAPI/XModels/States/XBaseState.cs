@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI.XModels;
+using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
+	[DataContract]
 	public abstract class XBaseState
 	{
-		public static void SafeCall(Action action)
-		{
-			if (Application.Current != null && Application.Current.Dispatcher != null)
-				Application.Current.Dispatcher.BeginInvoke(action);
-		}
-
 		public XBaseState()
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+			StateClasses = new List<XStateClass>();
+			StateClass = XStateClass.Unknown;
+		}
+
+		public event Action InternalStateChanged;
+		public void OnInternalStateChanged()
+		{
+			IsInitialState = false;
+			if (InternalStateChanged != null)
+				InternalStateChanged();
 		}
 
 		public event Action StateChanged;
 		public void OnStateChanged()
 		{
-			IsInitialState = false;
-			SafeCall(() =>
-			{
-				if (StateChanged != null)
-					StateChanged();
-			});
+			if (StateChanged != null)
+				StateChanged();
 		}
 
 		public bool IsInitialState { get; protected set; }
@@ -41,7 +43,7 @@ namespace XFiresecAPI
 				if (_isGKConnectionLost != value)
 				{
 					_isGKConnectionLost = value;
-					OnStateChanged();
+					OnInternalStateChanged();
 				}
 			}
 		}
@@ -55,7 +57,7 @@ namespace XFiresecAPI
 				if (_isNoLicense != value)
 				{
 					_isNoLicense = value;
-					OnStateChanged();
+					OnInternalStateChanged();
 				}
 			}
 		}
@@ -69,7 +71,7 @@ namespace XFiresecAPI
 				if (_isConnectionLost != value)
 				{
 					_isConnectionLost = value;
-					OnStateChanged();
+					OnInternalStateChanged();
 				}
 			}
 		}
@@ -83,7 +85,7 @@ namespace XFiresecAPI
 				if (_isGKMissmatch != value)
 				{
 					_isGKMissmatch = value;
-					OnStateChanged();
+					OnInternalStateChanged();
 				}
 			}
 		}
@@ -111,7 +113,7 @@ namespace XFiresecAPI
 				if (_isRealMissmatch != value)
 				{
 					_isRealMissmatch = value;
-					OnStateChanged();
+					OnInternalStateChanged();
 				}
 			}
 		}
@@ -119,7 +121,7 @@ namespace XFiresecAPI
 		public DateTime LastDateTime { get; set; }
 		public abstract List<XStateBit> StateBits { get; set; }
 
-		public virtual List<XStateClass> StateClasses
+		public virtual List<XStateClass> InternalStateClasses
 		{
 			get
 			{
@@ -147,14 +149,30 @@ namespace XFiresecAPI
 			}
 		}
 
-		public virtual XStateClass StateClass
+		public virtual XStateClass InternalStateClass
 		{
-			get { return XStatesHelper.GetMinStateClass(StateClasses); }
+			get { return XStatesHelper.GetMinStateClass(InternalStateClasses); }
 		}
 
+		[DataMember]
+		public Guid UID { get; set; }
+
+		[DataMember]
 		public List<XAdditionalState> AdditionalStates { get; set; }
+
+		[DataMember]
 		public int OnDelay { get; set; }
+
+		[DataMember]
 		public int HoldDelay { get; set; }
+
+		[DataMember]
 		public int OffDelay { get; set; }
+
+		[DataMember]
+		public List<XStateClass> StateClasses { get; set; }
+
+		[DataMember]
+		public XStateClass StateClass { get; set; }
 	}
 }

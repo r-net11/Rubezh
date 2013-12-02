@@ -185,10 +185,20 @@ namespace GKProcessor
 							if (bytes[32 + 14] == 0)
 								JournalItem.Name = "Неисправность устранена";
 
-							if (JournalItem.DescriptorType == 0xE0)
-								JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
-							else
-								JournalItem.Description = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+							switch (JournalItem.DescriptorType)
+							{
+								case 0xE0:
+									JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
+									break;
+
+								case 0xD6:
+									JournalItem.Description = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
+									break;
+
+								default:
+									JournalItem.Description = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+									break;
+							}
 							break;
 
 						case 6:

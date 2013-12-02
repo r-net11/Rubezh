@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="GKModule.Views.DirectionToolTipView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/Blue_Direction.png" />
+            <TextBlock Text="{Binding Direction.PresentationName}" Margin="2 0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Состояние:" Margin="2 0" />
+            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+            <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0"/>
+                        <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Margin="2 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

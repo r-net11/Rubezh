@@ -64,6 +64,16 @@ namespace GKModule.Plans.ViewModels
 				XManager.AddDeviceToZone(Device, zone);
 		}
 
+		public bool HasNewZone 
+		{ 
+			get { return !string.IsNullOrEmpty(NewZoneName); } 
+		}
+
+		public bool HasOldZone 
+		{ 
+			get { return !string.IsNullOrEmpty(OldZoneName); } 
+		}
+
 		bool _isActive;
 		public bool IsActive
 		{

@@ -6,10 +6,6 @@ namespace XFiresecAPI
 	{
 		public XZone Zone { get; set; }
 
-		public XZoneState()
-		{
-		}
-
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{
@@ -29,7 +25,7 @@ namespace XFiresecAPI
 				_stateBits = value;
 				if (_stateBits == null)
 					_stateBits = new List<XStateBit>();
-				OnStateChanged();
+				OnInternalStateChanged();
 			}
 		}
 	}
