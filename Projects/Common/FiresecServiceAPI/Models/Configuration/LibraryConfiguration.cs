@@ -1,37 +1,32 @@
-﻿using System.Runtime.Serialization;
-using FiresecAPI.Models.Layouts;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class LayoutsConfiguration : VersionedConfiguration
+	public class DeviceLibraryConfiguration : VersionedConfiguration
 	{
-		public LayoutsConfiguration()
+		public DeviceLibraryConfiguration()
 		{
-			Layouts = new List<Layout>();
+			Devices = new List<LibraryDevice>();
 		}
 
 		[DataMember]
-		public List<Layout> Layouts { get; set; }
+		public List<LibraryDevice> Devices { get; set; }
 
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			if (Layouts == null)
+			foreach (var libraryDevice in Devices)
 			{
-				Layouts = new List<Layout>();
-				result = false;
+				if (libraryDevice.UID == Guid.Empty)
+				{
+					libraryDevice.UID = Guid.NewGuid();
+					result = false;
+				}
 			}
-			foreach (var layout in Layouts)
-				if (layout.UID == Guid.Empty)
-					layout.UID = Guid.NewGuid();
 			return result;
-		}
-
-		public void Update()
-		{
 		}
 	}
 }

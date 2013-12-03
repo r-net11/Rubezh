@@ -158,6 +158,7 @@ namespace FireAdministrator
 						ServiceFactory.SaveService.FSChanged = true;
 						ServiceFactory.SaveService.PlansChanged = true;
 						ServiceFactory.SaveService.GKChanged = true;
+						ServiceFactory.SaveService.LayoutsChanged = true;
 					}
 				});
 				return FileName;

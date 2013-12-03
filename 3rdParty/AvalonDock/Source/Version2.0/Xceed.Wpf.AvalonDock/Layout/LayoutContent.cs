@@ -37,27 +37,27 @@ namespace Xceed.Wpf.AvalonDock.Layout
         #region Title
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register( "Title", typeof( string ), typeof( LayoutContent ), new UIPropertyMetadata( null, OnTitlePropertyChanged, CoerceTitleValue ) );
+            DependencyProperty.Register("Title", typeof(string), typeof(LayoutContent), new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
 
         public string Title
         {
-          get { return ( string )GetValue( TitleProperty ); }
-          set { SetValue( TitleProperty, value ); }
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
         }
 
-        private static object CoerceTitleValue( DependencyObject obj, object value )
+        private static object CoerceTitleValue(DependencyObject obj, object value)
         {
-          var lc = ( LayoutContent )obj;
-          if( ( ( string )value ) != lc.Title )
-          {
-            lc.RaisePropertyChanging( LayoutContent.TitleProperty.Name );
-          }
-          return value;
+            var lc = (LayoutContent)obj;
+            if (((string)value) != lc.Title)
+            {
+                lc.RaisePropertyChanging(LayoutContent.TitleProperty.Name);
+            }
+            return value;
         }
 
-        private static void OnTitlePropertyChanged( DependencyObject obj, DependencyPropertyChangedEventArgs args )
+        private static void OnTitlePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
-          ( ( LayoutContent )obj ).RaisePropertyChanged( LayoutContent.TitleProperty.Name );
+            ((LayoutContent)obj).RaisePropertyChanged(LayoutContent.TitleProperty.Name);
         }
 
         #endregion //Title
@@ -87,15 +87,15 @@ namespace Xceed.Wpf.AvalonDock.Layout
         private string _contentId = null;
         public string ContentId
         {
-            get 
+            get
             {
                 if (_contentId == null)
-                { 
+                {
                     var contentAsControl = _content as FrameworkElement;
                     if (contentAsControl != null && !string.IsNullOrWhiteSpace(contentAsControl.Name))
                         return contentAsControl.Name;
                 }
-                return _contentId; 
+                return _contentId;
             }
             set
             {
@@ -291,6 +291,24 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         #endregion
 
+        #region Margin
+
+        private double _margin = 0;
+        public double Margin
+        {
+            get { return _margin; }
+            set
+            {
+                if (_margin != value)
+                {
+                    _margin = value;
+                    RaisePropertyChanged("Margin");
+                }
+            }
+        }
+
+        #endregion
+
         protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
         {
             var root = Root;
@@ -383,92 +401,93 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
         public virtual void ReadXml(System.Xml.XmlReader reader)
         {
-			//if (reader.MoveToAttribute("Title"))
-			//    Title = reader.Value;
+            //if (reader.MoveToAttribute("Title"))
+            //    Title = reader.Value;
             //if (reader.MoveToAttribute("IconSource"))
             //    IconSource = new Uri(reader.Value, UriKind.RelativeOrAbsolute);
 
-			//if (reader.MoveToAttribute("IsSelected"))
-			//    IsSelected = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("IsSelected"))
+            //    IsSelected = bool.Parse(reader.Value);
             if (reader.MoveToAttribute("ContentId"))
                 ContentId = reader.Value;
-			//if (reader.MoveToAttribute("IsLastFocusedDocument"))
-			//    IsLastFocusedDocument = bool.Parse(reader.Value);
-			//if (reader.MoveToAttribute("PreviousContainerId"))
-			//    PreviousContainerId = reader.Value;
-			//if (reader.MoveToAttribute("PreviousContainerIndex"))
-			//    PreviousContainerIndex = int.Parse(reader.Value);
+            if (reader.MoveToAttribute("Margin"))
+                Margin = double.Parse(reader.Value);
+            //if (reader.MoveToAttribute("IsLastFocusedDocument"))
+            //    IsLastFocusedDocument = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("PreviousContainerId"))
+            //    PreviousContainerId = reader.Value;
+            //if (reader.MoveToAttribute("PreviousContainerIndex"))
+            //    PreviousContainerIndex = int.Parse(reader.Value);
 
-			//if (reader.MoveToAttribute("FloatingLeft"))
-			//    FloatingLeft = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-			//if (reader.MoveToAttribute("FloatingTop"))
-			//    FloatingTop = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-			//if (reader.MoveToAttribute("FloatingWidth"))
-			//    FloatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-			//if (reader.MoveToAttribute("FloatingHeight"))
-			//    FloatingHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
-			//if (reader.MoveToAttribute("IsMaximized"))
-			//    IsMaximized = bool.Parse(reader.Value);
-			//if (reader.MoveToAttribute("CanClose"))
-			//    CanClose = bool.Parse(reader.Value);
-			//if (reader.MoveToAttribute("CanFloat"))
-			//    CanFloat = bool.Parse(reader.Value);
-			//if (reader.MoveToAttribute("LastActivationTimeStamp"))
-			//    LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
-
+            //if (reader.MoveToAttribute("FloatingLeft"))
+            //    FloatingLeft = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            //if (reader.MoveToAttribute("FloatingTop"))
+            //    FloatingTop = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            //if (reader.MoveToAttribute("FloatingWidth"))
+            //    FloatingWidth = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            //if (reader.MoveToAttribute("FloatingHeight"))
+            //    FloatingHeight = double.Parse(reader.Value, CultureInfo.InvariantCulture);
+            //if (reader.MoveToAttribute("IsMaximized"))
+            //    IsMaximized = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("CanClose"))
+            //    CanClose = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("CanFloat"))
+            //    CanFloat = bool.Parse(reader.Value);
+            //if (reader.MoveToAttribute("LastActivationTimeStamp"))
+            //    LastActivationTimeStamp = DateTime.Parse(reader.Value, CultureInfo.InvariantCulture);
             reader.Read();
         }
 
         public virtual void WriteXml(System.Xml.XmlWriter writer)
         {
-			//if (!string.IsNullOrWhiteSpace(Title))
-			//    writer.WriteAttributeString("Title", Title);
+            //if (!string.IsNullOrWhiteSpace(Title))
+            //    writer.WriteAttributeString("Title", Title);
 
             //if (IconSource != null)
             //    writer.WriteAttributeString("IconSource", IconSource.ToString());
 
-			//if (IsSelected)
-			//    writer.WriteAttributeString("IsSelected", IsSelected.ToString());
+            //if (IsSelected)
+            //    writer.WriteAttributeString("IsSelected", IsSelected.ToString());
 
-			//if (IsLastFocusedDocument)
-			//    writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
+            //if (IsLastFocusedDocument)
+            //    writer.WriteAttributeString("IsLastFocusedDocument", IsLastFocusedDocument.ToString());
 
             if (!string.IsNullOrWhiteSpace(ContentId))
                 writer.WriteAttributeString("ContentId", ContentId);
+            if (Margin != 0)
+                writer.WriteAttributeString("Margin", Margin.ToString());
+            //if (ToolTip != null && ToolTip is string)
+            //    if (!string.IsNullOrWhiteSpace((string)ToolTip))
+            //        writer.WriteAttributeString("ToolTip", (string)ToolTip);
 
+            //if (FloatingLeft != 0.0)
+            //    writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
+            //if (FloatingTop != 0.0)
+            //    writer.WriteAttributeString("FloatingTop", FloatingTop.ToString(CultureInfo.InvariantCulture));
+            //if (FloatingWidth != 0.0)
+            //    writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
+            //if (FloatingHeight != 0.0)
+            //    writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString(CultureInfo.InvariantCulture));
 
-			//if (ToolTip != null && ToolTip is string)
-			//    if (!string.IsNullOrWhiteSpace((string)ToolTip))
-			//        writer.WriteAttributeString("ToolTip", (string)ToolTip);
+            //if (IsMaximized)
+            //    writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
+            //if (!CanClose)
+            //    writer.WriteAttributeString("CanClose", CanClose.ToString());
+            //if (!CanFloat)
+            //    writer.WriteAttributeString("CanFloat", CanFloat.ToString());
 
-			//if (FloatingLeft != 0.0)
-			//    writer.WriteAttributeString("FloatingLeft", FloatingLeft.ToString(CultureInfo.InvariantCulture));
-			//if (FloatingTop != 0.0)
-			//    writer.WriteAttributeString("FloatingTop", FloatingTop.ToString(CultureInfo.InvariantCulture));
-			//if (FloatingWidth != 0.0)
-			//    writer.WriteAttributeString("FloatingWidth", FloatingWidth.ToString(CultureInfo.InvariantCulture));
-			//if (FloatingHeight != 0.0)
-			//    writer.WriteAttributeString("FloatingHeight", FloatingHeight.ToString(CultureInfo.InvariantCulture));
+            //if (LastActivationTimeStamp != null)
+            //    writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
 
-			//if (IsMaximized)
-			//    writer.WriteAttributeString("IsMaximized", IsMaximized.ToString());
-			//if (!CanClose)
-			//    writer.WriteAttributeString("CanClose", CanClose.ToString());
-			//if (!CanFloat)
-			//    writer.WriteAttributeString("CanFloat", CanFloat.ToString());
-
-			//if (LastActivationTimeStamp != null)
-			//    writer.WriteAttributeString("LastActivationTimeStamp", LastActivationTimeStamp.Value.ToString(CultureInfo.InvariantCulture));
-
-			//if (_previousContainer != null)
-			//{
-			//    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
-			//    if (paneSerializable != null)
-			//    {
-			//        writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
-			//        writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
-			//    }
-			//}
+            //if (_previousContainer != null)
+            //{
+            //    var paneSerializable = _previousContainer as ILayoutPaneSerializable;
+            //    if (paneSerializable != null)
+            //    {
+            //        writer.WriteAttributeString("PreviousContainerId", paneSerializable.Id);
+            //        writer.WriteAttributeString("PreviousContainerIndex", _previousContainerIndex.ToString());
+            //    }
+            //}
         }
 
         #region FloatingWidth
@@ -732,7 +751,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
         }
 
         protected virtual void InternalDock()
-        { 
+        {
 
         }
 
