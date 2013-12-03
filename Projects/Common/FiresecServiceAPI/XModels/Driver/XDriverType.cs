@@ -51,6 +51,7 @@
         Shu,
         Shuv,
         RSR2_Siren,
-        RSR2_Table
+        RSR2_Table,
+		RSR2_Splitter
     }
 }

@@ -113,16 +113,17 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="18" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="18" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -132,9 +133,9 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2"/>
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" Margin="2"/>
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" Margin="2"/>
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="Пользователь" Margin="2"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="IP-адрес ГК" Margin="2"/>
-                <TextBlock Grid.Row="2" Grid.Column="2" Text="Подсистема" Margin="2"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="Пользователь" Margin="2"/>
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="IP-адрес ГК" Margin="2"/>
+                <TextBlock Grid.Row="2" Grid.Column="3" Text="Подсистема" Margin="2"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                 <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="2">
@@ -151,9 +152,9 @@
 				        </Hyperlink>
                     </TextBlock>
                 </StackPanel>
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding JournalItem.UserName}" Width="Auto" Margin="2"/>
-                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" Margin="2"/>
-                <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal">
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding JournalItem.UserName}" Width="Auto" Margin="2"/>
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" Margin="2"/>
+                <StackPanel Grid.Row="4" Grid.Column="4" Orientation="Horizontal">
                     <Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
                     <TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" VerticalAlignment="Center" />
                 </StackPanel>

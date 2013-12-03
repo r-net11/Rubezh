@@ -130,6 +130,7 @@
     <Compile Include="Drivers\RSR2\RSR2_Siren_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector2_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_Splitter_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Table_Helper.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Journal\Description.cs" />

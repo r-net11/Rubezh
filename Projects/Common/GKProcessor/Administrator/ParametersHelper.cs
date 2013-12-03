@@ -120,11 +120,11 @@ namespace GKProcessor
 						{
 							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 							descriptor.Device.DeviceProperties.Add(new XProperty()
-							    {
-							        DriverProperty = systemProperty.DriverProperty,
-							        Name = systemProperty.Name,
-							        Value = paramValue,
-							    });
+							{
+							    DriverProperty = systemProperty.DriverProperty,
+							    Name = systemProperty.Name,
+							    Value = paramValue,
+							});
 						}
 						if (property != null && property.Value != paramValue)
 						{

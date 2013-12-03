@@ -1342,6 +1342,9 @@
     <Resource Include="Images\DirectionRectangle.png" />
     <Resource Include="Images\PCUser.png" />
     <Resource Include="Images\BParametersReadFromFile.png" />
+    <Resource Include="Images\Pim.png" />
+    <Resource Include="Images\PumpStation.png" />
+    <Resource Include="GKIcons\RSR2_Splitter.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

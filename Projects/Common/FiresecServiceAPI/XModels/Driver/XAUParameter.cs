@@ -22,5 +22,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public string InternalName { get; set; }
+
+		[DataMember]
+		public double? Multiplier { get; set; }
 	}
 }

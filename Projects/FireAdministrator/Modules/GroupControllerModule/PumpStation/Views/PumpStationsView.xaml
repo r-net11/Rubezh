@@ -14,7 +14,16 @@
             </Grid.ColumnDefinitions>
             <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Width="1*" Binding="{Binding PumpStation.Name}" />
+                    <DataGridTemplateColumn Header="Выходные устройства" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/PumpStation.png" Width="16" Margin="2 0 0 0" />
+                                    <TextBlock Text="{Binding PumpStation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </Controls:XDataGrid>
             <Grid Grid.Column="1" DataContext="{Binding SelectedPumpStation}" Margin="2">

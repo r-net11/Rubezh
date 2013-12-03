@@ -41,26 +41,31 @@ namespace GKModule
 								var resievedParameterNo = result.Bytes[63];
 								if (resievedParameterNo == auParameter.No)
 								{
-									var parameterValue = BytesHelper.SubstructShort(result.Bytes, 64);
+									var ushortValue = BytesHelper.SubstructShort(result.Bytes, 64);
 									if (auParameter.IsHighByte)
 									{
-										parameterValue = (ushort)(parameterValue / 256);
+										ushortValue = (ushort)(ushortValue / 256);
 									}
 									else if (auParameter.IsLowByte)
 									{
-										parameterValue = (ushort)(parameterValue << 8);
-										parameterValue = (ushort)(parameterValue >> 8);
+										ushortValue = (ushort)(ushortValue << 8);
+										ushortValue = (ushort)(ushortValue >> 8);
 									}
-									var stringValue = parameterValue.ToString();
+									var parameterValue = (double)ushortValue;
+									if (auParameter.Multiplier != null)
+									{
+										parameterValue /= (double)auParameter.Multiplier;
+									}
+									var	stringValue = ushortValue.ToString();
 									if (auParameter.Name == "Дата последнего обслуживания")
 									{
-										stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
+										stringValue = (ushortValue / 256).ToString() + "." + (ushortValue % 256).ToString();
 									}
 									if ((device.DriverType == XDriverType.Valve || device.DriverType == XDriverType.Pump)
 										&& auParameter.Name == "Режим работы")
 									{
 										stringValue = "Неизвестно";
-										switch (parameterValue & 3)
+										switch (ushortValue & 3)
 										{
 											case 0:
 												stringValue = "Автоматический";

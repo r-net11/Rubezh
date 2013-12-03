@@ -58,6 +58,7 @@ namespace GKModule.ViewModels
 			if (showXArchiveEventArgs.Delay != null)
 				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
 			IsFilterOn = true;
+			OnPropertyChanged("IsFilterExists");
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;

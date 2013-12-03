@@ -10,8 +10,8 @@ namespace GKProcessor
 		public bool IsDelay { get; set; }
 		public XAUParameter DriverParameter { get; set; }
 
-		int _value;
-		public int Value
+		double _value;
+		public double Value
 		{
 			get { return _value; }
 			set
