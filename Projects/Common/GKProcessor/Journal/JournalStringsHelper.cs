@@ -232,24 +232,24 @@ namespace GKProcessor
 			switch (b)
 			{
 				case 0: return "";
-				case 1: return "Отсутствие сетевого напряжения";
+				case 1: return "Отсутствие сетевого напряжения";//
 				case 2: return "Выход 1";
-				case 3: return "Напряжение выхода 1 < 9В";
-				case 4: return "Напряжение выхода 1 < 10,4В";
-				case 5: return "Напряжение выхода 1 > 14В";
+				case 3: return "Напряжение выхода 1 < 9В";//
+				case 4: return "Напряжение выхода 1 < 10,4В";//
+				case 5: return "Напряжение выхода 1 > 14В";//
 				case 6: return "Выход 2";
-				case 7: return "Напряжение выхода 2 < 9В";
-				case 8: return "Напряжение выхода 2 < 10,4В";
-				case 9: return "Напряжение выхода 2 > 14В";
+				case 7: return "Напряжение выхода 2 < 9В";//
+				case 8: return "Напряжение выхода 2 < 10,4В";//
+				case 9: return "Напряжение выхода 2 > 14В";//
 				case 10: return "АКБ 1";
-				case 11: return "АКБ 1 Разряд";
-				case 12: return "АКБ 1 Глубокий Разряд";
-				case 13: return "АКБ 1 Отсутствие";
+				case 11: return "АКБ 1 Разряд";//
+				case 12: return "АКБ 1 Глубокий Разряд";//
+				case 13: return "АКБ 1 Отсутствие";//
 				case 14: return "АКБ 2";
-				case 15: return "АКБ 2 Разряд";
-				case 16: return "АКБ 2 Глубокий Разряд";
-				case 17: return "АКБ 2 Отсутствие";
-				case 255: return "Потеря связи"; //
+				case 15: return "АКБ 2 Разряд";//
+				case 16: return "АКБ 2 Глубокий Разряд";//
+				case 17: return "АКБ 2 Отсутствие";//
+				case 255: return "Потеря связи";//
 			}
 			return "";
 		}

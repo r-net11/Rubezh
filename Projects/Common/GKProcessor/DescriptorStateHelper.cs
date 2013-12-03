@@ -433,9 +433,35 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.Battery:
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "");
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] / 256 });
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Отсутствие сетевого напряжения");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] & 256 });
+						if (!bitArray[0] && bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 < 9В");
+						if (bitArray[0] && !bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 < 10,4В");
+						if (bitArray[0] && bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 > 14В");
+						if (!bitArray[2] && bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 < 9В");
+						if (bitArray[2] && !bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 < 10,4В");
+						if (bitArray[2] && bitArray[3])
+							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 > 14В");
+						if (!bitArray[4] && bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "АКБ 1 Разряд");
+						if (bitArray[4] && !bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "АКБ 1 Глубокий Разряд");
+						if (bitArray[4] && bitArray[5])
+							AddAdditionalState(XStateClass.Failure, "АКБ 1 Отсутствие");
+						if (!bitArray[6] && bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "АКБ 2 Разряд");
+						if (bitArray[6] && !bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "АКБ 2 Глубокий Разряд");
+						if (bitArray[6] && bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "АКБ 2 Отсутствие");
 						break;
 				}
 			}
