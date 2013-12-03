@@ -15,15 +15,15 @@ namespace FiresecAPI
 		public List<JournalRecord> JournalRecords { get; set; }
 
 		[DataMember]
-		public List<JournalItem> JournalItems { get; set; }
+		public GKCallbackResult GKCallbackResult { get; set; }
 
 		[DataMember]
-		public GKCallbackResult GKCallbackResult { get; set; }
+		public GKProgressCallback GKProgressCallback { get; set; }
 	}
 
 	public enum CallbackResultType
 	{
-		NewGKEvents,
+		GKProgress,
 		GKObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,

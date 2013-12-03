@@ -11,26 +11,38 @@ namespace GKProcessor
 {
 	public static class GKProcessorManager
 	{
+		#region Callback
 		public static void OnStartProgress(string name, int count, bool canCancel = true)
 		{
-			if (DoProgress != null)
-				StartProgress(name, count, canCancel);
+			var gkProgressCallback = new GKProgressCallback();
+			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
+			gkProgressCallback.Name = name;
+			gkProgressCallback.Count = count;
+			gkProgressCallback.CanCancel = canCancel;
+			OnGKCallbackResult(gkProgressCallback);
 		}
-		public static event Action<string, int, bool> StartProgress;
 
 		public static void OnDoProgress(string name)
 		{
-			if (DoProgress != null)
-				DoProgress(name);
+			var gkProgressCallback = new GKProgressCallback();
+			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
+			gkProgressCallback.Name = name;
+			OnGKCallbackResult(gkProgressCallback);
 		}
-		public static event Action<string> DoProgress;
 
 		public static void OnStopProgress()
 		{
-			if (StopProgress != null)
-				StopProgress();
+			var gkProgressCallback = new GKProgressCallback();
+			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Stop;
+			OnGKCallbackResult(gkProgressCallback);
 		}
-		public static event Action StopProgress;
+
+		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		{
+			if (GKProgressCallbackEvent != null)
+				GKProgressCallbackEvent(gkProgressCallback);
+		}
+		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
 		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
@@ -41,6 +53,26 @@ namespace GKProcessor
 			}
 		}
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		#endregion
+
+		#region Main
+		public static void Start()
+		{
+			WatcherManager.IsConfigurationReloading = false;
+			WatcherManager.Start();
+		}
+
+		public static void Stop()
+		{
+			WatcherManager.Stop();
+		}
+
+		public static void Suspend()
+		{
+			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
+			WatcherManager.IsConfigurationReloading = true;
+		}
+		#endregion
 
 		#region Operations
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device)

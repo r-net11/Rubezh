@@ -19,6 +19,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKModule
 {
@@ -154,17 +155,11 @@ namespace GKModule
 			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
 			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
-			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-			{
-				GKProcessorManager.StartProgress -= new Action<string, int, bool>(OnStartProgress);
-				GKProcessorManager.StartProgress += new Action<string, int, bool>(OnStartProgress);
+			SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 
-				GKProcessorManager.DoProgress -= new Action<string>(OnDoProgress);
-				GKProcessorManager.DoProgress += new Action<string>(OnDoProgress);
-
-				GKProcessorManager.StopProgress -= new Action(OnStopProgress);
-				GKProcessorManager.StopProgress += new Action(OnStopProgress);
-			}
+			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 
 			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
@@ -172,37 +167,30 @@ namespace GKModule
 
 		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
 		{
-			return;
+			if (isAdministrator)
+			{
+				FiresecManager.FiresecService.AddJournalItem(journalItem);
+			}
+		}
+
+		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		{
 			ApplicationService.Invoke(() =>
 			{
-				if (isAdministrator)
+				switch (gkProgressCallback.GKProgressCallbackType)
 				{
-					FiresecManager.FiresecService.GKAddMessage(journalItem.Name, journalItem.Description);
+					case GKProgressCallbackType.Start:
+						LoadingService.Show(gkProgressCallback.Name, gkProgressCallback.Name, gkProgressCallback.Count, gkProgressCallback.CanCancel);
+						return;
+
+					case GKProgressCallbackType.Progress:
+						LoadingService.DoStep(gkProgressCallback.Name);
+						return;
+
+					case GKProgressCallbackType.Stop:
+						LoadingService.Close();
+						return;
 				}
-			});
-		}
-
-		void OnStartProgress(string name, int count, bool canCancel = true)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Show(name, name, count, canCancel);
-			});
-		}
-
-		void OnDoProgress(string name)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.DoStep(name);
-			});
-		}
-
-		void OnStopProgress()
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Close();
 			});
 		}
 
