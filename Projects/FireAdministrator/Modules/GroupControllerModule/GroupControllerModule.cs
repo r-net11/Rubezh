@@ -172,6 +172,7 @@ namespace GKModule
 
 		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
 		{
+			return;
 			ApplicationService.Invoke(() =>
 			{
 				if (isAdministrator)

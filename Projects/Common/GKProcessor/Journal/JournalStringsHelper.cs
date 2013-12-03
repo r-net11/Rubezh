@@ -234,13 +234,13 @@ namespace GKProcessor
 				case 0: return "";
 				case 1: return "Отсутствие сетевого напряжения";//
 				case 2: return "Выход 1";
-				case 3: return "Напряжение выхода 1 < 9В";//
-				case 4: return "Напряжение выхода 1 < 10,4В";//
-				case 5: return "Напряжение выхода 1 > 14В";//
+				case 3: return "КЗ Выхода 1";//
+				case 4: return "Перегрузка Выхода 1";//
+				case 5: return "Напряжение Выхода 1 выше нормы";//
 				case 6: return "Выход 2";
-				case 7: return "Напряжение выхода 2 < 9В";//
-				case 8: return "Напряжение выхода 2 < 10,4В";//
-				case 9: return "Напряжение выхода 2 > 14В";//
+				case 7: return "КЗ Выхода 2";//
+				case 8: return "Перегрузка Выхода 2";//
+				case 9: return "Напряжение Выхода 2 выше нормы";//
 				case 10: return "АКБ 1";
 				case 11: return "АКБ 1 Разряд";//
 				case 12: return "АКБ 1 Глубокий Разряд";//
