@@ -48,6 +48,7 @@ namespace GKProcessor
 				GKProcessorManager.OnStartProgress("Опрос объектов ГК", GkDatabase.Descriptors.Count, false);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
+				Trace.WriteLine("GetAllStates " + descriptor.XBase.PresentationName + " " + descriptor.GetDescriptorNo().ToString());
 				LastUpdateTime = DateTime.Now;
 				var result = GetState(descriptor.XBase);
 				if (!result)

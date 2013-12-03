@@ -31,6 +31,15 @@ namespace FiresecClient
 				directionState.UID = direction.UID;
 				direction.DirectionState = directionState;
 			}
+			foreach (var pumpStation in PumpStations)
+			{
+				var pumpStationState = new XPumpStationState()
+				{
+					PumpStation = pumpStation
+				};
+				pumpStationState.UID = pumpStation.UID;
+				pumpStation.PumpStationState = pumpStationState;
+			}
         }
 
         static List<XDevice> allDeviceChildren;
