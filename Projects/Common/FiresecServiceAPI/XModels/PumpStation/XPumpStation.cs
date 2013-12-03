@@ -10,7 +10,7 @@ namespace XFiresecAPI
 		public XPumpStation()
 		{
 			UID = BaseUID;
-			Regime = 1;
+			Regime = 2;
 			InputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
 			InputDirections = new List<XDirection>();

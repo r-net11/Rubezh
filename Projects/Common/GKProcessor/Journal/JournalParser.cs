@@ -16,6 +16,7 @@ namespace GKProcessor
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
+		public XPumpStation PumpStation { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 
@@ -331,6 +332,13 @@ namespace GKProcessor
 					JournalItem.JournalItemType = JournalItemType.Direction;
 					JournalItem.ObjectUID = Direction.UID;
 					JournalItem.ObjectName = Direction.PresentationName;
+				}
+				PumpStation = XManager.PumpStations.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				if (PumpStation != null)
+				{
+					JournalItem.JournalItemType = JournalItemType.PumpStation;
+					JournalItem.ObjectUID = PumpStation.UID;
+					JournalItem.ObjectName = PumpStation.PresentationName;
 				}
 
 				if (DescriptorsManager.GkDatabases != null)

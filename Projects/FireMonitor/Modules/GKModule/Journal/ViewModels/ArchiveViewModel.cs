@@ -57,6 +57,8 @@ namespace GKModule.ViewModels
 				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
 			if (showXArchiveEventArgs.Delay != null)
 				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
+			if (showXArchiveEventArgs.PumpStation != null)
+				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.UID);
 			IsFilterOn = true;
 			OnPropertyChanged("IsFilterExists");
 		}

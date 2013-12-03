@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKProcessor
 {
@@ -19,6 +20,17 @@ namespace GKProcessor
 						AddAdditionalState(deviceState, journalItem.Description);
 						if (descriptor.Device.DriverType == XDriverType.Battery)
 						{
+							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+							if (batteryNamesGroup != null)
+							{
+								foreach (var name in batteryNamesGroup.Names)
+								{
+									if (name != journalItem.Description)
+									{
+										deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+									}
+								}
+							}
 						}
 					}
 				}
@@ -33,38 +45,20 @@ namespace GKProcessor
 						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
 						if (descriptor.Device.DriverType == XDriverType.Battery)
 						{
-							switch(journalItem.Description)
+							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+							if (batteryNamesGroup != null)
 							{
-								case "Выход 1":
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "КЗ Выхода 1");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Перегрузка Выхода 1");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Напряжение Выхода 1 выше нормы");
-									break;
-
-								case "Выход 2":
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "КЗ Выхода 2");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Перегрузка Выхода 2");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Напряжение Выхода 2 выше нормы");
-									break;
-
-								case "АКБ 1":
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Разряд");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Глубокий Разряд");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Отсутствие");
-									break;
-
-								case "АКБ 2":
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Разряд");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Глубокий Разряд");
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Отсутствие");
-									break;
+								foreach (var name in batteryNamesGroup.Names)
+								{
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+								}
 							}
 						}
 					}
 				}
 				if (journalItem.Name == "Информация")
 				{
-					switch(journalItem.Description)
+					switch (journalItem.Description)
 					{
 						case "Низкий уровень":
 						case "Высокий уровень":
@@ -93,6 +87,52 @@ namespace GKProcessor
 				};
 				deviceState.AdditionalStates.Add(additionalState);
 			}
+		}
+	}
+
+	public static class BatteryJournalHelper
+	{
+		static BatteryJournalHelper()
+		{
+			BatteryNamesGroups = new List<BatteryNamesGroup>();
+
+			var batteryNamesGroup1 = new BatteryNamesGroup("Выход 1");
+			batteryNamesGroup1.Names.Add("КЗ Выхода 1");
+			batteryNamesGroup1.Names.Add("Перегрузка Выхода 1");
+			batteryNamesGroup1.Names.Add("Напряжение Выхода 1 выше нормы");
+			BatteryNamesGroups.Add(batteryNamesGroup1);
+
+			var batteryNamesGroup2 = new BatteryNamesGroup("Выход 2");
+			batteryNamesGroup2.Names.Add("КЗ Выхода 2");
+			batteryNamesGroup2.Names.Add("Перегрузка Выхода 2");
+			batteryNamesGroup2.Names.Add("Напряжение Выхода 2 выше нормы");
+			BatteryNamesGroups.Add(batteryNamesGroup2);
+
+			var batteryNamesGroup3 = new BatteryNamesGroup("АКБ 1");
+			batteryNamesGroup3.Names.Add("АКБ 1 Разряд");
+			batteryNamesGroup3.Names.Add("АКБ 1 Глубокий Разряд");
+			batteryNamesGroup3.Names.Add("АКБ 1 Отсутствие");
+			BatteryNamesGroups.Add(batteryNamesGroup3);
+
+			var batteryNamesGroup4 = new BatteryNamesGroup("АКБ 2");
+			batteryNamesGroup4.Names.Add("АКБ 2 Разряд");
+			batteryNamesGroup4.Names.Add("АКБ 2 Глубокий Разряд");
+			batteryNamesGroup4.Names.Add("АКБ 2 Отсутствие");
+			BatteryNamesGroups.Add(batteryNamesGroup4);
+		}
+
+		public static List<BatteryNamesGroup> BatteryNamesGroups { get; private set; }
+
+		public class BatteryNamesGroup
+		{
+			public BatteryNamesGroup(string resetName)
+			{
+				ResetName = resetName;
+				Names = new List<string>();
+			}
+
+			public string ResetName { get; set; }
+			public List<string> Names { get; set; }
 		}
 	}
 }

@@ -184,6 +184,9 @@
     <Compile Include="ViewModels\DelaysViewModel.cs" />
     <Compile Include="ViewModels\DelayViewModel.cs" />
     <Compile Include="ViewModels\DelayDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PumpStationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PumpStationsViewModel.cs" />
+    <Compile Include="ViewModels\PumpStationViewModel.cs" />
     <Compile Include="Views\DeviceParametersView.xaml.cs">
       <DependentUpon>DeviceParametersView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +214,9 @@
     <Compile Include="Views\ToolTip\ZoneToolTipView.xaml.cs">
       <DependentUpon>ZoneToolTipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ToolTip\PumpStationToolTipView.xaml.cs">
+      <DependentUpon>PumpStationToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
@@ -219,6 +225,12 @@
     </Compile>
     <Compile Include="Views\DelayDetailsView.xaml.cs">
       <DependentUpon>DelayDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PumpStationDetailsView.xaml.cs">
+      <DependentUpon>PumpStationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PumpStationsView.xaml.cs">
+      <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Watcher\UsersWatchManager.cs" />
@@ -314,6 +326,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\PumpStationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="Reports\DriverCounterReport.xaml">
       <SubType>Designer</SubType>
     </Resource>
@@ -378,6 +398,10 @@
     <Page Include="Views\ToolTip\ZoneToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolTip\PumpStationToolTipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ZoneDetailsView.xaml">
       <SubType>Designer</SubType>

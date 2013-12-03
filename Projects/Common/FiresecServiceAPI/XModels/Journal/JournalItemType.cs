@@ -5,27 +5,30 @@ namespace XFiresecAPI
 	public enum JournalItemType
 	{
 		[DescriptionAttribute("Система")]
-		System = 0,
+		System,
 
 		[DescriptionAttribute("ГК")]
-		GK = 1,
+		GK,
 
 		[DescriptionAttribute("Устройство")]
-		Device = 2,
+		Device,
 
 		[DescriptionAttribute("Зона")]
-		Zone = 3,
+		Zone,
 
 		[DescriptionAttribute("Направление")]
-		Direction = 4,
+		Direction,
 
 		[DescriptionAttribute("Задержка")]
-		Delay = 5,
+		Delay,
+
+		[DescriptionAttribute("НС")]
+		PumpStation,
 
 		[DescriptionAttribute("ПИМ")]
-		Pim = 6,
+		Pim,
 
 		[DescriptionAttribute("Пользователь прибора")]
-		GkUser = 7
+		GkUser
 	}
 }

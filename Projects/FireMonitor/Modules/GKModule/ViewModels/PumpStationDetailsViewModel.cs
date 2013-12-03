@@ -1,0 +1,232 @@
+﻿using System;
+using System.Linq;
+using FiresecAPI.Models;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
+using System.Diagnostics;
+using Infrastructure;
+using Infrastructure.Events;
+using FiresecClient;
+using Infrustructure.Plans.Elements;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Windows.Input;
+
+namespace GKModule.ViewModels
+{
+	public class PumpStationDetailsViewModel : DialogViewModel, IWindowIdentity
+	{
+		public XPumpStation PumpStation { get; private set; }
+		public XPumpStationState PumpStationState { get; private set; }
+		public PumpStationViewModel PumpStationViewModel { get; private set; }
+
+		public PumpStationDetailsViewModel(XPumpStation pumpStation)
+		{
+			PumpStation = pumpStation;
+			PumpStationState = PumpStation.PumpStationState;
+			PumpStationViewModel = new PumpStationViewModel(PumpStationState);
+			PumpStationState.StateChanged += new Action(OnStateChanged);
+			InitializePlans();
+
+			ShowCommand = new RelayCommand(OnShow);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
+			ForbidStartCommand = new RelayCommand(OnForbidStart);
+
+			Title = PumpStation.PresentationName;
+			TopMost = true;
+		}
+
+		void OnStateChanged()
+		{
+			OnPropertyChanged("StateClasses");
+			OnPropertyChanged("ControlRegime");
+			OnPropertyChanged("IsControlRegime");
+			OnPropertyChanged("PumpStationState");
+			OnPropertyChanged("HasOnDelay");
+			OnPropertyChanged("HasHoldDelay");
+			CommandManager.InvalidateRequerySuggested();
+		}
+
+		public List<XStateClass> StateClasses
+		{
+			get
+			{
+				var stateClasses = PumpStationState.StateClasses.ToList();
+				stateClasses.Sort();
+				return stateClasses;
+			}
+		}
+
+		public int InputZonesCount
+		{
+			get { return PumpStation.InputZones.Count; }
+		}
+		public int InputDevicesCount
+		{
+			get { return PumpStation.InputDevices.Count; }
+		}
+		public int OutputDevicesCount
+		{
+			get
+			{
+				return PumpStation.NSDevices.Where(x => x.DriverType == XDriverType.Pump && x.IntAddress <= 8).Count();
+			}
+		}
+
+		public DeviceControlRegime ControlRegime
+		{
+			get
+			{
+				if (PumpStationState.StateClasses.Contains(XStateClass.Ignore))
+					return DeviceControlRegime.Ignore;
+
+				if (!PumpStationState.StateClasses.Contains(XStateClass.AutoOff))
+					return DeviceControlRegime.Automatic;
+
+				return DeviceControlRegime.Manual;
+			}
+		}
+
+		public bool IsControlRegime
+		{
+			get { return ControlRegime == DeviceControlRegime.Manual; }
+		}
+
+		public RelayCommand SetAutomaticStateCommand { get; private set; }
+        void OnSetAutomaticState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetAutomaticRegime(PumpStation);
+            }
+        }
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
+
+		public RelayCommand SetManualStateCommand { get; private set; }
+        void OnSetManualState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetManualRegime(PumpStation);
+            }
+        }
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
+
+		public RelayCommand SetIgnoreStateCommand { get; private set; }
+        void OnSetIgnoreState()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKSetIgnoreRegime(PumpStation);
+            }
+        }
+		bool CanSetIgnoreState()
+		{
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
+
+		public RelayCommand TurnOnCommand { get; private set; }
+        void OnTurnOn()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOn(PumpStation);
+            }
+        }
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+        void OnTurnOnNow()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOnNow(PumpStation);
+            }
+        }
+
+		public RelayCommand TurnOffCommand { get; private set; }
+        void OnTurnOff()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKTurnOff(PumpStation);
+            }
+        }
+
+		public RelayCommand ForbidStartCommand { get; private set; }
+        void OnForbidStart()
+        {
+            if (ServiceFactory.SecurityService.Validate())
+            {
+				FiresecManager.FiresecService.GKStop(PumpStation);
+            }
+        }
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Device = null,
+				Zone = null,
+				PumpStation = PumpStation
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
+		public bool HasOnDelay
+		{
+			get { return PumpStationState.StateClasses.Contains(XStateClass.TurningOn) && PumpStationState.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return PumpStationState.StateClasses.Contains(XStateClass.On) && PumpStationState.HoldDelay > 0; }
+		}
+
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
+		}
+
+		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
+		public bool HasPlans
+		{
+			get { return Plans.Count > 0; }
+		}
+
+		void InitializePlans()
+		{
+			Plans = new ObservableCollection<PlanLinkViewModel>();
+		}
+
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+		}
+
+		#region IWindowIdentity Members
+		public string Guid
+		{
+			get { return PumpStation.UID.ToString(); }
+		}
+		#endregion
+
+		public override void OnClosed()
+		{
+			PumpStationState.StateChanged -= new Action(OnStateChanged);
+		}
+	}
+}

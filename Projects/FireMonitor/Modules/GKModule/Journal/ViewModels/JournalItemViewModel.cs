@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
+		public XPumpStation PumpStation { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 		public string PresentationName { get; private set; }
@@ -60,6 +61,14 @@ namespace GKModule.ViewModels
 						if (Direction != null)
 						{
 							PresentationName = Direction.PresentationName;
+						}
+						break;
+
+					case JournalItemType.PumpStation:
+						PumpStation = XManager.PumpStations.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (PumpStation != null)
+						{
+							PresentationName = PumpStation.PresentationName;
 						}
 						break;
 
@@ -148,6 +157,10 @@ namespace GKModule.ViewModels
 					DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
 					break;
 
+				case JournalItemType.PumpStation:
+					DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
+					break;
+
 #if DEBUG
 				case JournalItemType.Delay:
 					DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
@@ -165,6 +178,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+				case JournalItemType.PumpStation:
 #if DEBUG
 				case JournalItemType.Delay:
 				//case JournalItemType.Pim:
@@ -191,6 +205,10 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
+				case JournalItemType.PumpStation:
+					ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
+					break;
+
 #if DEBUG
 				case JournalItemType.Delay:
 					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
@@ -214,6 +232,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+				case JournalItemType.PumpStation:
 #if DEBUG
 				case JournalItemType.Delay:
 				case JournalItemType.Pim:

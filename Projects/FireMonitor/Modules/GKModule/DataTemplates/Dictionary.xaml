@@ -79,4 +79,12 @@
         <Views:DelayDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
+        <Views:PumpStationsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
+        <Views:PumpStationDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

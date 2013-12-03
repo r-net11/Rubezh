@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DirectionToolTipView : UserControl
+	public partial class PumpStationToolTipView : UserControl
 	{
-		public DirectionToolTipView()
+		public PumpStationToolTipView()
 		{
 			InitializeComponent();
 		}

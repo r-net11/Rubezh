@@ -4,7 +4,7 @@
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/Blue_Direction.png" />
-            <TextBlock Text="{Binding Direction.PresentationName}" Margin="2 0"/>
+            <TextBlock Text="{Binding Direction.PresentationName}" Margin="2 0" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Состояние:" Margin="2 0" />
@@ -15,7 +15,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0"/>
+                        <Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2 0" />
                         <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" Margin="2 0" />
                     </StackPanel>
                 </DataTemplate>

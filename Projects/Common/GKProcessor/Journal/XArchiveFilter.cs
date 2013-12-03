@@ -22,6 +22,7 @@ namespace GKProcessor
 			ZoneUIDs = new List<Guid>();
 			DirectionUIDs = new List<Guid>();
 			DelayUIDs = new List<Guid>();
+			PumpStationUIDs = new List<Guid>();
 		}
 
 		public DateTime StartDate { get; set; }
@@ -35,6 +36,7 @@ namespace GKProcessor
 		public List<Guid> DeviceUIDs { get; set; }
 		public List<Guid> ZoneUIDs { get; set; }
 		public List<Guid> DirectionUIDs { get; set; }
+		public List<Guid> PumpStationUIDs { get; set; }
 		public List<Guid> DelayUIDs { get; set; }
 		public List<XSubsystemType> SubsystemTypes { get; set; }
 	}
