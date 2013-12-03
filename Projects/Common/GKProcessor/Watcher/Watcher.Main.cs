@@ -63,6 +63,7 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 			{
+				AddMessage("Ошибка мониторинга", "");
 				Logger.Error(e, "JournalWatcher.OnRunThread GetAllStates");
 			}
 
@@ -165,9 +166,9 @@ namespace GKProcessor
 			}
 		}
 
-		internal void AddMessage(string name, string description)
+		internal void AddMessage(string name, string userName)
 		{
-			var journalItem = GKDBHelper.AddMessage(name, description);
+			var journalItem = GKDBHelper.AddMessage(name, userName);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 

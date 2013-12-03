@@ -439,17 +439,17 @@ namespace GKProcessor
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[0] & 256 });
 						if (!bitArray[0] && bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 < 9В");
+							AddAdditionalState(XStateClass.Failure, "КЗ Выхода 1");
 						if (bitArray[0] && !bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 < 10,4В");
+							AddAdditionalState(XStateClass.Failure, "Перегрузка Выхода 1");
 						if (bitArray[0] && bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 1 > 14В");
+							AddAdditionalState(XStateClass.Failure, "Напряжение Выхода 1 выше нормы");
 						if (!bitArray[2] && bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 < 9В");
+							AddAdditionalState(XStateClass.Failure, "КЗ Выхода 2");
 						if (bitArray[2] && !bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 < 10,4В");
+							AddAdditionalState(XStateClass.Failure, "Перегрузка Выхода 2");
 						if (bitArray[2] && bitArray[3])
-							AddAdditionalState(XStateClass.Failure, "Напряжение выхода 2 > 14В");
+							AddAdditionalState(XStateClass.Failure, "Напряжение Выхода 2 выше нормы");
 						if (!bitArray[4] && bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "АКБ 1 Разряд");
 						if (bitArray[4] && !bitArray[5])

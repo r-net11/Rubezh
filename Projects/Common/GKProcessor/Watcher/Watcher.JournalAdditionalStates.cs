@@ -17,6 +17,9 @@ namespace GKProcessor
 					if (!string.IsNullOrEmpty(journalItem.Description))
 					{
 						AddAdditionalState(deviceState, journalItem.Description);
+						if (descriptor.Device.DriverType == XDriverType.Battery)
+						{
+						}
 					}
 				}
 				if (journalItem.Name == "Неисправность устранена")
@@ -28,6 +31,35 @@ namespace GKProcessor
 					else
 					{
 						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
+						if (descriptor.Device.DriverType == XDriverType.Battery)
+						{
+							switch(journalItem.Description)
+							{
+								case "Выход 1":
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "КЗ Выхода 1");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Перегрузка Выхода 1");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Напряжение Выхода 1 выше нормы");
+									break;
+
+								case "Выход 2":
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "КЗ Выхода 2");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Перегрузка Выхода 2");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "Напряжение Выхода 2 выше нормы");
+									break;
+
+								case "АКБ 1":
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Разряд");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Глубокий Разряд");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 1 Отсутствие");
+									break;
+
+								case "АКБ 2":
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Разряд");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Глубокий Разряд");
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == "АКБ 2 Отсутствие");
+									break;
+							}
+						}
 					}
 				}
 				if (journalItem.Name == "Информация")

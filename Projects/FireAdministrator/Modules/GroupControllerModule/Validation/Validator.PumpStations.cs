@@ -138,11 +138,15 @@ namespace GKModule.Validation
 
 		static void ValidatePumpInNSInputLogic(XPumpStation pumpStation)
 		{
-			foreach (var device in pumpStation.InputDevices)
+			foreach (var clause in pumpStation.StartLogic.Clauses)
 			{
-				if (device.DriverType == XDriverType.Pump)
+				foreach (var device in clause.Devices)
 				{
-					Errors.Add(new PumpStationValidationError(pumpStation, "В условиях пуска или запрета пуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
+					if (device.DriverType == XDriverType.Pump)
+					{
+						Errors.Add(new PumpStationValidationError(pumpStation, "В условиях пуска или запрета пуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
+						return;
+					}
 				}
 			}
 		}

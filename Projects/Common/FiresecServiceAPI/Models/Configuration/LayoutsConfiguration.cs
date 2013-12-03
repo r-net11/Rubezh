@@ -1,32 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models.Layouts;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class DeviceLibraryConfiguration : VersionedConfiguration
+	public class LayoutsConfiguration : VersionedConfiguration
 	{
-		public DeviceLibraryConfiguration()
+		public LayoutsConfiguration()
 		{
-			Devices = new List<LibraryDevice>();
+			Layouts = new List<Layout>();
 		}
 
 		[DataMember]
-		public List<LibraryDevice> Devices { get; set; }
+		public List<Layout> Layouts { get; set; }
 
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			foreach (var libraryDevice in Devices)
+			if (Layouts == null)
 			{
-				if (libraryDevice.UID == Guid.Empty)
-				{
-					libraryDevice.UID = Guid.NewGuid();
-					result = false;
-				}
+				Layouts = new List<Layout>();
+				result = false;
 			}
+			foreach (var layout in Layouts)
+				if (layout.UID == Guid.Empty)
+					layout.UID = Guid.NewGuid();
 			return result;
+		}
+
+		public void Update()
+		{
 		}
 	}
 }

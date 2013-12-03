@@ -414,7 +414,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentControl}">
 					<avalonDockControls:DropDownControlArea x:Name="PART_DropDownControlArea" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-						<Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding LayoutElement.Margin, RelativeSource={RelativeSource TemplatedParent}}">
 							<ContentPresenter Content="{Binding View}" />
 						</Border>
 					</avalonDockControls:DropDownControlArea>

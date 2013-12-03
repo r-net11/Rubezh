@@ -20,6 +20,10 @@ namespace XFiresecAPI
 			NSDeltaTime = 5;
 			StartLogic = new XDeviceLogic();
 			ForbidLogic = new XDeviceLogic();
+			PumpStationState = new XPumpStationState()
+			{
+				PumpStation = this
+			};
 		}
 		public XPumpStationState PumpStationState { get; set; }
 		public override XBaseState GetXBaseState() { return PumpStationState; }
