@@ -227,7 +227,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(manager.GridSplitterWidth) });
 						Grid.SetColumn(InternalChildren[iChild], iColumn);
 						bool nextChildModelVisibleExist = false;
-						if (childModel.IsVisible && childModel.DockWidth != GridLength.Auto && !childModel.IsDockWidthFixed)
+						if (childModel.IsVisible && !childModel.IsDockWidthFixed)
 							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
 							{
 								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
@@ -264,7 +264,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						RowDefinitions.Add(new RowDefinition() { Height = new GridLength(manager.GridSplitterHeight) });
 						Grid.SetRow(InternalChildren[iChild], iRow);
 						bool nextChildModelVisibleExist = false;
-						if (childModel.IsVisible && childModel.DockHeight != GridLength.Auto && !childModel.IsDockHeightFixed)
+						if (childModel.IsVisible && !childModel.IsDockHeightFixed)
 							for (int i = iChildModel + 1; i < _model.Children.Count; i++)
 							{
 								var nextChildModel = _model.Children[i] as ILayoutPositionableElement;
@@ -378,7 +378,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			if (Orientation == System.Windows.Controls.Orientation.Horizontal)
 			{
 				//Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockWidth));
-				if (prevChildModel.DockWidth.IsStar)
+				if (prevChildModel.DockWidth.IsAuto)
+					prevChildModel.DockWidth = new GridLength(prevChildActualSize.Width + delta, GridUnitType.Pixel);
+				else if (prevChildModel.DockWidth.IsStar)
 				{
 					prevChildModel.DockWidth = new GridLength(prevChildModel.DockWidth.Value * (prevChildActualSize.Width + delta) / prevChildActualSize.Width, GridUnitType.Star);
 				}
@@ -389,7 +391,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				//Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockWidth));
 
 				//Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockWidth));
-				if (nextChildModel.DockWidth.IsStar)
+				if (nextChildModel.DockWidth.IsAuto)
+					nextChildModel.DockWidth = new GridLength(nextChildActualSize.Width - delta, GridUnitType.Pixel);
+				else if (nextChildModel.DockWidth.IsStar)
 				{
 					nextChildModel.DockWidth = new GridLength(nextChildModel.DockWidth.Value * (nextChildActualSize.Width - delta) / nextChildActualSize.Width, GridUnitType.Star);
 				}
@@ -402,7 +406,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			else
 			{
 				//Trace.WriteLine(string.Format("PrevChild From {0}", prevChildModel.DockHeight));
-				if (prevChildModel.DockHeight.IsStar)
+				if (prevChildModel.DockHeight.IsAuto)
+					prevChildModel.DockHeight = new GridLength(prevChildActualSize.Height + delta, GridUnitType.Pixel);
+				else if (prevChildModel.DockHeight.IsStar)
 				{
 					prevChildModel.DockHeight = new GridLength(prevChildModel.DockHeight.Value * (prevChildActualSize.Height + delta) / prevChildActualSize.Height, GridUnitType.Star);
 				}
@@ -413,7 +419,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				//Trace.WriteLine(string.Format("PrevChild To {0}", prevChildModel.DockHeight));
 
 				//Trace.WriteLine(string.Format("NextChild From {0}", nextChildModel.DockHeight));
-				if (nextChildModel.DockHeight.IsStar)
+				if (nextChildModel.DockHeight.IsAuto)
+					nextChildModel.DockHeight = new GridLength(nextChildActualSize.Height - delta, GridUnitType.Pixel);
+				else if (nextChildModel.DockHeight.IsStar)
 				{
 					nextChildModel.DockHeight = new GridLength(nextChildModel.DockHeight.Value * (nextChildActualSize.Height - delta) / nextChildActualSize.Height, GridUnitType.Star);
 				}

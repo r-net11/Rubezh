@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -16,5 +12,7 @@ namespace Infrastructure.Common.Services.Layout
 		public double MinHeight { get; set; }
 		public bool IsWidthFixed { get; set; }
 		public bool IsHeightFixed { get; set; }
+		public int Margin { get; set; }
+		public Size PreferedSize { get; set; }
 	}
 }

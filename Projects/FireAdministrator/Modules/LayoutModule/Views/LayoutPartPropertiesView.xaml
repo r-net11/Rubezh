@@ -4,6 +4,7 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
+				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -12,27 +13,30 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-			<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Минимальная ширина" />
-			<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Минимальная высота" />
-			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Фиксированная ширина" />
-			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Фиксированная высота" />
-			<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина" />
-			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Высота" />
-			<Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="Тип ширины" />
-			<Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="Тип высоты" />
+			<Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="Ширина" />
+			<Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Content="Высота" />
+			
+			<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Тип" />
+			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Размер" />
+			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Минимальный" />
+			<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Фиксированный" />
+			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
 
-			<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" />
-			<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsWidthFixed, UpdateSourceTrigger=PropertyChanged}" />
-			<CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsHeightFixed, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:DoubleUpDown Grid.Row="4" Grid.Column="1" Margin="2" Maximum="100000" Minimum="1" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:DoubleUpDown  Grid.Row="5" Grid.Column="1" Margin="2" Maximum="100000" Minimum="1" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="6" Grid.Column="1" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding WidthType, UpdateSourceTrigger=PropertyChanged}" />
-			<ComboBox Grid.Row="7" Grid.Column="1" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding HeightType, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding WidthType, UpdateSourceTrigger=PropertyChanged}" />
+			<ComboBox Grid.Row="1" Grid.Column="2" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding HeightType, UpdateSourceTrigger=PropertyChanged}" />
+
+			<extToolkit:DoubleUpDown FormatString="F2" Grid.Row="2" Grid.Column="1" Margin="2" Maximum="100000" Minimum="1" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:DoubleUpDown FormatString="F2" Grid.Row="2" Grid.Column="2" Margin="2" Maximum="100000" Minimum="1" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
+
+			<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="2" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" />
+
+			<CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding IsWidthFixed, UpdateSourceTrigger=PropertyChanged}" />
+			<CheckBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding IsHeightFixed, UpdateSourceTrigger=PropertyChanged}" />
+
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="10000" Minimum="0" Value="{Binding Margin, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

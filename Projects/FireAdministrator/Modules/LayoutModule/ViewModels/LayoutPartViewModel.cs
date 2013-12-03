@@ -1,16 +1,16 @@
 using System;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Client.Layout.ViewModels;
 using System.Windows;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Controls;
+using FiresecAPI.Models.Layouts;
+using Infrastructure.Client.Layout.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Unity.Utility;
 using Xceed.Wpf.AvalonDock.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace LayoutModule.ViewModels
 {
@@ -61,6 +61,7 @@ namespace LayoutModule.ViewModels
 			get { return LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource }; }
 		}
 
+
 		public RelayCommand ConfigureCommand { get; private set; }
 		private void OnConfigureCommand()
 		{
@@ -68,13 +69,18 @@ namespace LayoutModule.ViewModels
 			var pair = GetLayoutPositionableElements(document);
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
 			var size = new LayoutPartSize();
+			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize;
+			size.Margin = (int)document.Margin;
 			ReadSize(size, pair.First, layoutItem);
 			ReadSize(size, pair.Second, layoutItem);
+			ValidateSize(size);
 			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(size);
 			if (DialogService.ShowModalWindow(layoutPartPropertiesViewModel))
 			{
+				ValidateSize(size);
 				WriteSize(size, pair.First, layoutItem);
 				WriteSize(size, pair.Second, layoutItem);
+				document.Margin = size.Margin;
 			}
 		}
 		private bool CanConfigureCommand()
@@ -84,11 +90,13 @@ namespace LayoutModule.ViewModels
 
 		public void UpdateSize(LayoutPartSize layoutPartSize)
 		{
+			ValidateSize(layoutPartSize);
 			var document = GetLayoutDocument();
 			var pair = GetLayoutPositionableElements(document);
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
 			WriteSize(layoutPartSize, pair.First, layoutItem);
 			WriteSize(layoutPartSize, pair.Second, layoutItem);
+			document.Margin = layoutPartSize.Margin;
 		}
 		private LayoutDocument GetLayoutDocument()
 		{
@@ -157,6 +165,13 @@ namespace LayoutModule.ViewModels
 						break;
 				}
 			}
+		}
+		private void ValidateSize(LayoutPartSize size)
+		{
+			if (double.IsNaN(size.Width))
+				size.Width = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize.Width;
+			if (double.IsNaN(size.Height))
+				size.Height = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize.Height;
 		}
 	}
 }

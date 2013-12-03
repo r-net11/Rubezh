@@ -16,6 +16,6 @@ namespace Infrastructure.Common.Services.Layout
 		string Description { get; }
 		bool AllowMultiple { get; }
 		BaseViewModel Content { get; }
-		LayoutPartSize Size { get; }
+		Size PreferedSize { get; }
 	}
 }

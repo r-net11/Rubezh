@@ -8,17 +8,7 @@ namespace Infrastructure.Common.Services.Layout
 	{
 		public LayoutPartDescription()
 		{
-			Size = new LayoutPartSize()
-			{
-				WidthType = GridUnitType.Star,
-				HeightType = GridUnitType.Star,
-				Height = 1,
-				Width = 1,
-				MinWidth = 25,
-				MinHeight = 25,
-				IsHeightFixed = false,
-				IsWidthFixed = false,
-			};
+			PreferedSize = new Size(100, 100);
 		}
 
 		#region ILayoutPartDescription Members
@@ -30,7 +20,7 @@ namespace Infrastructure.Common.Services.Layout
 		public string Description { get; set; }
 		public bool AllowMultiple { get; set; }
 		public BaseViewModel Content { get; set; }
-		public LayoutPartSize Size { get; private set; }
+		public Size PreferedSize { get; private set; }
 
 		#endregion
 	}

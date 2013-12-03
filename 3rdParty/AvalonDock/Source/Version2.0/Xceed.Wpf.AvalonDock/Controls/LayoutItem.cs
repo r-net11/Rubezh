@@ -32,6 +32,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		{
 			ToolTipProperty.OverrideMetadata(typeof(LayoutItem), new FrameworkPropertyMetadata(null, (s, e) => OnToolTipChanged(s, e)));
 			VisibilityProperty.OverrideMetadata(typeof(LayoutItem), new FrameworkPropertyMetadata(Visibility.Visible, (s, e) => OnVisibilityChanged(s, e)));
+			MarginProperty.OverrideMetadata(typeof(LayoutItem), new FrameworkPropertyMetadata(new Thickness(0), (s, e) => OnMarginChanged(s, e)));
 		}
 
 
@@ -1138,6 +1139,19 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		#endregion
 
+		#region LayoutMargin
+
+		private static void OnMarginChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
+		{
+			((LayoutItem)s).OnMarginChanged();
+		}
+
+		protected virtual void OnMarginChanged()
+		{
+			LayoutElement.Margin = Margin.Left;
+		}
+
+		#endregion
 
 	}
 }

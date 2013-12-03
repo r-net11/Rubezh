@@ -43,6 +43,7 @@ namespace FireMonitor.Layout
 
 		private FiresecAPI.Models.Layouts.Layout SelectLayout(List<FiresecAPI.Models.Layouts.Layout> layouts)
 		{
+			layouts.Sort((x, y) => string.Compare(x.Caption, y.Caption));
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var viewModel = new SelectLayoutViewModel(layouts);
 			DialogService.ShowModalWindow(viewModel);

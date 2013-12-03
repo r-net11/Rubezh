@@ -106,8 +106,8 @@
 						</Grid>
 						<Border x:Name="ContentPanel" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
 						        Background="{TemplateBinding Background}"
-						        BorderBrush="{TemplateBinding BorderBrush}"
-						        BorderThickness="{TemplateBinding BorderThickness}"
+						        BorderBrush="{TemplateBinding Background}"
+						        BorderThickness="0"
 						        KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Cycle">
 							<ContentPresenter x:Name="PART_SelectedContentHost" Margin="0" ContentSource="SelectedContent" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</Border>
@@ -121,7 +121,8 @@
 							</Setter>
 						</Trigger>
 						<DataTrigger Binding="{Binding Model.Root.Manager.AllowChangeLayout, RelativeSource={RelativeSource Mode=Self}}" Value="True">
-							<Setter TargetName="PART_SelectedContentHost" Property="Margin" Value="3" />
+							<!--<Setter TargetName="PART_SelectedContentHost" Property="Margin" Value="3" />-->
+							<Setter TargetName="ContentPanel" Property="BorderThickness" Value="3" />
 						</DataTrigger>
 						<MultiDataTrigger>
 							<MultiDataTrigger.Conditions>
@@ -129,7 +130,7 @@
 								<Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsLastFocusedDocument}" Value="True" />
 								<Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.Root.Manager.AllowChangeLayout}" Value="True" />
 							</MultiDataTrigger.Conditions>
-							<Setter TargetName="ContentPanel" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+							<Setter TargetName="ContentPanel" Property="BorderBrush" Value="{DynamicResource HighlightedBackgoundBrush}" />
 						</MultiDataTrigger>
 						<Trigger SourceName="MenuDropDownButton" Property="IsChecked" Value="True">
 							<Setter TargetName="MenuDropDownButton" Property="Content">
@@ -414,7 +415,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentControl}">
 					<avalonDockControls:DropDownControlArea x:Name="PART_DropDownControlArea" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
-                        <Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding LayoutElement.Margin, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border x:Name="border" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" DataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}" Margin="{Binding Model.Margin, RelativeSource={RelativeSource TemplatedParent}}">
 							<ContentPresenter Content="{Binding View}" />
 						</Border>
 					</avalonDockControls:DropDownControlArea>

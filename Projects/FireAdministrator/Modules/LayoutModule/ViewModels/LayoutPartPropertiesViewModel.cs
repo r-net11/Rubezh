@@ -12,12 +12,15 @@ namespace LayoutModule.ViewModels
 	public class LayoutPartPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		public LayoutPartSize LayoutPartSize { get; private set; }
+		private bool _initialized;
 		public LayoutPartPropertiesViewModel(LayoutPartSize layoutPartSize)
 		{
+			_initialized = false;
 			Title = "Свойства элемента";
 			LayoutPartSize = layoutPartSize;
 			UnitTypes = new ObservableCollection<GridUnitType>(Enum.GetValues(typeof(GridUnitType)).Cast<GridUnitType>());
 			CopyProperties();
+			_initialized = true;
 		}
 
 		private void CopyProperties()
@@ -30,6 +33,7 @@ namespace LayoutModule.ViewModels
 			MinWidth = LayoutPartSize.MinWidth;
 			Width = LayoutPartSize.Width;
 			WidthType = LayoutPartSize.WidthType;
+			Margin = LayoutPartSize.Margin;
 		}
 
 		public ObservableCollection<GridUnitType> UnitTypes { get; private set; }
@@ -39,8 +43,13 @@ namespace LayoutModule.ViewModels
 			get { return _widthType; }
 			set
 			{
-				_widthType = value;
-				OnPropertyChanged(() => WidthType);
+				if (WidthType != value)
+				{
+					_widthType = value;
+					OnPropertyChanged(() => WidthType);
+					if (_initialized && WidthType == GridUnitType.Auto)
+						Width = LayoutPartSize.PreferedSize.Width;
+				}
 			}
 		}
 		private GridUnitType _heightType;
@@ -49,8 +58,13 @@ namespace LayoutModule.ViewModels
 			get { return _heightType; }
 			set
 			{
-				_heightType = value;
-				OnPropertyChanged(() => HeightType);
+				if (HeightType != value)
+				{
+					_heightType = value;
+					OnPropertyChanged(() => HeightType);
+					if (_initialized && HeightType == GridUnitType.Auto)
+						Height = LayoutPartSize.PreferedSize.Height;
+				}
 			}
 		}
 		private double _width;
@@ -113,6 +127,16 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => IsHeightFixed);
 			}
 		}
+		private int _margin;
+		public int Margin
+		{
+			get { return _margin; }
+			set
+			{
+				_margin = value;
+				OnPropertyChanged(() => Margin);
+			}
+		}
 
 		protected override bool CanSave()
 		{
@@ -120,7 +144,7 @@ namespace LayoutModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (LayoutPartSize.Height != Height || LayoutPartSize.HeightType != HeightType || LayoutPartSize.IsHeightFixed != IsHeightFixed || LayoutPartSize.IsWidthFixed != IsWidthFixed || LayoutPartSize.MinHeight != MinHeight || LayoutPartSize.MinWidth != MinWidth || LayoutPartSize.Width != Width || LayoutPartSize.WidthType != WidthType)
+			if (LayoutPartSize.Height != Height || LayoutPartSize.HeightType != HeightType || LayoutPartSize.IsHeightFixed != IsHeightFixed || LayoutPartSize.IsWidthFixed != IsWidthFixed || LayoutPartSize.MinHeight != MinHeight || LayoutPartSize.MinWidth != MinWidth || LayoutPartSize.Width != Width || LayoutPartSize.WidthType != WidthType || LayoutPartSize.Margin != Margin)
 			{
 				LayoutPartSize.Height = Height;
 				LayoutPartSize.HeightType = HeightType;
@@ -130,7 +154,8 @@ namespace LayoutModule.ViewModels
 				LayoutPartSize.MinWidth = MinWidth;
 				LayoutPartSize.Width = Width;
 				LayoutPartSize.WidthType = WidthType;
-				ServiceFactory.SaveService.LayoutsChanged = true;
+				LayoutPartSize.Margin = Margin;
+				LayoutDesignerViewModel.Instance.LayoutConfigurationChanged();
 			}
 			return base.Save();
 		}

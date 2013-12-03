@@ -127,6 +127,14 @@ namespace LayoutModule.ViewModels
 					_layout.Content = tw.ToString();
 				}
 		}
+		public void LayoutConfigurationChanged()
+		{
+			if (!_loading)
+			{
+				ServiceFactory.SaveService.LayoutsChanged = true;
+				_currentLayoutChanged = true;
+			}
+		}
 
 		private void LayoutSerializationCallback(object sender, LayoutSerializationCallbackEventArgs e)
 		{
@@ -135,11 +143,7 @@ namespace LayoutModule.ViewModels
 		}
 		private void LayoutConfigurationChanged(object sender, EventArgs e)
 		{
-			if (!_loading)
-			{
-				ServiceFactory.SaveService.LayoutsChanged = true;
-				_currentLayoutChanged = true;
-			}
+			LayoutConfigurationChanged();
 		}
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{
