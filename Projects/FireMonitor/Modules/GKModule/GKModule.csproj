@@ -88,6 +88,7 @@
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
+    <Compile Include="GKModuleLoader.Subscribe.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>

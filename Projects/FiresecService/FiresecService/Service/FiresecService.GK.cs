@@ -19,7 +19,9 @@ namespace FiresecService.Service
 		public void AddJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
-			NotifyNewGKJournal(new List<JournalItem>() { journalItem });
+			var gkCallbackResult = new GKCallbackResult();
+			gkCallbackResult.JournalItems.Add(journalItem);
+			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
 		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)

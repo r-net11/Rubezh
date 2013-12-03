@@ -36,17 +36,17 @@ namespace FiresecService.Service
             return new List<CallbackResult>();
         }
 
-		public void NotifyNewGKJournal(List<JournalItem> journalItems)
+		public static void NotifyGKProgress(GKProgressCallback gkProgressCallback)
 		{
 			var callbackResult = new CallbackResult()
 			{
-				CallbackResultType = CallbackResultType.NewGKEvents,
-				JournalItems = journalItems
+				CallbackResultType = CallbackResultType.GKProgress,
+				GKProgressCallback = gkProgressCallback
 			};
 			CallbackManager.Add(callbackResult);
 		}
 
-		public void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
+		public static void NotifyGKObjectStateChanged(GKCallbackResult gkCallbackResult)
 		{
 			var callbackResult = new CallbackResult()
 			{

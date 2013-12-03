@@ -37,7 +37,6 @@ namespace FiresecService
 				MainViewStartedEvent.WaitOne();
 
 				UILogger.Log("Создание конфигурации ГК");
-
 				GKProcessor.Create();
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
