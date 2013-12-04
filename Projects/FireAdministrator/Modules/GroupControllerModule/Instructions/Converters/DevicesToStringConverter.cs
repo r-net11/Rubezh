@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -12,29 +13,17 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var devices = value as ICollection<Guid>;
-			if (devices.IsNotNullOrEmpty())
+			var deviceUIDs = value as ICollection<Guid>;
+			if (deviceUIDs == null)
+				return "";
+			var devices = new List<XDevice>();
+			foreach (var uid in deviceUIDs)
 			{
-				var delimString = ", ";
-				var stringBuilder = new StringBuilder();
-
-				foreach (var deviceGuid in devices)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceGuid);
-					if (device != null)
-					{
-						stringBuilder.Append(device.ShortNameAndDottedAddress);
-						stringBuilder.Append(delimString);
-					}
-				}
-				var result = stringBuilder.ToString();
-				if (result.EndsWith(delimString))
-				{
-					result = result.Remove(result.Length - delimString.Length);
-				}
-				return result;
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				if (device != null)
+					devices.Add(device);
 			}
-			return null;
+			return XManager.GetCommaSeparatedDevices(devices);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

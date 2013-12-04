@@ -165,9 +165,21 @@
 			<TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
 				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding AUParameterValues}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Width="*" Binding="{Binding Name}" Header="Параметр" />
-						<DataGridTextColumn Width="*" Binding="{Binding StringValue}" Header="Значение" />
-					</DataGrid.Columns>
+                        <DataGridTemplateColumn Width="*" Header="Параметр">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Значение">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StringValue}" ToolTip="{Binding StringValue}" Margin="5 0 0 0" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
 			<TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
