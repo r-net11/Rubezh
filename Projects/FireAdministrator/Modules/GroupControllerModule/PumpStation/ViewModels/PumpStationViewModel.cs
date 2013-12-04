@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 			DeletePumpDeviceCommand = new RelayCommand(OnDeleteOutputDevice);
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			ChangeForbidStartLogicCommand = new RelayCommand(OnChangeForbidStartLogic);
+			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			Update();
 		}
 
@@ -119,10 +120,7 @@ namespace GKModule.ViewModels
 
 		public string StartPumpStationPresentationName
 		{
-			get
-			{
-				return XManager.GetPresentationZone(PumpStation.StartLogic);
-			}
+			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 
 		public RelayCommand ChangeForbidStartLogicCommand { get; private set; }
@@ -139,10 +137,24 @@ namespace GKModule.ViewModels
 
 		public string ForbidStartPumpStationPresentationName
 		{
-			get
+			get { return XManager.GetPresentationZone(PumpStation.ForbidLogic); }
+		}
+
+		public RelayCommand ChangeStopLogicCommand { get; private set; }
+		void OnChangeStopLogic()
+		{
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic);
+			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
-				return XManager.GetPresentationZone(PumpStation.ForbidLogic);
+				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
+				OnPropertyChanged("StopPumpStationPresentationName");
+				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public string StopPumpStationPresentationName
+		{
+			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
 		}
 	}
 }

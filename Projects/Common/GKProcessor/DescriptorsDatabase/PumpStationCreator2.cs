@@ -219,21 +219,18 @@ namespace GKProcessor
 		{
 			foreach (var pumpDevice in NonFirePumpDevices)
 			{
-				if (pumpDevice.IntAddress == 12)
+				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				if (pumpDescriptor != null)
 				{
-					var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
-					if (pumpDescriptor != null)
-					{
-						var formula = new FormulaBuilder();
-						formula.AddGetBit(XStateBit.On, PumpStation);
-						formula.Add(FormulaOperationType.COM);
-						formula.AddStandardTurning(pumpDevice);
-						formula.Add(FormulaOperationType.END);
-						pumpDescriptor.Formula = formula;
-						pumpDescriptor.FormulaBytes = formula.GetBytes();
-					}
-					UpdateConfigurationHelper.LinkXBases(pumpDescriptor.XBase, PumpStation);
+					var formula = new FormulaBuilder();
+					formula.AddGetBit(XStateBit.On, PumpStation);
+					formula.Add(FormulaOperationType.COM);
+					formula.AddStandardTurning(pumpDevice);
+					formula.Add(FormulaOperationType.END);
+					pumpDescriptor.Formula = formula;
+					pumpDescriptor.FormulaBytes = formula.GetBytes();
 				}
+				UpdateConfigurationHelper.LinkXBases(pumpDescriptor.XBase, PumpStation);
 			}
 		}
 
@@ -252,38 +249,36 @@ namespace GKProcessor
 
 			var formula = new FormulaBuilder();
 
-			var pimObjects = new List<XBase>();
-			pimObjects.AddRange(PumpStation.InputDevices);
+			var inputDevices = new List<XBase>();
+			inputDevices.AddRange(PumpStation.InputDevices);
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				if (!pimObjects.Contains(nsDevice))
-					pimObjects.Add(nsDevice);
+				if (!inputDevices.Contains(nsDevice))
+					inputDevices.Add(nsDevice);
 			}
-			foreach (var nsDevice in pimObjects)
+			foreach (var inputDevice in inputDevices)
 			{
-				UpdateConfigurationHelper.LinkXBases(Pim, nsDevice);
+				UpdateConfigurationHelper.LinkXBases(Pim, inputDevice);
 			}
-			var count = 0;
-			foreach (var nsDevice in pimObjects)
+			for (int i = 0; i < inputDevices.Count; i++)
 			{
+				var nsDevice = inputDevices[i];
 				formula.AddGetBit(XStateBit.Failure, nsDevice);
-				if (count > 0)
+				if (i > 0)
 				{
 					formula.Add(FormulaOperationType.OR);
 				}
-				count++;
 			}
 			formula.AddPutBit(XStateBit.Failure, Pim);
 
-			count = 0;
-			foreach (var nsDevice in pimObjects)
+			for (int i = 0; i < inputDevices.Count; i++)
 			{
+				var nsDevice = inputDevices[i];
 				formula.AddGetBit(XStateBit.Norm, nsDevice);
-				if (count > 0)
+				if (i > 0)
 				{
 					formula.Add(FormulaOperationType.AND);
 				}
-				count++;
 			}
 
 			formula.Add(FormulaOperationType.DUP);

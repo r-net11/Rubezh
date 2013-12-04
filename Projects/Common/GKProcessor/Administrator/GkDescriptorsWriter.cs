@@ -80,7 +80,7 @@ namespace GKProcessor
 				if (LoadingService.IsCanceled)
 					return false;
 				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
-					descriptor.XBase.GetDescriptorName() + " " + "(" + descriptor.GetDescriptorNo() + ")" +
+					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
 				LoadingService.DoStep(progressStage);
 				var packs = CreateDescriptors(descriptor);

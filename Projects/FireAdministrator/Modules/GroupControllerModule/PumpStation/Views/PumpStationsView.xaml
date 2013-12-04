@@ -29,7 +29,7 @@
             <Grid Grid.Column="1" DataContext="{Binding SelectedPumpStation}" Margin="2">
                 <DataGrid ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Выходные устройства" MinWidth="200" Width="Auto">
+                        <DataGridTemplateColumn Header="Насосы" MinWidth="200" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -71,19 +71,6 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <!--<DataGridTemplateColumn Header="Зона или Логика" MinWidth="200" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding PresentationZone}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-									<TextBlock.ToolTip>
-										<WrapPanel>
-											<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-										</WrapPanel>
-									</TextBlock.ToolTip>
-                                </TextBlock>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>-->
                     </DataGrid.Columns>
                 </DataGrid>
                 <Grid.ContextMenu>
@@ -109,7 +96,7 @@
                         <TextBlock Text="Условие для запуска" FontWeight="Bold" Width="200" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
 				            <Hyperlink Command="{Binding ChangeStartLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
-					            <TextBlock Foreground="Black" Margin="2">
+					            <TextBlock Margin="2">
 						            <TextBlock.Style>
 							            <Style>
 								            <Setter Property="TextBlock.Text" Value="{Binding StartPumpStationPresentationName}" />
@@ -127,13 +114,32 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Условие для запрета запуска" FontWeight="Bold" Width="200" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
-				            <Hyperlink Command="{Binding ChangeForbidStartLogicCommand}" Style="{StaticResource HyperlinkStyle}">
-					            <TextBlock Foreground="Black" Margin="2">
+				            <Hyperlink Command="{Binding ChangeForbidStartLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+					            <TextBlock Margin="2">
 						            <TextBlock.Style>
 							            <Style>
 								            <Setter Property="TextBlock.Text" Value="{Binding ForbidStartPumpStationPresentationName}" />
 								            <Style.Triggers>
 									            <DataTrigger Binding="{Binding ForbidStartPumpStationPresentationName}" Value="">
+										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
+									            </DataTrigger>
+								            </Style.Triggers>
+							            </Style>
+						            </TextBlock.Style>
+					            </TextBlock>
+				            </Hyperlink>
+			            </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Условие для останова" FontWeight="Bold" Width="200" Margin="5 2" />
+                        <TextBlock VerticalAlignment="Center" Margin="2">
+				            <Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+					            <TextBlock Margin="2">
+						            <TextBlock.Style>
+							            <Style>
+								            <Setter Property="TextBlock.Text" Value="{Binding StopPumpStationPresentationName}" />
+								            <Style.Triggers>
+									            <DataTrigger Binding="{Binding StopPumpStationPresentationName}" Value="">
 										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
 									            </DataTrigger>
 								            </Style.Triggers>

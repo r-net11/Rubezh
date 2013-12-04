@@ -17,7 +17,6 @@ namespace GKModule.ViewModels
 
 		public PumpStationDetailsViewModel(XPumpStation pumpStation = null)
 		{
-			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
 			if (pumpStation == null)
 			{
 				Title = "Создание новой насосоной станции";
@@ -46,23 +45,12 @@ namespace GKModule.ViewModels
 			AvailableNames = new ObservableCollection<string>(availableNames);
 		}
 
-		void ChangeParameter(ushort delay, ushort hold, ushort regime)
-		{
-			Delay = delay;
-			Hold = hold;
-			Regime = regime;
-			OnPropertyChanged("Delay");
-			OnPropertyChanged("Hold");
-			OnPropertyChanged("Regime");
-		}
-
 		void CopyProperties()
 		{
 			Name = PumpStation.Name;
 			No = PumpStation.No;
 			Delay = PumpStation.Delay;
 			Hold = PumpStation.Hold;
-			Regime = PumpStation.Regime;
 			Description = PumpStation.Description;
 			NSPumpsCount = PumpStation.NSPumpsCount;
 			NSDeltaTime = PumpStation.NSDeltaTime;
@@ -109,17 +97,6 @@ namespace GKModule.ViewModels
 			{
 				_hold = value;
 				OnPropertyChanged("Hold");
-			}
-		}
-
-		ushort _regime;
-		public ushort Regime
-		{
-			get { return _regime; }
-			set
-			{
-				_regime = value;
-				OnPropertyChanged("Regime");
 			}
 		}
 
@@ -170,19 +147,10 @@ namespace GKModule.ViewModels
 			PumpStation.No = No;
 			PumpStation.Delay = Delay;
 			PumpStation.Hold = Hold;
-			PumpStation.Regime = Regime;
 			PumpStation.Description = Description;
 			PumpStation.NSPumpsCount = NSPumpsCount;
 			PumpStation.NSDeltaTime = NSDeltaTime;
 			return base.Save();
-		}
-
-		public RelayCommand ResetAUPropertiesCommand { get; private set; }
-		void OnResetAUProperties()
-		{
-			Delay = 10;
-			Hold = 10;
-			Regime = 1;
 		}
 	}
 }

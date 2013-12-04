@@ -352,12 +352,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Устройство " + ShortName + " " + Address; }
-		}
-
-		public override string GetDescriptorName()
-		{
-			return PresentationDriverAndAddress;
+			get { return "Устройство " + PresentationName; }
 		}
 
 		public string GetGKIpAddress()

@@ -8,7 +8,7 @@ namespace GKModule.ViewModels
 		public DescriptorViewModel(BaseDescriptor descriptor)
 		{
 			Descriptor = descriptor;
-			Description = descriptor.XBase.GetDescriptorName();
+			Description = descriptor.XBase.PresentationName;
 			switch (descriptor.DescriptorType)
 			{
 				case DescriptorType.Device:

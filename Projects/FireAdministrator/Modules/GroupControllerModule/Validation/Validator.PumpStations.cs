@@ -83,8 +83,8 @@ namespace GKModule.Validation
 
 		static void ValidatePumpStationInput(XPumpStation pumpStation)
 		{
-			if (pumpStation.InputDevices.Count + pumpStation.InputZones.Count + pumpStation.InputDirections.Count == 0)
-				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют входные устройства, зоны или направления", ValidationErrorLevel.CannotWrite));
+			if (pumpStation.StartLogic.Clauses.Count == 0)
+				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite));
 		}
 
 		static void ValidatePumpStationOutput(XPumpStation pumpStation)
@@ -144,7 +144,7 @@ namespace GKModule.Validation
 				{
 					if (device.DriverType == XDriverType.Pump)
 					{
-						Errors.Add(new PumpStationValidationError(pumpStation, "В условиях пуска или запрета пуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new PumpStationValidationError(pumpStation, "В условии для запуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
 						return;
 					}
 				}

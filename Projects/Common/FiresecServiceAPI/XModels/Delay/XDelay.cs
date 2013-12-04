@@ -40,12 +40,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Задержка " + Name; }
-		}
-
-		public override string GetDescriptorName()
-		{
-			return Name;
+			get { return "Задержка " + PresentationName; }
 		}
 	}
 }

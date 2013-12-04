@@ -10,16 +10,20 @@ namespace XFiresecAPI
 		public XPumpStation()
 		{
 			UID = BaseUID;
+			Delay = 10;
+			Hold = 60;
 			Regime = 2;
+			NSPumpsCount = 1;
+			NSDeltaTime = 5;
+			StartLogic = new XDeviceLogic();
+			ForbidLogic = new XDeviceLogic();
+			StopLogic = new XDeviceLogic();
+
 			InputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
 			InputDirections = new List<XDirection>();
 			NSDevices = new List<XDevice>();
 			NSDeviceUIDs = new List<Guid>();
-			NSPumpsCount = 1;
-			NSDeltaTime = 5;
-			StartLogic = new XDeviceLogic();
-			ForbidLogic = new XDeviceLogic();
 			PumpStationState = new XPumpStationState()
 			{
 				PumpStation = this
@@ -68,6 +72,9 @@ namespace XFiresecAPI
 		[DataMember]
 		public XDeviceLogic ForbidLogic { get; set; }
 
+		[DataMember]
+		public XDeviceLogic StopLogic { get; set; }
+
 		public override string PresentationName
 		{
 			get { return No + "." + Name; }
@@ -76,11 +83,6 @@ namespace XFiresecAPI
 		public override string DescriptorInfo
 		{
 			get { return "НС " + PresentationName; }
-		}
-
-		public override string GetDescriptorName()
-		{
-			return PresentationName;
 		}
 
 		public void OnChanged()

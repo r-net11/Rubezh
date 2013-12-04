@@ -52,12 +52,7 @@ namespace XFiresecAPI
 
 		public override string DescriptorInfo
 		{
-			get { return "Зона " + Name + " " + No.ToString(); }
-		}
-
-		public override string GetDescriptorName()
-		{
-			return PresentationName;
+			get { return "Зона " + PresentationName; }
 		}
 
 		public void OnChanged()

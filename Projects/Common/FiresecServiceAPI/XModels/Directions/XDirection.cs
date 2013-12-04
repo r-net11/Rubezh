@@ -81,11 +81,6 @@ namespace XFiresecAPI
 			get { return "Направление " + PresentationName; }
 		}
 
-		public override string GetDescriptorName()
-		{
-			return PresentationName;
-		}
-
 		public void OnChanged()
 		{
 			if (Changed != null)

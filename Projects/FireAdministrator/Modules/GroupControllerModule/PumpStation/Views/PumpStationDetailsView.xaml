@@ -27,9 +27,8 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
                 <Label Grid.Row="3" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
-                <Label Grid.Row="4" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
-                <Label Grid.Row="5" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
-                <Label Grid.Row="6" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
+                <Label Grid.Row="5" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
@@ -42,14 +41,8 @@
                 </controls:XAutoCompleteBox>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <ComboBox Grid.Row="4" Grid.Column="1" SelectedValue="{Binding Regime}" SelectedValuePath="Tag" Margin="2" >
-                    <ComboBox.Items>
-                        <ComboBoxItem Content="Включено" Tag="1" />
-                        <ComboBoxItem Content="Выключено" Tag="2" />
-                    </ComboBox.Items>
-                </ComboBox>
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

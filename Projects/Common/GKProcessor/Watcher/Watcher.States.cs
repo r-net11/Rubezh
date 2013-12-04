@@ -200,8 +200,8 @@ namespace GKProcessor
 					isMissmatch = true;
 			}
 
-			var description = xBase.GetDescriptorName();
-			if (xBase.GetDescriptorName().TrimEnd(' ') != descriptorStateHelper.Description)
+			var description = xBase.PresentationName;
+			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
 				isMissmatch = true;
 
 			xBase.GetXBaseState().IsRealMissmatch = isMissmatch;

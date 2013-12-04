@@ -290,6 +290,7 @@ namespace FiresecClient
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
 				InvalidatePumpStationLogic(pumpStation, pumpStation.StartLogic);
 				InvalidatePumpStationLogic(pumpStation, pumpStation.ForbidLogic);
+				InvalidatePumpStationLogic(pumpStation, pumpStation.StopLogic);
 			}
 		}
 

@@ -27,19 +27,30 @@ namespace GKProcessor
         {
             Formula = new FormulaBuilder();
 
-			if (PumpStation.StartLogic.Clauses.Count > 0)
-			{
-				Formula.AddClauseFormula(PumpStation.StartLogic);
-			}
-			Formula.AddGetBit(XStateBit.Norm, PumpStation);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
-			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, PumpStation);
-
 			if (PumpStation.ForbidLogic.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(PumpStation.ForbidLogic);
 			}
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
+
+			if (PumpStation.StartLogic.Clauses.Count > 0)
+			{
+				Formula.AddClauseFormula(PumpStation.StartLogic);
+			}
+			if (PumpStation.StopLogic.Clauses.Count > 0)
+			{
+				Formula.AddClauseFormula(PumpStation.StopLogic);
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.AddGetBit(XStateBit.Norm, PumpStation);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
+				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, PumpStation);
+
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+			}
+			Formula.AddGetBit(XStateBit.Norm, PumpStation);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
+			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, PumpStation);
 
             Formula.Add(FormulaOperationType.END);
             FormulaBytes = Formula.GetBytes();

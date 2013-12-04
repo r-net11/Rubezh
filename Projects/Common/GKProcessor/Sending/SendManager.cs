@@ -147,7 +147,6 @@ namespace GKProcessor
 				OnConnectionLost();
 				udpClient.Close();
 				return new SendResult("От устройства не получен ответ в заданный таймаут");
-				//return new SendResult("Коммуникационная ошибка " + e.Message);
 			}
 			udpClient.Close();
 

@@ -95,7 +95,7 @@ namespace GKProcessor
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					Description = BytesHelper.StringDescriptionToBytes(XBase.GetDescriptorName());
+					Description = BytesHelper.StringDescriptionToBytes(XBase.PresentationName);
 					break;
 
 				case DatabaseType.Kau:
