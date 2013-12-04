@@ -54,7 +54,7 @@ namespace PlansModule
 				Name = "Планы",
 				UID = LayoutPartIdentities.Plans,
 				IconSource = "/Controls;component/Images/Map.png",
-				Content = _plansViewModel,
+				Factory = (p) => _plansViewModel,
 			};
 		}
 

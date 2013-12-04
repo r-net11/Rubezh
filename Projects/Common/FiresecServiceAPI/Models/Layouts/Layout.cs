@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace FiresecAPI.Models.Layouts
 {
@@ -13,6 +14,8 @@ namespace FiresecAPI.Models.Layouts
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
 			Caption = "Шаблон";
+			SplitterSize = 4;
+			SplitterColor = Colors.Transparent;
 		}
 
 		[DataMember]
@@ -27,5 +30,9 @@ namespace FiresecAPI.Models.Layouts
 		public string Description { get; set; }
 		[DataMember]
 		public string Content { get; set; }
+		[DataMember]
+		public int SplitterSize { get; set; }
+		[DataMember]
+		public Color SplitterColor { get; set; }
 	}
 }

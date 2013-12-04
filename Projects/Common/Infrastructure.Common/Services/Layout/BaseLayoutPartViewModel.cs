@@ -9,7 +9,6 @@ namespace Infrastructure.Common.Services.Layout
 {
 	public abstract class BaseLayoutPartViewModel : BaseViewModel
 	{
-		public abstract ILayoutProperties GetProperties();
-		public abstract void SetProperties(ILayoutProperties properties);
+		public abstract ILayoutProperties Properties { get; }
 	}
 }

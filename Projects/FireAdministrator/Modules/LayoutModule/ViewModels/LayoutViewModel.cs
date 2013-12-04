@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Media;
 
 namespace LayoutModule.ViewModels
 {

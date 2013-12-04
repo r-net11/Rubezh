@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
+using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -15,7 +16,7 @@ namespace Infrastructure.Common.Services.Layout
 		string IconSource { get; }
 		string Description { get; }
 		bool AllowMultiple { get; }
-		BaseLayoutPartViewModel Content { get; }
-		Size PreferedSize { get; }
+		LayoutPartSize Size { get; }
+		BaseLayoutPartViewModel CreateContent(ILayoutProperties properties);
 	}
 }

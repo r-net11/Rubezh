@@ -34,12 +34,11 @@ namespace LayoutModule.ViewModels
 				UID = Guid.NewGuid(),
 			};
 			Initialize();
-			LayoutPart.Properties = Content.GetProperties();
+			LayoutPart.Properties = Content.Properties;
 		}
 		private void Initialize()
 		{
-			Content = LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
-			Content.SetProperties(LayoutPart.Properties);
+			Content = LayoutPartDescriptionViewModel.LayoutPartDescription.CreateContent(LayoutPart.Properties) ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
 			ConfigureCommand = new RelayCommand(OnConfigureCommand, CanConfigureCommand);
 		}
 
@@ -68,7 +67,7 @@ namespace LayoutModule.ViewModels
 			var pair = GetLayoutPositionableElements(document);
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
 			var size = new LayoutPartSize();
-			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize;
+			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.PreferedSize;
 			size.Margin = (int)document.Margin;
 			ReadSize(size, pair.First, layoutItem);
 			ReadSize(size, pair.Second, layoutItem);
@@ -168,9 +167,9 @@ namespace LayoutModule.ViewModels
 		private void ValidateSize(LayoutPartSize size)
 		{
 			if (double.IsNaN(size.Width))
-				size.Width = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize.Width;
+				size.Width = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.Width;
 			if (double.IsNaN(size.Height))
-				size.Height = LayoutPartDescriptionViewModel.LayoutPartDescription.PreferedSize.Height;
+				size.Height = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.Height;
 		}
 	}
 }

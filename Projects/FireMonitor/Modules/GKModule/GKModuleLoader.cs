@@ -203,49 +203,49 @@ namespace GKModule
 				Name = "Состояния",
 				UID = LayoutPartIdentities.Alarms,
 				IconSource = "/Controls;component/Images/Alarm.png",
-				Content = AlarmsViewModel,
+				Factory = (p) => AlarmsViewModel,
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Устройства",
 				UID = LayoutPartIdentities.GDevices,
 				IconSource = "/Controls;component/Images/Tree.png",
-				Content = DevicesViewModel,
+				Factory = (p) => DevicesViewModel,
 			};
 			//yield return new LayoutPartPresenter()
 			//{
 			//    Name = "Измерения",
 			//    UID = LayoutPartIdentities.DeviceParameters,
 			//    IconSource = "/Controls;component/Images/AllParameters.png",
-			//    Content = DeviceParametersViewModel,
+			//    Factory = (p) =>  DeviceParametersViewModel,
 			//};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Зоны",
 				UID = LayoutPartIdentities.Zones,
 				IconSource = "/Controls;component/Images/Zones.png",
-				Content = ZonesViewModel,
+				Factory = (p) => ZonesViewModel,
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Направления",
 				UID = LayoutPartIdentities.Directions,
 				IconSource = "/Controls;component/Images/Direction.png",
-				Content = DirectionsViewModel,
+				Factory = (p) => DirectionsViewModel,
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Журнал событий",
 				UID = LayoutPartIdentities.Journals,
 				IconSource = "/Controls;component/Images/Book.png",
-				Content = JournalsViewModel,
+				Factory = (p) => JournalsViewModel,
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Архив",
 				UID = LayoutPartIdentities.Archive,
 				IconSource = "/Controls;component/Images/Archive.png",
-				Content = ArchiveViewModel,
+				Factory = (p) => ArchiveViewModel,
 			};
 		}
 

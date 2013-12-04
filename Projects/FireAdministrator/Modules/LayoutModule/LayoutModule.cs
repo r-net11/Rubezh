@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using LayoutModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace LayoutModule
 {
@@ -64,7 +65,7 @@ namespace LayoutModule
 				UID = LayoutPartIdentities.Image,
 				IconSource = "/Controls;component/Images/BView.png",
 				AllowMultiple = true,
-				Content = new LayoutPartImageViewModel(),
+				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
 		}
 

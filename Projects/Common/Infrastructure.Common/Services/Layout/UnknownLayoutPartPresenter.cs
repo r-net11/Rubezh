@@ -11,6 +11,7 @@ namespace Infrastructure.Common.Services.Layout
 		{
 			UID = uid;
 			Name = "Неизвестный элемент";
+			Factory = (p) => null;
 		}
 	}
 }

@@ -27,12 +27,9 @@ namespace Infrastructure.Client.Layout.ViewModels
 			}
 		}
 
-		public override ILayoutProperties GetProperties()
+		public override ILayoutProperties Properties
 		{
-			return null;
-		}
-		public override void SetProperties(ILayoutProperties properties)
-		{
+			get { return null; }
 		}
 	}
 }

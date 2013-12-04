@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 using FireMonitor.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
@@ -27,6 +28,9 @@ namespace FireMonitor.Layout.ViewModels
 		private void LoadLayout()
 		{
 			Initialize();
+			Manager.GridSplitterHeight = Layout.SplitterSize;
+			Manager.GridSplitterWidth = Layout.SplitterSize;
+			Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
 			if (!string.IsNullOrEmpty(Layout.Content))
 				using (var tr = new StringReader(Layout.Content))
 					_serializer.Deserialize(tr);
@@ -111,7 +115,6 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		private void LayoutChanged(object sender, EventArgs e)
 		{
-			//SaveLayout();
 		}
 		private void LayoutPartClosing(object sender, DocumentClosingEventArgs e)
 		{

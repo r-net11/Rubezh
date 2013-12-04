@@ -24,4 +24,8 @@
 		<Views:EmptyPartView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:ImagePartViewModel}">
+		<Views:ImagePartView />
+	</DataTemplate>
+
 </ResourceDictionary>

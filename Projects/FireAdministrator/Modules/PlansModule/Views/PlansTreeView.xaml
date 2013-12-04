@@ -55,7 +55,7 @@
 							</StackPanel>
 						</MenuItem.Header>
 					</MenuItem>
-					<MenuItem Command="{Binding PlanPasteCommand}">
+					<MenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}">
 						<MenuItem.Header>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
@@ -91,7 +91,7 @@
 						</MenuItem.Header>
 					</MenuItem>
 					<Separator />
-					<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}">
+					<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}">
 						<MenuItem.Header>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />

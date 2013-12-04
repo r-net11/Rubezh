@@ -31,6 +31,7 @@ using System.Windows.Threading;
 using Xceed.Wpf.AvalonDock.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Themes;
+using System.Windows.Media;
 
 namespace Xceed.Wpf.AvalonDock
 {
@@ -2758,6 +2759,28 @@ namespace Xceed.Wpf.AvalonDock
 		}
 
 		#endregion
+
+		#region GridSplitterBackground
+
+		/// <summary>
+		/// GridSplitterBackground Dependency Property
+		/// </summary>
+		public static readonly DependencyProperty GridSplitterBackgroundProperty =
+			DependencyProperty.Register("GridSplitterBackground", typeof(Brush), typeof(DockingManager),
+				new FrameworkPropertyMetadata(Brushes.Transparent));
+
+		/// <summary>
+		/// Gets or sets the GridSplitterBackground property.  This dependency property 
+		/// indicates width of grid splitters.
+		/// </summary>
+		public Brush GridSplitterBackground
+		{
+			get { return (Brush)GetValue(GridSplitterBackgroundProperty); }
+			set { SetValue(GridSplitterBackgroundProperty, value); }
+		}
+
+		#endregion
+
 
 		internal void _ExecuteContentActivateCommand(LayoutContent content)
 		{

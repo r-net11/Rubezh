@@ -11,6 +11,7 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock.Layout;
 using Infrastructure.Common;
 using Common;
+using System.Windows.Media;
 
 namespace LayoutModule.ViewModels
 {
@@ -105,6 +106,9 @@ namespace LayoutModule.ViewModels
 						layoutParts.Add(new LayoutPartViewModel(layoutPart));
 					LayoutParts = layoutParts;
 					_loading = true;
+					Manager.GridSplitterWidth = _layout.SplitterSize;
+					Manager.GridSplitterHeight = _layout.SplitterSize;
+					Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
 					Manager.Layout = new LayoutRoot();
 					if (!string.IsNullOrEmpty(_layout.Content))
 						using (var tr = new StringReader(_layout.Content))

@@ -52,7 +52,7 @@ namespace DiagnosticsModule
 				Name = "Диагностика",
 				UID = LayoutPartIdentities.Diagnostics,
 				IconSource = "/Controls;component/Images/Bug.png",
-				Content = DiagnosticsViewModel,
+				Factory = (p) => DiagnosticsViewModel,
 			};
 		}
 

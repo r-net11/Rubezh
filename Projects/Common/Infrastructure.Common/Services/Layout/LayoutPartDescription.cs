@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartDescription : ILayoutPartDescription
 	{
+		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
+
 		public LayoutPartDescription()
 		{
-			PreferedSize = new Size(100, 100);
+			Size = new LayoutPartSize()
+			{
+				PreferedSize = new Size(100, 100)
+			};
 		}
 
 		#region ILayoutPartDescription Members
@@ -19,8 +25,11 @@ namespace Infrastructure.Common.Services.Layout
 		public string IconSource { get; set; }
 		public string Description { get; set; }
 		public bool AllowMultiple { get; set; }
-		public BaseLayoutPartViewModel Content { get; set; }
-		public Size PreferedSize { get; set; }
+		public LayoutPartSize Size { get; set; }
+		public BaseLayoutPartViewModel CreateContent(ILayoutProperties properties)
+		{
+			return Factory == null ? null : Factory(properties);
+		}
 
 		#endregion
 	}

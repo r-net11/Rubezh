@@ -17,6 +17,7 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			LayoutPart = layoutPart;
 			LayoutPartPresenter = layoutPartPresenter;
+			Content = LayoutPartPresenter.CreateContent(LayoutPart.Properties);
 		}
 
 		public Guid UID
@@ -31,9 +32,6 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			get { return LayoutPartPresenter.IconSource; }
 		}
-		public object Content
-		{
-			get { return LayoutPartPresenter.Content; }
-		}
+		public object Content { get; private set; }
 	}
 }

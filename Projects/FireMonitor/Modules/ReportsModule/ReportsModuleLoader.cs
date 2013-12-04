@@ -53,7 +53,7 @@ namespace ReportsModule
 				Name = "Отчеты",
 				UID = LayoutPartIdentities.Reports,
 				IconSource = "/Controls;component/Images/Levels.png",
-				Content = _reportViewModel,
+				Factory = (p) =>  _reportViewModel,
 			};
 		}
 

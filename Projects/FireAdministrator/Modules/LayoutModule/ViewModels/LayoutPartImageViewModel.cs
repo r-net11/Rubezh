@@ -25,7 +25,7 @@ namespace LayoutModule.ViewModels
 		private bool _initialized;
 
 		private LayoutPartImageProperties _properties;
-		public LayoutPartImageViewModel()
+		public LayoutPartImageViewModel(LayoutPartImageProperties properties)
 		{
 			_imageSource = null;
 			_initialized = false;
@@ -38,18 +38,16 @@ namespace LayoutModule.ViewModels
 			StretchTypes = new ObservableCollection<Stretch>(Enum.GetValues(typeof(Stretch)).Cast<Stretch>());
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
-		}
 
-		public override ILayoutProperties GetProperties()
-		{
-			return _properties;
-		}
-		public override void SetProperties(ILayoutProperties properties)
-		{
-			_properties = properties as LayoutPartImageProperties ?? new LayoutPartImageProperties();
+			_properties = properties ?? new LayoutPartImageProperties();
 			Stretch = _properties.Stretch;
 			UpdateImage();
 			_initialized = true;
+		}
+
+		public override ILayoutProperties Properties
+		{
+			get { return _properties; }
 		}
 
 		public ObservableCollection<Stretch> StretchTypes { get; private set; }
@@ -136,5 +134,6 @@ namespace LayoutModule.ViewModels
 				MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
 			}
 		}
+
 	}
 }

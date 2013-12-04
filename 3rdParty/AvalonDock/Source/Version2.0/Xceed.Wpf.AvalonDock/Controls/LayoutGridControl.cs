@@ -297,7 +297,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		{
 			for (int iChild = 1; iChild < Children.Count; iChild++)
 			{
-				var splitter = new LayoutGridResizerControl();
+				var splitter = new LayoutGridResizerControl() { Background = _model.Root.Manager.GridSplitterBackground };
 				splitter.Cursor = this.Orientation == Orientation.Horizontal ? Cursors.SizeWE : Cursors.SizeNS;
 				Children.Insert(iChild, splitter);
 				iChild++;

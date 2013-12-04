@@ -51,7 +51,7 @@ namespace FireAdministrator
 				IconSource = "/Controls;component/Images/BAlarm.png",
 				AllowMultiple = false,
 				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/IndicatorsPreview.png" },
-				PreferedSize = new Size(1000, 100),
+				Size = new LayoutPartSize() { PreferedSize = new Size(1000, 100) },
 			};
 			yield return new LayoutPartDescription()
 			{
@@ -62,7 +62,7 @@ namespace FireAdministrator
 				IconSource = "/Controls;component/Images/BTree.png",
 				AllowMultiple = false,
 				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/NavigationPreview.png" },
-				PreferedSize = new Size(150, 500),
+				Size = new LayoutPartSize() { PreferedSize = new Size(150, 500) },
 			};
 			yield return new LayoutPartDescription()
 			{

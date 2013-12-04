@@ -25,8 +25,12 @@ namespace FiresecAPI.Models
 				result = false;
 			}
 			foreach (var layout in Layouts)
+			{
 				if (layout.UID == Guid.Empty)
 					layout.UID = Guid.NewGuid();
+				if (layout.SplitterSize == 0)
+					layout.SplitterSize = 4;
+			}
 			return result;
 		}
 

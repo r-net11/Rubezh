@@ -4,6 +4,7 @@ using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace FireMonitor.Layout
 {
@@ -40,28 +41,35 @@ namespace FireMonitor.Layout
 				Name = "Заглушка",
 				UID = LayoutPartIdentities.EmptySpace,
 				IconSource = "/Controls;component/Images/Exit.png",
-				Content = new EmptyPartViewModel(),
+				Factory = (p) => new EmptyPartViewModel(),
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Индикаторы",
 				UID = LayoutPartIdentities.Indicator,
 				IconSource = "/Controls;component/Images/Alarm.png",
-				Content = MonitorLayoutShellViewModel.Toolbar,
+				Factory = (p) => MonitorLayoutShellViewModel.Toolbar,
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Навигатор",
 				UID = LayoutPartIdentities.Navigation,
 				IconSource = "/Controls;component/Images/Tree.png",
-				Content = new NavigationPartViewModel(MonitorLayoutShellViewModel),
+				Factory = (p) => new NavigationPartViewModel(MonitorLayoutShellViewModel),
 			};
 			yield return new LayoutPartPresenter()
 			{
 				Name = "Контейнер",
 				UID = LayoutPartIdentities.Content,
 				IconSource = "/Controls;component/Images/Layouts.png",
-				Content = new ContentPartViewModel(MonitorLayoutShellViewModel),
+				Factory = (p) => new ContentPartViewModel(MonitorLayoutShellViewModel),
+			};
+			yield return new LayoutPartPresenter()
+			{
+				Name = "Картинка",
+				UID = LayoutPartIdentities.Image,
+				IconSource = "/Controls;component/Images/View.png",
+				Factory = (p) => new ImagePartViewModel(p as LayoutPartImageProperties),
 			};
 		}
 

@@ -28,10 +28,6 @@ namespace LayoutModule.ViewModels
 		{
 			get { return LayoutPartDescription.IconSource; }
 		}
-		public BaseLayoutPartViewModel Content
-		{
-			get { return LayoutPartDescription.Content; }
-		}
 		public VisualizationState VisualizationState { get; private set; }
 		private int _count;
 		public int Count

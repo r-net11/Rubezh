@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Media;
 
 namespace LayoutModule.ViewModels
 {
@@ -21,6 +22,8 @@ namespace LayoutModule.ViewModels
 		{
 			Caption = Layout.Caption;
 			Description = Layout.Description;
+			SplitterColor = Layout.SplitterColor;
+			SplitterSize = Layout.SplitterSize;
 		}
 
 		private string _caption;
@@ -45,6 +48,27 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
+		private Color _splitterColor;
+		public Color SplitterColor
+		{
+			get { return _splitterColor; }
+			set
+			{
+				_splitterColor = value;
+				OnPropertyChanged(() => SplitterColor);
+			}
+		}
+		private int _splitterSize;
+		public int SplitterSize
+		{
+			get { return _splitterSize; }
+			set
+			{
+				_splitterSize = value;
+				OnPropertyChanged(() => SplitterSize);
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Caption);
@@ -54,6 +78,8 @@ namespace LayoutModule.ViewModels
 			Layout.Caption = Caption;
 			Layout.Description = Description;
 			LayoutUsersViewModel.Save();
+			Layout.SplitterColor = SplitterColor;
+			Layout.SplitterSize = SplitterSize;
 			return base.Save();
 		}
 	}

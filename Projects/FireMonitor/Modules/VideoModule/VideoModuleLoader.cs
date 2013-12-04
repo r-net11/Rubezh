@@ -85,7 +85,7 @@ namespace VideoModule
 				Name = "Видео",
 				UID = LayoutPartIdentities.Video,
 				IconSource = "/Controls;component/Images/Video1.png",
-				Content = VideoViewModel,
+				Factory = (p) => VideoViewModel,
 			};
 		}
 

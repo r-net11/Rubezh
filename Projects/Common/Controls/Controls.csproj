@@ -1345,6 +1345,7 @@
     <Resource Include="Images\Pim.png" />
     <Resource Include="Images\PumpStation.png" />
     <Resource Include="GKIcons\RSR2_Splitter.png" />
+    <Resource Include="Images\View.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
