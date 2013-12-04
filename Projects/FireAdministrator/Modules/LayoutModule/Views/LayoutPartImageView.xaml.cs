@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Infrastructure.Client.Layout.Views
+namespace LayoutModule.Views
 {
 	/// <summary>
 	/// Interaction logic for LayoutPartImageView.xaml

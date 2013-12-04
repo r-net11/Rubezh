@@ -157,6 +157,7 @@
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
+    <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />

@@ -19,8 +19,8 @@ namespace Infrastructure.Common.Services.Layout
 		public string IconSource { get; set; }
 		public string Description { get; set; }
 		public bool AllowMultiple { get; set; }
-		public BaseViewModel Content { get; set; }
-		public Size PreferedSize { get; private set; }
+		public BaseLayoutPartViewModel Content { get; set; }
+		public Size PreferedSize { get; set; }
 
 		#endregion
 	}

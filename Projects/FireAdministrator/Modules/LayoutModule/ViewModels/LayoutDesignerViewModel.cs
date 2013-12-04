@@ -77,7 +77,7 @@ namespace LayoutModule.ViewModels
 					_serializer = null;
 				}
 				if (_manager != null)
-					using (new TimeCounter("Attach to LayoutManager = {0}") )
+					using (new TimeCounter("Attach to LayoutManager = {0}"))
 					{
 						Manager.LayoutConfigurationChanged += LayoutConfigurationChanged;
 						Manager.DocumentClosing += LayoutPartClosing;
@@ -127,12 +127,13 @@ namespace LayoutModule.ViewModels
 					_layout.Content = tw.ToString();
 				}
 		}
-		public void LayoutConfigurationChanged()
+		public void LayoutConfigurationChanged(bool withLayout = true)
 		{
 			if (!_loading)
 			{
 				ServiceFactory.SaveService.LayoutsChanged = true;
-				_currentLayoutChanged = true;
+				if (withLayout)
+					_currentLayoutChanged = true;
 			}
 		}
 

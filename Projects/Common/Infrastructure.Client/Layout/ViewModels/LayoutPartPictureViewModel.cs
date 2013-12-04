@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Client.Layout.ViewModels
 {
-	public class LayoutPartImageViewModel : BaseViewModel
+	public class LayoutPartPictureViewModel : BaseViewModel
 	{
 		private string _imageSource;
 		public string ImageSource

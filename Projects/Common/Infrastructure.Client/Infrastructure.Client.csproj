@@ -55,9 +55,9 @@
     <Compile Include="BaseBootstrapper.cs" />
     <Compile Include="Layout\LayoutPartIdentities.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartTitleViewModel.cs" />
-    <Compile Include="Layout\ViewModels\LayoutPartImageViewModel.cs" />
-    <Compile Include="Layout\Views\LayoutPartImageView.xaml.cs">
-      <DependentUpon>LayoutPartImageView.xaml</DependentUpon>
+    <Compile Include="Layout\ViewModels\LayoutPartPictureViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartPictureView.xaml.cs">
+      <DependentUpon>LayoutPartPictureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ShowGKDebugEvent.cs" />
     <Compile Include="Layout\Views\LayoutPartTitleView.xaml.cs">
@@ -138,7 +138,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Layout\Views\LayoutPartImageView.xaml">
+    <Page Include="Layout\Views\LayoutPartPictureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

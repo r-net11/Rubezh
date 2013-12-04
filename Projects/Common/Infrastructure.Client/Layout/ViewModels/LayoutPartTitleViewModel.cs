@@ -1,8 +1,10 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Client.Layout.ViewModels
 {
-	public class LayoutPartTitleViewModel : BaseViewModel
+	public class LayoutPartTitleViewModel : BaseLayoutPartViewModel
 	{
 		private string _iconSource;
 		public string IconSource
@@ -23,6 +25,14 @@ namespace Infrastructure.Client.Layout.ViewModels
 				_title = value;
 				OnPropertyChanged(() => Title);
 			}
+		}
+
+		public override ILayoutProperties GetProperties()
+		{
+			return null;
+		}
+		public override void SetProperties(ILayoutProperties properties)
+		{
 		}
 	}
 }

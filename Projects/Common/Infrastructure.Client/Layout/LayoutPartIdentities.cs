@@ -9,6 +9,8 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Navigation = new Guid("{8EC166C3-5D1C-4BBD-AE33-A91EC58FB74B}");
 		public static readonly Guid Content = new Guid("{7FA6996D-0E0F-4409-BFF9-064EFEAF5C35}");
 
+		public static readonly Guid Image = new Guid("{230B5A83-15B9-4F32-B3A4-6E00B430227E}");
+
 		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
 		public static readonly Guid Zones = new Guid("{753B008A-D326-4A1D-B67D-DAE7A4A6CD1B}");

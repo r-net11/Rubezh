@@ -10,10 +10,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using LayoutModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Client.Layout;
 
 namespace LayoutModule
 {
-	public class LayoutModule : ModuleBase
+	public class LayoutModule : ModuleBase, ILayoutDeclarationModule
 	{
 		private MonitorLayoutsViewModel _monitorLayoutsViewModel;
 
@@ -50,5 +51,23 @@ namespace LayoutModule
 		{
 			_monitorLayoutsViewModel.SaveConfiguration();
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription()
+			{
+				Name = "Картинка",
+				Description = "Показывает статическое изображение",
+				Index = 4,
+				UID = LayoutPartIdentities.Image,
+				IconSource = "/Controls;component/Images/BView.png",
+				AllowMultiple = true,
+				Content = new LayoutPartImageViewModel(),
+			};
+		}
+
+		#endregion
 	}
 }

@@ -34,9 +34,12 @@ namespace LayoutModule.ViewModels
 				UID = Guid.NewGuid(),
 			};
 			Initialize();
+			LayoutPart.Properties = Content.GetProperties();
 		}
 		private void Initialize()
 		{
+			Content = LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
+			Content.SetProperties(LayoutPart.Properties);
 			ConfigureCommand = new RelayCommand(OnConfigureCommand, CanConfigureCommand);
 		}
 
@@ -56,11 +59,7 @@ namespace LayoutModule.ViewModels
 		{
 			get { return LayoutPartDescriptionViewModel.Description; }
 		}
-		public object Content
-		{
-			get { return LayoutPartDescriptionViewModel.Content ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource }; }
-		}
-
+		public BaseLayoutPartViewModel Content { get; private set; }
 
 		public RelayCommand ConfigureCommand { get; private set; }
 		private void OnConfigureCommand()

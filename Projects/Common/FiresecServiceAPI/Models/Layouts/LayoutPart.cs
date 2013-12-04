@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models.Layouts
 {
 	[DataContract]
+	[KnownType(typeof(LayoutPartImageProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()
@@ -15,5 +16,7 @@ namespace FiresecAPI.Models.Layouts
 		public Guid UID { get; set; }
 		[DataMember]
 		public Guid DescriptionUID { get; set; }
+		[DataMember]
+		public ILayoutProperties Properties { get; set; }
 	}
 }

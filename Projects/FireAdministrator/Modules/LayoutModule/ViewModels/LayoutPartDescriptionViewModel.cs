@@ -1,6 +1,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
@@ -27,7 +28,7 @@ namespace LayoutModule.ViewModels
 		{
 			get { return LayoutPartDescription.IconSource; }
 		}
-		public object Content
+		public BaseLayoutPartViewModel Content
 		{
 			get { return LayoutPartDescription.Content; }
 		}
@@ -53,6 +54,7 @@ namespace LayoutModule.ViewModels
 						break;
 				}
 				OnPropertyChanged(() => VisualizationState);
+				OnPropertyChanged(() => IsPresented);
 			}
 		}
 
