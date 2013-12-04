@@ -21,13 +21,12 @@
                     <WrapPanel Margin="5">
                         <Button Content="Конвертировать из формата Рубеж-2АМ" Command="{Binding ConvertFromFiresecCommand}" Width="300" Margin="2" />
                         <Button Content="Конвертировать в формат Рубеж-2АМ" Command="{Binding ConvertToFiresecCommand}" Width="300" Margin="2" />
-
                         <Button Content="Конвертировать выходы в реле" Command="{Binding ConvertExitToReleCommand}" Width="300" Margin="2" />
-
                         <Button Content="Перевести в технологический режим" Command="{Binding GoToTechnologicalCommand}" Width="300" Margin="2" />
                         <Button Content="Перевести в рабочий режим" Command="{Binding GoToWorkRegimeCommand}" Width="300" Margin="2" />
                         <Button Content="Записать файл в ГК" Command="{Binding WriteConfigFileToGKCommand}" Width="150" Margin="2" />
                         <Button Content="Считать файл из ГК" Command="{Binding ReadConfigFileFromGKCommand}" Width="150" Margin="2" />
+                        <Button Content="Сравнить хеши" Command="{Binding CompareHashesCommand}" Width="150" Margin="2" />
                         <Button Content="wwwww">
                             <Button.ContextMenu>
                                 <ContextMenu Style="{x:Null}">

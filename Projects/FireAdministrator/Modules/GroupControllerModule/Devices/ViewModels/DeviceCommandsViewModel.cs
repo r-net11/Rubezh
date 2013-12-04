@@ -129,7 +129,7 @@ namespace GKModule.Models
 		void OnReadConfigFile()
 		{
 			DescriptorsManager.Create();
-			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK();
+			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
 			if (String.IsNullOrEmpty(GKFileReaderWriter.Error))
 			{
 				XManager.UpdateConfiguration();
