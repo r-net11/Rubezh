@@ -41,7 +41,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
                                 <TextBlock Width="200" Text="{Binding Direction.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
@@ -71,7 +71,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding DirectionState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
@@ -81,7 +81,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
-                                <TextBlock Text="{Binding DirectionState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
 						</DataTemplate>
@@ -216,7 +216,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                                <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 								<TextBlock Text="{Binding Zone.Name}" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">

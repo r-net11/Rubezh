@@ -62,7 +62,7 @@ namespace GKProcessor
 					{
 						if (connectionLostCount >= property.Value)
 						{
-							xBase.GetXBaseState().IsGKConnectionLost = true;
+							xBase.BaseState.IsGKConnectionLost = true;
 							AdditionalStates = new List<XAdditionalState>()
 							{
 								new XAdditionalState()
@@ -74,7 +74,7 @@ namespace GKProcessor
 						}
 						else
 						{
-							xBase.GetXBaseState().IsGKConnectionLost = false;
+							xBase.BaseState.IsGKConnectionLost = false;
 						}
 					}
 				}

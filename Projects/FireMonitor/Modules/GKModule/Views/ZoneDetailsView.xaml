@@ -9,10 +9,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Rectangle Fill="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
+            <Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <Image Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                <TextBlock Text="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
             </StackPanel>
         </StackPanel>
         <TabControl Grid.Row="1">

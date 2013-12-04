@@ -54,7 +54,7 @@ namespace GKProcessor
 				{
 					if (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.GK)
 					{
-						descriptor.Device.DeviceState.IsConnectionLost = true;
+						descriptor.Device.InternalState.IsConnectionLost = true;
 						break;
 					}
 				}
@@ -65,7 +65,7 @@ namespace GKProcessor
 			{
 				if (device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					device.DeviceState.OnInternalStateChanged();
+					device.InternalState.OnInternalStateChanged();
 				}
 			}
 			if (showProgress)
@@ -75,17 +75,15 @@ namespace GKProcessor
 			{
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					var baseState = descriptor.XBase.GetXBaseState();
-					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
-					baseState.IsGKMissmatch = true;
+					descriptor.XBase.BaseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+					descriptor.XBase.BaseState.IsGKMissmatch = true;
 				}
 			}
 			else
 			{
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					var baseState = descriptor.XBase.GetXBaseState();
-					baseState.IsGKMissmatch = false;
+					descriptor.XBase.BaseState.IsGKMissmatch = false;
 				}
 			}
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
@@ -121,7 +119,7 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count != 68)
 			{
 				IsAnyDBMissmatch = true;
-				xBase.GetXBaseState().IsGKMissmatch = true;
+				xBase.BaseState.IsGKMissmatch = true;
 				return false;
 			}
 			ConnectionChanged(true);
@@ -129,7 +127,7 @@ namespace GKProcessor
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 
-			var binaryState = xBase.GetXBaseState();
+			var binaryState = xBase.BaseState;
 			binaryState.LastDateTime = DateTime.Now;
 			binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
 			binaryState.OnDelay = descriptorStateHelper.OnDelay;
@@ -204,7 +202,7 @@ namespace GKProcessor
 			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
 				isMissmatch = true;
 
-			xBase.GetXBaseState().IsRealMissmatch = isMissmatch;
+			xBase.BaseState.IsRealMissmatch = isMissmatch;
 			if (isMissmatch)
 			{
 				IsAnyDBMissmatch = true;
@@ -219,9 +217,9 @@ namespace GKProcessor
 				{
 					var device = xBase as XDevice;
 					if (journalItem.Name == "Запыленность")
-						device.DeviceState.IsService = true;
+						device.InternalState.IsService = true;
 					if (journalItem.Name == "Запыленность устранена")
-						device.DeviceState.IsService = false;
+						device.InternalState.IsService = false;
 				}
 			}
 		}
@@ -232,8 +230,7 @@ namespace GKProcessor
 			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				var baseState = descriptor.XBase.GetXBaseState();
-				baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
+				descriptor.XBase.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 			}
 
 			if (!isInTechnologicalRegime)
@@ -245,8 +242,7 @@ namespace GKProcessor
 					allChildren.Add(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
 					{
-						var baseState = device.GetXBaseState();
-						baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
+						device.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 					}
 				}
 			}

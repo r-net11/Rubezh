@@ -22,8 +22,12 @@ namespace XFiresecAPI
 			NSPumpsCount = 1;
 			NSDeltaTime = 5;
 		}
-		public XDirectionState DirectionState { get; set; }
-		public override XBaseState GetXBaseState() { return DirectionState; }
+		public XDirectionState InternalState { get; set; }
+		public override XBaseState BaseState
+		{
+			get { return InternalState; }
+		}
+
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }

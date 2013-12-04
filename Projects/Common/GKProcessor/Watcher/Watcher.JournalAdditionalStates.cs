@@ -12,7 +12,7 @@ namespace GKProcessor
 
 			if (descriptor != null && descriptor.Device != null)
 			{
-				var deviceState = descriptor.Device.DeviceState;
+				var deviceState = descriptor.Device.InternalState;
 				if (journalItem.Name == "Неисправность")
 				{
 					if (!string.IsNullOrEmpty(journalItem.Description))

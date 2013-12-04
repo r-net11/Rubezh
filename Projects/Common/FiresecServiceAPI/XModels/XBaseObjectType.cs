@@ -10,6 +10,7 @@ namespace XFiresecAPI
 		Deivce,
 		Zone,
 		Direction,
+		PumpStation,
 		Delay,
 		Pim
 	}

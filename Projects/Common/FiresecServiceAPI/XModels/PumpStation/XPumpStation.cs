@@ -24,13 +24,14 @@ namespace XFiresecAPI
 			InputDirections = new List<XDirection>();
 			NSDevices = new List<XDevice>();
 			NSDeviceUIDs = new List<Guid>();
-			PumpStationState = new XPumpStationState()
-			{
-				PumpStation = this
-			};
+			InternalState = new XPumpStationState(this);
 		}
-		public XPumpStationState PumpStationState { get; set; }
-		public override XBaseState GetXBaseState() { return PumpStationState; }
+		public XPumpStationState InternalState { get; set; }
+		public override XBaseState BaseState
+		{
+			get { return InternalState; }
+		}
+
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDirection> InputDirections { get; set; }

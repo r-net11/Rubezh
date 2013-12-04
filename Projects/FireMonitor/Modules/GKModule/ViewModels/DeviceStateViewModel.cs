@@ -12,33 +12,33 @@ namespace GKModule.ViewModels
 {
 	public class DeviceStateViewModel : BaseViewModel
 	{
-		public XDeviceState DeviceState { get; private set; }
+		public XState State { get; private set; }
 
-		public DeviceStateViewModel(XDeviceState deviceState)
+		public DeviceStateViewModel(XState deviceState)
 		{
-			DeviceState = deviceState;
+			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 			AdditionalStates = new ObservableCollection<XAdditionalState>();
-			DeviceState.StateChanged += new Action(OnStateChanged);
+			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("StateClassName");
 
 			StateClasses.Clear();
-			foreach (var stateClass in DeviceState.StateClasses)
+			foreach (var stateClass in State.StateClasses)
 			{
-				if (stateClass != DeviceState.StateClass)
+				if (stateClass != State.StateClass)
 				{
-					StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
+					StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 				}
 			}
 
 			AdditionalStates.Clear();
-			foreach (var additionalState in DeviceState.AdditionalStates)
+			foreach (var additionalState in State.AdditionalStates)
 			{
 				AdditionalStates.Add(additionalState);
 			}
@@ -49,11 +49,7 @@ namespace GKModule.ViewModels
 
 		public string StateClassName
 		{
-			get
-			{
-				var result = XStateClassViewModel.GetStateName(DeviceState.StateClass, DeviceState.Device);
-				return result;
-			}
+			get { return XStateClassViewModel.GetStateName(State.StateClass, State.Device); }
 		}
 	}
 

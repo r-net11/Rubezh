@@ -133,7 +133,7 @@ namespace GKModule.ViewModels
 
 					case "Dustinness":
 						deviceParameterViewModel.Dustinness = auParameterValue.StringValue;
-						deviceParameterViewModel.Device.DeviceState.MeasureParameter.Dustiness = auParameterValue.StringValue;
+						deviceParameterViewModel.Device.State.MeasureParameter.Dustiness = auParameterValue.StringValue;
 						break;
 
 					case "LastServiceTime":

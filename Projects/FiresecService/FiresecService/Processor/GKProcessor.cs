@@ -26,7 +26,7 @@ namespace FiresecService
 				{
 					foreach (var delay in gkDatabase.Delays)
 					{
-						delay.DelayState = new XDelayState();
+						delay.InternalState = new XDelayState(delay);
 					}
 				}
 				GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);

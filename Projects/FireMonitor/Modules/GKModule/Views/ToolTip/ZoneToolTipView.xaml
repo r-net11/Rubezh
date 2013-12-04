@@ -8,8 +8,8 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Состояние:" Margin="2 0" />
-            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-            <TextBlock Text="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
+            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+            <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Количество датчиков для перевода в Пожар 1:" Margin="2 0" />

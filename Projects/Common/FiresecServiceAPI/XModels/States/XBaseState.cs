@@ -6,15 +6,12 @@ using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
-	[DataContract]
 	public abstract class XBaseState
 	{
 		public XBaseState()
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
-			StateClasses = new List<XStateClass>();
-			StateClass = XStateClass.Unknown;
 		}
 
 		public event Action InternalStateChanged;
@@ -23,13 +20,6 @@ namespace XFiresecAPI
 			IsInitialState = false;
 			if (InternalStateChanged != null)
 				InternalStateChanged();
-		}
-
-		public event Action StateChanged;
-		public void OnStateChanged()
-		{
-			if (StateChanged != null)
-				StateChanged();
 		}
 
 		public bool IsInitialState { get; protected set; }
@@ -121,7 +111,7 @@ namespace XFiresecAPI
 		public DateTime LastDateTime { get; set; }
 		public abstract List<XStateBit> StateBits { get; set; }
 
-		public virtual List<XStateClass> InternalStateClasses
+		public virtual List<XStateClass> StateClasses
 		{
 			get
 			{
@@ -149,30 +139,14 @@ namespace XFiresecAPI
 			}
 		}
 
-		public virtual XStateClass InternalStateClass
+		public virtual XStateClass StateClass
 		{
-			get { return XStatesHelper.GetMinStateClass(InternalStateClasses); }
+			get { return XStatesHelper.GetMinStateClass(StateClasses); }
 		}
 
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
 		public List<XAdditionalState> AdditionalStates { get; set; }
-
-		[DataMember]
 		public int OnDelay { get; set; }
-
-		[DataMember]
 		public int HoldDelay { get; set; }
-
-		[DataMember]
 		public int OffDelay { get; set; }
-
-		[DataMember]
-		public List<XStateClass> StateClasses { get; set; }
-
-		[DataMember]
-		public XStateClass StateClass { get; set; }
 	}
 }

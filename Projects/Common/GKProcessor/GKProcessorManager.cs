@@ -142,15 +142,44 @@ namespace GKProcessor
 			var gkStates = new GKStates();
 			foreach (var device in XManager.Devices)
 			{
-				gkStates.DeviceStates.Add(device.DeviceState);
-			}
-			foreach (var direction in XManager.Directions)
-			{
-				gkStates.DirectionStates.Add(direction.DirectionState);
+				device.State.AdditionalStates = device.InternalState.AdditionalStates.ToList();
+				device.State.StateClasses = device.InternalState.StateClasses.ToList();
+				device.State.StateClass = device.InternalState.StateClass;
+				device.State.OnDelay = device.InternalState.OnDelay;
+				device.State.OffDelay = device.InternalState.OffDelay;
+				device.State.HoldDelay = device.InternalState.HoldDelay;
+				device.State.MeasureParameter = device.InternalState.MeasureParameter;
+				gkStates.DeviceStates.Add(device.State);
 			}
 			foreach (var zone in XManager.Zones)
 			{
-				gkStates.ZoneStates.Add(zone.ZoneState);
+				zone.State.AdditionalStates = zone.InternalState.AdditionalStates.ToList();
+				zone.State.StateClasses = zone.InternalState.StateClasses.ToList();
+				zone.State.StateClass = zone.InternalState.StateClass;
+				zone.State.OnDelay = zone.InternalState.OnDelay;
+				zone.State.OffDelay = zone.InternalState.OffDelay;
+				zone.State.HoldDelay = zone.InternalState.HoldDelay;
+				gkStates.ZoneStates.Add(zone.State);
+			}
+			foreach (var direction in XManager.Directions)
+			{
+				direction.State.AdditionalStates = direction.InternalState.AdditionalStates.ToList();
+				direction.State.StateClasses = direction.InternalState.StateClasses.ToList();
+				direction.State.StateClass = direction.InternalState.StateClass;
+				direction.State.OnDelay = direction.InternalState.OnDelay;
+				direction.State.OffDelay = direction.InternalState.OffDelay;
+				direction.State.HoldDelay = direction.InternalState.HoldDelay;
+				gkStates.DirectionStates.Add(direction.State);
+			}
+			foreach (var pumpStation in XManager.PumpStations)
+			{
+				pumpStation.State.AdditionalStates = pumpStation.InternalState.AdditionalStates.ToList();
+				pumpStation.State.StateClasses = pumpStation.InternalState.StateClasses.ToList();
+				pumpStation.State.StateClass = pumpStation.InternalState.StateClass;
+				pumpStation.State.OnDelay = pumpStation.InternalState.OnDelay;
+				pumpStation.State.OffDelay = pumpStation.InternalState.OffDelay;
+				pumpStation.State.HoldDelay = pumpStation.InternalState.HoldDelay;
+				gkStates.PumpStationStates.Add(pumpStation.State);
 			}
 			return gkStates;
 		}

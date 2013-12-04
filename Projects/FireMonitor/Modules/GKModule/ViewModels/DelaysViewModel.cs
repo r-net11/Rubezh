@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var delay in gkDatabase.Delays)
 				{
-					var delayViewModel = new DelayViewModel(delay.DelayState);
+					var delayViewModel = new DelayViewModel(delay.State);
 					Delays.Add(delayViewModel);
 				}
 			}

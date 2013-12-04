@@ -38,8 +38,7 @@ namespace GKProcessor
 						HasLicense = CurrentHasLicense;
 						foreach (var descriptor in GkDatabase.Descriptors)
 						{
-							var baseState = descriptor.XBase.GetXBaseState();
-							baseState.IsNoLicense = !CurrentHasLicense;
+							descriptor.XBase.BaseState.IsNoLicense = !CurrentHasLicense;
 						}
 
 						if (CurrentHasLicense)

@@ -18,8 +18,12 @@ namespace XFiresecAPI
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public XZoneState ZoneState { get; set; }
-		public override XBaseState GetXBaseState() { return ZoneState; }
+		public XZoneState InternalState { get; set; }
+		public override XBaseState BaseState
+		{
+			get { return InternalState; }
+		}
+
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
         public List<XDevice> DevicesInLogic { get; set; }

@@ -149,20 +149,24 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-			xBase.GetXBaseState().StateClasses = xBase.GetXBaseState().InternalStateClasses;
-			xBase.GetXBaseState().StateClass = xBase.GetXBaseState().InternalStateClass;
+			xBase.State.StateClasses = xBase.BaseState.StateClasses;
+			xBase.State.StateClass = xBase.BaseState.StateClass;
 			if (xBase is XDevice)
 			{
 				GKCallbackResult.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
-				GKCallbackResult.DeviceStates.Add((XDeviceState)xBase.GetXBaseState());
+				GKCallbackResult.DeviceStates.Add(xBase.State);
 			}
 			if (xBase is XZone)
 			{
-				GKCallbackResult.ZoneStates.Add((XZoneState)xBase.GetXBaseState());
+				GKCallbackResult.ZoneStates.Add(xBase.State);
 			}
 			if (xBase is XDirection)
 			{
-				GKCallbackResult.DirectionStates.Add((XDirectionState)xBase.GetXBaseState());
+				GKCallbackResult.DirectionStates.Add(xBase.State);
+			}
+			if (xBase is XPumpStation)
+			{
+				GKCallbackResult.PumpStationStates.Add(xBase.State);
 			}
 		}
 

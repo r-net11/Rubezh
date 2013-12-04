@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			{
 				if (zone.Devices.Count > 0)
 				{
-					var zoneViewModel = new ZoneViewModel(zone.ZoneState);
+					var zoneViewModel = new ZoneViewModel(zone.State);
 					Zones.Add(zoneViewModel);
 				}
 			}

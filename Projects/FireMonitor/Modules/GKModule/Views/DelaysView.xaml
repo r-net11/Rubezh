@@ -24,7 +24,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
                                 <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center"/>
-                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding DelayState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
                                 <TextBlock Width="200" Text="{Binding Delay.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
@@ -49,7 +49,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding DelayState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
@@ -59,7 +59,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
-                                <TextBlock Text="{Binding DelayState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
 						</DataTemplate>

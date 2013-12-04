@@ -6,6 +6,11 @@ namespace XFiresecAPI
 	{
 		public XZone Zone { get; set; }
 
+		public XZoneState(XZone zone)
+		{
+			Zone = zone;
+		}
+
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{

@@ -41,7 +41,7 @@ namespace VideoModule
 					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
-						if (zone.ZoneState.StateClass == camera.StateClass)
+						if (zone.State.StateClass == camera.StateClass)
 						{
 							VideoService.Show(camera);
 						}

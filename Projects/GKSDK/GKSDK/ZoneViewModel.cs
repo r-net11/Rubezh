@@ -8,13 +8,13 @@ namespace GKSDK
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public ZoneViewModel(XZoneState zoneState)
+		public ZoneViewModel(XState state)
 		{
-			ZoneState = zoneState;
-			_stateClass = zoneState.StateClass;
-			zoneState.StateChanged += new Action(OnStateChanged);
-			No = zoneState.Zone.No;
-			Name = zoneState.Zone.Name;
+			ZoneState = state;
+			_stateClass = state.StateClass;
+			state.StateChanged += new Action(OnStateChanged);
+			No = state.Zone.No;
+			Name = state.Zone.Name;
 		}
 
 		public void SafeCall(Action action)
@@ -28,7 +28,7 @@ namespace GKSDK
 			StateClass = ZoneState.StateClass;
 		}
 
-		public XZoneState ZoneState { get; private set; }
+		public XState ZoneState { get; private set; }
 		public int No { get; private set; }
 		public string Name { get; private set; }
 

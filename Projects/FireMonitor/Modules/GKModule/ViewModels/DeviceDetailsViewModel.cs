@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 		Guid _guid;
 		public XDevice Device { get; private set; }
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
-		public XDeviceState DeviceState { get; private set; }
+		public XState State { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		public DevicePropertiesViewModel DevicePropertiesViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
@@ -41,10 +41,10 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			Device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			DeviceState = Device.DeviceState;
-			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
-			DeviceState.StateChanged += new Action(OnStateChanged);
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			State = Device.State;
+			DeviceStateViewModel = new DeviceStateViewModel(State);
+			State.StateChanged += new Action(OnStateChanged);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(State);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
 
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("DevicePicture");
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("DeviceStateViewModel");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
@@ -246,15 +246,15 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOn) && DeviceState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DeviceState.StateClasses.Contains(XStateClass.On) && DeviceState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 		public bool HasOffDelay
 		{
-			get { return DeviceState.StateClasses.Contains(XStateClass.TurningOff) && DeviceState.OffDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOff) && State.OffDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -345,7 +345,7 @@ namespace GKModule.ViewModels
 		public override void OnClosed()
 		{
 			CancelBackgroundWorker = true;
-			DeviceState.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 

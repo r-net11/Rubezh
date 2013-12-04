@@ -184,7 +184,7 @@ namespace DeviceControls
 		}
 		public static Brush GetDynamicXBrush(XDevice device)
 		{
-			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetXBrush(device) : GetDynamicXBrush(device.DriverUID, device.DeviceState);
+			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetXBrush(device) : GetDynamicXBrush(device.DriverUID, device.State);
 		}
 		private static Brush GetDynamicBrush(Guid guid, string presenterKey, DeviceState deviceState)
 		{
@@ -205,7 +205,7 @@ namespace DeviceControls
 			}
 			return brush ?? EmptyBrush;
 		}
-		private static Brush GetDynamicXBrush(Guid guid, XDeviceState deviceState)
+		private static Brush GetDynamicXBrush(Guid guid, XState deviceState)
 		{
 			Brush brush = null;
 			if (_dynamicXBrushes.ContainsKey(guid))

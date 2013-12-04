@@ -60,14 +60,14 @@ namespace GKProcessor
 				{
 					if (childDevice != null)
 					{
-						childDevice.DeviceState.IsConnectionLost = !isConnected;
+						childDevice.InternalState.IsConnectionLost = !isConnected;
 					}
 				}
-				foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.DeviceState))
+				foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.InternalState))
 				{
 					zoneState.IsConnectionLost = !isConnected;
 				}
-				foreach (var directionState in XManager.GetAllGKDirectionStates(gkDevice.DeviceState))
+				foreach (var directionState in XManager.GetAllGKDirectionStates(gkDevice.InternalState))
 				{
 					directionState.IsConnectionLost = !isConnected;
 				}

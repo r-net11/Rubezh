@@ -6,6 +6,11 @@ namespace XFiresecAPI
 	{
 		public XPumpStation PumpStation { get; set; }
 
+		public XPumpStationState(XPumpStation pumpStation)
+		{
+			PumpStation = pumpStation;
+		}
+
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{

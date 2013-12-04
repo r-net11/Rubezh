@@ -33,6 +33,8 @@ namespace XFiresecAPI
 
 		public abstract string PresentationName { get; }
 		public abstract string DescriptorInfo { get; }
-		public abstract XBaseState GetXBaseState();
+		public abstract XBaseState BaseState { get; }
+
+		public XState State { get; set; }
 	}
 }

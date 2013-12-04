@@ -42,7 +42,7 @@ namespace XFiresecAPI
 				OnInternalStateChanged();
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 				{
-					Device.Parent.DeviceState.OnInternalStateChanged();
+					Device.Parent.InternalState.OnInternalStateChanged();
 				}
 			}
 		}
@@ -61,11 +61,11 @@ namespace XFiresecAPI
 			}
 		}
 
-		public override List<XStateClass> InternalStateClasses
+		public override List<XStateClass> StateClasses
 		{
 			get
 			{
-				var stateClasses = base.InternalStateClasses;
+				var stateClasses = base.StateClasses;
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);
@@ -74,7 +74,7 @@ namespace XFiresecAPI
 			}
 		}
 
-		public override XStateClass InternalStateClass
+		public override XStateClass StateClass
 		{
 			get
 			{
@@ -83,11 +83,11 @@ namespace XFiresecAPI
 					var childStateClasses = new List<XStateClass>();
 					foreach (var child in Device.Children)
 					{
-						childStateClasses.AddRange(child.DeviceState.InternalStateClasses);
+						childStateClasses.AddRange(child.InternalState.StateClasses);
 					}
 					return XStatesHelper.GetMinStateClass(childStateClasses);
 				}
-				return XStatesHelper.GetMinStateClass(InternalStateClasses);
+				return XStatesHelper.GetMinStateClass(StateClasses);
 			}
 		}
 

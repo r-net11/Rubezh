@@ -6,18 +6,18 @@ namespace GKOPCServer
 {
 	public class TagDirection : TagBase
 	{
-		public XDirectionState DirectionState { get; private set; }
+		public XState State { get; private set; }
 
-		public TagDirection(int tagId, XDirectionState directionState)
+		public TagDirection(int tagId, XState state)
 		{
 			TagId = tagId;
-			DirectionState = directionState;
-			directionState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			state.StateChanged += new System.Action(OnStateChanged);
 		}
 
 		void OnStateChanged()
 		{
-			ChangedState(DirectionState.StateClass);
+			ChangedState(State.StateClass);
 		}
 	}
 }

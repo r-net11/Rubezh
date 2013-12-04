@@ -6,6 +6,11 @@ namespace XFiresecAPI
 	{
 		public XPim Pim { get; set; }
 
+		public XPimState(XPim pim)
+		{
+			Pim = pim;
+		}
+
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{

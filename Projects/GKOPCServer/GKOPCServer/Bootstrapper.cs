@@ -71,11 +71,11 @@ namespace GKOPCServer
 			UILogger.Log("Старт мониторинга");
 			WatcherManager.Start();
 
-			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-			{
-				GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-				GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
-			}
+			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+
+			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 		}
 
 		static void OnWorkThread()
@@ -110,52 +110,43 @@ namespace GKOPCServer
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (gkCallbackResult.DeviceStates.Count > 0)
+				foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
 				{
-					foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
+					var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+					if (device != null)
 					{
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-						if (device != null)
-						{
-							device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
-							device.DeviceState.StateClass = remoteDeviceState.StateClass;
-							device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
-							device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
-							device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
-							device.DeviceState.OnStateChanged();
-						}
+						device.State.StateClasses = remoteDeviceState.StateClasses;
+						device.State.StateClass = remoteDeviceState.StateClass;
+						device.State.OnDelay = remoteDeviceState.OnDelay;
+						device.State.HoldDelay = remoteDeviceState.HoldDelay;
+						device.State.OffDelay = remoteDeviceState.OffDelay;
+						device.State.OnStateChanged();
 					}
 				}
-				if (gkCallbackResult.ZoneStates.Count > 0)
+				foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
 				{
-					foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
+					var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+					if (zone != null)
 					{
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-						if (zone != null)
-						{
-							zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
-							zone.ZoneState.StateClass = remoteZoneState.StateClass;
-							zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
-							zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
-							zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
-							zone.ZoneState.OnStateChanged();
-						}
+						zone.State.StateClasses = remoteZoneState.StateClasses;
+						zone.State.StateClass = remoteZoneState.StateClass;
+						zone.State.OnDelay = remoteZoneState.OnDelay;
+						zone.State.HoldDelay = remoteZoneState.HoldDelay;
+						zone.State.OffDelay = remoteZoneState.OffDelay;
+						zone.State.OnStateChanged();
 					}
 				}
-				if (gkCallbackResult.DirectionStates.Count > 0)
+				foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
 				{
-					foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
+					var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+					if (direction != null)
 					{
-						var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
-						if (direction != null)
-						{
-							direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
-							direction.DirectionState.StateClass = remoteDirectionState.StateClass;
-							direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
-							direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
-							direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
-							direction.DirectionState.OnStateChanged();
-						}
+						direction.State.StateClasses = remoteDirectionState.StateClasses;
+						direction.State.StateClass = remoteDirectionState.StateClass;
+						direction.State.OnDelay = remoteDirectionState.OnDelay;
+						direction.State.HoldDelay = remoteDirectionState.HoldDelay;
+						direction.State.OffDelay = remoteDirectionState.OffDelay;
+						direction.State.OnStateChanged();
 					}
 				}
 			});

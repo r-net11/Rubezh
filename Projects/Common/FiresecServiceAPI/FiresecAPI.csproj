@@ -332,6 +332,7 @@
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\XBaseObjectType.cs" />
+    <Compile Include="XModels\XState.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>

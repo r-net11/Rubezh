@@ -33,7 +33,7 @@ namespace GKModule.Plans.Designer
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
 			if (Zone != null)
-				Zone.ZoneState.StateChanged += OnPropertyChanged;
+				Zone.State.StateChanged += OnPropertyChanged;
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			UpdateTooltip();
@@ -59,8 +59,8 @@ namespace GKModule.Plans.Designer
 				_tooltip.TitleViewModel.Title = Zone.PresentationName.TrimEnd();
 				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/zone.png";
 			}
-			_tooltip.StateViewModel.Title = Zone.ZoneState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = Zone.ZoneState.StateClass.ToIconSource();
+			_tooltip.StateViewModel.Title = Zone.State.StateClass.ToDescription();
+			_tooltip.StateViewModel.ImageSource = Zone.State.StateClass.ToIconSource();
 			_tooltip.Update();
 		}
 
@@ -79,7 +79,7 @@ namespace GKModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			switch (Zone.ZoneState.StateClass)
+			switch (Zone.State.StateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:

@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 					&& device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU)
 					continue;
 
-				foreach (var stateClass in device.DeviceState.StateClasses)
+				foreach (var stateClass in device.State.StateClasses)
 				{
 					switch (stateClass)
 					{
@@ -95,19 +95,19 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-				if (device.DeviceState.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)
+				if (device.State.StateClasses.Contains(XStateClass.AutoOff) && device.Driver.IsControlDevice)
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				if (device.DeviceState.IsService || device.DeviceState.IsRealMissmatch)
-				{
-					alarms.Add(new Alarm(XAlarmType.Service, device));
-				}
+				//if (device.DeviceState.IsService || device.DeviceState.IsRealMissmatch)
+				//{
+				//    alarms.Add(new Alarm(XAlarmType.Service, device));
+				//}
 			}
 
 			foreach (var zone in XManager.Zones)
 			{
-				foreach (var stateClass in zone.ZoneState.StateClasses)
+				foreach (var stateClass in zone.State.StateClasses)
 				{
 					switch (stateClass)
 					{
@@ -129,15 +129,15 @@ namespace GKModule.ViewModels
 					}
 				}
 
-				if (zone.ZoneState.IsRealMissmatch)
-				{
-					alarms.Add(new Alarm(XAlarmType.Service, zone));
-				}
+				//if (zone.ZoneState.IsRealMissmatch)
+				//{
+				//    alarms.Add(new Alarm(XAlarmType.Service, zone));
+				//}
 			}
 
 			foreach (var direction in XManager.Directions)
 			{
-				foreach (var stateClass in direction.DirectionState.StateClasses)
+				foreach (var stateClass in direction.State.StateClasses)
 				{
 					switch (stateClass)
 					{
@@ -151,15 +151,15 @@ namespace GKModule.ViewModels
 							break;
 					}
 				}
-				if (direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
+				if (direction.State.StateClasses.Contains(XStateClass.AutoOff))
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, direction));
 				}
 
-				if (direction.DirectionState.IsRealMissmatch)
-				{
-					alarms.Add(new Alarm(XAlarmType.Service, direction));
-				}
+				//if (direction.DirectionState.IsRealMissmatch)
+				//{
+				//    alarms.Add(new Alarm(XAlarmType.Service, direction));
+				//}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();
 
@@ -205,7 +205,7 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif)
 						continue;
 
-					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
@@ -213,7 +213,7 @@ namespace GKModule.ViewModels
 
 				foreach (var zone in XManager.Zones)
 				{
-					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(zone);
 					}
@@ -221,7 +221,7 @@ namespace GKModule.ViewModels
 
 				foreach (var direction in XManager.Directions)
 				{
-					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(direction);
 					}
@@ -244,19 +244,19 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif)
 						continue;
 
-					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 
 				foreach (var zone in XManager.Zones)
 				{
-					if (zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+					if (zone.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 
 				foreach (var direction in XManager.Directions)
 				{
-					if (direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+					if (direction.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 				return false;
@@ -275,11 +275,11 @@ namespace GKModule.ViewModels
                 {
                     foreach (var zone in XManager.Zones)
                     {
-                        if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire1))
+                        if (zone.State.StateClasses.Contains(XStateClass.Fire1))
                         {
 							FiresecManager.FiresecService.GKResetFire1(zone);
                         }
-                        if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
+                        if (zone.State.StateClasses.Contains(XStateClass.Fire2))
                         {
 							FiresecManager.FiresecService.GKResetFire2(zone);
                         }
@@ -288,7 +288,7 @@ namespace GKModule.ViewModels
                     {
                         if (device.DriverType == XDriverType.AMP_1)
                         {
-                            if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
+                            if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
                             {
 								FiresecManager.FiresecService.GKReset(device);
                             }
@@ -301,16 +301,16 @@ namespace GKModule.ViewModels
 		{
 			foreach (var zone in XManager.Zones)
 			{
-				if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire1))
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
 					return true;
-				if (zone.ZoneState.StateClasses.Contains(XStateClass.Fire2))
+				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
 					return true;
 			}
             foreach (var device in XManager.Devices)
             {
                 if (device.DriverType == XDriverType.AMP_1)
                 {
-                    if (device.DeviceState.StateClasses.Contains(XStateClass.Fire1) || device.DeviceState.StateClasses.Contains(XStateClass.Fire2))
+                    if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
                         return true;
                 }
             }

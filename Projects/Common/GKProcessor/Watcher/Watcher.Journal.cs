@@ -81,7 +81,7 @@ namespace GKProcessor
 						ChangeJournalOnDevice(descriptor, journalItem);
 						CheckAdditionalStates(descriptor);
 						CheckServiceRequired(descriptor.XBase, journalItem);
-						descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
 					}
@@ -146,25 +146,25 @@ namespace GKProcessor
 			foreach (var direction in XManager.Directions)
 			{
 				bool mustGetState = false;
-				switch (direction.DirectionState.StateClass)
+				switch (direction.InternalState.StateClass)
 				{
 					case XStateClass.TurningOn:
-						mustGetState = direction.DirectionState.OnDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						mustGetState = direction.InternalState.OnDelay > 0 || (DateTime.Now - direction.InternalState.LastDateTime).Seconds > 1;
 						break;
 					case XStateClass.On:
-						mustGetState = direction.DirectionState.HoldDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						mustGetState = direction.InternalState.HoldDelay > 0 || (DateTime.Now - direction.InternalState.LastDateTime).Seconds > 1;
 						break;
 					case XStateClass.TurningOff:
-						mustGetState = direction.DirectionState.OffDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
+						mustGetState = direction.InternalState.OffDelay > 0 || (DateTime.Now - direction.InternalState.LastDateTime).Seconds > 1;
 						break;
 				}
 				if (mustGetState)
 				{
-					var onDelay = direction.DirectionState.OnDelay;
-					var holdDelay = direction.DirectionState.HoldDelay;
-					var offDelay = direction.DirectionState.OffDelay;
+					var onDelay = direction.InternalState.OnDelay;
+					var holdDelay = direction.InternalState.HoldDelay;
+					var offDelay = direction.InternalState.OffDelay;
 					GetState(direction);
-					if(onDelay != direction.DirectionState.OnDelay || holdDelay != direction.DirectionState.HoldDelay || offDelay != direction.DirectionState.OffDelay)
+					if(onDelay != direction.InternalState.OnDelay || holdDelay != direction.InternalState.HoldDelay || offDelay != direction.InternalState.OffDelay)
 						OnObjectStateChanged(direction);
 				}
 			}
@@ -180,25 +180,25 @@ namespace GKProcessor
 			foreach (var delay in delays)
 			{
 				bool mustGetState = false;
-				switch (delay.DelayState.StateClass)
+				switch (delay.InternalState.StateClass)
 				{
 					case XStateClass.TurningOn:
-						mustGetState = delay.DelayState.OnDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						mustGetState = delay.InternalState.OnDelay > 0 || (DateTime.Now - delay.InternalState.LastDateTime).Seconds > 1;
 						break;
 					case XStateClass.On:
-						mustGetState = delay.DelayState.HoldDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						mustGetState = delay.InternalState.HoldDelay > 0 || (DateTime.Now - delay.InternalState.LastDateTime).Seconds > 1;
 						break;
 					case XStateClass.TurningOff:
-						mustGetState = delay.DelayState.OffDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
+						mustGetState = delay.InternalState.OffDelay > 0 || (DateTime.Now - delay.InternalState.LastDateTime).Seconds > 1;
 						break;
 				}
 				if (mustGetState)
 				{
-					var onDelay = delay.DelayState.OnDelay;
-					var holdDelay = delay.DelayState.HoldDelay;
-					var offDelay = delay.DelayState.OffDelay;
+					var onDelay = delay.InternalState.OnDelay;
+					var holdDelay = delay.InternalState.HoldDelay;
+					var offDelay = delay.InternalState.OffDelay;
 					GetState(delay);
-					if (onDelay != delay.DelayState.OnDelay || holdDelay != delay.DelayState.HoldDelay || offDelay != delay.DelayState.OffDelay)
+					if (onDelay != delay.InternalState.OnDelay || holdDelay != delay.InternalState.HoldDelay || offDelay != delay.InternalState.OffDelay)
 						OnObjectStateChanged(delay);
 				}
 			}
@@ -208,25 +208,25 @@ namespace GKProcessor
 				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.DriverType == XDriverType.RSR2_KAU))
 				{
 					bool mustGetState = false;
-					switch (device.DeviceState.StateClass)
+					switch (device.InternalState.StateClass)
 					{
 						case XStateClass.TurningOn:
-							mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							mustGetState = device.InternalState.OnDelay > 0 || (DateTime.Now - device.InternalState.LastDateTime).Seconds > 1;
 							break;
 						case XStateClass.On:
-							mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							mustGetState = device.InternalState.HoldDelay > 0 || (DateTime.Now - device.InternalState.LastDateTime).Seconds > 1;
 							break;
 						case XStateClass.TurningOff:
-							mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
+							mustGetState = device.InternalState.OffDelay > 0 || (DateTime.Now - device.InternalState.LastDateTime).Seconds > 1;
 							break;
 					}
 					if (mustGetState)
 					{
-						var onDelay = device.DeviceState.OnDelay;
-						var holdDelay = device.DeviceState.HoldDelay;
-						var offDelay = device.DeviceState.OffDelay;
+						var onDelay = device.InternalState.OnDelay;
+						var holdDelay = device.InternalState.HoldDelay;
+						var offDelay = device.InternalState.OffDelay;
 						GetState(device);
-						if (onDelay != device.DeviceState.OnDelay || holdDelay != device.DeviceState.HoldDelay || offDelay != device.DeviceState.OffDelay)
+						if (onDelay != device.InternalState.OnDelay || holdDelay != device.InternalState.HoldDelay || offDelay != device.InternalState.OffDelay)
 							OnObjectStateChanged(device);
 					}
 				}

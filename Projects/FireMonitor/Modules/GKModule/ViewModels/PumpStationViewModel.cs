@@ -16,24 +16,24 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public XPumpStationState PumpStationState { get; private set; }
+		public XState State { get; private set; }
 		public XPumpStation PumpStation
 		{
-			get { return PumpStationState.PumpStation; }
+			get { return State.PumpStation; }
 		}
 
-		public PumpStationViewModel(XPumpStationState pumpStationState)
+		public PumpStationViewModel(XState state)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			PumpStationState = pumpStationState;
-			PumpStationState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("PumpStationState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 		}
@@ -56,11 +56,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return PumpStationState.StateClasses.Contains(XStateClass.TurningOn) && PumpStationState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return PumpStationState.StateClasses.Contains(XStateClass.On) && PumpStationState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 	}
 }

@@ -47,10 +47,9 @@ namespace GKModule.Reports
 					if (device.Driver.HasZone)
 					{
 						zonePresentationName = XManager.GetPresentationZone(device);
-						;
 					}
 
-					var deviceState = device.DeviceState;
+					var deviceState = device.State;
 					var parameter = deviceState.MeasureParameter.Dustiness;
 					if (parameter != null)
 					{

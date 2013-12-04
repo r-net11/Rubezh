@@ -12,13 +12,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XZoneState ZoneState { get; private set; }
+		public XState State { get; private set; }
 		public XZone Zone
 		{
-			get { return ZoneState.Zone; }
+			get { return State.Zone; }
 		}
 
-		public ZoneViewModel(XZoneState zoneState)
+		public ZoneViewModel(XState state)
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
@@ -29,14 +29,14 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
-			ZoneState = zoneState;
-			ZoneState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("ZoneState");
+			OnPropertyChanged("State");
 		}
 		
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
         }
 		bool CanResetFire()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
+			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		#region Ignore
@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
 
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var device in Zone.Devices)
 				{
-					if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (!device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 				return false;
 			foreach (var device in Zone.Devices)
 			{
-				if (!device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+				if (!device.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;
@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var device in Zone.Devices)
 				{
-					if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 				return false;
 			foreach (var device in Zone.Devices)
 			{
-				if (device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+				if (device.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;

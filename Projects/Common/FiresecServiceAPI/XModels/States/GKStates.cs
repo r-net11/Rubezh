@@ -11,18 +11,22 @@ namespace XFiresecAPI
 	{
 		public GKStates()
 		{
-			DeviceStates = new List<XDeviceState>();
-			ZoneStates = new List<XZoneState>();
-			DirectionStates = new List<XDirectionState>();
+			DeviceStates = new List<XState>();
+			ZoneStates = new List<XState>();
+			DirectionStates = new List<XState>();
+			PumpStationStates = new List<XState>();
 		}
 
 		[DataMember]
-		public List<XDeviceState> DeviceStates { get; set; }
+		public List<XState> DeviceStates { get; set; }
 
 		[DataMember]
-		public List<XZoneState> ZoneStates { get; set; }
+		public List<XState> ZoneStates { get; set; }
 
 		[DataMember]
-		public List<XDirectionState> DirectionStates { get; set; }
+		public List<XState> DirectionStates { get; set; }
+
+		[DataMember]
+		public List<XState> PumpStationStates { get; set; }
 	}
 }

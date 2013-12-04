@@ -13,20 +13,24 @@ namespace XFiresecAPI
 		public List<JournalItem> JournalItems { get; private set; }
 
 		[DataMember]
-		public List<XDeviceState> DeviceStates { get; private set; }
+		public List<XState> DeviceStates { get; private set; }
 
 		[DataMember]
-		public List<XZoneState> ZoneStates { get; private set; }
+		public List<XState> ZoneStates { get; private set; }
 
 		[DataMember]
-		public List<XDirectionState> DirectionStates { get; private set; }
+		public List<XState> DirectionStates { get; private set; }
+
+		[DataMember]
+		public List<XState> PumpStationStates { get; private set; }
 
 		public GKCallbackResult()
 		{
 			JournalItems = new List<JournalItem>();
-			DeviceStates = new List<XDeviceState>();
-			ZoneStates = new List<XZoneState>();
-			DirectionStates = new List<XDirectionState>();
+			DeviceStates = new List<XState>();
+			ZoneStates = new List<XState>();
+			DirectionStates = new List<XState>();
+			PumpStationStates = new List<XState>();
 		}
 	}
 }

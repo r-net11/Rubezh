@@ -8,7 +8,7 @@
             <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+            <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
             <TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding StateClasses}">
@@ -21,7 +21,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding DeviceState.AdditionalStates}">
+        <ItemsControl ItemsSource="{Binding State.AdditionalStates}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}" FontStyle="Italic" VerticalAlignment="Center" Margin="5, 1, 1, 1" />

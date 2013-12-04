@@ -34,8 +34,8 @@ namespace PlansModule.Kursk.Designer
 			if (elementRectangleTank != null)
 			{
 				_device = Helper.GetXDevice(elementRectangleTank);
-				if (_device != null && _device.DeviceState != null)
-					_device.DeviceState.StateChanged += OnPropertyChanged;
+				if (_device != null && _device.State != null)
+					_device.State.StateChanged += OnPropertyChanged;
 			}
 			_contextMenu = null;
 			_presenterItem = presenterItem;
@@ -65,7 +65,7 @@ namespace PlansModule.Kursk.Designer
 			stringBuilder.Append(_device.PresentationAddressAndDriver);
 			stringBuilder.Append(" - ");
 			stringBuilder.AppendLine(_device.Driver.ShortName);
-			stringBuilder.AppendLine(_device.DeviceState.StateClass.ToDescription());
+			stringBuilder.AppendLine(_device.State.StateClass.ToDescription());
 
 			return stringBuilder.ToString().TrimEnd();
 		}
@@ -125,7 +125,7 @@ namespace PlansModule.Kursk.Designer
 		}
 		private TankState GetState()
 		{
-			switch (_device.DeviceState.StateClass)
+			switch (_device.State.StateClass)
 			{
 				case XStateClass.ConnectionLost:
 				case XStateClass.DBMissmatch:
@@ -134,14 +134,14 @@ namespace PlansModule.Kursk.Designer
 				case XStateClass.Unknown:
 					return TankState.Error;
 			}
-			if (_device.DeviceState.AdditionalStates.Count == 0)
+			if (_device.State.AdditionalStates.Count == 0)
 				return TankState.Empty;
 
-			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Аварийный уровень"))
+			if (_device.State.AdditionalStates.Any(x => x.Name == "Аварийный уровень"))
 				return TankState.Full;
-			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Высокий уровень"))
+			if (_device.State.AdditionalStates.Any(x => x.Name == "Высокий уровень"))
 				return TankState.Half;
-			if (_device.DeviceState.AdditionalStates.Any(x => x.Name == "Низкий уровень"))
+			if (_device.State.AdditionalStates.Any(x => x.Name == "Низкий уровень"))
 				return TankState.Little;
 
 			return TankState.Empty;

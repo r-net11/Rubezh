@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Views
 {
@@ -29,7 +30,7 @@ namespace GKModule.Views
 
 		void OnGKObjectsStateChangedEvent(object obj)
 		{
-			var isConnected = !XManager.Devices.Any(x => x.DeviceState.IsConnectionLost);
+			var isConnected = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.ConnectionLost));
 			IsDeviceConnected = isConnected;
 			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
 			if (IsDeviceConnected)

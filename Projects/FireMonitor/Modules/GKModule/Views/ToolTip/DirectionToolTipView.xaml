@@ -8,10 +8,10 @@
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Состояние:" Margin="2 0" />
-            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-            <TextBlock Text="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
+            <Image Margin="2 0" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+            <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2 0" />
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding DirectionState.StateClasses}">
+        <ItemsControl ItemsSource="{Binding State.StateClasses}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
