@@ -163,7 +163,7 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView Margin="2"/>
+                            <Views:DeviceView Margin="2 0"/>
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -13,25 +14,16 @@ namespace GKModule.Converters
 		public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var zoneUIDs = value as ICollection<Guid>;
-			if (zoneUIDs.IsNotNullOrEmpty())
+			if (zoneUIDs == null)
+				return "";
+			var zones = new List<XZone>();
+			foreach (var uid in zoneUIDs)
 			{
-				var delimString = ", ";
-				var result = new StringBuilder();
-
-                foreach (var zoneUID in zoneUIDs)
-				{
-                    var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                    if (zone != null)
-                    {
-                        result.Append(zone.No);
-                        result.Append(delimString);
-                    }
-				}
-
-				return result.ToString().Remove(result.Length - delimString.Length);
+				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				if (zone != null)
+					zones.Add(zone);
 			}
-
-			return null;
+			return XManager.GetCommaSeparatedZones(zones);
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -13,26 +14,16 @@ namespace GKModule.Converters
 		public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var directionUIDs = value as ICollection<Guid>;
-            if (directionUIDs.IsNotNullOrEmpty())
+			if (directionUIDs == null)
+				return "";
+			var directions = new List<XDirection>();
+			foreach (var uid in directionUIDs)
 			{
-				var delimString = ", ";
-				var result = new StringBuilder();
-
-                foreach (var directionUID in directionUIDs)
-				{
-                    var direction = XManager.Directions.FirstOrDefault(x => x.UID == directionUID);
-                    if (direction != null)
-					{
-                        result.Append(direction.No);
-						result.Append(delimString);
-					}
-				}
-                string resultString = result.ToString();
-                if (resultString.Length >= delimString.Length)
-                    return resultString.Remove(result.Length - delimString.Length);
-            }
-
-			return null;
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				if (direction != null)
+					directions.Add(direction);
+			}
+			return XManager.GetCommaSeparatedDirections(directions); 
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
