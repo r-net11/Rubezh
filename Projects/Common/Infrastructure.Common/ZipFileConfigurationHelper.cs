@@ -30,7 +30,7 @@ namespace Infrastructure.Common
 				Directory.Delete(folderName, true);
 		}
 
-		public static XDeviceConfiguration LoadFromZipFile(MemoryStream memoryStream)
+		public static XDeviceConfiguration UnZipFromStream(MemoryStream memoryStream)
 		{
 			var zipFile = ZipFile.Read(memoryStream);
 			var dataMemory = new MemoryStream();

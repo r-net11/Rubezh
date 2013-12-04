@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using FiresecClient;
 using GKModule.Converter;
 using GKModule.Diagnostics;
+using GKModule.Views;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
@@ -28,10 +30,39 @@ namespace GKModule.ViewModels
 			GoToWorkRegimeCommand = new RelayCommand(OnGoToWorkRegime);
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
+			CompareHashesCommand = new RelayCommand(OnCompareHashes, CanCompareHashes);
 		}
 
 		public DescriptorsViewModel DatabasesViewModel { get; private set; }
 
+		public RelayCommand CompareHashesCommand { get; private set; }
+		void OnCompareHashes()
+		{
+			var localHash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration);
+			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
+
+			var infoBlock = GKFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
+			var remoteVersion = infoBlock.GetRange(0, 2);
+			var remoteHash1 = infoBlock.GetRange(2, 32);
+			var remoteHash2 = infoBlock.GetRange(34, 32);
+
+			var message = new StringBuilder();
+			message.Append(localHash1.SequenceEqual(remoteHash1) ? "Хеш1 совпадает\n" : "Хеш1 НЕ совпадает\n");
+			message.Append(localHash2.SequenceEqual(remoteHash2) ? "Хеш2 совпадает" : "Хеш2 НЕ совпадает");
+			MessageBoxService.ShowWarning(message.ToString(), "Сравнение хешей");
+		}
+
+		bool CanCompareHashes()
+		{
+			try
+			{
+				return DevicesViewModel.Current.SelectedDevice.Device.DriverType == XDriverType.GK;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
@@ -137,8 +168,6 @@ namespace GKModule.ViewModels
 			}
 			var endBlock = BitConverter.GetBytes((uint)(bytesList.Count() / 256 + 1)).ToList();
 			SendManager.Send(gkDevice, 0, 22, 0, endBlock);
-			//BytesHelper.BytesToFile("output.txt", tempBytes);
-			//GoToWorkingRegime(gkDevice);
 		}
 
 		public RelayCommand ReadConfigFileFromGKCommand { get; private set; }

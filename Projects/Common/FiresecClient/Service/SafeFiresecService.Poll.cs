@@ -11,9 +11,10 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		public static event Action<List<JournalItem>> NewJournalItemsEvent;
-		public static event Action<JournalRecord> NewJournalRecordEvent;
+		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
+		public static event Action<GKCallbackResult> GKCallbackResultEvent;
 		public static event Action ConfigurationChangedEvent;
+		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 
 		bool isConnected = true;
@@ -81,6 +82,22 @@ namespace FiresecClient
 			{
 				switch (callbackResult.CallbackResultType)
 				{
+					case CallbackResultType.GKProgress:
+						SafeOperationCall(() =>
+						{
+							if (GKProgressCallbackEvent != null)
+								GKProgressCallbackEvent(callbackResult.GKProgressCallback);
+						});
+						break;
+
+					case CallbackResultType.GKObjectStateChanged:
+						SafeOperationCall(() =>
+						{
+							if (GKCallbackResultEvent != null)
+								GKCallbackResultEvent(callbackResult.GKCallbackResult);
+						});
+						break;
+
 					case CallbackResultType.NewEvents:
 						foreach (var journalRecord in callbackResult.JournalRecords)
 						{
@@ -90,14 +107,6 @@ namespace FiresecClient
 									NewJournalRecordEvent(journalRecord);
 							});
 						}
-						break;
-
-					case CallbackResultType.NewGKEvents:
-						SafeOperationCall(() =>
-						{
-							if (NewJournalItemsEvent != null)
-								NewJournalItemsEvent(callbackResult.JournalItems);
-						});
 						break;
 
 					case CallbackResultType.ArchiveCompleted:

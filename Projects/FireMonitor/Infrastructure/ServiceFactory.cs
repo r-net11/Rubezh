@@ -59,15 +59,6 @@ namespace Infrastructure
 			IsSubcsribed = true;
 		}
 
-		public static void SubscribeGKEvents()
-		{
-			if (!IsGKSubcsribed)
-			{
-				SafeFiresecService.NewJournalItemsEvent += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewServerJournalItemsEvent(x); }); });
-			}
-			IsGKSubcsribed = true;
-		}
-
 		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
 		{
 			foreach (var deviceState in deviceStates)
@@ -100,11 +91,6 @@ namespace Infrastructure
 					zoneState.OnStateChanged();
 				}
 			}
-		}
-
-		static void OnNewServerJournalItemsEvent(List<JournalItem> journalItems)
-		{
-			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems);
 		}
 
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)

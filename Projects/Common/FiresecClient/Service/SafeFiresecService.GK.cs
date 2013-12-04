@@ -290,64 +290,6 @@ namespace FiresecClient
 			}
 		}
 
-		//public void AddGKMessage(string message, string description, XStateClass stateClass, XBase xBase, bool isAdministrator = false)
-		//{
-		//    Guid uid = Guid.Empty;
-		//    var journalItemType = JournalItemType.System;
-		//    if (xBase != null)
-		//    {
-		//        if (xBase is XDevice)
-		//        {
-		//            uid = (xBase as XDevice).UID;
-		//            journalItemType = JournalItemType.Device;
-		//        }
-		//        if (xBase is XZone)
-		//        {
-		//            uid = (xBase as XZone).UID;
-		//            journalItemType = JournalItemType.Zone;
-		//        }
-		//        if (xBase is XDirection)
-		//        {
-		//            uid = (xBase as XDirection).UID;
-		//            journalItemType = JournalItemType.Direction;
-		//        }
-		//        if (xBase is XDelay)
-		//        {
-		//            uid = (xBase as XDelay).UID;
-		//            journalItemType = JournalItemType.Delay;
-		//        }
-		//    }
-
-		//    var journalItem = new JournalItem()
-		//    {
-		//        SystemDateTime = DateTime.Now,
-		//        DeviceDateTime = DateTime.Now,
-		//        JournalItemType = journalItemType,
-		//        StateClass = stateClass,
-		//        Name = message,
-		//        Description = description,
-		//        ObjectUID = uid,
-		//        ObjectStateClass = XStateClass.Norm,
-		//        UserName = FiresecManager.CurrentUser.Name,
-		//        SubsystemType = XSubsystemType.System
-		//    };
-		//    if (xBase != null)
-		//    {
-		//        journalItem.ObjectName = xBase.PresentationName;
-		//        journalItem.GKObjectNo = (ushort)xBase.GKDescriptorNo;
-		//    }
-
-		//    if (isAdministrator)
-		//    {
-		//        SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
-		//    }
-		//    else
-		//    {
-		//        GKDBHelper.Add(journalItem);
-		//        OnNewJournalItems(journalItem);
-		//    }
-		//}
-
 		public void GKAddMessage(string name, string description)
 		{
 			if (IsGKAsAService)
@@ -359,13 +301,16 @@ namespace FiresecClient
 			}
 		}
 
-		//public event Action<List<JournalItem>> NewJournalItems;
-		//void OnNewJournalItems(JournalItem journalItem)
-		//{
-		//    var journalItems = new List<JournalItem>() { journalItem };
-		//    if (NewJournalItems != null)
-		//        NewJournalItems(journalItems);
-		//}
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+			}
+			else
+			{
+			}
+		}
 
 		XBaseObjectType GetObjectType(XBase xBase)
 		{
