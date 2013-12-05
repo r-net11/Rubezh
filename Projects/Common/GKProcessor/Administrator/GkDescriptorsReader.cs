@@ -39,7 +39,7 @@ namespace GKProcessor
 			};
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
 			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
-			var gkFileInfo = GKFileReaderWriter.ReadInfoBlock(gkDevice);
+			var gkFileInfo = new GKFileReaderWriter().ReadInfoBlock(gkDevice);
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
@@ -87,6 +87,8 @@ namespace GKProcessor
 				return false;
 			DeviceConfiguration.Update();
 			UpdateConfigurationHelper.UpdateGKPredefinedName(GkDevice);
+			UpdateConfigurationHelper.Update(DeviceConfiguration);
+			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			return true;
 		}
 #endif

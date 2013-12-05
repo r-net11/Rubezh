@@ -10,11 +10,11 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class GKFileReaderWriter
+	public class GKFileReaderWriter
 	{
-		public static string Error { get; private set; }
+		public string Error { get; private set; }
 
-		public static XDeviceConfiguration ReadConfigFileFromGK(XDevice gkDevice)
+		public XDeviceConfiguration ReadConfigFileFromGK(XDevice gkDevice)
 		{
 			try
 			{
@@ -45,7 +45,6 @@ namespace GKProcessor
 					{ Error = ZipFileConfigurationHelper.Error; return null; }
 				UpdateConfigurationHelper.Update(deviceConfiguration);
 				UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
-				LoadingService.Close();
 				return deviceConfiguration;
 			}
 			catch (Exception e)
@@ -54,11 +53,11 @@ namespace GKProcessor
 				{ LoadingService.Close();}
 		}
 
-		public static void WriteFileToGK(XDevice gkDevice, bool writeConfig)
+		public void WriteFileToGK(XDevice gkDevice, bool writeConfig)
 		{
 			var bytesList = new List<byte>();
 			var gkFileInfo = new GKFileInfo();
-			gkFileInfo.Initialize(0, 1, XManager.DeviceConfiguration, gkDevice);
+			gkFileInfo.Initialize(XManager.DeviceConfiguration, gkDevice);
 			bytesList.AddRange(gkFileInfo.InfoBlock);
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
@@ -80,14 +79,13 @@ namespace GKProcessor
 					break;
 				}
 			}
-
 			var endBlock = BitConverter.GetBytes((uint) (bytesList.Count()/256 + 1)).ToList();
 			sendResult = SendManager.Send(gkDevice, 0, 22, 0, endBlock);
 			if (sendResult.HasError)
 				{ Error = "Невозможно завершить запись файла "; }
 		}
 
-		public static GKFileInfo ReadInfoBlock(XDevice gkDevice)
+		public GKFileInfo ReadInfoBlock(XDevice gkDevice)
 		{
 			try
 			{

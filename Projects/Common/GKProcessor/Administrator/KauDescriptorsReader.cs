@@ -47,6 +47,8 @@ namespace GKProcessor
 			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
+			UpdateConfigurationHelper.Update(DeviceConfiguration);
+			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			LoadingService.SaveClose();
 			return String.IsNullOrEmpty(Error);
 		}

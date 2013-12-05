@@ -219,6 +219,7 @@
     <Compile Include="XManager\UpdateConfigurationHelper.Descroptors.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
+    <Compile Include="XModels\Configuration\XHashConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
     <Compile Include="XModels\Delay\XDelay.cs" />
     <Compile Include="XModels\Device\XDeviceParameterTemplate.cs" />

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;
@@ -12,8 +13,8 @@ namespace GKProcessor
 {
 	public class GKFileInfo
 	{
-		public byte MinorVersion { get; set; }
-		public byte MajorVersion { get; set; }
+		public byte MinorVersion { get; private set; }
+		public byte MajorVersion { get; private set; }
 		public List<byte> Hash1 { get; set; }
 		public List<byte> Hash2 { get; set; }
 		public int DescriptorsCount { get; set; }
@@ -22,13 +23,13 @@ namespace GKProcessor
 
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
-		public void Initialize (byte minorVersion, byte majorVersion, XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+		public void Initialize (XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
 			DescriptorsManager.Create();
 			Date = DateTime.Now;
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
-			MinorVersion = minorVersion;
-			MajorVersion = majorVersion;
+			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
+			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
 			Hash1 = CreateHash1(deviceConfiguration);
@@ -39,17 +40,14 @@ namespace GKProcessor
 
 		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration)
 		{
-			DescriptorsManager.Create();
-			UpdateConfigurationHelper.Update(deviceConfiguration);
-			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
-			var configMemoryStream = ZipSerializeHelper.Serialize(deviceConfiguration);
+			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
+			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
 			configMemoryStream.Position = 0;
 			var configBytes = configMemoryStream.ToArray();
 			return SHA256.Create().ComputeHash(configBytes).ToList();
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
-			DescriptorsManager.Create();
 			UpdateConfigurationHelper.Update(deviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 			var stringBuilder = new StringBuilder();

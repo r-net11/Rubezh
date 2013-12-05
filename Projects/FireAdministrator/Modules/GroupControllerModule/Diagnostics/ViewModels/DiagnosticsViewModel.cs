@@ -40,9 +40,10 @@ namespace GKModule.ViewModels
 		{
 			var localHash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration);
 			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
-			var infoBlock = GKFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
-			if (!String.IsNullOrEmpty(GKFileReaderWriter.Error))
-				{ MessageBoxService.ShowError(GKFileReaderWriter.Error); return; }
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
+			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+				{ MessageBoxService.ShowError(gkFileReaderWriter.Error); return; }
 			var remoteHash1 = infoBlock.Hash1;
 			var remoteHash2 = infoBlock.Hash2;
 
@@ -56,7 +57,9 @@ namespace GKModule.ViewModels
 		{
 			try
 			{
-				return DevicesViewModel.Current.SelectedDevice.Device.DriverType == XDriverType.GK;
+				return 
+					DevicesViewModel.Current.SelectedDevice != null &&
+					DevicesViewModel.Current.SelectedDevice.Device.DriverType == XDriverType.GK;
 			}
 			catch
 			{
@@ -85,8 +88,6 @@ namespace GKModule.ViewModels
 		void OnUpdateDescriptors()
 		{
 			DescriptorsManager.Create();
-
-
 			DatabasesViewModel = new DescriptorsViewModel();
 			OnPropertyChanged("DatabasesViewModel");
 			foreach (var database in DatabasesViewModel.Databases)

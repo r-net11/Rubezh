@@ -33,7 +33,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<XDirection> Directions { get; set; }
 
-				[DataMember]
+		[DataMember]
 		public List<XPumpStation> PumpStations { get; set; }
 
 		[DataMember]

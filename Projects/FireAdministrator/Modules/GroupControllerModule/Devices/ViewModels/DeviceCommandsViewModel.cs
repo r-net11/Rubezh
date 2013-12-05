@@ -129,8 +129,9 @@ namespace GKModule.Models
 		void OnReadConfigFile()
 		{
 			DescriptorsManager.Create();
-			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
-			if (String.IsNullOrEmpty(GKFileReaderWriter.Error))
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
+			if (String.IsNullOrEmpty(gkFileReaderWriter.Error))
 			{
 				XManager.UpdateConfiguration();
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
@@ -139,7 +140,7 @@ namespace GKModule.Models
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
-				MessageBoxService.ShowError(GKFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
+				MessageBoxService.ShowError(gkFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
 		}
 
 		bool CanReadConfiguration()
