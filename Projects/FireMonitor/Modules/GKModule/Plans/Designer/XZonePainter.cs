@@ -22,7 +22,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XZone Zone;
 		private ContextMenu _contextMenu;
-		private ImageTextStateTooltipViewModel _tooltip;
+		private ZoneTooltipViewModel _tooltip;
 
 		public XZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -55,13 +55,8 @@ namespace GKModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new ImageTextStateTooltipViewModel();
-				_tooltip.TitleViewModel.Title = Zone.PresentationName.TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/zone.png";
+				_tooltip = new ZoneTooltipViewModel(Zone);
 			}
-			_tooltip.StateViewModel.Title = Zone.State.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = Zone.State.StateClass.ToIconSource();
-			_tooltip.Update();
 		}
 
 		#region IPainter Members

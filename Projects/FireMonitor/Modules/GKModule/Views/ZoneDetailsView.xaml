@@ -19,17 +19,17 @@
             <TabItem Header="Основные">
                 <ItemsControl Background="White">
                     <ItemsControl.Items>
-                        <WrapPanel>
+                        <WrapPanel Margin="2">
                             <TextBlock>
 				                <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Source="/Controls;component/Images/zone.png" Margin="2 0"/>
+                                        <Image Width="16" Source="/Controls;component/Images/zone.png" Margin="0 0 0 2"/>
                                         <TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Hyperlink>
                             </TextBlock>
                         </WrapPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="2">
                             <WrapPanel>
                                 <TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">

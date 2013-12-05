@@ -87,4 +87,12 @@
         <Views:PumpStationDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DirectionTooltipViewModel}">
+        <Views:DirectionToolTipView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
+        <Views:ZoneToolTipView />
+    </DataTemplate>
+
 </ResourceDictionary>

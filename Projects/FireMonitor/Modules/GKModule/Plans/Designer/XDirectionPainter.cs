@@ -24,7 +24,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDirection _direction;
 		private ContextMenu _contextMenu;
-		private ImageTextStateTooltipViewModel _tooltip;
+		private DirectionTooltipViewModel _tooltip;
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;
 		private bool _showText = false;
@@ -60,13 +60,8 @@ namespace GKModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new ImageTextStateTooltipViewModel();
-				_tooltip.TitleViewModel.Title = _direction.PresentationName.TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/Blue_Direction.png";
+				_tooltip = new DirectionTooltipViewModel(_direction);
 			}
-			_tooltip.StateViewModel.Title = _direction.State.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = _direction.State.StateClass.ToIconSource();
-			_tooltip.Update();
 		}
 
 		#region IPainter Members

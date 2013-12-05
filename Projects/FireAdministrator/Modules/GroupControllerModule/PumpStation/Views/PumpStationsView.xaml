@@ -18,7 +18,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Controls;component/Images/PumpStation.png" Width="16" Margin="2 0 0 0" />
+                                    <Image Source="/Controls;component/Images/BPumpStation.png" Width="16" Margin="2 0 0 0" />
                                     <TextBlock Text="{Binding PumpStation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
                                 </StackPanel>
                             </DataTemplate>
