@@ -13,7 +13,6 @@ namespace GKModule.ViewModels
 		public void Initialize()
 		{
 			Delays = new List<DelayViewModel>();
-			DescriptorsManager.Create();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				foreach (var delay in gkDatabase.Delays)
