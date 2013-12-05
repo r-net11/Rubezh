@@ -103,7 +103,7 @@
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
+    <Compile Include="Views\ToolTip\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
@@ -350,7 +350,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="Plans\Views\DeviceTooltipView.xaml">
+    <Page Include="Views\ToolTip\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

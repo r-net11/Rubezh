@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Views:JournalGridView Grid.Row="0"/>
+        <Views:JournalGridView Grid.Row="0" />
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 3">
             <TextBlock Text="IP адрес ГК " Foreground="White" />
             <TextBlock Text="{Binding JournalItemsCollection.GkIP}" Foreground="White" />

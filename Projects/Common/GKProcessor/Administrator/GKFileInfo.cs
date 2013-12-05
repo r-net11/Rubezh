@@ -23,7 +23,8 @@ namespace GKProcessor
 
 		public List<byte> FileBytes { get; private set; }
 		public List<byte> InfoBlock { get; private set; }
-		public void Initialize (XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+
+		public void Initialize(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
 			DescriptorsManager.Create();
 			Date = DateTime.Now;
@@ -88,18 +89,18 @@ namespace GKProcessor
 				InfoBlock.Add(0);
 		}
 
-		public static GKFileInfo InfoBlockToGKInfo(List<byte> infoBytes)
+		public static GKFileInfo BytesToGKFileInfo(List<byte> bytes)
 		{
 			return new GKFileInfo
 			{
-				InfoBlock = infoBytes,
-				MinorVersion = infoBytes[0],
-				MajorVersion = infoBytes[1],
-				Hash1 = infoBytes.GetRange(2, 32),
-				Hash2 = infoBytes.GetRange(34, 32),
-				DescriptorsCount = BitConverter.ToInt32(infoBytes.GetRange(66, 4).ToArray(), 0),
-				FileSize = BitConverter.ToInt64(infoBytes.GetRange(70, 8).ToArray(), 0),
-				Date = DateTime.FromBinary(BitConverter.ToInt64(infoBytes.GetRange(78, 8).ToArray(), 0)),
+				InfoBlock = bytes,
+				MinorVersion = bytes[0],
+				MajorVersion = bytes[1],
+				Hash1 = bytes.GetRange(2, 32),
+				Hash2 = bytes.GetRange(34, 32),
+				DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(66, 4).ToArray(), 0),
+				FileSize = BitConverter.ToInt64(bytes.GetRange(70, 8).ToArray(), 0),
+				Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(78, 8).ToArray(), 0)),
 				FileBytes = new List<byte>()
 			};
 		}

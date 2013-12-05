@@ -22,8 +22,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center"/>
-                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" VerticalAlignment="Center"/>
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
+                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Zone.No}" VerticalAlignment="Center" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

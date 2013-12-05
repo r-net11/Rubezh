@@ -27,11 +27,12 @@ namespace FiresecClient
 			else
 			{
 				GKProcessorManager.AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
-				GkDescriptorsWriter.WriteConfig(device, writeFileToGK);
-				if (!String.IsNullOrEmpty(GkDescriptorsWriter.Error))
+				var gkDescriptorsWriter = new GkDescriptorsWriter();
+				gkDescriptorsWriter.WriteConfig(device, writeFileToGK);
+				if (!String.IsNullOrEmpty(gkDescriptorsWriter.Error))
 				{
 					LoadingService.IsCanceled = true; 
-					MessageBoxService.ShowError(GkDescriptorsWriter.Error); 
+					MessageBoxService.ShowError(gkDescriptorsWriter.Error); 
 					return;
 				}
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();

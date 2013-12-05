@@ -8,11 +8,11 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class GkDescriptorsWriter
+	public class GkDescriptorsWriter
 	{
-		public static string Error { get; private set; }
+		public string Error { get; private set; }
 
-		public static void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
+		public void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
 		{
 			try
 			{
@@ -73,7 +73,7 @@ namespace GKProcessor
 				{ LoadingService.Close(); }
 		}
 	
-		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
+		bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			foreach (var descriptor in commonDatabase.Descriptors)
 			{
@@ -100,7 +100,7 @@ namespace GKProcessor
 			return true;
 		}
 
-		static List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
+		List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
 		{
 			var objectNo = (ushort)(descriptor.GetDescriptorNo());
 
@@ -123,7 +123,7 @@ namespace GKProcessor
 			return packs;
 		}
 
-		static List<byte> CreateEndDescriptor(ushort descriptorNo)
+		List<byte> CreateEndDescriptor(ushort descriptorNo)
 		{
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
@@ -133,7 +133,7 @@ namespace GKProcessor
 			return resultBytes;
 		}
 
-		static void WriteEndDescriptor(CommonDatabase commonDatabase)
+		void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
 			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));

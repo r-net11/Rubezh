@@ -37,8 +37,8 @@ namespace GKProcessor
 				}
 				if (allbytes.Count == 0)
 					{ Error = "Конфигурационный файл отсутствует"; return null; }
-				var configMemoryStream = ZipSerializeHelper.Serialize(XManager.DeviceConfiguration);
-				configMemoryStream.Position = 0;
+				//var configMemoryStream = ZipSerializeHelper.Serialize(XManager.DeviceConfiguration);
+				//configMemoryStream.Position = 0;
 
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
 				if (!String.IsNullOrEmpty(ZipFileConfigurationHelper.Error))
@@ -48,7 +48,7 @@ namespace GKProcessor
 				return deviceConfiguration;
 			}
 			catch (Exception e)
-				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }
+			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }
 			finally
 				{ LoadingService.Close();}
 		}
@@ -65,7 +65,7 @@ namespace GKProcessor
 			if (writeConfig)
 				bytesList.AddRange(gkFileInfo.FileBytes);
 			LoadingService.Show("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
-			for (var i = 0; i < bytesList.Count(); i += 256)
+			for (var i = 0; i < bytesList.Count; i += 256)
 			{
 				if (LoadingService.IsCanceled)
 					{ Error = "Операция отменена"; return; }
@@ -97,7 +97,7 @@ namespace GKProcessor
 				if (sendResult.Bytes.Count == 0)
 					{ Error = "Информационный блок отсутствует"; return null; }
 				LoadingService.Close();
-				return GKFileInfo.InfoBlockToGKInfo(sendResult.Bytes);
+				return GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
 			}
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }

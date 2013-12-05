@@ -152,11 +152,6 @@
                                             <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
                                         </MenuItem.Icon>
                                     </MenuItem>
-                                    <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BTurnOff.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
                                     <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
                                         <MenuItem.Icon>
                                                 <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
