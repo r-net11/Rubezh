@@ -16,6 +16,8 @@ namespace FiresecClient
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
 			DriversConfiguration = new XDriversConfiguration();
+			Delays = new List<XDelay>();
+			Pims = new List<XPim>();
 		}
 
 		public static List<XDevice> Devices
@@ -42,6 +44,9 @@ namespace FiresecClient
 		{
 			get { return XManager.DeviceConfiguration.ParameterTemplates; }
 		}
+
+		public static List<XDelay> Delays { get; set; }
+		public static List<XPim> Pims { get; set; }
 
 		public static void SetEmptyConfiguration()
 		{

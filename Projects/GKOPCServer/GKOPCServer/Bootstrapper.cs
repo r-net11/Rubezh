@@ -52,32 +52,6 @@ namespace GKOPCServer
 			UILogger.Log("Готово");
 		}
 
-		static void InitializeGK()
-		{
-			ServiceFactoryBase.Events = new EventAggregator();
-			GKDBHelper.CanAdd = false;
-
-			UILogger.Log("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration("GKOPC/Configuration");
-
-			UILogger.Log("Создание драйверов");
-			GKDriversCreator.Create();
-
-			UILogger.Log("Обновление конфигурации");
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
-			DescriptorsManager.Create();
-
-			UILogger.Log("Старт мониторинга");
-			WatcherManager.Start();
-
-			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
-
-			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
-			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
-		}
-
 		static void OnWorkThread()
 		{
 			try
@@ -106,50 +80,106 @@ namespace GKOPCServer
 			System.Environment.Exit(1);
 		}
 
+		static void InitializeGK()
+		{
+			ServiceFactoryBase.Events = new EventAggregator();
+			GKDBHelper.CanAdd = false;
+
+			UILogger.Log("Загрузка конфигурации с сервера");
+			FiresecManager.GetConfiguration("GKOPC/Configuration");
+
+			UILogger.Log("Создание драйверов");
+			GKDriversCreator.Create();
+
+			UILogger.Log("Обновление конфигурации");
+			XManager.UpdateConfiguration();
+			XManager.CreateStates();
+			DescriptorsManager.Create();
+			DescriptorsManager.CreateDynamicObjectsInXManager();
+			UILogger.Log("Получение состояний объектов");
+			InitializeStates();
+
+			UILogger.Log("Старт мониторинга");
+			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			{
+				GKProcessorManager.Start();
+			}
+
+			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+
+			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
+			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+		}
+
+		static void InitializeStates()
+		{
+			var gkStates = FiresecManager.FiresecService.GKGetStates();
+			CopyGKStates(gkStates);
+		}
+
 		static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-					if (device != null)
-					{
-						device.State.StateClasses = remoteDeviceState.StateClasses;
-						device.State.StateClass = remoteDeviceState.StateClass;
-						device.State.OnDelay = remoteDeviceState.OnDelay;
-						device.State.HoldDelay = remoteDeviceState.HoldDelay;
-						device.State.OffDelay = remoteDeviceState.OffDelay;
-						device.State.OnStateChanged();
-					}
-				}
-				foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
-				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-					if (zone != null)
-					{
-						zone.State.StateClasses = remoteZoneState.StateClasses;
-						zone.State.StateClass = remoteZoneState.StateClass;
-						zone.State.OnDelay = remoteZoneState.OnDelay;
-						zone.State.HoldDelay = remoteZoneState.HoldDelay;
-						zone.State.OffDelay = remoteZoneState.OffDelay;
-						zone.State.OnStateChanged();
-					}
-				}
-				foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
-				{
-					var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
-					if (direction != null)
-					{
-						direction.State.StateClasses = remoteDirectionState.StateClasses;
-						direction.State.StateClass = remoteDirectionState.StateClass;
-						direction.State.OnDelay = remoteDirectionState.OnDelay;
-						direction.State.HoldDelay = remoteDirectionState.HoldDelay;
-						direction.State.OffDelay = remoteDirectionState.OffDelay;
-						direction.State.OnStateChanged();
-					}
-				}
+				CopyGKStates(gkCallbackResult.GKStates);
 			});
+		}
+
+		static void CopyGKStates(GKStates gkStates)
+		{
+			foreach (var remoteDeviceState in gkStates.DeviceStates)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				if (device != null)
+				{
+					remoteDeviceState.CopyTo(device.State);
+				}
+			}
+			foreach (var remoteZoneState in gkStates.ZoneStates)
+			{
+				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				if (zone != null)
+				{
+					remoteZoneState.CopyTo(zone.State);
+				}
+			}
+			foreach (var remoteDirectionState in gkStates.DirectionStates)
+			{
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+				if (direction != null)
+				{
+					remoteDirectionState.CopyTo(direction.State);
+				}
+			}
+			foreach (var remotePumpStationState in gkStates.PumpStationStates)
+			{
+				var pumpStation = XManager.PumpStations.FirstOrDefault(x => x.UID == remotePumpStationState.UID);
+				if (pumpStation != null)
+				{
+					remotePumpStationState.CopyTo(pumpStation.State);
+				}
+			}
+			foreach (var delayState in gkStates.DelayStates)
+			{
+				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
+				if (delay == null)
+					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
+				if (delay != null)
+				{
+					delayState.CopyTo(delay.State);
+				}
+			}
+			foreach (var remotePimState in gkStates.PimStates)
+			{
+				var pim = XManager.Pims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				if (pim == null)
+					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
+				if (pim != null)
+				{
+					remotePimState.CopyTo(pim.State);
+				}
+			}
 		}
 	}
 }

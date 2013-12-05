@@ -18,24 +18,18 @@ namespace FiresecClient
     {
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
-		public void GKWriteConfiguration(XDevice device, bool writeFileToGK = false)
+		public OperationResult<bool> GKWriteConfiguration(XDevice device, bool writeFileToGK)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.BaseUID, writeFileToGK), "GKWriteConfiguration");
+				return SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.BaseUID, writeFileToGK), "GKWriteConfiguration");
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, true);
-				var gkDescriptorsWriter = new GkDescriptorsWriter();
-				gkDescriptorsWriter.WriteConfig(device, writeFileToGK);
-				if (!String.IsNullOrEmpty(gkDescriptorsWriter.Error))
-				{
-					LoadingService.IsCanceled = true; 
-					MessageBoxService.ShowError(gkDescriptorsWriter.Error); 
-					return;
-				}
+				var result = GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, FiresecManager.CurrentUser.Name);
+				if(!result.HasError)
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+				return result;
 			}
 		}
 
@@ -47,7 +41,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKReadConfiguration(device);
+				return GKProcessorManager.GKReadConfiguration(device, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -59,7 +53,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKUpdateFirmware(device, fileName);
+				GKProcessorManager.GKUpdateFirmware(device, fileName, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -71,7 +65,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKSyncronyseTime(device);
+				return GKProcessorManager.GKSyncronyseTime(device, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -83,7 +77,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKGetDeviceInfo(device);
+				return GKProcessorManager.GKGetDeviceInfo(device, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -155,7 +149,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -167,7 +161,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKReset(xBase);
+				GKProcessorManager.GKReset(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -179,7 +173,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKResetFire1(zone);
+				GKProcessorManager.GKResetFire1(zone, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -191,7 +185,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKResetFire2(zone);
+				GKProcessorManager.GKResetFire2(zone, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -203,7 +197,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKSetAutomaticRegime(xBase);
+				GKProcessorManager.GKSetAutomaticRegime(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -215,7 +209,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKSetManualRegime(xBase);
+				GKProcessorManager.GKSetManualRegime(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -227,7 +221,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKSetIgnoreRegime(xBase);
+				GKProcessorManager.GKSetIgnoreRegime(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -239,7 +233,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKTurnOn(xBase);
+				GKProcessorManager.GKTurnOn(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -251,7 +245,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKTurnOnNow(xBase);
+				GKProcessorManager.GKTurnOnNow(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -263,7 +257,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKTurnOff(xBase);
+				GKProcessorManager.GKTurnOff(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -275,7 +269,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKTurnOffNow(xBase);
+				GKProcessorManager.GKTurnOffNow(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -287,7 +281,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.GKStop(xBase);
+				GKProcessorManager.GKStop(xBase, FiresecManager.CurrentUser.Name);
 			}
 		}
 
@@ -298,7 +292,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(name, description, XStateClass.Norm, null, true);
+				GKProcessorManager.AddGKMessage(name, description, XStateClass.Norm, null, FiresecManager.CurrentUser.Name, true);
 			}
 		}
 

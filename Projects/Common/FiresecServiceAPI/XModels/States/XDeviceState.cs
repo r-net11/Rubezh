@@ -90,7 +90,5 @@ namespace XFiresecAPI
 				return XStatesHelper.GetMinStateClass(StateClasses);
 			}
 		}
-
-		public XMeasureParameter MeasureParameter { get; set; }
 	}
 }

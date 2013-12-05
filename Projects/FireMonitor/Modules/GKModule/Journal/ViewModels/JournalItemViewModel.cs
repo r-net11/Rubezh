@@ -125,10 +125,7 @@ namespace GKModule.ViewModels
 
 		public bool CanShow
 		{
-			get
-			{
-				return CanShowInTree() || CanShowOnPlan();
-			}
+			get { return CanShowInTree() || CanShowOnPlan(); }
 		}
 
 		public RelayCommand ShowObjectOrPlanCommand { get; private set; }

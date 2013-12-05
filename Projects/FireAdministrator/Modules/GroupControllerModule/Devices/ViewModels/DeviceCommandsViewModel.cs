@@ -95,7 +95,11 @@ namespace GKModule.Models
 						var fileWritingViewModel = new FileWritingViewModel();
 						DialogService.ShowModalWindow(fileWritingViewModel);
 					}
-					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
 					ServiceFactory.SaveService.GKChanged = false;
 				}
 			}

@@ -105,6 +105,14 @@ namespace GKProcessor
 			{
 				OnObjectStateChanged(pumpStation);
 			}
+			foreach (var delay in XManager.Delays)
+			{
+				OnObjectStateChanged(delay);
+			}
+			foreach (var pim in XManager.Pims)
+			{
+				OnObjectStateChanged(pim);
+			}
 		}
 
 		bool GetState(XBase xBase)

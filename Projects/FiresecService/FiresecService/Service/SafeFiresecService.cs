@@ -223,9 +223,9 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
-		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
 		{
-			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");
+			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");
 		}
 
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID)

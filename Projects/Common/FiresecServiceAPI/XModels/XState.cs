@@ -33,6 +33,9 @@ namespace XFiresecAPI
 		[DataMember]
 		public XMeasureParameter MeasureParameter { get; set; }
 
+		[DataMember]
+		public string PresentationName { get; set; }
+
 		public event Action StateChanged;
 		public void OnStateChanged()
 		{
@@ -48,42 +51,48 @@ namespace XFiresecAPI
 			MeasureParameter = new XMeasureParameter();
 		}
 
-		public XState(XDevice device) : this()
+		public XState(XDevice device)
+			: this()
 		{
 			Device = device;
 			UID = device.UID;
 			BaseObjectType = XBaseObjectType.Deivce;
 		}
 
-		public XState(XZone zone): this()
+		public XState(XZone zone)
+			: this()
 		{
 			Zone = zone;
 			UID = zone.UID;
 			BaseObjectType = XBaseObjectType.Zone;
 		}
 
-		public XState(XDirection direction) : this()
+		public XState(XDirection direction)
+			: this()
 		{
 			Direction = direction;
 			UID = direction.UID;
 			BaseObjectType = XBaseObjectType.Direction;
 		}
 
-		public XState(XPumpStation pumpStation) : this()
+		public XState(XPumpStation pumpStation)
+			: this()
 		{
 			PumpStation = pumpStation;
 			UID = pumpStation.UID;
 			BaseObjectType = XBaseObjectType.PumpStation;
 		}
 
-		public XState(XDelay delay) : this()
+		public XState(XDelay delay)
+			: this()
 		{
 			Delay = delay;
 			UID = delay.UID;
 			BaseObjectType = XBaseObjectType.Delay;
 		}
 
-		public XState(XPim pim) : this()
+		public XState(XPim pim)
+			: this()
 		{
 			Pim = pim;
 			UID = pim.UID;
@@ -97,5 +106,16 @@ namespace XFiresecAPI
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 		public XBaseObjectType BaseObjectType { get; private set; }
+
+		public void CopyTo(XState state)
+		{
+			state.AdditionalStates = AdditionalStates;
+			state.OnDelay = OnDelay;
+			state.HoldDelay = HoldDelay;
+			state.OffDelay = OffDelay;
+			state.StateClasses = StateClasses;
+			state.StateClass = StateClass;
+			state.MeasureParameter = MeasureParameter;
+		}
 	}
 }

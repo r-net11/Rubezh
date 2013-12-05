@@ -118,6 +118,11 @@ namespace FiresecService.Service
 			ClientsManager.Remove(uid);
 		}
 
+		public string Test(string arg)
+		{
+			return "Test";
+		}
+
 		public void NotifyClientsOnConfigurationChanged()
 		{
 			NotifyConfigurationChanged();

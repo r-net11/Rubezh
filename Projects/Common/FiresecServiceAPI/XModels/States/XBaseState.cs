@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI.XModels;
@@ -148,5 +149,17 @@ namespace XFiresecAPI
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }
+		public XMeasureParameter MeasureParameter { get; set; }
+
+		public void CopyToXState(XState state)
+		{
+			state.StateClasses = StateClasses.ToList();
+			state.StateClass = StateClass;
+			state.OnDelay = OnDelay;
+			state.OffDelay = OffDelay;
+			state.HoldDelay = HoldDelay;
+			state.MeasureParameter = MeasureParameter;
+			state.AdditionalStates = AdditionalStates.ToList();
+		}
 	}
 }

@@ -12,7 +12,7 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
+		public void WriteConfig(XDevice gkDevice, bool writeFileToGK)
 		{
 			try
 			{
