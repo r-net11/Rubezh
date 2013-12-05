@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography;
-using System.Text;
 using Common;
 using FiresecClient;
 using Infrastructure.Common;
@@ -21,16 +18,19 @@ namespace GKProcessor
 		{
 			try
 			{
+				var gkFileInfo = ReadInfoBlock(gkDevice);
 				var allbytes = new List<byte>();
 				uint i = 2;
-				LoadingService.Show("Чтение конфигурационного файла из " + gkDevice.PresentationName);
+				LoadingService.Show("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 				while (true)
 				{
+					if(LoadingService.IsCanceled)
+						{ Error = "Операция отменена"; return null; }
 					LoadingService.DoStep("Чтение блока данных " + i);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
 					var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 					if (sendResult.HasError)
-					{ Error = "Невозможно прочитать блок данных " + i; return null; }
+						{ Error = "Невозможно прочитать блок данных " + i; return null; }
 					allbytes.AddRange(sendResult.Bytes);
 					if (sendResult.Bytes.Count() < 256)
 						break;
@@ -46,8 +46,6 @@ namespace GKProcessor
 				UpdateConfigurationHelper.Update(deviceConfiguration);
 				UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 				LoadingService.Close();
-				//if (localConfigHash.SequenceEqual(remoteConfigHash))
-				//    MessageBoxService.Show("Конфигурации идентичны");
 				return deviceConfiguration;
 			}
 			catch (Exception e)
@@ -59,16 +57,19 @@ namespace GKProcessor
 		public static void WriteFileToGK(XDevice gkDevice, bool writeConfig)
 		{
 			var bytesList = new List<byte>();
-			GKFileInfo.Initialize(0, 1, XManager.DeviceConfiguration, gkDevice);
-			bytesList.AddRange(GKFileInfo.InfoBlock);
+			var gkFileInfo = new GKFileInfo();
+			gkFileInfo.Initialize(0, 1, XManager.DeviceConfiguration, gkDevice);
+			bytesList.AddRange(gkFileInfo.InfoBlock);
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
 			if (writeConfig)
-				bytesList.AddRange(GKFileInfo.FileBytes);
-			LoadingService.Show("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256);
+				bytesList.AddRange(gkFileInfo.FileBytes);
+			LoadingService.Show("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
 			for (var i = 0; i < bytesList.Count(); i += 256)
 			{
+				if (LoadingService.IsCanceled)
+					{ Error = "Операция отменена"; return; }
 				LoadingService.DoStep("Запись блока данных " + i + 1);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
@@ -86,19 +87,19 @@ namespace GKProcessor
 				{ Error = "Невозможно завершить запись файла "; }
 		}
 
-		public static List<byte> ReadInfoBlock(XDevice gkDevice)
+		public static GKFileInfo ReadInfoBlock(XDevice gkDevice)
 		{
 			try
 			{
-				LoadingService.Show("Чтение хеша " + gkDevice.PresentationName);
+				LoadingService.Show("Чтение информационного блока " + gkDevice.PresentationName);
 				var data = new List<byte>(BitConverter.GetBytes(1));
 				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 				if (sendResult.HasError)
-					{ Error = "Невозможно прочитать хеш"; return null; }
+					{ Error = "Невозможно прочитать информационный блок"; return null; }
 				if (sendResult.Bytes.Count == 0)
-					{ Error = "Хеш отсутствует"; return null; }
+					{ Error = "Информационный блок отсутствует"; return null; }
 				LoadingService.Close();
-				return sendResult.Bytes;
+				return GKFileInfo.InfoBlockToGKInfo(sendResult.Bytes);
 			}
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }

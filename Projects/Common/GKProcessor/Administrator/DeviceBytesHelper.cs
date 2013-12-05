@@ -79,7 +79,7 @@ namespace GKProcessor
 
 		public static bool Clear(XDevice device)
 		{
-			var sendResult = SendManager.Send(device, 0, 16, 0);
+			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
 			if (sendResult.HasError)
 			{
 				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");

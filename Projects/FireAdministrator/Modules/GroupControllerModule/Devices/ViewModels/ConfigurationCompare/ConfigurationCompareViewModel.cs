@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.IsAbsent || item.HasSecondDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasSecondDifferences) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || item.HasNonStructureDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasNonStructureDifferences) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}

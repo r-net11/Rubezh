@@ -26,7 +26,7 @@ namespace GKModule.Models
 			_devicesViewModel = devicesViewModel;
 
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
-			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfiguration);
+			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfigFile);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
@@ -145,6 +145,11 @@ namespace GKModule.Models
 		bool CanReadConfiguration()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
+		}
+
+		bool CanReadConfigFile()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }

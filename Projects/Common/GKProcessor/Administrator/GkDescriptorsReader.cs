@@ -39,7 +39,8 @@ namespace GKProcessor
 			};
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
 			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
-			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", 50000, true);
+			var gkFileInfo = GKFileReaderWriter.ReadInfoBlock(gkDevice);
+			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();

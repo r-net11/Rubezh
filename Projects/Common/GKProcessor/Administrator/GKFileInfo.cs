@@ -4,26 +4,28 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class GKFileInfo
+	public class GKFileInfo
 	{
-		static byte MinorVersion { get; set; }
-		static byte MajorVersion { get; set; }
-		static int DescriptorsCount { get; set; }
-		static List<byte> Hash1 { get; set; }
- 		static List<byte> Hash2 { get; set; }
- 		static long FileSize { get; set; }
-		static string Date { get; set; }
+		public byte MinorVersion { get; set; }
+		public byte MajorVersion { get; set; }
+		public List<byte> Hash1 { get; set; }
+		public List<byte> Hash2 { get; set; }
+		public int DescriptorsCount { get; set; }
+		public long FileSize { get; set; }
+		public DateTime Date { get; set; }
 
-		public static List<byte> FileBytes { get; private set; }
-		public static List<byte> InfoBlock { get; private set; }
-		public static void Initialize (byte minorVersion, byte majorVersion, XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+		public List<byte> FileBytes { get; private set; }
+		public List<byte> InfoBlock { get; private set; }
+		public void Initialize (byte minorVersion, byte majorVersion, XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
 			DescriptorsManager.Create();
+			Date = DateTime.Now;
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
 			MinorVersion = minorVersion;
 			MajorVersion = majorVersion;
@@ -33,11 +35,13 @@ namespace GKProcessor
 			Hash2 = CreateHash2(deviceConfiguration, gkDevice);
 			InitializeFileBytes(deviceConfiguration);
 			InitializeInfoBlock();
-			Date = DateTime.Now.ToLongDateString();
 		}
 
 		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration)
 		{
+			DescriptorsManager.Create();
+			UpdateConfigurationHelper.Update(deviceConfiguration);
+			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 			var configMemoryStream = ZipSerializeHelper.Serialize(deviceConfiguration);
 			configMemoryStream.Position = 0;
 			var configBytes = configMemoryStream.ToArray();
@@ -45,6 +49,9 @@ namespace GKProcessor
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
+			DescriptorsManager.Create();
+			UpdateConfigurationHelper.Update(deviceConfiguration);
+			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 			var stringBuilder = new StringBuilder();
 			foreach (var device in deviceConfiguration.Devices)
 			{
@@ -63,7 +70,7 @@ namespace GKProcessor
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
-		static void InitializeFileBytes(XDeviceConfiguration deviceConfiguration)
+		void InitializeFileBytes(XDeviceConfiguration deviceConfiguration)
 		{
 			ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
 			var file = File.OpenRead("configFileToGK");
@@ -71,13 +78,32 @@ namespace GKProcessor
 			FileBytes = File.ReadAllBytes(file.Name).ToList();
 			file.Close();
 		}
-		static void InitializeInfoBlock()
+		void InitializeInfoBlock()
 		{
 			InfoBlock = new List<byte>(256) { MinorVersion, MajorVersion };
 			InfoBlock.AddRange(Hash1);
 			InfoBlock.AddRange(Hash2);
+			InfoBlock.AddRange(BitConverter.GetBytes(DescriptorsCount));
+			InfoBlock.AddRange(BitConverter.GetBytes(FileSize));
+			InfoBlock.AddRange(BitConverter.GetBytes(Date.Ticks));
 			while (InfoBlock.Count < 256)
 				InfoBlock.Add(0);
+		}
+
+		public static GKFileInfo InfoBlockToGKInfo(List<byte> infoBytes)
+		{
+			return new GKFileInfo
+			{
+				InfoBlock = infoBytes,
+				MinorVersion = infoBytes[0],
+				MajorVersion = infoBytes[1],
+				Hash1 = infoBytes.GetRange(2, 32),
+				Hash2 = infoBytes.GetRange(34, 32),
+				DescriptorsCount = BitConverter.ToInt32(infoBytes.GetRange(66, 4).ToArray(), 0),
+				FileSize = BitConverter.ToInt64(infoBytes.GetRange(70, 8).ToArray(), 0),
+				Date = DateTime.FromBinary(BitConverter.ToInt64(infoBytes.GetRange(78, 8).ToArray(), 0)),
+				FileBytes = new List<byte>()
+			};
 		}
 	}
 }
