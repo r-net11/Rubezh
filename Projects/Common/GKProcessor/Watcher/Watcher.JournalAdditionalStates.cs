@@ -1,88 +1,109 @@
 ﻿using System.Linq;
 using XFiresecAPI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		void ParseAdditionalStates(JournalItem journalItem)
-		{
-			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+        void ParseAdditionalStates(JournalItem journalItem)
+        {
+            var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 
-			if (descriptor != null && descriptor.Device != null)
-			{
-				var deviceState = descriptor.Device.InternalState;
-				if (journalItem.Name == "Неисправность")
-				{
-					if (!string.IsNullOrEmpty(journalItem.Description))
-					{
-						AddAdditionalState(deviceState, journalItem.Description);
-						if (descriptor.Device.DriverType == XDriverType.Battery)
-						{
-							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
-							if (batteryNamesGroup != null)
-							{
-								foreach (var name in batteryNamesGroup.Names)
-								{
-									if (name != journalItem.Description)
-									{
-										deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
-									}
-								}
-							}
-						}
-					}
-				}
-				if (journalItem.Name == "Неисправность устранена")
-				{
-					if (string.IsNullOrEmpty(journalItem.Description))
-					{
-						deviceState.AdditionalStates.Clear();
-					}
-					else
-					{
-						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
-						if (descriptor.Device.DriverType == XDriverType.Battery)
-						{
-							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
-							if (batteryNamesGroup != null)
-							{
-								foreach (var name in batteryNamesGroup.Names)
-								{
-									deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
-								}
-							}
-						}
-					}
-				}
-				if (journalItem.Name == "Информация")
-				{
-					switch (journalItem.Description)
-					{
-						case "Низкий уровень":
-						case "Высокий уровень":
-						case "Аварийный уровень":
-							AddAdditionalState(deviceState, journalItem.Description);
-							break;
-						case "Уровень норма":
-							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Низкий уровень");
-							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
-							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
-							break;
-					}
-				}
-				deviceState.OnInternalStateChanged();
-			}
-		}
+            if (descriptor != null && descriptor.Device != null)
+            {
+                var deviceState = descriptor.Device.InternalState;
+                if (journalItem.Name == "Неисправность")
+                {
+                    if (!string.IsNullOrEmpty(journalItem.Description))
+                    {
+                        AddAdditionalState(deviceState, journalItem.Description, XStateClass.Failure);
+                        if (descriptor.Device.DriverType == XDriverType.Battery)
+                        {
+                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+                            if (batteryNamesGroup != null)
+                            {
+                                foreach (var name in batteryNamesGroup.Names)
+                                {
+                                    if (name != journalItem.Description)
+                                    {
+                                        deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (journalItem.Name == "Неисправность устранена")
+                {
+                    if (string.IsNullOrEmpty(journalItem.Description))
+                    {
+                        deviceState.AdditionalStates.RemoveAll(x => x.StateClass == XStateClass.Failure);
+                    }
+                    else
+                    {
+                        deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
+                        if (descriptor.Device.DriverType == XDriverType.Battery)
+                        {
+                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+                            if (batteryNamesGroup != null)
+                            {
+                                foreach (var name in batteryNamesGroup.Names)
+                                {
+                                    deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (journalItem.Name == "Информация")
+                {
+                    Trace.WriteLine("Информация До " + journalItem.Description + " ");
+                    foreach(var additionalState in deviceState.AdditionalStates)
+                    {
+                        Trace.Write(additionalState.Name + ", ");
+                    }
+                    switch (journalItem.Description)
+                    {
+                        case "Низкий уровень":
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+                            break;
+                        case "Высокий уровень":
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+                            AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
+                            break;
+                        case "Аварийный уровень":
+                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+                            AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
+                            AddAdditionalState(deviceState, "Аварийный уровень", XStateClass.Failure);
+                            break;
+                        case "Уровень норма":
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Низкий уровень");
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
+                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+                            break;
+                    }
+                    Trace.WriteLine("Информация После " + journalItem.Description + " ");
+                    foreach (var additionalState in deviceState.AdditionalStates)
+                    {
+                        Trace.Write(additionalState.Name + ", ");
+                    }
+                }
+                deviceState.OnInternalStateChanged();
+            }
+        }
 
-		void AddAdditionalState(XDeviceState deviceState, string description)
+        void AddAdditionalState(XDeviceState deviceState, string description, XStateClass stateClass)
 		{
 			if (!deviceState.AdditionalStates.Any(x => x.Name == description))
 			{
 				var additionalState = new XAdditionalState()
 				{
-					StateClass = XStateClass.Failure,
+                    StateClass = stateClass,
 					Name = description
 				};
 				deviceState.AdditionalStates.Add(additionalState);

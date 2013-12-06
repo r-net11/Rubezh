@@ -167,11 +167,11 @@ namespace GKProcessor
 						var kzBitArray = new BitArray(new int[1] { additionalShortParameters[6] % 256 });
 
 						if (sensorBitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Низкий уровень");
+							AddAdditionalState(XStateClass.Info, "Низкий уровень");
 						if (sensorBitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Высокий уровень");
+                            AddAdditionalState(XStateClass.Info, "Высокий уровень");
 						if (sensorBitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Аварийный уровень");
+                            AddAdditionalState(XStateClass.Failure, "Аварийный уровень");
 
 						if (bushType == 1)
 						{

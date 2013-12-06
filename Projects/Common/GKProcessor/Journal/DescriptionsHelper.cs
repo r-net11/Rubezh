@@ -16,10 +16,8 @@ namespace GKProcessor
 			{
 				AddToResult(JournalStringsHelper.ToFire((byte)i), DescriptionType.Fire);
 				AddToResult(JournalStringsHelper.ToFailure((byte)i), DescriptionType.Failure);
-				AddToResult(JournalStringsHelper.ToBUSHFailure((byte)i), DescriptionType.Failure);
 				AddToResult(JournalStringsHelper.ToBatteryFailure((byte)i), DescriptionType.Failure);
 				AddToResult(JournalStringsHelper.ToInformation((byte)i), DescriptionType.Information);
-				AddToResult(JournalStringsHelper.ToBUSHInformation((byte)i), DescriptionType.Information);
 				AddToResult(JournalStringsHelper.ToUser((byte)i), DescriptionType.User);
 			}
 			result.Sort(new DescriptionComparer());

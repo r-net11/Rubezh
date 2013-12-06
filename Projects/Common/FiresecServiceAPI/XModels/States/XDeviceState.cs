@@ -14,8 +14,6 @@ namespace XFiresecAPI
 
 			if (device.DriverType == XDriverType.System)
 				IsInitialState = false;
-
-			MeasureParameter = new XMeasureParameter();
 		}
 
 		List<XStateBit> _stateBitss = new List<XStateBit>();

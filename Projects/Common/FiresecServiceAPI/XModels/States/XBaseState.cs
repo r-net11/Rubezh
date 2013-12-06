@@ -13,6 +13,7 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+            MeasureParameter = new XMeasureParameter();
 		}
 
 		public event Action InternalStateChanged;
