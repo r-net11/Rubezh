@@ -103,10 +103,6 @@
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionDirectionsViewModel.cs" />
-    <Compile Include="Instructions\Views\InstructionDirectionsView.xaml.cs">
-      <DependentUpon>InstructionDirectionsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>
@@ -129,11 +125,11 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
+    <Compile Include="Devices\Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
+    <Compile Include="Devices\Selectation\Views\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\ConfigurationConverter\GKToFiresecConverter.cs" />
@@ -159,25 +155,17 @@
     <Compile Include="Instructions\Converters\DevicesToStringConverter.cs" />
     <Compile Include="Instructions\Converters\ZonesToStringConverter.cs" />
     <Compile Include="Instructions\ViewModels\InstructionDetailsViewModel.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionDevicesViewModel.cs" />
     <Compile Include="Instructions\ViewModels\InstructionsMenuViewModel.cs" />
     <Compile Include="Instructions\ViewModels\InstructionsViewModel.cs" />
     <Compile Include="Instructions\ViewModels\InstructionViewModel.cs" />
-    <Compile Include="Instructions\ViewModels\InstructionZonesViewModel.cs" />
     <Compile Include="Instructions\Views\InstructionDetailsView.xaml.cs">
       <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Instructions\Views\InstructionsDevicesView.xaml.cs">
-      <DependentUpon>InstructionsDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Views\InstructionsMenuView.xaml.cs">
       <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Views\InstructionsView.xaml.cs">
       <DependentUpon>InstructionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Instructions\Views\InstructionZonesView.xaml.cs">
-      <DependentUpon>InstructionZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\Views\JournalGridView.xaml.cs">
@@ -252,16 +240,16 @@
     <Compile Include="Converters\ClauseJounOperationConverter.cs" />
     <Compile Include="Converters\ClauseOperationConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
-    <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
+    <Compile Include="Devices\Selectation\ViewModels\DevicesSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
+    <Compile Include="Devices\Selectation\ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
+    <Compile Include="Devices\Selectation\Views\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\Logic\ZonesSelectationView.xaml.cs">
+    <Compile Include="Devices\Selectation\Views\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
@@ -435,15 +423,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Logic\DevicesSelectationView.xaml">
+    <Page Include="Devices\Selectation\Views\DevicesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Logic\DirectionsSelectationView.xaml">
+    <Page Include="Devices\Selectation\Views\DirectionsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Logic\ZonesSelectationView.xaml">
+    <Page Include="Devices\Selectation\Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -491,23 +479,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Instructions\Views\InstructionDirectionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Instructions\Views\InstructionsDevicesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Instructions\Views\InstructionsMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Instructions\Views\InstructionsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Instructions\Views\InstructionZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

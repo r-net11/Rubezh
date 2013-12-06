@@ -60,6 +60,12 @@ namespace PlansModule.Designer
 			Add(presenterItem);
 			return presenterItem;
 		}
+		public MonitorPresenterItem CreateMonitorPresenterItem(ElementBase elementBase)
+		{
+			var presenterItem = new MonitorPresenterItem(elementBase);
+			Add(presenterItem);
+			return presenterItem;
+		}
 
 		public IEnumerable<PresenterItem> PresenterItems
 		{

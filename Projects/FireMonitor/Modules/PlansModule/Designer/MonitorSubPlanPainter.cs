@@ -10,16 +10,22 @@ using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
 using System.Windows.Input;
 using XFiresecAPI;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows;
+using Infrustructure.Plans.Elements;
+using FiresecClient;
+using System.Diagnostics;
 
 namespace PlansModule.Designer
 {
 	class MonitorSubPlanPainter : SubPlanPainter
 	{
-		PresenterItem _presenterItem;
+		MonitorPresenterItem _presenterItem;
 		SubPlanPainter _painter;
 		Guid PlanUID;
 
-		public MonitorSubPlanPainter(PresenterItem presenterItem, Guid planUID)
+		public MonitorSubPlanPainter(MonitorPresenterItem presenterItem, Guid planUID)
 			: base(presenterItem.Element)
 		{
 			PlanUID = planUID;
@@ -81,5 +87,27 @@ namespace PlansModule.Designer
 					return Colors.Transparent;
 			}
 		}
+	}
+
+	public class MonitorPresenterItem : PresenterItem
+	{
+		public MonitorPresenterItem(ElementBase element):
+			base(element)
+		{
+			;
+		}
+
+		//protected override object GetToolTip()
+		//{
+		//    Image image = new Image();
+		//    image.Width = 16;
+		//    image.VerticalAlignment = VerticalAlignment.Center;
+		//    BitmapImage sourceImage = new BitmapImage();
+		//    sourceImage.BeginInit();
+		//    sourceImage.UriSource = new Uri("pack://application:,,,/Controls;component/Images/BTree.png");
+		//    sourceImage.EndInit();
+		//    image.Source = sourceImage;
+		//    return image;
+		//}
 	}
 }

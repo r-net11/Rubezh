@@ -94,6 +94,7 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePumpStationViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
@@ -132,13 +133,13 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveDeviceViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\StateClassViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveDirectionViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDirectionViewModel.cs" />
     <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>

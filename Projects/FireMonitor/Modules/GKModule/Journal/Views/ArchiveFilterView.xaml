@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
         xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-        MinWidth="800" MinHeight="500">
+        MinWidth="900" MinHeight="500">
 
     <UserControl.Resources>
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
@@ -175,6 +175,19 @@
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
                                 <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Насосные станции">
+                <ListBox ItemsSource="{Binding PumpStations}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
+                                <Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                                <TextBlock Text="{Binding PumpStation.Name}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -128,18 +128,6 @@
         <Views:InstructionsMenuView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstructionZonesViewModel}">
-        <Views:InstructionZonesView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:InstructionDirectionsViewModel}">
-        <Views:InstructionDirectionsView />
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:InstructionDevicesViewModel}">
-        <Views:InstructionsDevicesView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
         <Views:DiagnosticsView />
     </DataTemplate>

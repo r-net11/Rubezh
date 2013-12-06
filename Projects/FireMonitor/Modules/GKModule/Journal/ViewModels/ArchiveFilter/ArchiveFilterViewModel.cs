@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			InitializeDirections(archiveFilter);
 			InitializeDescriptions(archiveFilter);
 			InitializeSubsystemTypes(archiveFilter);
+			InitializePumpStations(archiveFilter);
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -179,6 +180,24 @@ namespace GKModule.ViewModels
 				if (subsystemTypeViewModel != null)
 				{
 					subsystemTypeViewModel.IsChecked = true;
+				}
+			}
+		}
+
+		void InitializePumpStations(XArchiveFilter archiveFilter)
+		{
+			PumpStations = new List<ArchivePumpStationViewModel>();
+			foreach (var direction in XManager.PumpStations)
+			{
+				var archiveDirectionViewModel = new ArchivePumpStationViewModel(direction);
+				PumpStations.Add(archiveDirectionViewModel);
+			}
+			foreach (var uid in archiveFilter.PumpStationUIDs)
+			{
+				var pumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == uid);
+				if (pumpStation != null)
+				{
+					pumpStation.IsChecked = true;
 				}
 			}
 		}
@@ -332,6 +351,7 @@ namespace GKModule.ViewModels
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
 		public List<DescriptionViewModel> ArchiveDescriptions { get; private set; }
 		public List<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
+		public List<ArchivePumpStationViewModel> PumpStations { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{
@@ -386,6 +406,11 @@ namespace GKModule.ViewModels
 				if (subsystemType.IsChecked)
 					archiveFilter.SubsystemTypes.Add(subsystemType.SubsystemType);
 			}
+			foreach (var pumpStation in PumpStations)
+			{
+				if (pumpStation.IsChecked)
+					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.UID);
+			}
 			return archiveFilter;
 		}
 
@@ -403,6 +428,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ArchiveDescriptions");
 			OnPropertyChanged("JournalDescriptionStates");
 			OnPropertyChanged("SubsystemTypes");
+			OnPropertyChanged("PumpStations");
 		}
 
 		public RelayCommand SaveCommand { get; private set; }
