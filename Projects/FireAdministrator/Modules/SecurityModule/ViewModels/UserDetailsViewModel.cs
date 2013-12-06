@@ -133,23 +133,25 @@ namespace SecurityModule.ViewModels
 			get { return _userRole; }
 			set
 			{
+				Permissions = new ObservableCollection<PermissionViewModel>();
 				_userRole = value;
 				if (_userRole != null)
 				{
 					if (Roles[0] == null)
 						Roles.RemoveAt(0);
 
-					Permissions = new ObservableCollection<PermissionViewModel>(
-						_userRole.PermissionStrings.Select(x => new PermissionViewModel(x) { IsEnable = true })
-					);
+					foreach (var permissionString in _userRole.PermissionStrings)
+					{
+						var permissionViewModel = new PermissionViewModel(permissionString);
+						if (!string.IsNullOrEmpty(permissionViewModel.Desciption))
+						{
+							permissionViewModel.IsEnable = true;
+							Permissions.Add(permissionViewModel);
+						}
+					}
 
 					CheckPermissions();
 				}
-				else
-				{
-					Permissions = new ObservableCollection<PermissionViewModel>();
-				}
-
 				OnPropertyChanged("UserRole");
 			}
 		}
@@ -158,12 +160,6 @@ namespace SecurityModule.ViewModels
 		{
 			if (UserRole.UID != User.RoleUID)
 				return;
-
-			foreach (var permissionString in User.PermissionStrings)
-			{
-				if (!Permissions.Any(x => x.Name == permissionString))
-					User.PermissionStrings.Remove(permissionString);
-			}
 
 			foreach (var permission in Permissions)
 			{
@@ -183,26 +179,26 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-        void SaveProperties()
-        {
-            User.Login = Login;
-            User.Name = Name;
+		void SaveProperties()
+		{
+			User.Login = Login;
+			User.Name = Name;
 
-            if (IsChangePassword)
-                User.PasswordHash = HashHelper.GetHashFromString(Password);
+			if (IsChangePassword)
+				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
 			User.RoleUID = UserRole.UID;
-            PreventAdminPermissions();
-            User.PermissionStrings = new List<string>();
-            foreach (var permission in Permissions)
-            {
-                if (permission.IsEnable)
-                {
-                    User.PermissionStrings.Add(permission.Name);
-                }
-            }
-            User.RemoreAccess = RemoteAccess.GetModel();
-        }
+			PreventAdminPermissions();
+			User.PermissionStrings = new List<string>();
+			foreach (var permission in Permissions)
+			{
+				if (permission.IsEnable)
+				{
+					User.PermissionStrings.Add(permission.Name);
+				}
+			}
+			User.RemoreAccess = RemoteAccess.GetModel();
+		}
 
 		protected override bool Save()
 		{
@@ -213,21 +209,16 @@ namespace SecurityModule.ViewModels
 			return base.Save();
 		}
 
-		void ShowMessage(string message)
-		{
-			MessageBoxService.Show(message);
-		}
-
 		bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
 			{
-				ShowMessage("Логин не может быть пустым");
+				MessageBoxService.Show("Логин не может быть пустым");
 				return false;
 			}
 			else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
 			{
-				ShowMessage("Пользователь с таким логином уже существует");
+				MessageBoxService.Show("Пользователь с таким логином уже существует");
 				return false;
 			}
 			return true;
@@ -237,7 +228,7 @@ namespace SecurityModule.ViewModels
 		{
 			if (Password != PasswordConfirmation)
 			{
-				ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+				MessageBoxService.Show("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
 				return false;
 			}
 			return true;
@@ -247,28 +238,28 @@ namespace SecurityModule.ViewModels
 		{
 			if (UserRole == null)
 			{
-				ShowMessage("Не выбрана роль");
+				MessageBoxService.Show("Не выбрана роль");
 				return false;
 			}
 			return true;
 		}
 
-        void PreventAdminPermissions()
-        {
+		void PreventAdminPermissions()
+		{
 			if (FiresecManager.CurrentUser.UID == User.UID && FiresecManager.CurrentUser.PermissionStrings.Contains(PermissionType.Adm_Security.ToString()))
-            {
-                var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
-                if (Adm_SecurityPermission != null)
-                {
-                    Adm_SecurityPermission.IsEnable = true;
-                }
+			{
+				var Adm_SecurityPermission = Permissions.FirstOrDefault(x => x.Name == PermissionType.Adm_Security.ToString());
+				if (Adm_SecurityPermission != null)
+				{
+					Adm_SecurityPermission.IsEnable = true;
+				}
 
 				var Adm_SetNewConfigPermission = Permissions.FirstOrDefault(x => x.Name == PermissionType.Adm_SetNewConfig.ToString());
-                if (Adm_SetNewConfigPermission != null)
-                {
-                    Adm_SetNewConfigPermission.IsEnable = true;
-                }
-            }
-        }
+				if (Adm_SetNewConfigPermission != null)
+				{
+					Adm_SetNewConfigPermission.IsEnable = true;
+				}
+			}
+		}
 	}
 }

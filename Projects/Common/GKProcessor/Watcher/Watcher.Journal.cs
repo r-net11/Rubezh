@@ -79,11 +79,18 @@ namespace GKProcessor
 					if (descriptor != null)
 					{
 						ChangeJournalOnDevice(descriptor, journalItem);
-						CheckAdditionalStates(descriptor);
 						CheckServiceRequired(descriptor.XBase, journalItem);
 						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
+                        if (descriptor.XBase is XDevice)
+                        {
+                            XDevice device = descriptor.XBase as XDevice;
+                            if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
+                            {
+                                OnObjectStateChanged(device.Parent);
+                            }
+                        }
 					}
 				}
 			}
@@ -138,55 +145,6 @@ namespace GKProcessor
 							break;
 					}
 				}
-			}
-		}
-
-		void CheckDelays()
-		{
-			foreach (var device in XManager.Devices)
-			{
-				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
-				{
-					CheckDelay(device);
-				}
-			}
-			foreach (var direction in XManager.Directions)
-			{
-				CheckDelay(direction);
-			}
-			foreach (var pumpStation in XManager.PumpStations)
-			{
-				CheckDelay(pumpStation);
-			}
-			foreach (var delay in XManager.Delays)
-			{
-				CheckDelay(delay);
-			}
-		}
-
-		void CheckDelay(XBase xBase)
-		{
-			bool mustGetState = false;
-			switch (xBase.BaseState.StateClass)
-			{
-				case XStateClass.TurningOn:
-					mustGetState = xBase.BaseState.OnDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-					break;
-				case XStateClass.On:
-					mustGetState = xBase.BaseState.HoldDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-					break;
-				case XStateClass.TurningOff:
-					mustGetState = xBase.BaseState.OffDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-					break;
-			}
-			if (mustGetState)
-			{
-				var onDelay = xBase.BaseState.OnDelay;
-				var holdDelay = xBase.BaseState.HoldDelay;
-				var offDelay = xBase.BaseState.OffDelay;
-				GetState(xBase);
-				if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
-					OnObjectStateChanged(xBase);
 			}
 		}
 	}

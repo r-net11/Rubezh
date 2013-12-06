@@ -150,12 +150,7 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-            Trace.WriteLine("###### Before OnObjectStateChanged " + xBase.PresentationName + " ");
-            foreach (var additionalState in xBase.BaseState.AdditionalStates)
-            {
-                Trace.WriteLine("\t" + additionalState.Name);
-            }
-
+            xBase.BaseState.IsInitialState = false;
             xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
 			xBase.State.StateClass = xBase.BaseState.StateClass;
             xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
@@ -188,12 +183,6 @@ namespace GKProcessor
 			{
 				GKCallbackResult.GKStates.PimStates.Add(xBase.State);
 			}
-
-            Trace.WriteLine("###### Ater OnObjectStateChanged " + xBase.PresentationName + " ");
-            foreach (var additionalState in xBase.State.AdditionalStates)
-            {
-                Trace.WriteLine("\t" + additionalState.Name);
-            }
 		}
 
 		internal void AddMessage(string name, string userName)

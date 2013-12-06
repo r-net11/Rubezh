@@ -93,7 +93,11 @@ namespace GKProcessor
 			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 			if (driver != null)
 			{
-				switch (driver.DriverType)
+                var driverType = driver.DriverType;
+                if (XBase.GKDescriptorNo > 1)
+                    driverType = XDriverType.KAU;
+
+                switch (driverType)
 				{
 					case XDriverType.KAU:
 					case XDriverType.RSR2_KAU:
@@ -111,7 +115,7 @@ namespace GKProcessor
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "Отказ АЛС 7 или 8");
 						if (bitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Вскрытие");
+                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (bitArray[8])
 							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 1");
 						if (bitArray[9])
@@ -141,14 +145,7 @@ namespace GKProcessor
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "РЛС");
 						if (bitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Вскрытие");
-						break;
-
-					case XDriverType.RSR2_MVK8:
-					case XDriverType.RSR2_RM_1:
-						OnDelay = additionalShortParameters[0];
-						HoldDelay = additionalShortParameters[1];
-						OffDelay = additionalShortParameters[2];
+                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						break;
 
 					case XDriverType.RSR2_Bush:
@@ -464,6 +461,17 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "АКБ 2 Отсутствие");
 						break;
 				}
+
+                switch (driverType)
+                {
+                    case XDriverType.RSR2_MVK8:
+                    case XDriverType.RSR2_RM_1:
+                    case XDriverType.RSR2_Bush:
+                        OnDelay = additionalShortParameters[0];
+                        HoldDelay = additionalShortParameters[1];
+                        OffDelay = additionalShortParameters[2];
+                        break;
+                }
 			}
 			else
 			{

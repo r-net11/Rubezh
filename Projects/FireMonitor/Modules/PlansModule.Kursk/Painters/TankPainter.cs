@@ -61,13 +61,7 @@ namespace PlansModule.Kursk.Designer
 		{
 			if (_device == null)
 				return null;
-			var stringBuilder = new StringBuilder();
-			stringBuilder.Append(_device.PresentationAddressAndDriver);
-			stringBuilder.Append(" - ");
-			stringBuilder.AppendLine(_device.Driver.ShortName);
-			stringBuilder.AppendLine(_device.State.StateClass.ToDescription());
-
-			return stringBuilder.ToString().TrimEnd();
+			return _device.PresentationName + "\n" + _device.State.StateClass.ToDescription();
 		}
 		private void UpdateBrush()
 		{

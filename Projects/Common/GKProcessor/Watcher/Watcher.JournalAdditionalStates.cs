@@ -59,11 +59,6 @@ namespace GKProcessor
                 }
                 if (journalItem.Name == "Информация")
                 {
-                    Trace.WriteLine("Информация До " + journalItem.Description + " ");
-                    foreach(var additionalState in deviceState.AdditionalStates)
-                    {
-                        Trace.Write(additionalState.Name + ", ");
-                    }
                     switch (journalItem.Description)
                     {
                         case "Низкий уровень":
@@ -86,11 +81,6 @@ namespace GKProcessor
                             deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
                             deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
                             break;
-                    }
-                    Trace.WriteLine("Информация После " + journalItem.Description + " ");
-                    foreach (var additionalState in deviceState.AdditionalStates)
-                    {
-                        Trace.Write(additionalState.Name + ", ");
                     }
                 }
                 deviceState.OnInternalStateChanged();

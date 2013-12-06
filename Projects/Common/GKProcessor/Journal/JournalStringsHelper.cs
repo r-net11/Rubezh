@@ -71,7 +71,7 @@ namespace GKProcessor
 				case 5: return "Обрыв ШС"; // МПТ, АМ
 				case 6: return "";
 				case 7: return "";
-				case 8: return "Вскрытие корпуса"; // АМ, ШУН, ШУЗ
+				case 8: return "Вскрытие корпуса"; // АМ, ШУН, ШУЗ, КАУ, ГК
 				case 9: return "Контакт не переключается"; // РМ
 				case 10: return "Напряжение запуска реле ниже нормы"; // РМК
 				case 11: return "КЗ выхода"; // РМК
