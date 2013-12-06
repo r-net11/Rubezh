@@ -61,7 +61,7 @@ namespace GKProcessor
 							break;
 
 						case 6:
-							JournalItem.Name = "Работа";
+							JournalItem.Name = "Перевод в рабочий режим";
 							break;
 
 						case 7:
@@ -188,10 +188,6 @@ namespace GKProcessor
 
 							switch (JournalItem.DescriptorType)
 							{
-                                //case 0xE0:
-                                //    JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
-                                //    break;
-
 								case 0xD6:
 									JournalItem.Description = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
 									break;

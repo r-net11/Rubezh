@@ -34,7 +34,6 @@ namespace FiresecClient
         {
             allDeviceChildren = new List<XDevice>();
             AddChildren(device);
-			allDeviceChildren.RemoveAt(0);
             return allDeviceChildren;
         }
         public static void AddChildren(XDevice device)
@@ -48,32 +47,6 @@ namespace FiresecClient
 				}
 			}
         }
-
-		public static List<XZoneState> GetAllGKZoneStates(XDeviceState gkDeviceState)
-		{
-			var zoneStates = new List<XZoneState>();
-			foreach (var zone in Zones)
-			{
-				if (zone.GkDatabaseParent == gkDeviceState.Device)
-				{
-					zoneStates.Add(zone.InternalState);
-				}
-			}
-			return zoneStates;
-		}
-
-		public static List<XDirectionState> GetAllGKDirectionStates(XDeviceState gkDeviceState)
-		{
-			var directionStates = new List<XDirectionState>();
-			foreach (var direction in Directions)
-			{
-				if (direction.GkDatabaseParent == gkDeviceState.Device)
-				{
-					directionStates.Add(direction.InternalState);
-				}
-			}
-			return directionStates;
-		}
 
 		public static XStateClass GetMinStateClass()
 		{

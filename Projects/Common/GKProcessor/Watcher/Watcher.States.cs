@@ -50,13 +50,9 @@ namespace GKProcessor
 			{
 				LastUpdateTime = DateTime.Now;
 				var result = GetState(descriptor.XBase);
-				if (!result)
+				if (!IsConnected)
 				{
-					if (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.GK)
-					{
-						descriptor.Device.InternalState.IsConnectionLost = true;
-						break;
-					}
+					break;
 				}
 				if (showProgress)
 					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorInfo);
@@ -89,29 +85,45 @@ namespace GKProcessor
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 
-			foreach(var device in XManager.Devices)
+			var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
+			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
 			{
 				OnObjectStateChanged(device);
 			}
 			foreach (var zone in XManager.Zones)
 			{
-				OnObjectStateChanged(zone);
+				if (zone.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(zone);
+				}
 			}
 			foreach (var direction in XManager.Directions)
 			{
-				OnObjectStateChanged(direction);
+				if (direction.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(direction);
+				}
 			}
 			foreach (var pumpStation in XManager.PumpStations)
 			{
-				OnObjectStateChanged(pumpStation);
+				if (pumpStation.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(pumpStation);
+				}
 			}
 			foreach (var delay in XManager.Delays)
 			{
-				OnObjectStateChanged(delay);
+				if (delay.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(delay);
+				}
 			}
 			foreach (var pim in XManager.Pims)
 			{
-				OnObjectStateChanged(pim);
+				if (pim.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(pim);
+				}
 			}
 		}
 
@@ -285,7 +297,6 @@ namespace GKProcessor
 				{
 					isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
 					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
-					allChildren.Add(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
 					{
 						device.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;

@@ -19,7 +19,7 @@ namespace XFiresecAPI
 		public event Action InternalStateChanged;
 		public void OnInternalStateChanged()
 		{
-            //IsInitialState = false;
+            IsInitialState = false;
             //if (InternalStateChanged != null)
             //    InternalStateChanged();
 		}

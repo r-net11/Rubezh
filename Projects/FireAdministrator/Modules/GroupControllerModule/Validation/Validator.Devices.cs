@@ -184,7 +184,7 @@ namespace GKModule.Validation
                 foreach (var shleifDevice in device.Children)
                 {
                     var realChildren = XManager.GetAllDeviceChildren(shleifDevice);
-                    realChildren.RemoveAll(x => x.Driver.IsGroupDevice);
+                    realChildren.RemoveAll(x => !x.IsRealDevice);
                     for (int i = 0; i < realChildren.Count(); i++)
                     {
                         var realDevice = realChildren[i];

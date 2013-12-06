@@ -76,12 +76,12 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Device.Driver.IsGroupDevice)
+				if (Device.Driver.IsGroupDevice || Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					var childStateClasses = new List<XStateClass>();
 					foreach (var child in Device.Children)
 					{
-						childStateClasses.AddRange(child.InternalState.StateClasses);
+						childStateClasses.Add(child.InternalState.StateClass);
 					}
 					return XStatesHelper.GetMinStateClass(childStateClasses);
 				}

@@ -175,7 +175,6 @@ namespace GKModule.ViewModels
 		void OnRemove()
 		{
 			var allDevices = XManager.GetAllDeviceChildren(Device);
-			allDevices.Add(Device);
 			foreach (var device in allDevices)
 			{
 				XManager.RemoveDevice(device);
