@@ -40,7 +40,10 @@ namespace GKModule
 			{
 				GKProcessorManager.Start();
 			}
+		}
 
+		void GKAfterInitialize()
+		{
 			SafeFiresecService.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			SafeFiresecService.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 
