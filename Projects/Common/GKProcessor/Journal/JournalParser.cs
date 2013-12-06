@@ -188,9 +188,9 @@ namespace GKProcessor
 
 							switch (JournalItem.DescriptorType)
 							{
-								case 0xE0:
-									JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
-									break;
+                                //case 0xE0:
+                                //    JournalItem.Description = JournalStringsHelper.ToBUSHFailure(bytes[32 + 15]);
+                                //    break;
 
 								case 0xD6:
 									JournalItem.Description = JournalStringsHelper.ToBatteryFailure(bytes[32 + 15]);
@@ -238,10 +238,7 @@ namespace GKProcessor
 
 						case 8:
 							JournalItem.Name = "Информация";
-							if (JournalItem.DescriptorType == 0xE0)
-								JournalItem.Description = JournalStringsHelper.ToBUSHInformation(bytes[32 + 15]);
-							else
-								JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
+                            JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
 							break;
 
 						case 9:

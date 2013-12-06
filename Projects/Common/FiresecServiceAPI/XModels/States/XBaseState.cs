@@ -13,17 +13,18 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+            MeasureParameter = new XMeasureParameter();
 		}
 
 		public event Action InternalStateChanged;
 		public void OnInternalStateChanged()
 		{
-			IsInitialState = false;
-			if (InternalStateChanged != null)
-				InternalStateChanged();
+            //IsInitialState = false;
+            //if (InternalStateChanged != null)
+            //    InternalStateChanged();
 		}
 
-		public bool IsInitialState { get; protected set; }
+		public bool IsInitialState { get; set; }
 
 		protected bool _isGKConnectionLost;
 		public bool IsGKConnectionLost

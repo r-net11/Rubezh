@@ -38,8 +38,14 @@ namespace SecurityModule.ViewModels
 
 			UID = Role.UID;
 			Name = Role.Name;
-				foreach (var permissionString in Role.PermissionStrings)
-					Permissions.First(permission => permission.Name == permissionString).IsEnable = true;
+			foreach (var permissionString in Role.PermissionStrings)
+			{
+				var permission = Permissions.FirstOrDefault(x => x.Name == permissionString);
+				if (permission != null)
+				{
+					permission.IsEnable = true;
+				}
+			}
 		}
 
 		string _name;

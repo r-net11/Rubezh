@@ -5,6 +5,7 @@ using Common;
 using Infrastructure.Common;
 using XFiresecAPI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -149,8 +150,14 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-			xBase.State.StateClasses = xBase.BaseState.StateClasses;
+            xBase.BaseState.IsInitialState = false;
+            xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
 			xBase.State.StateClass = xBase.BaseState.StateClass;
+            xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
+            xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
+            xBase.State.OnDelay = xBase.BaseState.OnDelay;
+            xBase.State.OffDelay = xBase.BaseState.OffDelay;
+            xBase.State.MeasureParameter = xBase.BaseState.MeasureParameter;
 			if (xBase is XDevice)
 			{
 				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);

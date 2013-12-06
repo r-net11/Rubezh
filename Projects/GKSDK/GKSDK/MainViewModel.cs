@@ -121,6 +121,7 @@ namespace GKSDK
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
+                    device.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
@@ -129,6 +130,7 @@ namespace GKSDK
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
+                    zone.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
@@ -137,6 +139,7 @@ namespace GKSDK
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
+                    direction.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -145,6 +148,7 @@ namespace GKSDK
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
+                    pumpStation.State.OnStateChanged();
 				}
 			}
 			foreach (var delayState in gkStates.DelayStates)
@@ -155,6 +159,7 @@ namespace GKSDK
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
+                    delay.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
@@ -165,6 +170,7 @@ namespace GKSDK
 				if (pim != null)
 				{
 					remotePimState.CopyTo(pim.State);
+                    pim.State.OnStateChanged();
 				}
 			}
 		}

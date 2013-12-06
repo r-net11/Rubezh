@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -152,6 +153,8 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
+			____ConvertExitToRele____();
+
 			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
 			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
@@ -192,6 +195,33 @@ namespace GKModule
 						return;
 				}
 			});
+		}
+
+		void ____ConvertExitToRele____()
+		{
+			bool hasChanged = false;
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GKLine)
+				{
+					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GKRele);
+					device.Driver = driver;
+					device.DriverUID = driver.UID;
+					hasChanged = true;
+				}
+			}
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GK)
+				{
+					UpdateConfigurationHelper.UpdateGKPredefinedName(device);
+				}
+			}
+			if (hasChanged)
+			{
+				XManager.UpdateConfiguration();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		#region ILayoutDeclarationModule Members

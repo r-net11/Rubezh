@@ -115,10 +115,58 @@ namespace GKProcessor
 			}
 		}
 
-		bool GetState(XBase xBase)
+        void CheckDelays()
+        {
+            foreach (var device in XManager.Devices)
+            {
+                if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+                {
+                    CheckDelay(device);
+                }
+            }
+            foreach (var direction in XManager.Directions)
+            {
+                CheckDelay(direction);
+            }
+            foreach (var pumpStation in XManager.PumpStations)
+            {
+                CheckDelay(pumpStation);
+            }
+            foreach (var delay in XManager.Delays)
+            {
+                CheckDelay(delay);
+            }
+        }
+
+        void CheckDelay(XBase xBase)
+        {
+            bool mustGetState = false;
+            switch (xBase.BaseState.StateClass)
+            {
+                case XStateClass.TurningOn:
+                    mustGetState = xBase.BaseState.OnDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+                case XStateClass.On:
+                    mustGetState = xBase.BaseState.HoldDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+                case XStateClass.TurningOff:
+                    mustGetState = xBase.BaseState.OffDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+            }
+            if (mustGetState)
+            {
+                var onDelay = xBase.BaseState.OnDelay;
+                var holdDelay = xBase.BaseState.HoldDelay;
+                var offDelay = xBase.BaseState.OffDelay;
+                GetState(xBase, true);
+                if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
+                    OnObjectStateChanged(xBase);
+            }
+        }
+
+		bool GetState(XBase xBase, bool delaysOnly = false)
 		{
-			var no = xBase.GKDescriptorNo;
-			var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
+            var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
@@ -135,26 +183,16 @@ namespace GKProcessor
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 
-			var binaryState = xBase.BaseState;
-			binaryState.LastDateTime = DateTime.Now;
-			binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
-			binaryState.OnDelay = descriptorStateHelper.OnDelay;
-			binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
-			binaryState.OffDelay = descriptorStateHelper.OffDelay;
-			binaryState.StateBits = descriptorStateHelper.StateBits;
+            xBase.BaseState.LastDateTime = DateTime.Now;
+            if (!delaysOnly)
+            {
+                xBase.BaseState.StateBits = descriptorStateHelper.StateBits;
+                xBase.BaseState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+            }
+            xBase.BaseState.OnDelay = descriptorStateHelper.OnDelay;
+            xBase.BaseState.HoldDelay = descriptorStateHelper.HoldDelay;
+            xBase.BaseState.OffDelay = descriptorStateHelper.OffDelay;
 			return true;
-		}
-
-		void CheckAdditionalStates(BaseDescriptor descriptor)
-		{
-			if (descriptor is DeviceDescriptor)
-			{
-				var deviceDescriptor = descriptor as DeviceDescriptor;
-				if (deviceDescriptor.Device.DriverType == XDriverType.GK || deviceDescriptor.Device.DriverType == XDriverType.KAU)
-				{
-					GetState(descriptor.XBase);
-				}
-			}
 		}
 
 		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
