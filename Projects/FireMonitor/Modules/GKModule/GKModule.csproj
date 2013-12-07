@@ -104,6 +104,8 @@
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
+    <Compile Include="ViewModels\AUParameterValue.cs" />
+    <Compile Include="ViewModels\__DeviceDetailsViewModel__.cs" />
     <Compile Include="Views\ToolTip\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
@@ -155,7 +157,6 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ParameterUpdateHelper.cs" />
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />

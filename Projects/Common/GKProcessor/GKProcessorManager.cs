@@ -51,7 +51,8 @@ namespace GKProcessor
 				gkCallbackResult.GKStates.ZoneStates.Count +
 				gkCallbackResult.GKStates.DirectionStates.Count +
 				gkCallbackResult.GKStates.DelayStates.Count +
-				gkCallbackResult.GKStates.PimStates.Count > 0)
+				gkCallbackResult.GKStates.PimStates.Count +
+				gkCallbackResult .GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
 					GKCallbackResultEvent(gkCallbackResult);
@@ -266,6 +267,25 @@ namespace GKProcessor
 			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
 			AddGKMessage("Команда оператора", "Остановка пуска", XStateClass.Info, xBase, userName);
 		}
+
+		public static void GKStartMeasureMonitoring(XDevice device)
+		{
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			if (watcher != null)
+			{
+				watcher.StartDeviceMeasure(device);
+			}
+		}
+
+		public static void GKStopMeasureMonitoring(XDevice device)
+		{
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			if (watcher != null)
+			{
+				watcher.StartDeviceMeasure(device);
+			}
+		}
+
 		#endregion
 
 		#region JournalItem Callback

@@ -31,7 +31,7 @@ namespace XFiresecAPI
 		public XStateClass StateClass { get; set; }
 
 		[DataMember]
-		public XMeasureParameter MeasureParameter { get; set; }
+		public List<XMeasureParameter> MeasureParameters { get; set; }
 
 		[DataMember]
 		public string PresentationName { get; set; }
@@ -43,12 +43,19 @@ namespace XFiresecAPI
 				StateChanged();
 		}
 
+		public event Action MeasureParametersChanged;
+		public void OnMeasureParametersChanged()
+		{
+			if (MeasureParametersChanged != null)
+				MeasureParametersChanged();
+		}
+
 		public XState()
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			StateClasses = new List<XStateClass>();
 			StateClass = XStateClass.Unknown;
-			MeasureParameter = new XMeasureParameter();
+			MeasureParameters = new List<XMeasureParameter>();
 		}
 
 		public XState(XDevice device)
@@ -115,7 +122,6 @@ namespace XFiresecAPI
 			state.OffDelay = OffDelay;
 			state.StateClasses = StateClasses;
 			state.StateClass = StateClass;
-			state.MeasureParameter = MeasureParameter;
 		}
 	}
 }

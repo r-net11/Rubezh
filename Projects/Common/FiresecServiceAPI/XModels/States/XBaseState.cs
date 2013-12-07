@@ -13,7 +13,6 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
-            MeasureParameter = new XMeasureParameter();
 		}
 
 		public event Action InternalStateChanged;
@@ -150,7 +149,6 @@ namespace XFiresecAPI
 		public int OnDelay { get; set; }
 		public int HoldDelay { get; set; }
 		public int OffDelay { get; set; }
-		public XMeasureParameter MeasureParameter { get; set; }
 
 		public void CopyToXState(XState state)
 		{
@@ -159,7 +157,6 @@ namespace XFiresecAPI
 			state.OnDelay = OnDelay;
 			state.OffDelay = OffDelay;
 			state.HoldDelay = HoldDelay;
-			state.MeasureParameter = MeasureParameter;
 			state.AdditionalStates = AdditionalStates.ToList();
 		}
 	}

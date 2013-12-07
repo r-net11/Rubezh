@@ -268,5 +268,23 @@ namespace FiresecService.Service
 			}
 			return null;
 		}
+
+		public void GKStartMeasureMonitoring(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				GKProcessorManager.GKStartMeasureMonitoring(device);
+			}
+		}
+
+		public void GKStopMeasureMonitoring(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				GKProcessorManager.GKStopMeasureMonitoring(device);
+			}
+		}
 	}
 }

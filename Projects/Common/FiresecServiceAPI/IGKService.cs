@@ -78,5 +78,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStop(Guid uid, XBaseObjectType objectType);
+
+		[OperationContract]
+		void GKStartMeasureMonitoring(Guid deviceUID);
+
+		[OperationContract]
+		void GKStopMeasureMonitoring(Guid deviceUID);
 	}
 }

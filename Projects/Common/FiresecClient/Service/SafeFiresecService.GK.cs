@@ -285,6 +285,30 @@ namespace FiresecClient
 			}
 		}
 
+		public void GKStartMeasureMonitoring(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(device.UID); }, "GKStartMeasureMonitoring");
+			}
+			else
+			{
+				GKProcessorManager.GKStartMeasureMonitoring(device);
+			}
+		}
+
+		public void GKStopMeasureMonitoring(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.UID); }, "GKStopMeasureMonitoring");
+			}
+			else
+			{
+				GKProcessorManager.GKStopMeasureMonitoring(device);
+			}
+		}
+
 		public void GKAddMessage(string name, string description)
 		{
 			if (IsGKAsAService)

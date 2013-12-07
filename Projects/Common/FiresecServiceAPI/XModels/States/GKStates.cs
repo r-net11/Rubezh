@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			PumpStationStates = new List<XState>();
 			DelayStates = new List<XState>();
 			PimStates = new List<XState>();
+			DeviceMeasureParameters = new List<XDeviceMeasureParameters>();
 		}
 
 		[DataMember]
@@ -36,5 +37,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XState> PimStates { get; set; }
+
+		[DataMember]
+		public List<XDeviceMeasureParameters> DeviceMeasureParameters { get; set; }
 	}
 }

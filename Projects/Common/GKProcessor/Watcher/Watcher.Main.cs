@@ -98,7 +98,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
+								Logger.Error(e, "Watcher.OnRunThread CheckTasks");
 							}
 
 							try
@@ -107,7 +107,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
+								Logger.Error(e, "Watcher.OnRunThread CheckNPT");
 							}
 
 							try
@@ -116,7 +116,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
+								Logger.Error(e, "Watcher.OnRunThread PingJournal");
 							}
 
 							try
@@ -125,8 +125,18 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+								Logger.Error(e, "Watcher.OnRunThread PingNextState");
 							}
+
+							try
+							{
+								CheckMeasure();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+							}
+
 							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 						}
 					}
@@ -157,7 +167,6 @@ namespace GKProcessor
             xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
             xBase.State.OnDelay = xBase.BaseState.OnDelay;
             xBase.State.OffDelay = xBase.BaseState.OffDelay;
-            xBase.State.MeasureParameter = xBase.BaseState.MeasureParameter;
 			if (xBase is XDevice)
 			{
 				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
@@ -183,6 +192,11 @@ namespace GKProcessor
 			{
 				GKCallbackResult.GKStates.PimStates.Add(xBase.State);
 			}
+		}
+
+		void OnMeasureParametersChanged(XDeviceMeasureParameters deviceMeasureParameters)
+		{
+			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
 		internal void AddMessage(string name, string userName)

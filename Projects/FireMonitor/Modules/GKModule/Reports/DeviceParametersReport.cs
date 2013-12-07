@@ -50,10 +50,10 @@ namespace GKModule.Reports
 					}
 
 					var deviceState = device.State;
-					var parameter = deviceState.MeasureParameter.Dustiness;
+					var parameter = deviceState.MeasureParameters.FirstOrDefault(x => x.Name == "Dustiness");
 					if (parameter != null)
 					{
-						dustiness = parameter;
+						dustiness = parameter.StringValue;
 					}
 					table.Rows.Add(type, address, zonePresentationName, dustiness);
 				}

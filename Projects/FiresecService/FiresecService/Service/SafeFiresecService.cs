@@ -331,6 +331,16 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType); }, "GKStop");
 		}
+
+		public void GKStartMeasureMonitoring(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(deviceUID); }, "GKStartMeasureMonitoring");
+		}
+
+		public void GKStopMeasureMonitoring(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
+		}
 		#endregion
 	}
 }

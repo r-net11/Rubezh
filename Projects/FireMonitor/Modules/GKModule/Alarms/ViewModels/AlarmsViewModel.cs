@@ -99,10 +99,10 @@ namespace GKModule.ViewModels
 				{
 					alarms.Add(new Alarm(XAlarmType.AutoOff, device));
 				}
-				//if (device.DeviceState.IsService || device.DeviceState.IsRealMissmatch)
-				//{
-				//    alarms.Add(new Alarm(XAlarmType.Service, device));
-				//}
+				if (device.State.StateClasses.Contains(XStateClass.Service)) // || device.DeviceState.IsRealMissmatch)
+				{
+					alarms.Add(new Alarm(XAlarmType.Service, device));
+				}
 			}
 
 			foreach (var zone in XManager.Zones)

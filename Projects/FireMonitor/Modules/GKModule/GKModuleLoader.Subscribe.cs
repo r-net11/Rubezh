@@ -157,6 +157,15 @@ namespace GKModule
                     pim.State.OnStateChanged();
 				}
 			}
+			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
+				if (device != null)
+				{
+					device.State.MeasureParameters = deviceMeasureParameter.MeasureParameters;
+					device.State.OnMeasureParametersChanged();
+				}
+			}
 		}
 	}
 }
