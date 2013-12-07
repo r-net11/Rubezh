@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Alarm.Device != null)
-                    return Alarm.Device.PresentationDriverAndAddress;
+					return Alarm.Device.PresentationName;
 				if (Alarm.Zone != null)
 					return Alarm.Zone.PresentationName;
 				if (Alarm.Direction != null)

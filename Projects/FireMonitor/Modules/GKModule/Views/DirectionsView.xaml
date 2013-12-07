@@ -139,7 +139,7 @@
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
                                 <Views:DeviceStateView/>
                             </StackPanel>
                         </Setter.Value>
@@ -191,7 +191,7 @@
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
                                 <Views:DeviceStateView />
                             </StackPanel>
                         </Setter.Value>

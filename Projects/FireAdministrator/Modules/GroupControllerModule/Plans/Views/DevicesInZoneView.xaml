@@ -8,7 +8,7 @@
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<Image Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource, Converter={StaticResource NullToImageConverter}}" Visibility="{Binding ImageSource, Converter={StaticResource NullToVisibilityConverter}}" />
-							<TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Device.PresentationAddressAndDriver}" />
+							<TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Device.PresentationName}" />
 						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>

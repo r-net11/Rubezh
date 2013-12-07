@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			SelectCommand = new RelayCommand(OnSelect, CanSelect);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 			ShowNSLogicCommand = new RelayCommand(OnShowNSLogic, CanShowNSLogic);
@@ -199,7 +200,18 @@ namespace GKModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.GroupDeviceChildType == Driver.DriverType));
+			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
+		}
+
+		public RelayCommand SelectCommand { get; private set; }
+		void OnSelect()
+		{
+			var devicesOnShleifViewModel = new DevicesOnShleifViewModel(Device);
+			DialogService.ShowModalWindow(devicesOnShleifViewModel);
+		}
+		bool CanSelect()
+		{
+			return Driver.DriverType == XDriverType.KAU_Shleif || Driver.DriverType == XDriverType.RSR2_KAU_Shleif;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

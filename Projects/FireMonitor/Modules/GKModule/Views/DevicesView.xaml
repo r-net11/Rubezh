@@ -52,7 +52,7 @@
 		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" Padding="5" TextBlock.FontSize="11" TextBlock.Foreground="White">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
-					<TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.PresentationDriverAndAddress}" />
+                    <TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.PresentationName}" />
 					<Views:DeviceStateView TextElement.Foreground="White" />
 				</StackPanel>
 			</ScrollViewer>

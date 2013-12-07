@@ -120,10 +120,10 @@ namespace XFiresecAPI
 					var ipAddress = GetGKIpAddress();
 					return ipAddress != null ? ipAddress : "";
 				}
-				if (Driver.HasAddress == false)
+				if (!Driver.HasAddress)
 					return "";
 
-				if (Driver.IsDeviceOnShleif == false)
+				if (!Driver.IsDeviceOnShleif)
 					return IntAddress.ToString();
 
 				var shleifNo = ShleifNo;
@@ -229,33 +229,38 @@ namespace XFiresecAPI
 			}
 		}
 
-		public string ShortNameAndDottedAddress
+		public override string PresentationName
 		{
-			get { return ShortName + " " + DottedAddress; }
+			get { return ShortName + " " + DottedPresentationAddress; }
 		}
 
-		public string PresentationAddressAndDriver
-		{
-			get
-			{
-				if (Driver.HasAddress)
-					return Address + " - " + ShortName;
-				return Driver.Name;
-			}
-		}
+		//public string ShortNameAndDottedAddress
+		//{
+		//    get { return ShortName + " " + DottedAddress; }
+		//}
 
-		public string PresentationDriverAndAddress
-		{
-			get
-			{
-				if (DriverType == XDriverType.GK)
-					return ShortName + " " + GetGKIpAddress();
+		//public string PresentationAddressAndDriver
+		//{
+		//    get
+		//    {
+		//        if (Driver.HasAddress)
+		//            return Address + " - " + ShortName;
+		//        return Driver.Name;
+		//    }
+		//}
 
-				if (Driver.HasAddress)
-					return ShortName + " - " + Address;
-				return ShortName;
-			}
-		}
+		//public string PresentationDriverAndAddress
+		//{
+		//    get
+		//    {
+		//        if (DriverType == XDriverType.GK)
+		//            return ShortName + " " + GetGKIpAddress();
+
+		//        if (Driver.HasAddress)
+		//            return ShortName + " - " + Address;
+		//        return ShortName;
+		//    }
+		//}
 
 		public void SetAddress(string address)
 		{
@@ -349,11 +354,6 @@ namespace XFiresecAPI
 			get { return KAURSR2Parent != null; }
 		}
 
-		public override string PresentationName
-		{
-			get { return ShortName + " " + DottedPresentationAddress; }
-		}
-
 		public override string DescriptorInfo
 		{
 			get { return "Устройство " + PresentationName; }
@@ -428,7 +428,7 @@ namespace XFiresecAPI
 
 		public bool CanBeNotUsed
 		{
-			get { return ((Parent != null) && (Parent.Driver.IsGroupDevice)); }
+			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
 		}
 
 		public void OnChanged()

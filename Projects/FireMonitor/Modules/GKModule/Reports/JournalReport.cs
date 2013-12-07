@@ -53,7 +53,7 @@ namespace GKModule.Reports
 				var objectName = "";
 				if (journalItemViewModel.Device != null)
 				{
-					objectName = journalItemViewModel.Device.PresentationAddressAndDriver;
+					objectName = journalItemViewModel.Device.PresentationName;
 				}
 				if (journalItemViewModel.Zone != null)
 				{

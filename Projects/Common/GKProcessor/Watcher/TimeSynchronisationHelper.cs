@@ -8,7 +8,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class TimeSynchronisationHelper
+	internal static class TimeSynchronisationHelper
 	{
 		static Thread Thread;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);

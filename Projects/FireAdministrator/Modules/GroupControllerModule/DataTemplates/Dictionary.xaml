@@ -28,6 +28,10 @@
         <Views:RSR2NewDeviceView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesOnShleifViewModel}">
+        <Views:DevicesOnShleifView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
 		<Views:PropertiesView />
 	</DataTemplate>

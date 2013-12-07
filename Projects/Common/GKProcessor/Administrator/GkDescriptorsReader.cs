@@ -109,7 +109,7 @@ namespace GKProcessor
 			DeviceConfiguration.RootDevice = rootDevice;
 			ushort descriptorNo = 0;
 			int count = 0;
-			LoadingService.Show("Чтение конфигурации " + device.PresentationDriverAndAddress);
+			LoadingService.Show("Чтение конфигурации " + device.PresentationName);
 			while (true)
 			{
 				descriptorNo++;

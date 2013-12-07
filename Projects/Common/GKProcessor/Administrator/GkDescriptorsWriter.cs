@@ -33,7 +33,7 @@ namespace GKProcessor
 					{
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
-						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : "");
+						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
 						LoadingService.Show(title, title, summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
@@ -79,7 +79,7 @@ namespace GKProcessor
 			{
 				if (LoadingService.IsCanceled)
 					return false;
-				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
+				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
 					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
 				LoadingService.DoStep(progressStage);
@@ -135,7 +135,7 @@ namespace GKProcessor
 
 		void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
-			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
+			LoadingService.DoStep(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора");
 			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}

@@ -49,7 +49,7 @@
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
                     <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>

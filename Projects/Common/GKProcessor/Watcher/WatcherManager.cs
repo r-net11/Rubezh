@@ -9,7 +9,7 @@ using Infrastructure;
 
 namespace GKProcessor
 {
-	public static class WatcherManager
+	internal class WatcherManager
 	{
 		public static List<Watcher> Watchers { get; private set; }
 		public static bool IsConfigurationReloading { get; set; }
