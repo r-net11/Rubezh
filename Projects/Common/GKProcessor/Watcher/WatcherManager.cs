@@ -39,11 +39,9 @@ namespace GKProcessor
 			try
 			{
 				foreach (var watcher in Watchers)
-				{
 					watcher.StopThread();
-					TimeSynchronisationHelper.Stop();
-					LifeTimeWatcher.Stop();
-				}
+				TimeSynchronisationHelper.Stop();
+				LifeTimeWatcher.Stop();
 			}
 			catch (Exception e)
 			{

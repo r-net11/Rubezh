@@ -74,6 +74,11 @@ namespace FiresecClient
 			}
 		}
 
+		public static string GetIP()
+		{
+			return FiresecService.Ping();
+		}
+
 		static string _userLogin;
 		public static User CurrentUser
 		{

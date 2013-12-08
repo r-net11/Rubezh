@@ -101,6 +101,11 @@ namespace FiresecService.Service
             SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
         }
 
+		public string Ping()
+		{
+			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
+		}
+
         public List<CallbackResult> Poll(Guid uid)
         {
             return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));

@@ -30,6 +30,8 @@ namespace FiresecAPI.Models
 					layout.UID = Guid.NewGuid();
 				if (layout.SplitterSize == 0)
 					layout.SplitterSize = 4;
+				if (layout.IPs == null)
+					layout.IPs = new List<string>();
 			}
 			return result;
 		}

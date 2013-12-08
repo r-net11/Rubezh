@@ -1,11 +1,17 @@
-﻿using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Media;
+using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutPropertiesViewModel : SaveCancelDialogViewModel
 	{
+		public class IPObject
+		{
+			public string IP { get; set; }
+		}
 		public Layout Layout { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
 
@@ -24,6 +30,10 @@ namespace LayoutModule.ViewModels
 			Description = Layout.Description;
 			SplitterColor = Layout.SplitterColor;
 			SplitterSize = Layout.SplitterSize;
+			BorderColor = Layout.BorderColor;
+			BorderThickness = Layout.BorderThickness;
+			IPs = new ObservableCollection<IPObject>();
+			Layout.IPs.ForEach(ip => IPs.Add(new IPObject() { IP = ip }));
 		}
 
 		private string _caption;
@@ -69,6 +79,29 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
+		private int _borderThickness;
+		public int BorderThickness
+		{
+			get { return _borderThickness; }
+			set
+			{
+				_borderThickness = value;
+				OnPropertyChanged(() => BorderThickness);
+			}
+		}
+		private Color _borderColor;
+		public Color BorderColor
+		{
+			get { return _borderColor; }
+			set
+			{
+				_borderColor = value;
+				OnPropertyChanged(() => BorderColor);
+			}
+		}
+
+		public ObservableCollection<IPObject> IPs { get; private set; }
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Caption);
@@ -80,6 +113,9 @@ namespace LayoutModule.ViewModels
 			LayoutUsersViewModel.Save();
 			Layout.SplitterColor = SplitterColor;
 			Layout.SplitterSize = SplitterSize;
+			Layout.BorderColor = BorderColor;
+			Layout.BorderThickness = BorderThickness;
+			Layout.IPs = IPs.Select(item => item.IP).ToList();
 			return base.Save();
 		}
 	}

@@ -149,5 +149,10 @@ namespace FiresecClient
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
-    }
+
+		public string Ping()
+		{
+			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
+		}
+	}
 }

@@ -127,5 +127,22 @@ namespace FiresecService.Service
 		{
 			return ZipConfigurationHelper.GetSecurityConfiguration();
 		}
+
+		public string Ping()
+		{
+			try
+			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				{
+					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+					return endpoint.Address;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecService.Ping");
+			}
+			return null;
+		}
 	}
 }

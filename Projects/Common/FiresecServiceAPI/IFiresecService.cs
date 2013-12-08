@@ -8,73 +8,76 @@ namespace FiresecAPI
 {
 	[ServiceContract]
 	public interface IFiresecService : IFiresecServiceSKUD, IGKService
-    {
-        #region Service
-        [OperationContract]
-        OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
+	{
+		#region Service
+		[OperationContract]
+		OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew);
 
-        [OperationContract]
-        OperationResult<bool> Reconnect(Guid uid, string userName, string password);
+		[OperationContract]
+		OperationResult<bool> Reconnect(Guid uid, string userName, string password);
 
-        [OperationContract(IsOneWay = true)]
+		[OperationContract(IsOneWay = true)]
 		void Disconnect(Guid uid);
 
-        [OperationContract]
-        List<CallbackResult> Poll(Guid uid);
+		[OperationContract]
+		List<CallbackResult> Poll(Guid uid);
 
-        [OperationContract]
-        string Test(string arg);
+		[OperationContract]
+		string Test(string arg);
 
-        [OperationContract(IsOneWay = true)]
-        void NotifyClientsOnConfigurationChanged();
+		[OperationContract(IsOneWay = true)]
+		void NotifyClientsOnConfigurationChanged();
 
 		[OperationContract]
 		SecurityConfiguration GetSecurityConfiguration();
-        #endregion
 
-        #region Journal
-        [OperationContract]
-        OperationResult<int> GetJournalLastId();
+		[OperationContract]
+		string Ping();
+		#endregion
 
-        [OperationContract]
-        OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
+		#region Journal
+		[OperationContract]
+		OperationResult<int> GetJournalLastId();
 
-        [OperationContract]
-        OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
+		[OperationContract]
+		OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
 
-        [OperationContract]
-        void BeginGetFilteredArchive(ArchiveFilter archiveFilter);
+		[OperationContract]
+		OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
 
-        [OperationContract]
-        OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
+		[OperationContract]
+		void BeginGetFilteredArchive(ArchiveFilter archiveFilter);
 
-        [OperationContract]
-        OperationResult<DateTime> GetArchiveStartDate();
+		[OperationContract]
+		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
 
-        [OperationContract()]
-        void AddJournalRecords(List<JournalRecord> journalRecords);
-        #endregion
+		[OperationContract]
+		OperationResult<DateTime> GetArchiveStartDate();
 
-        #region Files
-        [OperationContract]
-        List<string> GetFileNamesList(string directory);
+		[OperationContract()]
+		void AddJournalRecords(List<JournalRecord> journalRecords);
+		#endregion
 
-        [OperationContract]
-        Dictionary<string, string> GetDirectoryHash(string directory);
+		#region Files
+		[OperationContract]
+		List<string> GetFileNamesList(string directory);
 
-        [OperationContract]
-        Stream GetFile(string dirAndFileName);
+		[OperationContract]
+		Dictionary<string, string> GetDirectoryHash(string directory);
 
-        [OperationContract]
-        Stream GetConfig();
+		[OperationContract]
+		Stream GetFile(string dirAndFileName);
 
-        [OperationContract]
-        void SetConfig(Stream stream);
-        #endregion
+		[OperationContract]
+		Stream GetConfig();
 
-        #region Convertation
-        [OperationContract]
-        void SetJournal(List<JournalRecord> journalRecords);
-        #endregion
-    }
+		[OperationContract]
+		void SetConfig(Stream stream);
+		#endregion
+
+		#region Convertation
+		[OperationContract]
+		void SetJournal(List<JournalRecord> journalRecords);
+		#endregion
+	}
 }

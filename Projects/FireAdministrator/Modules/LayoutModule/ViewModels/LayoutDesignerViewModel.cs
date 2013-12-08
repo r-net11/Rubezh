@@ -12,6 +12,7 @@ using Xceed.Wpf.AvalonDock.Layout;
 using Infrastructure.Common;
 using Common;
 using System.Windows.Media;
+using System.Windows;
 
 namespace LayoutModule.ViewModels
 {
@@ -109,6 +110,8 @@ namespace LayoutModule.ViewModels
 					Manager.GridSplitterWidth = _layout.SplitterSize;
 					Manager.GridSplitterHeight = _layout.SplitterSize;
 					Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
+					Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor);
+					Manager.BorderThickness = new Thickness(_layout.BorderThickness);
 					Manager.Layout = new LayoutRoot();
 					if (!string.IsNullOrEmpty(_layout.Content))
 						using (var tr = new StringReader(_layout.Content))

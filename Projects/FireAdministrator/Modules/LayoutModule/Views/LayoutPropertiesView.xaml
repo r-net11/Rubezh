@@ -17,10 +17,22 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Пользователи">
-			<ContentPresenter Content="{Binding LayoutUsersViewModel}" Margin="-5" />
+			<ContentPresenter Margin="-5" Content="{Binding LayoutUsersViewModel}" />
 		</TabItem>
 		<TabItem Header="Фильтр IP">
-			<ContentPresenter Content="{Binding LayoutUsersViewModel}" Margin="-5" />
+			<DataGrid Margin="-5" CanUserAddRows="True" CanUserDeleteRows="True" IsReadOnly="False" ItemsSource="{Binding IPs}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Width="*">
+						<DataGridTextColumn.Binding>
+							<Binding Path="IP" ValidatesOnDataErrors="True" ValidatesOnExceptions="True" UpdateSourceTrigger="LostFocus">
+								<Binding.ValidationRules>
+									<IPValidationRule />
+								</Binding.ValidationRules>
+							</Binding>
+						</DataGridTextColumn.Binding>
+					</DataGridTextColumn>
+				</DataGrid.Columns>
+			</DataGrid>
 		</TabItem>
 		<TabItem Header="Стиль">
 			<Grid>
@@ -31,13 +43,19 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Column="0" Grid.Row="0" Content="Ширина разделителя" HorizontalAlignment="Right" />
-				<Label Grid.Column="0" Grid.Row="1" Content="Цвет разделителя" HorizontalAlignment="Right" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина разделителя" />
+				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет разделителя" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
+				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
 
-				<extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding SplitterSize, UpdateSourceTrigger=PropertyChanged}" Margin="2" Minimum="1" Maximum="100" />
-				<xc:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding SplitterColor, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Margin="2" Maximum="100" Minimum="1" Value="{Binding SplitterSize, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding SplitterColor, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

@@ -177,8 +177,10 @@
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
+    <Compile Include="IPValidationRule.cs" />
     <Compile Include="Layout\RubezhTheme.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
+    <Compile Include="Masking.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />

@@ -26,7 +26,8 @@ namespace FireMonitor.Layout
 
 		protected override bool Run()
 		{
-			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID)).ToList();
+			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.IPs.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
 				ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
