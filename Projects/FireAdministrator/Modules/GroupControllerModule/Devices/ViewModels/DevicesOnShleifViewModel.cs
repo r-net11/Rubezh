@@ -24,15 +24,11 @@ namespace GKModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy);
 			RemoveCommand = new RelayCommand(OnRemove);
 
-			CopyDevices = new List<XDevice>();
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>();
-			foreach (var device in XManager.GetAllDeviceChildren(shleifDevice))
+			foreach (var device in shleifDevice.Children)
 			{
-				if (device.IsRealDevice)
-				{
-					var deviceOnShleifViewModel = new DeviceOnShleifViewModel(device);
-					Devices.Add(deviceOnShleifViewModel);
-				}
+				var deviceOnShleifViewModel = new DeviceOnShleifViewModel(device);
+				Devices.Add(deviceOnShleifViewModel);
 			}
 		}
 
@@ -60,52 +56,29 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			CopyDevices = new List<XDevice>();
+			var devicesToCopy = new List<XDevice>();
 			foreach (var device in Devices)
 			{
 				if (device.IsActive)
 				{
-					CopyDevices.Add(device.Device);
+					devicesToCopy.Add(device.Device);
 				}
 			}
+			DevicesViewModel.Current.DevicesToCopy = devicesToCopy;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			// Group devices, mpt, mro
 			foreach (var deviceOnShleif in Devices)
 			{
 				if (deviceOnShleif.IsActive)
 				{
-					if (deviceOnShleif.Device.Parent.Driver.IsGroupDevice)
-					{
-						foreach (var childDevice in deviceOnShleif.Device.Children)
-						{
-							var device = Devices.FirstOrDefault(x => x.Device == childDevice);
-							if (device != null)
-							{
-								if (!device.IsActive)
-								{
-									MessageBoxService.ShowError("Групповое устройство " + deviceOnShleif.Device.Parent.PredefinedName + " можно удалить только пометив все его дочерние устройста");
-									return;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			foreach (var device in Devices)
-			{
-				if (device.IsActive)
-				{
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.First(x => x.Device == device.Device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == deviceOnShleif.Device);
 					if (deviceViewModel != null)
 					{
 						deviceViewModel.RemoveCommand.Execute();
 					}
-					//XManager.RemoveDevice(device.Device);
 				}
 			}
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));

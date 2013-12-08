@@ -40,6 +40,7 @@ namespace GKModule
 		OPCZonesViewModel OPCZonesViewModel;
 		OPCDirectionsViewModel OPCDirectionsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
+		DescriptorsViewModel DescriptorsViewModel;
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -63,6 +64,7 @@ namespace GKModule
 			OPCZonesViewModel = new OPCZonesViewModel();
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
+			DescriptorsViewModel = new DescriptorsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
 		}
 
@@ -106,6 +108,9 @@ namespace GKModule
 							new NavigationItem<ShowXOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 						}),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+#if DEBUG
+					new NavigationItem<ShowXDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Bug.png"),
+					#endif
 				};
 		}
 		public override string Name

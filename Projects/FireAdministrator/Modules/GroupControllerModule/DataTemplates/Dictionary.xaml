@@ -136,6 +136,14 @@
         <Views:DiagnosticsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DescriptorsViewModel}">
+        <Views:DescriptorsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DescriptorsMenuViewModel}">
+        <Views:DescriptorsMenuView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
         <Views:GuardView />
     </DataTemplate>

@@ -6,6 +6,7 @@
       <Component Id="ManagementConsole.Files" Guid="CB85AFC6-23E7-44A5-997B-27CDB4C8DEAC">
         <File Id="ManagementConsole.ManagementConsole.exe" Name="$(var.ManagementConsole.TargetFileName)" Source="$(var.ManagementConsole.TargetPath)" KeyPath="yes" />
         <File Id="ManagementConsole.Common.dll" Name="Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
+        <File Id="ManagementConsole.Controls.dll" Name="Controls.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.ManagementConsole.TargetDir)" />
         <File Id="ManagementConsole.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.ManagementConsole.TargetDir)" />

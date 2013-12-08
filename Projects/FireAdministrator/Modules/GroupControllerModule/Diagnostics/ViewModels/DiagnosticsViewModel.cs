@@ -22,7 +22,6 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			UpdateDescriptorsCommand = new RelayCommand(OnUpdateDescriptors);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
 			ConvertExitToReleCommand = new RelayCommand(OnConvertExitToRele);
@@ -82,26 +81,6 @@ namespace GKModule.ViewModels
 			DevicesViewModel.Current.Initialize();
 			ZonesViewModel.Current.Initialize();
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand UpdateDescriptorsCommand { get; private set; }
-		void OnUpdateDescriptors()
-		{
-			DescriptorsManager.Create();
-			DatabasesViewModel = new DescriptorsViewModel();
-			OnPropertyChanged("DatabasesViewModel");
-			foreach (var database in DatabasesViewModel.Databases)
-			{
-				foreach (var descriptor in database.Descriptors)
-				{
-					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
-					if (isFormulaInvalid)
-					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.XBase.GKDescriptorNo + " " + descriptor.XBase.PresentationName);
-						return;
-					}
-				}
-			}
 		}
 
 		public RelayCommand ConvertToFiresecCommand { get; private set; }

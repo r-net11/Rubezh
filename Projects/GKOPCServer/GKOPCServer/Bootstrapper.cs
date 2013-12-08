@@ -69,7 +69,6 @@ namespace GKOPCServer
 
 		public static void Close()
 		{
-			WatcherManager.Stop();
 			FiresecManager.Disconnect();
 			if (WindowThread != null)
 			{

@@ -38,8 +38,8 @@ namespace FiresecClient
 				});
 			}
 
-			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs;
-			deviceTo.Zones = deviceFrom.Zones;
+			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
+			deviceTo.Zones = deviceFrom.Zones.ToList();
 			foreach (var clause in deviceFrom.DeviceLogic.Clauses)
 			{
 				var clonedClause = new XClause()
