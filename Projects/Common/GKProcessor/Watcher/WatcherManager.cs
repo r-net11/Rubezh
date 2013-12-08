@@ -5,7 +5,6 @@ using Common;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
-using Infrastructure;
 
 namespace GKProcessor
 {
@@ -39,14 +38,10 @@ namespace GKProcessor
 			try
 			{
 				if (Watchers != null)
-				{
 					foreach (var watcher in Watchers)
-					{
 						watcher.StopThread();
-						TimeSynchronisationHelper.Stop();
-						LifeTimeWatcher.Stop();
-					}
-				}
+				TimeSynchronisationHelper.Stop();
+				LifeTimeWatcher.Stop();
 			}
 			catch (Exception e)
 			{
