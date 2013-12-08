@@ -9,7 +9,7 @@ namespace GKProcessor
 {
 	public class KauDescriptorsReaderBase : DescriptorReaderBase
 	{
-		static XDevice KauDevice { get; set; }
+		XDevice KauDevice { get; set; }
 		List<int> descriptorAddresses;
 
 		override public bool ReadConfiguration(XDevice kauDevice)
@@ -31,7 +31,7 @@ namespace GKProcessor
 			LoadingService.DoStep("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				LoadingService.Show("Чтение конфигурации " + kauDevice.PresentationDriverAndAddress, "", descriptorAddresses.Count + 1, true);
+				LoadingService.Show("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (LoadingService.IsCanceled)
@@ -47,6 +47,8 @@ namespace GKProcessor
 			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
+			UpdateConfigurationHelper.Update(DeviceConfiguration);
+			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			LoadingService.SaveClose();
 			return String.IsNullOrEmpty(Error);
 		}

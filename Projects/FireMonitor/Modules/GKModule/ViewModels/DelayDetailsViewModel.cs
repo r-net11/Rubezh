@@ -18,15 +18,15 @@ namespace GKModule.ViewModels
 	public class DelayDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public XDelay Delay { get; private set; }
-		public XDelayState DelayState { get; private set; }
+		public XState State { get; private set; }
 		public DelayViewModel DelayViewModel { get; private set; }
 
 		public DelayDetailsViewModel(XDelay delay)
 		{
 			Delay = delay;
-			DelayState = Delay.DelayState;
-			DelayViewModel = new DelayViewModel(DelayState);
-			DelayState.StateChanged += new Action(OnStateChanged);
+			State = Delay.State;
+			DelayViewModel = new DelayViewModel(State);
+			State.StateChanged += new Action(OnStateChanged);
 
 			ShowCommand = new RelayCommand(OnShow);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("StateClasses");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
-			OnPropertyChanged("DelayState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			CommandManager.InvalidateRequerySuggested();
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var stateClasses = DelayState.StateClasses.ToList();
+				var stateClasses = State.StateClasses.ToList();
 				stateClasses.Sort();
 				return stateClasses;
 			}
@@ -65,10 +65,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DelayState.StateClasses.Contains(XStateClass.Ignore))
+				if (State.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (!DelayState.StateClasses.Contains(XStateClass.AutoOff))
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -148,11 +148,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DelayState.StateClasses.Contains(XStateClass.TurningOn) && DelayState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DelayState.StateClasses.Contains(XStateClass.On) && DelayState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 
 		public override void OnClosed()
 		{
-			DelayState.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 }

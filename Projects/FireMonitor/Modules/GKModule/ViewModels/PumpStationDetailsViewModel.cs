@@ -18,15 +18,15 @@ namespace GKModule.ViewModels
 	public class PumpStationDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public XPumpStation PumpStation { get; private set; }
-		public XPumpStationState PumpStationState { get; private set; }
+		public XState State { get; private set; }
 		public PumpStationViewModel PumpStationViewModel { get; private set; }
 
 		public PumpStationDetailsViewModel(XPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
-			PumpStationState = PumpStation.PumpStationState;
-			PumpStationViewModel = new PumpStationViewModel(PumpStationState);
-			PumpStationState.StateChanged += new Action(OnStateChanged);
+			State = PumpStation.State;
+			PumpStationViewModel = new PumpStationViewModel(State);
+			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("StateClasses");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
-			OnPropertyChanged("PumpStationState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			CommandManager.InvalidateRequerySuggested();
@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var stateClasses = PumpStationState.StateClasses.ToList();
+				var stateClasses = State.StateClasses.ToList();
 				stateClasses.Sort();
 				return stateClasses;
 			}
@@ -84,10 +84,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (PumpStationState.StateClasses.Contains(XStateClass.Ignore))
+				if (State.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (!PumpStationState.StateClasses.Contains(XStateClass.AutoOff))
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -188,11 +188,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return PumpStationState.StateClasses.Contains(XStateClass.TurningOn) && PumpStationState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return PumpStationState.StateClasses.Contains(XStateClass.On) && PumpStationState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -226,7 +226,7 @@ namespace GKModule.ViewModels
 
 		public override void OnClosed()
 		{
-			PumpStationState.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 }

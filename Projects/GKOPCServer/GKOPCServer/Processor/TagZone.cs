@@ -5,13 +5,13 @@ namespace GKOPCServer
 {
 	public class TagZone : TagBase
 	{
-		public XZoneState ZoneState { get; private set; }
+		public XState ZoneState { get; private set; }
 
-		public TagZone(int tagId, XZoneState zoneState)
+		public TagZone(int tagId, XState state)
 		{
 			TagId = tagId;
-			ZoneState = zoneState;
-			zoneState.StateChanged += new System.Action(OnStateChanged);
+			ZoneState = state;
+			state.StateChanged += new System.Action(OnStateChanged);
 		}
 
 		void OnStateChanged()

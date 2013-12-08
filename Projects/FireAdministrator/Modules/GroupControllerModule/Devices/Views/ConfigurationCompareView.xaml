@@ -23,7 +23,7 @@
                 <DataTrigger Binding ="{Binding IsPresent}" Value="True">
                     <Setter Property="Background" Value="Red" />
                 </DataTrigger >
-                <DataTrigger Binding ="{Binding HasSecondDifferences}" Value="True">
+                <DataTrigger Binding ="{Binding HasNonStructureDifferences}" Value="True">
                     <Setter Property="Background" Value="LightPink" />
                 </DataTrigger >
                 <DataTrigger Binding ="{Binding IsAbsent}" Value="True">

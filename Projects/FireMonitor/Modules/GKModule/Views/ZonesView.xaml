@@ -20,7 +20,7 @@
 									<Setter Property="Margin" Value="0" />
 									<Setter Property="VerticalContentAlignment" Value="Center" />
 									<Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" />
+                                    <Setter Property="Background" Value="{Binding State.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}" />
 									<Setter Property="BorderThickness" Value="1" />
 									<Setter Property="BorderBrush" Value="Transparent" />
 									<Setter Property="Foreground" Value="Black" />
@@ -40,7 +40,7 @@
 							</ListBox.ItemContainerStyle>
 							<ListBox.ItemTemplate>
 								<DataTemplate>
-                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding ZoneState.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}">
+                                    <Grid Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{Binding State.StateClass, Converter={StaticResource XStateClassToZoneColorConverter}}">
                                         <Grid.ToolTip>
                                             <Views:ZoneToolTipView />
                                         </Grid.ToolTip>
@@ -106,7 +106,7 @@
 				</Grid>
 				<StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
                     <Label Margin="0" Content="{Binding Zone.PresentationName}" />
-                    <ItemsControl Margin="2" ItemsSource="{Binding ZoneState.StateClasses}">
+                    <ItemsControl Margin="2" ItemsSource="{Binding State.StateClasses}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
                                 <StackPanel Orientation="Horizontal">

@@ -15,19 +15,19 @@ namespace GKModule.ViewModels
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
-		public XDeviceState DeviceState { get; private set; }
+		public XState State { get; private set; }
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DeviceViewModel(XDevice device)
 		{
 			Device = device;
-			DeviceState = Device.DeviceState;
-			DeviceStateViewModel = new DeviceStateViewModel(DeviceState);
-			DeviceState.StateChanged += new Action(OnStateChanged);
+			State = Device.State;
+			DeviceStateViewModel = new DeviceStateViewModel(State);
+			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(State);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
@@ -39,12 +39,12 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("DeviceStateViewModel");
 
 			if (Device.DriverType == XDriverType.MPT)
 			{
-				if (DeviceState.StateClass == XStateClass.TurningOn)
+				if (State.StateClass == XStateClass.TurningOn)
 				{
 					ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
 				}
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-			return Device.IsRealDevice && !Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.IsRealDevice && !Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
         }
 		bool CanResetIgnore()
 		{
-			return Device.IsRealDevice && Device.DeviceState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.IsRealDevice && Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
 
@@ -137,7 +137,7 @@ namespace GKModule.ViewModels
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)
 				{
-					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
 					}
@@ -153,7 +153,7 @@ namespace GKModule.ViewModels
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)
 				{
-					if (device.IsRealDevice && !device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 			}
@@ -168,7 +168,7 @@ namespace GKModule.ViewModels
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)
 				{
-					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(device);
 					}
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 				var devices = XManager.GetAllDeviceChildren(Device);
 				foreach (var device in devices)
 				{
-					if (device.IsRealDevice && device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
 				}
 			}

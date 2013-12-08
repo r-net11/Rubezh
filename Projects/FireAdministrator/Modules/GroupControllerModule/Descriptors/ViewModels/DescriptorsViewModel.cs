@@ -3,14 +3,25 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
-	public class DescriptorsViewModel : BaseViewModel
+	public class DescriptorsViewModel : MenuViewPartViewModel
 	{
 		public DescriptorsViewModel()
 		{
-			Databases = new List<CommonDatabase>();
+			Menu = new DescriptorsMenuViewModel(this);
+			RefreshCommand = new RelayCommand(OnRefresh);
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			DescriptorsManager.Create();
+			Databases = new ObservableCollection<CommonDatabase>();
 			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
 			{
 				Databases.Add(gkDatabase);
@@ -20,9 +31,31 @@ namespace GKModule.ViewModels
 				Databases.Add(kauDatabase);
 			}
 			SelectedDatabase = Databases.FirstOrDefault();
+
+			foreach (var database in Databases)
+			{
+				foreach (var descriptor in database.Descriptors)
+				{
+					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
+					if (isFormulaInvalid)
+					{
+						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.XBase.GKDescriptorNo + " " + descriptor.XBase.PresentationName);
+						return;
+					}
+				}
+			}
 		}
 
-		public List<CommonDatabase> Databases { get; private set; }
+		ObservableCollection<CommonDatabase> _databases;
+		public ObservableCollection<CommonDatabase> Databases
+		{
+			get { return _databases; }
+			set
+			{
+				_databases = value;
+				OnPropertyChanged("Databases");
+			}
+		}
 
 		CommonDatabase _selectedDatabase;
         public CommonDatabase SelectedDatabase

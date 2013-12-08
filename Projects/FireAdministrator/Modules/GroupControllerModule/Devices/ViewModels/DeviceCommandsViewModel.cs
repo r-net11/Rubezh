@@ -26,7 +26,7 @@ namespace GKModule.Models
 			_devicesViewModel = devicesViewModel;
 
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
-			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfiguration);
+			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfigFile);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
@@ -95,7 +95,11 @@ namespace GKModule.Models
 						var fileWritingViewModel = new FileWritingViewModel();
 						DialogService.ShowModalWindow(fileWritingViewModel);
 					}
-					FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
 					ServiceFactory.SaveService.GKChanged = false;
 				}
 			}
@@ -129,8 +133,9 @@ namespace GKModule.Models
 		void OnReadConfigFile()
 		{
 			DescriptorsManager.Create();
-			var deviceConfiguration = GKFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
-			if (String.IsNullOrEmpty(GKFileReaderWriter.Error))
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
+			if (String.IsNullOrEmpty(gkFileReaderWriter.Error))
 			{
 				XManager.UpdateConfiguration();
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
@@ -139,12 +144,17 @@ namespace GKModule.Models
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
-				MessageBoxService.ShowError(GKFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
+				MessageBoxService.ShowError(gkFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
 		}
 
 		bool CanReadConfiguration()
 		{
 			return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK));
+		}
+
+		bool CanReadConfigFile()
+		{
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }

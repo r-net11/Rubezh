@@ -8,11 +8,11 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class GkDescriptorsWriter
+	public class GkDescriptorsWriter
 	{
-		public static string Error { get; private set; }
+		public string Error { get; private set; }
 
-		public static void WriteConfig(XDevice gkDevice, bool writeFileToGK = false)
+		public void WriteConfig(XDevice gkDevice, bool writeFileToGK)
 		{
 			try
 			{
@@ -33,7 +33,7 @@ namespace GKProcessor
 					{
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
-						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress + (i > 0 ? " Попытка " + (i + 1) : "");
+						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
 						LoadingService.Show(title, title, summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
@@ -55,10 +55,10 @@ namespace GKProcessor
 						if (!WriteConfigToDevice(gkDatabase))
 							{ Error = "Не удалось записать дескриптор ГК"; continue; }
 
-						GKFileReaderWriter.WriteFileToGK(gkDevice, writeFileToGK);
-						if (!String.IsNullOrEmpty(GKFileReaderWriter.Error))
-							{ Error = GKFileReaderWriter.Error; break; }
-
+						var gkFileReaderWriter = new GKFileReaderWriter();
+						gkFileReaderWriter.WriteFileToGK(gkDevice, writeFileToGK);
+						if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+							{ Error = gkFileReaderWriter.Error; break; }
 						if (gkDatabase.KauDatabases.Any(kauDatabase => !DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice)))
 							{ Error = "Не удалось перевести КАУ в рабочий режим"; }
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice))
@@ -73,13 +73,13 @@ namespace GKProcessor
 				{ LoadingService.Close(); }
 		}
 	
-		static bool WriteConfigToDevice(CommonDatabase commonDatabase)
+		bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			foreach (var descriptor in commonDatabase.Descriptors)
 			{
 				if (LoadingService.IsCanceled)
 					return false;
-				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
+				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
 					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
 				LoadingService.DoStep(progressStage);
@@ -100,7 +100,7 @@ namespace GKProcessor
 			return true;
 		}
 
-		static List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
+		List<List<byte>> CreateDescriptors(BaseDescriptor descriptor)
 		{
 			var objectNo = (ushort)(descriptor.GetDescriptorNo());
 
@@ -123,7 +123,7 @@ namespace GKProcessor
 			return packs;
 		}
 
-		static List<byte> CreateEndDescriptor(ushort descriptorNo)
+		List<byte> CreateEndDescriptor(ushort descriptorNo)
 		{
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
@@ -133,9 +133,9 @@ namespace GKProcessor
 			return resultBytes;
 		}
 
-		static void WriteEndDescriptor(CommonDatabase commonDatabase)
+		void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
-			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
+			LoadingService.DoStep(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора");
 			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}

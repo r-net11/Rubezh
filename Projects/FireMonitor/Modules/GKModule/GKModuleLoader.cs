@@ -141,7 +141,7 @@ namespace GKModule
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
 			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
-			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
+			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
@@ -188,10 +188,11 @@ namespace GKModule
 
 		public override void AfterInitialize()
 		{
+			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
 			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
-			JournalsViewModel.GetTopLast();			
+			JournalsViewModel.GetTopLast();
 		}
 
 		#region ILayoutProviderModule Members

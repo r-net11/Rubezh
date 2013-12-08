@@ -10,23 +10,15 @@ namespace XFiresecAPI
 	public class GKCallbackResult
 	{
 		[DataMember]
-		public List<JournalItem> JournalItems { get; private set; }
+		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public List<XDeviceState> DeviceStates { get; private set; }
-
-		[DataMember]
-		public List<XZoneState> ZoneStates { get; private set; }
-
-		[DataMember]
-		public List<XDirectionState> DirectionStates { get; private set; }
+		public GKStates GKStates { get; set; }
 
 		public GKCallbackResult()
 		{
 			JournalItems = new List<JournalItem>();
-			DeviceStates = new List<XDeviceState>();
-			ZoneStates = new List<XZoneState>();
-			DirectionStates = new List<XDirectionState>();
+			GKStates = new GKStates();
 		}
 	}
 }

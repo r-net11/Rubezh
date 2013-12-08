@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 	{
 		Guid _guid;
 		public XZone Zone { get; private set; }
-		public XZoneState ZoneState { get; private set; }
+		public XState State { get; private set; }
 
 		public ZoneDetailsViewModel(XZone zone)
 		{
@@ -31,8 +31,8 @@ namespace GKModule.ViewModels
 
 			_guid = zone.UID;
 			Zone = zone;
-			ZoneState = Zone.ZoneState;
-			ZoneState.StateChanged += new Action(OnStateChanged);
+			State = Zone.State;
+			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
 			Title = Zone.PresentationName;
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("ZoneState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("ResetFireCommand");
 			OnPropertyChanged("SetIgnoreCommand");
 			OnPropertyChanged("ResetIgnoreCommand");
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
         }
 		bool CanResetFire()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Fire2) || ZoneState.StateClasses.Contains(XStateClass.Fire1) || ZoneState.StateClasses.Contains(XStateClass.Attention);
+			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
         }
 		bool CanSetIgnore()
 		{
-			return !ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -115,7 +115,7 @@ namespace GKModule.ViewModels
         }
 		bool CanResetIgnore()
 		{
-			return ZoneState.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 
 		public override void OnClosed()
 		{
-			ZoneState.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 }

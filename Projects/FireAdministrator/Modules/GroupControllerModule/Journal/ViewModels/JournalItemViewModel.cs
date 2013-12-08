@@ -130,19 +130,24 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
+					if (XManager.Devices.Any(x => x.UID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
+					}
 					break;
 
 				case JournalItemType.Zone:
-					ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(JournalItem.ObjectUID);
+					if (XManager.Zones.Any(x => x.UID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(JournalItem.ObjectUID);
+					}
 					break;
 
 				case JournalItemType.Direction:
-					ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
-					break;
-
-				case JournalItemType.GK:
-					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
+					if (XManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
+					}
 					break;
 			}
 		}
@@ -153,7 +158,6 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
-				case JournalItemType.GK:
 					return true;
 			}
 			return false;

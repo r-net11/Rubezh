@@ -228,9 +228,9 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
-		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
 		{
-			SafeOperationCall(() => { FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");
+			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");
 		}
 
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
@@ -335,6 +335,16 @@ namespace FiresecService.Service
 		public void GKStop(Guid uid, XBaseObjectType objectType)
 		{
 			SafeOperationCall(() => { FiresecService.GKStop(uid, objectType); }, "GKStop");
+		}
+
+		public void GKStartMeasureMonitoring(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(deviceUID); }, "GKStartMeasureMonitoring");
+		}
+
+		public void GKStopMeasureMonitoring(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
 		#endregion
 	}

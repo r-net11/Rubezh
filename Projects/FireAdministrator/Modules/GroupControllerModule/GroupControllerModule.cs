@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -39,6 +40,7 @@ namespace GKModule
 		OPCZonesViewModel OPCZonesViewModel;
 		OPCDirectionsViewModel OPCDirectionsViewModel;
 		DiagnosticsViewModel DiagnosticsViewModel;
+		DescriptorsViewModel DescriptorsViewModel;
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -62,6 +64,7 @@ namespace GKModule
 			OPCZonesViewModel = new OPCZonesViewModel();
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
+			DescriptorsViewModel = new DescriptorsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
 		}
 
@@ -92,7 +95,7 @@ namespace GKModule
 					new NavigationItem<ShowXParameterTemplatesEvent, Guid>(ParameterTemplatesViewModel, "Шаблоны","/Controls;component/Images/briefcase.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
@@ -105,6 +108,9 @@ namespace GKModule
 							new NavigationItem<ShowXOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 						}),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+#if DEBUG
+					new NavigationItem<ShowXDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Bug.png"),
+					#endif
 				};
 		}
 		public override string Name
@@ -152,6 +158,8 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
+			____ConvertExitToRele____();
+
 			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
 			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
@@ -192,6 +200,33 @@ namespace GKModule
 						return;
 				}
 			});
+		}
+
+		void ____ConvertExitToRele____()
+		{
+			bool hasChanged = false;
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GKLine)
+				{
+					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GKRele);
+					device.Driver = driver;
+					device.DriverUID = driver.UID;
+					hasChanged = true;
+				}
+			}
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.GK)
+				{
+					UpdateConfigurationHelper.UpdateGKPredefinedName(device);
+				}
+			}
+			if (hasChanged)
+			{
+				XManager.UpdateConfiguration();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 		}
 
 		#region ILayoutDeclarationModule Members

@@ -6,18 +6,18 @@ namespace GKOPCServer
 {
 	public class TagDevice : TagBase
 	{
-		public XDeviceState DeviceState { get; private set; }
+		public XState State { get; private set; }
 
-		public TagDevice(int tagId, XDeviceState deviceState)
+		public TagDevice(int tagId, XState state)
 		{
 			TagId = tagId;
-			DeviceState = deviceState;
-			deviceState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			state.StateChanged += new System.Action(OnStateChanged);
 		}
 
 		void OnStateChanged()
 		{
-			ChangedState(DeviceState.StateClass);
+			ChangedState(State.StateClass);
 		}
 	}
 }

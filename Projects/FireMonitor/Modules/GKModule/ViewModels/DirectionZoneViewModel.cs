@@ -8,8 +8,8 @@ namespace GKModule.ViewModels
 {
 	public class DirectionZoneViewModel : ZoneViewModel
 	{
-		public DirectionZoneViewModel(XZoneState zoneState)
-			: base(zoneState)
+		public DirectionZoneViewModel(XState state)
+			: base(state)
 		{
 		
 		}

@@ -84,6 +84,7 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowXDescriptorsEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />

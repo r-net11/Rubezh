@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
-namespace GKProcessor
+namespace GKModule.ViewModels
 {
 	public class AUParameterValue : BaseViewModel
 	{

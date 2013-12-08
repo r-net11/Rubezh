@@ -94,6 +94,7 @@
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePumpStationViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\GKAddressViewModel.cs" />
@@ -101,7 +102,11 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
+    <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
+    <Compile Include="ViewModels\AUParameterValue.cs" />
+    <Compile Include="ViewModels\__DeviceDetailsViewModel__.cs" />
+    <Compile Include="Views\ToolTip\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
@@ -130,13 +135,13 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveZoneViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveDeviceViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\StateClassViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveDirectionViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDirectionViewModel.cs" />
     <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>
@@ -152,7 +157,6 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ParameterUpdateHelper.cs" />
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />
@@ -348,7 +352,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="Plans\Views\DeviceTooltipView.xaml">
+    <Page Include="Views\ToolTip\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

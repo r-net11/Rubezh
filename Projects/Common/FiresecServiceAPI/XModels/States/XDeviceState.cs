@@ -14,8 +14,6 @@ namespace XFiresecAPI
 
 			if (device.DriverType == XDriverType.System)
 				IsInitialState = false;
-
-			MeasureParameter = new XMeasureParameter();
 		}
 
 		List<XStateBit> _stateBitss = new List<XStateBit>();
@@ -42,7 +40,7 @@ namespace XFiresecAPI
 				OnInternalStateChanged();
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 				{
-					Device.Parent.DeviceState.OnInternalStateChanged();
+					Device.Parent.InternalState.OnInternalStateChanged();
 				}
 			}
 		}
@@ -61,36 +59,36 @@ namespace XFiresecAPI
 			}
 		}
 
-		public override List<XStateClass> InternalStateClasses
+		public override List<XStateClass> StateClasses
 		{
 			get
 			{
-				var stateClasses = base.InternalStateClasses;
+				var stateClasses = base.StateClasses;
 				if (!IsConnectionLost && IsService)
 				{
 					stateClasses.Add(XStateClass.Service);
+					if (stateClasses.Contains(XStateClass.Service))
+						stateClasses.Remove(XStateClass.Service);
 				}
 				return stateClasses;
 			}
 		}
 
-		public override XStateClass InternalStateClass
+		public override XStateClass StateClass
 		{
 			get
 			{
-				if (Device.Driver.IsGroupDevice)
+				if (Device.Driver.IsGroupDevice || Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
 					var childStateClasses = new List<XStateClass>();
 					foreach (var child in Device.Children)
 					{
-						childStateClasses.AddRange(child.DeviceState.InternalStateClasses);
+						childStateClasses.Add(child.InternalState.StateClass);
 					}
 					return XStatesHelper.GetMinStateClass(childStateClasses);
 				}
-				return XStatesHelper.GetMinStateClass(InternalStateClasses);
+				return XStatesHelper.GetMinStateClass(StateClasses);
 			}
 		}
-
-		public XMeasureParameter MeasureParameter { get; set; }
 	}
 }

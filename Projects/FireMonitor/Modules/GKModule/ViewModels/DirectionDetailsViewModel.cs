@@ -18,15 +18,15 @@ namespace GKModule.ViewModels
 	public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public XDirection Direction { get; private set; }
-		public XDirectionState DirectionState { get; private set; }
+		public XState State { get; private set; }
 		public DirectionViewModel DirectionViewModel { get; private set; }
 
 		public DirectionDetailsViewModel(XDirection direction)
 		{
 			Direction = direction;
-			DirectionState = Direction.DirectionState;
-			DirectionViewModel = new DirectionViewModel(DirectionState);
-			DirectionState.StateChanged += new Action(OnStateChanged);
+			State = Direction.State;
+			DirectionViewModel = new DirectionViewModel(State);
+			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("StateClasses");
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
-			OnPropertyChanged("DirectionState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 			CommandManager.InvalidateRequerySuggested();
@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var stateClasses = DirectionState.StateClasses.ToList();
+				var stateClasses = State.StateClasses.ToList();
 				stateClasses.Sort();
 				return stateClasses;
 			}
@@ -87,10 +87,10 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (DirectionState.StateClasses.Contains(XStateClass.Ignore))
+				if (State.StateClasses.Contains(XStateClass.Ignore))
 					return DeviceControlRegime.Ignore;
 
-				if (!DirectionState.StateClasses.Contains(XStateClass.AutoOff))
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
 					return DeviceControlRegime.Automatic;
 
 				return DeviceControlRegime.Manual;
@@ -191,11 +191,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.StateClasses.Contains(XStateClass.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.StateClasses.Contains(XStateClass.On) && DirectionState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public RelayCommand ShowCommand { get; private set; }
@@ -248,7 +248,7 @@ namespace GKModule.ViewModels
 
 		public override void OnClosed()
 		{
-			DirectionState.StateChanged -= new Action(OnStateChanged);
+			State.StateChanged -= new Action(OnStateChanged);
 		}
 	}
 }

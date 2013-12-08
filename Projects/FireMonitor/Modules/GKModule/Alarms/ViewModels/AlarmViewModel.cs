@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Alarm.Device != null)
-                    return Alarm.Device.PresentationDriverAndAddress;
+					return Alarm.Device.PresentationName;
 				if (Alarm.Zone != null)
 					return Alarm.Zone.PresentationName;
 				if (Alarm.Direction != null)
@@ -64,11 +64,11 @@ namespace GKModule.ViewModels
 			get
 			{
 				if (Alarm.Device != null)
-					return Alarm.Device.DeviceState.StateClass;
+					return Alarm.Device.State.StateClass;
 				if (Alarm.Zone != null)
-					return Alarm.Zone.ZoneState.StateClass;
+					return Alarm.Zone.State.StateClass;
 				if (Alarm.Direction != null)
-					return Alarm.Direction.DirectionState.StateClass;
+					return Alarm.Direction.State.StateClass;
 				return XStateClass.Norm;
 			}
 		}
@@ -226,7 +226,7 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device.DriverType == XDriverType.AMP_1 || Alarm.Device.DriverType == XDriverType.RSR2_MAP4)
 				{
-					return Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Fire1);
+					return Alarm.Device.State.StateClasses.Contains(XStateClass.Fire2) || Alarm.Device.State.StateClasses.Contains(XStateClass.Fire1);
 				}
 			}
 			return false;
@@ -243,7 +243,7 @@ namespace GKModule.ViewModels
             {
                 if (Alarm.Device != null)
                 {
-                    if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
                     {
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
                     }
@@ -251,7 +251,7 @@ namespace GKModule.ViewModels
 
                 if (Alarm.Zone != null)
                 {
-                    if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+                    if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
                     {
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
                     }
@@ -259,7 +259,7 @@ namespace GKModule.ViewModels
 
                 if (Alarm.Direction != null)
                 {
-                    if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
                     {
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
                     }
@@ -276,19 +276,19 @@ namespace GKModule.ViewModels
 
 			if (Alarm.Device != null)
 			{
-				if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Zone != null)
 			{
-				if (Alarm.Zone.ZoneState.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 
 			if (Alarm.Direction != null)
 			{
-				if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.Ignore))
+				if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
 					return true;
 			}
 			return false;
@@ -305,14 +305,14 @@ namespace GKModule.ViewModels
             {
                 if (Alarm.Device != null)
                 {
-                    if (Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff))
+                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
                     {
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
                     }
                 }
                 if (Alarm.Direction != null)
                 {
-                    if (Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff))
+                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
                     {
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
                     }
@@ -325,11 +325,11 @@ namespace GKModule.ViewModels
 			{
 				if (Alarm.Device != null)
 				{
-					return Alarm.Device.Driver.IsControlDevice && Alarm.Device.DeviceState.StateClasses.Contains(XStateClass.AutoOff);
+					return Alarm.Device.Driver.IsControlDevice && Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 				if (Alarm.Direction != null)
 				{
-					return Alarm.Direction.DirectionState.StateClasses.Contains(XStateClass.AutoOff);
+					return Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff);
 				}
 			}
 			return false;

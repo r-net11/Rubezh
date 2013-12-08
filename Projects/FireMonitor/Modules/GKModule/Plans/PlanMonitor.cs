@@ -14,17 +14,17 @@ namespace GKModule.Plans
 	{
 		Plan Plan;
 		Action CallBack;
-		List<XDeviceState> DeviceStates;
-		List<XZoneState> ZoneStates;
-		List<XDirectionState> DirectionStates;
+		List<XState> DeviceStates;
+		List<XState> ZoneStates;
+		List<XState> DirectionStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
 		{
 			Plan = plan;
 			CallBack = callBack;
-			DeviceStates = new List<XDeviceState>();
-			ZoneStates = new List<XZoneState>();
-			DirectionStates = new List<XDirectionState>();
+			DeviceStates = new List<XState>();
+			ZoneStates = new List<XState>();
+			DirectionStates = new List<XState>();
 			Initialize();
 		}
 		private void Initialize()
@@ -40,8 +40,8 @@ namespace GKModule.Plans
 			var device = Helper.GetXDevice(element);
 			if (device != null)
 			{
-				DeviceStates.Add(device.DeviceState);
-				device.DeviceState.StateChanged += CallBack;
+				DeviceStates.Add(device.State);
+				device.State.StateChanged += CallBack;
 			}
 		}
 		private void Initialize(IElementZone element)
@@ -51,8 +51,8 @@ namespace GKModule.Plans
 				var zone = Helper.GetXZone(element);
 				if (zone != null)
 				{
-					ZoneStates.Add(zone.ZoneState);
-					zone.ZoneState.StateChanged += CallBack;
+					ZoneStates.Add(zone.State);
+					zone.State.StateChanged += CallBack;
 				}
 			}
 		}
@@ -63,8 +63,8 @@ namespace GKModule.Plans
 				var direction = Helper.GetXDirection(element);
 				if (direction != null)
 				{
-					DirectionStates.Add(direction.DirectionState);
-					direction.DirectionState.StateChanged += CallBack;
+					DirectionStates.Add(direction.State);
+					direction.State.StateChanged += CallBack;
 				}
 			}
 		}

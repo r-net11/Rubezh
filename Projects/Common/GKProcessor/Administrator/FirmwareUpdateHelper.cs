@@ -16,15 +16,34 @@ namespace GKProcessor
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			DeviceBytesHelper.Clear(device);
 			var data = new List<byte>();
+			var offset = 0;
+			if (device.Driver.IsKauOrRSR2Kau)
+				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				data = new List<byte>(BitConverter.GetBytes((i + 1) * 0x100));
-				data.Reverse();
+				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				SendManager.Send(device, 260, 0x12, 0, data);
 			}
 			DeviceBytesHelper.GoToWorkingRegime(device);
 		}
+
+		//public static void Update(XDevice device, string fileName)
+		//{
+		//    var firmWareBytes = HexFileToBytesList(fileName);
+		//    var data = new List<byte>();
+		//    var allBytes = new List<List<byte>>();
+		//    var offset = 0;
+		//    if (device.Driver.IsKauOrRSR2Kau)
+		//        offset = 0x10000;
+		//    for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
+		//    {
+		//        data = new List<byte>(BitConverter.GetBytes(i + offset));
+		//        data.AddRange(firmWareBytes.GetRange(i, 0x100));
+		//        allBytes.Add(data);
+		//    }
+		//    BytesHelper.BytesToFile("1.txt", allBytes);
+		//}
 
 		static List<byte> HexFileToBytesList(string filePath)
 		{

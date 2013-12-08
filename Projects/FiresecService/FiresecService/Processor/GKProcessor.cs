@@ -22,26 +22,10 @@ namespace FiresecService
 				XManager.UpdateConfiguration();
 				XManager.CreateStates();
 				DescriptorsManager.Create();
-				foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-				{
-					foreach (var delay in gkDatabase.Delays)
-					{
-						delay.DelayState = new XDelayState();
-					}
-				}
+				DescriptorsManager.CreateDynamicObjectsInXManager();
 				GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 				GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResultEvent);
 			}
-		}
-
-		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
-		{
-			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
-		}
-
-		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
-		{
-			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
 		public static void Start()
@@ -58,6 +42,16 @@ namespace FiresecService
 			{
 				GKProcessorManager.Stop();
 			}
+		}
+
+		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		{
+			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+		}
+
+		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
+		{
+			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 	}
 }

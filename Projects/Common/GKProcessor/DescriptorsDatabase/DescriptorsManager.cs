@@ -39,5 +39,24 @@ namespace GKProcessor
 			KauDatabases.ForEach(x => x.BuildObjects());
 			GkDatabases.ForEach(x => x.BuildObjects());
 		}
+
+		public static void CreateDynamicObjectsInXManager()
+		{
+			XManager.Delays = new List<XDelay>();
+			XManager.Pims = new List<XPim>();
+			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+			{
+				foreach (var delay in gkDatabase.Delays)
+				{
+					delay.State = new XState(delay);
+					XManager.Delays.Add(delay);
+				}
+				foreach (var pim in gkDatabase.Pims)
+				{
+					pim.State = new XState(pim);
+					XManager.Pims.Add(pim);
+				}
+			}
+		}
 	}
 }

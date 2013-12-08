@@ -16,24 +16,24 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public XDelayState DelayState { get; private set; }
+		public XState State { get; private set; }
 		public XDelay Delay
 		{
-			get { return DelayState.Delay; }
+			get { return State.Delay; }
 		}
 
-		public DelayViewModel(XDelayState delayState)
+		public DelayViewModel(XState state)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			DelayState = delayState;
-			DelayState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DelayState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 		}
@@ -56,11 +56,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DelayState.StateClasses.Contains(XStateClass.TurningOn) && DelayState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DelayState.StateClasses.Contains(XStateClass.On) && DelayState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 	}
 }

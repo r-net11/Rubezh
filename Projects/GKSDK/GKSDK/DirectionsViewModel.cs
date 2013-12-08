@@ -15,7 +15,7 @@ namespace GKSDK
 			Directions = new ObservableCollection<DirectionViewModel>();
 			foreach (var direction in XManager.Directions)
 			{
-				var deviceViewModel = new DirectionViewModel(direction.DirectionState);
+				var deviceViewModel = new DirectionViewModel(direction.State);
 				Directions.Add(deviceViewModel);
 			}
 		}

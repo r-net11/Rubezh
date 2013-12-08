@@ -4,7 +4,7 @@ using Common;
 
 namespace GKProcessor
 {
-	public static class LifeTimeWatcher
+	internal static class LifeTimeWatcher
 	{
 		static Thread Thread;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);

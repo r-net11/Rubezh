@@ -19,6 +19,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+            <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" MinWidth="150" />
             <DataGridTemplateColumn Header="Объект" MinWidth="100">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -30,7 +31,6 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" MinWidth="150"/>
             
         </DataGrid.Columns>
         <DataGrid.RowStyle>

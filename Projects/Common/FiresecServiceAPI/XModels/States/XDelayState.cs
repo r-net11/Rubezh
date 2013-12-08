@@ -6,6 +6,11 @@ namespace XFiresecAPI
 	{
 		public XDelay Delay { get; set; }
 
+		public XDelayState(XDelay delay)
+		{
+			Delay = delay;
+		}
+
 		List<XStateBit> _stateBits = new List<XStateBit>();
 		public override List<XStateBit> StateBits
 		{

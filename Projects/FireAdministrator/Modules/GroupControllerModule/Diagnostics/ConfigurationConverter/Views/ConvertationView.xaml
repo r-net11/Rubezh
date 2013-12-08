@@ -11,7 +11,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Прибор" Binding="{Binding FSDevice.PresentationAddressAndDriver}" Width="*" />
                 <DataGridTextColumn Header="Шлейф" Binding="{Binding FSShleifNo}" />
-                <DataGridTextColumn Header="КАУ" Binding="{Binding KAUDevice.PresentationAddressAndDriver}" Width="*" />
+                <DataGridTextColumn Header="КАУ" Binding="{Binding KAUDevice.PresentationName}" Width="*" />
                 <DataGridTextColumn Header="Шлейф КАУ" Binding="{Binding KAUShleifNo}" />
             </DataGrid.Columns>
         </DataGrid>
@@ -21,7 +21,7 @@
                 <ComboBox ItemsSource="{Binding KAUDevices}" SelectedItem="{Binding KAUDevice}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding PresentationAddressAndDriver}" />
+                            <TextBlock Text="{Binding PresentationName}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

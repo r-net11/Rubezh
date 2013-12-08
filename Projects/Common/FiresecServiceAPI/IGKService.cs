@@ -14,7 +14,7 @@ namespace FiresecAPI
 		void AddJournalItem(JournalItem journalItem);
 
 		[OperationContract]
-		void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
+		OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
 
 		[OperationContract]
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
@@ -78,5 +78,11 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStop(Guid uid, XBaseObjectType objectType);
+
+		[OperationContract]
+		void GKStartMeasureMonitoring(Guid deviceUID);
+
+		[OperationContract]
+		void GKStopMeasureMonitoring(Guid deviceUID);
 	}
 }

@@ -110,7 +110,7 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagDevice = new TagDevice(tagId, device.DeviceState);
+				var tagDevice = new TagDevice(tagId, device.State);
 				TagDevices.Add(tagDevice);
 				TagsCount++;
 			}
@@ -128,7 +128,7 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagZone = new TagZone(tagId, zone.ZoneState);
+				var tagZone = new TagZone(tagId, zone.State);
 				TagZones.Add(tagZone);
 				TagsCount++;
 			}
@@ -147,7 +147,7 @@ namespace GKOPCServer
 					AccessRights.readable,
 					(double)0);
 
-				var tagDirection = new TagDirection(tagId, direction.DirectionState);
+				var tagDirection = new TagDirection(tagId, direction.State);
 				TagDirections.Add(tagDirection);
 				TagsCount++;
 			}
@@ -157,7 +157,7 @@ namespace GKOPCServer
 			OPCDAServer.BeginUpdate();
 			foreach (var tagDevice in TagDevices)
 			{
-				OPCDAServer.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateClass);
+				OPCDAServer.SetTag(tagDevice.TagId, tagDevice.State.StateClass);
 			}
 			foreach (var tagZone in TagZones)
 			{
@@ -165,7 +165,7 @@ namespace GKOPCServer
 			}
 			foreach (var tagDirection in TagDirections)
 			{
-				OPCDAServer.SetTag(tagDirection.TagId, tagDirection.DirectionState.StateClass);
+				OPCDAServer.SetTag(tagDirection.TagId, tagDirection.State.StateClass);
 			}
 			OPCDAServer.EndUpdate(false);
 

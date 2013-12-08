@@ -12,11 +12,6 @@ namespace FiresecService.Service
 {
     public partial class FiresecService
     {
-		public string Test(string arg)
-		{
-			return "Test";
-		}
-
         public List<CallbackResult> Poll(Guid uid)
         {
             var clientInfo = ClientsManager.ClientInfos.FirstOrDefault(x => x.UID == uid);

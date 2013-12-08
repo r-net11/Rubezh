@@ -32,8 +32,7 @@ namespace GKModule.ViewModels
 
 		public List<XDevice> GetRealChildren()
 		{
-			var devices = XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
-			return devices;
+			return XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 		}
 
 		#region Capy and Paste
@@ -83,12 +82,13 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in XManager.GetAllDeviceChildren(Device))
 			{
-				if (device.DriverType != DriverCopy.DriverType)
-					continue;
-				CopyParametersFromBuffer(device);
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-				if (deviceViewModel != null)
-					deviceViewModel.PropertiesViewModel.Update();
+				if (device.DriverType == DriverCopy.DriverType)
+				{
+					CopyParametersFromBuffer(device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+					if (deviceViewModel != null)
+						deviceViewModel.PropertiesViewModel.Update();
+				}
 			}
 			UpdateDeviceParameterMissmatch();
 		}
@@ -135,7 +135,6 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
 			{
 				var devices = XManager.GetAllDeviceChildren(Device);
-				devices.Add(Device);
 				foreach (var device in devices)
 				{
 					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
@@ -234,7 +233,6 @@ namespace GKModule.ViewModels
 		void OnSyncFromAllDeviceToSystem()
 		{
 			var devices = GetRealChildren();
-			devices.Add(Device);
 			foreach (var device in devices)
 			{
 				CopyFromDeviceToSystem(device);
@@ -274,7 +272,7 @@ namespace GKModule.ViewModels
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
 					{
-						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						MessageBoxService.Show("Устройство " + device.PresentationName + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
 						return false;
 					}
 				}
@@ -310,7 +308,6 @@ namespace GKModule.ViewModels
 		void OnReadAll()
 		{
 			var devices = GetRealChildren();
-			devices.Add(Device);
 			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
 			ReadDevices(devices);
 		}

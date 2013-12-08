@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <Rectangle Fill="{Binding PumpStationState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
+                <Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
                 <ItemsControl ItemsSource="{Binding StateClasses}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -36,14 +36,14 @@
                 <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Задержка на включение" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PumpStationState.OnDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding State.OnDelay}" FontSize="24" Margin="2" />
                         <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Удержание" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PumpStationState.HoldDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
                         <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>

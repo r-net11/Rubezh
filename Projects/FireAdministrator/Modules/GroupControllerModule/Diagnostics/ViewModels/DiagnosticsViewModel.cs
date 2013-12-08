@@ -22,7 +22,6 @@ namespace GKModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			TestCommand = new RelayCommand(OnTest);
-			UpdateDescriptorsCommand = new RelayCommand(OnUpdateDescriptors);
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToFiresecCommand = new RelayCommand(OnConvertToFiresec);
 			ConvertExitToReleCommand = new RelayCommand(OnConvertExitToRele);
@@ -40,11 +39,12 @@ namespace GKModule.ViewModels
 		{
 			var localHash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration);
 			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
-
-			var infoBlock = GKFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
-			var remoteVersion = infoBlock.GetRange(0, 2);
-			var remoteHash1 = infoBlock.GetRange(2, 32);
-			var remoteHash2 = infoBlock.GetRange(34, 32);
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
+			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+				{ MessageBoxService.ShowError(gkFileReaderWriter.Error); return; }
+			var remoteHash1 = infoBlock.Hash1;
+			var remoteHash2 = infoBlock.Hash2;
 
 			var message = new StringBuilder();
 			message.Append(localHash1.SequenceEqual(remoteHash1) ? "Хеш1 совпадает\n" : "Хеш1 НЕ совпадает\n");
@@ -56,7 +56,9 @@ namespace GKModule.ViewModels
 		{
 			try
 			{
-				return DevicesViewModel.Current.SelectedDevice.Device.DriverType == XDriverType.GK;
+				return 
+					DevicesViewModel.Current.SelectedDevice != null &&
+					DevicesViewModel.Current.SelectedDevice.Device.DriverType == XDriverType.GK;
 			}
 			catch
 			{
@@ -79,26 +81,6 @@ namespace GKModule.ViewModels
 			DevicesViewModel.Current.Initialize();
 			ZonesViewModel.Current.Initialize();
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-
-		public RelayCommand UpdateDescriptorsCommand { get; private set; }
-		void OnUpdateDescriptors()
-		{
-			DescriptorsManager.Create();
-			DatabasesViewModel = new DescriptorsViewModel();
-			OnPropertyChanged("DatabasesViewModel");
-			foreach (var database in DatabasesViewModel.Databases)
-			{
-				foreach (var descriptor in database.Descriptors)
-				{
-					var isFormulaInvalid = descriptor.Formula.CalculateStackLevels();
-					if (isFormulaInvalid)
-					{
-						MessageBoxService.ShowError("Ошибка глубины стека дескриптора " + descriptor.XBase.GKDescriptorNo + " " + descriptor.XBase.PresentationName);
-						return;
-					}
-				}
-			}
 		}
 
 		public RelayCommand ConvertToFiresecCommand { get; private set; }

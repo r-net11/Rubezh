@@ -44,6 +44,7 @@ namespace GKModule.ViewModels
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
+			DevicesToCopy = new List<XDevice>();
 		}
 		protected override bool IsRightPanelVisibleByDefault
 		{
@@ -156,25 +157,24 @@ namespace GKModule.ViewModels
 		}
 
 		#region CopyPaste
-		XDevice _deviceToCopy;
+		public List<XDevice> DevicesToCopy { get; set; }
 
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate ||
-				(SelectedDevice.Parent.Driver.IsGroupDevice && SelectedDevice.Parent.Driver.GroupDeviceChildType == SelectedDevice.Driver.DriverType));
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice);
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_deviceToCopy = XManager.CopyDevice(SelectedDevice.Device, false);
+			DevicesToCopy = new List<XDevice>() { XManager.CopyDevice(SelectedDevice.Device, false) };
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			_deviceToCopy = XManager.CopyDevice(SelectedDevice.Device, true);
+			DevicesToCopy = new List<XDevice>() { XManager.CopyDevice(SelectedDevice.Device, true) };
 			SelectedDevice.RemoveCommand.Execute();
 
 			XManager.DeviceConfiguration.Update();
@@ -184,17 +184,36 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var pasteDevice = XManager.CopyDevice(_deviceToCopy, false);
-			PasteDevice(pasteDevice);
+			foreach (var deviceToCopy in DevicesToCopy)
+			{
+				var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
+				PasteDevice(pasteDevice);
+			}
 		}
 		bool CanPaste()
 		{
-			if (_deviceToCopy != null && SelectedDevice != null)
+			if (DevicesToCopy.Count > 0 && SelectedDevice != null)
 			{
 				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
-					return SelectedDevice.Parent != null && SelectedDevice.Parent.Driver.Children.Contains(_deviceToCopy.DriverType);
+				{
+					if (SelectedDevice.Parent == null)
+						return false;
+					foreach (var deviceToCopy in DevicesToCopy)
+					{
+						if (!SelectedDevice.Parent.Driver.Children.Contains(deviceToCopy.DriverType))
+							return false;
+					}
+					return true;
+				}
 				else
-					return SelectedDevice.Driver.Children.Contains(_deviceToCopy.DriverType);
+				{
+					foreach (var deviceToCopy in DevicesToCopy)
+					{
+						if (!SelectedDevice.Driver.Children.Contains(deviceToCopy.DriverType))
+							return false;
+					}
+					return true;
+				}
 			}
 			return false;
 		}

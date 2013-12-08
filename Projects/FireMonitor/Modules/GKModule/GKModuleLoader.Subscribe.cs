@@ -34,29 +34,24 @@ namespace GKModule
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
 			DescriptorsManager.Create();
-			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-			{
-				foreach (var delay in gkDatabase.Delays)
-				{
-					delay.DelayState = new XDelayState();
-				}
-			}
-
+			DescriptorsManager.CreateDynamicObjectsInXManager();
 			InitializeStates();
-
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
 				GKProcessorManager.Start();
 			}
+		}
 
-			SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-			SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+		void GKAfterInitialize()
+		{
+			SafeFiresecService.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			SafeFiresecService.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 
 			SafeFiresecService.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			SafeFiresecService.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+			GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
@@ -65,49 +60,14 @@ namespace GKModule
 		void InitializeStates()
 		{
 			var gkStates = FiresecManager.FiresecService.GKGetStates();
-			foreach (var remoteDeviceState in gkStates.DeviceStates)
-			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-				if (device != null)
-				{
-					device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
-					device.DeviceState.StateClass = remoteDeviceState.StateClass;
-					device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
-					device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
-					device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
-				}
-			}
-			foreach (var remoteZoneState in gkStates.ZoneStates)
-			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-				if (zone != null)
-				{
-					zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
-					zone.ZoneState.StateClass = remoteZoneState.StateClass;
-					zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
-					zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
-					zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
-				}
-			}
-			foreach (var remoteDirectionState in gkStates.DirectionStates)
-			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
-				if (direction != null)
-				{
-					direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
-					direction.DirectionState.StateClass = remoteDirectionState.StateClass;
-					direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
-					direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
-					direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
-				}
-			}
+			CopyGKStates(gkStates);
 		}
 
 		void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				switch(gkProgressCallback.GKProgressCallbackType)
+				switch (gkProgressCallback.GKProgressCallbackType)
 				{
 					case GKProgressCallbackType.Start:
 						LoadingService.Show(gkProgressCallback.Name, gkProgressCallback.Name, gkProgressCallback.Count, gkProgressCallback.CanCancel);
@@ -132,56 +92,80 @@ namespace GKModule
 				{
 					ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(gkCallbackResult.JournalItems);
 				}
-				if (gkCallbackResult.DeviceStates.Count > 0)
-				{
-					foreach (var remoteDeviceState in gkCallbackResult.DeviceStates)
-					{
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-						if (device != null)
-						{
-							device.DeviceState.StateClasses = remoteDeviceState.StateClasses;
-							device.DeviceState.StateClass = remoteDeviceState.StateClass;
-							device.DeviceState.OnDelay = remoteDeviceState.OnDelay;
-							device.DeviceState.HoldDelay = remoteDeviceState.HoldDelay;
-							device.DeviceState.OffDelay = remoteDeviceState.OffDelay;
-							device.DeviceState.OnStateChanged();
-						}
-					}
-				}
-				if (gkCallbackResult.ZoneStates.Count > 0)
-				{
-					foreach (var remoteZoneState in gkCallbackResult.ZoneStates)
-					{
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-						if (zone != null)
-						{
-							zone.ZoneState.StateClasses = remoteZoneState.StateClasses;
-							zone.ZoneState.StateClass = remoteZoneState.StateClass;
-							zone.ZoneState.OnDelay = remoteZoneState.OnDelay;
-							zone.ZoneState.HoldDelay = remoteZoneState.HoldDelay;
-							zone.ZoneState.OffDelay = remoteZoneState.OffDelay;
-							zone.ZoneState.OnStateChanged();
-						}
-					}
-				}
-				if (gkCallbackResult.DirectionStates.Count > 0)
-				{
-					foreach (var remoteDirectionState in gkCallbackResult.DirectionStates)
-					{
-						var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
-						if (direction != null)
-						{
-							direction.DirectionState.StateClasses = remoteDirectionState.StateClasses;
-							direction.DirectionState.StateClass = remoteDirectionState.StateClass;
-							direction.DirectionState.OnDelay = remoteDirectionState.OnDelay;
-							direction.DirectionState.HoldDelay = remoteDirectionState.HoldDelay;
-							direction.DirectionState.OffDelay = remoteDirectionState.OffDelay;
-							direction.DirectionState.OnStateChanged();
-						}
-					}
-				}
+				CopyGKStates(gkCallbackResult.GKStates);
 				ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
 			});
+		}
+
+		void CopyGKStates(GKStates gkStates)
+		{
+			foreach (var remoteDeviceState in gkStates.DeviceStates)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				if (device != null)
+				{
+					remoteDeviceState.CopyTo(device.State);
+                    device.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteZoneState in gkStates.ZoneStates)
+			{
+				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				if (zone != null)
+				{
+					remoteZoneState.CopyTo(zone.State);
+                    zone.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteDirectionState in gkStates.DirectionStates)
+			{
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+				if (direction != null)
+				{
+					remoteDirectionState.CopyTo(direction.State);
+                    direction.State.OnStateChanged();
+				}
+			}
+			foreach (var remotePumpStationState in gkStates.PumpStationStates)
+			{
+				var pumpStation = XManager.PumpStations.FirstOrDefault(x => x.UID == remotePumpStationState.UID);
+				if (pumpStation != null)
+				{
+					remotePumpStationState.CopyTo(pumpStation.State);
+                    pumpStation.State.OnStateChanged();
+				}
+			}
+			foreach (var delayState in gkStates.DelayStates)
+			{
+				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
+				if (delay == null)
+					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
+				if (delay != null)
+				{
+					delayState.CopyTo(delay.State);
+                    delay.State.OnStateChanged();
+				}
+			}
+			foreach (var remotePimState in gkStates.PimStates)
+			{
+				var pim = XManager.Pims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				if (pim == null)
+					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
+				if (pim != null)
+				{
+					remotePimState.CopyTo(pim.State);
+                    pim.State.OnStateChanged();
+				}
+			}
+			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
+				if (device != null)
+				{
+					device.State.MeasureParameters = deviceMeasureParameter.MeasureParameters;
+					device.State.OnMeasureParametersChanged();
+				}
+			}
 		}
 	}
 }

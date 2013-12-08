@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 		public ArchiveDeviceViewModel(XDevice device)
 		{
 			Device = device;
-			Name = device.PresentationAddressAndDriver;
+			Name = device.PresentationName;
 		}
 
 		public XDevice Device { get; private set; }

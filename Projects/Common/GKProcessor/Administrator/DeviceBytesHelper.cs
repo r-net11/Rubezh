@@ -79,10 +79,10 @@ namespace GKProcessor
 
 		public static bool Clear(XDevice device)
 		{
-			var sendResult = SendManager.Send(device, 0, 16, 0);
+			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
 			if (sendResult.HasError)
 			{
-				MessageBoxService.ShowError("Устройство " + device.PresentationDriverAndAddress + " недоступно");
+				MessageBoxService.ShowError("Устройство " + device.PresentationName + " недоступно");
 				return false;
 			}
 			return true;
@@ -93,7 +93,7 @@ namespace GKProcessor
 			if (IsInTechnologicalRegime(device))
 				return true;
 
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
+			LoadingService.DoStep(device.PresentationName + " Переход в технологический режим");
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
@@ -124,7 +124,7 @@ namespace GKProcessor
 
 		public static bool EraseDatabase(XDevice device)
 		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Стирание базы данных");
+			LoadingService.DoStep(device.PresentationName + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
 			{
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
@@ -143,7 +143,7 @@ namespace GKProcessor
 		public static bool GoToWorkingRegime(XDevice device)
 		{
 			LoadingService.IsCanceled = false;
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
+			LoadingService.DoStep(device.PresentationName + " Переход в рабочий режим");
 			if (LoadingService.IsCanceled)
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);

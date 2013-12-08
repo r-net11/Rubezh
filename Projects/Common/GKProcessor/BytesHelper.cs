@@ -74,7 +74,7 @@ namespace GKProcessor
 
 		public static void BytesToFile(string fileName, List<List<byte>> bytesList)
 		{
-			var file = new StreamWriter("..\\" + fileName);
+			var file = new StreamWriter("c:\\temp\\" + fileName);
 			foreach (var bytes in bytesList)
 			{
 				foreach (var b in bytes)

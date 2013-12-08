@@ -16,25 +16,25 @@ namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public XDirectionState DirectionState { get; private set; }
+		public XState State { get; private set; }
 		public XDirection Direction
 		{
-			get { return DirectionState.Direction; }
+			get { return State.Direction; }
 		}
 
-		public DirectionViewModel(XDirectionState directionState)
+		public DirectionViewModel(XState state)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			DirectionState = directionState;
-			DirectionState.StateChanged += new System.Action(OnStateChanged);
+			State = state;
+			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DirectionState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 		}
@@ -67,11 +67,11 @@ namespace GKModule.ViewModels
 
 		public bool HasOnDelay
 		{
-			get { return DirectionState.StateClasses.Contains(XStateClass.TurningOn) && DirectionState.OnDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
 		}
 		public bool HasHoldDelay
 		{
-			get { return DirectionState.StateClasses.Contains(XStateClass.On) && DirectionState.HoldDelay > 0; }
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 	}
 }

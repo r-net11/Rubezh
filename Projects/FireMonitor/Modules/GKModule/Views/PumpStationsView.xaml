@@ -23,8 +23,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Direction.png" VerticalAlignment="Center"/>
-                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding PumpStationState.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center"/>
+                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
                                 <TextBlock Width="200" Text="{Binding PumpStation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
@@ -49,7 +49,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding PumpStationState.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
@@ -59,7 +59,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
-                                <TextBlock Text="{Binding PumpStationState.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+                                <TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
                                 <TextBlock Text="сек" Margin="2" />
                             </StackPanel>
 						</DataTemplate>

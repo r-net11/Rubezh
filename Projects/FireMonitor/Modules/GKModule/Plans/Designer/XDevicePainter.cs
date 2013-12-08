@@ -32,8 +32,8 @@ namespace GKModule.Plans.Designer
 			if (elementXDevice != null)
 			{
 				Device = Helper.GetXDevice(elementXDevice);
-				if (Device != null && Device.DeviceState != null)
-					Device.DeviceState.StateChanged += OnPropertyChanged;
+				if (Device != null && Device.State != null)
+					Device.State.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;

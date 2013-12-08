@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 		public string PresentationZone { get; set; }
 		public bool IsAbsent { get; set; }
 		public bool IsPresent { get; set; }
-		public bool HasSecondDifferences
+		public bool HasNonStructureDifferences
 		{
 			get
 			{

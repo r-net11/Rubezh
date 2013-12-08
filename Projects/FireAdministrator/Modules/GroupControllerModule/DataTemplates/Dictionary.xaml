@@ -28,6 +28,10 @@
         <Views:RSR2NewDeviceView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesOnShleifViewModel}">
+        <Views:DevicesOnShleifView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
 		<Views:PropertiesView />
 	</DataTemplate>
@@ -128,20 +132,16 @@
         <Views:InstructionsMenuView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstructionZonesViewModel}">
-        <Views:InstructionZonesView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:InstructionDirectionsViewModel}">
-        <Views:InstructionDirectionsView />
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:InstructionDevicesViewModel}">
-        <Views:InstructionsDevicesView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
         <Views:DiagnosticsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DescriptorsViewModel}">
+        <Views:DescriptorsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DescriptorsMenuViewModel}">
+        <Views:DescriptorsMenuView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">

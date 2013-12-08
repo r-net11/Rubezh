@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <Rectangle Fill="{Binding DirectionState.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
+                <Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 5, 0" />
                 <ItemsControl ItemsSource="{Binding StateClasses}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -36,14 +36,14 @@
                 <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Задержка на включение" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DirectionState.OnDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding State.OnDelay}" FontSize="24" Margin="2" />
                         <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBlock Text="Удержание" Margin="2" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding DirectionState.HoldDelay}" FontSize="24" Margin="2" />
+                        <TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
                         <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
@@ -54,7 +54,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl Background="White">
                         <ItemsControl.Items>
-                            <WrapPanel>
+                            <WrapPanel Margin="2">
                                 <TextBlock>
 				                    <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                         <StackPanel Orientation="Horizontal">
@@ -64,19 +64,17 @@
                                     </Hyperlink>
                                 </TextBlock>
                             </WrapPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <WrapPanel>
-                                    <TextBlock>
-										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
-											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
-												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
-											</StackPanel>
-										</Hyperlink>
-								    </TextBlock>
-                                </WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock>
+									<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+											<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+										</StackPanel>
+									</Hyperlink>
+								</TextBlock>
                             </StackPanel>
-                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                                 <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
                                 <ItemsControl ItemsSource="{Binding Plans}">
                                     <ItemsControl.ItemsPanel>
@@ -98,27 +96,27 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </WrapPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Входных зон: "/>
                                 <TextBlock Text="{Binding InputZonesCount}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Входных устройств: " />
                                 <TextBlock Text="{Binding InputDevicesCount}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Выходных устройств: " />
                                 <TextBlock Text="{Binding OutputDevicesCount}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Задержка: " />
                                 <TextBlock Text="{Binding Direction.Delay}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Удержание: " />
                                 <TextBlock Text="{Binding Direction.Hold}"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Режим после удержания: " />
                                 <TextBlock Text="{Binding Direction.Regime, Converter={StaticResource RegimeToStringConverter}}"/>
                             </StackPanel>

@@ -185,7 +185,6 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
-				devices.Add(SelectedDevice.Device);
 				ReadDevices(devices);
 				foreach (var device in devices)
 				{
@@ -405,7 +404,6 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
-				devices.Add(SelectedDevice.Device);
 				if (Validate(devices))
 				{
 					foreach (var device in devices)
@@ -438,7 +436,6 @@ namespace GKModule.ViewModels
 			if (CheckNeedSave())
 			{
 				var devices = GetRealChildren();
-				devices.Add(SelectedDevice.Device);
 				foreach (var device in devices)
 				{
 					CopyFromDeviceToSystem(device);
@@ -500,7 +497,7 @@ namespace GKModule.ViewModels
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
 					{
-						MessageBoxService.Show("Устройство " + device.PresentationDriverAndAddress + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						MessageBoxService.Show("Устройство " + device.PresentationName + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
 						return false;
 					}
 				}
@@ -563,8 +560,7 @@ namespace GKModule.ViewModels
 
 		List<XDevice> GetRealChildren()
 		{
-			var devices = XManager.GetAllDeviceChildren(SelectedDevice.Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
-			return devices;
+			return XManager.GetAllDeviceChildren(SelectedDevice.Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 		}
 
 		bool CheckNeedSave()

@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			for (int i = 0; i < LocalObjectsViewModel.Objects.Count; i++)
 			{
 				var item = LocalObjectsViewModel.Objects[i];
-				if ((item.IsAbsent || item.HasSecondDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasSecondDifferences) && !mismatchedIndexes.Contains(i))
+				if ((item.IsAbsent || item.HasNonStructureDifferences || RemoteObjectsViewModel.Objects[i].IsAbsent || RemoteObjectsViewModel.Objects[i].HasNonStructureDifferences) && !mismatchedIndexes.Contains(i))
 					mismatchedIndexes.Add(i);
 			}
 		}
@@ -141,13 +141,18 @@ namespace GKModule.ViewModels
 							newObject.DifferenceDiscription = sameObject1.Device.Driver.HasZone ? "Не совпадает зона" : "Не совпадает логика срабатывания";
 						newObject.PresentationZone = sameObject1.PresentationZone;
 						if (sameObject1.ObjectType == ObjectType.Zone)
+						{
 							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject2.Name;
+						}
 						if (sameObject1.ObjectType == ObjectType.Direction)
+						{
 							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject2.Name;
+						}
 					}
 
 				}
-
 				unionObjects1.Add(newObject);
 			}
 			return unionObjects1;
@@ -155,6 +160,8 @@ namespace GKModule.ViewModels
 		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			string zonesDifferences = null;
+			if (object1.Name != object2.Name)
+				zonesDifferences = "Не совпадает название";
 			if (object1.Zone.Fire1Count != object2.Zone.Fire1Count)
 				zonesDifferences = "Не совпадает число датчиков для формирования Пожар1";
 			if (object1.Zone.Fire2Count != object2.Zone.Fire2Count)
@@ -169,6 +176,8 @@ namespace GKModule.ViewModels
 		string GetDirectionsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			string directionsDifferences = null;
+			if (object1.Name != object2.Name)
+				directionsDifferences = "Не совпадает название";
 			if (object1.Direction.Delay != object2.Direction.Delay)
 				directionsDifferences = "Не совпадает параметр Задержка";
 			if (object1.Direction.Hold != object2.Direction.Hold)

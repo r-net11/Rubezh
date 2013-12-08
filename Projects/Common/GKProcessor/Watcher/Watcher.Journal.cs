@@ -79,11 +79,18 @@ namespace GKProcessor
 					if (descriptor != null)
 					{
 						ChangeJournalOnDevice(descriptor, journalItem);
-						CheckAdditionalStates(descriptor);
 						CheckServiceRequired(descriptor.XBase, journalItem);
-						descriptor.XBase.GetXBaseState().StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
+                        if (descriptor.XBase is XDevice)
+                        {
+                            XDevice device = descriptor.XBase as XDevice;
+                            if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
+                            {
+                                OnObjectStateChanged(device.Parent);
+                            }
+                        }
 					}
 				}
 			}
@@ -136,98 +143,6 @@ namespace GKProcessor
 						case "Выключается":
 							journalItem.Name = "Закрывается";
 							break;
-					}
-				}
-			}
-		}
-
-		void CheckDelays()
-		{
-			foreach (var direction in XManager.Directions)
-			{
-				bool mustGetState = false;
-				switch (direction.DirectionState.StateClass)
-				{
-					case XStateClass.TurningOn:
-						mustGetState = direction.DirectionState.OnDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.On:
-						mustGetState = direction.DirectionState.HoldDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.TurningOff:
-						mustGetState = direction.DirectionState.OffDelay > 0 || (DateTime.Now - direction.DirectionState.LastDateTime).Seconds > 1;
-						break;
-				}
-				if (mustGetState)
-				{
-					var onDelay = direction.DirectionState.OnDelay;
-					var holdDelay = direction.DirectionState.HoldDelay;
-					var offDelay = direction.DirectionState.OffDelay;
-					GetState(direction);
-					if(onDelay != direction.DirectionState.OnDelay || holdDelay != direction.DirectionState.HoldDelay || offDelay != direction.DirectionState.OffDelay)
-						OnObjectStateChanged(direction);
-				}
-			}
-
-			var delays = new List<XDelay>();
-			foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-			{
-				foreach (var delay in gkDatabase.Delays)
-				{
-					delays.Add(delay);
-				}
-			}
-			foreach (var delay in delays)
-			{
-				bool mustGetState = false;
-				switch (delay.DelayState.StateClass)
-				{
-					case XStateClass.TurningOn:
-						mustGetState = delay.DelayState.OnDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.On:
-						mustGetState = delay.DelayState.HoldDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
-						break;
-					case XStateClass.TurningOff:
-						mustGetState = delay.DelayState.OffDelay > 0 || (DateTime.Now - delay.DelayState.LastDateTime).Seconds > 1;
-						break;
-				}
-				if (mustGetState)
-				{
-					var onDelay = delay.DelayState.OnDelay;
-					var holdDelay = delay.DelayState.HoldDelay;
-					var offDelay = delay.DelayState.OffDelay;
-					GetState(delay);
-					if (onDelay != delay.DelayState.OnDelay || holdDelay != delay.DelayState.HoldDelay || offDelay != delay.DelayState.OffDelay)
-						OnObjectStateChanged(delay);
-				}
-			}
-
-			foreach (var device in XManager.Devices)
-			{
-				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x=>x.DriverType == XDriverType.RSR2_KAU))
-				{
-					bool mustGetState = false;
-					switch (device.DeviceState.StateClass)
-					{
-						case XStateClass.TurningOn:
-							mustGetState = device.DeviceState.OnDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-							break;
-						case XStateClass.On:
-							mustGetState = device.DeviceState.HoldDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-							break;
-						case XStateClass.TurningOff:
-							mustGetState = device.DeviceState.OffDelay > 0 || (DateTime.Now - device.DeviceState.LastDateTime).Seconds > 1;
-							break;
-					}
-					if (mustGetState)
-					{
-						var onDelay = device.DeviceState.OnDelay;
-						var holdDelay = device.DeviceState.HoldDelay;
-						var offDelay = device.DeviceState.OffDelay;
-						GetState(device);
-						if (onDelay != device.DeviceState.OnDelay || holdDelay != device.DeviceState.HoldDelay || offDelay != device.DeviceState.OffDelay)
-							OnObjectStateChanged(device);
 					}
 				}
 			}

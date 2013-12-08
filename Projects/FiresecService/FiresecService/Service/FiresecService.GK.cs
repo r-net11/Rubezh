@@ -16,6 +16,11 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
+		string UserName
+		{
+			get { return CurrentClientCredentials.FriendlyUserName; }
+		}
+
 		public void AddJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
@@ -24,13 +29,16 @@ namespace FiresecService.Service
 			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
-		public void GKWriteConfiguration(Guid deviceUID, bool writeFileToGK = false)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GkDescriptorsWriter.WriteConfig(device);
-				AddMessage("Запись конфигурации в прибор", "", XStateClass.Info, device);
+				return GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, UserName);
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
 			}
 		}
 
@@ -39,7 +47,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKReadConfiguration(device);
+				return GKProcessorManager.GKReadConfiguration(device, UserName);
 			}
 			else
 			{
@@ -52,7 +60,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKUpdateFirmware(device, fileName);
+				GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
 			}
 		}
 
@@ -61,7 +69,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKSyncronyseTime(device);
+				return GKProcessorManager.GKSyncronyseTime(device, UserName);
 			}
 			else
 			{
@@ -74,7 +82,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKGetDeviceInfo(device);
+				return GKProcessorManager.GKGetDeviceInfo(device, UserName);
 			}
 			else
 			{
@@ -144,7 +152,7 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit);
+				GKProcessorManager.GKExecuteDeviceCommand(device, stateBit, UserName);
 			}
 		}
 
@@ -153,7 +161,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKReset(xBase);
+				GKProcessorManager.GKReset(xBase, UserName);
 			}
 		}
 
@@ -162,7 +170,7 @@ namespace FiresecService.Service
 			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				GKProcessorManager.GKResetFire1(zone);
+				GKProcessorManager.GKResetFire1(zone, UserName);
 			}
 		}
 
@@ -171,7 +179,7 @@ namespace FiresecService.Service
 			var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 			if (zone != null)
 			{
-				GKProcessorManager.GKResetFire2(zone);
+				GKProcessorManager.GKResetFire2(zone, UserName);
 			}
 		}
 
@@ -180,7 +188,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKSetAutomaticRegime(xBase);
+				GKProcessorManager.GKSetAutomaticRegime(xBase, UserName);
 			}
 		}
 
@@ -189,7 +197,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKSetManualRegime(xBase);
+				GKProcessorManager.GKSetManualRegime(xBase, UserName);
 			}
 		}
 
@@ -198,7 +206,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKSetIgnoreRegime(xBase);
+				GKProcessorManager.GKSetIgnoreRegime(xBase, UserName);
 			}
 		}
 
@@ -207,7 +215,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOn(xBase);
+				GKProcessorManager.GKTurnOn(xBase, UserName);
 			}
 		}
 
@@ -216,7 +224,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOnNow(xBase);
+				GKProcessorManager.GKTurnOnNow(xBase, UserName);
 			}
 		}
 
@@ -225,7 +233,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOff(xBase);
+				GKProcessorManager.GKTurnOff(xBase, UserName);
 			}
 		}
 
@@ -234,7 +242,7 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKTurnOffNow(xBase);
+				GKProcessorManager.GKTurnOffNow(xBase, UserName);
 			}
 		}
 
@@ -243,52 +251,8 @@ namespace FiresecService.Service
 			var xBase = GetXBase(uid, objectType);
 			if (xBase != null)
 			{
-				GKProcessorManager.GKStop(xBase);
+				GKProcessorManager.GKStop(xBase, UserName);
 			}
-		}
-
-		public void AddMessage(string message, string description, XStateClass stateClass, XBase xBase)
-		{
-			Guid uid = Guid.Empty;
-			JournalItemType journalItemType = JournalItemType.System;
-			if (xBase is XDevice)
-			{
-				uid = (xBase as XDevice).UID;
-				journalItemType = JournalItemType.Device;
-			}
-			if (xBase is XZone)
-			{
-				uid = (xBase as XZone).UID;
-				journalItemType = JournalItemType.Zone;
-			}
-			if (xBase is XDirection)
-			{
-				uid = (xBase as XDirection).UID;
-				journalItemType = JournalItemType.Direction;
-			}
-			if (xBase is XDelay)
-			{
-				uid = (xBase as XDelay).UID;
-				journalItemType = JournalItemType.Delay;
-			}
-
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
-				JournalItemType = journalItemType,
-				StateClass = stateClass,
-				Name = message,
-				Description = description,
-				ObjectUID = uid,
-				ObjectName = xBase.PresentationName,
-				ObjectStateClass = XStateClass.Norm,
-				GKObjectNo = (ushort)xBase.GKDescriptorNo,
-				UserName = CurrentClientCredentials.UserName,
-				SubsystemType = XSubsystemType.System
-			};
-
-			AddJournalItem(journalItem);
 		}
 
 		XBase GetXBase(Guid uid, XBaseObjectType objectType)
@@ -303,6 +267,24 @@ namespace FiresecService.Service
 					return XManager.Zones.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
+		}
+
+		public void GKStartMeasureMonitoring(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				GKProcessorManager.GKStartMeasureMonitoring(device);
+			}
+		}
+
+		public void GKStopMeasureMonitoring(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				GKProcessorManager.GKStopMeasureMonitoring(device);
+			}
 		}
 	}
 }

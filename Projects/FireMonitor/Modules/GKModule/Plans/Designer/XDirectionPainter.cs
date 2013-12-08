@@ -24,7 +24,7 @@ namespace GKModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private XDirection _direction;
 		private ContextMenu _contextMenu;
-		private ImageTextStateTooltipViewModel _tooltip;
+		private DirectionTooltipViewModel _tooltip;
 		private GeometryDrawing _textDrawing;
 		private ScaleTransform _scaleTransform;
 		private bool _showText = false;
@@ -41,7 +41,7 @@ namespace GKModule.Plans.Designer
 			_direction = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
 			_showText = _direction != null && _presenterItem.Element is ElementRectangleXDirection;
 			if (_direction != null)
-				_direction.DirectionState.StateChanged += OnPropertyChanged;
+				_direction.State.StateChanged += OnPropertyChanged;
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			UpdateTooltip();
@@ -60,13 +60,8 @@ namespace GKModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new ImageTextStateTooltipViewModel();
-				_tooltip.TitleViewModel.Title = _direction.PresentationName.TrimEnd();
-				_tooltip.TitleViewModel.ImageSource = @"/Controls;component/Images/Blue_Direction.png";
+				_tooltip = new DirectionTooltipViewModel(_direction);
 			}
-			_tooltip.StateViewModel.Title = _direction.DirectionState.StateClass.ToDescription();
-			_tooltip.StateViewModel.ImageSource = _direction.DirectionState.StateClass.ToIconSource();
-			_tooltip.Update();
 		}
 
 		#region IPainter Members
@@ -87,11 +82,11 @@ namespace GKModule.Plans.Designer
 			base.Transform();
 			if (_showText)
 			{
-				var text = _direction.DirectionState.StateClass.ToDescription();
-				if (_direction.DirectionState.StateClasses.Contains(XStateClass.TurningOn) && _direction.DirectionState.OnDelay > 0)
-					text += "\n" + string.Format("Задержка: {0} сек", _direction.DirectionState.OnDelay);
-				else if (_direction.DirectionState.StateClasses.Contains(XStateClass.On) && _direction.DirectionState.HoldDelay > 0)
-					text += "\n" + string.Format("Удержание: {0} сек", _direction.DirectionState.HoldDelay);
+				var text = _direction.State.StateClass.ToDescription();
+				if (_direction.State.StateClasses.Contains(XStateClass.TurningOn) && _direction.State.OnDelay > 0)
+					text += "\n" + string.Format("Задержка: {0} сек", _direction.State.OnDelay);
+				else if (_direction.State.StateClasses.Contains(XStateClass.On) && _direction.State.HoldDelay > 0)
+					text += "\n" + string.Format("Удержание: {0} сек", _direction.State.HoldDelay);
 				if (string.IsNullOrEmpty(text))
 					_textDrawing = null;
 				else
@@ -128,7 +123,7 @@ namespace GKModule.Plans.Designer
 			if (_direction == null)
 				return Colors.Transparent;
 
-				switch (_direction.DirectionState.StateClass)
+				switch (_direction.State.StateClass)
 				{
 					case XStateClass.Unknown:
 					case XStateClass.DBMissmatch:

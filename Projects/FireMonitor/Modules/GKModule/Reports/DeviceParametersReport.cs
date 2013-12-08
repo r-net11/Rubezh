@@ -47,14 +47,13 @@ namespace GKModule.Reports
 					if (device.Driver.HasZone)
 					{
 						zonePresentationName = XManager.GetPresentationZone(device);
-						;
 					}
 
-					var deviceState = device.DeviceState;
-					var parameter = deviceState.MeasureParameter.Dustiness;
+					var deviceState = device.State;
+					var parameter = deviceState.MeasureParameters.FirstOrDefault(x => x.Name == "Dustiness");
 					if (parameter != null)
 					{
-						dustiness = parameter;
+						dustiness = parameter.StringValue;
 					}
 					table.Rows.Add(type, address, zonePresentationName, dustiness);
 				}

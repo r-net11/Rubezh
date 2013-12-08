@@ -9,14 +9,14 @@ namespace XFiresecAPI
 		public XDelay()
 		{
 			UID = BaseUID;// Guid.NewGuid();
-			DelayState = new XDelayState()
-			{
-				Delay = this
-			};
+			InternalState = new XDelayState(this);
 		}
 
-		public XDelayState DelayState { get; set; }
-		public override XBaseState GetXBaseState() { return DelayState; }
+		public XDelayState InternalState { get; set; }
+		public override XBaseState BaseState
+		{
+			get { return InternalState; }
+		}
 
 		[DataMember]
 		public Guid UID { get; set; }

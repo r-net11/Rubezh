@@ -11,26 +11,26 @@ namespace GKModule.ViewModels
 {
 	public class DeviceTooltipViewModel : BaseViewModel
 	{
-		public XDeviceState DeviceState { get; private set; }
+		public XState State { get; private set; }
 		public XDevice Device { get; private set; }
 
 		public DeviceTooltipViewModel(XDevice device)
 		{
 			Device = device;
-			DeviceState = device.DeviceState;
+			State = device.State;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
 		}
 
 		public void OnStateChanged()
 		{
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("State");
 			OnPropertyChanged("StateClassName");
 			StateClasses.Clear();
-			foreach (var stateClass in DeviceState.StateClasses)
+			foreach (var stateClass in State.StateClasses)
 			{
-				if (stateClass != DeviceState.StateClass)
+				if (stateClass != State.StateClass)
 				{
-					StateClasses.Add(new XStateClassViewModel(DeviceState.Device, stateClass));
+					StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 				}
 			}
 		}
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var result = XStateClassViewModel.GetStateName(DeviceState.StateClass, DeviceState.Device);
+				var result = XStateClassViewModel.GetStateName(State.StateClass, State.Device);
 				return result;
 			}
 		}

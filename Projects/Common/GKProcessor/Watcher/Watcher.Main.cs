@@ -5,6 +5,7 @@ using Common;
 using Infrastructure.Common;
 using XFiresecAPI;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -97,7 +98,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread CheckTasks");
+								Logger.Error(e, "Watcher.OnRunThread CheckTasks");
 							}
 
 							try
@@ -106,7 +107,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread CheckNPT");
+								Logger.Error(e, "Watcher.OnRunThread CheckNPT");
 							}
 
 							try
@@ -115,7 +116,7 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread PingJournal");
+								Logger.Error(e, "Watcher.OnRunThread PingJournal");
 							}
 
 							try
@@ -124,8 +125,18 @@ namespace GKProcessor
 							}
 							catch (Exception e)
 							{
-								Logger.Error(e, "JournalWatcher.OnRunThread PingNextState");
+								Logger.Error(e, "Watcher.OnRunThread PingNextState");
 							}
+
+							try
+							{
+								CheckMeasure();
+							}
+							catch (Exception e)
+							{
+								Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+							}
+
 							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 						}
 					}
@@ -149,21 +160,43 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-			xBase.GetXBaseState().StateClasses = xBase.GetXBaseState().InternalStateClasses;
-			xBase.GetXBaseState().StateClass = xBase.GetXBaseState().InternalStateClass;
+            xBase.BaseState.IsInitialState = false;
+            xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
+			xBase.State.StateClass = xBase.BaseState.StateClass;
+            xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
+            xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
+            xBase.State.OnDelay = xBase.BaseState.OnDelay;
+            xBase.State.OffDelay = xBase.BaseState.OffDelay;
 			if (xBase is XDevice)
 			{
-				GKCallbackResult.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
-				GKCallbackResult.DeviceStates.Add((XDeviceState)xBase.GetXBaseState());
+				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+				GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
 			}
 			if (xBase is XZone)
 			{
-				GKCallbackResult.ZoneStates.Add((XZoneState)xBase.GetXBaseState());
+				GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
 			}
 			if (xBase is XDirection)
 			{
-				GKCallbackResult.DirectionStates.Add((XDirectionState)xBase.GetXBaseState());
+				GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
 			}
+			if (xBase is XPumpStation)
+			{
+				GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
+			}
+			if (xBase is XDelay)
+			{
+				GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
+			}
+			if (xBase is XPim)
+			{
+				GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+			}
+		}
+
+		void OnMeasureParametersChanged(XDeviceMeasureParameters deviceMeasureParameters)
+		{
+			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
 		internal void AddMessage(string name, string userName)

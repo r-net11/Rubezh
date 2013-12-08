@@ -15,7 +15,7 @@ namespace GKSDK
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in XManager.Zones)
 			{
-				var deviceViewModel = new ZoneViewModel(zone.ZoneState);
+				var deviceViewModel = new ZoneViewModel(zone.State);
 				Zones.Add(deviceViewModel);
 			}
 		}

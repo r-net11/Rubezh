@@ -19,8 +19,8 @@ namespace GKModule.ViewModels
 
 		public DeviceParametersViewModel()
 		{
-			ParameterUpdateHelper.NewAUParameterValue -= new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
-			ParameterUpdateHelper.NewAUParameterValue += new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
+			//ParameterUpdateHelper.NewAUParameterValue -= new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
+			//ParameterUpdateHelper.NewAUParameterValue += new Action<AUParameterValue>(ParameterUpdateHelper_NewAUParameterValue);
 		}
 
 		public void Initialize()
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 						deviceParameterViewModel.Resistance = "опрос";
 
 					deviceParameterViewModel.IsCurrent = true;
-					ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
+					//ParameterUpdateHelper.UpdateDevice(deviceParameterViewModel.Device);
 					deviceParameterViewModel.IsCurrent = false;
 
 					if (deviceParameterViewModel.Smokiness == "опрос")
@@ -133,7 +133,6 @@ namespace GKModule.ViewModels
 
 					case "Dustinness":
 						deviceParameterViewModel.Dustinness = auParameterValue.StringValue;
-						deviceParameterViewModel.Device.DeviceState.MeasureParameter.Dustiness = auParameterValue.StringValue;
 						break;
 
 					case "LastServiceTime":

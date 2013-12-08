@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using System.Windows.Media.Imaging;
 
 namespace Infrustructure.Plans.Presenter
 {
@@ -14,7 +15,7 @@ namespace Infrustructure.Plans.Presenter
 		public event EventHandler ClickEvent;
 
 		public bool IsPoint { get; set; }
-
+		
 		public Func<ContextMenu> ContextMenuProvider { get; set; }
 
 		public bool ShowBorderOnMouseOver { get; set; }

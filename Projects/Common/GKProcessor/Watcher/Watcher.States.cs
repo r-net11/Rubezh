@@ -50,13 +50,9 @@ namespace GKProcessor
 			{
 				LastUpdateTime = DateTime.Now;
 				var result = GetState(descriptor.XBase);
-				if (!result)
+				if (!IsConnected)
 				{
-					if (descriptor.Device != null && descriptor.Device.DriverType == XDriverType.GK)
-					{
-						descriptor.Device.DeviceState.IsConnectionLost = true;
-						break;
-					}
+					break;
 				}
 				if (showProgress)
 					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorInfo);
@@ -65,7 +61,7 @@ namespace GKProcessor
 			{
 				if (device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					device.DeviceState.OnInternalStateChanged();
+					device.InternalState.OnInternalStateChanged();
 				}
 			}
 			if (showProgress)
@@ -75,44 +71,114 @@ namespace GKProcessor
 			{
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					var baseState = descriptor.XBase.GetXBaseState();
-					baseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
-					baseState.IsGKMissmatch = true;
+					descriptor.XBase.BaseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
+					descriptor.XBase.BaseState.IsGKMissmatch = true;
 				}
 			}
 			else
 			{
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					var baseState = descriptor.XBase.GetXBaseState();
-					baseState.IsGKMissmatch = false;
+					descriptor.XBase.BaseState.IsGKMissmatch = false;
 				}
 			}
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 
-			foreach(var device in XManager.Devices)
+			var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
+			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
 			{
 				OnObjectStateChanged(device);
 			}
 			foreach (var zone in XManager.Zones)
 			{
-				OnObjectStateChanged(zone);
+				if (zone.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(zone);
+				}
 			}
 			foreach (var direction in XManager.Directions)
 			{
-				OnObjectStateChanged(direction);
+				if (direction.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(direction);
+				}
 			}
 			foreach (var pumpStation in XManager.PumpStations)
 			{
-				OnObjectStateChanged(pumpStation);
+				if (pumpStation.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(pumpStation);
+				}
+			}
+			foreach (var delay in XManager.Delays)
+			{
+				if (delay.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(delay);
+				}
+			}
+			foreach (var pim in XManager.Pims)
+			{
+				if (pim.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(pim);
+				}
 			}
 		}
 
-		bool GetState(XBase xBase)
+        void CheckDelays()
+        {
+            foreach (var device in XManager.Devices)
+            {
+                if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+                {
+                    CheckDelay(device);
+                }
+            }
+            foreach (var direction in XManager.Directions)
+            {
+                CheckDelay(direction);
+            }
+            foreach (var pumpStation in XManager.PumpStations)
+            {
+                CheckDelay(pumpStation);
+            }
+            foreach (var delay in XManager.Delays)
+            {
+                CheckDelay(delay);
+            }
+        }
+
+        void CheckDelay(XBase xBase)
+        {
+            bool mustGetState = false;
+            switch (xBase.BaseState.StateClass)
+            {
+                case XStateClass.TurningOn:
+                    mustGetState = xBase.BaseState.OnDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+                case XStateClass.On:
+                    mustGetState = xBase.BaseState.HoldDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+                case XStateClass.TurningOff:
+                    mustGetState = xBase.BaseState.OffDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    break;
+            }
+            if (mustGetState)
+            {
+                var onDelay = xBase.BaseState.OnDelay;
+                var holdDelay = xBase.BaseState.HoldDelay;
+                var offDelay = xBase.BaseState.OffDelay;
+                GetState(xBase, true);
+                if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
+                    OnObjectStateChanged(xBase);
+            }
+        }
+
+		bool GetState(XBase xBase, bool delaysOnly = false)
 		{
-			var no = xBase.GKDescriptorNo;
-			var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(no));
+            var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
 			if (sendResult.HasError)
 			{
 				ConnectionChanged(false);
@@ -121,7 +187,7 @@ namespace GKProcessor
 			if (sendResult.Bytes.Count != 68)
 			{
 				IsAnyDBMissmatch = true;
-				xBase.GetXBaseState().IsGKMissmatch = true;
+				xBase.BaseState.IsGKMissmatch = true;
 				return false;
 			}
 			ConnectionChanged(true);
@@ -129,26 +195,16 @@ namespace GKProcessor
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 
-			var binaryState = xBase.GetXBaseState();
-			binaryState.LastDateTime = DateTime.Now;
-			binaryState.AdditionalStates = descriptorStateHelper.AdditionalStates;
-			binaryState.OnDelay = descriptorStateHelper.OnDelay;
-			binaryState.HoldDelay = descriptorStateHelper.HoldDelay;
-			binaryState.OffDelay = descriptorStateHelper.OffDelay;
-			binaryState.StateBits = descriptorStateHelper.StateBits;
+            xBase.BaseState.LastDateTime = DateTime.Now;
+            if (!delaysOnly)
+            {
+                xBase.BaseState.StateBits = descriptorStateHelper.StateBits;
+                xBase.BaseState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+            }
+            xBase.BaseState.OnDelay = descriptorStateHelper.OnDelay;
+            xBase.BaseState.HoldDelay = descriptorStateHelper.HoldDelay;
+            xBase.BaseState.OffDelay = descriptorStateHelper.OffDelay;
 			return true;
-		}
-
-		void CheckAdditionalStates(BaseDescriptor descriptor)
-		{
-			if (descriptor is DeviceDescriptor)
-			{
-				var deviceDescriptor = descriptor as DeviceDescriptor;
-				if (deviceDescriptor.Device.DriverType == XDriverType.GK || deviceDescriptor.Device.DriverType == XDriverType.KAU)
-				{
-					GetState(descriptor.XBase);
-				}
-			}
 		}
 
 		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
@@ -204,7 +260,7 @@ namespace GKProcessor
 			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
 				isMissmatch = true;
 
-			xBase.GetXBaseState().IsRealMissmatch = isMissmatch;
+			xBase.BaseState.IsRealMissmatch = isMissmatch;
 			if (isMissmatch)
 			{
 				IsAnyDBMissmatch = true;
@@ -219,9 +275,9 @@ namespace GKProcessor
 				{
 					var device = xBase as XDevice;
 					if (journalItem.Name == "Запыленность")
-						device.DeviceState.IsService = true;
+						device.InternalState.IsService = true;
 					if (journalItem.Name == "Запыленность устранена")
-						device.DeviceState.IsService = false;
+						device.InternalState.IsService = false;
 				}
 			}
 		}
@@ -232,8 +288,7 @@ namespace GKProcessor
 			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				var baseState = descriptor.XBase.GetXBaseState();
-				baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
+				descriptor.XBase.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 			}
 
 			if (!isInTechnologicalRegime)
@@ -242,11 +297,9 @@ namespace GKProcessor
 				{
 					isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
 					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
-					allChildren.Add(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
 					{
-						var baseState = device.GetXBaseState();
-						baseState.IsInTechnologicalRegime = isInTechnologicalRegime;
+						device.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
 					}
 				}
 			}

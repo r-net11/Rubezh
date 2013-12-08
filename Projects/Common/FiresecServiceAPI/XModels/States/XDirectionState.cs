@@ -6,8 +6,9 @@ namespace XFiresecAPI
 	{
 		public XDirection Direction { get; set; }
 
-		public XDirectionState()
+		public XDirectionState(XDirection direction)
 		{
+			Direction = direction;
 		}
 
 		List<XStateBit> _stateBits = new List<XStateBit>();

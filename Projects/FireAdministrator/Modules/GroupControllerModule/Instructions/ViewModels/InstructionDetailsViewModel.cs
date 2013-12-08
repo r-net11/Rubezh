@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -162,30 +163,54 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectZoneCommand { get; private set; }
 		void OnSelectZoneCommand()
 		{
-			var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
-			if (DialogService.ShowModalWindow(instructionZonesViewModel))
+			var zones = new List<XZone>();
+			foreach (var uid in InstructionZones)
 			{
-				InstructionZones = new ObservableCollection<Guid>(instructionZonesViewModel.TargetZonesList);
+				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				if (zone != null)
+					zones.Add(zone);
+			}
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(zones);
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
+			{
+				var uids = zonesSelectationViewModel.Zones.Select(x => x.UID).ToList();
+				InstructionZones = new ObservableCollection<Guid>(uids);
 			}
 		}
 
 		public RelayCommand SelectDeviceCommand { get; private set; }
 		void OnSelectDeviceCommand()
 		{
-			var instructionDevicesViewModel = new InstructionDevicesViewModel(InstructionDevices.ToList());
-			if (DialogService.ShowModalWindow(instructionDevicesViewModel))
+			var devices = new List<XDevice>();
+			foreach (var uid in InstructionDevices)
 			{
-				InstructionDevices = new ObservableCollection<Guid>(instructionDevicesViewModel.InstructionDevicesList);
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				if (device != null)
+					devices.Add(device);
+			}
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(devices);
+			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			{
+				var uids = devicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
+				InstructionDevices = new ObservableCollection<Guid>(uids);
 			}
 		}
 
         public RelayCommand SelectDirectionCommand { get; private set; }
         void OnSelectDirectionCommand()
         {
-            var instructionDirectionsViewModel = new InstructionDirectionsViewModel(InstructionDirections.ToList());
-            if (DialogService.ShowModalWindow(instructionDirectionsViewModel))
+            var directions = new List<XDirection>();
+			foreach (var uid in InstructionDirections)
+			{
+				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				if (direction != null)
+					directions.Add(direction);
+			}
+			var directionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
+			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
             {
-                InstructionDirections = new ObservableCollection<Guid>(instructionDirectionsViewModel.InstructionDirectionsList);
+				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
+				InstructionDirections = new ObservableCollection<Guid>(uids);
             }
         }
 

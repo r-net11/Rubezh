@@ -60,7 +60,6 @@
     <Compile Include="Administrator\GKFileReaderWriter.cs" />
     <Compile Include="Administrator\KauDescriptorsReader.cs" />
     <Compile Include="Administrator\ParametersHelper.cs" />
-    <Compile Include="AUParameterValue.cs" />
     <Compile Include="DescriptorsDatabase\DescriptorsManager.cs" />
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
@@ -160,6 +159,7 @@
     <Compile Include="Watcher\Watcher.JournalSynchronisation.cs" />
     <Compile Include="Watcher\Watcher.License.cs" />
     <Compile Include="Watcher\Watcher.Journal.cs" />
+    <Compile Include="Watcher\Watcher.Measure.cs" />
     <Compile Include="Watcher\Watcher.PingStates.cs" />
     <Compile Include="Watcher\Watcher.States.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />
