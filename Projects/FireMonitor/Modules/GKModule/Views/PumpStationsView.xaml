@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
     xmlns:Views="clr-namespace:GKModule.Views"
-    xmlns:Converters="clr-namespace:GKModule.Converters" >
+    xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<Grid>
         <DataGrid ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
@@ -55,7 +55,7 @@
                         </DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
+                <DataGridTemplateColumn Header="Время тушения" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
                             <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">

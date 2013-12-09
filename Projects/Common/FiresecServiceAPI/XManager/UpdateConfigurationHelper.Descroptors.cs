@@ -91,7 +91,7 @@ namespace FiresecClient
 			{
 				LinkDeviceLogic(pumpStation, pumpStation.StartLogic);
 				LinkDeviceLogic(pumpStation, pumpStation.ForbidLogic);
-				LinkDeviceLogic(pumpStation, pumpStation.StopLogic);
+				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic);
 			}
 		}
 

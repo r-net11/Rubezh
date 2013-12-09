@@ -21,7 +21,7 @@ namespace GKProcessor
                         AddAdditionalState(deviceState, journalItem.Description, XStateClass.Failure);
                         if (descriptor.Device.DriverType == XDriverType.Battery)
                         {
-                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.Names.Contains(journalItem.Description));
                             if (batteryNamesGroup != null)
                             {
                                 foreach (var name in batteryNamesGroup.Names)
