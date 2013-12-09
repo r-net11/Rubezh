@@ -216,24 +216,8 @@ namespace FireAdministrator.ViewModels
 					var zoneUID = device.ZoneUIDs[i];
 					device.ZoneUIDs[i] = ZoneUIDs[zoneUID];
 				}
-				foreach (var clause in device.DeviceLogic.Clauses)
-				{
-					for (int i = 0; i < clause.ZoneUIDs.Count; i++)
-					{
-						var zoneUID = clause.ZoneUIDs[i];
-						clause.ZoneUIDs[i] = ZoneUIDs[zoneUID];
-					}
-					for (int i = 0; i < clause.DeviceUIDs.Count; i++)
-					{
-						var deviceUID = clause.DeviceUIDs[i];
-						clause.DeviceUIDs[i] = DeviceUIDs[deviceUID];
-					}
-					for (int i = 0; i < clause.DirectionUIDs.Count; i++)
-					{
-						var directionUID = clause.DirectionUIDs[i];
-						clause.DirectionUIDs[i] = DirectionUIDs[directionUID];
-					}
-				}
+				ReplaceDeviceLogic(device.DeviceLogic);
+				ReplaceDeviceLogic(device.NSLogic);
 			}
 
 			foreach (var direction in XDeviceConfiguration.Directions)
@@ -248,11 +232,18 @@ namespace FireAdministrator.ViewModels
 					var deviceUID = directionDevice.DeviceUID;
 					directionDevice.DeviceUID = DeviceUIDs[deviceUID];
 				}
-				for (int i = 0; i < direction.NSDeviceUIDs.Count; i++)
+			}
+
+			foreach (var pumpStation in XDeviceConfiguration.PumpStations)
+			{
+				for (int i = 0; i < pumpStation.NSDeviceUIDs.Count; i++)
 				{
-					var deviceUID = direction.NSDeviceUIDs[i];
-					direction.NSDeviceUIDs[i] = DeviceUIDs[deviceUID];
+					var deviceUID = pumpStation.NSDeviceUIDs[i];
+					pumpStation.NSDeviceUIDs[i] = DeviceUIDs[deviceUID];
 				}
+				ReplaceDeviceLogic(pumpStation.StartLogic);
+				ReplaceDeviceLogic(pumpStation.AutomaticOffLogic);
+				ReplaceDeviceLogic(pumpStation.StopLogic);
 			}
 
 			foreach (var plan in PlansConfiguration.AllPlans)
@@ -307,6 +298,28 @@ namespace FireAdministrator.ViewModels
 			foreach (var plan in PlansConfiguration.AllPlans)
 			{
 				plan.UID = Guid.NewGuid();
+			}
+		}
+
+		void ReplaceDeviceLogic(XDeviceLogic deviceLogic)
+		{
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
+				{
+					var zoneUID = clause.ZoneUIDs[i];
+					clause.ZoneUIDs[i] = ZoneUIDs[zoneUID];
+				}
+				for (int i = 0; i < clause.DeviceUIDs.Count; i++)
+				{
+					var deviceUID = clause.DeviceUIDs[i];
+					clause.DeviceUIDs[i] = DeviceUIDs[deviceUID];
+				}
+				for (int i = 0; i < clause.DirectionUIDs.Count; i++)
+				{
+					var directionUID = clause.DirectionUIDs[i];
+					clause.DirectionUIDs[i] = DirectionUIDs[directionUID];
+				}
 			}
 		}
 

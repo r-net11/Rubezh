@@ -69,7 +69,7 @@ namespace GKProcessor
 				}
 			}
 			if (count == 0)
-				Formula.Add(FormulaOperationType.CONST, 0, 0, "Количество устройств в состоянии Пожар1");
+				Formula.Add(FormulaOperationType.CONST, 0, 0, "Нулевое количество устройств в состоянии Пожар1");
 
 			return count;
 		}

@@ -9,36 +9,28 @@ namespace GKModule.Validation
 {
     public static partial class Validator
     {
-        static void ValidateDirections()
-        {
-            ValidateDirectionNoEquality();
-			ValidateNSDifferentDevices();
+		static void ValidateDirections()
+		{
+			ValidateDirectionNoEquality();
 
-            foreach (var direction in XManager.Directions)
-            {
-                if (IsManyGK())
-                    ValidateDifferentGK(direction);
-                if (ValidateEmptyDirection(direction))
-                {
-                    if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
-                        ValidateDirectionInputCount(direction);
-                    if (MustValidate("В направлении отсутствуют выходные устройства"))
-                    {
-                        if (direction.IsNS)
-                        {
-                            ValidateDirectionNS(direction);
-                        }
-                        else
-                        {
-                            ValidateDirectionOutputCount(direction);
-                        }
-                    }
+			foreach (var direction in XManager.Directions)
+			{
+				if (IsManyGK())
+					ValidateDifferentGK(direction);
+				if (ValidateEmptyDirection(direction))
+				{
+					if (MustValidate("В направлении отсутствуют входные устройства или зоны"))
+						ValidateDirectionInputCount(direction);
+					if (MustValidate("В направлении отсутствуют выходные устройства"))
+					{
+						ValidateDirectionOutputCount(direction);
+					}
 
-                    ValidateEmptyZoneInDirection(direction);
-                    ValidateSameInputOutputDevices(direction);
-                }
-            }
-        }
+					ValidateEmptyZoneInDirection(direction);
+					ValidateSameInputOutputDevices(direction);
+				}
+			}
+		}
 
         static void ValidateDirectionNoEquality()
         {
@@ -76,49 +68,6 @@ namespace GKModule.Validation
                 Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
         }
 
-        static void ValidateDirectionNS(XDirection direction)
-        {
-			if(direction.Regime != 2)
-				Errors.Add(new DirectionValidationError(direction, "Режим НС должен быть выключено", ValidationErrorLevel.CannotWrite));
-
-            var nsDevices = new List<XDevice>();
-            foreach (var nsDeviceUID in direction.NSDeviceUIDs)
-            {
-                var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-                if (nsDevice != null)
-                {
-                    nsDevices.Add(nsDevice);
-                }
-            }
-            var pumpsCount = nsDevices.Count(x => (x.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.DriverType == XDriverType.RSR2_Bush);
-            if (pumpsCount == 0)
-            {
-                Errors.Add(new DirectionValidationError(direction, "В насосной станции отсутствуют насосы", ValidationErrorLevel.CannotWrite));
-            }
-            else
-            {
-                if (direction.NSPumpsCount > pumpsCount)
-                    Errors.Add(new DirectionValidationError(direction, "В насосной количество основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
-            }
-
-            var am1_TCount = nsDevices.Count(x => x.DriverType == XDriverType.AM1_T);
-            if (am1_TCount > 1)
-                Errors.Add(new DirectionValidationError(direction, "В насосной станции количество подключенных технологических меток больше 1", ValidationErrorLevel.CannotWrite));
-
-			var jnPumpsCount = nsDevices.Count(x => x.DriverType == XDriverType.Pump && x.IntAddress == 12);
-			if (jnPumpsCount > 1)
-				Errors.Add(new DirectionValidationError(direction, "В насосной станции количество подключенных ЖН больше 1", ValidationErrorLevel.CannotWrite));
-
-			if (jnPumpsCount == 1)
-			{
-				if(direction.InputZones.Count > 0)
-					Errors.Add(new DirectionValidationError(direction, "В насосной станции c ЖН не могут участвовать входные зоны", ValidationErrorLevel.CannotWrite));
-
-				if (!direction.InputDevices.All(x=>x.DriverType == XDriverType.AM_1))
-					Errors.Add(new DirectionValidationError(direction, "В насосной станции c ЖН во входных устройствах могут участвовать только АМ1", ValidationErrorLevel.CannotWrite));
-			}
-        }
-
         static bool ValidateEmptyDirection(XDirection direction)
         {
             var count = direction.InputZones.Count + direction.InputDevices.Count + direction.OutputDevices.Count;
@@ -151,21 +100,5 @@ namespace GKModule.Validation
                 }
             }
         }
-
-		static void ValidateNSDifferentDevices()
-		{
-			var nsDevices = new HashSet<Guid>();
-			foreach (var direction in XManager.Directions)
-			{
-				if (direction.IsNS)
-				{
-					foreach (var device in direction.NSDevices)
-					{
-						if(!nsDevices.Add(device.UID))
-							Errors.Add(new DirectionValidationError(direction, "Устройство " + device.PresentationName + " участвует в различных НС", ValidationErrorLevel.CannotWrite));
-					}
-				}
-			}
-		}
     }
 }

@@ -120,23 +120,29 @@ namespace GKModule.ViewModels
 			}
 
 			JournalItems.Clear();
-			LoadingService.Show("Чтение записей журнала", "Чтение записей журнала", 2 + EndIndex - StartIndex, true);
-			for (int i = StartIndex; i <= EndIndex; i++)
+			try
 			{
-				if (LoadingService.IsCanceled)
-					break;
-				LoadingService.DoStep("Чтение записи " + i);
-				var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
-				if (result.HasError)
+				LoadingService.Show("Чтение записей журнала", "Чтение записей журнала", 2 + EndIndex - StartIndex, true);
+				for (int i = StartIndex; i <= EndIndex; i++)
 				{
-					MessageBoxService.Show(result.Error);
-					break;
+					if (LoadingService.IsCanceled)
+						break;
+					LoadingService.DoStep("Чтение записи " + i);
+					var result = FiresecManager.FiresecService.GKReadJournalItem(Device, i);
+					if (result.HasError)
+					{
+						MessageBoxService.Show(result.Error);
+						break;
+					}
+					var journalItemViewModel = new JournalItemViewModel(result.Result);
+					JournalItems.Add(journalItemViewModel);
 				}
-				var journalItemViewModel = new JournalItemViewModel(result.Result);
-				JournalItems.Add(journalItemViewModel);
+				IsNotEmpty = true;
 			}
-			IsNotEmpty = true;
-			LoadingService.Close();
+			finally
+			{
+				LoadingService.Close();
+			}
 		}
 
 		public RelayCommand SaveToFileCommand { get; private set; }

@@ -16,7 +16,7 @@ namespace XFiresecAPI
 			NSPumpsCount = 1;
 			NSDeltaTime = 15;
 			StartLogic = new XDeviceLogic();
-			ForbidLogic = new XDeviceLogic();
+			StopLogic = new XDeviceLogic();
 			AutomaticOffLogic = new XDeviceLogic();
 
 			InputDevices = new List<XDevice>();
@@ -71,7 +71,7 @@ namespace XFiresecAPI
 		public XDeviceLogic StartLogic { get; set; }
 
 		[DataMember]
-		public XDeviceLogic ForbidLogic { get; set; }
+		public XDeviceLogic StopLogic { get; set; }
 
 		[DataMember]
 		public XDeviceLogic AutomaticOffLogic { get; set; }

@@ -16,11 +16,7 @@ namespace XFiresecAPI
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
             OutputDevices = new List<XDevice>();
-			NSDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
-			NSDeviceUIDs = new List<Guid>();
-			NSPumpsCount = 1;
-			NSDeltaTime = 5;
 		}
 		public XDirectionState InternalState { get; set; }
 		public override XBaseState BaseState
@@ -31,7 +27,6 @@ namespace XFiresecAPI
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }
-		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -62,18 +57,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
-
-		[DataMember]
-		public bool IsNS { get; set; }
-
-		[DataMember]
-		public List<Guid> NSDeviceUIDs { get; set; }
-
-		[DataMember]
-		public int NSPumpsCount { get; set; }
-
-		[DataMember]
-		public int NSDeltaTime { get; set; }
 
 		public override string PresentationName
 		{

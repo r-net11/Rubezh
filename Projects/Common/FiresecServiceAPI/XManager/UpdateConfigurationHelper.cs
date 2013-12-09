@@ -84,7 +84,6 @@ namespace FiresecClient
 			{
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
-				device.NSDirections = new List<XDirection>();
 				device.DevicesInLogic = new List<XDevice>();
 			}
 			foreach (var zone in DeviceConfiguration.Zones)
@@ -98,7 +97,6 @@ namespace FiresecClient
 				direction.InputZones = new List<XZone>();
 				direction.InputDevices = new List<XDevice>();
 				direction.OutputDevices = new List<XDevice>();
-				direction.NSDevices = new List<XDevice>();
 			}
 			foreach (var pumpStation in DeviceConfiguration.PumpStations)
 			{
@@ -233,34 +231,6 @@ namespace FiresecClient
 					}
 				}
 				direction.DirectionZones = directionZones;
-
-				var nsDeviceUIDs = new List<Guid>();
-				foreach (var nsDeviceUID in direction.NSDeviceUIDs)
-				{
-					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (nsDevice != null)
-					{
-						switch (nsDevice.DriverType)
-						{
-							case XDriverType.AM1_T:
-							case XDriverType.RSR2_Bush:
-								nsDeviceUIDs.Add(nsDevice.UID);
-								direction.NSDevices.Add(nsDevice);
-								nsDevice.NSDirections.Add(direction);
-								break;
-
-							case XDriverType.Pump:
-								if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
-								{
-									nsDeviceUIDs.Add(nsDevice.UID);
-									direction.NSDevices.Add(nsDevice);
-									nsDevice.NSDirections.Add(direction);
-								}
-								break;
-						}
-					}
-				}
-				direction.NSDeviceUIDs = nsDeviceUIDs;
 			}
 		}
 
@@ -289,7 +259,9 @@ namespace FiresecClient
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
 				InvalidatePumpStationLogic(pumpStation, pumpStation.StartLogic);
-				InvalidatePumpStationLogic(pumpStation, pumpStation.ForbidLogic);
+				if (pumpStation.StopLogic == null)
+					pumpStation.StopLogic = new XDeviceLogic();
+				InvalidatePumpStationLogic(pumpStation, pumpStation.StopLogic);
 				if (pumpStation.AutomaticOffLogic == null)
 					pumpStation.AutomaticOffLogic = new XDeviceLogic();
 				InvalidatePumpStationLogic(pumpStation, pumpStation.AutomaticOffLogic);

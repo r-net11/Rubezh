@@ -90,7 +90,7 @@ namespace FiresecClient
 			foreach (var pumpStation in DeviceConfiguration.PumpStations)
 			{
 				LinkDeviceLogic(pumpStation, pumpStation.StartLogic);
-				LinkDeviceLogic(pumpStation, pumpStation.ForbidLogic);
+				LinkDeviceLogic(pumpStation, pumpStation.StopLogic);
 				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic);
 			}
 		}

@@ -12,7 +12,6 @@ namespace GKModule.Validation
 		static void ValidatePumpStations()
 		{
 			ValidatePumpStationNoEquality();
-			ValidateNSDifferentDevices();
 
 			foreach (var pumpStation in XManager.PumpStations)
 			{

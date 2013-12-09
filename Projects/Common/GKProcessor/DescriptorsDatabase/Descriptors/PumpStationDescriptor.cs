@@ -27,19 +27,15 @@ namespace GKProcessor
         {
             Formula = new FormulaBuilder();
 
-			if (PumpStation.ForbidLogic.Clauses.Count > 0)
-			{
-				Formula.AddClauseFormula(PumpStation.ForbidLogic);
-			}
+			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
+				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
 
 			if (PumpStation.StartLogic.Clauses.Count > 0)
-			{
 				Formula.AddClauseFormula(PumpStation.StartLogic);
-			}
-			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
+			if (PumpStation.StopLogic.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
+				Formula.AddClauseFormula(PumpStation.StopLogic);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, PumpStation);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");

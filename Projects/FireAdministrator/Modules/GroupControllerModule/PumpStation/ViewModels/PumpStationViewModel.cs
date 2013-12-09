@@ -21,8 +21,8 @@ namespace GKModule.ViewModels
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeleteOutputDevice);
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
-			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
+			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
 			Update();
 		}
 
@@ -123,36 +123,36 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 
-		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
-		void OnChangeAutomaticOffLogic()
-		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.ForbidLogic);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
-			{
-				PumpStation.ForbidLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("AutomaticOffPresentationName");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public string AutomaticOffPresentationName
-		{
-			get { return XManager.GetPresentationZone(PumpStation.ForbidLogic); }
-		}
-
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
-				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();
+				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
 				OnPropertyChanged("StopPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		public string StopPresentationName
+		{
+			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+		}
+
+		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
+		void OnChangeAutomaticOffLogic()
+		{
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic);
+			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			{
+				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();
+				OnPropertyChanged("AutomaticOffPresentationName");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public string AutomaticOffPresentationName
 		{
 			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
 		}

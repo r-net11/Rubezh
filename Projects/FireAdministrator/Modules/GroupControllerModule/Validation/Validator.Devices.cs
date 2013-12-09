@@ -37,8 +37,6 @@ namespace GKModule.Validation
                 ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
             }
-
-            ValidateDifferentNS();
         }
 
         static bool MustValidate(string errorName)
@@ -214,28 +212,5 @@ namespace GKModule.Validation
 				}
 			}
 		}
-
-        static void ValidateDifferentNS()
-        {
-                var directionDevices = new List<XDevice>();
-                foreach (var direction in XManager.Directions)
-                {
-                    if (direction.IsNS)
-                    {
-                        foreach(var nsDevice in direction.NSDevices)
-                        {
-                        if(directionDevices.Contains(nsDevice))
-                        {
-                            Errors.Add(new DeviceValidationError(nsDevice, "Устройство присутствует в разных насосных станциях (" + direction.PresentationName + ")", ValidationErrorLevel.CannotWrite));
-                        }
-                        else
-                        {
-                            directionDevices.Add(nsDevice);
-                        }
-                        
-                    }
-                }
-            }
-        }
     }
 } 

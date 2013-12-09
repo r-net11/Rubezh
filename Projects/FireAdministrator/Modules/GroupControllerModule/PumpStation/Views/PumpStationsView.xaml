@@ -112,15 +112,15 @@
 			            </TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для отключения автоматики" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="Условие для останова" FontWeight="Bold" Width="250" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
-				            <Hyperlink Command="{Binding ChangeAutomaticOffLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+				            <Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 					            <TextBlock Margin="2">
 						            <TextBlock.Style>
 							            <Style>
-								            <Setter Property="TextBlock.Text" Value="{Binding AutomaticOffPresentationName}" />
+								            <Setter Property="TextBlock.Text" Value="{Binding StopPresentationName}" />
 								            <Style.Triggers>
-									            <DataTrigger Binding="{Binding AutomaticOffPresentationName}" Value="">
+									            <DataTrigger Binding="{Binding StopPresentationName}" Value="">
 										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
 									            </DataTrigger>
 								            </Style.Triggers>
@@ -131,15 +131,15 @@
 			            </TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для останова" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="Условие для отключения автоматики" FontWeight="Bold" Width="250" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
-				            <Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
+				            <Hyperlink Command="{Binding ChangeAutomaticOffLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 					            <TextBlock Margin="2">
 						            <TextBlock.Style>
 							            <Style>
-								            <Setter Property="TextBlock.Text" Value="{Binding StopPresentationName}" />
+								            <Setter Property="TextBlock.Text" Value="{Binding AutomaticOffPresentationName}" />
 								            <Style.Triggers>
-									            <DataTrigger Binding="{Binding StopPresentationName}" Value="">
+									            <DataTrigger Binding="{Binding AutomaticOffPresentationName}" Value="">
 										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
 									            </DataTrigger>
 								            </Style.Triggers>

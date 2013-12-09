@@ -18,7 +18,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -30,7 +29,6 @@
                 <Label Grid.Row="3" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
                 <Label Grid.Row="4" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
                 <Label Grid.Row="5" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
-                <Label Grid.Row="6" Grid.Column="0" Content="Использовать как насосную станцию" HorizontalAlignment="Right" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
@@ -51,28 +49,11 @@
                         <ComboBoxItem Content="Выключено" Tag="2" />
                     </ComboBox.Items>
                 </ComboBox>
-                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsNS, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                <StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding HasAUProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding GetDirectionPropertiesCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры направления" />
                     <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding SetDirectionPropertiesCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры направления" />
                     <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
                 </StackPanel>
-            </Grid>
-        </TabItem>
-        <TabItem Header="Насосная станция" Visibility="{Binding IsNS, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

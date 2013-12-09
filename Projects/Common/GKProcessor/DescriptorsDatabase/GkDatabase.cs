@@ -130,28 +130,10 @@ namespace GKProcessor
 				Descriptors.Add(pumpStationDescriptor);
 			}
 
-			foreach (var direction in Directions)
-			{
-				if (direction.IsNS)
-				{
-					var pumpStationCreator = new PumpStationCreator(this, direction);
-					pumpStationCreator.Create();
-				}
-			}
-
-			foreach (var direction in Directions)
-			{
-				if (direction.IsNS)
-				{
-					var pumpStationCreator = new PumpStationCreator(this, direction);
-					pumpStationCreator.Create();
-				}
-			}
-
 			foreach (var pumpStation in PumpStations)
 			{
-				var pumpStationCreator2 = new PumpStationCreator2(this, pumpStation);
-				pumpStationCreator2.Create();
+				var pumpStationCreator = new PumpStationCreator(this, pumpStation);
+				pumpStationCreator.Create();
 			}
 
 			Descriptors.ForEach(x => x.InitializeAllBytes());

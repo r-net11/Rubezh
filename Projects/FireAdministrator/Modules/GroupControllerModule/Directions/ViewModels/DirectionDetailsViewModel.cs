@@ -70,9 +70,6 @@ namespace GKModule.ViewModels
 			Hold = PumpStation.Hold;
 			Regime = PumpStation.Regime;
 			Description = PumpStation.Description;
-			IsNS = PumpStation.IsNS;
-			NSPumpsCount = PumpStation.NSPumpsCount;
-			NSDeltaTime = PumpStation.NSDeltaTime;
         }
 
         string _name;
@@ -144,41 +141,6 @@ namespace GKModule.ViewModels
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
-		#region NS
-		bool _isNS;
-		public bool IsNS
-		{
-			get { return _isNS; }
-			set
-			{
-				_isNS = value;
-				OnPropertyChanged("IsNS");
-			}
-		}
-
-		int _mainPumpsCount;
-		public int NSPumpsCount
-		{
-			get { return _mainPumpsCount; }
-			set
-			{
-				_mainPumpsCount = value;
-				OnPropertyChanged("MainPumpsCount");
-			}
-		}
-
-		int _pumpsDeltaTime;
-		public int NSDeltaTime
-		{
-			get { return _pumpsDeltaTime; }
-			set
-			{
-				_pumpsDeltaTime = value;
-				OnPropertyChanged("PumpsDeltaTime");
-			}
-		}
-		#endregion
-
 		protected override bool Save()
 		{
 			if (PumpStation.No != No && XManager.Directions.Any(x => x.No == No))
@@ -193,9 +155,6 @@ namespace GKModule.ViewModels
 			PumpStation.Hold = Hold;
 			PumpStation.Regime = Regime;
 			PumpStation.Description = Description;
-			PumpStation.IsNS = IsNS;
-			PumpStation.NSPumpsCount = NSPumpsCount;
-			PumpStation.NSDeltaTime = NSDeltaTime;
 			return base.Save();
 		}
 

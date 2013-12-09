@@ -38,7 +38,6 @@ namespace GKModule.ViewModels
 			ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
 			DeleteOutputDeviceCommand = new RelayCommand(OnDeleteOutputDevice, CanDeleteOutputDevice);
 			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
-			ChangeNSDevicesCommand = new RelayCommand(OnChangeNSDevices);
 			
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
@@ -131,7 +130,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые направления ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count + x.Direction.NSDevices.Count == 0).ToList();
+				var emptyDirections = Directions.Where(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0).ToList();
 				foreach (var emptyDirection in emptyDirections)
 				{
 					XManager.RemoveDirection(emptyDirection.Direction);
@@ -144,7 +143,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count + x.Direction.NSDevices.Count == 0) > 0;
+			return Directions.Count(x => x.Direction.InputDevices.Count + x.Direction.OutputDevices.Count + x.Direction.DirectionZones.Count == 0) > 0;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -218,12 +217,6 @@ namespace GKModule.ViewModels
 		bool CanDeleteOutputDevice()
 		{
 			return SelectedDirection != null && SelectedDirection.SelectedOutputDevice != null;
-		}
-
-		public RelayCommand ChangeNSDevicesCommand { get; private set; }
-		void OnChangeNSDevices()
-		{
-			SelectedDirection.ChangeNSDevices();
 		}
 
 		public void CreateDirection(CreateXDirectionEventArg createDirectionEventArg)

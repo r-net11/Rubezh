@@ -45,17 +45,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
-                <DataGridTemplateColumn Width="Auto" Header="НС" SortMemberPath="Direction.IsNS">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="НС" FontWeight="Bold" Background="Yellow" Visibility="{Binding Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </Controls:XDataGrid>
 
-        <Grid Grid.Row="0" Grid.Column="3" Visibility="{Binding SelectedDirection.Direction.IsNS, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+        <Grid Grid.Row="0" Grid.Column="3">
             <DataGrid ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedOutputDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Выходные устройства" MinWidth="200" Width="Auto">
@@ -100,71 +93,6 @@
             </Grid.ContextMenu>
         </Grid>
 
-        <Grid Grid.Row="0" Grid.Column="3" Visibility="{Binding SelectedDirection.Direction.IsNS, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding NSDevices}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedNSDevice}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройства НС" MinWidth="200" Width="Auto">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
-                                    <TextBlock Margin="2" Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" MinWidth="100" Width="Auto" />
-                    <DataGridTemplateColumn Header="Логика" MinWidth="200" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Controls:EditorPresenter>
-                                    <Controls:EditorPresenter.ViewTemplate>
-                                        <ControlTemplate>
-                                            <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding NSPresentationZone}" Visibility="{Binding IsNSLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <TextBlock.Style>
-											        <Style TargetType="TextBlock">
-												        <Style.Triggers>
-													        <DataTrigger Binding="{Binding IsZoneGrayed}" Value="True">
-														        <Setter Property="TextBlock.Foreground" Value="Gray" />
-													        </DataTrigger>
-												        </Style.Triggers>
-											        </Style>
-										        </TextBlock.Style>
-												<TextBlock.InputBindings>
-													<MouseBinding Command="{Binding ShowNSLogicCommand}" MouseAction="LeftClick" />
-												</TextBlock.InputBindings>
-												<TextBlock.ToolTip>
-													<WrapPanel>
-														<TextBlock Text="{Binding NSPresentationZone}" TextWrapping="Wrap" />
-													</WrapPanel>
-												</TextBlock.ToolTip>
-											</TextBlock>
-                                        </ControlTemplate>
-                                    </Controls:EditorPresenter.ViewTemplate>
-                                </Controls:EditorPresenter>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Grid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="" Command="{Binding ChangeNSDevicesCommand}" >
-                        <MenuItem.Icon>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Изменить" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </ContextMenu>
-            </Grid.ContextMenu>
-        </Grid>
-        
         <Grid Grid.Column="0" Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

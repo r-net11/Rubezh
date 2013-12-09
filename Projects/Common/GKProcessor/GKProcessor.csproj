@@ -66,7 +66,6 @@
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
-    <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BinProperty.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\DelayDescriptor.cs" />
@@ -75,7 +74,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\DirectionDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
-    <Compile Include="DescriptorsDatabase\PumpStationCreator2.cs" />
+    <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
     <Compile Include="DescriptorStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />
