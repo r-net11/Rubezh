@@ -2,7 +2,7 @@
 
 namespace GKModule.Views
 {
-    public partial class DevicesSelectationView : UserControl
+	public partial class DevicesSelectationView : UserControl
     {
         public DevicesSelectationView()
         {

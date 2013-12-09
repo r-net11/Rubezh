@@ -49,8 +49,8 @@
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsControl Background="White">
 						<ItemsControl.Items>
-                            <StackPanel Orientation="Horizontal">
-								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
+                            <StackPanel Orientation="Horizontal" Margin="2">
+								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />
 								<WrapPanel>
 									<TextBlock>
 										<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
@@ -63,8 +63,8 @@
 								</WrapPanel>
 							</StackPanel>
 
-							<WrapPanel>
-								<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Подключено к: " />
+                            <WrapPanel Margin="2">
+								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Подключено к: " />
 								<TextBlock>
 									<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
@@ -84,8 +84,8 @@
 								</WrapPanel.Style>
 							</WrapPanel>
 
-                            <WrapPanel>
-                                <TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
+                            <WrapPanel Margin="2">
+                                <TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Зона или Логика: " />
                                 <TextBlock>
 									<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
@@ -108,7 +108,7 @@
                                 </WrapPanel.Style>
                             </WrapPanel>
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="2" >
                                 <WrapPanel>
                                     <TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
@@ -119,13 +119,13 @@
 										</Hyperlink>
 								    </TextBlock>
                                 </WrapPanel>
-                            </StackPanel>                            
+                            </StackPanel>
 
-                            <ItemsControl ItemsSource="{Binding PlanNames}">
+                            <ItemsControl ItemsSource="{Binding PlanNames}" Margin="2" >
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
 										<StackPanel Orientation="Horizontal">
-											<TextBlock Width="110" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="План: "/>
+											<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="План: "/>
 											<TextBlock>
 												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 													<StackPanel Orientation="Horizontal">

@@ -37,18 +37,12 @@
                 <ContextMenu>
                     <MenuItem Command="{Binding AddDeviceCommand}" Header="Добавить устройство">
                         <MenuItem.Icon>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Добавить устройство" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Command="{Binding RemoveDeviceCommand}" Header="Удалить устройство">
                         <MenuItem.Icon>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" Text="Удалить устройство" VerticalAlignment="Center" />
-                            </StackPanel>
+                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>

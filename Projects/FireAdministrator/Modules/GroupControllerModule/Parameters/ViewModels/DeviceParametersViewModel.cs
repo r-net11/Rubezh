@@ -205,7 +205,7 @@ namespace GKModule.ViewModels
 		bool IsPropertyValid(XProperty property, XDriverProperty driverProperty)
 		{
 			int value;
-			return
+			return 
 					driverProperty != null &&
 					driverProperty.IsAUParameter &&
 					driverProperty.DriverPropertyType == XDriverPropertyTypeEnum.IntType &&

@@ -32,6 +32,7 @@ namespace PlansModule.Designer
 			_presenterItem = presenterItem;
 			_painter = (SubPlanPainter)presenterItem.Painter;
 			_presenterItem.Title = (presenterItem.Element as ElementSubPlan).Caption;
+			_presenterItem.PlanViewModel = PlanTreeViewModel.Current.AllPlans.FirstOrDefault(x => x.Plan.UID == PlanUID);
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = null;
 			_presenterItem.Cursor = Cursors.Hand;
@@ -54,9 +55,8 @@ namespace PlansModule.Designer
 			Color color = Colors.Transparent;
 			if (PlanTreeViewModel.Current != null)
 			{
-				var planViewModel = PlanTreeViewModel.Current.AllPlans.FirstOrDefault(x => x.Plan.UID == PlanUID);
-				if(planViewModel != null)
-					color = GetStateColor(planViewModel.StateClass);
+				if(_presenterItem.PlanViewModel != null)
+					color = GetStateColor(_presenterItem.PlanViewModel.StateClass);
 			}
 			return PainterCache.GetTransparentBrush(color);
 		}
@@ -91,23 +91,17 @@ namespace PlansModule.Designer
 
 	public class MonitorPresenterItem : PresenterItem
 	{
-		public MonitorPresenterItem(ElementBase element):
-			base(element)
+		public MonitorPresenterItem(ElementBase element)
+			:base(element)
 		{
 			;
 		}
 
-		//protected override object GetToolTip()
-		//{
-		//    Image image = new Image();
-		//    image.Width = 16;
-		//    image.VerticalAlignment = VerticalAlignment.Center;
-		//    BitmapImage sourceImage = new BitmapImage();
-		//    sourceImage.BeginInit();
-		//    sourceImage.UriSource = new Uri("pack://application:,,,/Controls;component/Images/BTree.png");
-		//    sourceImage.EndInit();
-		//    image.Source = sourceImage;
-		//    return image;
-		//}
+		public PlanViewModel PlanViewModel;
+		
+		protected override object GetToolTip()
+		{
+			return new MonitorSubPlanViewModel(PlanViewModel);
+		}
 	}
 }

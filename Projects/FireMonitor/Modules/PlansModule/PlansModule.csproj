@@ -103,6 +103,7 @@
     <Compile Include="Designer\PresenterCanvas.cs" />
     <Compile Include="ViewModels\FlushViewModel.cs" />
     <Compile Include="Designer\MonitorSubPlanPainter.cs" />
+    <Compile Include="ViewModels\MonitorSubPlanViewModel.cs" />
     <Compile Include="ViewModels\PlanTreeViewModel.cs" />
     <Compile Include="PlansModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -123,6 +124,9 @@
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="Views\FlushView.xaml.cs">
       <DependentUpon>FlushView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonitorSubPlanView.xaml.cs">
+      <DependentUpon>MonitorSubPlanView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
@@ -188,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FlushView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MonitorSubPlanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

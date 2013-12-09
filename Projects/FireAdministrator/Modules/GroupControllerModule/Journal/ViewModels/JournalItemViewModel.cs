@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -33,7 +35,7 @@ namespace GKModule.ViewModels
 			{
 				TypeName = "ГК";
 				Address = "";
-				ImageSource = "/Controls;component/GKIcons/GK.png";
+				ImageSource = "";
 				return;
 			}
 
@@ -73,54 +75,91 @@ namespace GKModule.ViewModels
 
 		void InitializePresentationName()
 		{
-			if (!string.IsNullOrEmpty(JournalItem.ObjectName))
+			try
 			{
-				PresentationName = JournalItem.ObjectName;
-				return;
-			}
+				switch (JournalItem.JournalItemType)
+				{
+					case JournalItemType.Device:
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (device != null)
+						{
+							PresentationName = device.PresentationName;
+						}
+						break;
 
-			switch (JournalItem.JournalItemType)
-			{
-				case JournalItemType.Device:
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (device != null)
-					{
-						PresentationName = device.PresentationName;
-					}
-					break;
+					case JournalItemType.Zone:
+						var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (zone != null)
+						{
+							PresentationName = zone.PresentationName;
+						}
+						break;
 
-				case JournalItemType.Zone:
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (zone != null)
-					{
-						PresentationName = zone.PresentationName;
-					}
-					break;
+					case JournalItemType.Direction:
+						var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (direction != null)
+						{
+							PresentationName = direction.PresentationName;
+						}
+						break;
 
-				case JournalItemType.Direction:
-					var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					if (direction != null)
-					{
-						PresentationName = direction.PresentationName;
-					}
-					break;
+					case JournalItemType.PumpStation:
+						var pumpStation = XManager.PumpStations.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						if (pumpStation != null)
+						{
+							PresentationName = pumpStation.PresentationName;
+						}
+						break;
 
-				case JournalItemType.Delay:
-					XDelay delay = null;
-					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-					{
-						delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+					case JournalItemType.Delay:
+						XDelay delay = null;
+						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+						{
+							delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (delay != null)
+								break;
+						}
 						if (delay != null)
-							break;
-					}
-					if (delay != null)
-					{
-						PresentationName = delay.Name;
-					}
-					break;
+						{
+							PresentationName = delay.PresentationName;
+						}
+						break;
 
-				case JournalItemType.System:
-					break;
+					case JournalItemType.Pim:
+						XPim pim = null;
+						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+						{
+							pim = gkDatabase.Pims.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
+							if (pim != null)
+								break;
+						}
+						if (pim != null)
+						{
+							PresentationName = pim.PresentationName;
+						}
+						break;
+
+					case JournalItemType.GkUser:
+						PresentationName = JournalItem.UserName;
+						break;
+
+					case JournalItemType.GK:
+					case JournalItemType.System:
+						PresentationName = "";
+						break;
+				}
+
+				if (PresentationName == null)
+				{
+					PresentationName = JournalItem.ObjectName;
+				}
+
+				if (PresentationName == null)
+					PresentationName = "<Нет в конфигурации>";
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "JournalItemViewModel ctr");
 			}
 		}
 

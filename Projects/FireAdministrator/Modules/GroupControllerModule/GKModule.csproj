@@ -136,11 +136,11 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
-    <Compile Include="Devices\Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Selectation\Views\DirectionsSelectationView.xaml.cs">
+    <Compile Include="Selectation\Views\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Diagnostics\ConfigurationConverter\GKToFiresecConverter.cs" />
@@ -248,16 +248,16 @@
     <Compile Include="Converters\ClauseJounOperationConverter.cs" />
     <Compile Include="Converters\ClauseOperationConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
-    <Compile Include="Devices\Selectation\ViewModels\DevicesSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DevicesSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
-    <Compile Include="Devices\Selectation\ViewModels\ZonesSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Selectation\Views\DevicesSelectationView.xaml.cs">
+    <Compile Include="Selectation\Views\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Selectation\Views\ZonesSelectationView.xaml.cs">
+    <Compile Include="Selectation\Views\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
@@ -443,15 +443,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Selectation\Views\DevicesSelectationView.xaml">
+    <Page Include="Selectation\Views\DevicesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Selectation\Views\DirectionsSelectationView.xaml">
+    <Page Include="Selectation\Views\DirectionsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Selectation\Views\ZonesSelectationView.xaml">
+    <Page Include="Selectation\Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -32,7 +32,8 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal">
-                                            <ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
+                                            <ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" 
+                                                      Width="30" Margin="2">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <TextBlock Text="{Binding ., Converter={StaticResource ClauseConditionConverter}}" />
@@ -40,7 +41,8 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
 
-                                            <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
+                                            <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" 
+                                                      Width="160" Margin="2">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -59,7 +61,6 @@
                                                             <Image Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
                                                             <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Margin="2"/>
                                                         </StackPanel>
-                                                        
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
