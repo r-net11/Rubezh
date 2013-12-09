@@ -37,9 +37,9 @@ namespace GKProcessor
 			{
 				Formula.AddClauseFormula(PumpStation.StartLogic);
 			}
-			if (PumpStation.StopLogic.Clauses.Count > 0)
+			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(PumpStation.StopLogic);
+				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, PumpStation);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");

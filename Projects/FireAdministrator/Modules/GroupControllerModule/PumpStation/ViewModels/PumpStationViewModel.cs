@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices);
 			DeletePumpDeviceCommand = new RelayCommand(OnDeleteOutputDevice);
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
-			ChangeForbidStartLogicCommand = new RelayCommand(OnChangeForbidStartLogic);
+			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			Update();
 		}
@@ -113,29 +113,29 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.StartLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("StartPumpStationPresentationName");
+				OnPropertyChanged("StartPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public string StartPumpStationPresentationName
+		public string StartPresentationName
 		{
 			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
 		}
 
-		public RelayCommand ChangeForbidStartLogicCommand { get; private set; }
-		void OnChangeForbidStartLogic()
+		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
+		void OnChangeAutomaticOffLogic()
 		{
 			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.ForbidLogic);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.ForbidLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("ForbidStartPumpStationPresentationName");
+				OnPropertyChanged("AutomaticOffPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public string ForbidStartPumpStationPresentationName
+		public string AutomaticOffPresentationName
 		{
 			get { return XManager.GetPresentationZone(PumpStation.ForbidLogic); }
 		}
@@ -143,18 +143,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
-				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("StopPumpStationPresentationName");
+				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();
+				OnPropertyChanged("StopPresentationName");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public string StopPumpStationPresentationName
+		public string StopPresentationName
 		{
-			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace XFiresecAPI
 			NSDeltaTime = 5;
 			StartLogic = new XDeviceLogic();
 			ForbidLogic = new XDeviceLogic();
-			StopLogic = new XDeviceLogic();
+			AutomaticOffLogic = new XDeviceLogic();
 
 			InputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
@@ -74,7 +74,7 @@ namespace XFiresecAPI
 		public XDeviceLogic ForbidLogic { get; set; }
 
 		[DataMember]
-		public XDeviceLogic StopLogic { get; set; }
+		public XDeviceLogic AutomaticOffLogic { get; set; }
 
 		public override string PresentationName
 		{
