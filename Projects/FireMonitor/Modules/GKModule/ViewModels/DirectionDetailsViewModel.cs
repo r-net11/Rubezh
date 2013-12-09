@@ -74,13 +74,7 @@ namespace GKModule.ViewModels
 		}
 		public int OutputDevicesCount
 		{
-			get
-			{
-				if (!Direction.IsNS)
-					return Direction.OutputDevices.Count;
-				else
-					return Direction.NSDevices.Where(x => (x.DriverType == XDriverType.Pump && x.IntAddress <= 8) || x.DriverType == XDriverType.RSR2_Bush).Count();
-			}
+			get { return Direction.OutputDevices.Count; }
 		}
 
 		public DeviceControlRegime ControlRegime

@@ -85,32 +85,10 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("InputZones");
 
 			OutputDevices = new List<DeviceViewModel>();
-			if (!SelectedDirection.Direction.IsNS)
+			foreach (var outputDevice in SelectedDirection.Direction.OutputDevices)
 			{
-				foreach (var outputDevice in SelectedDirection.Direction.OutputDevices)
-				{
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == outputDevice);
-					OutputDevices.Add(deviceViewModel);
-				}
-			}
-			else
-			{
-				foreach (var deviceUID in SelectedDirection.Direction.NSDeviceUIDs)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null)
-					{
-						switch (device.DriverType)
-						{
-							case XDriverType.AM1_T:
-							case XDriverType.Pump:
-							case XDriverType.RSR2_Bush:
-								var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-								OutputDevices.Add(deviceViewModel);
-								break;
-						}
-					}
-				}
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == outputDevice);
+				OutputDevices.Add(deviceViewModel);
 			}
 			OnPropertyChanged("OutputDevices");
 		}
