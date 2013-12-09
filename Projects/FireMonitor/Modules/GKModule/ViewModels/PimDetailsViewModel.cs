@@ -15,31 +15,28 @@ using System.Windows.Input;
 
 namespace GKModule.ViewModels
 {
-	public class PumpStationDetailsViewModel : DialogViewModel, IWindowIdentity
+	public class PimDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public XPumpStation PumpStation { get; private set; }
+		public XPim Pim { get; private set; }
 		public XState State { get; private set; }
-		public PumpStationViewModel PumpStationViewModel { get; private set; }
+		public PimViewModel PimViewModel { get; private set; }
 
-		public PumpStationDetailsViewModel(XPumpStation pumpStation)
+		public PimDetailsViewModel(XPim pim)
 		{
-			PumpStation = pumpStation;
-			State = PumpStation.State;
-			PumpStationViewModel = new PumpStationViewModel(State);
+			Pim = pim;
+			State = Pim.State;
+			PimViewModel = new PimViewModel(State);
 			State.StateChanged += new Action(OnStateChanged);
-			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
-			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
-			ForbidStartCommand = new RelayCommand(OnForbidStart);
 
-			Title = PumpStation.PresentationName;
+			Title = Pim.Name;
 			TopMost = true;
 		}
 
@@ -49,8 +46,6 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ControlRegime");
 			OnPropertyChanged("IsControlRegime");
 			OnPropertyChanged("State");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -62,19 +57,6 @@ namespace GKModule.ViewModels
 				stateClasses.Sort();
 				return stateClasses;
 			}
-		}
-
-		public int InputZonesCount
-		{
-			get { return PumpStation.InputZones.Count; }
-		}
-		public int InputDevicesCount
-		{
-			get { return PumpStation.InputDevices.Count; }
-		}
-		public int InputDirectionsCount
-		{
-			get { return PumpStation.InputDirections.Count(); }
 		}
 
 		public DeviceControlRegime ControlRegime
@@ -101,7 +83,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKSetAutomaticRegime(PumpStation);
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Pim);
             }
         }
 		bool CanSetAutomaticState()
@@ -114,7 +96,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKSetManualRegime(PumpStation);
+				FiresecManager.FiresecService.GKSetManualRegime(Pim);
             }
         }
 		bool CanSetManualState()
@@ -127,7 +109,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKSetIgnoreRegime(PumpStation);
+				FiresecManager.FiresecService.GKSetIgnoreRegime(Pim);
             }
         }
 		bool CanSetIgnoreState()
@@ -140,7 +122,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKTurnOn(PumpStation);
+				FiresecManager.FiresecService.GKTurnOn(Pim);
             }
         }
 
@@ -149,7 +131,7 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKTurnOnNow(PumpStation);
+				FiresecManager.FiresecService.GKTurnOnNow(Pim);
             }
         }
 
@@ -158,55 +140,20 @@ namespace GKModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.GKTurnOff(PumpStation);
+				FiresecManager.FiresecService.GKTurnOff(Pim);
             }
         }
-
-		public RelayCommand ForbidStartCommand { get; private set; }
-        void OnForbidStart()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
-				FiresecManager.FiresecService.GKStop(PumpStation);
-            }
-        }
-
-		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
-		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
-			{
-				Device = null,
-				Zone = null,
-				PumpStation = PumpStation
-			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
-		}
-
-		public bool HasOnDelay
-		{
-			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
-		}
-		public bool HasHoldDelay
-		{
-			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
-		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
+			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.UID);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
 		public bool HasPlans
 		{
 			get { return Plans.Count > 0; }
-		}
-
-		void InitializePlans()
-		{
-			Plans = new ObservableCollection<PlanLinkViewModel>();
 		}
 
 		public bool CanControl
@@ -217,7 +164,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return PumpStation.UID.ToString(); }
+			get { return Pim.UID.ToString(); }
 		}
 		#endregion
 

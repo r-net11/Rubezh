@@ -13,6 +13,7 @@ namespace Infrastructure.Events
 		public XDirection Direction { get; set; }
 		public XZone Zone { get; set; }
 		public XDelay Delay { get; set; }
+		public XPim Pim { get; set; }
 		public XPumpStation PumpStation { get; set; }
 	}
 }

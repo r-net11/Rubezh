@@ -28,6 +28,7 @@ namespace GKModule
 		static ZonesViewModel ZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
 		static DelaysViewModel DelaysViewModel;
+		static PimsViewModel PimsViewModel;
 		static PumpStationsViewModel PumpStationsViewModel;
 		NavigationItem _journalNavigationItem;
 		static JournalsViewModel JournalsViewModel;
@@ -36,6 +37,7 @@ namespace GKModule
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
 		NavigationItem _delaysNavigationItem;
+		NavigationItem _pimsNavigationItem;
 		NavigationItem _pumpStationsNavigationItem;
 		private PlanPresenter _planPresenter;
 
@@ -59,6 +61,7 @@ namespace GKModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			DelaysViewModel = new DelaysViewModel();
+			PimsViewModel = new PimsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
@@ -124,8 +127,10 @@ namespace GKModule
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
 			_delaysNavigationItem.IsVisible = false;
+			_pimsNavigationItem.IsVisible = false;
 #if DEBUG
 			_delaysNavigationItem.IsVisible = true;
+			_pimsNavigationItem.IsVisible = true;
 #endif
 			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
 			DevicesViewModel.Initialize();
@@ -133,6 +138,7 @@ namespace GKModule
 			DirectionsViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
 			DelaysViewModel.Initialize();
+			PimsViewModel.Initialize();
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}
@@ -141,6 +147,7 @@ namespace GKModule
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
 			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
+			_pimsNavigationItem = new NavigationItem<ShowXPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
 			_pumpStationsNavigationItem = new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty);
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
@@ -152,6 +159,7 @@ namespace GKModule
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_delaysNavigationItem,
+					_pimsNavigationItem,
 					_pumpStationsNavigationItem,
 					_journalNavigationItem,
 					new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")

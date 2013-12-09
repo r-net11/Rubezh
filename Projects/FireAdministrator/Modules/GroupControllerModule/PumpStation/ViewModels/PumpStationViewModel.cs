@@ -18,8 +18,6 @@ namespace GKModule.ViewModels
 		public PumpStationViewModel(XPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
-			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices);
-			DeletePumpDeviceCommand = new RelayCommand(OnDeleteOutputDevice);
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
 			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
@@ -65,8 +63,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand ChangePumpDevicesCommand { get; private set; }
-		void OnChangePumpDevices()
+		public void ChangePumpDevices()
 		{
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
@@ -89,16 +86,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeletePumpDeviceCommand { get; private set; }
-		void OnDeleteOutputDevice()
+		public void DeletePumpDevice()
 		{
-			if (SelectedPumpDevice == null)
-				return;
-
-			PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
-			Update();
-			ServiceFactory.SaveService.GKChanged = true;
-
+			if (SelectedPumpDevice != null)
+			{
+				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
+				Update();
+				ServiceFactory.SaveService.GKChanged = true;
+			}
 			SelectedPumpDevice = null;
 		}
 		bool CanDeleteOutputDevice()

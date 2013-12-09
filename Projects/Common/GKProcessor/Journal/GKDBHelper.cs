@@ -329,6 +329,7 @@ namespace GKProcessor
 							objectUIDs.AddRange(archiveFilter.ZoneUIDs);
 							objectUIDs.AddRange(archiveFilter.DirectionUIDs);
 							objectUIDs.AddRange(archiveFilter.DelayUIDs);
+							objectUIDs.AddRange(archiveFilter.PimUIDs);
 							objectUIDs.AddRange(archiveFilter.PumpStationUIDs);
 							if (objectUIDs.Count > 0)
 							{

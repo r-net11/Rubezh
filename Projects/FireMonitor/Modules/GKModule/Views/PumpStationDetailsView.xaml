@@ -58,8 +58,8 @@
                                 <TextBlock>
 				                    <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" Margin="2 0"/>
-                                            <TextBlock Text="{Binding PumpStation.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold"/>
+                                            <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" Margin="2 0" />
+                                            <TextBlock Text="{Binding PumpStation.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
                                         </StackPanel>
                                     </Hyperlink>
                                 </TextBlock>
@@ -70,7 +70,7 @@
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
-												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
 											</StackPanel>
 										</Hyperlink>
 								    </TextBlock>
@@ -99,28 +99,32 @@
                                 </ItemsControl>
                             </WrapPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Входных зон: "/>
-                                <TextBlock Text="{Binding InputZonesCount}"/>
+                                <TextBlock Text="Входных зон: " Margin="2" />
+                                <TextBlock Text="{Binding InputZonesCount}" Margin="2" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Входных устройств: " />
-                                <TextBlock Text="{Binding InputDevicesCount}"/>
+                                <TextBlock Text="Входных устройств: " Margin="2" />
+                                <TextBlock Text="{Binding InputDevicesCount}" Margin="2" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Выходных устройств: " />
-                                <TextBlock Text="{Binding OutputDevicesCount}"/>
+                                <TextBlock Text="Входных направлений: " Margin="2" />
+                                <TextBlock Text="{Binding InputDirectionsCount}" Margin="2" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Задержка: " />
-                                <TextBlock Text="{Binding PumpStation.Delay}"/>
+                                <TextBlock Text="Задержка: " Margin="2" />
+                                <TextBlock Text="{Binding PumpStation.Delay}" Margin="2" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Удержание: " />
-                                <TextBlock Text="{Binding PumpStation.Hold}"/>
+                                <TextBlock Text="Время тушения: " Margin="2" />
+                                <TextBlock Text="{Binding PumpStation.Hold}" Margin="2" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Режим после удержания: " />
-                                <TextBlock Text="{Binding PumpStation.Regime, Converter={StaticResource RegimeToStringConverter}}"/>
+                                <TextBlock Text="Количество основных насосов: " Margin="2" />
+                                <TextBlock Text="{Binding PumpStation.NSPumpsCount}" Margin="2" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Время разновременного пуска: " Margin="2" />
+                                <TextBlock Text="{Binding PumpStation.NSDeltaTime}" Margin="2" />
                             </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>
@@ -134,7 +138,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 5">
                         <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
+                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White" />
                         <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
                     </StackPanel>
                     <Grid Grid.Row="1" Background="White">

@@ -11,10 +11,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using System;
 
 namespace GKModule.ViewModels
 {
-	public class PumpStationsViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class PumpStationsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public PumpStationsViewModel()
 		{
@@ -22,6 +23,8 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			ChangePumpDevicesCommand = new RelayCommand(OnChangePumpDevices);
+			DeletePumpDeviceCommand = new RelayCommand(OnDeletePumpDevice, CanDeletePumpDevice);
             RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -108,6 +111,28 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand ChangePumpDevicesCommand { get; private set; }
+		void OnChangePumpDevices()
+		{
+			SelectedPumpStation.ChangePumpDevices();
+		}
+
+		public RelayCommand DeletePumpDeviceCommand { get; private set; }
+		void OnDeletePumpDevice()
+		{
+			SelectedPumpStation.DeletePumpDevice();
+		}
+		bool CanDeletePumpDevice()
+		{
+			return SelectedPumpStation != null && SelectedPumpStation.SelectedPumpDevice != null;
+		}
+
+		public void Select(Guid pumpStationUID)
+		{
+			if (pumpStationUID != Guid.Empty)
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
+		}
+
 		public override void OnShow()
 		{
 			base.OnShow();
@@ -125,7 +150,6 @@ namespace GKModule.ViewModels
             RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
             RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
-
 
 		private void SetRibbonItems()
 		{

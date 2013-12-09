@@ -11,7 +11,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center"  Margin="5 0 0 0"/>
+                <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center"  Margin="5 0 0 0" />
                 <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
             </StackPanel>
         </StackPanel>
@@ -23,8 +23,8 @@
                             <TextBlock>
 				                <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="16" Source="/Controls;component/Images/zone.png" Margin="0 0 0 2"/>
-                                        <TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold"/>
+                                        <Image Width="16" Source="/Controls;component/Images/zone.png" Margin="0 0 0 2" />
+                                        <TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
                                     </StackPanel>
                                 </Hyperlink>
                             </TextBlock>
@@ -35,7 +35,7 @@
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
-												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" FontWeight="Bold" Margin="2" />
 											</StackPanel>
 										</Hyperlink>
 								    </TextBlock>

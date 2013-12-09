@@ -76,6 +76,14 @@
         <Views:DelayDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
+        <Views:PimsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:PimDetailsViewModel}">
+        <Views:PimDetailsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
         <Views:PumpStationsView />
     </DataTemplate>

@@ -105,7 +105,19 @@
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
     <Compile Include="ViewModels\AUParameterValue.cs" />
+    <Compile Include="ViewModels\PimDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PimsViewModel.cs" />
+    <Compile Include="ViewModels\PimViewModel.cs" />
     <Compile Include="ViewModels\__DeviceDetailsViewModel__.cs" />
+    <Compile Include="Views\PimDetailsView.xaml.cs">
+      <DependentUpon>PimDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PimsView.xaml.cs">
+      <DependentUpon>PimsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolTip\PimToolTipView.xaml.cs">
+      <DependentUpon>PimToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolTip\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
@@ -323,6 +335,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PimDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PimsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DelaysView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -352,6 +372,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Page Include="Views\ToolTip\PimToolTipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ToolTip\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

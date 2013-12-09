@@ -26,7 +26,7 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
-                <Label Grid.Row="3" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Время тушения, с" HorizontalAlignment="Right" />
                 <Label Grid.Row="4" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
                 <Label Grid.Row="5" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
 
@@ -39,8 +39,8 @@
                         </Style>
                     </controls:XAutoCompleteBox.TextBoxStyle>
                 </controls:XAutoCompleteBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="1" Maximum="60" Width="50" HorizontalAlignment="Left" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="60" Width="50" HorizontalAlignment="Left" Margin="2" />
             </Grid>

@@ -26,8 +26,8 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </Controls:XDataGrid>
-            <Grid Grid.Column="1" DataContext="{Binding SelectedPumpStation}" Margin="2">
-                <DataGrid ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}">
+            <Grid Grid.Column="1" Margin="2">
+                <DataGrid ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}" DataContext="{Binding SelectedPumpStation}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Насосы" MinWidth="200" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>

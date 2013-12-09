@@ -31,7 +31,6 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            
         </DataGrid.Columns>
         <DataGrid.RowStyle>
             <Style TargetType="{x:Type DataGridRow}">
