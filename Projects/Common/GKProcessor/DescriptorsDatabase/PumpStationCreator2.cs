@@ -54,16 +54,13 @@ namespace GKProcessor
 
 		void CreateDelays()
 		{
-			for (int i = 0; i < FirePumpDevices.Count; i++)
+			for (int i = 1; i < FirePumpDevices.Count; i++)
 			{
 				var pumpDevice = FirePumpDevices[i];
-				var delayTime = PumpStation.NSDeltaTime;
-				if (i == 0)
-					delayTime = 0;
 				var delay = new XDelay()
 				{
 					Name = "Задержка пуска ШУН " + pumpDevice.DottedAddress,
-					DelayTime = (ushort)delayTime,
+					DelayTime = (ushort)PumpStation.NSDeltaTime,
 					SetTime = 2,
 					DelayRegime = DelayRegime.Off
 				};
@@ -132,69 +129,72 @@ namespace GKProcessor
 
 		void SetFirePumpDevicesLogic()
 		{
-			for (int i = 0; i < FirePumpDevices.Count; i++ )
+			for (int i = 0; i < FirePumpDevices.Count; i++)
+			{
+				var pumpDevice = FirePumpDevices[i];
+				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				if (pumpDescriptor != null)
 				{
-					var pumpDevice = FirePumpDevices[i];
-					var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
-					if (pumpDescriptor != null)
-					{
-						var formula = new FormulaBuilder();
+					var formula = new FormulaBuilder();
 
+					if (i > 0)
+					{
 						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
 						formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
 
-						if (i > 0)
+						for (int j = 0; j < i; j++)
 						{
-							for (int j = 0; j < i; j++)
-							{
-								var prevFirePumpDevice = FirePumpDevices[j];
-								formula.AddGetBit(XStateBit.Failure, prevFirePumpDevice);
-								formula.AddGetBit(XStateBit.Norm, prevFirePumpDevice);
-								formula.Add(FormulaOperationType.COM);
-								formula.Add(FormulaOperationType.OR);
-								if (j > 0)
-								{
-									formula.Add(FormulaOperationType.AND, comment: "Неисправности всех предидущих насососов");
-								}
-							}
+							var prevFirePumpDevice = FirePumpDevices[j];
+							formula.AddGetBit(XStateBit.Failure, prevFirePumpDevice);
+							formula.AddGetBit(XStateBit.Norm, prevFirePumpDevice);
+							formula.Add(FormulaOperationType.COM);
 							formula.Add(FormulaOperationType.OR);
+							if (j > 0)
+							{
+								formula.Add(FormulaOperationType.AND, comment: "Неисправности всех предидущих насососов");
+							}
 						}
-
-						AddCountFirePumpDevicesFormula(formula);
-						formula.Add(FormulaOperationType.AND);
-
-						if (pumpDevice.NSLogic.Clauses.Count > 0)
-						{
-							formula.AddClauseFormula(pumpDevice.NSLogic);
-							formula.Add(FormulaOperationType.AND);
-						}
-
-						formula.AddGetBit(XStateBit.On, pumpDevice);
-						formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
 						formula.Add(FormulaOperationType.OR);
-						formula.AddGetBit(XStateBit.Failure, pumpDevice);
-						formula.Add(FormulaOperationType.OR);
-						formula.Add(FormulaOperationType.COM);
-						formula.Add(FormulaOperationType.AND, comment: "Запрет на включение, если насос включен и не включается");
-
-						formula.AddGetBit(XStateBit.On, PumpStation);
-						formula.Add(FormulaOperationType.AND);
-
-						formula.AddGetBit(XStateBit.Norm, pumpDevice);
-						formula.Add(FormulaOperationType.AND);
-						formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice);
-
-						formula.AddGetBit(XStateBit.Off, PumpStation);
-						formula.AddGetBit(XStateBit.Norm, pumpDevice);
-						formula.Add(FormulaOperationType.AND);
-						formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDevice);
-
-						formula.Add(FormulaOperationType.END);
-
-						pumpDescriptor.Formula = formula;
-						pumpDescriptor.FormulaBytes = formula.GetBytes();
 					}
+
+					AddCountFirePumpDevicesFormula(formula);
+					if (i > 0)
+					{
+						formula.Add(FormulaOperationType.AND);
+					}
+
+					if (pumpDevice.NSLogic.Clauses.Count > 0)
+					{
+						formula.AddClauseFormula(pumpDevice.NSLogic);
+						formula.Add(FormulaOperationType.AND);
+					}
+
+					formula.AddGetBit(XStateBit.On, pumpDevice);
+					formula.AddGetBit(XStateBit.TurningOn, pumpDevice);
+					formula.Add(FormulaOperationType.OR);
+					formula.AddGetBit(XStateBit.Failure, pumpDevice);
+					formula.Add(FormulaOperationType.OR);
+					formula.Add(FormulaOperationType.COM);
+					formula.Add(FormulaOperationType.AND, comment: "Запрет на включение, если насос включен и не включается");
+
+					formula.AddGetBit(XStateBit.On, PumpStation);
+					formula.Add(FormulaOperationType.AND);
+
+					formula.AddGetBit(XStateBit.Norm, pumpDevice);
+					formula.Add(FormulaOperationType.AND);
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, pumpDevice);
+
+					formula.AddGetBit(XStateBit.Off, PumpStation);
+					formula.AddGetBit(XStateBit.Norm, pumpDevice);
+					formula.Add(FormulaOperationType.AND);
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, pumpDevice);
+
+					formula.Add(FormulaOperationType.END);
+
+					pumpDescriptor.Formula = formula;
+					pumpDescriptor.FormulaBytes = formula.GetBytes();
 				}
+			}
 		}
 
 		void AddCountFirePumpDevicesFormula(FormulaBuilder formula)
@@ -339,10 +339,7 @@ namespace GKProcessor
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					if (firePumpDevice.UID != otherFirePumpDevice.UID)
-					{
-						UpdateConfigurationHelper.LinkXBases(firePumpDevice, otherFirePumpDevice);
-					}
+					UpdateConfigurationHelper.LinkXBases(firePumpDevice, otherFirePumpDevice);
 				}
 			}
 		}

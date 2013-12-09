@@ -19,7 +19,7 @@
         <TabItem Header="Временной диапазон">
             <Border Background="White" CornerRadius="5">
                 <StackPanel>
-                    <Label Content="При переходе на вкладку архива, показывать записи" Foreground="Black"/>
+                    <Label Content="При переходе на вкладку архива, показывать записи" FontWeight="Bold" Foreground="Black"/>
                     <ListBox Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
                          ItemsSource="{Binding ArchiveDefaultStates}"
                          DataContextChanged="_archiveDefaultStateTypes_DataContextChanged">
@@ -68,9 +68,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToIconConverter}}" VerticalAlignment="Center" Margin="0 0 0 1"/>
-                                <TextBlock Text="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToStringConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToIconConverter}}" VerticalAlignment="Center" Margin="0 0 0 1" />
+                                <TextBlock Text="{Binding JournalColumnType, Converter={StaticResource JournalColumnTypeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -78,5 +78,4 @@
             </Border>
         </TabItem>
     </TabControl>
-    
 </UserControl>

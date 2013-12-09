@@ -18,15 +18,18 @@ namespace GKProcessor
 
 		public void StartDeviceMeasure(XDevice device)
 		{
-			var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.UID == device.UID);
-			if (measureDeviceInfo == null)
+			if (device.Driver.AUParameters.Count > 0)
 			{
-				measureDeviceInfo = new MeasureDeviceInfo(device);
-				MeasureDeviceInfos.Add(measureDeviceInfo);
-			}
-			else
-			{
-				measureDeviceInfo.DateTime = DateTime.Now;
+				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.UID == device.UID);
+				if (measureDeviceInfo == null)
+				{
+					measureDeviceInfo = new MeasureDeviceInfo(device);
+					MeasureDeviceInfos.Add(measureDeviceInfo);
+				}
+				else
+				{
+					measureDeviceInfo.DateTime = DateTime.Now;
+				}
 			}
 		}
 
@@ -131,26 +134,31 @@ namespace GKProcessor
 				var resievedParameterNo = result.Bytes[63];
 				if (resievedParameterNo == auParameter.No)
 				{
-					var parameterValue = BytesHelper.SubstructShort(result.Bytes, 64);
+					var parameterUshortValue = BytesHelper.SubstructShort(result.Bytes, 64);
 					if (auParameter.IsHighByte)
 					{
-						parameterValue = (ushort)(parameterValue / 256);
+						parameterUshortValue = (ushort)(parameterUshortValue / 256);
 					}
 					else if (auParameter.IsLowByte)
 					{
-						parameterValue = (ushort)(parameterValue << 8);
-						parameterValue = (ushort)(parameterValue >> 8);
+						parameterUshortValue = (ushort)(parameterUshortValue << 8);
+						parameterUshortValue = (ushort)(parameterUshortValue >> 8);
 					}
+					double parameterValue;
+					if (auParameter.Multiplier != null)
+						parameterValue = parameterUshortValue / (double)auParameter.Multiplier;
+					else
+						parameterValue = parameterUshortValue;
 					var stringValue = parameterValue.ToString();
 					if (auParameter.Name == "Дата последнего обслуживания")
 					{
-						stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
+						stringValue = (parameterUshortValue / 256).ToString() + "." + (parameterUshortValue % 256).ToString();
 					}
 					if ((Device.DriverType == XDriverType.Valve || Device.DriverType == XDriverType.Pump)
 						&& auParameter.Name == "Режим работы")
 					{
 						stringValue = "Неизвестно";
-						switch (parameterValue & 3)
+						switch (parameterUshortValue & 3)
 						{
 							case 0:
 								stringValue = "Автоматический";

@@ -42,7 +42,7 @@
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="60" Width="50" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

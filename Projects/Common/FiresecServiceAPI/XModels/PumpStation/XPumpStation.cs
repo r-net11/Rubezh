@@ -14,7 +14,7 @@ namespace XFiresecAPI
 			Hold = 60;
 			Regime = 2;
 			NSPumpsCount = 1;
-			NSDeltaTime = 5;
+			NSDeltaTime = 15;
 			StartLogic = new XDeviceLogic();
 			ForbidLogic = new XDeviceLogic();
 			AutomaticOffLogic = new XDeviceLogic();
