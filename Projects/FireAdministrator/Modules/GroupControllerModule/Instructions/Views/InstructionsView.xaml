@@ -18,7 +18,7 @@
             <DataGridTextColumn Header="Зоны" Width="100" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
             <DataGridTextColumn Header="Направления" Width="100" Binding="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" />
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
-            <DataGridTextColumn Header="Медиа" MinWidth="100" Binding="{Binding Instruction.MediaSource}" />
+            <!--<DataGridTextColumn Header="Медиа" MinWidth="100" Binding="{Binding Instruction.MediaSource}" />-->
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Events;
 using Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -29,6 +30,13 @@ namespace GKModule.ViewModels
 			State = state;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
+
+			Pumps = new ObservableCollection<DeviceViewModel>();
+			foreach (var device in PumpStation.NSDevices)
+			{
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
+				Pumps.Add(deviceViewModel);
+			}
 		}
 
 		void OnStateChanged()
@@ -37,6 +45,8 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("HasOnDelay");
 			OnPropertyChanged("HasHoldDelay");
 		}
+
+		public ObservableCollection<DeviceViewModel> Pumps { get; private set; }
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()

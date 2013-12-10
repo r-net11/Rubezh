@@ -44,6 +44,18 @@
                                     </Hyperlink>
                                 </TextBlock>
                             </WrapPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <WrapPanel>
+                                    <TextBlock>
+										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold" />
+											</StackPanel>
+										</Hyperlink>
+								    </TextBlock>
+                                </WrapPanel>
+                            </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>
                 </ScrollViewer>

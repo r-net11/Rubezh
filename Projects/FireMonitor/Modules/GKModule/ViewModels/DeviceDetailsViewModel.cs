@@ -219,9 +219,7 @@ namespace GKModule.ViewModels
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				Device = Device,
-				Zone = null,
-				Direction = null
+				Zone = null
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}

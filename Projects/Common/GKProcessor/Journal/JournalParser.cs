@@ -34,7 +34,7 @@ namespace GKProcessor
 			InitializeFromObjectUID();
 			InitializeDateTime(bytes);
 
-			var UNUSED_KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
+			JournalItem.ControllerAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			var source = (JournalSourceType)(int)(bytes[32 + 12]);
 			var code = bytes[32 + 13];
 
@@ -194,6 +194,10 @@ namespace GKProcessor
 
 								default:
 									JournalItem.Description = JournalStringsHelper.ToFailure(bytes[32 + 15]);
+									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
+									{
+										JournalItem.AdditionalDescription = bytes[32 + 16].ToString() + " " + bytes[32 + 17].ToString();
+									}
 									break;
 							}
 							break;

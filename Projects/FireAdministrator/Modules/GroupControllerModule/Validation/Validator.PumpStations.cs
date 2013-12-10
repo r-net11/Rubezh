@@ -12,6 +12,7 @@ namespace GKModule.Validation
 		static void ValidatePumpStations()
 		{
 			ValidatePumpStationNoEquality();
+			ValidatePumpsInDifferentNS();
 
 			foreach (var pumpStation in XManager.PumpStations)
 			{
@@ -128,7 +129,7 @@ namespace GKModule.Validation
 
 			foreach (var direction in pumpStation.InputDirections)
 			{
-				if (direction.InputDevices.Count + direction.InputZones.Where(x=>x.Devices.Count > 0).Count() == 0)
+				if (direction.InputDevices.Count + direction.InputZones.Where(x => x.Devices.Count > 0).Count() == 0)
 				{
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС входит пустое направление " + direction.PresentationName, ValidationErrorLevel.CannotWrite));
 				}
@@ -146,6 +147,26 @@ namespace GKModule.Validation
 						Errors.Add(new PumpStationValidationError(pumpStation, "В условии для запуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
 						return;
 					}
+				}
+			}
+		}
+
+		static void ValidatePumpsInDifferentNS()
+		{
+			var nsDevices = new List<XDevice>();
+			foreach (var pumpStation in XManager.PumpStations)
+			{
+				foreach (var nsDevice in pumpStation.NSDevices)
+				{
+					if (nsDevices.Contains(nsDevice))
+					{
+						Errors.Add(new DeviceValidationError(nsDevice, "Устройство присутствует в разных НС (" + pumpStation.PresentationName + ")", ValidationErrorLevel.CannotWrite));
+					}
+					else
+					{
+						nsDevices.Add(nsDevice);
+					}
+
 				}
 			}
 		}

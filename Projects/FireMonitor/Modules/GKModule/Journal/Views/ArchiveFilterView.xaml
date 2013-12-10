@@ -41,7 +41,7 @@
                                      Format="Custom"
                                      CustomFormat="HH:mm:ss dd MMMM yyyy"
                                      Width="Auto"
-                                     Value="{Binding EndDateTime}"/>
+                                     Value="{Binding EndDateTime}" />
                         <extToolkit:TimePicker Value="{Binding EndDateTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                     </StackPanel>
                     <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
@@ -52,9 +52,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="0 0 0 1"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="0 0 0 1" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -65,9 +65,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -78,9 +78,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding JournalDescriptionState.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding JournalDescriptionState.Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding JournalDescriptionState.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding JournalDescriptionState.Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -91,9 +91,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -104,9 +104,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -118,9 +118,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -159,9 +159,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -172,9 +172,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -185,9 +185,9 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center"/>
-                                <Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                                <TextBlock Text="{Binding PumpStation.Name}" VerticalAlignment="Center" Margin="2"/>
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

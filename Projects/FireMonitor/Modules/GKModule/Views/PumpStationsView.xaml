@@ -7,7 +7,11 @@
     xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<Grid>
-        <DataGrid ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.SelectedPumpStation.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -78,5 +82,46 @@
                 </Style>
             </DataGrid.RowStyle>
 		</DataGrid>
+        <DataGrid Grid.Column="1" ItemsSource="{Binding Pumps}" DataContext="{Binding SelectedPumpStation}" Margin="2">
+            <DataGrid.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.SelectedPump.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+                </InputBindingCollection>
+            </DataGrid.Resources>
+            <DataGrid.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="150" MinWidth="150" Header="Насосы">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Views:DeviceView Margin="2 0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="25" Header="Адрес">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Device.Address}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
+                                <Views:DeviceStateView />
+                            </StackPanel>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
 	</Grid>
 </UserControl>

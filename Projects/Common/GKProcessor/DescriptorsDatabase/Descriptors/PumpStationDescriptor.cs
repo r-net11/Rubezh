@@ -28,8 +28,10 @@ namespace GKProcessor
             Formula = new FormulaBuilder();
 
 			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
+			{
 				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
-			Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
+				Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
+			}
 
 			if (PumpStation.StartLogic.Clauses.Count > 0)
 				Formula.AddClauseFormula(PumpStation.StartLogic);

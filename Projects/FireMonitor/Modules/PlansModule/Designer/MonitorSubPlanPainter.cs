@@ -55,7 +55,7 @@ namespace PlansModule.Designer
 			Color color = Colors.Transparent;
 			if (PlanTreeViewModel.Current != null)
 			{
-				if(_presenterItem.PlanViewModel != null)
+				if (_presenterItem.PlanViewModel != null)
 					color = GetStateColor(_presenterItem.PlanViewModel.StateClass);
 			}
 			return PainterCache.GetTransparentBrush(color);
@@ -92,13 +92,13 @@ namespace PlansModule.Designer
 	public class MonitorPresenterItem : PresenterItem
 	{
 		public MonitorPresenterItem(ElementBase element)
-			:base(element)
+			: base(element)
 		{
 			;
 		}
 
 		public PlanViewModel PlanViewModel;
-		
+
 		protected override object GetToolTip()
 		{
 			return new MonitorSubPlanViewModel(PlanViewModel);

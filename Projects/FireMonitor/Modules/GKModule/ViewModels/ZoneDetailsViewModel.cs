@@ -24,10 +24,10 @@ namespace GKModule.ViewModels
 		public ZoneDetailsViewModel(XZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
-			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			_guid = zone.UID;
 			Zone = zone;
@@ -124,21 +124,19 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
 		}
 
-		public bool CanControl
-		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
-		}
-
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				Device = null,
-				Zone = Zone,
-				Direction = null
+				Zone = Zone
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
+		public bool CanControl
+		{
+			get { return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		#region IWindowIdentity Members

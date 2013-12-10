@@ -188,7 +188,13 @@ namespace GKModule.ViewModels
 				if (device != null)
 					devices.Add(device);
 			}
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(devices);
+			var sourceDevices = new List<XDevice>();
+			foreach (var device in XManager.Devices)
+			{
+				if (device.Driver.IsDeviceOnShleif)
+					sourceDevices.Add(device);
+			}
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(devices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				var uids = devicesSelectationViewModel.Devices.Select(x => x.UID).ToList();

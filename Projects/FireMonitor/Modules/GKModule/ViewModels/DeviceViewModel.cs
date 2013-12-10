@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == XDriverType.Pump || Device.DriverType == XDriverType.RSR2_Bush)
+				if (Device.DriverType == XDriverType.Pump)
 					return XManager.GetPresentationZone(Device.NSLogic);
 				return XManager.GetPresentationZone(Device);
 			}

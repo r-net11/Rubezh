@@ -123,6 +123,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public string Description
+		{
+			get
+			{
+				if (!string.IsNullOrEmpty(JournalItem.AdditionalDescription))
+					return JournalItem.Description + " " + JournalItem.AdditionalDescription;
+				return JournalItem.Description;
+			}
+		}
+
 		public bool CanShow
 		{
 			get { return CanShowInTree() || CanShowOnPlan(); }
@@ -162,6 +172,10 @@ namespace GKModule.ViewModels
 				case JournalItemType.Delay:
 					DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
 					break;
+
+				case JournalItemType.Pim:
+					DialogService.ShowWindow(new PimDetailsViewModel(Pim));
+					break;
 #endif
 			}
 		}
@@ -178,7 +192,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.PumpStation:
 #if DEBUG
 				case JournalItemType.Delay:
-				//case JournalItemType.Pim:
+				case JournalItemType.Pim:
 #endif
 					return true;
 			}
@@ -210,10 +224,11 @@ namespace GKModule.ViewModels
 				case JournalItemType.Delay:
 					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
 					break;
-#endif
-				case JournalItemType.GK:
-					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
+
+				case JournalItemType.Pim:
+					ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(JournalItem.ObjectUID);
 					break;
+#endif
 			}
 		}
 

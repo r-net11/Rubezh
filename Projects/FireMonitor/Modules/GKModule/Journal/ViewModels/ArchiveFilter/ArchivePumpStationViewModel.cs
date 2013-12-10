@@ -12,10 +12,12 @@ namespace GKModule.ViewModels
 		public ArchivePumpStationViewModel(XPumpStation pumpStation)
 		{
 			PumpStation = pumpStation;
+			Name = pumpStation.PresentationName;
 		}
 
 		public XPumpStation PumpStation { get; private set; }
-		
+		public string Name { get; private set; }
+
 		bool _isChecked;
 		public bool IsChecked
 		{

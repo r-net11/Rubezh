@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-	public class MonitorSubPlanViewModel: BaseViewModel
+	public class MonitorSubPlanViewModel : BaseViewModel
 	{
 		public MonitorSubPlanViewModel(PlanViewModel planViewModel)
 		{
@@ -16,7 +12,7 @@ namespace PlansModule.ViewModels
 		PlanViewModel planViewModel;
 		public PlanViewModel PlanViewModel
 		{
-			get{ return planViewModel; }
+			get { return planViewModel; }
 			set
 			{
 				planViewModel = value;

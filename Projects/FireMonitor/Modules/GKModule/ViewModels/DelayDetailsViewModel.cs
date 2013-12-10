@@ -29,6 +29,7 @@ namespace GKModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 
 			ShowCommand = new RelayCommand(OnShow);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
@@ -159,6 +160,16 @@ namespace GKModule.ViewModels
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				Delay = Delay
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }

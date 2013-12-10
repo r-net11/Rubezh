@@ -30,10 +30,10 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			ShowCommand = new RelayCommand(OnShow);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
 			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
 			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
-			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
@@ -171,18 +171,6 @@ namespace GKModule.ViewModels
             }
         }
 
-		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
-		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
-			{
-				Device = null,
-				Zone = null,
-				PumpStation = PumpStation
-			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
-		}
-
 		public bool HasOnDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
@@ -196,6 +184,16 @@ namespace GKModule.ViewModels
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
+			{
+				PumpStation = PumpStation
+			};
+			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }

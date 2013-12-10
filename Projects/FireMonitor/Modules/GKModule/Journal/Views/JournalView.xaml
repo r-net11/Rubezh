@@ -113,13 +113,13 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="25"/>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -128,30 +128,30 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата в системе" Margin="2"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" Margin="2"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" Margin="2"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" Margin="2"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата в системе" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Дата в приборе" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Событие" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Уточнение" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" Margin="2" />
                     
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
                     <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="2">
-                        <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                        <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2" />
                         <TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
                     </StackPanel>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
-                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="2">
-                        <Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
-                        <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center" Margin="2" />
-                        <TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
-				        <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding CanShow}">
-					        <TextBlock Text="{Binding PresentationName}" />
-				        </Hyperlink>
-                    </TextBlock>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+                        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="2">
+                            <Image Width="16" Source="{Binding JournalItem.ObjectStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
+                            <Image Width="16" Source="{Binding JournalItem, Converter={StaticResource JournalItemToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                            <TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
+				            <Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle}" IsEnabled="{Binding CanShow}">
+					            <TextBlock Text="{Binding PresentationName}" />
+				            </Hyperlink>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="2" Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Column="1" Margin="25 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="*" />
@@ -165,22 +165,31 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Запись ГК" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Компонент ГК" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Пользователь" Margin="2"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="IP-адрес ГК" Margin="2"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Подсистема" Margin="2"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Пользователь" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="IP-адрес ГК" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Подсистема" Margin="2" />
                     
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.GKJournalRecordNo}" Margin="2" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.GKObjectNo}" Margin="2" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.UserName}" Width="Auto" Margin="2"/>
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" Margin="2"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.UserName}" Width="Auto" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" Margin="2" />
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                        <Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
-                        <TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" VerticalAlignment="Center" />
+                        <Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
+                        <TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Grid>
+                <Grid Grid.Column="2" Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес контроллера" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.ControllerAddress}" Margin="2" />
+                </Grid>
             </Grid>
-            
-            
         </StackPanel>
     </Grid>
 </UserControl>
