@@ -19,6 +19,8 @@ namespace GKProcessor
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkDevice);
+				if (!String.IsNullOrEmpty(Error))
+					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
 				LoadingService.Show("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
@@ -96,8 +98,13 @@ namespace GKProcessor
 					{ Error = "Невозможно прочитать информационный блок"; return null; }
 				if (sendResult.Bytes.Count == 0)
 					{ Error = "Информационный блок отсутствует"; return null; }
+				if (sendResult.Bytes.Count < 256)
+					{ Error = "Информационный блок поврежден"; return null; }
 				LoadingService.Close();
-				return GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
+				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
+				if (!String.IsNullOrEmpty(GKFileInfo.Error))
+					{ Error = GKFileInfo.Error; return null; }
+				return infoBlock;
 			}
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }

@@ -39,7 +39,13 @@ namespace GKProcessor
 			};
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
 			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
-			var gkFileInfo = new GKFileReaderWriter().ReadInfoBlock(gkDevice);
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkDevice);
+			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+			{
+				Error = gkFileReaderWriter.Error;
+				return false;
+			}
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
@@ -88,7 +94,7 @@ namespace GKProcessor
 			DeviceConfiguration.Update();
 			UpdateConfigurationHelper.UpdateGKPredefinedName(GkDevice);
 			UpdateConfigurationHelper.Update(DeviceConfiguration);
-			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
+			//UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			return true;
 		}
 #endif
@@ -219,9 +225,12 @@ namespace GKProcessor
 
 			if(internalType == 0x100 || internalType == 0x106)
 			{
+				var isPumpStation = false;
 				ushort no;
 				try
 				{
+					if (description[0] == '0')
+						isPumpStation = true;
 					no = (ushort)Int32.Parse(description.Substring(0, description.IndexOf(".")));
 					description = description.Substring(description.IndexOf(".") + 1);
 				}
@@ -244,13 +253,26 @@ namespace GKProcessor
 				}
 				if (internalType == 0x106)
 				{
-					var direction = new XDirection
+					if (isPumpStation)
 					{
-						Name = description,
-						No = no,
-						GkDatabaseParent = GkDevice
-					};
-					DeviceConfiguration.Directions.Add(direction);
+						var pumpStation = new XPumpStation()
+						{
+							Name = description,
+							No = no,
+							GkDatabaseParent = GkDevice
+						};
+						DeviceConfiguration.PumpStations.Add(pumpStation);
+					}
+					else
+					{
+						var direction = new XDirection
+						{
+							Name = description,
+							No = no,
+							GkDatabaseParent = GkDevice
+						};
+						DeviceConfiguration.Directions.Add(direction);
+					}
 					return true;
 				}
 			}

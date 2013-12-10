@@ -90,6 +90,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.Zones.AddRange(RemoteConfiguration.Zones);
 				LocalConfiguration.Directions.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Directions.AddRange(RemoteConfiguration.Directions);
+				LocalConfiguration.PumpStations.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.PumpStations.AddRange(RemoteConfiguration.PumpStations);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();

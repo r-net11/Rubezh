@@ -78,7 +78,7 @@ namespace XFiresecAPI
 
 		public override string PresentationName
 		{
-			get { return No + "." + Name; }
+			get { return "0" + No + "." + Name; }
 		}
 
 		public override string DescriptorInfo

@@ -13,6 +13,7 @@ namespace GKProcessor
 {
 	public class GKFileInfo
 	{
+		public static string Error { get; private set; }
 		public byte MinorVersion { get; private set; }
 		public byte MajorVersion { get; private set; }
 		public List<byte> Hash1 { get; set; }
@@ -52,20 +53,38 @@ namespace GKProcessor
 			UpdateConfigurationHelper.Update(deviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 			var stringBuilder = new StringBuilder();
+			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)
 			{
 				if (device.IsRealDevice && device.GKParent == gkDevice)
 					stringBuilder.Append(device.PresentationName).Append("@");
 			}
+			stringBuilder.Append("zones:");
 			foreach (var zone in deviceConfiguration.Zones)
 			{
 				if (zone.GkDatabaseParent == gkDevice)
 					stringBuilder.Append(zone.No).Append("@");
 			}
+			stringBuilder.Append("directions:");
 			foreach (var direction in deviceConfiguration.Directions)
 			{
 				if (direction.GkDatabaseParent == gkDevice)
 					stringBuilder.Append(direction.No).Append("@");
+			}
+			stringBuilder.Append("pumpStations:");
+			foreach (var pumpStation in deviceConfiguration.PumpStations)
+			{
+				if (pumpStation.GkDatabaseParent == gkDevice)
+					stringBuilder.Append(pumpStation.No).Append("@");
+				if (pumpStation.NSDevices != null)
+				{
+					stringBuilder.Append("nsDevices:");
+					foreach (var nsDevice in pumpStation.NSDevices)
+					{
+						if (nsDevice.GKParent == gkDevice)
+							stringBuilder.Append(nsDevice.PresentationName).Append("@");
+					}
+				}
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
@@ -91,18 +110,31 @@ namespace GKProcessor
 
 		public static GKFileInfo BytesToGKFileInfo(List<byte> bytes)
 		{
-			return new GKFileInfo
+			try
 			{
-				InfoBlock = bytes,
-				MinorVersion = bytes[0],
-				MajorVersion = bytes[1],
-				Hash1 = bytes.GetRange(2, 32),
-				Hash2 = bytes.GetRange(34, 32),
-				DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(66, 4).ToArray(), 0),
-				FileSize = BitConverter.ToInt64(bytes.GetRange(70, 8).ToArray(), 0),
-				Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(78, 8).ToArray(), 0)),
-				FileBytes = new List<byte>()
-			};
+				return new GKFileInfo
+				{
+					InfoBlock = bytes,
+					MinorVersion = bytes[0],
+					MajorVersion = bytes[1],
+					Hash1 = bytes.GetRange(2, 32),
+					Hash2 = bytes.GetRange(34, 32),
+					DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(66, 4).ToArray(), 0),
+					FileSize = BitConverter.ToInt64(bytes.GetRange(70, 8).ToArray(), 0),
+					Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(78, 8).ToArray(), 0)),
+					FileBytes = new List<byte>()
+				};
+			}
+			catch
+			{
+				Error = "Информационный блок поврежден";
+				return null;
+			}
+		}
+
+		public static bool CompareHashes(List<byte> Hash1, List<byte> Hash2)
+		{
+			return Hash1.SequenceEqual(Hash2);
 		}
 	}
 }

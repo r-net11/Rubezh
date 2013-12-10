@@ -31,6 +31,12 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(direction) { ObjectType = ObjectType.Direction };
 					Objects.Add(objectViewModel);
 				}
+			if (deviceConfiguration.PumpStations != null)
+				foreach (var pumpStation in deviceConfiguration.PumpStations.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+				{
+					var objectViewModel = new ObjectViewModel(pumpStation) { ObjectType = ObjectType.PumpStation };
+					Objects.Add(objectViewModel);
+				}
 		}
 
 		public List<ObjectViewModel> Objects { get; set; }

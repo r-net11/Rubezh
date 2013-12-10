@@ -25,6 +25,7 @@ namespace GKModule.ViewModels
 		public XDevice Device;
 		public XZone Zone;
 		public XDirection Direction;
+		public XPumpStation PumpStation;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; set; }
 		public object Clone()
@@ -60,6 +61,16 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
+		}
+
+		public ObjectViewModel(XPumpStation pumpStation)
+		{
+			PumpStation = pumpStation;
+			Name = pumpStation.PresentationName;
+			ImageSource = "/Controls;component/Images/BPumpStation.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.PumpStation;
 		}
 
 		int IComparable.CompareTo(object a)
@@ -119,6 +130,7 @@ namespace GKModule.ViewModels
 	{
 		Device = 0,
 		Zone = 1,
-		Direction = 2
+		Direction = 2,
+		PumpStation = 3
 	}
 }
