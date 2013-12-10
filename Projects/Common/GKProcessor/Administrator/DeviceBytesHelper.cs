@@ -148,7 +148,7 @@ namespace GKProcessor
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				if (LoadingService.IsCanceled)
 					return true;
