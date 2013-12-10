@@ -315,6 +315,11 @@ namespace GKProcessor
 					uid = (xBase as XDelay).UID;
 					journalItemType = JournalItemType.Delay;
 				}
+				if (xBase is XPim)
+				{
+					uid = (xBase as XPim).UID;
+					journalItemType = JournalItemType.Pim;
+				}
 			}
 
 			var journalItem = new JournalItem()

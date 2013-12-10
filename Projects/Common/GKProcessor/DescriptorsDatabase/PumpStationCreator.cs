@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using Common;
 
 namespace GKProcessor
 {
@@ -28,7 +29,6 @@ namespace GKProcessor
 				switch (nsDevice.DriverType)
 				{
 					case XDriverType.Pump:
-					case XDriverType.RSR2_Bush:
 						if (nsDevice.IntAddress <= 8)
 						{
 							FirePumpDevices.Add(nsDevice);
@@ -64,6 +64,7 @@ namespace GKProcessor
 					SetTime = 2,
 					DelayRegime = DelayRegime.Off
 				};
+				delay.UID = GuidHelper.CreateOn(pumpDevice.UID);
 
 				var pumpDelay = new PumpDelay
 				{
@@ -243,6 +244,7 @@ namespace GKProcessor
 				SetTime = 1,
 				DelayRegime = DelayRegime.Off
 			};
+			Pim.UID = GuidHelper.CreateOn(PumpStation.UID);
 			GkDatabase.AddPim(Pim);
 			var pimDescriptor = new PimDescriptor(Pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);

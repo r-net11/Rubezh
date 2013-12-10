@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class BUN_Helper
+	public static class Pump_Helper
 	{
 		public static XDriver Create()
 		{
@@ -33,7 +33,7 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0x8c, "Время разновременного пуска, с", 1, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания выхода насоса на режим, с", 3, 3, 30);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания выхода насоса на режим, с(для ДН - мин)", 3, 3, 30);
 
 			var property3 = new XDriverProperty()
 			{

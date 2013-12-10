@@ -14,6 +14,7 @@
                         <Button Content="Записать файл в ГК" Command="{Binding WriteConfigFileToGKCommand}" Width="150" Margin="2" />
                         <Button Content="Считать файл из ГК" Command="{Binding ReadConfigFileFromGKCommand}" Width="150" Margin="2" />
                         <Button Content="Сравнить хеши" Command="{Binding CompareHashesCommand}" Width="150" Margin="2" />
+                        <Button Content="Тест" Command="{Binding TestCommand}" Width="150" Margin="2" />
                     </WrapPanel>
                 </Border>
             </TabItem>

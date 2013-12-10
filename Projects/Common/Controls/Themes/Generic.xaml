@@ -40,7 +40,7 @@
 										<TextBlock.Style>
 											<Style TargetType="{x:Type TextBlock}">
 												<Setter Property="Text" Value="{Binding Count}" />  
-												<Setter Property="Foreground" Value="White" />
+												<Setter Property="Foreground" Value="LightGray" />
 												<Setter Property="FontFamily" Value="Arial" />
 												<Setter Property="Margin" Value="5" />
 												<Setter Property="FontWeight" Value="Bold" />

@@ -337,33 +337,19 @@ namespace GKProcessor
 					JournalItem.ObjectUID = PumpStation.UID;
 					JournalItem.ObjectName = PumpStation.PresentationName;
 				}
-
-				if (DescriptorsManager.GkDatabases != null)
-				{
-					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-					{
-						Delay = gkDatabase.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
-						if (Delay != null)
-							break;
-					}
-					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-					{
-						Pim = gkDatabase.Pims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
-						if (Pim != null)
-							break;
-					}
-				}
+				Delay = XManager.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Delay != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Delay;
 					JournalItem.ObjectUID = Delay.UID;
-					JournalItem.ObjectName = Delay.Name;
+					JournalItem.ObjectName = Delay.PresentationName;
 				}
+				Pim = XManager.Pims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Pim != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Pim;
 					JournalItem.ObjectUID = Pim.UID;
-					JournalItem.ObjectName = Pim.Name;
+					JournalItem.ObjectName = Pim.PresentationName;
 				}
 			}
 		}

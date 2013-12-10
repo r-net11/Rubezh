@@ -339,6 +339,8 @@ namespace FiresecClient
 				return XBaseObjectType.Zone;
 			if (xBase is XDirection)
 				return XBaseObjectType.Direction;
+			if (xBase is XPumpStation)
+				return XBaseObjectType.PumpStation;
 			if (xBase is XDelay)
 				return XBaseObjectType.Delay;
 			if (xBase is XPim)

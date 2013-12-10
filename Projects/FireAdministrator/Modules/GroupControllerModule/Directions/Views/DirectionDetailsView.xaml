@@ -43,7 +43,7 @@
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Regime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <ComboBox Grid.Row="5" Grid.Column="1" SelectedValue="{Binding Regime}" SelectedValuePath="Tag" Margin="2" >
+                <ComboBox Grid.Row="5" Grid.Column="1" SelectedValue="{Binding Regime}" SelectedValuePath="Tag" Margin="2">
                     <ComboBox.Items>
                         <ComboBoxItem Content="Включено" Tag="1" />
                         <ComboBoxItem Content="Выключено" Tag="2" />

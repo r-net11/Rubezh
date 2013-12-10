@@ -112,9 +112,9 @@
         <StackPanel Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
                     <Grid.ColumnDefinitions>
@@ -163,16 +163,16 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Запись ГК" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Компонент ГК" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Пользователь" Margin="2" />
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="IP-адрес ГК" Margin="2" />
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Подсистема" Margin="2" />
-                    
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.GKJournalRecordNo}" Margin="2" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.GKObjectNo}" Margin="2" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.UserName}" Width="Auto" Margin="2" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" Width="Auto" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Запись ГК" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Компонент ГК" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Пользователь" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="IP-адрес ГК" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Подсистема" VerticalAlignment="Center" Margin="2" />
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.GKJournalRecordNo}" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.GKObjectNo}" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.UserName}" VerticalAlignment="Center" Width="Auto" Margin="2" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" VerticalAlignment="Center" Width="Auto" Margin="2" />
                     <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
                         <Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
                         <TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" />
@@ -180,14 +180,14 @@
                 </Grid>
                 <Grid Grid.Column="2" Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="150" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес контроллера" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.ControllerAddress}" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Название контроллера" VerticalAlignment="Center" Margin="2" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ControllerName}" VerticalAlignment="Center" Margin="2" />
                 </Grid>
             </Grid>
         </StackPanel>

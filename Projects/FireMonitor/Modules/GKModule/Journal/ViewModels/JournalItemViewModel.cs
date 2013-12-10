@@ -73,12 +73,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Delay:
-						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-						{
-							Delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
-							if (Delay != null)
-								break;
-						}
+						Delay = XManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (Delay != null)
 						{
 							PresentationName = Delay.PresentationName;
@@ -86,12 +81,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Pim:
-						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-						{
-							Pim = gkDatabase.Pims.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
-							if (Pim != null)
-								break;
-						}
+						Pim = XManager.Pims.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (Pim != null)
 						{
 							PresentationName = Pim.PresentationName;
@@ -130,6 +120,18 @@ namespace GKModule.ViewModels
 				if (!string.IsNullOrEmpty(JournalItem.AdditionalDescription))
 					return JournalItem.Description + " " + JournalItem.AdditionalDescription;
 				return JournalItem.Description;
+			}
+		}
+
+		public string ControllerName
+		{
+			get
+			{
+				if (JournalItem.ControllerAddress == 0)
+					return "Неизвестно";
+				if (JournalItem.ControllerAddress == 512)
+					return "ГК";
+				return "КАУ " + JournalItem.ControllerAddress;
 			}
 		}
 

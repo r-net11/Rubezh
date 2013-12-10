@@ -14,10 +14,6 @@
             <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
             <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Image Margin="2" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" />
-        </StackPanel>
         <ItemsControl ItemsSource="{Binding StateClasses}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

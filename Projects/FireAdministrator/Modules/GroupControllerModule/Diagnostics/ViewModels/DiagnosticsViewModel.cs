@@ -14,6 +14,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Diagnostics;
+using Common;
 
 namespace GKModule.ViewModels
 {
@@ -68,6 +70,13 @@ namespace GKModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			foreach (var device in XManager.Devices)
+			{
+				var newUID = GuidHelper.CreateOn(device.UID);
+				Trace.WriteLine(device.UID + "    " + newUID);
+			}
+			return;
+
 			var baseUID = XManager.Devices.FirstOrDefault().BaseUID;
 			return;
 		}

@@ -66,9 +66,8 @@ namespace XFiresecAPI
 				var stateClasses = base.StateClasses;
 				if (!IsConnectionLost && IsService)
 				{
-					stateClasses.Add(XStateClass.Service);
-					if (stateClasses.Contains(XStateClass.Service))
-						stateClasses.Remove(XStateClass.Service);
+					if (!stateClasses.Contains(XStateClass.Service))
+						stateClasses.Add(XStateClass.Service);
 				}
 				return stateClasses;
 			}

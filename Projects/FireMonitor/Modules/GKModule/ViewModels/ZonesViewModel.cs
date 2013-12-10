@@ -76,11 +76,29 @@ namespace GKModule.ViewModels
 
             foreach (var device in XManager.Devices)
             {
-                if (device.ZoneUIDs.Contains(SelectedZone.Zone.UID))
-                {
-                    device.AllParents.ForEach(x => { devices.Add(x); });
-                    devices.Add(device);
-                }
+				if (device.Driver.HasLogic)
+				{
+					foreach (var clause in device.DeviceLogic.Clauses)
+					{
+						foreach (var clauseZone in clause.Zones)
+						{
+							if (clauseZone.UID == SelectedZone.Zone.UID)
+							{
+								device.AllParents.ForEach(x => { devices.Add(x); });
+								devices.Add(device);
+							}
+						}
+					}
+				}
+
+				if (device.Driver.HasZone)
+				{
+					if (device.ZoneUIDs.Contains(SelectedZone.Zone.UID))
+					{
+						device.AllParents.ForEach(x => { devices.Add(x); });
+						devices.Add(device);
+					}
+				}
             }
 
             var deviceViewModels = new ObservableCollection<DeviceViewModel>();

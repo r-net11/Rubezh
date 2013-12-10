@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Выходные устройства" Width="1*">
+                    <DataGridTemplateColumn Header="Насосы" Width="1*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -40,7 +40,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" MinWidth="100" Width="Auto" />
-                        <DataGridTemplateColumn Header="Логика" MinWidth="200" Width="*">
+                        <DataGridTemplateColumn Header="Дополнительное условие включения" MinWidth="200" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Controls:EditorPresenter>

@@ -24,7 +24,11 @@ namespace GKModule.ViewModels
 			SaveToFileCommand = new RelayCommand(OnSaveToFile);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			Device = device;
+
+			XManager.UpdateConfiguration();
+			XManager.CreateStates();
 			DescriptorsManager.Create();
+			DescriptorsManager.CreateDynamicObjectsInXManager();
 		}
 
 		public bool Initialize()

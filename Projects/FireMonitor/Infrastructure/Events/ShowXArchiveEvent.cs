@@ -10,10 +10,10 @@ namespace Infrastructure.Events
 	public class ShowXArchiveEventArgs
 	{
 		public XDevice Device { get; set; }
-		public XDirection Direction { get; set; }
 		public XZone Zone { get; set; }
+		public XDirection Direction { get; set; }
+		public XPumpStation PumpStation { get; set; }
 		public XDelay Delay { get; set; }
 		public XPim Pim { get; set; }
-		public XPumpStation PumpStation { get; set; }
 	}
 }

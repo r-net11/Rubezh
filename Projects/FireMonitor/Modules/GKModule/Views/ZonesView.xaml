@@ -131,8 +131,9 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
-						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" Width="100" />
+                        <GridViewColumn DisplayMemberBinding="{Binding PresentationLogic}" Header="Логика" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" Width="100" />
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>

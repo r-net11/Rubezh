@@ -73,11 +73,13 @@ namespace FiresecAPI.XModels
 				stateClasses.Remove(XStateClass.AutoOff);
 			}
 
-			//if (stateClasses.Count == 0)
-			//{
-			//    stateClasses.Add(XStateClass.Norm);
-			//}
-			return stateClasses.ToList();
+			if (stateClasses.Count == 0)
+			{
+				stateClasses.Add(XStateClass.Norm);
+			}
+			var result = stateClasses.ToList();
+			result.OrderBy(x => x);
+			return result;
 		}
 
 		public static XStateClass GetMinStateClass(List<XStateClass> stateClasses)

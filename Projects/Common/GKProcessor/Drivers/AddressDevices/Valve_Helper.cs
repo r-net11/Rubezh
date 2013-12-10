@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public class BUZ_Helper
+	public class Valve_Helper
 	{
 		public static XDriver Create()
 		{

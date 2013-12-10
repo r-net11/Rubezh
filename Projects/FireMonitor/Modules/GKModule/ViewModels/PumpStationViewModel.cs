@@ -72,5 +72,18 @@ namespace GKModule.ViewModels
 		{
 			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
+
+		public string StartPresentationName
+		{
+			get { return XManager.GetPresentationZone(PumpStation.StartLogic); }
+		}
+		public string StopPresentationName
+		{
+			get { return XManager.GetPresentationZone(PumpStation.StopLogic); }
+		}
+		public string AutomaticOffPresentationName
+		{
+			get { return XManager.GetPresentationZone(PumpStation.AutomaticOffLogic); }
+		}
 	}
 }

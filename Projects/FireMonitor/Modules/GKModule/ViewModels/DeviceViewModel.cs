@@ -56,6 +56,16 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(Device); }
 		}
 
+		public string PresentationLogic
+		{
+			get
+			{
+				if (Device.Driver.HasLogic)
+					return XManager.GetPresentationZone(Device);
+				return null;
+			}
+		}
+
 		public string PresentationZoneWithNS
 		{
 			get

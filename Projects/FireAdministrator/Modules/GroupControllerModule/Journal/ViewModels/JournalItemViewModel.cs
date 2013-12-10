@@ -69,6 +69,11 @@ namespace GKModule.ViewModels
 						TypeName = "Направление";
 						ImageSource = "/Controls;component/Images/Blue_Direction.png";
 						break;
+
+					case 0x107:
+						TypeName = "ПИМ";
+						ImageSource = "/Controls;component/Images/Blue_Direction.png";
+						break;
 				}
 			}
 		}
@@ -112,13 +117,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Delay:
-						XDelay delay = null;
-						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-						{
-							delay = gkDatabase.Delays.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
-							if (delay != null)
-								break;
-						}
+						var delay = XManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (delay != null)
 						{
 							PresentationName = delay.PresentationName;
@@ -126,13 +125,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Pim:
-						XPim pim = null;
-						foreach (var gkDatabase in DescriptorsManager.GkDatabases)
-						{
-							pim = gkDatabase.Pims.FirstOrDefault(x => x.Name == JournalItem.ObjectName);
-							if (pim != null)
-								break;
-						}
+						var pim = XManager.Pims.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (pim != null)
 						{
 							PresentationName = pim.PresentationName;
@@ -188,6 +181,13 @@ namespace GKModule.ViewModels
 						ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
+
+				case JournalItemType.PumpStation:
+					if (XManager.PumpStations.Any(x => x.UID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
+					}
+					break;
 			}
 		}
 		bool CanShowObject()
@@ -197,6 +197,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Device:
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
+				case JournalItemType.PumpStation:
 					return true;
 			}
 			return false;
