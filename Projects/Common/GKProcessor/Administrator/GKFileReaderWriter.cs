@@ -19,7 +19,7 @@ namespace GKProcessor
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkDevice);
-				if (!String.IsNullOrEmpty(Error))
+				if (Error != null)
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
@@ -43,7 +43,7 @@ namespace GKProcessor
 				//configMemoryStream.Position = 0;
 
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
-				if (!String.IsNullOrEmpty(ZipFileConfigurationHelper.Error))
+				if (ZipFileConfigurationHelper.Error != null)
 					{ Error = ZipFileConfigurationHelper.Error; return null; }
 				UpdateConfigurationHelper.Update(deviceConfiguration);
 				UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
@@ -102,7 +102,7 @@ namespace GKProcessor
 					{ Error = "Информационный блок поврежден"; return null; }
 				LoadingService.Close();
 				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
-				if (!String.IsNullOrEmpty(GKFileInfo.Error))
+				if (GKFileInfo.Error != null)
 					{ Error = GKFileInfo.Error; return null; }
 				return infoBlock;
 			}

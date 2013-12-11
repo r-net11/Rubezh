@@ -86,14 +86,9 @@ namespace GKProcessor
 			AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, userName, true);
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device, writeFileToGK);
-			if (!String.IsNullOrEmpty(gkDescriptorsWriter.Error))
-			{
+			if (gkDescriptorsWriter.Error != null)
 				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
-			}
-			else
-			{
-				return new OperationResult<bool>() { Result = true };
-			}
+			return new OperationResult<bool>() { Result = true };
 		}
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
@@ -101,13 +96,16 @@ namespace GKProcessor
 			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, userName, true);
 			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
-			return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
+			return new OperationResult<XDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
-		public static void GKUpdateFirmware(XDevice device, string fileName, string userName)
+		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			FirmwareUpdateHelper.Update(device, fileName);
+			if (FirmwareUpdateHelper.Error != null)
+				return new OperationResult<bool>(FirmwareUpdateHelper.Error) { Result = false };
+			return new OperationResult<bool>() { Result = true };
 		}
 
 		public static bool GKSyncronyseTime(XDevice device, string userName)
@@ -149,13 +147,13 @@ namespace GKProcessor
 		public static OperationResult<bool> GKSetSingleParameter(XDevice device)
 		{
 			var error = ParametersHelper.SetSingleParameter(device);
-			return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
 		}
 
 		public static OperationResult<bool> GKGetSingleParameter(XDevice device)
 		{
 			var error = ParametersHelper.GetSingleParameter(device);
-			return new OperationResult<bool>() { HasError = !string.IsNullOrEmpty(error), Error = error, Result = true };
+			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
 		}
 
 		public static GKStates GKGetStates()

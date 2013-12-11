@@ -37,7 +37,9 @@ namespace GKProcessor
 						LoadingService.Show(title, title, summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
-							{ Error = "Не удалось перевести ГК в технологический режим"; continue; }
+							{ Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+						            "Устройство не доступно, либо вашего " +
+						            "IP адреса нет в списке разрешенного адреса ГК"; continue; }
 						if (LoadingService.IsCanceled)
 							return;
 						if(!DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice))
@@ -57,7 +59,7 @@ namespace GKProcessor
 
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						gkFileReaderWriter.WriteFileToGK(gkDevice, writeFileToGK);
-						if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+						if (gkFileReaderWriter.Error != null)
 							{ Error = gkFileReaderWriter.Error; break; }
 						if (gkDatabase.KauDatabases.Any(kauDatabase => !DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice)))
 							{ Error = "Не удалось перевести КАУ в рабочий режим"; }
