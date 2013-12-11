@@ -77,10 +77,44 @@ namespace GKModule.ViewModels
 			Descriptors = new ObservableCollection<DescriptorViewModel>();
 			foreach (var descriptor in SelectedDatabase.Descriptors)
 			{
-				var binObjectViewModel = new DescriptorViewModel(descriptor);
+				var binObjectViewModel = new DescriptorViewModel(descriptor, this);
 				Descriptors.Add(binObjectViewModel);
 			}
 			SelectedDescriptor = Descriptors.FirstOrDefault();
+
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				descriptorViewModel.InputDescriptors = new ObservableCollection<DescriptorViewModel>();
+				foreach (var inputBase in descriptorViewModel.Descriptor.XBase.InputXBases)
+				{
+					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+					{
+						var inputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == inputBase.BaseUID);
+						if (inputDescriptor != null)
+						{
+							var inputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.XBase.BaseUID == inputDescriptor.XBase.BaseUID);
+							descriptorViewModel.InputDescriptors.Add(inputDescriptorViewModel);
+						}
+					}
+				}
+			}
+
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				descriptorViewModel.OutputDescriptors = new ObservableCollection<DescriptorViewModel>();
+				foreach (var outputBase in descriptorViewModel.Descriptor.XBase.OutputXBases)
+				{
+					foreach (var gkDatabase in DescriptorsManager.GkDatabases)
+					{
+						var outputDescriptor = gkDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == outputBase.BaseUID);
+						if (outputDescriptor != null)
+						{
+							var outputDescriptorViewModel = Descriptors.FirstOrDefault(x => x.Descriptor.XBase.BaseUID == outputDescriptor.XBase.BaseUID);
+							descriptorViewModel.OutputDescriptors.Add(outputDescriptorViewModel);
+						}
+					}
+				}
+			}
 		}
 
 		ObservableCollection<DescriptorViewModel> _descriptors;

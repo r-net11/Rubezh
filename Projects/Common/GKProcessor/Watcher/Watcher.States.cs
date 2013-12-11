@@ -55,7 +55,7 @@ namespace GKProcessor
 					break;
 				}
 				if (showProgress)
-					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorInfo);
+					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorPresentationName);
 			}
 			foreach (var device in XManager.Devices)
 			{

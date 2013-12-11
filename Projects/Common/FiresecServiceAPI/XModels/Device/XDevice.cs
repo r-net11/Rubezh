@@ -28,6 +28,8 @@ namespace XFiresecAPI
 			DevicesInLogic = new List<XDevice>();
 		}
 
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Deivce; } }
+
 		public XDeviceState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -232,34 +234,6 @@ namespace XFiresecAPI
 			get { return ShortName + " " + DottedPresentationAddress; }
 		}
 
-		//public string ShortNameAndDottedAddress
-		//{
-		//    get { return ShortName + " " + DottedAddress; }
-		//}
-
-		//public string PresentationAddressAndDriver
-		//{
-		//    get
-		//    {
-		//        if (Driver.HasAddress)
-		//            return Address + " - " + ShortName;
-		//        return Driver.Name;
-		//    }
-		//}
-
-		//public string PresentationDriverAndAddress
-		//{
-		//    get
-		//    {
-		//        if (DriverType == XDriverType.GK)
-		//            return ShortName + " " + GetGKIpAddress();
-
-		//        if (Driver.HasAddress)
-		//            return ShortName + " - " + Address;
-		//        return ShortName;
-		//    }
-		//}
-
 		public void SetAddress(string address)
 		{
 			try
@@ -350,11 +324,6 @@ namespace XFiresecAPI
 		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "Устройство " + PresentationName; }
 		}
 
 		public string GetGKIpAddress()

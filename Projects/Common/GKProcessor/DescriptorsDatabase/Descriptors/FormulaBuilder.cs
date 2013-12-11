@@ -31,7 +31,7 @@ namespace GKProcessor
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateBit,
 				xBase.GKDescriptorNo,
-				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
+				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorPresentationName);
 			Add(FormulaOperationType.GETBIT,
 				(byte)XStateBit.Ignore,
 				xBase.GKDescriptorNo);
@@ -44,7 +44,7 @@ namespace GKProcessor
 			Add(FormulaOperationType.GETBIT,
 				(byte)stateBit,
 				xBase.GKDescriptorNo,
-				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
+				"Проверка состояния " + stateBit.ToDescription() + " " + xBase.DescriptorPresentationName);
 		}
 
 		public void AddPutBit(XStateBit stateBit, XBase xBase)
@@ -52,7 +52,7 @@ namespace GKProcessor
 			Add(FormulaOperationType.PUTBIT,
 				(byte)stateBit,
 				xBase.GKDescriptorNo,
-				"Запись состояния " + stateBit.ToDescription() + " " + xBase.DescriptorInfo);
+				"Запись состояния " + stateBit.ToDescription() + " " + xBase.DescriptorPresentationName);
 		}
 
 		public void AddArgumentPutBit(byte bit, XBase xBase)
@@ -60,7 +60,7 @@ namespace GKProcessor
 			Add(FormulaOperationType.PUTBIT,
 				(byte)bit,
 				xBase.GKDescriptorNo,
-				"Запись бита-параметра " + xBase.DescriptorInfo);
+				"Запись бита-параметра " + xBase.DescriptorPresentationName);
 		}
 
 		public void AddStandardTurning(XBase xBase)

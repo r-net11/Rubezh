@@ -12,6 +12,8 @@ namespace XFiresecAPI
 			InternalState = new XPimState(this);
 		}
 
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Pim; } }
+
 		public XPimState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -36,11 +38,6 @@ namespace XFiresecAPI
 		public override string PresentationName
 		{
 			get { return Name; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "ПИМ " + PresentationName; }
 		}
 	}
 }

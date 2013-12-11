@@ -1,12 +1,19 @@
-﻿using GKProcessor;
+﻿using System.Linq;
+using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace GKModule.ViewModels
 {
 	public class DescriptorViewModel : BaseViewModel
 	{
-		public DescriptorViewModel(BaseDescriptor descriptor)
+		DescriptorsViewModel DescriptorsViewModel;
+
+		public DescriptorViewModel(BaseDescriptor descriptor, DescriptorsViewModel descriptorsViewModel)
 		{
+			NavigateCommand = new RelayCommand(OnNavigate);
+			DescriptorsViewModel = descriptorsViewModel;
 			Descriptor = descriptor;
 			Description = descriptor.XBase.PresentationName;
 			switch (descriptor.DescriptorType)
@@ -43,5 +50,37 @@ namespace GKModule.ViewModels
 		public string ImageSource { get; set; }
 		public string Description { get; set; }
 		public bool IsFormulaInvalid { get; set; }
+
+		ObservableCollection<DescriptorViewModel> _inputDescriptors;
+		public ObservableCollection<DescriptorViewModel> InputDescriptors
+		{
+			get { return _inputDescriptors; }
+			set
+			{
+				_inputDescriptors = value;
+				OnPropertyChanged("InputDescriptors");
+			}
+		}
+
+		ObservableCollection<DescriptorViewModel> _outputDescriptors;
+		public ObservableCollection<DescriptorViewModel> OutputDescriptors
+		{
+			get { return _outputDescriptors; }
+			set
+			{
+				_outputDescriptors = value;
+				OnPropertyChanged("OutputDescriptors");
+			}
+		}
+
+		public RelayCommand NavigateCommand { get; private set; }
+		void OnNavigate()
+		{
+			var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.BaseUID == Descriptor.XBase.BaseUID);
+			if (descriptorViewModel != null)
+			{
+				DescriptorsViewModel.SelectedDescriptor = descriptorViewModel;
+			}
+		}
 	}
 }
