@@ -51,8 +51,6 @@ namespace GKModule
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Unsubscribe(OnShowXDeviceDetails);
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Unsubscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournalRecord);
@@ -113,11 +111,6 @@ namespace GKModule
 		{
 			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
 				UnreadJournalCount += journalItems.Count;
-		}
-
-		void OnShowXDeviceDetails(Guid deviceUID)
-		{
-			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
 		}
 
 		public override void Initialize()

@@ -63,18 +63,25 @@ namespace GKProcessor
 
 		public static void Send(Action<SendResult> onCompleted, XDevice gkParentDevice, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
 		{
-			var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
-			if (watcher != null)
+			if (gkParentDevice != null)
 			{
-				watcher.AddTask(() =>
+				var watcher = Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkParentDevice.UID);
+				if (watcher != null)
 				{
-					var sendResult = SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
-					onCompleted(sendResult);
-				});
+					watcher.AddTask(() =>
+					{
+						var sendResult = SendManager.Send(gkParentDevice, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
+						onCompleted(sendResult);
+					});
+				}
+				else
+				{
+					Logger.Error("JournalWatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
+				}
 			}
 			else
 			{
-				Logger.Error("JournalWatcherManager.Send watcher = null " + gkParentDevice.UID.ToString());
+				GKProcessorManager.AddGKMessage("Ошибка при выполнении команды над устройством", "Не найдено родительское устройство ГК", XStateClass.Failure, null, null);
 			}
 		}
 	}

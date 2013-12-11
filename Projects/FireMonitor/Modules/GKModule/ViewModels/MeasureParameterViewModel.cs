@@ -3,12 +3,12 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class AUParameterValue : BaseViewModel
+	public class MeasureParameterViewModel : BaseViewModel
 	{
 		public XDevice Device { get; set; }
 		public string Name { get; set; }
 		public bool IsDelay { get; set; }
-		public XAUParameter DriverParameter { get; set; }
+		public XMeasureParameter DriverParameter { get; set; }
 
 		double _value;
 		public double Value

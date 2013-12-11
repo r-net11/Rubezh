@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 			Devices = new ObservableCollection<DeviceParameterViewModel>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.AUParameters.Where(x => !x.IsDelay).Count() > 0)
+				if (device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0)
 				{
 					var deviceParameterViewModel = new DeviceParameterViewModel(device);
 					Devices.Add(deviceParameterViewModel);
@@ -83,15 +83,15 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Smokiness"))
+					if (deviceParameterViewModel.Device.Driver.MeasureParameters.Any(x => x.InternalName == "Smokiness"))
 						deviceParameterViewModel.Smokiness = "опрос";
-					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Temperature"))
+					if (deviceParameterViewModel.Device.Driver.MeasureParameters.Any(x => x.InternalName == "Temperature"))
 						deviceParameterViewModel.Temperature = "опрос";
-					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Dustinness"))
+					if (deviceParameterViewModel.Device.Driver.MeasureParameters.Any(x => x.InternalName == "Dustinness"))
 						deviceParameterViewModel.Dustinness = "опрос";
-					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "LastServiceTime"))
+					if (deviceParameterViewModel.Device.Driver.MeasureParameters.Any(x => x.InternalName == "LastServiceTime"))
 						deviceParameterViewModel.LastServiceTime = "опрос";
-					if (deviceParameterViewModel.Device.Driver.AUParameters.Any(x => x.InternalName == "Resistance"))
+					if (deviceParameterViewModel.Device.Driver.MeasureParameters.Any(x => x.InternalName == "Resistance"))
 						deviceParameterViewModel.Resistance = "опрос";
 
 					deviceParameterViewModel.IsCurrent = true;
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void ParameterUpdateHelper_NewAUParameterValue(AUParameterValue auParameterValue)
+		void ParameterUpdateHelper_NewAUParameterValue(MeasureParameterViewModel auParameterValue)
 		{
 			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.UID == auParameterValue.Device.UID);
 			if (deviceParameterViewModel != null)

@@ -65,8 +65,8 @@ namespace GKProcessor
 			//property8.Parameters.Add(property8Parameter3);
 			driver.Properties.Add(property8);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
 
 			return driver;
 		}

@@ -60,8 +60,8 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 5, "Порог 4, 0.1В", 4500, 1, 10000);
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 5, 0.1В", 6000, 1, 10000);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Питание, В" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Питание, В" });
 
 			return driver;
 		}

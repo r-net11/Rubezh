@@ -3,24 +3,25 @@ using System.IO;
 using System.Media;
 using System.Threading;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace Infrastructure.Common
 {
-    public static class AlarmPlayerHelper
-    {
+	public static class AlarmPlayerHelper
+	{
 		static SoundPlayer _soundPlayer;
 		static bool _isContinious;
 		static Thread _beepThread;
 		static int _beepFrequency;
 		static bool _isBeepThreadStopping;
 
-        static AlarmPlayerHelper()
-        {
-            _soundPlayer = new SoundPlayer();
-        }
+		static AlarmPlayerHelper()
+		{
+			_soundPlayer = new SoundPlayer();
+		}
 
-        static void PlayBeep()
-        {
+		static void PlayBeep()
+		{
 			try
 			{
 				do
@@ -40,12 +41,12 @@ namespace Infrastructure.Common
 			{
 				return;
 			}
-        }
+		}
 
-        static void StopPlayPCSpeaker()
-        {
+		static void StopPlayPCSpeaker()
+		{
 			_isBeepThreadStopping = true;
-        }
+		}
 
 		static void PlayPCSpeaker(BeeperType beeperType, bool isContinious)
 		{
@@ -63,42 +64,55 @@ namespace Infrastructure.Common
 			}
 		}
 
-        static void PlaySound(string filePath, bool isContinious)
-        {
-            if (File.Exists(filePath))
-            {
-                _soundPlayer.SoundLocation = filePath;
-                _soundPlayer.Load();
-                if (_soundPlayer.IsLoadCompleted)
-                {
-                    if (isContinious)
-                        _soundPlayer.PlayLooping();
-                    else
-                        _soundPlayer.Play();
-                }
-            }
-        }
+		static void PlaySound(string filePath, bool isContinious)
+		{
+			if (_soundPlayer != null)
+			{
+				if (File.Exists(filePath))
+				{
+					_soundPlayer.SoundLocation = filePath;
+					_soundPlayer.Load();
+					if (_soundPlayer.IsLoadCompleted)
+					{
+						if (isContinious)
+							_soundPlayer.PlayLooping();
+						else
+							_soundPlayer.Play();
+					}
+				}
+				else
+				{
+					_soundPlayer.Stop();
+				}
+			}
+		}
 
-        static void StopPlaySound()
-        {
-            _soundPlayer.Stop();
-        }
+		static void StopPlaySound()
+		{
+			if (_soundPlayer != null)
+			{
+				_soundPlayer.Stop();
+			}
+		}
 
-        public static void Play(string filePath, BeeperType speakertype, bool isContinious)
-        {
-            PlaySound(filePath, isContinious);
-            PlayPCSpeaker(speakertype, isContinious);
-        }
+		public static void Play(string filePath, BeeperType speakertype, bool isContinious)
+		{
+			PlaySound(filePath, isContinious);
+			PlayPCSpeaker(speakertype, isContinious);
+		}
 
-        public static void Stop()
-        {
-            StopPlaySound();
-            StopPlayPCSpeaker();
-        }
+		public static void Stop()
+		{
+			StopPlaySound();
+			StopPlayPCSpeaker();
+		}
 
-        public static void Dispose()
-        {
-            Stop();
-        }
-    }
+		public static void Dispose()
+		{
+			Stop();
+			if (_soundPlayer != null)
+				_soundPlayer.Dispose();
+			_soundPlayer = null;
+		}
+	}
 }

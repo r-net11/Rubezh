@@ -155,7 +155,7 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+					DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 					break;
 
 				case JournalItemType.Zone:

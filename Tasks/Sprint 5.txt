@@ -58,4 +58,5 @@
 - Логировать SendManager
 - Расширение формулы для Formula.AddGetBit(XStateBit.Norm)
 - Использовать XBaseObjectType
+- Рефакторинг PlanViewModel / PlanLinkViewModel
 

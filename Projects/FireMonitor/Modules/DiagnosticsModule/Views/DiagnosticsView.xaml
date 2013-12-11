@@ -12,6 +12,7 @@
                 <WrapPanel>
                     <Button Content="Влючать/выключать РМ" Command="{Binding TurnOnOffRMCommand}" Width="200" Margin="2" />
                     <Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
+                    <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
                 </WrapPanel>
             </TabItem>
             <TabItem Header="Основные">

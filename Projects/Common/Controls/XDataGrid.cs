@@ -46,8 +46,11 @@ namespace Controls
 
 			var dataGrid = sender as DataGrid;
 			var viewModel = dataGrid.DataContext as IEditingViewModel;
-			if (viewModel.EditCommand.CanExecute(null))
-				viewModel.EditCommand.Execute();
+			if (viewModel != null)
+			{
+				if (viewModel.EditCommand.CanExecute(null))
+					viewModel.EditCommand.Execute();
+			}
 		}
 
 		private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			Dustinness = " - ";
 			LastServiceTime = " - ";
 			Resistance = " - ";
-			AUParameterValues = new ObservableCollection<AUParameterValue>();
+			AUParameterValues = new ObservableCollection<MeasureParameterViewModel>();
 		}
 
 		bool _isCurrent;
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void OnNewAUParameterValue(AUParameterValue value)
+		public void OnNewAUParameterValue(MeasureParameterViewModel value)
 		{
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
@@ -109,8 +109,8 @@ namespace GKModule.ViewModels
 			}));
 		}
 
-		ObservableCollection<AUParameterValue> _auParameterValues;
-		public ObservableCollection<AUParameterValue> AUParameterValues
+		ObservableCollection<MeasureParameterViewModel> _auParameterValues;
+		public ObservableCollection<MeasureParameterViewModel> AUParameterValues
 		{
 			get { return _auParameterValues; }
 			set

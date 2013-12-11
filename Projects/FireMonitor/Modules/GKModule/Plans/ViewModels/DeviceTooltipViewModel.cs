@@ -28,10 +28,7 @@ namespace GKModule.ViewModels
 			StateClasses.Clear();
 			foreach (var stateClass in State.StateClasses)
 			{
-				if (stateClass != State.StateClass)
-				{
-					StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
-				}
+				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 			}
 		}
 

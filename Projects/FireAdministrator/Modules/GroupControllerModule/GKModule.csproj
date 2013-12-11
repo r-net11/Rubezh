@@ -135,6 +135,7 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
+    <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
@@ -211,22 +212,13 @@
     <Compile Include="Parameters\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
     <Compile Include="Parameters\ViewModels\BaseAUPropertyViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterMissmatchType.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParametersMenuViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParametersViewModel.cs" />
     <Compile Include="Parameters\ViewModels\DeviceParameterTemplateViewModel.cs" />
-    <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
     <Compile Include="Parameters\ViewModels\EnumAUPropertyViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplateSelectationViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesMenuViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplatesViewModel.cs" />
     <Compile Include="Parameters\ViewModels\ParameterTemplateViewModel.cs" />
     <Compile Include="Parameters\ViewModels\StringAUPropertyViewModel.cs" />
-    <Compile Include="Parameters\Views\DeviceParametersMenuView.xaml.cs">
-      <DependentUpon>DeviceParametersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Parameters\Views\DeviceParametersView.xaml.cs">
-      <DependentUpon>DeviceParametersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Parameters\Views\ParameterTemplateSelectationView.xaml.cs">
       <DependentUpon>ParameterTemplateSelectationView.xaml</DependentUpon>
     </Compile>
@@ -539,14 +531,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Parameters\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\Views\DeviceParametersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Parameters\Views\DeviceParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

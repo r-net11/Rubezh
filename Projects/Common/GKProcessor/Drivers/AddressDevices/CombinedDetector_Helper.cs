@@ -27,11 +27,11 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 18, 5, 20);
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 70, 54, 85);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Температура, C", InternalName = "Temperature" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x86, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x87, Name = "Порог запыленности предварительный, 0.001*дБ/м" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x8A, Name = "Порог запыленности критический, 0.001*дБ/м" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x83, Name = "Температура, C", InternalName = "Temperature" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x86, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x87, Name = "Порог запыленности предварительный, 0.001*дБ/м" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x8A, Name = "Порог запыленности критический, 0.001*дБ/м" });
 
 			return driver;
 		}

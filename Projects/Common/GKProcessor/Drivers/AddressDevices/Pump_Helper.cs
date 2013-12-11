@@ -79,7 +79,7 @@ namespace GKProcessor
 			};
 			driver.Properties.Add(property6);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x80, Name = "Режим работы" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
 
 			return driver;
 		}

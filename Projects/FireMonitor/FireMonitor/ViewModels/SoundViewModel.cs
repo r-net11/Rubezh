@@ -11,6 +11,8 @@ using System.IO;
 using Microsoft.Windows.Controls;
 using XFiresecAPI;
 using FiresecAPI.XModels;
+using Infrastructure.Common.Windows;
+using System.Diagnostics;
 
 namespace FireMonitor.ViewModels
 {
@@ -18,8 +20,10 @@ namespace FireMonitor.ViewModels
 	{
 		public SoundViewModel()
 		{
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnStateChanged);
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnStateChanged);
+			ApplicationService.Closed -= new EventHandler(ApplicationService_Closed);
+			ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
+			//ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnStateChanged);
+			//ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 
@@ -27,7 +31,7 @@ namespace FireMonitor.ViewModels
 			CurrentStateClass = XStateClass.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
-			OnStateChanged(Guid.Empty);
+			OnStateChanged(null);
 		}
 
 		public XStateClass CurrentStateClass { get; private set; }
@@ -60,27 +64,28 @@ namespace FireMonitor.ViewModels
 
 		public void OnStateChanged(object obj)
 		{
-			var minState = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)XManager.GetMinStateClass());
+			//var minStateClass = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)XManager.GetMinStateClass());
+			var minStateClass = XManager.GetMinStateClass();
 
-			if (CurrentStateClass != minState)
-				CurrentStateClass = minState;
+			if (CurrentStateClass != minStateClass)
+				CurrentStateClass = minStateClass;
 
 			IsSoundOn = true;
-			if (minState == XStateClass.Norm)
+			if (minStateClass == XStateClass.Norm)
 				IsEnabled = false;
 			else
 				IsEnabled = true;
 			PlayAlarm();
 		}
 
-		XStateClass GetMinASStateClass()
-		{
-			var minStateType = StateType.Norm;
-			foreach (var device in FiresecManager.Devices)
-				if (device.DeviceState.StateType < minStateType)
-					minStateType = device.DeviceState.StateType;
-			return XStatesHelper.StateTypeToXStateClass(minStateType);
-		}
+		//XStateClass GetMinASStateClass()
+		//{
+		//    var minStateType = StateType.Norm;
+		//    foreach (var device in FiresecManager.Devices)
+		//        if (device.DeviceState.StateType < minStateType)
+		//            minStateType = device.DeviceState.StateType;
+		//    return XStatesHelper.StateTypeToXStateClass(minStateType);
+		//}
 
 		public void PlayAlarm()
 		{
@@ -113,6 +118,11 @@ namespace FireMonitor.ViewModels
 				PlayAlarm();
 				IsSoundOn = true;
 			}
+		}
+
+		void ApplicationService_Closed(object sender, EventArgs e)
+		{
+			//AlarmPlayerHelper.Dispose();
 		}
 	}
 }

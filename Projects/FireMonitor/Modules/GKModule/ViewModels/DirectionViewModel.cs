@@ -16,18 +16,18 @@ namespace GKModule.ViewModels
 {
 	public class DirectionViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
-		public XDirection Direction
+		public XDirection Direction { get; private set; }
+		public XState State
 		{
-			get { return State.Direction; }
+			get { return Direction.State; }
 		}
 
-		public DirectionViewModel(XState state)
+		public DirectionViewModel(XDirection direction)
 		{
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			State = state;
+			Direction = direction;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}

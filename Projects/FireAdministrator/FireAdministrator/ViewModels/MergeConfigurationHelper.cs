@@ -250,35 +250,40 @@ namespace FireAdministrator.ViewModels
 			{
 				foreach (var element in plan.ElementXDevices)
 				{
-					element.XDeviceUID = DeviceUIDs[element.XDeviceUID];
+					if (element.XDeviceUID != Guid.Empty)
+						element.XDeviceUID = DeviceUIDs[element.XDeviceUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
 				foreach (var element in plan.ElementRectangleXZones)
 				{
-					element.ZoneUID = ZoneUIDs[element.ZoneUID];
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = ZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
 				foreach (var element in plan.ElementPolygonXZones)
 				{
-					element.ZoneUID = ZoneUIDs[element.ZoneUID];
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = ZoneUIDs[element.ZoneUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
 				foreach (var element in plan.ElementRectangleXDirections)
 				{
-					element.DirectionUID = DirectionUIDs[element.DirectionUID];
+					if (element.DirectionUID != Guid.Empty)
+						element.DirectionUID = DirectionUIDs[element.DirectionUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
 				foreach (var element in plan.ElementPolygonXDirections)
 				{
-					element.DirectionUID = DirectionUIDs[element.DirectionUID];
+					if (element.DirectionUID != Guid.Empty)
+						element.DirectionUID = DirectionUIDs[element.DirectionUID];
 					var uid = Guid.NewGuid();
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;

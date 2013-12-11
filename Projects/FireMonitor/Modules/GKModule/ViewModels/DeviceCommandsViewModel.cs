@@ -14,12 +14,15 @@ namespace GKModule.ViewModels
 {
 	public class DeviceCommandsViewModel : BaseViewModel
 	{
-		public XState DeviceState { get; private set; }
-		public XDevice Device { get { return DeviceState.Device; } }
-
-		public DeviceCommandsViewModel(XState deviceState)
+		public XDevice Device { get; private set; }
+		public XState DeviceState
 		{
-			DeviceState = deviceState;
+			get { return Device.State; }
+		}
+
+		public DeviceCommandsViewModel(XDevice device)
+		{
+			Device = device;
 			DeviceState.StateChanged -= new System.Action(OnStateChanged);
 			DeviceState.StateChanged += new System.Action(OnStateChanged);
 

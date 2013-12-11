@@ -1,4 +1,4 @@
-﻿namespace XFiresecAPI
+﻿namespace GKProcessor
 {
 	public enum DatabaseType
 	{

@@ -18,14 +18,14 @@ namespace GKModule.ViewModels
 	public class DirectionDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public XDirection Direction { get; private set; }
-		public XState State { get; private set; }
-		public DirectionViewModel DirectionViewModel { get; private set; }
+		public XState State
+		{
+			get { return Direction.State; }
+		}
 
 		public DirectionDetailsViewModel(XDirection direction)
 		{
 			Direction = direction;
-			State = Direction.State;
-			DirectionViewModel = new DirectionViewModel(State);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 

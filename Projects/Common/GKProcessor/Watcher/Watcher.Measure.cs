@@ -18,7 +18,7 @@ namespace GKProcessor
 
 		public void StartDeviceMeasure(XDevice device)
 		{
-			if (device.Driver.AUParameters.Count > 0)
+			if (device.Driver.MeasureParameters.Count > 0)
 			{
 				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.UID == device.UID);
 				if (measureDeviceInfo == null)
@@ -43,7 +43,7 @@ namespace GKProcessor
 			MeasureDeviceInfos.RemoveAll(x => (DateTime.Now - x.DateTime).TotalSeconds > 120);
 			foreach (var measureDeviceInfo in MeasureDeviceInfos)
 			{
-				List<XMeasureParameter> measureParameters = null;
+				List<XMeasureParameterValue> measureParameters = null;
 				if (measureDeviceInfo.Device.KauDatabaseParent != null && measureDeviceInfo.Device.KauDatabaseParent.DriverType == XDriverType.KAU)
 				{
 					measureParameters = measureDeviceInfo.GetRSR1Measure();
@@ -57,9 +57,9 @@ namespace GKProcessor
 				{
 					var deviceMeasureParameters = new XDeviceMeasureParameters();
 					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
-					foreach (var auParameterValue in measureParameters)
+					foreach (var measureParameter in measureParameters)
 					{
-						deviceMeasureParameters.MeasureParameters.Add(auParameterValue);
+						deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);
 					}
 					OnMeasureParametersChanged(deviceMeasureParameters);
 				}
@@ -71,11 +71,10 @@ namespace GKProcessor
 	{
 		public XDevice Device { get; private set; }
 		public DateTime DateTime { get; set; }
-		public List<XMeasureParameter> XMeasureParameters;
+		public List<XMeasureParameterValue> MeasureParameters;
 
 		int ParameterIndex;
 		bool CanMoveToNextParameter;
-		bool StartGetCommandSucseeded;
 		int GetParameterTryIndex;
 		public DateTime StartTryDateTime { get; set; }
 
@@ -84,102 +83,54 @@ namespace GKProcessor
 			Device = device;
 			DateTime = DateTime.Now;
 
-			XMeasureParameters = new List<XMeasureParameter>();
-			foreach (var auParameter in Device.Driver.AUParameters)
+			MeasureParameters = new List<XMeasureParameterValue>();
+			foreach (var measureParameter in Device.Driver.MeasureParameters)
 			{
-				var auParameterValue = new XMeasureParameter()
+				var measureParameterValue = new XMeasureParameterValue()
 				{
-					Name = auParameter.Name
+					Name = measureParameter.Name
 				};
-				XMeasureParameters.Add(auParameterValue);
+				MeasureParameters.Add(measureParameterValue);
 			}
 		}
 
-		public List<XMeasureParameter> GetRSR1Measure()
+		public List<XMeasureParameterValue> GetRSR1Measure()
 		{
-			var auParameter = Device.Driver.AUParameters[ParameterIndex];
+			var measureParameter = Device.Driver.MeasureParameters[ParameterIndex];
 			if (CanMoveToNextParameter)
 			{
 				CanMoveToNextParameter = false;
-				StartGetCommandSucseeded = false;
 
 				ParameterIndex++;
-				if (ParameterIndex == Device.Driver.AUParameters.Count)
+				if (ParameterIndex == Device.Driver.MeasureParameters.Count)
 				{
 					ParameterIndex = 0;
 				}
+
+				StartTryDateTime = DateTime.Now;
+				GetParameterTryIndex = 0;
 			}
 
-			if (!StartGetCommandSucseeded)
+			var bytes = new List<byte>();
+			bytes.Add((byte)Device.Driver.DriverTypeNo);
+			bytes.Add(Device.IntAddress);
+			bytes.Add((byte)(Device.ShleifNo - 1));
+			bytes.Add(measureParameter.No);
+			var result = SendManager.Send(Device.KauDatabaseParent, 4, 131, 2, bytes);
+
+			if (!result.HasError)
 			{
-				var bytes = new List<byte>();
-				bytes.Add((byte)Device.Driver.DriverTypeNo);
-				bytes.Add(Device.IntAddress);
-				bytes.Add((byte)(Device.ShleifNo - 1));
-				bytes.Add(auParameter.No);
-				var result1 = SendManager.Send(Device.KauDatabaseParent, 4, 131, 2, bytes);
-
-				StartGetCommandSucseeded = !result1.HasError;
-				if (StartGetCommandSucseeded)
+				result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
+				if (!result.HasError && result.Bytes.Count > 0)
 				{
-					StartTryDateTime = DateTime.Now;
-					GetParameterTryIndex = 0;
-				}
-				return null;
-			}
-
-			var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
-			if (!result.HasError && result.Bytes.Count > 0)
-			{
-				var resievedParameterNo = result.Bytes[63];
-				if (resievedParameterNo == auParameter.No)
-				{
-					var parameterUshortValue = BytesHelper.SubstructShort(result.Bytes, 64);
-					if (auParameter.IsHighByte)
+					var resievedParameterNo = result.Bytes[63];
+					if (resievedParameterNo == measureParameter.No)
 					{
-						parameterUshortValue = (ushort)(parameterUshortValue / 256);
+						var parameterUshortValue = BytesHelper.SubstructShort(result.Bytes, 64);
+						var measureParameterValue = ParceRSRaMeasureParameter(measureParameter, parameterUshortValue);
+						CanMoveToNextParameter = true;
+						return new List<XMeasureParameterValue>() { measureParameterValue };
 					}
-					else if (auParameter.IsLowByte)
-					{
-						parameterUshortValue = (ushort)(parameterUshortValue << 8);
-						parameterUshortValue = (ushort)(parameterUshortValue >> 8);
-					}
-					double parameterValue;
-					if (auParameter.Multiplier != null)
-						parameterValue = parameterUshortValue / (double)auParameter.Multiplier;
-					else
-						parameterValue = parameterUshortValue;
-					var stringValue = parameterValue.ToString();
-					if (auParameter.Name == "Дата последнего обслуживания")
-					{
-						stringValue = (parameterUshortValue / 256).ToString() + "." + (parameterUshortValue % 256).ToString();
-					}
-					if ((Device.DriverType == XDriverType.Valve || Device.DriverType == XDriverType.Pump)
-						&& auParameter.Name == "Режим работы")
-					{
-						stringValue = "Неизвестно";
-						switch (parameterUshortValue & 3)
-						{
-							case 0:
-								stringValue = "Автоматический";
-								break;
-
-							case 1:
-								stringValue = "Ручной";
-								break;
-
-							case 2:
-								stringValue = "Отключено";
-								break;
-						}
-					}
-
-					var auParameterValue = XMeasureParameters.FirstOrDefault(x => x.Name == auParameter.Name);
-					auParameterValue.Value = parameterValue;
-					auParameterValue.StringValue = stringValue;
-
-					CanMoveToNextParameter = true;
-					return new List<XMeasureParameter>() { auParameterValue };
 				}
 			}
 
@@ -191,26 +142,73 @@ namespace GKProcessor
 			return null;
 		}
 
-		public List<XMeasureParameter> GetRSR2Measure()
+		XMeasureParameterValue ParceRSRaMeasureParameter(XMeasureParameter measureParameter, ushort parameterUshortValue)
+		{
+			if (measureParameter.IsHighByte)
+			{
+				parameterUshortValue = (ushort)(parameterUshortValue / 256);
+			}
+			else if (measureParameter.IsLowByte)
+			{
+				parameterUshortValue = (ushort)(parameterUshortValue << 8);
+				parameterUshortValue = (ushort)(parameterUshortValue >> 8);
+			}
+			double parameterValue;
+			if (measureParameter.Multiplier != null)
+				parameterValue = parameterUshortValue / (double)measureParameter.Multiplier;
+			else
+				parameterValue = parameterUshortValue;
+			var stringValue = parameterValue.ToString();
+			if (measureParameter.Name == "Дата последнего обслуживания")
+			{
+				stringValue = (parameterUshortValue / 256).ToString() + "." + (parameterUshortValue % 256).ToString();
+			}
+			if ((Device.DriverType == XDriverType.Valve || Device.DriverType == XDriverType.Pump)
+				&& measureParameter.Name == "Режим работы")
+			{
+				stringValue = "Неизвестно";
+				switch (parameterUshortValue & 3)
+				{
+					case 0:
+						stringValue = "Автоматический";
+						break;
+
+					case 1:
+						stringValue = "Ручной";
+						break;
+
+					case 2:
+						stringValue = "Отключено";
+						break;
+				}
+			}
+
+			var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
+			measureParameterValue.Value = parameterValue;
+			measureParameterValue.StringValue = stringValue;
+			return measureParameterValue;
+		}
+
+		public List<XMeasureParameterValue> GetRSR2Measure()
 		{
 			var result = SendManager.Send(Device.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(Device.GKDescriptorNo));
 			if (!result.HasError && result.Bytes.Count > 0)
 			{
-				for (int i = 0; i < Device.Driver.AUParameters.Count; i++)
+				for (int i = 0; i < Device.Driver.MeasureParameters.Count; i++)
 				{
-					var auParameter = Device.Driver.AUParameters[i];
+					var measureParameter = Device.Driver.MeasureParameters[i];
 					var parameterValue = BytesHelper.SubstructShort(result.Bytes, 48 + i * 2);
 					var stringValue = parameterValue.ToString();
-					if (auParameter.Name == "Дата последнего обслуживания")
+					if (measureParameter.Name == "Дата последнего обслуживания")
 					{
 						stringValue = (parameterValue / 256).ToString() + "." + (parameterValue % 256).ToString();
 					}
 
-					var auParameterValue = XMeasureParameters.FirstOrDefault(x => x.Name == auParameter.Name);
-					auParameterValue.Value = parameterValue;
-					auParameterValue.StringValue = stringValue;
+					var measureParameterValue = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
+					measureParameterValue.Value = parameterValue;
+					measureParameterValue.StringValue = stringValue;
 				}
-				return XMeasureParameters;
+				return MeasureParameters;
 			}
 			return null;
 		}

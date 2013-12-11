@@ -34,51 +34,9 @@ namespace GKProcessor
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
-
 			StateBits = XStatesHelper.StatesFromInt(state);
 			ParseAdditionalParameters(bytes);
-
 			CheckConnectionLost(xBase);
-		}
-
-		void CheckConnectionLost(XBase xBase)
-		{
-			if (xBase is XDevice)
-			{
-				var connectionLostParameter = additionalShortParameters[9];
-				var connectionLostCount = connectionLostParameter / 256;
-
-				XDevice xDevice = xBase as XDevice;
-				XDevice connectionLostParent = xDevice.KAUParent;
-				if (xDevice.Driver.IsKauOrRSR2Kau)
-				{
-					connectionLostParent = xDevice.GKParent;
-					connectionLostCount = connectionLostParameter % 256;
-				}
-				if (connectionLostParent != null)
-				{
-					var property = connectionLostParent.Properties.FirstOrDefault(x => x.Name == "ConnectionLostCount");
-					if (property != null)
-					{
-						if (connectionLostCount >= property.Value)
-						{
-							xBase.BaseState.IsGKConnectionLost = true;
-							AdditionalStates = new List<XAdditionalState>()
-							{
-								new XAdditionalState()
-								{
-									StateClass = XStateClass.Failure,
-									Name = "Потеря связи"
-								}
-							};
-						}
-						else
-						{
-							xBase.BaseState.IsGKConnectionLost = false;
-						}
-					}
-				}
-			}
 		}
 
 		void ParseAdditionalParameters(List<byte> bytes)
@@ -94,7 +52,7 @@ namespace GKProcessor
 			if (driver != null)
 			{
                 var driverType = driver.DriverType;
-                if (XBase.GKDescriptorNo > 1)
+				if (driverType == XDriverType.GK && XBase.GKDescriptorNo > 1)
                     driverType = XDriverType.KAU;
 
                 switch (driverType)
@@ -493,6 +451,46 @@ namespace GKProcessor
 					Name = name
 				};
 				AdditionalStates.Add(additionalState);
+			}
+		}
+
+		void CheckConnectionLost(XBase xBase)
+		{
+			if (xBase is XDevice)
+			{
+				var connectionLostParameter = additionalShortParameters[9];
+				var connectionLostCount = connectionLostParameter / 256;
+
+				XDevice xDevice = xBase as XDevice;
+				XDevice connectionLostParent = xDevice.KAUParent;
+				if (xDevice.Driver.IsKauOrRSR2Kau)
+				{
+					connectionLostParent = xDevice.GKParent;
+					connectionLostCount = connectionLostParameter % 256;
+				}
+				if (connectionLostParent != null)
+				{
+					var property = connectionLostParent.Properties.FirstOrDefault(x => x.Name == "ConnectionLostCount");
+					if (property != null)
+					{
+						if (connectionLostCount >= property.Value)
+						{
+							xBase.BaseState.IsGKConnectionLost = true;
+							AdditionalStates = new List<XAdditionalState>()
+							{
+								new XAdditionalState()
+								{
+									StateClass = XStateClass.Failure,
+									Name = "Потеря связи"
+								}
+							};
+						}
+						else
+						{
+							xBase.BaseState.IsGKConnectionLost = false;
+						}
+					}
+				}
 			}
 		}
 	}

@@ -62,7 +62,7 @@ namespace GKProcessor
 			property1.Parameters.Add(property1Parameter5);
 			driver.Properties.Add(property1);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Сопротивление, Ом", InternalName = "Resistance" });
 
 			return driver;
 		}

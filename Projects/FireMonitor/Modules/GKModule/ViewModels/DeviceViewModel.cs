@@ -15,19 +15,22 @@ namespace GKModule.ViewModels
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
 		public XDevice Device { get; private set; }
-		public XState State { get; private set; }
+		public XState State
+		{
+			get { return Device.State; }
+		}
+
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DeviceViewModel(XDevice device)
 		{
 			Device = device;
-			State = Device.State;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(State);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
@@ -46,7 +49,7 @@ namespace GKModule.ViewModels
 			{
 				if (State.StateClass == XStateClass.TurningOn)
 				{
-					ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+					DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 				}
 			}
 		}
@@ -103,7 +106,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 		public bool CanShowProperties()
 		{

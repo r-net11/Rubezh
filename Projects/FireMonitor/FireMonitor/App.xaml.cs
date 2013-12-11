@@ -138,6 +138,8 @@ namespace FireMonitor
 					ShellIntegrationHelper.ShutDown();
 			}
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
+
+			Environment.Exit(0);
 		}
 
 		void Restart()

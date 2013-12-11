@@ -31,7 +31,7 @@ namespace XFiresecAPI
 		public XStateClass StateClass { get; set; }
 
 		[DataMember]
-		public List<XMeasureParameter> MeasureParameters { get; set; }
+		public List<XMeasureParameterValue> XMeasureParameterValues { get; set; }
 
 		[DataMember]
 		public string PresentationName { get; set; }
@@ -55,7 +55,7 @@ namespace XFiresecAPI
 			AdditionalStates = new List<XAdditionalState>();
 			StateClasses = new List<XStateClass>();
 			StateClass = XStateClass.Unknown;
-			MeasureParameters = new List<XMeasureParameter>();
+			XMeasureParameterValues = new List<XMeasureParameterValue>();
 		}
 
 		public XState(XDevice device)

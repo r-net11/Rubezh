@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var pim in gkDatabase.Pims)
 				{
-					var pimViewModel = new PimViewModel(pim.State);
+					var pimViewModel = new PimViewModel(pim);
 					Pims.Add(pimViewModel);
 				}
 			}

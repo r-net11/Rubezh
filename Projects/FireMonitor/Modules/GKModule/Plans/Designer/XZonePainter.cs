@@ -124,8 +124,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
-			DialogService.ShowWindow(zoneDetailsViewModel);
+			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 
 		private ContextMenu CreateContextMenu()

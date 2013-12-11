@@ -132,7 +132,6 @@
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="Events\ShowXDeviceEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
-    <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="Events\UserChangedEvent.cs" />
     <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
     <Compile Include="Events\GetFS2FilteredArchiveCompletedEvent.cs" />

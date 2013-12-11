@@ -16,17 +16,17 @@ namespace GKModule.ViewModels
 {
 	public class DelayViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
-		public XDelay Delay
+		public XDelay Delay { get; private set; }
+		public XState State
 		{
-			get { return State.Delay; }
+			get { return Delay.State; }
 		}
 
-		public DelayViewModel(XState state)
+		public DelayViewModel(XDelay delay)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			State = state;
+			Delay = delay;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}

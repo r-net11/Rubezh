@@ -12,7 +12,7 @@ namespace XFiresecAPI
 		{
 			Children = new List<XDriverType>();
 			Properties = new List<XDriverProperty>();
-			AUParameters = new List<XAUParameter>();
+			MeasureParameters = new List<XMeasureParameter>();
 			AutoCreateChildren = new List<XDriverType>();
 			AvailableStateBits = new List<XStateBit>();
 			AvailableStateClasses = new List<XStateClass>();
@@ -35,7 +35,7 @@ namespace XFiresecAPI
 		public List<XStateBit> AvailableStateBits { get; set; }
 		public List<XStateClass> AvailableStateClasses { get; set; }
 		public List<XStateBit> AvailableCommandBits { get; set; }
-		public List<XAUParameter> AUParameters { get; set; }
+		public List<XMeasureParameter> MeasureParameters { get; set; }
 
 		public List<XDriverType> Children { get; set; }
 		public List<XDriverType> AutoCreateChildren { get; set; }

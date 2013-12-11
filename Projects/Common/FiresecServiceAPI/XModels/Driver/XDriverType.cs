@@ -1,16 +1,15 @@
 ﻿namespace XFiresecAPI
 {
-    public enum XDriverType
-    {
-        System,
-        GK,
+	public enum XDriverType
+	{
+		System,
+		GK,
 		GKIndicator,
 		GKLine,
 		GKRele,
-		//PumpStation,
-        KAU,
+		KAU,
 		KAU_Shleif,
-        KAUIndicator,
+		KAUIndicator,
 		SmokeDetector,
 		HeatDetector,
 		CombinedDetector,
@@ -18,16 +17,16 @@
 		AM_1,
 		AMP_1,
 		AM1_T,
-        RM_1,
+		RM_1,
 		MRO_2,
 		MDU,
 		MPT,
 		Valve,
 		Pump,
-        RM_2,
-        RM_3,
-        RM_4,
-        RM_5,
+		RM_2,
+		RM_3,
+		RM_4,
+		RM_5,
 		AM_4,
 		AMP_4,
 		RSR2_KAU,
@@ -48,10 +47,10 @@
 		RSR2_HeatDetector,
 		RSR2_Bush,
 		Battery,
-        Shu,
-        Shuv,
-        RSR2_Siren,
-        RSR2_Table,
+		Shu,
+		Shuv,
+		RSR2_Siren,
+		RSR2_Table,
 		RSR2_MVP
-    }
+	}
 }

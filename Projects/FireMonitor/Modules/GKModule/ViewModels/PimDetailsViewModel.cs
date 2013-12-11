@@ -18,14 +18,14 @@ namespace GKModule.ViewModels
 	public class PimDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public XPim Pim { get; private set; }
-		public XState State { get; private set; }
-		public PimViewModel PimViewModel { get; private set; }
+		public XState State
+		{
+			get { return Pim.State; }
+		}
 
 		public PimDetailsViewModel(XPim pim)
 		{
 			Pim = pim;
-			State = Pim.State;
-			PimViewModel = new PimViewModel(State);
 			State.StateChanged += new Action(OnStateChanged);
 
 			ShowCommand = new RelayCommand(OnShow);

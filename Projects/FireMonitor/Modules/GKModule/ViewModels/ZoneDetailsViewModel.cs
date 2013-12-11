@@ -17,9 +17,11 @@ namespace GKModule.ViewModels
 {
 	public class ZoneDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		Guid _guid;
 		public XZone Zone { get; private set; }
-		public XState State { get; private set; }
+		public XState State
+		{
+			get { return Zone.State; }
+		}
 
 		public ZoneDetailsViewModel(XZone zone)
 		{
@@ -29,9 +31,7 @@ namespace GKModule.ViewModels
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 
-			_guid = zone.UID;
 			Zone = zone;
-			State = Zone.State;
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 
@@ -142,7 +142,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return _guid.ToString(); }
+			get { return Zone.UID.ToString(); }
 		}
 		#endregion
 

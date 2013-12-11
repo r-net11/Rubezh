@@ -279,12 +279,11 @@
     <Compile Include="OperationResult.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.cs" />
     <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
-    <Compile Include="XModels\DatabaseType.cs" />
     <Compile Include="XModels\Device\XDevice.cs" />
     <Compile Include="XModels\Device\XProperty.cs" />
     <Compile Include="XModels\Directions\XDirectionDevice.cs" />
     <Compile Include="XModels\Directions\XDirectionZone.cs" />
-    <Compile Include="XModels\Driver\XAUParameter.cs" />
+    <Compile Include="XModels\Driver\XMeasureParameter.cs" />
     <Compile Include="XModels\Driver\XDriver.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameter.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameterType.cs" />
@@ -292,7 +291,6 @@
     <Compile Include="XModels\Driver\XDriverPropertyParameter.cs" />
     <Compile Include="XModels\Driver\XDriverPropertyTypeEnum.cs" />
     <Compile Include="XModels\Driver\XDriverType.cs" />
-    <Compile Include="XModels\Driver\XDriverTypeMappedProperty.cs" />
     <Compile Include="XModels\Filters\XJournalFilter.cs" />
     <Compile Include="XModels\Firmware\HexFileCollectionInfo.cs" />
     <Compile Include="XModels\Firmware\HEXFileInfo.cs" />
@@ -333,7 +331,7 @@
     <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\XBaseObjectType.cs" />
     <Compile Include="XModels\XDeviceMeasureParameters.cs" />
-    <Compile Include="XModels\XMeasureParameter.cs" />
+    <Compile Include="XModels\XMeasureParameterValue.cs" />
     <Compile Include="XModels\XState.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>

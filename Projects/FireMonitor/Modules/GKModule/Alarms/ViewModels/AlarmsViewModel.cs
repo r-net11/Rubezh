@@ -13,6 +13,7 @@ using Common;
 using System;
 using Infrastructure.Common.Services;
 using System.Diagnostics;
+using FiresecAPI.Models;
 
 namespace GKModule.ViewModels
 {
@@ -30,6 +31,7 @@ namespace GKModule.ViewModels
 			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChanged);
+			OnGKObjectsStateChanged(null);
 		}
 
 		public void SubscribeShortcuts()
@@ -198,8 +200,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreAllCommand { get; private set; }
 		void OnResetIgnoreAll()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				foreach (var device in XManager.Devices)
 				{
 					if (!device.Driver.IsDeviceOnShleif)
@@ -267,36 +269,36 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public void ResetAll()
-        {
-            if (CanResetAll())
-            {
-                if (ServiceFactory.SecurityService.Validate())
-                {
-                    foreach (var zone in XManager.Zones)
-                    {
-                        if (zone.State.StateClasses.Contains(XStateClass.Fire1))
-                        {
+		public void ResetAll()
+		{
+			if (CanResetAll())
+			{
+				if (ServiceFactory.SecurityService.Validate())
+				{
+					foreach (var zone in XManager.Zones)
+					{
+						if (zone.State.StateClasses.Contains(XStateClass.Fire1))
+						{
 							FiresecManager.FiresecService.GKResetFire1(zone);
-                        }
-                        if (zone.State.StateClasses.Contains(XStateClass.Fire2))
-                        {
+						}
+						if (zone.State.StateClasses.Contains(XStateClass.Fire2))
+						{
 							FiresecManager.FiresecService.GKResetFire2(zone);
-                        }
-                    }
-                    foreach (var device in XManager.Devices)
-                    {
-                        if (device.DriverType == XDriverType.AMP_1)
-                        {
-                            if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
-                            {
+						}
+					}
+					foreach (var device in XManager.Devices)
+					{
+						if (device.DriverType == XDriverType.AMP_1)
+						{
+							if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
+							{
 								FiresecManager.FiresecService.GKReset(device);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+							}
+						}
+					}
+				}
+			}
+		}
 		bool CanResetAll()
 		{
 			foreach (var zone in XManager.Zones)
@@ -306,15 +308,37 @@ namespace GKModule.ViewModels
 				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
 					return true;
 			}
-            foreach (var device in XManager.Devices)
-            {
-                if (device.DriverType == XDriverType.AMP_1)
-                {
-                    if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
-                        return true;
-                }
-            }
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.AMP_1)
+				{
+					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
+						return true;
+				}
+			}
 			return false;
+		}
+
+		void IgnoreAllZonesAndDevicesInFire()
+		{
+			foreach (var zone in XManager.Zones)
+			{
+				if (zone.State.StateClass == XStateClass.Fire1 || zone.State.StateClass == XStateClass.Fire2)
+				{
+					FiresecManager.FiresecService.GKSetIgnoreRegime(zone);
+				}
+			}
+
+			foreach (var device in XManager.Devices)
+			{
+				if (device.State.StateClass == XStateClass.Fire1 || device.State.StateClass == XStateClass.Fire2)
+				{
+					if (device.IsRealDevice)
+					{
+						FiresecManager.FiresecService.GKSetIgnoreRegime(device);
+					}
+				}
+			}
 		}
 
 		void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
@@ -323,12 +347,22 @@ namespace GKModule.ViewModels
 			{
 				if (e.Key == System.Windows.Input.Key.F1 && GlobalSettingsHelper.GlobalSettings.Monitor_F1_Enabled)
 				{
+					ManualPdfHelper.Show();
 				}
 				if (e.Key == System.Windows.Input.Key.F2 && GlobalSettingsHelper.GlobalSettings.Monitor_F2_Enabled)
 				{
+					if (FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && ServiceFactory.SecurityService.Validate())
+					{
+						if (CanResetIgnoreAll())
+							OnResetIgnoreAll();
+					}
 				}
 				if (e.Key == System.Windows.Input.Key.F3 && GlobalSettingsHelper.GlobalSettings.Monitor_F3_Enabled)
 				{
+					if (FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && ServiceFactory.SecurityService.Validate())
+					{
+						IgnoreAllZonesAndDevicesInFire();
+					}
 				}
 				if (e.Key == System.Windows.Input.Key.F4 && GlobalSettingsHelper.GlobalSettings.Monitor_F4_Enabled)
 				{

@@ -22,37 +22,37 @@ namespace GKModule.ViewModels
 {
 	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		Guid _guid;
 		public XDevice Device { get; private set; }
+		public XState State
+		{
+			get { return Device.State; }
+		}
 		public DeviceStateViewModel DeviceStateViewModel { get; private set; }
-		public XState State { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 		public DevicePropertiesViewModel DevicePropertiesViewModel { get; private set; }
 		BackgroundWorker BackgroundWorker;
 		bool CancelBackgroundWorker = false;
 
-		public DeviceDetailsViewModel(Guid deviceUID)
+		public DeviceDetailsViewModel(XDevice device)
 		{
-			_guid = deviceUID;
 			ShowCommand = new RelayCommand(OnShow);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 			ShowOnPlanCommand = new RelayCommand<Plan>(OnShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
-			Device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			State = Device.State;
+			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
 			State.StateChanged += new Action(OnStateChanged);
 			State.MeasureParametersChanged += new Action(OnMeasureParametersChanged);
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(State);
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
 
 			Title = Device.PresentationName;
 			TopMost = true;
 
-			StartParametersMonitoring();
+			StartMeasureParametersMonitoring();
 		}
 
 		void OnStateChanged()
@@ -90,41 +90,41 @@ namespace GKModule.ViewModels
 		}
 
 		#region Measure Parameters
-		ObservableCollection<AUParameterValue> _auParameterValues;
-		public ObservableCollection<AUParameterValue> AUParameterValues
+		ObservableCollection<MeasureParameterViewModel> _measureParameters;
+		public ObservableCollection<MeasureParameterViewModel> MeasureParameters
 		{
-			get { return _auParameterValues; }
+			get { return _measureParameters; }
 			set
 			{
-				_auParameterValues = value;
-				OnPropertyChanged("AUParameterValues");
+				_measureParameters = value;
+				OnPropertyChanged("MeasureParameters");
 			}
 		}
 
-		public bool HasAUParameters
+		public bool HasMeasureParameters
 		{
-			get { return Device.Driver.AUParameters.Where(x => !x.IsDelay).Count() > 0; }
+			get { return Device.Driver.MeasureParameters.Where(x => !x.IsDelay).Count() > 0; }
 		}
 
-		void StartParametersMonitoring()
+		void StartMeasureParametersMonitoring()
 		{
-			AUParameterValues = new ObservableCollection<AUParameterValue>();
-			foreach (var auParameter in Device.Driver.AUParameters)
+			MeasureParameters = new ObservableCollection<MeasureParameterViewModel>();
+			foreach (var measureParameter in Device.Driver.MeasureParameters)
 			{
-				var auParameterValue = new AUParameterValue()
+				var measureParameterViewModel = new MeasureParameterViewModel()
 				{
-					Name = auParameter.Name,
-					IsDelay = auParameter.IsDelay
+					Name = measureParameter.Name,
+					IsDelay = measureParameter.IsDelay
 				};
-				AUParameterValues.Add(auParameterValue);
+				MeasureParameters.Add(measureParameterViewModel);
 			}
 
 			BackgroundWorker = new BackgroundWorker();
-			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateAuParameters);
+			BackgroundWorker.DoWork += new DoWorkEventHandler(UpdateMeasureParameters);
 			BackgroundWorker.RunWorkerAsync();
 		}
 
-		void UpdateAuParameters(object sender, DoWorkEventArgs e)
+		void UpdateMeasureParameters(object sender, DoWorkEventArgs e)
 		{
 			while (true)
 			{
@@ -139,11 +139,11 @@ namespace GKModule.ViewModels
 
 		void OnMeasureParametersChanged()
 		{
-			foreach (var measureParameter in Device.State.MeasureParameters)
+			foreach (var measureParameter in Device.State.XMeasureParameterValues)
 			{
-				var auParameterValue = AUParameterValues.FirstOrDefault(x => x.Name == measureParameter.Name);
-				auParameterValue.Value = measureParameter.Value;
-				auParameterValue.StringValue = measureParameter.StringValue;
+				var measureParameterViewModel = MeasureParameters.FirstOrDefault(x => x.Name == measureParameter.Name);
+				measureParameterViewModel.Value = measureParameter.Value;
+				measureParameterViewModel.StringValue = measureParameter.StringValue;
 			}
 		}
 		#endregion
@@ -227,7 +227,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return _guid.ToString(); }
+			get { return Device.UID.ToString(); }
 		}
 		#endregion
 

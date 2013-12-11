@@ -105,11 +105,10 @@
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
-    <Compile Include="ViewModels\AUParameterValue.cs" />
+    <Compile Include="ViewModels\MeasureParameterViewModel.cs" />
     <Compile Include="ViewModels\PimDetailsViewModel.cs" />
     <Compile Include="ViewModels\PimsViewModel.cs" />
     <Compile Include="ViewModels\PimViewModel.cs" />
-    <Compile Include="ViewModels\__DeviceDetailsViewModel__.cs" />
     <Compile Include="Views\PimDetailsView.xaml.cs">
       <DependentUpon>PimDetailsView.xaml</DependentUpon>
     </Compile>

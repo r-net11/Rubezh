@@ -16,17 +16,17 @@ namespace GKModule.ViewModels
 {
 	public class PimViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
-		public XPim Pim
+		public XPim Pim { get; private set; }
+		public XState State
 		{
-			get { return State.Pim; }
+			get { return Pim.State; }
 		}
 
-		public PimViewModel(XState state)
+		public PimViewModel(XPim pim)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			State = state;
+			Pim = pim;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}

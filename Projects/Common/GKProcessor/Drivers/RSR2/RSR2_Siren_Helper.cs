@@ -65,8 +65,8 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 4);
 			driver.Properties.Add(property2);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.AUParameters.Add(new XAUParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
 
 			return driver;
 		}

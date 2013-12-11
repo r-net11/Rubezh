@@ -22,7 +22,10 @@ namespace GKProcessor
 			var databaseNo = xBase.GKDescriptorNo;
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
-			WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+			if (xBase.GkDatabaseParent != null)
+			{
+				WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+			}
 		}
 
 		public static void SendControlCommandMRO(XBase xBase, byte code, byte code2)
@@ -32,17 +35,17 @@ namespace GKProcessor
 			bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 			bytes.Add(code);
 			bytes.Add(code2);
-			WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+			if (xBase.GkDatabaseParent != null)
+			{
+				WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+			}
 		}
 
 		static void OnCompleted(SendResult sendResult)
 		{
 			if (sendResult.HasError)
 			{
-				//ApplicationService.BeginInvoke(() =>
-				//{
-				//    MessageBoxService.ShowError("Ошибка при выполнении операции");
-				//});
+				GKProcessorManager.AddGKMessage("Ошибка при выполнении команды", "", XStateClass.Failure, null, null);
 			}
 		}
 	}

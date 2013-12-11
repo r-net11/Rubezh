@@ -17,17 +17,17 @@ namespace GKModule.ViewModels
 {
 	public class PumpStationViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
-		public XPumpStation PumpStation
+		public XPumpStation PumpStation { get; private set; }
+		public XState State
 		{
-			get { return State.PumpStation; }
+			get { return PumpStation.State; }
 		}
 
-		public PumpStationViewModel(XState state)
+		public PumpStationViewModel(XPumpStation pumpStation)
 		{
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			State = state;
+			PumpStation = pumpStation;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 

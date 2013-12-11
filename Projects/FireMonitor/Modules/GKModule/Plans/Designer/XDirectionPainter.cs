@@ -170,8 +170,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			var directionDetailsViewModel = new DirectionDetailsViewModel(_direction);
-			DialogService.ShowWindow(directionDetailsViewModel);
+			DialogService.ShowWindow(new DirectionDetailsViewModel(_direction));
 		}
 
 		private ContextMenu CreateContextMenu()

@@ -14,6 +14,7 @@ using XFiresecAPI;
 using Infrastructure.Client.Plans.ViewModels;
 using GKModule.Views;
 using GKModule.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.Plans.Designer
 {
@@ -93,7 +94,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Device.UID);
+			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 
 		private ContextMenu CreateContextMenu()

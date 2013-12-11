@@ -25,9 +25,9 @@ namespace GKProcessor
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 18, 5, 20);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x91, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x82, Name = "Задымленность, 0.001*дБ/м", InternalName = "Smokiness" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x91, Name = "Запыленность, 0.001*дБ/м", InternalName = "Dustinness" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

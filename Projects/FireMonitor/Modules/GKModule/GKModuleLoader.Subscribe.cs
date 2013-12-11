@@ -55,6 +55,8 @@ namespace GKModule
 
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
+
+			ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
 		}
 
 		void InitializeStates()
@@ -162,7 +164,7 @@ namespace GKModule
 				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
 				if (device != null)
 				{
-					device.State.MeasureParameters = deviceMeasureParameter.MeasureParameters;
+					device.State.XMeasureParameterValues = deviceMeasureParameter.MeasureParameterValues;
 					device.State.OnMeasureParametersChanged();
 				}
 			}

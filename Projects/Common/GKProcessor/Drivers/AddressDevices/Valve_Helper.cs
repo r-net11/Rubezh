@@ -78,7 +78,7 @@ namespace GKProcessor
 			//additionalSwitcherProperty.Parameters.Add(parameter3);
 			//driver.Properties.Add(additionalSwitcherProperty);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x80, Name = "Режим работы" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
 
 			return driver;
 		}

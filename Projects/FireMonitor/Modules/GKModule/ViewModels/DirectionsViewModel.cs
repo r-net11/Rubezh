@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 			{
 				if (direction.InputZones.Count + direction.InputDevices.Count > 0)
 				{
-					var directionViewModel = new DirectionViewModel(direction.State);
+					var directionViewModel = new DirectionViewModel(direction);
 					Directions.Add(directionViewModel);
 				}
 			}
@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 			{
 				if (directionZone.Zone.State != null)
 				{
-					var directionZoneViewModel = new DirectionZoneViewModel(directionZone.Zone.State);
+					var directionZoneViewModel = new DirectionZoneViewModel(directionZone.Zone);
 					directionZoneViewModel.StateType = directionZone.StateBit;
 					InputZones.Add(directionZoneViewModel);
 				}

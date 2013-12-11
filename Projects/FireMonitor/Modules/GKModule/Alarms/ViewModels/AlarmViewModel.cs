@@ -356,7 +356,7 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Publish(Alarm.Device.UID);
+				DialogService.ShowWindow(new DeviceDetailsViewModel(Alarm.Device));
 			}
 			if (Alarm.Zone != null)
 			{

@@ -33,7 +33,7 @@ namespace GKProcessor
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-						Name = value ? "База данных прибора соответствует базе данных ПК" : "База данных прибора не соответствует базе данных ПК"
+						Name = value ? "База данных прибора не соответствует базе данных ПК" : "База данных прибора соответствует базе данных ПК"
 					};
 					AddJournalItem(journalItem);
 				}

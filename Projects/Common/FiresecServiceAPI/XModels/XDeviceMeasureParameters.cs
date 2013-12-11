@@ -11,13 +11,13 @@ namespace XFiresecAPI
 	{
 		public XDeviceMeasureParameters()
 		{
-			MeasureParameters = new List<XMeasureParameter>();
+			MeasureParameterValues = new List<XMeasureParameterValue>();
 		}
 
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
 		[DataMember]
-		public List<XMeasureParameter> MeasureParameters { get; set; }
+		public List<XMeasureParameterValue> MeasureParameterValues { get; set; }
 	}
 }

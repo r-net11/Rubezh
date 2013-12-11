@@ -26,8 +26,8 @@ namespace GKProcessor
 
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 70, 54, 85);
 
-			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Температура, C", InternalName = "Temperature" });
-			driver.AUParameters.Add(new XAUParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x83, Name = "Температура, C", InternalName = "Temperature" });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x93, Name = "Дата последнего обслуживания", InternalName = "LastServiceTime" });
 
 			return driver;
 		}

@@ -26,6 +26,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			TurnOnOffRMCommand = new RelayCommand(OnTurnOnOffRM);
 			CheckHaspCommand = new RelayCommand(OnCheckHasp);
+			TestCommand = new RelayCommand(OnTest);
 		}
 
 		public void StopThreads()
@@ -90,6 +91,12 @@ namespace DiagnosticsModule.ViewModels
 			}));
 			thread.IsBackground = true;
 			thread.Start();
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			var minState = XManager.GetMinStateClass();
 		}
 	}
 }

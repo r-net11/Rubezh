@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XMeasureParameter
+	public class XMeasureParameterValue
 	{
 		[DataMember]
 		public string Name { get; set; }

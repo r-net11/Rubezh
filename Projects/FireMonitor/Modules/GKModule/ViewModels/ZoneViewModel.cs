@@ -12,13 +12,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XState State { get; private set; }
-		public XZone Zone
+		public XZone Zone { get; private set; }
+		public XState State
 		{
-			get { return State.Zone; }
+			get { return Zone.State; }
 		}
 
-		public ZoneViewModel(XState state)
+		public ZoneViewModel(XZone zone)
 		{
 			ResetFireCommand = new RelayCommand(OnResetFire, CanResetFire);
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
-			State = state;
+			Zone = zone;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -157,8 +157,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(Zone);
-			DialogService.ShowWindow(zoneDetailsViewModel);
+			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 	}
 }

@@ -27,7 +27,6 @@ namespace GKModule
 	public class GroupControllerModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		DevicesViewModel DevicesViewModel;
-		DeviceParametersViewModel DeviceParametersViewModel;
 		ParameterTemplatesViewModel ParameterTemplatesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
@@ -51,7 +50,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditXDirection);
 
 			DevicesViewModel = new DevicesViewModel();
-			DeviceParametersViewModel = new DeviceParametersViewModel();
 			ParameterTemplatesViewModel = new ParameterTemplatesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
@@ -71,7 +69,6 @@ namespace GKModule
 		public override void Initialize()
 		{
 			DevicesViewModel.Initialize();
-			DeviceParametersViewModel.Initialize();
 			ParameterTemplatesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();

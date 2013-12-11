@@ -162,8 +162,8 @@
                     </DataGrid.Columns>
 				</DataGrid>
 			</TabItem>
-			<TabItem Header="Измерения" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
-				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding AUParameterValues}">
+            <TabItem Header="Измерения" Visibility="{Binding HasMeasureParameters, Converter={StaticResource BoolToVisibilityConverter}}">
+				<DataGrid CanUserSortColumns="True" ItemsSource="{Binding MeasureParameters}">
 					<DataGrid.Columns>
                         <DataGridTemplateColumn Width="*" Header="Параметр">
                             <DataGridTemplateColumn.CellTemplate>

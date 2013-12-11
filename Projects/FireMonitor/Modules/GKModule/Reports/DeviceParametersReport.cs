@@ -50,7 +50,7 @@ namespace GKModule.Reports
 					}
 
 					var deviceState = device.State;
-					var parameter = deviceState.MeasureParameters.FirstOrDefault(x => x.Name == "Dustiness");
+					var parameter = deviceState.XMeasureParameterValues.FirstOrDefault(x => x.Name == "Dustiness");
 					if (parameter != null)
 					{
 						dustiness = parameter.StringValue;
