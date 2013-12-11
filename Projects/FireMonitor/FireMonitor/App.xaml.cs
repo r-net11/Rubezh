@@ -72,7 +72,7 @@ namespace FireMonitor
 				}
 				if (!result)
 				{
-					Application.Current.Shutdown();
+					ApplicationService.ShutDown();
 					return;
 				}
 			}

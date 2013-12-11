@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Shell = FireMonitor;
+using System.Windows;
+using FireMonitor.Layout.ViewModels;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using FiresecClient;
-using FiresecAPI.Models.Layouts;
-using System.Windows;
 using Infrastructure.Common.Windows;
-using FireMonitor.Layout.ViewModels;
-using FireMonitor.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
+using Shell = FireMonitor;
 
 namespace FireMonitor.Layout
 {
@@ -34,6 +30,11 @@ namespace FireMonitor.Layout
 				_layout = layouts.Count == 1 ? layouts[0] : SelectLayout(layouts);
 				if (_layout == null)
 					return false;
+			}
+			if (_layout == null)
+			{
+				MessageBoxService.ShowWarning("К сожалению, для Вас нет ни одного доступного макета!");
+				return false;
 			}
 			return base.Run();
 		}

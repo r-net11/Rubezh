@@ -11,14 +11,14 @@ using Infrastructure.Client.Layout;
 namespace DiagnosticsModule
 {
 	public class DiagnosticsModuleLoader : ModuleBase, ILayoutProviderModule
-    {
-        DiagnosticsViewModel DiagnosticsViewModel;
+	{
+		DiagnosticsViewModel DiagnosticsViewModel;
 
 		public override void CreateViewModels()
-        {
-            ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
-            DiagnosticsViewModel = new DiagnosticsViewModel();
-        }
+		{
+			ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
+			DiagnosticsViewModel = new DiagnosticsViewModel();
+		}
 
 		public override void Initialize()
 		{
@@ -36,11 +36,12 @@ namespace DiagnosticsModule
 		}
 		public override string Name
 		{
-            get { return "Диагностика"; }
+			get { return "Диагностика"; }
 		}
 		public override void Dispose()
 		{
-			DiagnosticsViewModel.StopThreads();
+			if (DiagnosticsViewModel != null)
+				DiagnosticsViewModel.StopThreads();
 		}
 
 		#region ILayoutProviderModule Members

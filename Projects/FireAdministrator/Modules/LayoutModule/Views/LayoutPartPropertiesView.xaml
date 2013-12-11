@@ -52,7 +52,7 @@
 			<CheckBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsWidthFixed, UpdateSourceTrigger=PropertyChanged}" />
 			<CheckBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsHeightFixed, UpdateSourceTrigger=PropertyChanged}" />
 
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="10000" Minimum="0" Value="{Binding Margin, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="100" Minimum="0" Value="{Binding Margin, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>
