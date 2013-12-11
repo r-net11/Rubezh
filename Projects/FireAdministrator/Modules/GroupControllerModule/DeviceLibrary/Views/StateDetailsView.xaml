@@ -4,10 +4,6 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:GKModule.Converters"
              MinWidth="400" MinHeight="500">
-    <UserControl.Resources>
-        <Converters:LibraryXStateClassToDeviceStringConverter x:Key="LibraryXStateClassToDeviceStringConverter" />
-    </UserControl.Resources>
-
     <DataGrid Focusable="True" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True">
         <DataGrid.Resources>
             <InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -25,7 +21,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding State.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Margin="2 0" />
-                            <TextBlock Text="{Binding State.XStateClass, Converter={StaticResource LibraryXStateClassToDeviceStringConverter}}" />
+                            <TextBlock Text="{Binding Name, Converter={StaticResource LibraryXStateClassToDeviceStringConverter}}" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

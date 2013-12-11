@@ -56,6 +56,10 @@ namespace GKModule.ViewModels
 				{
 					return "Сработка 2";
 				}
+				if (State.XStateClass == XStateClass.No)
+				{
+					return "Базовый рисунок";
+				}
 				return State.XStateClass.ToDescription();
 			}
 		}

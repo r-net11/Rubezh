@@ -6,7 +6,6 @@
              xmlns:Converters="clr-namespace:GKModule.Converters">
     <UserControl.Resources>
         <Converters:LibraryXStateClassToIconConverter x:Key="LibraryXStateClassToIconConverter" />
-        <Converters:LibraryXStateClassToDeviceStringConverter x:Key="LibraryXStateClassToDeviceStringConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>

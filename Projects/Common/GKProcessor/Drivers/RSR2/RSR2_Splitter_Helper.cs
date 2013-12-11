@@ -22,19 +22,23 @@ namespace GKProcessor
 			
 			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС3 МВП ", 0, 0, 250);
 			GKDriversHelper.AddIntProprety(driver, 1, "Число АУ на АЛС4 МВП ", 0, 0, 250);
-			GKDriversHelper.AddIntProprety(driver, 2, "Порог КЗ", 330, 300, 70000);
-			//var property = new XDriverProperty()
+			//GKDriversHelper.AddIntProprety(driver, 2, "Порог КЗ", 330, 300, 700);
+			//for (byte i = 2; i < 10; i++)
 			//{
-			//    No = 2,
-			//    Name = "Порог КЗ",
-			//    Caption = "Порог КЗ",
-			//    DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-			//    Default = (ushort)330,
-			//    Min = (ushort)300,
-			//    Max = (ushort)700,
-			//    //Multiplier = 0.1
-			//};
-			//driver.Properties.Add(property);
+			//    GKDriversHelper.AddIntProprety(driver, i, "Порог КЗ" + i.ToString(), 330, 300, 700);
+			//}
+			var property = new XDriverProperty()
+			{
+				No = 2,
+				Name = "Порог КЗ",
+				Caption = "Порог КЗ",
+				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+				Default = (ushort)33,
+				Min = (ushort)30,
+				Max = (ushort)70,
+				Multiplier = 10
+			};
+			driver.Properties.Add(property);
 
 			driver.AUParameters.Add(new XAUParameter() { No = 0, Name = "Напряжение на АЛC1", InternalName = "Voltage_1", Multiplier = 10 });
 			driver.AUParameters.Add(new XAUParameter() { No = 1, Name = "Напряжение на АЛС2", InternalName = "Voltage_2", Multiplier = 10 });
