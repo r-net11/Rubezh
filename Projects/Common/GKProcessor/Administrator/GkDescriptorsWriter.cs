@@ -37,7 +37,9 @@ namespace GKProcessor
 						LoadingService.Show(title, title, summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
-							{ Error = "Не удалось перевести ГК в технологический режим"; continue; }
+							{ Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+						            "Устройство не доступно, либо вашего " +
+						            "IP адреса нет в списке разрешенного адреса ГК"; continue; }
 						if (LoadingService.IsCanceled)
 							return;
 						if(!DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice))

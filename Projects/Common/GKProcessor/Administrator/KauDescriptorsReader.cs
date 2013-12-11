@@ -27,7 +27,8 @@ namespace GKProcessor
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
 			LoadingService.Show("Чтение конфигурации", "Перевод КАУ в технологический режим");
-			DeviceBytesHelper.GoToTechnologicalRegime(kauDevice);
+			if(!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice))
+				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
 			LoadingService.DoStep("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{

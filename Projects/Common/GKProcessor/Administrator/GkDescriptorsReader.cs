@@ -38,12 +38,20 @@ namespace GKProcessor
 				DriverUID = rootDriver.UID
 			};
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
-			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice))
+			{
+				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+				        "Устройство не доступно, либо вашего " +
+				        "IP адреса нет в списке разрешенного адреса ГК";
+				LoadingService.SaveClose();
+				return false;
+			}
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkDevice);
 			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
 			{
 				Error = gkFileReaderWriter.Error;
+				LoadingService.SaveClose();
 				return false;
 			}
 			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);

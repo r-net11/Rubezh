@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
 
@@ -9,10 +11,18 @@ namespace GKProcessor
 {
 	public static class FirmwareUpdateHelper
 	{
+		public static string Error { get; private set; }
 		public static void Update(XDevice device, string fileName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
-			DeviceBytesHelper.GoToTechnologicalRegime(device);
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(device))
+			{
+				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
+						"Устройство не доступно, либо вашего " +
+						"IP адреса нет в списке разрешенного адреса ГК";
+				LoadingService.SaveClose();
+				return ;
+			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			DeviceBytesHelper.Clear(device);
 			var data = new List<byte>();

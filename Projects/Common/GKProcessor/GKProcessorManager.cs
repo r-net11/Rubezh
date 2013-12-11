@@ -87,13 +87,8 @@ namespace GKProcessor
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device, writeFileToGK);
 			if (!String.IsNullOrEmpty(gkDescriptorsWriter.Error))
-			{
 				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
-			}
-			else
-			{
-				return new OperationResult<bool>() { Result = true };
-			}
+			return new OperationResult<bool>() { Result = true };
 		}
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
@@ -104,10 +99,13 @@ namespace GKProcessor
 			return new OperationResult<XDeviceConfiguration> { HasError = !string.IsNullOrEmpty(descriptorReader.Error), Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
-		public static void GKUpdateFirmware(XDevice device, string fileName, string userName)
+		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			FirmwareUpdateHelper.Update(device, fileName);
+			if (!String.IsNullOrEmpty(FirmwareUpdateHelper.Error))
+				return new OperationResult<bool>(FirmwareUpdateHelper.Error) { Result = false };
+			return new OperationResult<bool>() { Result = true };
 		}
 
 		public static bool GKSyncronyseTime(XDevice device, string userName)
