@@ -48,7 +48,7 @@ namespace GKProcessor
 			}
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(gkDevice);
-			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+			if (gkFileReaderWriter.Error != null)
 			{
 				Error = gkFileReaderWriter.Error;
 				LoadingService.SaveClose();
@@ -141,7 +141,7 @@ namespace GKProcessor
 					break;
 			}
 			LoadingService.SaveClose();
-			if (!String.IsNullOrEmpty(Error))
+			if (Error != null)
 			{
 				return false;
 			}

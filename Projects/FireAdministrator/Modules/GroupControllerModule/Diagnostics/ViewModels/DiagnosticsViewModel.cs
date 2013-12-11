@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
-			if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+			if (gkFileReaderWriter.Error != null)
 				{ MessageBoxService.ShowError(gkFileReaderWriter.Error); return; }
 			var remoteHash1 = infoBlock.Hash1;
 			var remoteHash2 = infoBlock.Hash2;

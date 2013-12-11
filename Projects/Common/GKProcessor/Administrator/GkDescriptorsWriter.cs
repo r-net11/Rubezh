@@ -59,7 +59,7 @@ namespace GKProcessor
 
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						gkFileReaderWriter.WriteFileToGK(gkDevice, writeFileToGK);
-						if (!String.IsNullOrEmpty(gkFileReaderWriter.Error))
+						if (gkFileReaderWriter.Error != null)
 							{ Error = gkFileReaderWriter.Error; break; }
 						if (gkDatabase.KauDatabases.Any(kauDatabase => !DeviceBytesHelper.GoToWorkingRegime(kauDatabase.RootDevice)))
 							{ Error = "Не удалось перевести КАУ в рабочий режим"; }
