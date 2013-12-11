@@ -71,9 +71,17 @@
 													    <TextBlock.Style>
 														    <Style>
 															    <Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
-															    <Style.Triggers>
+															    <Setter Property="TextBlock.ToolTip">
+                                                                    <Setter.Value>
+                                                                        <WrapPanel>
+                                                                            <TextBlock Text="{Binding PresenrationZones}" TextWrapping="Wrap" />
+                                                                        </WrapPanel>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Style.Triggers>
 																    <DataTrigger Binding="{Binding PresenrationZones}" Value="">
 																	    <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                                                        <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора зон" />
 																    </DataTrigger>
 															    </Style.Triggers>
 														    </Style>
@@ -88,9 +96,17 @@
 													    <TextBlock.Style>
 														    <Style>
 															    <Setter Property="TextBlock.Text" Value="{Binding PresenrationDevices}" />
+                                                                <Setter Property="TextBlock.ToolTip">
+                                                                    <Setter.Value>
+                                                                        <WrapPanel>
+                                                                            <TextBlock Text="{Binding PresenrationDevices}" TextWrapping="Wrap" />
+                                                                        </WrapPanel>
+                                                                    </Setter.Value>
+                                                                </Setter>
 															    <Style.Triggers>
 																    <DataTrigger Binding="{Binding PresenrationDevices}" Value="">
 																	    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                                                        <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора устройств" />
 																    </DataTrigger>
 															    </Style.Triggers>
 														    </Style>
@@ -105,9 +121,17 @@
 													    <TextBlock.Style>
 														    <Style>
 															    <Setter Property="TextBlock.Text" Value="{Binding PresenrationDirections}" />
+                                                                <Setter Property="TextBlock.ToolTip">
+                                                                    <Setter.Value>
+                                                                        <WrapPanel>
+                                                                            <TextBlock Text="{Binding PresenrationDirections}" TextWrapping="Wrap" />
+                                                                        </WrapPanel>
+                                                                    </Setter.Value>
+                                                                </Setter>
 															    <Style.Triggers>
 																    <DataTrigger Binding="{Binding PresenrationDirections}" Value="">
 																	    <Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
+                                                                        <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />
 																    </DataTrigger>
 															    </Style.Triggers>
 														    </Style>

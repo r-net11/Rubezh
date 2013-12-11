@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 
 					case 0x107:
 						TypeName = "ПИМ";
-						ImageSource = "/Controls;component/Images/Blue_Direction.png";
+						ImageSource = "/Controls;component/Images/Pim.png";
 						break;
 				}
 			}

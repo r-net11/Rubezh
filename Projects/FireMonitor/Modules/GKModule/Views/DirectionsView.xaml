@@ -27,7 +27,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-			    <DataGridTemplateColumn Width="Auto" Header="№">
+			    <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -195,7 +195,7 @@
 
         <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="2">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="Auto" Header="№">
+                <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -210,7 +210,7 @@
 						<DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-								<TextBlock Text="{Binding Zone.Name}" />
+                                <TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">
                                         <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить">

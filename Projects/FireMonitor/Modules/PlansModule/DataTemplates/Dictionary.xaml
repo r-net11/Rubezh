@@ -16,8 +16,8 @@
 		<clientPlans:PlanDesignerView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MonitorSubPlanViewModel}">
-        <Views:MonitorSubPlanView />
+    <DataTemplate DataType="{x:Type ViewModels:MonitorSubPlanToolTipViewModel}">
+        <Views:MonitorSubPlanToolTipView />
     </DataTemplate>
     
 </ResourceDictionary>

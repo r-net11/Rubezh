@@ -14,7 +14,27 @@
             <DataGridTextColumn Header="Название" Width="100" Binding="{Binding Instruction.Name}" />
             <DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource XInstructionTypeToStringConverter}}" />
             <DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.AlarmType, Converter={StaticResource XAlarmTypeToStringConverter}}" />
-            <DataGridTextColumn Header="Устройства" Width="100" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
+            <DataGridTemplateColumn Header="Устройства" Width="100">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" TextWrapping="NoWrap">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasDevices}" Value="True">
+                                            <Setter Property="TextBlock.ToolTip">
+                                                <Setter.Value>
+                                                    <TextBlock Text="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" TextWrapping="Wrap" />    
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>    
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             <DataGridTextColumn Header="Зоны" Width="100" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
             <DataGridTextColumn Header="Направления" Width="100" Binding="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" />
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />

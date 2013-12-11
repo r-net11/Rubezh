@@ -18,7 +18,7 @@
 				</Style>
             </DataGrid.ItemContainerStyle>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="№" SortMemberPath="No">
+                <DataGridTemplateColumn Header="№" SortMemberPath="No" Width="Auto" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

@@ -24,7 +24,7 @@
 
         <Controls:XDataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" CanUserSortColumns="True">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" Header="№" SortMemberPath="Direction.No">
+                <DataGridTemplateColumn Width="Auto" Header="№" SortMemberPath="Direction.No" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -100,7 +100,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="№" MinWidth="50" Width="Auto">
+                    <DataGridTemplateColumn Header="№" Width="Auto" CanUserResize="False">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

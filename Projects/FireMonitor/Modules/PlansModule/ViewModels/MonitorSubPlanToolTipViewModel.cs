@@ -2,9 +2,9 @@
 
 namespace PlansModule.ViewModels
 {
-	public class MonitorSubPlanViewModel : BaseViewModel
+	public class MonitorSubPlanToolTipViewModel : BaseViewModel
 	{
-		public MonitorSubPlanViewModel(PlanViewModel planViewModel)
+		public MonitorSubPlanToolTipViewModel(PlanViewModel planViewModel)
 		{
 			PlanViewModel = planViewModel;
 		}

@@ -2,9 +2,9 @@
 
 namespace PlansModule.Views
 {
-	public partial class MonitorSubPlanView : UserControl
+	public partial class MonitorSubPlanToolTipView : UserControl
 	{
-		public MonitorSubPlanView()
+		public MonitorSubPlanToolTipView()
 		{
 			InitializeComponent();
 		}

@@ -21,11 +21,11 @@ namespace PlansModule.Designer
 {
 	class MonitorSubPlanPainter : SubPlanPainter
 	{
-		MonitorPresenterItem _presenterItem;
+		MonitorSubPlanPresenterItem _presenterItem;
 		SubPlanPainter _painter;
 		Guid PlanUID;
 
-		public MonitorSubPlanPainter(MonitorPresenterItem presenterItem, Guid planUID)
+		public MonitorSubPlanPainter(MonitorSubPlanPresenterItem presenterItem, Guid planUID)
 			: base(presenterItem.Element)
 		{
 			PlanUID = planUID;
@@ -89,9 +89,9 @@ namespace PlansModule.Designer
 		}
 	}
 
-	public class MonitorPresenterItem : PresenterItem
+	public class MonitorSubPlanPresenterItem : PresenterItem
 	{
-		public MonitorPresenterItem(ElementBase element)
+		public MonitorSubPlanPresenterItem(ElementBase element)
 			: base(element)
 		{
 			;
@@ -101,7 +101,7 @@ namespace PlansModule.Designer
 
 		protected override object GetToolTip()
 		{
-			return new MonitorSubPlanViewModel(PlanViewModel);
+			return new MonitorSubPlanToolTipViewModel(PlanViewModel);
 		}
 	}
 }

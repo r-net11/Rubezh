@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case DescriptorType.PumpStation:
-					ImageSource = "/Controls;component/Images/Blue_Direction.png";
+					ImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
 
 				case DescriptorType.Delay:
@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case DescriptorType.Pim:
-					ImageSource = null;
+					ImageSource = "/Controls;component/Images/Pim.png";
 					break;
 			}
 

@@ -99,13 +99,20 @@
                     <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
                         <Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Margin="2" />
+                                <TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Margin="2">
+                                    <TextBlock.ToolTip>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" TextWrapping="Wrap" />
+                                        </WrapPanel>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
                                 <TextBlock Margin="2">
                                     <TextBlock.Style>
                                         <Style>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding InstructionDevices.Count}" Value="0">
                                                     <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+                                                    <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора устройств" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -117,13 +124,20 @@
                     <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
                         <Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" />
+                                <TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow">
+                                    <TextBlock.ToolTip>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" TextWrapping="Wrap" />
+                                        </WrapPanel>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
                                 <TextBlock Margin="2">
                                     <TextBlock.Style>
                                         <Style>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding InstructionZones.Count}" Value="0">
                                                     <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+                                                    <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора зон" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
@@ -135,13 +149,20 @@
                     <TextBlock Grid.Column="1" Grid.Row="2" VerticalAlignment="Center">
                         <Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" />
+                                <TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" Margin="2" TextWrapping="WrapWithOverflow" >
+                                    <TextBlock.ToolTip>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding InstructionDirections, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="Wrap" />
+                                        </WrapPanel>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
                                 <TextBlock Margin="2">
                                     <TextBlock.Style>
                                         <Style>
-                                            <Style.Triggers>
+                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding InstructionDirections.Count}" Value="0">
                                                     <Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
+                                                    <Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

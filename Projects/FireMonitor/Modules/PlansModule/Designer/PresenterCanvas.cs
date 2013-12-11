@@ -60,9 +60,9 @@ namespace PlansModule.Designer
 			Add(presenterItem);
 			return presenterItem;
 		}
-		public MonitorPresenterItem CreateMonitorPresenterItem(ElementBase elementBase)
+		public MonitorSubPlanPresenterItem CreateMonitorPresenterItem(ElementBase elementBase)
 		{
-			var presenterItem = new MonitorPresenterItem(elementBase);
+			var presenterItem = new MonitorSubPlanPresenterItem(elementBase);
 			Add(presenterItem);
 			return presenterItem;
 		}

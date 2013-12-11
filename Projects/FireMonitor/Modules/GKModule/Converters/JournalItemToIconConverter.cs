@@ -31,6 +31,9 @@ namespace GKModule.Converters
 				case JournalItemType.Delay:
 					return "/Controls;component/Images/Delay.png";
 
+				case JournalItemType.Pim:
+					return "/Controls;component/Images/Pim.png";
+
 				case JournalItemType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
