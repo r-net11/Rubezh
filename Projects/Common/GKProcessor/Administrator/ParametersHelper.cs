@@ -65,7 +65,7 @@ namespace GKProcessor
 		static bool GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
 		{
 			var no = descriptor.GetDescriptorNo();
-			LoadingService.DoStep("Запрос параметров объекта " + no);
+			GKProcessorManager.OnDoProgress("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
@@ -168,7 +168,7 @@ namespace GKProcessor
 				var bytes = new List<byte>();
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
 				bytes.AddRange(descriptor.Parameters);
-				LoadingService.DoStep("Запись параметров объекта " + no);
+				GKProcessorManager.OnDoProgress("Запись параметров объекта " + no);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 				if (sendResult.HasError)
 					return sendResult.Error;

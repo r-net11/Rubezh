@@ -45,7 +45,7 @@ namespace GKProcessor
 			IsAnyDBMissmatch = false;
 
 			if (showProgress)
-				GKProcessorManager.OnStartProgress("Опрос объектов ГК", GkDatabase.Descriptors.Count, false);
+				GKProcessorManager.OnStartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				LastUpdateTime = DateTime.Now;
