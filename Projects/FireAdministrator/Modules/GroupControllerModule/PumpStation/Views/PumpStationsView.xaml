@@ -112,7 +112,7 @@
 			            </TextBlock>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для останова" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="Условие для останова или запрета пуска" FontWeight="Bold" Width="250" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
 				            <Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 					            <TextBlock Margin="2">

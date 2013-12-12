@@ -21,6 +21,7 @@ namespace GKModule.Plans.Designer
 	{
 		private PresenterItem _presenterItem;
 		private XZone Zone;
+		private ZoneViewModel ZoneViewModel;
 		private ContextMenu _contextMenu;
 		private ZoneTooltipViewModel _tooltip;
 
@@ -33,9 +34,12 @@ namespace GKModule.Plans.Designer
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
 			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
 			if (Zone != null)
+			{
+				ZoneViewModel = new ViewModels.ZoneViewModel(Zone);
 				Zone.State.StateChanged += OnPropertyChanged;
+			}
 			_presenterItem.Cursor = Cursors.Hand;
-			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
+			_presenterItem.ClickEvent += (s, e) => ShowProperties();
 			UpdateTooltip();
 		}
 
@@ -50,17 +54,16 @@ namespace GKModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (Zone == null)
-				return;
-
-			if (_tooltip == null)
+			if (Zone != null)
 			{
-				_tooltip = new ZoneTooltipViewModel(Zone);
+				if (_tooltip == null)
+				{
+					_tooltip = new ZoneTooltipViewModel(Zone);
+				}
 			}
 		}
 
 		#region IPainter Members
-
 		public override object GetToolTip(string title)
 		{
 			return _tooltip;
@@ -69,7 +72,6 @@ namespace GKModule.Plans.Designer
 		{
 			return PainterCache.GetTransparentBrush(GetStateColor());
 		}
-
 		#endregion
 
 		public Color GetStateColor()
@@ -111,18 +113,7 @@ namespace GKModule.Plans.Designer
 			return Zone != null;
 		}
 
-		public RelayCommand ShowJournalCommand { get; private set; }
-		private void OnShowJournal()
-		{
-			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
-			{
-				Zone = Zone
-			};
-			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		private void OnShowProperties()
+		void ShowProperties()
 		{
 			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
@@ -131,27 +122,39 @@ namespace GKModule.Plans.Designer
 		{
 			if (_contextMenu == null)
 			{
-				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
-				ShowJournalCommand = new RelayCommand(OnShowJournal);
-				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+				if (Zone != null)
+				{
+					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 
-				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
-					"Показать в дереве", 
-					"pack://application:,,,/Controls;component/Images/BTree.png", 
-					ShowInTreeCommand
-				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
-					"Показать связанные события", 
-					"pack://application:,,,/Controls;component/Images/BJournal.png", 
-					ShowJournalCommand
-				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
-					"Свойства", 
-					"pack://application:,,,/Controls;component/Images/BSettings.png", 
-					ShowPropertiesCommand
-				));
-				
+					_contextMenu = new ContextMenu();
+					_contextMenu.Items.Add(Helper.BuildMenuItem(
+						"Показать в дереве",
+						"pack://application:,,,/Controls;component/Images/BTree.png",
+						ShowInTreeCommand
+					));
+
+					_contextMenu.Items.Add(Helper.BuildMenuItem(
+						"Отключить все устройства",
+						"pack://application:,,,/Controls;component/Images/BTurnOff.png",
+						ZoneViewModel.SetIgnoreAllCommand
+					));
+					_contextMenu.Items.Add(Helper.BuildMenuItem(
+						"Снять отключения всех устройств",
+						"pack://application:,,,/Controls;component/Images/BResetIgnore.png",
+						ZoneViewModel.ResetIgnoreAllCommand
+					));
+
+					_contextMenu.Items.Add(Helper.BuildMenuItem(
+						"Показать связанные события",
+						"pack://application:,,,/Controls;component/Images/BJournal.png",
+						ZoneViewModel.ShowJournalCommand
+					));
+					_contextMenu.Items.Add(Helper.BuildMenuItem(
+						"Свойства",
+						"pack://application:,,,/Controls;component/Images/BSettings.png",
+						ZoneViewModel.ShowPropertiesCommand
+					));
+				}
 			}
 			return _contextMenu;
 		}

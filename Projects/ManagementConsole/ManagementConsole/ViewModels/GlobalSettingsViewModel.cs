@@ -19,6 +19,7 @@ namespace ManagementConsole
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
+			UseGKHash = GlobalSettingsHelper.GlobalSettings.UseGKHash;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
@@ -196,6 +197,17 @@ namespace ManagementConsole
 			}
 		}
 
+		bool _useGKHash;
+		public bool UseGKHash
+		{
+			get { return _useGKHash; }
+			set
+			{
+				_useGKHash = value;
+				OnPropertyChanged("UseGKHash");
+			}
+		}
+
 		public bool IsDebug
 		{
 			get
@@ -215,7 +227,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.Login = Login;
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
-			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
@@ -223,6 +234,9 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Port = FS_Port;
 			GlobalSettingsHelper.GlobalSettings.FS_Login = FS_Login;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
+
+			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
+			GlobalSettingsHelper.GlobalSettings.UseGKHash = UseGKHash;
 
             GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

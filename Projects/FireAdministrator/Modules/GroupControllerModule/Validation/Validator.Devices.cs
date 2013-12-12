@@ -175,26 +175,29 @@ namespace GKModule.Validation
             }
         }
 
-        static void ValidateRSR2AddressFollowing(XDevice device)
-        {
-            if (device.DriverType == XDriverType.RSR2_KAU)
-            {
-                foreach (var shleifDevice in device.Children)
-                {
-                    var realChildren = XManager.GetAllDeviceChildren(shleifDevice);
-                    realChildren.RemoveAll(x => !x.IsRealDevice);
-                    for (int i = 0; i < realChildren.Count(); i++)
-                    {
-                        var realDevice = realChildren[i];
-                        if (realDevice.IntAddress != i + 1)
-                        {
-                            Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+		static void ValidateRSR2AddressFollowing(XDevice device)
+		{
+			if (device.DriverType == XDriverType.RSR2_KAU)
+			{
+				foreach (var shleifDevice in device.Children)
+				{
+					if (shleifDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
+					{
+						var realChildren = XManager.GetAllDeviceChildren(shleifDevice);
+						realChildren.RemoveAll(x => !x.IsRealDevice);
+						for (int i = 0; i < realChildren.Count(); i++)
+						{
+							var realDevice = realChildren[i];
+							if (realDevice.IntAddress != i + 1)
+							{
+								Errors.Add(new DeviceValidationError(realDevice, string.Format("Последовательность адресов шлейфа " + shleifDevice.IntAddress + " должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
 
 		static void ValidateKAUAddressFollowing(XDevice device)
 		{

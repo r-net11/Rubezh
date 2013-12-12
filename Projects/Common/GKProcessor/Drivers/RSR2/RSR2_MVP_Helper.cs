@@ -19,7 +19,7 @@ namespace GKProcessor
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-			
+
 			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС3 МВП ", 0, 0, 250);
 			GKDriversHelper.AddIntProprety(driver, 1, "Число АУ на АЛС4 МВП ", 0, 0, 250);
 			var property = new XDriverProperty()

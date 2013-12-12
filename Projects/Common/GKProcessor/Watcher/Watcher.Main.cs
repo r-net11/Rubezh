@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using XFiresecAPI;
 using System.Collections.Generic;
 using System.Diagnostics;
+using FiresecClient;
 
 namespace GKProcessor
 {
@@ -54,6 +55,18 @@ namespace GKProcessor
 		{
 			try
 			{
+				//if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
+				//{
+				//    var gkFileReaderWriter = new GKFileReaderWriter();
+				//    var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+				//    if (gkFileInfo != null)
+				//    {
+				//        var hashBytes = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+				//        var result = GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash2);
+				//        Trace.WriteLine("IsHashEqual " + result);
+				//    }
+				//}
+
 				GKCallbackResult = new GKCallbackResult();
 				GetAllStates(true);
 				if (!IsAnyDBMissmatch)

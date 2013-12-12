@@ -11,7 +11,7 @@ namespace GKProcessor
 		GkDatabase GkDatabase;
 		XPumpStation PumpStation;
 		List<XDevice> FirePumpDevices;
-		List<XDevice> NonFirePumpDevices;
+		XDevice JNPumpDevice;
 		List<PumpDelay> PumpDelays;
 		XPim Pim;
 
@@ -23,7 +23,6 @@ namespace GKProcessor
 			PumpDelays = new List<PumpDelay>();
 
 			FirePumpDevices = new List<XDevice>();
-			NonFirePumpDevices = new List<XDevice>();
 			foreach (var nsDevice in pumpStation.NSDevices)
 			{
 				switch (nsDevice.DriverType)
@@ -35,7 +34,7 @@ namespace GKProcessor
 						}
 						else if (nsDevice.IntAddress == 12)
 						{
-							NonFirePumpDevices.Add(nsDevice);
+							JNPumpDevice = nsDevice;
 						}
 						break;
 				}
@@ -92,21 +91,6 @@ namespace GKProcessor
 				{
 					var prevDelay = PumpDelays[i - 1];
 					formula.AddGetBit(XStateBit.On, prevDelay.Delay);
-
-					for (int j = 0; j < i; j++)
-					{
-						prevDelay = PumpDelays[j];
-						formula.AddGetBit(XStateBit.Failure, prevDelay.Device);
-						formula.AddGetBit(XStateBit.Norm, prevDelay.Device);
-						formula.Add(FormulaOperationType.COM);
-						formula.Add(FormulaOperationType.OR);
-						if (j > 0)
-						{
-							formula.Add(FormulaOperationType.AND, comment: "Неисправности всех предидущих насососов");
-						}
-					}
-					formula.Add(FormulaOperationType.OR);
-
 					formula.Add(FormulaOperationType.AND);
 				}
 
@@ -137,30 +121,11 @@ namespace GKProcessor
 				if (pumpDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
-
+					AddCountFirePumpDevicesFormula(formula);
 					if (i > 0)
 					{
 						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
 						formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
-
-						for (int j = 0; j < i; j++)
-						{
-							var prevFirePumpDevice = FirePumpDevices[j];
-							formula.AddGetBit(XStateBit.Failure, prevFirePumpDevice);
-							formula.AddGetBit(XStateBit.Norm, prevFirePumpDevice);
-							formula.Add(FormulaOperationType.COM);
-							formula.Add(FormulaOperationType.OR);
-							if (j > 0)
-							{
-								formula.Add(FormulaOperationType.AND, comment: "Неисправности всех предидущих насососов");
-							}
-						}
-						formula.Add(FormulaOperationType.OR);
-					}
-
-					AddCountFirePumpDevicesFormula(formula);
-					if (i > 0)
-					{
 						formula.Add(FormulaOperationType.AND);
 					}
 
@@ -218,20 +183,21 @@ namespace GKProcessor
 
 		void SetJokeyPumpLogic()
 		{
-			foreach (var pumpDevice in NonFirePumpDevices)
+			if(JNPumpDevice != null)
 			{
-				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
-				if (pumpDescriptor != null)
+				var jnDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
+				if (jnDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
 					formula.AddGetBit(XStateBit.On, PumpStation);
-					formula.Add(FormulaOperationType.COM);
-					formula.AddStandardTurning(pumpDevice);
+					formula.AddGetBit(XStateBit.Norm, JNPumpDevice);
+					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный ЖН");
+					//formula.AddGetBit(XStateBit.ForbidStart_InAutomatic, JNPumpDevice);
 					formula.Add(FormulaOperationType.END);
-					pumpDescriptor.Formula = formula;
-					pumpDescriptor.FormulaBytes = formula.GetBytes();
+					jnDescriptor.Formula = formula;
+					jnDescriptor.FormulaBytes = formula.GetBytes();
 				}
-				UpdateConfigurationHelper.LinkXBases(pumpDescriptor.XBase, PumpStation);
+				UpdateConfigurationHelper.LinkXBases(jnDescriptor.XBase, PumpStation);
 			}
 		}
 
@@ -272,21 +238,6 @@ namespace GKProcessor
 				}
 			}
 			formula.AddPutBit(XStateBit.Failure, Pim);
-
-			for (int i = 0; i < inputDevices.Count; i++)
-			{
-				var nsDevice = inputDevices[i];
-				formula.AddGetBit(XStateBit.Norm, nsDevice);
-				if (i > 0)
-				{
-					formula.Add(FormulaOperationType.AND);
-				}
-			}
-
-			formula.Add(FormulaOperationType.DUP);
-			formula.AddPutBit(XStateBit.SetRegime_Automatic, Pim);
-			formula.Add(FormulaOperationType.COM);
-			formula.AddPutBit(XStateBit.SetRegime_Manual, Pim);
 
 			formula.Add(FormulaOperationType.END);
 			pimDescriptor.Formula = formula;

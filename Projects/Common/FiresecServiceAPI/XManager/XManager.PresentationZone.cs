@@ -116,7 +116,7 @@ namespace FiresecClient
 			{
 				if (deviceCount > 0)
 					stringBuilder.Append(", ");
-				stringBuilder.Append(device.ShortName + device.DottedAddress);
+				stringBuilder.Append(device.PresentationName);
 				deviceCount++;
 			}
 			return stringBuilder.ToString();

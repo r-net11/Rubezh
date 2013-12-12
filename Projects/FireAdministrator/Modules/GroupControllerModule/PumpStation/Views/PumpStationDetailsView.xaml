@@ -39,10 +39,10 @@
                         </Style>
                     </controls:XAutoCompleteBox.TextBoxStyle>
                 </controls:XAutoCompleteBox>
-                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="1" Maximum="60" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="30" Maximum="180" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="1" Maximum="60" Width="600" HorizontalAlignment="Left" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="2" Maximum="60" Width="50" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="5" Maximum="30" Width="50" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

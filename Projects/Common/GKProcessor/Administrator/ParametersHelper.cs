@@ -14,7 +14,6 @@ namespace GKProcessor
 		
 		public static string SetSingleParameter(XDevice device)
 		{
-			var errorLog = "";
 			try
 			{
 				var commonDatabase = GetCommonDatabase(device);
@@ -26,7 +25,7 @@ namespace GKProcessor
 						var result = SetDeviceParameters(commonDatabase, descriptor);
 						if (result != null)
 						{
-							errorLog = "Ошибка";
+							return "Ошибка";
 						}
 					}
 				}
@@ -35,12 +34,11 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.SetSingleParameter");
 			}
-			return errorLog;
+			return null;
 		}
 
 		public static string GetSingleParameter(XDevice device)
 		{
-			var errorLog = "";
 			try
 			{
 				var commonDatabase = GetCommonDatabase(device);
@@ -52,7 +50,7 @@ namespace GKProcessor
 						var result = GetDeviceParameters(commonDatabase, descriptor);
 						if (!result)
 						{
-							errorLog = "Ошибка";
+							return "Ошибка";
 						}
 					}
 				}
@@ -61,7 +59,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-			return errorLog;
+			return null;
 		}
 
 		static bool GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
@@ -121,9 +119,9 @@ namespace GKProcessor
 							var systemProperty = descriptor.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 							descriptor.Device.DeviceProperties.Add(new XProperty()
 							{
-							    DriverProperty = systemProperty.DriverProperty,
-							    Name = systemProperty.Name,
-							    Value = paramValue,
+								DriverProperty = systemProperty.DriverProperty,
+								Name = systemProperty.Name,
+								Value = paramValue,
 							});
 						}
 						if (property != null && property.Value != paramValue)
@@ -139,7 +137,8 @@ namespace GKProcessor
 						return false;
 				}
 			}
-			AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
+			if (AllParametersChanged != null)
+				AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
 			return true;
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
@@ -179,7 +178,6 @@ namespace GKProcessor
 
 		public static string SetSingleDirectionParameter(XDirection direction)
 		{
-			var errorLog = "";
 			DescriptorsManager.Create();
 			try
 			{
@@ -192,7 +190,7 @@ namespace GKProcessor
 						var result = SetDeviceParameters(commonDatabase, descriptor);
 						if (!string.IsNullOrEmpty(result))
 						{
-							errorLog = "Ошибка при записи параметра направления " + direction.PresentationName;
+							return "Ошибка при записи параметра направления " + direction.PresentationName;
 						}
 					}
 				}
@@ -201,12 +199,11 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.SetDirectionParameters");
 			}
-			return errorLog;
+			return null;
 		}
 
 		public static string GetSingleDirectionParameter(XDirection direction)
 		{
-			var errorLog = "";
 			DescriptorsManager.Create();
 			try
 			{
@@ -219,7 +216,7 @@ namespace GKProcessor
 						var result = GetDeviceParameters(commonDatabase, descriptor);
 						if (!result)
 						{
-							errorLog = "Ошибка";
+							return "Ошибка";
 						}
 					}
 				}
@@ -228,7 +225,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-			return errorLog;
+			return null;
 		}
 
 		static CommonDatabase GetCommonDatabase(XBase xBase)

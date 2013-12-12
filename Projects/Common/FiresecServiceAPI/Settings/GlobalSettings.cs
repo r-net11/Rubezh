@@ -14,11 +14,13 @@ namespace FiresecAPI
 			Login = "adm";
 			Password = "";
 			AutoConnect = true;
-			IsGKAsAService = false;
 			DoNotOverrideFS1 = false;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			Server_EnableRemoteConnections = false;
-            
+
+			IsGKAsAService = false;
+			UseGKHash = false;
+
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
 			FS_Login = "adm";
@@ -60,6 +62,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool IsGKAsAService { get; set; }
+
+		[DataMember]
+		public bool UseGKHash { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }
