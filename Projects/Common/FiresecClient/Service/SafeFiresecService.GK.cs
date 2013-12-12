@@ -14,9 +14,21 @@ using Infrastructure.Common;
 
 namespace FiresecClient
 {
-    public partial class SafeFiresecService
-    {
+	public partial class SafeFiresecService
+	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
+
+		public void CancelGKProgress()
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => FiresecService.CancelGKProgress(), "CancelGKProgress");
+			}
+			else
+			{
+				GKProcessorManager.CancelGKProgress();
+			}
+		}
 
 		public OperationResult<bool> GKWriteConfiguration(XDevice device, bool writeFileToGK)
 		{
@@ -27,8 +39,8 @@ namespace FiresecClient
 			else
 			{
 				var result = GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, FiresecManager.CurrentUser.Name);
-				if(!result.HasError)
-				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+				if (!result.HasError)
+					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				return result;
 			}
 		}
@@ -157,7 +169,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKReset(xBase.BaseUID, GetObjectType(xBase)); }, "GKReset");
+				SafeOperationCall(() => { FiresecService.GKReset(xBase.BaseUID, xBase.ObjectType); }, "GKReset");
 			}
 			else
 			{
@@ -193,7 +205,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.BaseUID, GetObjectType(xBase)); }, "GKSetAutomaticRegime");
+				SafeOperationCall(() => { FiresecService.GKSetAutomaticRegime(xBase.BaseUID, xBase.ObjectType); }, "GKSetAutomaticRegime");
 			}
 			else
 			{
@@ -205,7 +217,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.BaseUID, GetObjectType(xBase)); }, "GKSetManualRegime");
+				SafeOperationCall(() => { FiresecService.GKSetManualRegime(xBase.BaseUID, xBase.ObjectType); }, "GKSetManualRegime");
 			}
 			else
 			{
@@ -217,7 +229,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, GetObjectType(xBase)); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
 			}
 			else
 			{
@@ -229,7 +241,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, GetObjectType(xBase)); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
 			}
 			else
 			{
@@ -241,7 +253,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.BaseUID, GetObjectType(xBase)); }, "GKTurnOnNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOnNow(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOnNow");
 			}
 			else
 			{
@@ -253,7 +265,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.BaseUID, GetObjectType(xBase)); }, "GKTurnOff");
+				SafeOperationCall(() => { FiresecService.GKTurnOff(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOff");
 			}
 			else
 			{
@@ -265,7 +277,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.BaseUID, GetObjectType(xBase)); }, "GKTurnOffNow");
+				SafeOperationCall(() => { FiresecService.GKTurnOffNow(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOffNow");
 			}
 			else
 			{
@@ -277,7 +289,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStop(xBase.BaseUID, GetObjectType(xBase)); }, "GKStop");
+				SafeOperationCall(() => { FiresecService.GKStop(xBase.BaseUID, xBase.ObjectType); }, "GKStop");
 			}
 			else
 			{
@@ -330,22 +342,5 @@ namespace FiresecClient
 			{
 			}
 		}
-
-		XBaseObjectType GetObjectType(XBase xBase)
-		{
-			if (xBase is XDevice)
-				return XBaseObjectType.Deivce;
-			if (xBase is XZone)
-				return XBaseObjectType.Zone;
-			if (xBase is XDirection)
-				return XBaseObjectType.Direction;
-			if (xBase is XPumpStation)
-				return XBaseObjectType.PumpStation;
-			if (xBase is XDelay)
-				return XBaseObjectType.Delay;
-			if (xBase is XPim)
-				return XBaseObjectType.Pim;
-			return XBaseObjectType.Deivce;
-		}
-    }
+	}
 }

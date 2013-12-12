@@ -34,13 +34,13 @@ namespace GKProcessor
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
-						LoadingService.Show(title, title, summaryDescriptorsCount, true);
+						GKProcessorManager.OnStartProgress(title, "", summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (!result)
 							{ Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
 						            "Устройство не доступно, либо вашего " +
 						            "IP адреса нет в списке разрешенного адреса ГК"; continue; }
-						if (LoadingService.IsCanceled)
+						if (GKProcessorManager.IsProgressCanceled)
 							return;
 						if(!DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice))
 							{ Error = "Не удалось стереть базу данных ГК"; continue; }
@@ -72,19 +72,19 @@ namespace GKProcessor
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); }
 			finally
-				{ LoadingService.Close(); }
+			{ GKProcessorManager.OnStopProgress(); }
 		}
 	
 		bool WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			foreach (var descriptor in commonDatabase.Descriptors)
 			{
-				if (LoadingService.IsCanceled)
+				if (GKProcessorManager.IsProgressCanceled)
 					return false;
 				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
 					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
-				LoadingService.DoStep(progressStage);
+				GKProcessorManager.OnDoProgress(progressStage);
 				var packs = CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
@@ -92,7 +92,7 @@ namespace GKProcessor
 					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack);
 					if (sendResult.HasError)
 					{
-						LoadingService.Close();
+						GKProcessorManager.OnStopProgress();
 						Trace.WriteLine(progressStage);
 						return false;
 					}
@@ -137,7 +137,7 @@ namespace GKProcessor
 
 		void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
-			LoadingService.DoStep(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора");
+			GKProcessorManager.OnDoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора");
 			var endBytes = CreateEndDescriptor((ushort)(commonDatabase.Descriptors.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 		}

@@ -12,21 +12,30 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-		public static void OnStartProgress(string name, int count, bool canCancel = true)
+
+		public static bool IsProgressCanceled = false;
+		public static void CancelGKProgress()
 		{
+			IsProgressCanceled = true;
+		}
+
+		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
+		{
+			IsProgressCanceled = false;
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			gkProgressCallback.Name = name;
-			gkProgressCallback.Count = count;
+			gkProgressCallback.Title = title;
+			gkProgressCallback.Text = text;
+			gkProgressCallback.StepCount = stepCount;
 			gkProgressCallback.CanCancel = canCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnDoProgress(string name)
+		public static void OnDoProgress(string text)
 		{
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
-			gkProgressCallback.Name = name;
+			gkProgressCallback.Text = text;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 

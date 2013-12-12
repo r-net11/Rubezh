@@ -13,10 +13,13 @@ namespace FiresecAPI
 		public GKProgressCallbackType GKProgressCallbackType { get; set; }
 
 		[DataMember]
-		public string Name { get; set; }
+		public string Title { get; set; }
 
 		[DataMember]
-		public int Count { get; set; }
+		public string Text { get; set; }
+
+		[DataMember]
+		public int StepCount { get; set; }
 
 		[DataMember]
 		public bool CanCancel { get; set; }

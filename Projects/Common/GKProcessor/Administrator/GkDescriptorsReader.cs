@@ -37,13 +37,13 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
+			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice))
 			{
 				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
 				        "Устройство не доступно, либо вашего " +
 				        "IP адреса нет в списке разрешенного адреса ГК";
-				LoadingService.SaveClose();
+				GKProcessorManager.OnStopProgress();
 				return false;
 			}
 			var gkFileReaderWriter = new GKFileReaderWriter();
@@ -51,23 +51,23 @@ namespace GKProcessor
 			if (gkFileReaderWriter.Error != null)
 			{
 				Error = gkFileReaderWriter.Error;
-				LoadingService.SaveClose();
+				GKProcessorManager.OnStopProgress();
 				return false;
 			}
-			LoadingService.Show("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
+			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();
 #endif
 			while (true)
 			{
-				if (LoadingService.IsCanceled)
+				if (GKProcessorManager.IsProgressCanceled)
 				{
 					Error = "Операция отменена";
 					break;
 				}
 				descriptorNo++;
-				LoadingService.SaveDoStep("Чтение базы данных объектов ГК " + descriptorNo);
+				GKProcessorManager.OnDoProgress("Чтение базы данных объектов ГК " + descriptorNo);
 				const byte packNo = 1;
 				var data = new List<byte>(BitConverter.GetBytes(descriptorNo)) {packNo};
 				var sendResult = SendManager.Send(gkDevice, 3, 19, ushort.MaxValue, data);
@@ -91,12 +91,12 @@ namespace GKProcessor
 			/* Опция включения записи конфигурации в файл */
 			BytesHelper.BytesToFile("GKConfiguration.txt", allBytes);
 #endif
-			LoadingService.SaveDoStep("Перевод ГК в рабочий режим");
+			GKProcessorManager.OnDoProgress("Перевод ГК в рабочий режим");
 			if (!DeviceBytesHelper.GoToWorkingRegime(gkDevice))
 			{
 				Error = "Не удалось перевести устройство в рабочий режим в заданное время";
 			}
-			LoadingService.SaveClose();
+			GKProcessorManager.OnStopProgress();
 			if(Error != null)
 				return false;
 			DeviceConfiguration.Update();
@@ -123,7 +123,7 @@ namespace GKProcessor
 			DeviceConfiguration.RootDevice = rootDevice;
 			ushort descriptorNo = 0;
 			int count = 0;
-			LoadingService.Show("Чтение конфигурации " + device.PresentationName);
+			GKProcessorManager.OnStartProgress("Чтение конфигурации " + device.PresentationName);
 			while (true)
 			{
 				descriptorNo++;
@@ -140,7 +140,7 @@ namespace GKProcessor
 				if (!Parse(bytes.Skip(3).ToList(), descriptorNo))
 					break;
 			}
-			LoadingService.SaveClose();
+			GKProcessorManager.OnStopProgress();
 			if (Error != null)
 			{
 				return false;

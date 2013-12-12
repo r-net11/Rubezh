@@ -144,14 +144,14 @@
                         </Border>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header="Логика" DataContext="{Binding Descriptor}">
-                    <DataGrid ItemsSource="{Binding Formula.FormulaOperations}" Margin="2">
+                <TabItem Header="Логика">
+                    <DataGrid ItemsSource="{Binding DescriptorLogicItems}" Margin="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Операция" Binding="{Binding FormulaOperationType}" Width="Auto" />
+                            <DataGridTextColumn Header="Операция" Binding="{Binding FormulaOperation.FormulaOperationType}" Width="Auto" />
                             <DataGridTextColumn Header="Агрумент 1" Binding="{Binding FirstOperand}" Width="Auto" />
-                            <DataGridTextColumn Header="Агрумент 2" Binding="{Binding SecondOperand}" Width="Auto" />
-                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*" />
-                            <DataGridTextColumn Header="Глубина" Binding="{Binding StackLevel}" Width="Auto" />
+                            <DataGridTextColumn Header="Агрумент 2" Binding="{Binding FormulaOperation.SecondOperand}" Width="Auto" />
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding FormulaOperation.Comment}" Width="*" />
+                            <DataGridTextColumn Header="Глубина" Binding="{Binding FormulaOperation.StackLevel}" Width="Auto" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

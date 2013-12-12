@@ -26,31 +26,31 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			LoadingService.Show("Чтение конфигурации", "Перевод КАУ в технологический режим");
+			GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим");
 			if(!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
-			LoadingService.DoStep("Получение дескрипторов устройств");
+			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				LoadingService.Show("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true);
+				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
-					if (LoadingService.IsCanceled)
+					if (GKProcessorManager.IsProgressCanceled)
 					{
 						Error = "Операция отменена";
 						break;
 					}
-					LoadingService.SaveDoStep("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
+					GKProcessorManager.OnDoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
 					if (!GetDescriptorInfo(kauDevice, descriptorAddresses[i]))
 						break;
 				}
 			}
-			LoadingService.SaveDoStep("Перевод КАУ в рабочий режим");
+			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим");
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
 			DeviceConfiguration.Update();
 			UpdateConfigurationHelper.Update(DeviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
-			LoadingService.SaveClose();
+			GKProcessorManager.OnStopProgress();
 			return String.IsNullOrEmpty(Error);
 		}
 

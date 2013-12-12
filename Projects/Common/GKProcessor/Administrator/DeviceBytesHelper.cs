@@ -93,7 +93,7 @@ namespace GKProcessor
 			if (IsInTechnologicalRegime(device))
 				return true;
 
-			LoadingService.DoStep(device.PresentationName + " Переход в технологический режим");
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в технологический режим");
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
@@ -124,7 +124,7 @@ namespace GKProcessor
 
 		public static bool EraseDatabase(XDevice device)
 		{
-			LoadingService.DoStep(device.PresentationName + " Стирание базы данных");
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
 			{
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
@@ -142,15 +142,15 @@ namespace GKProcessor
 
 		public static bool GoToWorkingRegime(XDevice device)
 		{
-			LoadingService.IsCanceled = false;
-			LoadingService.DoStep(device.PresentationName + " Переход в рабочий режим");
-			if (LoadingService.IsCanceled)
+			GKProcessorManager.IsProgressCanceled = false;
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в рабочий режим");
+			if (GKProcessorManager.IsProgressCanceled)
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
 			{
-				if (LoadingService.IsCanceled)
+				if (GKProcessorManager.IsProgressCanceled)
 					return true;
 				var sendResult = SendManager.Send(device, 0, 1, 1);
 				if (!sendResult.HasError)

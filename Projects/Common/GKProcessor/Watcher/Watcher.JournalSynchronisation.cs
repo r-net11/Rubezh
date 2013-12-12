@@ -19,7 +19,7 @@ namespace GKProcessor
 				return;
 			if (remoteLastId > localLastDBNo)
 			{
-				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, remoteLastId - localLastDBNo);
+				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
 				GKProcessorManager.OnStopProgress();
 				LastId = remoteLastId;
@@ -31,7 +31,7 @@ namespace GKProcessor
 			var journalItems = new List<JournalItem>();
 			for (int index = startIndex; index <= endIndex; index++)
 			{
-				if (LoadingService.IsCanceled)
+				if (GKProcessorManager.IsProgressCanceled)
 					break;
 
 				var journalItem = ReadJournal(index);
