@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
 
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" Margin="2">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" SelectionChanged="DataGrid_SelectionChanged" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Объект" Width="*" MinWidth="150">
                         <DataGridTemplateColumn.CellTemplate>
@@ -93,9 +93,9 @@
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
         <Grid Grid.Row="2" DataContext="{Binding SelectedDescriptor}" Margin="2">
-            <TabControl DataContext="{Binding Descriptor}">
+            <TabControl>
                 <TabItem Header="Байты">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" DataContext="{Binding Descriptor}">
                         <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -144,7 +144,7 @@
                         </Border>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header="Логика">
+                <TabItem Header="Логика" DataContext="{Binding Descriptor}">
                     <DataGrid ItemsSource="{Binding Formula.FormulaOperations}" Margin="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Операция" Binding="{Binding FormulaOperationType}" Width="Auto" />
@@ -156,19 +156,45 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Зависимости">
-                    <Grid DataContext="{Binding XBase}">
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputXBases}" Margin="2">
+                        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputDescriptors}" Margin="2">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Входные объекты" Binding="{Binding DescriptorInfo}" Width="*" />
+                                <DataGridTemplateColumn Header="Входные объекты" Width="*" MinWidth="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                                <TextBlock Text="{Binding Description}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0">
+                                                    <TextBlock.ContextMenu>
+                                                        <ContextMenu>
+                                                            <Menu>
+                                                                <MenuItem Header="Перейти" Command="{Binding NavigateCommand}" />
+                                                            </Menu>
+                                                        </ContextMenu>
+                                                    </TextBlock.ContextMenu>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OutputXBases}" Margin="2">
+                        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OutputDescriptors}" Margin="2">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Выходные объекты" Binding="{Binding DescriptorInfo}" Width="*" />
+                                <DataGridTemplateColumn Header="Выходные объекты" Width="*" MinWidth="150">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                                <TextBlock Text="{Binding Description}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

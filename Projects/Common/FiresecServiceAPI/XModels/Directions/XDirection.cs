@@ -18,6 +18,9 @@ namespace XFiresecAPI
             OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
+
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Direction; } }
+
 		public XDirectionState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -61,11 +64,6 @@ namespace XFiresecAPI
 		public override string PresentationName
 		{
 			get { return No + "." + Name; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "Направление " + PresentationName; }
 		}
 
 		public void OnChanged()

@@ -173,13 +173,15 @@ namespace LayoutModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
+				var collection = (ListCollectionView)CollectionViewSource.GetDefaultView(Layouts);
 				var selectedLayout = SelectedLayout;
-				var index = Layouts.IndexOf(SelectedLayout);
+				var index = collection.IndexOf(SelectedLayout);
 				Layouts.Remove(selectedLayout);
 				FiresecManager.LayoutsConfiguration.Layouts.Remove(selectedLayout.Layout);
 				FiresecManager.LayoutsConfiguration.Update();
 				ServiceFactory.SaveService.LayoutsChanged = true;
-				SelectedLayout = index >= Layouts.Count ? Layouts[Layouts.Count - 1] : Layouts[index];
+				if (collection.Count > 0)
+					SelectedLayout = (LayoutViewModel)collection.GetItemAt(index >= collection.Count ? collection.Count - 1 : index);
 			}
 		}
 		private void RenewLayout(Layout layout)

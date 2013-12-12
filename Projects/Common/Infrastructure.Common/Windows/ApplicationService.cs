@@ -113,6 +113,13 @@ namespace Infrastructure.Common.Windows
 				{
 					if (Application.Current.MainWindow != null)
 						Application.Current.MainWindow.Close();
+					else
+					{
+						if (Closing != null)
+							Closing(null, new CancelEventArgs(false));
+						if (Closed != null)
+							Closed(null, EventArgs.Empty);
+					}
 					Application.Current.Shutdown();
 				});
 		}

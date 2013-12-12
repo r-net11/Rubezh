@@ -1,17 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace XFiresecAPI
 {
 	public enum XBaseObjectType
 	{
+		[DescriptionAttribute("Устройство")]
 		Deivce,
+
+		[DescriptionAttribute("Зона")]
 		Zone,
+
+		[DescriptionAttribute("Направление")]
 		Direction,
+
+		[DescriptionAttribute("НС")]
 		PumpStation,
+
+		[DescriptionAttribute("Задержка")]
 		Delay,
+
+		[DescriptionAttribute("ПИМ")]
 		Pim
 	}
 }

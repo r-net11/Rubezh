@@ -12,6 +12,8 @@ namespace XFiresecAPI
 			InternalState = new XDelayState(this);
 		}
 
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Delay; } }
+
 		public XDelayState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -36,11 +38,6 @@ namespace XFiresecAPI
 		public override string PresentationName
 		{
 			get { return Name; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "Задержка " + PresentationName; }
 		}
 	}
 }

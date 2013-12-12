@@ -26,6 +26,9 @@ namespace XFiresecAPI
 			NSDeviceUIDs = new List<Guid>();
 			InternalState = new XPumpStationState(this);
 		}
+
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.PumpStation; } }
+
 		public XPumpStationState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -79,11 +82,6 @@ namespace XFiresecAPI
 		public override string PresentationName
 		{
 			get { return "0" + No + "." + Name; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "НС " + PresentationName; }
 		}
 
 		public void OnChanged()

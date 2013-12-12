@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System;
+using System.Collections.Generic;
+using FiresecAPI;
+using XFiresecAPI;
 
 namespace XFiresecAPI
 {
@@ -31,8 +33,13 @@ namespace XFiresecAPI
 			OutputXBases = new List<XBase>();
 		}
 
+		public abstract XBaseObjectType ObjectType { get; }
+		public string DescriptorPresentationName
+		{
+			get { return ObjectType.ToDescription() + " " + PresentationName; }
+		}
+
 		public abstract string PresentationName { get; }
-		public abstract string DescriptorInfo { get; }
 		public abstract XBaseState BaseState { get; }
 
 		public XState State { get; set; }

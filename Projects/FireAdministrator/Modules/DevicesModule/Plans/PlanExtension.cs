@@ -27,6 +27,7 @@ namespace DevicesModule.Plans
 	public class PlanExtension : IPlanExtension<Plan>
 	{
 		private static PlanExtension _instance;
+		private bool _processChanges;
 		private DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private ZonesViewModel _zonesViewModel;
@@ -49,6 +50,7 @@ namespace DevicesModule.Plans
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
 			_instruments = null;
+			_processChanges = true;
 		}
 
 		public void Initialize()
@@ -267,12 +269,13 @@ namespace DevicesModule.Plans
 		public void UpdateDeviceInZones(List<ElementBase> items)
 		{
 			bool deviceInZonesChanged = false;
-			foreach (var item in items)
-				if (item is ElementDevice || item is IElementZone)
-				{
-					deviceInZonesChanged = true;
-					break;
-				}
+			if (_processChanges)
+				foreach (var item in items)
+					if (item is ElementDevice || item is IElementZone)
+					{
+						deviceInZonesChanged = true;
+						break;
+					}
 			if (deviceInZonesChanged)
 			{
 				var deviceInZones = new Dictionary<Device, Guid>();
@@ -332,7 +335,11 @@ namespace DevicesModule.Plans
 					var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
 					var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
 					if (!result)
+					{
+						_processChanges = false;
 						_designerCanvas.RevertLastAction();
+						_processChanges = true;
+					}
 				}
 			}
 		}

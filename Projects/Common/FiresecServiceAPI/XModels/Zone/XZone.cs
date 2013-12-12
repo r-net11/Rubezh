@@ -18,6 +18,8 @@ namespace XFiresecAPI
 			PlanElementUIDs = new List<Guid>();
 		}
 
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Zone; } }
+
 		public XZoneState InternalState { get; set; }
 		public override XBaseState BaseState
 		{
@@ -52,11 +54,6 @@ namespace XFiresecAPI
 		public override string PresentationName
 		{
 			get { return No + "." + Name; }
-		}
-
-		public override string DescriptorInfo
-		{
-			get { return "Зона " + PresentationName; }
 		}
 
 		public void OnChanged()

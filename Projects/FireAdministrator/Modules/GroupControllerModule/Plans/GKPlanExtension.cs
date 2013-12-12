@@ -27,6 +27,7 @@ namespace GKModule.Plans
 {
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
+		private bool _processChanges;
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
 		private DirectionsViewModel _directionsViewModel;
@@ -51,6 +52,7 @@ namespace GKModule.Plans
 			_zonesViewModel = zonesViewModel;
 			_directionsViewModel = directionsViewModel;
 			_instruments = null;
+			_processChanges = true;
 		}
 
 		public void Initialize()
@@ -407,9 +409,10 @@ namespace GKModule.Plans
 		}
 		private bool IsDeviceInZonesChanged(List<ElementBase> items)
 		{
-			foreach (var item in items)
-				if (item is ElementXDevice || item is IElementZone)
-					return true;
+			if (_processChanges)
+				foreach (var item in items)
+					if (item is ElementXDevice || item is IElementZone)
+						return true;
 			return false;
 		}
 		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
@@ -434,7 +437,11 @@ namespace GKModule.Plans
 				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
 				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
 				if (!result)
+				{
+					_processChanges = false;
 					_designerCanvas.RevertLastAction();
+					_processChanges = true;
+				}
 			}
 		}
 	}
