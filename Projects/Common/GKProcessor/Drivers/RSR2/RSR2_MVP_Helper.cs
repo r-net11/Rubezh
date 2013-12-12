@@ -25,8 +25,8 @@ namespace GKProcessor
 			var property = new XDriverProperty()
 			{
 				No = 2,
-				Name = "Порог КЗ",
-				Caption = "Порог КЗ",
+				Name = "Порог КЗ, В",
+				Caption = "Порог КЗ, В",
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Default = (ushort)33,
 				Min = (ushort)30,

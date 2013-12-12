@@ -95,8 +95,8 @@ namespace GKProcessor
 						var sqlCeCommand = new SqlCeCommand();
 						sqlCeCommand.Connection = dataContext;
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
-							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass,ObjectName) Values" +
-							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15)";
+							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass,ObjectName,KAUNo,AdditionalDescription) Values" +
+							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)";
 						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
@@ -112,6 +112,8 @@ namespace GKProcessor
 						sqlCeCommand.Parameters.AddWithValue("@p13", (object)journalItem.SubsystemType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p14", (object)journalItem.ObjectStateClass ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p15", (object)journalItem.ObjectName ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p16", (object)journalItem.ControllerAddress?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p17", (object)journalItem.AdditionalDescription ?? DBNull.Value);
 						sqlCeCommand.ExecuteNonQuery();
 					}
 					dataContext.Close();
@@ -501,6 +503,9 @@ namespace GKProcessor
 			if (!reader.IsDBNull(reader.GetOrdinal("GKJournalRecordNo")))
 				journalItem.GKJournalRecordNo = reader.GetInt32(reader.GetOrdinal("GKJournalRecordNo"));
 
+			if (!reader.IsDBNull(reader.GetOrdinal("KAUNo")))
+				journalItem.ControllerAddress = (ushort)reader.GetInt32(reader.GetOrdinal("KAUNo"));
+
 			if (!reader.IsDBNull(reader.GetOrdinal("StateClass")))
 				journalItem.StateClass = (XStateClass)reader.GetByte(reader.GetOrdinal("StateClass"));
 
@@ -512,6 +517,9 @@ namespace GKProcessor
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
 				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("AdditionalDescription")))
+				journalItem.AdditionalDescription = reader.GetString(reader.GetOrdinal("AdditionalDescription"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 				journalItem.SubsystemType = (XSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));

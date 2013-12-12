@@ -9,7 +9,7 @@
 
 		<Controls:XDataGrid CanUserSortColumns="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No">
+				<DataGridTemplateColumn Header="№" SortMemberPath="Zone.No" Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -19,10 +19,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
+                <DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
 				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
-				<DataGridTextColumn Width="1*" Binding="{Binding Zone.Fire1Count}" Header="П1" />
-				<DataGridTextColumn Width="1*" Binding="{Binding Zone.Fire2Count}" Header="П2" />
+                <DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire1Count}" Header="П1" CanUserResize="False" />
+                <DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire2Count}" Header="П2" CanUserResize="False" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
 

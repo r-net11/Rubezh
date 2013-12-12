@@ -11,34 +11,34 @@ namespace Controls.Converters
             switch ((XAlarmType)value)
             {
                 case XAlarmType.NPTOn:
-                    return "/Controls;component/Images/BAlarm_shield.png";
+					return "/Controls;component/StateClassIcons/NPTOn.png";
 
                 case XAlarmType.Fire1:
-                    return "/Controls;component/Images/BAlarm_Main_0_Fire1.png";
+					return "/Controls;component/StateClassIcons/Fire1.png";
 
                 case XAlarmType.Fire2:
-                    return "/Controls;component/Images/BAlarm_Main_1_Fire2.png";
+					return "/Controls;component/StateClassIcons/Fire2.png";
 
                 case XAlarmType.Attention:
-                    return "/Controls;component/Images/BAlarm_main_2_Attention.png";
+					return "/Controls;component/StateClassIcons/Attention.png";
 
                 case XAlarmType.Failure:
-                    return "/Controls;component/Images/BAlarm_main_3_Failure.png";
+					return "/Controls;component/StateClassIcons/Failure.png";
 
                 case XAlarmType.Ignore:
-                    return "/Controls;component/Images/BAlarm_main_4_Off.png";
+					return "/Controls;component/StateClassIcons/Ignore.png";
 
                 case XAlarmType.Turning:
-                    return "/Controls;component/Images/BAlarm_main_5_Info.png";
+					return "/Controls;component/StateClassIcons/On.png";
 
                 case XAlarmType.Service:
-                    return "/Controls;component/Images/BAlarm_main_6_Service.png";
+					return "/Controls;component/StateClassIcons/Service.png";
 
                 case XAlarmType.AutoOff:
-                    return "/Controls;component/Images/BAlarm_main_7_Auto.png";
+					return "/Controls;component/StateClassIcons/AutoOff.png";
 
                 default:
-                    return "/Controls;component/Images/BAlarm_main_3_Failure.png";
+					return "/Controls;component/Images/blank.png";
             }
         }
 

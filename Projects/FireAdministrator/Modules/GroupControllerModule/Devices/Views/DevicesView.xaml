@@ -8,9 +8,12 @@
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
-		<ContextMenu x:Key="DeviceContextMenu">
-			<MenuItem Header="Копировать (Ctrl+C)" Command="{Binding CopyCommand}">
-				<MenuItem.Icon>
+        <ContextMenu x:Key="DeviceContextMenu">
+			<MenuItem Command="{Binding CopyCommand}" VerticalContentAlignment="Center">
+                <MenuItem.Header>
+                    <TextBlock Text="Копировать (Ctrl+C)" />
+                </MenuItem.Header>
+                <MenuItem.Icon>
 					<Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
 				</MenuItem.Icon>
 			</MenuItem>
@@ -42,7 +45,7 @@
 			</MenuItem>
 			<MenuItem Header="Выбрать" Command="{Binding SelectCommand}">
 				<MenuItem.Icon>
-					<Image Source="/Controls;component/Images/BBriefcase.png" Width="16" VerticalAlignment="Center" />
+					<Image Source="/Controls;component/Images/BSelect.png" Width="16" VerticalAlignment="Center" />
 				</MenuItem.Icon>
 			</MenuItem>
 			<MenuItem Header="Настройка логики исполнительного устройства по состоянию зон" Command="{Binding ShowLogicCommand}">

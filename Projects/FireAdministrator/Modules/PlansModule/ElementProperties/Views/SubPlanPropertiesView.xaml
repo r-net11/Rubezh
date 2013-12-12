@@ -12,8 +12,17 @@
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Width="250" DisplayMemberBinding="{Binding Plan.Caption}" Header="Название" />
-				<GridViewColumn DisplayMemberBinding="{Binding Plan.Description}" Header="Описание" />
+                <GridViewColumn Width="250" Header="Название" >
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="/Controls;component/Images/BMap.png" />
+                                <TextBlock Text="{Binding Plan.Caption}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+                <GridViewColumn DisplayMemberBinding="{Binding Plan.Description}" Header="Описание" />
 			</GridView>
 		</tree:TreeList.View>
 	</tree:TreeList>
