@@ -37,6 +37,7 @@ namespace GKModule.ViewModels
 			InitializeDescriptions(archiveFilter);
 			InitializeSubsystemTypes(archiveFilter);
 			InitializePumpStations(archiveFilter);
+			InitializePIMs(archiveFilter);
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -47,6 +48,9 @@ namespace GKModule.ViewModels
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.GK));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.System));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Zone));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.PumpStation));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Delay));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Pim));
 
 			foreach (var journalItemType in archiveFilter.JournalItemTypes)
 			{
@@ -202,6 +206,24 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		void InitializePIMs(XArchiveFilter archiveFilter)
+		{
+			PIMs = new List<ArchivePimViewModel>();
+			foreach (var pim in XManager.Pims)
+			{
+				var archivePimViewModel = new ArchivePimViewModel(pim);
+				PIMs.Add(archivePimViewModel);
+			}
+			foreach (var uid in archiveFilter.PimUIDs)
+			{
+				var pim = PIMs.FirstOrDefault(x => x.Pim.UID == uid);
+				if (pim != null)
+				{
+					pim.IsChecked = true;
+				}
+			}
+		}
+
 		#region Devices
 		public void InitializeDevices(XArchiveFilter archiveFilter)
 		{
@@ -352,6 +374,7 @@ namespace GKModule.ViewModels
 		public List<DescriptionViewModel> ArchiveDescriptions { get; private set; }
 		public List<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public List<ArchivePumpStationViewModel> PumpStations { get; private set; }
+		public List<ArchivePimViewModel> PIMs { get; private set; }
 
 		public XArchiveFilter GetModel()
 		{
@@ -411,6 +434,11 @@ namespace GKModule.ViewModels
 				if (pumpStation.IsChecked)
 					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.UID);
 			}
+			foreach (var pim in PIMs)
+			{
+				if (pim.IsChecked)
+					archiveFilter.PimUIDs.Add(pim.Pim.UID);
+			}
 			return archiveFilter;
 		}
 
@@ -429,6 +457,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("JournalDescriptionStates");
 			OnPropertyChanged("SubsystemTypes");
 			OnPropertyChanged("PumpStations");
+			OnPropertyChanged("PIMs");
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

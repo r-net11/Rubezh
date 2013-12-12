@@ -52,6 +52,6 @@
         Shuv,
         RSR2_Siren,
         RSR2_Table,
-		RSR2_Splitter
+		RSR2_MVP
     }
 }

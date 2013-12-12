@@ -113,6 +113,7 @@ namespace GKModule.ViewModels
 						if (pumpStation != null)
 						{
 							PresentationName = pumpStation.PresentationName;
+							ImageSource = "/Controls;component/Images/BPumpStation.png";
 						}
 						break;
 

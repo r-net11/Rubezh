@@ -23,7 +23,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
+                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" />
                                 <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
                                 <TextBlock Width="200" Text="{Binding Pim.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>

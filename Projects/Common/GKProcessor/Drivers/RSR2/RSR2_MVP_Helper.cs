@@ -3,14 +3,14 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class RSR2_Splitter_Helper
+	public static class RSR2_MVP_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0xE5,
-				DriverType = XDriverType.RSR2_Splitter,
+				DriverType = XDriverType.RSR2_MVP,
 				UID = new Guid("0B1BD00D-680B-4A80-AC9A-659FD7F85BB4"),
 				Name = "Модуль ветвления и подпитки МВП RSR2",
 				ShortName = "МВП RSR2",
@@ -22,11 +22,6 @@ namespace GKProcessor
 			
 			GKDriversHelper.AddIntProprety(driver, 0, "Число АУ на АЛС3 МВП ", 0, 0, 250);
 			GKDriversHelper.AddIntProprety(driver, 1, "Число АУ на АЛС4 МВП ", 0, 0, 250);
-			//GKDriversHelper.AddIntProprety(driver, 2, "Порог КЗ", 330, 300, 700);
-			//for (byte i = 2; i < 10; i++)
-			//{
-			//    GKDriversHelper.AddIntProprety(driver, i, "Порог КЗ" + i.ToString(), 330, 300, 700);
-			//}
 			var property = new XDriverProperty()
 			{
 				No = 2,

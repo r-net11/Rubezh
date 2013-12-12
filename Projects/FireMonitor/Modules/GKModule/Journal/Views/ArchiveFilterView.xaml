@@ -180,6 +180,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
+            
             <TabItem Header="Насосные станции">
                 <ListBox ItemsSource="{Binding PumpStations}">
                     <ListBox.ItemTemplate>
@@ -187,6 +188,20 @@
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
                                 <Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <TabItem Header="ПИМ">
+                <ListBox ItemsSource="{Binding PIMs}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" Margin="1 0 0 0" />
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
                             </StackPanel>
                         </DataTemplate>

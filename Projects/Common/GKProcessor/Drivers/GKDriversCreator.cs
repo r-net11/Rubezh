@@ -64,7 +64,7 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_Pump_Helper.Create());
             AddDriverToKau_RSR2(RSR2_Siren_Helper.Create());
             AddDriverToKau_RSR2(RSR2_Table_Helper.Create());
-			AddDriverToKau_RSR2(RSR2_Splitter_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
 		}
 
 		static void AddDriverToKau(XDriver driver)

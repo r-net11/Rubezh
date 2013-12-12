@@ -37,6 +37,9 @@ namespace GKModule.Converters
 				case JournalItemType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
+				case JournalItemType.PumpStation:
+					return "/Controls;component/Images/BPumpStation.png";
+
 				default:
 					return "/Controls;component/Images/blank.png";
 			}

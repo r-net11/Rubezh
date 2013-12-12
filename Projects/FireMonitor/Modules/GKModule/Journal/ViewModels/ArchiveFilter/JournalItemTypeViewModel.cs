@@ -55,6 +55,15 @@ namespace GKModule.ViewModels
 					case JournalItemType.System:
 						return "/Controls;component/Images/PC.png";
 
+					case JournalItemType.PumpStation:
+						return "/Controls;component/Images/BPumpStation.png";
+
+					case JournalItemType.Delay:
+						return "/Controls;component/Images/Delay.png";
+
+					case JournalItemType.Pim:
+						return "/Controls;component/Images/Pim.png";
+
 					default:
 						return "";
 
