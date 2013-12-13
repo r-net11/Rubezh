@@ -89,7 +89,6 @@ namespace GKProcessor
 		{
 			try
 			{
-				GKProcessorManager.OnStartProgress("Чтение информационного блока " + gkDevice.PresentationName);
 				var data = new List<byte>(BitConverter.GetBytes(1));
 				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 				if (sendResult.HasError)
