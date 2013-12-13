@@ -19,7 +19,7 @@ namespace GKProcessor
 				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
-				LoadingService.Close();
+				GKProcessorManager.OnStopProgress();
 				return ;
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
