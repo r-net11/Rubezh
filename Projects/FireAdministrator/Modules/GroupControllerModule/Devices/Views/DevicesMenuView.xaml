@@ -19,7 +19,7 @@
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Controls;component/Images/BParametersReadFromFile.png" Height="24" Margin="2"/>
-                            <TextBlock Text="Считать конфигурацию из файла" VerticalAlignment="Center"/>
+                            <TextBlock Text="Считать конфигурацию" VerticalAlignment="Center"/>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
@@ -27,7 +27,7 @@
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Controls;component/Images/BParametersRead.png" Height="24" Margin="2"/>
-                            <TextBlock Text="Считать конфигурацию" VerticalAlignment="Center"/>
+                            <TextBlock Text="Считать конфигурацию дескрипторов" VerticalAlignment="Center"/>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
@@ -35,7 +35,7 @@
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Controls;component/Images/BParametersWrite.png" Height="24" Margin="2"/>
-                            <TextBlock Text="Записать конфигурацию в прибор" VerticalAlignment="Center"/>
+                            <TextBlock Text="Записать конфигурацию" VerticalAlignment="Center"/>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>

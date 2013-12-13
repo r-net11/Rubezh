@@ -121,6 +121,14 @@ namespace GKModule.ViewModels
 					return 1;
 				if (object1.Direction.No < object2.Direction.No)
 					return -1;
+				return 0;
+			}
+			if (object1.ObjectType == ObjectType.PumpStation)
+			{
+				if (object1.PumpStation.No > object2.PumpStation.No)
+					return 1;
+				if (object1.PumpStation.No < object2.PumpStation.No)
+					return -1;
 			}
 			return 0;
 		}

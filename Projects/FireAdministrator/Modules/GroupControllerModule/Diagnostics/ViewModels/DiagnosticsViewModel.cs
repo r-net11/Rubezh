@@ -39,8 +39,8 @@ namespace GKModule.ViewModels
 		public RelayCommand CompareHashesCommand { get; private set; }
 		void OnCompareHashes()
 		{
-			var localHash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration);
-			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
+			var localHash1 = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, DevicesViewModel.Current.SelectedDevice.Device);
+			var localHash2 = GKFileInfo.CreateHash2(XManager.DeviceConfiguration);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var infoBlock = gkFileReaderWriter.ReadInfoBlock(DevicesViewModel.Current.SelectedDevice.Device);
 			if (gkFileReaderWriter.Error != null)
