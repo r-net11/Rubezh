@@ -67,10 +67,10 @@ namespace Infrastructure.Common.Windows
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
 
-		public static void DoStep(string title)
+		public static void DoStep(string text)
 		{
 			if (_progressViewModel != null)
-				_progressViewModel.DoStep(title);
+				_progressViewModel.DoStep(text);
 		}
 		public static void AddCount(int count)
 		{

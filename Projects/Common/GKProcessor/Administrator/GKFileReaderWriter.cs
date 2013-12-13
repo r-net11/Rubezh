@@ -23,12 +23,12 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
+				LoadingService.Show("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
 				while (true)
 				{
-					if (GKProcessorManager.IsProgressCanceled)
+					if(LoadingService.IsCanceled)
 						{ Error = "Операция отменена"; return null; }
-					GKProcessorManager.OnDoProgress("Чтение блока данных " + i);
+					LoadingService.DoStep("Чтение блока данных " + i);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
 					var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 					if (sendResult.HasError)
@@ -39,8 +39,6 @@ namespace GKProcessor
 				}
 				if (allbytes.Count == 0)
 					{ Error = "Конфигурационный файл отсутствует"; return null; }
-				//var configMemoryStream = ZipSerializeHelper.Serialize(XManager.DeviceConfiguration);
-				//configMemoryStream.Position = 0;
 
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
 				if (ZipFileConfigurationHelper.Error != null)
@@ -52,7 +50,7 @@ namespace GKProcessor
 			catch (Exception e)
 			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }
 			finally
-			{ GKProcessorManager.OnStopProgress(); }
+				{ LoadingService.Close();}
 		}
 
 		public void WriteFileToGK(XDevice gkDevice, bool writeConfig)
@@ -66,12 +64,12 @@ namespace GKProcessor
 				{ Error = "Невозможно начать процедуру записи "; return; }
 			if (writeConfig)
 				bytesList.AddRange(gkFileInfo.FileBytes);
-			GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
+			LoadingService.Show("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
-				if (GKProcessorManager.IsProgressCanceled)
+				if (LoadingService.IsCanceled)
 					{ Error = "Операция отменена"; return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i + 1);
+				LoadingService.DoStep("Запись блока данных " + i + 1);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
 				sendResult = SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
@@ -91,7 +89,7 @@ namespace GKProcessor
 		{
 			try
 			{
-				GKProcessorManager.OnStartProgress("Чтение информационного блока " + gkDevice.PresentationName);
+				LoadingService.Show("Чтение информационного блока " + gkDevice.PresentationName);
 				var data = new List<byte>(BitConverter.GetBytes(1));
 				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 				if (sendResult.HasError)
@@ -100,7 +98,7 @@ namespace GKProcessor
 					{ Error = "Информационный блок отсутствует"; return null; }
 				if (sendResult.Bytes.Count < 256)
 					{ Error = "Информационный блок поврежден"; return null; }
-				GKProcessorManager.OnStopProgress();
+				LoadingService.Close();
 				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
 				if (GKFileInfo.Error != null)
 					{ Error = GKFileInfo.Error; return null; }
@@ -109,7 +107,7 @@ namespace GKProcessor
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }
 			finally
-			{ GKProcessorManager.OnStopProgress(); }
+				{ LoadingService.Close(); }
 		}
 	}
 }

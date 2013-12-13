@@ -241,7 +241,7 @@ namespace FiresecClient
 				var nsDeviceUIDs = new List<Guid>();
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
-					var nsDevice = XManager.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
 					if (nsDevice != null)
 					{
 						switch (nsDevice.DriverType)

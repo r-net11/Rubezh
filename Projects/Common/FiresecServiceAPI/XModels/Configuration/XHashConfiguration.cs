@@ -10,6 +10,7 @@ namespace FiresecAPI
 		public XHashConfiguration(XDeviceConfiguration deviceConfiguration)
 		{
 			RootDevice = deviceConfiguration.RootDevice;
+			Devices = deviceConfiguration.Devices;
 			Zones = deviceConfiguration.Zones;
 			Directions = deviceConfiguration.Directions;
 			PumpStations = deviceConfiguration.PumpStations;
@@ -17,6 +18,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public XDevice RootDevice { get; set; }
+
+		[DataMember]
+		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
 		public List<XZone> Zones { get; set; }

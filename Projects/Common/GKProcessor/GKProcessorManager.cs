@@ -12,30 +12,21 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-
-		public static bool IsProgressCanceled = false;
-		public static void CancelGKProgress()
+		public static void OnStartProgress(string name, int count, bool canCancel = true)
 		{
-			IsProgressCanceled = true;
-		}
-
-		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
-		{
-			IsProgressCanceled = false;
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			gkProgressCallback.Title = title;
-			gkProgressCallback.Text = text;
-			gkProgressCallback.StepCount = stepCount;
+			gkProgressCallback.Name = name;
+			gkProgressCallback.Count = count;
 			gkProgressCallback.CanCancel = canCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnDoProgress(string text)
+		public static void OnDoProgress(string name)
 		{
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
-			gkProgressCallback.Text = text;
+			gkProgressCallback.Name = name;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -111,10 +102,11 @@ namespace GKProcessor
 		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
-			FirmwareUpdateHelper.Update(device, fileName);
-			if (FirmwareUpdateHelper.Error != null)
-				return new OperationResult<bool>(FirmwareUpdateHelper.Error) { Result = false };
-			return new OperationResult<bool>() { Result = true };
+			var firmwareUpdateHelper = new FirmwareUpdateHelper();
+			firmwareUpdateHelper.Update(device, fileName);
+			if (firmwareUpdateHelper.Error != null)
+				return new OperationResult<bool>(firmwareUpdateHelper.Error) { Result = false };
+			return new OperationResult<bool> { Result = true };
 		}
 
 		public static bool GKSyncronyseTime(XDevice device, string userName)
