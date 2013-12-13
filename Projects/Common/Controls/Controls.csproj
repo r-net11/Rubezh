@@ -117,6 +117,7 @@
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
+    <Compile Include="ComboBoxIconItem.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
+    <Compile Include="IconedMenuItem.cs" />
     <Compile Include="IPValidationRule.cs" />
     <Compile Include="Layout\RubezhTheme.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -291,6 +293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ribbon\Themes\RibbonButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IconedMenuStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
