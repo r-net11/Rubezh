@@ -22,48 +22,48 @@ using System.Globalization;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    [Serializable]
-    public class LayoutDocument : LayoutContent
-    {
-        public bool IsVisible
-        {
-            get { return true; }
-        }
+	[Serializable]
+	public class LayoutDocument : LayoutContent
+	{
+		public bool IsVisible
+		{
+			get { return true; }
+		}
 
-        #region Description
+		#region Description
 
-        private string _description = null;
-        public string Description
-        {
-            get { return _description; }
-            set
-            {
-                if (_description != value)
-                {
-                    _description = value;
-                    RaisePropertyChanged("Description");
-                }
-            }
-        }
+		private string _description = null;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				if (_description != value)
+				{
+					_description = value;
+					RaisePropertyChanged("Description");
+				}
+			}
+		}
 
-        #endregion
+		#endregion
 
-        public override void WriteXml(System.Xml.XmlWriter writer)
-        {
-            base.WriteXml(writer);
+		public override void WriteXml(System.Xml.XmlWriter writer)
+		{
+			base.WriteXml(writer);
 
 			//if (!string.IsNullOrWhiteSpace(Description))
 			//    writer.WriteAttributeString("Description", Description);
 
-        }
+		}
 
-        public override void ReadXml(System.Xml.XmlReader reader)
-        {
+		public override void ReadXml(System.Xml.XmlReader reader)
+		{
 			//if (reader.MoveToAttribute("Description"))
 			//    Description = reader.Value;
 
-            base.ReadXml(reader);
-        }
+			base.ReadXml(reader);
+		}
 
 
 #if TRACE
@@ -75,49 +75,49 @@ namespace Xceed.Wpf.AvalonDock.Layout
 #endif
 
 
-        protected override void InternalDock()
-        {
-            var root = Root as LayoutRoot;
-            LayoutDocumentPane documentPane = null;
-            if (root.LastFocusedDocument != null &&
-                root.LastFocusedDocument != this)
-            {
-                documentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane;
-            }
+		protected override void InternalDock()
+		{
+			var root = Root as LayoutRoot;
+			LayoutDocumentPane documentPane = null;
+			if (root.LastFocusedDocument != null &&
+				root.LastFocusedDocument != this)
+			{
+				documentPane = root.LastFocusedDocument.Parent as LayoutDocumentPane;
+			}
 
-            if (documentPane == null)
-            {
-                documentPane = root.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
-            }
-
-
-            bool added = false;
-            if (root.Manager.LayoutUpdateStrategy != null)
-            {
-                added = root.Manager.LayoutUpdateStrategy.BeforeInsertDocument(root, this, documentPane);
-            }
-
-            if (!added)
-            {
-                if (documentPane == null)
-                    throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
-
-                documentPane.Children.Add(this);
-                added = true;
-            }
-
-            if (root.Manager.LayoutUpdateStrategy != null)
-            {
-                root.Manager.LayoutUpdateStrategy.AfterInsertDocument(root, this);
-            }
+			if (documentPane == null)
+			{
+				documentPane = root.Descendents().OfType<LayoutDocumentPane>().FirstOrDefault();
+			}
 
 
-            base.InternalDock();
-        }
+			bool added = false;
+			if (root.Manager.LayoutUpdateStrategy != null)
+			{
+				added = root.Manager.LayoutUpdateStrategy.BeforeInsertDocument(root, this, documentPane);
+			}
+
+			if (!added)
+			{
+				if (documentPane == null)
+					throw new InvalidOperationException("Layout must contains at least one LayoutDocumentPane in order to host documents");
+
+				documentPane.Children.Add(this);
+				added = true;
+			}
+
+			if (root.Manager.LayoutUpdateStrategy != null)
+			{
+				root.Manager.LayoutUpdateStrategy.AfterInsertDocument(root, this);
+			}
+
+
+			base.InternalDock();
+		}
 
 		public override string ToString()
 		{
 			return Title;
 		}
-    }
+	}
 }
