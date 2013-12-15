@@ -6,6 +6,7 @@
     <UserControl.Resources>
         <Converters:BytesToStringConverter x:Key="BytesToStringConverter" />
         <Converters:DescriptorNoToStringConverter x:Key="DescriptorNoToStringConverter" />
+        <Converters:NullImageConverter x:Key="NullImageConverter" />
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -147,11 +148,60 @@
                 <TabItem Header="Логика">
                     <DataGrid ItemsSource="{Binding DescriptorLogicItems}" Margin="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Операция" Binding="{Binding FormulaOperation.FormulaOperationType}" Width="Auto" />
-                            <DataGridTextColumn Header="Агрумент 1" Binding="{Binding FirstOperand}" Width="Auto" />
-                            <DataGridTextColumn Header="Агрумент 2" Binding="{Binding FormulaOperation.SecondOperand}" Width="Auto" />
+                            <DataGridTemplateColumn Header="Операция" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding FormulaOperation.FormulaOperationType}">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsBold}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Агрумент 1" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding StateIcon, Converter={StaticResource NullImageConverter}}" />
+                                            <TextBlock Text="{Binding FirstOperand}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Агрумент 2" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding DescriptorIcon, Converter={StaticResource NullImageConverter}}" />
+                                            <TextBlock Text="{Binding SecondOperand}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                             <DataGridTextColumn Header="Комментарий" Binding="{Binding FormulaOperation.Comment}" Width="*" />
-                            <DataGridTextColumn Header="Глубина" Binding="{Binding FormulaOperation.StackLevel}" Width="Auto" />
+
+                            <DataGridTemplateColumn Header="Глубина" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding StackIcon, Converter={StaticResource NullImageConverter}}" />
+                                            <TextBlock Text="{Binding FormulaOperation.StackLevel}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

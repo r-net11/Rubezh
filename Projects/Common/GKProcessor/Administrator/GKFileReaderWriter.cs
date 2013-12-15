@@ -39,8 +39,6 @@ namespace GKProcessor
 				}
 				if (allbytes.Count == 0)
 					{ Error = "Конфигурационный файл отсутствует"; return null; }
-				//var configMemoryStream = ZipSerializeHelper.Serialize(XManager.DeviceConfiguration);
-				//configMemoryStream.Position = 0;
 
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
 				if (ZipFileConfigurationHelper.Error != null)

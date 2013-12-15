@@ -100,7 +100,6 @@ namespace GKModule.Models
 					{
 						MessageBoxService.ShowError(result.Error);
 					}
-					ServiceFactory.SaveService.GKChanged = false;
 				}
 			}
 		}

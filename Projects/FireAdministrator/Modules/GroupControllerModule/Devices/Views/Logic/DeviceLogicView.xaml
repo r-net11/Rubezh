@@ -45,10 +45,9 @@
                                                       Width="160" Margin="2">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="16" Source="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}"/>
-                                                            <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" Margin="2"/>    
-                                                        </StackPanel>
+                                                        <Controls:ComboBoxIconItem 
+                                                            ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}"
+                                                            Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />                                                                                   
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -57,10 +56,9 @@
 											    ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"/>
-                                                            <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Margin="2"/>
-                                                        </StackPanel>
+                                                        <Controls:ComboBoxIconItem 
+                                                            ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
+                                                            Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>

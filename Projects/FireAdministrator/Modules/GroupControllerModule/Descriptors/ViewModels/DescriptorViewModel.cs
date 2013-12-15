@@ -44,11 +44,14 @@ namespace GKModule.ViewModels
 			}
 
 			IsFormulaInvalid = Descriptor.Formula.CalculateStackLevels();
+		}
 
+		public void InitializeLogic()
+		{
 			DescriptorLogicItems = new ObservableCollection<DescriptorLogicItem>();
 			foreach (var formulaOperation in Descriptor.Formula.FormulaOperations)
 			{
-				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation);
+				var descriptorLogicItem = new DescriptorLogicItem(formulaOperation, DescriptorsViewModel);
 				DescriptorLogicItems.Add(descriptorLogicItem);
 			}
 		}

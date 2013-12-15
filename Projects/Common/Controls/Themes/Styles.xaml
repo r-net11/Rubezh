@@ -37,6 +37,8 @@
 		<ResourceDictionary Source="TreeListStyle.xaml" />
 		<ResourceDictionary Source="ColorPicker.xaml" />
 		<ResourceDictionary Source="ItemsControlStyle.xaml" />
+        <ResourceDictionary Source="IconedMenuStyle.xaml" />
+        
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />

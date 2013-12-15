@@ -34,21 +34,12 @@ namespace GKProcessor
 			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
 				DescriptorsCount = gkDatabase.Descriptors.Count();
-			Hash1 = CreateHash1(deviceConfiguration);
-			Hash2 = CreateHash2(deviceConfiguration, gkDevice);
+			Hash1 = CreateHash1(deviceConfiguration, gkDevice);
+			Hash2 = CreateHash2(deviceConfiguration);
 			InitializeFileBytes(deviceConfiguration);
 			InitializeInfoBlock();
 		}
-
-		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration)
-		{
-			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
-			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
-			configMemoryStream.Position = 0;
-			var configBytes = configMemoryStream.ToArray();
-			return SHA256.Create().ComputeHash(configBytes).ToList();
-		}
-		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
+		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
 			UpdateConfigurationHelper.Update(deviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
@@ -75,18 +66,30 @@ namespace GKProcessor
 			foreach (var pumpStation in deviceConfiguration.PumpStations)
 			{
 				if (pumpStation.GkDatabaseParent == gkDevice)
-					stringBuilder.Append(pumpStation.No).Append("@");
-				if (pumpStation.NSDevices != null)
 				{
-					stringBuilder.Append("nsDevices:");
-					foreach (var nsDevice in pumpStation.NSDevices)
+					stringBuilder.Append(pumpStation.No).Append("@");
+					if (pumpStation.NSDevices != null)
 					{
-						if (nsDevice.GKParent == gkDevice)
-							stringBuilder.Append(nsDevice.PresentationName).Append("@");
+						stringBuilder.Append("nsDevices:");
+						foreach (var nsDevice in pumpStation.NSDevices)
+						{
+							if (nsDevice.GKParent == gkDevice)
+								stringBuilder.Append(nsDevice.PresentationName).Append("@");
+						}
 					}
 				}
 			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
+		}
+		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)
+		{
+			UpdateConfigurationHelper.Update(deviceConfiguration);
+			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
+			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
+			ZipSerializeHelper.Serialize(hashConfiguration, "123.xml");
+			configMemoryStream.Position = 0;
+			var configBytes = configMemoryStream.ToArray();
+			return SHA256.Create().ComputeHash(configBytes).ToList();
 		}
 		void InitializeFileBytes(XDeviceConfiguration deviceConfiguration)
 		{
@@ -99,8 +102,8 @@ namespace GKProcessor
 		void InitializeInfoBlock()
 		{
 			InfoBlock = new List<byte>(256) { MinorVersion, MajorVersion };
-			InfoBlock.AddRange(Hash1);
 			InfoBlock.AddRange(Hash2);
+			InfoBlock.AddRange(Hash1);
 			InfoBlock.AddRange(BitConverter.GetBytes(DescriptorsCount));
 			InfoBlock.AddRange(BitConverter.GetBytes(FileSize));
 			InfoBlock.AddRange(BitConverter.GetBytes(Date.Ticks));
@@ -110,6 +113,7 @@ namespace GKProcessor
 
 		public static GKFileInfo BytesToGKFileInfo(List<byte> bytes)
 		{
+			Error = null;
 			try
 			{
 				return new GKFileInfo
@@ -117,8 +121,8 @@ namespace GKProcessor
 					InfoBlock = bytes,
 					MinorVersion = bytes[0],
 					MajorVersion = bytes[1],
-					Hash1 = bytes.GetRange(2, 32),
-					Hash2 = bytes.GetRange(34, 32),
+					Hash2 = bytes.GetRange(2, 32),
+					Hash1 = bytes.GetRange(34, 32),
 					DescriptorsCount = BitConverter.ToInt32(bytes.GetRange(66, 4).ToArray(), 0),
 					FileSize = BitConverter.ToInt64(bytes.GetRange(70, 8).ToArray(), 0),
 					Date = DateTime.FromBinary(BitConverter.ToInt64(bytes.GetRange(78, 8).ToArray(), 0)),

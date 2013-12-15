@@ -152,6 +152,13 @@ namespace GKModule.ViewModels
 							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject2.Name;
 						}
+						//if (sameObject1.ObjectType == ObjectType.PumpStation)
+						//{
+						//    foreach (var nsDevice in sameObject1.PumpStation.NSDevices)
+						//    {
+						//        if (sameObject2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0))
+						//    }
+						//}
 					}
 
 				}
