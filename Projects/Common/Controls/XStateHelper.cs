@@ -8,7 +8,7 @@ namespace Controls
 		{
 			if (stateClass == XStateClass.Norm)
 				return null;
-			
+
 			return "/Controls;component/StateClassIcons/" + stateClass.ToString() + ".png";
 		}
 	}

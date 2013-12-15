@@ -72,10 +72,12 @@
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
     <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
     <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="Descriptors\Converters\NullImageConverter.cs" />
     <Compile Include="Descriptors\ViewModels\DescriptorLogicItem.cs" />
     <Compile Include="Descriptors\ViewModels\DescriptorsViewModel.cs" />
     <Compile Include="Descriptors\ViewModels\DescriptorViewModel.cs" />
     <Compile Include="Descriptors\ViewModels\DescriptorsMenuViewModel.cs" />
+    <Compile Include="Descriptors\ViewModels\StackDirection.cs" />
     <Compile Include="Descriptors\Views\DescriptorsView.xaml.cs">
       <DependentUpon>DescriptorsView.xaml</DependentUpon>
     </Compile>

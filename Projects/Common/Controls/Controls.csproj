@@ -1274,6 +1274,8 @@
     <Resource Include="Images\BlueEdit.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="StateClassIcons\TurnOn_InAutomatic.png" />
+    <Resource Include="StateClassIcons\TurnOff_InAutomatic.png" />
     <Resource Include="StateClassIcons\NPTOn.png" />
     <Resource Include="StateClassIcons\Manual.png" />
     <Resource Include="StateClassIcons\HasNoLicense.png" />
@@ -1361,6 +1363,8 @@
     <Resource Include="Images\SelectAll.png" />
     <Resource Include="Images\SelectNone.png" />
     <Resource Include="Images\BSelect.png" />
+    <Resource Include="Images\BArrowDown.png" />
+    <Resource Include="Images\BArrowUp.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

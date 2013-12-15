@@ -115,6 +115,11 @@ namespace GKModule.ViewModels
 					}
 				}
 			}
+
+			foreach (var descriptorViewModel in Descriptors)
+			{
+				descriptorViewModel.InitializeLogic();
+			}
 		}
 
 		ObservableCollection<DescriptorViewModel> _descriptors;
