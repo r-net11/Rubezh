@@ -41,7 +41,10 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<DesignerItemFactoryEvent>().Subscribe((e) =>
 			{
 				if (e.Element is ElementSubPlan)
+				{
 					e.DesignerItem = new DesignerItemSubPlan(e.Element);
+					e.DesignerItem.IconSource = "/Controls;component/Images/CMap.png";
+				}
 			});
 
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);

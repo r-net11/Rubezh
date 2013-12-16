@@ -49,6 +49,7 @@
         <File Id="SDK.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.NLog.dll" Name="NLog.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
         <File Id="SDK.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
+        <File Id="SDK.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="..\..\..\..\..\SDK\Assemblies\" />
       </Component>
     </DirectoryRef>
   </Fragment>
