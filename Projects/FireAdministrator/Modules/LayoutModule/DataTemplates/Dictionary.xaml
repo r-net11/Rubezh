@@ -6,7 +6,7 @@
 		<SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 		<SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 	</SwitchConverter>
-	
+
 	<DataTemplate DataType="{x:Type ViewModels:MonitorLayoutsViewModel}">
 		<Views:MonitorLayoutsView />
 	</DataTemplate>
@@ -43,7 +43,16 @@
 		<Views:LayoutPartPropertiesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartImageViewModel}">
-        <Views:LayoutPartImageView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartImageViewModel}">
+		<Views:LayoutPartImageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyGeneralPageViewModel}">
+		<Views:LayoutPartPropertyGeneralPageView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyImagePageViewModel}">
+		<Views:LayoutPartPropertyImagePageView />
+	</DataTemplate>
+
 </ResourceDictionary>

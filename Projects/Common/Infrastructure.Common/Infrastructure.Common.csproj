@@ -158,6 +158,7 @@
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
+    <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />

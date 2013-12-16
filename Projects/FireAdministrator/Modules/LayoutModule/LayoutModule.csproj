@@ -108,8 +108,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyImagePageViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartImageViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyGeneralPageViewModel.cs" />
     <Compile Include="ViewModels\LayoutUpdateStrategy.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
@@ -134,6 +136,12 @@
     </Compile>
     <Compile Include="Views\LayoutElementsView.xaml.cs">
       <DependentUpon>LayoutElementsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartPropertyGeneralPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyGeneralPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartPropertyImagePageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyImagePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartView.xaml.cs">
       <DependentUpon>LayoutPartView.xaml</DependentUpon>
@@ -226,6 +234,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutElementsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartPropertyGeneralPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartPropertyImagePageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

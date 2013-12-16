@@ -1,6 +1,8 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using FiresecAPI.Models.Layouts;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrastructure.Client.Layout.ViewModels
 {
@@ -30,6 +32,10 @@ namespace Infrastructure.Client.Layout.ViewModels
 		public override ILayoutProperties Properties
 		{
 			get { return null; }
+		}
+		public override IEnumerable<LayoutPartPropertyPageViewModel> PropertyPages
+		{
+			get { return Enumerable.Empty<LayoutPartPropertyPageViewModel>(); }
 		}
 	}
 }

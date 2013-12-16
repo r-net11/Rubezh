@@ -63,6 +63,17 @@ namespace LayoutModule.ViewModels
 		public RelayCommand ConfigureCommand { get; private set; }
 		private void OnConfigureCommand()
 		{
+			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(this);
+			if (DialogService.ShowModalWindow(layoutPartPropertiesViewModel))
+				UpdateSize(layoutPartPropertiesViewModel.LayoutSize);
+		}
+		private bool CanConfigureCommand()
+		{
+			return true;
+		}
+
+		public LayoutPartSize GetSize()
+		{
 			var document = GetLayoutDocument();
 			var pair = GetLayoutPositionableElements(document);
 			var layoutItem = LayoutDesignerViewModel.Instance.Manager.GetLayoutItemFromModel(document);
@@ -72,20 +83,8 @@ namespace LayoutModule.ViewModels
 			ReadSize(size, pair.First, layoutItem);
 			ReadSize(size, pair.Second, layoutItem);
 			ValidateSize(size);
-			var layoutPartPropertiesViewModel = new LayoutPartPropertiesViewModel(size);
-			if (DialogService.ShowModalWindow(layoutPartPropertiesViewModel))
-			{
-				ValidateSize(size);
-				WriteSize(size, pair.First, layoutItem);
-				WriteSize(size, pair.Second, layoutItem);
-				document.Margin = size.Margin;
-			}
+			return size;
 		}
-		private bool CanConfigureCommand()
-		{
-			return true;
-		}
-
 		public void UpdateSize(LayoutPartSize layoutPartSize)
 		{
 			ValidateSize(layoutPartSize);
