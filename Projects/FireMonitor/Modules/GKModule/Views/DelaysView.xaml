@@ -28,17 +28,9 @@
                                 <TextBlock Width="200" Text="{Binding Delay.PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-                                            <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-                                            <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
-                                                <MenuItem.Icon>
-                                                    <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                                </MenuItem.Icon>
-                                            </MenuItem>
-										</ContextMenu>
+                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                        </ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
 							</StackPanel>

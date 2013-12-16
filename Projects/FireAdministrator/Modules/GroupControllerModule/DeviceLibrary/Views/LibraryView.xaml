@@ -34,16 +34,8 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding AddDeviceCommand}" Header="Добавить устройство">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Command="{Binding RemoveDeviceCommand}" Header="Удалить устройство">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить устройство" Command="{Binding AddDeviceCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить устройство" Command="{Binding RemoveDeviceCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
@@ -68,16 +60,8 @@
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Command="{Binding AddStateCommand}" Header="Добавить состояние">
-                            <MenuItem.Icon>
-                                <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Command="{Binding RemoveStateCommand}" Header="Удалить состояние">
-                            <MenuItem.Icon>
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить состояние" Command="{Binding AddStateCommand}" />
+                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить состояние" Command="{Binding RemoveStateCommand}" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
@@ -103,16 +87,8 @@
                                 <TextBlock Text="{Binding Frame.Id}" />
                                 <StackPanel.ContextMenu>
                                     <ContextMenu ContextMenuOpening="OnContextMenuOpening">
-                                        <MenuItem Command="{Binding AddFrameCommand}" Header="Добавить кадр">
-                                            <MenuItem.Icon>
-                                                <Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
-                                        <MenuItem Command="{Binding RemoveFrameCommand}" Header="Удалить кадр">
-                                            <MenuItem.Icon>
-                                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                                            </MenuItem.Icon>
-                                        </MenuItem>
+                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить кадр" Command="{Binding AddFrameCommand}" />
+                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить кадр" Command="{Binding RemoveFrameCommand}" />
                                     </ContextMenu>
                                 </StackPanel.ContextMenu>
                             </StackPanel>

@@ -46,7 +46,7 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <Controls:ComboBoxIconItem 
-                                                            ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}"
+                                                            ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}" 
                                                             Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />                                                                                   
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>

@@ -75,16 +75,8 @@
                 </DataGrid>
                 <Grid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Удалить" Command="{Binding DeletePumpDeviceCommand}">
-                            <MenuItem.Icon>
-                                <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Изменить" Command="{Binding ChangePumpDevicesCommand}" >
-                            <MenuItem.Icon>
-                                <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding DeletePumpDeviceCommand}" />
+                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Изменить" Command="{Binding ChangePumpDevicesCommand}" />
                     </ContextMenu>
                 </Grid.ContextMenu>
             </Grid>

@@ -79,16 +79,8 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteOutputDeviceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Изменить" Command="{Binding ChangeOutputDevicesCommand}" >
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding DeleteOutputDeviceCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Изменить" Command="{Binding ChangeOutputDevicesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -120,10 +112,10 @@
                                             <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Image Margin="1 0 0 0" Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" />
-                                                            <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
-                                                        </StackPanel>
+                                                        <Controls:ComboBoxIconItem 
+                                                            ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
+                                                            Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
+                                                            Foreground="Black"/>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -137,16 +129,8 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteZoneCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Изменить" Command="{Binding ChangeZonesCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding DeleteZoneCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Изменить" Command="{Binding ChangeZonesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>
@@ -180,8 +164,10 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Image Margin="1 0 0 0" Width="16" Source="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" />
-                                                            <TextBlock Margin="2" Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+                                                            <Controls:ComboBoxIconItem 
+                                                                ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
+                                                                Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
+                                                                Foreground="Black"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
@@ -196,16 +182,8 @@
             </DataGrid>
             <Grid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Удалить" Command="{Binding DeleteDeviceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Изменить" Command="{Binding ChangeDevicesCommand}" >
-                        <MenuItem.Icon>
-                            <Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding DeleteDeviceCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Изменить" Command="{Binding ChangeDevicesCommand}" />
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

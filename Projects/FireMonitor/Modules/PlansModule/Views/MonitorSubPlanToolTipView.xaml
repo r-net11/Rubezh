@@ -11,7 +11,7 @@
     </UserControl.Resources>
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/BMap.png" />
+            <Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/CMap.png" />
             <TextBlock Text="{Binding PlanViewModel.Plan.Caption}" FontWeight="Bold" />
         </StackPanel>
         <StackPanel Orientation="Horizontal">

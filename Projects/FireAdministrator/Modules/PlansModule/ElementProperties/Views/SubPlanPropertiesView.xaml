@@ -16,7 +16,7 @@
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BMap.png" />
+                                <Image Width="16" Source="/Controls;component/Images/CMap.png" />
                                 <TextBlock Text="{Binding Plan.Caption}" />
                             </StackPanel>
                         </DataTemplate>
