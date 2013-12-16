@@ -31,7 +31,11 @@ namespace FireMonitor.ViewModels
 			CurrentStateClass = XStateClass.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
-			OnStateChanged(null);
+			try
+			{
+				OnStateChanged(null);
+			}
+			catch { ; }
 		}
 
 		public XStateClass CurrentStateClass { get; private set; }

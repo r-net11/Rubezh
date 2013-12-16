@@ -47,7 +47,7 @@ namespace GKProcessor
 			AllPatches.Add(new Patch("DB.Add_KAUno_AdditionalDescription", () =>
 			{
 				GKDBHelper.AddColumn("KAUNo", "int", "Journal");
-				GKDBHelper.AddColumn("AdditionalDescription", "nvarchar(4000)", "Journal");
+				GKDBHelper.AddColumn("AdditionalDescription", "nvarchar(100)", "Journal");
 			}));
 		}
 
