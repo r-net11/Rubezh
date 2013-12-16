@@ -15,9 +15,18 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <Controls:AlarmButton Grid.Column="0" Command="{Binding ResetCommand}" Content="Сброс" ToolTip="Сбросить все(F4)" 
+        <Controls:AlarmButton Grid.Column="0" Command="{Binding ResetCommand}" 
             Width="70" Height="70" Margin="5 2" FontSize="15" GlowColor="Transparent"
             MouseDown="Button_MouseDown">
+            <Grid>
+                <Image Source="/Controls;component/Images/ResetAlarm.png" />
+            </Grid>
+            <Controls:AlarmButton.ToolTip>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/Reset.png" Width="16" Margin="2" />
+                    <TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Controls:AlarmButton.ToolTip>
         </Controls:AlarmButton>
         <ItemsControl Grid.Column="1" ItemsSource="{Binding AlarmGroups}">
             <ItemsControl.ItemsPanel>
@@ -29,13 +38,16 @@
                 <DataTemplate>
                     <Grid>
                         <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
-                        GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
-                        IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
+                            GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
+                            IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
                             <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
                         </Controls:AlarmButton>
                         <Grid.ToolTip>
                             <StackPanel>
-                                <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" Margin="2 1" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" /> 
+                                    <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>    
+                                </StackPanel>
                                 <ItemsControl ItemsSource="{Binding Alarms}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>

@@ -33,7 +33,7 @@
                 </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding EditCommand}" Header="Редактировать" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

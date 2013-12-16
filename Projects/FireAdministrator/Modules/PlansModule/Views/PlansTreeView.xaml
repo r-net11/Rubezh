@@ -6,64 +6,15 @@
 					<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
 				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}">
-					<MenuItem Command="{Binding AddSubPlanCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Добавить дочерний план" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding AddSubFolderCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BFolderOpen.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Добавить дочернюю папку" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding EditCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BEdit.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Редактировать" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding RemoveCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BDelete.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Удалить" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<Separator />
-					<MenuItem Command="{Binding PlanCopyCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Копировать" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding PlanCutCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Вырезать" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Вставить" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-				</ContextMenu>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочерний план" Command="{Binding AddSubPlanCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Добавить дочернюю папку" Command="{Binding AddSubFolderCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding RemoveCommand}" />
+                    <Separator />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" Command="{Binding PlanCopyCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" Command="{Binding PlanCutCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" />
+                </ContextMenu>
 			</tree:TreeList.Resources>
 			<tree:TreeList.ItemContainerStyle>
 				<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
@@ -74,43 +25,22 @@
 			</tree:TreeList.ItemContainerStyle>
 			<tree:TreeList.ContextMenu>
 				<ContextMenu>
-					<MenuItem Command="{Binding PlansViewModel.AddCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BAdd.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Добавить план" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<MenuItem Command="{Binding PlansViewModel.AddFolderCommand}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BFolderOpen.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Добавить папку" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
-					<Separator />
-					<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}">
-						<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-								<TextBlock Margin="2" Text="Вставить" VerticalAlignment="Center" />
-							</StackPanel>
-						</MenuItem.Header>
-					</MenuItem>
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Копировать" Command="{Binding PlansViewModel.AddCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.AddFolderCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" />
 				</ContextMenu>
 			</tree:TreeList.ContextMenu>
 			<tree:TreeList.View>
 				<GridView>
 					<!--<GridViewColumn Width="250" Header="Название">-->
-					<GridViewColumn Width="250" Header="Планы">
+					<GridViewColumn Width="250" Header="ПHKJHJKHKланы">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Border Background="Transparent">
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/Folder.png" Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}" />
-										<TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
+										<Image Source="/Controls;component/Images/Folder.png" Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2"/>
+                                        <Image Source="/Controls;component/Images/CMap.png" Margin="2" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
 									</StackPanel>
 								</Border>
 							</DataTemplate>

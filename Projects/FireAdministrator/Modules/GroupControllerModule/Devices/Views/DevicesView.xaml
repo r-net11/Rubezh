@@ -95,10 +95,10 @@
 													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
-																<StackPanel Orientation="Horizontal">
-																	<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Center" Source="{Binding ImageSource}" />
-																	<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" Text="{Binding ShortName}" />
-																</StackPanel>
+                                                                <Controls:ComboBoxIconItem 
+                                                                    ImageSource="{Binding ImageSource}" 
+                                                                    Text="{Binding ShortName}" 
+                                                                    Foreground="Black" />
 															</DataTemplate>
 														</ComboBox.ItemTemplate>
 													</ComboBox>

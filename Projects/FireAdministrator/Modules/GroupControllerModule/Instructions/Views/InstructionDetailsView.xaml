@@ -43,10 +43,10 @@
                         Text="{Binding AlarmType}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" VerticalAlignment="Center"/>
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" Margin="2"/>
-                                </StackPanel>
+                                <Controls:ComboBoxIconItem 
+                                    ImageSource="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" 
+                                    Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" 
+                                    Foreground="Black"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

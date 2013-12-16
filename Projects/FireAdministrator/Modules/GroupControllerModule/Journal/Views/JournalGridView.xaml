@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.JournalGridView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:GKModule.Converters">
     <UserControl.Resources>
         <Converters:XStateClassToJournalColorConverter x:Key="XStateClassToJournalColorConverter" />
@@ -38,11 +39,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Command="{Binding ShowObjectCommand}" Header="Показать">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать" Command="{Binding ShowObjectCommand}" />
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

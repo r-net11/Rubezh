@@ -1274,6 +1274,10 @@
     <Resource Include="Images\BlueEdit.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Validation\CannotSave.png" />
+    <Resource Include="Validation\CannotWrite.png" />
+    <Resource Include="Validation\Unknown.png" />
+    <Resource Include="Validation\Warning.png" />
     <Resource Include="StateClassIcons\TurnOn_InAutomatic.png" />
     <Resource Include="StateClassIcons\TurnOff_InAutomatic.png" />
     <Resource Include="StateClassIcons\NPTOn.png" />
@@ -1355,7 +1359,6 @@
     <Resource Include="Images\BParametersReadFromFile.png" />
     <Resource Include="Images\Pim.png" />
     <Resource Include="Images\PumpStation.png" />
-    <Resource Include="GKIcons\RSR2_Splitter.png" />
     <Resource Include="Images\View.png" />
     <Resource Include="Images\BPumpStation.png" />
     <Resource Include="Images\Descriptors.png" />
@@ -1365,6 +1368,10 @@
     <Resource Include="Images\BSelect.png" />
     <Resource Include="Images\BArrowDown.png" />
     <Resource Include="Images\BArrowUp.png" />
+    <Resource Include="GKIcons\RSR2_MVP.png" />
+    <Resource Include="Images\CMap.png" />
+    <Resource Include="Images\Reset.png" />
+    <Resource Include="Images\ResetAlarm.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

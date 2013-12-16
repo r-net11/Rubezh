@@ -7,6 +7,7 @@
     <UserControl.Resources>
         <Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
         <Converters:ErrorLevelToStringConverter x:Key="ErrorLevelToStringConverter" />
+        <Converters:ErrorLevelToIconConverter x:Key="ErrorLevelToIconConverter" />
     </UserControl.Resources>
     <Grid Height="200" Margin="5, 0, 0, 5">
         <Grid.ColumnDefinitions>
@@ -31,8 +32,10 @@
                     <DataGridTemplateColumn Header="Уровень" MinWidth="30" MaxWidth="200">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Rectangle Height="30" Fill="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"
-                                    ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" />
+                                <Grid Background="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToColorConverter}}"
+                                      ToolTip="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToStringConverter}}" Height="20">
+                                    <Image Width="16" Source="{Binding ErrorLevel, Converter={StaticResource ErrorLevelToIconConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"  />     
+                                </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

@@ -7,10 +7,14 @@ using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using OPCModule.Validation;
 using OPCModule.ViewModels;
+using FiresecClient;
+using Infrastructure.Common.Windows;
+using FiresecAPI;
+using Common;
 
 namespace OPCModule
 {
-    public class OPCModule : ModuleBase, IValidationModule
+	public class OPCModule : ModuleBase, IValidationModule
 	{
 		OPCDevicesViewModel OPCDevicesViewModel;
 		OPCZonesViewModel OPCZonesViewModel;
@@ -42,11 +46,37 @@ namespace OPCModule
 			get { return "OPC сервер"; }
 		}
 
-        #region IValidationModule Members
-        public IEnumerable<IValidationError> Validate()
-        {
-            return Validator.Validate();
-        }
-        #endregion
+		#region IValidationModule Members
+		public IEnumerable<IValidationError> Validate()
+		{
+			return Validator.Validate();
+		}
+		#endregion
+
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			try
+			{
+				LoadingService.DoStep("Загрузка драйвера устройств");
+				var connectionResult = FiresecManager.InitializeFiresecDriver(false);
+				if (connectionResult.HasError)
+				{
+					MessageBoxService.ShowError(connectionResult.Error);
+					return false;
+				}
+				//LoadingService.DoStep("Синхронизация конфигурации");
+				//FiresecManager.FiresecDriver.Synchronyze(false);
+				//LoadingService.DoStep("Старт мониторинга");
+				//FiresecManager.FiresecDriver.StartWatcher(false, false);
+				//FiresecManager.FSAgent.Start();
+				return true;
+			}
+			catch (FiresecException e)
+			{
+				Logger.Error(e, "OPCModule.BeforeInitialize");
+				MessageBoxService.ShowError(e.Message);
+				return false;
+			}
+		}
 	}
 }

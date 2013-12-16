@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="GKModule.Views.AlarmsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters">
+             xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" >
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
@@ -57,7 +58,7 @@
                                         <TextBlock Margin="2 0">
                                             <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Width="16" Source="/Controls;component/Images/map_black.png" VerticalAlignment="Center" Margin="1" />
+                                                    <Image Width="16" Source="/Controls;component/Images/CMap.png" VerticalAlignment="Center" Margin="1" />
                                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
                                                 </StackPanel>
                                             </Hyperlink>
@@ -137,46 +138,14 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding ResetCommand}" Header="Сбросить">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BReset.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding TurnOnAutomaticCommand}" Header="Включить автоматику">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BResetIgnore.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане">
-                                        <MenuItem.Icon>
-                                                <Image Source="/Controls;component/Images/map_black.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ShowObjectCommand}" Header="Показать">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BTree.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ShowJournalCommand}" Header="Показать связанные события">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BJournal.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BSettings.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
-                                    <MenuItem Command="{Binding ShowInstructionCommand}" Header="Инструкции">
-                                        <MenuItem.Icon>
-                                            <Image Source="/Controls;component/Images/BInformation.png" Width="16" VerticalAlignment="Center"/>
-                                        </MenuItem.Icon>
-                                    </MenuItem>
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Включить автоматику" Command="{Binding TurnOnAutomaticCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTree.png" Text="Показать" Command="{Binding ShowObjectCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BInformation.png" Text="Инструкции" Command="{Binding ShowInstructionCommand}" />
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>
