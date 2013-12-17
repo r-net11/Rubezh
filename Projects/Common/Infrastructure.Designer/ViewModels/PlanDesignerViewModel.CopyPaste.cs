@@ -75,9 +75,9 @@ namespace Infrastructure.Designer.ViewModels
 						designerItems.Add(designerItem);
                         newItems.Add(designerItem);
 					}
-					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
                     newItems.ForEach(item => item.IsSelected = true);
-                    MoveToFrontCommand.Execute();
+					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
+					MoveToFrontCommand.Execute();
                     DesignerCanvas.DesignerChanged();
 				}
 		}

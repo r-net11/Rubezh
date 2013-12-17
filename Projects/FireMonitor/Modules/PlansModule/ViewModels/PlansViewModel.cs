@@ -67,6 +67,7 @@ namespace PlansModule.ViewModels
 				FiresecManager.InvalidatePlans();
 				PlanTreeViewModel.Initialize();
 				_initialized = true;
+				OnSelectedPlanChanged();
 			}
 		}
 

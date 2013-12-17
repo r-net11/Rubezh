@@ -20,9 +20,11 @@ namespace Infrustructure.Plans.Designer
 		public IGridLineController GridLineController { get; protected set; }
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return CommonDesignerItem.DefaultPointSize; } }
+		public bool IsLocked { get; set; }
 
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
+			IsLocked = false;
 			_map = new Dictionary<Guid, CommonDesignerItem>();
 			DataContext = this;
 			EventService.RegisterEventAggregator(eventAggregator);
@@ -137,6 +139,10 @@ namespace Infrustructure.Plans.Designer
 		public DesignerItem GetDesignerItem(Guid elementUID)
 		{
 			return _map.ContainsKey(elementUID) ? _map[elementUID] as DesignerItem : null;
+		}
+		public bool IsPresented(DesignerItem designerItem)
+		{
+			return designerItem != null && designerItem.Element != null && _map.ContainsKey(designerItem.Element.UID);
 		}
 		protected IEnumerable<T> InternalItems<T>()
 		{

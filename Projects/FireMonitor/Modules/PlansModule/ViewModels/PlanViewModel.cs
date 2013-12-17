@@ -65,7 +65,7 @@ namespace PlansModule.ViewModels
 			planPresenter.SubscribeStateChanged(Plan, StateChanged);
 			StateChanged();
 		}
-		void StateChanged()
+		private void StateChanged()
 		{
 			var state = XStateClass.No;
 			foreach (var planPresenter in _plansViewModel.PlanPresenters)
@@ -75,6 +75,11 @@ namespace PlansModule.ViewModels
 					state = presenterState;
 			}
 			SelfStateClass = state;
+		}
+
+		public bool IsFolder
+		{
+			get { return PlanFolder != null; }
 		}
 	}
 }

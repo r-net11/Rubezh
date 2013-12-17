@@ -158,7 +158,7 @@ namespace GKModule.Plans
 		{
 			if (element is ElementXDevice)
 			{
-				var elementXDevice = element as ElementXDevice;
+				var elementXDevice = (ElementXDevice)element;
 				plan.ElementXDevices.Remove(elementXDevice);
 				return true;
 			}
@@ -290,10 +290,13 @@ namespace GKModule.Plans
 			if (zone != null)
 				zone.Changed += () =>
 				{
-					Helper.BuildXZoneMap();
-					UpdateDesignerItemXZone(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildXZoneMap();
+						UpdateDesignerItemXZone(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
 				};
 		}
 
@@ -308,10 +311,13 @@ namespace GKModule.Plans
 			if (direction != null)
 				direction.Changed += () =>
 				{
-					Helper.BuildXDirectionMap();
-					UpdateDesignerItemXDirection(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildXDirectionMap();
+						UpdateDesignerItemXDirection(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
 				};
 		}
 
@@ -326,10 +332,13 @@ namespace GKModule.Plans
 			if (device != null)
 				device.Changed += () =>
 				{
-					Helper.BuildXDeviceMap();
-					UpdateDesignerItemXDevice(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildXDeviceMap();
+						UpdateDesignerItemXDevice(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
 				};
 		}
 
@@ -409,7 +418,7 @@ namespace GKModule.Plans
 		}
 		private bool IsDeviceInZonesChanged(List<ElementBase> items)
 		{
-			if (_processChanges)
+			if (_processChanges && !_designerCanvas.IsLocked)
 				foreach (var item in items)
 					if (item is ElementXDevice || item is IElementZone)
 						return true;

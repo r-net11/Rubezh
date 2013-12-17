@@ -82,6 +82,7 @@ namespace PlansModule.ViewModels
 				var selectedPlan = SelectedPlan;
 				var parent = selectedPlan.Parent;
 				var plan = SelectedPlan.Plan;
+				DesignerCanvas.IsLocked = true;
 				ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(DesignerCanvas.Items.Select(item => item.Element).ToList());
 				if (parent == null)
 				{
@@ -112,6 +113,7 @@ namespace PlansModule.ViewModels
 				FiresecManager.PlansConfiguration.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 				ClearReferences(plan);
+				DesignerCanvas.IsLocked = false;
 				SelectedPlan = parent == null ? Plans.FirstOrDefault() : parent;
 			}
 		}
