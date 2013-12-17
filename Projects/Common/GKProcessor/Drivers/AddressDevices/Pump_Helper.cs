@@ -81,6 +81,22 @@ namespace GKProcessor
 
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
 
+			var pumpTypeProperty = new XDriverProperty()
+			{
+				Name = "PumpType",
+				Caption = "Тип",
+				ToolTip = "Тип насоса",
+				Default = 0,
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsAUParameter = false
+			};
+			pumpTypeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Пожарный насос", Value = 0 });
+			pumpTypeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Жокей насос", Value = 1 });
+			pumpTypeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Дренажный насос", Value = 2 });
+			pumpTypeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Насос компенсации утечек", Value = 3 });
+			pumpTypeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Компрессор", Value = 4 });
+			driver.Properties.Add(pumpTypeProperty);
+
 			return driver;
 		}
 	}

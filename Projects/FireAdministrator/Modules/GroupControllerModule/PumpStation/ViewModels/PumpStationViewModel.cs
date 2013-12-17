@@ -68,8 +68,15 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.Pump && (device.IntAddress <= 8 || device.IntAddress == 12))
-					sourceDevices.Add(device);
+				if (device.DriverType == XDriverType.Pump)
+				{
+					var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");
+					if (pumpTypeProperty != null)
+					{
+						if(pumpTypeProperty.Value == 0 || pumpTypeProperty.Value == 1)
+							sourceDevices.Add(device);
+					}
+				}
 			}
 
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(PumpStation.NSDevices, sourceDevices);

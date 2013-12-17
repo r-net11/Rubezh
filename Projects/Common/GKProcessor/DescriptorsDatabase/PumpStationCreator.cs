@@ -14,41 +14,76 @@ namespace GKProcessor
 		XDevice JNPumpDevice;
 		List<PumpDelay> PumpDelays;
 		XPim Pim;
+		XDelay MainDelay;
 
-		public PumpStationCreator(GkDatabase gkDatabase, XPumpStation pumpStation)
+		public PumpStationCreator(GkDatabase gkDatabase, XPumpStation pumpStation, XDelay mainDelay)
 		{
 			GkDatabase = gkDatabase;
 			PumpStation = pumpStation;
+			MainDelay = mainDelay;
 
 			PumpDelays = new List<PumpDelay>();
 
 			FirePumpDevices = new List<XDevice>();
 			foreach (var nsDevice in pumpStation.NSDevices)
 			{
-				switch (nsDevice.DriverType)
+				if (nsDevice.DriverType == XDriverType.Pump)
 				{
-					case XDriverType.Pump:
-						if (nsDevice.IntAddress <= 8)
-						{
+					var pumpTypeProperty = nsDevice.Properties.FirstOrDefault(x => x.Name == "PumpType");
+					if (pumpTypeProperty != null)
+					{
+						if (pumpTypeProperty.Value == 0)
 							FirePumpDevices.Add(nsDevice);
-						}
-						else if (nsDevice.IntAddress == 12)
-						{
+						if (pumpTypeProperty.Value == 1)
 							JNPumpDevice = nsDevice;
-						}
-						break;
+					}
 				}
 			}
 		}
 
 		public void Create()
 		{
+			CreateMainDelay();
 			CreateDelays();
 			CreateDelaysLogic();
 			SetFirePumpDevicesLogic();
 			//SetJokeyPumpLogic();
 			CreatePim();
 			SetCrossReferences();
+		}
+
+		void CreateMainDelay()
+		{
+			MainDelay.Name = "Тушение " + PumpStation.PresentationName;
+			MainDelay.DelayTime = (ushort)PumpStation.Hold;
+			MainDelay.SetTime = 2;
+			MainDelay.DelayRegime = DelayRegime.Off;
+			//MainDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+
+			//GkDatabase.AddDelay(MainDelay);
+			var delayDescriptor = new DelayDescriptor(MainDelay);
+			GkDatabase.Descriptors.Add(delayDescriptor);
+			UpdateConfigurationHelper.LinkXBases(PumpStation, MainDelay);
+			UpdateConfigurationHelper.LinkXBases(MainDelay, PumpStation);
+
+			var formula = new FormulaBuilder();
+
+			formula.AddGetBit(XStateBit.On, PumpStation);
+			formula.AddGetBit(XStateBit.Norm, PumpStation);
+			formula.Add(FormulaOperationType.AND);
+			formula.Add(FormulaOperationType.DUP);
+			formula.AddGetBit(XStateBit.TurningOn, MainDelay);
+			formula.AddGetBit(XStateBit.On, MainDelay);
+			formula.Add(FormulaOperationType.OR);
+			formula.Add(FormulaOperationType.COM);
+			formula.Add(FormulaOperationType.AND);
+			formula.AddPutBit(XStateBit.TurnOn_InAutomatic, MainDelay);
+			formula.Add(FormulaOperationType.COM);
+			formula.AddPutBit(XStateBit.TurnOff_InAutomatic, MainDelay);
+
+			formula.Add(FormulaOperationType.END);
+			delayDescriptor.Formula = formula;
+			delayDescriptor.FormulaBytes = formula.GetBytes();
 		}
 
 		void CreateDelays()
@@ -183,7 +218,7 @@ namespace GKProcessor
 
 		void SetJokeyPumpLogic()
 		{
-			if(JNPumpDevice != null)
+			if (JNPumpDevice != null)
 			{
 				var jnDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
 				if (jnDescriptor != null)
@@ -248,8 +283,7 @@ namespace GKProcessor
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				if (nsDevice.IntAddress <= 8 || nsDevice.IntAddress == 12)
-					UpdateConfigurationHelper.LinkXBases(nsDevice, PumpStation);
+				UpdateConfigurationHelper.LinkXBases(nsDevice, PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)

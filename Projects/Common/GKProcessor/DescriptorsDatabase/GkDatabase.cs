@@ -103,7 +103,7 @@ namespace GKProcessor
 			{
 				if (pumpStation.GkDatabaseParent == RootDevice)
 				{
-					pumpStation.GKDescriptorNo = NextDescriptorNo;
+					//pumpStation.GKDescriptorNo = NextDescriptorNo;
 					PumpStations.Add(pumpStation);
 				}
 			}
@@ -126,13 +126,11 @@ namespace GKProcessor
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				var pumpStationDescriptor = new PumpStationDescriptor(pumpStation);
+				pumpStation.GKDescriptorNo = NextDescriptorNo;
+				var pumpStationDescriptor = new PumpStationDescriptor(this, pumpStation);
 				Descriptors.Add(pumpStationDescriptor);
-			}
 
-			foreach (var pumpStation in PumpStations)
-			{
-				var pumpStationCreator = new PumpStationCreator(this, pumpStation);
+				var pumpStationCreator = new PumpStationCreator(this, pumpStation, pumpStationDescriptor.MainDelay);
 				pumpStationCreator.Create();
 			}
 

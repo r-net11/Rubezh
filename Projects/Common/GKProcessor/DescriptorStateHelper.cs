@@ -35,11 +35,11 @@ namespace GKProcessor
 
 			TypeNo = BytesHelper.SubstructShort(bytes, 0);
 			StateBits = XStatesHelper.StatesFromInt(state);
-			ParseAdditionalParameters(bytes);
+			ParseAdditionalParameters(bytes, xBase);
 			CheckConnectionLost(xBase);
 		}
 
-		void ParseAdditionalParameters(List<byte> bytes)
+		void ParseAdditionalParameters(List<byte> bytes, XBase xBase)
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			for (int i = 0; i < 10; i++)
@@ -313,20 +313,32 @@ namespace GKProcessor
 						//    if (bitArray[8 + 0])
 						//        AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
-						var addressOnShleif = PhysicalAddress % 256;
+						var pumpType = 0;
+						if (xBase is XDevice)
+						{
+							XDevice device = xBase as XDevice;
+							if (device != null && device.DriverType == XDriverType.Pump)
+							{
+								var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");
+								if (pumpTypeProperty != null)
+								{
+									pumpType = pumpTypeProperty.Value;
+								}
+							}
+						}
 						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
 						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 1", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 1", pumpType));
 						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 1", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 1", pumpType));
 						if (bitArray[4])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 2", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 2", pumpType));
 						if (bitArray[5])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 2", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 2", pumpType));
 						if (bitArray[7])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 3", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("Обрыв входа 3", pumpType));
 						if (bitArray[8 + 0])
-							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 3", addressOnShleif));
+							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 3", pumpType));
 						//if (bitArray[8 + 2])
 						//    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 4", addressOnShleif));
 						//if (bitArray[8 + 3])

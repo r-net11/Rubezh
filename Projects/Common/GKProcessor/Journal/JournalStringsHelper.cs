@@ -323,55 +323,55 @@ namespace GKProcessor
 			return "";
 		}
 
-		public static string GetPumpFailureMessage(string name, int address)
+		public static string GetPumpFailureMessage(string name, int pumpType)
 		{
 			switch (name)
 			{
 				case "Обрыв входа 1":
-					if (address <= 8)
+					if (pumpType == 0)
 						return "Обрыв линии ЭКМ на входе насоса";
-					if (address == 12)
+					if (pumpType == 1)
 						return "Обрыв линии связи с датчиком низкого давления";
-					if (address == 14)
+					if (pumpType == 2)
 						return "Обрыв линии связи с датчиком верхнего уровня";
 					break;
 				case "КЗ входа 1":
-					if (address <= 8)
+					if (pumpType == 0)
 						return "КЗ линии ЭКМ на входе насоса";
-					if (address == 12)
+					if (pumpType == 1)
 						return "КЗ линии связи с датчиком низкого давления";
-					if (address == 14)
+					if (pumpType == 2)
 						return "КЗ линии связи с датчиком верхнего уровня";
 					break;
 
 				case "Обрыв входа 2":
-					if (address <= 8)
+					if (pumpType == 0)
 						return "Обрыв линии дистанционного управления";
-					if (address == 12)
+					if (pumpType == 1)
 						return "Обрыв линии связи с датчиком высокого давления";
-					if (address == 14)
+					if (pumpType == 2)
 						return "Обрыв линии связи с датчиком нижнего уровня";
 					break;
 
 				case "КЗ входа 2":
-					if (address <= 8)
+					if (pumpType == 0)
 						return "КЗ линии дистанционного управления";
-					if (address == 12)
+					if (pumpType == 1)
 						return "КЗ линии связи с датчиком высокого давления";
-					if (address == 14)
+					if (pumpType == 2)
 						return "КЗ линии связи с датчиком нижнего уровня";
 					break;
 
 				case "Обрыв входа 3":
-					if (address <= 8)
+					if (pumpType == 0)
 						return null;
-					if (address == 14)
+					if (pumpType == 2)
 						return "Обрыв линии связи с датчиком аварийного уровня";
 					break;
 				case "КЗ входа 3":
-					if (address <= 8)
+					if (pumpType == 0)
 						return null;
-					if (address == 14)
+					if (pumpType == 2)
 						return "КЗ линии связи с датчиком аварийного уровня";
 					break;
 

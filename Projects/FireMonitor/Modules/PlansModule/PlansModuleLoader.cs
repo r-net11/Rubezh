@@ -46,7 +46,6 @@ namespace PlansModule
 		}
 
 		#region ILayoutProviderModule Members
-
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter()
@@ -57,7 +56,6 @@ namespace PlansModule
 				Factory = (p) => _plansViewModel,
 			};
 		}
-
 		#endregion
 	}
 }
