@@ -45,7 +45,7 @@
                                                       Width="160" Margin="2">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Controls:IconTextBlock 
+                                                        <Controls:IconLabel 
                                                             ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}" 
                                                             Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
                                                     </DataTemplate>
@@ -56,7 +56,7 @@
 											    ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Controls:IconTextBlock 
+                                                        <Controls:IconLabel 
                                                             ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
                                                             Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
                                                     </DataTemplate>

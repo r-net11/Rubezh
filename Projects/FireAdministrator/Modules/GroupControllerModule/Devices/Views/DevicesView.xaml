@@ -95,7 +95,7 @@
 													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
-                                                                <Controls:ComboBoxIconItem 
+                                                                <Controls:IconLabel 
                                                                     ImageSource="{Binding ImageSource}" 
                                                                     Text="{Binding ShortName}" 
                                                                     Foreground="Black" />

@@ -117,7 +117,6 @@
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
-    <Compile Include="ComboBoxIconItem.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Converters\BeeperTypeToStringConverter.cs" />
@@ -298,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\IconedMenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\IconLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1373,6 +1376,7 @@
     <Resource Include="Images\CMap.png" />
     <Resource Include="Images\Reset.png" />
     <Resource Include="Images\ResetAlarm.png" />
+    <Resource Include="Images\CFolder.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

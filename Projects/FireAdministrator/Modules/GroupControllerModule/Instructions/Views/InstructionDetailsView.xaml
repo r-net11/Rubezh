@@ -43,7 +43,7 @@
                         Text="{Binding AlarmType}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Controls:ComboBoxIconItem 
+                                <Controls:IconLabel
                                     ImageSource="{Binding ., Converter={StaticResource AlarmTypeToBIconConverter}}" 
                                     Text="{Binding ., Converter={StaticResource XAlarmTypeToStringConverter}}" 
                                     Foreground="Black"/>

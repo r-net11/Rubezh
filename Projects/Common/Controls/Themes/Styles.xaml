@@ -38,6 +38,7 @@
 		<ResourceDictionary Source="ColorPicker.xaml" />
 		<ResourceDictionary Source="ItemsControlStyle.xaml" />
         <ResourceDictionary Source="IconedMenuStyle.xaml" />
+        <ResourceDictionary Source="IconLabel.xaml" />
         
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />

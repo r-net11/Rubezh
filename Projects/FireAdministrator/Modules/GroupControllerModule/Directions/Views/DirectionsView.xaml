@@ -112,7 +112,7 @@
                                             <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Controls:ComboBoxIconItem 
+                                                        <Controls:IconLabel
                                                             ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
                                                             Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
                                                             Foreground="Black"/>
@@ -164,7 +164,7 @@
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Controls:ComboBoxIconItem 
+                                                            <Controls:IconLabel
                                                                 ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
                                                                 Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
                                                                 Foreground="Black"/>

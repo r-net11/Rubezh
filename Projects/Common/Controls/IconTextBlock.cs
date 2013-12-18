@@ -3,21 +3,21 @@ using System.Windows.Controls;
 
 namespace Controls
 {
-	public class IconTextBlock : Label
+	public class IconLabel : Label
 	{
-		static IconTextBlock()
+		static IconLabel()
 		{
-			DefaultStyleKeyProperty.OverrideMetadata(typeof(IconTextBlock), new FrameworkPropertyMetadata(typeof(IconTextBlock)));
+			DefaultStyleKeyProperty.OverrideMetadata(typeof(IconLabel), new FrameworkPropertyMetadata(typeof(IconLabel)));
 		}
 
-		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(IconTextBlock));
+		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(IconLabel));
 		public string ImageSource
 		{
 			get { return (string)GetValue(ImageSourceProperty); }
 			set { SetValue(ImageSourceProperty, value); }
 		}
 
-		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IconTextBlock));
+		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IconLabel));
 		public string Text
 		{
 			get { return (string)GetValue(TextProperty); }

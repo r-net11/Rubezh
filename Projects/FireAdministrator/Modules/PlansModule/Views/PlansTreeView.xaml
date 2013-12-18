@@ -26,7 +26,7 @@
 			<tree:TreeList.ContextMenu>
 				<ContextMenu>
                     <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Копировать" Command="{Binding PlansViewModel.AddCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.AddFolderCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.PlanCutCommand}" />
                     <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" />
 				</ContextMenu>
 			</tree:TreeList.ContextMenu>
@@ -38,11 +38,15 @@
 							<DataTemplate>
 								<Border Background="Transparent">
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/Folder.png" Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2"/>
-                                        <Image Source="/Controls;component/Images/CMap.png" Margin="2" VerticalAlignment="Center" />
+										<Image Name="Image" Source="/Controls;component/Images/CMap.png" Margin="2" VerticalAlignment="Center" />
                                         <TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
-									</StackPanel>
-								</Border>
+                                    </StackPanel>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsFolder}" Value="True">
+                                        <Setter Property="Image.Source" Value="/Controls;component/Images/CFolder.png" TargetName="Image"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

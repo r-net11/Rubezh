@@ -11,10 +11,15 @@
 						<DataTemplate>
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Background="{Binding StateClass, Converter={StaticResource XStateClassToPlanColorConverter}}">
                                 <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" Margin="2" />
-                                <Image Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2" />
+                                <Image Name="Image" Width="16" Height="16" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" Margin="2" />
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Plan.Caption}" ToolTip="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
 							</StackPanel>
-						</DataTemplate>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsFolder}" Value="True">
+                                    <Setter Property="Image.Source" Value="/Controls;component/Images/CFolder.png" TargetName="Image"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
 			</GridView>
