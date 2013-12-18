@@ -27,12 +27,8 @@ namespace GKProcessor
 					_isJournalAnyDBMissmatch = value;
 					var journalItem = new JournalItem()
 					{
-						SystemDateTime = DateTime.Now,
-						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
-						ObjectStateClass = XStateClass.Norm,
 						Name = value ? "База данных прибора не соответствует базе данных ПК" : "База данных прибора соответствует базе данных ПК"
 					};
 					AddJournalItem(journalItem);
@@ -40,7 +36,7 @@ namespace GKProcessor
 			}
 		}
 
-		void GetAllStates(bool showProgress)
+		bool GetAllStates(bool showProgress)
 		{
 			IsAnyDBMissmatch = false;
 
@@ -57,34 +53,21 @@ namespace GKProcessor
 				if (showProgress)
 					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorPresentationName);
 			}
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
-				{
-					device.InternalState.OnInternalStateChanged();
-				}
-			}
 			if (showProgress)
 				GKProcessorManager.OnStopProgress();
 
-			if (IsAnyDBMissmatch)
+			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				foreach (var descriptor in GkDatabase.Descriptors)
-				{
-					descriptor.XBase.BaseState.StateBits = new List<XStateBit>() { XStateBit.Norm };
-					descriptor.XBase.BaseState.IsGKMissmatch = true;
-				}
-			}
-			else
-			{
-				foreach (var descriptor in GkDatabase.Descriptors)
-				{
-					descriptor.XBase.BaseState.IsGKMissmatch = false;
-				}
+				descriptor.XBase.BaseState.IsGKMissmatch = IsAnyDBMissmatch;
 			}
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
+			NotifyAllObjectsStateChanged();
+			return !IsAnyDBMissmatch && !IsConnected;
+		}
 
+		void NotifyAllObjectsStateChanged()
+		{
 			var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
 			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
 			{
@@ -233,25 +216,21 @@ namespace GKProcessor
 			}
 			if (xBase is XZone)
 			{
-				var zone = xBase as XZone;
 				if (descriptorStateHelper.TypeNo != 0x100)
 					isMissmatch = true;
 			}
 			if (xBase is XDirection)
 			{
-				var direction = xBase as XDirection;
 				if (descriptorStateHelper.TypeNo != 0x106)
 					isMissmatch = true;
 			}
 			if (xBase is XPumpStation)
 			{
-				var pumpStation = xBase as XPumpStation;
 				if (descriptorStateHelper.TypeNo != 0x106)
 					isMissmatch = true;
 			}
 			if (xBase is XDelay)
 			{
-				var delay = xBase as XDelay;
 				if (descriptorStateHelper.TypeNo != 0x101)
 					isMissmatch = true;
 			}

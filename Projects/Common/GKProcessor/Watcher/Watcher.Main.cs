@@ -55,105 +55,19 @@ namespace GKProcessor
 		{
 			try
 			{
-				//if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
-				//{
-				//    var gkFileReaderWriter = new GKFileReaderWriter();
-				//    var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-				//    if (gkFileInfo != null)
-				//    {
-				//        var hashBytes = GKFileInfo.CreateHash2(XManager.DeviceConfiguration, GkDatabase.RootDevice);
-				//        var result = GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash2);
-				//        Trace.WriteLine("IsHashEqual " + result);
-				//    }
-				//}
-
-				GKCallbackResult = new GKCallbackResult();
-				GetAllStates(true);
-				if (!IsAnyDBMissmatch)
-				{
-					ReadMissingJournalItems();
-				}
-				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				if (!InitializeMonitoring() || IsStopping)
+					return;
 			}
 			catch (Exception e)
 			{
-				AddMessage("Ошибка мониторинга", "");
-				Logger.Error(e, "JournalWatcher.OnRunThread GetAllStates");
+				AddMessage("Ошибка инициализации мониторинга", "");
+				Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 			}
 
 			while (true)
 			{
-				if (CheckLicense())
-				{
-					if (WatcherManager.IsConfigurationReloading)
-					{
-						if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
-							WatcherManager.IsConfigurationReloading = false;
-					}
-					if (!WatcherManager.IsConfigurationReloading)
-					{
-						if (IsAnyDBMissmatch)
-						{
-							if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
-							{
-								GKCallbackResult = new GKCallbackResult();
-								GetAllStates(false);
-								LastMissmatchCheckTime = DateTime.Now;
-								GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
-							}
-						}
-						else
-						{
-							GKCallbackResult = new GKCallbackResult();
-							try
-							{
-								CheckTasks();
-							}
-							catch (Exception e)
-							{
-								Logger.Error(e, "Watcher.OnRunThread CheckTasks");
-							}
-
-							try
-							{
-								CheckDelays();
-							}
-							catch (Exception e)
-							{
-								Logger.Error(e, "Watcher.OnRunThread CheckNPT");
-							}
-
-							try
-							{
-								PingJournal();
-							}
-							catch (Exception e)
-							{
-								Logger.Error(e, "Watcher.OnRunThread PingJournal");
-							}
-
-							try
-							{
-								PingNextState();
-							}
-							catch (Exception e)
-							{
-								Logger.Error(e, "Watcher.OnRunThread PingNextState");
-							}
-
-							try
-							{
-								CheckMeasure();
-							}
-							catch (Exception e)
-							{
-								Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
-							}
-
-							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
-						}
-					}
-				}
+				if (!RunMonitoring() || IsStopping)
+					return;
 
 				if (StopEvent != null)
 				{
@@ -169,6 +83,204 @@ namespace GKProcessor
 
 				LastUpdateTime = DateTime.Now;
 			}
+		}
+
+		bool InitializeMonitoring()
+		{
+			bool IsPingFailure = false;
+			bool IsHashFailure = false;
+			bool IsGetStatesFailure = false;
+
+			while (true)
+			{
+				LastUpdateTime = DateTime.Now;
+				foreach (var descriptor in GkDatabase.Descriptors)
+				{
+					descriptor.XBase.BaseState.Clear();
+				}
+
+				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
+				var result = string.IsNullOrEmpty(deviceInfo);
+				if (IsPingFailure != result)
+				{
+					GKCallbackResult = new GKCallbackResult();
+					IsPingFailure = result;
+					if(IsPingFailure)
+						AddFailureJournalItem("Нет связи с ГК", "Старт мониторинга");
+					else
+						AddFailureJournalItem("Связь с ГК восстановлена", "Старт мониторинга");
+
+					foreach (var descriptor in GkDatabase.Descriptors)
+					{
+						descriptor.XBase.BaseState.IsConnectionLost = IsPingFailure;
+					}
+					NotifyAllObjectsStateChanged();
+					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				}
+
+				if (IsPingFailure)
+				{
+					if (ReturnArterWait(5))
+						return false;
+					continue;
+				}
+
+				if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
+				{
+					var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+					var gkFileReaderWriter = new GKFileReaderWriter();
+					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+					if (IsHashFailure != result)
+					{
+						GKCallbackResult = new GKCallbackResult();
+						IsHashFailure = result;
+						if (IsHashFailure)
+							AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
+						else
+							AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
+
+						foreach (var descriptor in GkDatabase.Descriptors)
+						{
+							descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
+						}
+						NotifyAllObjectsStateChanged();
+						GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					}
+				}
+
+				if (IsHashFailure)
+				{
+					if (ReturnArterWait(5))
+						return false;
+					continue;
+				}
+
+				GKCallbackResult = new GKCallbackResult();
+				if(!ReadMissingJournalItems())
+					AddFailureJournalItem("Ошибка при синхронизации журнала", "");
+				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+
+				GKCallbackResult = new GKCallbackResult();
+				result = !GetAllStates(true);
+				if (IsGetStatesFailure != result)
+				{
+					IsGetStatesFailure = result;
+					if (IsGetStatesFailure)
+						AddFailureJournalItem("Ошибка при опросе состояний компонентов ГК", "");
+					else
+						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК", "");
+				}
+				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+
+				if (IsGetStatesFailure)
+				{
+					if (ReturnArterWait(5))
+						return false;
+					continue;
+				}
+
+				return true;
+			}
+		}
+
+		bool ReturnArterWait(int seconds)
+		{
+			if (StopEvent != null)
+			{
+				return StopEvent.WaitOne(TimeSpan.FromSeconds(seconds));
+			}
+			return false;
+		}
+
+		bool RunMonitoring()
+		{
+			if (CheckLicense())
+			{
+				if (WatcherManager.IsConfigurationReloading)
+				{
+					if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
+						WatcherManager.IsConfigurationReloading = false;
+				}
+				if (!WatcherManager.IsConfigurationReloading)
+				{
+					if (IsAnyDBMissmatch)
+					{
+						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
+						{
+							GKCallbackResult = new GKCallbackResult();
+							GetAllStates(false);
+							LastMissmatchCheckTime = DateTime.Now;
+							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+						}
+					}
+					else
+					{
+						GKCallbackResult = new GKCallbackResult();
+						try
+						{
+							CheckTasks();
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread CheckTasks");
+						}
+
+						try
+						{
+							CheckDelays();
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread CheckNPT");
+						}
+
+						try
+						{
+							PingJournal();
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread PingJournal");
+						}
+
+						try
+						{
+							PingNextState();
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread PingNextState");
+						}
+
+						try
+						{
+							CheckMeasure();
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+						}
+
+						GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					}
+				}
+			}
+			return true;
+		}
+
+		void AddFailureJournalItem(string name, string description)
+		{
+			var journalItem = new JournalItem()
+			{
+				Name = name,
+				Description = description,
+				StateClass = XStateClass.Unknown,
+				ObjectStateClass = XStateClass.Norm,
+				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
+			};
+			GKDBHelper.Add(journalItem);
+			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void OnObjectStateChanged(XBase xBase)

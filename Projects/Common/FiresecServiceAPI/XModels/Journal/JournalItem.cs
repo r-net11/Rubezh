@@ -7,6 +7,14 @@ namespace XFiresecAPI
 	[DataContract]
 	public class JournalItem
 	{
+		public JournalItem()
+		{
+			DeviceDateTime = DateTime.Now;
+			SystemDateTime = DateTime.Now;
+			ObjectStateClass = XStateClass.Norm;
+			JournalItemType = JournalItemType.System;
+		}
+
 		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 		[DataMember]

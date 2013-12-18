@@ -8,15 +8,15 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public void ReadMissingJournalItems()
+		public bool ReadMissingJournalItems()
 		{
 			var gkIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 			if (localLastDBNo == -1)
-				return;
+				return false;
 			var remoteLastId = GetLastId();
 			if (remoteLastId == -1)
-				return;
+				return false;
 			if (remoteLastId > localLastDBNo)
 			{
 				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo);
@@ -24,6 +24,7 @@ namespace GKProcessor
 				GKProcessorManager.OnStopProgress();
 				LastId = remoteLastId;
 			}
+			return true;
 		}
 
 		void SyncLocalAndRemote(int startIndex, int endIndex)

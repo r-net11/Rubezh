@@ -11,8 +11,22 @@ namespace XFiresecAPI
 	{
 		public XBaseState()
 		{
+			Clear();
+		}
+
+		public void Clear()
+		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+			IsGKConnectionLost = false;
+			IsNoLicense = false;
+			IsConnectionLost = false;
+			IsGKMissmatch = false;
+			IsInTechnologicalRegime = false;
+			IsRealMissmatch = false;
+			OnDelay = 0;
+			HoldDelay = 0;
+			OffDelay = 0;
 		}
 
 		public event Action InternalStateChanged;
