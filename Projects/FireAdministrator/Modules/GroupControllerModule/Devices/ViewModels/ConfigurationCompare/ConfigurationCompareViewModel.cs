@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 				var sameObject1 = objects1.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 				if (sameObject1 == null)
 				{
-					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации" : "Отсутствует в приборе";
+					newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в локальной конфигурации" : "Отсутствует в конфигурации прибора";
 					newObject.IsAbsent = true;
 				}
 				else
@@ -134,7 +134,7 @@ namespace GKModule.ViewModels
 					var sameObject2 = objects2.FirstOrDefault(x => x.Compare(x, unionObject) == 0);
 					if (sameObject2 == null)
 					{
-						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в приборе" : "Отсутствует в конфигурации";
+						newObject.DifferenceDiscription = IsLocalConfig ? "Отсутствует в конфигурации прибора" : "Отсутствует в локальной конфигурации";
 						newObject.IsPresent = true;
 					}
 					else
@@ -145,20 +145,18 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.Zone)
 						{
 							newObject.DifferenceDiscription = GetZonesDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject2.Name;
+							newObject.Name = sameObject1.Name;
 						}
 						if (sameObject1.ObjectType == ObjectType.Direction)
 						{
 							newObject.DifferenceDiscription = GetDirectionsDifferences(sameObject1, sameObject2);
-							newObject.Name = sameObject2.Name;
+							newObject.Name = sameObject1.Name;
 						}
-						//if (sameObject1.ObjectType == ObjectType.PumpStation)
-						//{
-						//    foreach (var nsDevice in sameObject1.PumpStation.NSDevices)
-						//    {
-						//        if (sameObject2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0))
-						//    }
-						//}
+						if (sameObject1.ObjectType == ObjectType.PumpStation)
+						{
+							newObject.DifferenceDiscription = GetPumpStationsDifferences(sameObject1, sameObject2, IsLocalConfig);
+							newObject.Name = sameObject1.Name;
+						}
 					}
 
 				}
@@ -166,11 +164,13 @@ namespace GKModule.ViewModels
 			}
 			return unionObjects1;
 		}
+
 		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			string zonesDifferences = null;
+			string namesDifferences = "";
 			if (object1.Name != object2.Name)
-				zonesDifferences = "Не совпадает название";
+				namesDifferences = "Не совпадает название. ";
 			if (object1.Zone.Fire1Count != object2.Zone.Fire1Count)
 				zonesDifferences = "Не совпадает число датчиков для формирования Пожар1";
 			if (object1.Zone.Fire2Count != object2.Zone.Fire2Count)
@@ -180,13 +180,15 @@ namespace GKModule.ViewModels
 				else
 					zonesDifferences = "Не совпадает число датчиков для формирования Пожар2";
 			}
-			return zonesDifferences;
+			return namesDifferences + zonesDifferences;
 		}
+
 		string GetDirectionsDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
 			string directionsDifferences = null;
+			string namesDifferences = "";
 			if (object1.Name != object2.Name)
-				directionsDifferences = "Не совпадает название";
+				namesDifferences = "Не совпадает название. ";
 			if (object1.Direction.Delay != object2.Direction.Delay)
 				directionsDifferences = "Не совпадает параметр Задержка";
 			if (object1.Direction.Hold != object2.Direction.Hold)
@@ -203,7 +205,21 @@ namespace GKModule.ViewModels
 				else
 					directionsDifferences = "Не совпадает параметр Режим работы";
 			}
-			return directionsDifferences;
+			return namesDifferences + directionsDifferences;
+		}
+
+		string GetPumpStationsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
+		{
+			string pumpStationsDifferences = null;
+			string namesDifferences = "";
+			if (object1.Name != object2.Name)
+				namesDifferences = "Не совпадает название. ";
+			if (object1.PumpStation.NSDevices.Any(nsDevice => object2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
+				if (isLocalConfig)
+					pumpStationsDifferences = "Содержит насосы, отсутствующие в конфигурации прибора";
+				else
+					pumpStationsDifferences = "Содержит насосы, отсутствующие в локальной конфигурации";
+			return namesDifferences + pumpStationsDifferences;
 		}
 	}
 }
