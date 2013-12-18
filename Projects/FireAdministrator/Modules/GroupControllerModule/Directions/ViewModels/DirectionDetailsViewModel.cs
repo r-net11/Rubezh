@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using GKProcessor;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -22,6 +23,8 @@ namespace GKModule.ViewModels
 			SetDirectionPropertiesCommand = new RelayCommand(OnSetDirectionProperties);
 			GetDirectionPropertiesCommand = new RelayCommand(OnGetDirectionProperties);
 			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+			DelayRegimes = Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>().ToList();
+
 			if (direction == null)
             {
                 Title = "Создание новоого направления";
@@ -52,11 +55,11 @@ namespace GKModule.ViewModels
 			AvailableDescription = new ObservableCollection<string>(availableDescription);
         }
 
-		void ChangeParameter(ushort delay, ushort hold, ushort regime)
+		void ChangeParameter(ushort delay, ushort hold, ushort delayRegime)
 		{
 			Delay = delay;
 			Hold = hold;
-			Regime = regime;
+			DelayRegime = (DelayRegime)delayRegime;
 			OnPropertyChanged("Delay");
 			OnPropertyChanged("Hold");
 			OnPropertyChanged("Regime");
@@ -68,7 +71,7 @@ namespace GKModule.ViewModels
 			No = PumpStation.No;
 			Delay = PumpStation.Delay;
 			Hold = PumpStation.Hold;
-			Regime = PumpStation.Regime;
+			DelayRegime = PumpStation.DelayRegime;
 			Description = PumpStation.Description;
         }
 
@@ -116,14 +119,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		ushort _regime;
-		public ushort Regime
+		public List<DelayRegime> DelayRegimes { get; private set; }
+
+		DelayRegime _delayRegime;
+		public DelayRegime DelayRegime
 		{
-			get { return _regime; }
+			get { return _delayRegime; }
 			set
 			{
-				_regime = value;
-				OnPropertyChanged("Regime");
+				_delayRegime = value;
+				OnPropertyChanged("DelayRegime");
 			}
 		}
 
@@ -153,7 +158,7 @@ namespace GKModule.ViewModels
 			PumpStation.No = No;
 			PumpStation.Delay = Delay;
 			PumpStation.Hold = Hold;
-			PumpStation.Regime = Regime;
+			PumpStation.DelayRegime = DelayRegime;
 			PumpStation.Description = Description;
 			return base.Save();
 		}
@@ -173,7 +178,7 @@ namespace GKModule.ViewModels
 			PumpStation.Description = Description;
 			PumpStation.Delay = Delay;
 			PumpStation.Hold = Hold;
-			PumpStation.Regime = Regime;
+			PumpStation.DelayRegime = DelayRegime;
 			ParametersHelper.SetSingleDirectionParameter(PumpStation);
 		}
 
@@ -182,7 +187,7 @@ namespace GKModule.ViewModels
 		{
 			Delay = 10;
 			Hold = 10;
-			Regime = 1;
+			DelayRegime = DelayRegime.Off;
 		}
     }
 }

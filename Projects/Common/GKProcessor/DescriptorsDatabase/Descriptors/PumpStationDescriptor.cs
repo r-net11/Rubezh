@@ -35,11 +35,15 @@ namespace GKProcessor
         {
             Formula = new FormulaBuilder();
 
+			Formula.AddGetBit(XStateBit.On, MainDelay);
+			Formula.AddGetBit(XStateBit.Norm, PumpStation);
+			Formula.Add(FormulaOperationType.AND);
 			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
+				Formula.Add(FormulaOperationType.AND);
 			}
+			Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
 
 			if (PumpStation.StartLogic.Clauses.Count > 0)
 				Formula.AddClauseFormula(PumpStation.StartLogic);
@@ -49,23 +53,10 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, PumpStation);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
-
-				//Formula.AddGetBit(XStateBit.On, MainDelay);
-				//Formula.AddGetBit(XStateBit.On, PumpStation);
-				//Formula.Add(FormulaOperationType.AND);
-				//Formula.Add(FormulaOperationType.OR);
-
 				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, PumpStation);
 
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
-			}
-			else
-			{
-				//Formula.AddGetBit(XStateBit.On, MainDelay);
-				//Formula.AddGetBit(XStateBit.On, PumpStation);
-				//Formula.Add(FormulaOperationType.AND);
-				//Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, PumpStation);
 			}
 
 			Formula.AddGetBit(XStateBit.Norm, PumpStation);
@@ -92,7 +83,7 @@ namespace GKProcessor
 			binProperties.Add(new BinProperty()
 			{
 				No = 2,
-				Value = PumpStation.Regime
+				Value = (ushort)PumpStation.DelayRegime
 			});
 
 			foreach (var binProperty in binProperties)

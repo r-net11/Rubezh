@@ -55,12 +55,10 @@ namespace GKProcessor
 		void CreateMainDelay()
 		{
 			MainDelay.Name = "Тушение " + PumpStation.PresentationName;
-			MainDelay.DelayTime = (ushort)PumpStation.Hold;
-			MainDelay.SetTime = 2;
+			MainDelay.DelayTime = (ushort)(PumpStation.Hold - 5);
+			MainDelay.SetTime = 5;
 			MainDelay.DelayRegime = DelayRegime.Off;
-			//MainDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
 
-			//GkDatabase.AddDelay(MainDelay);
 			var delayDescriptor = new DelayDescriptor(MainDelay);
 			GkDatabase.Descriptors.Add(delayDescriptor);
 			UpdateConfigurationHelper.LinkXBases(PumpStation, MainDelay);
@@ -240,10 +238,7 @@ namespace GKProcessor
 		{
 			Pim = new XPim()
 			{
-				Name = PumpStation.PresentationName,
-				DelayTime = 1,
-				SetTime = 1,
-				DelayRegime = DelayRegime.Off
+				Name = PumpStation.PresentationName
 			};
 			Pim.UID = GuidHelper.CreateOn(PumpStation.UID);
 			GkDatabase.AddPim(Pim);

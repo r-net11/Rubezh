@@ -12,7 +12,7 @@ namespace XFiresecAPI
 			UID = BaseUID;
 			Delay = 10;
 			Hold = 60;
-			Regime = 2;
+			DelayRegime = DelayRegime.Off;
 			NSPumpsCount = 1;
 			NSDeltaTime = 15;
 			StartLogic = new XDeviceLogic();
@@ -59,7 +59,7 @@ namespace XFiresecAPI
 		public ushort Hold { get; set; }
 
 		[DataMember]
-		public ushort Regime { get; set; }
+		public DelayRegime DelayRegime { get; set; }
 
 		[DataMember]
 		public int NSPumpsCount { get; set; }

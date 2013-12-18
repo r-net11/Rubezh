@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
     xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-    xmlns:controls="clr-namespace:Controls;assembly=Controls"
     MinWidth="600" MinHeight="400">
 
     <TabControl>
@@ -13,7 +12,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -31,25 +29,25 @@
                 <Label Grid.Row="5" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
-                    <controls:XAutoCompleteBox.TextBoxStyle>
+                <Controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
+                    <Controls:XAutoCompleteBox.TextBoxStyle>
                         <Style TargetType="TextBox">
                             <Setter Property="MaxLength" Value="20" />
                             <Setter Property="ContextMenu" Value="{x:Null}" />
                         </Style>
-                    </controls:XAutoCompleteBox.TextBoxStyle>
-                </controls:XAutoCompleteBox>
-                <controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
+                    </Controls:XAutoCompleteBox.TextBoxStyle>
+                </Controls:XAutoCompleteBox>
+                <Controls:XAutoCompleteBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableDescription}" IsTextCompletionEnabled="True" Margin="2" />
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Hold, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Regime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <ComboBox Grid.Row="5" Grid.Column="1" SelectedValue="{Binding Regime}" SelectedValuePath="Tag" Margin="2">
-                    <ComboBox.Items>
-                        <ComboBoxItem Content="Включено" Tag="1" />
-                        <ComboBoxItem Content="Выключено" Tag="2" />
-                    </ComboBox.Items>
+                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource DelayRegimeToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
-                <StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding GetDirectionPropertiesCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры направления" />
                     <Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding SetDirectionPropertiesCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры направления" />
                     <Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetAUPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />

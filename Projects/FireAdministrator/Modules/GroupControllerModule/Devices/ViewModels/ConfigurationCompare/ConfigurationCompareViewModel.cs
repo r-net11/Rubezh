@@ -198,7 +198,7 @@ namespace GKModule.ViewModels
 				else
 					directionsDifferences = "Не совпадает параметр Удержание";
 			}
-			if (object1.Direction.Regime != object2.Direction.Regime)
+			if (object1.Direction.DelayRegime != object2.Direction.DelayRegime)
 			{
 				if (!String.IsNullOrEmpty(directionsDifferences))
 					directionsDifferences += ", параметр Режим работы";

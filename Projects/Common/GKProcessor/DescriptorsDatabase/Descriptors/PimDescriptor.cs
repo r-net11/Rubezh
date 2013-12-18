@@ -19,7 +19,6 @@ namespace GKProcessor
 			DeviceType = BytesHelper.ShortToBytes((ushort)0x107);
 			SetAddress((ushort)0);
 			SetFormulaBytes();
-			SetPropertiesBytes();
 		}
 
 		void SetFormulaBytes()
@@ -27,33 +26,6 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		void SetPropertiesBytes()
-		{
-			var binProperties = new List<BinProperty>();
-			binProperties.Add(new BinProperty()
-			{
-				No = 0,
-				Value = Pim.DelayTime
-			});
-			binProperties.Add(new BinProperty()
-			{
-				No = 1,
-				Value = Pim.SetTime
-			});
-			binProperties.Add(new BinProperty()
-			{
-				No = 2,
-				Value = (ushort)Pim.DelayRegime
-			});
-
-			foreach (var binProperty in binProperties)
-			{
-				Parameters.Add(binProperty.No);
-				Parameters.AddRange(BitConverter.GetBytes(binProperty.Value));
-				Parameters.Add(0);
-			}
 		}
 	}
 }

@@ -26,15 +26,6 @@ namespace XFiresecAPI
 		[DataMember]
 		public string Name { get; set; }
 
-		[DataMember]
-		public ushort DelayTime { get; set; }
-
-		[DataMember]
-		public ushort SetTime { get; set; }
-
-		[DataMember]
-		public DelayRegime DelayRegime { get; set; }
-
 		public override string PresentationName
 		{
 			get { return Name; }

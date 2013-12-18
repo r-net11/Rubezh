@@ -79,7 +79,7 @@ namespace GKProcessor
 			binProperties.Add(new BinProperty()
 			{
 				No = 2,
-				Value = Direction.Regime
+				Value = (ushort)Direction.DelayRegime
 			});
 
 			foreach (var binProperty in binProperties)

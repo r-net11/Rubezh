@@ -12,7 +12,7 @@ namespace XFiresecAPI
 			UID = BaseUID;// Guid.NewGuid();
             DirectionZones = new List<XDirectionZone>();
             DirectionDevices = new List<XDirectionDevice>();
-			Regime = 1;
+			DelayRegime = DelayRegime.Off;
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
             OutputDevices = new List<XDevice>();
@@ -50,7 +50,7 @@ namespace XFiresecAPI
 		public ushort Hold { get; set; }
 
 		[DataMember]
-		public ushort Regime { get; set; }
+		public DelayRegime DelayRegime { get; set; }
 
 		[DataMember]
         public List<XDirectionZone> DirectionZones { get; set; }

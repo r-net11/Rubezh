@@ -118,7 +118,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Режим после удержания: " />
-                                <TextBlock Text="{Binding Direction.Regime, Converter={StaticResource RegimeToStringConverter}}"/>
+                                <TextBlock Text="{Binding Direction.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}" />
                             </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>
