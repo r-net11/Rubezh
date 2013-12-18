@@ -226,10 +226,13 @@ namespace DevicesModule.Plans
 			if (zone != null)
 				zone.ColorTypeChanged += () =>
 				{
-					Helper.BuildZoneMap();
-					UpdateDesignerItemZone(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildZoneMap();
+						UpdateDesignerItemZone(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
 				};
 		}
 
@@ -244,10 +247,13 @@ namespace DevicesModule.Plans
 			if (device != null)
 				device.Changed += () =>
 				{
-					Helper.BuildDeviceMap();
-					UpdateDesignerItemDevice(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildDeviceMap();
+						UpdateDesignerItemDevice(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
 				};
 		}
 
@@ -269,7 +275,7 @@ namespace DevicesModule.Plans
 		public void UpdateDeviceInZones(List<ElementBase> items)
 		{
 			bool deviceInZonesChanged = false;
-			if (_processChanges)
+			if (_processChanges && !_designerCanvas.IsLocked)
 				foreach (var item in items)
 					if (item is ElementDevice || item is IElementZone)
 					{

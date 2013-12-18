@@ -31,7 +31,6 @@ namespace GKModule.Validation
                     ValidateGKNotEmptyChildren(device);
                     ValidateKAUNotEmptyChildren(device);
                 }
-                ValidatePumpAddresses(device);
                 ValidateParametersMinMax(device);
                 ValidateNotUsedLogic(device);
                 ValidateRSR2AddressFollowing(device);
@@ -124,15 +123,6 @@ namespace GKModule.Validation
             {
                 if (device.Children.Count <= 1)
                     Errors.Add(new DeviceValidationError(device, "Устройство должно содержать подключенные устройства", ValidationErrorLevel.CannotWrite));
-            }
-        }
-
-        static void ValidatePumpAddresses(XDevice device)
-        {
-            if (device.DriverType == XDriverType.Pump)
-            {
-                if (!((device.IntAddress > 0 && device.IntAddress <= 8) || device.IntAddress == 12 || device.IntAddress == 14))
-                    Errors.Add(new DeviceValidationError(device, "Адрес устройства должен быть в диапазоне 1 - 8, 12, 14", ValidationErrorLevel.CannotWrite));
             }
         }
 

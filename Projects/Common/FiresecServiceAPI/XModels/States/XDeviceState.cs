@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.XModels;
 
@@ -69,24 +70,18 @@ namespace XFiresecAPI
 					if (!stateClasses.Contains(XStateClass.Service))
 						stateClasses.Add(XStateClass.Service);
 				}
-				return stateClasses;
-			}
-		}
-
-		public override XStateClass StateClass
-		{
-			get
-			{
 				if (Device.Driver.IsGroupDevice || Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					var childStateClasses = new List<XStateClass>();
 					foreach (var child in Device.Children)
 					{
-						childStateClasses.Add(child.InternalState.StateClass);
+						if (!stateClasses.Contains(child.InternalState.StateClass))
+							stateClasses.Add(child.InternalState.StateClass);
 					}
-					return XStatesHelper.GetMinStateClass(childStateClasses);
+					if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
+						stateClasses.Remove(XStateClass.Norm);
 				}
-				return XStatesHelper.GetMinStateClass(StateClasses);
+				stateClasses.OrderBy(x => x);
+				return stateClasses;
 			}
 		}
 	}

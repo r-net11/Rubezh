@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using FiresecAPI;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure;
@@ -170,6 +171,8 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
+			if (!CompareLocalWithRemoteHashes())
+				return;
 			var device = new List<XDevice> { Device };
 			if (Validate(device))
 			{
@@ -182,6 +185,8 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
 		{
+			if (!CompareLocalWithRemoteHashes())
+				return;
 			var devices = GetRealChildren();
 			if (Validate(devices))
 			{
@@ -294,6 +299,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
+			if (!CompareLocalWithRemoteHashes())
+				return;
 			LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
 			ReadDevices(new List<XDevice> { Device });
 			PropertiesViewModel.Update();
@@ -307,6 +314,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadAllCommand { get; private set; }
 		void OnReadAll()
 		{
+			if (!CompareLocalWithRemoteHashes())
+				return;
 			var devices = GetRealChildren();
 			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
 			ReadDevices(devices);
@@ -399,6 +408,21 @@ namespace GKModule.ViewModels
 					deviceViewModel.GetAllParents().ForEach(x => x.PropertiesViewModel.DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal);
 				}
 			}
+		}
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var gkParent = DevicesViewModel.Current.SelectedDevice.Device;
+			if (gkParent.DriverType != XDriverType.GK)
+				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;
+			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(gkParent);
+			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, gkParent);
+			var remoteHash = readInfoBlock.Hash1;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны");
+			return false;
 		}
 	}
 }

@@ -3,10 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel DataContext="{Binding DeviceStateViewModel}">
-        <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding StateClassName}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
-        </StackPanel>
         <ItemsControl ItemsSource="{Binding StateClasses}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

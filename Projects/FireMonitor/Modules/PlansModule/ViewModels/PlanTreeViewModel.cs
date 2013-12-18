@@ -24,11 +24,13 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
+			SelectedPlan = null;
 			AllPlans = new List<PlanViewModel>();
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
 				AddPlan(plan, null);
-
+			if (SelectedPlan != null)
+				SelectedPlan.ExpandToThis();
 			_plansViewModel.PlanPresenters.ForEach(planPresenter => AddPlanPresenter(planPresenter));
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
@@ -40,6 +42,8 @@ namespace PlansModule.ViewModels
 				Plans.Add(planViewModel);
 			else
 				parentPlanViewModel.AddChild(planViewModel);
+			if (SelectedPlan == null && !planViewModel.IsFolder)
+				SelectedPlan = planViewModel;
 
 			foreach (var childPlan in plan.Children)
 				AddPlan(childPlan, planViewModel);

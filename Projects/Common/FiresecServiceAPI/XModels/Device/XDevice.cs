@@ -214,14 +214,12 @@ namespace XFiresecAPI
 					return PredefinedName;
 				if (DriverType == XDriverType.Pump)
 				{
-					if (IntAddress <= 8)
-						return "Пожарный насос";
-					switch (IntAddress)
+					var pumpTypeProperty = Properties.FirstOrDefault(x => x.Name == "PumpType");
+					if (pumpTypeProperty != null && pumpTypeProperty.DriverProperty != null)
 					{
-						case 12:
-							return "Жокей насос";
-						case 14:
-							return "Дренажный Насос";
+						var driverPropertyParameter = pumpTypeProperty.DriverProperty.Parameters.FirstOrDefault(x => x.Value == pumpTypeProperty.Value);
+						if (driverPropertyParameter != null)
+							return driverPropertyParameter.Name;
 					}
 					return "Насос с неизвестным типом";
 				}

@@ -2,16 +2,24 @@
 using System.Linq;
 using System.Collections.Generic;
 using XFiresecAPI;
+using Common;
 
 namespace GKProcessor
 {
 	public class PumpStationDescriptor : BaseDescriptor
 	{
-		public PumpStationDescriptor(XPumpStation pumpStation)
+		public XDelay MainDelay { get; private set; }
+
+		public PumpStationDescriptor(GkDatabase gkDatabase, XPumpStation pumpStation)
 		{
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.PumpStation;
 			PumpStation = pumpStation;
+
+			MainDelay = new XDelay();
+			MainDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+			gkDatabase.AddDelay(MainDelay);
+
 			Build();
 		}
 
@@ -41,11 +49,25 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, PumpStation);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
+
+				//Formula.AddGetBit(XStateBit.On, MainDelay);
+				//Formula.AddGetBit(XStateBit.On, PumpStation);
+				//Formula.Add(FormulaOperationType.AND);
+				//Formula.Add(FormulaOperationType.OR);
+
 				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, PumpStation);
 
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
 			}
+			else
+			{
+				//Formula.AddGetBit(XStateBit.On, MainDelay);
+				//Formula.AddGetBit(XStateBit.On, PumpStation);
+				//Formula.Add(FormulaOperationType.AND);
+				//Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, PumpStation);
+			}
+
 			Formula.AddGetBit(XStateBit.Norm, PumpStation);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
 			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, PumpStation);
