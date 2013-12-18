@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using HexManager;
 using XFiresecAPI;
 using FiresecClient;
 using System.Runtime.Serialization;
@@ -111,6 +113,15 @@ namespace GKProcessor
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.Update(device, fileName);
+			if (firmwareUpdateHelper.Error != null)
+				return new OperationResult<bool>(firmwareUpdateHelper.Error) { Result = false };
+			return new OperationResult<bool> { Result = true };
+		}
+
+		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName)
+		{
+			var firmwareUpdateHelper = new FirmwareUpdateHelper();
+			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName);
 			if (firmwareUpdateHelper.Error != null)
 				return new OperationResult<bool>(firmwareUpdateHelper.Error) { Result = false };
 			return new OperationResult<bool> { Result = true };

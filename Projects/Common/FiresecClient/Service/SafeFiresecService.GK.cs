@@ -69,6 +69,18 @@ namespace FiresecClient
 			}
 		}
 
+		public void GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo)
+		{
+			//if (IsGKAsAService)
+			//{
+			//    SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.BaseUID, fileName), "GKUpdateFirmware");
+			//}
+			//else
+			{
+				GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name);
+			}
+		}
+
 		public bool GKSyncronyseTime(XDevice device)
 		{
 			if (IsGKAsAService)

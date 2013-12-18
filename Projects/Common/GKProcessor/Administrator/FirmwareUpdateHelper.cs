@@ -4,7 +4,7 @@ using System.Linq;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
-
+using HexManager;
 namespace GKProcessor
 {
 	public class FirmwareUpdateHelper
@@ -13,6 +13,11 @@ namespace GKProcessor
 		public void Update(XDevice device, string fileName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
+			Update(device, firmWareBytes);
+		}
+
+		public void Update(XDevice device, List<byte> firmWareBytes)
+		{
 			LoadingService.Show("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(device))
 			{
@@ -20,7 +25,7 @@ namespace GKProcessor
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
 				GKProcessorManager.OnStopProgress();
-				return ;
+				return;
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			LoadingService.DoStep("Удаление программы " + device.PresentationName);
@@ -32,16 +37,27 @@ namespace GKProcessor
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
 				if (LoadingService.IsCanceled)
-					{ Error = "Операция обновления прошивки отменена"; LoadingService.Close(); return; }
-				LoadingService.DoStep("Запись блока данных " + i/0x100 + 1);
+				{ Error = "Операция обновления прошивки отменена"; LoadingService.Close(); return; }
+				LoadingService.DoStep("Запись блока данных " + i / 0x100 + 1);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
 				if (result.HasError)
-					{ Error = "В заданное времени не пришел ответ от устройства"; LoadingService.Close(); return; }
+				{ Error = "В заданное времени не пришел ответ от устройства"; LoadingService.Close(); return; }
 			}
 			DeviceBytesHelper.GoToWorkingRegime(device);
 			LoadingService.Close();
+		}
+
+		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, string userName, bool writeGK = true, bool writeKau = true, bool writeRSR2Kau = true)
+		{
+			var device = new XDevice();
+			foreach (var fileInfos in hxcFileInfo.FileInfos)
+			{
+				
+			}
+			GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
+			//var hxcFileInfo = HXCFileInfoHelper.Load(fileName);
 		}
 
 		List<byte> HexFileToBytesList(string filePath)

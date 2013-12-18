@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.ViewModels;
 using GKProcessor;
+using HexManager;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -161,11 +163,19 @@ namespace GKModule.Models
 		{
 			var openDialog = new OpenFileDialog()
 			{
-				Filter = "soft update files|*.hcs",
+				Filter = "soft update files|*.hcs|FSCS updater|*.fscs",
 				DefaultExt = "soft update files|*.hcs"
 			};
 			if (openDialog.ShowDialog().Value)
-				FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+			{
+				if (new FileInfo(openDialog.FileName).Extension.ToLower() == ".fscs")
+				{
+					var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
+					FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo);
+				}
+				else
+					FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+			}
 		}
 
 		bool CanUpdateFirmwhare()
