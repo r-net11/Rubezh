@@ -8,4 +8,5 @@ xcopy Source\Version2.0\Xceed.Wpf.AvalonDock.Themes.Expression\bin\Release Bin\V
 xcopy Source\Version2.0\Xceed.Wpf.AvalonDock.Themes.Metro\bin\Release Bin\Version2.0\Xceed.Wpf.AvalonDock.Themes.Metro /E /K /Y /C /R /Q /I
 xcopy Source\Version2.0\Xceed.Wpf.AvalonDock.Themes.VS2010\bin\Release Bin\Version2.0\Xceed.Wpf.AvalonDock.Themes.VS2010 /E /K /Y /C /R /Q /I
 
+
 pause
