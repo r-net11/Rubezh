@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 
 		public int Count
 		{
-			get { return 0; }
+			get { return AlarmsViewModel.Current.GetAlarmsToReset(); }
 		}
 
 		public void Update(List<Alarm> alarms)
@@ -46,12 +46,22 @@ namespace GKModule.ViewModels
 				alarmGroup.Alarms = alarmViewModels;
 				alarmGroup.Update();
 			}
+			OnPropertyChanged(() => CanReset);
+			OnPropertyChanged(() => Count);
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
 			AlarmsViewModel.Current.ResetAll();
+		}
+
+		public bool CanReset
+		{
+			get
+			{
+				return Count > 0;
+			}
 		}
 	}
 }

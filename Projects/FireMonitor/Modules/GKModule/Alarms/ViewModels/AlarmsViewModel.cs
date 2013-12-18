@@ -299,6 +299,7 @@ namespace GKModule.ViewModels
 				}
 			}
 		}
+
 		bool CanResetAll()
 		{
 			foreach (var zone in XManager.Zones)
@@ -317,6 +318,27 @@ namespace GKModule.ViewModels
 				}
 			}
 			return false;
+		}
+
+		public int GetAlarmsToReset()
+		{
+			int result = 0;
+			foreach (var zone in XManager.Zones)
+			{
+				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
+					result++;
+				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
+					result++;
+			}
+			foreach (var device in XManager.Devices)
+			{
+				if (device.DriverType == XDriverType.AMP_1)
+				{
+					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
+						result++;
+				}
+			}
+			return result;
 		}
 
 		void IgnoreAllZonesAndDevicesInFire()
