@@ -26,7 +26,7 @@
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительскому устройству (Ctrl+M)" Command="{Binding AddToParentCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" Command="{Binding RemoveCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSelect.png" Text="Выбрать" Command="{Binding SelectCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLogic.png" Text="Настройка логики исполнительного устройства по состоянию зон" Command="{Binding ShowLogicCommand}" />
+            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLogic.png" Text="Настройка логики исполнительного устройства" Command="{Binding ShowLogicCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Вставить (Ctrl+V)" Command="{Binding ShowPropertiesCommand}" />
             <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
