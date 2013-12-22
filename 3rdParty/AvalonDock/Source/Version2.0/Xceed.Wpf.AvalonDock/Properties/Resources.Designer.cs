@@ -61,7 +61,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Hide.
+        ///   Looks up a localized string similar to Скрывать Автоматически.
         /// </summary>
         public static string Anchorable_AutoHide {
             get {
@@ -70,7 +70,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Auto Hide.
+        ///   Looks up a localized string similar to Скрывать Автоматически.
         /// </summary>
         public static string Anchorable_BtnAutoHide_Hint {
             get {
@@ -79,7 +79,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide.
+        ///   Looks up a localized string similar to Скрыть.
         /// </summary>
         public static string Anchorable_BtnClose_Hint {
             get {
@@ -88,7 +88,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Window Position.
+        ///   Looks up a localized string similar to Положение Окна.
         /// </summary>
         public static string Anchorable_CxMenu_Hint {
             get {
@@ -97,7 +97,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dock.
+        ///   Looks up a localized string similar to Присоединить.
         /// </summary>
         public static string Anchorable_Dock {
             get {
@@ -106,7 +106,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dock as Tabbed Document.
+        ///   Looks up a localized string similar to Присоединить как Документ.
         /// </summary>
         public static string Anchorable_DockAsDocument {
             get {
@@ -115,7 +115,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Float.
+        ///   Looks up a localized string similar to Отсоединить.
         /// </summary>
         public static string Anchorable_Float {
             get {
@@ -124,7 +124,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide.
+        ///   Looks up a localized string similar to Скрыть.
         /// </summary>
         public static string Anchorable_Hide {
             get {
@@ -133,7 +133,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close.
+        ///   Looks up a localized string similar to Закрыть.
         /// </summary>
         public static string Document_Close {
             get {
@@ -142,7 +142,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close All But This.
+        ///   Looks up a localized string similar to Закрыть Все кроме Этого.
         /// </summary>
         public static string Document_CloseAllButThis {
             get {
@@ -151,7 +151,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Window Position.
+        ///   Looks up a localized string similar to Положение Окна.
         /// </summary>
         public static string Document_CxMenu_Hint {
             get {
@@ -160,7 +160,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dock as Tabbed Document.
+        ///   Looks up a localized string similar to Присоединить как Документ.
         /// </summary>
         public static string Document_DockAsDocument {
             get {
@@ -169,7 +169,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Float.
+        ///   Looks up a localized string similar to Отсоединить.
         /// </summary>
         public static string Document_Float {
             get {
@@ -178,7 +178,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move To Next Tab Group.
+        ///   Looks up a localized string similar to Перейти к Следующей Группе Вкладок.
         /// </summary>
         public static string Document_MoveToNextTabGroup {
             get {
@@ -187,7 +187,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move To Previous Tab Group.
+        ///   Looks up a localized string similar to Перейти к Предыдущей Группе Вкладок.
         /// </summary>
         public static string Document_MoveToPreviousTabGroup {
             get {
@@ -196,7 +196,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Horizontal Tab Group.
+        ///   Looks up a localized string similar to Новая Горизонтальная Группа Вкладок.
         /// </summary>
         public static string Document_NewHorizontalTabGroup {
             get {
@@ -205,7 +205,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Vertical Tab Group.
+        ///   Looks up a localized string similar to Новая Вертикальная Группа Вкладок.
         /// </summary>
         public static string Document_NewVerticalTabGroup {
             get {
@@ -214,7 +214,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Maximize.
+        ///   Looks up a localized string similar to Развернуть.
         /// </summary>
         public static string Window_Maximize {
             get {
@@ -223,7 +223,7 @@ namespace Xceed.Wpf.AvalonDock.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore.
+        ///   Looks up a localized string similar to Восстановить.
         /// </summary>
         public static string Window_Restore {
             get {

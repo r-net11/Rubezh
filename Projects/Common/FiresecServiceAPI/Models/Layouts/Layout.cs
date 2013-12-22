@@ -41,5 +41,9 @@ namespace FiresecAPI.Models.Layouts
 		public int BorderThickness { get; set; }
 		[DataMember]
 		public Color BorderColor { get; set; }
+		[DataMember]
+		public Color BackgroundColor { get; set; }
+		[DataMember]
+		public int Padding { get; set; }
 	}
 }

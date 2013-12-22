@@ -29,6 +29,9 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 			<Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Content="Ширина" />
@@ -38,7 +41,11 @@
 			<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Размер" />
 			<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Минимальный" />
 			<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Фиксированный" />
-			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
+
+			<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
+			<Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+			<Label Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
+			<Label Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
 
 			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding WidthType, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="1" Grid.Column="2" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding HeightType, UpdateSourceTrigger=PropertyChanged}" />
@@ -52,7 +59,10 @@
 			<CheckBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsWidthFixed, UpdateSourceTrigger=PropertyChanged}" />
 			<CheckBox Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsHeightFixed, UpdateSourceTrigger=PropertyChanged}" />
 
-			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="100" Minimum="0" Value="{Binding Margin, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Margin="2" Maximum="100" Minimum="1" Value="{Binding Margin, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

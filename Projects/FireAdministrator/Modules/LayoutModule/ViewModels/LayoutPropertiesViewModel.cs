@@ -32,6 +32,8 @@ namespace LayoutModule.ViewModels
 			SplitterSize = Layout.SplitterSize;
 			BorderColor = Layout.BorderColor;
 			BorderThickness = Layout.BorderThickness;
+			BackgroundColor = Layout.BackgroundColor;
+			Padding = Layout.Padding;
 			IPs = new ObservableCollection<IPObject>();
 			Layout.IPs.ForEach(ip => IPs.Add(new IPObject() { IP = ip }));
 		}
@@ -100,6 +102,29 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
+		private Color _backgroundColor;
+		public Color BackgroundColor
+		{
+			get { return _backgroundColor; }
+			set
+			{
+				_backgroundColor = value;
+				OnPropertyChanged(() => BackgroundColor);
+			}
+		}
+
+		private int _padding;
+		public int Padding
+		{
+			get { return _padding; }
+			set
+			{
+				_padding = value;
+				OnPropertyChanged(() => Padding);
+			}
+		}
+
+
 		public ObservableCollection<IPObject> IPs { get; private set; }
 
 		protected override bool CanSave()
@@ -115,6 +140,8 @@ namespace LayoutModule.ViewModels
 			Layout.SplitterSize = SplitterSize;
 			Layout.BorderColor = BorderColor;
 			Layout.BorderThickness = BorderThickness;
+			Layout.BackgroundColor = BackgroundColor;
+			Layout.Padding = Padding;
 			Layout.IPs = IPs.Select(item => item.IP).ToList();
 			return base.Save();
 		}

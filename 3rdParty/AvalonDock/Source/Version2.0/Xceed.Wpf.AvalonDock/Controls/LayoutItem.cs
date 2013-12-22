@@ -55,8 +55,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			System.Diagnostics.Trace.WriteLine(string.Format("Attach({0})", LayoutElement.Title));
 		}
 
-
-
 		void LayoutElement_IsActiveChanged(object sender, EventArgs e)
 		{
 			if (_isActiveReentrantFlag.CanEnter)
@@ -1148,7 +1146,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		protected virtual void OnMarginChanged()
 		{
-			LayoutElement.Margin = Margin.Left;
+			LayoutElement.Margin = (int)Margin.Left;
 		}
 
 		#endregion

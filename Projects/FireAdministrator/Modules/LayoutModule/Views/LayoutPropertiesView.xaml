@@ -45,17 +45,24 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина разделителя" />
-				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет разделителя" />
-				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
-				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
+				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
+				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отступ" />
 
-				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Margin="2" Maximum="100" Minimum="1" Value="{Binding SplitterSize, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding SplitterColor, UpdateSourceTrigger=PropertyChanged}" />
-				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
-				<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+				<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина разделителя" />
+				<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет разделителя" />
+
+				<extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="1" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Maximum="100" Minimum="1" Value="{Binding Padding, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Margin="2" Maximum="100" Minimum="1" Value="{Binding SplitterSize, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="5" Grid.Column="1" Margin="2" SelectedColor="{Binding SplitterColor, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

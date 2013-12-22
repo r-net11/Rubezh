@@ -80,6 +80,9 @@ namespace LayoutModule.ViewModels
 			var size = new LayoutPartSize();
 			size.PreferedSize = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.PreferedSize;
 			size.Margin = (int)document.Margin;
+			size.BackgroundColor = document.BackgroundColor;
+			size.BorderColor = document.BorderColor;
+			size.BorderThickness = document.BorderThickness;
 			ReadSize(size, pair.First, layoutItem);
 			ReadSize(size, pair.Second, layoutItem);
 			ValidateSize(size);
@@ -94,6 +97,9 @@ namespace LayoutModule.ViewModels
 			WriteSize(layoutPartSize, pair.First, layoutItem);
 			WriteSize(layoutPartSize, pair.Second, layoutItem);
 			document.Margin = layoutPartSize.Margin;
+			document.BackgroundColor = layoutPartSize.BackgroundColor;
+			document.BorderColor = layoutPartSize.BorderColor;
+			document.BorderThickness = layoutPartSize.BorderThickness;
 		}
 		private LayoutDocument GetLayoutDocument()
 		{
@@ -152,13 +158,13 @@ namespace LayoutModule.ViewModels
 						element.DockMinWidth = size.MinWidth;
 						element.IsDockWidthFixed = size.IsWidthFixed;
 						element.DockWidth = new GridLength(size.Width, size.WidthType);
-						layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? size.Width : double.NaN;
+						layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? (size.Width < size.MinWidth ? size.MinWidth : size.Width) : double.NaN;
 						break;
 					case Orientation.Vertical:
 						element.DockMinHeight = size.MinHeight;
 						element.IsDockHeightFixed = size.IsHeightFixed;
 						element.DockHeight = new GridLength(size.Height, size.HeightType);
-						layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? size.Height : double.NaN;
+						layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? (size.Height < size.MinHeight?size.MinHeight:size.Height): double.NaN;
 						break;
 				}
 			}

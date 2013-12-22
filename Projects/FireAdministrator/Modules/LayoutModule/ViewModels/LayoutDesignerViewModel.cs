@@ -112,6 +112,8 @@ namespace LayoutModule.ViewModels
 					Manager.GridSplitterBackground = new SolidColorBrush(_layout.SplitterColor);
 					Manager.BorderBrush = new SolidColorBrush(_layout.BorderColor);
 					Manager.BorderThickness = new Thickness(_layout.BorderThickness);
+					Manager.Background = new SolidColorBrush(_layout.BackgroundColor);
+					Manager.Padding = new Thickness(_layout.Padding);
 					Manager.Layout = new LayoutRoot();
 					if (!string.IsNullOrEmpty(_layout.Content))
 						using (var tr = new StringReader(_layout.Content))

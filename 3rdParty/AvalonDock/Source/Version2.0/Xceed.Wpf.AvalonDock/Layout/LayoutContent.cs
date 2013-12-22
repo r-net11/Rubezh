@@ -293,8 +293,8 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#region Margin
 
-		private double _margin = 0;
-		public double Margin
+		private int _margin = 0;
+		public int Margin
 		{
 			get { return _margin; }
 			set
@@ -309,6 +309,60 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#endregion
 
+		#region BorderThickness
+
+		private int _borderThickness = 0;
+		public int BorderThickness
+		{
+			get { return _borderThickness; }
+			set
+			{
+				if (_borderThickness != value)
+				{
+					_borderThickness = value;
+					RaisePropertyChanged("BorderThickness");
+				}
+			}
+		}
+
+		#endregion
+
+		#region BorderColor
+
+		private Color _borderColor = Colors.Transparent;
+		public Color BorderColor
+		{
+			get { return _borderColor; }
+			set
+			{
+				if (_borderColor != value)
+				{
+					_borderColor = value;
+					RaisePropertyChanged("BorderColor");
+				}
+			}
+		}
+
+		#endregion
+
+		#region BackgroundColor
+
+		private Color _backgroundColor = Colors.Transparent;
+		public Color BackgroundColor
+		{
+			get { return _backgroundColor; }
+			set
+			{
+				if (_backgroundColor != value)
+				{
+					_backgroundColor = value;
+					RaisePropertyChanged("BackgroundColor");
+				}
+			}
+		}
+
+		#endregion
+		
 		protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
 		{
 			var root = Root;
@@ -411,7 +465,13 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			if (reader.MoveToAttribute("ContentId"))
 				ContentId = reader.Value;
 			if (reader.MoveToAttribute("Margin"))
-				Margin = double.Parse(reader.Value);
+				Margin = int.Parse(reader.Value);
+			if (reader.MoveToAttribute("BorderColor"))
+				BorderColor = (Color)ColorConverter.ConvertFromString(reader.Value);
+			if (reader.MoveToAttribute("BorderThickness"))
+				BorderThickness = int.Parse(reader.Value);
+			if (reader.MoveToAttribute("BackgroundColor"))
+				BackgroundColor = (Color)ColorConverter.ConvertFromString(reader.Value);
 			//if (reader.MoveToAttribute("IsLastFocusedDocument"))
 			//    IsLastFocusedDocument = bool.Parse(reader.Value);
 			//if (reader.MoveToAttribute("PreviousContainerId"))
@@ -456,6 +516,12 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				writer.WriteAttributeString("ContentId", ContentId);
 			if (Margin != 0)
 				writer.WriteAttributeString("Margin", Margin.ToString());
+			if (BorderThickness != 0)
+				writer.WriteAttributeString("BorderThickness", BorderThickness.ToString());
+			if (BorderColor != Colors.Transparent)
+				writer.WriteAttributeString("BorderColor", BorderColor.ToString());
+			if (BackgroundColor != Colors.Transparent)
+				writer.WriteAttributeString("BackgroundColor", BackgroundColor.ToString());
 			//if (ToolTip != null && ToolTip is string)
 			//    if (!string.IsNullOrWhiteSpace((string)ToolTip))
 			//        writer.WriteAttributeString("ToolTip", (string)ToolTip);

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 
 namespace Infrastructure.Common.Services.Layout
 {
@@ -13,6 +14,9 @@ namespace Infrastructure.Common.Services.Layout
 		public bool IsWidthFixed { get; set; }
 		public bool IsHeightFixed { get; set; }
 		public int Margin { get; set; }
+		public Color BackgroundColor { get; set; }
+		public Color BorderColor { get; set; }
+		public int BorderThickness { get; set; }
 		public Size PreferedSize { get; set; }
 	}
 }

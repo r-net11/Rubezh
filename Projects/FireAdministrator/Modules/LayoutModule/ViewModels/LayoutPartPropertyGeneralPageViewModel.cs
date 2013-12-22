@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace LayoutModule.ViewModels
 {
@@ -122,6 +123,36 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => Margin);
 			}
 		}
+		private Color _backgroundColor;
+		public Color BackgroundColor
+		{
+			get { return _backgroundColor; }
+			set
+			{
+				_backgroundColor = value;
+				OnPropertyChanged(() => BackgroundColor);
+			}
+		}
+		private Color _borderColor;
+		public Color BorderColor
+		{
+			get { return _borderColor; }
+			set
+			{
+				_borderColor = value;
+				OnPropertyChanged(() => BorderColor);
+			}
+		}
+		private int _borderThickness;
+		public int BorderThickness
+		{
+			get { return _borderThickness; }
+			set
+			{
+				_borderThickness = value;
+				OnPropertyChanged(() => BorderThickness);
+			}
+		}
 
 		public override string Header
 		{
@@ -138,6 +169,9 @@ namespace LayoutModule.ViewModels
 			Width = _layoutPartSize.Width;
 			WidthType = _layoutPartSize.WidthType;
 			Margin = _layoutPartSize.Margin;
+			BackgroundColor = _layoutPartSize.BackgroundColor;
+			BorderColor = _layoutPartSize.BorderColor;
+			BorderThickness = _layoutPartSize.BorderThickness;
 		}
 		public override bool CanSave()
 		{
@@ -145,7 +179,7 @@ namespace LayoutModule.ViewModels
 		}
 		public override bool Save()
 		{
-			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin)
+			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin || _layoutPartSize.BackgroundColor != BackgroundColor || _layoutPartSize.BorderColor != BorderColor || _layoutPartSize.BorderThickness != BorderThickness)
 			{
 				_layoutPartSize.Height = Height;
 				_layoutPartSize.HeightType = HeightType;
@@ -156,6 +190,9 @@ namespace LayoutModule.ViewModels
 				_layoutPartSize.Width = Width;
 				_layoutPartSize.WidthType = WidthType;
 				_layoutPartSize.Margin = Margin;
+				_layoutPartSize.BackgroundColor = BackgroundColor;
+				_layoutPartSize.BorderColor = BorderColor;
+				_layoutPartSize.BorderThickness = BorderThickness;
 				return true;
 			}
 			return false;

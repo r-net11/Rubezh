@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Anchorable_AutoHide" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Скрывать Автоматически</value>
   </data>
   <data name="Anchorable_BtnAutoHide_Hint" xml:space="preserve">
-    <value>Auto Hide</value>
+    <value>Скрывать Автоматически</value>
   </data>
   <data name="Anchorable_BtnClose_Hint" xml:space="preserve">
-    <value>Hide</value>
+    <value>Скрыть</value>
   </data>
   <data name="Anchorable_CxMenu_Hint" xml:space="preserve">
-    <value>Window Position</value>
+    <value>Положение Окна</value>
   </data>
   <data name="Anchorable_Dock" xml:space="preserve">
-    <value>Dock</value>
+    <value>Присоединить</value>
   </data>
   <data name="Anchorable_DockAsDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Присоединить как Документ</value>
   </data>
   <data name="Anchorable_Float" xml:space="preserve">
-    <value>Float</value>
+    <value>Отсоединить</value>
   </data>
   <data name="Anchorable_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>Скрыть</value>
   </data>
   <data name="Document_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Закрыть</value>
   </data>
   <data name="Document_CloseAllButThis" xml:space="preserve">
-    <value>Close All But This</value>
+    <value>Закрыть Все кроме Этого</value>
   </data>
   <data name="Document_CxMenu_Hint" xml:space="preserve">
-    <value>Window Position</value>
+    <value>Положение Окна</value>
   </data>
   <data name="Document_DockAsDocument" xml:space="preserve">
-    <value>Dock as Tabbed Document</value>
+    <value>Присоединить как Документ</value>
   </data>
   <data name="Document_Float" xml:space="preserve">
-    <value>Float</value>
+    <value>Отсоединить</value>
   </data>
   <data name="Document_MoveToNextTabGroup" xml:space="preserve">
-    <value>Move To Next Tab Group</value>
+    <value>Перейти к Следующей Группе Вкладок</value>
   </data>
   <data name="Document_MoveToPreviousTabGroup" xml:space="preserve">
-    <value>Move To Previous Tab Group</value>
+    <value>Перейти к Предыдущей Группе Вкладок</value>
   </data>
   <data name="Document_NewHorizontalTabGroup" xml:space="preserve">
-    <value>New Horizontal Tab Group</value>
+    <value>Новая Горизонтальная Группа Вкладок</value>
   </data>
   <data name="Document_NewVerticalTabGroup" xml:space="preserve">
-    <value>New Vertical Tab Group</value>
+    <value>Новая Вертикальная Группа Вкладок</value>
   </data>
   <data name="Window_Maximize" xml:space="preserve">
-    <value>Maximize</value>
+    <value>Развернуть</value>
   </data>
   <data name="Window_Restore" xml:space="preserve">
-    <value>Restore</value>
+    <value>Восстановить</value>
   </data>
 </root>
