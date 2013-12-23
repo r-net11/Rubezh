@@ -7,7 +7,7 @@
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
         xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-        MinWidth="900" MinHeight="500">
+        MinWidth="950" MinHeight="500">
 
     <UserControl.Resources>
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
