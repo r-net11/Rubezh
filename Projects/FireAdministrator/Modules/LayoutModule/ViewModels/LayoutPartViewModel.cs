@@ -136,13 +136,15 @@ namespace LayoutModule.ViewModels
 						size.MinWidth = element.DockMinWidth;
 						size.IsWidthFixed = element.IsDockWidthFixed;
 						size.WidthType = element.DockWidth.GridUnitType;
-						size.Width = element.DockWidth.IsAuto ? layoutItem.View.Width : element.DockWidth.Value;
+						//size.Width = element.DockWidth.IsAuto ? layoutItem.View.Width : element.DockWidth.Value;
+						size.Width = element.DockWidth.Value;
 						break;
 					case Orientation.Vertical:
 						size.MinHeight = element.DockMinHeight;
 						size.IsHeightFixed = element.IsDockHeightFixed;
 						size.HeightType = element.DockHeight.GridUnitType;
-						size.Height = element.DockHeight.IsAuto ? layoutItem.View.Height : element.DockHeight.Value;
+						//size.Height = element.DockHeight.IsAuto ? layoutItem.View.Height : element.DockHeight.Value;
+						size.Height = element.DockHeight.Value;
 						break;
 				}
 			}
@@ -158,13 +160,13 @@ namespace LayoutModule.ViewModels
 						element.DockMinWidth = size.MinWidth;
 						element.IsDockWidthFixed = size.IsWidthFixed;
 						element.DockWidth = new GridLength(size.Width, size.WidthType);
-						layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? (size.Width < size.MinWidth ? size.MinWidth : size.Width) : double.NaN;
+						//layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? (size.Width < size.MinWidth ? size.MinWidth : size.Width) : double.NaN;
 						break;
 					case Orientation.Vertical:
 						element.DockMinHeight = size.MinHeight;
 						element.IsDockHeightFixed = size.IsHeightFixed;
 						element.DockHeight = new GridLength(size.Height, size.HeightType);
-						layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? (size.Height < size.MinHeight?size.MinHeight:size.Height): double.NaN;
+						//layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? (size.Height < size.MinHeight?size.MinHeight:size.Height): double.NaN;
 						break;
 				}
 			}

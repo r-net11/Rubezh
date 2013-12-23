@@ -161,24 +161,30 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			if (AsyncRefreshCalled)
 				return;
 
-			if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockWidth" && Orientation == System.Windows.Controls.Orientation.Horizontal)
+			if (_fixingChildrenDockLengths.CanEnter && (e.PropertyName == "DockWidth" || e.PropertyName == "DockMinWidth") && Orientation == System.Windows.Controls.Orientation.Horizontal)
 			{
 				if (ColumnDefinitions.Count == InternalChildren.Count)
 				{
 					var changedElement = sender as ILayoutPositionableElement;
 					var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
 					int indexOfChild = InternalChildren.IndexOf(childFromModel);
-					ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
+					if (e.PropertyName == "DockWidth")
+						ColumnDefinitions[indexOfChild].Width = changedElement.DockWidth;
+					if (e.PropertyName == "DockMinWidth")
+						ColumnDefinitions[indexOfChild].MinWidth = changedElement.DockMinWidth;
 				}
 			}
-			else if (_fixingChildrenDockLengths.CanEnter && e.PropertyName == "DockHeight" && Orientation == System.Windows.Controls.Orientation.Vertical)
+			else if (_fixingChildrenDockLengths.CanEnter && (e.PropertyName == "DockHeight" || e.PropertyName == "DockMinHeight") && Orientation == System.Windows.Controls.Orientation.Vertical)
 			{
 				if (RowDefinitions.Count == InternalChildren.Count)
 				{
 					var changedElement = sender as ILayoutPositionableElement;
 					var childFromModel = InternalChildren.OfType<ILayoutControl>().First(ch => ch.Model == changedElement) as UIElement;
 					int indexOfChild = InternalChildren.IndexOf(childFromModel);
-					RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
+					if (e.PropertyName == "DockHeight")
+						RowDefinitions[indexOfChild].Height = changedElement.DockHeight;
+					if (e.PropertyName == "DockMinHeight")
+						RowDefinitions[indexOfChild].MinHeight = changedElement.DockMinHeight;
 				}
 			}
 			else if (e.PropertyName == "IsVisible" || e.PropertyName == "IsDockHeightFixed" || e.PropertyName == "IsDockWidthFixed")
