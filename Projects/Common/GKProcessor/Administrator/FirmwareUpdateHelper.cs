@@ -54,7 +54,7 @@ namespace GKProcessor
 			var device = new XDevice();
 			foreach (var fileInfos in hxcFileInfo.FileInfos)
 			{
-				
+
 			}
 			GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			//var hxcFileInfo = HXCFileInfoHelper.Load(fileName);

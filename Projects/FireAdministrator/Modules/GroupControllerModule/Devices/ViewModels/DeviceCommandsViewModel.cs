@@ -168,6 +168,9 @@ namespace GKModule.Models
 			};
 			if (openDialog.ShowDialog().Value)
 			{
+                var firmWareUpdateViewModel = new FirmWareUpdateViewModel();
+                DialogService.ShowModalWindow(firmWareUpdateViewModel);
+
 				if (new FileInfo(openDialog.FileName).Extension.ToLower() == ".fscs")
 				{
 					var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);

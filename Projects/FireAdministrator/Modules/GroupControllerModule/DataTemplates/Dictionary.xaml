@@ -172,4 +172,8 @@
         <Views:FileWritingView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:FirmWareUpdateViewModel}">
+        <Views:FirmWareUpdateView />
+    </DataTemplate>
+
 </ResourceDictionary>
