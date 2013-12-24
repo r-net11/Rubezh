@@ -7,4 +7,5 @@
   <?define MultiClientMonitor.TargetFileName="FireMonitor.Multiclient.exe"?>
   <?define MultiClientAdministratorName="Мультисерверная Оперативная Задача ОПС FireSec-2(Настройка)" ?>
   <?define MultiClientAdministrator.TargetFileName="MultiClientAdministrator.exe"?>
+  <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
 </Include>

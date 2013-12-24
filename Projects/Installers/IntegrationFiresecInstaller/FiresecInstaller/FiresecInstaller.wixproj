@@ -7,7 +7,7 @@
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Firesec-2 1.2</OutputName>
+    <OutputName>Firesec Integration 2.1.3</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -100,6 +100,7 @@
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="OPC\Variables.wxi" />
+    <Content Include="SDK\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="ManagementConsole\Variables.wxi" />

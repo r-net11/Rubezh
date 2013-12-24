@@ -14,23 +14,24 @@
         <File Id="OPC.FiresecOPCServer.exe" Name="FiresecOPCServer.exe" Source="$(var.OPC.TargetDir)" KeyPath="yes" />
         <File Id="OPC.FiresecOPCServer.exe.config" Name="FiresecOPCServer.exe.config" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FiresecOPCServer.exe.manifest" Name="FiresecOPCServer.exe.manifest" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Common.dll" Name="Common.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Controls.dll" Name="Controls.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Firesec.dll" Name="Firesec.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.gbda3w.dll" Name="gbda3w.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FS2API.dll" Name="FS2API.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.FS2Client.dll" Name="FS2Client.dll" Source="$(var.OPC.TargetDir)" />
-        <File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.OPC.TargetDir)" />
+
+        <File Id="OPC.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Firesec.dll" Name="Firesec.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FS2API.dll" Name="FS2API.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>
