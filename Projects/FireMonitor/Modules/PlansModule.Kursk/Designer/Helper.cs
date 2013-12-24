@@ -19,7 +19,7 @@ namespace PlansModule.Kursk.Designer
 
 		public static XDevice GetXDevice(ElementRectangleTank element)
 		{
-			return element.XDeviceUID != Guid.Empty && _xdeviceMap.ContainsKey(element.XDeviceUID) ? _xdeviceMap[element.XDeviceUID] : null;
+			return element.XDeviceUID != Guid.Empty && _xdeviceMap != null && _xdeviceMap.ContainsKey(element.XDeviceUID) ? _xdeviceMap[element.XDeviceUID] : null;
 		}
 	}
 }
