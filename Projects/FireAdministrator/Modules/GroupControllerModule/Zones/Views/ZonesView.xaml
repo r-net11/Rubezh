@@ -81,8 +81,8 @@
 				</DataGrid>
 
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
-					<Controls:ToolBarButton Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону (Ctrl+N)" />
-					<Controls:ToolBarButton Command="{Binding RemoveCommand}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowDown.png" ToolTip="Удалить из зоны (Ctrl+Del)" />
+					<Controls:ToolBarButton Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowUp.png" ToolTip="Добавить в зону" />
+					<Controls:ToolBarButton Command="{Binding RemoveCommand}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" ImageSource="/Controls;component/Images/ArrowDown.png" ToolTip="Удалить из зоны" />
 				</StackPanel>
 			</Grid>
 
