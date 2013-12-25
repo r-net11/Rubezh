@@ -161,29 +161,38 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			var openDialog = new OpenFileDialog()
-			{
-				Filter = "soft update files|*.hcs|FSCS updater|*.fscs",
-				DefaultExt = "soft update files|*.hcs"
-			};
-			if (openDialog.ShowDialog().Value)
-			{
-                var firmWareUpdateViewModel = new FirmWareUpdateViewModel();
-                DialogService.ShowModalWindow(firmWareUpdateViewModel);
-
-				if (new FileInfo(openDialog.FileName).Extension.ToLower() == ".fscs")
-				{
-					var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-					FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo);
-				}
-				else
-					FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+		    if (SelectedDevice.Device.DriverType == XDriverType.System)
+		    {
+		        var openDialog = new OpenFileDialog()
+		        {
+		            Filter = "FSCS updater|*.fscs",
+		            DefaultExt = "FSCS updater|*.fscs"
+		        };
+		        if (openDialog.ShowDialog().Value)
+		        {
+                    var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK)||(x.Driver.IsKauOrRSR2Kau));
+                    var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
+		            if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
+		            {
+                        var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
+                        FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo);  
+		            }
+		        }
+		    }
+		    else
+            {
+		        var openDialog = new OpenFileDialog()
+		        {
+		            Filter = "soft update files|*.hcs",
+		            DefaultExt = "soft update files|*.hcs"
+		        };
+                FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
 			}
 		}
 
 		bool CanUpdateFirmwhare()
 		{
-			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
+			return (SelectedDevice != null && (SelectedDevice.Driver.IsKauOrRSR2Kau || SelectedDevice.Driver.DriverType == XDriverType.GK || SelectedDevice.Driver.DriverType == XDriverType.System) && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

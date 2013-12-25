@@ -222,7 +222,7 @@ namespace GKModule.ViewModels
             {
                 if (pumpStationsDifferences.Length != 0)
                     pumpStationsDifferences.Append(". ");
-			    pumpStationsDifferences.Append(isLocalConfig ? "Содержит насосы, отсутствующие в конфигурации прибора": "Содержит насосы, отсутствующие в локальной конфигурации");
+			    pumpStationsDifferences.Append("Не совпадает количество насосов");
             }
             bool startDiff = XManager.GetPresentationZone(object1.PumpStation.StartLogic) != XManager.GetPresentationZone(object2.PumpStation.StartLogic);
             bool stopDiff = XManager.GetPresentationZone(object1.PumpStation.StopLogic) != XManager.GetPresentationZone(object2.PumpStation.StopLogic);

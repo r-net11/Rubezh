@@ -93,6 +93,7 @@
     <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
+    <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
