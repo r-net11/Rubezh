@@ -14,7 +14,7 @@ namespace FiresecAPI
 			Login = "adm";
 			Password = "";
 			AutoConnect = true;
-			DoNotOverrideFS1 = false;
+			DoNotOverrideFS1 = true;
 			LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
 			Server_EnableRemoteConnections = false;
 
