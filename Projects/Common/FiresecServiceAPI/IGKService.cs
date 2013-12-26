@@ -23,8 +23,11 @@ namespace FiresecAPI
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		void GKUpdateFirmware(Guid deviceUID, string fileName);
+        OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
 
+        [OperationContract]
+        OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices);
+        
 		[OperationContract]
 		bool GKSyncronyseTime(Guid deviceUID);
 

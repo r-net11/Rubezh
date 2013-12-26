@@ -57,27 +57,27 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKUpdateFirmware(XDevice device, string fileName)
+        public OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.BaseUID, fileName), "GKUpdateFirmware");
+				return SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.BaseUID, fileName), "GKUpdateFirmware");
 			}
 			else
 			{
-				GKProcessorManager.GKUpdateFirmware(device, fileName, FiresecManager.CurrentUser.Name);
+                return GKProcessorManager.GKUpdateFirmware(device, fileName, FiresecManager.CurrentUser.Name);
 			}
 		}
 
-		public void GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo)
+        public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, List<XDevice> devices)
 		{
-			//if (IsGKAsAService)
-			//{
-			//    SafeOperationCall(() => FiresecService.GKUpdateFirmware(device.BaseUID, fileName), "GKUpdateFirmware");
-			//}
-			//else
+			if (IsGKAsAService)
 			{
-				GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name);
+                return SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, devices), "GKUpdateFirmwareFSCS");
+			}
+			else
+			{
+				return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, devices);
 			}
 		}
 

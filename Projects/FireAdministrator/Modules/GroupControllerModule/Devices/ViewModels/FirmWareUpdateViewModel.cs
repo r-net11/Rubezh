@@ -11,10 +11,10 @@ namespace GKModule.ViewModels
         public FirmWareUpdateViewModel(List<XDevice> devices)
         {
             Title = "Выберете устройства, у которых следуют обновить ПО";
-            AvailableDevices = Initialize(devices);
+            UpdatedDevices = Initialize(devices);
             UpdateCommand = new RelayCommand(OnUpdate, CanUpdate);
         }
-        public List<UpdatedDeviceViewModel> AvailableDevices { get; set; }
+        public List<UpdatedDeviceViewModel> UpdatedDevices { get; set; }
         List<UpdatedDeviceViewModel> Initialize(List<XDevice> devices)
         {
             return devices.Select(device => new UpdatedDeviceViewModel(device)).ToList();
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 
         bool CanUpdate()
         {
-            if (AvailableDevices.Any(x => x.IsChecked))
+            if (UpdatedDevices.Any(x => x.IsChecked))
             {
                 UpdateButtonToolTip = "Обновить";
                 return true;
