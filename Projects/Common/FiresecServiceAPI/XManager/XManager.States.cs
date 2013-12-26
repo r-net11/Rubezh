@@ -39,7 +39,7 @@ namespace FiresecClient
         public static void AddChildren(XDevice device)
         {
             allDeviceChildren.Add(device);
-			if ((device.Children != null) && (device.Children.Count != 0))
+			if (device.Children != null && device.Children.Count != 0)
 			{
 				foreach (var childDevice in device.Children)
 				{

@@ -29,11 +29,11 @@ namespace Infrastructure.Common
 				if ((isMultiClient) && (statusNew != 0x07))
 					return true;
 			}
-			catch (DllNotFoundException e1)
+			catch (DllNotFoundException)
 			{
 				return false;
 			}
-			catch (AccessViolationException e)
+			catch (AccessViolationException)
 			{
 				pinnedArray.Free();
 				var status = hasp_logout(0);
