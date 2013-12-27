@@ -115,7 +115,9 @@
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Instructions\Converters\DirectionsToLongStringConverter.cs" />
     <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
+    <Compile Include="Instructions\Converters\ZonesToLongStringConverter.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
     <Compile Include="Journal\Views\JournalFromFileView.xaml.cs">
       <DependentUpon>JournalFromFileView.xaml</DependentUpon>

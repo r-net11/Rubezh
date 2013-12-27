@@ -26,6 +26,16 @@ namespace GKModule.ViewModels
 		{
 			get { return Instruction.Devices.Count > 0; }
 		}
+
+		public bool HasZones
+		{
+			get { return Instruction.ZoneUIDs.Count > 0; }
+		}
+
+		public bool HasDirections
+		{
+			get { return Instruction.Directions.Count > 0; }
+		}
 		
 		public void Update()
 		{
