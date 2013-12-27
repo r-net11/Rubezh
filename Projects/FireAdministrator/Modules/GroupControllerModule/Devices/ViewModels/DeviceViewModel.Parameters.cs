@@ -421,7 +421,7 @@ namespace GKModule.ViewModels
 			var remoteHash = readInfoBlock.Hash1;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
-			MessageBoxService.ShowError("Конфигурации различны");
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
 			return false;
 		}
 	}
