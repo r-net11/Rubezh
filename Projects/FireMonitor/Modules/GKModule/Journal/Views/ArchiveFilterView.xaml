@@ -73,7 +73,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            <TabItem Header="События">
+            <TabItem Header="Название">
                 <ListBox ItemsSource="{Binding JournalDescriptionStates}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -86,7 +86,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            <TabItem Header="Примечания">
+            <TabItem Header="Уточнение">
                 <ListBox ItemsSource="{Binding ArchiveDescriptions}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>

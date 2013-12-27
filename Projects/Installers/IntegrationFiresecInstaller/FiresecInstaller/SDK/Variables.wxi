@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define SDK.TargetDir="..\..\..\..\..\GKSDK\GKSDK\"?>
-  <?define SDK_Assemblies.TargetDir="..\..\..\..\..\GKSDK\Assemblies\"?>
   <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
 </Include>

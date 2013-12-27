@@ -63,7 +63,7 @@ namespace GKProcessor
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 			NotifyAllObjectsStateChanged();
-			return !IsAnyDBMissmatch && !IsConnected;
+			return !IsAnyDBMissmatch && IsConnected;
 		}
 
 		void NotifyAllObjectsStateChanged()

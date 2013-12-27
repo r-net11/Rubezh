@@ -90,13 +90,18 @@
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\FileWritingViewModel.cs" />
+    <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
+    <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />
     <Compile Include="Devices\Views\DevicesOnShleifView.xaml.cs">
       <DependentUpon>DevicesOnShleifView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\FileWritingView.xaml.cs">
       <DependentUpon>FileWritingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\FirmWareUpdateView.xaml.cs">
+      <DependentUpon>FirmWareUpdateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
@@ -416,6 +421,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\FileWritingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\FirmWareUpdateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

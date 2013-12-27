@@ -28,7 +28,7 @@ namespace SKUDModule
 		
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_skudNavigationItem = new NavigationItem<ShowReportsEvent>(SKUDViewModel, "СКУД", "/Controls;component/Images/levels.png");
+			_skudNavigationItem = new NavigationItem<ShowSKUDEvent>(SKUDViewModel, "СКУД", "/Controls;component/Images/levels.png");
 			return new List<NavigationItem>()
 		    {
 		        _skudNavigationItem
