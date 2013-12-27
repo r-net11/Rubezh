@@ -23,13 +23,13 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
             <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding PresentationName}" Margin="2" />
         </Grid>
         <Button Grid.Row="1" Content="Подтвердить" Command="{Binding ConfirmCommand}" HorizontalAlignment="Right" Width="150" Height="50" FontWeight="Bold" Margin="2" />

@@ -54,6 +54,13 @@ namespace GKProcessor
 						device.InternalState.IsConnectionLost = !isConnected;
 						OnObjectStateChanged(device);
 					}
+					foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+					{
+						if (device.Driver.IsGroupDevice || device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
+						{
+							OnObjectStateChanged(device);
+						}
+					}
 					foreach (var zone in XManager.Zones)
 					{
 						if (zone.GkDatabaseParent == gkDevice)

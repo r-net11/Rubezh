@@ -60,13 +60,22 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void GKUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
+				return GKProcessorManager.GKUpdateFirmware(device, fileName, UserName);
 			}
+			else
+			{
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		{
+			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
 		}
 
 		public bool GKSyncronyseTime(Guid deviceUID)
