@@ -125,7 +125,7 @@ namespace GKProcessor
 					continue;
 				}
 
-				//if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
+				if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
 				{
 					var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
 					var gkFileReaderWriter = new GKFileReaderWriter();
