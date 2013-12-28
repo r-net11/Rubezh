@@ -22,7 +22,6 @@
 		MDU,
 		MPT,
 		Valve,
-		Pump,
         FirePump,
         JockeyPump,
         DrainagePump,

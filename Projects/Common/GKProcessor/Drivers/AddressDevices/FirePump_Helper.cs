@@ -16,7 +16,7 @@ namespace GKProcessor
                 DriverType = XDriverType.FirePump,
                 UID = new Guid("CE578ED6-F39B-4A92-9F03-BB92A904A14C"),
                 Name = "Шкаф управления пожарным насосом",
-                ShortName = "ШУН-ПН",
+                ShortName = "Пожарный насос",
                 IsControlDevice = true,
                 HasLogic = false,
                 IsPlaceable = true,

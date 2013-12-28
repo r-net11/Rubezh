@@ -158,16 +158,16 @@ namespace GKProcessor
 			var adressOnController = BytesHelper.SubstructShort(bytes, 4);
 			var physicalAdress = BytesHelper.SubstructShort(bytes, 6);
 			if(internalType == 0)
-				return true; //ШУН-ПН ШУН-ЖН ШУН-ДН
+				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
 			if (internalType == 0x70)
 			{
-				if (description[4] == 'П')
+				if (description[0] == 'П')
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.FirePump);
-				if (description[4] == 'Ж')
+				if (description[0] == 'Ж')
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.JockeyPump);
-				if (description[4] == 'Д')
+				if (description[0] == 'Д')
 					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.DrainagePump);
 			}
 			if (driver != null)

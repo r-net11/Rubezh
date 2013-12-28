@@ -16,7 +16,7 @@ namespace GKProcessor
                 DriverType = XDriverType.DrainagePump,
                 UID = new Guid("FF1245BF-C923-4751-9A75-BDFC18CA0996"),
                 Name = "Шкаф управления дренажным насосом",
-                ShortName = "ШУН-ДН",
+                ShortName = "Дренажный насос",
                 IsControlDevice = true,
                 HasLogic = false,
                 IsPlaceable = true,

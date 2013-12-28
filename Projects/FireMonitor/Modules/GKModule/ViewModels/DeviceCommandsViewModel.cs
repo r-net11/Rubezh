@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
 			}
-			if (Device.DriverType == XDriverType.Pump && Device.IntAddress == 12)
+			if (Device.DriverType == XDriverType.JockeyPump)
 			{
 				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, XStateBit.ForbidStart_InManual);
 				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);

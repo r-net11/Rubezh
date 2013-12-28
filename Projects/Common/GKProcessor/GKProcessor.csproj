@@ -86,7 +86,6 @@
     <Compile Include="Drivers\AddressDevices\DrainagePump_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\FirePump_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\JockeyPump_Helper.cs" />
-    <Compile Include="Drivers\AddressDevices\Pump_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\Valve_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\CombinedDetector_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\HandDetector_Helper.cs" />

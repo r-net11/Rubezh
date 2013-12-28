@@ -16,7 +16,7 @@ namespace GKProcessor
                 DriverType = XDriverType.JockeyPump,
                 UID = new Guid("1EB96235-8275-445F-9EB2-8F92157764F9"),
                 Name = "Шкаф управления жокей насосом",
-                ShortName = "ШУН-ЖН",
+                ShortName = "Жокей насос",
                 IsControlDevice = true,
                 HasLogic = false,
                 IsPlaceable = true,
