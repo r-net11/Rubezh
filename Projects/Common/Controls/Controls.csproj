@@ -732,14 +732,12 @@
     <Resource Include="GKIcons\CombinedDetector.png" />
     <Resource Include="GKIcons\CompensationPump.png" />
     <Resource Include="GKIcons\Compressor.png" />
-    <Resource Include="GKIcons\DrenazhPump.png" />
     <Resource Include="GKIcons\GK.png" />
     <Resource Include="GKIcons\GKIndicator.png" />
     <Resource Include="GKIcons\GKLine.png" />
     <Resource Include="GKIcons\GKRele.png" />
     <Resource Include="GKIcons\HandDetector.png" />
     <Resource Include="GKIcons\HeatDetector.png" />
-    <Resource Include="GKIcons\JokeyPump.png" />
     <Resource Include="GKIcons\KAU.png" />
     <Resource Include="GKIcons\KAUIndicator.png" />
     <Resource Include="GKIcons\MDU.png" />
@@ -1376,6 +1374,9 @@
     <Resource Include="Images\Reset.png" />
     <Resource Include="Images\ResetAlarm.png" />
     <Resource Include="Images\CFolder.png" />
+    <Resource Include="GKIcons\DrainagePump.png" />
+    <Resource Include="GKIcons\FirePump.png" />
+    <Resource Include="GKIcons\JockeyPump.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

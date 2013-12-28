@@ -27,7 +27,7 @@ namespace GKProcessor
 			FirePumpDevices = new List<XDevice>();
 			foreach (var nsDevice in pumpStation.NSDevices)
 			{
-				if (nsDevice.DriverType == XDriverType.Pump)
+				if (nsDevice.Driver.IsPump)
 				{
 					var pumpTypeProperty = nsDevice.Properties.FirstOrDefault(x => x.Name == "PumpType");
 					if (pumpTypeProperty != null)
