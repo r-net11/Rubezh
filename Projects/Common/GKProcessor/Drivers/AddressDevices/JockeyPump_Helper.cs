@@ -35,43 +35,47 @@ namespace GKProcessor
             driver.AvailableCommandBits.Add(XStateBit.TurnOnNow_InManual);
             driver.AvailableCommandBits.Add(XStateBit.TurnOff_InManual);
 
-            GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания восстановления давления, мин", 2, 2, 65535);
+            GKDriversHelper.AddIntProprety(driver, 0x84, "Время ожидания ВД, мин", 2, 2, 65535);
 
             var property3 = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Датчик низкого давления",
-                Caption = "Датчик низкого давления",
-                DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				Name = "Тип контакта датчика НД",
+				Caption = "Тип контакта датчика НД",
+                DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsLowByte = true,
                 Mask = 1
             };
+			property3.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
+			property3.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
             driver.Properties.Add(property3);
 
             var property4 = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Датчик высокого давления",
-                Caption = "Датчик высокого давления",
-                DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				Name = "Тип контакта датчика ВД",
+				Caption = "Тип контакта датчика ВД",
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsLowByte = true,
                 Mask = 2
             };
-            driver.Properties.Add(property4);
+			driver.Properties.Add(property4);
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
 
             var manometerProperty = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Манометр",
-                Caption = "Манометр",
-                ToolTip = "Тип манометра",
+                Name = "Конфигурация",
+				Caption = "Конфигурация",
+				ToolTip = "Тип конфигурации",
                 Default = 0,
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsHieghByte = true,
                 Mask = 1
             };
-            manometerProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Одноконтактный", Value = 0 });
-            manometerProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Двухконтактный", Value = 1 });
+            manometerProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Два одноконтактных", Value = 0 });
+            manometerProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Один двухконтактный", Value = 1 });
             driver.Properties.Add(manometerProperty);
 
             driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });

@@ -38,34 +38,40 @@ namespace GKProcessor
             var property3 = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Датчик высокого уровня",
-                Caption = "Датчик высокого уровня",
-                DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+                Name = "Тип контакта датчика ВУ",
+				Caption = "Тип контакта датчика ВУ",
+                DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsLowByte = true,
                 Mask = 1
             };
-            driver.Properties.Add(property3);
+			property3.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
+			property3.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			driver.Properties.Add(property3);
 
             var property4 = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Датчик низкого уровня",
-                Caption = "Датчик низкого уровня",
-                DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				Name = "Тип контакта датчика НУ",
+				Caption = "Тип контакта датчика НУ",
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsLowByte = true,
                 Mask = 2
             };
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
             driver.Properties.Add(property4);
 
             var property5 = new XDriverProperty()
             {
                 No = 0x8d,
-                Name = "Датчик аварийного уровня",
-                Caption = "Датчик аварийного уровня",
-                DriverPropertyType = XDriverPropertyTypeEnum.BoolType,
+				Name = "Тип контакта датчика АУ",
+				Caption = "Тип контакта датчика АУ",
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsLowByte = true,
                 Mask = 4
             };
+			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
+			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
             driver.Properties.Add(property5);
 
             driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
