@@ -7,8 +7,6 @@
         <Converters:DevicesToStringConverter x:Key="DevicesToStringConverter" />
         <Converters:ZonesToStringConverter x:Key="ZonesToStringConverter" />
         <Converters:DirectionsToStringConverter x:Key="DirectionsToStringConverter" />
-        <Converters:DirectionsToLongStringConverter x:Key="DirectionsToLongStringConverter" />
-        <Converters:ZonesToLongStringConverter x:Key="ZonesToLongStringConverter" />
     </UserControl.Resources>
 
     <Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
@@ -47,7 +45,7 @@
                                         <DataTrigger Binding="{Binding HasZones}" Value="True">
                                             <Setter Property="TextBlock.ToolTip">
                                                 <Setter.Value>
-                                                    <TextBlock Text="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToLongStringConverter}}" TextWrapping="Wrap" />    
+                                                    <TextBlock Text="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" TextWrapping="Wrap" />    
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
@@ -68,7 +66,7 @@
                                         <DataTrigger Binding="{Binding HasDirections}" Value="True">
                                             <Setter Property="TextBlock.ToolTip">
                                                 <Setter.Value>
-                                                    <TextBlock Text="{Binding Instruction.Directions, Converter={StaticResource DirectionsToLongStringConverter}}" TextWrapping="Wrap" />    
+                                                    <TextBlock Text="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="Wrap" />    
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
