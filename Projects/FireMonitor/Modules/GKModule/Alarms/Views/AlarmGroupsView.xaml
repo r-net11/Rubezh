@@ -17,10 +17,10 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Controls:AlarmButton Grid.Column="0" Command="{Binding ResetCommand}" 
-                Width="70" Height="70" Margin="5 2" FontSize="12" GlowColor="Transparent" IsGlowing="{Binding CanReset}" IsEnabled="{Binding CanReset}"
+                Width="70" Height="70" Margin="5 2" FontSize="15" GlowColor="Transparent" IsGlowing="{Binding CanReset}" IsEnabled="{Binding CanReset}"
                 MouseDown="Button_MouseDown">
                 <StackPanel>
-                    <TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 5" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
+                    <TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
                     <Image Source="/Controls;component/Images/ResetAlarm.png" Width="32" />
                 </StackPanel>
             </Controls:AlarmButton>

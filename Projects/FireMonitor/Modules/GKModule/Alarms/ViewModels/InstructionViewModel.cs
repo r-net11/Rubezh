@@ -19,10 +19,7 @@ namespace GKModule.ViewModels
 			Instruction = FindInstruction(device, zone, direction);
 			Title = Instruction != null ? Instruction.Name : "";
 			HasContent = Instruction != null;
-			if (Instruction != null)
-			{
-				Title += Instruction.Name;
-			}
+			
 		}
 
 		public bool HasContent { get; private set; }

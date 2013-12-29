@@ -283,14 +283,14 @@ namespace GKProcessor
 					break;
 			}
 
-			if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
-			{
-				var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
-				if (pumpTypeProperty != null)
-				{
-					JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
-				}
-			}
+			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
+			//{
+			//    var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
+			//    if (pumpTypeProperty != null)
+			//    {
+			//        JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
+			//    }
+			//}
 
 			if (JournalItem.StateClass == XStateClass.No)
 			{

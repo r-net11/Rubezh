@@ -243,9 +243,14 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
-		public void GKUpdateFirmware(Guid deviceUID, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
-			SafeOperationCall(() => { FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
+		}
+
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices); }, "GKUpdateFirmwareFSCS");
 		}
 
 		public bool GKSyncronyseTime(Guid deviceUID)

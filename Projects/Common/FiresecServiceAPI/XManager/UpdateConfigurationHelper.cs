@@ -242,17 +242,10 @@ namespace FiresecClient
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
 					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-					if (nsDevice != null && nsDevice.DriverType == XDriverType.Pump)
+                    if (nsDevice != null && ((nsDevice.DriverType == XDriverType.FirePump) || (nsDevice.DriverType == XDriverType.JockeyPump)))
 					{
-						var pumpTypeProperty = nsDevice.Properties.FirstOrDefault(x => x.Name == "PumpType");
-						if (pumpTypeProperty != null)
-						{
-							if (pumpTypeProperty.Value == 0 || pumpTypeProperty.Value == 1)
-							{
-								nsDeviceUIDs.Add(nsDevice.UID);
-								pumpStation.NSDevices.Add(nsDevice);
-							}
-						}
+                        nsDeviceUIDs.Add(nsDevice.UID);
+                        pumpStation.NSDevices.Add(nsDevice);
 					}
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;

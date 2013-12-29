@@ -121,8 +121,6 @@ namespace GKProcessor
 			}
 		}
 
-		
-
 		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
 		{
 			var journalItems = new List<JournalItem>();
@@ -252,7 +250,7 @@ namespace GKProcessor
 								query += ")";
 							}
 
-							query += "\n ORDER BY " + dateTimeTypeString + " DESC";
+							query += "\n ORDER BY " + dateTimeTypeString + " DESC ,GKJournalRecordNo DESC";
 
 							var sqlCeCommand = new SqlCeCommand(query, dataContext);
 							dataContext.Open();

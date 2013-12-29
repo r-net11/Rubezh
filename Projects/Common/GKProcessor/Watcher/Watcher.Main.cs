@@ -157,7 +157,7 @@ namespace GKProcessor
 				}
 
 				GKCallbackResult = new GKCallbackResult();
-				if(!ReadMissingJournalItems())
+				if (!ReadMissingJournalItems())
 					AddFailureJournalItem("Ошибка при синхронизации журнала", "");
 				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 

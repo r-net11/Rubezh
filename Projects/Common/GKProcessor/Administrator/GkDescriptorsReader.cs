@@ -161,6 +161,15 @@ namespace GKProcessor
 				return true;
 			var description = BytesHelper.BytesToStringDescription(bytes);
 			var driver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == internalType);
+			if (internalType == 0x70)
+			{
+				if (description[0] == 'П')
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.FirePump);
+				if (description[0] == 'Ж')
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.JockeyPump);
+				if (description[0] == 'Д')
+					driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.DrainagePump);
+			}
 			if (driver != null)
 			{
 				if (driver.DriverType == XDriverType.GK && descriptorNo > 1)

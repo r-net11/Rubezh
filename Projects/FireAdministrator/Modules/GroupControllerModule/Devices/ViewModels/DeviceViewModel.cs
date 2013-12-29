@@ -401,7 +401,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowNSLogic()
 		{
-			return (Driver.DriverType == XDriverType.Pump && Device.IntAddress <= 8) || Driver.DriverType == XDriverType.RSR2_Bush;
+			return (Driver.IsPump && Device.IntAddress <= 8) || Driver.DriverType == XDriverType.RSR2_Bush;
 		}
 
 		public bool IsNSLogic

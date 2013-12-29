@@ -18,7 +18,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTemplateColumn Header="Событие" Width="Auto">
+                <DataGridTemplateColumn Header="Название" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

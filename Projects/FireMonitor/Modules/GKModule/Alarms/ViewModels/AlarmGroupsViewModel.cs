@@ -24,11 +24,6 @@ namespace GKModule.ViewModels
 
 		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
 
-		public int Count
-		{
-			get { return AlarmsViewModel.Current.GetAlarmsToReset(); }
-		}
-
 		public void Update(List<Alarm> alarms)
 		{
 			foreach (var alarmGroup in AlarmGroups)
@@ -62,6 +57,11 @@ namespace GKModule.ViewModels
 			{
 				return Count > 0;
 			}
+		}
+
+		public int Count
+		{
+			get { return AlarmsViewModel.Current.GetAlarmsToResetCount(); }
 		}
 	}
 }

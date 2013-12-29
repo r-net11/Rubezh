@@ -113,17 +113,17 @@ namespace GKProcessor
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.Update(device, fileName);
-			if (firmwareUpdateHelper.Error != null)
-				return new OperationResult<bool>(firmwareUpdateHelper.Error) { Result = false };
+			if (firmwareUpdateHelper.ErrorList != null)
+				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
 
-		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName)
+		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
 		{
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName);
-			if (firmwareUpdateHelper.Error != null)
-				return new OperationResult<bool>(firmwareUpdateHelper.Error) { Result = false };
+			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName, devices);
+			if (firmwareUpdateHelper.ErrorList != null)
+                return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
@@ -62,6 +63,16 @@ namespace XFiresecAPI
 		{
 			get { return DriverType == XDriverType.KAU || DriverType == XDriverType.RSR2_KAU; }
 		}
+
+	    public bool IsPump
+	    {
+	        get
+	        {
+	            return ((DriverType == XDriverType.FirePump) || (DriverType == XDriverType.JockeyPump) ||
+	                    (DriverType == XDriverType.DrainagePump));
+	        }
+	    }
+
 
 		public string ImageSource
 		{

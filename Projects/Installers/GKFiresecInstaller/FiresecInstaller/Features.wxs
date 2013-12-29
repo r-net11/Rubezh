@@ -19,10 +19,10 @@
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
       <Feature Id="SKUD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
-        <ComponentRef Id="Administrator.SKUD_MODULE"/>
+        <ComponentRef Id="Administrator.SKUD_MODULE" />
       </Feature>
       <Feature Id="Video.Features" Title="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
-        <ComponentRef Id="Administrator.VIDEO_MODULE"/>
+        <ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>
 

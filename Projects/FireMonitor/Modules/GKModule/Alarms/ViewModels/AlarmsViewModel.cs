@@ -58,8 +58,8 @@ namespace GKModule.ViewModels
 			alarms = new List<Alarm>();
 			foreach (var device in XManager.Devices)
 			{
-				if ((device.Driver.IsGroupDevice)
-					&& device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU)
+				if (!device.IsRealDevice
+					|| device.DriverType == XDriverType.GK || device.DriverType == XDriverType.KAU || device.DriverType == XDriverType.RSR2_KAU)
 					continue;
 
 				foreach (var stateClass in device.State.StateClasses)
@@ -302,25 +302,10 @@ namespace GKModule.ViewModels
 
 		bool CanResetAll()
 		{
-			foreach (var zone in XManager.Zones)
-			{
-				if (zone.State.StateClasses.Contains(XStateClass.Fire1))
-					return true;
-				if (zone.State.StateClasses.Contains(XStateClass.Fire2))
-					return true;
-			}
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.AMP_1)
-				{
-					if (device.State.StateClasses.Contains(XStateClass.Fire1) || device.State.StateClasses.Contains(XStateClass.Fire2))
-						return true;
-				}
-			}
-			return false;
+			return GetAlarmsToResetCount() > 0;
 		}
 
-		public int GetAlarmsToReset()
+		public int GetAlarmsToResetCount()
 		{
 			int result = 0;
 			foreach (var zone in XManager.Zones)

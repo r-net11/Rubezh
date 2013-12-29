@@ -63,7 +63,7 @@ namespace GKProcessor
 			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
 			CheckTechnologicalRegime();
 			NotifyAllObjectsStateChanged();
-			return !IsAnyDBMissmatch && !IsConnected;
+			return !IsAnyDBMissmatch && IsConnected;
 		}
 
 		void NotifyAllObjectsStateChanged()
@@ -72,6 +72,13 @@ namespace GKProcessor
 			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
 			{
 				OnObjectStateChanged(device);
+			}
+			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+			{
+				if (device.Driver.IsGroupDevice || device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
+				{
+					OnObjectStateChanged(device);
+				}
 			}
 			foreach (var zone in XManager.Zones)
 			{

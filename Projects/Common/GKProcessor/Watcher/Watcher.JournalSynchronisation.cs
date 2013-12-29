@@ -3,6 +3,7 @@ using FiresecClient;
 using System.Threading;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using Common;
 
 namespace GKProcessor
 {
@@ -13,10 +14,14 @@ namespace GKProcessor
 			var gkIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice);
 			var localLastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 			if (localLastDBNo == -1)
-				return false;
+			{
+				return true;
+			}
 			var remoteLastId = GetLastId();
 			if (remoteLastId == -1)
+			{
 				return false;
+			}
 			if (remoteLastId > localLastDBNo)
 			{
 				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo);

@@ -35,8 +35,50 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Зоны" Width="100" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
-            <DataGridTextColumn Header="Направления" Width="100" Binding="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" />
+            <DataGridTemplateColumn Header="Зоны" Width="100">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" TextWrapping="NoWrap">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasZones}" Value="True">
+                                            <Setter Property="TextBlock.ToolTip">
+                                                <Setter.Value>
+                                                    <TextBlock Text="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" TextWrapping="Wrap" />    
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>    
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Направления" Width="100">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="NoWrap">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasDirections}" Value="True">
+                                            <Setter Property="TextBlock.ToolTip">
+                                                <Setter.Value>
+                                                    <TextBlock Text="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" TextWrapping="Wrap" />    
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>    
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--<DataGridTextColumn Header="Зоны" Width="100" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
+            <DataGridTextColumn Header="Направления" Width="100" Binding="{Binding Instruction.Directions, Converter={StaticResource DirectionsToStringConverter}}" />-->
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
             <!--<DataGridTextColumn Header="Медиа" MinWidth="100" Binding="{Binding Instruction.MediaSource}" />-->
         </DataGrid.Columns>

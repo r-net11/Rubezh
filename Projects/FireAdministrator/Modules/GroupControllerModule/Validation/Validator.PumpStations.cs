@@ -89,7 +89,7 @@ namespace GKModule.Validation
 
 		static void ValidatePumpStationOutput(XPumpStation pumpStation)
 		{
-			var pumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == XDriverType.Pump && x.Properties.FirstOrDefault(y => y.Name == "PumpType").Value == 0);
+			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == XDriverType.FirePump);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));
@@ -100,7 +100,7 @@ namespace GKModule.Validation
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС основных насосов меньше реально располагаемых", ValidationErrorLevel.CannotWrite));
 			}
 
-			var jnPumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == XDriverType.Pump && x.Properties.FirstOrDefault(y => y.Name == "PumpType").Value == 1);
+			var jnPumpsCount = pumpStation.NSDevices.Count(x => x.DriverType == XDriverType.JockeyPump);
 			if (jnPumpsCount > 1)
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС количество подключенных ЖН больше 1", ValidationErrorLevel.CannotWrite));
 
@@ -142,7 +142,7 @@ namespace GKModule.Validation
 			{
 				foreach (var device in clause.Devices)
 				{
-					if (device.DriverType == XDriverType.Pump)
+					if (device.Driver.IsPump)
 					{
 						Errors.Add(new PumpStationValidationError(pumpStation, "В условии для запуска не может участвовать ШУН", ValidationErrorLevel.CannotWrite));
 						return;

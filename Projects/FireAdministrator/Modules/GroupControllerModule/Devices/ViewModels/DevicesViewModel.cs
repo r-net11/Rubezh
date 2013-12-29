@@ -46,7 +46,8 @@ namespace GKModule.ViewModels
 			SetRibbonItems();
 			DevicesToCopy = new List<XDevice>();
 		}
-		protected override bool IsRightPanelVisibleByDefault
+
+	    protected override bool IsRightPanelVisibleByDefault
 		{
 			get { return true; }
 		}
