@@ -15,15 +15,12 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Markup;
-using System.Xml.Serialization;
-using System.Windows;
-using System.Globalization;
-using System.Windows.Media;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Xml.Serialization;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
@@ -362,7 +359,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 		#endregion
-		
+
 		protected override void OnParentChanging(ILayoutContainer oldValue, ILayoutContainer newValue)
 		{
 			var root = Root;
