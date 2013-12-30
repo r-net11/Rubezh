@@ -36,7 +36,11 @@ namespace GKProcessor
 			AddDriverToKau(MDU_Helper.Create());
 			AddDriverToKau(MPT_Helper.Create());
 			AddDriverToKau(Valve_Helper.Create());
-			AddDriverToKau(Pump_Helper.Create());
+
+            AddDriverToKau(FirePump_Helper.Create());
+            AddDriverToKau(JockeyPump_Helper.Create());
+            AddDriverToKau(DrainagePump_Helper.Create());
+
             AddDriverToKau(Shu_Helper.Create());
             AddDriverToKau(Shuv_Helper.Create());
 

@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DriverType == XDriverType.Pump)
+				if (Device.DriverType == XDriverType.FirePump)
 					return XManager.GetPresentationZone(Device.NSLogic);
 				return XManager.GetPresentationZone(Device);
 			}

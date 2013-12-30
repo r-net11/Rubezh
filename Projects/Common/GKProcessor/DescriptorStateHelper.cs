@@ -308,7 +308,9 @@ namespace GKProcessor
 							AddAdditionalState(XStateClass.Failure, "Обрыв выхода 5");
 						break;
 
-					case XDriverType.Pump:
+					case XDriverType.FirePump:
+                    case XDriverType.JockeyPump:
+                    case XDriverType.DrainagePump:
 						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						//    if (bitArray[8 + 0])
 						//        AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
@@ -317,7 +319,7 @@ namespace GKProcessor
 						if (xBase is XDevice)
 						{
 							XDevice device = xBase as XDevice;
-							if (device != null && device.DriverType == XDriverType.Pump)
+							if (device != null && device.Driver.IsPump)
 							{
 								var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");
 								if (pumpTypeProperty != null)

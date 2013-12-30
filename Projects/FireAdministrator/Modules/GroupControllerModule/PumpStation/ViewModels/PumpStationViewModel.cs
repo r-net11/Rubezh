@@ -68,14 +68,9 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.Pump)
+				if ((device.Driver.DriverType == XDriverType.FirePump)||(device.Driver.DriverType == XDriverType.JockeyPump))
 				{
-					var pumpTypeProperty = device.Properties.FirstOrDefault(x => x.Name == "PumpType");
-					if (pumpTypeProperty != null)
-					{
-						if(pumpTypeProperty.Value == 0 || pumpTypeProperty.Value == 1)
-							sourceDevices.Add(device);
-					}
+					sourceDevices.Add(device);
 				}
 			}
 

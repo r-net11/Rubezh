@@ -163,7 +163,7 @@ namespace GKProcessor
 			{
 				stringValue = (parameterUshortValue / 256).ToString() + "." + (parameterUshortValue % 256).ToString();
 			}
-			if ((Device.DriverType == XDriverType.Valve || Device.DriverType == XDriverType.Pump)
+			if ((Device.DriverType == XDriverType.Valve || Device.Driver.IsPump)
 				&& measureParameter.Name == "Режим работы")
 			{
 				stringValue = "Неизвестно";

@@ -15,10 +15,7 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Globalization;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
@@ -73,7 +70,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
           System.Diagnostics.Trace.WriteLine( "Document()" );
         }
 #endif
-
 
 		protected override void InternalDock()
 		{

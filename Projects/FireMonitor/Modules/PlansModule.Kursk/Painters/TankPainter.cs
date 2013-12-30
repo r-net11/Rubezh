@@ -119,6 +119,9 @@ namespace PlansModule.Kursk.Designer
 		}
 		private TankState GetState()
 		{
+			if (_device == null)
+				return TankState.Empty;
+
 			switch (_device.State.StateClass)
 			{
 				case XStateClass.ConnectionLost:
