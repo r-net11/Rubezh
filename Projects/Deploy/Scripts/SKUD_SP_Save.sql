@@ -344,14 +344,14 @@ BEGIN
 END
 GO
 CREATE PROCEDURE [dbo].[SaveEmployeeReplacement]
-	@Uid [uniqueidentifier] ,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL,	
+	@Uid [uniqueidentifier] ,	
 	@BeginDate [datetime] = NULL,
 	@EndDate [datetime] = NULL,
 	@EmployeeUid [uniqueidentifier] = NULL,
 	@DepartmentUid [uniqueidentifier] = NULL,
-	@ScheduleUid [uniqueidentifier] = NULL
+	@ScheduleUid [uniqueidentifier] = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[EmployeeReplacement] WHERE Uid = @Uid)
@@ -391,11 +391,11 @@ END
 GO
 CREATE PROCEDURE [dbo].[SavePhone]
 	@Uid [uniqueidentifier] ,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL,
 	@Name [nvarchar](50) = NULL,
 	@NumberString [nvarchar](50) = NULL,
-	@DepartmentUid [uniqueidentifier] = NULL	
+	@DepartmentUid [uniqueidentifier] = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL	
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Phone] WHERE Uid = @Uid)
@@ -429,12 +429,12 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveDocument]
 	@Uid [uniqueidentifier] ,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@IssueDate [datetime] = NULL,
-	@LaunchDate [datetime] = NULL
+	@LaunchDate [datetime] = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Document] WHERE Uid = @Uid)
@@ -471,10 +471,10 @@ END
 GO
 CREATE PROCEDURE [dbo].[SavePosition]
 	@Uid [uniqueidentifier] ,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL,
 	@Name [nvarchar](50) = NULL,
-	@Description [nvarchar](max) = NULL
+	@Description [nvarchar](max) = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Position] WHERE Uid = @Uid)
@@ -505,14 +505,14 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveAdditionalColumn]
 	@Uid [uniqueidentifier] ,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@Type [nvarchar](50) = NULL,
 	@TextData [text] = NULL,
 	@GraphicsData [binary](8000) = NULL,
-	@EmployeeUid [uniqueidentifier] = NULL
+	@EmployeeUid [uniqueidentifier] = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[AdditionalColumn] WHERE Uid = @Uid)
