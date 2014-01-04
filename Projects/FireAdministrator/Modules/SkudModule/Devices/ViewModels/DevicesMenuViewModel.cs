@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace GKModule.ViewModels
+namespace SkudModule.ViewModels
 {
 	public class DevicesMenuViewModel : BaseViewModel
 	{

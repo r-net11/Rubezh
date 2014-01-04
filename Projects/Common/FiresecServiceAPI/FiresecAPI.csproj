@@ -215,6 +215,7 @@
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
+    <Compile Include="SKD\SKDDevice.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

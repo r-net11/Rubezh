@@ -46,4 +46,12 @@
 		<Views:PassCardTemplatePropertiesView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+        <Views:DevicesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesMenuViewModel}">
+        <Views:DevicesMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>

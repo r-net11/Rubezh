@@ -60,6 +60,15 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
+      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,6 +165,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Devices\Views\DevicesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EmployeeDepartmentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
