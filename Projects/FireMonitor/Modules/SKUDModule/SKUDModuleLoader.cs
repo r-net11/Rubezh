@@ -2,17 +2,9 @@
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-
-using FiresecClient;
-using System;
-using System.Linq;
-using Infrastructure;
 using SKUDModule.ViewModels;
-using Microsoft.Practices.Prism.Events;
-using System.Diagnostics;
+using GKProcessor;
 
 namespace SKUDModule
 {

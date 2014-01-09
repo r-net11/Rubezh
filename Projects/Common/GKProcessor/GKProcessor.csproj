@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
+    <Compile Include="SKUD\SKUDHelper.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
@@ -171,6 +172,10 @@
     <Compile Include="Watcher\Watcher.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FireMonitor\SKUD\SKUD.csproj">
+      <Project>{561448E0-EC88-4B2D-A42F-49920DD56267}</Project>
+      <Name>SKUD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GKHexManager\GKHexManager\HexManager.csproj">
       <Project>{A19B7522-4D0C-4982-A7F9-0F598EE0EA2D}</Project>
       <Name>HexManager</Name>
