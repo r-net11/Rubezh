@@ -1,4 +1,4 @@
-USE [Firesec]
+USE [SKUD]
 GO
 SET ANSI_NULLS ON
 GO
