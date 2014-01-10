@@ -103,6 +103,9 @@
     <Compile Include="Devices\Views\FirmWareUpdateView.xaml.cs">
       <DependentUpon>FirmWareUpdateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\Views\Logic\ClausesView.xaml.cs">
+      <DependentUpon>ClausesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
@@ -423,6 +426,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\FirmWareUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\ClausesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

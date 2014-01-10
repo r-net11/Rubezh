@@ -114,9 +114,12 @@ CREATE PROCEDURE [dbo].[GetEmployees]
 AS
 BEGIN
 	SELECT 
-		*
+		e.FirstName,
+		p.Name
 	FROM 
-		[dbo].[Employee]
+		[dbo].[Employee] e
+	JOIN [dbo].[Position] p
+	ON e.PositionUid = p.Uid
 END
 GO
 CREATE PROCEDURE [dbo].[GetDepartments]
