@@ -124,7 +124,12 @@ namespace GKModule.Models
 				XManager.UpdateConfiguration();
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
 					SelectedDevice.Device, false);
-				if (DialogService.ShowModalWindow(configurationCompareViewModel))
+			    if (configurationCompareViewModel.Error != null)
+			    {
+			        MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+                    return;
+			    }
+			    if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 			else
@@ -142,6 +147,11 @@ namespace GKModule.Models
 				XManager.UpdateConfiguration();
 				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
 					deviceConfiguration, SelectedDevice.Device, true);
+                if (configurationCompareViewModel.Error != null)
+                {
+                    MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+                    return;
+                }
 				if (DialogService.ShowModalWindow(configurationCompareViewModel))
 					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
