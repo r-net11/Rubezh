@@ -129,6 +129,8 @@ namespace GKProcessor
 			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных");
 			for (int i = 0; i < 3; i++)
 			{
+                if (GKProcessorManager.IsProgressCanceled)
+                    return false;
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{

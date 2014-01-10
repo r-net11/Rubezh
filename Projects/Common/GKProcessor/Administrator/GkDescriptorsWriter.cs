@@ -45,7 +45,14 @@ namespace GKProcessor
 							{Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
 						            "Устройство не доступно, либо вашего " +
 						            "IP адреса нет в списке разрешенного адреса ГК"; continue; }
-						if(!DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice))
+                        result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice);
+                        if (GKProcessorManager.IsProgressCanceled)
+                        {
+                            gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
+                            DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
+                            return; 
+                        }
+						if(!result)
 							{ Error = "Не удалось стереть базу данных ГК"; continue; }
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
