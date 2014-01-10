@@ -97,6 +97,8 @@ namespace GKProcessor
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
+                if (GKProcessorManager.IsProgressCanceled)
+                    return false;
 				if (IsInTechnologicalRegime(device))
 					return true;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
