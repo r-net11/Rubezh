@@ -16,7 +16,7 @@ namespace FiresecAPI.Models.Skud
 		public EmployeeReplacement Replacement { get; set; }
 		public Schedule Schedule { get; set; }
 		public List<AdditionalColumn> AdditionalColumns { get; set; }
-		public DateTime Appointed { get; set; }
-		public DateTime Dismissed { get; set; }
+		public DateTime? Appointed { get; set; }
+		public DateTime? Dismissed { get; set; }
 	}
 }

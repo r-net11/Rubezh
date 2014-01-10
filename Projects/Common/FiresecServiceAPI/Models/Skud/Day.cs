@@ -9,6 +9,6 @@ namespace FiresecAPI.Models.Skud
 	{
 		public Guid Uid { get; set; }
 		public NamedInterval NamedInterval { get; set; }
-		public int Number { get; set; }
+		public int? Number { get; set; }
 	}
 }

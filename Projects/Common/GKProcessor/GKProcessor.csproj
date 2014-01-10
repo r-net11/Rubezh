@@ -155,7 +155,6 @@
     </Compile>
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
-    <Compile Include="SKUD\SKUDHelper.cs" />
     <Compile Include="Watcher\LifeTimeWatcher.cs" />
     <Compile Include="Watcher\TimeSynchronisationHelper.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
