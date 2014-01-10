@@ -71,10 +71,10 @@ namespace GKProcessor
 			AddPutBit(XStateBit.TurnOff_InAutomatic, xBase);
 		}
 
-		public void AddClauseFormula(XDeviceLogic deviceLogic)
+		public void AddClauseFormula(List<XClause> clauses)
 		{
 			var clauseIndex = 0;
-			foreach (var clause in deviceLogic.Clauses)
+			foreach (var clause in clauses)
 			{
 				var xBases = new List<XBase>();
 				foreach (var zone in clause.Zones)

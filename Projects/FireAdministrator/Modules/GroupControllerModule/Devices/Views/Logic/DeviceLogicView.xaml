@@ -6,23 +6,11 @@
 		xmlns:Views="clr-namespace:GKModule.Views"
 		MinWidth="800" MinHeight="500">
 
-    <UserControl.Resources>
-        <Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
-        <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
-        <Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
-        <Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
-    </UserControl.Resources>
-
-    <Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Controls:ToolBarButton Grid.Row="0" Margin="2" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" HorizontalAlignment="Left" />
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+    <TabControl>
+        <TabItem Header="Условие включения">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel>
-                    <Views:ClausesView />
+                    <Views:ClausesView DataContext="{Binding OnLogicViewModel}" />
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsMRO_2M, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
                         <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
                             <ComboBox.ItemTemplate>
@@ -41,6 +29,11 @@
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
-        </Grid>
-    </Border>
+        </TabItem>
+        <TabItem Header="{Binding OffClauseName}">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Views:ClausesView DataContext="{Binding OffLogicViewModel}" />
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
 </UserControl>
