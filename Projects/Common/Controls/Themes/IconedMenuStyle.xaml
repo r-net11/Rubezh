@@ -75,7 +75,7 @@
     
     <!-- TopLevelItem -->
 
-    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
+    <!--<ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
         <Border Name="Border" Padding="5 1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -95,7 +95,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>
+    </ControlTemplate>-->
 
     <!-- SubmenuItem -->
 

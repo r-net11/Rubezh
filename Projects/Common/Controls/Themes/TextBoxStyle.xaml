@@ -11,7 +11,7 @@
 		<Setter Property="BorderThickness" Value="0" />
 		<Setter Property="Background" Value="White" />
 		<Setter Property="BorderBrush" Value="Black" />
-		<!--<Setter Property="loc:TextBoxHelper.HighlightTextOnFocus" Value="True" />-->
+        <Setter Property="ContextMenu" Value="{x:Null}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type TextBoxBase}">
