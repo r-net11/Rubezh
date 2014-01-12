@@ -24,6 +24,7 @@ namespace SkudModule
 		PassCardsDesignerViewModel _passCardDesignerViewModel;
 		DevicesViewModel DevicesViewModel;
 		LibraryViewModel LibraryViewModel;
+		TimeIntervalsViewModel TimeIntervalsViewModel;
 
 		public SkudModule()
 		{
@@ -45,6 +46,7 @@ namespace SkudModule
 			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			LibraryViewModel = new LibraryViewModel();
+			TimeIntervalsViewModel = new TimeIntervalsViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -83,12 +85,22 @@ namespace SkudModule
 					}),
                     new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+					new NavigationItem("Интервалы",null, new List<NavigationItem>()
+					{
+						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					}),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};
 		}
 		public override string Name
 		{
-			get { return "СКУД"; }
+			get { return "СКД"; }
+		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
 		}
 	}
 }

@@ -110,6 +110,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Shedule\ViewModels\NamedTimeIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\ViewModels\TimeIntervalViewModel.cs" />
+    <Compile Include="Shedule\ViewModels\TimeIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\ViewModels\TimeIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\ViewModels\TimeIntervalsViewModel.cs" />
+    <Compile Include="Shedule\ViewModels\NamedTimeIntervalViewModel.cs" />
+    <Compile Include="Shedule\Views\TimeIntervalDetailsView.xaml.cs">
+      <DependentUpon>TimeIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Views\TimeIntervalsView.xaml.cs">
+      <DependentUpon>TimeIntervalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Views\TimeInrervalsMenuView.xaml.cs">
+      <DependentUpon>TimeInrervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Views\NamedTimeIntervalDetailsView.xaml.cs">
+      <DependentUpon>NamedTimeIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SkudModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PassCardTemplatePropertiesViewModel.cs" />
@@ -232,6 +250,26 @@
     <Page Include="Devices\Views\PropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Views\TimeIntervalDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Views\TimeIntervalsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Views\TimeInrervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Views\NamedTimeIntervalDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EmployeeDepartmentsView.xaml">
       <Generator>MSBuild:Compile</Generator>

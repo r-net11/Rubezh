@@ -19,6 +19,9 @@ namespace XFiresecAPI
 		[DataMember]
 		public SKDDevice RootDevice { get; set; }
 
+		[DataMember]
+		public List<NamedSKDTimeInterval> NamedTimeIntervals { get; set; }
+
 		public void Update()
 		{
 			Devices = new List<SKDDevice>();
@@ -42,7 +45,13 @@ namespace XFiresecAPI
 
 		public override bool ValidateVersion()
 		{
-			return true;
+			var result = true;
+			if (NamedTimeIntervals == null)
+			{
+				NamedTimeIntervals = new List<NamedSKDTimeInterval>();
+				result = false;
+			}
+			return result;
 		}
 	}
 }
