@@ -26,10 +26,14 @@ namespace FiresecAPI
 				UID = new Guid("3D8FEF42-BAF6-422D-9A4A-E6EF0072896D"),
 				Name = "Контроллер",
 				ShortName = "Контроллер",
-				DriverType = SKDDriverType.Controller
+				DriverType = SKDDriverType.Controller,
+				IsPlaceable = true
 			};
 			controllerDriver.Children.Add(SKDDriverType.Reader);
 			controllerDriver.Children.Add(SKDDriverType.Gate);
+			controllerDriver.AvailableStateClasses.Add(XStateClass.Norm);
+			controllerDriver.AvailableStateClasses.Add(XStateClass.Failure);
+			controllerDriver.AvailableStateClasses.Add(XStateClass.Unknown);
 			Drivers.Add(controllerDriver);
 
 			var readerDriver = new SKDDriver()
@@ -37,8 +41,12 @@ namespace FiresecAPI
 				UID = new Guid("E54EC896-178E-46F0-844F-0B8BE1770F44"),
 				Name = "Считыватель",
 				ShortName = "Считыватель",
-				DriverType = SKDDriverType.Reader
+				DriverType = SKDDriverType.Reader,
+				IsPlaceable = true
 			};
+			readerDriver.AvailableStateClasses.Add(XStateClass.Norm);
+			readerDriver.AvailableStateClasses.Add(XStateClass.Failure);
+			readerDriver.AvailableStateClasses.Add(XStateClass.Unknown);
 			Drivers.Add(readerDriver);
 
 			var gateDriver = new SKDDriver()
@@ -46,8 +54,12 @@ namespace FiresecAPI
 				UID = new Guid("464B4AC5-B192-4890-9605-C41C6E3C883B"),
 				Name = "Шлакбаум",
 				ShortName = "Шлакбаум",
-				DriverType = SKDDriverType.Gate
+				DriverType = SKDDriverType.Gate,
+				IsPlaceable = true
 			};
+			gateDriver.AvailableStateClasses.Add(XStateClass.Norm);
+			gateDriver.AvailableStateClasses.Add(XStateClass.Failure);
+			gateDriver.AvailableStateClasses.Add(XStateClass.Unknown);
 			Drivers.Add(gateDriver);
 		}
 	}

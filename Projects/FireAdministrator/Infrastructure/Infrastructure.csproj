@@ -84,6 +84,7 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowSKDLidraryEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowXDescriptorsEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="Events\ShowUsersEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Events\ShowXDeviceEvent.cs" />
-    <Compile Include="Events\ShowXDeviceLidraryViewModelEvent.cs" />
+    <Compile Include="Events\ShowXDeviceLidraryEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
     <Compile Include="Events\ShowXParameterTemplatesEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />

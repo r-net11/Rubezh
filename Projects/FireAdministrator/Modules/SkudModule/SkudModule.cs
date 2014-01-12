@@ -23,6 +23,7 @@ namespace SkudModule
 		EmployeeGroupsViewModel _employeeGroupsViewModel;
 		PassCardsDesignerViewModel _passCardDesignerViewModel;
 		DevicesViewModel DevicesViewModel;
+		LibraryViewModel LibraryViewModel;
 
 		public SkudModule()
 		{
@@ -43,6 +44,7 @@ namespace SkudModule
 			_employeePositionsViewModel = new EmployeePositionsViewModel();
 			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
+			LibraryViewModel = new LibraryViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -80,6 +82,7 @@ namespace SkudModule
 						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
 					}),
                     new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};
 		}
