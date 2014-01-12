@@ -215,7 +215,12 @@
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
+    <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDDevice.cs" />
+    <Compile Include="SKD\SKDDriver.cs" />
+    <Compile Include="SKD\SKDDriverType.cs" />
+    <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
+    <Compile Include="SKD\SKDManager\SKDManager.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

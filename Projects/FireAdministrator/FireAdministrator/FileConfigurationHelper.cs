@@ -64,6 +64,7 @@ namespace FireAdministrator
 			AddConfiguration(folderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
 			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 			AddConfiguration(folderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+			AddConfiguration(folderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
 			AddConfiguration(folderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 
@@ -142,6 +143,7 @@ namespace FireAdministrator
 
 					FiresecManager.UpdateConfiguration();
 					XManager.UpdateConfiguration();
+					SKDManager.UpdateConfiguration();
 
 					if (LoadingErrorManager.HasError)
 						MessageBoxService.ShowWarning(LoadingErrorManager.ToString(), "Ошибки при загрузке конфигурации");
@@ -158,6 +160,7 @@ namespace FireAdministrator
 						ServiceFactory.SaveService.FSChanged = true;
 						ServiceFactory.SaveService.PlansChanged = true;
 						ServiceFactory.SaveService.GKChanged = true;
+						ServiceFactory.SaveService.SKDChanged = true;
 						ServiceFactory.SaveService.LayoutsChanged = true;
 					}
 				});

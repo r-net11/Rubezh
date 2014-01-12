@@ -50,6 +50,10 @@
         <Views:DevicesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
+        <Views:NewDeviceView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DevicesMenuViewModel}">
         <Views:DevicesMenuView />
     </DataTemplate>

@@ -8,6 +8,9 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
 using System;
+using System.Linq;
+using XFiresecAPI;
+using FiresecAPI;
 
 namespace SkudModule
 {
@@ -21,8 +24,15 @@ namespace SkudModule
 		PassCardsDesignerViewModel _passCardDesignerViewModel;
 		DevicesViewModel DevicesViewModel;
 
+		public SkudModule()
+		{
+			
+		}
+
 		public override void CreateViewModels()
 		{
+			SKDManager.UpdateConfiguration();
+
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Unsubscribe(OnShowSkud);
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Subscribe(OnShowSkud);
 
@@ -69,7 +79,7 @@ namespace SkudModule
 						new NavigationItem<ShowEmployeeDepartmentsEvent>(_employeeDepartmentsViewModel, "Подразделения",null),
 						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
 					}),
-                    new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+                    new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};
 		}

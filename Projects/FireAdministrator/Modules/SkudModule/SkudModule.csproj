@@ -60,14 +60,33 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
+    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
+    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceParameterMissmatchType.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\ShortPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -172,6 +191,14 @@
     <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\NewDeviceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\PropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\EmployeeDepartmentsView.xaml">
       <Generator>MSBuild:Compile</Generator>

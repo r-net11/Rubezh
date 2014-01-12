@@ -76,7 +76,8 @@ namespace FireAdministrator
 					if (ServiceFactory.SaveService.FSChanged ||
 						ServiceFactory.SaveService.FSParametersChanged ||
 						ServiceFactory.SaveService.PlansChanged ||
-						ServiceFactory.SaveService.GKChanged)
+						ServiceFactory.SaveService.GKChanged ||
+						ServiceFactory.SaveService.SKDChanged)
 						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				});
 				LoadingService.Close();
@@ -120,6 +121,10 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
+				if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
+					AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 
