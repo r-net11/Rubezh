@@ -170,20 +170,6 @@ namespace GKProcessor
 								query += ")";
 							}
 
-							if (archiveFilter.GKAddresses.Count > 0)
-							{
-								query += "\n AND (";
-								int index = 0;
-								foreach (var addresses in archiveFilter.GKAddresses)
-								{
-									if (index > 0)
-										query += "\n OR ";
-									index++;
-									query += "GKIpAddress = '" + addresses + "'";
-								}
-								query += ")";
-							}
-
 							if (archiveFilter.JournalDescriptionState.Count > 0)
 							{
 								query += "\n and (";
@@ -304,41 +290,6 @@ namespace GKProcessor
 				Logger.Error(e, "GKDBHelper.GetLastGKID");
 			}
 			return -1;
-		}
-
-		public static List<string> GetGKIPAddresses()
-		{
-			try
-			{
-				var result = new List<string>();
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							string query = "SELECT DISTINCT GKIpAddress FROM Journal";
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								if (!reader.IsDBNull(0))
-								{
-									var gkIpAddress = reader.GetString(0);
-									result.Add(gkIpAddress);
-								}
-							}
-							return result;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.GetGKIPAddresses");
-			}
-			return new List<string>();
 		}
 
 		public static List<JournalItem> GetTopLast(int count)

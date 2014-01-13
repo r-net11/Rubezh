@@ -112,20 +112,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            
-            <TabItem Header="ГК">
-                <ListBox ItemsSource="{Binding GKAddresses}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/GKIcons/GK.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Address}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
 
             <TabItem Header="Устройства">
                 <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">

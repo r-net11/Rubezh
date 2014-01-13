@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace GKProcessor
 {
@@ -22,7 +23,7 @@ namespace GKProcessor
 				if (!isConnected)
 				{
 					ConnectionLostCount++;
-					if (ConnectionLostCount < 5)
+					if (ConnectionLostCount < 3)
 						return;
 				}
 				else
@@ -45,7 +46,13 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						// check hash here
+						if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
+						{
+							var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+							var gkFileReaderWriter = new GKFileReaderWriter();
+							var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+							IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+						}
 					}
 
 					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);

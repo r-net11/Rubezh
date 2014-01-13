@@ -124,6 +124,7 @@ namespace XFiresecAPI
 		}
 
 		public DateTime LastDateTime { get; set; }
+		public int ZeroHoldDelayCount { get; set; }
 		public abstract List<XStateBit> StateBits { get; set; }
 
 		public virtual List<XStateClass> StateClasses
