@@ -62,7 +62,8 @@ namespace FiresecClient
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				LinkDeviceLogic(device, device.DeviceLogic);
+				LinkDeviceLogic(device, device.DeviceLogic.Clauses);
+				LinkDeviceLogic(device, device.DeviceLogic.OffClauses);
 			}
 
 			foreach (var zone in DeviceConfiguration.Zones)
@@ -89,15 +90,15 @@ namespace FiresecClient
 
 			foreach (var pumpStation in DeviceConfiguration.PumpStations)
 			{
-				LinkDeviceLogic(pumpStation, pumpStation.StartLogic);
-				LinkDeviceLogic(pumpStation, pumpStation.StopLogic);
-				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic);
+				LinkDeviceLogic(pumpStation, pumpStation.StartLogic.Clauses);
+				LinkDeviceLogic(pumpStation, pumpStation.StopLogic.Clauses);
+				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic.Clauses);
 			}
 		}
 
-		static void LinkDeviceLogic(XBase xBase, XDeviceLogic deviceLogic)
+		static void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
 		{
-			foreach (var clause in deviceLogic.Clauses)
+			foreach (var clause in clauses)
 			{
 				foreach (var zone in clause.Zones)
 				{

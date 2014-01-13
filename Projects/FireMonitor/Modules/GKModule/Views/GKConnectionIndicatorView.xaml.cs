@@ -47,13 +47,13 @@ namespace GKModule.Views
 				OnPropertyChanged("IsDeviceConnected");
 				if (value)
 				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК в норме";
+					_deviceConnectionControl.ToolTip = "Связь с ГК в норме";
 					_deviceConnectionControl.Background = Brushes.Transparent;
 					_connectionIndicator.Opacity = 0.4;
 				}
 				else
 				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
+					_deviceConnectionControl.ToolTip = "Связь с ГК потеряна";
 					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
 					_connectionIndicator.Opacity = 1;
 					BalloonHelper.ShowFromMonitor("Связь с ГК потеряна");
