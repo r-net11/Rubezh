@@ -9,14 +9,16 @@ namespace GKModule.ViewModels
 {
     public class UpdatedDeviceViewModel:BaseViewModel
     {
-        public string Name { get; set; }
-        public string Address { get; set; }
+        public string Name { get; private set; }
+        public string Address { get; private set; }
         public XDevice Device;
+        public string ImageSource { get; private set; }
         public UpdatedDeviceViewModel(XDevice device)
         {
             Device = device;
             Name = device.ShortName;
             Address = device.DottedPresentationAddress;
+            ImageSource = device.Driver.ImageSource;
         }
 
         bool isChecked;
