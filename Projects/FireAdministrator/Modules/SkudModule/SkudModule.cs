@@ -25,6 +25,8 @@ namespace SkudModule
 		DevicesViewModel DevicesViewModel;
 		LibraryViewModel LibraryViewModel;
 		TimeIntervalsViewModel TimeIntervalsViewModel;
+		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
+		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 
 		public SkudModule()
 		{
@@ -47,6 +49,8 @@ namespace SkudModule
 			DevicesViewModel = new DevicesViewModel();
 			LibraryViewModel = new LibraryViewModel();
 			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
+			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -88,6 +92,8 @@ namespace SkudModule
 					new NavigationItem("Интервалы",null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					}),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};

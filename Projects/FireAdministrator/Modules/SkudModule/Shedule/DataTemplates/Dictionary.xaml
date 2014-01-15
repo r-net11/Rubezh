@@ -16,4 +16,30 @@
         <Views:TimeIntervalDetailsView />
     </DataTemplate>
 
+    
+    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsViewModel}">
+        <Views:SlideDayIntervalsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsMenuViewModel}">
+        <Views:SlideDayIntervalsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalDetailsViewModel}">
+        <Views:SlideDayIntervalDetailsView />
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsViewModel}">
+        <Views:WeeklyIntervalsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsMenuViewModel}">
+        <Views:WeeklyIntervalsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalDetailsViewModel}">
+        <Views:WeeklyIntervalDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>
