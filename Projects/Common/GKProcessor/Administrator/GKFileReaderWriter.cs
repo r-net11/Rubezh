@@ -53,7 +53,7 @@ namespace GKProcessor
 			{ GKProcessorManager.OnStopProgress(); }
 		}
 
-		public void WriteFileToGK(XDevice gkDevice, bool writeConfig)
+		public void WriteFileToGK(XDevice gkDevice)
 		{
 			var bytesList = new List<byte>();
 			var gkFileInfo = new GKFileInfo();
@@ -62,8 +62,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
-			if (writeConfig)
-				bytesList.AddRange(gkFileInfo.FileBytes);
+            bytesList.AddRange(gkFileInfo.FileBytes);
 			GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{

@@ -46,13 +46,10 @@ namespace GKProcessor
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
-						{
-							var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
-							var gkFileReaderWriter = new GKFileReaderWriter();
-							var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-							IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-						}
+						var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+						var gkFileReaderWriter = new GKFileReaderWriter();
+						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
 					}
 
 					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);

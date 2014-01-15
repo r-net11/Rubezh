@@ -59,10 +59,13 @@ namespace FiresecClient
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				}
+				device.Properties.RemoveAll(x => x.DriverProperty == null);
+
 				foreach (var property in device.DeviceProperties)
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				}
+				device.DeviceProperties.RemoveAll(x=>x.DriverProperty== null);
 				device.InitializeDefaultProperties();
 			}
 		}

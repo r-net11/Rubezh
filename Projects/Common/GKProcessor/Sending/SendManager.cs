@@ -59,7 +59,7 @@ namespace GKProcessor
 								case 0:
 									break;
 
-								case 1:
+								case 3:
 									address += 127;
 									break;
 

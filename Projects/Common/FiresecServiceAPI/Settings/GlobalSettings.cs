@@ -33,17 +33,9 @@ namespace FiresecAPI
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
 			Monitor_HaspInfo_Enabled = false;
-			DoNotShowWriteFileToGKDialog = true;
-
 			Administrator_IsExpertMode = false;
 			IgnoredErrors = new List<string>();
 		}
-
-		[DataMember]
-		public bool DoNotShowWriteFileToGKDialog { get; set; }
-
-		[DataMember]
-		public bool WriteFileToGK { get; set; }
 
 		[DataMember]
 		public string RemoteAddress { get; set; }

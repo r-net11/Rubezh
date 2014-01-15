@@ -25,9 +25,6 @@
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Скрывать инструменты выравнивания в планах" HorizontalAlignment="Right" Margin="2" />
                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Не показывать окно записи файла в ГК" HorizontalAlignment="Right" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding DoNotShowWriteFileToGKDialog}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="ОЗ">

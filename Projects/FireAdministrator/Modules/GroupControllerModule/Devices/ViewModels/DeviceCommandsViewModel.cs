@@ -93,12 +93,7 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
-					{
-						var fileWritingViewModel = new FileWritingViewModel();
-						DialogService.ShowModalWindow(fileWritingViewModel);
-					}
-					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowError(result.Error);

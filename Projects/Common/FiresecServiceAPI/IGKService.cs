@@ -17,7 +17,7 @@ namespace FiresecAPI
 		void CancelGKProgress();
 
 		[OperationContract]
-		OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
+		OperationResult<bool> GKWriteConfiguration(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);

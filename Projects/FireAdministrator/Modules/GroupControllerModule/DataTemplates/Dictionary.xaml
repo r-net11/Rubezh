@@ -167,11 +167,7 @@
     <DataTemplate DataType="{x:Type ViewModels:OPCDirectionsViewModel}">
         <Views:OPCDirectionsView />
     </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:FileWritingViewModel}">
-        <Views:FileWritingView />
-    </DataTemplate>
-
+    
     <DataTemplate DataType="{x:Type ViewModels:FirmWareUpdateViewModel}">
         <Views:FirmWareUpdateView />
     </DataTemplate>
