@@ -9,6 +9,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.ComponentModel;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -171,28 +173,30 @@ namespace GKModule.ViewModels
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			if (!CompareLocalWithRemoteHashes())
-				return;
-			var device = new List<XDevice> { Device };
-			if (Validate(device))
+			if (CompareLocalWithRemoteHashes())
 			{
-				LoadingService.Show("Запись параметров в устройствo " + Device.PresentationName, null, 1, true);
-				WriteDevices(device);
-				SyncFromSystemToDeviceProperties(device);
+				var device = new List<XDevice> { Device };
+				if (Validate(device))
+				{
+					LoadingService.Show("Запись параметров в устройствo " + Device.PresentationName, null, 1, true);
+					WriteDevices(device);
+					SyncFromSystemToDeviceProperties(device);
+				}
 			}
 		}
 
 		public RelayCommand WriteAllCommand { get; private set; }
 		void OnWriteAll()
 		{
-			if (!CompareLocalWithRemoteHashes())
-				return;
-			var devices = GetRealChildren();
-			if (Validate(devices))
+			if (CompareLocalWithRemoteHashes())
 			{
-				LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationName, null, 1, true);
-				WriteDevices(devices);
-				SyncFromSystemToDeviceProperties(devices);
+				var devices = GetRealChildren();
+				if (Validate(devices))
+				{
+					LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationName, null, 1, true);
+					WriteDevices(devices);
+					SyncFromSystemToDeviceProperties(devices);
+				}
 			}
 		}
 
@@ -302,11 +306,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			if (!CompareLocalWithRemoteHashes())
-				return;
-			LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
-			ReadDevices(new List<XDevice> { Device });
-			PropertiesViewModel.Update();
+			if (CompareLocalWithRemoteHashes())
+			{
+				LoadingService.Show("Чтение параметров из устройства " + Device.PresentationName, null, 1, true);
+				ReadDevices(new List<XDevice> { Device });
+				PropertiesViewModel.Update();
+			}
 		}
 
 		bool CanReadWrite()
@@ -317,11 +322,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadAllCommand { get; private set; }
 		void OnReadAll()
 		{
-			if (!CompareLocalWithRemoteHashes())
-				return;
-			var devices = GetRealChildren();
-			LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
-			ReadDevices(devices);
+			if (CompareLocalWithRemoteHashes())
+			{
+				var devices = GetRealChildren();
+				LoadingService.Show("Чтение параметров из дочерних устройств " + Device.PresentationName, null, 1, true);
+				ReadDevices(devices);
+			}
 		}
 
 		bool CanReadWriteAll()
@@ -345,9 +351,31 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
+				LoadingService.DoStep("Запрос параметров объекта " + i);
 				var result = FiresecManager.FiresecService.GKGetSingleParameter(device);
-				if(result.HasError)
+				if (!result.HasError)
+				{
+					foreach (var property in result.Result)
+					{
+						var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
+						if (deviceProperty == null)
+						{
+							deviceProperty = new XProperty()
+							{
+								Name = property.Name,
+								DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name)
+							};
+							device.DeviceProperties.Add(deviceProperty);
+						}
+						deviceProperty.Value = property.Value;
+						deviceProperty.StringValue = property.StringValue;
+					}
+					device.OnAUParametersChanged();
+				}
+				else
+				{
 					errorLog += "\n" + device.PresentationName;
+				}
 			}
 			LoadingService.Close();
 			if (errorLog != "")
@@ -365,9 +393,18 @@ namespace GKModule.ViewModels
 				if (LoadingService.IsCanceled)
 					break;
 				i++;
-				var result = FiresecManager.FiresecService.GKSetSingleParameter(device);
-				if (result.HasError)
+				LoadingService.DoStep("Запись параметров объекта " + i);
+				var baseDescriptor = ParametersHelper.GetBaseDescriptor(device);
+				if (baseDescriptor != null)
+				{
+					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters);
+					if (result.HasError)
+						errorLog += "\n" + device.PresentationName;
+				}
+				else
+				{
 					errorLog += "\n" + device.PresentationName;
+				}
 				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);
 			}
@@ -415,15 +452,20 @@ namespace GKModule.ViewModels
 
 		bool CompareLocalWithRemoteHashes()
 		{
-			return true;
-
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var gkParent = DevicesViewModel.Current.SelectedDevice.Device;
 			if (gkParent.DriverType != XDriverType.GK)
 				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;
-			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(gkParent);
+
+			var result = FiresecManager.FiresecService.GKGKHash(gkParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
 			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, gkParent);
-			var remoteHash = readInfoBlock.Hash1;
+			var remoteHash = result.Result;
 			if (GKFileInfo.CompareHashes(localHash, remoteHash))
 				return true;
 			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");

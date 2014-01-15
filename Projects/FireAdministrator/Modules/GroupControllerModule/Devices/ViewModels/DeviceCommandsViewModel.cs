@@ -17,6 +17,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GKModule.Models
 {
@@ -94,10 +96,19 @@ namespace GKModule.Models
 				if (ValidateConfiguration())
 				{
 					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
-					if (result.HasError)
+
+					var thread = new Thread(() =>
 					{
-						MessageBoxService.ShowError(result.Error);
-					}
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+						ApplicationService.Invoke(new Action(() =>
+						{
+							if (result.HasError)
+							{
+								MessageBoxService.ShowError(result.Error);
+							}
+						}));
+					});
+					thread.Start();
 				}
 			}
 		}
@@ -112,46 +123,61 @@ namespace GKModule.Models
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		void OnReadConfiguration()
 		{
-			DescriptorsManager.Create();
-			var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
-			if (!result.HasError)
+			var thread = new Thread(() =>
 			{
-				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
-					SelectedDevice.Device, false);
-			    if (configurationCompareViewModel.Error != null)
-			    {
-			        MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
-                    return;
-			    }
-			    if (DialogService.ShowModalWindow(configurationCompareViewModel))
-					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			}
-			else
-				MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
+				DescriptorsManager.Create();
+				var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+						XManager.UpdateConfiguration();
+						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
+							SelectedDevice.Device, false);
+						if (configurationCompareViewModel.Error != null)
+						{
+							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							return;
+						}
+						if (DialogService.ShowModalWindow(configurationCompareViewModel))
+							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					}
+					else
+					{
+						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
+					}
+				}));
+			});
+			thread.Start();
 		}
 
 		public RelayCommand ReadConfigFileCommand { get; private set; }
 		void OnReadConfigFile()
 		{
-			DescriptorsManager.Create();
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(SelectedDevice.Device);
-			if (gkFileReaderWriter.Error == null)
+			var thread = new Thread(() =>
 			{
-				XManager.UpdateConfiguration();
-				var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
-					deviceConfiguration, SelectedDevice.Device, true);
-                if (configurationCompareViewModel.Error != null)
-                {
-                    MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
-                    return;
-                }
-				if (DialogService.ShowModalWindow(configurationCompareViewModel))
-					ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			}
-			else
-				MessageBoxService.ShowError(gkFileReaderWriter.Error, "Ошибка при чтении конфигурационного файла");
+				var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (!result.HasError)
+					{
+						XManager.UpdateConfiguration();
+						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
+							result.Result, SelectedDevice.Device, true);
+						if (configurationCompareViewModel.Error != null)
+						{
+							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							return;
+						}
+						if (DialogService.ShowModalWindow(configurationCompareViewModel))
+							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					}
+					else
+						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурационного файла");
+				}));
+			});
+			thread.Start();
 		}
 
 		bool CanReadConfiguration()
@@ -185,7 +211,6 @@ namespace GKModule.Models
 		                var devices = new List<XDevice>();
 		                firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
                         result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
-
 		            }
 		        }
 		    }

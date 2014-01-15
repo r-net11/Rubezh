@@ -243,14 +243,19 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
+		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
+		}
+
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
 		}
 
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices); }, "GKUpdateFirmwareFSCS");
+			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
 		}
 
 		public bool GKSyncronyseTime(Guid deviceUID)
@@ -273,14 +278,19 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no); }, "GKReadJournalItem");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid deviceUID)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(deviceUID); }, "GKSetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(objectUID, parameterBytes); }, "GKSetSingleParameter");
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(Guid deviceUID)
+		public OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(deviceUID); }, "GKGetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(objectUID); }, "GKGetSingleParameter");
+		}
+
+		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID); }, "GKGKHash");
 		}
 
 		public GKStates GKGetStates()

@@ -31,6 +31,9 @@ namespace GKModule.ViewModels
 
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
+			RemoteConfiguration.Update();
+			UpdateConfigurationHelper.Update(RemoteConfiguration);
+
 			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 		    if (RemoteDevice == null)

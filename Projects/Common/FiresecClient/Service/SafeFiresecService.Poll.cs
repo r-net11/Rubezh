@@ -61,7 +61,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					if (!MustReactOnCallback)
+					//if (!MustReactOnCallback)
 					{
 						ProcessCallbackResult(callbackResults);
 					}
