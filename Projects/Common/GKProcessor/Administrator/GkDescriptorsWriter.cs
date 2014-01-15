@@ -12,7 +12,7 @@ namespace GKProcessor
 	{
 		public string Error { get; private set; }
 
-		public void WriteConfig(XDevice gkDevice, bool writeFileToGK)
+		public void WriteConfig(XDevice gkDevice)
 		{
 			try
 			{
@@ -80,7 +80,7 @@ namespace GKProcessor
 						if (!result)
 							{ Error = "Не удалось записать дескриптор ГК"; continue; }
 						var gkFileReaderWriter = new GKFileReaderWriter();
-						gkFileReaderWriter.WriteFileToGK(gkDevice, writeFileToGK);
+						gkFileReaderWriter.WriteFileToGK(gkDevice);
 						if (gkFileReaderWriter.Error != null)
 							{ Error = gkFileReaderWriter.Error; break; }
 						if (gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice)))

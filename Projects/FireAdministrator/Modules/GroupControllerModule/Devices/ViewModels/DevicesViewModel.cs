@@ -392,17 +392,17 @@ namespace GKModule.ViewModels
 			RibbonItems[0][1].Command = SelectedDevice == null ? null : SelectedDevice.ShowPropertiesCommand;
 			RibbonItems[0][2].Command = SelectedDevice == null ? null : SelectedDevice.RemoveCommand;
 
-			RibbonItems[1][6][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
-			RibbonItems[1][6][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
-			RibbonItems[1][6][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
-			RibbonItems[1][6][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
-			RibbonItems[1][6][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
-			RibbonItems[1][6][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
-			RibbonItems[1][6][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
-			RibbonItems[1][6][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
-			RibbonItems[1][6][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
-			RibbonItems[1][6][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
-			RibbonItems[1][6][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
+			RibbonItems[1][7][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
+			RibbonItems[1][7][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
+			RibbonItems[1][7][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
+			RibbonItems[1][7][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
+			RibbonItems[1][7][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
+			RibbonItems[1][7][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
+			RibbonItems[1][7][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
+			RibbonItems[1][7][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
+			RibbonItems[1][7][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
+			RibbonItems[1][7][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
+			RibbonItems[1][7][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
 		}
 		private void SetRibbonItems()
 		{
@@ -419,6 +419,7 @@ namespace GKModule.ViewModels
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
+                    new RibbonMenuItemViewModel("Считать конфигурацию", DeviceCommandsViewModel.ReadConfigFileCommand, "/Controls;component/Images/BParametersReadFromFile.png"),
 					new RibbonMenuItemViewModel("Считать конфигурацию дескрипторов", DeviceCommandsViewModel.ReadConfigurationCommand, "/Controls;component/Images/BParametersRead.png"),
 					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteConfigCommand, "/Controls;component/Images/BParametersWrite.png"),
 					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },

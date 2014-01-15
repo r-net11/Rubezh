@@ -90,11 +90,11 @@ namespace GKProcessor
 		#endregion
 
 		#region Operations
-		public static OperationResult<bool> GKWriteConfiguration(XDevice device, bool writeFileToGK, string userName)
+		public static OperationResult<bool> GKWriteConfiguration(XDevice device, string userName)
 		{
 			AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, userName, true);
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
-			gkDescriptorsWriter.WriteConfig(device, writeFileToGK);
+			gkDescriptorsWriter.WriteConfig(device);
 			if (gkDescriptorsWriter.Error != null)
 				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
 			return new OperationResult<bool>() { Result = true };

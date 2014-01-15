@@ -30,15 +30,15 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(XDevice device, bool writeFileToGK)
+		public OperationResult<bool> GKWriteConfiguration(XDevice device)
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.BaseUID, writeFileToGK), "GKWriteConfiguration");
+				return SafeOperationCall(() => FiresecService.GKWriteConfiguration(device.BaseUID), "GKWriteConfiguration");
 			}
 			else
 			{
-				var result = GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, FiresecManager.CurrentUser.Name);
+				var result = GKProcessorManager.GKWriteConfiguration(device, FiresecManager.CurrentUser.Name);
 				if (!result.HasError)
 					FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				return result;
