@@ -263,7 +263,10 @@ namespace GKModule.ViewModels
 			foreach (var deviceProperty in device.DeviceProperties)
 			{
 				var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
-				property.Value = deviceProperty.Value;
+				if (property != null)
+				{
+					property.Value = deviceProperty.Value;
+				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}

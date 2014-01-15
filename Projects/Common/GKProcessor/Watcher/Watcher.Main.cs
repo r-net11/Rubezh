@@ -113,7 +113,7 @@ namespace GKProcessor
 				{
 					GKCallbackResult = new GKCallbackResult();
 					IsPingFailure = result;
-					if(IsPingFailure)
+					if (IsPingFailure)
 						AddFailureJournalItem("Нет связи с ГК", "Старт мониторинга");
 					else
 						AddFailureJournalItem("Связь с ГК восстановлена", "Старт мониторинга");
@@ -133,28 +133,25 @@ namespace GKProcessor
 					continue;
 				}
 
-				if (GlobalSettingsHelper.GlobalSettings.UseGKHash)
+				var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+				var gkFileReaderWriter = new GKFileReaderWriter();
+				var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+				result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
+				if (IsHashFailure != result)
 				{
-					var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
-					var gkFileReaderWriter = new GKFileReaderWriter();
-					var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
-					result = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
-					if (IsHashFailure != result)
-					{
-						GKCallbackResult = new GKCallbackResult();
-						IsHashFailure = result;
-						if (IsHashFailure)
-							AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
-						else
-							AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
+					GKCallbackResult = new GKCallbackResult();
+					IsHashFailure = result;
+					if (IsHashFailure)
+						AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
+					else
+						AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
 
-						foreach (var descriptor in GkDatabase.Descriptors)
-						{
-							descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
-						}
-						NotifyAllObjectsStateChanged();
-						GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					foreach (var descriptor in GkDatabase.Descriptors)
+					{
+						descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
 					}
+					NotifyAllObjectsStateChanged();
+					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 				}
 
 				if (IsHashFailure)

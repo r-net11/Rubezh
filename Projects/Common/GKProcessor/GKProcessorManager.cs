@@ -299,7 +299,7 @@ namespace GKProcessor
 			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
 			if (watcher != null)
 			{
-				watcher.StartDeviceMeasure(device);
+				watcher.StopDeviceMeasure(device);
 			}
 		}
 

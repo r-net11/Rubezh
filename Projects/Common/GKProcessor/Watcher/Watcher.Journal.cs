@@ -72,8 +72,6 @@ namespace GKProcessor
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{
-					GKProcessorManager.OnDoProgress(journalItem.GKJournalRecordNo.ToString());
-
 					journalItems.Add(journalItem);
 					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 					if (descriptor != null)

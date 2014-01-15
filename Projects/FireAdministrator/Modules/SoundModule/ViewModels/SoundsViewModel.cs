@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
+using Infrastructure;
 
 namespace SoundsModule.ViewModels
 {
@@ -40,22 +41,18 @@ namespace SoundsModule.ViewModels
 			{
 				var newSound = new Sound() { StateClass = stateClass };
 
-				if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
-				{
-					var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
-					if (sound == null)
-						FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
-					else
-						newSound = sound;
-				}
-				else
-				{
+				var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateClass == stateClass);
+				if (sound == null)
 					FiresecClient.FiresecManager.SystemConfiguration.Sounds.Add(newSound);
-				}
+				else
+					newSound = sound;
+
 				Sounds.Add(new SoundViewModel(newSound));
 			}
-			if (Sounds.IsNotNullOrEmpty())
-				SelectedSound = Sounds[0];
+			SelectedSound = Sounds.FirstOrDefault();
+
+			if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.RemoveAll(x => !Sounds.Any(y => y.StateClass == x.StateClass)) > 0)
+				ServiceFactory.SaveService.SoundsChanged = true;
 		}
 
 		ObservableCollection<SoundViewModel> _sounds;

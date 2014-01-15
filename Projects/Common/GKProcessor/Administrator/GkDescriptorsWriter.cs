@@ -22,12 +22,12 @@ namespace GKProcessor
 				{
 					var result = DeviceBytesHelper.Ping(gkDatabase.RootDevice);
 					if (!result)
-						{Error = "Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно"; return;}
+					{ Error = "Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно"; return; }
 					foreach (var kauDatabase in gkDatabase.KauDatabases)
 					{
 						result = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
 						if (!result)
-							{ Error = "Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"; return; }
+						{ Error = "Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"; return; }
 					}
 					for (int i = 0; i < 3; i++)
 					{
@@ -36,63 +36,68 @@ namespace GKProcessor
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
 						GKProcessorManager.OnStartProgress(title, "", summaryDescriptorsCount, true);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
-                        if (GKProcessorManager.IsProgressCanceled)
-                        {
-                            DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
-                            return; 
-                        }
+						if (GKProcessorManager.IsProgressCanceled)
+						{
+							DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
+							return;
+						}
 						if (!result)
-							{Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
-						            "Устройство не доступно, либо вашего " +
-						            "IP адреса нет в списке разрешенного адреса ГК"; continue; }
-                        result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice);
-                        if (GKProcessorManager.IsProgressCanceled)
-                        {
-                            gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
-                            DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
-                            return; 
-                        }
-						if(!result)
-							{ Error = "Не удалось стереть базу данных ГК"; continue; }
+						{
+							Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
+								   "Устройство не доступно, либо вашего " +
+								   "IP адреса нет в списке разрешенного адреса ГК"; continue;
+						}
+						result = DeviceBytesHelper.EraseDatabase(gkDatabase.RootDevice);
+						if (GKProcessorManager.IsProgressCanceled)
+						{
+							gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
+							DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
+							return;
+						}
+						if (!result)
+						{ Error = "Не удалось стереть базу данных ГК"; continue; }
 						foreach (var kauDatabase in gkDatabase.KauDatabases)
 						{
-                            if (GKProcessorManager.IsProgressCanceled)
-                            {
-                                gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
-                                DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
-                                return; 
-                            }
+							if (GKProcessorManager.IsProgressCanceled)
+							{
+								gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
+								DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
+								return;
+							}
 							result = DeviceBytesHelper.GoToTechnologicalRegime(kauDatabase.RootDevice);
 							if (!result)
-								{ Error = "Не удалось перевести КАУ в технологический режим"; continue; }
+							{ Error = "Не удалось перевести КАУ в технологический режим"; continue; }
 							if (!DeviceBytesHelper.EraseDatabase(kauDatabase.RootDevice))
-								{ Error = "Не удалось стереть базу данных КАУ"; continue;}
+							{ Error = "Не удалось стереть базу данных КАУ"; continue; }
 							if (!WriteConfigToDevice(kauDatabase))
-								{ Error = "Не удалось записать дескриптор КАУ"; }
+							{ Error = "Не удалось записать дескриптор КАУ"; }
 						}
-                        result = WriteConfigToDevice(gkDatabase);
-                        if (GKProcessorManager.IsProgressCanceled)
-                        {
-                            gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
-                            DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
-                            return; 
-                        }
+						result = WriteConfigToDevice(gkDatabase);
+						if (GKProcessorManager.IsProgressCanceled)
+						{
+							gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice));
+							DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice);
+							return;
+						}
 						if (!result)
-							{ Error = "Не удалось записать дескриптор ГК"; continue; }
+						{ Error = "Не удалось записать дескриптор ГК"; continue; }
 						var gkFileReaderWriter = new GKFileReaderWriter();
 						gkFileReaderWriter.WriteFileToGK(gkDevice);
 						if (gkFileReaderWriter.Error != null)
-							{ Error = gkFileReaderWriter.Error; break; }
+						{ Error = gkFileReaderWriter.Error; break; }
 						if (gkDatabase.KauDatabases.Any(x => !DeviceBytesHelper.GoToWorkingRegime(x.RootDevice)))
-							{ Error = "Не удалось перевести КАУ в рабочий режим"; }
+						{ Error = "Не удалось перевести КАУ в рабочий режим"; }
 						if (!DeviceBytesHelper.GoToWorkingRegime(gkDatabase.RootDevice))
-							{ Error = "Не удалось перевести ГК в рабочий режим"; }
+						{ Error = "Не удалось перевести ГК в рабочий режим"; }
 						break;
 					}
 				}
 			}
 			catch (Exception e)
-				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); }
+			{
+				Logger.Error(e, "GKDescriptorsWriter.WriteConfig");
+				Error = e.Message;
+			}
 			finally
 			{ GKProcessorManager.OnStopProgress(); }
 		}
