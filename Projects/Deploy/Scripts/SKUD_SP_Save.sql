@@ -300,8 +300,8 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]
 	@Uid [uniqueidentifier] ,
-	@Name [nvarchar] = NULL,
-	@Description [nvarchar] = NULL,
+	@Name [nvarchar](50) = NULL,
+	@Description [nvarchar](max) = NULL,
 	@ParentDepartmentUid [uniqueidentifier] = NULL,
 	@ContactEmployeeUid [uniqueidentifier] = NULL,
 	@AttendantUid [uniqueidentifier] = NULL,

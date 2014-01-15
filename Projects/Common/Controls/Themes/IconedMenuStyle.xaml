@@ -75,7 +75,7 @@
     
     <!-- TopLevelItem -->
 
-    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
+    <ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
         <Border Name="Border" Padding="5 1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -161,6 +161,21 @@
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Style.Triggers>
             <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}"/>
+                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}"/>
+            </Trigger>
+        </Style.Triggers>
+        <!--<Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
                 <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.TopLevelHeaderTemplateKey}}"/>
                 <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
             </Trigger>
@@ -173,7 +188,7 @@
             <Trigger Property="Role" Value="SubmenuItem">
                 <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuItemTemplateKey}}"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
 </ResourceDictionary>
