@@ -146,13 +146,13 @@ namespace GKProcessor
             switch (xBase.BaseState.StateClass)
             {
                 case XStateClass.TurningOn:
-                    mustGetState = xBase.BaseState.OnDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+                    mustGetState = (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
                     break;
                 case XStateClass.On:
-                    mustGetState = xBase.BaseState.HoldDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+					mustGetState = xBase.BaseState.ZeroHoldDelayCount < 10 && (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
                     break;
                 case XStateClass.TurningOff:
-                    mustGetState = xBase.BaseState.OffDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
+					mustGetState = (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
                     break;
             }
             if (mustGetState)
@@ -163,6 +163,11 @@ namespace GKProcessor
                 GetState(xBase, true);
                 if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
                     OnObjectStateChanged(xBase);
+
+				if (xBase.BaseState.StateClass == XStateClass.On && holdDelay == 0)
+					xBase.BaseState.ZeroHoldDelayCount++;
+				else
+					xBase.BaseState.ZeroHoldDelayCount = 0;
             }
         }
 

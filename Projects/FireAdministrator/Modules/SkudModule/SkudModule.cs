@@ -7,20 +7,34 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
+using System;
+using System.Linq;
+using XFiresecAPI;
+using FiresecAPI;
 
 namespace SkudModule
 {
 	public class SkudModule : ModuleBase
 	{
-		private SkudViewModel _skudViewModel;
-		private EmployeeCardIndexViewModel _employeeCardIndexViewModel;
-		private EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
-		private EmployeePositionsViewModel _employeePositionsViewModel;
-		private EmployeeGroupsViewModel _employeeGroupsViewModel;
-		private PassCardsDesignerViewModel _passCardDesignerViewModel;
+		SkudViewModel _skudViewModel;
+		EmployeeCardIndexViewModel _employeeCardIndexViewModel;
+		EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
+		EmployeePositionsViewModel _employeePositionsViewModel;
+		EmployeeGroupsViewModel _employeeGroupsViewModel;
+		PassCardsDesignerViewModel _passCardDesignerViewModel;
+		DevicesViewModel DevicesViewModel;
+		LibraryViewModel LibraryViewModel;
+		TimeIntervalsViewModel TimeIntervalsViewModel;
+
+		public SkudModule()
+		{
+			
+		}
 
 		public override void CreateViewModels()
 		{
+			SKDManager.UpdateConfiguration();
+
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Unsubscribe(OnShowSkud);
 			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Subscribe(OnShowSkud);
 
@@ -30,6 +44,9 @@ namespace SkudModule
 			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
 			_employeePositionsViewModel = new EmployeePositionsViewModel();
 			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
+			DevicesViewModel = new DevicesViewModel();
+			LibraryViewModel = new LibraryViewModel();
+			TimeIntervalsViewModel = new TimeIntervalsViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -46,6 +63,7 @@ namespace SkudModule
 			_employeeGroupsViewModel.Initialize();
 			_employeePositionsViewModel.Initialize();
 			_passCardDesignerViewModel.Initialize();
+			DevicesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -64,13 +82,25 @@ namespace SkudModule
 						new NavigationItem<ShowEmployeePositionsEvent>(_employeePositionsViewModel, "Должности",null),
 						new NavigationItem<ShowEmployeeDepartmentsEvent>(_employeeDepartmentsViewModel, "Подразделения",null),
 						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
-					})
+					}),
+                    new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+					new NavigationItem("Интервалы",null, new List<NavigationItem>()
+					{
+						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					}),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};
 		}
 		public override string Name
 		{
-			get { return "СКУД"; }
+			get { return "СКД"; }
+		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
 		}
 	}
 }

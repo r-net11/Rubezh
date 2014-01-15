@@ -29,7 +29,6 @@ namespace GKModule.ViewModels
 
 			InitializeJournalItemTypes(archiveFilter);
 			InitializeStateClasses(archiveFilter);
-			InitializeGKAddresses(archiveFilter);
 			InitializeJournalDescriptionStates(archiveFilter);
 			InitializeDevices(archiveFilter);
 			InitializeZones(archiveFilter);
@@ -77,26 +76,6 @@ namespace GKModule.ViewModels
 				if (stateClassViewModel != null)
 				{
 					stateClassViewModel.IsChecked = true;
-				}
-			}
-		}
-
-		void InitializeGKAddresses(XArchiveFilter archiveFilter)
-		{
-			GKAddresses = new List<GKAddressViewModel>();
-			var addresses = GKDBHelper.GetGKIPAddresses();
-			foreach (var address in addresses)
-			{
-				var addressViewModel = new GKAddressViewModel(address);
-				GKAddresses.Add(addressViewModel);
-			}
-
-			foreach (var address in archiveFilter.GKAddresses)
-			{
-				var addressViewModel = GKAddresses.FirstOrDefault(x => x.Address == address);
-				if (addressViewModel != null)
-				{
-					addressViewModel.IsChecked = true;
 				}
 			}
 		}
@@ -367,7 +346,6 @@ namespace GKModule.ViewModels
 
 		public List<JournalItemTypeViewModel> JournalItemTypes { get; private set; }
 		public List<StateClassViewModel> StateClasses { get; private set; }
-		public List<GKAddressViewModel> GKAddresses { get; private set; }
 		public List<JournalDescriptionStateViewModel> JournalDescriptionStates { get; private set; }
 		public List<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public List<ArchiveDirectionViewModel> ArchiveDirections { get; private set; }
@@ -393,11 +371,6 @@ namespace GKModule.ViewModels
 			{
 				if (stateClass.IsChecked)
 					archiveFilter.StateClasses.Add(stateClass.StateClass);
-			}
-			foreach (var addresses in GKAddresses)
-			{
-				if (addresses.IsChecked)
-					archiveFilter.GKAddresses.Add(addresses.Address);
 			}
 			foreach (var eventName in JournalDescriptionStates)
 			{

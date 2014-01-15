@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace FiresecClient
 {
@@ -62,6 +63,12 @@ namespace FiresecClient
 							break;
 						case "XDeviceLibraryConfiguration.xml":
 							XManager.DeviceLibraryConfiguration = ZipSerializeHelper.DeSerialize<XDeviceLibraryConfiguration>(configurationFileName);
+							break;
+						case "SKDConfiguration.xml":
+							SKDManager.SKDConfiguration = ZipSerializeHelper.DeSerialize<SKDConfiguration>(configurationFileName);
+							break;
+						case "SKDLibraryConfiguration.xml":
+							SKDManager.SKDLibraryConfiguration = ZipSerializeHelper.DeSerialize<SKDLibraryConfiguration>(configurationFileName);
 							break;
 						case "LayoutsConfiguration.xml":
 							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName);

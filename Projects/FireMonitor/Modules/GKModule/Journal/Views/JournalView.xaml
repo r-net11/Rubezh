@@ -28,7 +28,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" Width="*" />
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding Description}" Width="*" />
                 <DataGridTemplateColumn Header="Объект" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

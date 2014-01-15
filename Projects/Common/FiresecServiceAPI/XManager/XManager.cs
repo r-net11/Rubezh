@@ -51,6 +51,11 @@ namespace FiresecClient
 		public static void SetEmptyConfiguration()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
+			var driver = Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			DeviceConfiguration.RootDevice = new XDevice()
+			{
+				DriverUID = driver.UID
+			};
 			UpdateConfiguration();
 		}
 

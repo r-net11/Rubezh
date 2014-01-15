@@ -46,4 +46,28 @@
 		<Views:PassCardTemplatePropertiesView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+        <Views:DevicesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
+        <Views:NewDeviceView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesMenuViewModel}">
+        <Views:DevicesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
+        <Views:LibraryView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:LibraryDeviceDetailsViewModel}">
+        <Views:LibraryDeviceDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:LibraryStateDetailsViewModel}">
+        <Views:LibraryStateDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

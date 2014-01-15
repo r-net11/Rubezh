@@ -1377,6 +1377,10 @@
     <Resource Include="GKIcons\DrainagePump.png" />
     <Resource Include="GKIcons\FirePump.png" />
     <Resource Include="GKIcons\JockeyPump.png" />
+    <Resource Include="SKDIcons\Gate.png" />
+    <Resource Include="SKDIcons\Reader.png" />
+    <Resource Include="SKDIcons\System.png" />
+    <Resource Include="SKDIcons\Controller.png" />
     <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

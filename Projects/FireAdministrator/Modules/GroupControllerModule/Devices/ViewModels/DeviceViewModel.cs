@@ -128,7 +128,6 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var x = CanAdd();
 			NewDeviceViewModelBase newDeviceViewModel;
 			if (Device.IsConnectedToKAURSR2OrIsKAURSR2)
 				newDeviceViewModel = new RSR2NewDeviceViewModel(this);

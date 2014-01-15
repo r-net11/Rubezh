@@ -81,6 +81,11 @@ namespace GKProcessor
 						ChangeJournalOnDevice(descriptor, journalItem);
 						CheckServiceRequired(descriptor.XBase, journalItem);
 						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						if (descriptor.XBase.BaseState.StateClass == XStateClass.On)
+						{
+							descriptor.XBase.BaseState.ZeroHoldDelayCount = 0;
+							CheckDelay(descriptor.XBase);
+						}
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
                         if (descriptor.XBase is XDevice)
@@ -97,6 +102,12 @@ namespace GKProcessor
 							}
                         }
 					}
+				}
+
+				if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
+				{
+					CheckTechnologicalRegime();
+					NotifyAllObjectsStateChanged();
 				}
 			}
             if (journalItems.Count > 0)

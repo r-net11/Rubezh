@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
-    [DataContract]
     public class XDriversConfiguration
     {
         public XDriversConfiguration()
@@ -11,7 +10,6 @@ namespace XFiresecAPI
             XDrivers = new List<XDriver>();
         }
 
-        [DataMember]
         public List<XDriver> XDrivers { get; set; }
     }
 }

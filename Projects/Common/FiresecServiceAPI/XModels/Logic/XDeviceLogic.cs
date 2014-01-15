@@ -10,6 +10,7 @@ namespace XFiresecAPI
 		public XDeviceLogic()
 		{
             Clauses = new List<XClause>();
+			OffClauses = new List<XClause>();
 			DependentZones = new List<XZone>();
 			DependentDevices = new List<XDevice>();
 			DependentDirections = new List<XDirection>();
@@ -21,6 +22,9 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<XClause> Clauses { get; set; }
+
+		[DataMember]
+		public List<XClause> OffClauses { get; set; }
 
 		[DataMember]
 		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }

@@ -12,7 +12,7 @@ namespace Controls
 
 		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(IconedMenuItem));
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IconedMenuItem));
-		
+
 		public string ImageSource
 		{
 			get { return (string)GetValue(ImageSourceProperty); }

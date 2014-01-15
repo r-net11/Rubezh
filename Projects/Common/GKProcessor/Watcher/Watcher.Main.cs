@@ -19,6 +19,7 @@ namespace GKProcessor
 		public DateTime LastUpdateTime { get; private set; }
 		DateTime LastMissmatchCheckTime;
 		GKCallbackResult GKCallbackResult { get; set; }
+		bool IsHashFailure { get; set; }
 
 		public Watcher(GkDatabase gkDatabase)
 		{
@@ -53,43 +54,50 @@ namespace GKProcessor
 
 		void OnRunThread()
 		{
-			try
-			{
-				if (!InitializeMonitoring() || IsStopping)
-					return;
-			}
-			catch (Exception e)
-			{
-				AddMessage("Ошибка инициализации мониторинга", "");
-				Logger.Error(e, "JournalWatcher.InitializeMonitoring");
-			}
-
 			while (true)
 			{
-				if (!RunMonitoring() || IsStopping)
-					return;
-
-				if (StopEvent != null)
+				try
 				{
-					var pollInterval = 10;
-					var property = GkDatabase.RootDevice.Properties.FirstOrDefault(x => x.Name == "PollInterval");
-					if (property != null)
-					{
-						pollInterval = property.Value;
-					}
-					if (StopEvent.WaitOne(pollInterval))
-						break;
+					if (!InitializeMonitoring() || IsStopping)
+						return;
+				}
+				catch (Exception e)
+				{
+					AddMessage("Ошибка инициализации мониторинга", "");
+					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
-				LastUpdateTime = DateTime.Now;
+				while (true)
+				{
+					RunMonitoring();
+					if (IsStopping)
+						return;
+
+					if (IsHashFailure)
+						break;
+
+					if (StopEvent != null)
+					{
+						var pollInterval = 10;
+						var property = GkDatabase.RootDevice.Properties.FirstOrDefault(x => x.Name == "PollInterval");
+						if (property != null)
+						{
+							pollInterval = property.Value;
+						}
+						if (StopEvent.WaitOne(pollInterval))
+							break;
+					}
+
+					LastUpdateTime = DateTime.Now;
+				}
 			}
 		}
 
 		bool InitializeMonitoring()
 		{
 			bool IsPingFailure = false;
-			bool IsHashFailure = false;
 			bool IsGetStatesFailure = false;
+			IsHashFailure = false;
 
 			while (true)
 			{
@@ -193,7 +201,7 @@ namespace GKProcessor
 			return false;
 		}
 
-		bool RunMonitoring()
+		void RunMonitoring()
 		{
 			if (CheckLicense())
 			{
@@ -266,7 +274,6 @@ namespace GKProcessor
 					}
 				}
 			}
-			return true;
 		}
 
 		void AddFailureJournalItem(string name, string description)

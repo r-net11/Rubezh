@@ -5,6 +5,7 @@ using System.Text;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
@@ -19,7 +20,7 @@ namespace GKModule.ViewModels
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		public static bool ConfigFromFile { get; private set; }
-
+        public string Error { get; private set; }
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
@@ -32,8 +33,12 @@ namespace GKModule.ViewModels
 			RemoteConfiguration = remoteConfiguration;
 			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
-
-			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
+		    if (RemoteDevice == null)
+		    {
+		        Error = "ГК в удаленной конфигурации имеет невалидный IP адрес";
+                return;
+		    }
+		    LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
 			CompareObjectLists();
 			InitializeMismatchedIndexes();
