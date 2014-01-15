@@ -95,11 +95,9 @@ namespace GKModule.Models
 			{
 				if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
-
 					var thread = new Thread(() =>
 					{
-						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
 						ApplicationService.Invoke(new Action(() =>
 						{
 							if (result.HasError)

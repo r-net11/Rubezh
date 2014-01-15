@@ -52,6 +52,16 @@ namespace GKProcessor
 			RunThread = null;
 		}
 
+		public void Suspend()
+		{
+
+		}
+
+		public void Resume()
+		{
+
+		}
+
 		void OnRunThread()
 		{
 			while (true)
@@ -172,7 +182,7 @@ namespace GKProcessor
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem("Ошибка при опросе состояний компонентов ГК", "");
+						AddFailureJournalItem("Ошибка при опросе состояний компонентов ГК", DBMissmatchDuringMonitoringReason);
 					else
 						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК", "");
 				}
@@ -209,7 +219,7 @@ namespace GKProcessor
 				}
 				if (!WatcherManager.IsConfigurationReloading)
 				{
-					if (IsAnyDBMissmatch)
+					if (IsDBMissmatchDuringMonitoring)
 					{
 						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
 						{

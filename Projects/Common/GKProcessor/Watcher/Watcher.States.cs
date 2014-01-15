@@ -14,7 +14,8 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		bool IsAnyDBMissmatch = false;
+		bool IsDBMissmatchDuringMonitoring = false;
+		string DBMissmatchDuringMonitoringReason = "";
 
 		bool _isJournalAnyDBMissmatch = false;
 		bool IsJournalAnyDBMissmatch
@@ -38,7 +39,7 @@ namespace GKProcessor
 
 		bool GetAllStates(bool showProgress)
 		{
-			IsAnyDBMissmatch = false;
+			IsDBMissmatchDuringMonitoring = false;
 
 			if (showProgress)
 				GKProcessorManager.OnStartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false);
@@ -58,12 +59,12 @@ namespace GKProcessor
 
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.BaseState.IsGKMissmatch = IsAnyDBMissmatch;
+				descriptor.XBase.BaseState.IsGKMissmatch = IsDBMissmatchDuringMonitoring;
 			}
-			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
+			IsJournalAnyDBMissmatch = IsDBMissmatchDuringMonitoring;
 			CheckTechnologicalRegime();
 			NotifyAllObjectsStateChanged();
-			return !IsAnyDBMissmatch && IsConnected;
+			return !IsDBMissmatchDuringMonitoring && IsConnected;
 		}
 
 		void NotifyAllObjectsStateChanged()
@@ -202,8 +203,9 @@ namespace GKProcessor
 			}
 			if (sendResult.Bytes.Count != expectedBytesCount)
 			{
-				IsAnyDBMissmatch = true;
+				IsDBMissmatchDuringMonitoring = true;
 				xBase.BaseState.IsGKMissmatch = true;
+				DBMissmatchDuringMonitoringReason = "Не совпадает количество байт в пришедшем ответе";
 				return false;
 			}
 			ConnectionChanged(true);
@@ -227,8 +229,9 @@ namespace GKProcessor
 			}
 			if (sendResult.Bytes.Count != 68)
 			{
-				IsAnyDBMissmatch = true;
+				IsDBMissmatchDuringMonitoring = true;
 				xBase.BaseState.IsGKMissmatch = true;
+				DBMissmatchDuringMonitoringReason = "Не совпадает количество байт в пришедшем ответе";
 				return false;
 			}
 			ConnectionChanged(true);
@@ -255,14 +258,20 @@ namespace GKProcessor
 			{
 				var device = xBase as XDevice;
 				if (device.Driver.DriverTypeNo != descriptorStateHelper.TypeNo)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип устройства";
+				}
 
 				ushort physicalAddress = device.IntAddress;
 				if (device.Driver.IsDeviceOnShleif)
 					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
 				if (device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU
 					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает физический адрес устройства";
+				}
 
 				var nearestDescriptorNo = 0;
 				if (device.KauDatabaseParent != null)
@@ -270,37 +279,63 @@ namespace GKProcessor
 				else if (device.GkDatabaseParent != null)
 					nearestDescriptorNo = device.GKDescriptorNo;
 				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает адрес на контроллере";
+				}
 			}
 			if (xBase is XZone)
 			{
 				if (descriptorStateHelper.TypeNo != 0x100)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип для зоны";
+				}
 			}
 			if (xBase is XDirection)
 			{
 				if (descriptorStateHelper.TypeNo != 0x106)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип для направления";
+				}
 			}
 			if (xBase is XPumpStation)
 			{
 				if (descriptorStateHelper.TypeNo != 0x106)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип для НС";
+				}
 			}
 			if (xBase is XDelay)
 			{
 				if (descriptorStateHelper.TypeNo != 0x101)
+				{
 					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип для Задержки";
+				}
+			}
+			if (xBase is XPim)
+			{
+				if (descriptorStateHelper.TypeNo != 0x107)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = "Не совпадает тип для ПИМ";
+				}
 			}
 
 			var description = xBase.PresentationName;
 			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
+			{
 				isMissmatch = true;
+				DBMissmatchDuringMonitoringReason = "Не совпадает описание компонента";
+			}
 
 			xBase.BaseState.IsRealMissmatch = isMissmatch;
 			if (isMissmatch)
 			{
-				IsAnyDBMissmatch = true;
+				IsDBMissmatchDuringMonitoring = true;
 			}
 		}
 

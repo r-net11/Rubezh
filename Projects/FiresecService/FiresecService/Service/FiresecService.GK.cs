@@ -34,12 +34,12 @@ namespace FiresecService.Service
 			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, UserName);
+				return GKProcessorManager.GKWriteConfiguration(device, UserName);
 			}
 			else
 			{

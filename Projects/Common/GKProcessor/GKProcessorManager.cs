@@ -19,15 +19,20 @@ namespace GKProcessor
 		{
 			IsProgressCanceled = true;
 		}
+
+		static string CurrentTitle;
+		static int CurrentStepCount;
+		static bool CurrentCanCancel;
+
 		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
 		{
 			IsProgressCanceled = false;
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			gkProgressCallback.Title = title;
+			CurrentTitle = gkProgressCallback.Title = title;
 			gkProgressCallback.Text = text;
-			gkProgressCallback.StepCount = stepCount;
-			gkProgressCallback.CanCancel = canCancel;
+			CurrentStepCount = gkProgressCallback.StepCount = stepCount;
+			CurrentCanCancel = gkProgressCallback.CanCancel = canCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -35,7 +40,10 @@ namespace GKProcessor
 		{
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
+			gkProgressCallback.Title = CurrentTitle;
 			gkProgressCallback.Text = text;
+			gkProgressCallback.StepCount = CurrentStepCount;
+			gkProgressCallback.CanCancel = CurrentCanCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -112,8 +120,17 @@ namespace GKProcessor
 		public static OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device, string userName)
 		{
 			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, userName, true);
+
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.UID);
+			if (watcher != null)
+				watcher.Suspend();
+
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
+
+			if (watcher != null)
+				watcher.Resume();
+
 			return new OperationResult<XDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
 		}
 

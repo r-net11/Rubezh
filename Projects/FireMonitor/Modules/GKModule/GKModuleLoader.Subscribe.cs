@@ -76,7 +76,7 @@ namespace GKModule
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Text);
+						LoadingService.DoStep(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
 						return;
 
 					case GKProgressCallbackType.Stop:
