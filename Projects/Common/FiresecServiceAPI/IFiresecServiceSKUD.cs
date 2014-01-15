@@ -8,7 +8,7 @@ namespace FiresecAPI
     public interface IFiresecServiceSKUD
     {
         [OperationContract]
-        IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter);
+        IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter);
 
         [OperationContract]
         bool DeleteEmployee(int id);
@@ -25,5 +25,8 @@ namespace FiresecAPI
         IEnumerable<EmployeeGroup> GetEmployeeGroups();
         [OperationContract]
         IEnumerable<EmployeePosition> GetEmployeePositions();
+
+        [OperationContract]
+        IEnumerable<Employee> GetEmployees();
     }
 }

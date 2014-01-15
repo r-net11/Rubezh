@@ -5,9 +5,9 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
+		public static IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
 		{
-			return FiresecService.GetEmployees(filter);
+			return FiresecService.GetAllEmployees(filter);
 		}
 		public static bool DeleteEmployeeCard(EmployeeCard card)
 		{
@@ -37,5 +37,9 @@ namespace FiresecClient
 		{
 			return FiresecService.GetEmployeePositions();
 		}
+        public static IEnumerable<Employee> GetEmployees()
+        {
+            return FiresecService.GetEmployees();
+        }
 	}
 }

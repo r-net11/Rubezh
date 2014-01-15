@@ -47,10 +47,10 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="DataAccess\Firesec.designer.cs">
+    <Compile Include="DataAccess\SKUD.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Firesec.dbml</DependentUpon>
+      <DependentUpon>SKUD.dbml</DependentUpon>
     </Compile>
     <Compile Include="FiresecServiceSKUD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,18 +59,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Translator\EmployeeGroupResultTranslator.cs" />
-    <Compile Include="Translator\EmployeePositionResultTranslator.cs" />
-    <Compile Include="Translator\EmployeeDepartmentResultTranslator.cs" />
-    <Compile Include="Translator\EmployeeResultTranslator.cs" />
+    <Compile Include="Translator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="DataAccess\Firesec.dbml">
+    <None Include="DataAccess\SKUD.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>Firesec.designer.cs</LastGenOutput>
+      <LastGenOutput>SKUD.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -82,11 +79,10 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DataAccess\Firesec.dbml.layout">
-      <DependentUpon>Firesec.dbml</DependentUpon>
+    <None Include="DataAccess\SKUD.dbml.layout">
+      <DependentUpon>SKUD.dbml</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>

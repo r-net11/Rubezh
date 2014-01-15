@@ -10,7 +10,7 @@ namespace FiresecAPI.Models.Skud
 		public Guid Uid { get; set; }
 		public string Name { get; set; }
 		public string Description { get; set; }
-		public DateTime IssueDate { get; set; }
-		public DateTime LaunchDate { get; set; }
+		public DateTime? IssueDate { get; set; }
+		public DateTime? LaunchDate { get; set; }
 	}
 }

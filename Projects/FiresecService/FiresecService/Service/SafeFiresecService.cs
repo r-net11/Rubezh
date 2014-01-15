@@ -192,9 +192,9 @@ namespace FiresecService.Service
         }
 
 		#region SKD
-		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
         {
-            return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees(filter));
+            return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetAllEmployees(filter));
         }
         public bool DeleteEmployee(int id)
         {
@@ -219,6 +219,10 @@ namespace FiresecService.Service
         public IEnumerable<EmployeePosition> GetEmployeePositions()
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
+        }
+        public IEnumerable<Employee>GetEmployees()
+        {
+            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees());
         }
 		#endregion
 

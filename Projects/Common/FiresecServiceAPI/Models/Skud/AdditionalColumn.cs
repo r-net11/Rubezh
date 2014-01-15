@@ -10,16 +10,12 @@ namespace FiresecAPI.Models.Skud
 		public Guid Uid;
 		public string Name { get; set; }
 		public string Description { get; set; }
-		public AdditionalColumnData Data { get; set; }
+		public AdditionalColumnType Type { get; set; }
+        public string TextData { get; set; }
+        public byte[] GraphicsData { get; set; }
 	}
 
-	public class AdditionalColumnData
-	{
-		public DataType Type { get; set; }
-		public object Data { get; set; }
-	}
-
-	public enum DataType
+	public enum AdditionalColumnType
 	{
 		Text,
 		Graphics,

@@ -5,6 +5,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SKUDModule.ViewModels;
 using GKProcessor;
+using FiresecClient;
 
 namespace SKUDModule
 {
@@ -29,8 +30,8 @@ namespace SKUDModule
 
 		public override void Initialize()
 		{
-			;
-		}
+            var employees = FiresecManager.GetEmployees();
+        }
 
 		public override string Name
 		{
