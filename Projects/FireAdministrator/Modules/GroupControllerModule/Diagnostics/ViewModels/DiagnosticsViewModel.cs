@@ -127,14 +127,14 @@ namespace GKModule.ViewModels
 		public RelayCommand GoToTechnologicalCommand { get; private set; }
 		void OnGoToTechnological()
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XFiresecAPI.XDriverType.GK);
+			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 			var sendResult = SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 		}
 
 		public RelayCommand GoToWorkRegimeCommand { get; private set; }
 		void OnGoToWorkRegime()
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XFiresecAPI.XDriverType.GK);
+			var device = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 		}
 
