@@ -95,14 +95,36 @@ namespace GKProcessor
 			WatcherManager.LastConfigurationReloadingTime = DateTime.Now;
 			WatcherManager.IsConfigurationReloading = true;
 		}
+
+		static void SuspendMonitoring(XDevice gkDevice)
+		{
+			if (WatcherManager.Watchers != null)
+			{
+				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+				if (watcher != null)
+					watcher.Suspend();
+			}
+		}
+
+		static void ResumeMonitoring(XDevice gkDevice)
+		{
+			if (WatcherManager.Watchers != null)
+			{
+				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+				if (watcher != null)
+					watcher.Resume();
+			}
+		}
 		#endregion
 
 		#region Operations
 		public static OperationResult<bool> GKWriteConfiguration(XDevice device, string userName)
 		{
 			AddGKMessage("Запись конфигурации в прибор", "", XStateClass.Info, device, userName, true);
+			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
+			Start();
 			if (gkDescriptorsWriter.Error != null)
 				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
 			return new OperationResult<bool>() { Result = true };
@@ -110,35 +132,32 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
 		{
-			AddGKMessage("Чтение конфигурации дескрипторов из прибора", "", XStateClass.Info, device, userName, true);
+			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, userName, true);
+			SuspendMonitoring(device);
 			DescriptorsManager.Create();
-			var gkFileReaderWriter = new GKFileReaderWriter();
-			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
-			return new OperationResult<XDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
+			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
+			descriptorReader.ReadConfiguration(device);
+			ResumeMonitoring(device);
+			return new OperationResult<XDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device, string userName)
 		{
 			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, userName, true);
-
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.UID);
-			if (watcher != null)
-				watcher.Suspend();
-
+			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
-
-			if (watcher != null)
-				watcher.Resume();
-
+			ResumeMonitoring(device);
 			return new OperationResult<XDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
 			AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
+			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.Update(device, fileName);
+			Start();
 			if (firmwareUpdateHelper.ErrorList != null)
 				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
@@ -146,8 +165,10 @@ namespace GKProcessor
 
 		public static OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
 		{
+			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName, devices);
+			Start();
 			if (firmwareUpdateHelper.ErrorList != null)
                 return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };

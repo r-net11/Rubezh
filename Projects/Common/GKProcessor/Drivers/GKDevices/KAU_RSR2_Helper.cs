@@ -105,7 +105,7 @@ namespace GKProcessor
 				IsAUParameter = false
 			};
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 3 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });
 			driver.Properties.Add(modeProperty);
 
 			var als12Property = new XDriverProperty()
