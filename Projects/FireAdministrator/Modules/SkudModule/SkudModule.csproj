@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Loya.Dameer">
+      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -110,22 +113,50 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\ViewModels\NamedTimeIntervalDetailsViewModel.cs" />
-    <Compile Include="Shedule\ViewModels\TimeIntervalViewModel.cs" />
-    <Compile Include="Shedule\ViewModels\TimeIntervalDetailsViewModel.cs" />
-    <Compile Include="Shedule\ViewModels\TimeIntervalsMenuViewModel.cs" />
-    <Compile Include="Shedule\ViewModels\TimeIntervalsViewModel.cs" />
-    <Compile Include="Shedule\ViewModels\NamedTimeIntervalViewModel.cs" />
-    <Compile Include="Shedule\Views\TimeIntervalDetailsView.xaml.cs">
+    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
+    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
+    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalViewModel.cs" />
+    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyDetailsView.xaml.cs">
+      <DependentUpon>WeeklyDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsMenuView.xaml.cs">
+      <DependentUpon>WeeklyIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsView.xaml.cs">
+      <DependentUpon>WeeklyIntervalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalPartViewModel.cs" />
+    <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalViewModel.cs" />
+    <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalsViewModel.cs" />
+    <Compile Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml.cs">
+      <DependentUpon>SlideDayIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalsMenuView.xaml.cs">
+      <DependentUpon>SlideDayIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalsView.xaml.cs">
+      <DependentUpon>SlideDayIntervalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\TimeIntervals\ViewModels\NamedTimeIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\ViewModels\TimeIntervalViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\ViewModels\TimeIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\ViewModels\TimeIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\ViewModels\TimeIntervalsViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\ViewModels\NamedTimeIntervalViewModel.cs" />
+    <Compile Include="Shedule\TimeIntervals\Views\TimeIntervalDetailsView.xaml.cs">
       <DependentUpon>TimeIntervalDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\Views\TimeIntervalsView.xaml.cs">
+    <Compile Include="Shedule\TimeIntervals\Views\TimeIntervalsView.xaml.cs">
       <DependentUpon>TimeIntervalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\Views\TimeInrervalsMenuView.xaml.cs">
+    <Compile Include="Shedule\TimeIntervals\Views\TimeInrervalsMenuView.xaml.cs">
       <DependentUpon>TimeInrervalsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\Views\NamedTimeIntervalDetailsView.xaml.cs">
+    <Compile Include="Shedule\TimeIntervals\Views\NamedTimeIntervalDetailsView.xaml.cs">
       <DependentUpon>NamedTimeIntervalDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SkudModule.cs" />
@@ -251,23 +282,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideDayIntervals\Views\SlideDayIntervalsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Shedule\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\Views\TimeIntervalDetailsView.xaml">
+    <Page Include="Shedule\TimeIntervals\Views\TimeIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\Views\TimeIntervalsView.xaml">
+    <Page Include="Shedule\TimeIntervals\Views\TimeIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\Views\TimeInrervalsMenuView.xaml">
+    <Page Include="Shedule\TimeIntervals\Views\TimeInrervalsMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\Views\NamedTimeIntervalDetailsView.xaml">
+    <Page Include="Shedule\TimeIntervals\Views\NamedTimeIntervalDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

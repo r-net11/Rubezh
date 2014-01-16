@@ -100,12 +100,12 @@ namespace GKProcessor
 							}
                         }
 					}
-				}
 
-				if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
-				{
-					CheckTechnologicalRegime();
-					NotifyAllObjectsStateChanged();
+					if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
+					{
+						CheckTechnologicalRegime();
+						NotifyAllObjectsStateChanged();
+					}
 				}
 			}
             if (journalItems.Count > 0)

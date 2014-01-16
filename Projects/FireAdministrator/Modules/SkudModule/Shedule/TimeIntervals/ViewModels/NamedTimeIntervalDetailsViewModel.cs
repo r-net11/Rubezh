@@ -27,6 +27,7 @@ namespace SkudModule.ViewModels
 			}
 			NamedTimeInterval = namedTimeInterval;
 			Name = NamedTimeInterval.Name;
+			Description = NamedTimeInterval.Description;
 		}
 
 		string _name;
@@ -40,9 +41,21 @@ namespace SkudModule.ViewModels
 			}
 		}
 
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged("Description");
+			}
+		}
+
 		protected override bool Save()
 		{
 			NamedTimeInterval.Name = Name;
+			NamedTimeInterval.Description = Description;
 			return true;
 		}
 	}

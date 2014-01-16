@@ -57,6 +57,18 @@ namespace FiresecClient
 			}
 		}
 
+		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => FiresecService.GKReadConfigurationFromGKFile(device.BaseUID), "GKReadConfigurationFromGKFile");
+			}
+			else
+			{
+				return GKProcessorManager.GKReadConfigurationFromGKFile(device, FiresecManager.CurrentUser.Name);
+			}
+		}
+
         public OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName)
 		{
 			if (IsGKAsAService)
@@ -73,7 +85,12 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-                return SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, devices), "GKUpdateFirmwareFSCS");
+				var deviceUIDs = new List<Guid>();
+				foreach (var device in devices)
+				{
+					deviceUIDs.Add(device.UID);
+				}
+				return SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
 			}
 			else
 			{
@@ -129,27 +146,39 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(XDevice device)
+		public OperationResult<bool> GKSetSingleParameter(XBase xBase, List<byte> parameterBytes)
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(device.BaseUID); }, "SetSingleParameter");
+				return SafeOperationCall<bool>(() => { return FiresecService.GKSetSingleParameter(xBase.BaseUID, parameterBytes); }, "SetSingleParameter");
 			}
 			else
 			{
-				return GKProcessorManager.GKSetSingleParameter(device);
+				return GKProcessorManager.GKSetSingleParameter(xBase, parameterBytes);
 			}
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(XDevice device)
+		public OperationResult<List<XProperty>> GKGetSingleParameter(XBase xBase)
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall<bool>(() => { return FiresecService.GKGetSingleParameter(device.BaseUID); }, "GetSingleParameter");
+				return SafeOperationCall<List<XProperty>>(() => { return FiresecService.GKGetSingleParameter(xBase.BaseUID); }, "GetSingleParameter");
 			}
 			else
 			{
-				return GKProcessorManager.GKGetSingleParameter(device);
+				return GKProcessorManager.GKGetSingleParameter(xBase);
+			}
+		}
+
+		public OperationResult<List<byte>> GKGKHash(XDevice device)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall<List<byte>>(() => { return FiresecService.GKGKHash(device.BaseUID); }, "GKGKHash");
+			}
+			else
+			{
+				return GKProcessorManager.GKGKHash(device);
 			}
 		}
 
@@ -241,7 +270,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKTurnOn(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
+				SafeOperationCall(() => { FiresecService.GKSetIgnoreRegime(xBase.BaseUID, xBase.ObjectType); }, "GKTurnOn");
 			}
 			else
 			{

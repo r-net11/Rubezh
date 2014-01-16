@@ -34,12 +34,12 @@ namespace FiresecService.Service
 			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, UserName);
+				return GKProcessorManager.GKWriteConfiguration(device, UserName);
 			}
 			else
 			{
@@ -52,7 +52,22 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfiguration(device, UserName);
+			}
+			else
+			{
+				return new OperationResult<XDeviceConfiguration>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DescriptorsManager.Create();
+				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
 			}
 			else
 			{
@@ -73,8 +88,18 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
 		{
+			var devices = new List<XDevice>();
+			foreach (var deviceUID in deviceUIDs)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (device == null)
+				{
+					return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				}
+				devices.Add(device);
+			}
 			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
 		}
 
@@ -130,29 +155,54 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid deviceUID)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
+			XBase xBase = null;
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (xBase == null)
 			{
-				return GKProcessorManager.GKSetSingleParameter(device);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+			}
+
+			if (xBase != null)
+			{
+				return GKProcessorManager.GKSetSingleParameter(xBase, parameterBytes);
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<bool>("Не найден компонент в конфигурации");
 			}
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(Guid deviceUID)
+		public OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
+			XBase xBase = null;
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (xBase == null)
 			{
-				return GKProcessorManager.GKGetSingleParameter(device);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+			}
+
+			if (xBase != null)
+			{
+				return GKProcessorManager.GKGetSingleParameter(xBase);
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<List<XProperty>>("Не найден компонент в конфигурации");
+			}
+		}
+
+		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (device != null)
+			{
+				return GKProcessorManager.GKGKHash(device);
+			}
+			else
+			{
+				return new OperationResult<List<byte>>("Не найдено устройство в конфигурации");
 			}
 		}
 

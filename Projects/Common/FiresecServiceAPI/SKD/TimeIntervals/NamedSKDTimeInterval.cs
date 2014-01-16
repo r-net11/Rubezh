@@ -22,6 +22,9 @@ namespace FiresecAPI
 		public string Name { get; set; }
 
 		[DataMember]
+		public string Description { get; set; }
+
+		[DataMember]
 		public List<SKDTimeInterval> TimeIntervals { get; set; }
 	}
 }

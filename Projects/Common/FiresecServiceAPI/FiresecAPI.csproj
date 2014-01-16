@@ -226,7 +226,9 @@
     <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.cs" />
     <Compile Include="SKD\TimeIntervals\NamedSKDTimeInterval.cs" />
+    <Compile Include="SKD\TimeIntervals\SKDSlideDayInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDTimeInterval.cs" />
+    <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

@@ -12,6 +12,9 @@ namespace XFiresecAPI
 	{
 		public SKDConfiguration()
 		{
+			NamedTimeIntervals = new List<NamedSKDTimeInterval>();
+			SlideDayIntervals = new List<SKDSlideDayInterval>();
+			WeeklyIntervals = new List<SKDWeeklyInterval>();
 		}
 
 		public List<SKDDevice> Devices { get; set; }
@@ -21,6 +24,12 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<NamedSKDTimeInterval> NamedTimeIntervals { get; set; }
+
+		[DataMember]
+		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
+
+		[DataMember]
+		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
 
 		public void Update()
 		{
@@ -49,6 +58,16 @@ namespace XFiresecAPI
 			if (NamedTimeIntervals == null)
 			{
 				NamedTimeIntervals = new List<NamedSKDTimeInterval>();
+				result = false;
+			}
+			if (SlideDayIntervals == null)
+			{
+				SlideDayIntervals = new List<SKDSlideDayInterval>();
+				result = false;
+			}
+			if (WeeklyIntervals == null)
+			{
+				WeeklyIntervals = new List<SKDWeeklyInterval>();
 				result = false;
 			}
 			return result;

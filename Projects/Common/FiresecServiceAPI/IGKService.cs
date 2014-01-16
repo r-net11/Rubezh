@@ -23,10 +23,13 @@ namespace FiresecAPI
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
+
+		[OperationContract]
         OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
 
         [OperationContract]
-        OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices);
+        OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
         
 		[OperationContract]
 		bool GKSyncronyseTime(Guid deviceUID);
@@ -41,10 +44,13 @@ namespace FiresecAPI
 		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSingleParameter(Guid deviceUID);
+		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);
 
 		[OperationContract]
-		OperationResult<bool> GKGetSingleParameter(Guid deviceUID);
+		OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID);
+
+		[OperationContract]
+		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
 
 		[OperationContract]
 		GKStates GKGetStates();

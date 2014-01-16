@@ -19,15 +19,20 @@ namespace GKProcessor
 		{
 			IsProgressCanceled = true;
 		}
+
+		static string CurrentTitle;
+		static int CurrentStepCount;
+		static bool CurrentCanCancel;
+
 		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
 		{
 			IsProgressCanceled = false;
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			gkProgressCallback.Title = title;
+			CurrentTitle = gkProgressCallback.Title = title;
 			gkProgressCallback.Text = text;
-			gkProgressCallback.StepCount = stepCount;
-			gkProgressCallback.CanCancel = canCancel;
+			CurrentStepCount = gkProgressCallback.StepCount = stepCount;
+			CurrentCanCancel = gkProgressCallback.CanCancel = canCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -35,7 +40,10 @@ namespace GKProcessor
 		{
 			var gkProgressCallback = new GKProgressCallback();
 			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
+			gkProgressCallback.Title = CurrentTitle;
 			gkProgressCallback.Text = text;
+			gkProgressCallback.StepCount = CurrentStepCount;
+			gkProgressCallback.CanCancel = CurrentCanCancel;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -102,10 +110,28 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
 		{
+			AddGKMessage("Чтение конфигурации дескрипторов из прибора", "", XStateClass.Info, device, userName, true);
+			DescriptorsManager.Create();
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
+			return new OperationResult<XDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
+		}
+
+		public static OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device, string userName)
+		{
 			AddGKMessage("Чтение конфигурации из прибора", "", XStateClass.Info, device, userName, true);
-			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
-			descriptorReader.ReadConfiguration(device);
-			return new OperationResult<XDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
+
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.UID);
+			if (watcher != null)
+				watcher.Suspend();
+
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
+
+			if (watcher != null)
+				watcher.Resume();
+
+			return new OperationResult<XDeviceConfiguration> { HasError = gkFileReaderWriter.Error != null, Error = gkFileReaderWriter.Error, Result = deviceConfiguration };
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
@@ -163,16 +189,24 @@ namespace GKProcessor
 			return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
 		}
 
-		public static OperationResult<bool> GKSetSingleParameter(XDevice device)
+		public static OperationResult<bool> GKSetSingleParameter(XBase xBase, List<byte> parameterBytes)
 		{
-			var error = ParametersHelper.SetSingleParameter(device);
+			var error = ParametersHelper.SetSingleParameter(xBase, parameterBytes);
 			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
 		}
 
-		public static OperationResult<bool> GKGetSingleParameter(XDevice device)
+		public static OperationResult<List<XProperty>> GKGetSingleParameter(XBase xBase)
 		{
-			var error = ParametersHelper.GetSingleParameter(device);
-			return new OperationResult<bool>() { HasError = error != null, Error = error, Result = true };
+			return ParametersHelper.GetSingleParameter(xBase);
+		}
+
+		public static OperationResult<List<byte>> GKGKHash(XDevice device)
+		{
+			var gkFileReaderWriter = new GKFileReaderWriter();
+			var readInfoBlock = gkFileReaderWriter.ReadInfoBlock(device);
+			if (gkFileReaderWriter.Error != null)
+				return new OperationResult<List<byte>>(gkFileReaderWriter.Error);
+			return new OperationResult<List<byte>>() { Result = readInfoBlock.Hash1 };
 		}
 
 		public static GKStates GKGetStates()
