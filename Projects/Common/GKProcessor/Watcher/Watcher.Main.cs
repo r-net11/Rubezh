@@ -396,7 +396,7 @@ namespace GKProcessor
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			WaitIfSuspending();
+			//WaitIfSuspending();
 			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 	}
