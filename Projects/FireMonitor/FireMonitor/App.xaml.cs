@@ -11,7 +11,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using Microsoft.Win32;
-using MuliclientAPI;
 
 namespace FireMonitor
 {
@@ -23,22 +22,9 @@ namespace FireMonitor
 		public static bool IsClosingOnException = false;
 		public static string Login;
 		public static string Password;
-		public static bool IsMulticlient { get; private set; }
-		public static string MulticlientId { get; private set; }
-
-		public void SetMulticlientData(MulticlientData multiclientData)
-		{
-			IsMulticlient = true;
-			MulticlientId = multiclientData.Id;
-			Login = multiclientData.Login;
-			Password = multiclientData.Password;
-			ConnectionSettingsManager.RemoteAddress = multiclientData.Address;
-			ConnectionSettingsManager.RemotePort = multiclientData.Port;
-		}
 
 		public App()
 		{
-			IsMulticlient = false;
 			PatchManager.Patch();
 		}
 
@@ -66,7 +52,7 @@ namespace FireMonitor
 #endif
 				Bootstrapper = CreateBootstrapper();
 				var result = true;
-				using (new DoubleLaunchLocker(SignalId, WaitId, true, !IsMulticlient))
+				using (new DoubleLaunchLocker(SignalId, WaitId, true, true))
 				{
 					result = Bootstrapper.Initialize();
 				}
@@ -86,8 +72,6 @@ namespace FireMonitor
 
 			if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
 				StartRevisor();
-			if (IsMulticlient)
-				MulticlientController.Current.SuscribeMulticlientStateChanged();
 		}
 
 		void StartRevisor()

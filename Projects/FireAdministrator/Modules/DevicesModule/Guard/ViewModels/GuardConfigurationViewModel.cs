@@ -34,22 +34,22 @@ namespace DevicesModule.ViewModels
 
 			Users = new ObservableCollection<UserViewModel>();
 
-			if (FiresecManager.IsFS2Enabled)
-			{
-				FS2DeviceGetGuardUserListHelper.Run(SelectedDevice);
-				var guardUsers = FS2DeviceGetGuardUserListHelper.Result;
-				if (guardUsers != null)
-				{
-					for (int i = 0; i < guardUsers.Count; i++)
-					{
-						var user = new User();
-						guardUsers[i].Id = i + 1;
-						var userViewModel = new UserViewModel(guardUsers[i]);
-						Users.Add(userViewModel);
-					}
-				}
-			}
-			else
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    FS2DeviceGetGuardUserListHelper.Run(SelectedDevice);
+			//    var guardUsers = FS2DeviceGetGuardUserListHelper.Result;
+			//    if (guardUsers != null)
+			//    {
+			//        for (int i = 0; i < guardUsers.Count; i++)
+			//        {
+			//            var user = new User();
+			//            guardUsers[i].Id = i + 1;
+			//            var userViewModel = new UserViewModel(guardUsers[i]);
+			//            Users.Add(userViewModel);
+			//        }
+			//    }
+			//}
+			//else
 			{
 				DeviceGetGuardUserListHelper.Run(SelectedDevice);
 				var result = DeviceGetGuardUserListHelper.Result;

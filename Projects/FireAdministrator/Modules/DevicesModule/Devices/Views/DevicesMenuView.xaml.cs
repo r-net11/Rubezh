@@ -15,10 +15,10 @@ namespace DevicesModule.Views
 		void DevicesMenuView_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
 			DevicesMenuViewModel devicesMenuViewModel = DataContext as DevicesMenuViewModel;
-			if (devicesMenuViewModel != null && FiresecManager.IsFS2Enabled)
-			{
-				_additionalMenu.DataContext = devicesMenuViewModel.Context.FS2DeviceCommandsViewModel;
-			}
+			//if (devicesMenuViewModel != null && FiresecManager.IsFS2Enabled)
+			//{
+			//    _additionalMenu.DataContext = devicesMenuViewModel.Context.FS2DeviceCommandsViewModel;
+			//}
 		}
 	}
 }

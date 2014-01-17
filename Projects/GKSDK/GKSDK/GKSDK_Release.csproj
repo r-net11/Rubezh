@@ -56,12 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\FiresecClient.dll</HintPath>
     </Reference>
-    <Reference Include="FS2API">
-      <HintPath>..\Assemblies\FS2API.dll</HintPath>
-    </Reference>
-    <Reference Include="FS2Client">
-      <HintPath>..\Assemblies\FS2Client.dll</HintPath>
-    </Reference>
     <Reference Include="FSAgentAPI">
       <HintPath>..\Assemblies\FSAgentAPI.dll</HintPath>
     </Reference>

@@ -22,8 +22,6 @@
         <File Id="Administrator.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.XamlTune.dll" Name="XamlTune.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Administrator.TargetDir)" />

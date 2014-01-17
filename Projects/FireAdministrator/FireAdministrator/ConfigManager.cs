@@ -43,11 +43,11 @@ namespace FireAdministrator
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 					if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
 					{
-						if (FiresecManager.IsFS2Enabled)
-						{
-							FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
-						}
-						else
+						//if (FiresecManager.IsFS2Enabled)
+						//{
+						//    FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
+						//}
+						//else
 						{
 							if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
 							{

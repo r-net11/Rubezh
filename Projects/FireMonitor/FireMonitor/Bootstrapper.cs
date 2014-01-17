@@ -26,7 +26,7 @@ namespace FireMonitor
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 
-			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password, App.IsMulticlient))
+			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
 			{
 				var userChangedEventArgs = new UserChangedEventArgs
 				{
@@ -42,22 +42,11 @@ namespace FireMonitor
 					LoadingService.ShowLoading("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
-					if (!App.IsMulticlient)
-					{
-						LoadingService.DoStep("Синхронизация файлов");
-						FiresecManager.UpdateFiles();
-					}
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
 
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					if (App.IsMulticlient)
-					{
-						FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
-						ServiceFactory.ContentService.SetMulticlientFolder("Multiclient/Configuration/" + App.MulticlientId);
-					}
-					else
-					{
-						FiresecManager.GetConfiguration("Monitor/Configuration");
-					}
+					FiresecManager.GetConfiguration("Monitor/Configuration");
 
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
@@ -147,15 +136,7 @@ namespace FireMonitor
 				LoadingService.AddCount(10);
 
 				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				if (App.IsMulticlient)
-				{
-					FiresecManager.GetConfiguration("Multiclient/Configuration/" + App.MulticlientId);
-					ServiceFactory.ContentService.SetMulticlientFolder("Multiclient/Configuration/" + App.MulticlientId);
-				}
-				else
-				{
-					FiresecManager.GetConfiguration("Monitor/Configuration");
-				}
+				FiresecManager.GetConfiguration("Monitor/Configuration");
 
 				ApplicationService.CloseAllWindows();
 				ServiceFactory.Layout.Close();

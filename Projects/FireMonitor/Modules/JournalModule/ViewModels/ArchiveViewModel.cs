@@ -13,7 +13,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
-using FS2Api;
 using System.Diagnostics;
 
 namespace JournalModule.ViewModels
@@ -36,7 +35,7 @@ namespace JournalModule.ViewModels
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
 			Pages = new ObservableCollection<ArchivePageViewModel>();
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
-			ServiceFactory.Events.GetEvent<GetFS2FilteredArchiveCompletedEvent>().Subscribe(OnGetFS2FilteredArchiveCompleted);
+			//ServiceFactory.Events.GetEvent<GetFS2FilteredArchiveCompletedEvent>().Subscribe(OnGetFS2FilteredArchiveCompleted);
 
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
@@ -351,15 +350,15 @@ namespace JournalModule.ViewModels
 			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalRecords.Count()).ToString();
 		}
 
-		void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
-		{
-			var archivePageViewModel = new ArchivePageViewModel(journalItems);
-			Pages.Add(archivePageViewModel);
-			TotalPageNumber = Pages.Count;
-			if (CurrentPageNumber == 0)
-				CurrentPageNumber = 1;
-			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
-		}
+		//void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
+		//{
+		//    var archivePageViewModel = new ArchivePageViewModel(journalItems);
+		//    Pages.Add(archivePageViewModel);
+		//    TotalPageNumber = Pages.Count;
+		//    if (CurrentPageNumber == 0)
+		//        CurrentPageNumber = 1;
+		//    Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
+		//}
 
 		public override void OnShow()
 		{

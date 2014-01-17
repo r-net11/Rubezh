@@ -118,14 +118,14 @@ namespace DevicesModule
 		{
 			try
 			{
-				if (FiresecManager.IsFS2Enabled)
-				{
-					LoadingService.DoStep("Инициализация драйвера устройств(FS2)");
-					FiresecManager.InitializeFS2();
-					LoadingService.DoStep("Старт мониторинга");
-					FiresecManager.FS2ClientContract.Start();
-				}
-				else
+				//if (FiresecManager.IsFS2Enabled)
+				//{
+				//    LoadingService.DoStep("Инициализация драйвера устройств(FS2)");
+				//    FiresecManager.InitializeFS2();
+				//    LoadingService.DoStep("Старт мониторинга");
+				//    FiresecManager.FS2ClientContract.Start();
+				//}
+				//else
 				{
 					LoadingService.DoStep("Загрузка драйвера устройств");
 					var connectionResult = FiresecManager.InitializeFiresecDriver(false);

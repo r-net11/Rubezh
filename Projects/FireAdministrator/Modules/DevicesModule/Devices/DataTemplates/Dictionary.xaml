@@ -87,7 +87,7 @@
         <Views:DeviceConfigurationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FS2SetPasswordViewModel}">
+    <!--<DataTemplate DataType="{x:Type ViewModels:FS2SetPasswordViewModel}">
         <Views:FS2SetPasswordView />
     </DataTemplate>
 
@@ -101,6 +101,6 @@
 
     <DataTemplate DataType="{x:Type ViewModels:FS2DeviceJournalViewModel}">
         <Views:FS2DeviceJournalView />
-    </DataTemplate>
+    </DataTemplate>-->
 
 </ResourceDictionary>
