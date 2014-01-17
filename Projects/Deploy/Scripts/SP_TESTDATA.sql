@@ -1,21 +1,22 @@
 USE [SKUD]
+SET DATEFORMAT dmy;
 DECLARE @Uid uniqueidentifier;
 
 TRUNCATE TABLE [dbo].[Holiday]
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, 'Новый год', 'Transferred', '2013-31-12', '2013-28-12'
+EXEC [dbo].[SaveHoliday] @Uid, 'Новый год', 'Transferred', '31/12/2013', '28/12/2013'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, '8 марта', 'Holiday', '2014-08-03'
+EXEC [dbo].[SaveHoliday] @Uid, '8 марта', 'Holiday', '08/03/2014'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, 'Старый Новый год', 'Redused', '2014-13-01', NULL, 2
+EXEC [dbo].[SaveHoliday] @Uid, 'Старый Новый год', 'Redused', '13/01/2014', NULL, 2
 
 TRUNCATE TABLE [dbo].[Document]
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, 'Документ1', 'Документ1', '2013-01-01', '2013-07-01'
+EXEC [dbo].[SaveDocument] @Uid, 'Документ1', 'Документ1', '01/01/2013', '07/01/2013'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, 'Документ2', 'Документ2', '2014-08-01', '2013-25-01'
+EXEC [dbo].[SaveDocument] @Uid, 'Документ2', 'Документ2', '08/01/2014', '25/01/2013'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, 'Документ3', 'Документ3', '2014-30-01', '2013-05-02'
+EXEC [dbo].[SaveDocument] @Uid, 'Документ3', 'Документ3', '30/01/2014', '05/02/2013'
 
 delete from [dbo].[Interval]
 delete from [dbo].[NamedInterval]
@@ -177,58 +178,58 @@ EXEC [dbo].[SavePosition] @DirectorPositionUid , 'Директор', 'Руководитель компа
 delete from [dbo].[Employee]
 DECLARE @Guard1EmployeeUid uniqueidentifier;
 SET @Guard1EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Guard1EmployeeUid , 'Сергей', 'Петрович', 'Иванов', @GuardPositionUid, null , @GuardScheduleUid, '12-05-2005'
+EXEC [dbo].[SaveEmployee] @Guard1EmployeeUid , 'Сергей', 'Петрович', 'Иванов', @GuardPositionUid, null , @GuardScheduleUid, '12/05/2005'
 DECLARE @Guard2EmployeeUid uniqueidentifier;
 SET @Guard2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Guard2EmployeeUid , 'Петр', 'Сергеевич', 'Ивановский', @GuardPositionUid, null , @GuardScheduleUid, '12-05-2006'
+EXEC [dbo].[SaveEmployee] @Guard2EmployeeUid , 'Петр', 'Сергеевич', 'Ивановский', @GuardPositionUid, null , @GuardScheduleUid, '12/05/2006'
 DECLARE @MainGuardEmployeeUid uniqueidentifier;
 SET @MainGuardEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @MainGuardEmployeeUid , 'Петр', 'Сергеевич', 'Ивановичус', @MainGuardPositionUid, null , @GuardScheduleUid, '12-05-2007'
+EXEC [dbo].[SaveEmployee] @MainGuardEmployeeUid , 'Петр', 'Сергеевич', 'Ивановичус', @MainGuardPositionUid, null , @GuardScheduleUid, '12/05/2007'
 DECLARE @Montage1EmployeeUid uniqueidentifier;
 SET @Montage1EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Montage1EmployeeUid , 'Иван', 'Сергеевич', 'Петров', @MontagePositionUid, null , @MontageScheduleUid, '12-05-2008'
+EXEC [dbo].[SaveEmployee] @Montage1EmployeeUid , 'Иван', 'Сергеевич', 'Петров', @MontagePositionUid, null , @MontageScheduleUid, '12/05/2008'
 DECLARE @Montage2EmployeeUid uniqueidentifier;
 SET @Montage2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Montage2EmployeeUid , 'Сергей', 'Иванович', 'Петровишвили', @MontagePositionUid, null , @MontageScheduleUid, '12-05-2009'
+EXEC [dbo].[SaveEmployee] @Montage2EmployeeUid , 'Сергей', 'Иванович', 'Петровишвили', @MontagePositionUid, null , @MontageScheduleUid, '12/05/2009'
 DECLARE @MainMontageEmployeeUid uniqueidentifier;
 SET @MainMontageEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @MainMontageEmployeeUid , 'Сергей', 'Сергеевич', 'Петровский', @MainMontagePositionUid, null , @MontageScheduleUid, '12-05-2010'
+EXEC [dbo].[SaveEmployee] @MainMontageEmployeeUid , 'Сергей', 'Сергеевич', 'Петровский', @MainMontagePositionUid, null , @MontageScheduleUid, '12/05/2010'
 DECLARE @Programmer1EmployeeUid uniqueidentifier;
 SET @Programmer1EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Programmer1EmployeeUid , 'Петр', 'Иванович', 'Сергеев', @ProgrammerPositionUid, null , @ITScheduleUid, '12-05-2011'
+EXEC [dbo].[SaveEmployee] @Programmer1EmployeeUid , 'Петр', 'Иванович', 'Сергеев', @ProgrammerPositionUid, null , @ITScheduleUid, '12/05/2011'
 DECLARE @Programmer2EmployeeUid uniqueidentifier;
 SET @Programmer2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Programmer2EmployeeUid , 'Иван', 'Перович', 'Сергеевич', @ProgrammerPositionUid, null , @ITScheduleUid, '12-05-2012'
+EXEC [dbo].[SaveEmployee] @Programmer2EmployeeUid , 'Иван', 'Перович', 'Сергеевич', @ProgrammerPositionUid, null , @ITScheduleUid, '12/05/2012'
 DECLARE @MainProgrammistEmployeeUid uniqueidentifier;
 SET @MainProgrammistEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @MainProgrammistEmployeeUid , 'Иван', 'Иванович', 'Сергеевко', @MainProgrammerPositionUid, null , @ITScheduleUid, '12-05-2013'
+EXEC [dbo].[SaveEmployee] @MainProgrammistEmployeeUid , 'Иван', 'Иванович', 'Сергеевко', @MainProgrammerPositionUid, null , @ITScheduleUid, '12/05/2013'
 DECLARE @Tester1EmployeeUid uniqueidentifier;
 SET @Tester1EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , 'Сидор', 'Прохорович', 'Захарьин', @TesterPositionUid, null , @ITScheduleUid, '12-06-2013'
+EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , 'Сидор', 'Прохорович', 'Захарьин', @TesterPositionUid, null , @ITScheduleUid, '12/06/2013'
 DECLARE @Tester2EmployeeUid uniqueidentifier;
 SET @Tester2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , 'Прохор', 'Сидорович', 'Захаров', @TesterPositionUid, null , @ITScheduleUid, '12-07-2013'
+EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , 'Прохор', 'Сидорович', 'Захаров', @TesterPositionUid, null , @ITScheduleUid, '12/07/2013'
 DECLARE @MainTesterEmployeeUid uniqueidentifier;
 SET @MainTesterEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @MainTesterEmployeeUid , 'Прохор', 'Прохорович', 'Захаренко', @MainTesterPositionUid, null , @ITScheduleUid, '12-08-2013'
+EXEC [dbo].[SaveEmployee] @MainTesterEmployeeUid , 'Прохор', 'Прохорович', 'Захаренко', @MainTesterPositionUid, null , @ITScheduleUid, '12/08/2013'
 DECLARE @Constructor1EmployeeUid uniqueidentifier;
 SET @Constructor1EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Constructor1EmployeeUid , 'Захар', 'Сидорович', 'Прохоров', @ConstructorPositionUid, null , @ConstructorshipScheduleUid, '12-09-2013'
+EXEC [dbo].[SaveEmployee] @Constructor1EmployeeUid , 'Захар', 'Сидорович', 'Прохоров', @ConstructorPositionUid, null , @ConstructorshipScheduleUid, '12/09/2013'
 DECLARE @Constructor2EmployeeUid uniqueidentifier;
 SET @Constructor2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Constructor2EmployeeUid , 'Сидор', 'Захарович', 'Прохорский', @ConstructorPositionUid, null , @ConstructorshipScheduleUid, '12-10-2013'
+EXEC [dbo].[SaveEmployee] @Constructor2EmployeeUid , 'Сидор', 'Захарович', 'Прохорский', @ConstructorPositionUid, null , @ConstructorshipScheduleUid, '12/10/2013'
 DECLARE @MainConstructorEmployeeUid uniqueidentifier;
 SET @MainConstructorEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @MainConstructorEmployeeUid , 'Захар', 'Захарович', 'Прохоревич', @MainConstructorPositionUid, null , @ConstructorshipScheduleUid, '12-11-2013'
+EXEC [dbo].[SaveEmployee] @MainConstructorEmployeeUid , 'Захар', 'Захарович', 'Прохоревич', @MainConstructorPositionUid, null , @ConstructorshipScheduleUid, '12/11/2013'
 DECLARE @AdministratorEmployeeUid uniqueidentifier;
 SET @AdministratorEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @AdministratorEmployeeUid , 'Захар', 'Прохорович', 'Сидоров', @AdministratorPositionUid, null , @GovernanceScheduleUid, '12-12-2013'
+EXEC [dbo].[SaveEmployee] @AdministratorEmployeeUid , 'Захар', 'Прохорович', 'Сидоров', @AdministratorPositionUid, null , @GovernanceScheduleUid, '12/12/2013'
 DECLARE @DirectorEmployeeUid uniqueidentifier;
 SET @DirectorEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @DirectorEmployeeUid , 'Прохор', 'Захарович', 'Сидоренко', @DirectorEmployeeUid , null , @GovernanceScheduleUid, '13-12-2013'
+EXEC [dbo].[SaveEmployee] @DirectorEmployeeUid , 'Прохор', 'Захарович', 'Сидоренко', @DirectorEmployeeUid , null , @GovernanceScheduleUid, '13/12/2013'
 DECLARE @ProgrammistConstructorEmployeeUid uniqueidentifier;
 SET @ProgrammistConstructorEmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @ProgrammistConstructorEmployeeUid , 'Миямото', 'Дайтаро', 'Мусащи', @ProgrammistConstructorPositionUid , null , @ConstructorshipScheduleUid, '13-12-2001'
+EXEC [dbo].[SaveEmployee] @ProgrammistConstructorEmployeeUid , 'Миямото', 'Дайтаро', 'Мусащи', @ProgrammistConstructorPositionUid , null , @ConstructorshipScheduleUid, '13/12/2001'
 
 delete from [dbo].[Department]
 DECLARE @MainDepartmentUid uniqueidentifier;

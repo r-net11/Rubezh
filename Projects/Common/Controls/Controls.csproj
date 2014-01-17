@@ -195,6 +195,9 @@
     <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
     <Compile Include="Ribbon\Views\RibbonPopup.cs" />
+    <Compile Include="SpinnerCogs.xaml.cs">
+      <DependentUpon>SpinnerCogs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
@@ -272,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ribbon\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SpinnerCogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1285,7 +1292,6 @@
     <Resource Include="StateClassIcons\Manual.png" />
     <Resource Include="StateClassIcons\HasNoLicense.png" />
     <Resource Include="StateClassIcons\Test.png" />
-    <Resource Include="Sounds\Empire.mp3" />
     <Resource Include="Images\Pause.png" />
     <Resource Include="Images\BRefresh.png" />
     <Resource Include="Images\BFilterClear.png" />
@@ -1381,7 +1387,6 @@
     <Resource Include="SKDIcons\Reader.png" />
     <Resource Include="SKDIcons\System.png" />
     <Resource Include="SKDIcons\Controller.png" />
-    <Content Include="Sounds\Sound1.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

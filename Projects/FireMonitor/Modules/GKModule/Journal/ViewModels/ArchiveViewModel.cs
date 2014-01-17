@@ -196,8 +196,18 @@ namespace GKModule.ViewModels
 			{
 				_status = value;
 				OnPropertyChanged("Status");
+                OnPropertyChanged("IsLoading");
 			}
 		}
+
+        public bool IsLoading
+        {
+            get
+            {
+                //return false;
+                return Status == "Загрузка данных"; 
+            }
+        }
 
 		public List<JournalColumnType> AdditionalColumns
 		{
@@ -246,6 +256,7 @@ namespace GKModule.ViewModels
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
 				var journalRecords = GKDBHelper.Select(archiveFilter);
+                Thread.Sleep(1000);
 				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
 			}
 			catch (Exception e)
