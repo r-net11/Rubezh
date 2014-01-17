@@ -30,6 +30,19 @@
     </DataTemplate>
 
 
+    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsViewModel}">
+        <Views:SlideWeekIntervalsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsMenuViewModel}">
+        <Views:SlideWeekIntervalsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalDetailsViewModel}">
+        <Views:SlideWeekIntervalDetailsView />
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsViewModel}">
         <Views:WeeklyIntervalsView />
     </DataTemplate>

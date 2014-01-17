@@ -15,11 +15,11 @@ using FiresecAPI;
 
 namespace SkudModule.ViewModels
 {
-	public class WeeklyIntervalsViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class SlideWeekIntervalsViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
-		public WeeklyIntervalsViewModel()
+		public SlideWeekIntervalsViewModel()
 		{
-			Menu = new WeeklyIntervalsMenuViewModel(this);
+			Menu = new SlideWeekIntervalsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -28,27 +28,27 @@ namespace SkudModule.ViewModels
 			RegisterShortcuts();
 			SetRibbonItems();
 
-			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
-			foreach (var weeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
+			SlideWeekIntervals = new ObservableCollection<SlideWeekIntervalViewModel>();
+			foreach (var slideWeekInterval in SKDManager.SKDConfiguration.SlideWeekIntervals)
 			{
-				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyInterval);
-				WeeklyIntervals.Add(timeInrervalViewModel);
+				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekInterval);
+				SlideWeekIntervals.Add(timeInrervalViewModel);
 			}
-			SelectedWeeklyInterval = WeeklyIntervals.FirstOrDefault();
+			SelectedSlideWeekInterval = SlideWeekIntervals.FirstOrDefault();
 		}
 
-		SKDWeeklyInterval IntervalToCopy;
+		SKDSlideWeekInterval IntervalToCopy;
 
-		public ObservableCollection<WeeklyIntervalViewModel> WeeklyIntervals { get; private set; }
+		public ObservableCollection<SlideWeekIntervalViewModel> SlideWeekIntervals { get; private set; }
 
-		WeeklyIntervalViewModel _selectedWeeklyInterval;
-		public WeeklyIntervalViewModel SelectedWeeklyInterval
+		SlideWeekIntervalViewModel _selectedSlideWeekInterval;
+		public SlideWeekIntervalViewModel SelectedSlideWeekInterval
 		{
-			get { return _selectedWeeklyInterval; }
+			get { return _selectedSlideWeekInterval; }
 			set
 			{
-				_selectedWeeklyInterval = value;
-				OnPropertyChanged("SelectedWeeklyInterval");
+				_selectedSlideWeekInterval = value;
+				OnPropertyChanged("SelectedSlideWeekInterval");
 			}
 		}
 
@@ -56,10 +56,10 @@ namespace SkudModule.ViewModels
 		{
 			if (intervalUID != Guid.Empty)
 			{
-				var intervalViewModel = WeeklyIntervals.FirstOrDefault(x => x.WeeklyInterval.UID == intervalUID);
+				var intervalViewModel = SlideWeekIntervals.FirstOrDefault(x => x.SlideWeekInterval.UID == intervalUID);
 				if (intervalViewModel != null)
 				{
-					SelectedWeeklyInterval = intervalViewModel;
+					SelectedSlideWeekInterval = intervalViewModel;
 				}
 			}
 		}
@@ -67,86 +67,80 @@ namespace SkudModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel();
-			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
+			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel();
+			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.WeeklyIntervals.Add(weeklyIntervalDetailsViewModel.WeeklyInterval);
-				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyIntervalDetailsViewModel.WeeklyInterval);
-				WeeklyIntervals.Add(timeInrervalViewModel);
-				SelectedWeeklyInterval = timeInrervalViewModel;
+				SKDManager.SKDConfiguration.SlideWeekIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
+				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
+				SlideWeekIntervals.Add(timeInrervalViewModel);
+				SelectedSlideWeekInterval = timeInrervalViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		bool CanAdd()
 		{
-			return WeeklyIntervals.Count < 256;
+			return SlideWeekIntervals.Count < 256;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			SKDManager.SKDConfiguration.WeeklyIntervals.Remove(SelectedWeeklyInterval.WeeklyInterval);
-			WeeklyIntervals.Remove(SelectedWeeklyInterval);
+			SKDManager.SKDConfiguration.SlideWeekIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
+			SlideWeekIntervals.Remove(SelectedSlideWeekInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedSlideWeekInterval != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel(SelectedWeeklyInterval.WeeklyInterval);
-			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
+			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel(SelectedSlideWeekInterval.SlideWeekInterval);
+			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
 			{
-				SelectedWeeklyInterval.Update();
+				SelectedSlideWeekInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		bool CanEdit()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedSlideWeekInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			IntervalToCopy = CopyInterval(SelectedWeeklyInterval.WeeklyInterval);
+			IntervalToCopy = CopyInterval(SelectedSlideWeekInterval.SlideWeekInterval);
 		}
 		bool CanCopy()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedSlideWeekInterval != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.WeeklyIntervals.Add(newInterval);
-			var timeInrervalViewModel = new WeeklyIntervalViewModel(newInterval);
-			WeeklyIntervals.Add(timeInrervalViewModel);
-			SelectedWeeklyInterval = timeInrervalViewModel;
+			SKDManager.SKDConfiguration.SlideWeekIntervals.Add(newInterval);
+			var timeInrervalViewModel = new SlideWeekIntervalViewModel(newInterval);
+			SlideWeekIntervals.Add(timeInrervalViewModel);
+			SelectedSlideWeekInterval = timeInrervalViewModel;
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanPaste()
 		{
-			return IntervalToCopy != null && WeeklyIntervals.Count < 256;
+			return IntervalToCopy != null && SlideWeekIntervals.Count < 256;
 		}
 
-		SKDWeeklyInterval CopyInterval(SKDWeeklyInterval source)
+		SKDSlideWeekInterval CopyInterval(SKDSlideWeekInterval source)
 		{
-			var copy = new SKDWeeklyInterval();
+			var copy = new SKDSlideWeekInterval();
 			copy.Name = source.Name;
-			foreach (var weeklyIntervalPart in source.WeeklyIntervalParts)
+			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
 			{
-				var copyWeeklyIntervalPart = new SKDWeeklyIntervalPart()
-				{
-					No = weeklyIntervalPart.No,
-					IsHolliday = weeklyIntervalPart.IsHolliday,
-					TimeIntervalUID = weeklyIntervalPart.TimeIntervalUID,
-				};
-				copy.WeeklyIntervalParts.Add(copyWeeklyIntervalPart);
+				copy.TimeIntervalUIDs.Add(timeIntervalUID);
 			}
 			return copy;
 		}

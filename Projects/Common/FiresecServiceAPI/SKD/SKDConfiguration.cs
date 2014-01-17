@@ -14,6 +14,7 @@ namespace XFiresecAPI
 		{
 			NamedTimeIntervals = new List<NamedSKDTimeInterval>();
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
+			SlideWeekIntervals = new List<SKDSlideWeekInterval>();
 			WeeklyIntervals = new List<SKDWeeklyInterval>();
 		}
 
@@ -27,6 +28,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
+
+		[DataMember]
+		public List<SKDSlideWeekInterval> SlideWeekIntervals { get; set; }
 
 		[DataMember]
 		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
@@ -65,10 +69,23 @@ namespace XFiresecAPI
 				SlideDayIntervals = new List<SKDSlideDayInterval>();
 				result = false;
 			}
+			if (SlideWeekIntervals == null)
+			{
+				SlideWeekIntervals = new List<SKDSlideWeekInterval>();
+				result = false;
+			}
 			if (WeeklyIntervals == null)
 			{
 				WeeklyIntervals = new List<SKDWeeklyInterval>();
 				result = false;
+			}
+			foreach (var weeklyInterval in WeeklyIntervals)
+			{
+				if (weeklyInterval.WeeklyIntervalParts == null)
+				{
+					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
+					result = false;
+				}
 			}
 			return result;
 		}
