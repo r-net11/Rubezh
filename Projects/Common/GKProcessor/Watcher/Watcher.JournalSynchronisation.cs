@@ -24,7 +24,7 @@ namespace GKProcessor
 			}
 			if (remoteLastId > localLastDBNo)
 			{
-				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo);
+				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
 				GKProcessorManager.OnStopProgress();
 				LastId = remoteLastId;
