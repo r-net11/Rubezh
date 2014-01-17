@@ -94,7 +94,7 @@ namespace GKProcessor
 				}
 			}
 			NotifyAllObjectsStateChanged();
-			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+			OnGKCallbackResult(GKCallbackResult);
 		}
 
 		void OnRunThread()
@@ -170,7 +170,7 @@ namespace GKProcessor
 						descriptor.XBase.BaseState.IsConnectionLost = IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
-					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					OnGKCallbackResult(GKCallbackResult);
 				}
 
 				if (IsPingFailure)
@@ -198,7 +198,7 @@ namespace GKProcessor
 						descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
 					}
 					NotifyAllObjectsStateChanged();
-					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					OnGKCallbackResult(GKCallbackResult);
 				}
 
 				if (IsHashFailure)
@@ -211,7 +211,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				if (!ReadMissingJournalItems())
 					AddFailureJournalItem("Ошибка при синхронизации журнала", "");
-				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
 				result = !GetAllStates(true);
@@ -223,7 +223,7 @@ namespace GKProcessor
 					else
 						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК", "");
 				}
-				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				OnGKCallbackResult(GKCallbackResult);
 
 				if (IsGetStatesFailure)
 				{
@@ -264,7 +264,7 @@ namespace GKProcessor
 							GKCallbackResult = new GKCallbackResult();
 							GetAllStates(false);
 							LastMissmatchCheckTime = DateTime.Now;
-							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+							OnGKCallbackResult(GKCallbackResult);
 						}
 					}
 					else
@@ -315,7 +315,7 @@ namespace GKProcessor
 							Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
 						}
 
-						GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+						OnGKCallbackResult(GKCallbackResult);
 					}
 				}
 			}
@@ -392,6 +392,12 @@ namespace GKProcessor
 		{
 			GKDBHelper.AddMany(journalItems);
 			GKCallbackResult.JournalItems.AddRange(journalItems);
+		}
+
+		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		{
+			WaitIfSuspending();
+			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 	}
 }

@@ -84,7 +84,7 @@ namespace FireMonitor
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-			if (!IsMulticlient)
+			if (GlobalSettingsHelper.GlobalSettings.RunRevisor)
 				StartRevisor();
 			if (IsMulticlient)
 				MulticlientController.Current.SuscribeMulticlientStateChanged();

@@ -44,7 +44,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Порт сервера" HorizontalAlignment="Right" Margin="2" />
@@ -52,6 +52,7 @@
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Автоконнект" HorizontalAlignment="Right" Margin="2" />
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Запретить администратору автоконнект" HorizontalAlignment="Right" Margin="2" />
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Перезапускать ОЗ в случае аварийного завершения" HorizontalAlignment="Right" Margin="2" />
 
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -59,6 +60,7 @@
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                     <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
                     <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
+                    <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding RunRevisor}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Отладка" DataContext="{Binding GlobalSettingsViewModel}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -120,6 +122,7 @@
                     <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
                     <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
                     <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить библиотеку СКД" Command="{Binding ResetSKDLibaryCommand}" Width="300" Margin="2" />
                     <Button Content="Сбросить настройки" Command="{Binding ResetSettingsCommand}" Width="300" Margin="2" />
                 </StackPanel>
             </TabItem>
