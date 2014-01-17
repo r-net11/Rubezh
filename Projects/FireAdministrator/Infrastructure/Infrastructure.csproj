@@ -84,6 +84,7 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />

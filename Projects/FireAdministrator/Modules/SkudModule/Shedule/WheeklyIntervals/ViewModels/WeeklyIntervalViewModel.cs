@@ -18,17 +18,13 @@ namespace SkudModule.ViewModels
 		public WeeklyIntervalViewModel(SKDWeeklyInterval weeklyInterval)
 		{
 			WeeklyInterval = weeklyInterval;
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			//AddCommand = new RelayCommand(OnAdd, CanAdd);
+			//RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
-			foreach (var timeIntervalUID in weeklyInterval.TimeIntervalUIDs)
+			foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 			{
-				var timeInterval = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
-				if (timeInterval != null)
-				{
-					var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, timeInterval);
-					TimeIntervals.Add(weeklyIntervalPartViewModel);
-				}
+				var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
+				TimeIntervals.Add(weeklyIntervalPartViewModel);
 			}
 		}
 
@@ -49,37 +45,39 @@ namespace SkudModule.ViewModels
 		{
 			OnPropertyChanged("WeeklyInterval");
 
-			WeeklyInterval.TimeIntervalUIDs = new List<Guid>();
+			WeeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
 			foreach (var timeInterval in TimeIntervals)
 			{
-				WeeklyInterval.TimeIntervalUIDs.Add(timeInterval.SelectedTimeInterval.UID);
+				timeInterval.WeeklyIntervalPart.TimeIntervalUID = timeInterval.SelectedTimeInterval.UID;
+				WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var timeInterval = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault();
-			WeeklyInterval.TimeIntervalUIDs.Add(timeInterval.UID);
-			var slideDayIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, timeInterval);
-			TimeIntervals.Add(slideDayIntervalPartViewModel);
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-		bool CanAdd()
-		{
-			return TimeIntervals.Count < 31;
-		}
+		//public RelayCommand AddCommand { get; private set; }
+		//void OnAdd()
+		//{
+		//    var weeklyIntervalPart = new SKDWeeklyIntervalPart();
+		//    weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault().UID;
+		//    WeeklyInterval.WeeklyIntervalParts.Add(weeklyIntervalPart);
+		//    var slideDayIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
+		//    TimeIntervals.Add(slideDayIntervalPartViewModel);
+		//    ServiceFactory.SaveService.SKDChanged = true;
+		//}
+		//bool CanAdd()
+		//{
+		//    return TimeIntervals.Count < 31;
+		//}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			WeeklyInterval.TimeIntervalUIDs.Add(SelectedTimeInterval.TimeInterval.UID);
-			TimeIntervals.Remove(SelectedTimeInterval);
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-		bool CanRemove()
-		{
-			return SelectedTimeInterval != null;
-		}
+		//public RelayCommand RemoveCommand { get; private set; }
+		//void OnRemove()
+		//{
+		//    WeeklyInterval.WeeklyIntervalParts.Remove(SelectedTimeInterval.WeeklyIntervalPart);
+		//    TimeIntervals.Remove(SelectedTimeInterval);
+		//    ServiceFactory.SaveService.SKDChanged = true;
+		//}
+		//bool CanRemove()
+		//{
+		//    return SelectedTimeInterval != null;
+		//}
 	}
 }

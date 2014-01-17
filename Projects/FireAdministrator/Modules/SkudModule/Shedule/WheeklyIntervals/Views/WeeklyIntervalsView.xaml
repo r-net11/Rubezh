@@ -28,17 +28,16 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
-            </StackPanel>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
+            <DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Наименование" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Интервал" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding SelectedTimeInterval.Name}" />

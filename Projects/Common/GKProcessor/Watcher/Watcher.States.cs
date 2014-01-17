@@ -53,6 +53,10 @@ namespace GKProcessor
 				}
 				if (showProgress)
 					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorPresentationName);
+
+				WaitIfSuspending();
+				if (IsStopping)
+					return true;
 			}
 			if (showProgress)
 				GKProcessorManager.OnStopProgress();
@@ -325,8 +329,9 @@ namespace GKProcessor
 				}
 			}
 
-			var description = xBase.PresentationName;
-			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
+			var stringLength = Math.Min(xBase.PresentationName.Length, 32);
+			var description = xBase.PresentationName.Substring(0, stringLength);
+			if (description.TrimEnd(' ') != descriptorStateHelper.Description)
 			{
 				isMissmatch = true;
 				DBMissmatchDuringMonitoringReason = "Не совпадает описание компонента";

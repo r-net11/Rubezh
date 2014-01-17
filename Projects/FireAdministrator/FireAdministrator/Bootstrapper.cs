@@ -86,6 +86,7 @@ namespace FireAdministrator
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
 			InitializeModules();
+			LoadingService.Close();
 		}
 		private void OnConfigurationClosed(object obj)
 		{

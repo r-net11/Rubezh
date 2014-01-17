@@ -113,6 +113,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalPartViewModel.cs" />
+    <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalsViewModel.cs" />
+    <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalViewModel.cs" />
+    <Compile Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalDetailsView.xaml.cs">
+      <DependentUpon>SlideWeekIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalsMenuView.xaml.cs">
+      <DependentUpon>SlideWeekIntervalsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalsView.xaml.cs">
+      <DependentUpon>SlideWeekIntervalsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
     <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
     <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalsMenuViewModel.cs" />
@@ -279,6 +293,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\PropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

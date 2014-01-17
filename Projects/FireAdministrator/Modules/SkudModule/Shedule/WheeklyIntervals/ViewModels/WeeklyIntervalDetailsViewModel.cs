@@ -18,8 +18,12 @@ namespace SkudModule.ViewModels
 				Title = "Новый скользящий понедельный график";
 				weeklyInterval = new SKDWeeklyInterval()
 				{
-					Name = "Скользящий понедельный график"
+					Name = "Скользящий понедельный график",
 				};
+				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+				{
+					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault().UID;
+				}
 			}
 			else
 			{

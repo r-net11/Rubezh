@@ -53,6 +53,8 @@ namespace GKModule.ViewModels
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
+            if ((systemProperty == null)||(!systemProperty.DriverProperty.IsAUParameter))
+                return;
 			if (!DriverProperty.IsReadOnly)
 			{
 				if (deviceProperty == null)
@@ -61,10 +63,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-                    if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
-						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
-					else
-						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
+                    DeviceParameterMissmatchType = deviceProperty.Value == systemProperty.Value ? DeviceParameterMissmatchType.Equal : DeviceParameterMissmatchType.Unequal;
 				}
 			}
 		}

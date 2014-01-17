@@ -138,9 +138,15 @@ namespace SkudModule.ViewModels
 		{
 			var copy = new SKDWeeklyInterval();
 			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
+			foreach (var weeklyIntervalPart in source.WeeklyIntervalParts)
 			{
-				copy.TimeIntervalUIDs.Add(timeIntervalUID);
+				var copyWeeklyIntervalPart = new SKDWeeklyIntervalPart()
+				{
+					No = weeklyIntervalPart.No,
+					IsHolliday = weeklyIntervalPart.IsHolliday,
+					TimeIntervalUID = weeklyIntervalPart.TimeIntervalUID,
+				};
+				copy.WeeklyIntervalParts.Add(copyWeeklyIntervalPart);
 			}
 			return copy;
 		}

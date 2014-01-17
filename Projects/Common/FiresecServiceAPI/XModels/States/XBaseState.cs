@@ -38,6 +38,7 @@ namespace XFiresecAPI
 		}
 
 		public bool IsInitialState { get; set; }
+		public bool IsSuspending { get; set; }
 
 		protected bool _isGKConnectionLost;
 		public bool IsGKConnectionLost
@@ -148,6 +149,10 @@ namespace XFiresecAPI
 					return new List<XStateClass>() { XStateClass.TechnologicalRegime };
 				}
 				if (IsInitialState)
+				{
+					return new List<XStateClass>() { XStateClass.Unknown };
+				}
+				if (IsSuspending)
 				{
 					return new List<XStateClass>() { XStateClass.Unknown };
 				}

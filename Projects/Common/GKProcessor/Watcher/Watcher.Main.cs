@@ -12,6 +12,9 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
+		bool IsSuspending = false;
+		AutoResetEvent SuspendingEvent;
+
 		bool IsStopping = false;
 		AutoResetEvent StopEvent;
 		Thread RunThread;
@@ -30,6 +33,7 @@ namespace GKProcessor
 		public void StartThread()
 		{
 			IsStopping = false;
+			SetDescriptorsSuspending(false);
 			if (RunThread == null)
 			{
 				StopEvent = new AutoResetEvent(false);
@@ -50,16 +54,44 @@ namespace GKProcessor
 				RunThread.Join(TimeSpan.FromSeconds(5));
 			}
 			RunThread = null;
+			SetDescriptorsSuspending(true);
 		}
 
 		public void Suspend()
 		{
-
+			IsSuspending = true;
+			SuspendingEvent = new AutoResetEvent(false);
+			if (StopEvent != null)
+			{
+				StopEvent.Set();
+			}
+			SetDescriptorsSuspending(true);
 		}
 
 		public void Resume()
 		{
+			IsSuspending = false;
+			SuspendingEvent.Set();
+			SuspendingEvent = null;
+			SetDescriptorsSuspending(false);
+		}
 
+		void WaitIfSuspending()
+		{
+			if (SuspendingEvent != null)
+			{
+				SuspendingEvent.WaitOne(TimeSpan.FromMinutes(10));
+			}
+		}
+
+		void SetDescriptorsSuspending(bool isSuspending)
+		{
+			foreach (var descriptor in GkDatabase.Descriptors)
+			{
+				descriptor.XBase.BaseState.IsSuspending = isSuspending;
+			}
+			NotifyAllObjectsStateChanged();
+			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 
 		void OnRunThread()
@@ -97,6 +129,8 @@ namespace GKProcessor
 						if (StopEvent.WaitOne(pollInterval))
 							break;
 					}
+
+					WaitIfSuspending();
 
 					LastUpdateTime = DateTime.Now;
 				}
@@ -203,9 +237,10 @@ namespace GKProcessor
 		{
 			if (StopEvent != null)
 			{
-				return StopEvent.WaitOne(TimeSpan.FromSeconds(seconds));
+				StopEvent.WaitOne(TimeSpan.FromSeconds(seconds));
 			}
-			return false;
+			WaitIfSuspending();
+			return IsStopping;
 		}
 
 		void RunMonitoring()

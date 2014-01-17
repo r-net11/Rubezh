@@ -67,7 +67,7 @@ namespace Infrastructure.Common.Windows
 				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
 
-		public static void DoStep(string title, string text = null, int stepCount = 1, bool canCancel = false)
+		public static void DoStep(string text, string title = null, int stepCount = 1, bool canCancel = false)
 		{
 			if (_progressViewModel == null)
 			{

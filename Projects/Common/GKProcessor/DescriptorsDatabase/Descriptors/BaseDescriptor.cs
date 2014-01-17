@@ -50,8 +50,7 @@ namespace GKProcessor
 					if (XBase.KauDatabaseParent != null)
 					{
 						ushort lineNo = XManager.GetKauLine(XBase.KauDatabaseParent);
-						int intAddress = XBase.KauDatabaseParent.IntAddress;
-						ControllerAdress = (ushort)(lineNo * 256 + intAddress);
+						ControllerAdress = (ushort)(lineNo * 256 + XBase.KauDatabaseParent.IntAddress);
 						AdressOnController = XBase.KAUDescriptorNo;
 					}
 					else

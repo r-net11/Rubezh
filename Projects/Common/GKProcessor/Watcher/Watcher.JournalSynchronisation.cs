@@ -40,6 +40,10 @@ namespace GKProcessor
 				if (GKProcessorManager.IsProgressCanceled)
 					break;
 
+				WaitIfSuspending();
+				if (IsStopping)
+					return;
+
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{

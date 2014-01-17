@@ -38,29 +38,27 @@ namespace GKProcessor
 				}
 
 				byte whom = 0;
-				byte address = 0;
 
 				switch (device.DriverType)
 				{
 					case XDriverType.GK:
 						whom = 2;
-						address = (byte)device.IntAddress;
 						break;
 
 					case XDriverType.KAU:
 					case XDriverType.RSR2_KAU:
 						whom = 4;
-						address = (byte)device.IntAddress;
 						var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 						if (modeProperty != null)
 						{
 							switch (modeProperty.Value)
 							{
 								case 0:
+									whom = 4;
 									break;
 
-								case 3:
-									address += 127;
+								case 1:
+									whom = 5;
 									break;
 
 								default:
@@ -74,7 +72,7 @@ namespace GKProcessor
 				}
 				var bytes = new List<byte>();
 				bytes.Add(whom);
-				bytes.Add(address);
+				bytes.Add((byte)device.IntAddress);
 				bytes.AddRange(ToBytes(length));
 				bytes.Add(command);
 				if (data != null)
