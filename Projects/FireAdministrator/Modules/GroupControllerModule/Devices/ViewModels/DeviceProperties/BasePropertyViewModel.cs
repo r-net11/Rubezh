@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-            if ((systemProperty == null)|| (systemProperty.DriverProperty == null) || (!systemProperty.DriverProperty.IsAUParameter))
+            if (systemProperty == null|| systemProperty.DriverProperty == null || !systemProperty.DriverProperty.IsAUParameter)
                 return;
 			if (!DriverProperty.IsReadOnly)
 			{

@@ -88,7 +88,10 @@ namespace GKProcessor
 		{
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.BaseState.IsSuspending = isSuspending;
+				if (descriptor.XBase.BaseState != null)
+				{
+					descriptor.XBase.BaseState.IsSuspending = isSuspending;
+				}
 			}
 			NotifyAllObjectsStateChanged();
 			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);

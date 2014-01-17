@@ -196,7 +196,12 @@ namespace GKProcessor
 									JournalItem.Description = JournalStringsHelper.ToFailure(bytes[32 + 15]);
 									if (bytes[32 + 15] >= 241 && bytes[32 + 15] <= 254)
 									{
-										JournalItem.AdditionalDescription = bytes[32 + 16].ToString() + " " + bytes[32 + 17].ToString();
+										var firstAdditionalDescription = bytes[32 + 16];
+										var secondAdditionalDescription = bytes[32 + 17];
+										if (firstAdditionalDescription != 0 || secondAdditionalDescription != 0)
+										{
+											JournalItem.AdditionalDescription = firstAdditionalDescription.ToString() + " " + secondAdditionalDescription.ToString();
+										}
 									}
 									break;
 							}

@@ -33,6 +33,19 @@ namespace GKProcessor
 			driver.AvailableStateBits.Add(XStateBit.Norm);
 			driver.AvailableStateBits.Add(XStateBit.Failure);
 
+			var modeProperty = new XDriverProperty()
+			{
+				Name = "Mode",
+				Caption = "Линия",
+				ToolTip = "",
+				Default = 0,
+				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+				IsAUParameter = false
+			};
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });
+			driver.Properties.Add(modeProperty);
+
 			driver.Properties.Add(
 				new XDriverProperty()
 				{
@@ -94,19 +107,6 @@ namespace GKProcessor
 					IsAUParameter = true
 				}
 				);
-
-			var modeProperty = new XDriverProperty()
-			{
-				Name = "Mode",
-				Caption = "Линия",
-				ToolTip = "",
-				Default = 0,
-				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsAUParameter = false
-			};
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });
-			driver.Properties.Add(modeProperty);
 
 			var als12Property = new XDriverProperty()
 			{
