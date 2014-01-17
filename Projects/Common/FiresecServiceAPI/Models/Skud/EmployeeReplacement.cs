@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class EmployeeReplacement
+    [DataContract]
+    public class EmployeeReplacement
 	{
-		public Guid Uid { get; set; }
-		public DateTime? BeginDate { get; set; }
-		public DateTime? EndDate { get; set; }
-		public Department Department { get; set; }
-		public Schedule Schedule { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public DateTime? BeginDate { get; set; }
+        [DataMember]
+        public DateTime? EndDate { get; set; }
+        [DataMember]
+        public Department Department { get; set; }
+        [DataMember]
+        public Schedule Schedule { get; set; }
 	}
 }

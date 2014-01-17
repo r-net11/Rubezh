@@ -7,7 +7,7 @@
         <Views:SKUDView />
     </DataTemplate>
 
-    <!--<DataTemplate DataType="{x:Type ViewModels:EmployeeDetailsViewModel}">
-        <Views:EmployeeDetailsView />
-    </DataTemplate>-->
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeFilterViewModel}">
+        <Views:EmployeeFilterView />
+    </DataTemplate>
 </ResourceDictionary>

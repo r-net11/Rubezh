@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class RegisterDevice
+    [DataContract]
+    public class RegisterDevice
 	{
-		public Guid Uid { get; set; }
-		public bool CanControl { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public bool CanControl { get; set; }
 	}
 }

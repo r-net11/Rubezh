@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class Interval
+    [DataContract]
+    public class Interval
 	{
-		public Guid Uid { get; set; }
-		public DateTime? BeginDate { get; set; }
-		public DateTime? EndDate { get; set; }
-		public Transition Transition { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public DateTime? BeginDate { get; set; }
+        [DataMember]
+        public DateTime? EndDate { get; set; }
+        [DataMember]
+        public Transition Transition { get; set; }
 	}
 
-	public enum Transition
+    [DataContract]
+    public enum Transition
 	{
 		Day,
 		Night,

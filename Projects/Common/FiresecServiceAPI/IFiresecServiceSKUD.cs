@@ -27,6 +27,11 @@ namespace FiresecAPI
         IEnumerable<EmployeePosition> GetEmployeePositions();
 
         [OperationContract]
-        IEnumerable<Employee> GetEmployees();
+        IEnumerable<Employee> GetEmployees(EmployeeFilter filter);
+        [OperationContract]
+        IEnumerable<Department> GetDepartments(DepartmentFilter filter);
+        [OperationContract]
+        IEnumerable<Position> GetPositions(PositionFilter filter);
+        
     }
 }

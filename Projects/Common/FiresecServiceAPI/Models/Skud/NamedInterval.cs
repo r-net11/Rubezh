@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class NamedInterval
+    [DataContract]
+    public class NamedInterval
 	{
-		public Guid Uid { get; set; }
-		public string Name { get; set; }
-		public List<Interval> Intervals { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public List<Interval> Intervals { get; set; }
 	}
 }

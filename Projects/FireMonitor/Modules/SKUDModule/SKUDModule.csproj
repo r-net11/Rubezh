@@ -63,10 +63,14 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\SKUDViewModel.cs" />
     <Compile Include="Views\EmloyeeDetailsView.xaml.cs">
       <DependentUpon>EmloyeeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmployeeFilterView.xaml.cs">
+      <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SKUDView.xaml.cs">
       <DependentUpon>SKUDView.xaml</DependentUpon>
@@ -106,6 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\EmloyeeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EmployeeFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

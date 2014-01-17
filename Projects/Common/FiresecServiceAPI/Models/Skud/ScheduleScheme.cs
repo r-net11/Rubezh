@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class ScheduleScheme
+    [DataContract]
+    public class ScheduleScheme
 	{
-		public Guid Uid { get; set; }
-		public string Name { get; set; }
-		public ScheduleSchemeType Type { get; set; }
-		public List<Day> Days { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public ScheduleSchemeType Type { get; set; }
+        [DataMember]
+        public List<Day> Days { get; set; }
 	}
 
-	public enum ScheduleSchemeType
+    [DataContract]
+    public enum ScheduleSchemeType
 	{
 		Week,
 		Shift,

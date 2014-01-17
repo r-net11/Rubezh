@@ -199,8 +199,10 @@
     <Compile Include="Models\Skud\AdditionalColumn.cs" />
     <Compile Include="Models\Skud\Day.cs" />
     <Compile Include="Models\Skud\Department.cs" />
+    <Compile Include="Models\Skud\DepartmentFilter.cs" />
     <Compile Include="Models\Skud\Document.cs" />
     <Compile Include="Models\Skud\Employee.cs" />
+    <Compile Include="Models\Skud\EmployeeFilter.cs" />
     <Compile Include="Models\Skud\EmployeeReplacement.cs" />
     <Compile Include="Models\Skud\Holiday.cs" />
     <Compile Include="Models\Skud\Interval.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Models\Skud\Old\PassCardTemplate.cs" />
     <Compile Include="Models\Skud\Phone.cs" />
     <Compile Include="Models\Skud\Position.cs" />
+    <Compile Include="Models\Skud\PositionFilter.cs" />
     <Compile Include="Models\Skud\RegisterDevice.cs" />
     <Compile Include="Models\Skud\Schedule.cs" />
     <Compile Include="Models\Skud\ScheduleScheme.cs" />

@@ -45,9 +45,17 @@ namespace FiresecService.Service
             return _skud.GetEmployeePositions();
         }
 
-        public IEnumerable<Employee> GetEmployees()
+        public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
         {
-            return _skud.GetEmployees();
+            return _skud.GetEmployees(filter);
+        }
+        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            return _skud.GetDepartments(filter);
+        }
+        public IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            return _skud.GetPositions(filter);
         }
         #endregion
     }

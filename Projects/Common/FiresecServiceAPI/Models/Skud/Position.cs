@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class Position
+    [DataContract]
+    public class Position
 	{
-		public Guid Uid;
-		public string Name { get; set; }
-		public string Description { get; set; }
+        [DataMember]
+        public Guid Uid;
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public string Description { get; set; }
 	}
 }

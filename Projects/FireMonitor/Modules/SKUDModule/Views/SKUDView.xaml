@@ -8,7 +8,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
             <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding AddCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Добавить пользователя">
+                <!--<Button Command="{Binding AddCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Добавить пользователя">
                     <Image Height="24" Source="/Controls;component/Images/Add.png" />
                 </Button>
                 <Button Command="{Binding RemoveCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Удалить пользователя">
@@ -16,20 +16,21 @@
                 </Button>
                 <Button Command="{Binding EditCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Редактировать пользователя">
                     <Image Height="24" Source="/Controls;component/Images/Edit.png" />
-                </Button>
-                <Button Command="{Binding RefreshCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Удалить">
-                    <Image Height="24" Source="/Controls;component/Images/Refresh.png" />
+                </Button>-->
+                <Button Command="{Binding ShowFilterCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Фильтр">
+                    <Image Height="24" Source="/Controls;component/Images/Filter.png" />
                 </Button>
             </StackPanel>
         </Border>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="FirstName" Binding="{Binding Employee.Person.FirstName}"/>
-                <DataGridTextColumn Header="SecondName" Binding="{Binding Employee.Person.SecondName}"/>
-                <DataGridTextColumn Header="LastName" Binding="{Binding Employee.Person.LastName}"/>
-                <DataGridTextColumn Header="Group" Binding="{Binding Employee.Group.Name}"/>
-                <DataGridTextColumn Header="Department" Binding="{Binding Employee.Department.Name}"/>
-                <DataGridTextColumn Header="Position" Binding="{Binding Employee.Position.Name}"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}"/>
+                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding PositionName}"/>
+                <DataGridTextColumn Header="Назначен" Binding="{Binding AppointedString}"/>
+                <DataGridTextColumn Header="Уволен" Binding="{Binding DismissedString}"/>
             </DataGrid.Columns>
             
         </DataGrid>

@@ -2,20 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models.Skud
 {
-	public class Holiday
+	[DataContract]
+    public class Holiday
 	{
-		public Guid Uid { get; set; }
-		public string Name { get; set; }
-		public HolidayType Type { get; set; }
-		public DateTime? Date { get; set; }
-		public DateTime? TransferDate { get; set; }
-		public int? Reduction { get; set; }
+        [DataMember]
+        public Guid Uid { get; set; }
+        [DataMember]
+        public string Name { get; set; }
+        [DataMember]
+        public HolidayType Type { get; set; }
+        [DataMember]
+        public DateTime? Date { get; set; }
+        [DataMember]
+        public DateTime? TransferDate { get; set; }
+        [DataMember]
+        public int? Reduction { get; set; }
 	}
 
-	public enum HolidayType
+    [DataContract]
+    public enum HolidayType
 	{
 		Holiday,
 		Reduced,

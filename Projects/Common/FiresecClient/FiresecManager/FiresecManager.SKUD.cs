@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models.Skud;
+using System;
+using System.Linq;
 
 namespace FiresecClient
 {
@@ -37,9 +39,33 @@ namespace FiresecClient
 		{
 			return FiresecService.GetEmployeePositions();
 		}
-        public static IEnumerable<Employee> GetEmployees()
+        public static IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
         {
-            return FiresecService.GetEmployees();
+            return FiresecService.GetEmployees(filter);
+        }
+        public static IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            return FiresecService.GetDepartments(filter);
+        }
+        public static Department GetDepartment(Guid? uid)
+        {
+            if (uid == null)
+                return new Department(); ;
+            var filter = new DepartmentFilter();
+            filter.Uids.Add((Guid)uid);
+            return FiresecService.GetDepartments(filter).ToList().FirstOrDefault();
+        }
+        public static IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            return FiresecService.GetPositions(filter);
+        }
+        public static Position GetPosition(Guid? uid)
+        {
+            if (uid == null)
+                return new Position();
+            var filter = new PositionFilter();
+            filter.Uids.Add((Guid)uid);
+            return FiresecService.GetPositions(filter).ToList().FirstOrDefault();
         }
 	}
 }

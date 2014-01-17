@@ -220,9 +220,17 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
-        public IEnumerable<Employee>GetEmployees()
+        public IEnumerable<Employee>GetEmployees(EmployeeFilter filter)
         {
-            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees());
+            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+        }
+        public IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
+        }
+        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
         }
 		#endregion
 
