@@ -191,7 +191,6 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-		    var result = new OperationResult<bool>();
 		    if (SelectedDevice.Device.DriverType == XDriverType.System)
 		    {
 		        var openDialog = new OpenFileDialog()
@@ -205,10 +204,22 @@ namespace GKModule.Models
                     var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
 		            if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 		            {
-                        var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-		                var devices = new List<XDevice>();
-		                firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-                        result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
+						var thread = new Thread(() =>
+						{
+							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
+							var devices = new List<XDevice>();
+							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
+							var result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
+
+							ApplicationService.Invoke(new Action(() =>
+							{
+								if (result.HasError)
+								{
+									MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+								}
+							}));
+						});
+						thread.Start();
 		            }
 		        }
 		    }
@@ -219,11 +230,23 @@ namespace GKModule.Models
 		            Filter = "soft update files|*.hcs",
 		            DefaultExt = "soft update files|*.hcs"
 		        };
-                if (openDialog.ShowDialog().Value)
-                    result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+				if (openDialog.ShowDialog().Value)
+				{
+					var thread = new Thread(() =>
+					{
+						var result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+						ApplicationService.Invoke(new Action(() =>
+						{
+							if (result.HasError)
+							{
+								MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+							}
+						}));
+					});
+					thread.Start();
+				}
+                    
             }
-            if (result.HasError)
-                MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
 		}
 
 		bool CanUpdateFirmwhare()

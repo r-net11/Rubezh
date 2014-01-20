@@ -3,18 +3,18 @@ using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
-    [DataContract]
-    public class HEXFileInfo
-    {
-        public HEXFileInfo()
-        {
-            Lines = new List<string>();
-        }
+	[DataContract]
+	public class HEXFileInfo
+	{
+		public HEXFileInfo()
+		{
+			Lines = new List<string>();
+		}
 
-        [DataMember]
-        public string FileName { get; set; }
+		[DataMember]
+		public string FileName { get; set; }
 
-        [DataMember]
-        public List<string> Lines { get; set; }
-    }
+		[DataMember]
+		public List<string> Lines { get; set; }
+	}
 }

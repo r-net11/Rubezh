@@ -9,6 +9,7 @@ using System.Linq;
 using System.Diagnostics;
 using FiresecClient;
 using Infrastructure.Common.Services;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -42,7 +43,7 @@ namespace GKProcessor
 			IsDBMissmatchDuringMonitoring = false;
 
 			if (showProgress)
-				GKProcessorManager.OnStartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false);
+				GKProcessorManager.OnStartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false, GKProgressClientType.Monitor);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				LastUpdateTime = DateTime.Now;

@@ -23,8 +23,9 @@ namespace GKProcessor
 		static string CurrentTitle;
 		static int CurrentStepCount;
 		static bool CurrentCanCancel;
+		static GKProgressClientType CurrentGKProgressClientType;
 
-		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
+		public static void OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
 			IsProgressCanceled = false;
 			var gkProgressCallback = new GKProgressCallback();
@@ -33,6 +34,7 @@ namespace GKProcessor
 			gkProgressCallback.Text = text;
 			CurrentStepCount = gkProgressCallback.StepCount = stepCount;
 			CurrentCanCancel = gkProgressCallback.CanCancel = canCancel;
+			CurrentGKProgressClientType = gkProgressCallback.GKProgressClientType = progressClientType;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
@@ -44,6 +46,7 @@ namespace GKProcessor
 			gkProgressCallback.Text = text;
 			gkProgressCallback.StepCount = CurrentStepCount;
 			gkProgressCallback.CanCancel = CurrentCanCancel;
+			gkProgressCallback.GKProgressClientType = CurrentGKProgressClientType;
 			OnGKCallbackResult(gkProgressCallback);
 		}
 

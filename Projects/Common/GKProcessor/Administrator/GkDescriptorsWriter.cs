@@ -5,6 +5,7 @@ using System.Linq;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -34,7 +35,7 @@ namespace GKProcessor
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
-						GKProcessorManager.OnStartProgress(title, "", summaryDescriptorsCount, true);
+						GKProcessorManager.OnStartProgress(title, "", summaryDescriptorsCount, true, GKProgressClientType.Administrator);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice);
 						if (GKProcessorManager.IsProgressCanceled)
 						{

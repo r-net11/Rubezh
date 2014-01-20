@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -23,7 +24,7 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
+				GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 				while (true)
 				{
 					if (GKProcessorManager.IsProgressCanceled)
@@ -63,7 +64,7 @@ namespace GKProcessor
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
             bytesList.AddRange(gkFileInfo.FileBytes);
-			GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true);
+			GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
 				if (GKProcessorManager.IsProgressCanceled)

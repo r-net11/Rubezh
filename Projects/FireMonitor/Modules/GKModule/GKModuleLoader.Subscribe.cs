@@ -72,13 +72,19 @@ namespace GKModule
 				switch (gkProgressCallback.GKProgressCallbackType)
 				{
 					case GKProgressCallbackType.Start:
-						LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Monitor)
+						{
+							LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						}
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
-						if (LoadingService.IsCanceled)
-							FiresecManager.FiresecService.CancelGKProgress();
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Monitor)
+						{
+							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+							if (LoadingService.IsCanceled)
+								FiresecManager.FiresecService.CancelGKProgress();
+						}
 						return;
 
 					case GKProgressCallbackType.Stop:

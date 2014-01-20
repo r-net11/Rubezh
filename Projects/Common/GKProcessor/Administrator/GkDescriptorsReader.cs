@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using XFiresecAPI;
 using Infrastructure.Common.Windows;
 using Common;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -37,7 +38,7 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true);
+			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true, GKProgressClientType.Administrator);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice))
 			{
 				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
@@ -54,7 +55,7 @@ namespace GKProcessor
 				GKProcessorManager.OnStopProgress();
 				return false;
 			}
-			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true);
+			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();

@@ -23,6 +23,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool CanCancel { get; set; }
+
+		[DataMember]
+		public GKProgressClientType GKProgressClientType { get; set; }
 	}
 
 	public enum GKProgressCallbackType
@@ -30,5 +33,11 @@ namespace FiresecAPI
 		Start,
 		Progress,
 		Stop
+	}
+
+	public enum GKProgressClientType
+	{
+		Administrator,
+		Monitor
 	}
 }

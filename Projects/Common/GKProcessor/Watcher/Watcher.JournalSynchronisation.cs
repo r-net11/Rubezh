@@ -4,6 +4,7 @@ using System.Threading;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Common;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -24,7 +25,7 @@ namespace GKProcessor
 			}
 			if (remoteLastId > localLastDBNo)
 			{
-				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true);
+				GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 				SyncLocalAndRemote(localLastDBNo, remoteLastId);
 				GKProcessorManager.OnStopProgress();
 				LastId = remoteLastId;

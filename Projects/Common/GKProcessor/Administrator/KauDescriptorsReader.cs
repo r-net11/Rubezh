@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -26,13 +27,13 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим");
+			GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
 			if(!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
 			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств");
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true);
+				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true, GKProgressClientType.Administrator);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (GKProcessorManager.IsProgressCanceled)
