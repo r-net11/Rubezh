@@ -35,6 +35,7 @@ namespace FiresecService
 		{
 			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
+				GKProcessorManager.MustMonitor = true;
 				GKProcessorManager.Start();
 			}
 		}

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using HexManager;
 using XFiresecAPI;
 using FiresecClient;
 using System.Runtime.Serialization;
@@ -14,6 +13,8 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
+		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+
 		public static void CancelGKProgress(Guid progressCallbackUID)
 		{
 			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
@@ -24,7 +25,6 @@ namespace GKProcessor
 				OnStopProgress(progressCallback);
 			}
 		}
-		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
 
 		public static GKProgressCallback OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
@@ -63,6 +63,7 @@ namespace GKProcessor
 			var gkProgressCallback = new GKProgressCallback()
 			{
 				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
 				GKProgressCallbackType = GKProgressCallbackType.Stop,
 			};
 			GKProgressCallbacks.Remove(gkProgressCallback);
@@ -71,6 +72,7 @@ namespace GKProcessor
 
 		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
+			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
 			{
 				if (GKProgressCallbackEvent != null)
@@ -97,15 +99,23 @@ namespace GKProcessor
 		#endregion
 
 		#region Main
+		public static bool MustMonitor = false;
+
 		public static void Start()
 		{
-			WatcherManager.IsConfigurationReloading = false;
-			WatcherManager.Start();
+			if (MustMonitor)
+			{
+				WatcherManager.IsConfigurationReloading = false;
+				WatcherManager.Start();
+			}
 		}
 
 		public static void Stop()
 		{
-			WatcherManager.Stop();
+			if (MustMonitor)
+			{
+				WatcherManager.Stop();
+			}
 		}
 
 		public static void Suspend()
@@ -116,23 +126,29 @@ namespace GKProcessor
 
 		static void SuspendMonitoring(XDevice gkDevice)
 		{
-			gkDevice = GetGKDevice(gkDevice);
-			if (WatcherManager.Watchers != null && gkDevice != null)
+			if (MustMonitor)
 			{
-				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
-				if (watcher != null)
-					watcher.Suspend();
+				gkDevice = GetGKDevice(gkDevice);
+				if (WatcherManager.Watchers != null && gkDevice != null)
+				{
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					if (watcher != null)
+						watcher.Suspend();
+				}
 			}
 		}
 
 		static void ResumeMonitoring(XDevice gkDevice)
 		{
-			gkDevice = GetGKDevice(gkDevice);
-			if (WatcherManager.Watchers != null && gkDevice != null)
+			if (MustMonitor)
 			{
-				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
-				if (watcher != null)
-					watcher.Resume();
+				gkDevice = GetGKDevice(gkDevice);
+				if (WatcherManager.Watchers != null && gkDevice != null)
+				{
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					if (watcher != null)
+						watcher.Resume();
+				}
 			}
 		}
 

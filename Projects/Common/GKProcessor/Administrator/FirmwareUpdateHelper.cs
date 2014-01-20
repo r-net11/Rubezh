@@ -4,7 +4,6 @@ using System.Linq;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
-using HexManager;
 using FiresecAPI;
 namespace GKProcessor
 {

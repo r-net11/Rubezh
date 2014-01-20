@@ -171,10 +171,6 @@
     <Compile Include="Watcher\Watcher.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GKHexManager\GKHexManager\HexManager.csproj">
-      <Project>{A19B7522-4D0C-4982-A7F9-0F598EE0EA2D}</Project>
-      <Name>HexManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>

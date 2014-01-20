@@ -38,6 +38,7 @@ namespace GKModule
 			InitializeStates();
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
+				GKProcessorManager.MustMonitor = true;
 				GKProcessorManager.Start();
 			}
 		}

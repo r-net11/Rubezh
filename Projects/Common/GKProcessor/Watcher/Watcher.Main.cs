@@ -129,7 +129,7 @@ namespace GKProcessor
 						{
 							pollInterval = property.Value;
 						}
-						if (StopEvent.WaitOne(pollInterval))
+						if (ReturnArterWait(pollInterval))
 							break;
 					}
 
@@ -337,37 +337,43 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-            xBase.BaseState.IsInitialState = false;
-            xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
-			xBase.State.StateClass = xBase.BaseState.StateClass;
-            xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
-            xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
-            xBase.State.OnDelay = xBase.BaseState.OnDelay;
-            xBase.State.OffDelay = xBase.BaseState.OffDelay;
-			if (xBase is XDevice)
+			if (xBase.BaseState != null)
 			{
-				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
-				GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
+				xBase.BaseState.IsInitialState = false;
 			}
-			if (xBase is XZone)
+			if (xBase.State != null)
 			{
-				GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
-			}
-			if (xBase is XDirection)
-			{
-				GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
-			}
-			if (xBase is XPumpStation)
-			{
-				GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
-			}
-			if (xBase is XDelay)
-			{
-				GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
-			}
-			if (xBase is XPim)
-			{
-				GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+				xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
+				xBase.State.StateClass = xBase.BaseState.StateClass;
+				xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
+				xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
+				xBase.State.OnDelay = xBase.BaseState.OnDelay;
+				xBase.State.OffDelay = xBase.BaseState.OffDelay;
+				if (xBase is XDevice)
+				{
+					GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+					GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
+				}
+				if (xBase is XZone)
+				{
+					GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
+				}
+				if (xBase is XDirection)
+				{
+					GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
+				}
+				if (xBase is XPumpStation)
+				{
+					GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
+				}
+				if (xBase is XDelay)
+				{
+					GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
+				}
+				if (xBase is XPim)
+				{
+					GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+				}
 			}
 		}
 

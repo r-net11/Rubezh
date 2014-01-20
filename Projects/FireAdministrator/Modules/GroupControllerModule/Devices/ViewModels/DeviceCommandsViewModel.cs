@@ -130,7 +130,6 @@ namespace GKModule.Models
 				{
 					if (!result.HasError)
 					{
-						XManager.UpdateConfiguration();
 						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
 							SelectedDevice.Device, false);
 						if (configurationCompareViewModel.Error != null)
@@ -160,7 +159,7 @@ namespace GKModule.Models
 				{
 					if (!result.HasError)
 					{
-						XManager.UpdateConfiguration();
+						DescriptorsManager.Create();
 						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
 							result.Result, SelectedDevice.Device, true);
 						if (configurationCompareViewModel.Error != null)
