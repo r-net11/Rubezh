@@ -44,11 +44,11 @@ namespace FiresecService.Service
                     result.Add(callbackResult);
                     return result;
                 }
-                foreach (var callbackResultSaver in CallbackResultItems)
+                foreach (var callbackResultItem in CallbackResultItems)
                 {
-                    if (callbackResultSaver.Index > clientInfo.CallbackIndex)
+                    if (callbackResultItem.Index > clientInfo.CallbackIndex)
                     {
-                        result.Add(callbackResultSaver.CallbackResult);
+                        result.Add(callbackResultItem.CallbackResult);
                     }
                 }
                 clientInfo.CallbackIndex = Index;

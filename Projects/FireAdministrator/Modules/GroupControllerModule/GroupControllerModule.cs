@@ -199,7 +199,7 @@ namespace GKModule
 						{
 							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
 							if (LoadingService.IsCanceled)
-								FiresecManager.FiresecService.CancelGKProgress();
+								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID);
 						}
 						return;
 

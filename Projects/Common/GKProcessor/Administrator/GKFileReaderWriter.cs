@@ -17,6 +17,7 @@ namespace GKProcessor
 
 		public XDeviceConfiguration ReadConfigFileFromGK(XDevice gkDevice)
 		{
+			GKProgressCallback progressCallback = null;
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkDevice);
@@ -24,26 +25,26 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+				progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 				while (true)
 				{
-					if (GKProcessorManager.IsProgressCanceled)
-						{ Error = "Операция отменена"; return null; }
-					GKProcessorManager.OnDoProgress("Чтение блока данных " + i);
+					if (progressCallback.IsCanceled)
+					{ Error = "Операция отменена"; return null; }
+					GKProcessorManager.OnDoProgress("Чтение блока данных " + i, progressCallback);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
 					var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 					if (sendResult.HasError)
-						{ Error = "Невозможно прочитать блок данных " + i; return null; }
+					{ Error = "Невозможно прочитать блок данных " + i; return null; }
 					allbytes.AddRange(sendResult.Bytes);
 					if (sendResult.Bytes.Count() < 256)
 						break;
 				}
 				if (allbytes.Count == 0)
-					{ Error = "Конфигурационный файл отсутствует"; return null; }
+				{ Error = "Конфигурационный файл отсутствует"; return null; }
 
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
 				if (ZipFileConfigurationHelper.Error != null)
-					{ Error = ZipFileConfigurationHelper.Error; return null; }
+				{ Error = ZipFileConfigurationHelper.Error; return null; }
 				UpdateConfigurationHelper.Update(deviceConfiguration);
 				UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 				return deviceConfiguration;
@@ -51,7 +52,10 @@ namespace GKProcessor
 			catch (Exception e)
 			{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); Error = "Непредвиденная ошибка"; return null; }
 			finally
-			{ GKProcessorManager.OnStopProgress(); }
+			{
+				if (progressCallback != null)
+					GKProcessorManager.OnStopProgress(progressCallback);
+			}
 		}
 
 		public void WriteFileToGK(XDevice gkDevice)
@@ -64,12 +68,12 @@ namespace GKProcessor
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
             bytesList.AddRange(gkFileInfo.FileBytes);
-			GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
-				if (GKProcessorManager.IsProgressCanceled)
+				if (progressCallback.IsCanceled)
 					{ Error = "Операция отменена"; return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i + 1);
+				GKProcessorManager.OnDoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
 				sendResult = SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);
@@ -97,7 +101,6 @@ namespace GKProcessor
 					{ Error = "Информационный блок отсутствует"; return null; }
 				if (sendResult.Bytes.Count < 256)
 					{ Error = "Информационный блок поврежден"; return null; }
-				GKProcessorManager.OnStopProgress();
 				var infoBlock = GKFileInfo.BytesToGKFileInfo(sendResult.Bytes);
 				if (GKFileInfo.Error != null)
 					{ Error = GKFileInfo.Error; return null; }
@@ -105,8 +108,6 @@ namespace GKProcessor
 			}
 			catch (Exception e)
 				{ Logger.Error(e, "GKDescriptorsWriter.WriteConfig"); return null; }
-			finally
-			{ GKProcessorManager.OnStopProgress(); }
 		}
 	}
 }

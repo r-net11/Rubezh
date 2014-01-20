@@ -22,24 +22,24 @@ namespace GKProcessor
 
 		public void Update(XDevice device, List<byte> firmWareBytes)
 		{
-			GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
-			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName);
+			var progressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
+			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName, progressCallback);
 			if (!DeviceBytesHelper.Ping(device))
 			{
 				Error = "Устройство " + device.PresentationName + " недоступно";
-				GKProcessorManager.OnStopProgress();
+				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(device))
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, progressCallback))
 			{
 				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
-				GKProcessorManager.OnStopProgress();
+				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
-			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName);
+			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, progressCallback);
 			DeviceBytesHelper.Clear(device);
 			var data = new List<byte>();
 			var offset = 0;
@@ -47,17 +47,17 @@ namespace GKProcessor
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				if (GKProcessorManager.IsProgressCanceled)
-				{ Error = "Операция обновления прошивки отменена"; GKProcessorManager.OnStopProgress(); return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1);
+				if (progressCallback.IsCanceled)
+				{ Error = "Операция обновления прошивки отменена"; GKProcessorManager.OnStopProgress(progressCallback); return; }
+				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1, progressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
 				if (result.HasError)
-				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(); return; }
+				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(progressCallback); return; }
 			}
-			DeviceBytesHelper.GoToWorkingRegime(device);
-			GKProcessorManager.OnStopProgress();
+			DeviceBytesHelper.GoToWorkingRegime(device, progressCallback);
+			GKProcessorManager.OnStopProgress(progressCallback);
 		}
 
 		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)

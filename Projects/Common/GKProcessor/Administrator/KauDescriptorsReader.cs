@@ -27,31 +27,31 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
-			if(!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice))
+			var progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
-			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств");
+			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств", progressCallback);
 			if (GetDescriptorAddresses(kauDevice))
 			{
 				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true, GKProgressClientType.Administrator);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
-					if (GKProcessorManager.IsProgressCanceled)
+					if (progressCallback.IsCanceled)
 					{
 						Error = "Операция отменена";
 						break;
 					}
-					GKProcessorManager.OnDoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
+					GKProcessorManager.OnDoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count, progressCallback);
 					if (!GetDescriptorInfo(kauDevice, descriptorAddresses[i]))
 						break;
 				}
 			}
-			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим");
-			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
+			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим", progressCallback);
+			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback);
 			DeviceConfiguration.Update();
 			UpdateConfigurationHelper.Update(DeviceConfiguration);
 			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
-			GKProcessorManager.OnStopProgress();
+			GKProcessorManager.OnStopProgress(progressCallback);
 			return String.IsNullOrEmpty(Error);
 		}
 

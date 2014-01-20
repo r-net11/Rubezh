@@ -235,9 +235,9 @@ namespace FiresecService.Service
 		#endregion
 
 		#region GK
-		public void CancelGKProgress()
+		public void CancelGKProgress(Guid progressCallbackUID)
 		{
-			SafeOperationCall(() => { FiresecService.CancelGKProgress(); }, "CancelGKProgress");
+			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID); }, "CancelGKProgress");
 		}
 
 		public void AddJournalItem(JournalItem journalItem)

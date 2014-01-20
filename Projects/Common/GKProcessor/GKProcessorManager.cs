@@ -14,53 +14,68 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-		public static bool IsProgressCanceled = false;
-		public static void CancelGKProgress()
+		public static void CancelGKProgress(Guid progressCallbackUID)
 		{
-			IsProgressCanceled = true;
+			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
+			if (progressCallback != null)
+			{
+				progressCallback.IsCanceled = true;
+				progressCallback.CancelizationDateTime = DateTime.Now;
+				OnStopProgress(progressCallback);
+			}
+		}
+		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+
+		public static GKProgressCallback OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		{
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				GKProgressCallbackType = GKProgressCallbackType.Start,
+				Title = title,
+				Text = text,
+				StepCount = stepCount,
+				CanCancel = canCancel,
+				GKProgressClientType = progressClientType
+			};
+			GKProgressCallbacks.Add(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback);
+			return gkProgressCallback;
 		}
 
-		static string CurrentTitle;
-		static int CurrentStepCount;
-		static bool CurrentCanCancel;
-		static GKProgressClientType CurrentGKProgressClientType;
-
-		public static void OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		public static void OnDoProgress(string text, GKProgressCallback progressCallback)
 		{
-			IsProgressCanceled = false;
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			CurrentTitle = gkProgressCallback.Title = title;
-			gkProgressCallback.Text = text;
-			CurrentStepCount = gkProgressCallback.StepCount = stepCount;
-			CurrentCanCancel = gkProgressCallback.CanCancel = canCancel;
-			CurrentGKProgressClientType = gkProgressCallback.GKProgressClientType = progressClientType;
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				GKProgressCallbackType = GKProgressCallbackType.Progress,
+				Title = progressCallback.Title,
+				Text = text,
+				StepCount = progressCallback.StepCount,
+				CanCancel = progressCallback.CanCancel,
+				GKProgressClientType = progressCallback.GKProgressClientType
+			};
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnDoProgress(string text)
+		public static void OnStopProgress(GKProgressCallback progressCallback)
 		{
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
-			gkProgressCallback.Title = CurrentTitle;
-			gkProgressCallback.Text = text;
-			gkProgressCallback.StepCount = CurrentStepCount;
-			gkProgressCallback.CanCancel = CurrentCanCancel;
-			gkProgressCallback.GKProgressClientType = CurrentGKProgressClientType;
-			OnGKCallbackResult(gkProgressCallback);
-		}
-
-		public static void OnStopProgress()
-		{
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Stop;
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				UID = progressCallback.UID,
+				GKProgressCallbackType = GKProgressCallbackType.Stop,
+			};
+			GKProgressCallbacks.Remove(gkProgressCallback);
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
 		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
-			if (GKProgressCallbackEvent != null)
-				GKProgressCallbackEvent(gkProgressCallback);
+			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
+			{
+				if (GKProgressCallbackEvent != null)
+					GKProgressCallbackEvent(gkProgressCallback);
+			}
 		}
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
@@ -101,7 +116,8 @@ namespace GKProcessor
 
 		static void SuspendMonitoring(XDevice gkDevice)
 		{
-			if (WatcherManager.Watchers != null)
+			gkDevice = GetGKDevice(gkDevice);
+			if (WatcherManager.Watchers != null && gkDevice != null)
 			{
 				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
 				if (watcher != null)
@@ -111,13 +127,25 @@ namespace GKProcessor
 
 		static void ResumeMonitoring(XDevice gkDevice)
 		{
-			if (WatcherManager.Watchers != null)
+			gkDevice = GetGKDevice(gkDevice);
+			if (WatcherManager.Watchers != null && gkDevice != null)
 			{
 				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
 				if (watcher != null)
 					watcher.Resume();
 			}
 		}
+
+		static XDevice GetGKDevice(XDevice device)
+		{
+			if (device.DriverType == XDriverType.GK)
+				return device;
+			var gkDevice = device.GkDatabaseParent;
+			if (gkDevice.DriverType == XDriverType.GK)
+				return gkDevice;
+			return null;
+		}
+
 		#endregion
 
 		#region Operations
