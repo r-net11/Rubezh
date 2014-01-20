@@ -21,11 +21,25 @@ namespace GKModule.Plans.Designer
 		public static void BuildMap()
 		{
 			_xzoneMap = new Dictionary<Guid, XZone>();
-			XManager.Zones.ForEach(item => _xzoneMap.Add(item.UID, item));
+			foreach (var zone in XManager.Zones)
+			{
+				if (!_xzoneMap.ContainsKey(zone.UID))
+					_xzoneMap.Add(zone.UID, zone);
+			}
+
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
-			XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			foreach (var device in XManager.Devices)
+			{
+				if (!_xdeviceMap.ContainsKey(device.UID))
+					_xdeviceMap.Add(device.UID, device);
+			}
+
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
-			XManager.Directions.ForEach(item => _xdirectionMap.Add(item.UID, item));
+			foreach (var direction in XManager.Directions)
+			{
+				if (!_xdirectionMap.ContainsKey(direction.UID))
+					_xdirectionMap.Add(direction.UID, direction);
+			}
 		}
 
 		public static XZone GetXZone(IElementZone element)
