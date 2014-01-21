@@ -155,7 +155,7 @@ namespace GKProcessor
 			return result;
 		}
 
-		static int GetColumnLength(string columnName, string tableName)
+        static int GetColumnLength(string columnName, string tableName)
 		{
 			if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 				return 0;
@@ -179,6 +179,33 @@ namespace GKProcessor
 			return result;
 		}
 
+        public static void AddIndex(string indexName, string tableName, string columnName)
+        {
+            if (IsIndexExists(indexName, tableName))
+                ExecuteNonQuery(@"DROP INDEX " + tableName + "." + indexName);
+            ExecuteNonQuery(@"CREATE INDEX " + indexName + " ON " + tableName + " ( " + columnName + " )");
+        }
+
+        static bool IsIndexExists(string indexName, string tableName)
+        {
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return false;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand(
+                "select INDEX_NAME from INFORMATION_SCHEMA.INDEXES where INDEX_Name = '" + indexName + "' and table_name = '" + tableName + "'",
+                connection);
+            connection.Open();
+            var reader = sqlCeCommand.ExecuteReader();
+            bool result = reader.Read();
+            connection.Close();
+            connection.Dispose();
+            return result;
+        }
+
+        public static void DeletePatch(string patchName)
+        {
+            ExecuteNonQuery("DELETE FROM Patches WHERE Id = " + patchName);
+        }
 
     }
 }

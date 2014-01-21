@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
+using FiresecClient;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -49,6 +51,16 @@ namespace GKProcessor
 				GKDBHelper.AddColumn("KAUNo", "int", "Journal");
 				GKDBHelper.AddColumn("AdditionalDescription", "nvarchar(100)", "Journal");
 			}));
+            AllPatches.Add(new Patch("DB.Add_Indexes", () =>
+            {
+                GKDBHelper.AddIndex("No_Index", "Journal", "GKJournalRecordNo");
+                GKDBHelper.AddIndex("Name_Index", "Journal", "Name");
+                GKDBHelper.AddIndex("Description_Index", "Journal", "Description");
+                GKDBHelper.AddIndex("SystemDateTime_Index", "Journal", "SystemDateTime");
+                GKDBHelper.AddIndex("DeviceDateTime_Index", "Journal", "DeviceDateTime");
+
+                GKDBHelper.ExecuteNonQuery(@"UPDATE STATISTICS ON Journal WITH FULLSCAN");
+            }));
 		}
 
 		public static void AddPatch(string index, PatchDelegate patchDelegate)
@@ -58,19 +70,19 @@ namespace GKProcessor
 
 		public static void Patch()
 		{
-			try
-			{
-				var indexes = GKDBHelper.ReadAllPatches();
-				foreach (var patch in AllPatches)
-				{
-					if (!indexes.Any(x => x == patch.Index))
-						patch.Apply();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Patcher.Patch");
-			}
-		}
+            try
+            {
+                var indexes = GKDBHelper.ReadAllPatches();
+                foreach (var patch in AllPatches)
+                {
+                    if (!indexes.Any(x => x == patch.Index))
+                        patch.Apply();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Patcher.Patch");
+            }
+        }
 	}
 }

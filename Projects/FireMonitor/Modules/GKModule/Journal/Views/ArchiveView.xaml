@@ -5,39 +5,39 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              >
     <Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-				<Button Grid.Row="0" Command="{Binding ShowFilterCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Задать фильтр">
-					<Image Height="24" Source="/Controls;component/Images/Filter.png" />
-				</Button>
+                <Button Grid.Row="0" Command="{Binding ShowFilterCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Задать фильтр">
+                    <Image Height="24" Source="/Controls;component/Images/Filter.png" />
+                </Button>
 
-				<StackPanel Grid.Column="1" Orientation="Horizontal">
-					<CheckBox Margin="5" VerticalAlignment="Center" Content="Включить фильтр" Foreground="White" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" />
-				</StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <CheckBox Margin="5" VerticalAlignment="Center" Content="Включить фильтр" Foreground="White" IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFilterExists, Mode=OneWay}" />
+                </StackPanel>
 
                 <StackPanel Grid.Column="2" HorizontalAlignment="Center"  Orientation="Horizontal">
                     <Controls:SpinnerCogs VerticalAlignment="Center" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock Foreground="White" Text="{Binding Status}" Margin="2" VerticalAlignment="Center" />
                 </StackPanel>
-                    
 
-				<Button Grid.Column="3" HorizontalAlignment="Right" Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Настройки">
-					<Image Height="24" Source="/Controls;component/Images/Settings.png" />
-				</Button>
-			</Grid>
-		</Border>
-		<Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />
-	</Grid>
+
+                <Button Grid.Column="3" HorizontalAlignment="Right" Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Настройки">
+                    <Image Height="24" Source="/Controls;component/Images/Settings.png" />
+                </Button>
+            </Grid>
+        </Border>
+        <Views:JournalView Grid.Row="1" Margin="0, 5, 0, 0" />
+    </Grid>
 </UserControl>

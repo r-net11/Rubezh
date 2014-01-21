@@ -83,7 +83,7 @@ namespace GKProcessor
 
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			journalItems = UpdateItemLengths(journalItems);
+            journalItems = UpdateItemLengths(journalItems);
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
 				using (var dataContext = new SqlCeConnection(ConnectionString))
