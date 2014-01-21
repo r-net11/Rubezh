@@ -1,5 +1,4 @@
 САША
-- Мониторинг КАУ и расчет хэшей для КАУ на резервной линии
 - FirmwareUpdateHelper LoadingService
 
 

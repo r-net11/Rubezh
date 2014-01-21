@@ -88,10 +88,13 @@ namespace GKProcessor
 		{
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.BaseState.IsSuspending = isSuspending;
+				if (descriptor.XBase.BaseState != null)
+				{
+					descriptor.XBase.BaseState.IsSuspending = isSuspending;
+				}
 			}
 			NotifyAllObjectsStateChanged();
-			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+			OnGKCallbackResult(GKCallbackResult);
 		}
 
 		void OnRunThread()
@@ -126,7 +129,7 @@ namespace GKProcessor
 						{
 							pollInterval = property.Value;
 						}
-						if (StopEvent.WaitOne(pollInterval))
+						if (ReturnArterWait(pollInterval))
 							break;
 					}
 
@@ -167,7 +170,7 @@ namespace GKProcessor
 						descriptor.XBase.BaseState.IsConnectionLost = IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
-					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					OnGKCallbackResult(GKCallbackResult);
 				}
 
 				if (IsPingFailure)
@@ -195,7 +198,7 @@ namespace GKProcessor
 						descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
 					}
 					NotifyAllObjectsStateChanged();
-					GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+					OnGKCallbackResult(GKCallbackResult);
 				}
 
 				if (IsHashFailure)
@@ -208,7 +211,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				if (!ReadMissingJournalItems())
 					AddFailureJournalItem("Ошибка при синхронизации журнала", "");
-				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
 				result = !GetAllStates(true);
@@ -220,7 +223,7 @@ namespace GKProcessor
 					else
 						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК", "");
 				}
-				GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+				OnGKCallbackResult(GKCallbackResult);
 
 				if (IsGetStatesFailure)
 				{
@@ -261,7 +264,7 @@ namespace GKProcessor
 							GKCallbackResult = new GKCallbackResult();
 							GetAllStates(false);
 							LastMissmatchCheckTime = DateTime.Now;
-							GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+							OnGKCallbackResult(GKCallbackResult);
 						}
 					}
 					else
@@ -312,7 +315,7 @@ namespace GKProcessor
 							Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
 						}
 
-						GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
+						OnGKCallbackResult(GKCallbackResult);
 					}
 				}
 			}
@@ -334,37 +337,43 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-            xBase.BaseState.IsInitialState = false;
-            xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
-			xBase.State.StateClass = xBase.BaseState.StateClass;
-            xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
-            xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
-            xBase.State.OnDelay = xBase.BaseState.OnDelay;
-            xBase.State.OffDelay = xBase.BaseState.OffDelay;
-			if (xBase is XDevice)
+			if (xBase.BaseState != null)
 			{
-				GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
-				GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
+				xBase.BaseState.IsInitialState = false;
 			}
-			if (xBase is XZone)
+			if (xBase.State != null)
 			{
-				GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
-			}
-			if (xBase is XDirection)
-			{
-				GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
-			}
-			if (xBase is XPumpStation)
-			{
-				GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
-			}
-			if (xBase is XDelay)
-			{
-				GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
-			}
-			if (xBase is XPim)
-			{
-				GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+				xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
+				xBase.State.StateClass = xBase.BaseState.StateClass;
+				xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
+				xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
+				xBase.State.OnDelay = xBase.BaseState.OnDelay;
+				xBase.State.OffDelay = xBase.BaseState.OffDelay;
+				if (xBase is XDevice)
+				{
+					GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+					GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
+				}
+				if (xBase is XZone)
+				{
+					GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
+				}
+				if (xBase is XDirection)
+				{
+					GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
+				}
+				if (xBase is XPumpStation)
+				{
+					GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
+				}
+				if (xBase is XDelay)
+				{
+					GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
+				}
+				if (xBase is XPim)
+				{
+					GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+				}
 			}
 		}
 
@@ -389,6 +398,12 @@ namespace GKProcessor
 		{
 			GKDBHelper.AddMany(journalItems);
 			GKCallbackResult.JournalItems.AddRange(journalItems);
+		}
+
+		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		{
+			//WaitIfSuspending();
+			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 	}
 }

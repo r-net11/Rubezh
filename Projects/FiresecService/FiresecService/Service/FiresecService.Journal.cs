@@ -4,8 +4,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Threading;
-using ServerFS2.Journal;
-using FS2Api;
 
 namespace FiresecService.Service
 {
@@ -103,25 +101,25 @@ namespace FiresecService.Service
 			FiresecDB.DatabaseHelper.AddJournalRecords(new List<JournalRecord>() { journalRecord });
 			NotifyNewJournal(new List<JournalRecord>() { journalRecord });
 
-			try
-			{
-				var journalItem = new FS2JournalItem()
-				{
-					DeviceTime = DateTime.Now,
-					SystemTime = DateTime.Now,
-					StateType = StateType.Info,
-					Description = mesage,
-					UserName = userName,
-					DeviceName = "",
-					PanelName = "",
-					ZoneName = ""
-				};
-				ServerFS2Database.AddJournalItems(new List<FS2JournalItem>() { journalItem });
-			}
-			catch
-			{
-				Logger.Error("FiresecService.AddInfoMessage.FS2JournalItem");
-			}
+			//try
+			//{
+			//    var journalItem = new FS2JournalItem()
+			//    {
+			//        DeviceTime = DateTime.Now,
+			//        SystemTime = DateTime.Now,
+			//        StateType = StateType.Info,
+			//        Description = mesage,
+			//        UserName = userName,
+			//        DeviceName = "",
+			//        PanelName = "",
+			//        ZoneName = ""
+			//    };
+			//    ServerFS2Database.AddJournalItems(new List<FS2JournalItem>() { journalItem });
+			//}
+			//catch
+			//{
+			//    Logger.Error("FiresecService.AddInfoMessage.FS2JournalItem");
+			//}
 		}
 	}
 }

@@ -11,11 +11,11 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (IsFS2Enabled)
-				{
-					FS2ClientContract.SetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
-				}
-				else
+				//if (IsFS2Enabled)
+				//{
+				//    FS2ClientContract.SetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
+				//}
+				//else
 				{
 					if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
 					{
@@ -37,11 +37,11 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (IsFS2Enabled)
-				{
-					FS2ClientContract.UnSetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
-				}
-				else
+				//if (IsFS2Enabled)
+				//{
+				//    FS2ClientContract.UnSetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
+				//}
+				//else
 				{
 					if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
 					{
@@ -63,11 +63,11 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (IsFS2Enabled)
-				{
-					FS2ClientContract.SetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
-				}
-				else
+				//if (IsFS2Enabled)
+				//{
+				//    FS2ClientContract.SetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
+				//}
+				//else
 				{
 					FiresecDriver.SetZoneGuard(device.UID, 0);
 				}
@@ -82,11 +82,11 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (IsFS2Enabled)
-				{
-					FS2ClientContract.UnSetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
-				}
-				else
+				//if (IsFS2Enabled)
+				//{
+				//    FS2ClientContract.UnSetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
+				//}
+				//else
 				{
 					FiresecDriver.UnSetZoneGuard(device.UID, 0);
 				}

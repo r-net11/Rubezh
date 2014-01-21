@@ -5,7 +5,6 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using GKImitator.Processor;
-using Common.GK;
 
 namespace GKImitator.ViewModels
 {

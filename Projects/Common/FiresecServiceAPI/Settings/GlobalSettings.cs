@@ -62,6 +62,9 @@ namespace FiresecAPI
 		public bool DoNotAutoconnectAdm { get; set; }
 
 		[DataMember]
+		public bool RunRevisor { get; set; }
+
+		[DataMember]
 		public bool DoNotOverrideFS1 { get; set; }
 
 		[DataMember]

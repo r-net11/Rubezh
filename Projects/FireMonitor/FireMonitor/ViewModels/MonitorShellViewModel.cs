@@ -28,7 +28,6 @@ namespace FireMonitor.ViewModels
 			Width = 1100;
 			MinWidth = 980;
 			MinHeight = 550;
-			//HideInTaskbar = App.IsMulticlient;
 			UptateOnChangeViewPermission();
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe((x) => { UptateOnChangeViewPermission(); });
 		}
@@ -43,12 +42,6 @@ namespace FireMonitor.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (App.IsMulticlient)
-			{
-				isCanceled = true;
-				return true;
-			}
-
 			if (App.IsClosingOnException)
 			{
 #if DEBUG

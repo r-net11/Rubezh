@@ -87,11 +87,11 @@ namespace GKSDK
 				switch (gkProgressCallback.GKProgressCallbackType)
 				{
 					case GKProgressCallbackType.Start:
-						LoadingService.Show(gkProgressCallback.Name, gkProgressCallback.Name, gkProgressCallback.Count, gkProgressCallback.CanCancel);
+						LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Name);
+						LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
 						return;
 
 					case GKProgressCallbackType.Stop:

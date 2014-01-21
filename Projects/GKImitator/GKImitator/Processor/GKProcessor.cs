@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-using Common.GK;
 using XFiresecAPI;
 using System.Diagnostics;
 using GKImitator.ViewModels;
+using GKProcessor;
 
 namespace GKImitator.Processor
 {

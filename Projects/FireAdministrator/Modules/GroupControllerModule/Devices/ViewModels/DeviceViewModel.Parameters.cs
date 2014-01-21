@@ -19,9 +19,9 @@ namespace GKModule.ViewModels
 		void InitializeParamsCommands()
 		{
 			ReadCommand = new RelayCommand(OnRead, CanReadWrite);
-			WriteCommand = new RelayCommand(OnWrite, CanSync);
+			WriteCommand = new RelayCommand(OnWrite, CanReadWrite);
 			ReadAllCommand = new RelayCommand(OnReadAll, CanReadWriteAll);
-			WriteAllCommand = new RelayCommand(OnWriteAll, CanSyncAll);
+			WriteAllCommand = new RelayCommand(OnWriteAll, CanReadWriteAll);
 			SyncFromDeviceToSystemCommand = new RelayCommand(OnSyncFromDeviceToSystem, CanSync);
 			SyncFromAllDeviceToSystemCommand = new RelayCommand(OnSyncFromAllDeviceToSystem, CanSyncAll);
 
@@ -206,21 +206,24 @@ namespace GKModule.ViewModels
 			{
 				foreach (var property in device.Properties)
 				{
-					var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
-					if (deviceProperty == null)
+					if (property.DriverProperty.IsAUParameter)
 					{
-						device.DeviceProperties.Add(new XProperty
-							{
-								DriverProperty = property.DriverProperty,
-								Name = property.Name,
-								Value = property.Value
-							});
-						ServiceFactory.SaveService.GKChanged = true;
-					}
-					if (deviceProperty != null && deviceProperty.Value != property.Value)
-					{
-						deviceProperty.Value = property.Value;
-						ServiceFactory.SaveService.GKChanged = true;
+						var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
+						if (deviceProperty == null)
+						{
+							device.DeviceProperties.Add(new XProperty
+								{
+									DriverProperty = property.DriverProperty,
+									Name = property.Name,
+									Value = property.Value
+								});
+							ServiceFactory.SaveService.GKChanged = true;
+						}
+						if (deviceProperty != null && deviceProperty.Value != property.Value)
+						{
+							deviceProperty.Value = property.Value;
+							ServiceFactory.SaveService.GKChanged = true;
+						}
 					}
 				}
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
@@ -259,17 +262,20 @@ namespace GKModule.ViewModels
 
 		bool CanSyncAll()
 		{
-			return Children.Any();
+			return Children.Count() > 0;
 		}
 
 		static void CopyFromDeviceToSystem(XDevice device)
 		{
 			foreach (var deviceProperty in device.DeviceProperties)
 			{
-				var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
-				if (property != null)
+				if (deviceProperty.DriverProperty.IsAUParameter)
 				{
-					property.Value = deviceProperty.Value;
+					var property = device.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
+					if (property != null)
+					{
+						property.Value = deviceProperty.Value;
+					}
 				}
 			}
 			ServiceFactory.SaveService.GKChanged = true;
@@ -332,7 +338,7 @@ namespace GKModule.ViewModels
 
 		bool CanReadWriteAll()
 		{
-			return Children.Count() > 0;
+			return Children.Count() > 0 && Device.DriverType != XDriverType.System;
 		}
 
 		public bool HasAUProperties

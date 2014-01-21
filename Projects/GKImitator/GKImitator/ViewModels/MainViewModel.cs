@@ -7,7 +7,6 @@ using GKImitator.Processor;
 using Infrastructure.Common;
 using FiresecClient;
 using FiresecAPI.Models;
-using Common.GK;
 using XFiresecAPI;
 
 namespace GKImitator.ViewModels

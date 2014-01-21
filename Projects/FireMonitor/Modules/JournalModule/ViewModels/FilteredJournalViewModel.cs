@@ -8,7 +8,6 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Diagnostics;
-using FS2Api;
 using System;
 using Firesec;
 
@@ -22,8 +21,8 @@ namespace JournalModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
-			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
-			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
+			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
+			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
 
 			if (journalFilter != null)
 			{
@@ -35,19 +34,19 @@ namespace JournalModule.ViewModels
 		void Initialize()
 		{
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-			if (FiresecManager.IsFS2Enabled)
-			{
-				var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
-				if (operationResult.Result != null)
-				{
-					foreach (var journalItem in operationResult.Result)
-					{
-						var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-						JournalRecords.Add(journalRecordViewModel);
-					}
-				}
-			}
-			else
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
+			//    if (operationResult.Result != null)
+			//    {
+			//        foreach (var journalItem in operationResult.Result)
+			//        {
+			//            var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+			//            JournalRecords.Add(journalRecordViewModel);
+			//        }
+			//    }
+			//}
+			//else
 			{
 				var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
 				if (operationResult.Result != null)
@@ -93,25 +92,25 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
-		{
-			Dispatcher.BeginInvoke(new Action(() =>
-				{
-					foreach (var journalItem in journalItems)
-					{
-						if (FilterFS2JournalItem(journalItem) == false)
-							return;
+		//void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
+		//{
+		//    Dispatcher.BeginInvoke(new Action(() =>
+		//        {
+		//            foreach (var journalItem in journalItems)
+		//            {
+		//                if (FilterFS2JournalItem(journalItem) == false)
+		//                    return;
 
-						if (JournalRecords.Count > 0)
-							JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
-						else
-							JournalRecords.Add(new JournalRecordViewModel(journalItem));
+		//                if (JournalRecords.Count > 0)
+		//                    JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
+		//                else
+		//                    JournalRecords.Add(new JournalRecordViewModel(journalItem));
 
-						if (JournalRecords.Count > JournalFilter.LastRecordsCount)
-							JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
-					}
-				}));
-		}
+		//                if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+		//                    JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+		//            }
+		//        }));
+		//}
 
 		bool FilterJournalRecord(JournalRecord journalRecord)
 		{
@@ -143,34 +142,34 @@ namespace JournalModule.ViewModels
 			return true;
 		}
 
-		bool FilterFS2JournalItem(FS2JournalItem journalItem)
-		{
-			if (JournalFilter.Categories.IsNotNullOrEmpty())
-			{
-				Device device = null;
-				if (journalItem.DeviceUID != Guid.Empty)
-				{
-					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
-				}
-				else
-				{
-					device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
-				}
+		//bool FilterFS2JournalItem(FS2JournalItem journalItem)
+		//{
+		//    if (JournalFilter.Categories.IsNotNullOrEmpty())
+		//    {
+		//        Device device = null;
+		//        if (journalItem.DeviceUID != Guid.Empty)
+		//        {
+		//            device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+		//        }
+		//        else
+		//        {
+		//            device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
+		//        }
 
-				if (device != null)
-				{
-					if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
-						return false;
-				}
-			}
+		//        if (device != null)
+		//        {
+		//            if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
+		//                return false;
+		//        }
+		//    }
 
-			if (JournalFilter.StateTypes.IsNotNullOrEmpty())
-			{
-				if (JournalFilter.StateTypes.Any(x => x == journalItem.StateType) == false)
-					return false;
-			}
+		//    if (JournalFilter.StateTypes.IsNotNullOrEmpty())
+		//    {
+		//        if (JournalFilter.StateTypes.Any(x => x == journalItem.StateType) == false)
+		//            return false;
+		//    }
 
-			return true;
-		}
+		//    return true;
+		//}
 	}
 }

@@ -5,6 +5,7 @@ using System.Threading;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -88,16 +89,16 @@ namespace GKProcessor
 			return true;
 		}
 
-		public static bool GoToTechnologicalRegime(XDevice device)
+		public static bool GoToTechnologicalRegime(XDevice device, GKProgressCallback progressCallback)
 		{
 			if (IsInTechnologicalRegime(device))
 				return true;
 
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в технологический режим");
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
-                if (GKProcessorManager.IsProgressCanceled)
+				if (progressCallback.IsCanceled)
                     return false;
 				if (IsInTechnologicalRegime(device))
 					return true;
@@ -124,12 +125,12 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool EraseDatabase(XDevice device)
+		public static bool EraseDatabase(XDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных");
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
 			for (int i = 0; i < 3; i++)
 			{
-                if (GKProcessorManager.IsProgressCanceled)
+				if (progressCallback.IsCanceled)
                     return false;
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
@@ -144,17 +145,17 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool GoToWorkingRegime(XDevice device)
+		public static bool GoToWorkingRegime(XDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.IsProgressCanceled = false;
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в рабочий режим");
-			if (GKProcessorManager.IsProgressCanceled)
+			progressCallback.IsCanceled = false;
+			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
+			if (progressCallback.IsCanceled)
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
 			{
-				if (GKProcessorManager.IsProgressCanceled)
+				if (progressCallback.IsCanceled)
 					return true;
 				var sendResult = SendManager.Send(device, 0, 1, 1);
 				if (!sendResult.HasError)

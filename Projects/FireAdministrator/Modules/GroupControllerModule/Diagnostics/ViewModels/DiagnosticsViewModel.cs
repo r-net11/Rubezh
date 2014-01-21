@@ -16,6 +16,7 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System.Diagnostics;
 using Common;
+using FiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -142,7 +143,7 @@ namespace GKModule.ViewModels
 		void OnWriteConfigFileToGK()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(y => y.DriverType == XDriverType.GK);
-			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice);
+			DeviceBytesHelper.GoToTechnologicalRegime(gkDevice, new GKProgressCallback());
 			var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 			var configFileName = Path.Combine(folderName, "Config.fscp");
 			if (!File.Exists(configFileName))

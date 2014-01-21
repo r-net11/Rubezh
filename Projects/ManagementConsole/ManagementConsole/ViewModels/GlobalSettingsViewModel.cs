@@ -22,6 +22,7 @@ namespace ManagementConsole
 			UseGKHash = GlobalSettingsHelper.GlobalSettings.UseGKHash;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
+			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
 			FS_Port = GlobalSettingsHelper.GlobalSettings.FS_Port;
 			FS_Login = GlobalSettingsHelper.GlobalSettings.FS_Login;
@@ -142,6 +143,17 @@ namespace ManagementConsole
 			}
 		}
 
+		bool _runRevisor;
+		public bool RunRevisor
+		{
+			get { return _runRevisor; }
+			set
+			{
+				_runRevisor = value;
+				OnPropertyChanged("RunRevisor");
+			}
+		}
+
 		string _fS_RemoteAddress;
 		public string FS_RemoteAddress
 		{
@@ -228,6 +240,7 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
+			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
 			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;

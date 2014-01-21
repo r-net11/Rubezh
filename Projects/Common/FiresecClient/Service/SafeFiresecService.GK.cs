@@ -18,15 +18,15 @@ namespace FiresecClient
 	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
-		public void CancelGKProgress()
+		public void CancelGKProgress(Guid progressCallbackUID)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.CancelGKProgress(), "CancelGKProgress");
+				SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID), "CancelGKProgress");
 			}
 			else
 			{
-				GKProcessorManager.CancelGKProgress();
+				GKProcessorManager.CancelGKProgress(progressCallbackUID);
 			}
 		}
 

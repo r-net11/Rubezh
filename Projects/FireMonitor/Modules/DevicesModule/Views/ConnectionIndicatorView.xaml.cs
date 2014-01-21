@@ -7,7 +7,6 @@ using System.Windows.Media.Animation;
 using FiresecClient;
 using FSAgentClient;
 using Infrastructure.Common.BalloonTrayTip;
-using FS2Client;
 
 namespace DevicesModule.Views
 {
@@ -25,12 +24,12 @@ namespace DevicesModule.Views
 			SafeFiresecService.ConnectionLost += new Action(OnService_ConnectionLost);
 			SafeFiresecService.ConnectionAppeared += new Action(OnService_ConnectionAppeared);
 
-			if (FiresecManager.IsFS2Enabled)
-			{
-				FS2ClientContract.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
-				FS2ClientContract.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
-			}
-			else
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    FS2ClientContract.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
+			//    FS2ClientContract.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
+			//}
+			//else
 			{
 				FSAgent.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
 				FSAgent.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using HexManager;
 using XFiresecAPI;
 using FiresecClient;
 using System.Runtime.Serialization;
@@ -14,50 +13,71 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-		public static bool IsProgressCanceled = false;
-		public static void CancelGKProgress()
+		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+
+		public static void CancelGKProgress(Guid progressCallbackUID)
 		{
-			IsProgressCanceled = true;
+			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
+			if (progressCallback != null)
+			{
+				progressCallback.IsCanceled = true;
+				progressCallback.CancelizationDateTime = DateTime.Now;
+				OnStopProgress(progressCallback);
+			}
 		}
 
-		static string CurrentTitle;
-		static int CurrentStepCount;
-		static bool CurrentCanCancel;
-
-		public static void OnStartProgress(string title, string text = null, int stepCount = 1, bool canCancel = false)
+		public static GKProgressCallback OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
-			IsProgressCanceled = false;
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Start;
-			CurrentTitle = gkProgressCallback.Title = title;
-			gkProgressCallback.Text = text;
-			CurrentStepCount = gkProgressCallback.StepCount = stepCount;
-			CurrentCanCancel = gkProgressCallback.CanCancel = canCancel;
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				GKProgressCallbackType = GKProgressCallbackType.Start,
+				Title = title,
+				Text = text,
+				StepCount = stepCount,
+				CanCancel = canCancel,
+				GKProgressClientType = progressClientType
+			};
+			GKProgressCallbacks.Add(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback);
+			return gkProgressCallback;
+		}
+
+		public static void OnDoProgress(string text, GKProgressCallback progressCallback)
+		{
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				GKProgressCallbackType = GKProgressCallbackType.Progress,
+				Title = progressCallback.Title,
+				Text = text,
+				StepCount = progressCallback.StepCount,
+				CanCancel = progressCallback.CanCancel,
+				GKProgressClientType = progressCallback.GKProgressClientType
+			};
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnDoProgress(string text)
+		public static void OnStopProgress(GKProgressCallback progressCallback)
 		{
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Progress;
-			gkProgressCallback.Title = CurrentTitle;
-			gkProgressCallback.Text = text;
-			gkProgressCallback.StepCount = CurrentStepCount;
-			gkProgressCallback.CanCancel = CurrentCanCancel;
-			OnGKCallbackResult(gkProgressCallback);
-		}
-
-		public static void OnStopProgress()
-		{
-			var gkProgressCallback = new GKProgressCallback();
-			gkProgressCallback.GKProgressCallbackType = GKProgressCallbackType.Stop;
+			var gkProgressCallback = new GKProgressCallback()
+			{
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				GKProgressCallbackType = GKProgressCallbackType.Stop,
+			};
+			GKProgressCallbacks.Remove(gkProgressCallback);
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
 		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
-			if (GKProgressCallbackEvent != null)
-				GKProgressCallbackEvent(gkProgressCallback);
+			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
+			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
+			{
+				if (GKProgressCallbackEvent != null)
+					GKProgressCallbackEvent(gkProgressCallback);
+			}
 		}
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
@@ -79,15 +99,23 @@ namespace GKProcessor
 		#endregion
 
 		#region Main
+		public static bool MustMonitor = false;
+
 		public static void Start()
 		{
-			WatcherManager.IsConfigurationReloading = false;
-			WatcherManager.Start();
+			if (MustMonitor)
+			{
+				WatcherManager.IsConfigurationReloading = false;
+				WatcherManager.Start();
+			}
 		}
 
 		public static void Stop()
 		{
-			WatcherManager.Stop();
+			if (MustMonitor)
+			{
+				WatcherManager.Stop();
+			}
 		}
 
 		public static void Suspend()
@@ -98,23 +126,42 @@ namespace GKProcessor
 
 		static void SuspendMonitoring(XDevice gkDevice)
 		{
-			if (WatcherManager.Watchers != null)
+			if (MustMonitor)
 			{
-				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
-				if (watcher != null)
-					watcher.Suspend();
+				gkDevice = GetGKDevice(gkDevice);
+				if (WatcherManager.Watchers != null && gkDevice != null)
+				{
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					if (watcher != null)
+						watcher.Suspend();
+				}
 			}
 		}
 
 		static void ResumeMonitoring(XDevice gkDevice)
 		{
-			if (WatcherManager.Watchers != null)
+			if (MustMonitor)
 			{
-				var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
-				if (watcher != null)
-					watcher.Resume();
+				gkDevice = GetGKDevice(gkDevice);
+				if (WatcherManager.Watchers != null && gkDevice != null)
+				{
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					if (watcher != null)
+						watcher.Resume();
+				}
 			}
 		}
+
+		static XDevice GetGKDevice(XDevice device)
+		{
+			if (device.DriverType == XDriverType.GK)
+				return device;
+			var gkDevice = device.GkDatabaseParent;
+			if (gkDevice.DriverType == XDriverType.GK)
+				return gkDevice;
+			return null;
+		}
+
 		#endregion
 
 		#region Operations

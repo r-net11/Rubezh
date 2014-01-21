@@ -24,8 +24,6 @@
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2API.dll" Name="FS2API.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.FS2Client.dll" Name="FS2Client.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />

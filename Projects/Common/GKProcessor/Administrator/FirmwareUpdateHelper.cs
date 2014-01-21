@@ -4,41 +4,41 @@ using System.Linq;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
-using HexManager;
+using FiresecAPI;
 namespace GKProcessor
 {
 	public class FirmwareUpdateHelper
 	{
 		public List<string> ErrorList = new List<string>();
-	    string error;
+		string Error;
 		public void Update(XDevice device, string fileName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
 			Update(device, firmWareBytes);
-            if (!String.IsNullOrEmpty(error))
-                ErrorList.Add(error);
+			if (!String.IsNullOrEmpty(Error))
+				ErrorList.Add(Error);
 		}
 
 		public void Update(XDevice device, List<byte> firmWareBytes)
 		{
-			LoadingService.Show("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true);
-            LoadingService.DoStep("Опрос устройства " + device.PresentationName);
-            if (!DeviceBytesHelper.Ping(device))
-            {
-                error = "Устройство " + device.PresentationName + " недоступно";
-                LoadingService.Close();
-                return;
-            }
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(device))
+			var progressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
+			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName, progressCallback);
+			if (!DeviceBytesHelper.Ping(device))
 			{
-				error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
+				Error = "Устройство " + device.PresentationName + " недоступно";
+				GKProcessorManager.OnStopProgress(progressCallback);
+				return;
+			}
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, progressCallback))
+			{
+				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
-				GKProcessorManager.OnStopProgress();
+				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
-			LoadingService.DoStep("Удаление программы " + device.PresentationName);
+			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, progressCallback);
 			DeviceBytesHelper.Clear(device);
 			var data = new List<byte>();
 			var offset = 0;
@@ -46,63 +46,62 @@ namespace GKProcessor
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				if (LoadingService.IsCanceled)
-				{ error = "Операция обновления прошивки отменена"; LoadingService.Close(); return; }
-				LoadingService.DoStep("Запись блока данных " + i / 0x100 + 1);
+				if (progressCallback.IsCanceled)
+				{ Error = "Операция обновления прошивки отменена"; GKProcessorManager.OnStopProgress(progressCallback); return; }
+				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1, progressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
 				if (result.HasError)
-				{ error = "В заданное времени не пришел ответ от устройства"; LoadingService.Close(); return; }
+				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(progressCallback); return; }
 			}
-			DeviceBytesHelper.GoToWorkingRegime(device);
-			LoadingService.Close();
+			DeviceBytesHelper.GoToWorkingRegime(device, progressCallback);
+			GKProcessorManager.OnStopProgress(progressCallback);
 		}
 
 		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
 		{
-		    foreach (var device in devices)
-		    {
-		        var fileInfo = new HEXFileInfo();
-                if (device.DriverType == XDriverType.GK)
-                    fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "GK_V1.hcs");
-                if (device.DriverType == XDriverType.KAU)
-                    fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR1_V1.hcs");
-                if (device.DriverType == XDriverType.RSR2_KAU)
-                    fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR2_V1.hcs");
-                if (fileInfo == null)
-                    return;
-		        var bytes = StringsToBytes(fileInfo.Lines);
-		        Update(device, bytes);
-                if (!String.IsNullOrEmpty(error))
-                    ErrorList.Add(error);
-                GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
-		    }
+			foreach (var device in devices)
+			{
+				var fileInfo = new HEXFileInfo();
+				if (device.DriverType == XDriverType.GK)
+					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "GK_V1.hcs");
+				if (device.DriverType == XDriverType.KAU)
+					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR1_V1.hcs");
+				if (device.DriverType == XDriverType.RSR2_KAU)
+					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR2_V1.hcs");
+				if (fileInfo == null)
+					return;
+				var bytes = StringsToBytes(fileInfo.Lines);
+				Update(device, bytes);
+				if (!String.IsNullOrEmpty(Error))
+					ErrorList.Add(Error);
+				GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
+			}
 		}
 
 		List<byte> HexFileToBytesList(string filePath)
 		{
-			
 			var strings = File.ReadAllLines(filePath).ToList();
 			strings.RemoveAt(0);
 			strings.RemoveRange(strings.Count - 1, 1);
-		    return StringsToBytes(strings);
+			return StringsToBytes(strings);
 		}
 
-	    List<byte> StringsToBytes(List<string> strings)
-	    {
-            var bytes = new List<byte>();
-            foreach (var str in strings)
-            {
-                var count = Convert.ToInt32(str.Substring(1, 2), 16);
-                if (count != 0x10)
-                    continue;
-                for (var i = 9; i < count * 2 + 9; i += 2)
-                {
-                    bytes.Add(Convert.ToByte(str.Substring(i, 2), 16));
-                }
-            }
-            return bytes;
-	    }
+		List<byte> StringsToBytes(List<string> strings)
+		{
+			var bytes = new List<byte>();
+			foreach (var str in strings)
+			{
+				var count = Convert.ToInt32(str.Substring(1, 2), 16);
+				if (count != 0x10)
+					continue;
+				for (var i = 9; i < count * 2 + 9; i += 2)
+				{
+					bytes.Add(Convert.ToByte(str.Substring(i, 2), 16));
+				}
+			}
+			return bytes;
+		}
 	}
 }

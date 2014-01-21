@@ -21,9 +21,9 @@ namespace FiresecService.Service
 			get { return CurrentClientCredentials.FriendlyUserName; }
 		}
 
-		public void CancelGKProgress()
+		public void CancelGKProgress(Guid progressCallbackUID)
 		{
-			GKProcessorManager.CancelGKProgress();
+			GKProcessorManager.CancelGKProgress(progressCallbackUID);
 		}
 
 		public void AddJournalItem(JournalItem journalItem)
