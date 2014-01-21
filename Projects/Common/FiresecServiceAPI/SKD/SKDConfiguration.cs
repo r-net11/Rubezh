@@ -14,8 +14,9 @@ namespace XFiresecAPI
 		{
 			NamedTimeIntervals = new List<NamedSKDTimeInterval>();
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
-			SlideWeekIntervals = new List<SKDSlideWeekInterval>();
+			SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
 			WeeklyIntervals = new List<SKDWeeklyInterval>();
+			Holidays = new List<SKDHoliday>();
 		}
 
 		public List<SKDDevice> Devices { get; set; }
@@ -30,10 +31,13 @@ namespace XFiresecAPI
 		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
 
 		[DataMember]
-		public List<SKDSlideWeekInterval> SlideWeekIntervals { get; set; }
+		public List<SKDSlideWeekInterval> SlideWeeklyIntervals { get; set; }
 
 		[DataMember]
 		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
+
+				[DataMember]
+		public List<SKDHoliday> Holidays { get; set; }
 
 		public void Update()
 		{
@@ -69,9 +73,9 @@ namespace XFiresecAPI
 				SlideDayIntervals = new List<SKDSlideDayInterval>();
 				result = false;
 			}
-			if (SlideWeekIntervals == null)
+			if (SlideWeeklyIntervals == null)
 			{
-				SlideWeekIntervals = new List<SKDSlideWeekInterval>();
+				SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
 				result = false;
 			}
 			if (WeeklyIntervals == null)
@@ -86,6 +90,19 @@ namespace XFiresecAPI
 					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
 					result = false;
 				}
+			}
+			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)
+			{
+				if (slideWeeklyInterval.WeeklyIntervalUIDs == null)
+				{
+					slideWeeklyInterval.WeeklyIntervalUIDs = new List<Guid>();
+					result = false;
+				}
+			}
+			if (Holidays == null)
+			{
+				Holidays = new List<SKDHoliday>();
+				result = false;
 			}
 			return result;
 		}

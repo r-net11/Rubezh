@@ -28,6 +28,7 @@ namespace SkudModule
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
+		HolidaysViewModel HolidaysViewModel;
 
 		public SkudModule()
 		{
@@ -53,6 +54,7 @@ namespace SkudModule
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
+			HolidaysViewModel = new HolidaysViewModel();
 		}
 
 		private void OnShowSkud(object obj)
@@ -97,6 +99,7 @@ namespace SkudModule
 						new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					}),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},
 			};

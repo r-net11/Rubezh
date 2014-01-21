@@ -228,6 +228,7 @@
     <Compile Include="SKD\SKDDriverType.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.cs" />
+    <Compile Include="SKD\TimeIntervals\SKDHoliday.cs" />
     <Compile Include="SKD\TimeIntervals\SKDSlideWeekInterval.cs" />
     <Compile Include="SKD\TimeIntervals\NamedSKDTimeInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDSlideDayInterval.cs" />

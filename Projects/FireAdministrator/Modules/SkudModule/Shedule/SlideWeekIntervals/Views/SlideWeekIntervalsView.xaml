@@ -9,7 +9,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding SlideWeekIntervals}" SelectedItem="{Binding SelectedSlideWeekInterval}" Margin="2">
+        <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding SlideWeekIntervals}" SelectedItem="{Binding SelectedSlideWeekInterval}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Наименование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -26,7 +26,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </Controls:XDataGrid>
         <Grid Grid.Column="1" DataContext="{Binding SelectedSlideWeekInterval}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -36,17 +36,17 @@
                 <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/Add.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
+            <DataGrid Grid.Row="1" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Наименование" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SelectedTimeInterval.Name}" />
+                                <TextBlock Text="{Binding SelectedWeeklyInterval.Name}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableWeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}" Foreground="Black" />

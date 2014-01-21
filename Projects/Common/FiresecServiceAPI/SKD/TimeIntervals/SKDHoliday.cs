@@ -7,12 +7,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDSlideWeekInterval
+	public class SKDHoliday
 	{
-		public SKDSlideWeekInterval()
+		public SKDHoliday()
 		{
 			UID = Guid.NewGuid();
-			WeeklyIntervalUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -22,12 +21,9 @@ namespace FiresecAPI
 		public string Name { get; set; }
 
 		[DataMember]
-		public string Description { get; set; }
+		public DateTime DateTime { get; set; }
 
 		[DataMember]
-		public DateTime StartDate { get; set; }
-
-		[DataMember]
-		public List<Guid> WeeklyIntervalUIDs { get; set; }
+		public int TypeNo { get; set; }
 	}
 }

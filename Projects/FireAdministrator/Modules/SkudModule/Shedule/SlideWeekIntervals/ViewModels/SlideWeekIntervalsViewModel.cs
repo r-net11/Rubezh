@@ -15,21 +15,21 @@ using FiresecAPI;
 
 namespace SkudModule.ViewModels
 {
-	public class SlideWeekIntervalsViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class SlideWeekIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public SlideWeekIntervalsViewModel()
 		{
 			Menu = new SlideWeekIntervalsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
 
 			SlideWeekIntervals = new ObservableCollection<SlideWeekIntervalViewModel>();
-			foreach (var slideWeekInterval in SKDManager.SKDConfiguration.SlideWeekIntervals)
+			foreach (var slideWeekInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
 			{
 				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekInterval);
 				SlideWeekIntervals.Add(timeInrervalViewModel);
@@ -70,7 +70,7 @@ namespace SkudModule.ViewModels
 			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.SlideWeekIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
+				SKDManager.SKDConfiguration.SlideWeeklyIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
 				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
 				SlideWeekIntervals.Add(timeInrervalViewModel);
 				SelectedSlideWeekInterval = timeInrervalViewModel;
@@ -82,14 +82,14 @@ namespace SkudModule.ViewModels
 			return SlideWeekIntervals.Count < 256;
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.SlideWeekIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
+			SKDManager.SKDConfiguration.SlideWeeklyIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
 			SlideWeekIntervals.Remove(SelectedSlideWeekInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanRemove()
+		bool CanDelete()
 		{
 			return SelectedSlideWeekInterval != null;
 		}
@@ -123,7 +123,7 @@ namespace SkudModule.ViewModels
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.SlideWeekIntervals.Add(newInterval);
+			SKDManager.SKDConfiguration.SlideWeeklyIntervals.Add(newInterval);
 			var timeInrervalViewModel = new SlideWeekIntervalViewModel(newInterval);
 			SlideWeekIntervals.Add(timeInrervalViewModel);
 			SelectedSlideWeekInterval = timeInrervalViewModel;
@@ -138,9 +138,9 @@ namespace SkudModule.ViewModels
 		{
 			var copy = new SKDSlideWeekInterval();
 			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
+			foreach (var timeIntervalUID in source.WeeklyIntervalUIDs)
 			{
-				copy.TimeIntervalUIDs.Add(timeIntervalUID);
+				copy.WeeklyIntervalUIDs.Add(timeIntervalUID);
 			}
 			return copy;
 		}
@@ -149,7 +149,7 @@ namespace SkudModule.ViewModels
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), RemoveCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}

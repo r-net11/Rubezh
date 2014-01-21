@@ -15,14 +15,14 @@ using FiresecAPI;
 
 namespace SkudModule.ViewModels
 {
-	public class TimeIntervalsViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class TimeIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public TimeIntervalsViewModel()
 		{
 			Menu = new TimeIntervalsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
@@ -82,14 +82,14 @@ namespace SkudModule.ViewModels
 			return TimeIntervals.Count < 256;
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
 		{
 			SKDManager.SKDConfiguration.NamedTimeIntervals.Remove(SelectedTimeInterval.NamedTimeInterval);
 			TimeIntervals.Remove(SelectedTimeInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanRemove()
+		bool CanDelete()
 		{
 			return SelectedTimeInterval != null;
 		}
@@ -154,7 +154,7 @@ namespace SkudModule.ViewModels
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), RemoveCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}

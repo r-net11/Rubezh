@@ -63,6 +63,14 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
+    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
+    <Compile Include="Events\ShowSKDLidraryEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSkudEvent.cs" />
     <Compile Include="Library\Converters\SKDLibraryStateClassToIconConverter.cs" />
     <Compile Include="Library\ImageConverters.cs" />
     <Compile Include="Library\ViewModels\LibraryDeviceDetailsViewModel.cs" />
@@ -112,6 +120,19 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
+    <Compile Include="Shedule\Holidays\ViewModels\HolidaysMenuViewModel.cs" />
+    <Compile Include="Shedule\Holidays\ViewModels\HolidaysViewModel.cs" />
+    <Compile Include="Shedule\Holidays\ViewModels\HolidayViewModel.cs" />
+    <Compile Include="Shedule\Holidays\Views\HolidayDetailsView.xaml.cs">
+      <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Holidays\Views\HolidaysMenuView.xaml.cs">
+      <DependentUpon>HolidaysMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shedule\Holidays\Views\HolidaysView.xaml.cs">
+      <DependentUpon>HolidaysView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalDetailsViewModel.cs" />
     <Compile Include="Shedule\SlideWeekIntervals\ViewModels\SlideWeekIntervalPartViewModel.cs" />
@@ -296,6 +317,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Shedule\Holidays\Views\HolidayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Holidays\Views\HolidaysMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Shedule\Holidays\Views\HolidaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -409,7 +442,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Copy of Events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

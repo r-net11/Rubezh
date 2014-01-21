@@ -9,7 +9,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding SlideDayIntervals}" SelectedItem="{Binding SelectedSlideDayInterval}" Margin="2">
+        <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding SlideDayIntervals}" SelectedItem="{Binding SelectedSlideDayInterval}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Наименование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -26,7 +26,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </Controls:XDataGrid>
         <Grid Grid.Column="1" DataContext="{Binding SelectedSlideDayInterval}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

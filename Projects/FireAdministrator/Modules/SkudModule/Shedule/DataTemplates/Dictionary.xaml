@@ -55,4 +55,16 @@
         <Views:WeeklyIntervalDetailsView />
     </DataTemplate>
 
+
+    <DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">
+        <Views:HolidaysView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:HolidaysMenuViewModel}">
+        <Views:HolidaysMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
+        <Views:HolidayDetailsView />
+    </DataTemplate>
 </ResourceDictionary>
