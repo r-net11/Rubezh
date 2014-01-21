@@ -169,6 +169,7 @@ namespace GKProcessor
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
 						descriptor.XBase.BaseState.IsConnectionLost = IsPingFailure;
+						descriptor.XBase.BaseState.IsInitialState = !IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -197,6 +198,7 @@ namespace GKProcessor
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
 						descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
+						descriptor.XBase.BaseState.IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -232,6 +234,14 @@ namespace GKProcessor
 						return false;
 					continue;
 				}
+
+				GKCallbackResult = new GKCallbackResult();
+				foreach (var descriptor in GkDatabase.Descriptors)
+				{
+					descriptor.XBase.BaseState.IsInitialState = false;
+				}
+				NotifyAllObjectsStateChanged();
+				OnGKCallbackResult(GKCallbackResult);
 
 				return true;
 			}
@@ -338,10 +348,6 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
-			if (xBase.BaseState != null)
-			{
-				xBase.BaseState.IsInitialState = false;
-			}
 			if (xBase.State != null)
 			{
 				xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();

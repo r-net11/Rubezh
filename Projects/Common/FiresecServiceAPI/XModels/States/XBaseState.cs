@@ -18,6 +18,7 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
+			IsInitialState = false;
 			IsGKConnectionLost = false;
 			IsNoLicense = false;
 			IsConnectionLost = false;
@@ -29,72 +30,13 @@ namespace XFiresecAPI
 			OffDelay = 0;
 		}
 
-		public event Action InternalStateChanged;
-		public void OnInternalStateChanged()
-		{
-            IsInitialState = false;
-            //if (InternalStateChanged != null)
-            //    InternalStateChanged();
-		}
-
 		public bool IsInitialState { get; set; }
 		public bool IsSuspending { get; set; }
-
-		protected bool _isGKConnectionLost;
-		public bool IsGKConnectionLost
-		{
-			get { return _isGKConnectionLost; }
-			set
-			{
-				if (_isGKConnectionLost != value)
-				{
-					_isGKConnectionLost = value;
-					OnInternalStateChanged();
-				}
-			}
-		}
-
-		protected bool _isNoLicense;
-		public bool IsNoLicense
-		{
-			get { return _isNoLicense; }
-			set
-			{
-				if (_isNoLicense != value)
-				{
-					_isNoLicense = value;
-					OnInternalStateChanged();
-				}
-			}
-		}
-
-		protected bool _isConnectionLost;
-		public bool IsConnectionLost
-		{
-			get { return _isConnectionLost; }
-			set
-			{
-				if (_isConnectionLost != value)
-				{
-					_isConnectionLost = value;
-					OnInternalStateChanged();
-				}
-			}
-		}
-
-		bool _isGKMissmatch;
-		public bool IsGKMissmatch
-		{
-			get { return _isGKMissmatch; }
-			set
-			{
-				if (_isGKMissmatch != value)
-				{
-					_isGKMissmatch = value;
-					OnInternalStateChanged();
-				}
-			}
-		}
+		public bool IsGKConnectionLost { get; set; }
+		public bool IsNoLicense { get; set; }
+		public bool IsConnectionLost { get; set; }
+		public bool IsGKMissmatch { get; set; }
+		public bool IsRealMissmatch { get; set; }
 
 		bool _isInTechnologicalRegime;
 		public bool IsInTechnologicalRegime
@@ -106,20 +48,6 @@ namespace XFiresecAPI
 				{
 					_isInTechnologicalRegime = value;
 					StateBits = new List<XStateBit>() { XStateBit.Norm };
-				}
-			}
-		}
-
-		bool _isRealMissmatch;
-		public bool IsRealMissmatch
-		{
-			get { return _isRealMissmatch; }
-			set
-			{
-				if (_isRealMissmatch != value)
-				{
-					_isRealMissmatch = value;
-					OnInternalStateChanged();
 				}
 			}
 		}
@@ -173,11 +101,11 @@ namespace XFiresecAPI
 		public void CopyToXState(XState state)
 		{
 			state.StateClasses = StateClasses.ToList();
+			state.AdditionalStates = AdditionalStates.ToList();
 			state.StateClass = StateClass;
 			state.OnDelay = OnDelay;
 			state.OffDelay = OffDelay;
 			state.HoldDelay = HoldDelay;
-			state.AdditionalStates = AdditionalStates.ToList();
 		}
 	}
 }

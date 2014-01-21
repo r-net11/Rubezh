@@ -72,13 +72,17 @@ namespace XFiresecAPI
 				}
 				if (Device.Driver.IsGroupDevice || Device.DriverType == XDriverType.KAU_Shleif || Device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{
-					foreach (var child in Device.Children)
+					stateClasses.Clear();
+					if (Device.Children.Count > 0)
 					{
-						if (!stateClasses.Contains(child.InternalState.StateClass))
-							stateClasses.Add(child.InternalState.StateClass);
+						foreach (var child in Device.Children)
+						{
+							if (!stateClasses.Contains(child.InternalState.StateClass))
+								stateClasses.Add(child.InternalState.StateClass);
+						}
+						if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
+							stateClasses.Remove(XStateClass.Norm);
 					}
-					if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
-						stateClasses.Remove(XStateClass.Norm);
 				}
 				stateClasses.OrderBy(x => x);
 				return stateClasses;
