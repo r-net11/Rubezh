@@ -3,7 +3,7 @@ using System.Windows.Data;
 using Controls;
 using XFiresecAPI;
 
-namespace SkudModule.Converters
+namespace SKDModule.Converters
 {
 	public class SKDLibraryStateClassToIconConverter : IValueConverter
 	{

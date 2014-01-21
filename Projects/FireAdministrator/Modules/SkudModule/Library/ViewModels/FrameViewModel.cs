@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using XFiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class FrameViewModel : BaseViewModel
 	{

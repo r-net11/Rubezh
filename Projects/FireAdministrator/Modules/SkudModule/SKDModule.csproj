@@ -8,8 +8,8 @@
     <ProjectGuid>{BF76BEED-BCFB-488E-849E-D56F1F07D107}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SkudModule</RootNamespace>
-    <AssemblyName>SkudModule</AssemblyName>
+    <RootNamespace>SKDModule</RootNamespace>
+    <AssemblyName>SKDModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -444,6 +444,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Copy of Events\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

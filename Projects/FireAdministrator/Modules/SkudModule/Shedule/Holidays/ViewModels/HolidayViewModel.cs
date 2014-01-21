@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Collections.ObjectModel;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class HolidayViewModel : BaseViewModel
 	{

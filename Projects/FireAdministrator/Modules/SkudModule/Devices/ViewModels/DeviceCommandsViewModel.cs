@@ -15,7 +15,7 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class DeviceCommandsViewModel : BaseViewModel
 	{

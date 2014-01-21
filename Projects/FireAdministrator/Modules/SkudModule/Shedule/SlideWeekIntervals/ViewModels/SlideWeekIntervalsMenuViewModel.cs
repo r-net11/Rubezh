@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class SlideWeekIntervalsMenuViewModel : BaseViewModel
 	{

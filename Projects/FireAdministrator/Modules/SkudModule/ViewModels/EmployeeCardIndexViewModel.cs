@@ -10,9 +10,9 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using SkudModule.Properties;
+using SKDModule.Properties;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeeCardIndexViewModel : MenuViewPartViewModel, IEditingViewModel
 	{

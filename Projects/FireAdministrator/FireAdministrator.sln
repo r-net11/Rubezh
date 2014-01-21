@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKModule", "Modules\GroupCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoModule", "Modules\VideoModule\VideoModule.csproj", "{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkudModule", "Modules\SkudModule\SkudModule.csproj", "{BF76BEED-BCFB-488E-849E-D56F1F07D107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModule", "Modules\SkudModule\SKDModule.csproj", "{BF76BEED-BCFB-488E-849E-D56F1F07D107}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Client", "..\Common\Infrastructure.Client\Infrastructure.Client.csproj", "{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}"
 EndProject

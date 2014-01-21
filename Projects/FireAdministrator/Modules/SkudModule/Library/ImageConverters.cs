@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Xsl;
 using Common;
 
-namespace SkudModule
+namespace SKDModule
 {
 	public static class ImageConverters
 	{

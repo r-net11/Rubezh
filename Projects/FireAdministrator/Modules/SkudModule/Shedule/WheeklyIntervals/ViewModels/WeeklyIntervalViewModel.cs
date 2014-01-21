@@ -9,7 +9,7 @@ using Infrastructure.Common;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalViewModel : BaseViewModel
 	{

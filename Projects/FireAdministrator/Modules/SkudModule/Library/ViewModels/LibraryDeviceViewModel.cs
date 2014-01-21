@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Common.TreeList;
 using XFiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class LibraryDeviceViewModel : TreeNodeViewModel<LibraryDeviceViewModel>
 	{

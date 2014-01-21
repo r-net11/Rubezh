@@ -6,15 +6,15 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
-using SkudModule.ViewModels;
+using SKDModule.ViewModels;
 using System;
 using System.Linq;
 using XFiresecAPI;
 using FiresecAPI;
 
-namespace SkudModule
+namespace SKDModule
 {
-	public class SkudModule : ModuleBase
+	public class SKDModule : ModuleBase
 	{
 		SkudViewModel _skudViewModel;
 		EmployeeCardIndexViewModel _employeeCardIndexViewModel;
@@ -30,7 +30,7 @@ namespace SkudModule
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
 
-		public SkudModule()
+		public SKDModule()
 		{
 			
 		}

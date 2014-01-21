@@ -13,7 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class TimeIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{

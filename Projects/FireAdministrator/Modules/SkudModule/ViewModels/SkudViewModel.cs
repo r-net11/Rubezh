@@ -1,6 +1,6 @@
 ﻿using Infrastructure.ViewModels;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class SkudViewModel : MenuViewPartViewModel
 	{

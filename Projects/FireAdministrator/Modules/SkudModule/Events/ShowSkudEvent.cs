@@ -1,6 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Events
+namespace SKDModule
 {
 	public class ShowSkudEvent : CompositePresentationEvent<object>
 	{

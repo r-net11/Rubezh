@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SkudModule.Views
+namespace SKDModule.Views
 {
 	/// <summary>
 	/// Interaction logic for PassCardTemplatePropertiesView.xaml

@@ -13,7 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class HolidaysViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{

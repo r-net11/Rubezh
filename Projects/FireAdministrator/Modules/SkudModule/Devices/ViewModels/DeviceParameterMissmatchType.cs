@@ -1,4 +1,4 @@
-﻿namespace SkudModule.ViewModels
+﻿namespace SKDModule.ViewModels
 {
 	public enum DeviceParameterMissmatchType
 	{

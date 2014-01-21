@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="SkudModule.Views.PropertiesView"
+﻿<UserControl x:Class="SKDModule.Views.PropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SkudModule.Converters">
+             xmlns:Converters="clr-namespace:SKDModule.Converters">
     <UserControl.Resources>
         <Converters:DeviceParameterMissmatchTypeToColorConverter x:Key="DeviceParameterMissmatchTypeToColorConverter" />
         <Converters:DeviceParameterMissmatchTypeToColorConverter2 x:Key="DeviceParameterMissmatchTypeToColorConverter2" />

@@ -17,7 +17,7 @@ using Infrustructure.Plans.Painters;
 using XFiresecAPI;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class DeviceViewModel : TreeNodeViewModel<DeviceViewModel>
 	{
