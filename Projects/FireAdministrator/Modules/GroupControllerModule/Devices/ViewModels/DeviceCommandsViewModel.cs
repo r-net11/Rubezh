@@ -129,6 +129,7 @@ namespace GKModule.Models
 
 				ApplicationService.Invoke(new Action(() =>
 				{
+					LoadingService.Close();
 					if (!result.HasError)
 					{
 						UpdateConfigurationHelper.Update(result.Result);

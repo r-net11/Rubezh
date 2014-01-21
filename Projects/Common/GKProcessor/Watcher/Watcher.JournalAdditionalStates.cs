@@ -83,7 +83,6 @@ namespace GKProcessor
                             break;
                     }
                 }
-                deviceState.OnInternalStateChanged();
             }
         }
 

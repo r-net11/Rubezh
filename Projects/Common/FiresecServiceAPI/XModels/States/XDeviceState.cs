@@ -38,27 +38,10 @@ namespace XFiresecAPI
 				_stateBitss = value;
 				if (_stateBitss == null)
 					_stateBitss = new List<XStateBit>();
-				OnInternalStateChanged();
-				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
-				{
-					Device.Parent.InternalState.OnInternalStateChanged();
-				}
 			}
 		}
 
-		bool _isService;
-		public bool IsService
-		{
-			get { return _isService; }
-			set
-			{
-				if (_isService != value)
-				{
-					_isService = value;
-					OnInternalStateChanged();
-				}
-			}
-		}
+		public bool IsService { get; set; }
 
 		public override List<XStateClass> StateClasses
 		{
