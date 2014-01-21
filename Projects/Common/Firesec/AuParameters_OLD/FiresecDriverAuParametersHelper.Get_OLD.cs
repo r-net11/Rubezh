@@ -51,6 +51,7 @@ namespace Firesec_48
 			{
 				StopEvent = new AutoResetEvent(false);
 				AUParametersThread = new Thread(AUParametersThreadRun);
+				AUParametersThread.Name = "FS1 AUParametersThreadRun";
 				AUParametersThread.Start();
 			}
 			return new OperationResult<bool>() { Result = true };

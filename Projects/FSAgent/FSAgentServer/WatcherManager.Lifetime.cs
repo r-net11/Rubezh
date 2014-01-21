@@ -22,6 +22,7 @@ namespace FSAgentServer
             {
                 StopLifetimeEvent = new AutoResetEvent(false);
                 LifetimeThread = new Thread(OnLifetime);
+				LifetimeThread.Name = "WatcherManager Lifetime";
                 LifetimeThread.Start();
             }
         }

@@ -78,6 +78,7 @@ namespace DevicesModule.ViewModels
 							IsBuisy = false; OnPropertyChanged("ConfirmCommand");
 						}));
 					});
+					thread.Name = "DeviceControlViewModel Confirm";
 					thread.Start();
 				}
 				catch (Exception e)

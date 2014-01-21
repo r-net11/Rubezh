@@ -13,6 +13,7 @@ namespace Firesec_50
 			StopAUParametersThread();
 			StopEvent = new AutoResetEvent(false);
 			AUParametersThread = new Thread(() => { SetAuParameters(devices); });
+			AUParametersThread.Name = "FS1 SetAuParameters";
 			AUParametersThread.Start();
 		}
 

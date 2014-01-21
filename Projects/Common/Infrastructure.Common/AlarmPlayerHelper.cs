@@ -59,6 +59,7 @@ namespace Infrastructure.Common
 				if (_beepThread == null)
 				{
 					_beepThread = new Thread(PlayBeep);
+					_beepThread.Name = "PC Speaker";
 					_beepThread.Start();
 				}
 			}

@@ -106,6 +106,7 @@ namespace GKModule.Models
 							}
 						}));
 					});
+					thread.Name = "DeviceCommandsViewModel WriteConfig";
 					thread.Start();
 				}
 			}
@@ -130,6 +131,26 @@ namespace GKModule.Models
 				{
 					if (!result.HasError)
 					{
+						UpdateConfigurationHelper.Update(result.Result);
+						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
+
+						var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
+						if (gkDevice != null)
+						{
+							foreach (var zone in result.Result.Zones)
+							{
+								zone.GkDatabaseParent = gkDevice;
+							}
+							foreach (var direction in result.Result.Directions)
+							{
+								direction.GkDatabaseParent = gkDevice;
+							}
+							foreach (var pumpStation in result.Result.PumpStations)
+							{
+								pumpStation.GkDatabaseParent = gkDevice;
+							}
+						}
+
 						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
 							SelectedDevice.Device, false);
 						if (configurationCompareViewModel.Error != null)
@@ -146,6 +167,7 @@ namespace GKModule.Models
 					}
 				}));
 			});
+			thread.Name = "DeviceCommandsViewModel ReadConfiguration";
 			thread.Start();
 		}
 
@@ -160,6 +182,8 @@ namespace GKModule.Models
 					if (!result.HasError)
 					{
 						DescriptorsManager.Create();
+						UpdateConfigurationHelper.Update(result.Result);
+						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
 						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
 							result.Result, SelectedDevice.Device, true);
 						if (configurationCompareViewModel.Error != null)
@@ -174,6 +198,7 @@ namespace GKModule.Models
 						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурационного файла");
 				}));
 			});
+			thread.Name = "DeviceCommandsViewModel ReadConfigFile";
 			thread.Start();
 		}
 
@@ -218,6 +243,7 @@ namespace GKModule.Models
 								}
 							}));
 						});
+						thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 						thread.Start();
 		            }
 		        }
@@ -242,6 +268,7 @@ namespace GKModule.Models
 							}
 						}));
 					});
+					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 					thread.Start();
 				}
                     

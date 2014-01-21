@@ -48,9 +48,6 @@ namespace GKProcessor
 			}
 			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим", progressCallback);
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback);
-			DeviceConfiguration.Update();
-			UpdateConfigurationHelper.Update(DeviceConfiguration);
-			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			GKProcessorManager.OnStopProgress(progressCallback);
 			return String.IsNullOrEmpty(Error);
 		}

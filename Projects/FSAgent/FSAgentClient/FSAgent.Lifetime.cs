@@ -15,6 +15,7 @@ namespace FSAgentClient
 		public void StartLifetime()
 		{
 			LifetimeThread = new Thread(OnRunLifetime);
+			LifetimeThread.Name = "FSAgent Lifetime";
 			LifetimeThread.Start();
 		}
 

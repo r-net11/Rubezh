@@ -20,6 +20,7 @@ namespace FiresecClient
 			if (OperationQueueThread == null)
 			{
 				OperationQueueThread = new Thread(OnOperationQueue);
+				OperationQueueThread.Name = "SafeFiresecService OperationQueue";
 				OperationQueueThread.IsBackground = true;
 				OperationQueueThread.Start();
 			}

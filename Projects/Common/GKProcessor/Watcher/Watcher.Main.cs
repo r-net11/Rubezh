@@ -38,6 +38,7 @@ namespace GKProcessor
 			{
 				StopEvent = new AutoResetEvent(false);
 				RunThread = new Thread(OnRunThread);
+				RunThread.Name = "GK Watcher " + GkDatabase.RootDevice.PresentationName;
 				RunThread.Start();
 			}
 		}
@@ -175,7 +176,7 @@ namespace GKProcessor
 
 				if (IsPingFailure)
 				{
-					if (ReturnArterWait(5))
+					if (ReturnArterWait(5000))
 						return false;
 					continue;
 				}
@@ -203,7 +204,7 @@ namespace GKProcessor
 
 				if (IsHashFailure)
 				{
-					if (ReturnArterWait(5))
+					if (ReturnArterWait(5000))
 						return false;
 					continue;
 				}
@@ -227,7 +228,7 @@ namespace GKProcessor
 
 				if (IsGetStatesFailure)
 				{
-					if (ReturnArterWait(5))
+					if (ReturnArterWait(5000))
 						return false;
 					continue;
 				}
@@ -236,11 +237,11 @@ namespace GKProcessor
 			}
 		}
 
-		bool ReturnArterWait(int seconds)
+		bool ReturnArterWait(int milliSeconds)
 		{
 			if (StopEvent != null)
 			{
-				StopEvent.WaitOne(TimeSpan.FromSeconds(seconds));
+				StopEvent.WaitOne(TimeSpan.FromMilliseconds(milliSeconds));
 			}
 			WaitIfSuspending();
 			return IsStopping;

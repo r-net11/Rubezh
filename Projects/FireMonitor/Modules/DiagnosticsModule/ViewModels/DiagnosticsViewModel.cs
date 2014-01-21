@@ -70,6 +70,7 @@ namespace DiagnosticsModule.ViewModels
 					});
 				}
 			}));
+			thread.Name = "Diagnostics";
 			thread.IsBackground = true;
 			thread.Start();
 		}
@@ -89,6 +90,7 @@ namespace DiagnosticsModule.ViewModels
 					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
 				}
 			}));
+			thread.Name = "Diagnostics";
 			thread.IsBackground = true;
 			thread.Start();
 		}
