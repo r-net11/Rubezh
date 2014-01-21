@@ -9,21 +9,22 @@ namespace HexManager.ViewModels
 {
 	public class FileViewModel : BaseViewModel
 	{
-		public static FileViewModel FromFile(string fileName)
+		public static FileViewModel FromFile(string fileName, XDriverType driverType)
 		{
 			var hexFileInfo = new HEXFileInfo()
 			{
 				FileName = new FileInfo(fileName).Name,
 				Lines = File.ReadAllLines(fileName).ToList()
 			};
-			var fileViewModel = new FileViewModel(hexFileInfo, true);
+			var fileViewModel = new FileViewModel(hexFileInfo, driverType, true);
 			return fileViewModel;
 		}
 
-		public FileViewModel(HEXFileInfo hexFileInfo, bool isNew)
+		public FileViewModel(HEXFileInfo hexFileInfo, XDriverType driverType, bool isNew)
 		{
 			Error = "";
 			FileName = hexFileInfo.FileName;
+			DriverType = driverType;
 			Lines = new List<LineViewModel>();
 			foreach (var line in hexFileInfo.Lines)
 			{
@@ -58,7 +59,7 @@ namespace HexManager.ViewModels
 
 		public string FileName { get; set; }
 		public List<LineViewModel> Lines { get; set; }
-
+		public XDriverType DriverType { get; set; }
 		public string Version { get; set; }
 		public string AddressRange { get; set; }
 		public string CRC { get; set; }

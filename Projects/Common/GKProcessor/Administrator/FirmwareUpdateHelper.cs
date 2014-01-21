@@ -15,7 +15,7 @@ namespace GKProcessor
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
 			Update(device, firmWareBytes);
-			if (!String.IsNullOrEmpty(Error))
+			if (Error != null)
 				ErrorList.Add(Error);
 		}
 
@@ -55,7 +55,14 @@ namespace GKProcessor
 				if (result.HasError)
 				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(progressCallback); return; }
 			}
-			DeviceBytesHelper.GoToWorkingRegime(device, progressCallback);
+			if (!DeviceBytesHelper.GoToWorkingRegime(device, progressCallback))
+			{
+				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
+						"Устройство не доступно, либо вашего " +
+						"IP адреса нет в списке разрешенного адреса ГК";
+				GKProcessorManager.OnStopProgress(progressCallback);
+				return;
+			}
 			GKProcessorManager.OnStopProgress(progressCallback);
 		}
 
@@ -65,16 +72,16 @@ namespace GKProcessor
 			{
 				var fileInfo = new HEXFileInfo();
 				if (device.DriverType == XDriverType.GK)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "GK_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				if (device.DriverType == XDriverType.KAU)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR1_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
 				if (device.DriverType == XDriverType.RSR2_KAU)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR2_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
 				if (fileInfo == null)
 					return;
 				var bytes = StringsToBytes(fileInfo.Lines);
 				Update(device, bytes);
-				if (!String.IsNullOrEmpty(Error))
+				if (Error != null)
 					ErrorList.Add(Error);
 				GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
 			}

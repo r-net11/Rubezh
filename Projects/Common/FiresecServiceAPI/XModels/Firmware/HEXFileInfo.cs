@@ -12,6 +12,9 @@ namespace XFiresecAPI
 		}
 
 		[DataMember]
+		public XDriverType DriverType { get; set; }
+
+		[DataMember]
 		public string FileName { get; set; }
 
 		[DataMember]
