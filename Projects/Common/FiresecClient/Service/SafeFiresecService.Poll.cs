@@ -26,6 +26,7 @@ namespace FiresecClient
 		{
 			MustReactOnCallback = mustReactOnCallback;
 			PollThread = new Thread(OnPoll);
+			PollThread.Name = "SafeFiresecService Poll";
 			PollThread.IsBackground = true;
 			PollThread.Start();
 		}

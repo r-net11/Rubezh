@@ -240,6 +240,7 @@ namespace GKModule.ViewModels
 				Status = "Загрузка данных";
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				UpdateThread = new Thread(new ThreadStart(OnUpdate));
+				UpdateThread.Name = "GK Journal Update";
 				UpdateThread.Start();
 			}
 		}

@@ -78,17 +78,6 @@ namespace GKProcessor
 			return null;
 		}
 
-		public static bool Clear(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
-			if (sendResult.HasError)
-			{
-				MessageBoxService.ShowError("Устройство " + device.PresentationName + " недоступно");
-				return false;
-			}
-			return true;
-		}
-
 		public static bool GoToTechnologicalRegime(XDevice device, GKProgressCallback progressCallback)
 		{
 			if (IsInTechnologicalRegime(device))

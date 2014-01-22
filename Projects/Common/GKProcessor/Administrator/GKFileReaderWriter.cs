@@ -45,8 +45,6 @@ namespace GKProcessor
 				var deviceConfiguration = ZipFileConfigurationHelper.UnZipFromStream(new MemoryStream(allbytes.ToArray()));
 				if (ZipFileConfigurationHelper.Error != null)
 				{ Error = ZipFileConfigurationHelper.Error; return null; }
-				UpdateConfigurationHelper.Update(deviceConfiguration);
-				UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
 				return deviceConfiguration;
 			}
 			catch (Exception e)

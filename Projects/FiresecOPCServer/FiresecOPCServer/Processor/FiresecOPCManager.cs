@@ -28,6 +28,7 @@ namespace FiresecOPCServer
 			{
 				StopEvent = new AutoResetEvent(false);
 				thread = new Thread(new ThreadStart(OnRun));
+				thread.Name = "FiresecOPCManager";
 				thread.SetApartmentState(ApartmentState.MTA);
 				thread.Start();
 			}

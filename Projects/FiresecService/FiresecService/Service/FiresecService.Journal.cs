@@ -42,6 +42,7 @@ namespace FiresecService.Service
 				FiresecDB.DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
 				FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
 			}))));
+			thread.Name = "FS1 GetFilteredArchive";
 			CurrentThread = thread;
 			thread.Start();
 		}

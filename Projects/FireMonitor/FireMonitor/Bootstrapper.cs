@@ -147,10 +147,7 @@ namespace FireMonitor
 					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 				else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
 					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
-
 				AterInitialize();
-
-				LoadingService.Close();
 			}
 			catch (Exception e)
 			{
@@ -158,6 +155,7 @@ namespace FireMonitor
 			}
 			finally
 			{
+				LoadingService.Close();
 				IsRestarting = false;
 				FiresecManager.FiresecService.SuspendPoll = false;
 				if (FiresecManager.FSAgent != null)

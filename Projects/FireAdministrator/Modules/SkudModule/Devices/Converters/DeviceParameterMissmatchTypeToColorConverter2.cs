@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using SkudModule.ViewModels;
+using SKDModule.ViewModels;
 
-namespace SkudModule.Converters
+namespace SKDModule.Converters
 {
 	public class DeviceParameterMissmatchTypeToColorConverter2 : IValueConverter
 	{

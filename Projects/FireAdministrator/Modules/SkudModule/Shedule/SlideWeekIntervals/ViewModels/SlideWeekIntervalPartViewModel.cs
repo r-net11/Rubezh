@@ -6,36 +6,36 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Collections.ObjectModel;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class SlideWeekIntervalPartViewModel : BaseViewModel
 	{
 		SlideWeekIntervalViewModel SlideWeekIntervalViewModel;
-		public NamedSKDTimeInterval TimeInterval { get; private set; }
+		public SKDWeeklyInterval WeeklyInterval { get; private set; }
 
-		public SlideWeekIntervalPartViewModel(SlideWeekIntervalViewModel slideWeekIntervalViewModel, NamedSKDTimeInterval timeInterval)
+		public SlideWeekIntervalPartViewModel(SlideWeekIntervalViewModel slideWeekIntervalViewModel, SKDWeeklyInterval weeklyInterval)
 		{
 			SlideWeekIntervalViewModel = slideWeekIntervalViewModel;
-			TimeInterval = timeInterval;
+			WeeklyInterval = weeklyInterval;
 
-			AvailableTimeIntervals = new ObservableCollection<NamedSKDTimeInterval>();
-			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.NamedTimeIntervals)
+			AvailableWeeklyIntervals = new ObservableCollection<SKDWeeklyInterval>();
+			foreach (var skdWeeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
 			{
-				AvailableTimeIntervals.Add(namedTimeInterval);
+				AvailableWeeklyIntervals.Add(skdWeeklyInterval);
 			}
-			SelectedTimeInterval = TimeInterval;
+			SelectedWeeklyInterval = WeeklyInterval;
 		}
 
-		public ObservableCollection<NamedSKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<SKDWeeklyInterval> AvailableWeeklyIntervals { get; private set; }
 
-		NamedSKDTimeInterval _selectedTimeInterval;
-		public NamedSKDTimeInterval SelectedTimeInterval
+		SKDWeeklyInterval _selectedWeeklyInterval;
+		public SKDWeeklyInterval SelectedWeeklyInterval
 		{
-			get { return _selectedTimeInterval; }
+			get { return _selectedWeeklyInterval; }
 			set
 			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
+				_selectedWeeklyInterval = value;
+				OnPropertyChanged("SelectedWeeklyInterval");
 				SlideWeekIntervalViewModel.Update();
 			}
 		}

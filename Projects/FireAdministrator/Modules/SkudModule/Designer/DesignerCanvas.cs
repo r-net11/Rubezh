@@ -2,9 +2,9 @@
 using FiresecAPI.Models.Skud;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using SkudModule.ViewModels;
+using SKDModule.ViewModels;
 
-namespace SkudModule.Designer
+namespace SKDModule.Designer
 {
 	public class DesignerCanvas : Infrastructure.Designer.DesignerCanvas
 	{

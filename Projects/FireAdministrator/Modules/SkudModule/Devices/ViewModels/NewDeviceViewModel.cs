@@ -5,11 +5,11 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using SkudModule.ViewModels;
+using SKDModule.ViewModels;
 using FiresecAPI;
 using System.Collections.Generic;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{

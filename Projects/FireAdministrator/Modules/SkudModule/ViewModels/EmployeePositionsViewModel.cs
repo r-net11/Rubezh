@@ -2,7 +2,7 @@
 using FiresecAPI.Models.Skud;
 using FiresecClient;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeePositionsViewModel : EmployeeDictionaryViewModel<EmployeePosition>
 	{

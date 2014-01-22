@@ -115,6 +115,7 @@ namespace FSAgentServer
         {
             ConnectionTimeoutEvent = new AutoResetEvent(false);
             ConnectionTimeoutThread = new Thread(OnConnectionTimeoutThread);
+			ConnectionTimeoutThread.Name = "NativeFiresecClient ConnectionTimeout";
             ConnectionTimeoutThread.Start();
         }
         static void StopConnectionTimeoutThread()

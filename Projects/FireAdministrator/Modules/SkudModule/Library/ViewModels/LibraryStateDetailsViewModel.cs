@@ -4,7 +4,7 @@ using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class LibraryStateDetailsViewModel : SaveCancelDialogViewModel
 	{

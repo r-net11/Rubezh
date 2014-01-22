@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.TreeList;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class DeviceViewModelDeviceComparer : TreeNodeComparer<DeviceViewModel>
 	{

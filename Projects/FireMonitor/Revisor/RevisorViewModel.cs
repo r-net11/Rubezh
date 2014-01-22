@@ -68,6 +68,7 @@ namespace Revisor
 			{
 				StopLifetimeEvent = new AutoResetEvent(false);
 				LifetimeThread = new Thread(Inspect);
+				LifetimeThread.Name = "Revisor Lifetime";
 				LifetimeThread.Start();
 			}
 		}

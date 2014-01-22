@@ -316,6 +316,7 @@ namespace JournalModule.ViewModels
 				SelectedPage = null;
 
 				UpdateThread = new Thread(OnUpdate);
+				UpdateThread.Name = "FS1 ArchiveViewModel Update";
 				UpdateThread.Start();
 			}
 		}

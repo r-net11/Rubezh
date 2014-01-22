@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
@@ -15,10 +15,10 @@ namespace SkudModule.ViewModels
 		{
 			if (weeklyInterval == null)
 			{
-				Title = "Новый скользящий понедельный график";
+				Title = "Новый понедельный график";
 				weeklyInterval = new SKDWeeklyInterval()
 				{
-					Name = "Скользящий понедельный график",
+					Name = "Понедельный график",
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
@@ -27,7 +27,7 @@ namespace SkudModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование скользящего понедельногор графика";
+				Title = "Редактирование понедельногор графика";
 			}
 			WeeklyInterval = weeklyInterval;
 			Name = WeeklyInterval.Name;

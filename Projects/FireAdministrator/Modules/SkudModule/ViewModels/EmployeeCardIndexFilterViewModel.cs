@@ -2,9 +2,9 @@
 using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using SkudModule.Properties;
+using SKDModule.Properties;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeeCardIndexFilterViewModel : SaveCancelDialogViewModel
 	{

@@ -15,7 +15,7 @@ namespace GKProcessor
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
 			Update(device, firmWareBytes);
-			if (!String.IsNullOrEmpty(Error))
+			if (Error != null)
 				ErrorList.Add(Error);
 		}
 
@@ -39,7 +39,7 @@ namespace GKProcessor
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, progressCallback);
-			DeviceBytesHelper.Clear(device);
+			Clear(device);
 			var data = new List<byte>();
 			var offset = 0;
 			if (device.Driver.IsKauOrRSR2Kau)
@@ -55,7 +55,14 @@ namespace GKProcessor
 				if (result.HasError)
 				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(progressCallback); return; }
 			}
-			DeviceBytesHelper.GoToWorkingRegime(device, progressCallback);
+			if (!DeviceBytesHelper.GoToWorkingRegime(device, progressCallback))
+			{
+				Error = "Не удалось перевести " + device.PresentationName + " в рабочий режим\n" +
+						"Устройство не доступно, либо вашего " +
+						"IP адреса нет в списке разрешенного адреса ГК";
+				GKProcessorManager.OnStopProgress(progressCallback);
+				return;
+			}
 			GKProcessorManager.OnStopProgress(progressCallback);
 		}
 
@@ -65,16 +72,16 @@ namespace GKProcessor
 			{
 				var fileInfo = new HEXFileInfo();
 				if (device.DriverType == XDriverType.GK)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "GK_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				if (device.DriverType == XDriverType.KAU)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR1_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
 				if (device.DriverType == XDriverType.RSR2_KAU)
-					fileInfo = hxcFileInfo.FileInfos.FirstOrDefault(x => x.FileName == "KAU_RSR2_V1.hcs");
+					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
 				if (fileInfo == null)
 					return;
 				var bytes = StringsToBytes(fileInfo.Lines);
 				Update(device, bytes);
-				if (!String.IsNullOrEmpty(Error))
+				if (Error != null)
 					ErrorList.Add(Error);
 				GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			}
@@ -102,6 +109,17 @@ namespace GKProcessor
 				}
 			}
 			return bytes;
+		}
+
+		public bool Clear(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
+			if (sendResult.HasError)
+			{
+				Error = "Устройство " + device.PresentationName + " недоступно";
+				return false;
+			}
+			return true;
 		}
 	}
 }

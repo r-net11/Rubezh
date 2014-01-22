@@ -9,7 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class PassCardsDesignerViewModel : MenuViewPartViewModel
 	{

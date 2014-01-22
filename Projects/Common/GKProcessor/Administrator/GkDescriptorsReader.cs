@@ -101,9 +101,6 @@ namespace GKProcessor
 			if(Error != null)
 				return false;
 			DeviceConfiguration.Update();
-			UpdateConfigurationHelper.UpdateGKPredefinedName(GkDevice);
-			UpdateConfigurationHelper.Update(DeviceConfiguration);
-			//UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
 			return true;
 		}
 #endif

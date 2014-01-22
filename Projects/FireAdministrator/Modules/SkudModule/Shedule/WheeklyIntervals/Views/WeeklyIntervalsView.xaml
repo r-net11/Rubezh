@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SkudModule.Views.WeeklyIntervalsView"
+﻿<UserControl x:Class="SKDModule.Views.WeeklyIntervalsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
@@ -9,7 +9,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}" Margin="2">
+        <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Наименование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -26,7 +26,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </Controls:XDataGrid>
         <Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}">
             <DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>

@@ -19,7 +19,7 @@ using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
 using XFiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{

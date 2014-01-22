@@ -18,6 +18,7 @@ namespace GKProcessor
 			if (Thread == null)
 			{
 				Thread = new Thread(OnRun);
+				Thread.Name = "GK TimeSynchronisationHelper";
 				Thread.Start();
 			}
 		}

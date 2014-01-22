@@ -27,6 +27,7 @@ namespace FSAgentServer
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
+				WindowThread.Name = "Main Window";
 				WindowThread.Priority = ThreadPriority.Highest;
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;

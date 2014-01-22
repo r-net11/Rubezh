@@ -13,16 +13,16 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
-	public class WeeklyIntervalsViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class WeeklyIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public WeeklyIntervalsViewModel()
 		{
 			Menu = new WeeklyIntervalsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
@@ -82,14 +82,14 @@ namespace SkudModule.ViewModels
 			return WeeklyIntervals.Count < 256;
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
 		{
 			SKDManager.SKDConfiguration.WeeklyIntervals.Remove(SelectedWeeklyInterval.WeeklyInterval);
 			WeeklyIntervals.Remove(SelectedWeeklyInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanRemove()
+		bool CanDelete()
 		{
 			return SelectedWeeklyInterval != null;
 		}
@@ -155,7 +155,7 @@ namespace SkudModule.ViewModels
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), RemoveCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}

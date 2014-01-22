@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace SkudModule.Converters
+namespace SKDModule.Converters
 {
 	public class IntToNullableIntConverter : IValueConverter
 	{

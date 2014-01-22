@@ -11,7 +11,7 @@ using System.Windows.Documents;
 using System.Collections.Generic;
 using FiresecAPI;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class LibraryViewModel : ViewPartViewModel
 	{

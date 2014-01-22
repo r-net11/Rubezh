@@ -22,6 +22,7 @@ namespace FiresecOPCServer
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
 			WindowThread = new Thread(new ThreadStart(OnWorkThread));
+			WindowThread.Name = "OPC Main Window";
 			WindowThread.Priority = ThreadPriority.Highest;
 			WindowThread.SetApartmentState(ApartmentState.STA);
 			WindowThread.IsBackground = true;
