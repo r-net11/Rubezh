@@ -55,7 +55,7 @@ namespace Infrastructure.Common.Windows
 		}
 		public static MessageBoxResult ShowError(string message, string title = null)
 		{
-			Logger.Error(e.Message);
+			Logger.Error(message);
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 		public static MessageBoxResult ShowWarning(string message, string title = null)

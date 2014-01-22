@@ -5,12 +5,15 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
 using FiresecAPI;
+
 namespace GKProcessor
 {
 	public class FirmwareUpdateHelper
 	{
 		public List<string> ErrorList = new List<string>();
 		string Error;
+		public GKProgressCallback ProgressCallback { get; private set; }
+
 		public void Update(XDevice device, string fileName, string userName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
@@ -20,7 +23,7 @@ namespace GKProcessor
 				ErrorList.Add(Error);
 		}
 
-		public GKProgressCallback ProgressCallback { get; private set; }
+		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
 		{
 			ProgressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
 			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName, ProgressCallback);
