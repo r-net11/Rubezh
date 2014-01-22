@@ -39,7 +39,7 @@ namespace GKProcessor
 			}
 			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
 			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, progressCallback);
-			DeviceBytesHelper.Clear(device);
+			Clear(device);
 			var data = new List<byte>();
 			var offset = 0;
 			if (device.Driver.IsKauOrRSR2Kau)
@@ -109,6 +109,17 @@ namespace GKProcessor
 				}
 			}
 			return bytes;
+		}
+
+		public bool Clear(XDevice device)
+		{
+			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
+			if (sendResult.HasError)
+			{
+				Error = "Устройство " + device.PresentationName + " недоступно";
+				return false;
+			}
+			return true;
 		}
 	}
 }
