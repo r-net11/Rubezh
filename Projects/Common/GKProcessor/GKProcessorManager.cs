@@ -23,7 +23,7 @@ namespace GKProcessor
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				OnStopProgress(progressCallback);
-				AddGKMessage("Отмена операции", progressCallback.Title, XStateClass.Info, null, userName, true);
+				AddGKMessage(EventName.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
 		}
 

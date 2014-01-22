@@ -200,9 +200,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem("ГК в технологическом режиме", "Старт мониторинга");
+						AddFailureJournalItem(EventName.ГК_в_технологическом_режиме, "Старт мониторинга");
 					else
-						AddFailureJournalItem("ГК в рабочем режиме", "Старт мониторинга");
+						AddFailureJournalItem(EventName.ГК_в_рабочем_режиме, "Старт мониторинга");
 
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -373,12 +373,12 @@ namespace GKProcessor
 			}
 		}
 
-        void AddFailureJournalItem(EventName name)
+		void AddFailureJournalItem(EventName name, string description = "")
         {
             var journalItem = new JournalItem()
             {
                 Name = name.ToDescription(),
-                Description = "",
+				Description = description,
                 StateClass = XStateClass.Unknown,
                 ObjectStateClass = XStateClass.Norm,
                 GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
