@@ -57,7 +57,7 @@ namespace GKProcessor
 			}
 			if (!DeviceBytesHelper.GoToWorkingRegime(device, progressCallback))
 			{
-				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
+				Error = "Не удалось перевести " + device.PresentationName + " в рабочий режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
 				GKProcessorManager.OnStopProgress(progressCallback);
