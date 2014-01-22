@@ -81,7 +81,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage("Ошибка при выполнении команды над устройством", "Не найдено родительское устройство ГК", XStateClass.Failure, null, null);
+				GKProcessorManager.AddGKMessage(EventName.Ошибка_при_выполнении_команды_над_устройством, EventDescription.Не_найдено_родительское_устройство_ГК, null, null);
 			}
 		}
 	}

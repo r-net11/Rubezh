@@ -77,7 +77,7 @@
                 <ListBox ItemsSource="{Binding JournalDescriptionStates}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}">
+                            <StackPanel Orientation="Horizontal" ToolTip="{Binding JournalDescriptionState.Description}" IsEnabled="{Binding IsEnabled}">
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
                                 <Image Width="16" Source="{Binding JournalDescriptionState.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
                                 <TextBlock Text="{Binding JournalDescriptionState.Name}" VerticalAlignment="Center" Margin="2" />
@@ -90,7 +90,7 @@
                 <ListBox ItemsSource="{Binding ArchiveDescriptions}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal"  IsEnabled="{Binding IsEnabled}">
                                 <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
                                 <Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
                                 <TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />

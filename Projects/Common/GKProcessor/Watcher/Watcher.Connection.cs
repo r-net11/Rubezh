@@ -5,6 +5,7 @@ using Common;
 using FiresecClient;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using FiresecAPI;
 using XFiresecAPI;
 using Infrastructure.Common;
 
@@ -39,7 +40,7 @@ namespace GKProcessor
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
+                        Name = isConnected ? EventName.Восстановление_связи_с_прибором.ToDescription() : EventName.Потеря_связи_с_прибором.ToDescription()
 					};
 					AddJournalItem(journalItem);
 

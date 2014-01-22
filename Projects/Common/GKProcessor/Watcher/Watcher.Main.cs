@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using Common;
 using Infrastructure.Common;
+using FiresecAPI;
 using XFiresecAPI;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -108,7 +109,7 @@ namespace GKProcessor
 				}
 				catch (Exception e)
 				{
-					AddMessage("Ошибка инициализации мониторинга", "");
+					AddMessage(EventName.Ошибка_инициализации_мониторинга, "");
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -161,9 +162,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem("Нет связи с ГК", "Старт мониторинга");
+						AddFailureJournalItem(EventName.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem("Связь с ГК восстановлена", "Старт мониторинга");
+                        AddFailureJournalItem(EventName.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -189,9 +190,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
+						AddFailureJournalItem(EventName.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
+						AddFailureJournalItem(EventName.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -210,7 +211,7 @@ namespace GKProcessor
 
 				GKCallbackResult = new GKCallbackResult();
 				if (!ReadMissingJournalItems())
-					AddFailureJournalItem("Ошибка при синхронизации журнала", "");
+					AddFailureJournalItem(EventName.Ошибка_при_синхронизации_журнала);
 				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
@@ -219,9 +220,9 @@ namespace GKProcessor
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem("Ошибка при опросе состояний компонентов ГК", DBMissmatchDuringMonitoringReason);
+						AddFailureJournalItem(EventName.Ошибка_при_опросе_состояний_компонентов_ГК, DBMissmatchDuringMonitoringReason);
 					else
-						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК", "");
+						AddFailureJournalItem(EventName.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
 				OnGKCallbackResult(GKCallbackResult);
 
@@ -321,12 +322,26 @@ namespace GKProcessor
 			}
 		}
 
-		void AddFailureJournalItem(string name, string description)
+        void AddFailureJournalItem(EventName name)
+        {
+            var journalItem = new JournalItem()
+            {
+                Name = name.ToDescription(),
+                Description = "",
+                StateClass = XStateClass.Unknown,
+                ObjectStateClass = XStateClass.Norm,
+                GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
+            };
+            GKDBHelper.Add(journalItem);
+            GKCallbackResult.JournalItems.Add(journalItem);
+        }
+        
+        void AddFailureJournalItem(EventName name, EventDescription description)
 		{
 			var journalItem = new JournalItem()
 			{
-				Name = name,
-				Description = description,
+				Name = name.ToDescription(),
+				Description = description.ToDescription(),
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
 				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
@@ -382,7 +397,7 @@ namespace GKProcessor
 			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
-		internal void AddMessage(string name, string userName)
+		internal void AddMessage(EventName name, string userName)
 		{
 			var journalItem = GKDBHelper.AddMessage(name, userName);
 			GKCallbackResult.JournalItems.Add(journalItem);

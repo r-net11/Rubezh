@@ -45,7 +45,7 @@ namespace GKProcessor
 		{
 			if (sendResult.HasError)
 			{
-				GKProcessorManager.AddGKMessage("Ошибка при выполнении команды", "", XStateClass.Failure, null, null);
+				GKProcessorManager.AddGKMessage(EventName.Ошибка_при_выполнении_команды, "", null, null);
 			}
 		}
 	}

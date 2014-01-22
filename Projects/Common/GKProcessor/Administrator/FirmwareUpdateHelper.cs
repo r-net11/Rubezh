@@ -76,7 +76,7 @@ namespace GKProcessor
 				Update(device, bytes);
 				if (!String.IsNullOrEmpty(Error))
 					ErrorList.Add(Error);
-				GKProcessorManager.AddGKMessage("Обновление ПО прибора", "", XStateClass.Info, device, userName, true);
+				GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			}
 		}
 

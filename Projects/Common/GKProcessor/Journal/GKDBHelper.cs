@@ -5,6 +5,7 @@ using System.Data.SqlServerCe;
 using System.IO;
 using Common;
 using Infrastructure.Common;
+using FiresecAPI;
 using XFiresecAPI;
 using System.Diagnostics;
 
@@ -46,7 +47,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static JournalItem AddMessage(string message, string userName)
+		public static JournalItem AddMessage(EventName name, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -54,7 +55,7 @@ namespace GKProcessor
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
-				Name = message,
+				Name = name.ToDescription(),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
 				SubsystemType = XSubsystemType.System
@@ -379,5 +380,43 @@ namespace GKProcessor
 				journalItem.SubsystemType = (XSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
 			return journalItem;
 		}
+
+        public static List<string> SelectDistinctDescriptions()
+        {
+            var result = new List<string>();
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return result;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand(@"SELECT DISTINCT Description FROM Journal", connection);
+            connection.Open();
+            var reader = sqlCeCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result.Add(reader.GetString(0));
+            }
+            connection.Close();
+            connection.Dispose();
+            return result;
+        }
+
+        public static List<string> SelectDistinctNames()
+        {
+            var result = new List<string>();
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return result;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand(@"SELECT DISTINCT Name FROM Journal", connection);
+            connection.Open();
+            var reader = sqlCeCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result.Add(reader.GetString(0));
+            }
+            connection.Close();
+            connection.Dispose();
+            return result;
+        }
 	}
 }

@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			Initialize(archiveFilter);
-		}
+        }
 
 		void Initialize(XArchiveFilter archiveFilter)
 		{
@@ -84,17 +84,18 @@ namespace GKModule.ViewModels
 		{
 			JournalDescriptionStates = new List<JournalDescriptionStateViewModel>();
             foreach (var journalDescriptionState in JournalDescriptionStateHelper.JournalDescriptionStates)
-			{
-				JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(journalDescriptionState));
-			}
-			foreach (var journalDescriptionState in archiveFilter.JournalDescriptionState)
-			{
+            {
+                JournalDescriptionStates.Add(new JournalDescriptionStateViewModel(journalDescriptionState, DistinctDatabaseNames));
+            }
+            foreach (var journalDescriptionState in archiveFilter.JournalDescriptionState)
+            {
                 var eventNameViewModel = JournalDescriptionStates.FirstOrDefault(x => x.JournalDescriptionState == journalDescriptionState);
-				if (eventNameViewModel != null)
-				{
-					eventNameViewModel.IsChecked = true;
-				}
-			}
+                if (eventNameViewModel != null)
+                {
+                    eventNameViewModel.IsChecked = true;
+                }
+            }
+            JournalDescriptionStates.Sort(JournalDescriptionStateViewModel.Compare);
 		}
 
 		public void InitializeZones(XArchiveFilter archiveFilter)
@@ -138,17 +139,18 @@ namespace GKModule.ViewModels
 			ArchiveDescriptions = new List<DescriptionViewModel>();
 			foreach (var description in DescriptionsHelper.GetAllDescriptions())
 			{
-				ArchiveDescriptions.Add(new DescriptionViewModel(description));
-			}
+				ArchiveDescriptions.Add(new DescriptionViewModel(description, DistinctDatabaseDescriptions));
+            }
 			foreach (var description in archiveFilter.Descriptions)
 			{
 				var descriptionViewModel = ArchiveDescriptions.FirstOrDefault(x => x.Description.Name == description);
-				if(descriptionViewModel != null)
+                if(descriptionViewModel != null)
 				{
 					descriptionViewModel.IsChecked = true;
 				}
 			}
-		}
+            ArchiveDescriptions.Sort(DescriptionViewModel.Compare);
+        }
 
 		void InitializeSubsystemTypes(XArchiveFilter archiveFilter)
 		{
@@ -353,6 +355,8 @@ namespace GKModule.ViewModels
 		public List<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public List<ArchivePumpStationViewModel> PumpStations { get; private set; }
 		public List<ArchivePimViewModel> PIMs { get; private set; }
+        List<string> DistinctDatabaseNames = GKDBHelper.SelectDistinctNames();
+        List<string> DistinctDatabaseDescriptions = GKDBHelper.SelectDistinctDescriptions();
 
 		public XArchiveFilter GetModel()
 		{

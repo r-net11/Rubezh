@@ -362,14 +362,14 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKAddMessage(string name, string description)
+		public void GKAddMessage(EventName name, string description)
 		{
 			if (IsGKAsAService)
 			{
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(name, description, XStateClass.Norm, null, FiresecManager.CurrentUser.Name, true);
+				GKProcessorManager.AddGKMessage(name, description, null, FiresecManager.CurrentUser.Name, true);
 			}
 		}
 

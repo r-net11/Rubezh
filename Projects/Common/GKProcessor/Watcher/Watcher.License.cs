@@ -42,9 +42,9 @@ namespace GKProcessor
 						}
 
 						if (CurrentHasLicense)
-							AddMessage("Отсутствует лицензия", "");
+							AddMessage(EventName.Отсутствует_лицензия, "");
 						else
-							AddMessage("Лицензия обнаружена", "");
+                            AddMessage(EventName.Лицензия_обнаружена, "");
 
 						DiagnosticsManager.Add("hasLicense=" + CurrentHasLicense);
 					}

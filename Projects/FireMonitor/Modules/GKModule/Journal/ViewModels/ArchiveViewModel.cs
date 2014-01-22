@@ -253,19 +253,7 @@ namespace GKModule.ViewModels
 					archiveFilter = ArchiveFilter;
 				else
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
-                //var stopWatch = new Stopwatch();
-                //long sum = 0;
-                //int iterNum = 10;
-                //List<JournalItem> journalRecords = new List<JournalItem>();
-                //for (int i = 0; i < iterNum; i++)
-                //{
-                //    stopWatch.Restart();
                 var journalRecords = GKDBHelper.Select(archiveFilter);
-                //    stopWatch.Stop();
-                //    sum += stopWatch.ElapsedMilliseconds;
-                //}
-
-                //Trace.WriteLine("cреднее время чтения " + journalRecords.Count + " записей из архива: " + sum / iterNum);
                 Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
 			}
 			catch (Exception e)
