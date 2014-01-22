@@ -51,7 +51,7 @@ namespace GKProcessor
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
 				if (ProgressCallback.IsCanceled)
-				{ Error = "Операция обновления прошивки отменена"; return; }
+				{ Error = "Операция обновления прибора "+ device.PresentationName +" отменена"; return; }
 				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
@@ -80,6 +80,7 @@ namespace GKProcessor
 				GKProcessorManager.OnStopProgress(ProgressCallback);
 				if (Error != null)
 					ErrorList.Add(Error);
+				Error = null;
 				GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			}
 		}
