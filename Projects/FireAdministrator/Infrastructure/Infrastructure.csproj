@@ -84,6 +84,14 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
+    <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
+    <Compile Include="Events\ShowSKDLidraryEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSkudEvent.cs" />
     <Compile Include="Events\ShowXDescriptorsEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
