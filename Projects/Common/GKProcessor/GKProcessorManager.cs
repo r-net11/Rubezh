@@ -201,10 +201,9 @@ namespace GKProcessor
 
 		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
-			AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.Update(device, fileName);
+			firmwareUpdateHelper.Update(device, fileName, userName);
 			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
@@ -215,7 +214,7 @@ namespace GKProcessor
 		{
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName, devices);
+			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
 			Start();
 			if (firmwareUpdateHelper.ErrorList.Count > 0)
                 return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };

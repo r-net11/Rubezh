@@ -60,6 +60,10 @@ namespace XFiresecAPI
 		{
 			get
 			{
+				if (IsInitialState || IsSuspending)
+				{
+					return new List<XStateClass>() { XStateClass.Unknown };
+				}
 				if (IsNoLicense)
 				{
 					return new List<XStateClass>() { XStateClass.HasNoLicense };
@@ -75,14 +79,6 @@ namespace XFiresecAPI
 				if (IsInTechnologicalRegime)
 				{
 					return new List<XStateClass>() { XStateClass.TechnologicalRegime };
-				}
-				if (IsInitialState)
-				{
-					return new List<XStateClass>() { XStateClass.Unknown };
-				}
-				if (IsSuspending)
-				{
-					return new List<XStateClass>() { XStateClass.Unknown };
 				}
 				return XStatesHelper.StateBitsToStateClasses(StateBits);
 			}
