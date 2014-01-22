@@ -48,6 +48,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SkudModule.dll"));
 			Modules.Add(new ModuleViewModel("SKUDModule.dll"));
+			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 
             if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)

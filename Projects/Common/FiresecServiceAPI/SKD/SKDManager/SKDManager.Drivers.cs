@@ -34,6 +34,16 @@ namespace FiresecAPI
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Norm);
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Failure);
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Unknown);
+
+			var driverProperty = new XDriverProperty()
+			{
+				Name = "Port",
+				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+				Min = 10000,
+				Max = 20000,
+				Default = 10000
+			};
+			controllerDriver.Properties.Add(driverProperty);
 			Drivers.Add(controllerDriver);
 
 			var readerDriver = new SKDDriver()

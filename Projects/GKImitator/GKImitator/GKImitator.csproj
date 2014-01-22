@@ -68,13 +68,15 @@
     <Compile Include="Converters\BytesToStringConverter.cs" />
     <Compile Include="Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="Processor\BytesHelper.cs" />
-    <Compile Include="Processor\ConfigurationManager.cs" />
+    <Compile Include="Processor\SKDImitatorProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\ImitatorJournalItem.cs" />
     <Compile Include="Processor\ImitatorJournalItemCollection.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SKDDeviceViewModel.cs" />
+    <Compile Include="ViewModels\SKDViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
