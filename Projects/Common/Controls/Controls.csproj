@@ -177,7 +177,6 @@
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
-    <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="IconedMenuItem.cs" />
     <Compile Include="IconTextBlock.cs" />
     <Compile Include="IPValidationRule.cs" />
