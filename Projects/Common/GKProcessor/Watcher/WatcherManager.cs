@@ -42,6 +42,10 @@ namespace GKProcessor
 						watcher.StopThread();
 				TimeSynchronisationHelper.Stop();
 				LifeTimeWatcher.Stop();
+				foreach (var progressCallback in GKProcessorManager.GKProgressCallbacks)
+				{
+					GKProcessorManager.OnStopProgress(progressCallback);
+				}
 			}
 			catch (Exception e)
 			{

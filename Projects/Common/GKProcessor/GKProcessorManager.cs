@@ -13,9 +13,9 @@ namespace GKProcessor
 	public static class GKProcessorManager
 	{
 		#region Callback
-		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
 
-		public static void CancelGKProgress(Guid progressCallbackUID)
+		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
@@ -23,6 +23,7 @@ namespace GKProcessor
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				OnStopProgress(progressCallback);
+				AddGKMessage("Отмена операции", progressCallback.Title, XStateClass.Info, null, userName, true);
 			}
 		}
 
@@ -205,7 +206,7 @@ namespace GKProcessor
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.Update(device, fileName);
 			Start();
-			if (firmwareUpdateHelper.ErrorList != null)
+			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
@@ -216,7 +217,7 @@ namespace GKProcessor
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
 			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName, devices);
 			Start();
-			if (firmwareUpdateHelper.ErrorList != null)
+			if (firmwareUpdateHelper.ErrorList.Count > 0)
                 return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}

@@ -18,15 +18,15 @@ namespace FiresecClient
 	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
-		public void CancelGKProgress(Guid progressCallbackUID)
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID), "CancelGKProgress");
+				SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelGKProgress");
 			}
 			else
 			{
-				GKProcessorManager.CancelGKProgress(progressCallbackUID);
+				GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 			}
 		}
 
@@ -90,7 +90,8 @@ namespace FiresecClient
 				{
 					deviceUIDs.Add(device.UID);
 				}
-				return SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
+				var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
+				return result;
 			}
 			else
 			{

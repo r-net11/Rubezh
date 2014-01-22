@@ -14,7 +14,7 @@ namespace FiresecAPI
 		void AddJournalItem(JournalItem journalItem);
 
 		[OperationContract]
-		void CancelGKProgress(Guid progressCallbackUID);
+		void CancelGKProgress(Guid progressCallbackUID, string userName);
 
 		[OperationContract]
 		OperationResult<bool> GKWriteConfiguration(Guid deviceUID);

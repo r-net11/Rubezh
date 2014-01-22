@@ -105,7 +105,11 @@ namespace GKProcessor
 			{
 				try
 				{
-					if (!InitializeMonitoring() || IsStopping)
+					if (IsStopping)
+						return;
+					if (!InitializeMonitoring())
+						return;
+					if (IsStopping)
 						return;
 				}
 				catch (Exception e)
@@ -116,7 +120,13 @@ namespace GKProcessor
 
 				while (true)
 				{
+					if (IsStopping)
+						return;
+
+					GKCallbackResult = new GKCallbackResult();
 					RunMonitoring();
+					OnGKCallbackResult(GKCallbackResult);
+
 					if (IsStopping)
 						return;
 
@@ -136,7 +146,6 @@ namespace GKProcessor
 					}
 
 					WaitIfSuspending();
-
 					LastUpdateTime = DateTime.Now;
 				}
 			}
@@ -145,15 +154,17 @@ namespace GKProcessor
 		bool InitializeMonitoring()
 		{
 			bool IsPingFailure = false;
+			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
 			IsHashFailure = false;
 
 			while (true)
 			{
 				LastUpdateTime = DateTime.Now;
+				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.BaseState.Clear();
+					descriptor.XBase.BaseState.IsInitialState = true;
 				}
 
 				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
@@ -177,6 +188,27 @@ namespace GKProcessor
 				}
 
 				if (IsPingFailure)
+				{
+					if (ReturnArterWait(5000))
+						return false;
+					continue;
+				}
+
+				result = CheckTechnologicalRegime();
+				if (IsInTechnologicalRegime != result)
+				{
+					GKCallbackResult = new GKCallbackResult();
+					IsInTechnologicalRegime = result;
+					if (IsInTechnologicalRegime)
+						AddFailureJournalItem("ГК в технологическом режиме", "Старт мониторинга");
+					else
+						AddFailureJournalItem("ГК в рабочем режиме", "Старт мониторинга");
+
+					NotifyAllObjectsStateChanged();
+					OnGKCallbackResult(GKCallbackResult);
+				}
+
+				if (IsInTechnologicalRegime)
 				{
 					if (ReturnArterWait(5000))
 						return false;
@@ -273,15 +305,25 @@ namespace GKProcessor
 					{
 						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
 						{
-							GKCallbackResult = new GKCallbackResult();
 							GetAllStates(false);
 							LastMissmatchCheckTime = DateTime.Now;
-							OnGKCallbackResult(GKCallbackResult);
 						}
 					}
 					else
 					{
-						GKCallbackResult = new GKCallbackResult();
+						try
+						{
+							if (!IsConnected)
+							{
+								if (CheckTechnologicalRegime())
+									return;
+							}
+						}
+						catch (Exception e)
+						{
+							Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
+						}
+
 						try
 						{
 							CheckTasks();
@@ -326,8 +368,6 @@ namespace GKProcessor
 						{
 							Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
 						}
-
-						OnGKCallbackResult(GKCallbackResult);
 					}
 				}
 			}

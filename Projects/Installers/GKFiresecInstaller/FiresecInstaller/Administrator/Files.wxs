@@ -107,10 +107,8 @@
 
     <DirectoryRef Id="FirmwhareUpdateLOCATION">
       <Component Id="Administrator.Firmwhare.Files" Guid="55AA098A-71FC-4FCA-BBD8-51F05EEEF35A">
-        <File Id="Administrator.Firmwhare.GK_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)GK_V1.hcs" />
-        <File Id="Administrator.Firmwhare.GK_V2.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)GK_V2.hcs" />
-        <File Id="Administrator.Firmwhare.KAU_RSR1_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)KAU_RSR1_V1.hcs" />
-        <File Id="Administrator.Firmwhare.KAU_RSR2_V1.hcs" Source="$(var.Administrator.DeployFirmware.TargetDir)KAU_RSR2_V1.hcs" />
+        <File Id="Administrator.Firmwhare.firmware_update_01.FSCS" Source="$(var.Administrator.DeployFirmware.TargetDir)firmware_update_01.FSCS" />
+        <File Id="Administrator.Firmwhare.firmware_update_02.FSCS" Source="$(var.Administrator.DeployFirmware.TargetDir)firmware_update_02.FSCS" />
       </Component>
     </DirectoryRef>
 
