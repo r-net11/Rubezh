@@ -22,20 +22,20 @@ namespace HexManager.ViewModels
 			Initialize(new HexFileCollectionInfo());
 		}
 
-		ObservableCollection<HexFileInfoViewModel> availableHexFileInfoViewModels;
-		public ObservableCollection<HexFileInfoViewModel> AvailableHexFileInfoViewModels
+		ObservableCollection<HEXFileInfo> availableHexFileInfos;
+		public ObservableCollection<HEXFileInfo> AvailableHexFileInfos
 		{
 			get
 			{
-				return availableHexFileInfoViewModels;
+				return availableHexFileInfos;
 			}
 			set
 			{
-				availableHexFileInfoViewModels = value;
-				OnPropertyChanged("AvailableHexFileInfoViewModels");
+				availableHexFileInfos = value;
+				OnPropertyChanged("AvailableHexFileInfos");
 			}
 		}
-		List<HexFileInfoViewModel> HexFileInfoViewModels { get; set; }
+		List<HEXFileInfo> HexFileInfos { get; set; }
 		void Initialize (HexFileCollectionInfo hexFileCollectionInfo)
 		{
 			Name = hexFileCollectionInfo.Name;
@@ -47,23 +47,23 @@ namespace HexManager.ViewModels
 				new HEXFileInfo {DriverType = XDriverType.KAU, Lines = new List<string>()},
 				new HEXFileInfo {DriverType = XDriverType.RSR2_KAU, Lines = new List<string>()}
 			};
-			AvailableHexFileInfoViewModels = new ObservableCollection<HexFileInfoViewModel>(HexFileInfoViewModel.Initialize(hexFileInfos));
-			SelectedHexFileInfo = AvailableHexFileInfoViewModels.FirstOrDefault();
-			HexFileInfoViewModels = new List<HexFileInfoViewModel>();
+			AvailableHexFileInfos = new ObservableCollection<HEXFileInfo>(hexFileInfos);
+			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
+			HexFileInfos = new List<HEXFileInfo>();
 
 			Files = new ObservableRangeCollection<FileViewModel>();
 			foreach (var hexFileInfo in hexFileCollectionInfo.HexFileInfos)
 			{
-				HexFileInfoViewModels.Add(new HexFileInfoViewModel(hexFileInfo));
-				AvailableHexFileInfoViewModels.Remove(AvailableHexFileInfoViewModels.FirstOrDefault(x => x.DriverType == hexFileInfo.DriverType));
+				HexFileInfos.Add(hexFileInfo);
+				AvailableHexFileInfos.Remove(AvailableHexFileInfos.FirstOrDefault(x => x.DriverType == hexFileInfo.DriverType));
 				Files.Add(new FileViewModel(hexFileInfo, hexFileInfo.DriverType, false));
 			}
 			SelectedFile = Files.FirstOrDefault();
-			SelectedHexFileInfo = AvailableHexFileInfoViewModels.FirstOrDefault();
+			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
 		}
 
-		HexFileInfoViewModel selectedHexFileInfo;
-		public HexFileInfoViewModel SelectedHexFileInfo
+		HEXFileInfo selectedHexFileInfo;
+		public HEXFileInfo SelectedHexFileInfo
 		{
 			get { return selectedHexFileInfo; }
 			set
@@ -151,9 +151,9 @@ namespace HexManager.ViewModels
 				Files.Add(fileViewModel);
 				Files = new ObservableCollection<FileViewModel>(Files.OrderBy(x => x.DriverType));
 				SelectedFile = fileViewModel;
-				HexFileInfoViewModels.Add(SelectedHexFileInfo);
-				AvailableHexFileInfoViewModels.Remove(SelectedHexFileInfo);
-				SelectedHexFileInfo = AvailableHexFileInfoViewModels.FirstOrDefault();
+				HexFileInfos.Add(SelectedHexFileInfo);
+				AvailableHexFileInfos.Remove(SelectedHexFileInfo);
+				SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
 			}
 		}
 		bool CanAddFile()
@@ -164,12 +164,12 @@ namespace HexManager.ViewModels
 		public RelayCommand RemoveFileCommand { get; private set; }
 		void OnRemoveFile()
 		{
-			var hexFileInfo = HexFileInfoViewModels.FirstOrDefault(x => x.DriverType == SelectedFile.DriverType);
+			var hexFileInfo = HexFileInfos.FirstOrDefault(x => x.DriverType == SelectedFile.DriverType);
 			SelectedHexFileInfo = hexFileInfo;
 			Files.Remove(SelectedFile);
-			AvailableHexFileInfoViewModels.Add(hexFileInfo);
-			AvailableHexFileInfoViewModels = new ObservableCollection<HexFileInfoViewModel>(AvailableHexFileInfoViewModels.OrderBy(x => x.DriverType));
-			HexFileInfoViewModels.Remove(hexFileInfo);
+			AvailableHexFileInfos.Add(hexFileInfo);
+			AvailableHexFileInfos = new ObservableCollection<HEXFileInfo>(AvailableHexFileInfos.OrderBy(x => x.DriverType));
+			HexFileInfos.Remove(hexFileInfo);
 			SelectedFile = Files.FirstOrDefault();
 		}
 		bool CanRemoveFile()
@@ -196,12 +196,8 @@ namespace HexManager.ViewModels
 					MinorVersion = MinorVersion,
 					MajorVersion = MajorVersion
 				};
-				foreach (var hexFileInfoViewModel in HexFileInfoViewModels)
+				foreach (var hexFileInfo in HexFileInfos)
 				{
-					var hexFileInfo = new HEXFileInfo();
-					hexFileInfo.DriverType = hexFileInfoViewModel.DriverType;
-					hexFileInfo.FileName = hexFileInfoViewModel.FileName;
-					hexFileInfo.Lines = hexFileInfoViewModel.Lines;
 					hexFileCollectionInfo.HexFileInfos.Add(hexFileInfo);
 				}
 				HXCFileInfoHelper.Save(saveDialog.FileName, hexFileCollectionInfo);
