@@ -99,7 +99,7 @@ namespace FiresecClient
 			}
 		}
 
-		public bool GKSyncronyseTime(XDevice device)
+		public OperationResult<bool> GKSyncronyseTime(XDevice device)
 		{
 			if (IsGKAsAService)
 			{
@@ -107,11 +107,11 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKSyncronyseTime(device, FiresecManager.CurrentUser.Name);
+				return new OperationResult<bool>() { Result = GKProcessorManager.GKSyncronyseTime(device, FiresecManager.CurrentUser.Name) };
 			}
 		}
 
-		public string GKGetDeviceInfo(XDevice device)
+		public OperationResult<string> GKGetDeviceInfo(XDevice device)
 		{
 			if (IsGKAsAService)
 			{
@@ -119,7 +119,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKGetDeviceInfo(device, FiresecManager.CurrentUser.Name);
+				return new OperationResult<string>() { Result = GKProcessorManager.GKGetDeviceInfo(device, FiresecManager.CurrentUser.Name) };
 			}
 		}
 

@@ -271,12 +271,12 @@ namespace FiresecService.Service
 			return result;
 		}
 
-		public bool GKSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID); }, "GKSyncronyseTime");
 		}
 
-		public string GKGetDeviceInfo(Guid deviceUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(deviceUID); }, "GKGetDeviceInfo");
 		}

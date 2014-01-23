@@ -19,6 +19,7 @@ namespace HexManager.ViewModels
 			var hexFileViewModel = new HexFileViewModel(hexFileInfo, driverType, true);
 			return hexFileViewModel;
 		}
+
 		public HexFileViewModel(HEXFileInfo hexFileInfo, XDriverType driverType, bool isNew)
 		{
 			Error = "";

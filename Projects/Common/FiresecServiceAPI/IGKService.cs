@@ -32,10 +32,10 @@ namespace FiresecAPI
         OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
         
 		[OperationContract]
-		bool GKSyncronyseTime(Guid deviceUID);
+		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]
-		string GKGetDeviceInfo(Guid deviceUID);
+		OperationResult<string> GKGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);

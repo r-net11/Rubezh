@@ -45,7 +45,17 @@ namespace GKModule.Models
 		void OnShowInfo()
 		{
 			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
-			MessageBoxService.Show(!string.IsNullOrEmpty(result) ? result : "Ошибка при запросе информации об устройстве");
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			if (string.IsNullOrEmpty(result.Result))
+			{
+				MessageBoxService.ShowWarning("Ошибка при запросе информации об устройстве");
+				return;
+			}
+			MessageBoxService.Show(result.Result);
 		}
 
 		bool CanShowInfo()
@@ -57,14 +67,17 @@ namespace GKModule.Models
 		void OnSynchroniseTime()
 		{
 			var result = FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
-			if (result)
+			if (result.HasError)
 			{
-				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+				MessageBoxService.ShowWarning(result.Error);
+				return;
 			}
-			else
+			if (!result.Result)
 			{
-				MessageBoxService.Show("Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени");
+				return;
 			}
+			MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
 		}
 		bool CanSynchroniseTime()
 		{
@@ -101,7 +114,7 @@ namespace GKModule.Models
 							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 						}));
 					});
@@ -158,7 +171,7 @@ namespace GKModule.Models
 						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
 						{
-							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							MessageBoxService.ShowWarning(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
 							return;
 						}
 						if (DialogService.ShowModalWindow(configurationCompareViewModel))
@@ -204,7 +217,7 @@ namespace GKModule.Models
 							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					}
 					else
-						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурационного файла");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
 				}));
 			});
 			thread.Name = "DeviceCommandsViewModel ReadConfigFile";
@@ -249,7 +262,7 @@ namespace GKModule.Models
 								LoadingService.Close();
 								if (result.HasError)
 								{
-									MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+									MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 								}
 							}));
 						});
@@ -276,7 +289,7 @@ namespace GKModule.Models
 							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 							}
 						}));
 					});
