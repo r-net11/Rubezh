@@ -458,7 +458,6 @@ namespace GKModule.ViewModels
 
 		bool CompareLocalWithRemoteHashes()
 		{
-			var gkFileReaderWriter = new GKFileReaderWriter();
 			var gkParent = DevicesViewModel.Current.SelectedDevice.Device;
 			if (gkParent.DriverType != XDriverType.GK)
 				gkParent = DevicesViewModel.Current.SelectedDevice.Device.GKParent;

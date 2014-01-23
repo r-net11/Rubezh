@@ -406,7 +406,7 @@ namespace GKProcessor
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Отсутствие сетевого напряжения");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] & 256 });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] % 256 });
 						if (!bitArray[0] && bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "КЗ Выхода 1");
 						if (bitArray[0] && !bitArray[1])
