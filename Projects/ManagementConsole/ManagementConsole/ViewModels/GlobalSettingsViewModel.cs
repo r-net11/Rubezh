@@ -19,7 +19,6 @@ namespace ManagementConsole
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
-			UseGKHash = GlobalSettingsHelper.GlobalSettings.UseGKHash;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
@@ -210,17 +209,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _useGKHash;
-		public bool UseGKHash
-		{
-			get { return _useGKHash; }
-			set
-			{
-				_useGKHash = value;
-				OnPropertyChanged("UseGKHash");
-			}
-		}
-
 		public bool IsDebug
 		{
 			get
@@ -250,7 +238,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
 			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
-			GlobalSettingsHelper.GlobalSettings.UseGKHash = UseGKHash;
 
             GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

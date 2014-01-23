@@ -19,7 +19,6 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			IsGKAsAService = false;
-			UseGKHash = false;
 
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
@@ -54,9 +53,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool IsGKAsAService { get; set; }
-
-		[DataMember]
-		public bool UseGKHash { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }

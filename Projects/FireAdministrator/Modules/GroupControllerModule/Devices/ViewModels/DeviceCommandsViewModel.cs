@@ -95,6 +95,8 @@ namespace GKModule.Models
 					var thread = new Thread(() =>
 					{
 						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
+						LoadingService.Close();
+
 						ApplicationService.Invoke(new Action(() =>
 						{
 							if (result.HasError)
@@ -123,34 +125,37 @@ namespace GKModule.Models
 			{
 				DescriptorsManager.Create();
 				var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
+				LoadingService.Close();
 
 				ApplicationService.Invoke(new Action(() =>
 				{
-					LoadingService.Close();
 					if (!result.HasError)
 					{
-						UpdateConfigurationHelper.Update(result.Result);
-						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
-
-						var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
-						if (gkDevice != null)
+						ConfigurationCompareViewModel configurationCompareViewModel = null;
+						WaitHelper.Execute(() =>
 						{
-							foreach (var zone in result.Result.Zones)
-							{
-								zone.GkDatabaseParent = gkDevice;
-							}
-							foreach (var direction in result.Result.Directions)
-							{
-								direction.GkDatabaseParent = gkDevice;
-							}
-							foreach (var pumpStation in result.Result.PumpStations)
-							{
-								pumpStation.GkDatabaseParent = gkDevice;
-							}
-						}
+							UpdateConfigurationHelper.Update(result.Result);
+							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
 
-						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
-							SelectedDevice.Device, false);
+							var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
+							if (gkDevice != null)
+							{
+								foreach (var zone in result.Result.Zones)
+								{
+									zone.GkDatabaseParent = gkDevice;
+								}
+								foreach (var direction in result.Result.Directions)
+								{
+									direction.GkDatabaseParent = gkDevice;
+								}
+								foreach (var pumpStation in result.Result.PumpStations)
+								{
+									pumpStation.GkDatabaseParent = gkDevice;
+								}
+							}
+
+							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
+						});
 						if (configurationCompareViewModel.Error != null)
 						{
 							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
@@ -175,15 +180,20 @@ namespace GKModule.Models
 			var thread = new Thread(() =>
 			{
 				var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+				LoadingService.Close();
+
 				ApplicationService.Invoke(new Action(() =>
 				{
 					if (!result.HasError)
 					{
-						DescriptorsManager.Create();
-						UpdateConfigurationHelper.Update(result.Result);
-						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
-						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
-							result.Result, SelectedDevice.Device, true);
+						ConfigurationCompareViewModel configurationCompareViewModel = null;
+						WaitHelper.Execute(() =>
+						{
+							DescriptorsManager.Create();
+							UpdateConfigurationHelper.Update(result.Result);
+							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
+						});
 						if (configurationCompareViewModel.Error != null)
 						{
 							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
@@ -232,6 +242,7 @@ namespace GKModule.Models
 							var devices = new List<XDevice>();
 							firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
 							var result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
+							LoadingService.Close();
 
 							ApplicationService.Invoke(new Action(() =>
 							{
@@ -258,6 +269,8 @@ namespace GKModule.Models
 					var thread = new Thread(() =>
 					{
 						var result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+						LoadingService.Close();
+
 						ApplicationService.Invoke(new Action(() =>
 						{
 							if (result.HasError)
