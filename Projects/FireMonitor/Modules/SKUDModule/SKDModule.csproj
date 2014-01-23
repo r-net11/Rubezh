@@ -8,8 +8,8 @@
     <ProjectGuid>{8D427CFB-D784-41AC-B2B4-354B017AD556}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SKUDModule</RootNamespace>
-    <AssemblyName>SKUDModule</AssemblyName>
+    <RootNamespace>SKDModule</RootNamespace>
+    <AssemblyName>SKDModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

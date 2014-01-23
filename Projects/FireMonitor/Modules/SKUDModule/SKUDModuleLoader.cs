@@ -3,14 +3,14 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
-using SKUDModule.ViewModels;
+using SKDModule.ViewModels;
 using GKProcessor;
 using FiresecClient;
 using FiresecAPI.Models.Skud;
 
-namespace SKUDModule
+namespace SKDModule
 {
-	public class SKUDModuleLoader:ModuleBase
+	public class SKDModuleLoader : ModuleBase
 	{
 		SKUDViewModel SKUDViewModel;
 		NavigationItem _skudNavigationItem;
@@ -19,10 +19,10 @@ namespace SKUDModule
 		{
 			SKUDViewModel = new SKUDViewModel();
 		}
-		
+
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_skudNavigationItem = new NavigationItem<ShowSKUDEvent>(SKUDViewModel, "СКУД", "/Controls;component/Images/levels.png");
+			_skudNavigationItem = new NavigationItem<ShowSKUDEvent>(SKUDViewModel, "СКД", "/Controls;component/Images/levels.png");
 			return new List<NavigationItem>()
 		    {
 		        _skudNavigationItem
@@ -31,13 +31,12 @@ namespace SKUDModule
 
 		public override void Initialize()
 		{
-            ;
-        }
+			;
+		}
 
 		public override string Name
 		{
-			get { return "СКУД"; }
+			get { return "СКД"; }
 		}
-
 	}
 }

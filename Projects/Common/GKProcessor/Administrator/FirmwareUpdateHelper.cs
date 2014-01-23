@@ -78,7 +78,7 @@ namespace GKProcessor
 				var fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == device.DriverType);
 				if (fileInfo == null)
 				{
-					Error = "В прошивочном файле нет такого типа устройства: " + device.DriverType;
+					Error = "Не найден файл прошивки для устройства типа " + device.DriverType;
 					return;
 				}
 				var bytes = StringsToBytes(fileInfo.Lines);

@@ -1,23 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SKUDModule.ViewModels;
+﻿using System.Windows.Controls;
 
-namespace SKUDModule.Views
+namespace SKDModule.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для SKUDView.xaml
-	/// </summary>
 	public partial class SKUDView : UserControl
 	{
 		public SKUDView()
