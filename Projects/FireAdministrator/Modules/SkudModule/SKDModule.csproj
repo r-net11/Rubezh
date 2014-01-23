@@ -63,6 +63,8 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="Devices\SendResult.cs" />
+    <Compile Include="Devices\SKDDeviceProcessor.cs" />
     <Compile Include="Library\Converters\SKDLibraryStateClassToIconConverter.cs" />
     <Compile Include="Library\ImageConverters.cs" />
     <Compile Include="Library\ViewModels\LibraryDeviceDetailsViewModel.cs" />

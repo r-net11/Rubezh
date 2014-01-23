@@ -61,10 +61,11 @@ namespace GKImitator.Processor
 		List<byte> CreateAnswer()
 		{
 			var result = new List<byte>();
-			switch (byteData[4])
+			switch (byteData[0])
 			{
 				case 1:
-					return new List<byte>();
+					result.Add(9);
+					return result;
 				case 2:
 					return result;
 			}

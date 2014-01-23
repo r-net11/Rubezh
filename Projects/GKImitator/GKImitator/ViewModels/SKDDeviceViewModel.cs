@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using GKImitator.Processor;
+using Infrastructure.Common;
 
 namespace GKImitator.ViewModels
 {
@@ -15,6 +16,7 @@ namespace GKImitator.ViewModels
 
 		public SKDDeviceViewModel(SKDDevice device)
 		{
+			CardCommand = new RelayCommand(OnCard);
 			SKDDevice = device;
 			var portProperty = device.Properties.FirstOrDefault(x => x.Name == "Port");
 			if (portProperty != null)
@@ -23,6 +25,12 @@ namespace GKImitator.ViewModels
 				SKDImitatorProcessor = new SKDImitatorProcessor(portNo);
 				SKDImitatorProcessor.Start();
 			}
+		}
+
+		public RelayCommand CardCommand { get; private set; }
+		void OnCard()
+		{
+
 		}
 	}
 }
