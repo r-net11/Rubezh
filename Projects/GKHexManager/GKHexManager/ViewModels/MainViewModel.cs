@@ -52,13 +52,13 @@ namespace HexManager.ViewModels
 			}
 		}
 
-		XDriverType selectedDriverType;
+		XDriverType _selectedDriverType;
 		public XDriverType SelectedDriverType
 		{
-			get { return selectedDriverType; }
+			get { return _selectedDriverType; }
 			set
 			{
-				selectedDriverType = value;
+				_selectedDriverType = value;
 				OnPropertyChanged("SelectedDriverType");
 			}
 		}
