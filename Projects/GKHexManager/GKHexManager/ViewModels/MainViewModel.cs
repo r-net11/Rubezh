@@ -13,12 +13,11 @@ namespace HexManager.ViewModels
 	{
 		public MainViewModel()
 		{
-			CreateNewCommand = new RelayCommand(OnCreateNew);
 			AddFileCommand = new RelayCommand(OnAddFile, CanAddFile);
 			RemoveFileCommand = new RelayCommand(OnRemoveFile, CanRemoveFile);
+			CreateNewCommand = new RelayCommand(OnCreateNew);
 			SaveFileCommand = new RelayCommand(OnSaveFile, CanSaveFile);
 			LoadFileCommand = new RelayCommand(OnLoadFile);
-			Files = new ObservableRangeCollection<FileViewModel>();
 			Initialize(new HexFileCollectionInfo());
 		}
 
@@ -27,48 +26,40 @@ namespace HexManager.ViewModels
 			Name = hexFileCollectionInfo.Name;
 			MinorVersion = hexFileCollectionInfo.MinorVersion;
 			MajorVersion = hexFileCollectionInfo.MajorVersion;
-			var hexFileInfos = new List<HEXFileInfo>()
-			{
-				new HEXFileInfo {DriverType = XDriverType.GK},
-				new HEXFileInfo {DriverType = XDriverType.KAU},
-				new HEXFileInfo {DriverType = XDriverType.RSR2_KAU}
+			AvailableDriverTypes = new ObservableCollection<XDriverType>()
+		    { 
+				XDriverType.GK, XDriverType.KAU, XDriverType.RSR2_KAU
 			};
-			AvailableHexFileInfos = new ObservableCollection<HEXFileInfo>(hexFileInfos);
-			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
-			HexFileInfos = new List<HEXFileInfo>();
-
-			Files = new ObservableRangeCollection<FileViewModel>();
+			SelectedDriverType = AvailableDriverTypes.FirstOrDefault();
+			HexFileViewModels = new ObservableRangeCollection<HexFileViewModel>();
 			foreach (var hexFileInfo in hexFileCollectionInfo.HexFileInfos)
 			{
-				HexFileInfos.Add(hexFileInfo);
-				AvailableHexFileInfos.Remove(AvailableHexFileInfos.FirstOrDefault(x => x.DriverType == hexFileInfo.DriverType));
-				Files.Add(new FileViewModel(hexFileInfo, hexFileInfo.DriverType, false));
+				AvailableDriverTypes.Remove(AvailableDriverTypes.FirstOrDefault(x => x == hexFileInfo.DriverType));
+				HexFileViewModels.Add(new HexFileViewModel(hexFileInfo, hexFileInfo.DriverType, false));
 			}
-			SelectedFile = Files.FirstOrDefault();
-			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
+			SelectedHexFile = HexFileViewModels.FirstOrDefault();
+			SelectedDriverType = AvailableDriverTypes.FirstOrDefault();
 		}
 
-		List<HEXFileInfo> HexFileInfos { get; set; }
-
-		ObservableCollection<HEXFileInfo> _availableHexFileInfos;
-		public ObservableCollection<HEXFileInfo> AvailableHexFileInfos
+		ObservableCollection<XDriverType> _availableDriverTypes;
+		public ObservableCollection<XDriverType> AvailableDriverTypes
 		{
-			get { return _availableHexFileInfos; }
+			get { return _availableDriverTypes; }
 			set
 			{
-				_availableHexFileInfos = value;
-				OnPropertyChanged("AvailableHexFileInfos");
+				_availableDriverTypes = value;
+				OnPropertyChanged("AvailableDriverTypes");
 			}
 		}
 
-		HEXFileInfo selectedHexFileInfo;
-		public HEXFileInfo SelectedHexFileInfo
+		XDriverType selectedDriverType;
+		public XDriverType SelectedDriverType
 		{
-			get { return selectedHexFileInfo; }
+			get { return selectedDriverType; }
 			set
 			{
-				selectedHexFileInfo = value;
-				OnPropertyChanged("SelectedHexFileInfo");
+				selectedDriverType = value;
+				OnPropertyChanged("SelectedDriverType");
 			}
 		}
 
@@ -105,25 +96,25 @@ namespace HexManager.ViewModels
 			}
 		}
 
-		ObservableCollection<FileViewModel> _files;
-		public ObservableCollection<FileViewModel> Files
+		ObservableCollection<HexFileViewModel> _hexFilesViewModel;
+		public ObservableCollection<HexFileViewModel> HexFileViewModels
 		{
-			get { return _files; }
+			get { return _hexFilesViewModel; }
 			set
 			{
-				_files = value;
-				OnPropertyChanged("Files");
+				_hexFilesViewModel = value;
+				OnPropertyChanged("HexFileViewModels");
 			}
 		}
 
-		FileViewModel _selectedFile;
-		public FileViewModel SelectedFile
+		HexFileViewModel _selectedHexFile;
+		public HexFileViewModel SelectedHexFile
 		{
-			get { return _selectedFile; }
+			get { return _selectedHexFile; }
 			set
 			{
-				_selectedFile = value;
-				OnPropertyChanged("SelectedFile");
+				_selectedHexFile = value;
+				OnPropertyChanged("SelectedHexFile");
 			}
 		}
 
@@ -143,37 +134,30 @@ namespace HexManager.ViewModels
 			};
 			if (openFileDialog.ShowDialog() == true)
 			{
-				var fileName = openFileDialog.FileName;
-				var fileViewModel = FileViewModel.FromFile(fileName, SelectedHexFileInfo.DriverType);
-				SelectedHexFileInfo.FileName = fileViewModel.FileName;
-				SelectedHexFileInfo.Lines = File.ReadAllLines(fileName).ToList();
-				Files.Add(fileViewModel);
-				Files = new ObservableCollection<FileViewModel>(Files.OrderBy(x => x.DriverType));
-				SelectedFile = fileViewModel;
-				HexFileInfos.Add(SelectedHexFileInfo);
-				AvailableHexFileInfos.Remove(SelectedHexFileInfo);
-				SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
+				SelectedHexFile = HexFileViewModel.FromFile(openFileDialog.FileName, SelectedDriverType);
+				HexFileViewModels.Add(SelectedHexFile);
+				HexFileViewModels = new ObservableCollection<HexFileViewModel>(HexFileViewModels.OrderBy(x => x.DriverType));
+				AvailableDriverTypes.Remove(SelectedDriverType);
+				SelectedDriverType = AvailableDriverTypes.FirstOrDefault();
 			}
 		}
 		bool CanAddFile()
 		{
-			return SelectedHexFileInfo != null;
+			return SelectedDriverType != null;
 		}
 
 		public RelayCommand RemoveFileCommand { get; private set; }
 		void OnRemoveFile()
 		{
-			var hexFileInfo = HexFileInfos.FirstOrDefault(x => x.DriverType == SelectedFile.DriverType);
-			SelectedHexFileInfo = hexFileInfo;
-			Files.Remove(SelectedFile);
-			AvailableHexFileInfos.Add(hexFileInfo);
-			AvailableHexFileInfos = new ObservableCollection<HEXFileInfo>(AvailableHexFileInfos.OrderBy(x => x.DriverType));
-			HexFileInfos.Remove(hexFileInfo);
-			SelectedFile = Files.FirstOrDefault();
+			SelectedDriverType = SelectedHexFile.DriverType;
+			AvailableDriverTypes.Add(SelectedDriverType);
+			AvailableDriverTypes = new ObservableCollection<XDriverType>(AvailableDriverTypes.OrderBy(x => x.ToString()));
+			HexFileViewModels.Remove(SelectedHexFile);
+			SelectedHexFile = HexFileViewModels.FirstOrDefault();
 		}
 		bool CanRemoveFile()
 		{
-			return SelectedFile != null;
+			return SelectedHexFile != null;
 		}
 
 		public RelayCommand SaveFileCommand { get; private set; }
@@ -195,8 +179,12 @@ namespace HexManager.ViewModels
 					MinorVersion = MinorVersion,
 					MajorVersion = MajorVersion
 				};
-				foreach (var hexFileInfo in HexFileInfos)
+				foreach (var file in HexFileViewModels)
 				{
+					var hexFileInfo = new HEXFileInfo();
+					hexFileInfo.DriverType = file.DriverType;
+					hexFileInfo.FileName = file.FileName;
+					hexFileInfo.Lines = file.OriginalLines;
 					hexFileCollectionInfo.HexFileInfos.Add(hexFileInfo);
 				}
 				HXCFileInfoHelper.Save(saveDialog.FileName, hexFileCollectionInfo);
@@ -204,7 +192,7 @@ namespace HexManager.ViewModels
 		}
 		bool CanSaveFile()
 		{
-			return Files.Count > 0;
+			return HexFileViewModels.Count > 0;
 		}
 
 		public RelayCommand LoadFileCommand { get; private set; }

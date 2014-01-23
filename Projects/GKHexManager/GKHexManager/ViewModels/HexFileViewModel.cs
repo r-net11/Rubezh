@@ -7,24 +7,24 @@ using XFiresecAPI;
 
 namespace HexManager.ViewModels
 {
-	public class FileViewModel : BaseViewModel
+	public class HexFileViewModel : BaseViewModel
 	{
-		public static FileViewModel FromFile(string fileName, XDriverType driverType)
+		public static HexFileViewModel FromFile(string fileName, XDriverType driverType)
 		{
 			var hexFileInfo = new HEXFileInfo()
 			{
 				FileName = new FileInfo(fileName).Name,
 				Lines = File.ReadAllLines(fileName).ToList()
 			};
-			var fileViewModel = new FileViewModel(hexFileInfo, driverType, true);
-			return fileViewModel;
+			var hexFileViewModel = new HexFileViewModel(hexFileInfo, driverType, true);
+			return hexFileViewModel;
 		}
-
-		public FileViewModel(HEXFileInfo hexFileInfo, XDriverType driverType, bool isNew)
+		public HexFileViewModel(HEXFileInfo hexFileInfo, XDriverType driverType, bool isNew)
 		{
 			Error = "";
 			FileName = hexFileInfo.FileName;
 			DriverType = driverType;
+			OriginalLines = hexFileInfo.Lines;
 			Lines = new List<LineViewModel>();
 			foreach (var line in hexFileInfo.Lines)
 			{
@@ -56,8 +56,8 @@ namespace HexManager.ViewModels
 			lastOffset = baseOffset * 0x10000 + lastOffset + 0x0F;
 			AddressRange = firstOffset.ToString("X8") + " - " + lastOffset.ToString("X8");
 		}
-
 		public string FileName { get; set; }
+		public List<string> OriginalLines { get; set; }
 		public List<LineViewModel> Lines { get; set; }
 		public XDriverType DriverType { get; set; }
 		public string Version { get; set; }

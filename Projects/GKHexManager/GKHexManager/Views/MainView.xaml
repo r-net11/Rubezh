@@ -36,10 +36,10 @@
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="5 2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Тип прибора" HorizontalAlignment="Right" Foreground="White" Margin="5 2" />
-                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableHexFileInfos}" SelectedItem="{Binding SelectedHexFileInfo}" Margin="5 2">
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableDriverTypes}" SelectedItem="{Binding SelectedDriverType}" Margin="5 2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding DriverType, Converter={StaticResource DriverTypeToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" Margin="1" />
+                            <TextBlock Text="{Binding ., Converter={StaticResource DriverTypeToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Foreground="Black" Margin="1" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -55,7 +55,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}" Margin="2">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding HexFileViewModels}" SelectedItem="{Binding SelectedHexFile}" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип прибора" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -73,7 +73,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Grid Grid.Column="1" DataContext="{Binding SelectedFile}">
+            <Grid Grid.Column="1" DataContext="{Binding SelectedHexFile}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
