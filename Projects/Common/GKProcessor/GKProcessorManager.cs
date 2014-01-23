@@ -317,73 +317,73 @@ namespace GKProcessor
 
 		public static void GKExecuteDeviceCommand(XDevice device, XStateBit stateBit, string userName)
 		{
-			Watcher.SendControlCommand(device, stateBit);
+			Watcher.SendControlCommand(device, stateBit, stateBit.ToDescription());
 			AddGKMessage(EventName.Команда_оператора, stateBit.ToDescription(), device, userName);
 		}
 
 		public static void GKReset(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.Reset);
+			Watcher.SendControlCommand(xBase, XStateBit.Reset, "Сброс");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, xBase, userName);
 		}
 
 		public static void GKResetFire1(XZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x02);
+			Watcher.SendControlCommand(zone, 0x02, "Сброс Пожар-1");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKResetFire2(XZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x03);
+			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKSetAutomaticRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_автоматический_режим, xBase, userName);
 		}
 
 		public static void GKSetManualRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual, "Перевод в ручной режим");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off);
-            AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off, "Перевод в отключенный режим");
+			AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_отключенный_режим, xBase, userName);
 		}
 
 		public static void GKTurnOn(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual, "Включить");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Включить, xBase, userName);
 		}
 
 		public static void GKTurnOnNow(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual, "Включить немедленно");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Включить_немедленно, xBase, userName);
 		}
 
 		public static void GKTurnOff(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual, "Выключить");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Выключить, xBase, userName);
 		}
 
 		public static void GKTurnOffNow(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual, "Выключить немедленно");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Выключить_немедленно, xBase, userName);
 		}
 
 		public static void GKStop(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual, "Остановка пуска");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Остановка_пуска, xBase, userName);
 		}
 

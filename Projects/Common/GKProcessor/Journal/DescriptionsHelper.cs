@@ -42,6 +42,7 @@ namespace GKProcessor
                 case(EventDescription.Включить):
                 case(EventDescription.Перевод_в_ручной_режим):
                 case(EventDescription.Перевод_в_автоматический_режим):
+				case (EventDescription.Перевод_в_отключенный_режим):
                 case(EventDescription.Сброс):
                     return DescriptionType.Information;
                 case(EventDescription.Не_найдено_родительское_устройство_ГК):

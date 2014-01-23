@@ -64,9 +64,9 @@ namespace DiagnosticsModule.ViewModels
 					ApplicationService.Invoke(() =>
 					{
 						if (flag)
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual);
+							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual, "");
 						else
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual);
+							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual, "");
 					});
 				}
 			}));

@@ -20,12 +20,19 @@ namespace GKProcessor
         Включить_немедленно,
 		[DescriptionAttribute("Включить")]
         Включить,
+
 		[DescriptionAttribute("Перевод в ручной режим")]
         Перевод_в_ручной_режим,
+
 		[DescriptionAttribute("Перевод в автоматический режим")]
         Перевод_в_автоматический_режим,
+
+		[DescriptionAttribute("Перевод в отключенный режим")]
+		Перевод_в_отключенный_режим,
+
 		[DescriptionAttribute("Сброс")]
         Сброс,
+
         [DescriptionAttribute("Не найдено родительское устройство ГК")]
         Не_найдено_родительское_устройство_ГК,
         [DescriptionAttribute("Старт мониторинга")]
