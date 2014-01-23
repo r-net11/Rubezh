@@ -17,7 +17,7 @@ namespace GKProcessor
 
 		public XDeviceConfiguration ReadConfigFileFromGK(XDevice gkDevice)
 		{
-			GKProgressCallback progressCallback = null;
+			var progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkDevice);

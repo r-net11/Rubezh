@@ -25,8 +25,9 @@ namespace GKProcessor
 
 		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
 		{
+			GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			ProgressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
-			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName, ProgressCallback);
+			GKProcessorManager.OnDoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
 			if (!DeviceBytesHelper.Ping(device))
 			{
 				Error = "Устройство " + device.PresentationName + " недоступно";

@@ -15,7 +15,7 @@ namespace GKProcessor
 
 		public void WriteConfig(XDevice gkDevice)
 		{
-			GKProgressCallback progressCallback = null;
+			var progressCallback = GKProcessorManager.OnStartProgress("Запись конфигурации", "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
 				DescriptorsManager.Create();

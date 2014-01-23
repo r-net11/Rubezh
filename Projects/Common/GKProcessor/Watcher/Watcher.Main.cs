@@ -93,7 +93,6 @@ namespace GKProcessor
 			lock (CallbackResultLocker)
 			{
 				GKCallbackResult = new GKCallbackResult();
-				//Trace.WriteLine("SetDescriptorsSuspending GKCallbackResult = new GKCallbackResult()");
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
 					if (descriptor.XBase.BaseState != null)
@@ -103,7 +102,6 @@ namespace GKProcessor
 				}
 				NotifyAllObjectsStateChanged();
 				OnGKCallbackResult(GKCallbackResult);
-				//Trace.WriteLine("SetDescriptorsSuspending OnGKCallbackResult(GKCallbackResult)");
 			}
 		}
 
@@ -135,13 +133,11 @@ namespace GKProcessor
 					{
 						GKCallbackResult = new GKCallbackResult();
 					}
-					//Trace.WriteLine("OnRunThread GKCallbackResult = new GKCallbackResult()");
 					RunMonitoring();
 					lock (CallbackResultLocker)
 					{
 						OnGKCallbackResult(GKCallbackResult);
 					}
-					//Trace.WriteLine("OnRunThread OnGKCallbackResult(GKCallbackResult)");
 
 					if (IsStopping)
 						return;
@@ -173,6 +169,11 @@ namespace GKProcessor
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
 			IsHashFailure = false;
+
+			foreach (var descriptor in GkDatabase.Descriptors)
+			{
+				descriptor.XBase.BaseState.Clear();
+			}
 
 			while (true)
 			{
@@ -480,7 +481,6 @@ namespace GKProcessor
 
 		void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			//WaitIfSuspending();
 			GKProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 	}

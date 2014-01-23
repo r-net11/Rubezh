@@ -74,7 +74,12 @@ namespace Infrastructure.Common.Windows
 				Show(title, text, stepCount, canCancel);
 			}
 			if (_progressViewModel != null)
+			{
+				_progressViewModel.Title = title;
+				_progressViewModel.StepCount = stepCount;
+				_progressViewModel.CanCancel = canCancel;
 				_progressViewModel.DoStep(text);
+			}
 		}
 		public static void AddCount(int count)
 		{

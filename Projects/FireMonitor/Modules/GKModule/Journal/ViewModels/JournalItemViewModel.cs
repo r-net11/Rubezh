@@ -170,7 +170,6 @@ namespace GKModule.ViewModels
 					DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
 					break;
 
-#if DEBUG
 				case JournalItemType.Delay:
 					DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
 					break;
@@ -178,7 +177,6 @@ namespace GKModule.ViewModels
 				case JournalItemType.Pim:
 					DialogService.ShowWindow(new PimDetailsViewModel(Pim));
 					break;
-#endif
 			}
 		}
 		bool CanShowProperties()
@@ -192,10 +190,8 @@ namespace GKModule.ViewModels
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
 				case JournalItemType.PumpStation:
-#if DEBUG
 				case JournalItemType.Delay:
 				case JournalItemType.Pim:
-#endif
 					return true;
 			}
 			return false;
@@ -222,7 +218,6 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
-#if DEBUG
 				case JournalItemType.Delay:
 					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
 					break;
@@ -230,7 +225,6 @@ namespace GKModule.ViewModels
 				case JournalItemType.Pim:
 					ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(JournalItem.ObjectUID);
 					break;
-#endif
 			}
 		}
 
@@ -247,10 +241,8 @@ namespace GKModule.ViewModels
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
 				case JournalItemType.PumpStation:
-#if DEBUG
 				case JournalItemType.Delay:
 				case JournalItemType.Pim:
-#endif
 				case JournalItemType.GK:
 					return true;
 			}

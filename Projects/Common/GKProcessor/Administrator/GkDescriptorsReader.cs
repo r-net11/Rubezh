@@ -23,6 +23,7 @@ namespace GKProcessor
 #if !LOCALCONFIG
 		override public bool ReadConfiguration(XDevice gkDevice)
 		{
+			var progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Проверка связи", 2, true, GKProgressClientType.Administrator);
 			var result = DeviceBytesHelper.Ping(gkDevice);
 			if (!result)
 			{
@@ -38,7 +39,7 @@ namespace GKProcessor
 				Driver = rootDriver,
 				DriverUID = rootDriver.UID
 			};
-			var progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "Перевод ГК в технологический режим", 50000, true, GKProgressClientType.Administrator);
+			GKProcessorManager.OnDoProgress("Перевод ГК в технологический режим", progressCallback);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice, progressCallback))
 			{
 				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
@@ -55,7 +56,7 @@ namespace GKProcessor
 				GKProcessorManager.OnStopProgress(progressCallback);
 				return false;
 			}
-			GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+			progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурации " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 			ushort descriptorNo = 0;
 #if SETCONFIGTOFILE
 			var allBytes = new List<List<byte>>();

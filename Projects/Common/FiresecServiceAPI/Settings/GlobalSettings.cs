@@ -95,8 +95,6 @@ namespace FiresecAPI
 		[DataMember]
 		public bool Monitor_HaspInfo_Enabled { get; set; }
 		[DataMember]
-		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
-		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
 
 		[DataMember]

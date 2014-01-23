@@ -18,7 +18,6 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
-			IsInitialState = false;
 			IsGKConnectionLost = false;
 			IsNoLicense = false;
 			IsConnectionLost = false;
@@ -31,6 +30,7 @@ namespace XFiresecAPI
 		}
 
 		public bool IsInitialState { get; set; }
+
 		public bool IsSuspending { get; set; }
 		public bool IsGKConnectionLost { get; set; }
 		public bool IsNoLicense { get; set; }
@@ -60,7 +60,7 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (IsInitialState || IsSuspending)
+				if (IsSuspending)
 				{
 					return new List<XStateClass>() { XStateClass.Unknown };
 				}
@@ -79,6 +79,10 @@ namespace XFiresecAPI
 				if (IsInTechnologicalRegime)
 				{
 					return new List<XStateClass>() { XStateClass.TechnologicalRegime };
+				}
+				if (IsInitialState)
+				{
+					return new List<XStateClass>() { XStateClass.Unknown };
 				}
 				return XStatesHelper.StateBitsToStateClasses(StateBits);
 			}

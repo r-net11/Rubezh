@@ -253,8 +253,15 @@ namespace GKProcessor
 			{
 				return new OperationResult<JournalItem>("Ошибка связи с устройством");
 			}
-			var journalParser = new JournalParser(device, sendResult.Bytes);
-			return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			if (sendResult.Bytes.Count == 64)
+			{
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			}
+			else
+			{
+				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+			}
 		}
 
 		public static OperationResult<bool> GKSetSingleParameter(XBase xBase, List<byte> parameterBytes)
