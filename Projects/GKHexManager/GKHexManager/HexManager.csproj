@@ -76,7 +76,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\DriverTypeToStringConverter.cs" />
-    <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="ViewModels\LineViewModel.cs" />
     <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

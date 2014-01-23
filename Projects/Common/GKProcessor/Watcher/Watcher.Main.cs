@@ -86,17 +86,25 @@ namespace GKProcessor
 			}
 		}
 
+		object CallbackResultLocker = new object();
+
 		void SetDescriptorsSuspending(bool isSuspending)
 		{
-			foreach (var descriptor in GkDatabase.Descriptors)
+			lock (CallbackResultLocker)
 			{
-				if (descriptor.XBase.BaseState != null)
+				GKCallbackResult = new GKCallbackResult();
+				//Trace.WriteLine("SetDescriptorsSuspending GKCallbackResult = new GKCallbackResult()");
+				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.BaseState.IsSuspending = isSuspending;
+					if (descriptor.XBase.BaseState != null)
+					{
+						descriptor.XBase.BaseState.IsSuspending = isSuspending;
+					}
 				}
+				NotifyAllObjectsStateChanged();
+				OnGKCallbackResult(GKCallbackResult);
+				//Trace.WriteLine("SetDescriptorsSuspending OnGKCallbackResult(GKCallbackResult)");
 			}
-			NotifyAllObjectsStateChanged();
-			OnGKCallbackResult(GKCallbackResult);
 		}
 
 		void OnRunThread()
@@ -123,9 +131,17 @@ namespace GKProcessor
 					if (IsStopping)
 						return;
 
-					GKCallbackResult = new GKCallbackResult();
+					lock (CallbackResultLocker)
+					{
+						GKCallbackResult = new GKCallbackResult();
+					}
+					//Trace.WriteLine("OnRunThread GKCallbackResult = new GKCallbackResult()");
 					RunMonitoring();
-					OnGKCallbackResult(GKCallbackResult);
+					lock (CallbackResultLocker)
+					{
+						OnGKCallbackResult(GKCallbackResult);
+					}
+					//Trace.WriteLine("OnRunThread OnGKCallbackResult(GKCallbackResult)");
 
 					if (IsStopping)
 						return;

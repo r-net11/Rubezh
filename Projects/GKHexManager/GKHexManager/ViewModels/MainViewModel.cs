@@ -22,30 +22,16 @@ namespace HexManager.ViewModels
 			Initialize(new HexFileCollectionInfo());
 		}
 
-		ObservableCollection<HEXFileInfo> availableHexFileInfos;
-		public ObservableCollection<HEXFileInfo> AvailableHexFileInfos
-		{
-			get
-			{
-				return availableHexFileInfos;
-			}
-			set
-			{
-				availableHexFileInfos = value;
-				OnPropertyChanged("AvailableHexFileInfos");
-			}
-		}
-		List<HEXFileInfo> HexFileInfos { get; set; }
-		void Initialize (HexFileCollectionInfo hexFileCollectionInfo)
+		void Initialize(HexFileCollectionInfo hexFileCollectionInfo)
 		{
 			Name = hexFileCollectionInfo.Name;
 			MinorVersion = hexFileCollectionInfo.MinorVersion;
 			MajorVersion = hexFileCollectionInfo.MajorVersion;
 			var hexFileInfos = new List<HEXFileInfo>()
 			{
-				new HEXFileInfo {DriverType = XDriverType.GK, Lines = new List<string>()},
-				new HEXFileInfo {DriverType = XDriverType.KAU, Lines = new List<string>()},
-				new HEXFileInfo {DriverType = XDriverType.RSR2_KAU, Lines = new List<string>()}
+				new HEXFileInfo {DriverType = XDriverType.GK},
+				new HEXFileInfo {DriverType = XDriverType.KAU},
+				new HEXFileInfo {DriverType = XDriverType.RSR2_KAU}
 			};
 			AvailableHexFileInfos = new ObservableCollection<HEXFileInfo>(hexFileInfos);
 			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
@@ -60,6 +46,19 @@ namespace HexManager.ViewModels
 			}
 			SelectedFile = Files.FirstOrDefault();
 			SelectedHexFileInfo = AvailableHexFileInfos.FirstOrDefault();
+		}
+
+		List<HEXFileInfo> HexFileInfos { get; set; }
+
+		ObservableCollection<HEXFileInfo> _availableHexFileInfos;
+		public ObservableCollection<HEXFileInfo> AvailableHexFileInfos
+		{
+			get { return _availableHexFileInfos; }
+			set
+			{
+				_availableHexFileInfos = value;
+				OnPropertyChanged("AvailableHexFileInfos");
+			}
 		}
 
 		HEXFileInfo selectedHexFileInfo;

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using XFiresecAPI;
 
-namespace Controls
+namespace Infrastructure.Common
 {
 	public static class HXCFileInfoHelper
 	{
@@ -14,7 +14,6 @@ namespace Controls
 				var hexFileCollectionInfo = (HexFileCollectionInfo)dataContractSerializer.ReadObject(fileStream);
 				return hexFileCollectionInfo;
 			}
-			return null;
 		}
 
 		public static void Save(string fileName, HexFileCollectionInfo hexFileCollectionInfo)
