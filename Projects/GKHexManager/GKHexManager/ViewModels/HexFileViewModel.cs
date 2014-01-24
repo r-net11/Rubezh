@@ -11,28 +11,26 @@ namespace HexManager.ViewModels
 	{
 		public static HexFileViewModel FromFile(string fileName, XDriverType driverType)
 		{
-			var hexFileInfo = new HEXFileInfo()
+			return new HexFileViewModel(
+			new HEXFileInfo()
 			{
 				FileName = new FileInfo(fileName).Name,
+				DriverType = driverType,
 				Lines = File.ReadAllLines(fileName).ToList()
-			};
-			var hexFileViewModel = new HexFileViewModel(hexFileInfo, driverType, true);
-			return hexFileViewModel;
+			});
 		}
 
-		public HexFileViewModel(HEXFileInfo hexFileInfo, XDriverType driverType, bool isNew)
+		public HexFileViewModel(HEXFileInfo hexFileInfo)
 		{
-			Error = "";
+			HexFileInfo = hexFileInfo;
 			FileName = hexFileInfo.FileName;
-			DriverType = driverType;
-			OriginalLines = hexFileInfo.Lines;
+			DriverType = hexFileInfo.DriverType;
 			Lines = new List<LineViewModel>();
 			foreach (var line in hexFileInfo.Lines)
 			{
 				var lineViewModel = new LineViewModel(line);
 				Lines.Add(lineViewModel);
 			}
-
 			var preLastLine = hexFileInfo.Lines[hexFileInfo.Lines.Count - 3];
 			CRC = preLastLine.Substring(39, 2) + preLastLine.Substring(37, 2);
 			var minorVersion = Convert.ToInt32(preLastLine.Substring(35, 2), 16);
@@ -57,13 +55,12 @@ namespace HexManager.ViewModels
 			lastOffset = baseOffset * 0x10000 + lastOffset + 0x0F;
 			AddressRange = firstOffset.ToString("X8") + " - " + lastOffset.ToString("X8");
 		}
+		public HEXFileInfo HexFileInfo { get; set; }
 		public string FileName { get; set; }
-		public List<string> OriginalLines { get; set; }
 		public List<LineViewModel> Lines { get; set; }
 		public XDriverType DriverType { get; set; }
 		public string Version { get; set; }
 		public string AddressRange { get; set; }
 		public string CRC { get; set; }
-		public string Error { get; set; }
 	}
 }
