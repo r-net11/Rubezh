@@ -14,7 +14,7 @@ namespace GKProcessor
 	public partial class Watcher
 	{
 		bool IsSuspending = false;
-		AutoResetEvent SuspendingEvent;
+		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
 
 		bool IsStopping = false;
 		AutoResetEvent StopEvent;
@@ -62,7 +62,6 @@ namespace GKProcessor
 		public void Suspend()
 		{
 			IsSuspending = true;
-			SuspendingEvent = new AutoResetEvent(false);
 			if (StopEvent != null)
 			{
 				StopEvent.Set();
@@ -74,13 +73,22 @@ namespace GKProcessor
 		{
 			IsSuspending = false;
 			SuspendingEvent.Set();
-			SuspendingEvent = null;
 			SetDescriptorsSuspending(false);
+		}
+
+		bool ReturnArterWait(int milliSeconds)
+		{
+			if (StopEvent != null)
+			{
+				StopEvent.WaitOne(TimeSpan.FromMilliseconds(milliSeconds));
+			}
+			WaitIfSuspending();
+			return IsStopping;
 		}
 
 		void WaitIfSuspending()
 		{
-			if (SuspendingEvent != null)
+			if (IsSuspending)
 			{
 				SuspendingEvent.WaitOne(TimeSpan.FromMinutes(10));
 			}
@@ -295,16 +303,6 @@ namespace GKProcessor
 
 				return true;
 			}
-		}
-
-		bool ReturnArterWait(int milliSeconds)
-		{
-			if (StopEvent != null)
-			{
-				StopEvent.WaitOne(TimeSpan.FromMilliseconds(milliSeconds));
-			}
-			WaitIfSuspending();
-			return IsStopping;
 		}
 
 		void RunMonitoring()
