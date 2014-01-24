@@ -25,7 +25,7 @@ namespace GKProcessor
 			}
 			if (remoteLastId > localLastDBNo)
 			{
-				var progressCallback = GKProcessorManager.OnStartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
+				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
 				var journalItems = new List<JournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
@@ -42,7 +42,7 @@ namespace GKProcessor
 					var journalItem = ReadJournal(index);
 					if (journalItem != null)
 					{
-						GKProcessorManager.OnDoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
+						GKProcessorManager.DoProgress((index - localLastDBNo).ToString() + " из " + (remoteLastId - localLastDBNo).ToString(), progressCallback);
 
 						journalItems.Add(journalItem);
 						if (journalItems.Count > 100)
@@ -57,7 +57,7 @@ namespace GKProcessor
 					AddJournalItems(journalItems);
 				}
 
-				GKProcessorManager.OnStopProgress(progressCallback);
+				GKProcessorManager.StopProgress(progressCallback);
 				LastId = remoteLastId;
 			}
 			return true;

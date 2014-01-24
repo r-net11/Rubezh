@@ -16,7 +16,7 @@ namespace GKProcessor
 		{
             return;
 			var descriptor = GkDatabase.Descriptors[pingObjectNo];
-			bool result = GetState(descriptor.XBase);
+			GetState(descriptor.XBase);
 			OnObjectStateChanged(descriptor.XBase);
 
 			pingObjectNo++;

@@ -7,8 +7,6 @@ using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.Database;
-using FiresecService.DatabaseConverter;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
 using FiresecService.Processor;

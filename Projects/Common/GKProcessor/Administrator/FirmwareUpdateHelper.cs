@@ -18,7 +18,7 @@ namespace GKProcessor
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
 			Update(device, firmWareBytes, userName);
-			GKProcessorManager.OnStopProgress(ProgressCallback);
+			GKProcessorManager.StopProgress(ProgressCallback);
 			if (Error != null)
 				ErrorList.Add(Error);
 		}
@@ -26,8 +26,8 @@ namespace GKProcessor
 		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
 		{
 			GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
-			ProgressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
-			GKProcessorManager.OnDoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
+			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
+			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
 			if (!DeviceBytesHelper.Ping(device))
 			{
 				Error = "Устройство " + device.PresentationName + " недоступно";
@@ -41,7 +41,7 @@ namespace GKProcessor
 				return;
 			}
 			DeviceBytesHelper.GetDeviceInfo(device);
-			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, ProgressCallback);
+			GKProcessorManager.DoProgress("Удаление программы " + device.PresentationName, ProgressCallback);
 			if (!Clear(device))
 			{
 				Error = "Устройство " + device.PresentationName + " недоступно";
@@ -55,7 +55,7 @@ namespace GKProcessor
 			{
 				if (ProgressCallback.IsCanceled)
 				{ Error = "Операция обновления прибора " + device.PresentationName + " отменена"; return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
+				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
@@ -83,7 +83,7 @@ namespace GKProcessor
 				}
 				var bytes = StringsToBytes(fileInfo.Lines);
 				Update(device, bytes, userName);
-				GKProcessorManager.OnStopProgress(ProgressCallback);
+				GKProcessorManager.StopProgress(ProgressCallback);
 				if (Error != null)
 					ErrorList.Add(Error);
 				Error = null;

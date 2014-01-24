@@ -23,12 +23,12 @@ namespace GKProcessor
 			{
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
-				OnStopProgress(progressCallback);
+				StopProgress(progressCallback);
 				AddGKMessage(EventName.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
 		}
 
-		public static GKProgressCallback OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -44,7 +44,7 @@ namespace GKProcessor
 			return gkProgressCallback;
 		}
 
-		public static void OnDoProgress(string text, GKProgressCallback progressCallback)
+		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -60,7 +60,7 @@ namespace GKProcessor
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnStopProgress(GKProgressCallback progressCallback)
+		public static void StopProgress(GKProgressCallback progressCallback)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -72,7 +72,7 @@ namespace GKProcessor
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
 			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)

@@ -275,7 +275,8 @@ namespace GKProcessor
 				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
-				result = !GetAllStates(true);
+				GetAllStates();
+				result = IsDBMissmatchDuringMonitoring || !IsConnected;
 				if (IsGetStatesFailure != result)
 				{
 					IsGetStatesFailure = result;
@@ -320,69 +321,67 @@ namespace GKProcessor
 					{
 						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
 						{
-							GetAllStates(false);
+							GetAllStates();
 							LastMissmatchCheckTime = DateTime.Now;
 						}
+						return;
 					}
-					else
+					try
 					{
-						try
+						if (!IsConnected)
 						{
-							if (!IsConnected)
-							{
-								if (CheckTechnologicalRegime())
-									return;
-							}
+							if (CheckTechnologicalRegime())
+								return;
 						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
-						}
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
+					}
 
-						try
-						{
-							CheckTasks();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread CheckTasks");
-						}
+					try
+					{
+						CheckTasks();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread CheckTasks");
+					}
 
-						try
-						{
-							CheckDelays();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread CheckNPT");
-						}
+					try
+					{
+						CheckDelays();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread CheckNPT");
+					}
 
-						try
-						{
-							PingJournal();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread PingJournal");
-						}
+					try
+					{
+						PingJournal();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread PingJournal");
+					}
 
-						try
-						{
-							PingNextState();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread PingNextState");
-						}
+					try
+					{
+						PingNextState();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread PingNextState");
+					}
 
-						try
-						{
-							CheckMeasure();
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
-						}
+					try
+					{
+						CheckMeasure();
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
 					}
 				}
 			}

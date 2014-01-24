@@ -15,7 +15,7 @@ namespace GKProcessor
 
 		public void WriteConfig(XDevice gkDevice)
 		{
-			var progressCallback = GKProcessorManager.OnStartProgress("Запись конфигурации", "Проверка связи", 1, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Запись конфигурации", "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
 				DescriptorsManager.Create();
@@ -36,7 +36,7 @@ namespace GKProcessor
 						var summaryDescriptorsCount = 4 + gkDatabase.Descriptors.Count;
 						gkDatabase.KauDatabases.ForEach(x => { summaryDescriptorsCount += 3 + x.Descriptors.Count; });
 						var title = "Запись конфигурации в " + gkDatabase.RootDevice.PresentationName + (i > 0 ? " Попытка " + (i + 1) : "");
-						progressCallback = GKProcessorManager.OnStartProgress(title, "", summaryDescriptorsCount, true, GKProgressClientType.Administrator);
+						progressCallback = GKProcessorManager.StartProgress(title, "", summaryDescriptorsCount, true, GKProgressClientType.Administrator);
 						result = DeviceBytesHelper.GoToTechnologicalRegime(gkDatabase.RootDevice, progressCallback);
 						if (progressCallback.IsCanceled)
 						{
@@ -103,7 +103,7 @@ namespace GKProcessor
 			finally
 			{
 				if (progressCallback != null)
-					GKProcessorManager.OnStopProgress(progressCallback);
+					GKProcessorManager.StopProgress(progressCallback);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace GKProcessor
 				var progressStage = commonDatabase.RootDevice.PresentationName + ": запись " +
 					descriptor.XBase.PresentationName + " " + "(" + descriptor.GetDescriptorNo() + ")" +
 					" из " + commonDatabase.Descriptors.Count;
-				GKProcessorManager.OnDoProgress(progressStage, progressCallback);
+				GKProcessorManager.DoProgress(progressStage, progressCallback);
 				var packs = CreateDescriptors(descriptor);
 				foreach (var pack in packs)
 				{
@@ -124,13 +124,13 @@ namespace GKProcessor
 					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack);
 					if (sendResult.HasError)
 					{
-						GKProcessorManager.OnStopProgress(progressCallback);
+						GKProcessorManager.StopProgress(progressCallback);
 						Trace.WriteLine(progressStage);
 						return false;
 					}
 				}
 			}
-			GKProcessorManager.OnDoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback);
+			GKProcessorManager.DoProgress(commonDatabase.RootDevice.PresentationName + " Запись завершающего дескриптора", progressCallback);
 			WriteEndDescriptor(commonDatabase);
 			return true;
 		}

@@ -10,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 
-
 namespace FiresecService
 {
 	public static class Bootstrapper

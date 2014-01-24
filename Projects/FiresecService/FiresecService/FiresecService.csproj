@@ -100,22 +100,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="FiresecDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="PatchManager.cs" />
-    <Compile Include="Processor\FiresecDbConverter.designer.cs">
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="Processor\ConnectionManager.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
-    <Compile Include="Processor\FiresecDbConverter1.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
@@ -167,27 +153,8 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="FiresecDataSet.xsc">
-      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="FiresecDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>FiresecDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="FiresecDataSet.xss">
-      <DependentUpon>FiresecDataSet.xsd</DependentUpon>
-    </None>
     <None Include="FiresecService.exe.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Processor\FiresecDbConverter.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>FiresecDbConverter1.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Processor\FiresecDbConverter.dbml.layout">
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

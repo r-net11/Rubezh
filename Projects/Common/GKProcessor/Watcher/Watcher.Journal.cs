@@ -161,5 +161,20 @@ namespace GKProcessor
 				}
 			}
 		}
+
+		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
+		{
+			if (journalItem.Name == "Запыленность" || journalItem.Name == "Запыленность устранена")
+			{
+				if (xBase is XDevice)
+				{
+					var device = xBase as XDevice;
+					if (journalItem.Name == "Запыленность")
+						device.BaseState.IsService = true;
+					if (journalItem.Name == "Запыленность устранена")
+						device.BaseState.IsService = false;
+				}
+			}
+		}
 	}
 }
