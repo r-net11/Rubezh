@@ -18,25 +18,24 @@ namespace XFiresecAPI
 		{
 			AdditionalStates = new List<XAdditionalState>();
 			IsInitialState = true;
-			IsGKConnectionLost = false;
 			IsNoLicense = false;
 			IsConnectionLost = false;
-			IsGKMissmatch = false;
 			IsInTechnologicalRegime = false;
-			IsRealMissmatch = false;
+			IsDBMissmatch = false;
+			IsDBMissmatchDuringMonitoring = false;
 			OnDelay = 0;
 			HoldDelay = 0;
 			OffDelay = 0;
 		}
 
 		public bool IsInitialState { get; set; }
-
 		public bool IsSuspending { get; set; }
-		public bool IsGKConnectionLost { get; set; }
 		public bool IsNoLicense { get; set; }
 		public bool IsConnectionLost { get; set; }
-		public bool IsGKMissmatch { get; set; }
-		public bool IsRealMissmatch { get; set; }
+		public bool IsDBMissmatch { get; set; }
+		public bool IsDBMissmatchDuringMonitoring { get; set; }
+
+		public bool IsService { get; set; }
 
 		bool _isInTechnologicalRegime;
 		public bool IsInTechnologicalRegime
@@ -72,7 +71,7 @@ namespace XFiresecAPI
 				{
 					return new List<XStateClass>() { XStateClass.ConnectionLost };
 				}
-				if (IsGKMissmatch)
+				if (IsDBMissmatch || IsDBMissmatchDuringMonitoring)
 				{
 					return new List<XStateClass>() { XStateClass.DBMissmatch };
 				}
@@ -101,11 +100,19 @@ namespace XFiresecAPI
 		public void CopyToXState(XState state)
 		{
 			state.StateClasses = StateClasses.ToList();
-			state.AdditionalStates = AdditionalStates.ToList();
 			state.StateClass = StateClass;
+			state.AdditionalStates = AdditionalStates.ToList();
 			state.OnDelay = OnDelay;
 			state.OffDelay = OffDelay;
 			state.HoldDelay = HoldDelay;
+
+			if (IsInitialState || IsSuspending || IsNoLicense || IsConnectionLost)
+			{
+				state.AdditionalStates = new List<XAdditionalState>();
+				state.OnDelay = 0;
+				state.OffDelay = 0;
+				state.HoldDelay = 0;
+			}
 		}
 	}
 }

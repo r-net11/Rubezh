@@ -50,7 +50,6 @@ namespace GKProcessor
                 default:
                     return DescriptionType.Unknown;
             }
-
         }
 
 		public class DescriptionComparer : IComparer<Description>

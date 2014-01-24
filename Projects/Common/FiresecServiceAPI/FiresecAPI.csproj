@@ -355,11 +355,11 @@
     <Compile Include="XModels\States\XDeviceState.cs" />
     <Compile Include="XModels\States\XDirectionState.cs" />
     <Compile Include="XModels\States\XDriverState.cs" />
+    <Compile Include="XModels\States\XPimState.cs" />
+    <Compile Include="XModels\States\XPumpStationState.cs" />
     <Compile Include="XModels\States\XStateClass.cs" />
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
-    <Compile Include="XModels\States\XPimState.cs" />
-    <Compile Include="XModels\States\XPumpStationState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

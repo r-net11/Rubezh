@@ -6,28 +6,6 @@ namespace Infrastructure.Common.Windows
 	{
 		private static ProgressViewModel _progressViewModel = null;
 
-		public static void SaveShowProgress(string name, int count)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Show("", name, count);
-			});
-		}
-		public static void SaveDoStep(string name)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.DoStep(name);
-			});
-		}
-		public static void SaveClose()
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Close();
-			});
-		}
-
 		public static void Show(string title, string text = null, int stepCount = 1, bool canCancel = false)
 		{
 			if (text == null)

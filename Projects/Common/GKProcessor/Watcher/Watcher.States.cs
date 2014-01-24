@@ -64,10 +64,6 @@ namespace GKProcessor
 			if (showProgress && progressCallback != null)
 				GKProcessorManager.OnStopProgress(progressCallback);
 
-			foreach (var descriptor in GkDatabase.Descriptors)
-			{
-				descriptor.XBase.BaseState.IsGKMissmatch = IsDBMissmatchDuringMonitoring;
-			}
 			IsJournalAnyDBMissmatch = IsDBMissmatchDuringMonitoring;
 			CheckTechnologicalRegime();
 			NotifyAllObjectsStateChanged();
@@ -203,16 +199,9 @@ namespace GKProcessor
 				expectedBytesCount = 68;
 			}
 
-			if (sendResult.HasError)
+			if (sendResult.HasError || sendResult.Bytes.Count != expectedBytesCount)
 			{
 				ConnectionChanged(false);
-				return false;
-			}
-			if (sendResult.Bytes.Count != expectedBytesCount)
-			{
-				IsDBMissmatchDuringMonitoring = true;
-				xBase.BaseState.IsGKMissmatch = true;
-				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_количество_байт_в_пришедшем_ответе;
 				return false;
 			}
 			ConnectionChanged(true);
@@ -229,16 +218,9 @@ namespace GKProcessor
 		bool GetState(XBase xBase, bool delaysOnly = false)
 		{
 			var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
-			if (sendResult.HasError)
+			if (sendResult.HasError || sendResult.Bytes.Count != 68)
 			{
 				ConnectionChanged(false);
-				return false;
-			}
-			if (sendResult.Bytes.Count != 68)
-			{
-				IsDBMissmatchDuringMonitoring = true;
-				xBase.BaseState.IsGKMissmatch = true;
-				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_количество_байт_в_пришедшем_ответе;
 				return false;
 			}
 			ConnectionChanged(true);
@@ -340,7 +322,7 @@ namespace GKProcessor
 				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_описание_компонента;
 			}
 
-			xBase.BaseState.IsRealMissmatch = isMissmatch;
+			xBase.BaseState.IsDBMissmatchDuringMonitoring = isMissmatch;
 			if (isMissmatch)
 			{
 				IsDBMissmatchDuringMonitoring = true;
@@ -355,9 +337,9 @@ namespace GKProcessor
 				{
 					var device = xBase as XDevice;
 					if (journalItem.Name == "Запыленность")
-						device.InternalState.IsService = true;
+						device.BaseState.IsService = true;
 					if (journalItem.Name == "Запыленность устранена")
-						device.InternalState.IsService = false;
+						device.BaseState.IsService = false;
 				}
 			}
 		}

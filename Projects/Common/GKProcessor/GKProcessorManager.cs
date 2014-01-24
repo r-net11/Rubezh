@@ -7,6 +7,7 @@ using XFiresecAPI;
 using FiresecClient;
 using System.Runtime.Serialization;
 using FiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -289,35 +290,27 @@ namespace GKProcessor
 			var gkStates = new GKStates();
 			foreach (var device in XManager.Devices)
 			{
-				device.InternalState.CopyToXState(device.State);
-				gkStates.DeviceStates.Add(device.State);
+				Watcher.AddObjectStateToGKStates(gkStates, device);
 			}
 			foreach (var zone in XManager.Zones)
 			{
-				zone.InternalState.CopyToXState(zone.State);
-				gkStates.ZoneStates.Add(zone.State);
+				Watcher.AddObjectStateToGKStates(gkStates, zone);
 			}
 			foreach (var direction in XManager.Directions)
 			{
-				direction.InternalState.CopyToXState(direction.State);
-				gkStates.DirectionStates.Add(direction.State);
+				Watcher.AddObjectStateToGKStates(gkStates, direction);
 			}
 			foreach (var pumpStation in XManager.PumpStations)
 			{
-				pumpStation.InternalState.CopyToXState(pumpStation.State);
-				gkStates.PumpStationStates.Add(pumpStation.State);
+				Watcher.AddObjectStateToGKStates(gkStates, pumpStation);
 			}
 			foreach (var delay in XManager.Delays)
 			{
-				delay.InternalState.CopyToXState(delay.State);
-				delay.State.PresentationName = delay.PresentationName;
-				gkStates.DelayStates.Add(delay.State);
+				Watcher.AddObjectStateToGKStates(gkStates, delay);
 			}
 			foreach (var pim in XManager.Pims)
 			{
-				pim.InternalState.CopyToXState(pim.State);
-				pim.State.PresentationName = pim.PresentationName;
-				gkStates.PumpStationStates.Add(pim.State);
+				Watcher.AddObjectStateToGKStates(gkStates, pim);
 			}
 			return gkStates;
 		}

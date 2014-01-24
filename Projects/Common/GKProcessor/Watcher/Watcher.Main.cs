@@ -247,7 +247,7 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.BaseState.IsGKMissmatch = IsHashFailure;
+						descriptor.XBase.BaseState.IsDBMissmatch = IsHashFailure;
 						descriptor.XBase.BaseState.IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
@@ -420,38 +420,40 @@ namespace GKProcessor
 
 		void OnObjectStateChanged(XBase xBase)
 		{
+			AddObjectStateToGKStates(GKCallbackResult.GKStates, xBase);
+		}
+
+		public static void AddObjectStateToGKStates(GKStates gkStates, XBase xBase)
+		{
 			if (xBase.State != null)
 			{
-				xBase.State.StateClasses = xBase.BaseState.StateClasses.ToList();
-				xBase.State.StateClass = xBase.BaseState.StateClass;
-				xBase.State.AdditionalStates = xBase.BaseState.AdditionalStates.ToList();
-				xBase.State.HoldDelay = xBase.BaseState.HoldDelay;
-				xBase.State.OnDelay = xBase.BaseState.OnDelay;
-				xBase.State.OffDelay = xBase.BaseState.OffDelay;
+				xBase.BaseState.CopyToXState(xBase.State);
 				if (xBase is XDevice)
 				{
-					GKCallbackResult.GKStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
-					GKCallbackResult.GKStates.DeviceStates.Add(xBase.State);
+					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);
+					gkStates.DeviceStates.Add(xBase.State);
 				}
 				if (xBase is XZone)
 				{
-					GKCallbackResult.GKStates.ZoneStates.Add(xBase.State);
+					gkStates.ZoneStates.Add(xBase.State);
 				}
 				if (xBase is XDirection)
 				{
-					GKCallbackResult.GKStates.DirectionStates.Add(xBase.State);
+					gkStates.DirectionStates.Add(xBase.State);
 				}
 				if (xBase is XPumpStation)
 				{
-					GKCallbackResult.GKStates.PumpStationStates.Add(xBase.State);
+					gkStates.PumpStationStates.Add(xBase.State);
 				}
 				if (xBase is XDelay)
 				{
-					GKCallbackResult.GKStates.DelayStates.Add(xBase.State);
+					xBase.State.PresentationName = xBase.PresentationName;
+					gkStates.DelayStates.Add(xBase.State);
 				}
 				if (xBase is XPim)
 				{
-					GKCallbackResult.GKStates.PimStates.Add(xBase.State);
+					xBase.State.PresentationName = xBase.PresentationName;
+					gkStates.PimStates.Add(xBase.State);
 				}
 			}
 		}

@@ -5,8 +5,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class LoadingViewModel : ProgressViewModel
 	{
-		public LoadingViewModel(bool restrictClose = true)
-			: base(restrictClose)
+		public LoadingViewModel()
+			: base()
 		{
 			TopMost = true;
 		}

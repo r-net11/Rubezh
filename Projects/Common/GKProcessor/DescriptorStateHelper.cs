@@ -489,7 +489,6 @@ namespace GKProcessor
 					{
 						if (connectionLostCount >= property.Value)
 						{
-							xBase.BaseState.IsGKConnectionLost = true;
 							AdditionalStates = new List<XAdditionalState>()
 							{
 								new XAdditionalState()
@@ -498,10 +497,6 @@ namespace GKProcessor
 									Name = "Потеря связи"
 								}
 							};
-						}
-						else
-						{
-							xBase.BaseState.IsGKConnectionLost = false;
 						}
 					}
 				}

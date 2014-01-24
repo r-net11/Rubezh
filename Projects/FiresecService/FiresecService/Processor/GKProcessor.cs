@@ -73,11 +73,11 @@ namespace FiresecService
 					allHashesAreEqual = false;
 				}
 
-				if (allHashesAreEqual)
-				{
-					Create();
-				}
-				else
+				//if (allHashesAreEqual)
+				//{
+				//    Create();
+				//}
+				//else
 				{
 					Stop();
 					Create();

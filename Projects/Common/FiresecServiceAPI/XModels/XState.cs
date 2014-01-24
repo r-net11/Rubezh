@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Diagnostics;
 
 namespace XFiresecAPI
 {
@@ -11,6 +12,12 @@ namespace XFiresecAPI
 	{
 		[DataMember]
 		public Guid UID { get; set; }
+
+		[DataMember]
+		public List<XStateClass> StateClasses { get; set; }
+
+		[DataMember]
+		public XStateClass StateClass { get; set; }
 
 		[DataMember]
 		public List<XAdditionalState> AdditionalStates { get; set; }
@@ -23,12 +30,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public int OffDelay { get; set; }
-
-		[DataMember]
-		public List<XStateClass> StateClasses { get; set; }
-
-		[DataMember]
-		public XStateClass StateClass { get; set; }
 
 		[DataMember]
 		public List<XMeasureParameterValue> XMeasureParameterValues { get; set; }
