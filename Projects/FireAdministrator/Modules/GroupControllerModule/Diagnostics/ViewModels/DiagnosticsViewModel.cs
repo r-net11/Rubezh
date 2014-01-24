@@ -33,8 +33,22 @@ namespace GKModule.ViewModels
 			WriteConfigFileToGKCommand = new RelayCommand(OnWriteConfigFileToGK);
 			ReadConfigFileFromGKCommand = new RelayCommand(OnReadConfigFileFromGK);
 			CompareHashesCommand = new RelayCommand(OnCompareHashes, CanCompareHashes);
+			//Time = DateTime.Parse("05:10");
+            Time = new DateTime(1999, 5, 1, 5, 59, 11);
+			ShowTimeCommand = new RelayCommand(OnShowTime);
 		}
 
+		DateTime time;
+		public DateTime Time
+		{
+			get { return time; }
+			set
+			{
+				time = value;
+				OnPropertyChanged("Time");
+			}
+		}
+		
 		public DescriptorsViewModel DatabasesViewModel { get; private set; }
 
 		public RelayCommand CompareHashesCommand { get; private set; }
@@ -80,6 +94,12 @@ namespace GKModule.ViewModels
 
 			var baseUID = XManager.Devices.FirstOrDefault().BaseUID;
 			return;
+		}
+
+		public RelayCommand ShowTimeCommand { get; private set; }
+		void OnShowTime()
+		{
+			Trace.WriteLine(Time.ToString());
 		}
 
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }

@@ -198,6 +198,9 @@
     <Compile Include="SpinnerCogs.xaml.cs">
       <DependentUpon>SpinnerCogs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
@@ -461,6 +464,10 @@
     <Page Include="Themes\ActiveXScrollBarStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -1387,6 +1394,10 @@
     <Resource Include="SKDIcons\Reader.png" />
     <Resource Include="SKDIcons\System.png" />
     <Resource Include="SKDIcons\Controller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddTime.png" />
+    <Resource Include="Images\DeleteTime.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

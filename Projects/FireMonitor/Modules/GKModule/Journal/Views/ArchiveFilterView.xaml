@@ -28,23 +28,29 @@
         <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
             <TabItem Header="Временной диапазон" Padding="3">
                 <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
+                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="С" VerticalAlignment="Center" />
-                        <loya:Dameer ShowCheckBox="False"
+                        <StackPanel>
+                            <Controls:TimePicker Time="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+                            <loya:Dameer ShowCheckBox="False"
                                      Format="Custom"
-                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     CustomFormat="dd MMMM yyyy"
                                      Width="Auto"
-                                     Value="{Binding StartDateTime}"/>
-                        <extToolkit:TimePicker Width="100" Value="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
-                        <Label Content="По" VerticalAlignment="Center" />
-                        <loya:Dameer ShowCheckBox="False"
+                                     Value="{Binding StartDateTime}"
+                                     Margin="2" />
+                        </StackPanel>
+                        <Label Content="По" VerticalAlignment="Center" Margin="25 0" />
+                        <StackPanel>
+                            <Controls:TimePicker Time="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+                            <loya:Dameer ShowCheckBox="False"
                                      Format="Custom"
-                                     CustomFormat="HH:mm:ss dd MMMM yyyy"
+                                     CustomFormat="dd MMMM yyyy"
                                      Width="Auto"
-                                     Value="{Binding EndDateTime}" />
-                        <extToolkit:TimePicker Value="{Binding EndDateTime}" Width="100" Margin="4" VerticalAlignment="Top" />
+                                     Value="{Binding EndDateTime}" 
+                                     Margin="2"/>
+                        </StackPanel>
                     </StackPanel>
-                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Тип">
