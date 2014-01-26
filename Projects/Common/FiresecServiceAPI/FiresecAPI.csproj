@@ -224,10 +224,13 @@
     <Compile Include="SKD\Library\SKDLibraryState.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDDevice.cs" />
+    <Compile Include="SKD\States\SKDCallbackResult.cs" />
+    <Compile Include="SKD\States\SKDDeviceState.cs" />
     <Compile Include="SKD\SKDDriver.cs" />
     <Compile Include="SKD\SKDDriverType.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.cs" />
+    <Compile Include="SKD\States\SKDStates.cs" />
     <Compile Include="SKD\TimeIntervals\SKDHoliday.cs" />
     <Compile Include="SKD\TimeIntervals\SKDSlideWeekInterval.cs" />
     <Compile Include="SKD\TimeIntervals\NamedSKDTimeInterval.cs" />
@@ -334,6 +337,7 @@
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\JournalDescriptionState.cs" />
+    <Compile Include="SKD\States\SKDJournalItem.cs" />
     <Compile Include="XModels\Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
