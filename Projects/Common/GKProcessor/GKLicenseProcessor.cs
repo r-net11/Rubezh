@@ -46,9 +46,8 @@ namespace GKProcessor
 
 		static void OnRun()
 		{
-#if DEBUG
-			return;
-#endif
+			if (!GlobalSettingsHelper.GlobalSettings.UseHasp)
+				return;
 
 			AutoResetEvent = new AutoResetEvent(false);
 			if (AutoResetEvent.WaitOne(TimeSpan.FromMinutes(10)))
@@ -74,9 +73,9 @@ namespace GKProcessor
 						HasLicense = CurrentHasLicense;
 
 						if (CurrentHasLicense)
-							GKProcessorManager.AddGKMessage(EventName.Отсутствует_лицензия, "", null, null);
-						else
 							GKProcessorManager.AddGKMessage(EventName.Лицензия_обнаружена, "", null, null);
+						else
+							GKProcessorManager.AddGKMessage(EventName.Отсутствует_лицензия, "", null, null);
 
 						DiagnosticsManager.Add("hasLicense=" + CurrentHasLicense);
 					}
