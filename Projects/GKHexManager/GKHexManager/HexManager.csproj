@@ -76,10 +76,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\DriverTypeToStringConverter.cs" />
-    <Compile Include="HXCFileInfoHelper.cs" />
-    <Compile Include="ViewModels\HexFileInfoViewModel.cs" />
     <Compile Include="ViewModels\LineViewModel.cs" />
-    <Compile Include="ViewModels\FileViewModel.cs" />
+    <Compile Include="ViewModels\HexFileViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

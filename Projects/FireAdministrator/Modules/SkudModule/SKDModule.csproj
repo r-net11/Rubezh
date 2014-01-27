@@ -63,14 +63,8 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
-    <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
-    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
-    <Compile Include="Events\ShowSKDLidraryEvent.cs" />
-    <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSkudEvent.cs" />
+    <Compile Include="Devices\SendResult.cs" />
+    <Compile Include="Devices\SKDDeviceProcessor.cs" />
     <Compile Include="Library\Converters\SKDLibraryStateClassToIconConverter.cs" />
     <Compile Include="Library\ImageConverters.cs" />
     <Compile Include="Library\ViewModels\LibraryDeviceDetailsViewModel.cs" />

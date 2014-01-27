@@ -27,13 +27,13 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			var progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
-			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств", progressCallback);
+			GKProcessorManager.DoProgress("Получение дескрипторов устройств", progressCallback);
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true, GKProgressClientType.Administrator);
+				GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true, GKProgressClientType.Administrator);
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (progressCallback.IsCanceled)
@@ -41,14 +41,14 @@ namespace GKProcessor
 						Error = "Операция отменена";
 						break;
 					}
-					GKProcessorManager.OnDoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count, progressCallback);
+					GKProcessorManager.DoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count, progressCallback);
 					if (!GetDescriptorInfo(kauDevice, descriptorAddresses[i]))
 						break;
 				}
 			}
-			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим", progressCallback);
+			GKProcessorManager.DoProgress("Перевод КАУ в рабочий режим", progressCallback);
 			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback);
-			GKProcessorManager.OnStopProgress(progressCallback);
+			GKProcessorManager.StopProgress(progressCallback);
 			return String.IsNullOrEmpty(Error);
 		}
 

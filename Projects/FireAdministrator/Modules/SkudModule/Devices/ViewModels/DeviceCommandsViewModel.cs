@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
+using SKDModule.Devices;
 
 namespace SKDModule.ViewModels
 {
@@ -41,20 +42,19 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			//var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
-			//MessageBoxService.Show(!string.IsNullOrEmpty(result) ? result : "Ошибка при запросе информации об устройстве");
+			var result = SKDDeviceProcessor.GetInfo(SelectedDevice.Device);
+			MessageBoxService.Show(result);
 		}
 
 		bool CanShowInfo()
 		{
-			return true;
-			//return (SelectedDevice != null && (SelectedDevice.Device.Driver.IsKauOrRSR2Kau || SelectedDevice.Device.DriverType == XDriverType.GK));
+			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
 		void OnSynchroniseTime()
 		{
-			var result = true;// FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
+			var result = SKDDeviceProcessor.SynchroniseTime(SelectedDevice.Device);
 			if (result)
 			{
 				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
@@ -66,8 +66,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanSynchroniseTime()
 		{
-			return true;
-			//return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
+			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
 		}
 
 		public RelayCommand ReadJournalCommand { get; private set; }
@@ -81,8 +80,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanReadJournal()
 		{
-			return true;//
-			//return (SelectedDevice != null && SelectedDevice.Device.DriverType == XDriverType.GK);
+			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
 		}
 
 		public RelayCommand WriteConfigCommand { get; private set; }
@@ -132,11 +130,6 @@ namespace SKDModule.ViewModels
 		bool CanReadConfiguration()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Controller;
-		}
-
-		bool CanReadConfigFile()
-		{
-			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
 		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }

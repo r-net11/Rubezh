@@ -15,49 +15,65 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="White" Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding BinaryObjects}" SelectedItem="{Binding SelectedBinaryObject}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Объект" MinWidth="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                <TextBlock Text="{Binding BinaryObject.BinaryBase.BinaryInfo.Name}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
-                                <TextBlock Text="{Binding BinaryObject.BinaryBase.BinaryInfo.Address}" HorizontalAlignment="Stretch" Margin="5, 0, 0, 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding BinaryObject.KauDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.GkDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding BinaryObject.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding BinaryObject.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
-                <DataGridTextColumn Header="Физический адрес" Binding="{Binding BinaryObject.PhysicalAdress}" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Grid Grid.Row="1" DataContext="{Binding SelectedBinaryObject}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <ItemsControl Grid.Column="0" ItemsSource="{Binding StateBits}">
+    <TabControl>
+        <TabItem Header="ГК">
+            <Grid Background="White" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding BinaryObjects}" SelectedItem="{Binding SelectedBinaryObject}" Margin="2">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Объект" MinWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <TextBlock Text="{Binding BinaryObject.XBase.PresentationName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding BinaryObject.XBase.KAUDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                        <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.XBase.GKDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                        <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding BinaryObject.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                        <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding BinaryObject.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                        <DataGridTextColumn Header="Физический адрес" Binding="{Binding BinaryObject.PhysicalAdress}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="1" DataContext="{Binding SelectedBinaryObject}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl Grid.Column="0" ItemsSource="{Binding StateBits}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <StackPanel Grid.Column="1">
+                        <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
+                        <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
+                        <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="СКД" DataContext="{Binding SKDViewModel}">
+            <ItemsControl ItemsSource="{Binding SKDDevices}" Background="White">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SKDDevice.Driver.ShortName}" Margin="1" />
+                            <TextBlock Text="{Binding SKDDevice.Address}" Margin="1" />
+                            <Button Content="Приложена карточка" Command="{Binding CardCommand}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        <StackPanel Grid.Column="1">
-            <Button Content="Автоматика" Command="{Binding SetAutomaticRegimeCommand}" Width="100" Margin="2" />
-            <Button Content="Ручной" Command="{Binding SetManualRegimeCommand}" Width="100" Margin="2" />
-            <Button Content="Отключение" Command="{Binding SetIgnoreRegimeCommand}" Width="100" Margin="2" />
-        </StackPanel>
-        </Grid>
-    </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

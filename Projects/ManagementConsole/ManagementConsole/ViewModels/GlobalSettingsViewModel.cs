@@ -19,7 +19,6 @@ namespace ManagementConsole
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
-			UseGKHash = GlobalSettingsHelper.GlobalSettings.UseGKHash;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
@@ -46,8 +45,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
-			Modules.Add(new ModuleViewModel("SkudModule.dll"));
-			Modules.Add(new ModuleViewModel("SKUDModule.dll"));
+			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 
             if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
@@ -209,17 +207,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _useGKHash;
-		public bool UseGKHash
-		{
-			get { return _useGKHash; }
-			set
-			{
-				_useGKHash = value;
-				OnPropertyChanged("UseGKHash");
-			}
-		}
-
 		public bool IsDebug
 		{
 			get
@@ -249,7 +236,6 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
 			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
-			GlobalSettingsHelper.GlobalSettings.UseGKHash = UseGKHash;
 
             GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

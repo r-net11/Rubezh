@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using FiresecAPI;
+using Controls;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.ViewModels;
 using GKProcessor;
-using HexManager;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -18,7 +16,6 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace GKModule.Models
 {
@@ -48,7 +45,17 @@ namespace GKModule.Models
 		void OnShowInfo()
 		{
 			var result = FiresecManager.FiresecService.GKGetDeviceInfo(SelectedDevice.Device);
-			MessageBoxService.Show(!string.IsNullOrEmpty(result) ? result : "Ошибка при запросе информации об устройстве");
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			if (string.IsNullOrEmpty(result.Result))
+			{
+				MessageBoxService.ShowWarning("Ошибка при запросе информации об устройстве");
+				return;
+			}
+			MessageBoxService.Show(result.Result);
 		}
 
 		bool CanShowInfo()
@@ -60,14 +67,17 @@ namespace GKModule.Models
 		void OnSynchroniseTime()
 		{
 			var result = FiresecManager.FiresecService.GKSyncronyseTime(SelectedDevice.Device);
-			if (result)
+			if (result.HasError)
 			{
-				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
+				MessageBoxService.ShowWarning(result.Error);
+				return;
 			}
-			else
+			if (!result.Result)
 			{
-				MessageBoxService.Show("Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени");
+				return;
 			}
+			MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
 		}
 		bool CanSynchroniseTime()
 		{
@@ -98,11 +108,13 @@ namespace GKModule.Models
 					var thread = new Thread(() =>
 					{
 						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
+
 						ApplicationService.Invoke(new Action(() =>
 						{
+							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 						}));
 					});
@@ -129,34 +141,37 @@ namespace GKModule.Models
 
 				ApplicationService.Invoke(new Action(() =>
 				{
-					LoadingService.Close();
 					if (!result.HasError)
 					{
-						UpdateConfigurationHelper.Update(result.Result);
-						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
-
-						var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
-						if (gkDevice != null)
+						ConfigurationCompareViewModel configurationCompareViewModel = null;
+						WaitHelper.Execute(() =>
 						{
-							foreach (var zone in result.Result.Zones)
-							{
-								zone.GkDatabaseParent = gkDevice;
-							}
-							foreach (var direction in result.Result.Directions)
-							{
-								direction.GkDatabaseParent = gkDevice;
-							}
-							foreach (var pumpStation in result.Result.PumpStations)
-							{
-								pumpStation.GkDatabaseParent = gkDevice;
-							}
-						}
+							UpdateConfigurationHelper.Update(result.Result);
+							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
 
-						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
-							SelectedDevice.Device, false);
+							var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
+							if (gkDevice != null)
+							{
+								foreach (var zone in result.Result.Zones)
+								{
+									zone.GkDatabaseParent = gkDevice;
+								}
+								foreach (var direction in result.Result.Directions)
+								{
+									direction.GkDatabaseParent = gkDevice;
+								}
+								foreach (var pumpStation in result.Result.PumpStations)
+								{
+									pumpStation.GkDatabaseParent = gkDevice;
+								}
+							}
+
+							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, false);
+						});
+						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
 						{
-							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
+							MessageBoxService.ShowWarning(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
 							return;
 						}
 						if (DialogService.ShowModalWindow(configurationCompareViewModel))
@@ -164,6 +179,7 @@ namespace GKModule.Models
 					}
 					else
 					{
+						LoadingService.Close();
 						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
 					}
 				}));
@@ -178,15 +194,20 @@ namespace GKModule.Models
 			var thread = new Thread(() =>
 			{
 				var result = FiresecManager.FiresecService.GKReadConfigurationFromGKFile(SelectedDevice.Device);
+
 				ApplicationService.Invoke(new Action(() =>
 				{
 					if (!result.HasError)
 					{
-						DescriptorsManager.Create();
-						UpdateConfigurationHelper.Update(result.Result);
-						UpdateConfigurationHelper.PrepareDescriptors(result.Result);
-						var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration,
-							result.Result, SelectedDevice.Device, true);
+						ConfigurationCompareViewModel configurationCompareViewModel = null;
+						WaitHelper.Execute(() =>
+						{
+							DescriptorsManager.Create();
+							UpdateConfigurationHelper.Update(result.Result);
+							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
+							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
+						});
+						LoadingService.Close();
 						if (configurationCompareViewModel.Error != null)
 						{
 							MessageBoxService.ShowError(configurationCompareViewModel.Error, "Ошибка при чтении конфигурации");
@@ -196,7 +217,7 @@ namespace GKModule.Models
 							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					}
 					else
-						MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурационного файла");
+						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
 				}));
 			});
 			thread.Name = "DeviceCommandsViewModel ReadConfigFile";
@@ -238,9 +259,10 @@ namespace GKModule.Models
 
 							ApplicationService.Invoke(new Action(() =>
 							{
+								LoadingService.Close();
 								if (result.HasError)
 								{
-									MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+									MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 								}
 							}));
 						});
@@ -261,11 +283,13 @@ namespace GKModule.Models
 					var thread = new Thread(() =>
 					{
 						var result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+
 						ApplicationService.Invoke(new Action(() =>
 						{
+							LoadingService.Close();
 							if (result.HasError)
 							{
-								MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+								MessageBoxService.ShowWarning(result.Error, "Ошибка при обновление ПО");
 							}
 						}));
 					});

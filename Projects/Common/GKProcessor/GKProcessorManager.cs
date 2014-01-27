@@ -7,26 +7,28 @@ using XFiresecAPI;
 using FiresecClient;
 using System.Runtime.Serialization;
 using FiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public static class GKProcessorManager
 	{
 		#region Callback
-		static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
 
-		public static void CancelGKProgress(Guid progressCallbackUID)
+		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
 			if (progressCallback != null)
 			{
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
-				OnStopProgress(progressCallback);
+				StopProgress(progressCallback);
+				AddGKMessage(EventName.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
 		}
 
-		public static GKProgressCallback OnStartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -42,7 +44,7 @@ namespace GKProcessor
 			return gkProgressCallback;
 		}
 
-		public static void OnDoProgress(string text, GKProgressCallback progressCallback)
+		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -58,7 +60,7 @@ namespace GKProcessor
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnStopProgress(GKProgressCallback progressCallback)
+		public static void StopProgress(GKProgressCallback progressCallback)
 		{
 			var gkProgressCallback = new GKProgressCallback()
 			{
@@ -70,7 +72,7 @@ namespace GKProcessor
 			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
 		{
 			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
 			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
@@ -200,12 +202,11 @@ namespace GKProcessor
 
 		public static OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName, string userName)
 		{
-			AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.Update(device, fileName);
+			firmwareUpdateHelper.Update(device, fileName, userName);
 			Start();
-			if (firmwareUpdateHelper.ErrorList != null)
+			if (firmwareUpdateHelper.ErrorList.Count > 0)
 				return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a,b)=> a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
@@ -214,9 +215,9 @@ namespace GKProcessor
 		{
 			Stop();
 			var firmwareUpdateHelper = new FirmwareUpdateHelper();
-			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, userName, devices);
+			firmwareUpdateHelper.UpdateFSCS(hxcFileInfo, devices, userName);
 			Start();
-			if (firmwareUpdateHelper.ErrorList != null)
+			if (firmwareUpdateHelper.ErrorList.Count > 0)
                 return new OperationResult<bool>(firmwareUpdateHelper.ErrorList.Aggregate((a, b) => a + "\n" + b)) { Result = false };
 			return new OperationResult<bool> { Result = true };
 		}
@@ -253,8 +254,15 @@ namespace GKProcessor
 			{
 				return new OperationResult<JournalItem>("Ошибка связи с устройством");
 			}
-			var journalParser = new JournalParser(device, sendResult.Bytes);
-			return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			if (sendResult.Bytes.Count == 64)
+			{
+				var journalParser = new JournalParser(device, sendResult.Bytes);
+				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+			}
+			else
+			{
+				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+			}
 		}
 
 		public static OperationResult<bool> GKSetSingleParameter(XBase xBase, List<byte> parameterBytes)
@@ -282,108 +290,100 @@ namespace GKProcessor
 			var gkStates = new GKStates();
 			foreach (var device in XManager.Devices)
 			{
-				device.InternalState.CopyToXState(device.State);
-				gkStates.DeviceStates.Add(device.State);
+				Watcher.AddObjectStateToGKStates(gkStates, device);
 			}
 			foreach (var zone in XManager.Zones)
 			{
-				zone.InternalState.CopyToXState(zone.State);
-				gkStates.ZoneStates.Add(zone.State);
+				Watcher.AddObjectStateToGKStates(gkStates, zone);
 			}
 			foreach (var direction in XManager.Directions)
 			{
-				direction.InternalState.CopyToXState(direction.State);
-				gkStates.DirectionStates.Add(direction.State);
+				Watcher.AddObjectStateToGKStates(gkStates, direction);
 			}
 			foreach (var pumpStation in XManager.PumpStations)
 			{
-				pumpStation.InternalState.CopyToXState(pumpStation.State);
-				gkStates.PumpStationStates.Add(pumpStation.State);
+				Watcher.AddObjectStateToGKStates(gkStates, pumpStation);
 			}
 			foreach (var delay in XManager.Delays)
 			{
-				delay.InternalState.CopyToXState(delay.State);
-				delay.State.PresentationName = delay.PresentationName;
-				gkStates.DelayStates.Add(delay.State);
+				Watcher.AddObjectStateToGKStates(gkStates, delay);
 			}
 			foreach (var pim in XManager.Pims)
 			{
-				pim.InternalState.CopyToXState(pim.State);
-				pim.State.PresentationName = pim.PresentationName;
-				gkStates.PumpStationStates.Add(pim.State);
+				Watcher.AddObjectStateToGKStates(gkStates, pim);
 			}
 			return gkStates;
 		}
 
 		public static void GKExecuteDeviceCommand(XDevice device, XStateBit stateBit, string userName)
 		{
-			Watcher.SendControlCommand(device, stateBit);
+			Watcher.SendControlCommand(device, stateBit, stateBit.ToDescription());
 			AddGKMessage(EventName.Команда_оператора, stateBit.ToDescription(), device, userName);
 		}
 
 		public static void GKReset(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.Reset);
+			Watcher.SendControlCommand(xBase, XStateBit.Reset, "Сброс");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, xBase, userName);
 		}
 
 		public static void GKResetFire1(XZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x02);
+			Watcher.SendControlCommand(zone, 0x02, "Сброс Пожар-1");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKResetFire2(XZone zone, string userName)
 		{
-			Watcher.SendControlCommand(zone, 0x03);
+			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKSetAutomaticRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_автоматический_режим, xBase, userName);
 		}
 
 		public static void GKSetManualRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual, "Перевод в ручной режим");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off);
-            AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
+			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off, "Перевод в отключенный режим");
+			AddGKMessage(EventName.Команда_оператора, EventDescription.Перевод_в_отключенный_режим, xBase, userName);
 		}
 
 		public static void GKTurnOn(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual, "Включить");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Включить, xBase, userName);
 		}
 
 		public static void GKTurnOnNow(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual, "Включить немедленно");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Включить_немедленно, xBase, userName);
 		}
 
 		public static void GKTurnOff(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual, "Выключить");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Выключить, xBase, userName);
 		}
 
 		public static void GKTurnOffNow(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual, "Выключить немедленно");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Выключить_немедленно, xBase, userName);
 		}
 
 		public static void GKStop(XBase xBase, string userName)
 		{
-			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual);
+			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual, "Остановка пуска");
             AddGKMessage(EventName.Команда_оператора, EventDescription.Остановка_пуска, xBase, userName);
 		}
 

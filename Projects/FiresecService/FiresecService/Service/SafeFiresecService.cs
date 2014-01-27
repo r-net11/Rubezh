@@ -235,9 +235,9 @@ namespace FiresecService.Service
 		#endregion
 
 		#region GK
-		public void CancelGKProgress(Guid progressCallbackUID)
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID); }, "CancelGKProgress");
+			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
 		}
 
 		public void AddJournalItem(JournalItem journalItem)
@@ -267,15 +267,16 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
+			var result = SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
+			return result;
 		}
 
-		public bool GKSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID); }, "GKSyncronyseTime");
 		}
 
-		public string GKGetDeviceInfo(Guid deviceUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(deviceUID); }, "GKGetDeviceInfo");
 		}

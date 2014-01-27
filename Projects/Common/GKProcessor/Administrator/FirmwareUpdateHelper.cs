@@ -5,85 +5,88 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.IO;
 using FiresecAPI;
+
 namespace GKProcessor
 {
 	public class FirmwareUpdateHelper
 	{
 		public List<string> ErrorList = new List<string>();
 		string Error;
-		public void Update(XDevice device, string fileName)
+		public GKProgressCallback ProgressCallback { get; private set; }
+
+		public void Update(XDevice device, string fileName, string userName)
 		{
 			var firmWareBytes = HexFileToBytesList(fileName);
-			Update(device, firmWareBytes);
+			Update(device, firmWareBytes, userName);
+			GKProcessorManager.StopProgress(ProgressCallback);
 			if (Error != null)
 				ErrorList.Add(Error);
 		}
 
-		public void Update(XDevice device, List<byte> firmWareBytes)
+		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
 		{
-			var progressCallback = GKProcessorManager.OnStartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
-			GKProcessorManager.OnDoProgress("Опрос устройства " + device.PresentationName, progressCallback);
+			GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
+			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
+			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
 			if (!DeviceBytesHelper.Ping(device))
 			{
 				Error = "Устройство " + device.PresentationName + " недоступно";
-				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
-			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, progressCallback))
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(device, ProgressCallback))
 			{
 				Error = "Не удалось перевести " + device.PresentationName + " в технологический режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
-				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
-			var softVersion = DeviceBytesHelper.GetDeviceInfo(device);
-			GKProcessorManager.OnDoProgress("Удаление программы " + device.PresentationName, progressCallback);
-			Clear(device);
+			DeviceBytesHelper.GetDeviceInfo(device);
+			GKProcessorManager.DoProgress("Удаление программы " + device.PresentationName, ProgressCallback);
+			if (!Clear(device))
+			{
+				Error = "Устройство " + device.PresentationName + " недоступно";
+				return;
+			}
 			var data = new List<byte>();
 			var offset = 0;
 			if (device.Driver.IsKauOrRSR2Kau)
 				offset = 0x10000;
 			for (int i = 0; i < firmWareBytes.Count; i = i + 0x100)
 			{
-				if (progressCallback.IsCanceled)
-				{ Error = "Операция обновления прошивки отменена"; GKProcessorManager.OnStopProgress(progressCallback); return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i / 0x100 + 1, progressCallback);
+				if (ProgressCallback.IsCanceled)
+				{ Error = "Операция обновления прибора " + device.PresentationName + " отменена"; return; }
+				GKProcessorManager.DoProgress("Запись блока данных " + i / 0x100 + 1, ProgressCallback);
 				data = new List<byte>(BitConverter.GetBytes(i + offset));
 				data.AddRange(firmWareBytes.GetRange(i, 0x100));
 				var result = SendManager.Send(device, 260, 0x12, 0, data, true, false, 10000);
 				if (result.HasError)
-				{ Error = "В заданное времени не пришел ответ от устройства"; GKProcessorManager.OnStopProgress(progressCallback); return; }
+				{ Error = "В заданное времени не пришел ответ от устройства"; return; }
 			}
-			if (!DeviceBytesHelper.GoToWorkingRegime(device, progressCallback))
+			if (!DeviceBytesHelper.GoToWorkingRegime(device, ProgressCallback))
 			{
 				Error = "Не удалось перевести " + device.PresentationName + " в рабочий режим\n" +
 						"Устройство не доступно, либо вашего " +
 						"IP адреса нет в списке разрешенного адреса ГК";
-				GKProcessorManager.OnStopProgress(progressCallback);
 				return;
 			}
-			GKProcessorManager.OnStopProgress(progressCallback);
 		}
 
-		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		public void UpdateFSCS(HexFileCollectionInfo hxcFileInfo, List<XDevice> devices, string userName)
 		{
 			foreach (var device in devices)
 			{
-				var fileInfo = new HEXFileInfo();
-				if (device.DriverType == XDriverType.GK)
-					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-				if (device.DriverType == XDriverType.KAU)
-					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
-				if (device.DriverType == XDriverType.RSR2_KAU)
-					fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU);
+				var fileInfo = hxcFileInfo.HexFileInfos.FirstOrDefault(x => x.DriverType == device.DriverType);
 				if (fileInfo == null)
+				{
+					Error = "Не найден файл прошивки для устройства типа " + device.DriverType;
 					return;
+				}
 				var bytes = StringsToBytes(fileInfo.Lines);
-				Update(device, bytes);
+				Update(device, bytes, userName);
+				GKProcessorManager.StopProgress(ProgressCallback);
 				if (Error != null)
 					ErrorList.Add(Error);
-				GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
+				Error = null;
 			}
 		}
 
@@ -111,14 +114,11 @@ namespace GKProcessor
 			return bytes;
 		}
 
-		public bool Clear(XDevice device)
+		bool Clear(XDevice device)
 		{
 			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
 			if (sendResult.HasError)
-			{
-				Error = "Устройство " + device.PresentationName + " недоступно";
 				return false;
-			}
 			return true;
 		}
 	}

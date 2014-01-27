@@ -21,12 +21,6 @@ namespace XFiresecAPI
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Direction; } }
 
-		public XDirectionState InternalState { get; set; }
-		public override XBaseState BaseState
-		{
-			get { return InternalState; }
-		}
-
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
         public List<XDevice> OutputDevices { get; set; }

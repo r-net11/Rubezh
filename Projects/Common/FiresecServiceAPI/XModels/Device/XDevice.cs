@@ -30,12 +30,6 @@ namespace XFiresecAPI
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Deivce; } }
 
-		public XDeviceState InternalState { get; set; }
-		public override XBaseState BaseState
-		{
-			get { return InternalState; }
-		}
-
 		public XDriver Driver { get; set; }
 		public XDriverType DriverType
 		{

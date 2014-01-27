@@ -10,8 +10,6 @@ namespace FireMonitor
 	{
 		public bool Validate()
 		{
-			if (GlobalSettingsHelper.GlobalSettings.Monitor_DoNotShowConfirmatinoOnIgnore)
-				return true;
 			if (FiresecManager.CheckPermission(PermissionType.Oper_MayNotConfirmCommands))
 				return true;
 			return ServiceFactory.LoginService.ExecuteValidate();

@@ -19,7 +19,7 @@ namespace GKImitator.Processor
 
 		public void Start()
 		{
-			GkDatabase = DatabaseManager.GkDatabases.FirstOrDefault();
+			GkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault();
 
 			serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 			IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 1025);
@@ -93,7 +93,7 @@ namespace GKImitator.Processor
 
 		public List<byte> GetObjectState(int no)
 		{
-			var binaryObjectBase = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GkDescriptorNo == no);
+			var binaryObjectBase = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == no);
 			if (binaryObjectBase == null)
 				return new List<byte>();
 
@@ -125,7 +125,7 @@ namespace GKImitator.Processor
 			var state = 0;
 			//var stateBits = new List<XStateBit>();
 			//stateBits.Add(XStateBit.Norm);
-			var binaryObjectViewModel = MainViewModel.Current.BinaryObjects.FirstOrDefault(x => x.BinaryObject.GkDescriptorNo == binaryObjectBase.GkDescriptorNo);
+			var binaryObjectViewModel = MainViewModel.Current.BinaryObjects.FirstOrDefault(x => x.BinaryObject.GetDescriptorNo() == binaryObjectBase.GetDescriptorNo());
 			foreach (var stateBitViewModel in binaryObjectViewModel.StateBits)
 			{
 				if (stateBitViewModel.IsActive)

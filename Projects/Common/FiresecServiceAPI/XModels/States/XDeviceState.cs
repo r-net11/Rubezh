@@ -41,8 +41,6 @@ namespace XFiresecAPI
 			}
 		}
 
-		public bool IsService { get; set; }
-
 		public override List<XStateClass> StateClasses
 		{
 			get
@@ -60,8 +58,8 @@ namespace XFiresecAPI
 					{
 						foreach (var child in Device.Children)
 						{
-							if (!stateClasses.Contains(child.InternalState.StateClass))
-								stateClasses.Add(child.InternalState.StateClass);
+							if (!stateClasses.Contains(child.BaseState.StateClass))
+								stateClasses.Add(child.BaseState.StateClass);
 						}
 						if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
 							stateClasses.Remove(XStateClass.Norm);

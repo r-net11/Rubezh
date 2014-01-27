@@ -76,9 +76,6 @@ namespace FireMonitor
 
 		void StartRevisor()
 		{
-#if DEBUG
-			return;
-#endif
 			try
 			{
 				var path = System.Reflection.Assembly.GetExecutingAssembly();

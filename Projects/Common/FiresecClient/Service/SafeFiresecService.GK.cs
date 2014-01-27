@@ -18,15 +18,15 @@ namespace FiresecClient
 	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
-		public void CancelGKProgress(Guid progressCallbackUID)
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID), "CancelGKProgress");
+				SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelGKProgress");
 			}
 			else
 			{
-				GKProcessorManager.CancelGKProgress(progressCallbackUID);
+				GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 			}
 		}
 
@@ -90,7 +90,8 @@ namespace FiresecClient
 				{
 					deviceUIDs.Add(device.UID);
 				}
-				return SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
+				var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
+				return result;
 			}
 			else
 			{
@@ -98,7 +99,7 @@ namespace FiresecClient
 			}
 		}
 
-		public bool GKSyncronyseTime(XDevice device)
+		public OperationResult<bool> GKSyncronyseTime(XDevice device)
 		{
 			if (IsGKAsAService)
 			{
@@ -106,11 +107,11 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKSyncronyseTime(device, FiresecManager.CurrentUser.Name);
+				return new OperationResult<bool>() { Result = GKProcessorManager.GKSyncronyseTime(device, FiresecManager.CurrentUser.Name) };
 			}
 		}
 
-		public string GKGetDeviceInfo(XDevice device)
+		public OperationResult<string> GKGetDeviceInfo(XDevice device)
 		{
 			if (IsGKAsAService)
 			{
@@ -118,7 +119,7 @@ namespace FiresecClient
 			}
 			else
 			{
-				return GKProcessorManager.GKGetDeviceInfo(device, FiresecManager.CurrentUser.Name);
+				return new OperationResult<string>() { Result = GKProcessorManager.GKGetDeviceInfo(device, FiresecManager.CurrentUser.Name) };
 			}
 		}
 

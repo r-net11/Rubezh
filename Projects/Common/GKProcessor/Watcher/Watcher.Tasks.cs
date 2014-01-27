@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public static int TasksCount;
 		Queue<Action> Tasks = new Queue<Action>();
 		object locker = new object();
 
@@ -31,6 +31,7 @@ namespace GKProcessor
 		{
 			try
 			{
+				var actions = new List<Action>();
 				lock (locker)
 				{
 					if (Tasks == null)
@@ -44,15 +45,13 @@ namespace GKProcessor
 						var action = Tasks.Dequeue();
 						if (action != null)
 						{
-							action();
-							TasksCount = Tasks.Count;
-						}
-						else
-						{
-							Tasks = new Queue<Action>();
-							Logger.Error("JournalWatcher.CheckTasks action = null");
+							actions.Add(action);
 						}
 					}
+				}
+				foreach (var action in actions)
+				{
+					action();
 				}
 			}
 			catch (Exception e)

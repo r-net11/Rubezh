@@ -71,13 +71,10 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Использовать сервер ГК" HorizontalAlignment="Right" Margin="2" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать Хэш1" HorizontalAlignment="Right" Margin="2" />
                     
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
-                    <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding UseGKHash}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">

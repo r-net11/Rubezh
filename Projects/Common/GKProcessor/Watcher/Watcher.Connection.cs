@@ -53,59 +53,11 @@ namespace GKProcessor
 						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
 					}
 
-					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
-					foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						device.InternalState.IsConnectionLost = !isConnected;
-						OnObjectStateChanged(device);
+						descriptor.XBase.BaseState.IsConnectionLost = !isConnected;
 					}
-					foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
-					{
-						if (device.Driver.IsGroupDevice || device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
-						{
-							OnObjectStateChanged(device);
-						}
-					}
-					foreach (var zone in XManager.Zones)
-					{
-						if (zone.GkDatabaseParent == gkDevice)
-						{
-							zone.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(zone);
-						}
-					}
-					foreach (var direction in XManager.Directions)
-					{
-						if (direction.GkDatabaseParent == gkDevice)
-						{
-							direction.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(direction);
-						}
-					}
-					foreach (var pumpStation in XManager.PumpStations)
-					{
-						if (pumpStation.GkDatabaseParent == gkDevice)
-						{
-							pumpStation.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(pumpStation);
-						}
-					}
-					foreach (var delay in XManager.Delays)
-					{
-						if (delay.GkDatabaseParent == gkDevice)
-						{
-							delay.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(delay);
-						}
-					}
-					foreach (var pim in XManager.Pims)
-					{
-						if (pim.GkDatabaseParent == gkDevice)
-						{
-							pim.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(pim);
-						}
-					}
+					NotifyAllObjectsStateChanged();
 				}
 			}
 		}

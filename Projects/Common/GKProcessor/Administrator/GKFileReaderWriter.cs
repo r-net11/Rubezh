@@ -17,7 +17,7 @@ namespace GKProcessor
 
 		public XDeviceConfiguration ReadConfigFileFromGK(XDevice gkDevice)
 		{
-			GKProgressCallback progressCallback = null;
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "Проверка связи", 1, true, GKProgressClientType.Administrator);
 			try
 			{
 				var gkFileInfo = ReadInfoBlock(gkDevice);
@@ -25,12 +25,12 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				progressCallback = GKProcessorManager.OnStartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
 				while (true)
 				{
 					if (progressCallback.IsCanceled)
 					{ Error = "Операция отменена"; return null; }
-					GKProcessorManager.OnDoProgress("Чтение блока данных " + i, progressCallback);
+					GKProcessorManager.DoProgress("Чтение блока данных " + i, progressCallback);
 					var data = new List<byte>(BitConverter.GetBytes(i++));
 					var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 					if (sendResult.HasError)
@@ -52,7 +52,7 @@ namespace GKProcessor
 			finally
 			{
 				if (progressCallback != null)
-					GKProcessorManager.OnStopProgress(progressCallback);
+					GKProcessorManager.StopProgress(progressCallback);
 			}
 		}
 
@@ -66,12 +66,12 @@ namespace GKProcessor
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
             bytesList.AddRange(gkFileInfo.FileBytes);
-			var progressCallback = GKProcessorManager.OnStartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{
 				if (progressCallback.IsCanceled)
 					{ Error = "Операция отменена"; return; }
-				GKProcessorManager.OnDoProgress("Запись блока данных " + i + 1, progressCallback);
+				GKProcessorManager.DoProgress("Запись блока данных " + i + 1, progressCallback);
 				var bytesBlock = BitConverter.GetBytes((uint)(i / 256 + 1)).ToList();
 				bytesBlock.AddRange(bytesList.GetRange(i, Math.Min(256, bytesList.Count - i)));
 				sendResult = SendManager.Send(gkDevice, (ushort)bytesBlock.Count(), 22, 0, bytesBlock);

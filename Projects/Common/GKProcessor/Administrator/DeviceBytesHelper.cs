@@ -83,7 +83,7 @@ namespace GKProcessor
 			if (IsInTechnologicalRegime(device))
 				return true;
 
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
+			GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
@@ -116,7 +116,7 @@ namespace GKProcessor
 
 		public static bool EraseDatabase(XDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
+			GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
 			for (int i = 0; i < 3; i++)
 			{
 				if (progressCallback.IsCanceled)
@@ -137,7 +137,7 @@ namespace GKProcessor
 		public static bool GoToWorkingRegime(XDevice device, GKProgressCallback progressCallback)
 		{
 			progressCallback.IsCanceled = false;
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
+			GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
 			if (progressCallback.IsCanceled)
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);

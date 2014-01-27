@@ -27,6 +27,8 @@ namespace FiresecAPI
 		}
 		public SKDDevice Parent { get; set; }
 
+		public SKDDeviceState State { get; set; }
+
 		[DataMember]
 		public Guid UID { get; set; }
 

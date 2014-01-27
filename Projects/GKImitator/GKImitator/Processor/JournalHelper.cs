@@ -35,7 +35,7 @@ namespace GKImitator.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, StackTraceHelper.GetStackTrace());
+				Logger.Error(e, "JournalHelper.Load");
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace GKImitator.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, StackTraceHelper.GetStackTrace());
+				Logger.Error(e, "JournalHelper.Save");
 			}
 		}
 	}

@@ -9,22 +9,22 @@ namespace FiresecClient
         {
             foreach (var device in Devices)
             {
-				device.InternalState = new XDeviceState(device);
+				device.BaseState = new XDeviceState(device);
 				device.State = new XState(device);
             }
             foreach (var zone in Zones)
             {
-				zone.InternalState = new XZoneState(zone);
+				zone.BaseState = new XZoneState(zone);
 				zone.State = new XState(zone);
             }
 			foreach (var direction in Directions)
 			{
-				direction.InternalState = new XDirectionState(direction);
+				direction.BaseState = new XDirectionState(direction);
 				direction.State = new XState(direction);
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.InternalState = new XPumpStationState(pumpStation);
+				pumpStation.BaseState = new XPumpStationState(pumpStation);
 				pumpStation.State = new XState(pumpStation);
 			}
         }

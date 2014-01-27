@@ -13,7 +13,7 @@ namespace GKProcessor
 
             if (descriptor != null && descriptor.Device != null)
             {
-                var deviceState = descriptor.Device.InternalState;
+                var deviceState = descriptor.Device.BaseState;
                 if (journalItem.Name == "Неисправность")
                 {
                     if (!string.IsNullOrEmpty(journalItem.Description))
@@ -86,16 +86,16 @@ namespace GKProcessor
             }
         }
 
-        void AddAdditionalState(XDeviceState deviceState, string description, XStateClass stateClass)
+        void AddAdditionalState(XBaseState baseState, string description, XStateClass stateClass)
 		{
-			if (!deviceState.AdditionalStates.Any(x => x.Name == description))
+			if (!baseState.AdditionalStates.Any(x => x.Name == description))
 			{
 				var additionalState = new XAdditionalState()
 				{
                     StateClass = stateClass,
 					Name = description
 				};
-				deviceState.AdditionalStates.Add(additionalState);
+				baseState.AdditionalStates.Add(additionalState);
 			}
 		}
 	}
