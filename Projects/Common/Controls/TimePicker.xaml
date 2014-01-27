@@ -11,6 +11,7 @@
             VerticalContentAlignment="Center"
             HorizontalContentAlignment="Center"
             OverridesDefaultStyle="True"
+            LostFocus="TextBox_LostFocus"
             MinWidth="0"
             Width="37"
             Margin="1">

@@ -21,10 +21,10 @@ namespace Controls
     /// </summary>
     public partial class TimePicker : UserControl
     {
-        int HoursMax = 23;
-        int MinutesMax = 59;
-        int HoursMin = 0;
-        int MinutesMin = 0;
+        static readonly int HoursMax = 23;
+        static readonly int MinutesMax = 59;
+        static readonly int HoursMin = 0;
+        static readonly int MinutesMin = 0;
 
         public static readonly DependencyProperty TimeProperty =
             DependencyProperty.Register("Time", typeof(DateTime), typeof(TimePicker),
@@ -234,6 +234,11 @@ namespace Controls
         {
             if(Hours>HoursMin)
                 Hours--;
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Time = new DateTime(Time.Year, Time.Month, Time.Day, Hours, Minutes, 0);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace GKModule.ViewModels
 
 		void Initialize(XArchiveFilter archiveFilter)
 		{
-			StartDateTime = archiveFilter.StartDate;
-			EndDateTime = archiveFilter.EndDate;
+			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
+			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
 
 			InitializeJournalItemTypes(archiveFilter);
 			InitializeStateClasses(archiveFilter);
@@ -313,8 +313,8 @@ namespace GKModule.ViewModels
 			get { return DateTime.Now; }
 		}
 
-		DateTime _startDateTime;
-		public DateTime StartDateTime
+		DateTimePairViewModel _startDateTime;
+		public DateTimePairViewModel StartDateTime
 		{
 			get { return _startDateTime; }
 			set
@@ -324,8 +324,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		DateTime _endDateTime;
-		public DateTime EndDateTime
+		DateTimePairViewModel _endDateTime;
+		public DateTimePairViewModel EndDateTime
 		{
 			get { return _endDateTime; }
 			set
@@ -362,8 +362,8 @@ namespace GKModule.ViewModels
 		{
 			var archiveFilter = new XArchiveFilter()
 			{
-				StartDate = StartDateTime,
-				EndDate = EndDateTime,
+				StartDate = StartDateTime.DateTime,
+				EndDate = EndDateTime.DateTime,
 				UseDeviceDateTime = UseDeviceDateTime
 			};
 			foreach (var journalItemType in JournalItemTypes)
@@ -440,7 +440,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			if (StartDateTime > EndDateTime)
+			if (StartDateTime.DateTime > EndDateTime.DateTime)
 			{
 				MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
 				return;
@@ -452,5 +452,5 @@ namespace GKModule.ViewModels
 		{
 			Close(false);
 		}
-	}
+    }
 }

@@ -161,7 +161,7 @@ namespace GKProcessor
 							break;
 						case 1:
 							JournalItem.Name = "Изменился заводской номер";
-							JournalItem.Description = "Старый заводсткой номер: " + BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
+							JournalItem.Description = "Старый заводской номер: " + BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
 							break;
 						case 2:
 							JournalItem.Name = "Пожар-1";

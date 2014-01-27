@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
                 return -1;
             if (!x.IsEnabled && y.IsEnabled)
                 return 1;
-            return 0;
+            return x.JournalDescriptionState.Name.CompareTo(y.JournalDescriptionState.Name);
         }
 	}
 
