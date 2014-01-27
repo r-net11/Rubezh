@@ -17,9 +17,9 @@ namespace SKDModule.ViewModels
 {
 	public class JournalItemViewModel : BaseViewModel
 	{
-		public JournalItem JournalItem { get; private set; }
+		public SKDJournalItem JournalItem { get; private set; }
 		
-		public JournalItemViewModel(JournalItem journalItem)
+		public JournalItemViewModel(SKDJournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowInTree);

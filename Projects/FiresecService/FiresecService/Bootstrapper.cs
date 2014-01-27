@@ -43,6 +43,8 @@ namespace FiresecService
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
+				UILogger.Log("Создание конфигурации СКД");
+				SKDProcessor.Create();
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)

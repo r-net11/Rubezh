@@ -34,5 +34,17 @@ namespace FiresecAPI
 		{
 			state.UID = UID;
 		}
+
+		public void CopyTo(SKDDeviceState state)
+		{
+			state.UID = UID;
+		}
+
+		public event Action StateChanged;
+		public void OnStateChanged()
+		{
+			if (StateChanged != null)
+				StateChanged();
+		}
 	}
 }

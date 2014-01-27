@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -7,6 +8,11 @@ using SKDModule.ViewModels;
 using GKProcessor;
 using FiresecClient;
 using FiresecAPI.Models.Skud;
+using FiresecAPI;
+using System;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services;
+using Infrastructure;
 
 namespace SKDModule
 {
@@ -51,6 +57,40 @@ namespace SKDModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
+		}
+
+		public override void AfterInitialize()
+		{
+			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
+			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
+
+			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+		}
+
+		void OnSKDCallbackResult(SKDCallbackResult gkCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (gkCallbackResult.JournalItems.Count > 0)
+				{
+					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(gkCallbackResult.JournalItems);
+				}
+				CopyGKStates(gkCallbackResult.GKStates);
+				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+			});
+		}
+
+		void CopyGKStates(SKDStates gkStates)
+		{
+			foreach (var remoteDeviceState in gkStates.DeviceStates)
+			{
+				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				if (device != null)
+				{
+					remoteDeviceState.CopyTo(device.State);
+					device.State.OnStateChanged();
+				}
+			}
 		}
 	}
 }

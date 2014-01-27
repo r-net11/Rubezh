@@ -103,6 +103,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
@@ -195,6 +196,10 @@
     <ProjectReference Include="..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\SKDDriver\SKDDriver.csproj">
+      <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
+      <Name>SKDDriver</Name>
     </ProjectReference>
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>

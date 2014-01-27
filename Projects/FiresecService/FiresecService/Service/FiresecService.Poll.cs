@@ -51,6 +51,16 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+		public static void NotifySKDObjectStateChanged(SKDCallbackResult skdCallbackResult)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.SKDObjectStateChanged,
+				SKDCallbackResult = skdCallbackResult
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
         public void NotifyNewJournal(List<JournalRecord> journalRecords)
         {
             var callbackResult = new CallbackResult()

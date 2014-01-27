@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\NewSKDJournalEvent.cs" />
+    <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowSKDJournalEvent.cs" />
     <Compile Include="Events\ShowXPimEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />

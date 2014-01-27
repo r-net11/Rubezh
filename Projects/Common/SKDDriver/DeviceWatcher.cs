@@ -152,7 +152,7 @@ namespace SKDDriver
 
 					if (StopEvent != null)
 					{
-						var pollInterval = 10;
+						var pollInterval = 10000;
 						var property = Device.Properties.FirstOrDefault(x => x.Name == "PollInterval");
 						if (property != null)
 						{
@@ -239,7 +239,7 @@ namespace SKDDriver
 
 				var hashBytes = SKDManager.CreateHash();
 				var remoteHashBytes = CreateHash();
-				result = SKDManager.CompareHashes(hashBytes, remoteHashBytes);
+				result = !SKDManager.CompareHashes(hashBytes, remoteHashBytes);
 				if (IsHashFailure != result)
 				{
 					GKCallbackResult = new SKDCallbackResult();
@@ -402,7 +402,9 @@ namespace SKDDriver
 		}
 		void PingJournal()
 		{
-
+			return;
+			var journalItem = new SKDJournalItem();
+			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 		void GetAllStates()
 		{
@@ -414,7 +416,7 @@ namespace SKDDriver
 		}
 		bool CheckTechnologicalRegime()
 		{
-			return true;
+			return false;
 		}
 		public static List<byte> CreateHash()
 		{
