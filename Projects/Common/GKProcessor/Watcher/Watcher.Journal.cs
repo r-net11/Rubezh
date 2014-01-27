@@ -47,6 +47,7 @@ namespace GKProcessor
 
 		JournalItem ReadJournal(int index)
 		{
+			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
 				return null;
 			var data = BitConverter.GetBytes(index).ToList();
@@ -78,10 +79,10 @@ namespace GKProcessor
 					{
 						ChangeJournalOnDevice(descriptor, journalItem);
 						CheckServiceRequired(descriptor.XBase, journalItem);
-						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-						if (descriptor.XBase.BaseState.StateClass == XStateClass.On)
+						descriptor.XBase.InternalState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						if (descriptor.XBase.InternalState.StateClass == XStateClass.On)
 						{
-							descriptor.XBase.BaseState.ZeroHoldDelayCount = 0;
+							descriptor.XBase.InternalState.ZeroHoldDelayCount = 0;
 							CheckDelay(descriptor.XBase);
 						}
 						ParseAdditionalStates(journalItem);
@@ -103,6 +104,10 @@ namespace GKProcessor
 
 					if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
 					{
+						MustCheckTechnologicalRegime = true;
+						LastTechnologicalRegimeCheckTime = DateTime.Now;
+						TechnologicalRegimeCheckCount = 0;
+
 						CheckTechnologicalRegime();
 						NotifyAllObjectsStateChanged();
 					}
@@ -170,9 +175,9 @@ namespace GKProcessor
 				{
 					var device = xBase as XDevice;
 					if (journalItem.Name == "Запыленность")
-						device.BaseState.IsService = true;
+						device.InternalState.IsService = true;
 					if (journalItem.Name == "Запыленность устранена")
-						device.BaseState.IsService = false;
+						device.InternalState.IsService = false;
 				}
 			}
 		}

@@ -37,6 +37,7 @@ namespace FiresecService
 			{
 				GKProcessorManager.MustMonitor = true;
 				GKProcessorManager.Start();
+				GKLicenseProcessor.Start();
 			}
 		}
 

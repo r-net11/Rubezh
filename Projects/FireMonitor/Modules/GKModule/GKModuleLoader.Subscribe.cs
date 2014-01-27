@@ -40,6 +40,7 @@ namespace GKModule
 			{
 				GKProcessorManager.MustMonitor = true;
 				GKProcessorManager.Start();
+				GKLicenseProcessor.Start();
 			}
 		}
 
