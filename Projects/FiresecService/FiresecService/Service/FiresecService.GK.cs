@@ -108,7 +108,11 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return new OperationResult<bool>() { Result = GKProcessorManager.GKSyncronyseTime(device, UserName) };
+				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Устройство недоступно") { Result = false };
 			}
 			else
 			{

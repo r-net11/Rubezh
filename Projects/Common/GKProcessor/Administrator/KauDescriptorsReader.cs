@@ -27,13 +27,14 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим", 1, false, GKProgressClientType.Administrator);
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 2, true, GKProgressClientType.Administrator);
+			GKProcessorManager.DoProgress("Перевод КАУ в технологический режим", progressCallback);
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
 			GKProcessorManager.DoProgress("Получение дескрипторов устройств", progressCallback);
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true, GKProgressClientType.Administrator);
+				progressCallback.StepCount = descriptorAddresses.Count + 1;
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
 					if (progressCallback.IsCanceled)

@@ -16,8 +16,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 0, 4, 6);
 			if (sendResult.HasError)
 			{
-				MessageBoxService.Show("Ошибка связи с устройством");
-				return "";
+				return "Устройство недоступно";
 			}
 			var Day = sendResult.Bytes[0];
 			var Month = sendResult.Bytes[1];
@@ -49,33 +48,36 @@ namespace GKProcessor
 			{
 				var stringBuilder = new StringBuilder();
 				var result1 = SendManager.Send(device, 0, 1, 1);
-				if (!result1.HasError)
-				{
-					byte softvareVersion = result1.Bytes[0];
-					if (softvareVersion > 127)
-						stringBuilder.AppendLine("Режим: Технологический");
-					else
-						stringBuilder.AppendLine("Режим: Рабочий");
-					softvareVersion = (byte)(softvareVersion << 1);
-					softvareVersion = (byte)(softvareVersion >> 1);
-					stringBuilder.AppendLine("Версия ПО: " + softvareVersion.ToString());
-				}
-				var result2 = SendManager.Send(device, 0, 2, 8);
-				if (!result2.HasError)
-				{
-					var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
-					stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
+				if (result1.HasError)
+					return null;
 
-					var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
-					stringBuilder.AppendLine("Аппаратный номер: " + hardvareVervion.ToString());
-				}
+				byte softvareVersion = result1.Bytes[0];
+				if (softvareVersion > 127)
+					stringBuilder.AppendLine("Режим: Технологический");
+				else
+					stringBuilder.AppendLine("Режим: Рабочий");
+				softvareVersion = (byte)(softvareVersion << 1);
+				softvareVersion = (byte)(softvareVersion >> 1);
+				stringBuilder.AppendLine("Версия ПО: " + softvareVersion.ToString());
+
+				var result2 = SendManager.Send(device, 0, 2, 8);
+				if (result2.HasError)
+					if (result1.HasError)
+						return null;
+
+				var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
+				stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
+
+				var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
+				stringBuilder.AppendLine("Аппаратный номер: " + hardvareVervion.ToString());
+
 				return stringBuilder.ToString();
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "DeviceBytesHelper.ShowInfoCommand");
+				return "Внутренняя ошибка при выполнении операции";
 			}
-			return null;
 		}
 
 		public static bool GoToTechnologicalRegime(XDevice device, GKProgressCallback progressCallback)
