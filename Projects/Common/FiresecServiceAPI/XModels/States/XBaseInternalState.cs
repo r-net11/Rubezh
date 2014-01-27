@@ -7,9 +7,9 @@ using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
-	public abstract class XBaseState
+	public abstract class XBaseInternalState
 	{
-		public XBaseState()
+		public XBaseInternalState()
 		{
 			Clear();
 		}
@@ -53,7 +53,28 @@ namespace XFiresecAPI
 
 		public DateTime LastDateTime { get; set; }
 		public int ZeroHoldDelayCount { get; set; }
-		public abstract List<XStateBit> StateBits { get; set; }
+
+		List<XStateBit> _stateBits = new List<XStateBit>();
+		public virtual List<XStateBit> StateBits
+		{
+			get
+			{
+				if (IsConnectionLost)
+					return new List<XStateBit>();
+				else
+				{
+					if (_stateBits == null)
+						_stateBits = new List<XStateBit>();
+					return _stateBits;
+				}
+			}
+			set
+			{
+				_stateBits = value;
+				if (_stateBits == null)
+					_stateBits = new List<XStateBit>();
+			}
+		}
 
 		public virtual List<XStateClass> StateClasses
 		{

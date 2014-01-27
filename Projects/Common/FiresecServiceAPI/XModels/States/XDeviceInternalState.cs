@@ -5,11 +5,11 @@ using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-	public class XDeviceState : XBaseState
+	public class XDeviceInternalState : XBaseInternalState
 	{
 		public XDevice Device { get; private set; }
 
-		public XDeviceState(XDevice device)
+		public XDeviceInternalState(XDevice device)
 		{
 			Device = device;
 
@@ -58,8 +58,8 @@ namespace XFiresecAPI
 					{
 						foreach (var child in Device.Children)
 						{
-							if (!stateClasses.Contains(child.BaseState.StateClass))
-								stateClasses.Add(child.BaseState.StateClass);
+							if (!stateClasses.Contains(child.InternalState.StateClass))
+								stateClasses.Add(child.InternalState.StateClass);
 						}
 						if (stateClasses.Count > 1 && stateClasses.Contains(XStateClass.Norm))
 							stateClasses.Remove(XStateClass.Norm);

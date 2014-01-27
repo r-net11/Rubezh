@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using Common;
 using FiresecAPI;
+using System;
 
 namespace GKProcessor
 {
@@ -30,6 +31,7 @@ namespace GKProcessor
 				var journalItems = new List<JournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
 				{
+					LastUpdateTime = DateTime.Now;
 					if (progressCallback.IsCanceled)
 						break;
 

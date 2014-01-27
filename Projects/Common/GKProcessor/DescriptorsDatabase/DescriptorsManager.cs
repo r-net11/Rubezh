@@ -49,13 +49,13 @@ namespace GKProcessor
 			{
 				foreach (var delay in gkDatabase.Delays)
 				{
-					delay.BaseState = new XDelayState(delay);
+					delay.InternalState = new XDelayInternalState(delay);
 					delay.State = new XState(delay);
 					XManager.Delays.Add(delay);
 				}
 				foreach (var pim in gkDatabase.Pims)
 				{
-					pim.BaseState = new XPimState(pim);
+					pim.InternalState = new XPimInternalState(pim);
 					pim.State = new XState(pim);
 					XManager.Pims.Add(pim);
 				}

@@ -13,10 +13,10 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		bool IsSuspending = false;
+		public bool IsSuspending { get; private set; }
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
 
-		bool IsStopping = false;
+		public bool IsStopping { get; private set; }
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public GkDatabase GkDatabase { get; private set; }
@@ -25,10 +25,18 @@ namespace GKProcessor
 		GKCallbackResult GKCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
 
+		bool MustCheckTechnologicalRegime = false;
+		DateTime LastTechnologicalRegimeCheckTime = DateTime.Now;
+		int TechnologicalRegimeCheckCount = 0;
+
+		bool HasLicense = true;
+
 		public Watcher(GkDatabase gkDatabase)
 		{
 			GkDatabase = gkDatabase;
 			GKCallbackResult = new GKCallbackResult();
+			IsStopping = false;
+			IsSuspending = false;
 		}
 
 		public void StartThread()
@@ -103,9 +111,9 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					if (descriptor.XBase.BaseState != null)
+					if (descriptor.XBase.InternalState != null)
 					{
-						descriptor.XBase.BaseState.IsSuspending = isSuspending;
+						descriptor.XBase.InternalState.IsSuspending = isSuspending;
 					}
 				}
 				NotifyAllObjectsStateChanged();
@@ -180,7 +188,7 @@ namespace GKProcessor
 
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.BaseState.Clear();
+				descriptor.XBase.InternalState.Clear();
 			}
 
 			while (true)
@@ -189,7 +197,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.BaseState.IsInitialState = true;
+					descriptor.XBase.InternalState.IsInitialState = true;
 				}
 
 				var deviceInfo = DeviceBytesHelper.GetDeviceInfo(GkDatabase.RootDevice);
@@ -205,8 +213,8 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.BaseState.IsConnectionLost = IsPingFailure;
-						descriptor.XBase.BaseState.IsInitialState = !IsPingFailure;
+						descriptor.XBase.InternalState.IsConnectionLost = IsPingFailure;
+						descriptor.XBase.InternalState.IsInitialState = !IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -255,8 +263,8 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.BaseState.IsDBMissmatch = IsHashFailure;
-						descriptor.XBase.BaseState.IsInitialState = false;
+						descriptor.XBase.InternalState.IsDBMissmatch = IsHashFailure;
+						descriptor.XBase.InternalState.IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -297,7 +305,7 @@ namespace GKProcessor
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					descriptor.XBase.BaseState.IsInitialState = false;
+					descriptor.XBase.InternalState.IsInitialState = false;
 				}
 				NotifyAllObjectsStateChanged();
 				OnGKCallbackResult(GKCallbackResult);
@@ -308,82 +316,101 @@ namespace GKProcessor
 
 		void RunMonitoring()
 		{
-			if (CheckLicense())
+			var hasLicense = GKLicenseProcessor.HasLicense;
+			if (HasLicense != hasLicense)
 			{
-				if (WatcherManager.IsConfigurationReloading)
+				HasLicense = hasLicense;
+				foreach (var descriptor in GkDatabase.Descriptors)
 				{
-					if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
-						WatcherManager.IsConfigurationReloading = false;
+					descriptor.XBase.InternalState.IsNoLicense = !HasLicense;
 				}
-				if (!WatcherManager.IsConfigurationReloading)
+				NotifyAllObjectsStateChanged();
+			}
+			if (GKLicenseProcessor.HasLicense)
+				return;
+
+			if (WatcherManager.IsConfigurationReloading)
+			{
+				if ((DateTime.Now - WatcherManager.LastConfigurationReloadingTime).TotalSeconds > 100)
+					WatcherManager.IsConfigurationReloading = false;
+			}
+			if (WatcherManager.IsConfigurationReloading)
+				return;
+
+			if (IsDBMissmatchDuringMonitoring)
+			{
+				if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
 				{
-					if (IsDBMissmatchDuringMonitoring)
-					{
-						if ((DateTime.Now - LastMissmatchCheckTime).TotalSeconds > 60)
-						{
-							GetAllStates();
-							LastMissmatchCheckTime = DateTime.Now;
-						}
-						return;
-					}
-					try
-					{
-						if (!IsConnected)
-						{
-							if (CheckTechnologicalRegime())
-								return;
-						}
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
-					}
+					GetAllStates();
+					LastMissmatchCheckTime = DateTime.Now;
+				}
+				return;
+			}
 
-					try
+			try
+			{
+				if (MustCheckTechnologicalRegime)
+				{
+					if ((DateTime.Now - LastTechnologicalRegimeCheckTime).TotalSeconds > 10)
 					{
-						CheckTasks();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread CheckTasks");
-					}
+						LastTechnologicalRegimeCheckTime = DateTime.Now;
+						CheckTechnologicalRegime();
+						NotifyAllObjectsStateChanged();
 
-					try
-					{
-						CheckDelays();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread CheckNPT");
-					}
-
-					try
-					{
-						PingJournal();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread PingJournal");
-					}
-
-					try
-					{
-						PingNextState();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread PingNextState");
-					}
-
-					try
-					{
-						CheckMeasure();
-					}
-					catch (Exception e)
-					{
-						Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
+						TechnologicalRegimeCheckCount++;
+						if (TechnologicalRegimeCheckCount >= 10)
+							MustCheckTechnologicalRegime = false;
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
+			}
+
+			try
+			{
+				CheckTasks();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread CheckTasks");
+			}
+
+			try
+			{
+				CheckDelays();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread CheckNPT");
+			}
+
+			try
+			{
+				PingJournal();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread PingJournal");
+			}
+
+			try
+			{
+				PingNextState();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread PingNextState");
+			}
+
+			try
+			{
+				CheckMeasure();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Watcher.OnRunThread CheckMeasure");
 			}
 		}
 
@@ -424,7 +451,7 @@ namespace GKProcessor
 		{
 			if (xBase.State != null)
 			{
-				xBase.BaseState.CopyToXState(xBase.State);
+				xBase.InternalState.CopyToXState(xBase.State);
 				if (xBase is XDevice)
 				{
 					gkStates.DeviceStates.RemoveAll(x => x.UID == xBase.BaseUID);

@@ -90,23 +90,23 @@ namespace GKProcessor
 		void CheckDelay(XBase xBase)
 		{
 			bool mustGetState = false;
-			switch (xBase.BaseState.StateClass)
+			switch (xBase.InternalState.StateClass)
 			{
 				case XStateClass.TurningOn:
-					mustGetState = (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
+					mustGetState = (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
 					break;
 				case XStateClass.On:
-					mustGetState = xBase.BaseState.ZeroHoldDelayCount < 10 && (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
+					mustGetState = xBase.InternalState.ZeroHoldDelayCount < 10 && (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
 					break;
 				case XStateClass.TurningOff:
-					mustGetState = (DateTime.Now - xBase.BaseState.LastDateTime).TotalMilliseconds > 500;
+					mustGetState = (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
 					break;
 			}
 			if (mustGetState)
 			{
-				var onDelay = xBase.BaseState.OnDelay;
-				var holdDelay = xBase.BaseState.HoldDelay;
-				var offDelay = xBase.BaseState.OffDelay;
+				var onDelay = xBase.InternalState.OnDelay;
+				var holdDelay = xBase.InternalState.HoldDelay;
+				var offDelay = xBase.InternalState.OffDelay;
 
 				if (MeasureDeviceInfos.Any(x => x.Device.UID == xBase.BaseUID))
 				{
@@ -117,13 +117,13 @@ namespace GKProcessor
 					GetState(xBase, true);
 				}
 
-				if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
+				if (onDelay != xBase.InternalState.OnDelay || holdDelay != xBase.InternalState.HoldDelay || offDelay != xBase.InternalState.OffDelay)
 					OnObjectStateChanged(xBase);
 
-				if (xBase.BaseState.StateClass == XStateClass.On && holdDelay == 0)
-					xBase.BaseState.ZeroHoldDelayCount++;
+				if (xBase.InternalState.StateClass == XStateClass.On && holdDelay == 0)
+					xBase.InternalState.ZeroHoldDelayCount++;
 				else
-					xBase.BaseState.ZeroHoldDelayCount = 0;
+					xBase.InternalState.ZeroHoldDelayCount = 0;
 			}
 		}
 
@@ -151,10 +151,10 @@ namespace GKProcessor
 			var descriptorStateHelper = new DescriptorStateHelper();
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 
-			xBase.BaseState.LastDateTime = DateTime.Now;
-			xBase.BaseState.OnDelay = descriptorStateHelper.OnDelay;
-			xBase.BaseState.HoldDelay = descriptorStateHelper.HoldDelay;
-			xBase.BaseState.OffDelay = descriptorStateHelper.OffDelay;
+			xBase.InternalState.LastDateTime = DateTime.Now;
+			xBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
+			xBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
+			xBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
 			return true;
 		}
 
@@ -171,15 +171,15 @@ namespace GKProcessor
 			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
 			CheckDBMissmatch(xBase, descriptorStateHelper);
 
-			xBase.BaseState.LastDateTime = DateTime.Now;
+			xBase.InternalState.LastDateTime = DateTime.Now;
 			if (!delaysOnly)
 			{
-				xBase.BaseState.StateBits = descriptorStateHelper.StateBits;
-				xBase.BaseState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+				xBase.InternalState.StateBits = descriptorStateHelper.StateBits;
+				xBase.InternalState.AdditionalStates = descriptorStateHelper.AdditionalStates;
 			}
-			xBase.BaseState.OnDelay = descriptorStateHelper.OnDelay;
-			xBase.BaseState.HoldDelay = descriptorStateHelper.HoldDelay;
-			xBase.BaseState.OffDelay = descriptorStateHelper.OffDelay;
+			xBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
+			xBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
+			xBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
 		}
 
 		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
@@ -264,7 +264,7 @@ namespace GKProcessor
 				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_описание_компонента;
 			}
 
-			xBase.BaseState.IsDBMissmatchDuringMonitoring = isMissmatch;
+			xBase.InternalState.IsDBMissmatchDuringMonitoring = isMissmatch;
 			if (isMissmatch)
 			{
 				IsDBMissmatchDuringMonitoring = true;
@@ -277,7 +277,7 @@ namespace GKProcessor
 			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
-				descriptor.XBase.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
+				descriptor.XBase.InternalState.IsInTechnologicalRegime = isInTechnologicalRegime;
 			}
 
 			if (!isInTechnologicalRegime)
@@ -288,7 +288,7 @@ namespace GKProcessor
 					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
 					foreach (var device in allChildren)
 					{
-						device.BaseState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
+						device.InternalState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
 					}
 				}
 			}

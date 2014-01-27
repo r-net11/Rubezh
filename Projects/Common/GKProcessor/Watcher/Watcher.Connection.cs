@@ -55,7 +55,7 @@ namespace GKProcessor
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						descriptor.XBase.BaseState.IsConnectionLost = !isConnected;
+						descriptor.XBase.InternalState.IsConnectionLost = !isConnected;
 					}
 					NotifyAllObjectsStateChanged();
 				}

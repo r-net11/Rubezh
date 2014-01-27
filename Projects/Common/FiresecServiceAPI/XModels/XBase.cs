@@ -40,7 +40,7 @@ namespace XFiresecAPI
 		}
 
 		public abstract string PresentationName { get; }
-		public XBaseState BaseState { get; set; }
+		public XBaseInternalState InternalState { get; set; }
 		public XState State { get; set; }
 	}
 }
