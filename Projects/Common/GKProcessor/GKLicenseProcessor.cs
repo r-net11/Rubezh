@@ -46,12 +46,12 @@ namespace GKProcessor
 
 		static void OnRun()
 		{
-			//#if DEBUG
-			//            return;
-			//#endif
+#if DEBUG
+			return;
+#endif
 
 			AutoResetEvent = new AutoResetEvent(false);
-			if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+			if (AutoResetEvent.WaitOne(TimeSpan.FromMinutes(10)))
 			{
 				return;
 			}
@@ -60,7 +60,7 @@ namespace GKProcessor
 			{
 				try
 				{
-					if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(10)))
+					if (AutoResetEvent.WaitOne(TimeSpan.FromMinutes(10)))
 					{
 						break;
 					}
