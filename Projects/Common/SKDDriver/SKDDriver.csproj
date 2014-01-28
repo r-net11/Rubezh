@@ -41,11 +41,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceWatcher.cs" />
+    <Compile Include="BytesHelper.cs" />
+    <Compile Include="Watcher\DeviceWatcher.Connection.cs" />
+    <Compile Include="Watcher\DeviceWatcher.Journal.cs" />
+    <Compile Include="Watcher\DeviceWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sending\SendResult.cs" />
+    <Compile Include="Sending\SKDDeviceProcessor.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="SKDWatcher.cs" />
+    <Compile Include="Watcher\JournalParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

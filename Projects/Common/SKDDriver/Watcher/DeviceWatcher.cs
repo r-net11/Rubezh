@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace SKDDriver
 {
-	public class DeviceWatcher
+	public partial class DeviceWatcher
 	{
 		bool IsSuspending = false;
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
@@ -19,7 +19,6 @@ namespace SKDDriver
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public DateTime LastUpdateTime { get; private set; }
-		DateTime LastMissmatchCheckTime;
 		SKDCallbackResult GKCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
 
@@ -152,7 +151,7 @@ namespace SKDDriver
 
 					if (StopEvent != null)
 					{
-						var pollInterval = 10000;
+						var pollInterval = 1000;
 						var property = Device.Properties.FirstOrDefault(x => x.Name == "PollInterval");
 						if (property != null)
 						{
@@ -390,7 +389,6 @@ namespace SKDDriver
 			SKDProcessorManager.OnGKCallbackResult(GKCallbackResult);
 		}
 
-		bool IsConnected = true;
 		bool IsDBMissmatchDuringMonitoring = false;
 		bool CheckLicense()
 		{
@@ -400,19 +398,9 @@ namespace SKDDriver
 		{
 
 		}
-		void PingJournal()
-		{
-			return;
-			var journalItem = new SKDJournalItem();
-			GKCallbackResult.JournalItems.Add(journalItem);
-		}
 		void GetAllStates()
 		{
 
-		}
-		bool ReadMissingJournalItems()
-		{
-			return true;
 		}
 		bool CheckTechnologicalRegime()
 		{

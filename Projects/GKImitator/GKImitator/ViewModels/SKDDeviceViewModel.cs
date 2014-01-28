@@ -30,7 +30,10 @@ namespace GKImitator.ViewModels
 		public RelayCommand CardCommand { get; private set; }
 		void OnCard()
 		{
-
+			var imitatorJournalItem = new SKDImitatorJournalItem();
+			SKDImitatorProcessor.LastJournalNo++;
+			imitatorJournalItem.No = SKDImitatorProcessor.LastJournalNo;
+			SKDImitatorProcessor.JournalItems.Add(imitatorJournalItem);
 		}
 	}
 }
