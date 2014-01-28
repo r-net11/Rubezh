@@ -58,7 +58,7 @@ namespace GKProcessor
                 Mask = 2
             };
 			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
-			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 2 });
             driver.Properties.Add(property4);
 
             var property5 = new XDriverProperty()
@@ -71,7 +71,7 @@ namespace GKProcessor
                 Mask = 4
             };
 			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
-			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 4 });
             driver.Properties.Add(property5);
 
             driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
