@@ -235,6 +235,12 @@ namespace FiresecService.Service
 		#endregion
 
 		#region GK
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
+		}
+
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");

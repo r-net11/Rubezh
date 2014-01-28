@@ -148,7 +148,6 @@
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
-    <Compile Include="Journal\XArchiveFilter.cs" />
     <Compile Include="Patching\Patch.cs" />
     <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

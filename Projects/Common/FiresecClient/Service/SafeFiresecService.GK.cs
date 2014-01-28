@@ -18,6 +18,18 @@ namespace FiresecClient
 	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+			}
+			else
+			{
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+			}
+		}
+
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			if (IsGKAsAService)

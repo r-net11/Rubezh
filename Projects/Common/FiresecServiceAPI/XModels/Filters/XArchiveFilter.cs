@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using XFiresecAPI;
+using System.Runtime.Serialization;
 
-namespace GKProcessor
+namespace XFiresecAPI
 {
+	[DataContract]
 	public class XArchiveFilter
 	{
 		public XArchiveFilter()
@@ -25,19 +27,46 @@ namespace GKProcessor
 			PumpStationUIDs = new List<Guid>();
 		}
 
+		[DataMember]
 		public DateTime StartDate { get; set; }
+
+		[DataMember]
 		public DateTime EndDate { get; set; }
+
+		[DataMember]
 		public bool UseDeviceDateTime { get; set; }
+
+		[DataMember]
 		public List<JournalItemType> JournalItemTypes { get; set; }
+
+		[DataMember]
 		public List<XStateClass> StateClasses { get; set; }
-        public List<JournalDescriptionState> JournalDescriptionState { get; set; }
+
+		[DataMember]
+		public List<JournalDescriptionState> JournalDescriptionState { get; set; }
+
+		[DataMember]
 		public List<string> Descriptions { get; set; }
+
+		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> DirectionUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> PumpStationUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> DelayUIDs { get; set; }
+
+		[DataMember]
 		public List<Guid> PimUIDs { get; set; }
+
+		[DataMember]
 		public List<XSubsystemType> SubsystemTypes { get; set; }
 	}
 }

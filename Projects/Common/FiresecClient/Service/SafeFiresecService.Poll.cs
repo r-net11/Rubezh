@@ -17,6 +17,7 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
+		public static event Action<IEnumerable<JournalItem>> GetFilteredGKArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -125,6 +126,14 @@ namespace FiresecClient
 							callbackResult.JournalRecords.ForEach((x) => { JournalConverter.SetDeviceCatogoryAndDevieUID(x); });
 							if (GetFilteredArchiveCompletedEvent != null)
 								GetFilteredArchiveCompletedEvent(callbackResult.JournalRecords);
+						});
+						break;
+
+					case CallbackResultType.GKArchiveCompleted:
+						SafeOperationCall(() =>
+						{
+							if (GetFilteredGKArchiveCompletedEvent != null)
+								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems);
 						});
 						break;
 

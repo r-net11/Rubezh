@@ -37,6 +37,8 @@ namespace GKModule.ViewModels
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
+
+			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
 		public void Initialize()
@@ -254,8 +256,11 @@ namespace GKModule.ViewModels
 					archiveFilter = ArchiveFilter;
 				else
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
-                var journalRecords = GKDBHelper.Select(archiveFilter);
-                Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
+				//var journalItems = GKDBHelper.Select(archiveFilter, false);
+				//Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
+
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
 			}
 			catch (Exception e)
 			{
@@ -266,15 +271,15 @@ namespace GKModule.ViewModels
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
 		{
-			JournalItems = new ObservableCollection<JournalItemViewModel>();
+			//JournalItems = new ObservableCollection<JournalItemViewModel>();
 			foreach (var journalItem in journalItems)
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				JournalItems.Add(journalItemViewModel);
 			}
-			SelectedJournal = JournalItems.FirstOrDefault();
+			//SelectedJournal = JournalItems.FirstOrDefault();
 
-			Status = "Всего записей " + journalItems.Count().ToString();
+			Status = "Всего записей " + JournalItems.Count().ToString();
 		}
 
 		public override void OnShow()
