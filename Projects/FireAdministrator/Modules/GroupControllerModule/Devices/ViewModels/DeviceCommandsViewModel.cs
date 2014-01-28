@@ -216,7 +216,10 @@ namespace GKModule.Models
 							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					}
 					else
+					{
+						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
+					}
 				}));
 			});
 			thread.Name = "DeviceCommandsViewModel ReadConfigFile";

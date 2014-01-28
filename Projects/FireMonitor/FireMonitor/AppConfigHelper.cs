@@ -13,7 +13,7 @@ namespace FireMonitor
 			var appSettings = new AppSettings();
 			try
 			{
-				appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(false);
+				//appSettings.HasLicenseToControl = LicenseHelper.CheckLicense(false);
 			}
 			catch (Exception e)
 			{
