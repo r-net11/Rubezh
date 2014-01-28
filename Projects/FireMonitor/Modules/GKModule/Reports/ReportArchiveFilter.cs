@@ -11,7 +11,7 @@ namespace GKModule.Reports
 	{
 		public ReportArchiveFilter()
 		{
-			SetFilter();
+			ArchiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
 			Initialize();
 		}
 
@@ -35,15 +35,6 @@ namespace GKModule.Reports
 
 		void SetFilter(ArchiveFilterViewModel archiveFilterViewModel)
 		{
-			ArchiveFilter = archiveFilterViewModel.GetModel();
-			StartDate = archiveFilterViewModel.StartDateTime.DateTime;
-			EndDate = archiveFilterViewModel.EndDateTime.DateTime;
-		}
-
-		void SetFilter()
-		{
-			var archiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
-			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
 			ArchiveFilter = archiveFilterViewModel.GetModel();
 			StartDate = archiveFilterViewModel.StartDateTime.DateTime;
 			EndDate = archiveFilterViewModel.EndDateTime.DateTime;
