@@ -7,19 +7,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <!--<ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
-            <ItemsControl Background="White"  ItemsSource ="{Binding UpdatedDevices}" Margin="2" VerticalContentAlignment="Stretch">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" >
-                            <CheckBox IsChecked = "{Binding IsChecked}" Margin="2, 2, 4, 0" />
-                            <TextBlock Text="{Binding Name}" FontSize="14"/>
-                            <TextBlock Text="{Binding Address}" Margin="4,0" HorizontalAlignment="Stretch" FontSize="14"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>-->
         <DataGrid ItemsSource="{Binding UpdatedDevices}" VerticalScrollBarVisibility="Auto" MinWidth="300" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Устройства" MinWidth="220" Width="*">
@@ -44,6 +31,8 @@
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Content="Обновить" Command ="{Binding UpdateCommand}" ToolTip="{Binding UpdateButtonToolTip}" ToolTipService.ShowOnDisabled ="True" Width="100" Height="25" FontSize="20" Margin="5" />
+            <ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить все" ImageSource="/Controls;component/Images/SelectAll.png" />
+            <ToolBarButton Command="{Binding DeSelectAllCommand}" ToolTip="Снять все выделения" ImageSource="/Controls;component/Images/SelectNone.png" />
         </StackPanel>
     </Grid>
 </UserControl>

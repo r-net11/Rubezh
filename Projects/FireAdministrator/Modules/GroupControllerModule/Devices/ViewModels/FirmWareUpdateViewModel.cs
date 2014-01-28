@@ -12,8 +12,27 @@ namespace GKModule.ViewModels
         {
             Title = "Выберете устройства, у которых следуют обновить ПО";
             UpdatedDevices = Initialize(devices);
+			SelectAllCommand = new RelayCommand(OnSelectAll);
+			DeSelectAllCommand = new RelayCommand(OnDeSelectAll);
             UpdateCommand = new RelayCommand(OnUpdate, CanUpdate);
         }
+
+		public RelayCommand SelectAllCommand { get; private set; }
+		void OnSelectAll()
+		{
+			foreach (var device in UpdatedDevices)
+			{
+				device.IsChecked = true;
+			}
+		}
+		public RelayCommand DeSelectAllCommand { get; private set; }
+		void OnDeSelectAll()
+		{
+			foreach (var device in UpdatedDevices)
+			{
+				device.IsChecked = false;
+			}
+		}
         public List<UpdatedDeviceViewModel> UpdatedDevices { get; set; }
         List<UpdatedDeviceViewModel> Initialize(List<XDevice> devices)
         {
