@@ -47,7 +47,7 @@ namespace FiresecService.SKUD.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=02-KBP-NIO-0524;Initial Catalog=SKUD;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=SKUD;Integrated Security=True")]
         public string SKUDConnectionString {
             get {
                 return ((string)(this["SKUDConnectionString"]));
