@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace SKDDriver
 {
-	public partial class DeviceWatcher
+	public partial class Watcher
 	{
 		bool IsConnected = true;
 		int ConnectionLostCount = 0;

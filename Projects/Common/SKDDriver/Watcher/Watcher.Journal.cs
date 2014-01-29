@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace SKDDriver
 {
-	public partial class DeviceWatcher
+	public partial class Watcher
 	{
 		int LastId = -1;
 
@@ -58,12 +58,8 @@ namespace SKDDriver
 				ConnectionChanged(false);
 				return null;
 			}
-			//if (sendResult.Bytes.Count == 64)
-			{
-				var journalParser = new JournalParser(Device, sendResult.Bytes);
-				return journalParser.JournalItem;
-			}
-			return null;
+			var journalParser = new JournalParser(Device, sendResult.Bytes);
+			return journalParser.JournalItem;
 		}
 
 		void ReadAndPublish(int startIndex, int endIndex)

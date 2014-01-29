@@ -42,9 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="Watcher\DeviceWatcher.Connection.cs" />
-    <Compile Include="Watcher\DeviceWatcher.Journal.cs" />
-    <Compile Include="Watcher\DeviceWatcher.cs" />
+    <Compile Include="Watcher\Watcher.Connection.cs" />
+    <Compile Include="Watcher\Watcher.Journal.cs" />
+    <Compile Include="Watcher\Watcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Sending\SKDDeviceProcessor.cs" />

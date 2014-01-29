@@ -16,6 +16,55 @@
     </UserControl.Resources>
 
     <TabControl>
+        <TabItem Header="СКД" DataContext="{Binding SKDViewModel}">
+            <ItemsControl ItemsSource="{Binding SKDDevices}" Background="White">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="LightGray" CornerRadius="10" Margin="10">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Background="DarkGray" Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Устройство" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding SKDDevice.Driver.ShortName}" Margin="2" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                                        <TextBlock Text="Адрес" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding SKDDevice.Address}" Margin="2" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Порт" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding PortNo}" Margin="2" />
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Margin="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Номер карты" Width="100" Margin="2" />
+                                            <TextBox Text="{Binding CardNo}" Margin="2" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Событие" Width="100" Margin="2" />
+                                            <ComboBox ItemsSource="{Binding SKDEvents}" SelectedItem="{Binding SelectedSKDEvent}" Margin="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <Button Content="Событие" Command="{Binding NewEventCommand}" Width="150" Margin="2" />
+
+                                    <CheckBox Content="Связь есть" IsChecked="{Binding IsConnected}" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </TabItem>
         <TabItem Header="ГК">
             <Grid Background="White" Margin="5">
                 <Grid.RowDefinitions>
@@ -61,19 +110,6 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-        </TabItem>
-        <TabItem Header="СКД" DataContext="{Binding SKDViewModel}">
-            <ItemsControl ItemsSource="{Binding SKDDevices}" Background="White">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding SKDDevice.Driver.ShortName}" Margin="1" />
-                            <TextBlock Text="{Binding SKDDevice.Address}" Margin="1" />
-                            <Button Content="Приложена карточка" Command="{Binding CardCommand}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </TabItem>
     </TabControl>
 </UserControl>

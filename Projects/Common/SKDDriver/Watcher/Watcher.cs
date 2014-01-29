@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace SKDDriver
 {
-	public partial class DeviceWatcher
+	public partial class Watcher
 	{
 		bool IsSuspending = false;
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
@@ -22,7 +22,7 @@ namespace SKDDriver
 		SKDCallbackResult GKCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
 
-		public DeviceWatcher(SKDDevice device)
+		public Watcher(SKDDevice device)
 		{
 			Device = device;
 		}
@@ -305,17 +305,17 @@ namespace SKDDriver
 		{
 			if (CheckLicense())
 			{
-				try
-				{
-					if (!IsConnected)
-					{
-						return;
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
-				}
+				//try
+				//{
+				//    if (!IsConnected)
+				//    {
+				//        return;
+				//    }
+				//}
+				//catch (Exception e)
+				//{
+				//    Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
+				//}
 
 				try
 				{

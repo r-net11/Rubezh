@@ -13,6 +13,7 @@ namespace GKImitator.Processor
 {
 	public class SKDImitatorProcessor
 	{
+		public bool IsConnected { get; set; }
 		int Port;
 		Socket serverSocket;
 		byte[] byteData = new byte[64];
@@ -22,6 +23,7 @@ namespace GKImitator.Processor
 		public SKDImitatorProcessor(int port)
 		{
 			Port = port;
+			IsConnected = true;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem());
 			LastJournalNo = 0;
@@ -45,16 +47,20 @@ namespace GKImitator.Processor
 			EndPoint epSender = (EndPoint)ipeSender;
 			serverSocket.EndReceiveFrom(ar, ref epSender);
 
-			var bytes = CreateAnswer();
-			if (bytes != null)
+			if (IsConnected)
 			{
-				var sendBytes = new List<byte>();
-				sendBytes.Add(byteData[0]);
-				sendBytes.AddRange(bytes);
-				byte[] message = sendBytes.ToArray();
+				var bytes = CreateAnswer();
+				if (bytes != null)
+				{
+					var sendBytes = new List<byte>();
+					sendBytes.Add(byteData[0]);
+					sendBytes.AddRange(bytes);
+					byte[] message = sendBytes.ToArray();
 
-				serverSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, epSender, new AsyncCallback(OnSend), epSender);
+					serverSocket.BeginSendTo(message, 0, message.Length, SocketFlags.None, epSender, new AsyncCallback(OnSend), epSender);
+				}
 			}
+
 			serverSocket.BeginReceiveFrom(byteData, 0, byteData.Length, SocketFlags.None, ref epSender, new AsyncCallback(OnReceive), epSender);
 		}
 
@@ -68,17 +74,22 @@ namespace GKImitator.Processor
 			var result = new List<byte>();
 			switch (byteData[0])
 			{
-				case 1: // Информация об цстройстве
+				case 1: // Информация об устройстве
 					result.Add(9);
 					return result;
 				case 2: // Индекс последней записи
 					result.AddRange(JournalItems.LastOrDefault().ToBytes());
 					return result;
 				case 3: // Чтение конкретной записи
-					result.AddRange(JournalItems.LastOrDefault().ToBytes());
+					var no = BytesHelper.SubstructInt(byteData.ToList(), 1);
+					var journalItem = JournalItems.FirstOrDefault(x=>x.No == no);
+					if (journalItem != null)
+					{
+						result.AddRange(journalItem.ToBytes());
+					}
 					return result;
 			}
-			return new List<byte>();
+			return null;
 		}
 
 		public static List<byte> ToBytes(short shortValue)
@@ -89,20 +100,6 @@ namespace GKImitator.Processor
 		public static List<byte> IntToBytes(int intValue)
 		{
 			return BitConverter.GetBytes(intValue).ToList();
-		}
-	}
-
-	public class SKDImitatorJournalItem
-	{
-		public int No { get; set; }
-		public int Code { get; set; }
-
-		public List<byte> ToBytes()
-		{
-			var result = new List<byte>();
-			result.AddRange(SKDImitatorProcessor.IntToBytes(No));
-			result.Add((byte)Code);
-			return result;
 		}
 	}
 }

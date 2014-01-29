@@ -21,6 +21,5 @@ namespace GKImitator
 			ApplicationService.Run(mainViewModel, false, false);
 			//Application.Current.MainWindow.BringIntoView();
 		}
-
 	}
 }
