@@ -27,14 +27,6 @@ namespace FiresecService.Service
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			GKDBHelper.Add(journalItem);
-			var gkCallbackResult = new GKCallbackResult();
-			gkCallbackResult.JournalItems.Add(journalItem);
-			NotifyGKObjectStateChanged(gkCallbackResult);
-		}
-
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -356,6 +348,19 @@ namespace FiresecService.Service
 			}
 		}
 
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			GKDBHelper.Add(journalItem);
+			var gkCallbackResult = new GKCallbackResult();
+			gkCallbackResult.JournalItems.Add(journalItem);
+			NotifyGKObjectStateChanged(gkCallbackResult);
+		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			return GKDBHelper.GetGKTopLastJournalItems(count);
+		}
+
 		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
 		{
 			if (CurrentThread != null)
@@ -381,6 +386,16 @@ namespace FiresecService.Service
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
 		{
 			FiresecService.NotifyGKArchiveCompleted(journalItems);
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			return GKDBHelper.GetDistinctGKJournalNames();
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			return GKDBHelper.GetDistinctGKJournalDescriptions();
 		}
 	}
 }

@@ -236,19 +236,9 @@ namespace FiresecService.Service
 
 		#region GK
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
-		{
-			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
-		}
-
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
-		}
-
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
@@ -384,6 +374,32 @@ namespace FiresecService.Service
 		public void GKStopMeasureMonitoring(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
+		}
+
+
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalNames(); }, "GetDistinctGKJournalNames");
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalDescriptions(); }, "GetDistinctGKJournalDescriptions");
 		}
 		#endregion
 	}

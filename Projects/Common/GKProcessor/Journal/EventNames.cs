@@ -15,7 +15,7 @@ namespace GKProcessor
 		[DescriptionAttribute("Смена пользователя")]
 		Смена_пользователя,
 
-		[DescriptionAttribute("Подтверждение тревоги")]
+		[DescriptionAttribute("Вход пользователя в систему")]
 		Вход_пользователя_в_систему,
 
 		[DescriptionAttribute("Вход пользователя в систему")]

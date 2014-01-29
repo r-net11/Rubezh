@@ -18,18 +18,6 @@ namespace FiresecClient
 	{
 		static bool IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
-		{
-			if (IsGKAsAService)
-			{
-				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
-			}
-			else
-			{
-				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
-			}
-		}
-
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			if (IsGKAsAService)
@@ -386,6 +374,7 @@ namespace FiresecClient
 			}
 		}
 
+		#region Journal
 		public void AddJournalItem(JournalItem journalItem)
 		{
 			if (IsGKAsAService)
@@ -396,5 +385,54 @@ namespace FiresecClient
 			{
 			}
 		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => FiresecService.GetGKTopLastJournalItems(count), "GetGKTopLastJournalItems");
+			}
+			else
+			{
+				return GKDBHelper.GetGKTopLastJournalItems(count);
+			}
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			if (IsGKAsAService)
+			{
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+			}
+			else
+			{
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+			}
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalNames(), "GetDistinctGKJournalNames");
+			}
+			else
+			{
+				return GKDBHelper.GetDistinctGKJournalNames();
+			}
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			if (IsGKAsAService)
+			{
+				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalDescriptions(), "GetDistinctGKJournalDescriptions");
+			}
+			else
+			{
+				return GKDBHelper.GetDistinctGKJournalDescriptions();
+			}
+		}
+		#endregion
 	}
 }

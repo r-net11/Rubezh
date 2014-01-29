@@ -11,12 +11,6 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
-		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter);
-
-		[OperationContract]
-		void AddJournalItem(JournalItem journalItem);
-
-		[OperationContract]
 		void CancelGKProgress(Guid progressCallbackUID, string userName);
 
 		[OperationContract]
@@ -99,5 +93,22 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStopMeasureMonitoring(Guid deviceUID);
+
+		#region Journal
+		[OperationContract]
+		void AddJournalItem(JournalItem journalItem);
+
+		[OperationContract]
+		List<JournalItem> GetGKTopLastJournalItems(int count);
+
+		[OperationContract]
+		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter);
+
+		[OperationContract]
+		List<string> GetDistinctGKJournalNames();
+
+		[OperationContract]
+		List<string> GetDistinctGKJournalDescriptions();
+		#endregion
 	}
 }

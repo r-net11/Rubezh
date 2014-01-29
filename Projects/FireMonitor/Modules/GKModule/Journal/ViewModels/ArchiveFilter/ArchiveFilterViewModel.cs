@@ -375,8 +375,8 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList SubsystemTypes { get; private set; }
 		public CheckBoxItemList PumpStations { get; private set; }
 		public CheckBoxItemList PIMs { get; private set; }
-        List<string> DistinctDatabaseNames = GKDBHelper.SelectDistinctNames();
-        List<string> DistinctDatabaseDescriptions = GKDBHelper.SelectDistinctDescriptions();
+        List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetDistinctGKJournalNames();
+		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetDistinctGKJournalDescriptions();
 
 		public XArchiveFilter GetModel()
 		{
