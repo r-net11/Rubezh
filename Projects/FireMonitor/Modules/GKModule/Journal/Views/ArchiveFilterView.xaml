@@ -32,21 +32,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="С" VerticalAlignment="Center" />
                         <StackPanel>
-                            <Controls:TimePicker Time="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center"/>
+                            <Controls:TimePicker Time="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
                             <Calendar
                                 SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
                                 DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-                                SelectionMode="SingleDate"
-                                />
+                                SelectionMode="SingleDate" />
                         </StackPanel>
                         <Label Content="По" VerticalAlignment="Center" Margin="25 0" />
                         <StackPanel>
-                            <Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
+                            <Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                             <Calendar
                                 SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
                                 DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-                                SelectionMode="SingleDate"
-                                />
+                                SelectionMode="SingleDate" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

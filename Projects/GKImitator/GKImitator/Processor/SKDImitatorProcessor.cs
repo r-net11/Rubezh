@@ -16,10 +16,15 @@ namespace GKImitator.Processor
 		int Port;
 		Socket serverSocket;
 		byte[] byteData = new byte[64];
+		public List<SKDImitatorJournalItem> JournalItems { get; set; }
+		public int LastJournalNo { get; set; }
 
 		public SKDImitatorProcessor(int port)
 		{
 			Port = port;
+			JournalItems = new List<SKDImitatorJournalItem>();
+			JournalItems.Add(new SKDImitatorJournalItem());
+			LastJournalNo = 0;
 		}
 
 		public void Start()
@@ -63,10 +68,14 @@ namespace GKImitator.Processor
 			var result = new List<byte>();
 			switch (byteData[0])
 			{
-				case 1:
+				case 1: // Информация об цстройстве
 					result.Add(9);
 					return result;
-				case 2:
+				case 2: // Индекс последней записи
+					result.AddRange(JournalItems.LastOrDefault().ToBytes());
+					return result;
+				case 3: // Чтение конкретной записи
+					result.AddRange(JournalItems.LastOrDefault().ToBytes());
 					return result;
 			}
 			return new List<byte>();
@@ -80,6 +89,20 @@ namespace GKImitator.Processor
 		public static List<byte> IntToBytes(int intValue)
 		{
 			return BitConverter.GetBytes(intValue).ToList();
+		}
+	}
+
+	public class SKDImitatorJournalItem
+	{
+		public int No { get; set; }
+		public int Code { get; set; }
+
+		public List<byte> ToBytes()
+		{
+			var result = new List<byte>();
+			result.AddRange(SKDImitatorProcessor.IntToBytes(No));
+			result.Add((byte)Code);
+			return result;
 		}
 	}
 }

@@ -5,11 +5,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		public ProgressViewModel()
 		{
+			CancelCommand = new RelayCommand(OnCancel);
 			Sizable = false;
 			RestrictClose = true;
 			HideInTaskbar = true;
 			CanCancel = false;
-			CancelCommand = new RelayCommand(OnCancel);
 		}
 
 		public bool RestrictClose { get; private set; }
@@ -53,8 +53,24 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return _canCancel; }
 			set
 			{
-				_canCancel = value;
+				if (value)
+					CancelText = "Отмена";
+				else
+					CancelText = "Закрыть";
+
+				_canCancel = true;
 				OnPropertyChanged("CanCancel");
+			}
+		}
+
+		string _cancelText;
+		public string CancelText
+		{
+			get { return _cancelText; }
+			set
+			{
+				_cancelText = value;
+				OnPropertyChanged("CancelText");
 			}
 		}
 
@@ -79,6 +95,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		void OnCancel()
 		{
 			IsCanceled = true;
+			Close();
 		}
 	}
 }

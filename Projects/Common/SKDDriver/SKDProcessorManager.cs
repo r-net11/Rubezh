@@ -13,10 +13,10 @@ namespace SKDDriver
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count > 0)
 			{
-				if (GKCallbackResultEvent != null)
-					GKCallbackResultEvent(gkCallbackResult);
+				if (SKDCallbackResultEvent != null)
+					SKDCallbackResultEvent(gkCallbackResult);
 			}
 		}
-		public static event Action<SKDCallbackResult> GKCallbackResultEvent;
+		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 	}
 }

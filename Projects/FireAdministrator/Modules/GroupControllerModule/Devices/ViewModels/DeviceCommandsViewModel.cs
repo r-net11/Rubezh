@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Controls;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.ViewModels;
@@ -107,18 +108,16 @@ namespace GKModule.Models
 				{
 					var thread = new Thread(() =>
 					{
-						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device);
-
-						ApplicationService.Invoke(new Action(() =>
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device.DriverType == XDriverType.GK ? SelectedDevice.Device : SelectedDevice.Device.GKParent);
+						ApplicationService.Invoke(() =>
 						{
 							LoadingService.Close();
 							if (result.HasError)
 							{
 								MessageBoxService.ShowWarning(result.Error);
 							}
-						}));
-					});
-					thread.Name = "DeviceCommandsViewModel WriteConfig";
+						});
+					}) {Name = "DeviceCommandsViewModel WriteConfig"};
 					thread.Start();
 				}
 			}
@@ -128,7 +127,7 @@ namespace GKModule.Models
         {
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null &&
-				SelectedDevice.Device.DriverType == XDriverType.GK;
+				SelectedDevice.Device.DriverType != XDriverType.System;
         }
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
@@ -217,7 +216,10 @@ namespace GKModule.Models
 							ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 					}
 					else
+					{
+						LoadingService.Close();
 						MessageBoxService.ShowWarning(result.Error, "Ошибка при чтении конфигурационного файла");
+					}
 				}));
 			});
 			thread.Name = "DeviceCommandsViewModel ReadConfigFile";

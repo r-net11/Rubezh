@@ -94,7 +94,7 @@ namespace GKProcessor
 				var data = new List<byte>(BitConverter.GetBytes(1));
 				var sendResult = SendManager.Send(gkDevice, 4, 23, 256, data);
 				if (sendResult.HasError)
-					{ Error = "Невозможно прочитать информационный блок"; return null; }
+				{ Error = "Устройство недоступно"; return null; }
 				if (sendResult.Bytes.Count == 0)
 					{ Error = "Информационный блок отсутствует"; return null; }
 				if (sendResult.Bytes.Count < 256)

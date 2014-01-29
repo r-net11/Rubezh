@@ -182,11 +182,11 @@ namespace GKProcessor
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
 		{
 			AddGKMessage(EventNameEnum.Чтение_конфигурации_из_прибора, "", device, userName, true);
-			SuspendMonitoring(device);
+			Stop();
 			DescriptorsManager.Create();
 			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
 			descriptorReader.ReadConfiguration(device);
-			ResumeMonitoring(device);
+			Start();
 			return new OperationResult<XDeviceConfiguration> { HasError = descriptorReader.Error != null, Error = descriptorReader.Error, Result = descriptorReader.DeviceConfiguration };
 		}
 
@@ -231,7 +231,10 @@ namespace GKProcessor
 		public static string GKGetDeviceInfo(XDevice device, string userName)
 		{
 			AddGKMessage(EventNameEnum.Запрос_информации_об_устройсве, "", device, userName, true);
-			return DeviceBytesHelper.GetDeviceInfo(device);
+			var result = DeviceBytesHelper.GetDeviceInfo(device);
+			if (result == null)
+				result = "Устройство недоступно";
+			return result;
 		}
 
 		public static OperationResult<int> GKGetJournalItemsCount(XDevice device)
@@ -239,7 +242,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 0, 6, 64);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<int>("Ошибка связи с устройством");
+				return new OperationResult<int>("Устройство недоступно");
 			}
 			var journalParser = new JournalParser(device, sendResult.Bytes);
 			var result = journalParser.JournalItem.GKJournalRecordNo.Value;
@@ -252,7 +255,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<JournalItem>("Ошибка связи с устройством");
+				return new OperationResult<JournalItem>("Устройство недоступно");
 			}
 			if (sendResult.Bytes.Count == 64)
 			{

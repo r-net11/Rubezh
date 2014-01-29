@@ -11,6 +11,9 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
+		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter);
+
+		[OperationContract]
 		void AddJournalItem(JournalItem journalItem);
 
 		[OperationContract]

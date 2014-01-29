@@ -465,7 +465,7 @@ namespace GKModule.ViewModels
 			var result = FiresecManager.FiresecService.GKGKHash(gkParent);
 			if (result.HasError)
 			{
-				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				MessageBoxService.ShowError(result.Error + ". Операция запрещена");
 				return false;
 			}
 

@@ -15,6 +15,12 @@ namespace SKDDriver
 		{
 			foreach (var device in SKDManager.Devices)
 			{
+				device.State = new SKDDeviceState();
+			}
+
+			DeviceWatchers = new List<DeviceWatcher>();
+			foreach (var device in SKDManager.Devices)
+			{
 				if (device.DriverType == SKDDriverType.Controller)
 				{
 					var deviceWatcher = new DeviceWatcher(device);

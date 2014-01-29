@@ -2,6 +2,7 @@
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
 
 namespace Infrastructure.Common
 {
@@ -56,9 +57,9 @@ namespace Infrastructure.Common
 				result = "Ключ отсутствует" + "\n";
 
 			if (hasLicenseForMulticlient)
-				result += "Управление доступно";// + "\n" + "Мультисерверная ОЗ доступна";
+				result += "Управление доступно";
 			else
-				result += "Управление не доступно";// + "\n" + "Мультисерверная ОЗ не доступна";
+				result += "Управление не доступно";
 			return result;
 		}
 	}

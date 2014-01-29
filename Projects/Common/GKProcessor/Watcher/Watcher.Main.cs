@@ -326,7 +326,7 @@ namespace GKProcessor
 				}
 				NotifyAllObjectsStateChanged();
 			}
-			if (GKLicenseProcessor.HasLicense)
+			if (!GKLicenseProcessor.HasLicense)
 				return;
 
 			if (WatcherManager.IsConfigurationReloading)

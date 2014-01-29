@@ -7,13 +7,12 @@
                 <TextBlock Margin="10 3 10 3" HorizontalAlignment="Center" FontSize="12" Foreground="Black" Text="{Binding Text}" />
             </Grid>
             <TextBlock Text="{Binding Copyright, Mode=OneWay}" Margin="0 0 5 2" HorizontalAlignment="Right" FontSize="12" />
-            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="100" HorizontalAlignment="Right" Margin="2"
+            <Button Content="{Binding CancelText}" Command="{Binding CancelCommand}" Width="100" HorizontalAlignment="Right" Margin="2"
                 Visibility="{Binding CanCancel, Converter={StaticResource BoolToVisibilityConverter}}" />
         </StackPanel>
         <StackPanel VerticalAlignment="Center">
             <TextBlock Text="{Binding Product, Mode=OneWay}" Margin="20 0 20 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" />
             <TextBlock Text="{Binding Version, Mode=OneWay}" Margin="20 0 20 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Black" Foreground="White" TextAlignment="Center" TextWrapping="Wrap" />
         </StackPanel>
-        <!--  <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>  -->
     </DockPanel>
 </UserControl>

@@ -16,9 +16,6 @@ using System.ComponentModel;
 
 namespace Controls
 {
-	/// <summary>
-	/// Логика взаимодействия для TimePicker.xaml
-	/// </summary>
 	public partial class TimePicker : UserControl
 	{
 		static readonly int HoursMax = 23;
@@ -38,7 +35,7 @@ namespace Controls
 				timePicker.InitializeTime();
 			}
 		}
-		
+
 		public TimePicker()
 		{
 			InitializeComponent();
@@ -46,8 +43,8 @@ namespace Controls
 
 		public DateTime Time
 		{
-			get{ return (DateTime)GetValue(TimeProperty); }
-			set{ SetValue(TimeProperty, value); }
+			get { return (DateTime)GetValue(TimeProperty); }
+			set { SetValue(TimeProperty, value); }
 		}
 
 		public void InitializeTime()
@@ -130,7 +127,7 @@ namespace Controls
 				key == System.Windows.Input.Key.NumPad6 ||
 				key == System.Windows.Input.Key.NumPad7 ||
 				key == System.Windows.Input.Key.NumPad8 ||
-				key == System.Windows.Input.Key.NumPad9 
+				key == System.Windows.Input.Key.NumPad9
 			)
 				return true;
 			return false;
@@ -145,23 +142,23 @@ namespace Controls
 				return;
 			}
 			var caretIndex = TextBox.CaretIndex;
-			switch(e.Key)
+			switch (e.Key)
 			{
-				case(Key.Left):
-					if(TextBox.CaretIndex > 0)
+				case (Key.Left):
+					if (TextBox.CaretIndex > 0)
 						TextBox.CaretIndex--;
 					e.Handled = true;
 					break;
-				case(Key.Right):
-					if(TextBox.CaretIndex < TextBox.Text.Length)
+				case (Key.Right):
+					if (TextBox.CaretIndex < TextBox.Text.Length)
 						TextBox.CaretIndex++;
 					e.Handled = true;
 					break;
-				case(Key.Up):
+				case (Key.Up):
 					SetValueAtIndex(GetValueAtIndex(caretIndex) + 1, caretIndex);
 					e.Handled = true;
 					break;
-				case(Key.Down):
+				case (Key.Down):
 					SetValueAtIndex(GetValueAtIndex(caretIndex) - 1, caretIndex);
 					e.Handled = true;
 					break;
@@ -223,13 +220,13 @@ namespace Controls
 
 		private void Inc_Click(object sender, RoutedEventArgs e)
 		{
-			if(Hours<HoursMax)
+			if (Hours < HoursMax)
 				Hours++;
 		}
 
 		private void Dec_Click(object sender, RoutedEventArgs e)
 		{
-			if(Hours>HoursMin)
+			if (Hours > HoursMin)
 				Hours--;
 		}
 

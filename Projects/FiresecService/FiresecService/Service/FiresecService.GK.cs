@@ -11,6 +11,7 @@ using XFiresecAPI;
 using System;
 using GKProcessor;
 using FiresecClient;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -108,7 +109,11 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return new OperationResult<bool>() { Result = GKProcessorManager.GKSyncronyseTime(device, UserName) };
+				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Устройство недоступно") { Result = false };
 			}
 			else
 			{
@@ -349,6 +354,33 @@ namespace FiresecService.Service
 			{
 				GKProcessorManager.GKStopMeasureMonitoring(device);
 			}
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			if (CurrentThread != null)
+			{
+				GKDBHelper.IsAbort = true;
+				CurrentThread.Join(TimeSpan.FromMinutes(1));
+				CurrentThread = null;
+			}
+			GKDBHelper.IsAbort = false;
+			var thread = new Thread(new ThreadStart((new Action(() =>
+			{
+				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				GKDBHelper.Select(archiveFilter, false);
+
+			}))));
+			thread.Name = "GK GetFilteredArchive";
+			thread.IsBackground = true;
+			CurrentThread = thread;
+			thread.Start();
+		}
+
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
+		{
+			FiresecService.NotifyGKArchiveCompleted(journalItems);
 		}
 	}
 }

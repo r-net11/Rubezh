@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\NewSKDJournalEvent.cs" />
+    <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowSKDJournalEvent.cs" />
     <Compile Include="Events\ShowXPimEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Events\FS2ProgressInfoEvent.cs" />
     <Compile Include="Events\ShowXDelayEvent.cs" />
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
+    <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />

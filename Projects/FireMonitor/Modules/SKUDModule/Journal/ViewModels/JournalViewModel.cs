@@ -5,6 +5,9 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Collections.ObjectModel;
+using Infrastructure;
+using FiresecAPI;
+using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -12,7 +15,9 @@ namespace SKDModule.ViewModels
 	{
 		public JournalViewModel()
 		{
-
+			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -37,7 +42,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<JournalItem> journalItems)
+		public void OnNewJournal(List<SKDJournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

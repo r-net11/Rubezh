@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlServerCe;
@@ -122,9 +123,14 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+		public static bool IsAbort { get; set; }
+		public static event Action<List<JournalItem>> ArchivePortionReady;
+
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
+			var result = new List<JournalItem>();
+
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
 				dateTimeTypeString = "DeviceDateTime";
@@ -244,8 +250,33 @@ namespace GKProcessor
 							var reader = sqlCeCommand.ExecuteReader();
 							while (reader.Read())
 							{
-								var journalItem = ReadOneJournalItem(reader);
-								journalItems.Add(journalItem);
+								if (IsAbort && !isReport)
+									break;
+								try
+								{
+									var journalItem = ReadOneJournalItem(reader);
+									result.Add(journalItem);
+									if (!isReport)
+									{
+										journalItems.Add(journalItem);
+										if (journalItems.Count > 100)
+										{
+											if (ArchivePortionReady != null)
+												ArchivePortionReady(journalItems.ToList());
+
+											journalItems.Clear();
+										}
+									}
+								}
+								catch (Exception e)
+								{
+									Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
+								}
+							}
+							if (!isReport)
+							{
+								if (ArchivePortionReady != null)
+									ArchivePortionReady(journalItems.ToList());
 							}
 						}
 					}

@@ -60,7 +60,7 @@ namespace GKProcessor
                 Mask = 2
             };
 			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
-			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 2 });
             driver.Properties.Add(property4);
 
             var property5 = new XDriverProperty()
@@ -73,7 +73,7 @@ namespace GKProcessor
                 Mask = 4
             };
 			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
-			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			property5.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 4 });
             driver.Properties.Add(property5);
 
             var property6 = new XDriverProperty()
@@ -82,11 +82,11 @@ namespace GKProcessor
                 Name = "Дистанционное управление",
                 Caption = "Дистанционное управление",
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-                IsLowByte = true,
+                IsHieghByte = true,
                 Mask = 8
             };
 			property6.Parameters.Add(new XDriverPropertyParameter() { Name = "Нет", Value = 0 });
-			property6.Parameters.Add(new XDriverPropertyParameter() { Name = "Есть", Value = 1 });
+			property6.Parameters.Add(new XDriverPropertyParameter() { Name = "Есть", Value = 8 });
             driver.Properties.Add(property6);
 
             driver.MeasureParameters.Add(new XMeasureParameter() { No = 0x80, Name = "Режим работы" });
