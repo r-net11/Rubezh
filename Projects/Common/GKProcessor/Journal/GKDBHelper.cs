@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using FiresecAPI;
 using XFiresecAPI;
 using System.Diagnostics;
+using System.Threading;
 
 namespace GKProcessor
 {
@@ -281,6 +282,7 @@ namespace GKProcessor
 					}
 				}
 			}
+			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.Select");

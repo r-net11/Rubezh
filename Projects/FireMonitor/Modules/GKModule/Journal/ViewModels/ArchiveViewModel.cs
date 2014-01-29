@@ -269,6 +269,7 @@ namespace GKModule.ViewModels
 					Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
 				}
 			}
+			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "ArchiveViewModel.OnUpdate");
