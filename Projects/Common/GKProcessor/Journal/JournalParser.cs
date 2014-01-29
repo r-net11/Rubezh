@@ -299,7 +299,7 @@ namespace GKProcessor
 
 			if (JournalItem.StateClass == XStateClass.No)
 			{
-				JournalItem.StateClass = JournalDescriptionStateHelper.GetStateClassByName(JournalItem.Name);
+				JournalItem.StateClass = EventNameHelper.GetStateClassByName(JournalItem.Name);
 			}
 
 			if (source == JournalSourceType.Object)

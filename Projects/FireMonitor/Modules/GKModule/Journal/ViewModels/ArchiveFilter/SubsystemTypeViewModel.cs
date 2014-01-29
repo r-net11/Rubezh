@@ -8,7 +8,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class SubsystemTypeViewModel : BaseViewModel
+	public class SubsystemTypeViewModel : CheckBoxItemViewModel
 	{
 		public SubsystemTypeViewModel(XSubsystemType subsystemType)
 		{
@@ -16,16 +16,5 @@ namespace GKModule.ViewModels
 		}
 
 		public XSubsystemType SubsystemType { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

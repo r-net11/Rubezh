@@ -49,12 +49,12 @@ namespace GKProcessor
 						{
 							if (watcher.IsStopping || watcher.IsSuspending)
 							{
-								watcher.AddMessage(EventName.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
 							}
 							else
 							{
 								Logger.Error("LifeTimeWatcher.OnRun watcher");
-								watcher.AddMessage(EventName.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
 								watcher.ConnectionChanged(false);
 								watcher.StopThread();
 								watcher.StartThread();

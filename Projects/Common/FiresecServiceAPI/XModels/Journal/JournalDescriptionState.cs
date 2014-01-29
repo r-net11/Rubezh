@@ -1,8 +1,8 @@
 ﻿namespace XFiresecAPI
 {
-	public class JournalDescriptionState
+	public class EventName
 	{
-		public JournalDescriptionState(string name, XStateClass stateClass, string description)
+		public EventName(string name, XStateClass stateClass, string description)
 		{
 			Name = name;
 			StateClass = stateClass;

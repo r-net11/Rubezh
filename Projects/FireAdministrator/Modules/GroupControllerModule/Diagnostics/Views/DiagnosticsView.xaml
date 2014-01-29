@@ -19,15 +19,6 @@
                     </WrapPanel>
                 </Border>
             </TabItem>
-            <TabItem Header="TimePicker"> 
-                <Border>
-                    <StackPanel>
-                        <Controls:TimePicker Time="{Binding Time}"/>
-                        <Button Content="Button" Command="{Binding ShowTimeCommand}" />
-                    </StackPanel>
-                    
-                </Border>
-            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

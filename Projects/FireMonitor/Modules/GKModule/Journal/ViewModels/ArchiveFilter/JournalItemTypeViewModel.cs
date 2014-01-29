@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class JournalItemTypeViewModel : BaseViewModel
+	public class JournalItemTypeViewModel : CheckBoxItemViewModel
 	{
 		public JournalItemTypeViewModel(JournalItemType journalItemType)
 		{
@@ -19,17 +19,6 @@ namespace GKModule.ViewModels
 
 		public JournalItemType JournalItemType { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 
 		public string ImageSource
 		{

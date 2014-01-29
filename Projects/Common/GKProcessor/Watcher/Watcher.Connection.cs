@@ -40,7 +40,7 @@ namespace GKProcessor
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-                        Name = isConnected ? EventName.Восстановление_связи_с_прибором.ToDescription() : EventName.Потеря_связи_с_прибором.ToDescription()
+                        Name = isConnected ? EventNameEnum.Восстановление_связи_с_прибором.ToDescription() : EventNameEnum.Потеря_связи_с_прибором.ToDescription()
 					};
 					AddJournalItem(journalItem);
 

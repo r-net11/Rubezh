@@ -12,15 +12,19 @@
             HorizontalContentAlignment="Center"
             OverridesDefaultStyle="True"
             LostFocus="TextBox_LostFocus"
+            PreviewTextInput="TextBox_PreviewTextInput"
             MinWidth="0"
             Width="37"
             Margin="1">
         </TextBox>
-        <Button Name="Inc" Click="Inc_Click" >
-            <Image Source="/Controls;component/Images/AddTime.png" Width="16" Height="16" />    
-        </Button>
-        <Button Name="Dec" Click="Dec_Click" Margin="1 0 0 0" >
-            <Image Source="/Controls;component/Images/DeleteTime.png" Width="16" Height="16" />    
-        </Button>
+        <StackPanel>
+            <Button Name="Inc" Click="Inc_Click" Width="20" Height="16" >
+                <Image Source="/Controls;component/Images/AddTime.png" />
+            </Button>
+            <Button Name="Dec" Click="Dec_Click" Width="20" Height="16" >
+                <Image Source="/Controls;component/Images/DeleteTime.png" />
+            </Button>
+        </StackPanel>
+        
     </WrapPanel>
 </UserControl>

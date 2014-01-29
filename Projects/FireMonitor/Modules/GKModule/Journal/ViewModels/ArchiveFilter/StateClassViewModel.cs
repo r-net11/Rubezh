@@ -8,7 +8,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class StateClassViewModel : BaseViewModel
+	public class StateClassViewModel : CheckBoxItemViewModel
 	{
 		public StateClassViewModel(XStateClass stateClass)
 		{
@@ -18,16 +18,5 @@ namespace GKModule.ViewModels
 
 		public XStateClass StateClass { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

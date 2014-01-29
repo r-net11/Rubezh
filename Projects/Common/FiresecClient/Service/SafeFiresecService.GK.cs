@@ -363,7 +363,7 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKAddMessage(EventName name, string description)
+		public void GKAddMessage(EventNameEnum name, string description)
 		{
 			if (IsGKAsAService)
 			{

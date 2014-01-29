@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace GKProcessor
 {
-    public enum EventName
+    public enum EventNameEnum
     {
         [DescriptionAttribute("Подтверждение тревоги")]
         Подтверждение_тревоги,

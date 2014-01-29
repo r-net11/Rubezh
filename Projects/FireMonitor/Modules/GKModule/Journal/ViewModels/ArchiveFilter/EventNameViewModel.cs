@@ -8,28 +8,17 @@ using GKProcessor;
 
 namespace GKModule.ViewModels
 {
-	public class JournalDescriptionStateViewModel : BaseViewModel
+	public class EventNameViewModel : CheckBoxItemViewModel
 	{
-		public JournalDescriptionStateViewModel(JournalDescriptionState journalDescriptionState, List<string> distinctDatabaseDescriptions)
+		public EventNameViewModel(EventName eventName, List<string> distinctDatabaseDescriptions)
 		{
-			JournalDescriptionState = journalDescriptionState;
-            IsEnabled = distinctDatabaseDescriptions.Any(x => x == journalDescriptionState.Name);
+			EventName = eventName;
+			IsEnabled = distinctDatabaseDescriptions.Any(x => x == eventName.Name);
 		}
 
-		public JournalDescriptionState JournalDescriptionState { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
-
-        bool _isEnabled;
+		public EventName EventName { get; private set; }
+		
+		bool _isEnabled;
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -40,14 +29,13 @@ namespace GKModule.ViewModels
             }
         }
 
-        public static int Compare(JournalDescriptionStateViewModel x, JournalDescriptionStateViewModel y)
-        {
-            if (x.IsEnabled && !y.IsEnabled)
-                return -1;
-            if (!x.IsEnabled && y.IsEnabled)
-                return 1;
-            return x.JournalDescriptionState.Name.CompareTo(y.JournalDescriptionState.Name);
-        }
+		public static int Compare(EventNameViewModel x, EventNameViewModel y)
+		{
+			if (x.IsEnabled && !y.IsEnabled)
+				return -1;
+			if (!x.IsEnabled && y.IsEnabled)
+				return 1;
+			return x.EventName.Name.CompareTo(y.EventName.Name);
+		}
 	}
-
 }

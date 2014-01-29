@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class ArchivePimViewModel : BaseViewModel
+	public class ArchivePimViewModel : CheckBoxItemViewModel
 	{
 		public ArchivePimViewModel(XPim pim)
 		{
@@ -17,16 +17,5 @@ namespace GKModule.ViewModels
 
 		public XPim Pim { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

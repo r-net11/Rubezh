@@ -54,7 +54,7 @@ namespace FireAdministrator
 			if (e.Cancel)
 				return;
 
-			GKDBHelper.AddMessage(EventName.Выход_пользователя_из_системы, FiresecManager.CurrentUser.Name);
+			GKDBHelper.AddMessage(EventNameEnum.Выход_пользователя_из_системы, FiresecManager.CurrentUser.Name);
 
 			if (ApplicationService.Modules != null)
 				foreach (var module in ApplicationService.Modules)

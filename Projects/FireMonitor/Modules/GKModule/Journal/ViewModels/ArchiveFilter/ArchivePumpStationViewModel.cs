@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class ArchivePumpStationViewModel : BaseViewModel
+	public class ArchivePumpStationViewModel : CheckBoxItemViewModel
 	{
 		public ArchivePumpStationViewModel(XPumpStation pumpStation)
 		{
@@ -17,16 +17,5 @@ namespace GKModule.ViewModels
 
 		public XPumpStation PumpStation { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

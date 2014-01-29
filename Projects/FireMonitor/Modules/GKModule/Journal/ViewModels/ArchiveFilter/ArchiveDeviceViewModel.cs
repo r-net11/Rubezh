@@ -8,7 +8,7 @@ using Infrastructure.Common.TreeList;
 
 namespace GKModule.ViewModels
 {
-	public class ArchiveDeviceViewModel : TreeNodeViewModel<ArchiveDeviceViewModel>
+	public class ArchiveDeviceViewModel : TreeNodeViewModel<ArchiveDeviceViewModel>, ICheckBoxItem
 	{
 		public ArchiveDeviceViewModel(XDevice device)
 		{
@@ -26,9 +26,13 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
+				if (ItemsList != null)
+					ItemsList.OnPropertyChanged(() => ItemsList.HasCheckedItems);
 			}
 		}
+		
+		public CheckBoxItemList ItemsList { get; set; }
 
 		public bool CanCheck
 		{

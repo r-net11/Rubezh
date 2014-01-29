@@ -26,17 +26,17 @@ namespace GKModule
 		{
 			if (userChangedEventArgs.IsReconnect)
 			{
-				FiresecManager.FiresecService.GKAddMessage(EventName.Смена_пользователя, userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
+				FiresecManager.FiresecService.GKAddMessage(EventNameEnum.Смена_пользователя, userChangedEventArgs.OldName + " вышел. " + userChangedEventArgs.NewName + " вошел");
 			}
 			else
 			{
-				FiresecManager.FiresecService.GKAddMessage(EventName.Вход_пользователя_в_систему, "");
+				FiresecManager.FiresecService.GKAddMessage(EventNameEnum.Вход_пользователя_в_систему, "");
 			}
 		}
 
 		static void ApplicationService_Closed(object sender, EventArgs e)
 		{
-			FiresecManager.FiresecService.GKAddMessage(EventName.Выход_пользователя_из_системы, "");
+			FiresecManager.FiresecService.GKAddMessage(EventNameEnum.Выход_пользователя_из_системы, "");
 		}
 	}
 }

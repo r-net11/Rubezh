@@ -47,7 +47,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static JournalItem AddMessage(EventName name, string userName)
+		public static JournalItem AddMessage(EventNameEnum name, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -171,16 +171,16 @@ namespace GKProcessor
 								query += ")";
 							}
 
-							if (archiveFilter.JournalDescriptionState.Count > 0)
+							if (archiveFilter.EventNames.Count > 0)
 							{
 								query += "\n and (";
 								int index = 0;
-								foreach (var eventName in archiveFilter.JournalDescriptionState)
+								foreach (var eventName in archiveFilter.EventNames)
 								{
 									if (index > 0)
 										query += "\n OR ";
 									index++;
-									query += "Name = '" + eventName.Name + "'";
+									query += "Name = '" + eventName + "'";
 								}
 								query += ")";
 							}

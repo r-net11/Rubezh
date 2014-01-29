@@ -25,7 +25,7 @@ namespace GKProcessor
 
 		public void Update(XDevice device, List<byte> firmWareBytes, string userName)
 		{
-			GKProcessorManager.AddGKMessage(EventName.Обновление_ПО_прибора, "", device, userName, true);
+			GKProcessorManager.AddGKMessage(EventNameEnum.Обновление_ПО_прибора, "", device, userName, true);
 			ProgressCallback = GKProcessorManager.StartProgress("Обновление прошивки " + device.PresentationName, "", firmWareBytes.Count / 256, true, GKProgressClientType.Administrator);
 			GKProcessorManager.DoProgress("Проверка связи " + device.PresentationName, ProgressCallback);
 			if (!DeviceBytesHelper.Ping(device))

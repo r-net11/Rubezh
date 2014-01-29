@@ -8,32 +8,32 @@ namespace GKProcessor
 {
 	public class EventNamesHelper
 	{
-		public static XStateClass GetStateClass(EventName eventName)
+		public static XStateClass GetStateClass(EventNameEnum eventName)
 		{
 			switch (eventName)
 			{
-				case (EventName.Подтверждение_тревоги):
-				case (EventName.Смена_пользователя):
-				case (EventName.Вход_пользователя_в_систему):
-				case (EventName.Выход_пользователя_из_системы):
-				case (EventName.Зависание_процесса_отпроса):
-				case (EventName.Отсутствует_лицензия):
-				case (EventName.Лицензия_обнаружена):
-				case (EventName.Ошибка_инициализации_мониторинга):
-				case (EventName.Применение_конфигурации):
+				case (EventNameEnum.Подтверждение_тревоги):
+				case (EventNameEnum.Смена_пользователя):
+				case (EventNameEnum.Вход_пользователя_в_систему):
+				case (EventNameEnum.Выход_пользователя_из_системы):
+				case (EventNameEnum.Зависание_процесса_отпроса):
+				case (EventNameEnum.Отсутствует_лицензия):
+				case (EventNameEnum.Лицензия_обнаружена):
+				case (EventNameEnum.Ошибка_инициализации_мониторинга):
+				case (EventNameEnum.Применение_конфигурации):
 					return XStateClass.Norm;
-				case (EventName.Обновление_ПО_прибора):
-				case (EventName.Запись_конфигурации_в_прибор):
-				case (EventName.Чтение_конфигурации_из_прибора):
-				case (EventName.Синхронизация_времени):
-				case (EventName.Запрос_информации_об_устройсве):
-				case (EventName.Команда_оператора):
-				case (EventName.Отмена_операции):
-				case (EventName.ГК_в_технологическом_режиме):
-				case (EventName.ГК_в_рабочем_режиме):
+				case (EventNameEnum.Обновление_ПО_прибора):
+				case (EventNameEnum.Запись_конфигурации_в_прибор):
+				case (EventNameEnum.Чтение_конфигурации_из_прибора):
+				case (EventNameEnum.Синхронизация_времени):
+				case (EventNameEnum.Запрос_информации_об_устройсве):
+				case (EventNameEnum.Команда_оператора):
+				case (EventNameEnum.Отмена_операции):
+				case (EventNameEnum.ГК_в_технологическом_режиме):
+				case (EventNameEnum.ГК_в_рабочем_режиме):
 					return XStateClass.Info;
-				case (EventName.Ошибка_при_выполнении_команды):
-				case (EventName.Ошибка_при_выполнении_команды_над_устройством):
+				case (EventNameEnum.Ошибка_при_выполнении_команды):
+				case (EventNameEnum.Ошибка_при_выполнении_команды_над_устройством):
 					return XStateClass.Failure;
 				default:
 					return XStateClass.Unknown;

@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 		void OnConfirm()
 		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
-			FiresecManager.FiresecService.GKAddMessage(EventName.Подтверждение_тревоги,
+			FiresecManager.FiresecService.GKAddMessage(EventNameEnum.Подтверждение_тревоги,
 				JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description +
 				" (время реакции " + deltaSeconds.ToString() + " сек)");
 			Close();

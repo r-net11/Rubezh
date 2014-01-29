@@ -6,19 +6,19 @@ using System;
 
 namespace GKProcessor
 {
-	public static class JournalDescriptionStateHelper
+	public static class EventNameHelper
 	{
 		public static XStateClass GetStateClassByName(string name)
 		{
-			var journalDescriptionState = JournalDescriptionStates.FirstOrDefault(x => x.Name == name);
-			if (journalDescriptionState != null)
-				return journalDescriptionState.StateClass;
+			var eventName = EventNames.FirstOrDefault(x => x.Name == name);
+			if (eventName != null)
+				return eventName.StateClass;
 			return XStateClass.Norm;
 		}
 
-		static JournalDescriptionStateHelper()
+		static EventNameHelper()
 		{
-			JournalDescriptionStates = new List<JournalDescriptionState>();
+			EventNames = new List<EventName>();
 			Add("Перевод в технологический режим", XStateClass.TechnologicalRegime, "Перевод в технологический режим для обновления ПО, чтения и записи конфигурации");
 			Add("Синхронизация времени прибора с временем ПК", XStateClass.Info, "Синхронизация часов ГК и операционной системы");
 			Add("Смена ПО", XStateClass.TechnologicalRegime, "Изменение программного обеспечения ГК и КАУ");
@@ -93,7 +93,7 @@ namespace GKProcessor
 			Add("Вход пользователя в систему", XStateClass.Norm, "Вход пользователя в ОПС Firesec");
 			Add("Выход пользователя из системы", XStateClass.Norm, "Выход пользователя из ОПС Firesec");
 			Add("Команда оператора", XStateClass.Info, "Команда на сброс, управление ИУ, отключение, снятие отключения");
-            foreach (EventName item in Enum.GetValues(typeof(EventName)))
+            foreach (EventNameEnum item in Enum.GetValues(typeof(EventNameEnum)))
             {
                 Add(item.ToDescription(), EventNamesHelper.GetStateClass(item), "");
             }
@@ -101,10 +101,10 @@ namespace GKProcessor
 
 		static void Add(string name, XStateClass stateClass, string description)
 		{
-			var journalDescriptionState = new JournalDescriptionState(name, stateClass, description);
-			JournalDescriptionStates.Add(journalDescriptionState);
+			var eventName = new EventName(name, stateClass, description);
+			EventNames.Add(eventName);
 		}
 
-		public static List<JournalDescriptionState> JournalDescriptionStates { get; private set; }
+		public static List<EventName> EventNames { get; private set; }
 	}
 }

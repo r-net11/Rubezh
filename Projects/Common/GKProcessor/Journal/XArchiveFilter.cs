@@ -12,7 +12,7 @@ namespace GKProcessor
 			EndDate = DateTime.Now;
 			JournalItemTypes = new List<JournalItemType>();
 			StateClasses = new List<XStateClass>();
-            JournalDescriptionState = new List<JournalDescriptionState>();
+            EventNames = new List<string>();
 			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 
@@ -30,7 +30,7 @@ namespace GKProcessor
 		public bool UseDeviceDateTime { get; set; }
 		public List<JournalItemType> JournalItemTypes { get; set; }
 		public List<XStateClass> StateClasses { get; set; }
-        public List<JournalDescriptionState> JournalDescriptionState { get; set; }
+        public List<string> EventNames { get; set; }
 		public List<string> Descriptions { get; set; }
 		public List<Guid> DeviceUIDs { get; set; }
 		public List<Guid> ZoneUIDs { get; set; }
