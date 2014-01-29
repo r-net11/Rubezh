@@ -374,7 +374,7 @@ namespace FiresecService.Service
 			{
 				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.Select(archiveFilter, false);
+				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
 
 			}))));
 			thread.Name = "GK GetFilteredArchive";

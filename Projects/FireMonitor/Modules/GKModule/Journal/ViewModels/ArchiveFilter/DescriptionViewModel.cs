@@ -13,21 +13,21 @@ namespace GKModule.ViewModels
 		public ArchiveDescriptionViewModel(Description description, List<string> distinctDatabaseDescriptions)
 		{
 			Description = description;
-            IsEnabled = distinctDatabaseDescriptions.Any(x => x == description.Name);
+			IsEnabled = distinctDatabaseDescriptions.Any(x => x == description.Name);
 		}
 
 		public Description Description { get; private set; }
 
 		bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
-            }
-        }
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged("IsEnabled");
+			}
+		}
 
 		public static int Compare(ArchiveDescriptionViewModel x, ArchiveDescriptionViewModel y)
 		{

@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			Initialize(archiveFilter);
-        }
+		}
 
 		void Initialize(XArchiveFilter archiveFilter)
 		{
@@ -86,21 +86,21 @@ namespace GKModule.ViewModels
 		public void InitializeEventNames(XArchiveFilter archiveFilter)
 		{
 			var journalDescriptionStateList = new List<EventNameViewModel>();
-            foreach (var journalDescriptionState in EventNameHelper.EventNames)
-            {
+			foreach (var journalDescriptionState in EventNameHelper.EventNames)
+			{
 				journalDescriptionStateList.Add(new EventNameViewModel(journalDescriptionState, DistinctDatabaseNames));
-            }
+			}
 			journalDescriptionStateList.Sort(EventNameViewModel.Compare);
 			EventNames = new CheckBoxItemList(journalDescriptionStateList.ToList<ICheckBoxItem>());
-			
-            foreach (var eventName in archiveFilter.EventNames)
-            {
+
+			foreach (var eventName in archiveFilter.EventNames)
+			{
 				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).EventName.Name == eventName);
-                if (eventNameViewModel != null)
-                {
-                    eventNameViewModel.IsChecked = true;
-                }
-            }
+				if (eventNameViewModel != null)
+				{
+					eventNameViewModel.IsChecked = true;
+				}
+			}
 		}
 
 		public void InitializeZones(XArchiveFilter archiveFilter)
@@ -148,13 +148,13 @@ namespace GKModule.ViewModels
 			foreach (var description in DescriptionsHelper.GetAllDescriptions())
 			{
 				archiveDescriptionList.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
-            }
+			}
 			archiveDescriptionList.Sort(ArchiveDescriptionViewModel.Compare);
 			ArchiveDescriptions = new CheckBoxItemList(archiveDescriptionList.ToList<ICheckBoxItem>());
 			foreach (var description in archiveFilter.Descriptions)
 			{
 				var descriptionViewModel = ArchiveDescriptions.Items.FirstOrDefault(x => (x as ArchiveDescriptionViewModel).Description.Name == description);
-                if(descriptionViewModel != null)
+				if (descriptionViewModel != null)
 				{
 					descriptionViewModel.IsChecked = true;
 				}
@@ -375,7 +375,7 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList SubsystemTypes { get; private set; }
 		public CheckBoxItemList PumpStations { get; private set; }
 		public CheckBoxItemList PIMs { get; private set; }
-        List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetDistinctGKJournalNames();
+		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetDistinctGKJournalNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetDistinctGKJournalDescriptions();
 
 		public XArchiveFilter GetModel()
@@ -399,7 +399,7 @@ namespace GKModule.ViewModels
 			foreach (var eventName in EventNames.Items)
 			{
 				if (eventName.IsChecked)
-                    archiveFilter.EventNames.Add((eventName as EventNameViewModel).EventName.Name);
+					archiveFilter.EventNames.Add((eventName as EventNameViewModel).EventName.Name);
 			}
 			foreach (var archiveDevice in AllDevices.Items)
 			{
@@ -472,5 +472,5 @@ namespace GKModule.ViewModels
 		{
 			Close(false);
 		}
-    }
+	}
 }

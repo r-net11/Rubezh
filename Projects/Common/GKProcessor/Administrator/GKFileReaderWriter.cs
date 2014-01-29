@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using FiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
@@ -25,7 +26,7 @@ namespace GKProcessor
 					return null;
 				var allbytes = new List<byte>();
 				uint i = 2;
-				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", gkFileInfo.DescriptorsCount, true, GKProgressClientType.Administrator);
+				progressCallback = GKProcessorManager.StartProgress("Чтение конфигурационного файла из " + gkDevice.PresentationName, "", (int)(gkFileInfo.FileSize / 256), true, GKProgressClientType.Administrator);
 				while (true)
 				{
 					if (progressCallback.IsCanceled)

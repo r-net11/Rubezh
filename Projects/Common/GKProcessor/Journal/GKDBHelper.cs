@@ -125,7 +125,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool isReport)
+		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -285,7 +285,7 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "GKDBHelper.Select");
 			}
-			return journalItems;
+			return result;
 		}
 
 		public static int GetLastGKID(string gkIPAddress)

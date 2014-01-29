@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 		{
 			Items = new List<ICheckBoxItem>();
 		}
-		
+
 		public CheckBoxItemList(List<ICheckBoxItem> items)
 		{
 			Items = items;
