@@ -253,7 +253,6 @@
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
-    <Compile Include="Watcher\UsersWatchManager.cs" />
     <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
