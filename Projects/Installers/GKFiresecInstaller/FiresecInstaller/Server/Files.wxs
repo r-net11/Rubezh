@@ -35,7 +35,13 @@
         <File Id="Server.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
-        <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+
+        <?if $(var.Platform) = x64 ?>
+          <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?else ?>
+          <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?endif ?>
+
         <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
