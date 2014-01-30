@@ -18,11 +18,11 @@ namespace SKDDriver
 			JournalItem.DeviceJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
 			JournalItem.GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 
-			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == bytes[4]);
-			if (skdEvent != null)
-			{
-				JournalItem.Name = skdEvent.Name;
-			}
+			//var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == bytes[4]);
+			//if (skdEvent != null)
+			//{
+			//    JournalItem.Name = skdEvent.Name;
+			//}
 		}
 	}
 }

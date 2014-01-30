@@ -11,60 +11,60 @@ using System;
 using System.Linq;
 using XFiresecAPI;
 using FiresecAPI;
+using SKDModule.Plans;
 
 namespace SKDModule
 {
 	public class SKDModule : ModuleBase
 	{
-		SkudViewModel _skudViewModel;
+		SkudViewModel _skdViewModel;
 		EmployeeCardIndexViewModel _employeeCardIndexViewModel;
 		EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
 		EmployeePositionsViewModel _employeePositionsViewModel;
 		EmployeeGroupsViewModel _employeeGroupsViewModel;
 		PassCardsDesignerViewModel _passCardDesignerViewModel;
 		DevicesViewModel DevicesViewModel;
+		ZonesViewModel ZonesViewModel;
 		LibraryViewModel LibraryViewModel;
 		TimeIntervalsViewModel TimeIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
-
-		public SKDModule()
-		{
-			
-		}
+		SKDPlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
 			SKDManager.UpdateConfiguration();
 
-			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Unsubscribe(OnShowSkud);
-			ServiceFactory.Events.GetEvent<ShowSkudEvent>().Subscribe(OnShowSkud);
+			ServiceFactory.Events.GetEvent<ShowSKDEvent>().Unsubscribe(OnShowSKD);
+			ServiceFactory.Events.GetEvent<ShowSKDEvent>().Subscribe(OnShowSKD);
 
-			_skudViewModel = new SkudViewModel();
+			_skdViewModel = new SkudViewModel();
 			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
 			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
 			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
 			_employeePositionsViewModel = new EmployeePositionsViewModel();
 			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
+			ZonesViewModel = new ZonesViewModel();
 			LibraryViewModel = new LibraryViewModel();
 			TimeIntervalsViewModel = new TimeIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
+			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel);
 		}
 
-		private void OnShowSkud(object obj)
+		private void OnShowSKD(object obj)
 		{
 			//ServiceFactory.Layout.Show(_skudViewModel);
 		}
 
 		public override void Initialize()
 		{
-			_skudViewModel.Initialize();
+			_skdViewModel.Initialize();
 			_employeeCardIndexViewModel.Initialize();
 
 			_employeeDepartmentsViewModel.Initialize();
@@ -72,6 +72,7 @@ namespace SKDModule
 			_employeePositionsViewModel.Initialize();
 			_passCardDesignerViewModel.Initialize();
 			DevicesViewModel.Initialize();
+			ZonesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -83,7 +84,7 @@ namespace SKDModule
 				new NavigationItem("СКУД", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowEmployeeCardIndexEvent>(_employeeCardIndexViewModel, "Картотека",null),
-					new NavigationItem<ShowPassCardEvent>(_skudViewModel, "Пропуск",null),
+					new NavigationItem<ShowPassCardEvent>(_skdViewModel, "Пропуск",null),
 					new NavigationItem<ShowPassCardDesignerEvent>(_passCardDesignerViewModel, "Дизайнер",null),
 					new NavigationItem("Справочники",null, new List<NavigationItem>()
 					{
@@ -92,6 +93,7 @@ namespace SKDModule
 						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
 					}),
                     new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
 					new NavigationItem("Интервалы",null, new List<NavigationItem>()
 					{

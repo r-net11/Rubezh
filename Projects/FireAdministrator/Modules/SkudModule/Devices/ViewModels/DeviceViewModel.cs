@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 				}
 				OnPropertyChanged("Address");
 				OnPropertyChanged("PresentationAddress");
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 
@@ -97,21 +97,7 @@ namespace SKDModule.ViewModels
 			{
 				Device.Description = value;
 				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
-		}
-
-		public bool IsUsed
-		{
-			get { return !Device.IsNotUsed; }
-			set
-			{
-				Device.IsNotUsed = !value;
-				OnPropertyChanged("IsUsed");
-				OnPropertyChanged("ShowOnPlan");
-				OnPropertyChanged("PresentationZone");
-				OnPropertyChanged("EditingPresentationZone");
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 
@@ -197,8 +183,6 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				return "Zone";
 				//return XManager.GetPresentationZone(Device);
 			}
@@ -208,8 +192,6 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Device.IsNotUsed)
-					return null;
 				//var presentationZone = XManager.GetPresentationZone(Device);
 				var presentationZone = "Zone";
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
@@ -241,7 +223,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool ShowOnPlan
 		{
-			get { return !Device.IsNotUsed && (Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0); }
+			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0; }
 		}
 		public VisualizationState VisualizationState
 		{
@@ -304,12 +286,12 @@ namespace SKDModule.ViewModels
 			//{
 			//    XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
 			//    OnPropertyChanged("PresentationZone");
-			//    ServiceFactory.SaveService.GKChanged = true;
+			//    ServiceFactory.SaveService.SKDChanged = true;
 			//}
 		}
 		bool CanShowZones()
 		{
-			return Driver.HasZone && !Device.IsNotUsed;
+			return Driver.HasZone;
 		}
 
 		public bool IsZoneOrLogic

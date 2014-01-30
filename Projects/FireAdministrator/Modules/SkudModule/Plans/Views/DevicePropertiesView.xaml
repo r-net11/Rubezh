@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SKDModule.Plans.Views.DevicePropertiesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" MinHeight="400" MinWidth="400" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+
+	<tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Width="250" Header="Устройство">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<Grid>
+								<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
+								<TextBlock Width="200" Margin="31 0 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
+							</Grid>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+
+				<GridViewColumn Width="100" Header="Адрес">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding PresentationAddress}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Width="100" Header="Примечание">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Description}" />
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
+</UserControl>

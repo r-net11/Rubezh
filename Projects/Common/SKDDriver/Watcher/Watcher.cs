@@ -19,7 +19,7 @@ namespace SKDDriver
 		AutoResetEvent StopEvent;
 		Thread RunThread;
 		public DateTime LastUpdateTime { get; private set; }
-		SKDCallbackResult GKCallbackResult { get; set; }
+		SKDCallbackResult SKDCallbackResult { get; set; }
 		bool IsHashFailure { get; set; }
 
 		public Watcher(SKDDevice device)
@@ -96,7 +96,7 @@ namespace SKDDriver
 		{
 			lock (CallbackResultLocker)
 			{
-				GKCallbackResult = new SKDCallbackResult();
+				SKDCallbackResult = new SKDCallbackResult();
 				foreach (var device in Device.Children)
 				{
 					if (device.State != null)
@@ -105,7 +105,7 @@ namespace SKDDriver
 					}
 				}
 				NotifyAllObjectsStateChanged();
-				OnGKCallbackResult(GKCallbackResult);
+				OnSKDCallbackResult(SKDCallbackResult);
 			}
 		}
 
@@ -135,12 +135,12 @@ namespace SKDDriver
 
 					lock (CallbackResultLocker)
 					{
-						GKCallbackResult = new SKDCallbackResult();
+						SKDCallbackResult = new SKDCallbackResult();
 					}
 					RunMonitoring();
 					lock (CallbackResultLocker)
 					{
-						OnGKCallbackResult(GKCallbackResult);
+						OnSKDCallbackResult(SKDCallbackResult);
 					}
 
 					if (IsStopping)
@@ -182,7 +182,7 @@ namespace SKDDriver
 			while (true)
 			{
 				LastUpdateTime = DateTime.Now;
-				GKCallbackResult = new SKDCallbackResult();
+				SKDCallbackResult = new SKDCallbackResult();
 				foreach (var device in Device.Children)
 				{
 					device.State.IsInitialState = true;
@@ -192,7 +192,7 @@ namespace SKDDriver
 				var result = string.IsNullOrEmpty(deviceInfo);
 				if (IsPingFailure != result)
 				{
-					GKCallbackResult = new SKDCallbackResult();
+					SKDCallbackResult = new SKDCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
 						AddFailureJournalItem("Нет связи с ГК", "Старт мониторинга");
@@ -205,7 +205,7 @@ namespace SKDDriver
 						device.State.IsInitialState = !IsPingFailure;
 					}
 					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
+					OnSKDCallbackResult(SKDCallbackResult);
 				}
 
 				if (IsPingFailure)
@@ -218,7 +218,7 @@ namespace SKDDriver
 				result = CheckTechnologicalRegime();
 				if (IsInTechnologicalRegime != result)
 				{
-					GKCallbackResult = new SKDCallbackResult();
+					SKDCallbackResult = new SKDCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
 						AddFailureJournalItem("ГК в технологическом режиме", "Старт мониторинга");
@@ -226,7 +226,7 @@ namespace SKDDriver
 						AddFailureJournalItem("ГК в рабочем режиме", "Старт мониторинга");
 
 					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
+					OnSKDCallbackResult(SKDCallbackResult);
 				}
 
 				if (IsInTechnologicalRegime)
@@ -241,7 +241,7 @@ namespace SKDDriver
 				result = !SKDManager.CompareHashes(hashBytes, remoteHashBytes);
 				if (IsHashFailure != result)
 				{
-					GKCallbackResult = new SKDCallbackResult();
+					SKDCallbackResult = new SKDCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
 						AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
@@ -254,7 +254,7 @@ namespace SKDDriver
 						device.State.IsInitialState = false;
 					}
 					NotifyAllObjectsStateChanged();
-					OnGKCallbackResult(GKCallbackResult);
+					OnSKDCallbackResult(SKDCallbackResult);
 				}
 
 				if (IsHashFailure)
@@ -264,12 +264,12 @@ namespace SKDDriver
 					continue;
 				}
 
-				GKCallbackResult = new SKDCallbackResult();
+				SKDCallbackResult = new SKDCallbackResult();
 				if (!ReadMissingJournalItems())
 					AddFailureJournalItem("Ошибка при синхронизации журнала");
-				OnGKCallbackResult(GKCallbackResult);
+				OnSKDCallbackResult(SKDCallbackResult);
 
-				GKCallbackResult = new SKDCallbackResult();
+				SKDCallbackResult = new SKDCallbackResult();
 				GetAllStates();
 				result = IsDBMissmatchDuringMonitoring || !IsConnected;
 				if (IsGetStatesFailure != result)
@@ -280,7 +280,7 @@ namespace SKDDriver
 					else
 						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК");
 				}
-				OnGKCallbackResult(GKCallbackResult);
+				OnSKDCallbackResult(SKDCallbackResult);
 
 				if (IsGetStatesFailure)
 				{
@@ -289,13 +289,13 @@ namespace SKDDriver
 					continue;
 				}
 
-				GKCallbackResult = new SKDCallbackResult();
+				SKDCallbackResult = new SKDCallbackResult();
 				foreach (var device in Device.Children)
 				{
 					device.State.IsInitialState = false;
 				}
 				NotifyAllObjectsStateChanged();
-				OnGKCallbackResult(GKCallbackResult);
+				OnSKDCallbackResult(SKDCallbackResult);
 
 				return true;
 			}
@@ -348,45 +348,45 @@ namespace SKDDriver
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
 			SKDDBHelper.Add(journalItem);
-			GKCallbackResult.JournalItems.Add(journalItem);
+			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void OnObjectStateChanged(SKDDevice device)
 		{
-			AddObjectStateToGKStates(GKCallbackResult.GKStates, device);
+			AddObjectStateToSKDStates(SKDCallbackResult.SKDStates, device);
 		}
 
-		public static void AddObjectStateToGKStates(SKDStates gkStates, SKDDevice device)
+		public static void AddObjectStateToSKDStates(SKDStates skdStates, SKDDevice device)
 		{
 			if (device.State != null)
 			{
 				device.State.CopyToState(device.State);
-				gkStates.DeviceStates.RemoveAll(x => x.UID == device.UID);
-				gkStates.DeviceStates.Add(device.State);
+				skdStates.DeviceStates.RemoveAll(x => x.UID == device.UID);
+				skdStates.DeviceStates.Add(device.State);
 			}
 		}
 
 		internal void AddMessage(string name, string userName)
 		{
 			var journalItem = SKDDBHelper.AddMessage(name, userName);
-			GKCallbackResult.JournalItems.Add(journalItem);
+			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItem(SKDJournalItem journalItem)
 		{
 			SKDDBHelper.Add(journalItem);
-			GKCallbackResult.JournalItems.Add(journalItem);
+			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItems(List<SKDJournalItem> journalItems)
 		{
 			SKDDBHelper.AddMany(journalItems);
-			GKCallbackResult.JournalItems.AddRange(journalItems);
+			SKDCallbackResult.JournalItems.AddRange(journalItems);
 		}
 
-		void OnGKCallbackResult(SKDCallbackResult gkCallbackResult)
+		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
 		{
-			SKDProcessorManager.OnGKCallbackResult(GKCallbackResult);
+			SKDProcessorManager.OnSKDCallbackResult(SKDCallbackResult);
 		}
 
 		bool IsDBMissmatchDuringMonitoring = false;

@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 		{
 			if (useSaveService)
 			{
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);

@@ -26,8 +26,8 @@ namespace FiresecAPI
 			get { return Driver.DriverType; }
 		}
 		public SKDDevice Parent { get; set; }
-
 		public SKDDeviceState State { get; set; }
+		public SKDZone Zone { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -51,13 +51,13 @@ namespace FiresecAPI
 		public List<XProperty> DeviceProperties { get; set; }
 
 		[DataMember]
-		public bool IsNotUsed { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
+
+		[DataMember]
+		public Guid ZoneUID { get; set; }
 
 		public bool CanBeNotUsed
 		{
@@ -67,6 +67,16 @@ namespace FiresecAPI
 		public string PresentationName
 		{
 			get { return Driver.ShortName + " " + Address; }
+		}
+
+		public bool IsRealDevice
+		{
+			get
+			{
+				if (DriverType == SKDDriverType.System)
+					return false;
+				return true;
+			}
 		}
 
 		public void OnChanged()

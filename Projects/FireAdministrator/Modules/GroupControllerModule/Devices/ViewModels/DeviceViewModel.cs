@@ -281,9 +281,9 @@ namespace GKModule.ViewModels
 		{
 			IsSelected = true;
 			var plansElement = new ElementXDevice
-								{
-									XDeviceUID = Device.UID
-								};
+				{
+					XDeviceUID = Device.UID
+				};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
 		private bool CanCreateDragObjectCommand(DataObject dataObject)

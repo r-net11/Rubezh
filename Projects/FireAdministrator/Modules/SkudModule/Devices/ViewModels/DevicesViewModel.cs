@@ -171,7 +171,7 @@ namespace SKDModule.ViewModels
 			SelectedDevice.RemoveCommand.Execute();
 
 			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.GKChanged = true;
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -204,7 +204,7 @@ namespace SKDModule.ViewModels
 			AddDevice(device, SelectedDevice);
 
 			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.GKChanged = true;
+			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		#endregion
 

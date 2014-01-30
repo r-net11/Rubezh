@@ -232,6 +232,27 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
         }
+
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(deviceUID); }, "SKDSetIgnoreRegime");
+		}
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDResetIgnoreRegime(deviceUID); }, "SKDResetIgnoreRegime");
+		}
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
+		}
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+		}
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(deviceUID, stateBit); }, "SKDExecuteDeviceCommand");
+		}
 		#endregion
 
 		#region GK

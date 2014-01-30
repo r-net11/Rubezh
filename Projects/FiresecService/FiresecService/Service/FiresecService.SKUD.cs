@@ -2,6 +2,8 @@
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
 using FiresecService.SKUD;
+using System;
+using XFiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -58,5 +60,32 @@ namespace FiresecService.Service
             return _skud.GetPositions(filter);
         }
         #endregion
-    }
+
+		#region Devices
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+
+		}
+		#endregion
+	}
 }

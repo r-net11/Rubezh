@@ -13,12 +13,12 @@ namespace FiresecAPI
 		public List<SKDJournalItem> JournalItems { get; set; }
 
 		[DataMember]
-		public SKDStates GKStates { get; set; }
+		public SKDStates SKDStates { get; set; }
 
 		public SKDCallbackResult()
 		{
 			JournalItems = new List<SKDJournalItem>();
-			GKStates = new SKDStates();
+			SKDStates = new SKDStates();
 		}
 	}
 }

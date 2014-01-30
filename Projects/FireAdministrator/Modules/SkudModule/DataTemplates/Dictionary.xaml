@@ -58,6 +58,20 @@
         <Views:DevicesMenuView />
     </DataTemplate>
 
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
+        <Views:ZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneDetailsViewModel}">
+        <Views:ZoneDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesMenuViewModel}">
+        <Views:ZonesMenuView />
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
         <Views:LibraryView />
     </DataTemplate>

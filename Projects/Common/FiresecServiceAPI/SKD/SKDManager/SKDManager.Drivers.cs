@@ -27,6 +27,7 @@ namespace FiresecAPI
 				Name = "Контроллер",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
+				IsControlDevice = true,
 				IsPlaceable = true
 			};
 			controllerDriver.Children.Add(SKDDriverType.Reader);
@@ -38,6 +39,7 @@ namespace FiresecAPI
 			var driverProperty = new XDriverProperty()
 			{
 				Name = "Port",
+				Caption = "Порт",
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 10000,
 				Max = 20000,

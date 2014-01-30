@@ -20,9 +20,13 @@ namespace XFiresecAPI
 		}
 
 		public List<SKDDevice> Devices { get; set; }
+		public List<SKDZone> Zones { get; set; }
 
 		[DataMember]
 		public SKDDevice RootDevice { get; set; }
+
+		[DataMember]
+		public SKDZone RootZone { get; set; }
 
 		[DataMember]
 		public List<NamedSKDTimeInterval> NamedTimeIntervals { get; set; }
@@ -36,7 +40,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
 
-				[DataMember]
+		[DataMember]
 		public List<SKDHoliday> Holidays { get; set; }
 
 		public void Update()
@@ -46,17 +50,35 @@ namespace XFiresecAPI
 			{
 				RootDevice.Parent = null;
 				Devices.Add(RootDevice);
-				AddChild(RootDevice);
+				AddChildDevice(RootDevice);
+			}
+
+			Zones = new List<SKDZone>();
+			if (RootZone != null)
+			{
+				RootZone.Parent = null;
+				Zones.Add(RootZone);
+				AddChildZone(RootZone);
 			}
 		}
 
-		void AddChild(SKDDevice parentDevice)
+		void AddChildDevice(SKDDevice parentDevice)
 		{
 			foreach (var device in parentDevice.Children)
 			{
 				device.Parent = parentDevice;
 				Devices.Add(device);
-				AddChild(device);
+				AddChildDevice(device);
+			}
+		}
+
+		void AddChildZone(SKDZone parentZone)
+		{
+			foreach (var zone in parentZone.Children)
+			{
+				zone.Parent = parentZone;
+				Zones.Add(zone);
+				AddChildZone(zone);
 			}
 		}
 

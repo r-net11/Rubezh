@@ -48,6 +48,7 @@
       <Component Id="Server.SKUD_MODULE" Guid="C9D9C6A5-6D49-4E76-919E-F4831BEEE135">
         <File Id="Server.FiresecService.SKUD.dll" Name="FiresecService.SKUD.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
         <File Id="Server.FiresecService.SKUD.dll.config" Name="FiresecService.SKUD.dll.config" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" />
       </Component>
     </DirectoryRef>
 

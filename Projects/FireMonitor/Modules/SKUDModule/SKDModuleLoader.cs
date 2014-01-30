@@ -5,7 +5,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SKDModule.ViewModels;
-using GKProcessor;
 using FiresecClient;
 using FiresecAPI.Models.Skud;
 using FiresecAPI;
@@ -19,13 +18,15 @@ namespace SKDModule
 	public class SKDModuleLoader : ModuleBase
 	{
 		SKUDViewModel SKUDViewModel;
-		JournalViewModel JournalViewModel;
 		NavigationItem _skudNavigationItem;
+		JournalViewModel JournalViewModel;
+		DevicesViewModel DevicesViewModel;
 
 		public override void CreateViewModels()
 		{
 			SKUDViewModel = new SKUDViewModel();
 			JournalViewModel = new JournalViewModel();
+			DevicesViewModel = new DevicesViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -37,14 +38,15 @@ namespace SKDModule
 					new List<NavigationItem>()
 					{
 						_skudNavigationItem,
-						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png")
+						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					})
 				};
 		}
 
 		public override void Initialize()
 		{
-			;
+			DevicesViewModel.Initialize();
 		}
 
 		public override string Name
@@ -57,32 +59,39 @@ namespace SKDModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+		}
+
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			SKDManager.CreateStates();
+			return true;
 		}
 
 		public override void AfterInitialize()
 		{
 			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
 			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
-
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+			AutoActivationWatcher.Run();
 		}
 
-		void OnSKDCallbackResult(SKDCallbackResult gkCallbackResult)
+		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (gkCallbackResult.JournalItems.Count > 0)
+				if (skdCallbackResult.JournalItems.Count > 0)
 				{
-					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(gkCallbackResult.JournalItems);
+					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(skdCallbackResult.JournalItems);
 				}
-				CopyGKStates(gkCallbackResult.GKStates);
+				CopySKDStates(skdCallbackResult.SKDStates);
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			});
 		}
 
-		void CopyGKStates(SKDStates gkStates)
+		void CopySKDStates(SKDStates skdStates)
 		{
-			foreach (var remoteDeviceState in gkStates.DeviceStates)
+			foreach (var remoteDeviceState in skdStates.DeviceStates)
 			{
 				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 				if (device != null)

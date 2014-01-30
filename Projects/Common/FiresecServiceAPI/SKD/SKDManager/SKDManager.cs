@@ -23,6 +23,11 @@ namespace FiresecAPI
 			get { return SKDConfiguration.Devices; }
 		}
 
+		public static List<SKDZone> Zones
+		{
+			get { return SKDConfiguration.Zones; }
+		}
+
 		public static void SetEmptyConfiguration()
 		{
 			SKDConfiguration = new SKDConfiguration();
@@ -37,6 +42,15 @@ namespace FiresecAPI
 				SKDConfiguration.RootDevice = new SKDDevice()
 				{
 					DriverUID = driver.UID
+				};
+			}
+
+			if (SKDConfiguration.RootZone == null)
+			{
+				SKDConfiguration.RootZone = new SKDZone()
+				{
+					IsRootZone = true,
+					Name = "Неконтролируемая территория"
 				};
 			}
 
@@ -59,6 +73,60 @@ namespace FiresecAPI
 		public static bool CompareHashes(List<byte> hash1, List<byte> hash2)
 		{
 			return true;
+		}
+
+		public static string GetPresentationZone(SKDDevice device)
+		{
+			return "Зона";
+		}
+
+		public static void CreateStates()
+		{
+			foreach (var device in Devices)
+			{
+				device.State = new SKDDeviceState();
+			}
+		}
+
+		public static XStateClass GetMinStateClass()
+		{
+			var minStateClass = XStateClass.No;
+			foreach (var device in Devices)
+			{
+				if (device.IsRealDevice)
+				{
+					var stateClass = device.State.StateClass;
+					if (stateClass < minStateClass)
+						minStateClass = device.State.StateClass;
+				}
+			}
+			foreach (var zone in Zones)
+			{
+				if (zone.State.StateClass < minStateClass)
+					minStateClass = zone.State.StateClass;
+			}
+			return minStateClass;
+		}
+
+		public static void AddDeviceToZone(SKDDevice device, SKDZone zone)
+		{
+			device.ZoneUID = zone.UID;
+			device.Zone = zone;
+			zone.Devices.Add(device);
+			zone.OnChanged();
+			device.OnChanged();
+		}
+
+		public static void RemoveDeviceFromZone(SKDDevice device, SKDZone zone)
+		{
+			if (zone != null)
+			{
+				device.Zone = null;
+				device.ZoneUID = Guid.Empty;
+				zone.Devices.Remove(device);
+				zone.OnChanged();
+				device.OnChanged();
+			}
 		}
 	}
 }

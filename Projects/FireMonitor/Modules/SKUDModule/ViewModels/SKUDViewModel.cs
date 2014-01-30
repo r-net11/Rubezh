@@ -6,7 +6,6 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using GKProcessor;
 using FiresecClient;
 using FiresecAPI.Models.Skud;
 

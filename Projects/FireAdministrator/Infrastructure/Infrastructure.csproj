@@ -91,7 +91,7 @@
     <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSkudEvent.cs" />
+    <Compile Include="Events\ShowSKDEvent.cs" />
     <Compile Include="Events\ShowXDescriptorsEvent.cs" />
     <Compile Include="Events\EditValidationEvent.cs" />
     <Compile Include="Events\ShowMonitorLayoutEvent.cs" />
@@ -146,6 +146,9 @@
     <Compile Include="Events\ShowXOPCZonesEvent.cs" />
     <Compile Include="Events\ShowXOPCDirectionsEvent.cs" />
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
+    <Compile Include="Events\ShowSKDZoneEvent.cs" />
+    <Compile Include="Events\CreateSKDZoneEvent.cs" />
+    <Compile Include="Events\EditSKDZoneEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />
