@@ -14,6 +14,8 @@ namespace FiresecAPI
 		{
 			UID = Guid.NewGuid();
 			Children = new List<SKDZone>();
+			PlanElementUIDs = new List<Guid>();
+			Devices = new List<SKDDevice>();
 		}
 
 		public SKDZone Parent { get; set; }
@@ -40,11 +42,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-
-		public string PresentationName
-		{
-			get { return Name; }
-		}
 		
 		public void OnChanged()
 		{

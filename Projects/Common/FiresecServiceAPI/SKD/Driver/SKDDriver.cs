@@ -18,7 +18,6 @@ namespace XFiresecAPI
 			AvailableCommandBits = new List<XStateBit>();
 			CanEditAddress = true;
 			HasAddress = true;
-			IsDeviceOnShleif = true;
             IsPlaceable = false;
 		}
 
@@ -45,11 +44,7 @@ namespace XFiresecAPI
 		public bool IsAutoCreate { get; set; }
 		public byte MinAddress { get; set; }
 		public byte MaxAddress { get; set; }
-		public byte MaxAddressOnShleif { get; set; }
-		public bool IsDeviceOnShleif { get; set; }
 
-		public bool HasLogic { get; set; }
-		public bool IgnoreHasLogic { get; set; }
 		public bool HasZone { get; set; }
 		public bool IsControlDevice { get; set; }
         public bool IsPlaceable { get; set; }

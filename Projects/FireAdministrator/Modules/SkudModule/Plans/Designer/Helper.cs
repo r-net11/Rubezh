@@ -44,7 +44,7 @@ namespace SKDModule.Plans.Designer
 		}
 		public static string GetSKDZoneTitle(SKDZone zone)
 		{
-			return zone == null ? "Несвязанная зона" : zone.PresentationName;
+			return zone == null ? "Несвязанная зона" : zone.Name;
 		}
 		public static SKDZone GetSKDZone(IElementZone element)
 		{

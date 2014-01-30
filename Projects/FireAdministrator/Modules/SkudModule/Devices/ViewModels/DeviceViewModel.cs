@@ -184,7 +184,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				return "Zone";
-				//return XManager.GetPresentationZone(Device);
+				//return SKDManager.GetPresentationZone(Device);
 			}
 		}
 
@@ -192,15 +192,13 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				//var presentationZone = XManager.GetPresentationZone(Device);
+				//var presentationZone = SKDManager.GetPresentationZone(Device);
 				var presentationZone = "Zone";
 				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
 				if (string.IsNullOrEmpty(presentationZone))
 				{
 					if (Driver.HasZone)
 						presentationZone = "Нажмите для выбора зон";
-					if (Driver.HasLogic)
-						presentationZone = "Нажмите для настройки логики";
 				}
 				return presentationZone;
 			}
@@ -223,7 +221,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool ShowOnPlan
 		{
-			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0; }
+			get { return Device.Driver.IsPlaceable; }
 		}
 		public VisualizationState VisualizationState
 		{
@@ -234,9 +232,9 @@ namespace SKDModule.ViewModels
 		private void OnCreateDragObjectCommand(DataObject dataObject)
 		{
 			IsSelected = true;
-			var plansElement = new ElementXDevice
+			var plansElement = new ElementSKDDevice
 			{
-				XDeviceUID = Device.UID
+				DeviceUID = Device.UID
 			};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
@@ -275,9 +273,7 @@ namespace SKDModule.ViewModels
 			return Device.AllowMultipleVizualization != isAllow;
 		}
 
-		#region Zone and Logic
-		public RelayCommand ShowLogicCommand { get; private set; }
-
+		#region Zone
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{

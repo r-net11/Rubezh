@@ -27,10 +27,10 @@ namespace SKDModule.ViewModels
 
 		public ZoneViewModel(SKDZone zone)
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
@@ -67,37 +67,33 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => VisualizationState);
 		}
 
-		public string PresentationName
+		public string Name
 		{
-			get { return Zone.PresentationName; }
+			get { return Zone.Name; }
 		}
 
 		public string Description
 		{
 			get { return Zone.Description; }
-			set
-			{
-				Zone.Description = value;
-				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var newDeviceViewModel = new ZoneDetailsViewModel(this);
-
-			if (DialogService.ShowModalWindow(newDeviceViewModel))
+			var zoneDetailsViewModel = new ZoneDetailsViewModel();
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				ZonesViewModel.Current.AllZones.Add(newDeviceViewModel.AddedZone);
+				var zone = zoneDetailsViewModel.Zone;
+				SKDManager.Zones.Add(zone);
+				var zoneViewModel = new ZoneViewModel(zone);
+				this.Zone.Children.Add(zone);
+				this.AddChild(zoneViewModel);
+				this.Update();
+				SKDManager.SKDConfiguration.Update();
+				ZonesViewModel.Current.AllZones.Add(zoneViewModel);
 				//Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
-		}
-		public bool CanAdd()
-		{
-			return false;
 		}
 
 		public RelayCommand AddToParentCommand { get; private set; }
@@ -107,7 +103,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanAddToParent()
 		{
-			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
+			return Parent != null;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -141,13 +137,20 @@ namespace SKDModule.ViewModels
 			return !Zone.IsRootZone;
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(this.Zone);
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				this.Zone = zoneDetailsViewModel.Zone;
+				Update(this.Zone);
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
-		bool CanShowProperties()
+		public bool CanEdit()
 		{
-			return false;
+			return !Zone.IsRootZone;
 		}
 
 		public bool IsOnPlan

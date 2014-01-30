@@ -256,6 +256,8 @@
     <Compile Include="Views\SkudView.xaml.cs">
       <DependentUpon>SkudView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />

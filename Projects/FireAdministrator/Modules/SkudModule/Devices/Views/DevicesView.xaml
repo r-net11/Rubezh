@@ -30,22 +30,6 @@
             <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
-            <!--<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersReadWrite.png" Text="Параметры">
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersRead.png" Text="Считать параметры" Command="{Binding ReadCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersReadAll.png" Text="Считать параметры дочерних устройств" Command="{Binding ReadAllCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать параметры" Command="{Binding WriteCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersWriteAll.png" Text="Записать параметры дочерних устройств" Command="{Binding WriteAllCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать параметры" Command="{Binding CopyParamCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить параметры" Command="{Binding PasteParamCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPasteAll.png" Text="Вставить параметры во все дочерние устройства" Command="{Binding PasteAllParamCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BBriefcase.png" Text="Применить шаблон" Command="{Binding PasteTemplateCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BBriefcaseAll.png" Text="Применить шаблон ко всем дочерним устройствам" Command="{Binding PasteAllTemplateCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLeft.png" Text="Копировать параметры из устройства в систему" Command="{Binding SyncFromDeviceToSystemCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLeftLeft.png" Text="Копировать параметры из всех дочерних устройств в систему" Command="{Binding SyncFromAllDeviceToSystemCommand}" />
-            </Controls:IconedMenuItem>-->
         </ContextMenu>
         <viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
         <viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
@@ -122,7 +106,7 @@
                                 <Controls:EditorPresenter>
                                     <Controls:EditorPresenter.ViewTemplate>
                                         <ControlTemplate>
-                                            <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" TextWrapping="NoWrap">
+                                            <TextBlock MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" Visibility="{Binding Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" TextWrapping="NoWrap">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>

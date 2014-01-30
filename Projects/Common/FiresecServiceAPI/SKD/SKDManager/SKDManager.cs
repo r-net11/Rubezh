@@ -63,6 +63,8 @@ namespace FiresecAPI
 					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
 			}
+
+			Invalidate();
 		}
 
 		public static List<byte> CreateHash()
@@ -126,6 +128,43 @@ namespace FiresecAPI
 				zone.Devices.Remove(device);
 				zone.OnChanged();
 				device.OnChanged();
+			}
+		}
+
+		static void Invalidate()
+		{
+			ClearAllReferences();
+			InitializeDevicesInZone();
+		}
+
+		static void ClearAllReferences()
+		{
+			foreach (var device in Devices)
+			{
+				device.Zone = null;
+			}
+			foreach (var zone in Zones)
+			{
+				zone.Devices = new List<SKDDevice>();
+			}
+		}
+
+		static void InitializeDevicesInZone()
+		{
+			foreach (var device in Devices)
+			{
+				var zoneUID = Guid.Empty;
+				if (device.Driver.HasZone)
+				{
+					var zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+					if (zone != null)
+					{
+						zoneUID = device.ZoneUID;
+						device.Zone = zone;
+						zone.Devices.Add(device);
+					}
+				}
+				device.ZoneUID = zoneUID;
 			}
 		}
 	}

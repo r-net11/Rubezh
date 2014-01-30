@@ -13,16 +13,31 @@ namespace SKDModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public ZoneDetailsViewModel(ZoneViewModel zoneViewModel)
+		public SKDZone Zone { get; private set; }
+
+		public ZoneDetailsViewModel(SKDZone zone = null)
 		{
-			Title = "Новая зона";
-			ParentZoneViewModel = zoneViewModel;
-			ParentZone = ParentZoneViewModel.Zone;
+			if (zone == null)
+			{
+				Title = "Создание новой зоны";
+				Zone = new SKDZone()
+				{
+					Name = "Новая зона",
+				};
+			}
+			else
+			{
+				Title = string.Format("Свойства зоны: {0}", zone.Name);
+				Zone = zone;
+			}
+			CopyProperties();
 		}
 
-		protected ZoneViewModel ParentZoneViewModel;
-		protected SKDZone ParentZone;
-		public ZoneViewModel AddedZone { get; protected set; }
+		public void CopyProperties()
+		{
+			Name = Zone.Name;
+			Description = Zone.Description;
+		}
 
 		string _name;
 		public string Name
@@ -54,17 +69,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			var zone = new SKDZone()
+			Zone = new SKDZone()
 			{
 				Name = Name,
 				Description = Description
 			};
-			SKDManager.Zones.Add(zone);
-			AddedZone = new ZoneViewModel(zone);
-			ParentZoneViewModel.Zone.Children.Add(zone);
-			ParentZoneViewModel.AddChild(AddedZone);
-			ParentZoneViewModel.Update();
-			SKDManager.SKDConfiguration.Update();
 			return true;
 		}
 	}

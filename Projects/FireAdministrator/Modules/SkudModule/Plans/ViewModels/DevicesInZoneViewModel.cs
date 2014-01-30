@@ -50,9 +50,9 @@ namespace SKDModule.Plans.ViewModels
 			Device = device;
 			NewZoneUID = newZoneUID;
 			var zone = NewZoneUID != Guid.Empty && _zoneMap.ContainsKey(NewZoneUID) ? _zoneMap[NewZoneUID] : null;
-			NewZoneName = zone == null ? string.Empty : zone.PresentationName;
+			NewZoneName = zone == null ? string.Empty : zone.Name;
 			zone = Device.ZoneUID != Guid.Empty && _zoneMap.ContainsKey(Device.ZoneUID) ? _zoneMap[Device.ZoneUID] : null;
-			OldZoneName = zone == null ? string.Empty : zone.PresentationName;
+			OldZoneName = zone == null ? string.Empty : zone.Name;
 		}
 
 		public void Activate()

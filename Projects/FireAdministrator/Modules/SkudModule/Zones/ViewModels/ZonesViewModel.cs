@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 	public class ZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static ZonesViewModel Current { get; private set; }
+		public ZoneDevicesViewModel ZoneDevices { get; set; }
 		private bool _lockSelection;
 
 		public ZonesViewModel()
@@ -34,6 +35,7 @@ namespace SKDModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ZoneDevices = new ZoneDevicesViewModel();
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -102,6 +104,15 @@ namespace SKDModule.ViewModels
 				UpdateRibbonItems();
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
+
+				if (value != null)
+				{
+					ZoneDevices.Initialize(value.Zone);
+				}
+				else
+				{
+					ZoneDevices.Clear();
+				}
 			}
 		}
 
@@ -230,8 +241,8 @@ namespace SKDModule.ViewModels
 			{
 				if (SelectedZone != null)
 				{
-					if (SelectedZone.ShowPropertiesCommand.CanExecute(null))
-						SelectedZone.ShowPropertiesCommand.Execute();
+					if (SelectedZone.EditCommand.CanExecute(null))
+						SelectedZone.EditCommand.Execute();
 				}
 			});
 			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
@@ -325,7 +336,7 @@ namespace SKDModule.ViewModels
 		{
 			base.UpdateRibbonItems();
 			RibbonItems[0][0].Command = SelectedZone == null ? null : SelectedZone.AddCommand;
-			RibbonItems[0][1].Command = SelectedZone == null ? null : SelectedZone.ShowPropertiesCommand;
+			RibbonItems[0][1].Command = SelectedZone == null ? null : SelectedZone.EditCommand;
 			RibbonItems[0][2].Command = SelectedZone == null ? null : SelectedZone.RemoveCommand;
 
 			//RibbonItems[1][6][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
