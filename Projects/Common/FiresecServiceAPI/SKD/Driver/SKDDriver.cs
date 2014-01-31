@@ -46,11 +46,9 @@ namespace XFiresecAPI
 		public byte MaxAddress { get; set; }
 
 		public bool HasZone { get; set; }
+		public bool HasOuterZone { get; set; }
 		public bool IsControlDevice { get; set; }
         public bool IsPlaceable { get; set; }
-		public bool IsGroupDevice { get; set; }
-		public XDriverType GroupDeviceChildType { get; set; }
-		public byte GroupDeviceChildrenCount { get; set; }
 
 		public string ImageSource
 		{

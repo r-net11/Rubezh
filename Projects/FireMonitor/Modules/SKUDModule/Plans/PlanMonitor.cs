@@ -15,17 +15,21 @@ namespace SKDModule.Plans
 		Plan Plan;
 		Action CallBack;
 		List<SKDDeviceState> DeviceStates;
+		List<SKDZoneState> ZoneStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
 		{
 			Plan = plan;
 			CallBack = callBack;
 			DeviceStates = new List<SKDDeviceState>();
+			ZoneStates = new List<SKDZoneState>();
 			Initialize();
 		}
 		private void Initialize()
 		{
 			Plan.ElementSKDDevices.ForEach(item => Initialize(item));
+			Plan.ElementRectangleSKDZones.ForEach(item => Initialize(item));
+			Plan.ElementPolygonSKDZones.ForEach(item => Initialize(item));
 		}
 		private void Initialize(ElementSKDDevice element)
 		{
@@ -34,6 +38,18 @@ namespace SKDModule.Plans
 			{
 				DeviceStates.Add(device.State);
 				device.State.StateChanged += CallBack;
+			}
+		}
+		private void Initialize(IElementZone element)
+		{
+			if (element.ZoneUID != Guid.Empty)
+			{
+				var zone = Helper.GetSKDZone(element);
+				if (zone != null)
+				{
+					ZoneStates.Add(zone.State);
+					zone.State.StateChanged += CallBack;
+				}
 			}
 		}
 
@@ -45,6 +61,11 @@ namespace SKDModule.Plans
 				var stateClass = deviceState.StateClass;
 				if (stateClass < result)
 					result = stateClass;
+			}
+			foreach (var zoneState in ZoneStates)
+			{
+				if (zoneState.StateClass < result)
+					result = zoneState.StateClass;
 			}
 			return result;
 		}

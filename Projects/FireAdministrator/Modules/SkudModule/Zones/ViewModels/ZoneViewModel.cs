@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("PresentationName");
+			OnPropertyChanged("Name");
 		}
 
 		public VisualizationState VisualizationState
@@ -180,9 +180,5 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
-
-		public RelayCommand CopyCommand { get { return ZonesViewModel.Current.CopyCommand; } }
-		public RelayCommand CutCommand { get { return ZonesViewModel.Current.CutCommand; } }
-		public RelayCommand PasteCommand { get { return ZonesViewModel.Current.PasteCommand; } }
 	}
 }

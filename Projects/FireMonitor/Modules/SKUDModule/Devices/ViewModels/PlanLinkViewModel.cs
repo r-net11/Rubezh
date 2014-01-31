@@ -27,6 +27,7 @@ namespace SKDModule.ViewModels
 		public Plan Plan { get; set; }
 		public Guid ElementUID { get; set; }
 		public SKDDevice Device { get; set; }
+		public SKDZone Zone { get; set; }
 
 		public string Name
 		{

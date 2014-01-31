@@ -28,6 +28,7 @@ namespace FiresecAPI
 		public SKDDevice Parent { get; set; }
 		public SKDDeviceState State { get; set; }
 		public SKDZone Zone { get; set; }
+		public SKDZone OuterZone { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -59,10 +60,8 @@ namespace FiresecAPI
 		[DataMember]
 		public Guid ZoneUID { get; set; }
 
-		public bool CanBeNotUsed
-		{
-			get { return (Parent != null && Parent.Driver.IsGroupDevice); }
-		}
+		[DataMember]
+		public Guid OuterZoneUID { get; set; }
 
 		public string PresentationName
 		{
@@ -76,6 +75,19 @@ namespace FiresecAPI
 				if (DriverType == SKDDriverType.System)
 					return false;
 				return true;
+			}
+		}
+
+		public List<SKDDevice> AllParents
+		{
+			get
+			{
+				if (Parent == null)
+					return new List<SKDDevice>();
+
+				List<SKDDevice> allParents = Parent.AllParents;
+				allParents.Add(Parent);
+				return allParents;
 			}
 		}
 

@@ -86,10 +86,12 @@
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
-    <Compile Include="Plans\Designer\XDevicePainter.cs" />
+    <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
+    <Compile Include="Plans\Designer\SKDZonePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
@@ -108,6 +110,19 @@
       <DependentUpon>SKUDView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModelComparer.cs" />
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneView.xaml.cs">
+      <DependentUpon>ZoneView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -153,6 +168,22 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

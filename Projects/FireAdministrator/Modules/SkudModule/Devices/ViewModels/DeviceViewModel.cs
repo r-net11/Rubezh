@@ -16,6 +16,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
 using FiresecAPI;
+using DeviceControls;
 
 namespace SKDModule.ViewModels
 {
@@ -30,8 +31,8 @@ namespace SKDModule.ViewModels
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
-			ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowOuterZoneCommand = new RelayCommand(OnShowOuterZone, CanShowOuterZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
@@ -49,7 +50,9 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
+			OnPropertyChanged("PresentationOuterZone");
 			OnPropertyChanged("EditingPresentationZone");
+			OnPropertyChanged("EditingPresentationOuterZone");
 		}
 
 		public void UpdateProperties()
@@ -71,14 +74,6 @@ namespace SKDModule.ViewModels
 			set
 			{
 				Device.Address = value;
-				if (Driver.IsGroupDevice)
-				{
-					foreach (var deviceViewModel in Children)
-					{
-						deviceViewModel.OnPropertyChanged("Address");
-						deviceViewModel.OnPropertyChanged("PresentationAddress");
-					}
-				}
 				OnPropertyChanged("Address");
 				OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.SKDChanged = true;
@@ -167,7 +162,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
+			return !(Driver.IsAutoCreate || Parent == null);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -177,42 +172,6 @@ namespace SKDModule.ViewModels
 		bool CanShowProperties()
 		{
 			return false;
-		}
-
-		public string PresentationZone
-		{
-			get
-			{
-				return "Zone";
-				//return SKDManager.GetPresentationZone(Device);
-			}
-		}
-
-		public string EditingPresentationZone
-		{
-			get
-			{
-				//var presentationZone = SKDManager.GetPresentationZone(Device);
-				var presentationZone = "Zone";
-				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
-				if (string.IsNullOrEmpty(presentationZone))
-				{
-					if (Driver.HasZone)
-						presentationZone = "Нажмите для выбора зон";
-				}
-				return presentationZone;
-			}
-		}
-
-		bool _isZoneGrayed;
-		public bool IsZoneGrayed
-		{
-			get { return _isZoneGrayed; }
-			set
-			{
-				_isZoneGrayed = value;
-				OnPropertyChanged("IsZoneGrayed");
-			}
 		}
 
 		public bool IsOnPlan
@@ -246,10 +205,10 @@ namespace SKDModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			//var brush = DevicePictureCache.GetXBrush(Device);
+			var brush = DevicePictureCache.GetSKDBrush(Device);
 			return new Rectangle
 			{
-				//Fill = brush,
+				Fill = brush,
 				Height = PainterCache.PointZoom * PainterCache.Zoom,
 				Width = PainterCache.PointZoom * PainterCache.Zoom,
 			};
@@ -274,42 +233,109 @@ namespace SKDModule.ViewModels
 		}
 
 		#region Zone
-		public RelayCommand ShowZonesCommand { get; private set; }
-		void OnShowZones()
+		public string PresentationZone
 		{
-			//var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones, true);
-			//if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			//{
-			//    XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
-			//    OnPropertyChanged("PresentationZone");
-			//    ServiceFactory.SaveService.SKDChanged = true;
-			//}
-		}
-		bool CanShowZones()
-		{
-			return Driver.HasZone;
+			get { return SKDManager.GetPresentationZone(Device); }
 		}
 
-		public bool IsZoneOrLogic
+		public string EditingPresentationZone
 		{
-			get { return CanShowZones(); }
+			get
+			{
+				var presentationZone = SKDManager.GetPresentationZone(Device);
+				IsZoneGrayed = string.IsNullOrEmpty(presentationZone);
+				if (string.IsNullOrEmpty(presentationZone))
+				{
+					if (Driver.HasZone)
+						presentationZone = "Нажмите для выбора зон";
+				}
+				return presentationZone;
+			}
+		}
+
+		bool _isZoneGrayed;
+		public bool IsZoneGrayed
+		{
+			get { return _isZoneGrayed; }
+			set
+			{
+				_isZoneGrayed = value;
+				OnPropertyChanged("IsZoneGrayed");
+			}
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			//var zone = Device.Zones.FirstOrDefault();
-			//if (zone != null)
-			//{
-			//    ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
-			//}
+			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.ZoneUID, false);
+			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+			{
+				if (zoneSelectationViewModel.SelectedZone != null)
+				{
+					SKDManager.AddDeviceToZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
+				}
+				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged("EditingPresentationZone");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 		bool CanShowZone()
 		{
-			return true;
-			//return Device.Zones.Count == 1;
+			return Device.Driver.HasZone;
+		}
+		#endregion
+
+		#region OuterZone
+		public string PresentationOuterZone
+		{
+			get { return SKDManager.GetPresentationOuterZone(Device); }
 		}
 
+		public string EditingPresentationOuterZone
+		{
+			get
+			{
+				var presentationOuterZone = SKDManager.GetPresentationOuterZone(Device);
+				IsOuterZoneGrayed = string.IsNullOrEmpty(presentationOuterZone);
+				if (string.IsNullOrEmpty(presentationOuterZone))
+				{
+					if (Driver.HasOuterZone)
+						presentationOuterZone = "Нажмите для выбора зон";
+				}
+				return presentationOuterZone;
+			}
+		}
+
+		bool _isOuterZoneGrayed;
+		public bool IsOuterZoneGrayed
+		{
+			get { return _isOuterZoneGrayed; }
+			set
+			{
+				_isOuterZoneGrayed = value;
+				OnPropertyChanged("IsOuterZoneGrayed");
+			}
+		}
+
+		public RelayCommand ShowOuterZoneCommand { get; private set; }
+		void OnShowOuterZone()
+		{
+			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.OuterZoneUID, true);
+			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+			{
+				if (zoneSelectationViewModel.SelectedZone != null)
+				{
+					SKDManager.AddDeviceToOuterZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
+				}
+				OnPropertyChanged("PresentationOuterZone");
+				OnPropertyChanged("EditingPresentationOuterZone");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+		bool CanShowOuterZone()
+		{
+			return Device.Driver.HasOuterZone;
+		}
 		#endregion
 
 		public SKDDriver Driver
@@ -328,9 +354,5 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
-
-		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
-		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
-		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 	}
 }

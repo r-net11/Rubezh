@@ -22,7 +22,8 @@ namespace SKDModule.Plans
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -46,12 +47,18 @@ namespace SKDModule.Plans
 		{
 			foreach (var element in plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
 				yield return element;
+			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+				yield return element;
+			foreach (var element in plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
 			if (presenterItem.Element is ElementSKDDevice)
 				presenterItem.OverridePainter(new SKDDevicePainter(presenterItem));
+			else if (presenterItem.Element is ElementPolygonSKDZone || presenterItem.Element is ElementRectangleSKDZone)
+				presenterItem.OverridePainter(new SKDZonePainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
@@ -64,17 +71,17 @@ namespace SKDModule.Plans
 		public void Initialize()
 		{
 			_monitors.Clear();
-			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				DevicePictureCache.LoadXCache();
-			using (new TimeCounter("DevicePictureCache.LoadXDynamicCache: {0}"))
-				DevicePictureCache.LoadXDynamicCache();
+			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
+				DevicePictureCache.LoadSKDCache();
+			using (new TimeCounter("DevicePictureCache.LoadSKDDynamicCache: {0}"))
+				DevicePictureCache.LoadSKDDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 		}
 
-		private void OnShowSKDDeviceOnPlan(XDevice device)
+		private void OnShowSKDDeviceOnPlan(SKDDevice device)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementSKDDevices)
@@ -83,6 +90,24 @@ namespace SKDModule.Plans
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;
 					}
+		}
+		private void OnShowSKDZoneOnPlan(SKDZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.ElementRectangleSKDZones)
+					if (element.ZoneUID == zone.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+				foreach (var element in plan.ElementPolygonSKDZones)
+					if (element.ZoneUID == zone.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+			}
 		}
 	}
 }

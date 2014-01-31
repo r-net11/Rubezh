@@ -56,6 +56,7 @@ namespace FiresecAPI
 				ShortName = "Считыватель",
 				DriverType = SKDDriverType.Reader,
 				HasZone = true,
+				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			readerDriver.AvailableStateClasses.Add(XStateClass.Norm);
@@ -70,6 +71,7 @@ namespace FiresecAPI
 				ShortName = "Шлакбаум",
 				DriverType = SKDDriverType.Gate,
 				HasZone = true,
+				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			gateDriver.AvailableStateClasses.Add(XStateClass.Norm);

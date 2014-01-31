@@ -32,16 +32,12 @@ namespace SKDModule.ViewModels
 			_lockSelection = false;
 			Menu = new DevicesMenuViewModel(this);
 			Current = this;
-			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
-			CutCommand = new RelayCommand(OnCut, CanCutCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
-			DevicesToCopy = new List<SKDDevice>();
 		}
 
 		public void Initialize()
@@ -149,65 +145,6 @@ namespace SKDModule.ViewModels
 			return deviceViewModel;
 		}
 
-		#region CopyPaste
-		public List<SKDDevice> DevicesToCopy { get; set; }
-
-		bool CanCutCopy()
-		{
-			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.IsGroupDevice);
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			//DevicesToCopy = new List<SKDDevice>() { XManager.CopyDevice(SelectedDevice.Device, false) };
-		}
-
-		public RelayCommand CutCommand { get; private set; }
-		void OnCut()
-		{
-			//DevicesToCopy = new List<SKDDevice>() { XManager.CopyDevice(SelectedDevice.Device, true) };
-			SelectedDevice.RemoveCommand.Execute();
-
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			foreach (var deviceToCopy in DevicesToCopy)
-			{
-				//var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
-				//PasteDevice(pasteDevice);
-			}
-		}
-		bool CanPaste()
-		{
-			if (DevicesToCopy.Count > 0 && SelectedDevice != null)
-			{
-				foreach (var deviceToCopy in DevicesToCopy)
-				{
-					if (!SelectedDevice.Driver.Children.Contains(deviceToCopy.DriverType))
-						return false;
-				}
-				return true;
-			}
-			return false;
-		}
-
-		void PasteDevice(SKDDevice device)
-		{
-			SelectedDevice.Device.Children.Add(device);
-			device.Parent = SelectedDevice.Device;
-			AddDevice(device, SelectedDevice);
-
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-		#endregion
-
 		public RelayCommand ReadJournalFromFileCommand { get; private set; }
 		void OnReadJournalFromFile()
 		{
@@ -232,9 +169,6 @@ namespace SKDModule.ViewModels
 
 		private void RegisterShortcuts()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
 			{
 				if (SelectedDevice != null)
@@ -375,9 +309,6 @@ namespace SKDModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
@@ -387,23 +318,6 @@ namespace SKDModule.ViewModels
 					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
 					new RibbonMenuItemViewModel("Журнал событий", DeviceCommandsViewModel.ReadJournalCommand, "/Controls;component/Images/BJournal.png"),
 					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "/Controls;component/Images/BParametersSync.png"),
-					new RibbonMenuItemViewModel("Параметры", new ObservableCollection<RibbonMenuItemViewModel>
-                    {
-                        new RibbonMenuItemViewModel("Считать параметры", "/Controls;component/Images/BParametersRead.png"),
-                        new RibbonMenuItemViewModel("Записать параметры", "/Controls;component/Images/BParametersWrite.png"),
-                        new RibbonMenuItemViewModel("Считать параметры дочерних устройств", "/Controls;component/Images/BParametersReadAll.png"),
-                        new RibbonMenuItemViewModel("Записать параметры дочерних устройств", "/Controls;component/Images/BParametersWriteAll.png"),
-
-                        new RibbonMenuItemViewModel("Копировать параметры из устройства в систему", "/Controls;component/Images/BLeft.png"),
-                        new RibbonMenuItemViewModel("Копировать параметры из всех дочерних устройств в систему", "/Controls;component/Images/BLeftLeft.png"),
-                        
-                        new RibbonMenuItemViewModel("Копировать параметры", "/Controls;component/Images/BCopy.png"),
-                        new RibbonMenuItemViewModel("Вставить параметры", "/Controls;component/Images/BPaste.png"),
-                        new RibbonMenuItemViewModel("Вставить параметры во все дочерние устройства", "/Controls;component/Images/BPasteAll.png"),
-                        
-                        new RibbonMenuItemViewModel("Применить шаблон", "/Controls;component/Images/BBriefcase.png"),
-                        new RibbonMenuItemViewModel("Применить шаблон ко всем дочерним устройствам", "/Controls;component/Images/BBriefcaseAll.png"),
-                    }, "/Controls;component/Images/BParametersReadWrite.png"),
                     new RibbonMenuItemViewModel("Считать журнал событий из файла", ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};

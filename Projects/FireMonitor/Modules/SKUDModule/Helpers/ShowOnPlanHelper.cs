@@ -36,5 +36,21 @@ namespace SKDModule
 			}
 			return false;
 		}
+
+		public static void ShowZone(SKDZone zone)
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
+		}
+		public static bool CanShowZone(SKDZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+					return true;
+				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+					return true;
+			}
+			return false;
+		}
 	}
 }

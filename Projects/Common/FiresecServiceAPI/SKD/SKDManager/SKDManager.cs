@@ -67,19 +67,18 @@ namespace FiresecAPI
 			Invalidate();
 		}
 
-		public static List<byte> CreateHash()
-		{
-			return new List<byte>();
-		}
-
-		public static bool CompareHashes(List<byte> hash1, List<byte> hash2)
-		{
-			return true;
-		}
-
 		public static string GetPresentationZone(SKDDevice device)
 		{
-			return "Зона";
+			if (device.Zone != null)
+				return device.Zone.Name;
+			return "";
+		}
+
+		public static string GetPresentationOuterZone(SKDDevice device)
+		{
+			if (device.OuterZone != null)
+				return device.OuterZone.Name;
+			return "";
 		}
 
 		public static void CreateStates()
@@ -87,6 +86,10 @@ namespace FiresecAPI
 			foreach (var device in Devices)
 			{
 				device.State = new SKDDeviceState();
+			}
+			foreach (var zone in Zones)
+			{
+				zone.State = new SKDZoneState();
 			}
 		}
 
@@ -110,27 +113,6 @@ namespace FiresecAPI
 			return minStateClass;
 		}
 
-		public static void AddDeviceToZone(SKDDevice device, SKDZone zone)
-		{
-			device.ZoneUID = zone.UID;
-			device.Zone = zone;
-			zone.Devices.Add(device);
-			zone.OnChanged();
-			device.OnChanged();
-		}
-
-		public static void RemoveDeviceFromZone(SKDDevice device, SKDZone zone)
-		{
-			if (zone != null)
-			{
-				device.Zone = null;
-				device.ZoneUID = Guid.Empty;
-				zone.Devices.Remove(device);
-				zone.OnChanged();
-				device.OnChanged();
-			}
-		}
-
 		static void Invalidate()
 		{
 			ClearAllReferences();
@@ -142,6 +124,7 @@ namespace FiresecAPI
 			foreach (var device in Devices)
 			{
 				device.Zone = null;
+				device.OuterZone = null;
 			}
 			foreach (var zone in Zones)
 			{
@@ -153,18 +136,31 @@ namespace FiresecAPI
 		{
 			foreach (var device in Devices)
 			{
-				var zoneUID = Guid.Empty;
 				if (device.Driver.HasZone)
 				{
-					var zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-					if (zone != null)
+					device.Zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+					if (device.Zone != null)
 					{
-						zoneUID = device.ZoneUID;
-						device.Zone = zone;
-						zone.Devices.Add(device);
+						device.Zone.Devices.Add(device);
 					}
+					else
+						device.ZoneUID = Guid.Empty;
 				}
-				device.ZoneUID = zoneUID;
+				else
+					device.ZoneUID = Guid.Empty;
+
+				if (device.Driver.HasOuterZone)
+				{
+					device.OuterZone = Zones.FirstOrDefault(x => x.UID == device.OuterZoneUID);
+					if (device.OuterZone != null)
+					{
+						device.OuterZone.Devices.Add(device);
+					}
+					else
+						device.OuterZoneUID = Guid.Empty;
+				}
+				else
+					device.OuterZoneUID = Guid.Empty;
 			}
 		}
 	}

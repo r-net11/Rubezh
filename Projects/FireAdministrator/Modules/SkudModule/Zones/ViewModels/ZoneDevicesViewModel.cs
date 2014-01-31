@@ -27,7 +27,6 @@ namespace SKDModule.ViewModels
 		public void Initialize(SKDZone zone)
 		{
 			Zone = zone;
-
 			var devices = new HashSet<SKDDevice>();
 			var availableDevices = new HashSet<SKDDevice>();
 
@@ -39,10 +38,14 @@ namespace SKDModule.ViewModels
 					{
 						if (device.ZoneUID == Zone.UID)
 						{
+							foreach (var parent in device.AllParents)
+								devices.Add(parent);
 							devices.Add(device);
 						}
 						else if (device.ZoneUID == Guid.Empty)
 						{
+							foreach (var parent in device.AllParents)
+								availableDevices.Add(parent);
 							availableDevices.Add(device);
 						}
 					}
@@ -59,28 +62,38 @@ namespace SKDModule.ViewModels
 				Devices.Add(deviceViewModel);
 			}
 
-			var selectedDevice = Devices.LastOrDefault();
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				if (device.DriverType == SKDDriverType.System || device.DriverType == SKDDriverType.System)
-					continue;
-
 				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
 					IsBold = device.Driver.HasZone
 				};
-
 				AvailableDevices.Add(deviceViewModel);
 			}
 
-			var selectedAvailableDevice = AvailableDevices.LastOrDefault();
-			//AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
+			foreach (var device in Devices)
+			{
+				if (device.Device.Parent != null)
+				{
+					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+					parent.AddChild(device);
+				}
+			}
+			foreach (var device in AvailableDevices)
+			{
+				if (device.Device.Parent != null)
+				{
+					var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+					parent.AddChild(device);
+				}
+			}
+
 			OnPropertyChanged(() => Devices);
 			OnPropertyChanged(() => AvailableDevices);
 
-			SelectedDevice = selectedDevice;
-			SelectedAvailableDevice = selectedAvailableDevice;
+			SelectedDevice = Devices.LastOrDefault();
+			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
 		}
 
 		public void Clear()
@@ -158,7 +171,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanAdd(object parameter)
 		{
-			return SelectedAvailableDevice != null;
+			return SelectedAvailableDevice != null && SelectedAvailableDevice.IsBold;
 		}
 
 		public RelayCommand<object> RemoveCommand { get; private set; }
@@ -197,7 +210,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanRemove(object parameter)
 		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.HasZone;
+			return SelectedDevice != null && SelectedDevice.IsBold;
 		}
 	}
 }

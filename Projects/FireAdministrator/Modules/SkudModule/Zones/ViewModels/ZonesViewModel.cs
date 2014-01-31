@@ -32,15 +32,11 @@ namespace SKDModule.ViewModels
 			_lockSelection = false;
 			Menu = new ZonesMenuViewModel(this);
 			Current = this;
-			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
-			CutCommand = new RelayCommand(OnCut, CanCutCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ZoneDevices = new ZoneDevicesViewModel();
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
 			SetRibbonItems();
-			ZonesToCopy = new List<SKDZone>();
 		}
 
 		public void Initialize()
@@ -155,64 +151,8 @@ namespace SKDModule.ViewModels
 			return zoneViewModel;
 		}
 
-		#region CopyPaste
-		public List<SKDZone> ZonesToCopy { get; set; }
-
-		bool CanCutCopy()
-		{
-			return !(SelectedZone == null || SelectedZone.Parent == null);
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			//DevicesToCopy = new List<SKDDevice>() { XManager.CopyDevice(SelectedDevice.Device, false) };
-		}
-
-		public RelayCommand CutCommand { get; private set; }
-		void OnCut()
-		{
-			//DevicesToCopy = new List<SKDDevice>() { XManager.CopyDevice(SelectedDevice.Device, true) };
-			SelectedZone.RemoveCommand.Execute();
-
-			SKDManager.SKDConfiguration.Update();
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			foreach (var zoneToCopy in ZonesToCopy)
-			{
-				//var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
-				//PasteDevice(pasteDevice);
-			}
-		}
-		bool CanPaste()
-		{
-			if (ZonesToCopy.Count > 0 && SelectedZone != null)
-			{
-				return true;
-			}
-			return false;
-		}
-
-		void PasteDevice(SKDZone zone)
-		{
-			SelectedZone.Zone.Children.Add(zone);
-			zone.Parent = SelectedZone.Zone;
-			AddZone(zone, SelectedZone);
-
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-		#endregion
-
 		private void RegisterShortcuts()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
 			{
 				if (SelectedZone != null)
@@ -360,9 +300,6 @@ namespace SKDModule.ViewModels
 					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-					new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
-					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 }
 			};
 		}
