@@ -15,11 +15,8 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Xceed.Wpf.AvalonDock.Converters
 {
@@ -87,6 +84,4 @@ namespace Xceed.Wpf.AvalonDock.Converters
         } 
         #endregion 
     } 
-
-
 }

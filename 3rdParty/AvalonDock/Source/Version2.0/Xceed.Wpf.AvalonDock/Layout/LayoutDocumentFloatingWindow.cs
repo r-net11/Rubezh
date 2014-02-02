@@ -16,81 +16,79 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Markup;
 using System.Diagnostics;
+using System.Windows.Markup;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    [ContentProperty("RootDocument")]
-    [Serializable]
-    public class LayoutDocumentFloatingWindow : LayoutFloatingWindow
-    {
-        public LayoutDocumentFloatingWindow()
-        {
+	[ContentProperty("RootDocument")]
+	[Serializable]
+	public class LayoutDocumentFloatingWindow : LayoutFloatingWindow
+	{
+		public LayoutDocumentFloatingWindow()
+		{
 
-        }
+		}
 
-        #region RootDocument
+		#region RootDocument
 
-        private LayoutDocument _rootDocument = null;
-        public LayoutDocument RootDocument
-        {
-            get { return _rootDocument; }
-            set
-            {
-                if (_rootDocument != value)
-                {
-                    RaisePropertyChanging("RootDocument");
-                    _rootDocument = value;
-                    if (_rootDocument != null)
-                        _rootDocument.Parent = this;
-                    RaisePropertyChanged("RootDocument");
+		private LayoutDocument _rootDocument = null;
+		public LayoutDocument RootDocument
+		{
+			get { return _rootDocument; }
+			set
+			{
+				if (_rootDocument != value)
+				{
+					RaisePropertyChanging("RootDocument");
+					_rootDocument = value;
+					if (_rootDocument != null)
+						_rootDocument.Parent = this;
+					RaisePropertyChanged("RootDocument");
 
-                    if (RootDocumentChanged != null)
-                        RootDocumentChanged(this, EventArgs.Empty);
-                }
-            }
-        }
+					if (RootDocumentChanged != null)
+						RootDocumentChanged(this, EventArgs.Empty);
+				}
+			}
+		}
 
 
-        public event EventHandler RootDocumentChanged;
+		public event EventHandler RootDocumentChanged;
 
-        #endregion
+		#endregion
 
-        public override IEnumerable<ILayoutElement> Children
-        {
-            get
-            {
-                if (RootDocument == null)
-                    yield break;
+		public override IEnumerable<ILayoutElement> Children
+		{
+			get
+			{
+				if (RootDocument == null)
+					yield break;
 
-                yield return RootDocument;
-            }
-        }
+				yield return RootDocument;
+			}
+		}
 
-        public override void RemoveChild(ILayoutElement element)
-        {
-            Debug.Assert(element == RootDocument && element != null);
-            RootDocument = null;
-        }
+		public override void RemoveChild(ILayoutElement element)
+		{
+			Debug.Assert(element == RootDocument && element != null);
+			RootDocument = null;
+		}
 
-        public override void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
-        {
-            Debug.Assert(oldElement == RootDocument && oldElement != null);
-            RootDocument = newElement as LayoutDocument;
-        }
+		public override void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement)
+		{
+			Debug.Assert(oldElement == RootDocument && oldElement != null);
+			RootDocument = newElement as LayoutDocument;
+		}
 
-        public override int ChildrenCount
-        {
-            get { return RootDocument != null ? 1 : 0; }
-        }
+		public override int ChildrenCount
+		{
+			get { return RootDocument != null ? 1 : 0; }
+		}
 
-        public override bool IsValid
-        {
-            get { return RootDocument != null; }
-        }
+		public override bool IsValid
+		{
+			get { return RootDocument != null; }
+		}
 
 
 #if TRACE
@@ -102,6 +100,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
           RootDocument.ConsoleDump(tab + 1);
         }
 #endif
-    }
+	}
 
 }

@@ -15,19 +15,17 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Windows.Input;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using Xceed.Wpf.AvalonDock.Layout;
-using System.Diagnostics;
-using System.Windows.Documents;
 using Xceed.Wpf.AvalonDock.Themes;
 
 namespace Xceed.Wpf.AvalonDock.Controls

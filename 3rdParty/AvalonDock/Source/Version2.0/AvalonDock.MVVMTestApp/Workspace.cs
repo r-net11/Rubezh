@@ -16,14 +16,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using System.IO;
-using System.Windows;
-using Xceed.Wpf.AvalonDock.Layout;
 
 namespace AvalonDock.MVVMTestApp
 {

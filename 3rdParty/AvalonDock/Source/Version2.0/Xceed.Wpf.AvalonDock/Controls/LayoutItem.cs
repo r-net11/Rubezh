@@ -35,7 +35,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			MarginProperty.OverrideMetadata(typeof(LayoutItem), new FrameworkPropertyMetadata(new Thickness(0), (s, e) => OnMarginChanged(s, e)));
 		}
 
-
 		internal LayoutItem()
 		{
 

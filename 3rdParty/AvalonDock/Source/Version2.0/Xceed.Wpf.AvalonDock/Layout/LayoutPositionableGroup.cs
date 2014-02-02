@@ -24,7 +24,8 @@ namespace Xceed.Wpf.AvalonDock.Layout
 	public abstract class LayoutPositionableGroup<T> : LayoutGroup<T>, ILayoutPositionableElement, ILayoutPositionableElementWithActualSize where T : class, ILayoutElement
 	{
 		public LayoutPositionableGroup()
-		{ }
+		{
+		}
 
 		GridLength _dockWidth = new GridLength(1.0, GridUnitType.Star);
 		public GridLength DockWidth

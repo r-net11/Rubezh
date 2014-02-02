@@ -15,16 +15,13 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Xceed.Wpf.AvalonDock.Layout;
-using System.Diagnostics;
 using System.Windows.Threading;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
@@ -204,8 +201,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				return;
 
 			FixChildrenDockLengths();
-
-			//Debug.Assert(InternalChildren.Count == _model.ChildrenCount + (_model.ChildrenCount - 1));
 
 			#region Setup GridRows/Cols
 			RowDefinitions.Clear();
@@ -568,9 +563,5 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		}
 
 		#endregion
-
-
-
-
 	}
 }

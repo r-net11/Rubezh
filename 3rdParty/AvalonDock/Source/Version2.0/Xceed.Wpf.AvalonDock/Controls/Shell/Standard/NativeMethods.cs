@@ -33,9 +33,7 @@ namespace Standard
 
     // Some COM interfaces and Win32 structures are already declared in the framework.
     // Interesting ones to remember in System.Runtime.InteropServices.ComTypes are:
-    using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
-    using IPersistFile = System.Runtime.InteropServices.ComTypes.IPersistFile;
-    using IStream = System.Runtime.InteropServices.ComTypes.IStream;
+	using IStream = System.Runtime.InteropServices.ComTypes.IStream;
 
     #region Native Values
 

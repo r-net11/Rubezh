@@ -20,19 +20,17 @@
 
 namespace Microsoft.Windows.Shell
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Runtime.InteropServices;
-    using System.Threading;
-    using System.Windows;
-    using System.Windows.Interop;
-    using System.Windows.Media;
-    using System.Windows.Threading;
-    using Standard;
-
-    using HANDLE_MESSAGE = System.Collections.Generic.KeyValuePair<Standard.WM, Standard.MessageHandler>;
-    using System.Windows.Controls.Primitives;
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics.CodeAnalysis;
+	using System.Runtime.InteropServices;
+	using System.Windows;
+	using System.Windows.Controls.Primitives;
+	using System.Windows.Interop;
+	using System.Windows.Media;
+	using System.Windows.Threading;
+	using Standard;
+	using HANDLE_MESSAGE = System.Collections.Generic.KeyValuePair<Standard.WM, Standard.MessageHandler>;
 
     internal class WindowChromeWorker : DependencyObject
     {

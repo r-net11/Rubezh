@@ -16,15 +16,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows;
-using System.Diagnostics;
-using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {

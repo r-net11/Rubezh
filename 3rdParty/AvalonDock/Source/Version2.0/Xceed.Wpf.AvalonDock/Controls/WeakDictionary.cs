@@ -16,8 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {
@@ -73,7 +71,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
             value = _values[vIndex];
             return true;
         }
-
 
         void CollectGarbage()
         { 
