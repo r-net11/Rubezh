@@ -22,6 +22,7 @@ namespace SKDModule
 		JournalViewModel JournalViewModel;
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
+		VerificationViewModel VerificationViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -29,6 +30,7 @@ namespace SKDModule
 			JournalViewModel = new JournalViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
+			VerificationViewModel = new VerificationViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -43,6 +45,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 					})
 				};
 		}
@@ -65,6 +68,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

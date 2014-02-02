@@ -31,6 +31,8 @@ namespace SKDModule
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
+		SettingsViewModel SettingsViewModel;
+		FiltersViewModel FiltersViewModel;
 		SKDPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -54,6 +56,8 @@ namespace SKDModule
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
+			SettingsViewModel = new SettingsViewModel();
+			FiltersViewModel = new FiltersViewModel();
 			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel);
 		}
 
@@ -73,6 +77,7 @@ namespace SKDModule
 			_passCardDesignerViewModel.Initialize();
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
+			FiltersViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -95,6 +100,8 @@ namespace SKDModule
                     new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/book.png"),
+					new NavigationItem<ShowSKDFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/book.png", null, null, Guid.Empty),
 					new NavigationItem("Интервалы",null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -115,6 +122,7 @@ namespace SKDModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 		}
 	}
 }

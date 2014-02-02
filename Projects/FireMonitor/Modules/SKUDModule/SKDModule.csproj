@@ -97,6 +97,11 @@
       <SubType>
       </SubType>
     </Compile>
+    <Compile Include="Verification\ViewModels\VerificationItemViewModel.cs" />
+    <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
+    <Compile Include="Verification\Views\VerificationlView.xaml.cs">
+      <DependentUpon>VerificationlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\SKUDViewModel.cs" />
@@ -171,6 +176,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Verification\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Verification\Views\VerificationlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -229,6 +242,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cards\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

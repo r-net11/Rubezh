@@ -84,6 +84,8 @@
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ConfigurationClosedEvent.cs" />
+    <Compile Include="Events\ShowSKDFiltersEvent.cs" />
+    <Compile Include="Events\ShowSKDSettingsEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
     <Compile Include="Events\ShowSKDLidraryEvent.cs" />

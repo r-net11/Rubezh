@@ -77,6 +77,7 @@
     <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SKDDeviceSourceViewModel.cs" />
     <Compile Include="ViewModels\SKDDeviceViewModel.cs" />
     <Compile Include="ViewModels\SKDViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />

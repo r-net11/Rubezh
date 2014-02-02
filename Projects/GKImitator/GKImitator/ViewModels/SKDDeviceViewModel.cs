@@ -29,11 +29,21 @@ namespace GKImitator.ViewModels
 			}
 
 			SKDEvents = new ObservableCollection<SKDEvent>();
-			foreach(var skdEvent in SKDEventsHelper.SKDEvents)
+			foreach (var skdEvent in SKDEventsHelper.SKDEvents)
 			{
 				SKDEvents.Add(skdEvent);
 			}
 			SelectedSKDEvent = SKDEvents.FirstOrDefault();
+
+			DeviceSources = new ObservableCollection<SKDDeviceSourceViewModel>();
+			DeviceSources.Add(new SKDDeviceSourceViewModel(0, "Система"));
+			DeviceSources.Add(new SKDDeviceSourceViewModel(1, "Контроллер"));
+			for (int i = 0; i < SKDDevice.Children.Count; i++)
+			{
+				var childDevice = SKDDevice.Children[i];
+				DeviceSources.Add(new SKDDeviceSourceViewModel(i + 2, childDevice.Driver.ShortName + " " + childDevice.Address));
+			}
+			SelectedDeviceSource = DeviceSources.FirstOrDefault();
 
 			IsConnected = true;
 		}
@@ -74,6 +84,19 @@ namespace GKImitator.ViewModels
 			}
 		}
 
+		public ObservableCollection<SKDDeviceSourceViewModel> DeviceSources { get; private set; }
+
+		SKDDeviceSourceViewModel _selectedDeviceSource;
+		public SKDDeviceSourceViewModel SelectedDeviceSource
+		{
+			get { return _selectedDeviceSource; }
+			set
+			{
+				_selectedDeviceSource = value;
+				OnPropertyChanged("SelectedDeviceSource");
+			}
+		}
+
 		public RelayCommand NewEventCommand { get; private set; }
 		void OnNewEvent()
 		{
@@ -81,6 +104,7 @@ namespace GKImitator.ViewModels
 			var imitatorJournalItem = new SKDImitatorJournalItem()
 			{
 				No = SKDImitatorProcessor.LastJournalNo,
+				Source = SelectedDeviceSource.No,
 				Code = SelectedSKDEvent.No,
 				CardNo = CardNo
 			};

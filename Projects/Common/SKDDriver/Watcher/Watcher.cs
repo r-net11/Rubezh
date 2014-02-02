@@ -344,7 +344,7 @@ namespace SKDDriver
 				Name = name,
 				Description = description,
 				StateClass = XStateClass.Unknown,
-				ObjectStateClass = XStateClass.Norm,
+				DeviceStateClass = XStateClass.Norm,
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
 			SKDDBHelper.Add(journalItem);

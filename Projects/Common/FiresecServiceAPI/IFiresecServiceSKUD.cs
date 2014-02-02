@@ -36,7 +36,6 @@ namespace FiresecAPI
 		IEnumerable<Position> GetPositions(PositionFilter filter);
 
 		#region DeviceCommands
-
 		[OperationContract]
 		void SKDSetIgnoreRegime(Guid deviceUID);
 
@@ -52,6 +51,11 @@ namespace FiresecAPI
 		[OperationContract]
 		void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
 
+		[OperationContract]
+		void SKDAllowReader(Guid deviceUID);
+
+		[OperationContract]
+		void SKDDenyReader(Guid deviceUID);
 		#endregion
 	}
 }

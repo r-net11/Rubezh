@@ -253,6 +253,15 @@ namespace FiresecService.Service
 		{
 			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(deviceUID, stateBit); }, "SKDExecuteDeviceCommand");
 		}
+		public void SKDAllowReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
+		}
 		#endregion
 
 		#region GK

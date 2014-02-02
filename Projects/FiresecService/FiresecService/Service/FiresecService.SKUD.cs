@@ -86,6 +86,16 @@ namespace FiresecService.Service
 		{
 
 		}
+
+		public void SKDAllowReader(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+
+		}
 		#endregion
 	}
 }

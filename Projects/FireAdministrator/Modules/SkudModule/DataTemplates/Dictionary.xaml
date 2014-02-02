@@ -88,4 +88,12 @@
         <Views:LibraryStateDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
+        <Views:FiltersView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
+        <Views:FilterDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

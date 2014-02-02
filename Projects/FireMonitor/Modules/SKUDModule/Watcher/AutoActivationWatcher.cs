@@ -45,7 +45,7 @@ namespace SKDModule
 						switch (journalItem.JournalItemType)
 						{
 							case JournalItemType.Device:
-								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
 								if (device != null)
 								{
 									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementSKDDevices.Any(y => y.DeviceUID == device.UID); });

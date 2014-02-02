@@ -40,5 +40,15 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(device.UID, stateBit); }, "SKDExecuteDeviceCommand");
 		}
+
+		public void SKDAllowReader(SKDDevice device)
+		{
+			SafeOperationCall(() => { FiresecService.SKDAllowReader(device.UID); }, "SKDAllowReader");
+		}
+
+		public void SKDDenyReader(SKDDevice device)
+		{
+			SafeOperationCall(() => { FiresecService.SKDDenyReader(device.UID); }, "SKDDenyReader");
+		}
 	}
 }

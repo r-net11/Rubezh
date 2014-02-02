@@ -37,7 +37,7 @@ namespace SKDDriver
 						//GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
-						ObjectStateClass = XStateClass.Norm,
+						DeviceStateClass = XStateClass.Norm,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
 					};
 					AddJournalItem(journalItem);

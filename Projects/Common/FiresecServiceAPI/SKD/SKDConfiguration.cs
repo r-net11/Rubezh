@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
 			WeeklyIntervals = new List<SKDWeeklyInterval>();
 			Holidays = new List<SKDHoliday>();
+			SKDSystemConfiguration = new SKDSystemConfiguration();
 		}
 
 		public List<SKDDevice> Devices { get; set; }
@@ -42,6 +43,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<SKDHoliday> Holidays { get; set; }
+
+		[DataMember]
+		public SKDSystemConfiguration SKDSystemConfiguration { get; set; }
 
 		public void Update()
 		{
@@ -126,6 +130,12 @@ namespace XFiresecAPI
 				Holidays = new List<SKDHoliday>();
 				result = false;
 			}
+			if (SKDSystemConfiguration == null)
+			{
+				SKDSystemConfiguration = new SKDSystemConfiguration();
+				result = false;
+			}
+
 			return result;
 		}
 	}

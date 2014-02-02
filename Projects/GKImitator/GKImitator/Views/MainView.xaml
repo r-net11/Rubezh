@@ -53,10 +53,19 @@
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
                                         </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Источник" Width="100" Margin="2" />
+                                            <ComboBox ItemsSource="{Binding DeviceSources}" SelectedItem="{Binding SelectedDeviceSource}" Margin="2">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </StackPanel>
                                     </StackPanel>
 
                                     <Button Content="Событие" Command="{Binding NewEventCommand}" Width="150" Margin="2" />
-
                                     <CheckBox Content="Связь есть" IsChecked="{Binding IsConnected}" VerticalAlignment="Center" Margin="2" />
                                 </StackPanel>
                             </StackPanel>

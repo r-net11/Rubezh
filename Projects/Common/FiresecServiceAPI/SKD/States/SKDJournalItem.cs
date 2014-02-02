@@ -11,7 +11,7 @@ namespace FiresecAPI
 		{
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
-			ObjectStateClass = XStateClass.Norm;
+			DeviceStateClass = XStateClass.Norm;
 			JournalItemType = JournalItemType.System;
 		}
 
@@ -32,27 +32,17 @@ namespace FiresecAPI
 		public XStateClass StateClass { get; set; }
 
 		[DataMember]
-		public Guid ObjectUID { get; set; }
+		public Guid DeviceUID { get; set; }
 		[DataMember]
-		public string ObjectName { get; set; }
+		public string DeviceName { get; set; }
 		[DataMember]
-		public int ObjectState { get; set; }
+		public int DeviceState { get; set; }
 		[DataMember]
-		public ushort GKObjectNo { get; set; }
+		public string IpAddress { get; set; }
 		[DataMember]
-		public string GKIpAddress { get; set; }
+		public XStateClass DeviceStateClass { get; set; }
 		[DataMember]
-		public XStateClass ObjectStateClass { get; set; }
-
-		[DataMember]
-		public ushort ControllerAddress { get; set; }
-		[DataMember]
-		public string AdditionalDescription { get; set; }
-
-		[DataMember]
-		public ushort DescriptorType { get; set; }
-		[DataMember]
-		public ushort DescriptorAddress { get; set; }
+		public int CardNo { get; set; }
 
 		[DataMember]
 		public string UserName { get; set; }
