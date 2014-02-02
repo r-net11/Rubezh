@@ -54,7 +54,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.PreInitialize");
-					MessageBoxService.ShowError(e.Message);
+					MessageBoxService.ShowException(e);
 					Application.Current.Shutdown();
 				}
 		}
@@ -68,7 +68,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.AterInitialize");
-					MessageBoxService.ShowError(e.Message);
+					MessageBoxService.ShowException(e);
 					Application.Current.Shutdown();
 				}
 		}
@@ -82,7 +82,7 @@ namespace Infrastructure.Client
 				catch (Exception e)
 				{
 					Logger.Error(e, "BaseBootstrapper.Create");
-					MessageBoxService.ShowError(e.Message);
+					MessageBoxService.ShowException(e);
 					Application.Current.Shutdown();
 				}
 		}

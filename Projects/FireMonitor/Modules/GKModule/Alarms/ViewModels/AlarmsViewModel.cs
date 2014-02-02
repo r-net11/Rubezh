@@ -58,8 +58,8 @@ namespace GKModule.ViewModels
 			alarms = new List<Alarm>();
 			foreach (var device in XManager.Devices)
 			{
-				if (!device.IsRealDevice
-					|| device.DriverType == XDriverType.GK || device.DriverType == XDriverType.KAU || device.DriverType == XDriverType.RSR2_KAU)
+				if (!device.IsRealDevice)
+					//|| device.DriverType == XDriverType.GK || device.DriverType == XDriverType.KAU || device.DriverType == XDriverType.RSR2_KAU)
 					continue;
 
 				foreach (var stateClass in device.State.StateClasses)

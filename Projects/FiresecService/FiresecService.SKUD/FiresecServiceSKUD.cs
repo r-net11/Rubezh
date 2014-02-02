@@ -2,121 +2,166 @@
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
-using FiresecService.SKUD.Translator;
+using System;
+using XFiresecAPI;
 
 namespace FiresecService.SKUD
 {
 	public class FiresecServiceSKUD : IFiresecServiceSKUD
 	{
-		private DataAccess.FiresecDataContext _context = null;
-
-		public DataAccess.FiresecDataContext Context
-		{
-			get
-			{
-				if (_context == null)
-					//lock (this)
-					if (_context == null)
-						_context = new DataAccess.FiresecDataContext();
-				return _context;
-			}
-		}
+        DataAccess.SKUDDataContext Context;
+        
+        public FiresecServiceSKUD()
+        {
+            Context = new DataAccess.SKUDDataContext();
+        }
 
 
 		#region IFiresecServiceSKUD Members
 
-		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
 		{
-			try
-			{
-				return EmployeeResultTranslator.Translate(Context.GetAllEmployees(filter.ClockNumber, filter.LastName, filter.FirstName, filter.SecondName, filter.GroupId, filter.DepartmentId, filter.PositionId));
-			}
-			catch { return new List<EmployeeCard>(); }
+			return new List<EmployeeCard>(); 
 		}
 
 		public bool DeleteEmployee(int id)
 		{
-			try
-			{
-				int? rowCount = Context.DeleteEmployee(id);
-				return rowCount.HasValue && rowCount == 1;
-			}
-			catch { return false; }
+			return false; 
 		}
 
 		public EmployeeCardDetails GetEmployeeCard(int id)
 		{
-			try
-			{
-				return EmployeeResultTranslator.Translate(Context.GetEmployeeCard(id).FirstOrDefault());
-			}
-			catch { return new EmployeeCardDetails(); }
+			return new EmployeeCardDetails(); 
 		}
 
 		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
 		{
-			try
-			{
-				int? id = employeeCard.Id;
-				Context.SaveEmployeeCard(
-					ref id,
-					employeeCard.LastName,
-					employeeCard.FirstName,
-					employeeCard.SecondName,
-					employeeCard.ClockNumber,
-					employeeCard.Comment,
-					employeeCard.DepartmentId,
-					employeeCard.Email,
-					employeeCard.GroupId,
-					employeeCard.Phone,
-					employeeCard.PositionId,
-					employeeCard.Address,
-					employeeCard.AddressFact,
-					employeeCard.BirthPlace,
-					employeeCard.Birthday,
-					employeeCard.Cell,
-					employeeCard.ITN,
-					employeeCard.PassportCode,
-					employeeCard.PassportDate,
-					employeeCard.PassportEmitter,
-					employeeCard.PassportNumber,
-					employeeCard.PassportSerial,
-					employeeCard.Photo,
-					employeeCard.SNILS,
-					employeeCard.SexId);
-
-				return id.HasValue ? id.Value : -1;
-			}
-			catch { return 0; }
+			return 0;
 		}
 
 		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
 		{
-			try
-			{
-				return EmployeeDepartmentResultTranslator.Translate(Context.GetDepartments());
-			}
-			catch { return new List<EmployeeDepartment>(); }
+			return new List<EmployeeDepartment>();
 		}
 
 		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
 		{
-			try
-			{
-				return EmployeeGroupResultTranslator.Translate(Context.GetGroups());
-			}
-			catch { return new List<EmployeeGroup>(); }
+			return new List<EmployeeGroup>();
 		}
 
 		public IEnumerable<EmployeePosition> GetEmployeePositions()
 		{
-			try
-			{
-				return EmployeePositionResultTranslator.Translate(Context.GetPositions());
-			}
-			catch { return new List<EmployeePosition>(); }
+			return new List<EmployeePosition>();
 		}
 
+        public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+        {
+            try
+            {
+                var employees = new List<Employee>();
+                var databaseEmployees = Context.Employee.ToList().Where(x => IsInFilter(x, filter)).ToList();
+                databaseEmployees.ForEach(x => employees.Add(Translator.Translate(x)));
+                return employees;
+            }
+            catch { return new List<Employee>(); }
+        }
+
+        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            try
+            {
+                var departments = new List<Department>();
+                var databaseDepartments = Context.Department.ToList().Where(x => IsInFilter(x, filter)).ToList();
+                databaseDepartments.ForEach(x => departments.Add(Translator.Translate(x)));
+                return departments;
+            }
+            catch { return new List<Department>(); }
+        }
+        
+        public IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            try
+            {
+                var positions = new List<Position>();
+                var databasePositions = Context.Position.ToList().Where(x => IsInFilter(x, filter)).ToList();
+                databasePositions.ForEach(x => positions.Add(Translator.Translate(x)));
+                return positions;
+            }
+            catch { return new List<Position>(); }
+        }
+        #endregion
+
+        bool IsInFilter(FiresecService.SKUD.DataAccess.Employee employee, EmployeeFilter filter)
+        {
+            if (filter == null)
+                return true;
+            
+            bool isInUids = !filter.HasUids || filter.Uids.Any(x => employee.Uid == x);
+            bool isInDepartments = !filter.HasDepartments || filter.DepartmentUids.Any(x => employee.DepartmentUid == x);
+            bool isInPositions = !filter.HasPositions || filter.PositionUids.Any(x => employee.PositionUid == x);
+            bool isInAppointed = filter.Appointed == null ||
+                (employee.Appointed >= filter.Appointed.StartDate && employee.Appointed <= filter.Appointed.EndDate);
+            bool isInDismissed = filter.Dismissed == null ||
+                (employee.Dismissed >= filter.Dismissed.StartDate && employee.Dismissed <= filter.Dismissed.EndDate);
+
+            return isInUids && isInDepartments && isInPositions && isInAppointed && isInDepartments;
+        }
+
+        bool IsInFilter(FiresecService.SKUD.DataAccess.Department item, DepartmentFilter filter)
+        {
+            if (filter == null)
+                return true;
+
+            bool isInUids = !filter.HasUids || filter.Uids.Any(x => item.Uid == x);
+
+            return isInUids;
+        }
+
+        bool IsInFilter(FiresecService.SKUD.DataAccess.Position item, PositionFilter filter)
+        {
+            if (filter == null)
+                return true;
+
+            bool isInUids = !filter.HasUids || filter.Uids.Any(x => item.Uid == x);
+
+            return isInUids;
+        }
+
+		#region Devices
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+
+		}
+
+		public void SKDAllowReader(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+
+		}
 		#endregion
 	}
 }

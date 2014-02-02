@@ -37,6 +37,17 @@ namespace FiresecService.Processor
 			return deviceConfiguration;
 		}
 
+		public static SKDConfiguration GetSKDConfiguration()
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip(zipFile, "SKDConfiguration.xml", typeof(SKDConfiguration));
+			skdConfiguration.AfterLoad();
+			zipFile.Dispose();
+			return skdConfiguration;
+		}
+
 		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
 		{
 			try

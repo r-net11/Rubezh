@@ -10,13 +10,13 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		public static void SendControlCommand(XBase xBase, XStateBit stateBit)
+		public static void SendControlCommand(XBase xBase, XStateBit stateBit, string description)
 		{
 			var code = 0x80 + (int)stateBit;
-			SendControlCommand(xBase, (byte)code);
+			SendControlCommand(xBase, (byte)code, description);
 		}
 
-		public static void SendControlCommand(XBase xBase, byte code)
+		public static void SendControlCommand(XBase xBase, byte code, string description)
 		{
 			var bytes = new List<byte>();
 			var databaseNo = xBase.GKDescriptorNo;
@@ -24,7 +24,14 @@ namespace GKProcessor
 			bytes.Add(code);
 			if (xBase.GkDatabaseParent != null)
 			{
-				WatcherManager.Send(OnCompleted, xBase.GkDatabaseParent, 3, 13, 0, bytes);
+				WatcherManager.Send(new Action<SendResult>(sendResult =>
+					{
+						if (sendResult.HasError)
+						{
+							GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды, description, xBase, null);
+						}
+					}),
+					xBase.GkDatabaseParent, 3, 13, 0, bytes);
 			}
 		}
 
@@ -45,7 +52,7 @@ namespace GKProcessor
 		{
 			if (sendResult.HasError)
 			{
-				GKProcessorManager.AddGKMessage("Ошибка при выполнении команды", "", XStateClass.Failure, null, null);
+				GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды, "", null, null);
 			}
 		}
 	}

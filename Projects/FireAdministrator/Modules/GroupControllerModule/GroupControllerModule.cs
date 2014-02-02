@@ -95,7 +95,7 @@ namespace GKModule
 					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
-                    new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
+                    new NavigationItem<ShowXDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
@@ -155,8 +155,6 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
-			____ConvertExitToRele____();
-
 			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
 			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
@@ -165,9 +163,12 @@ namespace GKModule
 
 			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-
-			GKDBHelper.AddMessage("Вход пользователя в систему", FiresecManager.CurrentUser.Name);
 			return true;
+		}
+
+		public override void AfterInitialize()
+		{
+			FiresecManager.StartPoll(true);
 		}
 
 		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
@@ -185,13 +186,19 @@ namespace GKModule
 				switch (gkProgressCallback.GKProgressCallbackType)
 				{
 					case GKProgressCallbackType.Start:
-						LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+						{
+							LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						}
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Text);
-						if (LoadingService.IsCanceled)
-							FiresecManager.FiresecService.CancelGKProgress();
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Administrator)
+						{
+							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+							if (LoadingService.IsCanceled)
+								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+						}
 						return;
 
 					case GKProgressCallbackType.Stop:
@@ -199,33 +206,6 @@ namespace GKModule
 						return;
 				}
 			});
-		}
-
-		void ____ConvertExitToRele____()
-		{
-			bool hasChanged = false;
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.GKLine)
-				{
-					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GKRele);
-					device.Driver = driver;
-					device.DriverUID = driver.UID;
-					hasChanged = true;
-				}
-			}
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.GK)
-				{
-					UpdateConfigurationHelper.UpdateGKPredefinedName(device);
-				}
-			}
-			if (hasChanged)
-			{
-				XManager.UpdateConfiguration();
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		#region ILayoutDeclarationModule Members

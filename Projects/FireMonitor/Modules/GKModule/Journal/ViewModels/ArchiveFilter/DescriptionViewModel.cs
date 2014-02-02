@@ -8,24 +8,34 @@ using GKProcessor;
 
 namespace GKModule.ViewModels
 {
-	public class DescriptionViewModel : BaseViewModel
+	public class ArchiveDescriptionViewModel : CheckBoxItemViewModel
 	{
-		public DescriptionViewModel(Description description)
+		public ArchiveDescriptionViewModel(Description description, List<string> distinctDatabaseDescriptions)
 		{
 			Description = description;
+			IsEnabled = distinctDatabaseDescriptions.Any(x => x == description.Name);
 		}
 
 		public Description Description { get; private set; }
 
-		bool _isChecked;
-		public bool IsChecked
+		bool _isEnabled;
+		public bool IsEnabled
 		{
-			get { return _isChecked; }
+			get { return _isEnabled; }
 			set
 			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				_isEnabled = value;
+				OnPropertyChanged("IsEnabled");
 			}
+		}
+
+		public static int Compare(ArchiveDescriptionViewModel x, ArchiveDescriptionViewModel y)
+		{
+			if (x.IsEnabled && !y.IsEnabled)
+				return -1;
+			if (!x.IsEnabled && y.IsEnabled)
+				return 1;
+			return x.Description.Name.CompareTo(y.Description.Name);
 		}
 	}
 }

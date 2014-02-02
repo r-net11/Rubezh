@@ -38,7 +38,9 @@ namespace GKModule
 			InitializeStates();
 			if (!GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
+				GKProcessorManager.MustMonitor = true;
 				GKProcessorManager.Start();
+				GKLicenseProcessor.Start();
 			}
 		}
 
@@ -56,7 +58,18 @@ namespace GKModule
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
+			SafeFiresecService.GetFilteredGKArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>>(OnGetFilteredGKArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredGKArchiveCompletedEvent += new Action<IEnumerable<JournalItem>>(OnGetFilteredGKArchiveCompletedEvent);
+
 			ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+		}
+
+		void OnGetFilteredGKArchiveCompletedEvent(IEnumerable<JournalItem> journalItems)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Publish(journalItems);
+			});
 		}
 
 		void InitializeStates()
@@ -72,11 +85,19 @@ namespace GKModule
 				switch (gkProgressCallback.GKProgressCallbackType)
 				{
 					case GKProgressCallbackType.Start:
-						LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Monitor)
+						{
+							LoadingService.Show(gkProgressCallback.Title, gkProgressCallback.Text, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+						}
 						return;
 
 					case GKProgressCallbackType.Progress:
-						LoadingService.DoStep(gkProgressCallback.Text);
+						if (gkProgressCallback.GKProgressClientType == GKProgressClientType.Monitor)
+						{
+							LoadingService.DoStep(gkProgressCallback.Text, gkProgressCallback.Title, gkProgressCallback.StepCount, gkProgressCallback.CanCancel);
+							if (LoadingService.IsCanceled)
+								FiresecManager.FiresecService.CancelGKProgress(gkProgressCallback.UID, FiresecManager.CurrentUser.Name);
+						}
 						return;
 
 					case GKProgressCallbackType.Stop:

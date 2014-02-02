@@ -9,6 +9,15 @@ namespace FiresecAPI
 	[DataContract]
 	public class GKProgressCallback
 	{
+		public GKProgressCallback()
+		{
+			UID = Guid.NewGuid();
+			LastActiveDateTime = DateTime.Now;
+		}
+
+		[DataMember]
+		public Guid UID { get; set; }
+
 		[DataMember]
 		public GKProgressCallbackType GKProgressCallbackType { get; set; }
 
@@ -23,6 +32,13 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool CanCancel { get; set; }
+
+		[DataMember]
+		public GKProgressClientType GKProgressClientType { get; set; }
+
+		public bool IsCanceled { get; set; }
+		public DateTime CancelizationDateTime { get; set; }
+		public DateTime LastActiveDateTime { get; set; }
 	}
 
 	public enum GKProgressCallbackType
@@ -30,5 +46,11 @@ namespace FiresecAPI
 		Start,
 		Progress,
 		Stop
+	}
+
+	public enum GKProgressClientType
+	{
+		Administrator,
+		Monitor
 	}
 }

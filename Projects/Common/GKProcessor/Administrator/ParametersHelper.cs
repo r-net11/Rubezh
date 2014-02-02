@@ -5,24 +5,23 @@ using Common;
 using GKProcessor;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
 	public static class ParametersHelper
 	{
-		public static event Action<ushort, ushort, ushort> AllParametersChanged;
-		
-		public static string SetSingleParameter(XDevice device)
+		public static string SetSingleParameter(XBase xBase, List<byte> parameterBytes)
 		{
 			try
 			{
-				var commonDatabase = GetCommonDatabase(device);
+				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
 					if (descriptor != null)
 					{
-						var result = SetDeviceParameters(commonDatabase, descriptor);
+						var result = SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
 						if (result != null)
 						{
 							return "Ошибка";
@@ -37,21 +36,18 @@ namespace GKProcessor
 			return null;
 		}
 
-		public static string GetSingleParameter(XDevice device)
+		public static OperationResult<List<XProperty>> GetSingleParameter(XBase xBase)
 		{
 			try
 			{
-				var commonDatabase = GetCommonDatabase(device);
+				var commonDatabase = GetCommonDatabase(xBase);
 				if (commonDatabase != null)
 				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Device == device);
+					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
 					if (descriptor != null)
 					{
 						var result = GetDeviceParameters(commonDatabase, descriptor);
-						if (!result)
-						{
-							return "Ошибка";
-						}
+						return result;
 					}
 				}
 			}
@@ -59,17 +55,18 @@ namespace GKProcessor
 			{
 				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
-			return null;
+			return new OperationResult<List<XProperty>>("Непредвиденная ошибка");
 		}
 
-		static bool GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
-		  {
+		static OperationResult<List<XProperty>> GetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
+		{
+			var properties = new List<XProperty>();
+
 			var no = descriptor.GetDescriptorNo();
-			GKProcessorManager.OnDoProgress("Запрос параметров объекта " + no);
 			var sendResult = SendManager.Send(commonDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 			if (sendResult.HasError)
 			{
-				return false;
+				return new OperationResult<List<XProperty>>(sendResult.Error);
 			}
 
 			var binProperties = new List<BinProperty>();
@@ -124,24 +121,29 @@ namespace GKProcessor
 								Value = paramValue,
 							});
 						}
-						if (property != null && property.Value != paramValue)
+						if (property != null)
 						{
 							property.Value = paramValue;
 							property.DriverProperty = driverProperty;
 							if (property.DriverProperty.DriverPropertyType == XDriverPropertyTypeEnum.BoolType)
 								property.Value = (ushort)(property.Value > 0 ? 1 : 0);
-							descriptor.Device.OnAUParametersChanged();
+
+							properties.Add(property);
 						}
 					}
 					else
-						return false;
+						return new OperationResult<List<XProperty>>("Неизвестный номер параметра");
 				}
 			}
-			if (AllParametersChanged != null)
-				AllParametersChanged(binProperties[0].Value, binProperties[1].Value, binProperties[2].Value);
-			return true;
+			if (descriptor.Direction != null && binProperties.Count >= 3)
+			{
+				properties.Add(new XProperty() { Value = binProperties[0].Value });
+				properties.Add(new XProperty() { Value = binProperties[1].Value });
+				properties.Add(new XProperty() { Value = binProperties[2].Value });
+			}
+			return new OperationResult<List<XProperty>>() { Result = properties };
 		}
-		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor)
+		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, List<byte> parameterBytes)
 		{
 			if (descriptor.Device != null)
 			{
@@ -167,63 +169,11 @@ namespace GKProcessor
 				var no = descriptor.GetDescriptorNo();
 				var bytes = new List<byte>();
 				bytes.AddRange(BytesHelper.ShortToBytes(no));
-				bytes.AddRange(descriptor.Parameters);
-				GKProcessorManager.OnDoProgress("Запись параметров объекта " + no);
+				//bytes.AddRange(descriptor.Parameters);
+				bytes.AddRange(parameterBytes);
 				var sendResult = SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 				if (sendResult.HasError)
 					return sendResult.Error;
-			}
-			return null;
-		}
-
-		public static string SetSingleDirectionParameter(XDirection direction)
-		{
-			DescriptorsManager.Create();
-			try
-			{
-				var commonDatabase = GetCommonDatabase(direction);
-				if (commonDatabase != null)
-				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
-					if (descriptor != null)
-					{
-						var result = SetDeviceParameters(commonDatabase, descriptor);
-						if (!string.IsNullOrEmpty(result))
-						{
-							return "Ошибка при записи параметра направления " + direction.PresentationName;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ParametersHelper.SetDirectionParameters");
-			}
-			return null;
-		}
-
-		public static string GetSingleDirectionParameter(XDirection direction)
-		{
-			DescriptorsManager.Create();
-			try
-			{
-				var commonDatabase = GetCommonDatabase(direction);
-				if (commonDatabase != null)
-				{
-					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.Direction == direction);
-					if (descriptor != null)
-					{
-						var result = GetDeviceParameters(commonDatabase, descriptor);
-						if (!result)
-						{
-							return "Ошибка";
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ParametersHelper.GetSingleParameter");
 			}
 			return null;
 		}
@@ -240,6 +190,16 @@ namespace GKProcessor
 				commonDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice == xBase.GkDatabaseParent);
 			}
 			return commonDatabase;
+		}
+
+		public static BaseDescriptor GetBaseDescriptor(XBase xBase)
+		{
+			var commonDatabase = GetCommonDatabase(xBase);
+			if (commonDatabase != null)
+			{
+				return commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
+			}
+			return null;
 		}
 	}
 }

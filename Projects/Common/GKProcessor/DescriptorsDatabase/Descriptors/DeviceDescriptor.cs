@@ -34,20 +34,34 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				if (Device.Driver.HasLogic && Device.DeviceLogic.Clauses.Count > 0)
+				if (Device.Driver.HasLogic)
 				{
-					AddClauseFormula(Device.DeviceLogic);
+					if (Device.DeviceLogic.Clauses.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.DeviceLogic.Clauses);
+						AddMro2MFormula();
+						if (Device.DeviceLogic.OffClauses == null || Device.DeviceLogic.OffClauses.Count == 0)
+						{
+							Formula.AddStandardTurning(Device);
+						}
+						else
+						{
+							Formula.AddGetBit(XStateBit.Norm, Device);
+							Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+							Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
+						}
+					}
+					if (Device.DeviceLogic.OffClauses.Count > 0)
+					{
+						Formula.AddClauseFormula(Device.DeviceLogic.OffClauses);
+						Formula.AddGetBit(XStateBit.Norm, Device);
+						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+						Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
+					}
 				}
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		void AddClauseFormula(XDeviceLogic deviceLogic)
-		{
-			Formula.AddClauseFormula(deviceLogic);
-			AddMro2MFormula();
-			Formula.AddStandardTurning(Device);
 		}
 
 		void AddMro2MFormula()

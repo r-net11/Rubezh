@@ -10,6 +10,7 @@ using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
 using FiresecClient;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.Views
 {
@@ -26,38 +27,82 @@ namespace GKModule.Views
 			OnGKObjectsStateChangedEvent(true);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnGKObjectsStateChangedEvent);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnGKObjectsStateChangedEvent);
+			SafeFiresecService.ConnectionLost += new Action(OnService_ConnectionLost);
+			SafeFiresecService.ConnectionAppeared += new Action(OnService_ConnectionAppeared);
+		}
+
+		void OnService_ConnectionLost()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsServerConnected = false;
+				IsConnected = IsAllConnected;
+			}));
+		}
+
+		void OnService_ConnectionAppeared()
+		{
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsServerConnected = true;
+				IsConnected = IsAllConnected;
+			}));
 		}
 
 		void OnGKObjectsStateChangedEvent(object obj)
 		{
-			var isConnected = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.ConnectionLost));
-			IsDeviceConnected = isConnected;
-			_connectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
-			if (IsDeviceConnected)
-				_connectionIndicator.Visibility = Visibility.Visible;
+			IsGKDeviceConnected = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.ConnectionLost));
+			IsGKDBEqual = !XManager.Devices.Any(x => x.State.StateClasses.Contains(XStateClass.DBMissmatch));
+			IsConnected = IsAllConnected;
 		}
 
-		bool _isDeviceConnected;
-		public bool IsDeviceConnected
+		bool IsServerConnected = true;
+		bool IsGKDeviceConnected = true;
+		bool IsGKDBEqual = true;
+		bool IsAllConnected
 		{
-			get { return _isDeviceConnected; }
+			get { return IsServerConnected && IsGKDeviceConnected && IsGKDBEqual; }
+		}
+
+		bool _isConnected = true;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
 			set
 			{
-				_isDeviceConnected = value;
-				OnPropertyChanged("IsDeviceConnected");
+				_isConnected = value;
+				OnPropertyChanged("IsConnected");
 				if (value)
 				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК в норме";
-					_deviceConnectionControl.Background = Brushes.Transparent;
-					_connectionIndicator.Opacity = 0.4;
+					_border.ToolTip = "Связь в норме";
+					_border.Background = Brushes.Transparent;
+					_image.Opacity = 0.4;
+					_image.Visibility = Visibility.Visible;
 				}
 				else
 				{
-					_deviceConnectionControl.ToolTip = "Связь с устройствами ГК потеряна";
-					_deviceConnectionControl.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
-					_connectionIndicator.Opacity = 1;
-					BalloonHelper.ShowFromMonitor("Связь с ГК потеряна");
+					var strings = new List<string>();
+					if (!IsServerConnected)
+					{
+						strings.Add("Связь с сервером потеряна");
+					}
+					if (!IsGKDeviceConnected)
+					{
+						strings.Add("Связь с ГК потеряна");
+					}
+					if (!IsGKDBEqual)
+					{
+						strings.Add("База данных ГК не совпадает с базой даных прибора");
+					}
+					var text = string.Join("\n", strings);
+
+					_border.ToolTip = text;
+					_border.SetResourceReference(Border.BackgroundProperty, "HighlightedBackgoundBrush");
+					_border.Background = Brushes.DarkOrange;
+					_image.Opacity = 1;
+					BalloonHelper.ShowFromMonitor(text);
 				}
+				_image.BeginAnimation(Image.VisibilityProperty, GetAnimation(value));
 			}
 		}
 

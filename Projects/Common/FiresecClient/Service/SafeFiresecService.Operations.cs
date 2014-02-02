@@ -115,10 +115,25 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
         }
 
-		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees(filter));
+			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetAllEmployees(filter));
 		}
+
+        public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+        }
+
+        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
+        }
+
+        public IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
+        }
 
         public bool DeleteEmployee(int id)
         {

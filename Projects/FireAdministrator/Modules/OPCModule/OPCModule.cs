@@ -74,7 +74,7 @@ namespace OPCModule
 			catch (FiresecException e)
 			{
 				Logger.Error(e, "OPCModule.BeforeInitialize");
-				MessageBoxService.ShowError(e.Message);
+				MessageBoxService.ShowException(e);
 				return false;
 			}
 		}

@@ -4,31 +4,41 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using SKUDModule.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecClient;
+using FiresecAPI.Models.Skud;
 
-namespace SKUDModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class SKUDViewModel : ViewPartViewModel
 	{
 		public SKUDViewModel()
 		{
-			Employees = new ObservableCollection<EmployeeViewModel>();
-			TestDataHelper.Employees.ForEach(x => Employees.Add(new EmployeeViewModel(x)));
+			Filter = new EmployeeFilter();
 			SelectedEmployee = Employees.FirstOrDefault();
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			//RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
+			//EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+		}
 
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanEditDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+		EmployeeFilter filter;
+		public EmployeeFilter Filter
+		{
+			get { return filter; }
+			set
+			{
+				filter = value;
+				UpdateEmployees();
+			}
 		}
 
 		ObservableCollection<EmployeeViewModel> employees;
 		public ObservableCollection<EmployeeViewModel> Employees
 		{
-			get{ return employees; }
-			set 
-			{ 
+			get { return employees; }
+			set
+			{
 				employees = value;
 				OnPropertyChanged("Employees");
 			}
@@ -45,41 +55,45 @@ namespace SKUDModule.ViewModels
 			}
 		}
 
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		void UpdateEmployees()
 		{
-			var employeeDelailsViewModel = new EmployeeDetailsViewModel();
-			if (DialogService.ShowModalWindow(employeeDelailsViewModel))
+			Employees = new ObservableCollection<EmployeeViewModel>();
+			FiresecManager.GetEmployees(Filter).ToList().ForEach(x => Employees.Add(new EmployeeViewModel(x)));
+		}
+
+
+		public RelayCommand ShowFilterCommand { get; private set; }
+		void OnShowFilter()
+		{
+			var employeeFilterViewModel = new EmployeeFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(employeeFilterViewModel))
 			{
-				var employee = employeeDelailsViewModel.Employee;
-				Employees.Add(new EmployeeViewModel(employee));
-				TestDataHelper.AddEmployee(employee);
+				Filter = employeeFilterViewModel.Filter;
 			}
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			TestDataHelper.RemoveEmployee(SelectedEmployee.Employee);
-			Employees.Remove(SelectedEmployee);
-			SelectedEmployee = Employees.FirstOrDefault();
-			
-		}
+		//public RelayCommand RemoveCommand { get; private set; }
+		//void OnRemove()
+		//{
+		//    //TestDataHelper.RemoveEmployee(SelectedEmployee.Employee);
+		//    Employees.Remove(SelectedEmployee);
+		//    SelectedEmployee = Employees.FirstOrDefault();
 
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var employeeDelailsViewModel = new EmployeeDetailsViewModel(SelectedEmployee.Employee);
-			DialogService.ShowModalWindow(employeeDelailsViewModel);
-			var employee = employeeDelailsViewModel.Employee;
-			//Employees.Add(new EmployeeViewModel(employee));
-			TestDataHelper.AddEmployee(employee);
-		}
+		//}
 
-		bool CanEditDelete()
-		{
-			return SelectedEmployee != null;
-		}
+		//public RelayCommand EditCommand { get; private set; }
+		//void OnEdit()
+		//{
+		//    var employeeDelailsViewModel = new EmployeeDetailsViewModel(SelectedEmployee.Employee);
+		//    DialogService.ShowModalWindow(employeeDelailsViewModel);
+		//    var employee = employeeDelailsViewModel.Employee;
+		//    //Employees.Add(new EmployeeViewModel(employee));
+		//    //TestDataHelper.AddEmployee(employee);
+		//}
+
+		//bool CanEditDelete()
+		//{
+		//    return SelectedEmployee != null;
+		//}
 	}
 }

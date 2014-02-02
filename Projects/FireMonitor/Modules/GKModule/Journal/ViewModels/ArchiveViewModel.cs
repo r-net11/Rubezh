@@ -37,6 +37,8 @@ namespace GKModule.ViewModels
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
+
+			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
 		public void Initialize()
@@ -196,8 +198,17 @@ namespace GKModule.ViewModels
 			{
 				_status = value;
 				OnPropertyChanged("Status");
+                OnPropertyChanged("IsLoading");
 			}
 		}
+
+        public bool IsLoading
+        {
+            get
+            {
+                return Status == "Загрузка данных"; 
+            }
+        }
 
 		public List<JournalColumnType> AdditionalColumns
 		{
@@ -231,6 +242,7 @@ namespace GKModule.ViewModels
 				Status = "Загрузка данных";
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				UpdateThread = new Thread(new ThreadStart(OnUpdate));
+				UpdateThread.Name = "GK Journal Update";
 				UpdateThread.Start();
 			}
 		}
@@ -245,9 +257,19 @@ namespace GKModule.ViewModels
 				else
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
-				var journalRecords = GKDBHelper.Select(archiveFilter);
-				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
+				if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+				{
+					JournalItems = new ObservableCollection<JournalItemViewModel>();
+					FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
+				}
+				else
+				{
+					GKDBHelper.IsAbort = false;
+					var journalItems = GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
+					Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
+				}
 			}
+			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "ArchiveViewModel.OnUpdate");
@@ -257,15 +279,13 @@ namespace GKModule.ViewModels
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
 		{
-			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			foreach (var journalItem in journalItems)
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				JournalItems.Add(journalItemViewModel);
 			}
-			SelectedJournal = JournalItems.FirstOrDefault();
 
-			Status = "Всего записей " + journalItems.Count().ToString();
+			Status = "Всего записей " + JournalItems.Count().ToString();
 		}
 
 		public override void OnShow()

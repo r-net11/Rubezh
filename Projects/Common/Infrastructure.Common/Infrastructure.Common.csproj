@@ -157,6 +157,7 @@
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="CloseWindowHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
+    <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="ZipFileConfigurationHelper.cs" />

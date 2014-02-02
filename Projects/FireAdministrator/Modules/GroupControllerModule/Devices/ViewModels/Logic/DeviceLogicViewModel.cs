@@ -23,79 +23,22 @@ namespace GKModule.ViewModels
 				Title = "Настройка логики устройства " + device.PresentationName;
 			Device = device;
 
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
-			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
-
 			if (deviceLogic.Clauses.Count == 0)
 			{
 				deviceLogic.Clauses.Add(new XClause());
 			}
-			Clauses = new ObservableCollection<ClauseViewModel>();
-			foreach (var clause in deviceLogic.Clauses)
-			{
-				var clauseViewModel = new ClauseViewModel(clause, device);
-				Clauses.Add(clauseViewModel);
-				JoinOperator = clause.ClauseJounOperationType;
-			}
-			UpdateJoinOperatorVisibility();
+
+			OnLogicViewModel = new LogicViewModel(device, deviceLogic.Clauses);
+			OffLogicViewModel = new LogicViewModel(device, deviceLogic.OffClauses);
 
 			SelectedMROMessageNo = deviceLogic.ZoneLogicMROMessageNo;
 			SelectedMROMessageType = deviceLogic.ZoneLogicMROMessageType;
 		}
 
 		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
-		public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var clause = new XClause();
-			var clauseViewModel = new ClauseViewModel(clause, Device);
-			Clauses.Add(clauseViewModel);
-			UpdateJoinOperatorVisibility();
-		}
-
-		public void UpdateJoinOperatorVisibility()
-		{
-			foreach (var clause in Clauses)
-				clause.ShowJoinOperator = false;
-
-			if (Clauses.Count > 1)
-			{
-				foreach (var clause in Clauses)
-					clause.ShowJoinOperator = true;
-
-				Clauses.Last().ShowJoinOperator = false;
-			}
-		}
-
-		ClauseJounOperationType _joinOperator;
-		public ClauseJounOperationType JoinOperator
-		{
-			get { return _joinOperator; }
-			set
-			{
-				_joinOperator = value;
-				OnPropertyChanged("JoinOperator");
-			}
-		}
-
-		public RelayCommand ChangeJoinOperatorCommand { get; private set; }
-		void OnChangeJoinOperator()
-		{
-			if (JoinOperator == ClauseJounOperationType.And)
-				JoinOperator = ClauseJounOperationType.Or;
-			else
-				JoinOperator = ClauseJounOperationType.And;
-		}
-
-		public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
-		void OnRemove(ClauseViewModel clauseViewModel)
-		{
-			Clauses.Remove(clauseViewModel);
-			UpdateJoinOperatorVisibility();
-		}
+		public LogicViewModel OnLogicViewModel { get; private set; }
+		public LogicViewModel OffLogicViewModel { get; private set; }
 
 		#region IsMRO_2M
 		public bool IsMRO_2M
@@ -136,6 +79,17 @@ namespace GKModule.ViewModels
 		}
 		#endregion
 
+		public string OffClauseName
+		{
+			get
+			{
+				if (Device.DeviceLogic.OffClauses == null || Device.DeviceLogic.OffClauses.Count == 0)
+					return "Условие выключения противоположно условию включения";
+				else
+					return "Условие выключения";
+			}
+		}
+
 		protected override bool Save()
 		{
 			return base.Save();
@@ -144,40 +98,10 @@ namespace GKModule.ViewModels
 		public XDeviceLogic GetModel()
 		{
 			var deviceLogic = new XDeviceLogic();
-			foreach (var clauseViewModel in Clauses)
-			{
-				var clause = new XClause()
-				{
-					ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
-					StateType = clauseViewModel.SelectedStateType,
-					ClauseJounOperationType = JoinOperator,
-					ClauseOperationType = clauseViewModel.SelectedClauseOperationType
-				};
-				switch (clause.ClauseOperationType)
-				{
-					case ClauseOperationType.AllDevices:
-					case ClauseOperationType.AnyDevice:
-						clause.Devices = clauseViewModel.Devices.ToList();
-						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
-						break;
-
-					case ClauseOperationType.AllZones:
-					case ClauseOperationType.AnyZone:
-						clause.Zones = clauseViewModel.Zones.ToList();
-						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList();
-						break;
-
-					case ClauseOperationType.AllDirections:
-					case ClauseOperationType.AnyDirection:
-						clause.Directions = clauseViewModel.Directions.ToList();
-						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
-						break;
-				}
-				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)
-					deviceLogic.Clauses.Add(clause);
-				deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
-				deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
-			}
+			deviceLogic.Clauses = OnLogicViewModel.GetClauses();
+			deviceLogic.OffClauses = OffLogicViewModel.GetClauses();
+			deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
+			deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
 			return deviceLogic;
 		}
 	}

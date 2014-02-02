@@ -117,6 +117,8 @@ namespace FiresecService.Service
 			newZipFile.Dispose();
 
 			File.Delete(newFileName);
+
+			GKProcessor.SetNewConfig();
 		}
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)

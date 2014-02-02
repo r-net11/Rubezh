@@ -11,13 +11,6 @@
       <FeatureRef Id="ManagementConsole.Features" />
       <FeatureRef Id="OPC.Features" />
 
-      <Feature Id="FS2.Features" Title="Адресная система Рубеж 2" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-2АМ Рубеж-4А, Рубеж-2ОП, БУНС">
-        <ComponentRef Id="FS2.Files" />
-        <ComponentRef Id="FS2.Metadata" />
-        <ComponentRef Id="FS2.DB" />
-        <ComponentRef Id="FS2.ProgramsMenuShortcut" />
-      </Feature>
-
       <Feature Id="FS.Features" Title="Адресная система Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты необходимые для работы с примено-контрольными приборами серии Рубеж: Рубеж-2АМ Рубеж-4А, Рубеж-2ОП, БУНС">
         <ComponentRef Id="Administrator.FS_MODULE" />
         <ComponentRef Id="Monitor.FS_MODULE" />
@@ -37,14 +30,6 @@
       <Feature Id="Video.Features" Title="Видео" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
         <ComponentRef Id="Administrator.VIDEO_MODULE"/>
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
-      </Feature>
-
-      <Feature Id="Multiclient.Features" Title="Мультисерверная ОЗ" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компоненты для Мультисерверной Оперативной Задачи">
-        <ComponentRef Id="MultiClient.Files"/>
-        <ComponentRef Id="MultiClientMonitor.ProgramsMenuShortcut" />
-        <ComponentRef Id="MultiClientMonitor.DesktopShortcut" />
-        <ComponentRef Id="MultiClientAdministrator.ProgramsMenuShortcut" />
-        <ComponentRef Id="MultiClientAdministrator.DesktopShortcut" />
       </Feature>
 
       <!--<ComponentRef Id="Administrator.Remove" />

@@ -21,6 +21,7 @@ namespace Infrastructure.Common.Windows
 
 		public static bool ShowModalWindow(WindowBaseViewModel windowBaseViewModel)
 		{
+			//LoadingService.Close();
 			try
 			{
 				WindowBaseView win = new WindowBaseView(windowBaseViewModel);

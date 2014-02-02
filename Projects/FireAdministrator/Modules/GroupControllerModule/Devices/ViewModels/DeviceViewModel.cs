@@ -16,6 +16,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -128,7 +129,6 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var x = CanAdd();
 			NewDeviceViewModelBase newDeviceViewModel;
 			if (Device.IsConnectedToKAURSR2OrIsKAURSR2)
 				newDeviceViewModel = new RSR2NewDeviceViewModel(this);
@@ -281,9 +281,9 @@ namespace GKModule.ViewModels
 		{
 			IsSelected = true;
 			var plansElement = new ElementXDevice
-								{
-									XDeviceUID = Device.UID
-								};
+				{
+					XDeviceUID = Device.UID
+				};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
 		private bool CanCreateDragObjectCommand(DataObject dataObject)

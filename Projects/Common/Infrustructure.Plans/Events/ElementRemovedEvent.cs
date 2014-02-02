@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Events
 {
-    public class ElementRemovedEvent : CompositePresentationEvent<List<ElementBase>>
-    {
-    }
+	public class ElementRemovedEvent : CompositePresentationEvent<List<ElementBase>>
+	{
+	}
 }

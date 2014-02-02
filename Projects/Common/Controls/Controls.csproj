@@ -82,6 +82,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\WPF Toolkit\v3.5.50211.1\System.Windows.Controls.Input.Toolkit.dll</HintPath>
@@ -195,6 +196,12 @@
     <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
     <Compile Include="Ribbon\Views\RibbonPopup.cs" />
+    <Compile Include="SpinnerCogs.xaml.cs">
+      <DependentUpon>SpinnerCogs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XStateHelper.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="TextBoxHelper.cs" />
@@ -272,6 +279,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ribbon\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SpinnerCogs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -454,6 +465,10 @@
     <Page Include="Themes\ActiveXScrollBarStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -1285,7 +1300,6 @@
     <Resource Include="StateClassIcons\Manual.png" />
     <Resource Include="StateClassIcons\HasNoLicense.png" />
     <Resource Include="StateClassIcons\Test.png" />
-    <Resource Include="Sounds\Empire.mp3" />
     <Resource Include="Images\Pause.png" />
     <Resource Include="Images\BRefresh.png" />
     <Resource Include="Images\BFilterClear.png" />
@@ -1377,7 +1391,14 @@
     <Resource Include="GKIcons\DrainagePump.png" />
     <Resource Include="GKIcons\FirePump.png" />
     <Resource Include="GKIcons\JockeyPump.png" />
-    <Content Include="Sounds\Sound1.wav" />
+    <Resource Include="SKDIcons\Gate.png" />
+    <Resource Include="SKDIcons\Reader.png" />
+    <Resource Include="SKDIcons\System.png" />
+    <Resource Include="SKDIcons\Controller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AddTime.png" />
+    <Resource Include="Images\DeleteTime.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

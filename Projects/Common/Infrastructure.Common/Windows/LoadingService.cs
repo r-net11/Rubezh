@@ -6,28 +6,6 @@ namespace Infrastructure.Common.Windows
 	{
 		private static ProgressViewModel _progressViewModel = null;
 
-		public static void SaveShowProgress(string name, int count)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Show("", name, count);
-			});
-		}
-		public static void SaveDoStep(string name)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.DoStep(name);
-			});
-		}
-		public static void SaveClose()
-		{
-			ApplicationService.Invoke(() =>
-			{
-				LoadingService.Close();
-			});
-		}
-
 		public static void Show(string title, string text = null, int stepCount = 1, bool canCancel = false)
 		{
 			if (text == null)
@@ -70,7 +48,24 @@ namespace Infrastructure.Common.Windows
 		public static void DoStep(string text)
 		{
 			if (_progressViewModel != null)
+			{
 				_progressViewModel.DoStep(text);
+			}
+		}
+
+		public static void DoStep(string text, string title, int stepCount, bool canCancel)
+		{
+			if (_progressViewModel == null)
+			{
+				Show(title, text, stepCount, canCancel);
+			}
+			if (_progressViewModel != null)
+			{
+				_progressViewModel.Title = title;
+				_progressViewModel.StepCount = stepCount;
+				_progressViewModel.CanCancel = canCancel;
+				_progressViewModel.DoStep(text);
+			}
 		}
 		public static void AddCount(int count)
 		{

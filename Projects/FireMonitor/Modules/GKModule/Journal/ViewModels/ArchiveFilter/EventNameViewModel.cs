@@ -4,27 +4,38 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
-	public class JournalDescriptionStateViewModel : BaseViewModel
+	public class EventNameViewModel : CheckBoxItemViewModel
 	{
-		public JournalDescriptionStateViewModel(JournalDescriptionState journalDescriptionState)
+		public EventNameViewModel(EventName eventName, List<string> distinctDatabaseDescriptions)
 		{
-			JournalDescriptionState = journalDescriptionState;
+			EventName = eventName;
+			IsEnabled = distinctDatabaseDescriptions.Any(x => x == eventName.Name);
 		}
 
-		public JournalDescriptionState JournalDescriptionState { get; private set; }
+		public EventName EventName { get; private set; }
+		
+		bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
+        }
 
-		bool _isChecked;
-		public bool IsChecked
+		public static int Compare(EventNameViewModel x, EventNameViewModel y)
 		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
+			if (x.IsEnabled && !y.IsEnabled)
+				return -1;
+			if (!x.IsEnabled && y.IsEnabled)
+				return 1;
+			return x.EventName.Name.CompareTo(y.EventName.Name);
 		}
 	}
 }

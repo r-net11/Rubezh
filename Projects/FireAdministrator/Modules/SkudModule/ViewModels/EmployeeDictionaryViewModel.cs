@@ -7,7 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeeDictionaryViewModel<T> : MenuViewPartViewModel, IEditingViewModel
 	{

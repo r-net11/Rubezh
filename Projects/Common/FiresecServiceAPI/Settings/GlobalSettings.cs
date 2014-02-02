@@ -19,7 +19,7 @@ namespace FiresecAPI
 			Server_EnableRemoteConnections = false;
 
 			IsGKAsAService = false;
-			UseGKHash = false;
+			UseHasp = false;
 
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
@@ -33,17 +33,9 @@ namespace FiresecAPI
 			Monitor_F3_Enabled = true;
 			Monitor_F4_Enabled = true;
 			Monitor_HaspInfo_Enabled = false;
-			DoNotShowWriteFileToGKDialog = true;
-
 			Administrator_IsExpertMode = false;
 			IgnoredErrors = new List<string>();
 		}
-
-		[DataMember]
-		public bool DoNotShowWriteFileToGKDialog { get; set; }
-
-		[DataMember]
-		public bool WriteFileToGK { get; set; }
 
 		[DataMember]
 		public string RemoteAddress { get; set; }
@@ -64,10 +56,13 @@ namespace FiresecAPI
 		public bool IsGKAsAService { get; set; }
 
 		[DataMember]
-		public bool UseGKHash { get; set; }
+		public bool UseHasp { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }
+
+		[DataMember]
+		public bool RunRevisor { get; set; }
 
 		[DataMember]
 		public bool DoNotOverrideFS1 { get; set; }
@@ -103,8 +98,6 @@ namespace FiresecAPI
 		public bool Monitor_F4_Enabled { get; set; }
 		[DataMember]
 		public bool Monitor_HaspInfo_Enabled { get; set; }
-		[DataMember]
-		public bool Monitor_DoNotShowConfirmatinoOnIgnore { get; set; }
 		[DataMember]
 		public bool Monitor_HidePlansTree { get; set; }
 

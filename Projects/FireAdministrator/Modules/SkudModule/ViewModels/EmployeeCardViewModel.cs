@@ -1,7 +1,7 @@
 ﻿using FiresecAPI.Models.Skud;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeeCardViewModel : BaseViewModel
 	{

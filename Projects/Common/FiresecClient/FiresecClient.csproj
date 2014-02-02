@@ -149,6 +149,7 @@
     <Compile Include="Service\SafeFiresecService.Operations.cs" />
     <Compile Include="Service\SafeFiresecService.Poll.cs" />
     <Compile Include="Service\SafeFiresecService.Threading.cs" />
+    <Compile Include="Service\SafeFiresecService.SKD.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -187,14 +188,6 @@
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FS2Api\FS2API.csproj">
-      <Project>{C591ACC7-7103-4CD4-ABD6-8B2A458FB6E0}</Project>
-      <Name>FS2API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FS2Client\FS2Client.csproj">
-      <Project>{2F47B55E-AE00-45EC-8AC8-797159AC07B7}</Project>
-      <Name>FS2Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\GKProcessor\GKProcessor.csproj">
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>

@@ -51,6 +51,16 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+		public static void NotifySKDObjectStateChanged(SKDCallbackResult skdCallbackResult)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.SKDObjectStateChanged,
+				SKDCallbackResult = skdCallbackResult
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
         public void NotifyNewJournal(List<JournalRecord> journalRecords)
         {
             var callbackResult = new CallbackResult()
@@ -71,15 +81,15 @@ namespace FiresecService.Service
             CallbackManager.Add(callbackResult);
         }
 
-        public void NotifyArchiveCompleted(List<JournalRecord> journalRecords)
-        {
-            var callbackResult = new CallbackResult()
-            {
-                CallbackResultType = CallbackResultType.ArchiveCompleted,
-                JournalRecords = journalRecords
-            };
-            CallbackManager.Add(callbackResult);
-        }
+		public static void NotifyGKArchiveCompleted(List<JournalItem> journallItems)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.GKArchiveCompleted,
+				JournalItems = journallItems
+			};
+			CallbackManager.Add(callbackResult);
+		}
 
         public void NotifyConfigurationChanged()
         {

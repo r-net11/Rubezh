@@ -51,7 +51,8 @@ namespace DevicesModule.ViewModels
 
 		public bool CanContinue
 		{
-			get { return !FiresecManager.IsFS2Enabled; }
+			//get { return !FiresecManager.IsFS2Enabled; }
+			get { return true; }
 		}
 
 		void AddFromTree(AutoSearchDeviceViewModel parentAutoDetectedDevice)

@@ -30,6 +30,7 @@ namespace GKOPCServer
 			{
 				StopEvent = new AutoResetEvent(false);
 				thread = new Thread(new ThreadStart(OnRun));
+				thread.Name = "GKOPCManager";
 				thread.SetApartmentState(ApartmentState.MTA);
 				thread.Start();
 			}

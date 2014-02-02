@@ -164,7 +164,7 @@ namespace GKProcessor
 
 					if (pumpDevice.NSLogic.Clauses.Count > 0)
 					{
-						formula.AddClauseFormula(pumpDevice.NSLogic);
+						formula.AddClauseFormula(pumpDevice.NSLogic.Clauses);
 						formula.Add(FormulaOperationType.AND);
 					}
 

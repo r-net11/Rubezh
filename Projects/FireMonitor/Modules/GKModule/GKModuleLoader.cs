@@ -119,12 +119,8 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
-			_delaysNavigationItem.IsVisible = false;
-			_pimsNavigationItem.IsVisible = false;
-#if DEBUG
-			_delaysNavigationItem.IsVisible = true;
-			_pimsNavigationItem.IsVisible = true;
-#endif
+			_delaysNavigationItem.IsVisible = XManager.Delays.Count > 0;
+			_pimsNavigationItem.IsVisible = XManager.Pims.Count > 0;
 			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
@@ -182,8 +178,6 @@ namespace GKModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			SubscribeGK();
-			if (firstTime)
-				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
 		}
 
@@ -191,7 +185,6 @@ namespace GKModule
 		{
 			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
-			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 		}

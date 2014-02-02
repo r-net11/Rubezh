@@ -13,9 +13,11 @@ namespace FiresecClient
 	{
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
+		public static event Action<IEnumerable<JournalItem>> GetFilteredGKArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -26,6 +28,7 @@ namespace FiresecClient
 		{
 			MustReactOnCallback = mustReactOnCallback;
 			PollThread = new Thread(OnPoll);
+			PollThread.Name = "SafeFiresecService Poll";
 			PollThread.IsBackground = true;
 			PollThread.Start();
 		}
@@ -61,7 +64,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					if (!MustReactOnCallback)
+					//if (!MustReactOnCallback)
 					{
 						ProcessCallbackResult(callbackResults);
 					}
@@ -98,6 +101,14 @@ namespace FiresecClient
 						});
 						break;
 
+					case CallbackResultType.SKDObjectStateChanged:
+						SafeOperationCall(() =>
+						{
+							if (SKDCallbackResultEvent != null)
+								SKDCallbackResultEvent(callbackResult.SKDCallbackResult);
+						});
+						break;
+
 					case CallbackResultType.NewEvents:
 						foreach (var journalRecord in callbackResult.JournalRecords)
 						{
@@ -115,6 +126,14 @@ namespace FiresecClient
 							callbackResult.JournalRecords.ForEach((x) => { JournalConverter.SetDeviceCatogoryAndDevieUID(x); });
 							if (GetFilteredArchiveCompletedEvent != null)
 								GetFilteredArchiveCompletedEvent(callbackResult.JournalRecords);
+						});
+						break;
+
+					case CallbackResultType.GKArchiveCompleted:
+						SafeOperationCall(() =>
+						{
+							if (GetFilteredGKArchiveCompletedEvent != null)
+								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems);
 						});
 						break;
 

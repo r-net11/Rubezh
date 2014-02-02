@@ -59,10 +59,13 @@ namespace FiresecClient
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				}
+				device.Properties.RemoveAll(x => x.DriverProperty == null);
+
 				foreach (var property in device.DeviceProperties)
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				}
+				device.DeviceProperties.RemoveAll(x=>x.DriverProperty== null);
 				device.InitializeDefaultProperties();
 			}
 		}
@@ -144,54 +147,72 @@ namespace FiresecClient
 			var clauses = new List<XClause>();
 			foreach (var clause in deviceLogic.Clauses)
 			{
-				clause.Devices = new List<XDevice>();
-				clause.Zones = new List<XZone>();
-				clause.Directions = new List<XDirection>();
-
-				var zoneUIDs = new List<Guid>();
-				foreach (var zoneUID in clause.ZoneUIDs)
-				{
-					var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						zoneUIDs.Add(zoneUID);
-						clause.Zones.Add(zone);
-						zone.DevicesInLogic.Add(device);
-					}
-				}
-				clause.ZoneUIDs = zoneUIDs;
-
-				var deviceUIDs = new List<Guid>();
-				foreach (var deviceUID in clause.DeviceUIDs)
-				{
-					var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (clauseDevice != null && !clauseDevice.IsNotUsed)
-					{
-						deviceUIDs.Add(deviceUID);
-						clause.Devices.Add(clauseDevice);
-						clauseDevice.DevicesInLogic.Add(device);
-					}
-				}
-				clause.DeviceUIDs = deviceUIDs;
-
-				var directionUIDs = new List<Guid>();
-				foreach (var directionUID in clause.DirectionUIDs)
-				{
-					var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
-					if (direction != null)
-					{
-						directionUIDs.Add(directionUID);
-						clause.Directions.Add(direction);
-						direction.OutputDevices.Add(device);
-						device.Directions.Add(direction);
-					}
-				}
-				clause.DirectionUIDs = directionUIDs;
+				InvalidateOneClause(deviceConfiguration, device, clause);
 
 				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
 					clauses.Add(clause);
 			}
 			deviceLogic.Clauses = clauses;
+
+			var offClauses = new List<XClause>();
+			if (deviceLogic.OffClauses != null)
+			{
+				foreach (var clause in deviceLogic.OffClauses)
+				{
+					InvalidateOneClause(deviceConfiguration, device, clause);
+
+					if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+						offClauses.Add(clause);
+				}
+				deviceLogic.OffClauses = offClauses;
+			}
+		}
+
+		static void InvalidateOneClause(XDeviceConfiguration deviceConfiguration, XDevice device, XClause clause)
+		{
+			clause.Devices = new List<XDevice>();
+			clause.Zones = new List<XZone>();
+			clause.Directions = new List<XDirection>();
+
+			var zoneUIDs = new List<Guid>();
+			foreach (var zoneUID in clause.ZoneUIDs)
+			{
+				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				if (zone != null)
+				{
+					zoneUIDs.Add(zoneUID);
+					clause.Zones.Add(zone);
+					zone.DevicesInLogic.Add(device);
+				}
+			}
+			clause.ZoneUIDs = zoneUIDs;
+
+			var deviceUIDs = new List<Guid>();
+			foreach (var deviceUID in clause.DeviceUIDs)
+			{
+				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (clauseDevice != null && !clauseDevice.IsNotUsed)
+				{
+					deviceUIDs.Add(deviceUID);
+					clause.Devices.Add(clauseDevice);
+					clauseDevice.DevicesInLogic.Add(device);
+				}
+			}
+			clause.DeviceUIDs = deviceUIDs;
+
+			var directionUIDs = new List<Guid>();
+			foreach (var directionUID in clause.DirectionUIDs)
+			{
+				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				if (direction != null)
+				{
+					directionUIDs.Add(directionUID);
+					clause.Directions.Add(direction);
+					direction.OutputDevices.Add(device);
+					device.Directions.Add(direction);
+				}
+			}
+			clause.DirectionUIDs = directionUIDs;
 		}
 
 		static void InitializeDirections()

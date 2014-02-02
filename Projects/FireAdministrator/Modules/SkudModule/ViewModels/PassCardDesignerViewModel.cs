@@ -3,9 +3,9 @@ using Common;
 using FiresecAPI.Models.Skud;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
-using SkudModule.Designer;
+using SKDModule.Designer;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class PassCardDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
 	{

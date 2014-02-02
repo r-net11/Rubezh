@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class ArchiveZoneViewModel : BaseViewModel
+	public class ArchiveZoneViewModel : CheckBoxItemViewModel
 	{
 		public ArchiveZoneViewModel(XZone zone)
 		{
@@ -17,16 +17,5 @@ namespace GKModule.ViewModels
 
 		public XZone Zone { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

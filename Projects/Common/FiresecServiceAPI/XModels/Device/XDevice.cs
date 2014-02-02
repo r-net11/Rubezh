@@ -30,12 +30,6 @@ namespace XFiresecAPI
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Deivce; } }
 
-		public XDeviceState InternalState { get; set; }
-		public override XBaseState BaseState
-		{
-			get { return InternalState; }
-		}
-
 		public XDriver Driver { get; set; }
 		public XDriverType DriverType
 		{
@@ -122,6 +116,14 @@ namespace XFiresecAPI
 				}
 				if (!Driver.HasAddress)
 					return "";
+
+				if (DriverType == XDriverType.KAU || DriverType == XDriverType.RSR2_KAU)
+				{
+					ushort lineNo = FiresecClient.XManager.GetKauLine(this);
+					if (lineNo > 0)
+						return "РЛС " + IntAddress.ToString();
+					return IntAddress.ToString();
+				}
 
 				if (!Driver.IsDeviceOnShleif)
 					return IntAddress.ToString();

@@ -115,6 +115,11 @@ namespace XFiresecAPI
 			foreach (var device in Devices)
 			{
 				device.BaseUID = device.UID;
+				if (device.DeviceLogic.OffClauses == null)
+				{
+					result = false;
+					device.DeviceLogic.OffClauses = new List<XClause>();
+				}
 			}
 			foreach (var zone in Zones)
 			{

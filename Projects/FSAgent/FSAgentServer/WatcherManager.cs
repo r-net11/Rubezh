@@ -43,6 +43,7 @@ namespace FSAgentServer
 			{
 				StopEvent = new AutoResetEvent(false);
 				RunThread = new Thread(OnRun);
+				RunThread.Name = "WatcherManager Run";
 				RunThread.SetApartmentState(ApartmentState.STA);
 				RunThread.IsBackground = true;
 				RunThread.Start();

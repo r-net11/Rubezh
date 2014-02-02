@@ -11,28 +11,28 @@ namespace FiresecAPI
 	public interface IGKService
 	{
 		[OperationContract]
-		void AddJournalItem(JournalItem journalItem);
+		void CancelGKProgress(Guid progressCallbackUID, string userName);
 
 		[OperationContract]
-		void CancelGKProgress();
-
-		[OperationContract]
-		OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK);
+		OperationResult<bool> GKWriteConfiguration(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID);
+
+		[OperationContract]
         OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName);
 
         [OperationContract]
-        OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices);
+        OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs);
         
 		[OperationContract]
-		bool GKSyncronyseTime(Guid deviceUID);
+		OperationResult<bool> GKSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]
-		string GKGetDeviceInfo(Guid deviceUID);
+		OperationResult<string> GKGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
@@ -41,10 +41,13 @@ namespace FiresecAPI
 		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
-		OperationResult<bool> GKSetSingleParameter(Guid deviceUID);
+		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);
 
 		[OperationContract]
-		OperationResult<bool> GKGetSingleParameter(Guid deviceUID);
+		OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID);
+
+		[OperationContract]
+		OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID);
 
 		[OperationContract]
 		GKStates GKGetStates();
@@ -90,5 +93,22 @@ namespace FiresecAPI
 
 		[OperationContract]
 		void GKStopMeasureMonitoring(Guid deviceUID);
+
+		#region Journal
+		[OperationContract]
+		void AddJournalItem(JournalItem journalItem);
+
+		[OperationContract]
+		List<JournalItem> GetGKTopLastJournalItems(int count);
+
+		[OperationContract]
+		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter);
+
+		[OperationContract]
+		List<string> GetDistinctGKJournalNames();
+
+		[OperationContract]
+		List<string> GetDistinctGKJournalDescriptions();
+		#endregion
 	}
 }

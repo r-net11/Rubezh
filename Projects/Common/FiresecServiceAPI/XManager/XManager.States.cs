@@ -3,42 +3,42 @@ using XFiresecAPI;
 
 namespace FiresecClient
 {
-    public partial class XManager
-    {
-        public static void CreateStates()
-        {
-            foreach (var device in Devices)
-            {
-				device.InternalState = new XDeviceState(device);
+	public partial class XManager
+	{
+		public static void CreateStates()
+		{
+			foreach (var device in Devices)
+			{
+				device.InternalState = new XDeviceInternalState(device);
 				device.State = new XState(device);
-            }
-            foreach (var zone in Zones)
-            {
-				zone.InternalState = new XZoneState(zone);
+			}
+			foreach (var zone in Zones)
+			{
+				zone.InternalState = new XZoneInternalState(zone);
 				zone.State = new XState(zone);
-            }
+			}
 			foreach (var direction in Directions)
 			{
-				direction.InternalState = new XDirectionState(direction);
+				direction.InternalState = new XDirectionInternalState(direction);
 				direction.State = new XState(direction);
 			}
 			foreach (var pumpStation in PumpStations)
 			{
-				pumpStation.InternalState = new XPumpStationState(pumpStation);
+				pumpStation.InternalState = new XPumpStationInternalState(pumpStation);
 				pumpStation.State = new XState(pumpStation);
 			}
-        }
+		}
 
-        static List<XDevice> allDeviceChildren;
-        public static List<XDevice> GetAllDeviceChildren(XDevice device)
-        {
-            allDeviceChildren = new List<XDevice>();
-            AddChildren(device);
-            return allDeviceChildren;
-        }
-        public static void AddChildren(XDevice device)
-        {
-            allDeviceChildren.Add(device);
+		static List<XDevice> allDeviceChildren;
+		public static List<XDevice> GetAllDeviceChildren(XDevice device)
+		{
+			allDeviceChildren = new List<XDevice>();
+			AddChildren(device);
+			return allDeviceChildren;
+		}
+		public static void AddChildren(XDevice device)
+		{
+			allDeviceChildren.Add(device);
 			if (device.Children != null && device.Children.Count != 0)
 			{
 				foreach (var childDevice in device.Children)
@@ -46,7 +46,7 @@ namespace FiresecClient
 					AddChildren(childDevice);
 				}
 			}
-        }
+		}
 
 		public static XStateClass GetMinStateClass()
 		{
@@ -76,5 +76,5 @@ namespace FiresecClient
 			}
 			return minStateClass;
 		}
-    }
+	}
 }

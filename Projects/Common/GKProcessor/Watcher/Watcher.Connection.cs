@@ -5,7 +5,9 @@ using Common;
 using FiresecClient;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using FiresecAPI;
 using XFiresecAPI;
+using Infrastructure.Common;
 
 namespace GKProcessor
 {
@@ -22,7 +24,7 @@ namespace GKProcessor
 				if (!isConnected)
 				{
 					ConnectionLostCount++;
-					if (ConnectionLostCount < 5)
+					if (ConnectionLostCount < 3)
 						return;
 				}
 				else
@@ -38,69 +40,24 @@ namespace GKProcessor
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
+                        Name = isConnected ? EventNameEnum.Восстановление_связи_с_прибором.ToDescription() : EventNameEnum.Потеря_связи_с_прибором.ToDescription()
 					};
 					AddJournalItem(journalItem);
 
 					IsConnected = isConnected;
 					if (isConnected)
 					{
-						// check hash here
+						var hashBytes = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, GkDatabase.RootDevice);
+						var gkFileReaderWriter = new GKFileReaderWriter();
+						var gkFileInfo = gkFileReaderWriter.ReadInfoBlock(GkDatabase.RootDevice);
+						IsHashFailure = gkFileInfo == null || !GKFileInfo.CompareHashes(hashBytes, gkFileInfo.Hash1);
 					}
 
-					var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
-					foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+					foreach (var descriptor in GkDatabase.Descriptors)
 					{
-						device.InternalState.IsConnectionLost = !isConnected;
-						OnObjectStateChanged(device);
+						descriptor.XBase.InternalState.IsConnectionLost = !isConnected;
 					}
-					foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
-					{
-						if (device.Driver.IsGroupDevice || device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
-						{
-							OnObjectStateChanged(device);
-						}
-					}
-					foreach (var zone in XManager.Zones)
-					{
-						if (zone.GkDatabaseParent == gkDevice)
-						{
-							zone.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(zone);
-						}
-					}
-					foreach (var direction in XManager.Directions)
-					{
-						if (direction.GkDatabaseParent == gkDevice)
-						{
-							direction.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(direction);
-						}
-					}
-					foreach (var pumpStation in XManager.PumpStations)
-					{
-						if (pumpStation.GkDatabaseParent == gkDevice)
-						{
-							pumpStation.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(pumpStation);
-						}
-					}
-					foreach (var delay in XManager.Delays)
-					{
-						if (delay.GkDatabaseParent == gkDevice)
-						{
-							delay.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(delay);
-						}
-					}
-					foreach (var pim in XManager.Pims)
-					{
-						if (pim.GkDatabaseParent == gkDevice)
-						{
-							pim.InternalState.IsConnectionLost = !isConnected;
-							OnObjectStateChanged(pim);
-						}
-					}
+					NotifyAllObjectsStateChanged();
 				}
 			}
 		}

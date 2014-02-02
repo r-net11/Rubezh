@@ -134,9 +134,13 @@
     <Compile Include="Drivers\RSR2\RSR2_SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_MVP_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_Table_Helper.cs" />
+    <Compile Include="GKLicenseProcessor.cs" />
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
+    <Compile Include="Journal\EventDescription.cs" />
+    <Compile Include="Journal\EventNames.cs" />
+    <Compile Include="Journal\EventNamesHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
     <Compile Include="Journal\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\JournalParser.cs" />
@@ -144,7 +148,6 @@
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />
-    <Compile Include="Journal\XArchiveFilter.cs" />
     <Compile Include="Patching\Patch.cs" />
     <Compile Include="Patching\Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,10 +174,6 @@
     <Compile Include="Watcher\Watcher.Commands.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GKHexManager\GKHexManager\HexManager.csproj">
-      <Project>{A19B7522-4D0C-4982-A7F9-0F598EE0EA2D}</Project>
-      <Name>HexManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>

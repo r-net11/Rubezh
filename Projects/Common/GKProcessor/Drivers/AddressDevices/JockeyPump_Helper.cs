@@ -61,7 +61,7 @@ namespace GKProcessor
             };
 			driver.Properties.Add(property4);
 			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально разомкнутый", Value = 0 });
-			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 1 });
+			property4.Parameters.Add(new XDriverPropertyParameter() { Name = "Нормально замкнутый", Value = 2 });
 
             var manometerProperty = new XDriverProperty()
             {

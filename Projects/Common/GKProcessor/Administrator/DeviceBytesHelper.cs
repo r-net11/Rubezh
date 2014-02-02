@@ -5,6 +5,7 @@ using System.Threading;
 using Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -15,8 +16,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(device, 0, 4, 6);
 			if (sendResult.HasError)
 			{
-				MessageBoxService.Show("Ошибка связи с устройством");
-				return "";
+				return "Устройство недоступно";
 			}
 			var Day = sendResult.Bytes[0];
 			var Month = sendResult.Bytes[1];
@@ -48,55 +48,49 @@ namespace GKProcessor
 			{
 				var stringBuilder = new StringBuilder();
 				var result1 = SendManager.Send(device, 0, 1, 1);
-				if (!result1.HasError)
-				{
-					byte softvareVersion = result1.Bytes[0];
-					if (softvareVersion > 127)
-						stringBuilder.AppendLine("Режим: Технологический");
-					else
-						stringBuilder.AppendLine("Режим: Рабочий");
-					softvareVersion = (byte)(softvareVersion << 1);
-					softvareVersion = (byte)(softvareVersion >> 1);
-					stringBuilder.AppendLine("Версия ПО: " + softvareVersion.ToString());
-				}
-				var result2 = SendManager.Send(device, 0, 2, 8);
-				if (!result2.HasError)
-				{
-					var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
-					stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
+				if (result1.HasError)
+					return null;
 
-					var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
-					stringBuilder.AppendLine("Аппаратный номер: " + hardvareVervion.ToString());
-				}
+				byte softvareVersion = result1.Bytes[0];
+				if (softvareVersion > 127)
+					stringBuilder.AppendLine("Режим: Технологический");
+				else
+					stringBuilder.AppendLine("Режим: Рабочий");
+				softvareVersion = (byte)(softvareVersion << 1);
+				softvareVersion = (byte)(softvareVersion >> 1);
+				stringBuilder.AppendLine("Версия ПО: " + softvareVersion.ToString());
+
+				var result2 = SendManager.Send(device, 0, 2, 8);
+				if (result2.HasError)
+					if (result1.HasError)
+						return null;
+
+				var serialNo = (ushort)BytesHelper.SubstructInt(result2.Bytes, 0);
+				stringBuilder.AppendLine("Серийный номер: " + serialNo.ToString());
+
+				var hardvareVervion = (ushort)BytesHelper.SubstructInt(result2.Bytes, 4);
+				stringBuilder.AppendLine("Аппаратный номер: " + hardvareVervion.ToString());
+
 				return stringBuilder.ToString();
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "DeviceBytesHelper.ShowInfoCommand");
+				return "Внутренняя ошибка при выполнении операции";
 			}
-			return null;
 		}
 
-		public static bool Clear(XDevice device)
-		{
-			var sendResult = SendManager.Send(device, 0, 16, 0, null, true, false, 4000);
-			if (sendResult.HasError)
-			{
-				MessageBoxService.ShowError("Устройство " + device.PresentationName + " недоступно");
-				return false;
-			}
-			return true;
-		}
-
-		public static bool GoToTechnologicalRegime(XDevice device)
+		public static bool GoToTechnologicalRegime(XDevice device, GKProgressCallback progressCallback)
 		{
 			if (IsInTechnologicalRegime(device))
 				return true;
 
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в технологический режим");
+			GKProcessorManager.DoProgress(device.PresentationName + " Переход в технологический режим", progressCallback);
 			SendManager.Send(device, 0, 14, 0, null, device.DriverType == XDriverType.GK);
 			for (int i = 0; i < 10; i++)
 			{
+				if (progressCallback.IsCanceled)
+                    return false;
 				if (IsInTechnologicalRegime(device))
 					return true;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -122,11 +116,13 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool EraseDatabase(XDevice device)
+		public static bool EraseDatabase(XDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Стирание базы данных");
+			GKProcessorManager.DoProgress(device.PresentationName + " Стирание базы данных", progressCallback);
 			for (int i = 0; i < 3; i++)
 			{
+				if (progressCallback.IsCanceled)
+                    return false;
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{
@@ -140,17 +136,17 @@ namespace GKProcessor
 			return false;
 		}
 
-		public static bool GoToWorkingRegime(XDevice device)
+		public static bool GoToWorkingRegime(XDevice device, GKProgressCallback progressCallback)
 		{
-			GKProcessorManager.IsProgressCanceled = false;
-			GKProcessorManager.OnDoProgress(device.PresentationName + " Переход в рабочий режим");
-			if (GKProcessorManager.IsProgressCanceled)
+			progressCallback.IsCanceled = false;
+			GKProcessorManager.DoProgress(device.PresentationName + " Переход в рабочий режим", progressCallback);
+			if (progressCallback.IsCanceled)
 				return true;
 			SendManager.Send(device, 0, 11, 0, null, device.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
 			{
-				if (GKProcessorManager.IsProgressCanceled)
+				if (progressCallback.IsCanceled)
 					return true;
 				var sendResult = SendManager.Send(device, 0, 1, 1);
 				if (!sendResult.HasError)

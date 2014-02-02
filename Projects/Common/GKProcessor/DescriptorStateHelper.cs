@@ -406,7 +406,7 @@ namespace GKProcessor
 						if (bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "Отсутствие сетевого напряжения");
 
-						bitArray = new BitArray(new int[1] { additionalShortParameters[0] & 256 });
+						bitArray = new BitArray(new int[1] { additionalShortParameters[0] % 256 });
 						if (!bitArray[0] && bitArray[1])
 							AddAdditionalState(XStateClass.Failure, "КЗ Выхода 1");
 						if (bitArray[0] && !bitArray[1])
@@ -489,7 +489,6 @@ namespace GKProcessor
 					{
 						if (connectionLostCount >= property.Value)
 						{
-							xBase.BaseState.IsGKConnectionLost = true;
 							AdditionalStates = new List<XAdditionalState>()
 							{
 								new XAdditionalState()
@@ -498,10 +497,6 @@ namespace GKProcessor
 									Name = "Потеря связи"
 								}
 							};
-						}
-						else
-						{
-							xBase.BaseState.IsGKConnectionLost = false;
 						}
 					}
 				}

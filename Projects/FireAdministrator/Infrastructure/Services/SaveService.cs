@@ -160,6 +160,28 @@ namespace Infrastructure
 			}
 		}
 
+		bool _skdChanged;
+		public bool SKDChanged
+		{
+			get { return _skdChanged; }
+			set
+			{
+				_skdChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _skdLibraryChanged;
+		public bool SKDLibraryChanged
+		{
+			get { return _skdLibraryChanged; }
+			set
+			{
+				_skdLibraryChanged = value;
+				OnChanged();
+			}
+		}
+
 		bool _layoutsChanged;
 		public bool LayoutsChanged
 		{
@@ -182,7 +204,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || LayoutsChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || LayoutsChanged;
 			}
 		}
 
@@ -211,6 +233,8 @@ namespace Infrastructure
 			InstructionsChanged = value;
 			CamerasChanged = value;
 			OPCChanged = value;
+			SKDChanged = value;
+			SKDLibraryChanged = value;
 			EmailsChanged = value;
 			LayoutsChanged = value;
 			OnChanged();

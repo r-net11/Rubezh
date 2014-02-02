@@ -11,6 +11,7 @@ using XFiresecAPI;
 using System;
 using GKProcessor;
 using FiresecClient;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -21,25 +22,17 @@ namespace FiresecService.Service
 			get { return CurrentClientCredentials.FriendlyUserName; }
 		}
 
-		public void CancelGKProgress()
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			GKProcessorManager.CancelGKProgress();
+			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
 		}
 
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			GKDBHelper.Add(journalItem);
-			var gkCallbackResult = new GKCallbackResult();
-			gkCallbackResult.JournalItems.Add(journalItem);
-			NotifyGKObjectStateChanged(gkCallbackResult);
-		}
-
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKWriteConfiguration(device, writeFileToGK, UserName);
+				return GKProcessorManager.GKWriteConfiguration(device, UserName);
 			}
 			else
 			{
@@ -52,7 +45,22 @@ namespace FiresecService.Service
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				DescriptorsManager.Create();
 				return GKProcessorManager.GKReadConfiguration(device, UserName);
+			}
+			else
+			{
+				return new OperationResult<XDeviceConfiguration>("Не найдено устройство в конфигурации");
+			}
+		}
+
+		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DescriptorsManager.Create();
+				return GKProcessorManager.GKReadConfigurationFromGKFile(device, UserName);
 			}
 			else
 			{
@@ -73,34 +81,48 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
 		{
+			var devices = new List<XDevice>();
+			foreach (var deviceUID in deviceUIDs)
+			{
+				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (device == null)
+				{
+					return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				}
+				devices.Add(device);
+			}
 			return GKProcessorManager.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices);
 		}
 
-		public bool GKSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKSyncronyseTime(device, UserName);
+				var result = GKProcessorManager.GKSyncronyseTime(device, UserName);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Устройство недоступно") { Result = false };
 			}
 			else
 			{
-				return false;
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
 			}
 		}
 
-		public string GKGetDeviceInfo(Guid deviceUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return GKProcessorManager.GKGetDeviceInfo(device, UserName);
+				return new OperationResult<string>() { Result = GKProcessorManager.GKGetDeviceInfo(device, UserName) };
 			}
 			else
 			{
-				return null;
+				return new OperationResult<string>("Не найдено устройство в конфигурации");
 			}
 		}
 
@@ -130,29 +152,54 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid deviceUID)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
+			XBase xBase = null;
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (xBase == null)
 			{
-				return GKProcessorManager.GKSetSingleParameter(device);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+			}
+
+			if (xBase != null)
+			{
+				return GKProcessorManager.GKSetSingleParameter(xBase, parameterBytes);
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<bool>("Не найден компонент в конфигурации");
 			}
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(Guid deviceUID)
+		public OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
+			XBase xBase = null;
+			xBase = XManager.Devices.FirstOrDefault(x => x.UID == objectUID);
+			if (xBase == null)
 			{
-				return GKProcessorManager.GKGetSingleParameter(device);
+				xBase = XManager.Directions.FirstOrDefault(x => x.UID == objectUID);
+			}
+
+			if (xBase != null)
+			{
+				return GKProcessorManager.GKGetSingleParameter(xBase);
 			}
 			else
 			{
-				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+				return new OperationResult<List<XProperty>>("Не найден компонент в конфигурации");
+			}
+		}
+
+		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == gkDeviceUID);
+			if (device != null)
+			{
+				return GKProcessorManager.GKGKHash(device);
+			}
+			else
+			{
+				return new OperationResult<List<byte>>("Не найдено устройство в конфигурации");
 			}
 		}
 
@@ -299,6 +346,56 @@ namespace FiresecService.Service
 			{
 				GKProcessorManager.GKStopMeasureMonitoring(device);
 			}
+		}
+
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			GKDBHelper.Add(journalItem);
+			var gkCallbackResult = new GKCallbackResult();
+			gkCallbackResult.JournalItems.Add(journalItem);
+			NotifyGKObjectStateChanged(gkCallbackResult);
+		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			return GKDBHelper.GetGKTopLastJournalItems(count);
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			if (CurrentThread != null)
+			{
+				GKDBHelper.IsAbort = true;
+				CurrentThread.Join(TimeSpan.FromMinutes(1));
+				CurrentThread = null;
+			}
+			GKDBHelper.IsAbort = false;
+			var thread = new Thread(new ThreadStart((new Action(() =>
+			{
+				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
+
+			}))));
+			thread.Name = "GK GetFilteredArchive";
+			thread.IsBackground = true;
+			CurrentThread = thread;
+			thread.Start();
+		}
+
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
+		{
+			FiresecService.NotifyGKArchiveCompleted(journalItems);
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			return GKDBHelper.GetDistinctGKJournalNames();
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			return GKDBHelper.GetDistinctGKJournalDescriptions();
 		}
 	}
 }

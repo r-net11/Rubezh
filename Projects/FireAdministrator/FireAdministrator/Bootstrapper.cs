@@ -40,8 +40,8 @@ namespace FireAdministrator
 					GKDriversCreator.Create();
 					BeforeInitialize(true);
 
-					LoadingService.DoStep("Старт полинга сервера");
-					FiresecManager.StartPoll(true);
+					//LoadingService.DoStep("Старт полинга сервера");
+					//FiresecManager.StartPoll(true);
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
@@ -86,6 +86,7 @@ namespace FireAdministrator
 			ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
 			ServiceFactory.ContentService.Invalidate();
 			InitializeModules();
+			LoadingService.Close();
 		}
 		private void OnConfigurationClosed(object obj)
 		{

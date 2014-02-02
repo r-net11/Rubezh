@@ -27,6 +27,7 @@ namespace GKOPCServer
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
 			WindowThread = new Thread(new ThreadStart(OnWorkThread));
+			WindowThread.Name = "GK OPC Main Window";
 			WindowThread.Priority = ThreadPriority.Highest;
 			WindowThread.SetApartmentState(ApartmentState.STA);
 			WindowThread.IsBackground = true;

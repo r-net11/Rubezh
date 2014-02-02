@@ -19,14 +19,22 @@ namespace FiresecAPI
 
 		[DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
+
+		[DataMember]
+		public List<JournalItem> JournalItems { get; set; }
+
+		[DataMember]
+		public SKDCallbackResult SKDCallbackResult { get; set; }
 	}
 
 	public enum CallbackResultType
 	{
 		GKProgress,
 		GKObjectStateChanged,
+		SKDObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,
+		GKArchiveCompleted,
 		ConfigurationChanged,
 		Disconnecting
 	}

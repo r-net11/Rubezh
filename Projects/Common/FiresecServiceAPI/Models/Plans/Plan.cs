@@ -41,9 +41,13 @@ namespace FiresecAPI.Models
 			ElementPolygonXZones = new List<ElementPolygonXZone>();
 			ElementRectangleXDirections = new List<ElementRectangleXDirection>();
 			ElementPolygonXDirections = new List<ElementPolygonXDirection>();
+
+			ElementSKDDevices = new List<ElementSKDDevice>();
+			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
+			ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
+
 			ElementExtensions = new List<ElementBase>();
 		}
-
 
 		public Plan Parent { get; set; }
 
@@ -100,6 +104,15 @@ namespace FiresecAPI.Models
 		public List<ElementRectangleXDirection> ElementRectangleXDirections { get; set; }
 		[DataMember]
 		public List<ElementPolygonXDirection> ElementPolygonXDirections { get; set; }
+
+
+		[DataMember]
+		public List<ElementSKDDevice> ElementSKDDevices { get; set; }
+		[DataMember]
+		public List<ElementRectangleSKDZone> ElementRectangleSKDZones { get; set; }
+		[DataMember]
+		public List<ElementPolygonSKDZone> ElementPolygonSKDZones { get; set; }
+
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
 
@@ -110,6 +123,7 @@ namespace FiresecAPI.Models
 				var union = new List<ElementBase>();
 				union.AddRange(ElementDevices);
 				union.AddRange(ElementXDevices);
+				union.AddRange(ElementSKDDevices);
 				return union;
 			}
 		}

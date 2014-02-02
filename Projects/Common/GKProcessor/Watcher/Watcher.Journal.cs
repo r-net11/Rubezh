@@ -47,6 +47,7 @@ namespace GKProcessor
 
 		JournalItem ReadJournal(int index)
 		{
+			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
 				return null;
 			var data = BitConverter.GetBytes(index).ToList();
@@ -72,15 +73,18 @@ namespace GKProcessor
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{
-					GKProcessorManager.OnDoProgress(journalItem.GKJournalRecordNo.ToString());
-
 					journalItems.Add(journalItem);
 					var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 					if (descriptor != null)
 					{
 						ChangeJournalOnDevice(descriptor, journalItem);
 						CheckServiceRequired(descriptor.XBase, journalItem);
-						descriptor.XBase.BaseState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						descriptor.XBase.InternalState.StateBits = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+						if (descriptor.XBase.InternalState.StateClass == XStateClass.On)
+						{
+							descriptor.XBase.InternalState.ZeroHoldDelayCount = 0;
+							CheckDelay(descriptor.XBase);
+						}
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
                         if (descriptor.XBase is XDevice)
@@ -96,6 +100,16 @@ namespace GKProcessor
 								OnObjectStateChanged(shleifParent);
 							}
                         }
+					}
+
+					if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
+					{
+						MustCheckTechnologicalRegime = true;
+						LastTechnologicalRegimeCheckTime = DateTime.Now;
+						TechnologicalRegimeCheckCount = 0;
+
+						CheckTechnologicalRegime();
+						NotifyAllObjectsStateChanged();
 					}
 				}
 			}
@@ -149,6 +163,21 @@ namespace GKProcessor
 							journalItem.Name = "Закрывается";
 							break;
 					}
+				}
+			}
+		}
+
+		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
+		{
+			if (journalItem.Name == "Запыленность" || journalItem.Name == "Запыленность устранена")
+			{
+				if (xBase is XDevice)
+				{
+					var device = xBase as XDevice;
+					if (journalItem.Name == "Запыленность")
+						device.InternalState.IsService = true;
+					if (journalItem.Name == "Запыленность устранена")
+						device.InternalState.IsService = false;
 				}
 			}
 		}

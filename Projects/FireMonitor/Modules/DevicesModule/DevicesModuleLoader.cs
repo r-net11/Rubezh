@@ -87,14 +87,14 @@ namespace DevicesModule
 
 		public override bool BeforeInitialize(bool firstTime)
 		{
-			if (FiresecManager.IsFS2Enabled)
-			{
-				FiresecManager.InitializeFS2();
-				FiresecManager.FS2ClientContract.Start();
-				FiresecManager.FS2UpdateDeviceStates();
-				return true;
-			}
-			else
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    FiresecManager.InitializeFS2();
+			//    FiresecManager.FS2ClientContract.Start();
+			//    FiresecManager.FS2UpdateDeviceStates();
+			//    return true;
+			//}
+			//else
 			{
 				if (firstTime)
 				{
@@ -139,10 +139,10 @@ namespace DevicesModule
 
 		public override void AfterInitialize()
 		{
-			if (FiresecManager.IsFS2Enabled)
-			{
-				FS2Helper.Initialize();
-			}
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    FS2Helper.Initialize();
+			//}
 			ServiceFactory.SubscribeEvents();
 		}
 	}

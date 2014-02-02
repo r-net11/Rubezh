@@ -7,46 +7,51 @@ using GKImitator.Processor;
 using Infrastructure.Common;
 using FiresecClient;
 using FiresecAPI.Models;
-using Common.GK;
 using XFiresecAPI;
+using GKProcessor;
+using FiresecAPI;
 
 namespace GKImitator.ViewModels
 {
 	public class MainViewModel : ApplicationViewModel
 	{
-		GKProcessor GKProcessor;
+		GKImitator.Processor.GKProcessor GKProcessor;
 		public static MainViewModel Current { get; private set; }
+		public static SKDViewModel SKDViewModel { get; private set; }
 
 		public MainViewModel()
 		{
-			Current = this;
 			Title = "Имитатор ГК";
+			Current = this;
 
 			GetConfiguration();
 			InitializeBinaryObjects();
+			SKDViewModel = new SKDViewModel();
 
-			GKProcessor = new GKProcessor();
+			GKProcessor = new GKImitator.Processor.GKProcessor();
 			GKProcessor.Start();
 		}
 
 		void GetConfiguration()
 		{
-			FiresecManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, "adm", "");
-			FiresecManager.GetConfiguration("GKImitator/Configuration");
+			XManager.DeviceConfiguration = ZipConfigurationHelper.GetDeviceConfiguration();
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
-			FiresecManager.Disconnect();
+
+			SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
+			SKDManager.CreateDrivers();
+			SKDManager.UpdateConfiguration();
 		}
 
 		void InitializeBinaryObjects()
 		{
-			DatabaseManager.Convert();
-			var gkDatabase = DatabaseManager.GkDatabases.FirstOrDefault();
+			DescriptorsManager.Create();
+			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault();
 
 			BinaryObjects = new List<BinaryObjectViewModel>();
-			foreach (var binaryObject in gkDatabase.BinaryObjects)
+			foreach (var descriptors in gkDatabase.Descriptors)
 			{
-				var binObjectViewModel = new BinaryObjectViewModel(binaryObject);
+				var binObjectViewModel = new BinaryObjectViewModel(descriptors);
 				BinaryObjects.Add(binObjectViewModel);
 			}
 			SelectedBinaryObject = BinaryObjects.FirstOrDefault();

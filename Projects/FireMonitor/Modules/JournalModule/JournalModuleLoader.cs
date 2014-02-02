@@ -8,7 +8,6 @@ using Infrastructure.Common.Reports;
 using Infrastructure.Events;
 using JournalModule.Reports;
 using JournalModule.ViewModels;
-using FS2Api;
 
 namespace JournalModule
 {
@@ -22,7 +21,7 @@ namespace JournalModule
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
-			ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItems);
+			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItems);
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 		}
@@ -50,11 +49,11 @@ namespace JournalModule
                 UnreadJournalCount += journalRecords.Count;
         }
 
-		void OnNewFS2JournalItems(List<FS2JournalItem> journalItems)
-        {
-            if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-				UnreadJournalCount += journalItems.Count;
-        }
+		//void OnNewFS2JournalItems(List<FS2JournalItem> journalItems)
+		//{
+		//    if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+		//        UnreadJournalCount += journalItems.Count;
+		//}
 
 		public override void Initialize()
 		{

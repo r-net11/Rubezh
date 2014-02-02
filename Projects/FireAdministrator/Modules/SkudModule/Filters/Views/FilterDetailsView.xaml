@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SKDModule.Views.FilterDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+    MinWidth="600" MinHeight="450">
+
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Описание" Margin="2" HorizontalAlignment="Right" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Устройства">
+            <ListBox ItemsSource="{Binding Devices}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                            <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2 0" />
+                            <TextBlock Text="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+        <TabItem Header="События">
+            <ListBox ItemsSource="{Binding EventNames}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding EventName.Description}">
+                            <CheckBox IsChecked="{Binding IsChecked}" />
+                            <Image Width="16" Source="{Binding EventName.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                            <TextBlock Text="{Binding EventName.Name}" VerticalAlignment="Center" Margin="2"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+    </TabControl>
+</UserControl>

@@ -219,7 +219,7 @@ namespace GKModule.ViewModels
 		{
 			var showXArchiveEventArgs = new ShowXArchiveEventArgs()
 			{
-				Zone = null
+				Device = Device
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}

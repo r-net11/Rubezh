@@ -55,7 +55,7 @@ namespace GKProcessor
 					Name = "Parameter 1",
 					Caption = "Яркость, %",
 					ToolTip = "",
-					Min = 0,
+					Min = 1,
 					Max = 100,
 					Default = 50,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,

@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			{
 				TypeName = "ГК";
 				Address = "";
-				ImageSource = "";
+				ImageSource = "/Controls;component/Images/Blank.png"; ;
 				return;
 			}
 

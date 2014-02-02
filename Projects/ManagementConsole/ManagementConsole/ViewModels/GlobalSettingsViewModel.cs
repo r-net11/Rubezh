@@ -19,9 +19,10 @@ namespace ManagementConsole
 			Password = GlobalSettingsHelper.GlobalSettings.Password;
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
-			UseGKHash = GlobalSettingsHelper.GlobalSettings.UseGKHash;
+			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
+			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
 			FS_RemoteAddress = GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress;
 			FS_Port = GlobalSettingsHelper.GlobalSettings.FS_Port;
 			FS_Login = GlobalSettingsHelper.GlobalSettings.FS_Login;
@@ -45,8 +46,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
-			Modules.Add(new ModuleViewModel("SkudModule.dll"));
-			Modules.Add(new ModuleViewModel("SKUDModule.dll"));
+			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 
             if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
@@ -142,6 +142,17 @@ namespace ManagementConsole
 			}
 		}
 
+		bool _runRevisor;
+		public bool RunRevisor
+		{
+			get { return _runRevisor; }
+			set
+			{
+				_runRevisor = value;
+				OnPropertyChanged("RunRevisor");
+			}
+		}
+
 		string _fS_RemoteAddress;
 		public string FS_RemoteAddress
 		{
@@ -197,14 +208,14 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _useGKHash;
-		public bool UseGKHash
+		bool _useHasp;
+		public bool UseHasp
 		{
-			get { return _useGKHash; }
+			get { return _useHasp; }
 			set
 			{
-				_useGKHash = value;
-				OnPropertyChanged("UseGKHash");
+				_useHasp = value;
+				OnPropertyChanged("UseHasp");
 			}
 		}
 
@@ -228,6 +239,7 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.Password = Password;
 			GlobalSettingsHelper.GlobalSettings.AutoConnect = AutoConnect;
 			GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm = DoNotAutoconnectAdm;
+			GlobalSettingsHelper.GlobalSettings.RunRevisor = RunRevisor;
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 			GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1 = DoNotOverrideFS1;
 			GlobalSettingsHelper.GlobalSettings.FS_RemoteAddress = FS_RemoteAddress;
@@ -236,7 +248,7 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.FS_Password = FS_Password;
 
 			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
-			GlobalSettingsHelper.GlobalSettings.UseGKHash = UseGKHash;
+			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 
             GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

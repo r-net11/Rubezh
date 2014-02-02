@@ -141,16 +141,16 @@ namespace DevicesModule.ViewModels
 				}
 				if (Validate())
 				{
-					if (FiresecManager.IsFS2Enabled)
-					{
-						var guardUsers = new List<GuardUser>();
-						foreach (var deviceUser in DeviceUsers)
-						{
-							guardUsers.Add(deviceUser.GuardUser);
-						}
-						FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
-					}
-					else
+					//if (FiresecManager.IsFS2Enabled)
+					//{
+					//    var guardUsers = new List<GuardUser>();
+					//    foreach (var deviceUser in DeviceUsers)
+					//    {
+					//        guardUsers.Add(deviceUser.GuardUser);
+					//    }
+					//    FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
+					//}
+					//else
 					{
 						var userlist = CodeDateToTranslate();
 						DeviceSetGuardUsersListHelper.Run(SelectedDevice, userlist);

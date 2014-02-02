@@ -51,6 +51,11 @@ namespace FiresecClient
 		public static void SetEmptyConfiguration()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
+			var driver = Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			DeviceConfiguration.RootDevice = new XDevice()
+			{
+				DriverUID = driver.UID
+			};
 			UpdateConfiguration();
 		}
 
@@ -66,16 +71,14 @@ namespace FiresecClient
 
 		public static ushort GetKauLine(XDevice device)
 		{
-			if (!device.Driver.IsKauOrRSR2Kau)
-			{
-				throw new Exception("В XManager.GetKauLine передан неверный тип устройства");
-			}
-
 			ushort lineNo = 0;
-			var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
-			if (modeProperty != null)
+			if (device.Driver.IsKauOrRSR2Kau)
 			{
-				return modeProperty.Value;
+				var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
+				if (modeProperty != null)
+				{
+					return modeProperty.Value;
+				}
 			}
 			return lineNo;
 		}

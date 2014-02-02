@@ -31,6 +31,7 @@ namespace ManagementConsole
 			ResetDatabaseCommand = new RelayCommand(OnResetDatabase);
             ResetConfigurationCommand = new RelayCommand(OnResetConfiguration);
             ResetXLibaryCommand = new RelayCommand(OnResetXLibary);
+			ResetSKDLibaryCommand = new RelayCommand(OnResetSKDLibary);
             ResetSettingsCommand = new RelayCommand(OnResetSettings);
 			GlobalSettingsViewModel = new GlobalSettingsViewModel();
 			LogsFolderPath = AppDataFolderHelper.GetLogsFolder();
@@ -271,6 +272,16 @@ namespace ManagementConsole
                 XDeviceLibraryConfigurationPatchHelper.Patch();
             }
         }
+
+		public RelayCommand ResetSKDLibaryCommand { get; private set; }
+		public void OnResetSKDLibary()
+		{
+			var result = MessageBox.Show("Вы уверены, что хотите сбросить по умолчанию настройки библиотеки устройств СКД?");
+			if (result == MessageBoxResult.OK)
+			{
+				XDeviceLibraryConfigurationPatchHelper.PatchSKDLibrary();
+			}
+		}
 
         public RelayCommand ResetSettingsCommand { get; private set; }
         public void OnResetSettings()

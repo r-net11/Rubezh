@@ -56,6 +56,27 @@ namespace DeviceControls
 				UpdateTimer();
 			}
 		}
+		public FramesControl(List<SKDLibraryFrame> frames)
+		{
+			_index = -1;
+			if (frames.Count == 0)
+				Child = DevicePictureCache.EmptyPicture;
+			else if (frames.Count == 1)
+				Child = Helper.GetVisual(frames[0].Image);
+			else if (frames.Count > 1)
+			{
+				_canvases = new List<FrameworkElement>();
+				_times = new List<TimeSpan>();
+				foreach (var frame in frames)
+				{
+					_canvases.Add(Helper.GetVisual(frame.Image));
+					_times.Add(TimeSpan.FromMilliseconds(frame.Duration));
+				}
+				_timer = new DispatcherTimer();
+				_timer.Tick += (s, e) => UpdateTimer();
+				UpdateTimer();
+			}
+		}
 
 		private void UpdateTimer()
 		{

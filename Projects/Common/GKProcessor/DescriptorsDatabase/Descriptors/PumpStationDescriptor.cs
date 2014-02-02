@@ -40,16 +40,16 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.AND);
 			if (PumpStation.AutomaticOffLogic.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic);
+				Formula.AddClauseFormula(PumpStation.AutomaticOffLogic.Clauses);
 				Formula.Add(FormulaOperationType.AND);
 			}
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, PumpStation);
 
 			if (PumpStation.StartLogic.Clauses.Count > 0)
-				Formula.AddClauseFormula(PumpStation.StartLogic);
+				Formula.AddClauseFormula(PumpStation.StartLogic.Clauses);
 			if (PumpStation.StopLogic.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(PumpStation.StopLogic);
+				Formula.AddClauseFormula(PumpStation.StopLogic.Clauses);
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, PumpStation);
 				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");

@@ -30,6 +30,7 @@ namespace FSAgentClient
 		public void StartPollThread()
 		{
 			PollThread = new Thread(OnPoll);
+			PollThread.Name = "FSAgent Poll";
 			PollThread.Start();
 		}
 

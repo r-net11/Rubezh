@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" Class="SKUDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=SKUD;Integrated Security=True" SettingsObjectName="FiresecService.SKUD.Properties.Settings" SettingsPropertyName="SKUDConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AdditionalColumn" Member="AdditionalColumn">
+    <Type Name="AdditionalColumn">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TextData" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="GraphicsData" Type="System.Data.Linq.Binary" DbType="Binary(8000)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="EmployeeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Day" Member="Day">
+    <Type Name="Day">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NamedIntervalUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ScheduleSchemeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="NamedInterval_Day" Member="NamedInterval" ThisKey="NamedIntervalUid" OtherKey="Uid" Type="NamedInterval" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="ScheduleScheme_Day" Member="ScheduleScheme" ThisKey="ScheduleSchemeUid" OtherKey="Uid" Type="ScheduleScheme" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Department" Member="Department">
+    <Type Name="Department">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ParentDepartmentUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ContactEmployeeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AttendantUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Department_Department" Member="Department2" ThisKey="Uid" OtherKey="ParentDepartmentUid" Type="Department" />
+      <Association Name="Department_Employee" Member="Employee2" ThisKey="Uid" OtherKey="DepartmentUid" Type="Employee" />
+      <Association Name="Department_EmployeeReplacement" Member="EmployeeReplacement" ThisKey="Uid" OtherKey="DepartmentUid" Type="EmployeeReplacement" Cardinality="One" />
+      <Association Name="Department_Phone" Member="Phone" ThisKey="Uid" OtherKey="DepartmentUid" Type="Phone" />
+      <Association Name="Department_Department" Member="Department1" ThisKey="ParentDepartmentUid" OtherKey="Uid" Type="Department" IsForeignKey="true" />
+      <Association Name="Employee_Department" Member="Employee" ThisKey="ContactEmployeeUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" />
+      <Association Name="Employee_Department1" Member="Employee1" ThisKey="AttendantUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Document" Member="Document">
+    <Type Name="Document">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IssueDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LaunchDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employee">
+    <Type Name="Employee">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SecondName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PositionUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DepartmentUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ScheduleUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="Appointed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Dismissed" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Employee_AdditionalColumn" Member="AdditionalColumn" ThisKey="Uid" OtherKey="EmployeeUid" Type="AdditionalColumn" />
+      <Association Name="Employee_Department" Member="Department" ThisKey="Uid" OtherKey="ContactEmployeeUid" Type="Department" />
+      <Association Name="Employee_Department1" Member="Department1" ThisKey="Uid" OtherKey="AttendantUid" Type="Department" />
+      <Association Name="Employee_EmployeeReplacement" Member="EmployeeReplacement" ThisKey="Uid" OtherKey="EmployeeUid" Type="EmployeeReplacement" Cardinality="One" />
+      <Association Name="Department_Employee" Member="Department2" ThisKey="DepartmentUid" OtherKey="Uid" Type="Department" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Position_Employee" Member="Position" ThisKey="PositionUid" OtherKey="Uid" Type="Position" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUid" OtherKey="Uid" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EmployeeReplacement" Member="EmployeeReplacement">
+    <Type Name="EmployeeReplacement">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EmployeeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DepartmentUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ScheduleUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Department_EmployeeReplacement" Member="Department" ThisKey="DepartmentUid" OtherKey="Uid" Type="Department" IsForeignKey="true" />
+      <Association Name="Employee_EmployeeReplacement" Member="Employee" ThisKey="EmployeeUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" />
+      <Association Name="Schedule_EmployeeReplacement" Member="Schedule" ThisKey="ScheduleUid" OtherKey="Uid" Type="Schedule" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Holiday" Member="Holiday">
+    <Type Name="Holiday">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TransferDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Reduction" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Interval" Member="Interval">
+    <Type Name="Interval">
+      <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Transition" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NamedIntervalUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="NamedInterval_Interval" Member="NamedInterval" ThisKey="NamedIntervalUid" OtherKey="Uid" Type="NamedInterval" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NamedInterval" Member="NamedInterval">
+    <Type Name="NamedInterval">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="NamedInterval_Day" Member="Day" ThisKey="Uid" OtherKey="NamedIntervalUid" Type="Day" />
+      <Association Name="NamedInterval_Interval" Member="Interval" ThisKey="Uid" OtherKey="NamedIntervalUid" Type="Interval" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Phone" Member="Phone">
+    <Type Name="Phone">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NumberString" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DepartmentUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Department_Phone" Member="Department" ThisKey="DepartmentUid" OtherKey="Uid" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Position" Member="Position">
+    <Type Name="Position">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Position_Employee" Member="Employee" ThisKey="Uid" OtherKey="PositionUid" Type="Employee" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RegisterDevice" Member="RegisterDevice">
+    <Type Name="RegisterDevice">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CanControl" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ScheduleUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Schedule_RegisterDevice" Member="Schedule" ThisKey="ScheduleUid" OtherKey="Uid" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schedule" Member="Schedule">
+    <Type Name="Schedule">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ScheduleSchemeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Schedule_Employee" Member="Employee" ThisKey="Uid" OtherKey="ScheduleUid" Type="Employee" />
+      <Association Name="Schedule_EmployeeReplacement" Member="EmployeeReplacement" ThisKey="Uid" OtherKey="ScheduleUid" Type="EmployeeReplacement" Cardinality="One" />
+      <Association Name="Schedule_RegisterDevice" Member="RegisterDevice" ThisKey="Uid" OtherKey="ScheduleUid" Type="RegisterDevice" />
+      <Association Name="ScheduleScheme_Schedule" Member="ScheduleScheme" ThisKey="ScheduleSchemeUid" OtherKey="Uid" Type="ScheduleScheme" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ScheduleScheme" Member="ScheduleScheme">
+    <Type Name="ScheduleScheme">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Length" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="ScheduleScheme_Day" Member="Day" ThisKey="Uid" OtherKey="ScheduleSchemeUid" Type="Day" />
+      <Association Name="ScheduleScheme_Schedule" Member="Schedule" ThisKey="Uid" OtherKey="ScheduleSchemeUid" Type="Schedule" />
+    </Type>
+  </Table>
+</Database>

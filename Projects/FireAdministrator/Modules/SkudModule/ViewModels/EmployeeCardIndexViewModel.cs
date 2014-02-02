@@ -10,9 +10,9 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using SkudModule.Properties;
+using SKDModule.Properties;
 
-namespace SkudModule.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class EmployeeCardIndexViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
@@ -46,12 +46,12 @@ namespace SkudModule.ViewModels
 
 		public void Initialize()
 		{
-			var list = FiresecManager.GetEmployees(_filter);
-			EmployeeCardIndex.Clear();
-			if (list != null)
-				foreach (var employee in list)
-					EmployeeCardIndex.Add(new EmployeeCardViewModel(employee));
-			SelectedEmployeeCard = EmployeeCardIndex.FirstOrDefault();
+            //var list = FiresecManager.GetEmployees(_filter);
+            EmployeeCardIndex.Clear();
+            //if (list != null)
+            //    foreach (var employee in list)
+            //        EmployeeCardIndex.Add(new EmployeeCardViewModel(employee));
+            SelectedEmployeeCard = EmployeeCardIndex.FirstOrDefault();
 		}
 
 		public RelayCommand AddCommand { get; private set; }

@@ -48,6 +48,7 @@ namespace Infrastructure.Common
 			{
 				StopWatchEvent = new AutoResetEvent(false);
 				WatchThread = new Thread(OnWatch);
+				WatchThread.Name = "CloseWindowHelper";
 				WatchThread.Start();
 			}
 		}

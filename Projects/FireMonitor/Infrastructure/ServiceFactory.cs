@@ -21,7 +21,6 @@ namespace Infrastructure
 		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		static bool IsSubcsribed = false;
-		static bool IsGKSubcsribed = false;
 
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{

@@ -8,15 +8,11 @@ namespace XFiresecAPI
     {
         public HexFileCollectionInfo()
         {
-            FileInfos = new List<HEXFileInfo>();
-            DriverType = XDriverType.GK;
+            HexFileInfos = new List<HEXFileInfo>();
             Name = "Обновление прошивки";
             MinorVersion = 1;
             MajorVersion = 1;
         }
-
-        [DataMember]
-        public XDriverType DriverType { get; set; }
 
         [DataMember]
         public string Name { get; set; }
@@ -28,6 +24,6 @@ namespace XFiresecAPI
         public int MajorVersion { get; set; }
 
         [DataMember]
-        public List<HEXFileInfo> FileInfos { get; set; }
+        public List<HEXFileInfo> HexFileInfos { get; set; }
     }
 }

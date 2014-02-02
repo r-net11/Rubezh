@@ -32,6 +32,7 @@ namespace FSAgentServer
 			{
 				StopWatchEvent = new AutoResetEvent(false);
 				WatchThread = new Thread(OnWatch);
+				WatchThread.Name = "ComServerExceptionWatcher";
 				WatchThread.Start();
 			}
 		}

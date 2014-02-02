@@ -83,20 +83,19 @@ namespace GKProcessor
                             break;
                     }
                 }
-                deviceState.OnInternalStateChanged();
             }
         }
 
-        void AddAdditionalState(XDeviceState deviceState, string description, XStateClass stateClass)
+        void AddAdditionalState(XBaseInternalState baseState, string description, XStateClass stateClass)
 		{
-			if (!deviceState.AdditionalStates.Any(x => x.Name == description))
+			if (!baseState.AdditionalStates.Any(x => x.Name == description))
 			{
 				var additionalState = new XAdditionalState()
 				{
                     StateClass = stateClass,
 					Name = description
 				};
-				deviceState.AdditionalStates.Add(additionalState);
+				baseState.AdditionalStates.Add(additionalState);
 			}
 		}
 	}

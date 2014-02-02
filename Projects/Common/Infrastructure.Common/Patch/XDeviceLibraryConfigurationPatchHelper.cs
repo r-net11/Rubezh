@@ -10,52 +10,65 @@ using XFiresecAPI;
 
 namespace Infrastructure.Common
 {
-    public static class XDeviceLibraryConfigurationPatchHelper
-    {
-        public static void Patch()
-        {
-            var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
-            var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+	public static class XDeviceLibraryConfigurationPatchHelper
+	{
+		public static void Patch()
+		{
+			PatchLibrary("XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
+		}
 
-            var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-            var xDeviceLibraryConfiguration = GetConfigurationFomZip(emptyZipFile, "XDeviceLibraryConfiguration.xml", typeof(XDeviceLibraryConfiguration));
+		public static void PatchSKDLibrary()
+		{
+			PatchLibrary("SKDDeviceLibraryConfiguration.xml", typeof(SKDLibraryConfiguration));
+		}
 
-            var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-            AddConfigurationToZip(zipFile, xDeviceLibraryConfiguration, "XDeviceLibraryConfiguration.xml");
-            zipFile.Save(fileName);
-        }
+		public static void PatchLibrary(string configurationFileName, Type configurationType)
+		{
+			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 
-        static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
-        {
-            try
-            {
-                var configurationEntry = zipFile[fileName];
-                if (configurationEntry != null)
-                {
-                    var configurationMemoryStream = new MemoryStream();
-                    configurationEntry.Extract(configurationMemoryStream);
-                    configurationMemoryStream.Position = 0;
+			var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+			var configuration = GetConfigurationFomZip(emptyZipFile, configurationFileName, configurationType);
 
-                    var dataContractSerializer = new DataContractSerializer(type);
-                    return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
-            }
-            return null;
-        }
+			if (configuration != null)
+			{
+				var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+				AddConfigurationToZip(zipFile, configuration, "XDeviceLibraryConfiguration.xml");
+				zipFile.Save(fileName);
+			}
+		}
 
-        static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
-        {
-            var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
-            if (zipFile.Entries.Any(x => x.FileName == fileName))
-            {
-                zipFile.RemoveEntry(fileName);
-            }
-            configuarationMemoryStream.Position = 0;
-            zipFile.AddEntry(fileName, configuarationMemoryStream);
-        }
-    }
+		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)
+		{
+			try
+			{
+				var configurationEntry = zipFile[fileName];
+				if (configurationEntry != null)
+				{
+					var configurationMemoryStream = new MemoryStream();
+					configurationEntry.Extract(configurationMemoryStream);
+					configurationMemoryStream.Position = 0;
+
+					var dataContractSerializer = new DataContractSerializer(type);
+					return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+			}
+			return null;
+		}
+
+		static void AddConfigurationToZip(ZipFile zipFile, VersionedConfiguration versionedConfiguration, string fileName)
+		{
+			var configuarationMemoryStream = ZipSerializeHelper.Serialize(versionedConfiguration);
+			if (zipFile.Entries.Any(x => x.FileName == fileName))
+			{
+				zipFile.RemoveEntry(fileName);
+			}
+			configuarationMemoryStream.Position = 0;
+			zipFile.AddEntry(fileName, configuarationMemoryStream);
+		}
+	}
 }

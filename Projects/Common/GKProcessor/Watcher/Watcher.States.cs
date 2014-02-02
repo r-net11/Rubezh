@@ -9,12 +9,14 @@ using System.Linq;
 using System.Diagnostics;
 using FiresecClient;
 using Infrastructure.Common.Services;
+using FiresecAPI;
 
 namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		bool IsAnyDBMissmatch = false;
+		bool IsDBMissmatchDuringMonitoring = false;
+		EventDescription DBMissmatchDuringMonitoringReason;
 
 		bool _isJournalAnyDBMissmatch = false;
 		bool IsJournalAnyDBMissmatch
@@ -29,42 +31,270 @@ namespace GKProcessor
 					{
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						StateClass = XStateClass.Unknown,
-						Name = value ? "База данных прибора не соответствует базе данных ПК" : "База данных прибора соответствует базе данных ПК"
+						Name = value ? EventNameEnum.База_данных_прибора_не_соответствует_базе_данных_ПК.ToDescription(): EventNameEnum.База_данных_прибора_соответствует_базе_данных_ПК.ToDescription()
 					};
 					AddJournalItem(journalItem);
 				}
 			}
 		}
 
-		bool GetAllStates(bool showProgress)
+		void GetAllStates()
 		{
-			IsAnyDBMissmatch = false;
+			IsDBMissmatchDuringMonitoring = false;
+			GKProgressCallback progressCallback = GKProcessorManager.StartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false, GKProgressClientType.Monitor);
 
-			if (showProgress)
-				GKProcessorManager.OnStartProgress("Опрос объектов ГК", "", GkDatabase.Descriptors.Count, false);
 			foreach (var descriptor in GkDatabase.Descriptors)
 			{
 				LastUpdateTime = DateTime.Now;
-				var result = GetState(descriptor.XBase);
+				GetState(descriptor.XBase);
 				if (!IsConnected)
 				{
 					break;
 				}
-				if (showProgress)
-					GKProcessorManager.OnDoProgress(descriptor.XBase.DescriptorPresentationName);
-			}
-			if (showProgress)
-				GKProcessorManager.OnStopProgress();
+				GKProcessorManager.DoProgress(descriptor.XBase.DescriptorPresentationName, progressCallback);
 
-			foreach (var descriptor in GkDatabase.Descriptors)
-			{
-				descriptor.XBase.BaseState.IsGKMissmatch = IsAnyDBMissmatch;
+				WaitIfSuspending();
+				if (IsStopping)
+					return;
 			}
-			IsJournalAnyDBMissmatch = IsAnyDBMissmatch;
+			GKProcessorManager.StopProgress(progressCallback);
+
 			CheckTechnologicalRegime();
 			NotifyAllObjectsStateChanged();
-			return !IsAnyDBMissmatch && IsConnected;
+			IsJournalAnyDBMissmatch = IsDBMissmatchDuringMonitoring;
 		}
+
+		void CheckDelays()
+		{
+			foreach (var device in XManager.Devices)
+			{
+				if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+				{
+					CheckDelay(device);
+				}
+			}
+			foreach (var direction in XManager.Directions)
+			{
+				CheckDelay(direction);
+			}
+			foreach (var pumpStation in XManager.PumpStations)
+			{
+				CheckDelay(pumpStation);
+			}
+			foreach (var delay in XManager.Delays)
+			{
+				CheckDelay(delay);
+			}
+		}
+
+		void CheckDelay(XBase xBase)
+		{
+			bool mustGetState = false;
+			switch (xBase.InternalState.StateClass)
+			{
+				case XStateClass.TurningOn:
+					mustGetState = (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
+					break;
+				case XStateClass.On:
+					mustGetState = xBase.InternalState.ZeroHoldDelayCount < 10 && (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
+					break;
+				case XStateClass.TurningOff:
+					mustGetState = (DateTime.Now - xBase.InternalState.LastDateTime).TotalMilliseconds > 500;
+					break;
+			}
+			if (mustGetState)
+			{
+				var onDelay = xBase.InternalState.OnDelay;
+				var holdDelay = xBase.InternalState.HoldDelay;
+				var offDelay = xBase.InternalState.OffDelay;
+
+				if (MeasureDeviceInfos.Any(x => x.Device.UID == xBase.BaseUID))
+				{
+					GetDelays(xBase);
+				}
+				else
+				{
+					GetState(xBase, true);
+				}
+
+				if (onDelay != xBase.InternalState.OnDelay || holdDelay != xBase.InternalState.HoldDelay || offDelay != xBase.InternalState.OffDelay)
+					OnObjectStateChanged(xBase);
+
+				if (xBase.InternalState.StateClass == XStateClass.On && holdDelay == 0)
+					xBase.InternalState.ZeroHoldDelayCount++;
+				else
+					xBase.InternalState.ZeroHoldDelayCount = 0;
+			}
+		}
+
+		bool GetDelays(XBase xBase)
+		{
+			SendResult sendResult = null;
+			var expectedBytesCount = 68;
+			if (xBase.KauDatabaseParent != null)
+			{
+				sendResult = SendManager.Send(xBase.KauDatabaseParent, 2, 12, 32, BytesHelper.ShortToBytes(xBase.KAUDescriptorNo));
+				expectedBytesCount = 32;
+			}
+			else
+			{
+				sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
+				expectedBytesCount = 68;
+			}
+
+			if (sendResult.HasError || sendResult.Bytes.Count != expectedBytesCount)
+			{
+				ConnectionChanged(false);
+				return false;
+			}
+			ConnectionChanged(true);
+			var descriptorStateHelper = new DescriptorStateHelper();
+			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
+
+			xBase.InternalState.LastDateTime = DateTime.Now;
+			xBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
+			xBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
+			xBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
+			return true;
+		}
+
+		void GetState(XBase xBase, bool delaysOnly = false)
+		{
+			var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
+			if (sendResult.HasError || sendResult.Bytes.Count != 68)
+			{
+				ConnectionChanged(false);
+				return;
+			}
+			ConnectionChanged(true);
+			var descriptorStateHelper = new DescriptorStateHelper();
+			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
+			CheckDBMissmatch(xBase, descriptorStateHelper);
+
+			xBase.InternalState.LastDateTime = DateTime.Now;
+			if (!delaysOnly)
+			{
+				xBase.InternalState.StateBits = descriptorStateHelper.StateBits;
+				xBase.InternalState.AdditionalStates = descriptorStateHelper.AdditionalStates;
+			}
+			xBase.InternalState.OnDelay = descriptorStateHelper.OnDelay;
+			xBase.InternalState.HoldDelay = descriptorStateHelper.HoldDelay;
+			xBase.InternalState.OffDelay = descriptorStateHelper.OffDelay;
+		}
+
+		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
+		{
+			bool isMissmatch = false;
+			if (xBase is XDevice)
+			{
+				var device = xBase as XDevice;
+				if (device.Driver.DriverTypeNo != descriptorStateHelper.TypeNo)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_устройства;
+				}
+
+				ushort physicalAddress = device.IntAddress;
+				if (device.Driver.IsDeviceOnShleif)
+					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
+				if (device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU
+					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_физический_адрес_устройства;
+				}
+
+				var nearestDescriptorNo = 0;
+				if (device.KauDatabaseParent != null)
+					nearestDescriptorNo = device.KAUDescriptorNo;
+				else if (device.GkDatabaseParent != null)
+					nearestDescriptorNo = device.GKDescriptorNo;
+				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_адрес_на_контроллере;
+				}
+			}
+			if (xBase is XZone)
+			{
+				if (descriptorStateHelper.TypeNo != 0x100)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_зоны;
+				}
+			}
+			if (xBase is XDirection)
+			{
+				if (descriptorStateHelper.TypeNo != 0x106)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_направления;
+				}
+			}
+			if (xBase is XPumpStation)
+			{
+				if (descriptorStateHelper.TypeNo != 0x106)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_НС;
+				}
+			}
+			if (xBase is XDelay)
+			{
+				if (descriptorStateHelper.TypeNo != 0x101)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_Задержки;
+				}
+			}
+			if (xBase is XPim)
+			{
+				if (descriptorStateHelper.TypeNo != 0x107)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_ПИМ;
+				}
+			}
+
+			var stringLength = Math.Min(xBase.PresentationName.Length, 32);
+			var description = xBase.PresentationName.Substring(0, stringLength);
+			if (description.TrimEnd(' ') != descriptorStateHelper.Description)
+			{
+				isMissmatch = true;
+				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_описание_компонента;
+			}
+
+			xBase.InternalState.IsDBMissmatchDuringMonitoring = isMissmatch;
+			if (isMissmatch)
+			{
+				IsDBMissmatchDuringMonitoring = true;
+			}
+		}
+
+		#region TechnologicalRegime
+		bool CheckTechnologicalRegime()
+		{
+			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
+			foreach (var descriptor in GkDatabase.Descriptors)
+			{
+				descriptor.XBase.InternalState.IsInTechnologicalRegime = isInTechnologicalRegime;
+			}
+
+			if (!isInTechnologicalRegime)
+			{
+				foreach (var kauDatabase in GkDatabase.KauDatabases)
+				{
+					var isKAUInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
+					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
+					foreach (var device in allChildren)
+					{
+						device.InternalState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
+					}
+				}
+			}
+			return isInTechnologicalRegime;
+		}
+		#endregion
 
 		void NotifyAllObjectsStateChanged()
 		{
@@ -116,180 +346,5 @@ namespace GKProcessor
 				}
 			}
 		}
-
-        void CheckDelays()
-        {
-            foreach (var device in XManager.Devices)
-            {
-                if (!device.Driver.IsGroupDevice && device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
-                {
-                    CheckDelay(device);
-                }
-            }
-            foreach (var direction in XManager.Directions)
-            {
-                CheckDelay(direction);
-            }
-            foreach (var pumpStation in XManager.PumpStations)
-            {
-                CheckDelay(pumpStation);
-            }
-            foreach (var delay in XManager.Delays)
-            {
-                CheckDelay(delay);
-            }
-        }
-
-        void CheckDelay(XBase xBase)
-        {
-            bool mustGetState = false;
-            switch (xBase.BaseState.StateClass)
-            {
-                case XStateClass.TurningOn:
-                    mustGetState = xBase.BaseState.OnDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-                    break;
-                case XStateClass.On:
-                    mustGetState = xBase.BaseState.HoldDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-                    break;
-                case XStateClass.TurningOff:
-                    mustGetState = xBase.BaseState.OffDelay > 0 || (DateTime.Now - xBase.BaseState.LastDateTime).Seconds > 1;
-                    break;
-            }
-            if (mustGetState)
-            {
-                var onDelay = xBase.BaseState.OnDelay;
-                var holdDelay = xBase.BaseState.HoldDelay;
-                var offDelay = xBase.BaseState.OffDelay;
-                GetState(xBase, true);
-                if (onDelay != xBase.BaseState.OnDelay || holdDelay != xBase.BaseState.HoldDelay || offDelay != xBase.BaseState.OffDelay)
-                    OnObjectStateChanged(xBase);
-            }
-        }
-
-		bool GetState(XBase xBase, bool delaysOnly = false)
-		{
-            var sendResult = SendManager.Send(xBase.GkDatabaseParent, 2, 12, 68, BytesHelper.ShortToBytes(xBase.GKDescriptorNo));
-			if (sendResult.HasError)
-			{
-				ConnectionChanged(false);
-				return false;
-			}
-			if (sendResult.Bytes.Count != 68)
-			{
-				IsAnyDBMissmatch = true;
-				xBase.BaseState.IsGKMissmatch = true;
-				return false;
-			}
-			ConnectionChanged(true);
-			var descriptorStateHelper = new DescriptorStateHelper();
-			descriptorStateHelper.Parse(sendResult.Bytes, xBase);
-			CheckDBMissmatch(xBase, descriptorStateHelper);
-
-            xBase.BaseState.LastDateTime = DateTime.Now;
-            if (!delaysOnly)
-            {
-                xBase.BaseState.StateBits = descriptorStateHelper.StateBits;
-                xBase.BaseState.AdditionalStates = descriptorStateHelper.AdditionalStates;
-            }
-            xBase.BaseState.OnDelay = descriptorStateHelper.OnDelay;
-            xBase.BaseState.HoldDelay = descriptorStateHelper.HoldDelay;
-            xBase.BaseState.OffDelay = descriptorStateHelper.OffDelay;
-			return true;
-		}
-
-		void CheckDBMissmatch(XBase xBase, DescriptorStateHelper descriptorStateHelper)
-		{
-			bool isMissmatch = false;
-			if (xBase is XDevice)
-			{
-				var device = xBase as XDevice;
-				if (device.Driver.DriverTypeNo != descriptorStateHelper.TypeNo)
-					isMissmatch = true;
-
-				ushort physicalAddress = device.IntAddress;
-				if (device.Driver.IsDeviceOnShleif)
-					physicalAddress = (ushort)((device.ShleifNo - 1) * 256 + device.IntAddress);
-				if (device.DriverType != XDriverType.GK && device.DriverType != XDriverType.KAU && device.DriverType != XDriverType.RSR2_KAU
-					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
-					isMissmatch = true;
-
-				var nearestDescriptorNo = 0;
-				if (device.KauDatabaseParent != null)
-					nearestDescriptorNo = device.KAUDescriptorNo;
-				else if (device.GkDatabaseParent != null)
-					nearestDescriptorNo = device.GKDescriptorNo;
-				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
-					isMissmatch = true;
-			}
-			if (xBase is XZone)
-			{
-				if (descriptorStateHelper.TypeNo != 0x100)
-					isMissmatch = true;
-			}
-			if (xBase is XDirection)
-			{
-				if (descriptorStateHelper.TypeNo != 0x106)
-					isMissmatch = true;
-			}
-			if (xBase is XPumpStation)
-			{
-				if (descriptorStateHelper.TypeNo != 0x106)
-					isMissmatch = true;
-			}
-			if (xBase is XDelay)
-			{
-				if (descriptorStateHelper.TypeNo != 0x101)
-					isMissmatch = true;
-			}
-
-			var description = xBase.PresentationName;
-			if (xBase.PresentationName.TrimEnd(' ') != descriptorStateHelper.Description)
-				isMissmatch = true;
-
-			xBase.BaseState.IsRealMissmatch = isMissmatch;
-			if (isMissmatch)
-			{
-				IsAnyDBMissmatch = true;
-			}
-		}
-
-		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
-		{
-			if (journalItem.Name == "Запыленность" || journalItem.Name == "Запыленность устранена")
-			{
-				if (xBase is XDevice)
-				{
-					var device = xBase as XDevice;
-					if (journalItem.Name == "Запыленность")
-						device.InternalState.IsService = true;
-					if (journalItem.Name == "Запыленность устранена")
-						device.InternalState.IsService = false;
-				}
-			}
-		}
-
-		#region TechnologicalRegime
-		void CheckTechnologicalRegime()
-		{
-			var isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(GkDatabase.RootDevice);
-			foreach (var descriptor in GkDatabase.Descriptors)
-			{
-				descriptor.XBase.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
-			}
-
-			if (!isInTechnologicalRegime)
-			{
-				foreach (var kauDatabase in GkDatabase.KauDatabases)
-				{
-					isInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
-					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
-					foreach (var device in allChildren)
-					{
-						device.BaseState.IsInTechnologicalRegime = isInTechnologicalRegime;
-					}
-				}
-			}
-		}
-		#endregion
 	}
 }

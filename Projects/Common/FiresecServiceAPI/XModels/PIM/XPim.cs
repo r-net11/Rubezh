@@ -9,16 +9,9 @@ namespace XFiresecAPI
 		public XPim()
 		{
 			UID = BaseUID;// Guid.NewGuid();
-			InternalState = new XPimState(this);
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Pim; } }
-
-		public XPimState InternalState { get; set; }
-		public override XBaseState BaseState
-		{
-			get { return InternalState; }
-		}
 
 		[DataMember]
 		public Guid UID { get; set; }

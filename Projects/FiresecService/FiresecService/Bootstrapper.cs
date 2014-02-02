@@ -10,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 
-
 namespace FiresecService
 {
 	public static class Bootstrapper
@@ -30,6 +29,7 @@ namespace FiresecService
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
+				WindowThread.Name = "Main window";
 				WindowThread.Priority = ThreadPriority.Highest;
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
@@ -43,6 +43,8 @@ namespace FiresecService
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
+				UILogger.Log("Создание конфигурации СКД");
+				SKDProcessor.Create();
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)

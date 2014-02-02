@@ -99,8 +99,8 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				XManager.AddDirection(directionDetailsViewModel.PumpStation);
-				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.PumpStation);
+				XManager.AddDirection(directionDetailsViewModel.Direction);
+				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
 				Directions.Add(directionViewModel);
 				SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
@@ -156,7 +156,7 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel(direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				SelectedDirection.Direction = directionDetailsViewModel.PumpStation;
+				SelectedDirection.Direction = directionDetailsViewModel.Direction;
 				SelectedDirection.Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -230,8 +230,8 @@ namespace GKModule.ViewModels
 			else
 			{
 				createDirectionEventArg.Cancel = false;
-				createDirectionEventArg.DirectionUID = result.PumpStation.UID;
-				createDirectionEventArg.Direction = result.PumpStation;
+				createDirectionEventArg.DirectionUID = result.Direction.UID;
+				createDirectionEventArg.Direction = result.Direction;
 			}
 		}
 		public void EditDirection(Guid directionUID)

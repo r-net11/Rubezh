@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlServerCe;
 using System.IO;
 using Common;
 using Infrastructure.Common;
+using FiresecAPI;
 using XFiresecAPI;
 using System.Diagnostics;
+using System.Threading;
 
 namespace GKProcessor
 {
@@ -15,6 +18,8 @@ namespace GKProcessor
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
+		public static bool IsAbort { get; set; }
+		public static event Action<List<JournalItem>> ArchivePortionReady;
 
 		public static void Add(JournalItem journalItem)
 		{
@@ -46,7 +51,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static JournalItem AddMessage(string message, string userName)
+		public static JournalItem AddMessage(EventNameEnum name, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -54,7 +59,7 @@ namespace GKProcessor
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
-				Name = message,
+				Name = name.ToDescription(),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
 				SubsystemType = XSubsystemType.System
@@ -83,7 +88,7 @@ namespace GKProcessor
 
 		public static void InsertJournalRecordToDb(List<JournalItem> journalItems)
 		{
-			journalItems = UpdateItemLengths(journalItems);
+            journalItems = UpdateItemLengths(journalItems);
 			if (CanAdd && File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
 			{
 				using (var dataContext = new SqlCeConnection(ConnectionString))
@@ -121,9 +126,11 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
+		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
+			var result = new List<JournalItem>();
+
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
 				dateTimeTypeString = "DeviceDateTime";
@@ -170,30 +177,16 @@ namespace GKProcessor
 								query += ")";
 							}
 
-							if (archiveFilter.GKAddresses.Count > 0)
-							{
-								query += "\n AND (";
-								int index = 0;
-								foreach (var addresses in archiveFilter.GKAddresses)
-								{
-									if (index > 0)
-										query += "\n OR ";
-									index++;
-									query += "GKIpAddress = '" + addresses + "'";
-								}
-								query += ")";
-							}
-
-							if (archiveFilter.JournalDescriptionState.Count > 0)
+							if (archiveFilter.EventNames.Count > 0)
 							{
 								query += "\n and (";
 								int index = 0;
-								foreach (var eventName in archiveFilter.JournalDescriptionState)
+								foreach (var eventName in archiveFilter.EventNames)
 								{
 									if (index > 0)
 										query += "\n OR ";
 									index++;
-									query += "Name = '" + eventName.Name + "'";
+									query += "Name = '" + eventName + "'";
 								}
 								query += ")";
 							}
@@ -257,18 +250,44 @@ namespace GKProcessor
 							var reader = sqlCeCommand.ExecuteReader();
 							while (reader.Read())
 							{
-								var journalItem = ReadOneJournalItem(reader);
-								journalItems.Add(journalItem);
+								if (IsAbort && !isReport)
+									break;
+								try
+								{
+									var journalItem = ReadOneJournalItem(reader);
+									result.Add(journalItem);
+									if (!isReport)
+									{
+										journalItems.Add(journalItem);
+										if (journalItems.Count > 100)
+										{
+											if (ArchivePortionReady != null)
+												ArchivePortionReady(journalItems.ToList());
+
+											journalItems.Clear();
+										}
+									}
+								}
+								catch (Exception e)
+								{
+									Logger.Error(e, "DatabaseHelper.OnGetFilteredArchive");
+								}
+							}
+							if (!isReport)
+							{
+								if (ArchivePortionReady != null)
+									ArchivePortionReady(journalItems.ToList());
 							}
 						}
 					}
 				}
 			}
+			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.Select");
 			}
-			return journalItems;
+			return result;
 		}
 
 		public static int GetLastGKID(string gkIPAddress)
@@ -306,42 +325,7 @@ namespace GKProcessor
 			return -1;
 		}
 
-		public static List<string> GetGKIPAddresses()
-		{
-			try
-			{
-				var result = new List<string>();
-				lock (locker)
-				{
-					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
-					{
-						using (var dataContext = new SqlCeConnection(ConnectionString))
-						{
-							string query = "SELECT DISTINCT GKIpAddress FROM Journal";
-							var sqlCeCommand = new SqlCeCommand(query, dataContext);
-							dataContext.Open();
-							var reader = sqlCeCommand.ExecuteReader();
-							while (reader.Read())
-							{
-								if (!reader.IsDBNull(0))
-								{
-									var gkIpAddress = reader.GetString(0);
-									result.Add(gkIpAddress);
-								}
-							}
-							return result;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "GKDBHelper.GetGKIPAddresses");
-			}
-			return new List<string>();
-		}
-
-		public static List<JournalItem> GetTopLast(int count)
+		public static List<JournalItem> GetGKTopLastJournalItems(int count)
 		{
 			var journalItems = new List<JournalItem>();
 			try
@@ -428,5 +412,43 @@ namespace GKProcessor
 				journalItem.SubsystemType = (XSubsystemType)reader.GetByte(reader.GetOrdinal("Subsystem"));
 			return journalItem;
 		}
+
+        public static List<string> GetDistinctGKJournalDescriptions()
+        {
+            var result = new List<string>();
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return result;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand(@"SELECT DISTINCT Description FROM Journal", connection);
+            connection.Open();
+            var reader = sqlCeCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result.Add(reader.GetString(0));
+            }
+            connection.Close();
+            connection.Dispose();
+            return result;
+        }
+
+        public static List<string> GetDistinctGKJournalNames()
+        {
+            var result = new List<string>();
+            if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+                return result;
+            var connection = new SqlCeConnection(ConnectionString);
+            var sqlCeCommand = new SqlCeCommand(@"SELECT DISTINCT Name FROM Journal", connection);
+            connection.Open();
+            var reader = sqlCeCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                if (!reader.IsDBNull(0))
+                    result.Add(reader.GetString(0));
+            }
+            connection.Close();
+            connection.Dispose();
+            return result;
+        }
 	}
 }

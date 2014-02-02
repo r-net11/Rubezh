@@ -75,7 +75,7 @@
     
     <!-- TopLevelItem -->
 
-    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
+    <ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
         <Border Name="Border" Padding="5 1">
             <Grid>
                 <Grid.ColumnDefinitions>

@@ -52,18 +52,18 @@ namespace JournalModule.Reports
 		public void LoadArchive()
 		{
 			JournalRecords = new List<JournalRecordViewModel>();
-			if (FiresecManager.IsFS2Enabled)
-			{
-				var operationResult = FiresecManager.FS2ClientContract.GetFilteredArchive(ArchiveFilter);
-				if (operationResult.HasError == false)
-				{
-					foreach (var journalRecord in operationResult.Result)
-					{
-						JournalRecords.Add(new JournalRecordViewModel(journalRecord));
-					}
-				}
-			}
-			else
+			//if (FiresecManager.IsFS2Enabled)
+			//{
+			//    var operationResult = FiresecManager.FS2ClientContract.GetFilteredArchive(ArchiveFilter);
+			//    if (operationResult.HasError == false)
+			//    {
+			//        foreach (var journalRecord in operationResult.Result)
+			//        {
+			//            JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+			//        }
+			//    }
+			//}
+			//else
 			{
 				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
 				if (operationResult.HasError == false)

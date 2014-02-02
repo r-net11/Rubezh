@@ -32,8 +32,6 @@
     <Compile Include="Binary.wxs" />
     <Compile Include="Common.wxs" />
     <Compile Include="Firesec\Files5.wxs" />
-    <Compile Include="FS2\Files.wxs" />
-    <Compile Include="FS2\Shortcuts.wxs" />
     <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
@@ -47,8 +45,6 @@
     <Compile Include="Monitor\Shortcuts.wxs" />
     <Compile Include="Monitor\Uninstall.wxs" />
     <Compile Include="Installer.wxs" />
-    <Compile Include="Multiclient\Files.wxs" />
-    <Compile Include="Multiclient\Shortcuts.wxs" />
     <Compile Include="OPC\Features.wxs" />
     <Compile Include="OPC\Files.wxs" />
     <Compile Include="OPC\Shortcuts.wxs" />
@@ -100,7 +96,6 @@
     <Content Include="Data\RegisterFS.bat" />
     <Content Include="Data\RegisterFS48.bat" />
     <Content Include="Data\RegisterFSx86x64.bat" />
-    <Content Include="FS2\Variables.wxi" />
     <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
@@ -110,7 +105,6 @@
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
-    <Content Include="Multiclient\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="Firesec\Variables.wxi" />
@@ -126,9 +120,7 @@
   <ItemGroup>
     <Folder Include="FSAgent" />
     <Folder Include="Data" />
-    <Folder Include="Multiclient" />
     <Folder Include="ManagementConsole" />
-    <Folder Include="FS2" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />

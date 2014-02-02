@@ -64,12 +64,13 @@ namespace DiagnosticsModule.ViewModels
 					ApplicationService.Invoke(() =>
 					{
 						if (flag)
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual);
+							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOn_InManual, "");
 						else
-							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual);
+							Watcher.SendControlCommand(rmDevice, XStateBit.TurnOff_InManual, "");
 					});
 				}
 			}));
+			thread.Name = "Diagnostics";
 			thread.IsBackground = true;
 			thread.Start();
 		}
@@ -89,6 +90,7 @@ namespace DiagnosticsModule.ViewModels
 					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
 				}
 			}));
+			thread.Name = "Diagnostics";
 			thread.IsBackground = true;
 			thread.Start();
 		}

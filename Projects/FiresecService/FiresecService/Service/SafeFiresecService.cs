@@ -192,9 +192,9 @@ namespace FiresecService.Service
         }
 
 		#region SKD
-		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
         {
-            return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees(filter));
+            return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetAllEmployees(filter));
         }
         public bool DeleteEmployee(int id)
         {
@@ -220,22 +220,60 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
+        public IEnumerable<Employee>GetEmployees(EmployeeFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+        }
+        public IEnumerable<Position> GetPositions(PositionFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
+        }
+        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+        {
+            return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
+        }
+
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(deviceUID); }, "SKDSetIgnoreRegime");
+		}
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDResetIgnoreRegime(deviceUID); }, "SKDResetIgnoreRegime");
+		}
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
+		}
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+		}
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(deviceUID, stateBit); }, "SKDExecuteDeviceCommand");
+		}
+		public void SKDAllowReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
+		}
 		#endregion
 
 		#region GK
-		public void CancelGKProgress()
+
+		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			SafeOperationCall(() => { FiresecService.CancelGKProgress(); }, "CancelGKProgress");
+			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
 		}
 
-		public void AddJournalItem(JournalItem journalItem)
+		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
-		}
-
-		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID, bool writeFileToGK)
-		{
-			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID, writeFileToGK); }, "GKWriteConfiguration");
+			return SafeOperationCall(() => { return FiresecService.GKWriteConfiguration(deviceUID); }, "GKWriteConfiguration");
 		}
 
 		public OperationResult<XDeviceConfiguration> GKReadConfiguration(Guid deviceUID)
@@ -243,22 +281,28 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadConfiguration(deviceUID); }, "GKReadConfiguration");
 		}
 
+		public OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKReadConfigurationFromGKFile(deviceUID); }, "GKReadConfigurationFromGKFile");
+		}
+
 		public OperationResult<bool> GKUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmware(deviceUID, fileName); }, "GKUpdateFirmware");
 		}
 
-		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<XDevice> devices)
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, string userName, List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, devices); }, "GKUpdateFirmwareFSCS");
+			var result = SafeOperationCall(() => { return FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, userName, deviceUIDs); }, "GKUpdateFirmwareFSCS");
+			return result;
 		}
 
-		public bool GKSyncronyseTime(Guid deviceUID)
+		public OperationResult<bool> GKSyncronyseTime(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKSyncronyseTime(deviceUID); }, "GKSyncronyseTime");
 		}
 
-		public string GKGetDeviceInfo(Guid deviceUID)
+		public OperationResult<string> GKGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKGetDeviceInfo(deviceUID); }, "GKGetDeviceInfo");
 		}
@@ -273,14 +317,19 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no); }, "GKReadJournalItem");
 		}
 
-		public OperationResult<bool> GKSetSingleParameter(Guid deviceUID)
+		public OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(deviceUID); }, "GKSetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKSetSingleParameter(objectUID, parameterBytes); }, "GKSetSingleParameter");
 		}
 
-		public OperationResult<bool> GKGetSingleParameter(Guid deviceUID)
+		public OperationResult<List<XProperty>> GKGetSingleParameter(Guid objectUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(deviceUID); }, "GKGetSingleParameter");
+			return SafeOperationCall(() => { return FiresecService.GKGetSingleParameter(objectUID); }, "GKGetSingleParameter");
+		}
+
+		public OperationResult<List<byte>> GKGKHash(Guid gkDeviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GKGKHash(gkDeviceUID); }, "GKGKHash");
 		}
 
 		public GKStates GKGetStates()
@@ -355,6 +404,32 @@ namespace FiresecService.Service
 		public void GKStopMeasureMonitoring(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
+		}
+
+
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalNames(); }, "GetDistinctGKJournalNames");
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalDescriptions(); }, "GetDistinctGKJournalDescriptions");
 		}
 		#endregion
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKProcessor
 {
@@ -26,31 +27,29 @@ namespace GKProcessor
 				KauDevice.Children.Add(shleif);
 			}
 			DeviceConfiguration = new XDeviceConfiguration { RootDevice = KauDevice };
-			GKProcessorManager.OnStartProgress("Чтение конфигурации", "Перевод КАУ в технологический режим");
-			if(!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice))
+			var progressCallback = GKProcessorManager.StartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 2, true, GKProgressClientType.Administrator);
+			GKProcessorManager.DoProgress("Перевод КАУ в технологический режим", progressCallback);
+			if (!DeviceBytesHelper.GoToTechnologicalRegime(kauDevice, progressCallback))
 				{ Error = "Не удалось перевести КАУ в технологический режим"; return false; }
-			GKProcessorManager.OnDoProgress("Получение дескрипторов устройств");
+			GKProcessorManager.DoProgress("Получение дескрипторов устройств", progressCallback);
 			if (GetDescriptorAddresses(kauDevice))
 			{
-				GKProcessorManager.OnStartProgress("Чтение конфигурации " + kauDevice.PresentationName, "", descriptorAddresses.Count + 1, true);
+				progressCallback.StepCount = descriptorAddresses.Count + 1;
 				for (int i = 1; i < descriptorAddresses.Count; i++)
 				{
-					if (GKProcessorManager.IsProgressCanceled)
+					if (progressCallback.IsCanceled)
 					{
 						Error = "Операция отменена";
 						break;
 					}
-					GKProcessorManager.OnDoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count);
+					GKProcessorManager.DoProgress("Чтение базы данных объектов. " + i + " из " + descriptorAddresses.Count, progressCallback);
 					if (!GetDescriptorInfo(kauDevice, descriptorAddresses[i]))
 						break;
 				}
 			}
-			GKProcessorManager.OnDoProgress("Перевод КАУ в рабочий режим");
-			DeviceBytesHelper.GoToWorkingRegime(kauDevice);
-			DeviceConfiguration.Update();
-			UpdateConfigurationHelper.Update(DeviceConfiguration);
-			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
-			GKProcessorManager.OnStopProgress();
+			GKProcessorManager.DoProgress("Перевод КАУ в рабочий режим", progressCallback);
+			DeviceBytesHelper.GoToWorkingRegime(kauDevice, progressCallback);
+			GKProcessorManager.StopProgress(progressCallback);
 			return String.IsNullOrEmpty(Error);
 		}
 

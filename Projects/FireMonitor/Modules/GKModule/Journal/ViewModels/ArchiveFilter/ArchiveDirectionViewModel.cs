@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class ArchiveDirectionViewModel : BaseViewModel
+	public class ArchiveDirectionViewModel : CheckBoxItemViewModel
 	{
 		public ArchiveDirectionViewModel(XDirection direction)
 		{
@@ -17,16 +17,5 @@ namespace GKModule.ViewModels
 
 		public XDirection Direction { get; private set; }
 		public string Name { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

@@ -85,6 +85,23 @@ namespace FiresecAPI.Models
 				plan.ElementExtensions = new List<ElementBase>();
 				result = false;
 			}
+
+			if (plan.ElementSKDDevices == null)
+			{
+				plan.ElementSKDDevices = new List<ElementSKDDevice>();
+				result = false;
+			}
+			if (plan.ElementPolygonSKDZones == null)
+			{
+				plan.ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
+				result = false;
+			}
+			if (plan.ElementRectangleSKDZones == null)
+			{
+				plan.ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
+				result = false;
+			}
+
 			foreach (var elementSubPlan in plan.ElementSubPlans)
 				result &= elementSubPlan.BackgroundPixels == null;
 			foreach (var elementRectangle in plan.ElementRectangles)

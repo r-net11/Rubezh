@@ -12,37 +12,35 @@ using System;
 
 namespace GKModule.ViewModels
 {
-    public class DirectionDetailsViewModel : SaveCancelDialogViewModel
-    {
-		public XDirection PumpStation { get; private set; }
+	public class DirectionDetailsViewModel : SaveCancelDialogViewModel
+	{
+		public XDirection Direction { get; private set; }
 
 		public DirectionDetailsViewModel(XDirection direction = null)
 		{
-			ParametersHelper.AllParametersChanged -= ChangeParameter;
-			ParametersHelper.AllParametersChanged += ChangeParameter;
-			SetDirectionPropertiesCommand = new RelayCommand(OnSetDirectionProperties);
-			GetDirectionPropertiesCommand = new RelayCommand(OnGetDirectionProperties);
-			ResetAUPropertiesCommand = new RelayCommand(OnResetAUProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
+			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 			DelayRegimes = Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>().ToList();
 
 			if (direction == null)
-            {
-                Title = "Создание новоого направления";
+			{
+				Title = "Создание новоого направления";
 
-				PumpStation = new XDirection()
-                {
-                    Name = "Новое направление",
-                    No = 1
-                };
+				Direction = new XDirection()
+				{
+					Name = "Новое направление",
+					No = 1
+				};
 				if (XManager.Directions.Count != 0)
-					PumpStation.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
-            }
-            else
-            {
+					Direction.No = (ushort)(XManager.Directions.Select(x => x.No).Max() + 1);
+			}
+			else
+			{
 				Title = string.Format("Свойства направления: {0}", direction.PresentationName);
-				PumpStation = direction;
-            }
-            CopyProperties();
+				Direction = direction;
+			}
+			CopyProperties();
 
 			var availableNames = new HashSet<string>();
 			var availableDescription = new HashSet<string>();
@@ -53,49 +51,39 @@ namespace GKModule.ViewModels
 			}
 			AvailableNames = new ObservableCollection<string>(availableNames);
 			AvailableDescription = new ObservableCollection<string>(availableDescription);
-        }
-
-		void ChangeParameter(ushort delay, ushort hold, ushort delayRegime)
-		{
-			Delay = delay;
-			Hold = hold;
-			DelayRegime = (DelayRegime)delayRegime;
-			OnPropertyChanged("Delay");
-			OnPropertyChanged("Hold");
-			OnPropertyChanged("Regime");
 		}
 
-        void CopyProperties()
-        {
-			Name = PumpStation.Name;
-			No = PumpStation.No;
-			Delay = PumpStation.Delay;
-			Hold = PumpStation.Hold;
-			DelayRegime = PumpStation.DelayRegime;
-			Description = PumpStation.Description;
-        }
+		void CopyProperties()
+		{
+			Name = Direction.Name;
+			No = Direction.No;
+			Delay = Direction.Delay;
+			Hold = Direction.Hold;
+			DelayRegime = Direction.DelayRegime;
+			Description = Direction.Description;
+		}
 
-        string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged("Name");
+			}
+		}
 
-        ushort _no;
-        public ushort No
-        {
-            get { return _no; }
-            set
-            {
-                _no = value;
-                OnPropertyChanged("No");
-            }
-        }
+		ushort _no;
+		public ushort No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged("No");
+			}
+		}
 
 		ushort _delay;
 		public ushort Delay
@@ -132,62 +120,119 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        string _description;
-        public string Description
-        {
-            get { return _description; }
-            set
-            {
-                _description = value;
-                OnPropertyChanged("Description");
-            }
-        }
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged("Description");
+			}
+		}
 
 		public ObservableCollection<string> AvailableNames { get; private set; }
 		public ObservableCollection<string> AvailableDescription { get; private set; }
 
 		protected override bool Save()
 		{
-			if (PumpStation.No != No && XManager.Directions.Any(x => x.No == No))
-            {
-                MessageBoxService.Show("Направление с таким номером уже существует");
-                return false;
-            }
+			if (Direction.No != No && XManager.Directions.Any(x => x.No == No))
+			{
+				MessageBoxService.Show("Направление с таким номером уже существует");
+				return false;
+			}
 
-			PumpStation.Name = Name;
-			PumpStation.No = No;
-			PumpStation.Delay = Delay;
-			PumpStation.Hold = Hold;
-			PumpStation.DelayRegime = DelayRegime;
-			PumpStation.Description = Description;
+			Direction.Name = Name;
+			Direction.No = No;
+			Direction.Delay = Delay;
+			Direction.Hold = Hold;
+			Direction.DelayRegime = DelayRegime;
+			Direction.Description = Description;
 			return base.Save();
 		}
 
-		public RelayCommand GetDirectionPropertiesCommand { get; private set; }
-		void OnGetDirectionProperties()
+		public RelayCommand ReadPropertiesCommand { get; private set; }
+		void OnReadProperties()
 		{
-			ParametersHelper.GetSingleDirectionParameter(PumpStation);
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var result = FiresecManager.FiresecService.GKGetSingleParameter(Direction);
+			if (!result.HasError && result.Result != null && result.Result.Count == 3)
+			{
+				Delay = result.Result[0].Value;
+				Hold = result.Result[1].Value;
+				DelayRegime = (DelayRegime)result.Result[2].Value;
+				OnPropertyChanged("Delay");
+				OnPropertyChanged("Hold");
+				OnPropertyChanged("Regime");
+			}
+			else
+			{
+				MessageBoxService.ShowError(result.Error);
+			}
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 
-		public RelayCommand SetDirectionPropertiesCommand { get; private set; }
-		void OnSetDirectionProperties()
+		public RelayCommand WritePropertiesCommand { get; private set; }
+		void OnWriteProperties()
 		{
-			PumpStation.Name = Name;
-			PumpStation.No = No;
-			PumpStation.Description = Description;
-			PumpStation.Delay = Delay;
-			PumpStation.Hold = Hold;
-			PumpStation.DelayRegime = DelayRegime;
-			ParametersHelper.SetSingleDirectionParameter(PumpStation);
+			Direction.Name = Name;
+			Direction.No = No;
+			Direction.Description = Description;
+			Direction.Delay = Delay;
+			Direction.Hold = Hold;
+			Direction.DelayRegime = DelayRegime;
+
+			DescriptorsManager.Create();
+			if (!CompareLocalWithRemoteHashes())
+				return;
+
+			var baseDescriptor = ParametersHelper.GetBaseDescriptor(Direction);
+			if (baseDescriptor != null)
+			{
+				var result = FiresecManager.FiresecService.GKSetSingleParameter(Direction, baseDescriptor.Parameters);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowError(result.Error);
+				}
+			}
+			else
+			{
+				MessageBoxService.ShowError("Ошибка. Отсутствуют параметры");
+			}
 		}
 
-		public RelayCommand ResetAUPropertiesCommand { get; private set; }
-		void OnResetAUProperties()
+		public RelayCommand ResetPropertiesCommand { get; private set; }
+		void OnResetProperties()
 		{
 			Delay = 10;
 			Hold = 10;
 			DelayRegime = DelayRegime.Off;
 		}
-    }
+
+		bool CompareLocalWithRemoteHashes()
+		{
+			if(Direction.GkDatabaseParent == null)
+			{
+				MessageBoxService.ShowError("Направление не относится ни к одному ГК");
+				return false;
+			}
+
+			var result = FiresecManager.FiresecService.GKGKHash(Direction.GkDatabaseParent);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowError("Ошибка при сравнении конфигураций. Операция запрещена");
+				return false;
+			}
+
+			var localHash = GKFileInfo.CreateHash1(XManager.DeviceConfiguration, Direction.GkDatabaseParent);
+			var remoteHash = result.Result;
+			if (GKFileInfo.CompareHashes(localHash, remoteHash))
+				return true;
+			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
+			return false;
+		}
+	}
 }

@@ -20,9 +20,9 @@ namespace Infrastructure.Client.Login
 			_title = title ?? "Авторизация";
 		}
 
-		public bool ExecuteConnect(string login = null, string password = null, bool isMulticlient = false)
+		public bool ExecuteConnect(string login = null, string password = null)
 		{
-			return Execute(LoginViewModel.PasswordViewType.Connect, login, password, isMulticlient);
+			return Execute(LoginViewModel.PasswordViewType.Connect, login, password);
 		}
 		public bool ExecuteReconnect()
 		{
@@ -33,12 +33,12 @@ namespace Infrastructure.Client.Login
 			return Execute(LoginViewModel.PasswordViewType.Validate);
 		}
 
-		bool Execute(LoginViewModel.PasswordViewType passwordViewType, string login = null, string password = null, bool isMulticlient = false)
+		bool Execute(LoginViewModel.PasswordViewType passwordViewType, string login = null, string password = null)
 		{
 			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
 			bool isAutoconnect = GlobalSettingsHelper.GlobalSettings.AutoConnect && passwordViewType == LoginViewModel.PasswordViewType.Connect;
-			var saveCredential = !isAutoconnect && !isMulticlient;
+			var saveCredential = !isAutoconnect;
 			if (isAutoconnect)
 			{
 				loginViewModel.UserName = GlobalSettingsHelper.GlobalSettings.Login;
@@ -68,9 +68,6 @@ namespace Infrastructure.Client.Login
 				if (!string.IsNullOrEmpty(loginViewModel.Message))
 					MessageBoxService.Show(loginViewModel.Message);
 				isAutoconnect = false;
-
-				if (isMulticlient)
-					break;
 			}
 			if (loginViewModel.IsConnected && saveCredential && (Settings.Default.UserName != loginViewModel.UserName || Settings.Default.Password != (loginViewModel.SavePassword ? loginViewModel.Password : string.Empty)))
 			{

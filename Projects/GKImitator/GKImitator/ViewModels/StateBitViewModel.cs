@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using GKImitator.Processor;
-using Common.GK;
+using GKProcessor;
 
 namespace GKImitator.ViewModels
 {
@@ -84,12 +84,12 @@ namespace GKImitator.ViewModels
 			}
 		}
 
-		void AddJournalItem(BinaryObjectBase binaryObject, byte code, byte eventDescription, byte eventYesNo, int objectState)
+		void AddJournalItem(BaseDescriptor baseDescriptor, byte code, byte eventDescription, byte eventYesNo, int objectState)
 		{
 			var imitatorJournalItem = new ImitatorJournalItem();
 			imitatorJournalItem.DateTime = DateTime.Now;
 			imitatorJournalItem.GkNo = JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Count + 1;
-			imitatorJournalItem.GkObjectNo = binaryObject.GkDescriptorNo;
+			imitatorJournalItem.GkObjectNo = baseDescriptor.GetDescriptorNo();
 
 			imitatorJournalItem.Source = 2;
 			imitatorJournalItem.Code = code;
@@ -102,10 +102,10 @@ namespace GKImitator.ViewModels
 			imitatorJournalItem.ObjectFactoryNo = 0;
 			imitatorJournalItem.ObjectState = objectState;
 
-			if (binaryObject.Device != null)
+			if (baseDescriptor.Device != null)
 			{
-				imitatorJournalItem.ObjectDeviceType = (short)binaryObject.Device.Driver.DriverTypeNo;
-				imitatorJournalItem.ObjectDeviceAddress = (short)((binaryObject.Device.ShleifNo - 1) * 256 + binaryObject.Device.IntAddress);
+				imitatorJournalItem.ObjectDeviceType = (short)baseDescriptor.Device.Driver.DriverTypeNo;
+				imitatorJournalItem.ObjectDeviceAddress = (short)((baseDescriptor.Device.ShleifNo - 1) * 256 + baseDescriptor.Device.IntAddress);
 			}
 
 			JournalHelper.ImitatorJournalItemCollection.ImitatorJournalItems.Add(imitatorJournalItem);

@@ -14,6 +14,7 @@ namespace GKProcessor
 			if (Thread == null)
 			{
 				Thread = new Thread(OnRun);
+				Thread.Name = "GK LifeTimeWatcher";
 				Thread.Start();
 			}
 		}
@@ -46,11 +47,18 @@ namespace GKProcessor
 					{
 						if ((DateTime.Now - watcher.LastUpdateTime).TotalMinutes > 5)
 						{
-							Logger.Error("LifeTimeWatcher.OnRun watcher");
-							watcher.AddMessage("Зависание процесса отпроса", "");
-							watcher.ConnectionChanged(false);
-							watcher.StopThread();
-							watcher.StartThread();
+							if (watcher.IsStopping || watcher.IsSuspending)
+							{
+								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+							}
+							else
+							{
+								Logger.Error("LifeTimeWatcher.OnRun watcher");
+								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+								watcher.ConnectionChanged(false);
+								watcher.StopThread();
+								watcher.StartThread();
+							}
 						}
 					}
 				}

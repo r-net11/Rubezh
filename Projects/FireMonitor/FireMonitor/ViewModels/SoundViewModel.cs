@@ -20,10 +20,6 @@ namespace FireMonitor.ViewModels
 	{
 		public SoundViewModel()
 		{
-			ApplicationService.Closed -= new EventHandler(ApplicationService_Closed);
-			ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
-			//ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnStateChanged);
-			//ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Unsubscribe(OnStateChanged);
 			ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Subscribe(OnStateChanged);
 
@@ -68,7 +64,6 @@ namespace FireMonitor.ViewModels
 
 		public void OnStateChanged(object obj)
 		{
-			//var minStateClass = (XStateClass)Math.Min((int)GetMinASStateClass(), (int)XManager.GetMinStateClass());
 			var minStateClass = XManager.GetMinStateClass();
 
 			if (CurrentStateClass != minStateClass)
@@ -82,16 +77,7 @@ namespace FireMonitor.ViewModels
 			PlayAlarm();
 		}
 
-		//XStateClass GetMinASStateClass()
-		//{
-		//    var minStateType = StateType.Norm;
-		//    foreach (var device in FiresecManager.Devices)
-		//        if (device.DeviceState.StateType < minStateType)
-		//            minStateType = device.DeviceState.StateType;
-		//    return XStatesHelper.StateTypeToXStateClass(minStateType);
-		//}
-
-		public void PlayAlarm()
+		void PlayAlarm()
 		{
 			if (Sounds.IsNotNullOrEmpty() == false)
 			{
@@ -122,11 +108,6 @@ namespace FireMonitor.ViewModels
 				PlayAlarm();
 				IsSoundOn = true;
 			}
-		}
-
-		void ApplicationService_Closed(object sender, EventArgs e)
-		{
-			//AlarmPlayerHelper.Dispose();
 		}
 	}
 }

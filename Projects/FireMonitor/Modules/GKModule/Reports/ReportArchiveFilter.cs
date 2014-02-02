@@ -11,7 +11,7 @@ namespace GKModule.Reports
 	{
 		public ReportArchiveFilter()
 		{
-			SetFilter();
+			ArchiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
 			Initialize();
 		}
 
@@ -36,22 +36,13 @@ namespace GKModule.Reports
 		void SetFilter(ArchiveFilterViewModel archiveFilterViewModel)
 		{
 			ArchiveFilter = archiveFilterViewModel.GetModel();
-			StartDate = archiveFilterViewModel.StartDateTime;
-			EndDate = archiveFilterViewModel.EndDateTime;
-		}
-
-		void SetFilter()
-		{
-			var archiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
-			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
-			ArchiveFilter = archiveFilterViewModel.GetModel();
-			StartDate = archiveFilterViewModel.StartDateTime;
-			EndDate = archiveFilterViewModel.EndDateTime;
+			StartDate = archiveFilterViewModel.StartDateTime.DateTime;
+			EndDate = archiveFilterViewModel.EndDateTime.DateTime;
 		}
 
 		public void LoadArchive()
 		{
-			var filteredJournalItems = GKDBHelper.Select(ArchiveFilter);
+			var filteredJournalItems = GKDBHelper.BeginGetGKFilteredArchive(ArchiveFilter, true);
 			foreach (var journalItem in filteredJournalItems)
 			{
 				JournalItems.Add(journalItem);

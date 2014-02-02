@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
 		Failure,
 		Information,
 		Fire,
-		User
+		User,
+        Unknown
 	}
 }

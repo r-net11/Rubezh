@@ -142,12 +142,6 @@ namespace Infrastructure.Common.Windows
 		{
 			Application.Current.Dispatcher.BeginInvoke(action);
 		}
-		public static void ExecuteThread(Action action)
-		{
-			var thread = new Thread(() => action());
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
-		}
 		public static void CloseAllWindows()
 		{
 			var windows = new List<Window>();
