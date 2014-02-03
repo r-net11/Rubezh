@@ -24,15 +24,14 @@
         </Border>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}"/>
-                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}"/>
-                <DataGridTextColumn Header="Должность" Binding="{Binding PositionName}"/>
-                <DataGridTextColumn Header="Назначен" Binding="{Binding AppointedString}"/>
-                <DataGridTextColumn Header="Уволен" Binding="{Binding DismissedString}"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
+                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding PositionName}" />
+                <DataGridTextColumn Header="Назначен" Binding="{Binding AppointedString}" />
+                <DataGridTextColumn Header="Уволен" Binding="{Binding DismissedString}" />
             </DataGrid.Columns>
-            
         </DataGrid>
     </Grid>
 </UserControl>

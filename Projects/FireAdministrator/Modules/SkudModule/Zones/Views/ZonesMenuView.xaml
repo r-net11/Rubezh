@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedZone}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/add.png" />
-        <Controls:ToolBarButton Command="{Binding EditCommand}" DataContext="{Binding SelectedZone}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/edit.png" />
-        <Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedZone}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/delete.png" />
+        <Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedZone}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/Add.png" />
+        <Controls:ToolBarButton Command="{Binding EditCommand}" DataContext="{Binding SelectedZone}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
+        <Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedZone}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
     </StackPanel>
 </UserControl>

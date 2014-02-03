@@ -58,6 +58,16 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Access\ViewModels\CardDetailsViewModel.cs" />
+    <Compile Include="Access\ViewModels\CardViewModel.cs" />
+    <Compile Include="Access\ViewModels\UsersAccessViewModel.cs" />
+    <Compile Include="Access\ViewModels\UserAccessViewModel.cs" />
+    <Compile Include="Access\Views\CardDetailsView.xaml.cs">
+      <DependentUpon>CardDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Access\Views\UserAccessView.xaml.cs">
+      <DependentUpon>UserAccessView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
@@ -172,6 +182,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Access\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Access\Views\CardDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Access\Views\UserAccessView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

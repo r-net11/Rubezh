@@ -6,6 +6,7 @@ using FiresecAPI;
 using System.Net;
 using System.Threading;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace SKDDriver
 {
@@ -29,6 +30,7 @@ namespace SKDDriver
 			return !result.HasError;
 		}
 
+		[DebuggerStepThrough]
 		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
 			var stringIPAddress = device.Address;
