@@ -168,10 +168,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			var controllerDetailsViewModel = new ControllerDetailsViewModel(Device);
+			if (DialogService.ShowModalWindow(controllerDetailsViewModel))
+			{
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 		bool CanShowProperties()
 		{
-			return false;
+			return Device.DriverType == SKDDriverType.Controller;
 		}
 
 		public bool IsOnPlan

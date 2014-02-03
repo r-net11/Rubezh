@@ -236,6 +236,7 @@
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
+    <Compile Include="SKD\Device\SKDControllerProperty.cs" />
     <Compile Include="SKD\SKDCard.cs" />
     <Compile Include="SKD\Library\SKDLibraryConfiguration.cs" />
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
@@ -245,7 +246,7 @@
     <Compile Include="SKD\SKDEventsHelper.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\SKDSystemConfiguration.cs" />
-    <Compile Include="SKD\States\SKDDevice.cs" />
+    <Compile Include="SKD\Device\SKDDevice.cs" />
     <Compile Include="SKD\States\SKDCallbackResult.cs" />
     <Compile Include="SKD\States\SKDDeviceState.cs" />
     <Compile Include="SKD\Driver\SKDDriver.cs" />
