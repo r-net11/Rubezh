@@ -36,7 +36,7 @@
 							<Image Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
 							<Border Name="padding" Margin="{TemplateBinding Padding}">
 								<Grid>
-									<TextBlock Name="alarmcount" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+									<TextBlock Name="alarmcount" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11">
 										<TextBlock.Style>
 											<Style TargetType="{x:Type TextBlock}">
 												<Setter Property="Text" Value="{Binding Count}" />  
