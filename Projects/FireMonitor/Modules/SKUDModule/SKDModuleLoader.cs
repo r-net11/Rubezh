@@ -23,6 +23,7 @@ namespace SKDModule
 		ZonesViewModel ZonesViewModel;
 		VerificationViewModel VerificationViewModel;
 		UsersAccessViewModel UsersAccessViewModel;
+		CardsViewModel CardsViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -32,6 +33,7 @@ namespace SKDModule
 			ZonesViewModel = new ZonesViewModel();
 			VerificationViewModel = new VerificationViewModel();
 			UsersAccessViewModel = new UsersAccessViewModel();
+			CardsViewModel = new CardsViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -48,6 +50,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDUsersAccessEvent>(UsersAccessViewModel, "Доступ пользователей", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 					})
 				};
 		}
@@ -72,6 +75,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

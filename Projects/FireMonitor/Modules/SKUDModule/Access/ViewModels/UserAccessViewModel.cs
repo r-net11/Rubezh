@@ -10,7 +10,6 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using System.Collections.Generic;
 using FiresecAPI;
-using FiresecAPI.Models.Skud;
 using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
@@ -96,6 +95,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeZonesCommand { get; private set; }
 		void OnChangeZones()
 		{
+			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel();
+			if (DialogService.ShowModalWindow(accessZonesSelectationViewModel))
+			{
+			}
 		}
 		public bool CanChangeZones()
 		{
