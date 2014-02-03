@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
+using System;
 
 namespace FiresecService.SKUD
 {
@@ -12,47 +13,13 @@ namespace FiresecService.SKUD
         public FiresecServiceSKUD()
         {
             Context = new DataAccess.SKUDDataContext();
+			var items = GetSKDJournalItems(null);
         }
 
 
 		#region IFiresecServiceSKUD Members
 
-		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
-		{
-			return new List<EmployeeCard>(); 
-		}
-
-		public bool DeleteEmployee(int id)
-		{
-			return false; 
-		}
-
-		public EmployeeCardDetails GetEmployeeCard(int id)
-		{
-			return new EmployeeCardDetails(); 
-		}
-
-		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
-		{
-			return 0;
-		}
-
-		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
-		{
-			return new List<EmployeeDepartment>();
-		}
-
-		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
-		{
-			return new List<EmployeeGroup>();
-		}
-
-		public IEnumerable<EmployeePosition> GetEmployeePositions()
-		{
-			return new List<EmployeePosition>();
-		}
-
-        public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
         {
             try
             {
@@ -87,30 +54,66 @@ namespace FiresecService.SKUD
             }
             catch { return new List<Position>(); }
         }
+
+		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
+		{
+			try
+			{
+				var journalItems = new List<SKDJournalItem>();
+				var databaseJournalItems = Context.Journal.ToList().Where(x => IsInFilter(x, filter)).ToList();
+				databaseJournalItems.ForEach(x => journalItems.Add(Translator.Translate(x)));
+				return journalItems;
+			}
+			catch { return new List<SKDJournalItem>(); }
+		}
+
+		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		{
+			try
+			{
+				foreach (var item in journalItems)
+				{
+					if (item != null)
+						Context.Journal.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+
+
         #endregion
 
         bool IsInFilter(FiresecService.SKUD.DataAccess.Employee employee, EmployeeFilter filter)
         {
             if (filter == null)
                 return true;
-            
-            bool isInUids = !filter.HasUids || filter.Uids.Any(x => employee.Uid == x);
-            bool isInDepartments = !filter.HasDepartments || filter.DepartmentUids.Any(x => employee.DepartmentUid == x);
-            bool isInPositions = !filter.HasPositions || filter.PositionUids.Any(x => employee.PositionUid == x);
-            bool isInAppointed = filter.Appointed == null ||
-                (employee.Appointed >= filter.Appointed.StartDate && employee.Appointed <= filter.Appointed.EndDate);
-            bool isInDismissed = filter.Dismissed == null ||
-                (employee.Dismissed >= filter.Dismissed.StartDate && employee.Dismissed <= filter.Dismissed.EndDate);
 
+			bool isInUids = IsInUidList(employee.Uid, filter.Uids);
+			bool isInDepartments = IsInUidList(employee.DepartmentUid, filter.DepartmentUids);
+			bool isInPositions = IsInUidList(employee.PositionUid, filter.PositionUids);
+			bool isInAppointed = IsInDateTimePeriod(employee.Appointed, filter.Appointed);
+			bool isInDismissed = IsInDateTimePeriod(employee.Dismissed, filter.Dismissed);	
             return isInUids && isInDepartments && isInPositions && isInAppointed && isInDepartments;
         }
+
+		bool IsInFilter(FiresecService.SKUD.DataAccess.Journal item, SKDJournalFilter filter)
+		{
+			if (filter == null)
+				return true;
+
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			bool isInSystemDate = IsInDateTimePeriod(item.SysemDate, filter.SystemDateTime);
+			bool isInDeviceDate = IsInDateTimePeriod(item.DeviceDate, filter.DeviceDateTime);
+			return isInUids && isInSystemDate && isInDeviceDate;
+		}
 
         bool IsInFilter(FiresecService.SKUD.DataAccess.Department item, DepartmentFilter filter)
         {
             if (filter == null)
                 return true;
 
-            bool isInUids = !filter.HasUids || filter.Uids.Any(x => item.Uid == x);
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 
             return isInUids;
         }
@@ -120,9 +123,23 @@ namespace FiresecService.SKUD
             if (filter == null)
                 return true;
 
-            bool isInUids = !filter.HasUids || filter.Uids.Any(x => item.Uid == x);
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 
             return isInUids;
         }
+
+		bool IsInDateTimePeriod(DateTime? dateTime, DateTimePeriod dateTimePeriod)
+		{
+			if (dateTimePeriod == null)
+				return true;
+			return dateTime >= dateTimePeriod.StartDate && dateTime <= dateTimePeriod.EndDate;
+		}
+
+		bool IsInUidList(Guid? uid, List<Guid> uidList)
+		{
+			if (uidList == null || uidList.Count == 0)
+				return true;
+			return uidList.Any(x => x == uid);
+		}
 	}
 }

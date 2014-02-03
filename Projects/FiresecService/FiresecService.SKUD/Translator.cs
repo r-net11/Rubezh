@@ -284,5 +284,39 @@ namespace FiresecService.SKUD
                 LaunchDate = document.LaunchDate
             };
         }
-    }
+
+		public static FiresecAPI.SKDJournalItem Translate(Journal journal)
+		{
+			if (journal == null)
+				return null;
+			return new FiresecAPI.SKDJournalItem
+			{
+				Uid = journal.Uid,
+				Name = journal.Name,
+				Description = journal.Description,
+				SystemDateTime = journal.SysemDate,
+				DeviceDateTime = journal.DeviceDate,
+				CardNo = journal.CardNo,
+				DeviceJournalRecordNo = journal.DeviceNo,
+				GKIpAddress = journal.IpPort
+			};
+		}
+
+		public static Journal TranslateBack(FiresecAPI.SKDJournalItem journalItem)
+		{
+			if (journalItem == null)
+				return null;
+			return new Journal
+			{
+				Uid = journalItem.Uid,
+				CardNo = journalItem.CardNo,
+				Description = journalItem.Description,
+				DeviceDate = journalItem.DeviceDateTime,
+				DeviceNo = journalItem.DeviceJournalRecordNo,
+				IpPort = journalItem.GKIpAddress,
+				Name = journalItem.Name,
+				SysemDate = journalItem.SystemDateTime
+			};
+		}
+	}
 }

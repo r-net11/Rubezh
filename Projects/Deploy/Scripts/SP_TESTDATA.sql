@@ -4,7 +4,7 @@ DECLARE @Uid uniqueidentifier;
 
 TRUNCATE TABLE [dbo].[Holiday]
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, 'Новый год', 'Transferred', '31/12/2013', '28/12/2013'
+EXEC [dbo].[SaveHoliday] @Uid, 'Новый год', 'Transferred', '31/12/2013', '28/12/2013' 
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveHoliday] @Uid, '8 марта', 'Holiday', '08/03/2014'
 SET @Uid = NEWID(); 
@@ -278,3 +278,15 @@ UPDATE [dbo].[Employee] SET [DepartmentUid]=@TesterDepartmentUid WHERE [Uid]=@Ma
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE [Uid]=@Constructor1EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE [Uid]=@Constructor2EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE [Uid]=@MainConstructorEmployeeUid
+
+DELETE FROM [dbo].[Journal] 
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveJournal] @Uid, '01/01/2014', '01/01/2013', 'Запись 1', 'Описание записи 1', 1, '192.0.0.1:4000', 11
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveJournal] @Uid, '02/01/2014', '01/02/2013', 'Запись 2', 'Описание записи 2', 2, '192.0.0.1:4000', 22
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveJournal] @Uid, '03/02/2014', '02/02/2013', 'Запись 3', 'Описание записи 3', 3, '192.0.0.2:4000', 33
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveJournal] @Uid, '13/02/2014', '02/12/2013', 'Запись 4', 'Описание записи 4', 4, '192.0.0.1:4000', 11
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveJournal] @Uid, '13/02/2014', '02/12/2013', 'Запись 5', 'Описание записи 5', 5, '192.0.0.1:4000', 22

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models.Skud;
+using FiresecAPI.Models.SKDDatabase;
 using FiresecClient;
 
 namespace SKDModule.ViewModels
@@ -8,7 +8,8 @@ namespace SKDModule.ViewModels
 	{
 		protected override IEnumerable<EmployeeGroup> GetDictionary()
 		{
-			return FiresecManager.GetEmployeeGroups();
+			return new List<EmployeeGroup>();
+			//return FiresecManager.GetEmployeeGroups();
 		}
 	}
 }

@@ -28,9 +28,9 @@ namespace GKProcessor
 				Name = "Порог КЗ, В",
 				Caption = "Порог КЗ, В",
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Default = (ushort)33,
-				Min = (ushort)30,
-				Max = (ushort)70,
+				Default = (ushort)330,
+				Min = (ushort)300,
+				Max = (ushort)700,
 				Multiplier = 10
 			};
 			driver.Properties.Add(property);

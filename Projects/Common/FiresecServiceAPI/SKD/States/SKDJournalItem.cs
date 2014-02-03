@@ -18,9 +18,9 @@ namespace FiresecAPI
 		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 		[DataMember]
-		public DateTime DeviceDateTime { get; set; }
+		public DateTime? DeviceDateTime { get; set; }
 		[DataMember]
-		public DateTime SystemDateTime { get; set; }
+		public DateTime? SystemDateTime { get; set; }
 		[DataMember]
 		public int? DeviceJournalRecordNo { get; set; }
 
@@ -58,5 +58,10 @@ namespace FiresecAPI
 		public string UserName { get; set; }
 		[DataMember]
 		public XSubsystemType SubsystemType { get; set; }
+
+		[DataMember]
+		public Guid Uid { get; set; }
+		[DataMember]
+		public int? CardNo { get; set; }
 	}
 }

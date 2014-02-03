@@ -6,29 +6,35 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class CheckBoxItemList : BaseViewModel
+	public class CheckBoxItemList<T> : BaseViewModel, ICheckBoxItemList
+		where T:ICheckBoxItem
 	{
 		public CheckBoxItemList()
 		{
-			Items = new List<ICheckBoxItem>();
+			Items = new List<T>();
 		}
 		
-		public CheckBoxItemList(List<ICheckBoxItem> items)
-		{
-			Items = items;
-			Items.ForEach(x => x.ItemsList = this);
-		}
-
-		public void Add(ICheckBoxItem item)
+		public void Add(T item)
 		{
 			Items.Add(item);
 			item.ItemsList = this;
 		}
 
-		public List<ICheckBoxItem> Items { get; private set; }
+		public List<T> Items { get; private set; }
 		public bool HasCheckedItems
 		{
 			get { return Items.Any(x => x.IsChecked == true); }
 		}
+
+		public void Update()
+		{
+			OnPropertyChanged(()=>HasCheckedItems);
+		}
+	}
+
+	public interface ICheckBoxItemList
+	{
+		bool HasCheckedItems { get; }
+		void Update();
 	}
 }

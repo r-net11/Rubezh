@@ -47,6 +47,9 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="DataAccess\SKUD.cs">
+      <DependentUpon>SKUD.dbml</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\SKUD.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

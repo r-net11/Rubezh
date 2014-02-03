@@ -5,7 +5,7 @@ using System.ServiceModel;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecAPI.Models.Skud;
+using FiresecAPI.Models.SKDDatabase;
 using XFiresecAPI;
 
 namespace FiresecService.Service
@@ -192,35 +192,7 @@ namespace FiresecService.Service
         }
 
 		#region SKD
-		public IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
-        {
-            return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetAllEmployees(filter));
-        }
-        public bool DeleteEmployee(int id)
-        {
-            return SafeContext.Execute<bool>(() => FiresecService.DeleteEmployee(id));
-        }
-        public EmployeeCardDetails GetEmployeeCard(int id)
-        {
-            return SafeContext.Execute<EmployeeCardDetails>(() => FiresecService.GetEmployeeCard(id));
-        }
-        public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
-        {
-            return SafeContext.Execute<int>(() => FiresecService.SaveEmployeeCard(employeeCard));
-        }
-        public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
-        {
-            return SafeContext.Execute<IEnumerable<EmployeeDepartment>>(() => FiresecService.GetEmployeeDepartments());
-        }
-        public IEnumerable<EmployeeGroup> GetEmployeeGroups()
-        {
-            return SafeContext.Execute<IEnumerable<EmployeeGroup>>(() => FiresecService.GetEmployeeGroups());
-        }
-        public IEnumerable<EmployeePosition> GetEmployeePositions()
-        {
-            return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
-        }
-        public IEnumerable<Employee>GetEmployees(EmployeeFilter filter)
+		public IEnumerable<Employee>GetEmployees(EmployeeFilter filter)
         {
             return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
         }
@@ -232,6 +204,23 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
         }
+		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<SKDJournalItem>>(() => FiresecService.GetSKDJournalItems(filter));
+		}
+		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		{
+			SafeContext.Execute(() => FiresecService.SaveSKDJournalItems(journalItems));
+		}
+		public IEnumerable<Frame> GetFrames(FrameFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Frame>>(() => FiresecService.GetFrames(filter));
+		}
+		public void SaveFrames(IEnumerable<Frame> frames)
+		{
+			SafeContext.Execute(() => FiresecService.SaveFrames(frames));
+		}
+
 		#endregion
 
 		#region GK

@@ -72,6 +72,9 @@ namespace FiresecService.SKUD.DataAccess
     partial void InsertScheduleScheme(ScheduleScheme instance);
     partial void UpdateScheduleScheme(ScheduleScheme instance);
     partial void DeleteScheduleScheme(ScheduleScheme instance);
+    partial void InsertJournal(Journal instance);
+    partial void UpdateJournal(Journal instance);
+    partial void DeleteJournal(Journal instance);
     #endregion
 		
 		public SKUDDataContext() : 
@@ -213,6 +216,14 @@ namespace FiresecService.SKUD.DataAccess
 			get
 			{
 				return this.GetTable<ScheduleScheme>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Journal> Journal
+		{
+			get
+			{
+				return this.GetTable<Journal>();
 			}
 		}
 	}
@@ -4142,6 +4153,236 @@ namespace FiresecService.SKUD.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.ScheduleScheme = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
+	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private System.Nullable<System.DateTime> _SysemDate;
+		
+		private System.Nullable<System.DateTime> _DeviceDate;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private System.Nullable<int> _DeviceNo;
+		
+		private string _IpPort;
+		
+		private System.Nullable<int> _CardNo;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnSysemDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnSysemDateChanged();
+    partial void OnDeviceDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDeviceDateChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnDeviceNoChanging(System.Nullable<int> value);
+    partial void OnDeviceNoChanged();
+    partial void OnIpPortChanging(string value);
+    partial void OnIpPortChanged();
+    partial void OnCardNoChanging(System.Nullable<int> value);
+    partial void OnCardNoChanged();
+    #endregion
+		
+		public Journal()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SysemDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> SysemDate
+		{
+			get
+			{
+				return this._SysemDate;
+			}
+			set
+			{
+				if ((this._SysemDate != value))
+				{
+					this.OnSysemDateChanging(value);
+					this.SendPropertyChanging();
+					this._SysemDate = value;
+					this.SendPropertyChanged("SysemDate");
+					this.OnSysemDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DeviceDate
+		{
+			get
+			{
+				return this._DeviceDate;
+			}
+			set
+			{
+				if ((this._DeviceDate != value))
+				{
+					this.OnDeviceDateChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceDate = value;
+					this.SendPropertyChanged("DeviceDate");
+					this.OnDeviceDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceNo", DbType="Int")]
+		public System.Nullable<int> DeviceNo
+		{
+			get
+			{
+				return this._DeviceNo;
+			}
+			set
+			{
+				if ((this._DeviceNo != value))
+				{
+					this.OnDeviceNoChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceNo = value;
+					this.SendPropertyChanged("DeviceNo");
+					this.OnDeviceNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IpPort", DbType="NVarChar(50)")]
+		public string IpPort
+		{
+			get
+			{
+				return this._IpPort;
+			}
+			set
+			{
+				if ((this._IpPort != value))
+				{
+					this.OnIpPortChanging(value);
+					this.SendPropertyChanging();
+					this._IpPort = value;
+					this.SendPropertyChanged("IpPort");
+					this.OnIpPortChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardNo", DbType="Int")]
+		public System.Nullable<int> CardNo
+		{
+			get
+			{
+				return this._CardNo;
+			}
+			set
+			{
+				if ((this._CardNo != value))
+				{
+					this.OnCardNoChanging(value);
+					this.SendPropertyChanging();
+					this._CardNo = value;
+					this.SendPropertyChanged("CardNo");
+					this.OnCardNoChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

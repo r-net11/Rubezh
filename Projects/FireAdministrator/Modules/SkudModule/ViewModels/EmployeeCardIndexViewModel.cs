@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using FiresecAPI;
-using FiresecAPI.Models.Skud;
+using FiresecAPI.Models.SKDDatabase;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -73,15 +73,15 @@ namespace SKDModule.ViewModels
 		{
 			if (MessageBoxService.ShowConfirmation(Resources.DeleteEmployeeConfirmation) == MessageBoxResult.Yes)
 			{
-				if (FiresecManager.DeleteEmployeeCard(SelectedEmployeeCard.EmployeeCard))
-				{
-					int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
-					EmployeeCardIndex.Remove(SelectedEmployeeCard);
-					if (EmployeeCardIndex.IsNotNullOrEmpty())
-						SelectedEmployeeCard = index < EmployeeCardIndex.Count ? EmployeeCardIndex[index] : EmployeeCardIndex[EmployeeCardIndex.Count - 1];
-				}
-				else
-					MessageBoxService.ShowError(Resources.DeleteEmployeeFailed);
+				//if (FiresecManager.DeleteEmployeeCard(SelectedEmployeeCard.EmployeeCard))
+				//{
+				//    int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
+				//    EmployeeCardIndex.Remove(SelectedEmployeeCard);
+				//    if (EmployeeCardIndex.IsNotNullOrEmpty())
+				//        SelectedEmployeeCard = index < EmployeeCardIndex.Count ? EmployeeCardIndex[index] : EmployeeCardIndex[EmployeeCardIndex.Count - 1];
+				//}
+				//else
+				//    MessageBoxService.ShowError(Resources.DeleteEmployeeFailed);
 			}
 		}
 		public RelayCommand RefreshCommand { get; private set; }

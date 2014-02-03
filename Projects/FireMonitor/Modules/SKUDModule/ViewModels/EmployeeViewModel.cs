@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Skud;
+using FiresecAPI;
 using FiresecClient;
 
 namespace SKDModule.ViewModels

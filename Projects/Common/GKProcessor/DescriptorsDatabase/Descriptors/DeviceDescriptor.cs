@@ -129,8 +129,6 @@ namespace GKProcessor
 					}
 					if (driverProperty.IsHieghByte)
 						value = (ushort)(value * 256);
-					if (driverProperty.Multiplier != 0)
-						value = (ushort)(value * driverProperty.Multiplier);
 					if (Device.DriverType == XDriverType.RSR2_KAU && driverProperty.No == 1)
 					{
 						value = (ushort)(256 + value % 256);

@@ -139,12 +139,12 @@
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
     <Compile Include="Journal\EventDescription.cs" />
-    <Compile Include="Journal\EventNames.cs" />
-    <Compile Include="Journal\EventNamesHelper.cs" />
+    <Compile Include="Journal\EventNameEnum.cs" />
+    <Compile Include="Journal\EventNameEnumHelper.cs" />
     <Compile Include="Journal\GKDBHelper.cs" />
     <Compile Include="Journal\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\JournalParser.cs" />
-    <Compile Include="Journal\JournalDescriptionStateHelper.cs" />
+    <Compile Include="Journal\EventNameHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />

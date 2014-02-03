@@ -30,7 +30,10 @@ namespace GKModule.ViewModels
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (deviceProperty != null)
 			{
-				DeviceAUParameterValue = deviceProperty.Value.ToString();
+				double value = deviceProperty.Value;
+				if (DriverProperty.Multiplier != 0)
+					value /= DriverProperty.Multiplier;
+				DeviceAUParameterValue = value.ToString();
 			}
 			else
 				DeviceAUParameterValue = "Неизвестно";

@@ -35,7 +35,10 @@ namespace GKModule.ViewModels
 								break;
 
 							case XDriverPropertyTypeEnum.IntType:
-								deviceProperty.Value = property.Value.ToString();
+								double doubleValue = property.Value;
+								if (driverProperty.Multiplier != 0)
+									doubleValue /= driverProperty.Multiplier;
+								deviceProperty.Value = doubleValue.ToString();
 								break;
 
 							case XDriverPropertyTypeEnum.BoolType:

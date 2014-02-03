@@ -15,15 +15,27 @@ namespace GKModule.ViewModels
 				_text = driverProperty.Default;
 		}
 
-		ushort _text;
-		public ushort Text
+		double _text;
+		public string Text
 		{
-			get { return _text; }
+			get 
+			{
+				var result = _text;
+				if (DriverProperty.Multiplier != 0)
+					result /= DriverProperty.Multiplier;
+				return result.ToString(); 
+			}
 			set
 			{
-				_text = value;
+				double doubleValue = -1;
+				if (double.TryParse(value, out doubleValue))
+				{
+					if (DriverProperty.Multiplier != 0)
+						doubleValue *= DriverProperty.Multiplier;
+					_text = doubleValue;
+					Save((ushort)doubleValue);
+				}
 				OnPropertyChanged("Text");
-				Save(value);
 			}
 		}
 	}

@@ -290,7 +290,24 @@ namespace GKModule.ViewModels
 					var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (IsPropertyValid(property, driverProperty))
 					{
-						MessageBoxService.Show("Устройство " + device.PresentationName + "\nЗначение параметра\n" + driverProperty.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + driverProperty.Min.ToString() + " до " + driverProperty.Max.ToString(), "Firesec");
+						string message;
+						if (driverProperty.Multiplier != 0)
+						{
+							message = "Устройство " + device.PresentationName +
+								"\nЗначение параметра\n" +
+								driverProperty.Caption +
+								"\nдолжно быть в диапазоне от " + (driverProperty.Min / driverProperty.Multiplier).ToString() +
+								" до " + (driverProperty.Max / driverProperty.Multiplier).ToString();
+						}
+						else
+						{
+							message = "Устройство " + device.PresentationName +
+								"\nЗначение параметра\n" +
+								driverProperty.Caption +
+								"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() + 
+								" до " + driverProperty.Max.ToString();
+						}
+						MessageBoxService.Show(message, "Firesec");
 						return false;
 					}
 				}

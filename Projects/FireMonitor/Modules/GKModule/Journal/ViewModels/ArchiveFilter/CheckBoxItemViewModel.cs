@@ -13,9 +13,9 @@ namespace GKModule.ViewModels
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
 				if (ItemsList != null)
-					ItemsList.OnPropertyChanged(() => ItemsList.HasCheckedItems);
+					ItemsList.Update();
 			}
 		}
-		public CheckBoxItemList ItemsList { get; set; }
+		public ICheckBoxItemList ItemsList { get; set; }
 	}
 }

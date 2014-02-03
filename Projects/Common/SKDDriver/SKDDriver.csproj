@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BytesHelper.cs" />
+    <Compile Include="SKDDatabaseService\DataAccess\SKUD.cs">
+      <DependentUpon>SKUD.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="SKDDatabaseService\DataAccess\SKUD.designer.cs">
+      <DependentUpon>SKUD.dbml</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="SKDDatabaseService\FilterHelper.cs" />
+    <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
+    <Compile Include="SKDDatabaseService\Translator.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Watcher\DeviceWatcher.Connection.cs" />
     <Compile Include="Watcher\DeviceWatcher.Journal.cs" />
     <Compile Include="Watcher\DeviceWatcher.cs" />
@@ -62,6 +80,26 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="SKDDatabaseService\DataAccess\SKUD.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>SKUD.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SKDDatabaseService\DataAccess\SKUD.dbml.layout">
+      <DependentUpon>SKUD.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

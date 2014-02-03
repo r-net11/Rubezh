@@ -201,10 +201,6 @@
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
-      <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
-      <Name>FiresecService.SKUD</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

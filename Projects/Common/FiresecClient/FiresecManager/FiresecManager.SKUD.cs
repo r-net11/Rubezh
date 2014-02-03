@@ -1,45 +1,13 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models.Skud;
 using System;
 using System.Linq;
+using FiresecAPI;
 
 namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static IEnumerable<EmployeeCard> GetAllEmployees(EmployeeCardIndexFilter filter)
-		{
-			return FiresecService.GetAllEmployees(filter);
-		}
-		public static bool DeleteEmployeeCard(EmployeeCard card)
-		{
-			return FiresecService.DeleteEmployee(card.Id);
-		}
-		public static EmployeeCardDetails GetEmployeeCard(EmployeeCard card)
-		{
-			return FiresecService.GetEmployeeCard(card.Id);
-		}
-		public static bool SaveEmployeeCard(EmployeeCardDetails card)
-		{
-			int id = FiresecService.SaveEmployeeCard(card);
-			if (id != -1)
-				card.Id = id;
-			return id != -1;
-		}
-
-		public static IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
-		{
-			return FiresecService.GetEmployeeDepartments();
-		}
-		public static IEnumerable<EmployeeGroup> GetEmployeeGroups()
-		{
-			return FiresecService.GetEmployeeGroups();
-		}
-		public static IEnumerable<EmployeePosition> GetEmployeePositions()
-		{
-			return FiresecService.GetEmployeePositions();
-		}
-        public static IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+		public static IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
         {
             return FiresecService.GetEmployees(filter);
         }
@@ -50,7 +18,7 @@ namespace FiresecClient
         public static Department GetDepartment(Guid? uid)
         {
             if (uid == null)
-                return new Department(); ;
+                return null;
             var filter = new DepartmentFilter();
             filter.Uids.Add((Guid)uid);
             return FiresecService.GetDepartments(filter).ToList().FirstOrDefault();
@@ -62,10 +30,27 @@ namespace FiresecClient
         public static Position GetPosition(Guid? uid)
         {
             if (uid == null)
-                return new Position();
+                return null;
             var filter = new PositionFilter();
             filter.Uids.Add((Guid)uid);
             return FiresecService.GetPositions(filter).ToList().FirstOrDefault();
         }
+
+		public static IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
+		{
+			return FiresecService.GetSKDJournalItems(filter);
+		}
+		public static SKDJournalItem GetJournalItem(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var filter = new SKDJournalFilter();
+			filter.Uids.Add((Guid)uid);
+			return FiresecService.GetSKDJournalItems(filter).ToList().FirstOrDefault();
+		}
+		public static void SaveJournalItem(IEnumerable<SKDJournalItem> journalItems)
+		{
+			FiresecService.SaveSKDJournalItems(journalItems);
+		}
 	}
 }

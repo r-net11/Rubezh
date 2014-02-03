@@ -106,10 +106,6 @@ namespace GKProcessor
 						{
 							paramValue = (byte)(paramValue & driverProperty.Mask);
 						}
-						if (driverProperty.Multiplier != 0)
-						{
-							paramValue = (ushort)((double)paramValue / driverProperty.Multiplier);
-						}
 						var property = descriptor.Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
 						if (property == null)
 						{

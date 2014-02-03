@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI.Models.Skud;
+using FiresecAPI.Models.SKDDatabase;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
 using SKDModule.Designer;

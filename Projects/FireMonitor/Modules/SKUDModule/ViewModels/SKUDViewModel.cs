@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using GKProcessor;
 using FiresecClient;
-using FiresecAPI.Models.Skud;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {

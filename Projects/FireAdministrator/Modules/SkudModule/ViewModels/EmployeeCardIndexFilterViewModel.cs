@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models.Skud;
+using FiresecAPI.Models.SKDDatabase;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Properties;
@@ -22,11 +22,11 @@ namespace SKDModule.ViewModels
 
 		private void Initialize()
 		{
-			Positions = new ObservableCollection<EmployeePosition>(FiresecManager.GetEmployeePositions());
+			//Positions = new ObservableCollection<EmployeePosition>(FiresecManager.GetEmployeePositions());
 			Positions.Insert(0, new EmployeePosition() { Id = 0 });
-			Departments = new ObservableCollection<EmployeeDepartment>(FiresecManager.GetEmployeeDepartments());
+			//Departments = new ObservableCollection<EmployeeDepartment>(FiresecManager.GetEmployeeDepartments());
 			Departments.Insert(0, new EmployeeDepartment() { Id = 0 });
-			Groups = new ObservableCollection<EmployeeGroup>(FiresecManager.GetEmployeeGroups());
+			//Groups = new ObservableCollection<EmployeeGroup>(FiresecManager.GetEmployeeGroups());
 			Groups.Insert(0, new EmployeeGroup() { Id = 0 });
 		}
 

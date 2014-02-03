@@ -45,6 +45,9 @@ DROP PROCEDURE [dbo].[SavePosition]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAdditionalColumn]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveAdditionalColumn]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveJournal]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveJournal]
 
 GO
 CREATE PROCEDURE [dbo].[SaveInterval]
@@ -549,6 +552,52 @@ BEGIN
 				@TextData,
 				@GraphicsData,
 				@EmployeeUid)
+		END
+END
+
+GO
+CREATE PROCEDURE [dbo].[SaveJournal]
+	@Uid [uniqueidentifier],
+	@SysemDate [datetime] = NULL,
+	@DeviceDate [datetime] = NULL,
+	@Name [nvarchar](50) = NULL,
+	@Description [nvarchar](max) = NULL,
+	@DeviceNo [int] = NULL,
+	@IpPort [nvarchar](50) = NULL,
+	@CardNo [int] = NULL	
+AS
+BEGIN
+	IF EXISTS(SELECT Uid FROM [dbo].[Journal] WHERE Uid = @Uid)
+		UPDATE [dbo].[Journal] SET 
+			[Uid] = @Uid,
+			[SysemDate] = @SysemDate,
+			[DeviceDate] = @DeviceDate,
+			[Name]= @Name,
+			[Description] = @Description,
+			[DeviceNo] = @DeviceNo,
+			[IpPort] = @IpPort,
+			[CardNo] = @CardNo
+		WHERE Uid = @Uid
+	ELSE
+		BEGIN
+			INSERT INTO [dbo].[Journal] (
+				[Uid],
+				[SysemDate],
+				[DeviceDate],
+				[Name],
+				[Description],
+				[DeviceNo],
+				[IpPort],
+				[CardNo])
+			VALUES (
+				@Uid,
+				@SysemDate,
+				@DeviceDate,
+				@Name,
+				@Description,
+				@DeviceNo,
+				@IpPort,
+				@CardNo)
 		END
 END
 	
