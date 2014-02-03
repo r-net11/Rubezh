@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.Models.SKDDatabase;
+using System;
+using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -21,6 +23,29 @@ namespace FiresecAPI
 		IEnumerable<Frame> GetFrames(FrameFilter filter);
 		[OperationContract]
 		void SaveFrames(IEnumerable<Frame> frames);
+
+		#region DeviceCommands
+		[OperationContract]
+		void SKDSetIgnoreRegime(Guid deviceUID);
+
+		[OperationContract]
+		void SKDResetIgnoreRegime(Guid deviceUID);
+
+		[OperationContract]
+		void SKDOpenDevice(Guid deviceUID);
+
+		[OperationContract]
+		void SKDCloseDevice(Guid deviceUID);
+
+		[OperationContract]
+		void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
+
+		[OperationContract]
+		void SKDAllowReader(Guid deviceUID);
+
+		[OperationContract]
+		void SKDDenyReader(Guid deviceUID);
+		#endregion
         
     }
 }

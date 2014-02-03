@@ -14,6 +14,12 @@ namespace FiresecAPI
         public DateTimePeriod SystemDateTime { get; set; }
         [DataMember]
         public DateTimePeriod DeviceDateTime { get; set; }
+		[DataMember]
+		public string Name { get; set; }
+		[DataMember]
+		public string Description { get; set; }
+		[DataMember]
+		public List<string> EventNames { get; set; }
 
         public bool HasUids
         {
@@ -23,6 +29,7 @@ namespace FiresecAPI
 		public SKDJournalFilter()
         {
             Uids = new List<Guid>();
+			EventNames = new List<string>();
         }
     }
 }

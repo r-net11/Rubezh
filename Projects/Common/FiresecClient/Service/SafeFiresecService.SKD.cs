@@ -1,16 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecAPI.Models.Skud;
-using GKProcessor;
-using Infrastructure.Common.Windows;
+﻿using FiresecAPI;
 using XFiresecAPI;
-using Infrastructure.Common;
 
 namespace FiresecClient
 {

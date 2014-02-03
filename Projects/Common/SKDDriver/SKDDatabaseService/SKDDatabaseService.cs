@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using XFiresecAPI;
 
 namespace SKDDriver
 {
@@ -108,6 +109,43 @@ namespace SKDDriver
 			}
 			catch { } 
 		}
+
+		#region Devices
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+
+		}
+
+		public void SKDAllowReader(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+
+		}
+		#endregion
 
 
         #endregion

@@ -132,7 +132,7 @@ namespace SKDDriver
 				DeviceDateTime = journal.DeviceDate,
 				CardNo = journal.CardNo,
 				DeviceJournalRecordNo = journal.DeviceNo,
-				GKIpAddress = journal.IpPort
+				IpAddress = journal.IpPort
 			};
 		}
 
@@ -164,7 +164,7 @@ namespace SKDDriver
 				Description = journalItem.Description,
 				DeviceDate = journalItem.DeviceDateTime,
 				DeviceNo = journalItem.DeviceJournalRecordNo,
-				IpPort = journalItem.GKIpAddress,
+				IpPort = journalItem.IpAddress,
 				Name = journalItem.Name,
 				SysemDate = journalItem.SystemDateTime
 			};

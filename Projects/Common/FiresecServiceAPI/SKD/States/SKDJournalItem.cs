@@ -42,7 +42,7 @@ namespace FiresecAPI
 		[DataMember]
 		public XStateClass DeviceStateClass { get; set; }
 		[DataMember]
-		public int CardNo { get; set; }
+		public int? CardNo { get; set; }
 
 		[DataMember]
 		public string UserName { get; set; }
@@ -51,7 +51,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid Uid { get; set; }
-		[DataMember]
-		public int? CardNo { get; set; }
 	}
 }
