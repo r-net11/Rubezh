@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 
 		public void GetTopLast()
 		{
-			var journalItems = GKDBHelper.GetTopLast(100);
+			var journalItems = FiresecManager.FiresecService.GetGKTopLastJournalItems(100);
 			foreach (var journal in Journals)
 			{
 				journal.OnNewJournal(journalItems);

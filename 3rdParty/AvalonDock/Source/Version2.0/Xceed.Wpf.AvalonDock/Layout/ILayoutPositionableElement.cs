@@ -14,51 +14,47 @@
 
   **********************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    public interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
-    {
-        GridLength DockWidth
-        {
-            get;
-            set;
-        }
+	public interface ILayoutPositionableElement : ILayoutElement, ILayoutElementForFloatingWindow
+	{
+		GridLength DockWidth
+		{
+			get;
+			set;
+		}
 
-        GridLength DockHeight
-        {
-            get;
-            set;
-        }
+		GridLength DockHeight
+		{
+			get;
+			set;
+		}
 
-        double DockMinWidth { get; set; }
-        double DockMinHeight { get; set; }
+		double DockMinWidth { get; set; }
+		double DockMinHeight { get; set; }
 
 		bool IsDockWidthFixed { get; set; }
 		bool IsDockHeightFixed { get; set; }
 
 
-        bool IsVisible { get; }
-    }
+		bool IsVisible { get; }
+	}
 
 
 	public interface ILayoutPositionableElementWithActualSize
-    {
-        double ActualWidth { get; set; }
-        double ActualHeight { get; set; }
-    }
+	{
+		double ActualWidth { get; set; }
+		double ActualHeight { get; set; }
+	}
 
-    public interface ILayoutElementForFloatingWindow
-    {
-        double FloatingWidth { get; set; }
-        double FloatingHeight { get; set; }
-        double FloatingLeft { get; set; }
-        double FloatingTop { get; set; }
-        bool IsMaximized { get; set; }
-    }
+	public interface ILayoutElementForFloatingWindow
+	{
+		double FloatingWidth { get; set; }
+		double FloatingHeight { get; set; }
+		double FloatingLeft { get; set; }
+		double FloatingTop { get; set; }
+		bool IsMaximized { get; set; }
+	}
 }

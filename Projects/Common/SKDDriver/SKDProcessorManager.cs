@@ -8,13 +8,13 @@ namespace SKDDriver
 {
 	public static class SKDProcessorManager
 	{
-		public static void OnGKCallbackResult(SKDCallbackResult gkCallbackResult)
+		public static void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
 		{
-			if (gkCallbackResult.JournalItems.Count +
-				gkCallbackResult.GKStates.DeviceStates.Count > 0)
+			if (skdCallbackResult.JournalItems.Count +
+				skdCallbackResult.SKDStates.DeviceStates.Count > 0)
 			{
 				if (SKDCallbackResultEvent != null)
-					SKDCallbackResultEvent(gkCallbackResult);
+					SKDCallbackResultEvent(skdCallbackResult);
 			}
 		}
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;

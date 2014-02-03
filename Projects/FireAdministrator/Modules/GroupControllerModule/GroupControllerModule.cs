@@ -163,8 +163,6 @@ namespace GKModule
 
 			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-
-			GKDBHelper.AddMessage(EventNameEnum.Вход_пользователя_в_систему, FiresecManager.CurrentUser.Name);
 			return true;
 		}
 

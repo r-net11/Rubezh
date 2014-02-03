@@ -17,20 +17,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Input;
-using Xceed.Wpf.AvalonDock.Layout;
-using Xceed.Wpf.AvalonDock.Converters;
-using System.Diagnostics;
 using System.Windows.Controls.Primitives;
-using Xceed.Wpf.AvalonDock.Commands;
+using System.Windows.Data;
+using System.Windows.Input;
 using Microsoft.Windows.Shell;
+using Xceed.Wpf.AvalonDock.Commands;
+using Xceed.Wpf.AvalonDock.Converters;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {

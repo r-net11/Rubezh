@@ -58,15 +58,49 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
+    <Compile Include="Devices\ViewModels\PlanLinkViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
+      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceStateView.xaml.cs">
+      <DependentUpon>DeviceStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DeviceView.xaml.cs">
+      <DependentUpon>DeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\Helper.cs" />
+    <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
+    <Compile Include="Plans\Designer\SKDZonePainter.cs" />
+    <Compile Include="Plans\PlanMonitor.cs" />
+    <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
+    </Compile>
+    <Compile Include="Verification\ViewModels\VerificationItemViewModel.cs" />
+    <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
+    <Compile Include="Verification\Views\VerificationlView.xaml.cs">
+      <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
@@ -80,11 +114,33 @@
     <Compile Include="Views\SKUDView.xaml.cs">
       <DependentUpon>SKUDView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Watcher\AutoActivationWatcher.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModelComparer.cs" />
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneView.xaml.cs">
+      <DependentUpon>ZoneView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
+      <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
+      <Name>DeviceControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
@@ -106,6 +162,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
@@ -116,8 +176,52 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Verification\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Verification\Views\VerificationlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zones\Views\ZoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DeviceDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DeviceStateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\DeviceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -138,6 +242,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cards\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

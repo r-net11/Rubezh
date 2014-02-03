@@ -221,23 +221,43 @@ namespace FiresecService.Service
 			SafeContext.Execute(() => FiresecService.SaveFrames(frames));
 		}
 
+
+		public void SKDSetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(deviceUID); }, "SKDSetIgnoreRegime");
+		}
+		public void SKDResetIgnoreRegime(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDResetIgnoreRegime(deviceUID); }, "SKDResetIgnoreRegime");
+		}
+		public void SKDOpenDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
+		}
+		public void SKDCloseDevice(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+		}
+		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
+		{
+			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(deviceUID, stateBit); }, "SKDExecuteDeviceCommand");
+		}
+		public void SKDAllowReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
+		}
+
+		public void SKDDenyReader(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
+		}
 		#endregion
 
 		#region GK
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
-		{
-			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
-		}
-
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			SafeOperationCall(() => { FiresecService.CancelGKProgress(progressCallbackUID, userName); }, "CancelGKProgress");
-		}
-
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)
@@ -373,6 +393,32 @@ namespace FiresecService.Service
 		public void GKStopMeasureMonitoring(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
+		}
+
+
+		public void AddJournalItem(JournalItem journalItem)
+		{
+			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
+
+		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
+		}
+
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
+		}
+
+		public List<string> GetDistinctGKJournalNames()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalNames(); }, "GetDistinctGKJournalNames");
+		}
+
+		public List<string> GetDistinctGKJournalDescriptions()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalDescriptions(); }, "GetDistinctGKJournalDescriptions");
 		}
 		#endregion
 	}

@@ -34,11 +34,11 @@ namespace GKImitator.ViewModels
 
 		void GetConfiguration()
 		{
-			FiresecManager.Connect(ClientType.Other, ConnectionSettingsManager.ServerAddress, "adm", "");
-			FiresecManager.GetConfiguration("GKImitator/Configuration");
-			FiresecManager.Disconnect();
+			XManager.DeviceConfiguration = ZipConfigurationHelper.GetDeviceConfiguration();
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
+
+			SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
 			SKDManager.CreateDrivers();
 			SKDManager.UpdateConfiguration();
 		}

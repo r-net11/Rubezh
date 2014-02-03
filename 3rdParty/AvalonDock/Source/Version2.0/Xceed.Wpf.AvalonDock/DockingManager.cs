@@ -62,11 +62,7 @@ namespace Xceed.Wpf.AvalonDock
 		/// <summary>
 		/// Layout Dependency Property
 		/// </summary>
-		public static readonly DependencyProperty LayoutProperty =
-			DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager),
-				new FrameworkPropertyMetadata(null,
-					new PropertyChangedCallback(OnLayoutChanged),
-					new CoerceValueCallback(CoerceLayoutValue)));
+		public static readonly DependencyProperty LayoutProperty = DependencyProperty.Register("Layout", typeof(LayoutRoot), typeof(DockingManager), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnLayoutChanged), new CoerceValueCallback(CoerceLayoutValue)));
 
 		/// <summary>
 		/// Gets or sets the Layout property.  This dependency property 
@@ -236,9 +232,7 @@ namespace Xceed.Wpf.AvalonDock
 		/// <summary>
 		/// LayoutUpdateStrategy Dependency Property
 		/// </summary>
-		public static readonly DependencyProperty LayoutUpdateStrategyProperty =
-			DependencyProperty.Register("LayoutUpdateStrategy", typeof(ILayoutUpdateStrategy), typeof(DockingManager),
-				new FrameworkPropertyMetadata((ILayoutUpdateStrategy)null));
+		public static readonly DependencyProperty LayoutUpdateStrategyProperty = DependencyProperty.Register("LayoutUpdateStrategy", typeof(ILayoutUpdateStrategy), typeof(DockingManager), new FrameworkPropertyMetadata((ILayoutUpdateStrategy)null));
 
 		/// <summary>
 		/// Gets or sets the LayoutUpdateStrategy property.  This dependency property 
@@ -253,8 +247,6 @@ namespace Xceed.Wpf.AvalonDock
 		}
 
 		#endregion
-
-
 
 		#endregion
 

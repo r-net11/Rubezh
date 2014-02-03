@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 		{
 			Items = new List<T>();
 		}
-		
+
 		public void Add(T item)
 		{
 			Items.Add(item);

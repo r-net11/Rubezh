@@ -110,7 +110,7 @@ namespace FiresecService.Service
 				userIp = "localhost";
 
 			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
-			clientCredentials.FriendlyUserName = user.Name + " (" + userIp + ")";
+			clientCredentials.FriendlyUserName = user.Name;// +" (" + userIp + ")";
 		}
 	}
 }

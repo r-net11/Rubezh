@@ -13,9 +13,10 @@ namespace GKProcessor
 			switch (eventName)
 			{
 				case (EventNameEnum.Подтверждение_тревоги):
-				case (EventNameEnum.Смена_пользователя):
 				case (EventNameEnum.Вход_пользователя_в_систему):
 				case (EventNameEnum.Выход_пользователя_из_системы):
+				case (EventNameEnum.Дежурство_сдал):
+				case (EventNameEnum.Дежурство_принял):
 				case (EventNameEnum.Зависание_процесса_отпроса):
 				case (EventNameEnum.Отсутствует_лицензия):
 				case (EventNameEnum.Лицензия_обнаружена):

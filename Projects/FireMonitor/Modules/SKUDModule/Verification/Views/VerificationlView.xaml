@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="SKDModule.Views.VerificationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="White" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Image />
+        </Grid>
+        <StackPanel Grid.Row="1" Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="0 | Запретить" Command="{Binding DenyCommand}" Width="100" Height="100" Margin="2" />
+                <StackPanel Grid.Column="1" DataContext="{Binding VerificationItemViewModel}">
+                    <TextBlock Text="{Binding EmployeeCardID}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeCardID, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeeName}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeName, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeePassport}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeePassport, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeeTime}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeTime, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeeNo}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeNo, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeePosition}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeePosition, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeeShedule}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeShedule, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding EmployeeDepartment}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding GuestCardID}" Visibility="{Binding SKDSystemConfiguration.ShowGuestCardID, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding GuestName}" Visibility="{Binding SKDSystemConfiguration.ShowGuestName, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding GuestWhere}" Visibility="{Binding SKDSystemConfiguration.ShowGuestWhere, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <TextBlock Text="{Binding GuestConvoy}" Visibility="{Binding SKDSystemConfiguration.ShowGuestConvoy, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </StackPanel>
+                <Button Grid.Column="2" Content="+ | Разрешить" Command="{Binding AllowCommand}" Width="100" Height="100" Margin="2" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

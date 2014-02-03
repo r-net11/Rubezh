@@ -15,24 +15,21 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    public class LayoutElementEventArgs : EventArgs
-    {
-        public LayoutElementEventArgs(LayoutElement element)
-        {
-            Element = element;
-        }
+	public class LayoutElementEventArgs : EventArgs
+	{
+		public LayoutElementEventArgs(LayoutElement element)
+		{
+			Element = element;
+		}
 
 
-        public LayoutElement Element
-        {
-            get;
-            private set;
-        }
-    }
+		public LayoutElement Element
+		{
+			get;
+			private set;
+		}
+	}
 }

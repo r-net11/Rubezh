@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\ShowSKDVerificationEvent.cs" />
     <Compile Include="Events\NewSKDJournalEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowSKDJournalEvent.cs" />
@@ -142,6 +143,11 @@
     <Compile Include="Events\ShowXDelayEvent.cs" />
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
     <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
+    <Compile Include="Events\ShowSKDDeviceOnPlanEvent.cs" />
+    <Compile Include="Events\ShowSKDArchiveEvent.cs" />
+    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
+    <Compile Include="Events\ShowSKDZoneEvent.cs" />
+    <Compile Include="Events\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />

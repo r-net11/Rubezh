@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public static class SKDWatcher
 	{
-		public static List<DeviceWatcher> DeviceWatchers { get; private set; }
+		public static List<Watcher> DeviceWatchers { get; private set; }
 
 		public static void Start()
 		{
@@ -18,12 +18,12 @@ namespace SKDDriver
 				device.State = new SKDDeviceState();
 			}
 
-			DeviceWatchers = new List<DeviceWatcher>();
+			DeviceWatchers = new List<Watcher>();
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.DriverType == SKDDriverType.Controller)
 				{
-					var deviceWatcher = new DeviceWatcher(device);
+					var deviceWatcher = new Watcher(device);
 					DeviceWatchers.Add(deviceWatcher);
 					deviceWatcher.StartThread();
 				}

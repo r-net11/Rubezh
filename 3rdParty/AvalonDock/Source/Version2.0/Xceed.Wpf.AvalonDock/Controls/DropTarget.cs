@@ -17,11 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using Xceed.Wpf.AvalonDock.Layout;
 using System.Windows.Threading;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace Xceed.Wpf.AvalonDock.Controls
 {

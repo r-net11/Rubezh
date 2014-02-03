@@ -27,6 +27,8 @@ namespace FiresecAPI
 				Name = "Контроллер",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
+				IsControlDevice = true,
+				HasZone = true,
 				IsPlaceable = true
 			};
 			controllerDriver.Children.Add(SKDDriverType.Reader);
@@ -38,6 +40,7 @@ namespace FiresecAPI
 			var driverProperty = new XDriverProperty()
 			{
 				Name = "Port",
+				Caption = "Порт",
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 10000,
 				Max = 20000,
@@ -52,6 +55,8 @@ namespace FiresecAPI
 				Name = "Считыватель",
 				ShortName = "Считыватель",
 				DriverType = SKDDriverType.Reader,
+				HasZone = true,
+				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			readerDriver.AvailableStateClasses.Add(XStateClass.Norm);
@@ -65,6 +70,8 @@ namespace FiresecAPI
 				Name = "Шлакбаум",
 				ShortName = "Шлакбаум",
 				DriverType = SKDDriverType.Gate,
+				HasZone = true,
+				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			gateDriver.AvailableStateClasses.Add(XStateClass.Norm);

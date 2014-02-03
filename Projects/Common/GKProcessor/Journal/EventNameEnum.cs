@@ -12,14 +12,17 @@ namespace GKProcessor
 		[DescriptionAttribute("Подтверждение тревоги")]
 		Подтверждение_тревоги,
 
-		[DescriptionAttribute("Смена пользователя")]
-		Смена_пользователя,
-
-		[DescriptionAttribute("Подтверждение тревоги")]
+		[DescriptionAttribute("Вход пользователя в систему")]
 		Вход_пользователя_в_систему,
 
-		[DescriptionAttribute("Вход пользователя в систему")]
+		[DescriptionAttribute("Выход пользователя из системы")]
 		Выход_пользователя_из_системы,
+
+		[DescriptionAttribute("Дежурство сдал")]
+		Дежурство_сдал,
+
+		[DescriptionAttribute("Дежурство принял")]
+		Дежурство_принял,
 
 		[DescriptionAttribute("Зависание процесса отпроса")]
 		Зависание_процесса_отпроса,

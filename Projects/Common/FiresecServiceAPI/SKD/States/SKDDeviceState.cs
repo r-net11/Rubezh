@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -12,13 +13,32 @@ namespace FiresecAPI
 		public SKDDeviceState()
 		{
 			Clear();
+			StateClasses = new List<XStateClass>();
+			AdditionalStates = new List<XAdditionalState>();
 		}
-
-		public bool IsSuspending { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
 
+		[DataMember]
+		public List<XStateClass> StateClasses { get; set; }
+
+		[DataMember]
+		public XStateClass StateClass { get; set; }
+
+		[DataMember]
+		public List<XAdditionalState> AdditionalStates { get; set; }
+
+		public SKDDevice Device { get; private set; }
+
+		public SKDDeviceState(SKDDevice device)
+			: this()
+		{
+			Device = device;
+			UID = device.UID;
+		}
+
+		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }
 		public bool IsConnectionLost { get; set; }
 		public bool IsDBMissmatch { get; set; }

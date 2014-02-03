@@ -90,12 +90,9 @@ namespace SKDModule.ViewModels
 			{
 				if (ValidateConfiguration())
 				{
-					//if (!GlobalSettingsHelper.GlobalSettings.DoNotShowWriteFileToGKDialog)
-					//{
 					//    var fileWritingViewModel = new FileWritingViewModel();
 					//    DialogService.ShowModalWindow(fileWritingViewModel);
-					//}
-					//var result = FiresecManager.FiresecService.GKWriteConfiguration(SelectedDevice.Device, GlobalSettingsHelper.GlobalSettings.WriteFileToGK);
+					//var result = FiresecManager.FiresecService.SKDWriteConfiguration(SelectedDevice.Device);
 					//if (result.HasError)
 					//{
 					//    MessageBoxService.ShowError(result.Error);
@@ -114,7 +111,7 @@ namespace SKDModule.ViewModels
 		void OnReadConfiguration()
 		{
 			//DescriptorsManager.Create();
-			//var result = FiresecManager.FiresecService.GKReadConfiguration(SelectedDevice.Device);
+			//var result = FiresecManager.FiresecService.SKDReadConfiguration(SelectedDevice.Device);
 			//if (!result.HasError)
 			//{
 			//    XManager.UpdateConfiguration();
@@ -145,14 +142,14 @@ namespace SKDModule.ViewModels
 		        };
 		        if (openDialog.ShowDialog().Value)
 		        {
-                    var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK)||(x.Driver.IsKauOrRSR2Kau));
-					//var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
+                    //var skdControllerDevice = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == SKDDriverType.Controller));
+					//var firmWareUpdateViewModel = new FirmWareUpdateViewModel(skdControllerDevice);
 					//if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 					//{
 					//    var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
 					//    var devices = new List<XDevice>();
 					//    firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-					//    result = FiresecManager.FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, devices);
+					//    result = FiresecManager.FiresecService.SKDUpdateFirmwareFSCS(hxcFileInfo, devices);
 
 					//}
 		        }
@@ -165,7 +162,7 @@ namespace SKDModule.ViewModels
 		            DefaultExt = "soft update files|*.hcs"
 		        };
 				//if (openDialog.ShowDialog().Value)
-				//    result = FiresecManager.FiresecService.GKUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+				//    result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
             }
             if (result.HasError)
                 MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
@@ -179,9 +176,9 @@ namespace SKDModule.ViewModels
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
-			if (validationResult.HasErrors("GK"))
+			if (validationResult.HasErrors("SKD"))
 			{
-				if (validationResult.CannotSave("GK") || validationResult.CannotWrite("GK"))
+				if (validationResult.CannotSave("SKD") || validationResult.CannotWrite("SKD"))
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;
@@ -192,7 +189,7 @@ namespace SKDModule.ViewModels
 
 		bool CheckNeedSave(bool syncParameters = false)
 		{
-			if (ServiceFactory.SaveService.GKChanged)
+			if (ServiceFactory.SaveService.SKDChanged)
 			{
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
 				{

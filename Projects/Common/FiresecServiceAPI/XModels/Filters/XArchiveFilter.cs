@@ -14,7 +14,7 @@ namespace XFiresecAPI
 			EndDate = DateTime.Now;
 			JournalItemTypes = new List<JournalItemType>();
 			StateClasses = new List<XStateClass>();
-            		EventNames = new List<string>();
+			EventNames = new List<string>();
 			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 

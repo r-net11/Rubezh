@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace FiresecClient
 {
@@ -88,6 +89,7 @@ namespace FiresecClient
 				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
 				FiresecConfiguration.UpdateConfiguration();
+				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}
 			catch (Exception e)
@@ -106,17 +108,21 @@ namespace FiresecClient
 				XManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				XManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				XManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+
+				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
+				var zoneMap = new Dictionary<Guid, Zone>();
+				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
+
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
 				foreach (var xDevice in XManager.Devices)
 				{
 					if (!xdeviceMap.ContainsKey(xDevice.UID))
 						xdeviceMap.Add(xDevice.UID, xDevice);
 				}
-				var zoneMap = new Dictionary<Guid, Zone>();
-				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
-
 				var xZoneMap = new Dictionary<Guid, XZone>();
 				foreach (var xzone in XManager.Zones)
 				{
@@ -128,6 +134,19 @@ namespace FiresecClient
 				{
 					if (!xdirectionMap.ContainsKey(xdirection.UID))
 						xdirectionMap.Add(xdirection.UID, xdirection);
+				}
+
+				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				
+				foreach (var skdDevice in SKDManager.Devices)
+				{
+					if (!skdDeviceMap.ContainsKey(skdDevice.UID))
+						skdDeviceMap.Add(skdDevice.UID, skdDevice);
+				}
+				var skdZoneMap = new Dictionary<Guid, SKDZone>();
+				foreach (var skdZone in SKDManager.Zones)
+				{
+					if (!skdZoneMap.ContainsKey(skdZone.UID))
+						skdZoneMap.Add(skdZone.UID, skdZone);
 				}
 
 				var planMap = new Dictionary<Guid, Plan>();
@@ -148,6 +167,7 @@ namespace FiresecClient
 						if (xdeviceMap.ContainsKey(elementXDevice.XDeviceUID))
 							xdeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
 					}
+
 					foreach (var elementZone in plan.ElementPolygonZones)
 					{
 						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
@@ -184,6 +204,27 @@ namespace FiresecClient
 						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
 							xdirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
 					}
+
+					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
+					{
+						var elementSKDDevice = plan.ElementSKDDevices[i - 1];
+						elementSKDDevice.UpdateZLayer();
+						if (skdDeviceMap.ContainsKey(elementSKDDevice.DeviceUID))
+							skdDeviceMap[elementSKDDevice.DeviceUID].PlanElementUIDs.Add(elementSKDDevice.UID);
+					}
+					foreach (var skdZone in plan.ElementPolygonSKDZones)
+					{
+						UpdateSKDZoneType(skdZone, skdZone.ZoneUID != Guid.Empty && skdZoneMap.ContainsKey(skdZone.ZoneUID) ? skdZoneMap[skdZone.ZoneUID] : null);
+						if (skdZoneMap.ContainsKey(skdZone.ZoneUID))
+							skdZoneMap[skdZone.ZoneUID].PlanElementUIDs.Add(skdZone.UID);
+					}
+					foreach (var skdZone in plan.ElementRectangleSKDZones)
+					{
+						UpdateSKDZoneType(skdZone, skdZone.ZoneUID != Guid.Empty && skdZoneMap.ContainsKey(skdZone.ZoneUID) ? skdZoneMap[skdZone.ZoneUID] : null);
+						if (skdZoneMap.ContainsKey(skdZone.ZoneUID))
+							skdZoneMap[skdZone.ZoneUID].PlanElementUIDs.Add(skdZone.UID);
+					}
+
 					foreach (var subplan in plan.ElementSubPlans)
 						UpdateSubPlan(subplan, subplan.PlanUID != Guid.Empty && planMap.ContainsKey(subplan.PlanUID) ? planMap[subplan.PlanUID] : null);
 				}
@@ -303,6 +344,11 @@ namespace FiresecClient
 		{
 			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
 			elementXDirection.BackgroundColor = xdirection == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.LightBlue;
+		}
+		private static void UpdateSKDZoneType(IElementZone elementZone, SKDZone zone)
+		{
+			elementZone.SetZLayer(zone == null ? 50 : 60);
+			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Green;
 		}
 		private static void UpdateSubPlan(ElementSubPlan elementSubPlan, Plan plan)
 		{

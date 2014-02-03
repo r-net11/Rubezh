@@ -12,21 +12,35 @@ namespace SKDDriver
 
 		public JournalParser(SKDDevice device, List<byte> bytes)
 		{
+			var no = BytesHelper.SubstructInt(bytes, 0);
+			var source = bytes[4];
+			var code = bytes[5];
+			var cardNo = BytesHelper.SubstructInt(bytes, 6);
+
 			JournalItem = new SKDJournalItem();
+			JournalItem.IpAddress = device.Address;
+			JournalItem.DeviceJournalRecordNo = no;
+			JournalItem.CardNo = cardNo;
 
-			//JournalItem.GKIpAddress = XManager.GetIpAddress(gkDevice);
-			JournalItem.DeviceJournalRecordNo = BytesHelper.SubstructInt(bytes, 0);
-			JournalItem.GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
-
-			switch (bytes[4])
+			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == code);
+			if (skdEvent != null)
 			{
-				case 0:
-					JournalItem.Name = "Событие 1";
-					break;
+				JournalItem.Name = skdEvent.Name;
+			}
 
-				case 1:
-					JournalItem.Name = "Событие 2";
-					break;
+			if (source == 1)
+			{
+				JournalItem.DeviceUID = device.UID;
+				JournalItem.DeviceName = device.PresentationName;
+			}
+			if (source > 1)
+			{
+				if (device.Children.Count > source - 2)
+				{
+					var childDevice = device.Children[source - 2];
+					JournalItem.DeviceUID = childDevice.UID;
+					JournalItem.DeviceName = childDevice.PresentationName;
+				}
 			}
 		}
 	}

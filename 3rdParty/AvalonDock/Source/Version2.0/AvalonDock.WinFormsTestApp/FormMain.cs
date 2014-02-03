@@ -15,16 +15,9 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Xceed.Wpf.AvalonDock.Layout;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace AvalonDock.WinFormsTestApp
 {

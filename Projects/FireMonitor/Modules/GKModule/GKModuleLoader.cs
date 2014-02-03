@@ -178,8 +178,6 @@ namespace GKModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			SubscribeGK();
-			if (firstTime)
-				UsersWatchManager.OnUserChanged(new UserChangedEventArgs() { IsReconnect = false });
 			return true;
 		}
 
@@ -187,7 +185,6 @@ namespace GKModule
 		{
 			GKAfterInitialize();
 			AlarmsViewModel.SubscribeShortcuts();
-			UsersWatchManager.Start();
 			AutoActivationWatcher.Run();
 			JournalsViewModel.GetTopLast();
 		}

@@ -4,6 +4,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Threading;
+using GKProcessor;
 
 namespace FiresecService.Service
 {

@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using FiresecAPI;
 using XFiresecAPI;
 using System.Diagnostics;
+using System.Threading;
 
 namespace GKProcessor
 {
@@ -17,6 +18,8 @@ namespace GKProcessor
 		public static bool CanAdd = true;
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
+		public static bool IsAbort { get; set; }
+		public static event Action<List<JournalItem>> ArchivePortionReady;
 
 		public static void Add(JournalItem journalItem)
 		{
@@ -123,10 +126,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static bool IsAbort { get; set; }
-		public static event Action<List<JournalItem>> ArchivePortionReady;
-
-		public static List<JournalItem> Select(XArchiveFilter archiveFilter, bool isReport)
+		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -282,11 +282,12 @@ namespace GKProcessor
 					}
 				}
 			}
+			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "GKDBHelper.Select");
 			}
-			return journalItems;
+			return result;
 		}
 
 		public static int GetLastGKID(string gkIPAddress)
@@ -324,7 +325,7 @@ namespace GKProcessor
 			return -1;
 		}
 
-		public static List<JournalItem> GetTopLast(int count)
+		public static List<JournalItem> GetGKTopLastJournalItems(int count)
 		{
 			var journalItems = new List<JournalItem>();
 			try
@@ -412,7 +413,7 @@ namespace GKProcessor
 			return journalItem;
 		}
 
-        public static List<string> SelectDistinctDescriptions()
+        public static List<string> GetDistinctGKJournalDescriptions()
         {
             var result = new List<string>();
             if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
@@ -431,7 +432,7 @@ namespace GKProcessor
             return result;
         }
 
-        public static List<string> SelectDistinctNames()
+        public static List<string> GetDistinctGKJournalNames()
         {
             var result = new List<string>();
             if (!File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))

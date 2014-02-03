@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
 			Initialize(archiveFilter);
-        }
+		}
 
 		void Initialize(XArchiveFilter archiveFilter)
 		{
@@ -82,18 +82,18 @@ namespace GKModule.ViewModels
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
             foreach (var eventName in EventNameHelper.EventNames)
-            {
+			{
 				EventNames.Add(new EventNameViewModel(eventName, DistinctDatabaseNames));
-            }
+			}
 			EventNames.Items.Sort(EventNameViewModel.Compare);
 			foreach (var eventName in archiveFilter.EventNames)
-            {
+			{
 				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).EventName.Name == eventName);
-                if (eventNameViewModel != null)
-                {
-                    eventNameViewModel.IsChecked = true;
-                }
-            }
+				if (eventNameViewModel != null)
+				{
+					eventNameViewModel.IsChecked = true;
+				}
+			}
 		}
 
 		public void InitializeZones(XArchiveFilter archiveFilter)
@@ -138,12 +138,12 @@ namespace GKModule.ViewModels
 			foreach (var description in DescriptionsHelper.GetAllDescriptions())
 			{
 				ArchiveDescriptions.Add(new ArchiveDescriptionViewModel(description, DistinctDatabaseDescriptions));
-            }
+			}
 			ArchiveDescriptions.Items.Sort(ArchiveDescriptionViewModel.Compare);
 			foreach (var description in archiveFilter.Descriptions)
 			{
 				var descriptionViewModel = ArchiveDescriptions.Items.FirstOrDefault(x => (x as ArchiveDescriptionViewModel).Description.Name == description);
-                if(descriptionViewModel != null)
+				if (descriptionViewModel != null)
 				{
 					descriptionViewModel.IsChecked = true;
 				}
@@ -361,8 +361,8 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public CheckBoxItemList<ArchivePumpStationViewModel> PumpStations { get; private set; }
 		public CheckBoxItemList<ArchivePimViewModel> PIMs { get; private set; }
-        List<string> DistinctDatabaseNames = GKDBHelper.SelectDistinctNames();
-        List<string> DistinctDatabaseDescriptions = GKDBHelper.SelectDistinctDescriptions();
+		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetDistinctGKJournalNames();
+		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetDistinctGKJournalDescriptions();
 
 		public XArchiveFilter GetModel()
 		{
@@ -458,5 +458,5 @@ namespace GKModule.ViewModels
 		{
 			Close(false);
 		}
-    }
+	}
 }

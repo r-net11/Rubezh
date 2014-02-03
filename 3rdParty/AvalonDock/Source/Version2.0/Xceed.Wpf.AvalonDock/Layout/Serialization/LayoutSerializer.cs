@@ -15,12 +15,7 @@
   **********************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
-using Xceed.Wpf.AvalonDock.Controls;
-using System.Windows;
 
 namespace Xceed.Wpf.AvalonDock.Layout.Serialization
 {
