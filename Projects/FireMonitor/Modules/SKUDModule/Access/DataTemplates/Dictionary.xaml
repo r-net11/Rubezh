@@ -15,4 +15,8 @@
         <Views:AccessZonesSelectationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:CardDeviceDetailsViewModel}">
+        <Views:CardDeviceDetailsView />
+    </DataTemplate>
+    
 </ResourceDictionary>

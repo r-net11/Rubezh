@@ -25,10 +25,6 @@ namespace SKDModule.ViewModels
 			RemoveCardCommand = new RelayCommand(OnRemoveCard, CanRemoveCard);
 			RemoveCardsCommand = new RelayCommand(OnRemoveCards, CanRemoveCards);
 			CopyRightsCommand = new RelayCommand(OnCopyRights, CanCopyRights);
-			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanChangeZones);
-			ChangeTemplateCommand = new RelayCommand(OnChangeTemplate, CanChangeTemplate);
-			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanDeleteZone);
-			ChangeGroupRightsCommand = new RelayCommand(OnChangeGroupRights, CanChangeGroupRights);
 
 			Cards = new ObservableCollection<CardViewModel>();
 		}
@@ -88,46 +84,6 @@ namespace SKDModule.ViewModels
 		{
 		}
 		public bool CanCopyRights()
-		{
-			return true;
-		}
-
-		public RelayCommand ChangeZonesCommand { get; private set; }
-		void OnChangeZones()
-		{
-			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel();
-			if (DialogService.ShowModalWindow(accessZonesSelectationViewModel))
-			{
-			}
-		}
-		public bool CanChangeZones()
-		{
-			return true;
-		}
-
-		public RelayCommand ChangeTemplateCommand { get; private set; }
-		void OnChangeTemplate()
-		{
-		}
-		public bool CanChangeTemplate()
-		{
-			return true;
-		}
-
-		public RelayCommand DeleteZoneCommand { get; private set; }
-		void OnDeleteZone()
-		{
-		}
-		public bool CanDeleteZone()
-		{
-			return true;
-		}
-
-		public RelayCommand ChangeGroupRightsCommand { get; private set; }
-		void OnChangeGroupRights()
-		{
-		}
-		public bool CanChangeGroupRights()
 		{
 			return true;
 		}
