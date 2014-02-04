@@ -240,7 +240,8 @@
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="Settings\GlobalSettings.cs" />
-    <Compile Include="SKD\Device\SKDControllerProperty.cs" />
+    <Compile Include="SKD\Device\SKDReaderDUProperty.cs" />
+    <Compile Include="SKD\Device\SKDCReaderProperty.cs" />
     <Compile Include="SKD\SKDCard.cs" />
     <Compile Include="SKD\Library\SKDLibraryConfiguration.cs" />
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />

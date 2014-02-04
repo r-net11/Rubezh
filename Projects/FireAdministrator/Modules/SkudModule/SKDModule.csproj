@@ -63,12 +63,11 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
-    <Compile Include="Devices\SendResult.cs" />
-    <Compile Include="Devices\SKDDeviceProcessor.cs" />
-    <Compile Include="Devices\ViewModels\ControllerDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ReaderDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ZoneSelectationViewModel.cs" />
-    <Compile Include="Devices\Views\ControllerDetailsView.xaml.cs">
-      <DependentUpon>ControllerDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ReaderDetailsView.xaml.cs">
+      <DependentUpon>ReaderDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
@@ -107,7 +106,6 @@
     <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
     <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
     <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
-    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
@@ -346,7 +344,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Devices\Views\ControllerDetailsView.xaml">
+    <Page Include="Devices\Views\ReaderDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

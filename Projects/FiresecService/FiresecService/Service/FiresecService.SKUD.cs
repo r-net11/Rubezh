@@ -3,8 +3,8 @@ using FiresecAPI;
 using FiresecAPI.Models.SKDDatabase;
 using SKDDriver;
 using System;
+using System.Linq;
 using XFiresecAPI;
-
 
 namespace FiresecService.Service
 {
@@ -61,6 +61,46 @@ namespace FiresecService.Service
         #endregion
 
 		#region Devices
+		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
+			if(device != null)
+			{
+				return new OperationResult<string>() { Result = SKDProcessorManager.SKDGetDeviceInfo(device, UserName) };
+			}
+			return new OperationResult<string>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return new OperationResult<bool>() { Result = SKDProcessorManager.SKDSyncronyseTime(device, UserName) };
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDWriteConfiguration(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return SKDProcessorManager.GKWriteConfiguration(device, UserName);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return SKDProcessorManager.GKUpdateFirmware(device, fileName, UserName);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
 		public void SKDSetIgnoreRegime(Guid deviceUID)
 		{
 

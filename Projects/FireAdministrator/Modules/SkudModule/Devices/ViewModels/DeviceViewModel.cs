@@ -42,7 +42,6 @@ namespace SKDModule.ViewModels
 
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
-
 			device.Changed += OnChanged;
 		}
 
@@ -168,15 +167,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var controllerDetailsViewModel = new ControllerDetailsViewModel(Device);
-			if (DialogService.ShowModalWindow(controllerDetailsViewModel))
+			var readerDetailsViewModel = new ReaderDetailsViewModel(Device);
+			if (DialogService.ShowModalWindow(readerDetailsViewModel))
 			{
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		bool CanShowProperties()
 		{
-			return Device.DriverType == SKDDriverType.Controller;
+			return Device.DriverType == SKDDriverType.Reader;
 		}
 
 		public bool IsOnPlan

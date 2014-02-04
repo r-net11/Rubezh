@@ -14,38 +14,34 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
-using SKDModule.Devices;
 
 namespace SKDModule.ViewModels
 {
 	public class DeviceCommandsViewModel : BaseViewModel
 	{
-		DevicesViewModel _devicesViewModel;
+		DevicesViewModel DevicesViewModel;
 
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
-			_devicesViewModel = devicesViewModel;
+			DevicesViewModel = devicesViewModel;
 
-			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
             WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
-			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 		}
 
 		public DeviceViewModel SelectedDevice
 		{
-			get { return _devicesViewModel.SelectedDevice; }
+			get { return DevicesViewModel.SelectedDevice; }
 		}
 
 		public RelayCommand ShowInfoCommand { get; private set; }
 		void OnShowInfo()
 		{
-			var result = SKDDeviceProcessor.GetInfo(SelectedDevice.Device);
-			MessageBoxService.Show(result);
+			var result = FiresecManager.FiresecService.SKDGetDeviceInfo(SelectedDevice.Device);
+			MessageBoxService.Show(result.Result);
 		}
-
 		bool CanShowInfo()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
@@ -54,8 +50,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
 		void OnSynchroniseTime()
 		{
-			var result = SKDDeviceProcessor.SynchroniseTime(SelectedDevice.Device);
-			if (result)
+			var result = FiresecManager.FiresecService.SKDSyncronyseTime(SelectedDevice.Device);
+			if (result.Result)
 			{
 				MessageBoxService.Show("Операция синхронизации времени завершилась успешно");
 			}
@@ -69,20 +65,6 @@ namespace SKDModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
 		}
 
-		public RelayCommand ReadJournalCommand { get; private set; }
-		void OnReadJournal()
-		{
-			//var journalViewModel = new JournalViewModel(SelectedDevice.Device);
-			//if (journalViewModel.Initialize())
-			//{
-			//    DialogService.ShowModalWindow(journalViewModel);
-			//}
-		}
-		bool CanReadJournal()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
-		}
-
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
@@ -90,13 +72,11 @@ namespace SKDModule.ViewModels
 			{
 				if (ValidateConfiguration())
 				{
-					//    var fileWritingViewModel = new FileWritingViewModel();
-					//    DialogService.ShowModalWindow(fileWritingViewModel);
-					//var result = FiresecManager.FiresecService.SKDWriteConfiguration(SelectedDevice.Device);
-					//if (result.HasError)
-					//{
-					//    MessageBoxService.ShowError(result.Error);
-					//}
+					var result = FiresecManager.FiresecService.SKDWriteConfiguration(SelectedDevice.Device);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
 				}
 			}
 		}
@@ -106,28 +86,6 @@ namespace SKDModule.ViewModels
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
         }
-
-		public RelayCommand ReadConfigurationCommand { get; private set; }
-		void OnReadConfiguration()
-		{
-			//DescriptorsManager.Create();
-			//var result = FiresecManager.FiresecService.SKDReadConfiguration(SelectedDevice.Device);
-			//if (!result.HasError)
-			//{
-			//    XManager.UpdateConfiguration();
-			//    var configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result,
-			//        SelectedDevice.Device, false);
-			//    if (DialogService.ShowModalWindow(configurationCompareViewModel))
-			//        ServiceFactoryBase.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			//}
-			//else
-			//    MessageBoxService.ShowError(result.Error, "Ошибка при чтении конфигурации");
-		}
-
-		bool CanReadConfiguration()
-		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Controller;
-		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
@@ -161,8 +119,8 @@ namespace SKDModule.ViewModels
 		            Filter = "soft update files|*.hcs",
 		            DefaultExt = "soft update files|*.hcs"
 		        };
-				//if (openDialog.ShowDialog().Value)
-				//    result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+				if (openDialog.ShowDialog().Value)
+				    result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
             }
             if (result.HasError)
                 MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");

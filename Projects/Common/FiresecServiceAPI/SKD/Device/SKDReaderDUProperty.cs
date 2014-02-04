@@ -7,15 +7,15 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDControllerProperty
+	public class SKDReaderDUProperty
 	{
-		public SKDControllerProperty()
+		public SKDReaderDUProperty()
 		{
 
 		}
 
 		[DataMember]
-		public bool IsDUControl { get; set; }
+		public bool IsDU { get; set; }
 
 		[DataMember]
 		public bool IsEmployeeDU { get; set; }
