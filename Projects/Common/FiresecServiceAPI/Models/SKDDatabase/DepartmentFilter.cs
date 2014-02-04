@@ -10,7 +10,7 @@ namespace FiresecAPI
     public class DepartmentFilter
     {
         [DataMember]
-        public List<Guid> Uids;
+		public List<Guid> Uids { get; set; }
 
         public bool HasUids
         {

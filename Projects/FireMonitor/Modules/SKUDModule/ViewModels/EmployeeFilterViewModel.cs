@@ -4,6 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using Infrastructure.Common;
 using FiresecAPI;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
@@ -24,6 +25,9 @@ namespace SKDModule.ViewModels
 			Departments = new List<FilterDepartmentViewModel>();
 			var departments = FiresecManager.GetDepartments(null).ToList();
 			departments.ForEach(x => Departments.Add(new FilterDepartmentViewModel(x, this)));
+			
+			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
+			SetChildren(RootDepartment);
 
 			Positions = new List<FilterPositionViewModel>();
 			var positions = FiresecManager.GetPositions(null).ToList();
@@ -98,6 +102,18 @@ namespace SKDModule.ViewModels
 			return result;
 		}
 
+		void SetChildren(FilterDepartmentViewModel department)
+		{
+			if (department.Department.ChildDepartmentUids.Count == 0)
+				return;
+			var children = Departments.Where(x => department.Department.ChildDepartmentUids.Any(y => y == x.Department.Uid));
+			foreach (var child in children)
+			{
+				department.AddChild(child);
+				SetChildren(child);
+			}
+		}
+
 		public void SetChildDepartmentsChecked(FilterDepartmentViewModel department)
 		{
 			GetAllChildren(department).ForEach(x => x.IsChecked = true);
@@ -120,6 +136,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		FilterDepartmentViewModel rootDepartment;
+		public FilterDepartmentViewModel RootDepartment
+		{
+			get { return rootDepartment; }
+			private set
+			{
+				rootDepartment = value;
+				OnPropertyChanged(() => RootDepartment);
+				OnPropertyChanged(() => RootDepartments);
+			}
+		}
+
+		public FilterDepartmentViewModel[] RootDepartments
+		{
+			get { return new FilterDepartmentViewModel[] { RootDepartment }; }
+		}
+
+
 		List<FilterPositionViewModel> positions;
 		public List<FilterPositionViewModel> Positions
 		{
@@ -132,7 +166,7 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class FilterDepartmentViewModel : BaseViewModel
+	public class FilterDepartmentViewModel : TreeNodeViewModel<FilterDepartmentViewModel>
 	{
 		public FilterDepartmentViewModel(Department department, EmployeeFilterViewModel employeeFilterViewModel)
 		{

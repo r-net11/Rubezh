@@ -429,18 +429,16 @@ namespace GKModule.ViewModels
 		void OnClear()
 		{
 			Initialize(new XArchiveFilter());
-			OnPropertyChanged("JournalItemTypes");
-			OnPropertyChanged("StateClasses");
-			OnPropertyChanged("GKAddresses");
-			OnPropertyChanged("EventNames");
-			OnPropertyChanged("RootDevices");
-			OnPropertyChanged("ArchiveZones");
-			OnPropertyChanged("ArchiveDirections");
-			OnPropertyChanged("ArchiveDescriptions");
-			OnPropertyChanged("EventNames");
-			OnPropertyChanged("SubsystemTypes");
-			OnPropertyChanged("PumpStations");
-			OnPropertyChanged("PIMs");
+			OnPropertyChanged(()=>JournalItemTypes);
+			OnPropertyChanged(()=>StateClasses);
+			OnPropertyChanged(()=>EventNames);
+			OnPropertyChanged(()=>AllDevices);
+			OnPropertyChanged(()=>ArchiveZones);
+			OnPropertyChanged(()=>ArchiveDirections);
+			OnPropertyChanged(()=>ArchiveDescriptions);
+			OnPropertyChanged(()=>SubsystemTypes);
+			OnPropertyChanged(()=>PumpStations);
+			OnPropertyChanged(()=>PIMs);
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

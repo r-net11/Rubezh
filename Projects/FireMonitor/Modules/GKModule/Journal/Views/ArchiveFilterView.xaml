@@ -40,7 +40,7 @@
                         </StackPanel>
                         <Label Content="По" VerticalAlignment="Center" Margin="25 0" />
                         <StackPanel>
-                            <Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                            <Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
                             <Calendar
                                 SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
                                 DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
@@ -75,7 +75,6 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </TabItem>
-            <!--<TabItem Header="Состояние">-->
             <TabItem>
                 <TabItem.Header>
                     <TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">

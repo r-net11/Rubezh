@@ -54,7 +54,7 @@
     </Compile>
     <Compile Include="SKDDatabaseService\FilterHelper.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
-    <Compile Include="SKDDatabaseService\Translator.cs" />
+    <Compile Include="SKDDatabaseService\Translator\Translate.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -63,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Sending\SKDDeviceProcessor.cs" />
+    <Compile Include="SKDDatabaseService\Translator\TranslateBack.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="SKDWatcher.cs" />

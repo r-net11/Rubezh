@@ -67,6 +67,26 @@ namespace SKDDriver
 			return IsInUids && IsInCameras && IsInJournalItems && IsInDateTime;
 		}
 
+		public static bool IsInFilter(DataAccess.Card item, CardFilter filter)
+		{
+			if (filter == null)
+				return true;
+
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+
+			return isInUids;
+		}
+
+		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneLinkFilter filter)
+		{
+			if (filter == null)
+				return true;
+
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+
+			return isInUids;
+		}
+
 		static bool IsInDateTimePeriod(DateTime? dateTime, DateTimePeriod dateTimePeriod)
 		{
 			if (dateTimePeriod == null)

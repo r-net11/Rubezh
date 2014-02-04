@@ -52,5 +52,31 @@ namespace FiresecClient
 		{
 			FiresecService.SaveSKDJournalItems(journalItems);
 		}
+		public static IEnumerable<Frame> GetFrames(FrameFilter filter)
+		{
+			return FiresecService.GetFrames(filter);
+		}
+		public static IEnumerable<Card> GetCards(CardFilter filter)
+		{
+			return FiresecService.GetCards(filter);
+		}
+		public static IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		{
+			return FiresecService.GetCardZoneLinks(filter);
+		} 
+		public static void SaveFrames(IEnumerable<Frame> frames)
+		{
+			FiresecService.SaveFrames(frames);
+		}
+		public static void SaveCards(IEnumerable<Card> items)
+		{
+			FiresecService.SaveCards(items);
+		}
+		public static void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
+		{
+			FiresecService.SaveCardZoneLinks(items);
+		}
+
+
 	}
 }

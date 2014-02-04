@@ -194,6 +194,10 @@
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\SKDDatabase\AdditionalColumn.cs" />
+    <Compile Include="Models\SKDDatabase\Card.cs" />
+    <Compile Include="Models\SKDDatabase\CardFilter.cs" />
+    <Compile Include="Models\SKDDatabase\CardZoneLink.cs" />
+    <Compile Include="Models\SKDDatabase\CardZoneLinkFilter.cs" />
     <Compile Include="Models\SKDDatabase\DateTimePeriod.cs" />
     <Compile Include="Models\SKDDatabase\Day.cs" />
     <Compile Include="Models\SKDDatabase\Department.cs" />
@@ -263,7 +267,6 @@
     <Compile Include="SKD\TimeIntervals\SKDTimeInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
-    <Compile Include="SKD\SKDJournalFilter.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />

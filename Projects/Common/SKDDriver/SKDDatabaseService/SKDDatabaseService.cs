@@ -19,53 +19,65 @@ namespace SKDDriver
 			Context = new DataAccess.SKUDDataContext();
 		}
 
-
 		#region IFiresecServiceSKUD Members
 
+		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
-        {
-            try
-            {
-                var employees = new List<Employee>();
-				var databaseEmployees = Context.Employee.ToList().Where(x => FilterHelper.IsInFilter(x, filter)).ToList();
-                databaseEmployees.ForEach(x => employees.Add(Translator.Translate(x)));
-                return employees;
-            }
-            catch { return new List<Employee>(); }
-        }
+		{
+			try
+			{
+				var result = new List<Employee>();
+				foreach (var item in Context.Employee)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Employee>(); }
+		}
 
-        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
-        {
-            try
-            {
-                var departments = new List<Department>();
-				var databaseDepartments = Context.Department.ToList().Where(x => FilterHelper.IsInFilter(x, filter)).ToList();
-                databaseDepartments.ForEach(x => departments.Add(Translator.Translate(x)));
-                return departments;
-            }
-            catch { return new List<Department>(); }
-        }
-        
-        public IEnumerable<Position> GetPositions(PositionFilter filter)
-        {
-            try
-            {
-                var positions = new List<Position>();
-				var databasePositions = Context.Position.ToList().Where(x => FilterHelper.IsInFilter(x, filter)).ToList();
-                databasePositions.ForEach(x => positions.Add(Translator.Translate(x)));
-                return positions;
-            }
-            catch { return new List<Position>(); }
-        }
+		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+		{
+			try
+			{
+				var result = new List<Department>();
+				foreach (var item in Context.Department)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Department>(); }
+		}
+
+		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		{
+			try
+			{
+				var result = new List<Position>();
+				foreach (var item in Context.Position)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Position>(); }
+		}
 
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			try
 			{
-				var journalItems = new List<SKDJournalItem>();
-				var databaseJournalItems = Context.Journal.ToList().Where(x => FilterHelper.IsInFilter(x, filter)).ToList();
-				databaseJournalItems.ForEach(x => journalItems.Add(Translator.Translate(x)));
-				return journalItems;
+				var result = new List<SKDJournalItem>();
+				foreach (var item in Context.Journal)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
 			}
 			catch { return new List<SKDJournalItem>(); }
 		}
@@ -75,13 +87,48 @@ namespace SKDDriver
 			try
 			{
 				var result = new List<Frame>();
-				var databaseItems = Context.Frame.ToList().Where(x => FilterHelper.IsInFilter(x, filter)).ToList();
-				databaseItems.ForEach(x => result.Add(Translator.Translate(x)));
+				foreach (var item in Context.Frame)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
 				return result;
 			}
 			catch { return new List<Frame>(); }
 		}
 
+		public IEnumerable<Card> GetCards(CardFilter filter)
+		{
+			try
+			{
+				var result = new List<Card>();
+				foreach (var item in Context.Card)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Card>(); }
+		}
+
+		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		{
+			try
+			{
+				var result = new List<CardZoneLink>();
+				foreach (var item in Context.CardZoneLink)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<CardZoneLink>(); }
+		}
+		#endregion
+
+		#region Save
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
 			try
@@ -96,19 +143,48 @@ namespace SKDDriver
 			catch { }
 		}
 
-		public void SaveFrames(IEnumerable<Frame> frames)
+		public void SaveFrames(IEnumerable<Frame> items)
 		{
 			try
 			{
-				foreach (var item in frames)
+				foreach (var item in items)
 				{
 					if (item != null)
 						Context.Frame.InsertOnSubmit(Translator.TranslateBack(item));
 				}
 				Context.SubmitChanges();
 			}
-			catch { } 
+			catch { }
 		}
+
+		public void SaveCards(IEnumerable<Card> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+						Context.Card.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+
+		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+						Context.CardZoneLink.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		#endregion
 
 		#region Devices
 		public void SKDSetIgnoreRegime(Guid deviceUID)

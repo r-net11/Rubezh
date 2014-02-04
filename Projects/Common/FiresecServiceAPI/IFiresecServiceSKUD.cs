@@ -17,11 +17,19 @@ namespace FiresecAPI
 		[OperationContract]
 		IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
-		void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
-		[OperationContract]
 		IEnumerable<Frame> GetFrames(FrameFilter filter);
 		[OperationContract]
+		IEnumerable<Card> GetCards(CardFilter filter);
+		[OperationContract]
+		IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter);
+		[OperationContract]
+		void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
+		[OperationContract]
 		void SaveFrames(IEnumerable<Frame> frames);
+		[OperationContract]
+		void SaveCards(IEnumerable<Card> items);
+		[OperationContract]
+		void SaveCardZoneLinks(IEnumerable<CardZoneLink> items);
 
 		#region DeviceCommands
 		[OperationContract]

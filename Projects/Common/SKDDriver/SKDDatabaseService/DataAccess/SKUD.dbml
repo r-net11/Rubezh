@@ -59,6 +59,7 @@
       <Association Name="Employee_Department1" Member="Department1" ThisKey="Uid" OtherKey="AttendantUid" Type="Department" />
       <Association Name="Employee_EmployeeReplacement" Member="EmployeeReplacement" ThisKey="Uid" OtherKey="EmployeeUid" Type="EmployeeReplacement" Cardinality="One" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumn" ThisKey="Uid" OtherKey="EmployeeUid" Type="AdditionalColumn" />
+      <Association Name="Employee_Card" Member="Card" ThisKey="Uid" OtherKey="EmployeeUid" Type="Card" />
       <Association Name="Department_Employee" Member="Department2" ThisKey="DepartmentUid" OtherKey="Uid" Type="Department" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Position_Employee" Member="Position" ThisKey="PositionUid" OtherKey="Uid" Type="Position" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUid" OtherKey="Uid" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
@@ -169,29 +170,6 @@
       <Association Name="ScheduleScheme_Schedule" Member="Schedule" ThisKey="Uid" OtherKey="ScheduleSchemeUid" Type="Schedule" />
     </Type>
   </Table>
-  <Table Name="dbo.Journal" Member="Journal">
-    <Type Name="Journal">
-      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SysemDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DeviceNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IpPort" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="CardNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Journal_Frame" Member="Frame" ThisKey="Uid" OtherKey="JournalItemUid" Type="Frame" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Frame" Member="Frame">
-    <Type Name="Frame">
-      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CameraUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="JournalItemUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="FrameData" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Journal_Frame" Member="Journal" ThisKey="JournalItemUid" OtherKey="Uid" Type="Journal" IsForeignKey="true" DeleteRule="SET NULL" />
-    </Type>
-  </Table>
   <Table Name="dbo.AdditionalColumn" Member="AdditionalColumn">
     <Type Name="AdditionalColumn">
       <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -204,6 +182,61 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Card" Member="Card">
+    <Type Name="Card">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Series" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployeeUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Card_CardZoneLink" Member="CardZoneLink" ThisKey="Uid" OtherKey="CardUid" Type="CardZoneLink" />
+      <Association Name="Card_Journal" Member="Journal" ThisKey="Uid" OtherKey="CardUid" Type="Journal" />
+      <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUid" OtherKey="Uid" Type="Employee" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CardZoneLink" Member="CardZoneLink">
+    <Type Name="CardZoneLink">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CardUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Card_CardZoneLink" Member="Card" ThisKey="CardUid" OtherKey="Uid" Type="Card" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Journal" Member="Journal">
+    <Type Name="Journal">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SysemDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DeviceNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IpPort" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CardUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="CardSeries" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CardNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Journal_Frame" Member="Frame" ThisKey="Uid" OtherKey="JournalItemUid" Type="Frame" />
+      <Association Name="Card_Journal" Member="Card" ThisKey="CardUid" OtherKey="Uid" Type="Card" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Frame" Member="Frame">
+    <Type Name="Frame">
+      <Column Name="Uid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CameraUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="JournalItemUid" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FrameData" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Journal_Frame" Member="Journal" ThisKey="JournalItemUid" OtherKey="Uid" Type="Journal" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
 </Database>

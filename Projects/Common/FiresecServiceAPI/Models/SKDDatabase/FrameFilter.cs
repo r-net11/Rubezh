@@ -18,5 +18,14 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTimePeriod DateTime { get; set; }
+
+		public FrameFilter()
+		{
+			Uids = new List<Guid>();
+			CameraUid = new List<Guid>();
+			JournalItemUid = new List<Guid>();
+		}		
+
+
 	}
 }

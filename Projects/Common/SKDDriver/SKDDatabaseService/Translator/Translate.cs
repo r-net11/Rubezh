@@ -10,8 +10,8 @@ using System.Data.Linq;
 
 namespace SKDDriver
 {
-    static class Translator
-    {
+    static partial class Translator
+	{
 		public static FiresecAPI.Position Translate(Position position)
 		{
 			if (position == null)
@@ -53,7 +53,7 @@ namespace SKDDriver
 			if (employee == null)
 				return null;
 			var additionalColumnUids = new List<Guid>();
-			employee.AdditionalColumn.Where(x => x.EmployeeUid == employee.Uid).ToList().ForEach(x => additionalColumnUids.Add(x.Uid));
+			employee.AdditionalColumn.ToList().ForEach(x => additionalColumnUids.Add(x.Uid));
 			Guid? replacementUid = null;
 			if (employee.EmployeeReplacement != null)
 				replacementUid = employee.EmployeeReplacement.Uid;
@@ -131,6 +131,8 @@ namespace SKDDriver
 				SystemDateTime = journal.SysemDate,
 				DeviceDateTime = journal.DeviceDate,
 				CardNo = journal.CardNo,
+				CardSeries = journal.CardSeries,
+				CardUid = journal.CardUid,
 				DeviceJournalRecordNo = journal.DeviceNo,
 				IpAddress = journal.IpPort
 			};
@@ -140,8 +142,6 @@ namespace SKDDriver
 		{
 			if (frame == null)
 				return null;
-			var bytes = frame.FrameData.ToArray();
-
 			return new FiresecAPI.Frame
 			{
 				Uid = frame.Uid,
@@ -150,42 +150,43 @@ namespace SKDDriver
 				FrameData = frame.FrameData.ToArray(),
 				JournalItemUid = frame.JournalItemUid
 			};
-			
 		}
 
-		public static Journal TranslateBack(FiresecAPI.SKDJournalItem journalItem)
+		public static FiresecAPI.Card Translate(Card card)
 		{
-			if (journalItem == null)
+			if (card == null)
 				return null;
-			return new Journal
+			var zoneUids = new List<Guid>();
+			foreach (var cardZoneLink in card.CardZoneLink)
 			{
-				Uid = journalItem.Uid,
-				CardNo = journalItem.CardNo,
-				Description = journalItem.Description,
-				DeviceDate = journalItem.DeviceDateTime,
-				DeviceNo = journalItem.DeviceJournalRecordNo,
-				IpPort = journalItem.IpAddress,
-				Name = journalItem.Name,
-				SysemDate = journalItem.SystemDateTime
+				if(cardZoneLink.Uid != null)
+					zoneUids.Add(cardZoneLink.Uid);
+			}
+			return new FiresecAPI.Card
+			{
+				EmployeeUid = card.EmployeeUid,
+				Number = card.Number,
+				Series = card.Series,
+				Uid = card.Uid,
+				ValidFrom = card.ValidFrom,
+				ValidTo = card.ValidTo,
+				ZoneUids = zoneUids
 			};
 		}
 
-		public static Frame TranslateBack(FiresecAPI.Frame frame)
+		public static FiresecAPI.CardZoneLink Translate(CardZoneLink cardZoneLink)
 		{
-			if (frame == null)
+			if (cardZoneLink == null)
 				return null;
-			return new Frame
+			return new FiresecAPI.CardZoneLink
 			{
-				Uid = frame.Uid,
-				CameraUid = frame.CameraUid,
-				DateTime = frame.DateTime,
-				FrameData = frame.FrameData,
-				JournalItemUid = frame.JournalItemUid
+				Uid = cardZoneLink.Uid,
+				ZoneUid = cardZoneLink.ZoneUid,
+				CardUid = cardZoneLink.CardUid
 			};
 		}
 
-		
-		
+
 		//public FiresecAPI.Models.Skud.Interval Translate(Interval interval)
         //{
         //    if (interval == null)
