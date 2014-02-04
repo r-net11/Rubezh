@@ -12,24 +12,6 @@ namespace SKDDriver
 {
 	public static class SKDDeviceProcessor
 	{
-		public static string GetInfo(SKDDevice device)
-		{
-			var bytes = new List<byte>();
-			bytes.Add(1);
-			var result = SendBytes(device, bytes);
-			if (result.HasError)
-				return result.Error;
-			return "Версия " + result.Bytes[0].ToString();
-		}
-
-		public static bool SynchroniseTime(SKDDevice device)
-		{
-			var bytes = new List<byte>();
-			bytes.Add(2);
-			var result = SendBytes(device, bytes);
-			return !result.HasError;
-		}
-
 		[DebuggerStepThrough]
 		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{

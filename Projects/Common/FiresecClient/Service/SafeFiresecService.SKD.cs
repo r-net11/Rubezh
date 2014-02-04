@@ -5,6 +5,26 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
+		public OperationResult<string> SKDGetDeviceInfo(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(device.UID); }, "SKDGetDeviceInfo");
+		}
+
+		public OperationResult<bool> SKDSyncronyseTime(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(device.UID); }, "SKDSyncronyseTime");
+		}
+
+		public OperationResult<bool> SKDWriteConfiguration(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDWriteConfiguration(device.UID); }, "SKDWriteConfiguration");
+		}
+
+		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
+		}
+
 		public void SKDSetIgnoreRegime(SKDDevice device)
 		{
 			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(device.UID); }, "SKDSetIgnoreRegime");

@@ -33,6 +33,18 @@ namespace FiresecAPI
 
 		#region DeviceCommands
 		[OperationContract]
+		OperationResult<string> SKDGetDeviceInfo(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDSyncronyseTime(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDWriteConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
+
+		[OperationContract]
 		void SKDSetIgnoreRegime(Guid deviceUID);
 
 		[OperationContract]

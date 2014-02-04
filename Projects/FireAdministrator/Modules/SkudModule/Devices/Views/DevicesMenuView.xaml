@@ -12,14 +12,6 @@
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding ReadConfigurationCommand}">
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Controls;component/Images/BParametersRead.png" Height="24" Margin="2"/>
-                            <TextBlock Text="Считать конфигурацию дескрипторов" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </MenuItem.Header>
-                </MenuItem>
                 <MenuItem Command="{Binding WriteConfigCommand}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -42,14 +34,6 @@
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Controls;component/Images/BWatch.png" Height="24" Margin="2"/>
                             <TextBlock Text="Синхронизация времени" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem Command="{Binding ReadJournalCommand}">
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Controls;component/Images/BJournal.png" Height="24" Margin="2"/>
-                            <TextBlock Text="Журнал событий" VerticalAlignment="Center"/>
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>

@@ -10,7 +10,7 @@ using XFiresecAPI;
 
 namespace SKDDriver
 {
-	public class SKDDatabaseService : IFiresecServiceSKUD
+	public class SKDDatabaseService
 	{
 		DataAccess.SKUDDataContext Context;
         
@@ -18,8 +18,6 @@ namespace SKDDriver
 		{
 			Context = new DataAccess.SKUDDataContext();
 		}
-
-		#region IFiresecServiceSKUD Members
 
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
@@ -222,9 +220,5 @@ namespace SKDDriver
 
 		}
 		#endregion
-
-
-        #endregion
-
 	}
 }

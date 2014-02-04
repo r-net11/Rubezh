@@ -238,6 +238,22 @@ namespace FiresecService.Service
 		}
 
 
+		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");
+		}
+		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(deviceUID); }, "SKDSyncronyseTime");
+		}
+		public OperationResult<bool> SKDWriteConfiguration(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDWriteConfiguration(deviceUID); }, "SKDWriteConfiguration");
+		}
+		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(deviceUID, fileName); }, "SKDUpdateFirmware");
+		}
 		public void SKDSetIgnoreRegime(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(deviceUID); }, "SKDSetIgnoreRegime");

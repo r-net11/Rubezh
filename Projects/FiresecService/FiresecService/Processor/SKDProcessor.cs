@@ -15,7 +15,7 @@ namespace FiresecService
 			SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
 			SKDManager.CreateDrivers();
 			SKDManager.UpdateConfiguration();
-			SKDWatcher.Start();
+			WatcherManager.Start();
 
 			SKDProcessorManager.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 			SKDProcessorManager.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
