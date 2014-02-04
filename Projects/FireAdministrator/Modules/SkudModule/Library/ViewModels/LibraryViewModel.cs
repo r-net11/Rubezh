@@ -10,6 +10,7 @@ using XFiresecAPI;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using FiresecAPI;
+using DeviceControls.SKDDevice;
 
 namespace SKDModule.ViewModels
 {
@@ -179,7 +180,7 @@ namespace SKDModule.ViewModels
 			return (SelectedState != null && SelectedState.State.StateClass != XStateClass.No);
 		}
 
-		public DeviceControls.SKDDeviceControl DeviceControl
+		public SKDDeviceControl DeviceControl
 		{
 			get
 			{
@@ -188,7 +189,7 @@ namespace SKDModule.ViewModels
 				if (SelectedState == null)
 					return null;
 
-				var deviceControl = new DeviceControls.SKDDeviceControl()
+				var deviceControl = new SKDDeviceControl()
 				{
 					DriverId = SelectedDevice.LibraryDevice.DriverId
 				};

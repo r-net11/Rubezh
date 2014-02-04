@@ -1,9 +1,10 @@
 ﻿using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class LibraryXFrame
+	public class LibraryXFrame : ILibraryFrame
 	{
 		public LibraryXFrame()
 		{

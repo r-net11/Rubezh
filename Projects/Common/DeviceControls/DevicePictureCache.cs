@@ -9,6 +9,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
+using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
@@ -176,17 +177,17 @@ namespace DeviceControls
 			return visualBrush;
 		}
 
-		public static Brush GetBrush(Device device)
+		public static Brush GetBrush(FiresecAPI.Models.Device device)
 		{
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetBrush(driverUID);
 		}
-		public static Brush GetXBrush(XDevice device)
+		public static Brush GetXBrush(XFiresecAPI.XDevice device)
 		{
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetXBrush(driverUID);
 		}
-		public static Brush GetSKDBrush(SKDDevice device)
+		public static Brush GetSKDBrush(FiresecAPI.SKDDevice device)
 		{
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetSKDBrush(driverUID);
@@ -240,16 +241,16 @@ namespace DeviceControls
 			return _skdBrushes[driverUID];
 		}
 
-		public static Brush GetDynamicBrush(Device device, Guid alternativeDriverUID)
+		public static Brush GetDynamicBrush(FiresecAPI.Models.Device device, Guid alternativeDriverUID)
 		{
 			var presenterKey = GetPresenterKey(device);
 			return device == null || device.DriverUID == Guid.Empty || device.DeviceState == null ? GetBrush(device) : GetDynamicBrush(alternativeDriverUID == Guid.Empty ? device.DriverUID : alternativeDriverUID, presenterKey, device.DeviceState);
 		}
-		public static Brush GetDynamicXBrush(XDevice device)
+		public static Brush GetDynamicXBrush(XFiresecAPI.XDevice device)
 		{
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetXBrush(device) : GetDynamicXBrush(device.DriverUID, device.State);
 		}
-		public static Brush GetDynamicSKDBrush(SKDDevice device)
+		public static Brush GetDynamicSKDBrush(FiresecAPI.SKDDevice device)
 		{
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetSKDBrush(device) : GetDynamicSKDBrush(device.DriverUID, device.State);
 		}
@@ -319,7 +320,7 @@ namespace DeviceControls
 			return state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : EmptyPicture;
 		}
 
-		private static string GetPresenterKey(Device device)
+		private static string GetPresenterKey(FiresecAPI.Models.Device device)
 		{
 			if (_driverPresenterMap.ContainsKey(device.DriverUID) && !string.IsNullOrEmpty(_driverPresenterMap[device.DriverUID]))
 				return device.Properties.Where(prop => prop.Name == _driverPresenterMap[device.DriverUID]).Select(prop => prop.Value).FirstOrDefault() ?? string.Empty;

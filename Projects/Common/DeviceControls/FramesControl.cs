@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using Infrustructure.Plans.Devices;
+using System.Linq;
 
 namespace DeviceControls
 {
@@ -14,56 +16,27 @@ namespace DeviceControls
 		private List<FrameworkElement> _canvases;
 		private List<TimeSpan> _times;
 		private int _index;
-		public FramesControl(List<LibraryFrame> frames)
+		public FramesControl(List<LibraryFrame> frames) :
+			this(frames.Cast<ILibraryFrame>())
 		{
-			_index = -1;
-			if (frames.Count == 0)
-				Child = DevicePictureCache.EmptyPicture;
-			else if (frames.Count == 1)
-				Child = Helper.GetVisual(frames[0].Image);
-			else if (frames.Count > 1)
-			{
-				_canvases = new List<FrameworkElement>();
-				_times = new List<TimeSpan>();
-				foreach (var frame in frames)
-				{
-					_canvases.Add(Helper.GetVisual(frame.Image));
-					_times.Add(TimeSpan.FromMilliseconds(frame.Duration));
-				}
-				_timer = new DispatcherTimer();
-				_timer.Tick += (s, e) => UpdateTimer();
-				UpdateTimer();
-			}
 		}
-		public FramesControl(List<LibraryXFrame> frames)
+		public FramesControl(List<LibraryXFrame> frames) :
+			this(frames.Cast<ILibraryFrame>())
 		{
-			_index = -1;
-			if (frames.Count == 0)
-				Child = DevicePictureCache.EmptyPicture;
-			else if (frames.Count == 1)
-				Child = Helper.GetVisual(frames[0].Image);
-			else if (frames.Count > 1)
-			{
-				_canvases = new List<FrameworkElement>();
-				_times = new List<TimeSpan>();
-				foreach (var frame in frames)
-				{
-					_canvases.Add(Helper.GetVisual(frame.Image));
-					_times.Add(TimeSpan.FromMilliseconds(frame.Duration));
-				}
-				_timer = new DispatcherTimer();
-				_timer.Tick += (s, e) => UpdateTimer();
-				UpdateTimer();
-			}
 		}
-		public FramesControl(List<SKDLibraryFrame> frames)
+		public FramesControl(List<SKDLibraryFrame> frames) :
+			this(frames.Cast<ILibraryFrame>())
+		{
+		}
+		public FramesControl(IEnumerable<ILibraryFrame> frames)
 		{
 			_index = -1;
-			if (frames.Count == 0)
+			var count = frames.Count();
+			if (count == 0)
 				Child = DevicePictureCache.EmptyPicture;
-			else if (frames.Count == 1)
-				Child = Helper.GetVisual(frames[0].Image);
-			else if (frames.Count > 1)
+			else if (count == 1)
+				Child = Helper.GetVisual(frames.First().Image);
+			else if (count > 1)
 			{
 				_canvases = new List<FrameworkElement>();
 				_times = new List<TimeSpan>();

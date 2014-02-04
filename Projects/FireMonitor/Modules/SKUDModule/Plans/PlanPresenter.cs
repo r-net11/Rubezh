@@ -45,7 +45,7 @@ namespace SKDModule.Plans
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			foreach (var element in plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
+			foreach (var element in plan.ElementSKDDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
 			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
@@ -62,7 +62,7 @@ namespace SKDModule.Plans
 		}
 		public void ExtensionAttached()
 		{
-			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
+			using (new TimeCounter("SKDDevice.ExtensionAttached.BuildMap: {0}"))
 				Helper.BuildMap();
 		}
 

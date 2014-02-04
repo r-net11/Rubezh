@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using DeviceControls.XDevice;
 
 namespace GKModule.ViewModels
 {
@@ -182,7 +183,7 @@ namespace GKModule.ViewModels
 			return (SelectedState != null && SelectedState.State.XStateClass != XStateClass.No);
 		}
 
-		public DeviceControls.XDeviceControl DeviceControl
+		public XDeviceControl DeviceControl
 		{
 			get
 			{
@@ -191,7 +192,7 @@ namespace GKModule.ViewModels
 				if (SelectedState == null)
 					return null;
 
-				var deviceControl = new DeviceControls.XDeviceControl()
+				var deviceControl = new XDeviceControl()
 				{
 					DriverId = SelectedDevice.LibraryDevice.XDriverId
 				};

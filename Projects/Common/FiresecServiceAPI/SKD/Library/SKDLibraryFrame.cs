@@ -1,9 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Devices;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class SKDLibraryFrame
+	public class SKDLibraryFrame : ILibraryFrame
 	{
 		public SKDLibraryFrame()
 		{

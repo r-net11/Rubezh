@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class SKDLibraryState
+	public class SKDLibraryState : ILibraryState<SKDLibraryFrame>
 	{
 		public SKDLibraryState()
 		{

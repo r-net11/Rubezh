@@ -11,6 +11,9 @@ using System;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Services;
 using Infrastructure;
+using SKDModule.Plans;
+using Infrustructure.Plans.Events;
+using FiresecAPI.Models;
 
 namespace SKDModule
 {
@@ -24,6 +27,12 @@ namespace SKDModule
 		VerificationViewModel VerificationViewModel;
 		UsersAccessViewModel UsersAccessViewModel;
 		CardsViewModel CardsViewModel;
+		private PlanPresenter _planPresenter;
+
+		public SKDModuleLoader()
+		{
+			_planPresenter = new PlanPresenter();
+		}
 
 		public override void CreateViewModels()
 		{
@@ -57,6 +66,8 @@ namespace SKDModule
 
 		public override void Initialize()
 		{
+			_planPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}

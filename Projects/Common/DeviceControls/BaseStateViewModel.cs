@@ -4,25 +4,38 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using XFiresecAPI;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public class XStateViewModel : IDisposable
+	public class BaseStateViewModel<TFrame> : IDisposable
+		where TFrame : ILibraryFrame
 	{
-		readonly List<LibraryXFrame> _frames;
-		readonly List<Canvas> _canvases;
-		int _currentFrameNo;
-		int _currentFrameShownTime;
-		public static DispatcherTimer Timer { get; set; }
+		private static DispatcherTimer Timer { get; set; }
+		private readonly List<TFrame> _frames;
+		private readonly List<Canvas> _canvases;
+		private int _currentFrameNo;
+		private int _currentFrameShownTime;
 
-		public XStateViewModel(LibraryXState state, ICollection<Canvas> stateCanvases)
+		static BaseStateViewModel()
+		{
+			Timer = new DispatcherTimer();
+			Timer.Interval = TimeSpan.FromMilliseconds(94);
+			Timer.Start();
+		}
+
+		public BaseStateViewModel(ILibraryState<TFrame> state, ICollection<Canvas> stateCanvases)
+			: this(state.Frames, stateCanvases)
+		{
+		}
+		public BaseStateViewModel(List<TFrame> frames, ICollection<Canvas> stateCanvases)
 		{
 			_canvases = new List<Canvas>();
-			_frames = state.XFrames;
-			foreach (var xframe in _frames)
+			_frames = frames;
+			foreach (var frame in _frames)
 			{
-				var canvas = Helper.Xml2Canvas(xframe.Image);
+				var canvas = Helper.Xml2Canvas(frame.Image);
 				if (canvas.Children.Count == 0)
 				{
 					canvas.Background = Brushes.White;
@@ -39,14 +52,7 @@ namespace DeviceControls
 			Timer.Tick += OnTick;
 		}
 
-		static XStateViewModel()
-		{
-			Timer = new DispatcherTimer();
-			Timer.Interval = TimeSpan.FromMilliseconds(94);
-			Timer.Start();
-		}
-
-		void OnTick(object sender, EventArgs e)
+		private void OnTick(object sender, EventArgs e)
 		{
 			try
 			{
