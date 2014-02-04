@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="SKDModule.Views.UsersAccessView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
+            <StackPanel Orientation="Horizontal">
+                <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+            </StackPanel>
+        </Border>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
+                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
+                <DataGridTextColumn Header="Отдел" Binding="{Binding Employee.DepartmentName}" />
+                <DataGridTextColumn Header="Должность" Binding="{Binding Employee.PositionName}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <TabControl Grid.Row="2" DataContext="{Binding SelectedUser}" Margin="2">
+            <TabItem Header="Доступ">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Margin="2">
+                            <Controls:ToolBarButton Command="{Binding RemoveCardCommand}" ToolTip="Изъять карту доступа в стоп-лист" ImageSource="/Controls;component/Images/Delete.png" />
+                        </StackPanel>
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" Margin="2">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Заблокирована">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsBlocked}" Margin="5, 0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Идентификатор" Binding="{Binding ID}" />
+                                <DataGridTextColumn Header="Начало действия" Binding="{Binding StartDate}" />
+                                <DataGridTextColumn Header="Конец действия" Binding="{Binding EndDate}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <StackPanel Grid.Column="1" Background="White">
+                        <Button Content="Выдать карту" Width="100" Command="{Binding AddCardCommand}" Margin="2" />
+                        <Button Content="Изъять ВСЕ карты" Width="100" Command="{Binding RemoveCardsCommand}" Margin="2" />
+                        <Button Content="Скопировать права" Width="100" Command="{Binding CopyRightsCommand}" Margin="2" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Помещения и устройства">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal">
+                            <Controls:ToolBarButton Command="{Binding ChangeZonesCommand}" ToolTip="Выбор помещения" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                            <Controls:ToolBarButton Command="{Binding ChangeTemplateCommand}" ToolTip="Выбор шаблона доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                            <Controls:ToolBarButton Command="{Binding DeleteZoneCommand}" ToolTip="Удалить помещение" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                            <Controls:ToolBarButton Command="{Binding ChangeGroupRightsCommand}" ToolTip="Групповое представление прав доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                        </StackPanel>
+                        <DataGrid Grid.Row="1">
+                        </DataGrid>
+                    </Grid>
+                    <StackPanel Grid.Column="1">
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

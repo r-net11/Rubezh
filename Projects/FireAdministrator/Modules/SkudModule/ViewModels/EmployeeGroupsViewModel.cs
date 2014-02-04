@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models.SKDDatabase;
 using FiresecClient;
+using FiresecAPI.Models.SKDDatabase;
 
 namespace SKDModule.ViewModels
 {

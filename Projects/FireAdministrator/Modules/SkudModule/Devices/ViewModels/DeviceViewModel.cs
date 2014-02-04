@@ -106,14 +106,14 @@ namespace SKDModule.ViewModels
 				newDeviceViewModel.SaveCommand.Execute();
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
-				//Plans.Designer.Helper.BuildMap();
+				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
 				return;
 			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
-				//Plans.Designer.Helper.BuildMap();
+				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -157,7 +157,7 @@ namespace SKDModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			//Infrustructure.Plans.Designer.Helper.BuildMap();
+			Plans.Designer.Helper.BuildMap();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()
@@ -168,10 +168,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
+			var controllerDetailsViewModel = new ControllerDetailsViewModel(Device);
+			if (DialogService.ShowModalWindow(controllerDetailsViewModel))
+			{
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 		bool CanShowProperties()
 		{
-			return false;
+			return Device.DriverType == SKDDriverType.Controller;
 		}
 
 		public bool IsOnPlan

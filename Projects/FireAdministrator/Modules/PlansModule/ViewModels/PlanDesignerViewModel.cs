@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
 				{
 				    ImageSource="/Controls;component/Images/Subplan.png",
 				    ToolTip="Ссылка на план",
-				    Index = 300,
+				    Index = 1000,
 				    Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});
 			AllowScalePoint = true;

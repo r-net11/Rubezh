@@ -1,8 +1,8 @@
 ﻿using FiresecAPI.Models;
-using FiresecAPI.Models.SKDDatabase;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using SKDModule.ViewModels;
+using FiresecAPI.Models.SKDDatabase;
 
 namespace SKDModule.Designer
 {

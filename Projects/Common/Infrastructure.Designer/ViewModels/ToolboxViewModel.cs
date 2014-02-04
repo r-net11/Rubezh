@@ -123,56 +123,56 @@ namespace Infrastructure.Designer.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
-					Index = 311,
+					Index = 1011,
 					Adorner = new PolylineAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Rectangle.png",
 					ToolTip="Прямоугольник",
-					Index = 312,
+					Index = 1012,
 					Adorner = new RectangleAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
 					ToolTip="Эллипс",
-					Index = 313,
+					Index = 1013,
 					Adorner = new ElipseAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
-					Index = 314,
+					Index = 1014,
 					Adorner = new PolygonAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
 					ToolTip="Текст",
-					Index = 305,
+					Index = 1005,
 					Adorner = new TextBoxAdorner(DesignerCanvas),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineHorizontal.png",
 					ToolTip="Добавить горизонтальную линию привязки",
-					Index = 501,
+					Index = 1501,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Horizontal),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineVertical.png",
 					ToolTip="Добавить вертикальную линию привязки",
-					Index = 502,
+					Index = 1502,
 					Adorner = new GridLineAdorner(DesignerCanvas, Orientation.Vertical),
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/GridLineEdit.png",
 					ToolTip="Удалить линии привязки",
-					Index = 503,
+					Index = 1503,
 					Command = DesignerCanvas.RemoveGridLinesCommand,
 				},
 			};

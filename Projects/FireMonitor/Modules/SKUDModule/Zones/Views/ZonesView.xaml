@@ -1,4 +1,11 @@
-﻿<UserControl x:Class="SKDModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:SKDModule.Views" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+﻿<UserControl x:Class="SKDModule.Views.ZonesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
         <viewModel:ZoneViewModelNameComparer x:Key="ZoneViewModelNameComparer" />
         <viewModel:ZoneViewModelDescriptionComparer x:Key="ZoneViewModelDescriptionComparer" />

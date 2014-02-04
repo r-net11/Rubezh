@@ -148,6 +148,8 @@
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowSKDZoneOnPlanEvent.cs" />
+    <Compile Include="Events\ShowSKDUsersAccessEvent.cs" />
+    <Compile Include="Events\ShowSKDCardsEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />

@@ -18,6 +18,7 @@ namespace FiresecAPI
 			DeviceProperties = new List<XProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
+			SKDControllerProperty = new SKDControllerProperty();
 		}
 
 		public SKDDriver Driver { get; set; }
@@ -62,6 +63,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid OuterZoneUID { get; set; }
+
+		[DataMember]
+		public SKDControllerProperty SKDControllerProperty { get; set; }
 
 		public string PresentationName
 		{

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.Models.SKDDatabase;
 using System;
 using XFiresecAPI;
 

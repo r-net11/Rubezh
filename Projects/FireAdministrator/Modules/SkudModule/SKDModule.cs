@@ -12,6 +12,8 @@ using System.Linq;
 using XFiresecAPI;
 using FiresecAPI;
 using SKDModule.Plans;
+using Infrustructure.Plans.Events;
+using SKDModule.Plans.Designer;
 
 namespace SKDModule
 {
@@ -41,6 +43,8 @@ namespace SKDModule
 
 			ServiceFactory.Events.GetEvent<ShowSKDEvent>().Unsubscribe(OnShowSKD);
 			ServiceFactory.Events.GetEvent<ShowSKDEvent>().Subscribe(OnShowSKD);
+			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
+			ServiceFactory.Events.GetEvent<EditSKDZoneEvent>().Subscribe(OnEditSKDZone);
 
 			_skdViewModel = new SkudViewModel();
 			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
@@ -78,6 +82,10 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			FiltersViewModel.Initialize();
+		
+			_planExtension.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			Helper.BuildMap();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -121,8 +129,18 @@ namespace SKDModule
 		{
 			base.RegisterResource();
 			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
+		}
+
+		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
+		{
+			ZonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditSKDZone(Guid zoneUID)
+		{
+			ZonesViewModel.EditZone(zoneUID);
 		}
 	}
 }

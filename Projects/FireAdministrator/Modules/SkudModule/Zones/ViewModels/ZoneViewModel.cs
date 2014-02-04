@@ -91,7 +91,7 @@ namespace SKDModule.ViewModels
 				this.Update();
 				SKDManager.SKDConfiguration.Update();
 				ZonesViewModel.Current.AllZones.Add(zoneViewModel);
-				//Plans.Designer.Helper.BuildMap();
+				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 				ZonesViewModel.Current.AllZones.Remove(this);
 				ZonesViewModel.Current.SelectedZone = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			//Infrustructure.Plans.Designer.Helper.BuildMap();
+			Plans.Designer.Helper.BuildMap();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()

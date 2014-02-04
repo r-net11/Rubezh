@@ -18,6 +18,7 @@ using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
 using XFiresecAPI;
+using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -302,6 +303,19 @@ namespace SKDModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 }
 			};
+		}
+
+		public void CreateZone(CreateSKDZoneEventArg createZoneEventArg)
+		{
+			// Временная заглушка - всегда возвращает отмену
+			createZoneEventArg.Cancel = true;
+			createZoneEventArg.ZoneUID = Guid.Empty;
+		}
+		public void EditZone(Guid zoneUID)
+		{
+			var zoneViewModel = zoneUID == Guid.Empty ? null : AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneViewModel != null)
+				zoneViewModel.EditCommand.Execute();
 		}
 	}
 }

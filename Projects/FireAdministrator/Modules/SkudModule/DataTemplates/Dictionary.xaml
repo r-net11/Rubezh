@@ -58,6 +58,10 @@
         <Views:DevicesMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ControllerDetailsViewModel}">
+        <Views:ControllerDetailsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
         <Views:ZoneSelectationView />
     </DataTemplate>

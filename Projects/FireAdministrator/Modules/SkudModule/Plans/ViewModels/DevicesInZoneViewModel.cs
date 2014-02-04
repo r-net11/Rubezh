@@ -65,14 +65,14 @@ namespace SKDModule.Plans.ViewModels
 				SKDManager.AddDeviceToZone(Device, zone);
 		}
 
-		public bool HasNewZone 
-		{ 
-			get { return !string.IsNullOrEmpty(NewZoneName); } 
+		public bool HasNewZone
+		{
+			get { return !string.IsNullOrEmpty(NewZoneName); }
 		}
 
-		public bool HasOldZone 
-		{ 
-			get { return !string.IsNullOrEmpty(OldZoneName); } 
+		public bool HasOldZone
+		{
+			get { return !string.IsNullOrEmpty(OldZoneName); }
 		}
 
 		bool _isActive;

@@ -21,7 +21,6 @@ namespace SKDModule.ViewModels
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
 
-
 			Departments = new List<FilterDepartmentViewModel>();
 			var departments = FiresecManager.GetDepartments(null).ToList();
 			departments.ForEach(x => Departments.Add(new FilterDepartmentViewModel(x, this)));
