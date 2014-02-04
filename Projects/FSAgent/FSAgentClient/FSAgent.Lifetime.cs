@@ -10,10 +10,11 @@ namespace FSAgentClient
 		DateTime StartOperationDateTime = DateTime.Now;
 		DateTime CircleDateTime = DateTime.Now;
 		Thread LifetimeThread;
-		AutoResetEvent LifetimeEvent;
+		ManualResetEvent LifetimeEvent;
 
 		public void StartLifetime()
 		{
+			LifetimeEvent = new ManualResetEvent(false);
 			LifetimeThread = new Thread(OnRunLifetime);
 			LifetimeThread.Name = "FSAgent Lifetime";
 			LifetimeThread.Start();
@@ -32,7 +33,6 @@ namespace FSAgentClient
 		{
 			while (true)
 			{
-				LifetimeEvent = new AutoResetEvent(false);
 				if (LifetimeEvent.WaitOne(TimeSpan.FromMinutes(1)))
 					return;
 

@@ -50,7 +50,7 @@ namespace DeviceControls
 		public static void LoadSKDCache()
 		{
 			_skdBrushes.Clear();
-			RegisterXBrush(null);
+			RegisterSKDBrush(null);
 			SKDManager.SKDLibraryConfiguration.Devices.ForEach(item => RegisterSKDBrush(item));
 		}
 		public static void LoadDynamicCache()

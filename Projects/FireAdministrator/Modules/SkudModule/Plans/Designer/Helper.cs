@@ -36,7 +36,7 @@ namespace SKDModule.Plans.Designer
 					_zoneMap.Add(zone.UID, zone);
 			}
 		}
-	
+
 		public static string GetSKDZoneTitle(IElementZone element)
 		{
 			SKDZone zone = GetSKDZone(element);

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Windows.Input;
+using FiresecAPI;
+using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecAPI;
-using Infrustructure.Plans.Events;
-using FiresecClient;
-using Infrastructure;
-using System.Windows.Input;
-using System.IO;
-using Infrastructure.Common;
-using Microsoft.Win32;
-using Infrastructure.Common.Windows;
-using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Elements;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
+using Infrustructure.Plans.Events;
+using Microsoft.Win32;
+using SKDModule.Plans.Designer;
 using XFiresecAPI;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
@@ -247,7 +246,7 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			//elements.OfType<ElementXDevice>().ToList().ForEach(element => Helper.ResetXDevice(element));
+			elements.OfType<ElementSKDDevice>().ToList().ForEach(element => Helper.ResetSKDDevice(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -255,21 +254,21 @@ namespace SKDModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				//ElementXDevice elementDevice = element as ElementXDevice;
-				//if (elementDevice != null)
-				//    OnDeviceChanged(elementDevice.XDeviceUID);
+				ElementSKDDevice elementDevice = element as ElementSKDDevice;
+				if (elementDevice != null)
+					OnDeviceChanged(elementDevice.DeviceUID);
 			});
 			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			//ElementXDevice elementXDevice = element as ElementXDevice;
-			//if (elementXDevice != null)
-			//{
-			//    _lockSelection = true;
-			//    Select(elementXDevice.XDeviceUID);
-			//    _lockSelection = false;
-			//}
+			ElementSKDDevice elementSKDDevice = element as ElementSKDDevice;
+			if (elementSKDDevice != null)
+			{
+				_lockSelection = true;
+				Select(elementSKDDevice.DeviceUID);
+				_lockSelection = false;
+			}
 		}
 
 		public override void OnShow()

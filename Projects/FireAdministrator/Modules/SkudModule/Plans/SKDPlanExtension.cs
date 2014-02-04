@@ -56,8 +56,8 @@ namespace SKDModule.Plans
 
 		public void Initialize()
 		{
-			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				DevicePictureCache.LoadXCache();
+			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
+				DevicePictureCache.LoadSKDCache();
 		}
 
 		#region IPlanExtension Members
@@ -68,7 +68,7 @@ namespace SKDModule.Plans
 		}
 		public string Title
 		{
-			get { return "Устройства"; }
+			get { return "СКД Устройства"; }
 		}
 
 		public object TabPage
@@ -86,17 +86,17 @@ namespace SKDModule.Plans
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
-							ToolTip="Зона",
-							Adorner = new SKDZoneRectangleAdorner(_designerCanvas,_zonesViewModel),
-							Index = 200,
+							ToolTip="СКД Зона",
+							Adorner = new SKDZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
+							Index = 300,
 							Autostart = true
 						},
 						new InstrumentViewModel()
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
-							ToolTip="Зона",
-							Adorner = new SKDZonePolygonAdorner(_designerCanvas,_zonesViewModel),
-							Index = 201,
+							ToolTip="СКД Зона",
+							Adorner = new SKDZonePolygonAdorner(_designerCanvas, _zonesViewModel),
+							Index = 301,
 							Autostart = true
 						},
 					};
@@ -115,9 +115,9 @@ namespace SKDModule.Plans
 			}
 			else if (element is IElementZone)
 			{
-				if (element is ElementRectangleXZone)
+				if (element is ElementRectangleSKDZone)
 					plan.ElementRectangleSKDZones.Add((ElementRectangleSKDZone)element);
-				else if (element is ElementPolygonXZone)
+				else if (element is ElementPolygonSKDZone)
 					plan.ElementPolygonSKDZones.Add((ElementPolygonSKDZone)element);
 				else
 					return false;
@@ -174,7 +174,7 @@ namespace SKDModule.Plans
 				plan.ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
 			if (plan.ElementRectangleSKDZones == null)
 				plan.ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
-			foreach (var element in plan.ElementXDevices)
+			foreach (var element in plan.ElementSKDDevices)
 				yield return element;
 			foreach (var element in plan.ElementRectangleSKDZones)
 				yield return element;
@@ -185,8 +185,8 @@ namespace SKDModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("SKD", "Устройства", 1);
-			LayerGroupService.Instance.RegisterGroup("SKDZone", "Зоны", 2);
+			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 4);
+			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 5);
 		}
 		public void ExtensionAttached()
 		{

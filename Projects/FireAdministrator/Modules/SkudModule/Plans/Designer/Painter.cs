@@ -21,8 +21,7 @@ namespace SKDModule.Plans.Designer
 		{
 			var device = Helper.GetSKDDevice(_elementSKDDevice);
 			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
-			//return DevicePictureCache.GetXBrush(device);
-			return null;
+			return DevicePictureCache.GetSKDBrush(device);
 		}
 
 		public override object GetToolTip(string title)
