@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -11,7 +12,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using System;
 
 namespace GKModule.ViewModels
 {

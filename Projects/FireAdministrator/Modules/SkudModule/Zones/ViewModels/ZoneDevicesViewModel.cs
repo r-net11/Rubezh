@@ -3,12 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecClient;
+using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {

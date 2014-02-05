@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using FiresecClient;
 using Infrastructure.Common.Validation;
-using XFiresecAPI;
 
 namespace SKDModule.Validation
 {

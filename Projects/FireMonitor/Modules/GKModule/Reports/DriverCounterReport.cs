@@ -3,9 +3,6 @@ using CodeReason.Reports;
 using FiresecClient;
 using Infrastructure.Common.Reports;
 using XFiresecAPI;
-using iTextSharp.text.pdf;
-using Common.PDF;
-using iTextSharp.text;
 
 namespace GKModule.Reports
 {

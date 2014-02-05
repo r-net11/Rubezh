@@ -1,9 +1,8 @@
-﻿using DiagnosticsModule.Views;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
 using Common;
-using System;
+using DiagnosticsModule.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {

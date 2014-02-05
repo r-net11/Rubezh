@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Client.Layout.ViewModels;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
-using Infrastructure.Common;
-using Microsoft.Win32;
-using SharpVectors.Renderers.Wpf;
-using Infrastructure.Common.Services;
-using Common;
-using Infrastructure.Common.Windows;
-using System.IO;
-using SharpVectors.Converters;
 
 namespace LayoutModule.ViewModels
 {

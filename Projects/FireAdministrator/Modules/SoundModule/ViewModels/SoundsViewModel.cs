@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
-using Infrastructure;
 
 namespace SoundsModule.ViewModels
 {

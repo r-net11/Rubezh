@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Plans.Designer;
 using SKDModule.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using FiresecAPI;
 
 namespace SKDModule.Plans.ViewModels
 {

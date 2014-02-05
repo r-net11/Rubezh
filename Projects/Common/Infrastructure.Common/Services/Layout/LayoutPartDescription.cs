@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models.Layouts;
 
 namespace Infrastructure.Common.Services.Layout

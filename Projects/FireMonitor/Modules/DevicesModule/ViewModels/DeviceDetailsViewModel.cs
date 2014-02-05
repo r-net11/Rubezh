@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using Common;
+using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -9,9 +11,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System.Windows;
-using System.Windows.Media;
-using DeviceControls;
 
 namespace DevicesModule.ViewModels
 {

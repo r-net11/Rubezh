@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using DevicesModule.Plans.Designer;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
-using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.Designer;
-using XFiresecAPI;
 using FiresecAPI.XModels;
+using Infrustructure.Plans.Elements;
+using XFiresecAPI;
 
 namespace DevicesModule.Plans
 {

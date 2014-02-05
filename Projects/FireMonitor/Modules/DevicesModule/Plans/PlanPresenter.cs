@@ -4,7 +4,6 @@ using System.Linq;
 using Common;
 using DeviceControls;
 using DevicesModule.Plans.Designer;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;

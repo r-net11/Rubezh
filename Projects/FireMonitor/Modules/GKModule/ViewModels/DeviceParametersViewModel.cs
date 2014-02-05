@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecClient;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
-using System.Diagnostics;
-using GKProcessor;
+using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
@@ -16,7 +15,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
-using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {

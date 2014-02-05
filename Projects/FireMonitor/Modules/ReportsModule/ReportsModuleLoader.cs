@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
 
 namespace ReportsModule
 {

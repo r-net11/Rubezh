@@ -2,14 +2,14 @@
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
 using Infrustructure.Plans;
-using PlansModule.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
 using Infrustructure.Plans.Painters;
+using PlansModule.ViewModels;
 
 namespace PlansModule
 {

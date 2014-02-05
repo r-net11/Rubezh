@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.TreeList;
+﻿using FiresecClient;
+using Infrastructure.Common.TreeList;
 using XFiresecAPI;
-using FiresecClient;
 
 namespace GKModule.ViewModels
 {

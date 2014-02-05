@@ -3,16 +3,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using GKProcessor;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Events;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireMonitor
 {

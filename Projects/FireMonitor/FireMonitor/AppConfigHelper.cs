@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using Common;
 using Infrastructure;
-using Infrastructure.Common;
 
 namespace FireMonitor
 {

@@ -3,12 +3,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using XFiresecAPI;
-using Controls.Converters;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using System.Collections.Generic;
+using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

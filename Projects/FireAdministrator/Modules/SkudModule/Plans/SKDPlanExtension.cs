@@ -5,12 +5,8 @@ using System.Windows;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
+using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
-using SKDModule.Plans.Designer;
-using SKDModule.Plans.InstrumentAdorners;
-using SKDModule.Plans.ViewModels;
-using SKDModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -21,8 +17,10 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using XFiresecAPI;
-using FiresecAPI;
+using SKDModule.Plans.Designer;
+using SKDModule.Plans.InstrumentAdorners;
+using SKDModule.Plans.ViewModels;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Plans
 {

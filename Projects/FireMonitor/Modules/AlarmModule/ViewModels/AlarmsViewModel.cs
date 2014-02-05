@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Threading;
+using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
-using System.Windows.Input;
-using Common;
-using FiresecAPI;
-using System.Diagnostics;
-using System.IO;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels
 {

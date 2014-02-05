@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

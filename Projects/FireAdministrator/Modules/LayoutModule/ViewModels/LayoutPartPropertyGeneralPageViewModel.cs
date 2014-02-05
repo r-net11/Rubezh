@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Services.Layout;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Infrastructure.Common.Services.Layout;
 
 namespace LayoutModule.ViewModels
 {

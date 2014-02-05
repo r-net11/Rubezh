@@ -9,7 +9,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Common;
 
 namespace FireMonitor.Views
 {

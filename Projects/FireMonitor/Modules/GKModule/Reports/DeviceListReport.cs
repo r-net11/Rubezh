@@ -1,11 +1,8 @@
 ﻿using System.Data;
 using CodeReason.Reports;
-using Common.PDF;
 using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Reports;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 
 namespace GKModule.Reports
 {

@@ -2,15 +2,10 @@
 //#define SETCONFIGTOFILE
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using FiresecClient;
-using GKProcessor;
-using Infrastructure.Common;
-using XFiresecAPI;
-using Infrastructure.Common.Windows;
-using Common;
 using FiresecAPI;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace GKProcessor
 {

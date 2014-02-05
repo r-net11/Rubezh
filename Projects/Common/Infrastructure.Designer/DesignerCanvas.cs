@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Common;
-using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Designer.DesignerItems;
+using Infrastructure.Designer.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using Infrastructure.Designer.ViewModels;
 
 namespace Infrastructure.Designer
 {

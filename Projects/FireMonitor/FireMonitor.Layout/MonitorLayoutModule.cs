@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using FireMonitor.Layout.ViewModels;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models.Layouts;
 
 namespace FireMonitor.Layout
 {

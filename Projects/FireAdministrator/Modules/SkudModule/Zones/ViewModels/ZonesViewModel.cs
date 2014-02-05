@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using System.Windows.Input;
+using FiresecAPI;
+using Infrastructure;
+using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecAPI;
-using Infrustructure.Plans.Events;
-using FiresecClient;
-using Infrastructure;
-using System.Windows.Input;
-using System.IO;
-using Infrastructure.Common;
-using Microsoft.Win32;
-using Infrastructure.Common.Windows;
-using KeyboardKey = System.Windows.Input.Key;
 using Infrustructure.Plans.Elements;
-using Infrastructure.Common.Ribbon;
-using System.Collections.ObjectModel;
-using XFiresecAPI;
+using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {

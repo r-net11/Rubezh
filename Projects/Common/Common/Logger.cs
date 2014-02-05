@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
-using NLog;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
+using NLog;
 
 namespace Common
 {

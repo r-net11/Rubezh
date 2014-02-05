@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using FiresecAPI;
 using GKProcessor;
-using XFiresecAPI;
 using Infrastructure.Common;
+using XFiresecAPI;
 
 namespace FiresecClient
 {

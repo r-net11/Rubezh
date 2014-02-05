@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using Infrastructure.Common;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace Infrastructure.Designer
 {

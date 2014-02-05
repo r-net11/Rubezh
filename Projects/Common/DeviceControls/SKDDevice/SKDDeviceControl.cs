@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Devices;
-using XFiresecAPI;
 using Common;
 using FiresecAPI;
+using Infrustructure.Plans.Devices;
+using XFiresecAPI;
 
 namespace DeviceControls.SKDDevice
 {

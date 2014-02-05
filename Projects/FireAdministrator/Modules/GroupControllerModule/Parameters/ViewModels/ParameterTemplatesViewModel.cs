@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI.XModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

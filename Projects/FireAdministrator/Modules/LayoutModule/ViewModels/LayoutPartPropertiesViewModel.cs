@@ -1,12 +1,7 @@
-﻿using FiresecAPI.Models.Layouts;
-using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using System.Windows;
-using System.Collections.ObjectModel;
-using System;
-using Infrastructure;
+﻿using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

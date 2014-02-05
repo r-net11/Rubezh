@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Common;
-using Infrastructure.Models;
 using Infrastructure.Common;
-using System.Collections.Generic;
+using Infrastructure.Models;
 
 namespace Infrastructure
 {

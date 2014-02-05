@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using XFiresecAPI;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

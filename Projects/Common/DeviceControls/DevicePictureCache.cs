@@ -9,7 +9,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
-using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XFiresecAPI;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
+using XFiresecAPI;
 
 namespace PlansModule.Kursk.Designer
 {

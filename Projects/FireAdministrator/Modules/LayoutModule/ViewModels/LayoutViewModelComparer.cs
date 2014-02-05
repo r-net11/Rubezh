@@ -1,6 +1,4 @@
-﻿using Infrastructure.Common.TreeList;
-using System.Windows.Data;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace LayoutModule.ViewModels

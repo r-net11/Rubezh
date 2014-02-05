@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using SKDModule.Events;
-using SKDModule.ViewModels;
-using System;
-using System.Linq;
-using XFiresecAPI;
-using FiresecAPI;
-using SKDModule.Plans;
-using Infrustructure.Plans.Events;
-using SKDModule.Plans.Designer;
 using Infrastructure.Common.Validation;
+using Infrustructure.Plans.Events;
+using SKDModule.Events;
+using SKDModule.Plans;
+using SKDModule.Plans.Designer;
 using SKDModule.Validation;
+using SKDModule.ViewModels;
 
 namespace SKDModule
 {

@@ -2,7 +2,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Xceed.Wpf.AvalonDock;
-using System.Windows.Controls;
 
 namespace LayoutModule.Views
 {

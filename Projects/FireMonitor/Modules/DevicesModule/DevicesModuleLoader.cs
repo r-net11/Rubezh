@@ -14,8 +14,8 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrustructure.Plans.Events;
 using Infrastructure.Models;
+using Infrustructure.Plans.Events;
 
 namespace DevicesModule
 {

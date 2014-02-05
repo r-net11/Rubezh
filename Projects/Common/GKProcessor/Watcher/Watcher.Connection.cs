@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common;
-using FiresecClient;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Windows;
 using FiresecAPI;
+using FiresecClient;
 using XFiresecAPI;
-using Infrastructure.Common;
 
 namespace GKProcessor
 {

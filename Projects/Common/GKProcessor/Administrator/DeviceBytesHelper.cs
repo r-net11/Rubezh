@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Common;
-using Infrastructure.Common.Windows;
-using XFiresecAPI;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace GKProcessor
 {

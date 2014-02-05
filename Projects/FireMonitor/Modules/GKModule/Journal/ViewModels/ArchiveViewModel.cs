@@ -4,18 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI;
+using FiresecClient;
+using GKModule.Events;
 using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Models;
-using Microsoft.Win32;
-using FiresecClient;
 using Infrastructure.Events;
-using GKModule.Events;
-using System.Diagnostics;
+using Infrastructure.Models;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels

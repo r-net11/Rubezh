@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
+using FiresecAPI.Models;
+using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Painters;
-using System.Windows.Media;
-using Infrastructure;
 using Infrustructure.Plans.Presenter;
-using Infrastructure.Common;
-using System.IO;
-using System.Windows.Media.Imaging;
-using System.Windows.Input;
 
 namespace PlansModule.Designer
 {

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Xps;
+using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Common;
 
 namespace ReportsModule.ViewModels
 {

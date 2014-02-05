@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Devices;
 
 namespace DeviceControls

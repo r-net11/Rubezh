@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FiresecAPI.Models;
-using XFiresecAPI;
 using Infrustructure.Plans.Devices;
-using System.Linq;
+using XFiresecAPI;
 
 namespace DeviceControls
 {

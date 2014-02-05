@@ -1,8 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using GKModule.ViewModels;
-using System.Diagnostics;
-using System.Collections.Generic;
 using Infrastructure.Models;
 
 namespace GKModule.Views
