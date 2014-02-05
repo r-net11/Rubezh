@@ -125,7 +125,6 @@ namespace GKProcessor
 					if (sendResult.HasError)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
-						Trace.WriteLine(progressStage);
 						return false;
 					}
 				}

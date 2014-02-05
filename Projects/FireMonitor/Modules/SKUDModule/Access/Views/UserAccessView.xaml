@@ -5,9 +5,9 @@
              xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
             <StackPanel Orientation="Horizontal">
@@ -21,94 +21,83 @@
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
             </DataGrid.Columns>
         </DataGrid>
-        <TabControl Grid.Row="2" DataContext="{Binding SelectedUser}" Margin="2">
-            <TabItem Header="Доступ">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Margin="2">
-                            <Controls:ToolBarButton Command="{Binding RemoveCardCommand}" ToolTip="Изъять карту доступа в стоп-лист" ImageSource="/Controls;component/Images/Delete.png" />
+
+        <Grid Grid.Row="2" DataContext="{Binding SelectedUser}">
+            <TabControl ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" Margin="2">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ID}" Width="50" />
+                            <Button Content="X" Command="{Binding RemoveCommand}" Width="25" Height="25" Margin="-2" />
                         </StackPanel>
-                        <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" Margin="2">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Заблокирована">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CheckBox IsChecked="{Binding IsBlocked}" Margin="5, 0"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Идентификатор" Binding="{Binding ID}" />
-                                <DataGridTextColumn Header="Начало действия" Binding="{Binding StartDate}" />
-                                <DataGridTextColumn Header="Конец действия" Binding="{Binding EndDate}" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                    <StackPanel Grid.Column="1" Background="White">
-                        <Button Content="Выдать карту" Width="150" Command="{Binding AddCardCommand}" Margin="2" />
-                        <Button Content="Изъять ВСЕ карты" Width="150" Command="{Binding RemoveCardsCommand}" Margin="2" />
-                        <Button Content="Скопировать права" Width="150" Command="{Binding CopyRightsCommand}" Margin="2" />
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Помещения и устройства">
-                <Grid DataContext="{Binding SelectedCard}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid Grid.Row="1" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Controls:ToolBarButton Command="{Binding ChangeZonesCommand}" ToolTip="Выбор помещения" ImageSource="/Controls;component/Images/add.png" Margin="2" />
-                                <Controls:ToolBarButton Command="{Binding ChangeTemplateCommand}" ToolTip="Выбор шаблона доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
-                                <Controls:ToolBarButton Command="{Binding DeleteZoneCommand}" ToolTip="Удалить помещение" ImageSource="/Controls;component/Images/add.png" Margin="2" />
-                                <Controls:ToolBarButton Command="{Binding ChangeGroupRightsCommand}" ToolTip="Групповое представление прав доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Идентификатор" Foreground="White" Width="150" Margin="2" />
+                                    <TextBlock Text="{Binding ID}" Foreground="White" Width="100" Margin="2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Начало действия" Foreground="White" Width="150" Margin="2" />
+                                    <TextBlock Text="{Binding StartDate}" Foreground="White" Width="100" Margin="2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Конец действия" Foreground="White" Width="150" Margin="2" />
+                                    <TextBlock Text="{Binding EndDate}" Foreground="White" Width="100" Margin="2" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Controls:ToolBarButton Command="{Binding ChangeZonesCommand}" ToolTip="Выбор помещения" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                                    <Controls:ToolBarButton Command="{Binding ChangeTemplateCommand}" ToolTip="Выбор шаблона доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                                    <Controls:ToolBarButton Command="{Binding ChangeGroupRightsCommand}" ToolTip="Групповое представление прав доступа" ImageSource="/Controls;component/Images/add.png" Margin="2" />
+                                </StackPanel>
                             </StackPanel>
-                            <tree:TreeList Grid.Row="1" Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
-                                <tree:TreeList.View>
-                                    <GridView>
-                                        <GridViewColumn Width="250" Header="Зона">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                                        <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" />
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
-                                    </GridView>
-                                </tree:TreeList.View>
-                            </tree:TreeList>
-                        </Grid>
-                    </Grid>
-                    <StackPanel Grid.Column="1">
-                        <ItemsControl ItemsSource="{Binding Devices}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Device.PresentationName}" />
-                                        <Button Content="Изменить" Command="{Binding ShowPropertiesCommand}" />
+
+                            <Grid Grid.Column="1">
+                                <tree:TreeList Grid.Row="1" Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
+                                    <tree:TreeList.View>
+                                        <GridView>
+                                            <GridViewColumn Width="250" Header="Зона">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                            <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+                                        </GridView>
+                                    </tree:TreeList.View>
+                                </tree:TreeList>
+                            </Grid>
+                            <StackPanel Grid.Column="2" DataContext="{Binding SelectedZone}">
+                                <StackPanel Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="{Binding IsChecked}">
+                                    <CheckBox Content="Защита от передачи карт(Antipassback)" IsChecked="{Binding IsAntiPassback}" Foreground="White" Margin="2" />
+                                    <CheckBox Content="Доступ с комиссионированием" IsChecked="{Binding IsComission}" Foreground="White" Margin="2" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Временной критерий" Width="200" Foreground="White" Margin="2" />
+                                        <TextBlock Text="{Binding SelectedTimeCreteria.Name}" Foreground="White" Margin="2" />
                                     </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="" Width="200" Foreground="White" Margin="2" />
+                                        <TextBlock Text="{Binding SelectedTimeType.Name}" Foreground="White" Margin="2" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+            <Button Content="Выдать карту" Command="{Binding AddCardCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="30" Margin="2" />
+        </Grid>
     </Grid>
 </UserControl>

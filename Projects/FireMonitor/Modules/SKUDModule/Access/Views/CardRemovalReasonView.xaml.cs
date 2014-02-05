@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class CardDeviceDetailsView : UserControl
+	public partial class CardRemovalReasonView : UserControl
 	{
-		public CardDeviceDetailsView()
+		public CardRemovalReasonView()
 		{
 			InitializeComponent();
 		}

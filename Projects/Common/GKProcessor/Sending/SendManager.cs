@@ -15,18 +15,6 @@ namespace GKProcessor
 	public static class SendManager
 	{
 		static object locker = new object();
-		static bool IsLogging = false;
-		static StreamWriter StreamWriter;
-		public static void StrartLog(string fileName)
-		{
-			IsLogging = true;
-			StreamWriter = new StreamWriter(fileName);
-		}
-		public static void StopLog()
-		{
-			IsLogging = false;
-			StreamWriter.Close();
-		}
 
 		public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
@@ -103,11 +91,6 @@ namespace GKProcessor
 
 			try
 			{
-				if (IsLogging)
-				{
-					StreamWriter.WriteLine("--> " + BytesHelper.BytesToString(bytes));
-					Trace.WriteLine("--> " + BytesHelper.BytesToString(bytes));
-				}
 				var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count, endPoint);
 				if (bytesSent != bytes.Count)
 				{
@@ -134,11 +117,6 @@ namespace GKProcessor
 					return new SendResult(new List<byte>());
 				}
 				recievedBytes = udpClient.Receive(ref endPoint).ToList();
-				if (IsLogging)
-				{
-					StreamWriter.WriteLine("<-- " + BytesHelper.BytesToString(recievedBytes));
-					Trace.WriteLine("<-- " + BytesHelper.BytesToString(recievedBytes));
-				}
 			}
 			catch (SocketException e)
 			{

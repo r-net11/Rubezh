@@ -85,7 +85,6 @@ namespace DiagnosticsModule.ViewModels
 					ApplicationService.Invoke(() =>
 					{
 						var hasLicense = LicenseHelper.CheckLicense(false);
-						Trace.WriteLine("CheckLicense " + hasLicense);
 					});
 					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
 				}

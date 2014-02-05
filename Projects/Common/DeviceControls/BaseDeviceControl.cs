@@ -59,5 +59,4 @@ namespace DeviceControls
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
-
 }

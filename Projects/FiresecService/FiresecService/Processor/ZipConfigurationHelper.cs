@@ -42,10 +42,17 @@ namespace FiresecService.Processor
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
-			var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip(zipFile, "SKDConfiguration.xml", typeof(SKDConfiguration));
-			skdConfiguration.AfterLoad();
-			zipFile.Dispose();
-			return skdConfiguration;
+			if (zipFile != null)
+			{
+				var skdConfiguration = (SKDConfiguration)GetConfigurationFomZip(zipFile, "SKDConfiguration.xml", typeof(SKDConfiguration));
+				if (skdConfiguration != null)
+				{
+					skdConfiguration.AfterLoad();
+				}
+				zipFile.Dispose();
+				return skdConfiguration;
+			}
+			return new SKDConfiguration();
 		}
 
 		static VersionedConfiguration GetConfigurationFomZip(ZipFile zipFile, string fileName, Type type)

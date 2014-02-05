@@ -45,14 +45,14 @@ namespace GKModule.ViewModels
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 
 			Device = device;
-			PropertiesViewModel = new PropertiesViewModel(device);
+			PropertiesViewModel = new PropertiesViewModel(Device);
 
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
 			InitializeParamsCommands();
-			device.Changed += OnChanged;
-			device.AUParametersChanged += UpdateDeviceParameterMissmatch;
-			device.Changed += UpdateDeviceParameterMissmatch;
+			Device.Changed += OnChanged;
+			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
+			Device.Changed += UpdateDeviceParameterMissmatch;
 		}
 
 		void OnChanged()
@@ -180,6 +180,10 @@ namespace GKModule.ViewModels
 			{
 				XManager.RemoveDevice(device);
 			}
+			if (Device.Parent.DriverType == XDriverType.RSR2_KAU_Shleif)
+				XManager.RebuildRSR2Addresses(Device.Parent.Parent);
+			Device.OnChanged();
+
 			var parent = Parent;
 			if (parent != null)
 			{
