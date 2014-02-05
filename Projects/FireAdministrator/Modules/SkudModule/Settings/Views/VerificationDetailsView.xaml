@@ -10,17 +10,17 @@
                     <DataGridTemplateColumn Header="Контроллер" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Parent.Address}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Parent.Name}" Margin="2" />
+                                    <TextBlock Text="{Binding Parent.Address}" Margin="2" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Считыватель" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Driver.ShortName}" Margin="2" />
-                                    <TextBlock Text="{Binding Address}" Margin="2" />
-                                </StackPanel>
+                                <TextBlock Text="{Binding Name}" Margin="2" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

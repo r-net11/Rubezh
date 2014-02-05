@@ -28,7 +28,7 @@
 										<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="{Binding Device.Driver.ImageSource}" />
-												<TextBlock Text="{Binding Device.PresentationName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+												<TextBlock Text="{Binding Device.Name}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
 											</StackPanel>
 										</Hyperlink>
 								    </TextBlock>
@@ -41,7 +41,7 @@
 									<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="{Binding Device.Parent.Driver.ImageSource}" />
-											<TextBlock Text="{Binding Device.Parent.PresentationName}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
+											<TextBlock Text="{Binding Device.Parent.Name}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>

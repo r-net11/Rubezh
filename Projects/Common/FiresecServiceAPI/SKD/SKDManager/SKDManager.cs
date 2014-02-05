@@ -41,7 +41,8 @@ namespace FiresecAPI
 				var driver = Drivers.FirstOrDefault(x => x.DriverType == SKDDriverType.System);
 				SKDConfiguration.RootDevice = new SKDDevice()
 				{
-					DriverUID = driver.UID
+					DriverUID = driver.UID,
+					Name = "Система"
 				};
 			}
 

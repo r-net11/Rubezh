@@ -48,7 +48,6 @@ namespace SKDModule.ViewModels
 				};
 				Device.Properties.Add(newProperty);
 			}
-			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
 	}

@@ -15,7 +15,6 @@ namespace FiresecAPI
 			UID = Guid.NewGuid();
 			Children = new List<SKDDevice>();
 			Properties = new List<XProperty>();
-			DeviceProperties = new List<XProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
 			SKDReaderProperty = new SKDReaderProperty();
@@ -41,16 +40,13 @@ namespace FiresecAPI
 		public string Address { get; set; }
 
 		[DataMember]
-		public string Description { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
 		public List<SKDDevice> Children { get; set; }
 
 		[DataMember]
 		public List<XProperty> Properties { get; set; }
-
-		[DataMember]
-		public List<XProperty> DeviceProperties { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
@@ -66,11 +62,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public SKDReaderProperty SKDReaderProperty { get; set; }
-
-		public string PresentationName
-		{
-			get { return Driver.ShortName + " " + Address; }
-		}
 
 		public bool IsRealDevice
 		{
@@ -101,12 +92,5 @@ namespace FiresecAPI
 				Changed();
 		}
 		public event Action Changed;
-
-		public void OnAUParametersChanged()
-		{
-			if (AUParametersChanged != null)
-				AUParametersChanged();
-		}
-		public event Action AUParametersChanged;
 	}
 }

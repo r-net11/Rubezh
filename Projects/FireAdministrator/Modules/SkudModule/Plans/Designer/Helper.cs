@@ -88,7 +88,7 @@ namespace SKDModule.Plans.Designer
 		public static string GetSKDDeviceTitle(ElementSKDDevice element)
 		{
 			var device = GetSKDDevice(element);
-			return device == null ? "Неизвестное устройство" : device.PresentationName;
+			return device == null ? "Неизвестное устройство" : device.Name;
 		}
 		public static string GetSKDDeviceImageSource(ElementSKDDevice element)
 		{

@@ -3,7 +3,6 @@
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
-		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 	</UserControl.Resources>
 		<Grid>
 		<Grid.RowDefinitions>
@@ -43,7 +42,6 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}" />
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
@@ -52,7 +50,7 @@
 		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" Padding="5" TextBlock.FontSize="11" TextBlock.Foreground="White">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
-                    <TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.PresentationName}" />
+                    <TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.Name}" />
 					<Views:DeviceStateView TextElement.Foreground="White" />
 				</StackPanel>
 			</ScrollViewer>

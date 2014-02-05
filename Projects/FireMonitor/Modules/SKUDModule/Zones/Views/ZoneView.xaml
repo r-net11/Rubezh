@@ -7,7 +7,7 @@
     <StackPanel Orientation="Horizontal">
         <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
-        <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+        <TextBlock Text="{Binding Device.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
             <TextBlock.ContextMenu>
                 <ContextMenu>
                     <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />
@@ -21,7 +21,7 @@
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
-                    <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding Device.Name}" FontWeight="Bold" />
                     <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>

@@ -19,7 +19,6 @@ namespace SKDModule.ViewModels
 			ParentDeviceViewModel = deviceViewModel;
 			ParentDevice = ParentDeviceViewModel.Device;
 			Drivers = new ObservableCollection<SKDDriver>();
-			AvailableShleifs = new ObservableCollection<byte>();
 
 			foreach (var driver in SKDManager.Drivers)
 			{
@@ -37,7 +36,6 @@ namespace SKDModule.ViewModels
 		protected SKDDevice ParentDevice;
 		public DeviceViewModel AddedDevice { get; protected set; }
 		public ObservableCollection<SKDDriver> Drivers { get; protected set; }
-		public ObservableCollection<byte> AvailableShleifs { get; protected set; }
 
 		SKDDriver _selectedDriver;
 		public SKDDriver SelectedDriver
@@ -47,6 +45,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedDriver = value;
 				OnPropertyChanged("SelectedDriver");
+				Name = value.ShortName;
 			}
 		}
 
@@ -64,18 +63,30 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged("Name");
+			}
+		}
+
 		protected override bool CanSave()
 		{
-			return (SelectedDriver != null);
+			return SelectedDriver != null && !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()
 		{
 			var device = new SKDDevice()
 			{
-				Address = Address,
 				Driver = SelectedDriver,
-				DriverUID = SelectedDriver.UID
+				DriverUID = SelectedDriver.UID,
+				Address = Address,
+				Name = Name,
 			};
 			SKDManager.Devices.Add(device);
 			AddedDevice = new DeviceViewModel(device);

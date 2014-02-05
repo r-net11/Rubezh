@@ -116,10 +116,6 @@
     <Compile Include="Library\Views\LibraryStateDetailsView.xaml.cs">
       <DependentUpon>LibraryStateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter.cs" />
-    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter2.cs" />
-    <Compile Include="Devices\Converters\DeviceParameterMissmatchTypeToColorConverter3.cs" />
-    <Compile Include="Devices\ViewModels\DeviceParameterMissmatchType.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />

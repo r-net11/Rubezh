@@ -67,6 +67,17 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => VisualizationState);
 		}
 
+		public string Name
+		{
+			get { return Device.Name; }
+			set
+			{
+				Device.Name = value;
+				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+
 		public string Address
 		{
 			get { return Device.Address; }
@@ -82,17 +93,6 @@ namespace SKDModule.ViewModels
 		public string PresentationAddress
 		{
 			get { return Device.Address; }
-		}
-
-		public string Description
-		{
-			get { return Device.Description; }
-			set
-			{
-				Device.Description = value;
-				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }

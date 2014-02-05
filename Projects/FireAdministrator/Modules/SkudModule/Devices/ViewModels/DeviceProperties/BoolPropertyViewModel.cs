@@ -27,13 +27,5 @@ namespace SKDModule.ViewModels
 				Save(value ? (ushort)1 : (ushort)0);
 			}
 		}
-
-		public string DeviceAUParameterValue
-		{
-			get
-			{
-				return base.DeviceAUParameterValue == "0" ? "Нет" : (base.DeviceAUParameterValue == "1" ? "Да" : "Неизвестно");
-			}
-		}
 	}
 }

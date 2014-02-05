@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		public ReaderDetailsViewModel(SKDDevice device)
 		{
 			Device = device;
-			Title = "Свойства считывателя " + Device.PresentationName;
+			Title = "Свойства считывателя " + Device.Name;
 			if (Device.SKDReaderProperty == null)
 				Device.SKDReaderProperty = new SKDReaderProperty();
 

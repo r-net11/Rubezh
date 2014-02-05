@@ -22,21 +22,6 @@ namespace SKDModule.ViewModels
 			{
 				Save(driverProperty.Default, false);
 			}
-
-			if (Device.DeviceProperties == null)
-			{
-				Device.DeviceProperties = new List<XProperty>();
-			}
-
-			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == driverProperty.Name);
-			if (deviceProperty != null)
-			{
-				DeviceAUParameterValue = deviceProperty.Value.ToString();
-			}
-			else
-				DeviceAUParameterValue = "Неизвестно";
-
-			UpdateDeviceParameterMissmatchType();
 		}
 
         public bool IsAUParameter { get; set; }
@@ -49,39 +34,6 @@ namespace SKDModule.ViewModels
 		{
 			get { return DriverProperty.ToolTip; }
 		}
-
-		protected void UpdateDeviceParameterMissmatchType()
-		{
-			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-			if (!DriverProperty.IsReadOnly)
-			{
-				if (deviceProperty == null)
-				{
-					DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unknown;
-				}
-				else
-				{
-                    if (systemProperty != null && deviceProperty.Value == systemProperty.Value)
-						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
-					else
-						DeviceParameterMissmatchType = DeviceParameterMissmatchType.Unequal;
-				}
-			}
-		}
-
-		DeviceParameterMissmatchType _deviceParameterMissmatchType;
-		public DeviceParameterMissmatchType DeviceParameterMissmatchType
-		{
-			get { return _deviceParameterMissmatchType; }
-			set
-			{
-				_deviceParameterMissmatchType = value;
-				OnPropertyChanged("DeviceParameterMissmatchType");
-			}
-		}
-
-		public virtual string DeviceAUParameterValue { get; protected set; }
 
 		public bool IsEnabled
 		{
@@ -110,7 +62,6 @@ namespace SKDModule.ViewModels
 				};
 				Device.Properties.Add(newProperty);
 			}
-			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
 	}

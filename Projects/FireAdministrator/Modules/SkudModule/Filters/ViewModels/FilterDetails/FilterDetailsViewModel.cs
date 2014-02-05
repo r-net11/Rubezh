@@ -35,6 +35,8 @@ namespace SKDModule.ViewModels
 				JournalFilter = journalFilter;
 			}
 			CopyProperties();
+
+			Devices = new ObservableCollection<SKDDevice>();
 		}
 
 		void CopyProperties()
@@ -84,6 +86,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("LastRecordsCount");
 			}
 		}
+
+		public ObservableCollection<SKDDevice> Devices { get; private set; }
 
 		public ObservableCollection<SKDEventNameViewModel> EventNames { get; private set; }
 

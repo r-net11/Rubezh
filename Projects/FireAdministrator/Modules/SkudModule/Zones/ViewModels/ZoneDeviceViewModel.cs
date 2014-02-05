@@ -18,13 +18,13 @@ namespace SKDModule.ViewModels
 		{
 			get { return Device.Driver; }
 		}
+		public string Name
+		{
+			get { return Device.Name; }
+		}
 		public string PresentationAddress
 		{
 			get { return Device.Address; }
-		}
-		public string Description
-		{
-			get { return Device.Description; }
 		}
 		public bool IsBold { get; set; }
 	}

@@ -26,14 +26,4 @@ namespace SKDModule.ViewModels
 			return result;
 		}
 	}
-	public class DeviceViewModelDescriptionComparer : TreeNodeComparer<DeviceViewModel>
-	{
-		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
-		{
-			int result = string.Compare(x.Description, y.Description);
-			if (result == 0)
-				result = string.Compare(x.Driver.ShortName, y.Driver.ShortName);
-			return result;
-		}
-	}
 }
