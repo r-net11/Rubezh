@@ -18,7 +18,7 @@ using Infrustructure.Plans.Elements;
 using Infrastructure.Common.Ribbon;
 using System.Collections.ObjectModel;
 using XFiresecAPI;
-using Infrastructure.Events;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

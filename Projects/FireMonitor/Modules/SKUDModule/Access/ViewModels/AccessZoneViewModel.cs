@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 				switch (value.ID)
 				{
 					case 1:
-						foreach (var interval in SKDManager.SKDConfiguration.NamedTimeIntervals)
+						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervals)
 						{
 							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}

@@ -183,6 +183,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return SelectedDevice != null;
+		}
+
 		protected override bool Save()
 		{
 			SKDManager.SKDConfiguration.SKDSystemConfiguration.ReaderDeviceUID = SelectedDevice.UID;

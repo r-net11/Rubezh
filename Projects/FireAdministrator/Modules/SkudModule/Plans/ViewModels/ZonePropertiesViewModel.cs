@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using FiresecAPI;
+using SKDModule.Events;
 
 namespace SKDModule.Plans.ViewModels
 {

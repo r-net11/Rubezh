@@ -72,6 +72,19 @@
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateSKDZoneEvent.cs" />
+    <Compile Include="Events\EditSKDZoneEvent.cs" />
+    <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
+    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
+    <Compile Include="Events\ShowSKDFiltersEvent.cs" />
+    <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
+    <Compile Include="Events\ShowSKDLidraryEvent.cs" />
+    <Compile Include="Events\ShowSKDSettingsEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDSlideWeekIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
+    <Compile Include="Events\ShowSKDZoneEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\SKDEventViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
@@ -238,54 +251,15 @@
     <Compile Include="Validation\TimeIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.TimeIntervals.cs" />
-    <Compile Include="ViewModels\PassCardTemplatePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\PassCardDesignerViewModel.cs" />
-    <Compile Include="ViewModels\PassCardsDesignerViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeDictionaryMenuViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeDictionaryItemViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeDictionaryViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeGroupsViewModel.cs" />
-    <Compile Include="ViewModels\EmployeePositionsViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeDepartmentsViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeCardDetailsViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeCardIndexFilterViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeCardIndexViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeCardViewModel.cs" />
-    <Compile Include="ViewModels\EmployeeCardIndexMenuViewModel.cs" />
-    <Compile Include="ViewModels\PassCardTemplateViewModel.cs" />
-    <Compile Include="ViewModels\SkudViewModel.cs" />
-    <Compile Include="Views\EmployeeDepartmentsView.xaml.cs">
-      <DependentUpon>EmployeeDepartmentsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeGroupsView.xaml.cs">
-      <DependentUpon>EmployeeGroupsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeePositionsView.xaml.cs">
-      <DependentUpon>EmployeePositionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeDictionaryMenuView.xaml.cs">
-      <DependentUpon>EmployeeDictionaryMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeCardIndexFilterView.xaml.cs">
-      <DependentUpon>EmployeeCardIndexFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeCardIndexMenuView.xaml.cs">
-      <DependentUpon>EmployeeCardIndexMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeCardIndexView.xaml.cs">
-      <DependentUpon>EmployeeCardIndexView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EmployeeCardDetailsView.xaml.cs">
-      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PassCardsDesignerView.xaml.cs">
+    <Compile Include="PassCard\ViewModels\PassCardTemplatePropertiesViewModel.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardDesignerViewModel.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardsDesignerViewModel.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardTemplateViewModel.cs" />
+    <Compile Include="PassCard\Views\PassCardsDesignerView.xaml.cs">
       <DependentUpon>PassCardsDesignerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PassCardTemplatePropertiesView.xaml.cs">
+    <Compile Include="PassCard\Views\PassCardTemplatePropertiesView.xaml.cs">
       <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SkudView.xaml.cs">
-      <DependentUpon>SkudView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
@@ -347,11 +321,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Devices\Views\ReaderDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\ZoneSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Filters\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -364,6 +350,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Filters\Views\FiltersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Library\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -491,49 +481,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EmployeeDepartmentsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EmployeeGroupsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EmployeePositionsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EmployeeDictionaryMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EmployeeCardIndexFilterView.xaml">
+    <Page Include="PassCard\Views\PassCardsDesignerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EmployeeCardIndexMenuView.xaml">
+    <Page Include="PassCard\Views\PassCardTemplatePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EmployeeCardIndexView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EmployeeCardDetailsView.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PassCardsDesignerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PassCardTemplatePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SkudView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Zones\Views\ZonesMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -549,7 +507,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\Dictionary.xaml">
+    <Page Include="PassCard\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

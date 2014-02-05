@@ -17,6 +17,7 @@ using Infrustructure.Plans.Painters;
 using XFiresecAPI;
 using FiresecAPI;
 using System.Collections.Generic;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

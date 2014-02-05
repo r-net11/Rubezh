@@ -1,6 +1,6 @@
 ﻿using System;
 using Infrastructure.Common.Validation;
-using Infrastructure.Events;
+using SKDModule.Events;
 using XFiresecAPI;
 using FiresecAPI;
 

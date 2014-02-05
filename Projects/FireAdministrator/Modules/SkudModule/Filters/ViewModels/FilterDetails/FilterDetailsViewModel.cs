@@ -15,8 +15,9 @@ namespace SKDModule.ViewModels
 		public FilterDetailsViewModel(SKDJournalFilter journalFilter = null)
 		{
 			EventNames = new ObservableCollection<SKDEventNameViewModel>();
-			EventNames.Add(new SKDEventNameViewModel(""));
-			EventNames.Add(new SKDEventNameViewModel(""));
+			EventNames.Add(new SKDEventNameViewModel("Проход"));
+			EventNames.Add(new SKDEventNameViewModel("Проход с нарушением ВРЕМЕНИ"));
+			EventNames.Add(new SKDEventNameViewModel("Проход с нарушением ЗОНАЛЬНОСТИ"));
 
 			if (journalFilter == null)
 			{
@@ -45,7 +46,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var eventName in JournalFilter.EventNames)
 				{
-					if (eventName == eventViewModel.EventName)
+					if (eventName == eventViewModel.Name)
 						eventViewModel.IsChecked = true;
 				}
 			}
@@ -86,27 +87,11 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<SKDEventNameViewModel> EventNames { get; private set; }
 
-		List<XStateClass> GetAvailableStateClasses()
-		{
-			var states = new List<XStateClass>();
-			states.Add(XStateClass.Fire2);
-			states.Add(XStateClass.Fire1);
-			states.Add(XStateClass.Attention);
-			states.Add(XStateClass.Failure);
-			states.Add(XStateClass.Ignore);
-			states.Add(XStateClass.On);
-			states.Add(XStateClass.Unknown);
-			states.Add(XStateClass.Service);
-			states.Add(XStateClass.Info);
-			states.Add(XStateClass.Norm);
-			return states;
-		}
-
 		protected override bool Save()
 		{
 			JournalFilter.Name = Name;
 			JournalFilter.Description = Description;
-			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName).ToList();
+			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.Name).ToList();
 			return base.Save();
 		}
 

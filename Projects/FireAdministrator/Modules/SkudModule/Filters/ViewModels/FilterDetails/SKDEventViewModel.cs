@@ -5,12 +5,15 @@ namespace SKDModule.ViewModels
 {
 	public class SKDEventNameViewModel : BaseViewModel
 	{
-		public SKDEventNameViewModel(string eventName)
+		public SKDEventNameViewModel(string name)
 		{
-			EventName = eventName;
+			Name = name;
+			StateClass = XStateClass.Info;
 		}
 
-		public string EventName { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public XStateClass StateClass { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked
