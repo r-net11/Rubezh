@@ -12,7 +12,7 @@ namespace XFiresecAPI
 	{
 		public SKDConfiguration()
 		{
-			NamedTimeIntervals = new List<NamedSKDTimeInterval>();
+			TimeIntervals = new List<SKDTimeInterval>();
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
 			SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
 			WeeklyIntervals = new List<SKDWeeklyInterval>();
@@ -30,7 +30,7 @@ namespace XFiresecAPI
 		public SKDZone RootZone { get; set; }
 
 		[DataMember]
-		public List<NamedSKDTimeInterval> NamedTimeIntervals { get; set; }
+		public List<SKDTimeInterval> TimeIntervals { get; set; }
 
 		[DataMember]
 		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
@@ -89,9 +89,9 @@ namespace XFiresecAPI
 		public override bool ValidateVersion()
 		{
 			var result = true;
-			if (NamedTimeIntervals == null)
+			if (TimeIntervals == null)
 			{
-				NamedTimeIntervals = new List<NamedSKDTimeInterval>();
+				TimeIntervals = new List<SKDTimeInterval>();
 				result = false;
 			}
 			if (SlideDayIntervals == null)
@@ -109,6 +109,25 @@ namespace XFiresecAPI
 				WeeklyIntervals = new List<SKDWeeklyInterval>();
 				result = false;
 			}
+
+			var alwaysTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Всегда" && x.IsDefault);
+			if (alwaysTimeInterval == null)
+			{
+				alwaysTimeInterval = new SKDTimeInterval() { Name = "Всегда", IsDefault = true };
+				alwaysTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue.AddHours(23).AddMinutes(59) });
+				TimeIntervals.Add(alwaysTimeInterval);
+				result = false;
+			}
+
+			var neverTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			if (neverTimeInterval == null)
+			{
+				neverTimeInterval = new SKDTimeInterval() { Name = "Никогда", IsDefault = true };
+				neverTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
+				TimeIntervals.Add(neverTimeInterval);
+				result = false;
+			}
+
 			foreach (var weeklyInterval in WeeklyIntervals)
 			{
 				if (weeklyInterval.WeeklyIntervalParts == null)

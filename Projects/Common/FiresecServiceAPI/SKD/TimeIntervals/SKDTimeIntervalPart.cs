@@ -7,24 +7,20 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class NamedSKDTimeInterval
+	public class SKDTimeIntervalPart
 	{
-		public NamedSKDTimeInterval()
+		public SKDTimeIntervalPart()
 		{
 			UID = Guid.NewGuid();
-			TimeIntervals = new List<SKDTimeInterval>();
 		}
 
 		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public string Name { get; set; }
+		public DateTime StartTime { get; set; }
 
 		[DataMember]
-		public string Description { get; set; }
-
-		[DataMember]
-		public List<SKDTimeInterval> TimeIntervals { get; set; }
+		public DateTime EndTime { get; set; }
 	}
 }

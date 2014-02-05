@@ -5,34 +5,88 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Collections.ObjectModel;
+using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeIntervalViewModel : BaseViewModel
 	{
-		public SKDTimeInterval TimeInterval { get; set; }
+		public SKDTimeInterval TimeInterval { get; private set; }
 
 		public TimeIntervalViewModel(SKDTimeInterval timeInterval)
 		{
 			TimeInterval = timeInterval;
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			TimeIntervalParts = new ObservableCollection<TimeIntervalPartViewModel>();
+			foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
+			{
+				var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
+				TimeIntervalParts.Add(timeIntervalPartViewModel);
+			}
 		}
 
-		public DateTime StartTime
-		{
-			get { return TimeInterval.StartTime; }
-		}
+		public ObservableCollection<TimeIntervalPartViewModel> TimeIntervalParts { get; private set; }
 
-		DateTime _endTime;
-		public DateTime EndTime
+		TimeIntervalPartViewModel _selectedTimeIntervalPart;
+		public TimeIntervalPartViewModel SelectedTimeIntervalPart
 		{
-			get { return TimeInterval.EndTime; }
+			get { return _selectedTimeIntervalPart; }
+			set
+			{
+				_selectedTimeIntervalPart = value;
+				OnPropertyChanged("SelectedTimeIntervalPart");
+			}
 		}
 
 		public void Update()
 		{
 			OnPropertyChanged("TimeInterval");
-			OnPropertyChanged("StartTime");
-			OnPropertyChanged("EndTime");
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var timeIntervalPart = new SKDTimeIntervalPart();
+			TimeInterval.TimeIntervalParts.Add(timeIntervalPart);
+			var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
+			TimeIntervalParts.Add(timeIntervalPartViewModel);
+			ServiceFactory.SaveService.SKDChanged = true;
+		}
+		bool CanAdd()
+		{
+			return TimeIntervalParts.Count < 4;
+		}
+
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			TimeInterval.TimeIntervalParts.Remove(SelectedTimeIntervalPart.TimeIntervalPart);
+			TimeIntervalParts.Remove(SelectedTimeIntervalPart);
+			ServiceFactory.SaveService.SKDChanged = true;
+		}
+		bool CanRemove()
+		{
+			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var timeIntervalPartDetailsViewModel = new TimeIntervalPartDetailsViewModel(SelectedTimeIntervalPart.TimeIntervalPart);
+			if (DialogService.ShowModalWindow(timeIntervalPartDetailsViewModel))
+			{
+				SelectedTimeIntervalPart.TimeIntervalPart = SelectedTimeIntervalPart.TimeIntervalPart;
+				SelectedTimeIntervalPart.Update();
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+		bool CanEdit()
+		{
+			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault;
 		}
 	}
 }

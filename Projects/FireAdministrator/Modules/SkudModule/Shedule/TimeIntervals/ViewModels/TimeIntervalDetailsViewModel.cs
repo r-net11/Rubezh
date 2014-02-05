@@ -13,38 +13,49 @@ namespace SKDModule.ViewModels
 
 		public TimeIntervalDetailsViewModel(SKDTimeInterval timeInterval = null)
 		{
-			Title = "Задание интервала";
+			if (timeInterval == null)
+			{
+				Title = "Новый именованный интервал";
+				timeInterval = new SKDTimeInterval()
+				{
+					Name = "Именованный интервал"
+				};
+			}
+			else
+			{
+				Title = "Редактирование именованного интервала";
+			}
 			TimeInterval = timeInterval;
-			StartTime = timeInterval.StartTime;
-			EndTime = timeInterval.EndTime;
+			Name = TimeInterval.Name;
+			Description = TimeInterval.Description;
 		}
 
-		DateTime _startTime;
-		public DateTime StartTime
+		string _name;
+		public string Name
 		{
-			get { return _startTime; }
+			get { return _name; }
 			set
 			{
-				_startTime = value;
-				OnPropertyChanged("StartTime");
+				_name = value;
+				OnPropertyChanged("Name");
 			}
 		}
 
-		DateTime _endTime;
-		public DateTime EndTime
+		string _description;
+		public string Description
 		{
-			get { return _endTime; }
+			get { return _description; }
 			set
 			{
-				_endTime = value;
-				OnPropertyChanged("EndTime");
+				_description = value;
+				OnPropertyChanged("Description");
 			}
 		}
 
 		protected override bool Save()
 		{
-			TimeInterval.StartTime = StartTime;
-			TimeInterval.EndTime = EndTime;
+			TimeInterval.Name = Name;
+			TimeInterval.Description = Description;
 			return true;
 		}
 	}

@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
-					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault().UID;
+					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault().UID;
 				}
 			}
 			else

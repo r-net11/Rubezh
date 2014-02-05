@@ -14,10 +14,12 @@ using FiresecAPI;
 using SKDModule.Plans;
 using Infrustructure.Plans.Events;
 using SKDModule.Plans.Designer;
+using Infrastructure.Common.Validation;
+using SKDModule.Validation;
 
 namespace SKDModule
 {
-	public class SKDModule : ModuleBase
+	public class SKDModule : ModuleBase, IValidationModule
 	{
 		SkudViewModel _skdViewModel;
 		EmployeeCardIndexViewModel _employeeCardIndexViewModel;
@@ -133,6 +135,13 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 		}
+
+		#region IValidationModule Members
+		public IEnumerable<IValidationError> Validate()
+		{
+			return Validator.Validate();
+		}
+		#endregion
 
 		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
 		{

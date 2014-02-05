@@ -123,12 +123,10 @@ namespace GKModule
 		}
 
 		#region IValidationModule Members
-
 		public IEnumerable<IValidationError> Validate()
 		{
 			return Validator.Validate();
 		}
-
 		#endregion
 
 		private void OnCreateXZone(CreateXZoneEventArg createZoneEventArg)
