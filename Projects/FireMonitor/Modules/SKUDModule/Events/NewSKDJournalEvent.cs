@@ -2,7 +2,7 @@
 using FiresecAPI;
 using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Events
+namespace SKDModule.Events
 {
 	public class NewSKDJournalEvent : CompositePresentationEvent<List<SKDJournalItem>>
 	{

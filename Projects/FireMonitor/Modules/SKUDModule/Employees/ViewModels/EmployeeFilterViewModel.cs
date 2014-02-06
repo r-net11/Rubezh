@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common;
-using FiresecAPI;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {

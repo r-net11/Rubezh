@@ -1,22 +1,17 @@
-﻿ using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading;
+using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using XFiresecAPI;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using System.Windows.Input;
-using FiresecAPI;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

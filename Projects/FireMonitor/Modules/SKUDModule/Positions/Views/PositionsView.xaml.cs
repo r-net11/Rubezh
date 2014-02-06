@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class SKUDView : UserControl
+	public partial class PositionsView : UserControl
 	{
-		public SKUDView()
+		public PositionsView()
 		{
 			InitializeComponent();
 		}

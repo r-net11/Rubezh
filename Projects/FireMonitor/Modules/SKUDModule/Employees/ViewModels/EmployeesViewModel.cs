@@ -1,16 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
-using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SKUDViewModel : ViewPartViewModel
+	public class EmployeesViewModel : ViewPartViewModel
 	{
-		public SKUDViewModel()
+		public EmployeesViewModel()
 		{
 			Filter = new EmployeeFilter();
 			SelectedEmployee = Employees.FirstOrDefault();

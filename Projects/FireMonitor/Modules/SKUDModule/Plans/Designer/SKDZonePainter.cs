@@ -1,20 +1,18 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Controls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using GKModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
+using SKDModule.Events;
 using SKDModule.ViewModels;
+using XFiresecAPI;
 
 namespace SKDModule.Plans.Designer
 {
@@ -107,7 +105,7 @@ namespace SKDModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Zone.UID);
 		}
 		private bool CanShowInTree()
 		{

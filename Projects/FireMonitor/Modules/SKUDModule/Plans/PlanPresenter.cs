@@ -6,13 +6,13 @@ using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using SKDModule.Plans.Designer;
 using Infrastructure;
-using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using SKDModule.Events;
+using SKDModule.Plans.Designer;
 using XFiresecAPI;
 
 namespace SKDModule.Plans
