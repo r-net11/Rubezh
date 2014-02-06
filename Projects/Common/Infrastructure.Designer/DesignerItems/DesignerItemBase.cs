@@ -1,16 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Infrastructure;
+using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Media.Imaging;
-using System;
-using Infrastructure.Client.Plans.ViewModels;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.DesignerItems
 {

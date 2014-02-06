@@ -78,9 +78,9 @@ namespace FiresecClient
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
 
-			if (parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
-				RebuildRSR2Addresses(parentDevice.Parent);
-			device.OnChanged();
+			//if (parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
+			//    RebuildRSR2Addresses(parentDevice.Parent);
+			//device.OnChanged();
 		}
 
 		public static void RebuildRSR2Addresses(XDevice parentDevice)

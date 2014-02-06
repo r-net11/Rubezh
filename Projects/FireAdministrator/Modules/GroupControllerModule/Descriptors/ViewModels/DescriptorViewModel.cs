@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using GKProcessor;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XFiresecAPI;
-using Infrustructure.Plans.Devices;
-using FiresecClient;
 using Common;
+using FiresecClient;
+using Infrustructure.Plans.Devices;
+using XFiresecAPI;
 
 namespace DeviceControls.XDevice
 {

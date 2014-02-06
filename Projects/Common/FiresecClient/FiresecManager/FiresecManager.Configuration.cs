@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
-using FiresecAPI;
 
 namespace FiresecClient
 {

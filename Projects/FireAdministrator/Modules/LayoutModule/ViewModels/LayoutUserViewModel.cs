@@ -1,6 +1,5 @@
 ﻿using System;
 using FiresecAPI.Models;
-using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels

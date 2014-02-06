@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 using System.Collections.ObjectModel;
-using Infrastructure.Common;
+using System.Linq;
+using FiresecAPI;
 using Infrastructure;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -23,7 +21,7 @@ namespace SKDModule.ViewModels
 			TimeIntervals = new ObservableCollection<SlideDayIntervalPartViewModel>();
 			foreach (var timeIntervalUID in slideDayInterval.TimeIntervalUIDs)
 			{
-				var timeInterval = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+				var timeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
 				if (timeInterval != null)
 				{
 					var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
@@ -59,7 +57,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeInterval = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault();
+			var timeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
 			SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.UID);
 			var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
 			TimeIntervals.Add(slideDayIntervalPartViewModel);

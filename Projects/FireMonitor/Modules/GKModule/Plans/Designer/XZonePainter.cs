@@ -1,12 +1,9 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Controls;
-using FiresecAPI;
 using FiresecAPI.Models;
 using GKModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Client.Plans.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;

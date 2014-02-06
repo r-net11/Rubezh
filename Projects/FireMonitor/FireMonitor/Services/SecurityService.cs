@@ -1,8 +1,7 @@
-﻿using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
+﻿using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common.Services;
 
 namespace FireMonitor
 {

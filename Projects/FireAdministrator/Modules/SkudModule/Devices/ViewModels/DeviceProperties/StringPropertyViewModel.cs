@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using FiresecAPI;
 using Infrastructure;
 using XFiresecAPI;
-using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -48,7 +48,6 @@ namespace SKDModule.ViewModels
 				};
 				Device.Properties.Add(newProperty);
 			}
-			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
 		}
 	}

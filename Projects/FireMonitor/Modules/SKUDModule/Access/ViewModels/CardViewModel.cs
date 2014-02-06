@@ -13,20 +13,24 @@ namespace SKDModule.ViewModels
 	public class CardViewModel : BaseViewModel
 	{
 		public SKDCard Card { get; private set; }
+		UserAccessViewModel UserAccessViewModel;
+		List<Guid> ZoneUIDs;
 
-		public CardViewModel(SKDCard card)
+		public CardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
 		{
+			RemoveCommand = userAccessViewModel.RemoveCardCommand;
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanChangeZones);
 			ChangeTemplateCommand = new RelayCommand(OnChangeTemplate, CanChangeTemplate);
-			DeleteZoneCommand = new RelayCommand(OnDeleteZone, CanDeleteZone);
 			ChangeGroupRightsCommand = new RelayCommand(OnChangeGroupRights, CanChangeGroupRights);
 
+			UserAccessViewModel = userAccessViewModel;
 			Card = card;
 			ID = card.Series+ "/" + card.Number;
 			StartDate = card.ValidFrom.Value;
 			EndDate = card.ValidTo.Value;
 
-			UpdateCardAccessItems();
+			ZoneUIDs = new List<Guid>();
+			UpdateZones();
 		}
 
 		bool _isBlocked;
@@ -44,13 +48,15 @@ namespace SKDModule.ViewModels
 		public DateTime StartDate { get; private set; }
 		public DateTime EndDate { get; private set; }
 
+		public RelayCommand RemoveCommand { get; private set; }
+
 		public RelayCommand ChangeZonesCommand { get; private set; }
 		void OnChangeZones()
 		{
 			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel();
 			if (DialogService.ShowModalWindow(accessZonesSelectationViewModel))
 			{
-				UpdateCardAccessItems();
+				UpdateZones();
 			}
 		}
 		public bool CanChangeZones()
@@ -61,17 +67,9 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeTemplateCommand { get; private set; }
 		void OnChangeTemplate()
 		{
+			MessageBoxService.ShowWarning("Выбор шаблона");
 		}
 		public bool CanChangeTemplate()
-		{
-			return true;
-		}
-
-		public RelayCommand DeleteZoneCommand { get; private set; }
-		void OnDeleteZone()
-		{
-		}
-		public bool CanDeleteZone()
 		{
 			return true;
 		}
@@ -79,16 +77,18 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeGroupRightsCommand { get; private set; }
 		void OnChangeGroupRights()
 		{
+			MessageBoxService.ShowWarning("Групповое представление прав доступа");
 		}
 		public bool CanChangeGroupRights()
 		{
 			return true;
 		}
 
-		void UpdateCardAccessItems()
+		void UpdateZones()
 		{
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
+			SelectedZone = RootZone;
 
 			foreach (var zone in AllZones)
 			{
@@ -108,7 +108,6 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedZone");
-				InitializeDevices();
 			}
 		}
 
@@ -140,34 +139,6 @@ namespace SKDModule.ViewModels
 				AddZoneInternal(childZone, zoneViewModel);
 			}
 			return zoneViewModel;
-		}
-
-
-		void InitializeDevices()
-		{
-			Devices = new ObservableCollection<CardDeviceViewModel>();
-			if (SelectedZone != null)
-			{
-				foreach (var device in SKDManager.Devices)
-				{
-					if (device.OuterZoneUID == SelectedZone.Zone.UID)
-					{
-						var cardDeviceViewModel = new CardDeviceViewModel(device);
-						Devices.Add(cardDeviceViewModel);
-					}
-				}
-			}
-		}
-
-		ObservableCollection<CardDeviceViewModel> _devices;
-		public ObservableCollection<CardDeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
 		}
 	}
 }

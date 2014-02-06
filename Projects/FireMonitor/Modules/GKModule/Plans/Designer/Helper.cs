@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XFiresecAPI;
-using Infrustructure.Plans.Elements;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using FiresecClient;
-using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media.Imaging;
-using System.Windows.Input;
+using Infrustructure.Plans.Elements;
+using XFiresecAPI;
 
 namespace GKModule.Plans.Designer
 {

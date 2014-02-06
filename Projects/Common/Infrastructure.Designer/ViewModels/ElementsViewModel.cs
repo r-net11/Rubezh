@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

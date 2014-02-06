@@ -5,7 +5,6 @@ using System.Windows.Input;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using System.Windows.Media.Imaging;
 
 namespace Infrustructure.Plans.Presenter
 {

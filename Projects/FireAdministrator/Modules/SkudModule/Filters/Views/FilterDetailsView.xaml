@@ -39,10 +39,10 @@
             <ListBox ItemsSource="{Binding EventNames}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" ToolTip="{Binding EventName.Description}">
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Description}">
                             <CheckBox IsChecked="{Binding IsChecked}" />
-                            <Image Width="16" Source="{Binding EventName.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
-                            <TextBlock Text="{Binding EventName.Name}" VerticalAlignment="Center" Margin="2"/>
+                            <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0"/>
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

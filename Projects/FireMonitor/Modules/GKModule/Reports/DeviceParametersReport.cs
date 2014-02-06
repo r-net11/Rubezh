@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Reports;
 using CodeReason.Reports;
-using System.Data;
-using FiresecClient;
 using FiresecAPI;
-using iTextSharp.text.pdf;
-using Common.PDF;
-using iTextSharp.text;
+using FiresecClient;
+using Infrastructure.Common.Reports;
 
 namespace GKModule.Reports
 {

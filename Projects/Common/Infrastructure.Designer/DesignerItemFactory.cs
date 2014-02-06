@@ -1,9 +1,8 @@
-﻿using Infrastructure;
+﻿using Infrastructure.Common.Services;
+using Infrastructure.Designer.DesignerItems;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Services;
-using Infrastructure.Designer.DesignerItems;
 
 namespace Infrastructure.Designer
 {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using FiresecAPI;
 using Infrustructure.Plans.Devices;
 
@@ -59,5 +58,4 @@ namespace DeviceControls
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
-
 }

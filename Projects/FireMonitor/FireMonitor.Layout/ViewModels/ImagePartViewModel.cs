@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models.Layouts;
 using System.Windows.Media;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels
 {

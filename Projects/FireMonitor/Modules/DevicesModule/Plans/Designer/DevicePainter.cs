@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Text;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI;
@@ -8,15 +8,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
+using Infrastructure.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using System.Windows.Controls;
-using Controls.Converters;
-using System.Windows.Input;
-using Infrastructure.Models;
 
 namespace DevicesModule.Plans.Designer
 {
@@ -94,7 +89,7 @@ namespace DevicesModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return DevicePictureCache.GetDynamicBrush(_device, _elementDevice.AlternativeLibraryDeviceUID);
+			return PictureCacheSource.DevicePicture.GetDynamicBrush(_device, _elementDevice.AlternativeLibraryDeviceUID);
 		}
 
 		public DeviceState DeviceState

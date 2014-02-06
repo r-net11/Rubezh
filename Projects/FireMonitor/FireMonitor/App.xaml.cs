@@ -4,13 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using Common;
-using GKProcessor;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
-using Microsoft.Win32;
 
 namespace FireMonitor
 {

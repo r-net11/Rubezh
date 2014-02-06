@@ -3,7 +3,6 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
-using System;
 
 namespace GKModule.Validation
 {

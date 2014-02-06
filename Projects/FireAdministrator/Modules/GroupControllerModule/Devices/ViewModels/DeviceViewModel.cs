@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
@@ -16,7 +15,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
-using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -45,14 +43,14 @@ namespace GKModule.ViewModels
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 
 			Device = device;
-			PropertiesViewModel = new PropertiesViewModel(device);
+			PropertiesViewModel = new PropertiesViewModel(Device);
 
 			AvailvableDrivers = new ObservableCollection<XDriver>();
 			UpdateDriver();
 			InitializeParamsCommands();
-			device.Changed += OnChanged;
-			device.AUParametersChanged += UpdateDeviceParameterMissmatch;
-			device.Changed += UpdateDeviceParameterMissmatch;
+			Device.Changed += OnChanged;
+			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
+			Device.Changed += UpdateDeviceParameterMissmatch;
 		}
 
 		void OnChanged()
@@ -180,6 +178,10 @@ namespace GKModule.ViewModels
 			{
 				XManager.RemoveDevice(device);
 			}
+			if (Device.Parent.DriverType == XDriverType.RSR2_KAU_Shleif)
+				XManager.RebuildRSR2Addresses(Device.Parent.Parent);
+			Device.OnChanged();
+
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -294,7 +296,7 @@ namespace GKModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			var brush = DevicePictureCache.GetXBrush(Device);
+			var brush = PictureCacheSource.XDevicePicture.GetXBrush(Device);
 			return new Rectangle
 			{
 				Fill = brush,

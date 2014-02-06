@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
+using FiresecAPI;
+using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using OPCModule.Validation;
 using OPCModule.ViewModels;
-using FiresecClient;
-using Infrastructure.Common.Windows;
-using FiresecAPI;
-using Common;
 
 namespace OPCModule
 {

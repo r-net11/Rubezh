@@ -2,10 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Diagnostics;
-using System.Windows.Media;
-using System.ComponentModel;
-using System;
 
 namespace Controls
 {

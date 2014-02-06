@@ -7,13 +7,12 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
-using XFiresecAPI;
-using GKProcessor;
 
 namespace FireAdministrator
 {

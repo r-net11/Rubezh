@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
 
-			Title = Device.PresentationName;
+			Title = Device.Name;
 			TopMost = true;
 		}
 
@@ -60,7 +60,7 @@ namespace SKDModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return DevicePictureCache.GetDynamicSKDBrush(Device); }
+			get { return PictureCacheSource.SKDDevicePicture.GetDynamicSKDBrush(Device); }
 		}
 
 		public string PresentationZone

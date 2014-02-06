@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using Controls;
 using XFiresecAPI;
 
 namespace Controls.Converters

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
-using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace SKDModule.ViewModels
@@ -181,6 +178,11 @@ namespace SKDModule.ViewModels
 				_showGuestConvoy = value;
 				OnPropertyChanged("ShowGuestConvoy");
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return SelectedDevice != null;
 		}
 
 		protected override bool Save()

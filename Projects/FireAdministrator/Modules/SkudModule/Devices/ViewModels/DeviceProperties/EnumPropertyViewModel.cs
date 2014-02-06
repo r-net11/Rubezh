@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using XFiresecAPI;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -41,20 +41,6 @@ namespace SKDModule.ViewModels
 				_selectedParameter = value;
 				OnPropertyChanged("SelectedParameter");
 				Save(value.Value);
-			}
-		}
-
-		public override string DeviceAUParameterValue
-		{
-			get
-			{
-				var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-				if (deviceProperty == null)
-					return "Неизвестно";
-				var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == deviceProperty.Value);
-				if (driverPropertyParameter != null)
-					return driverPropertyParameter.Name;
-				return "Неизвестно";
 			}
 		}
 	}

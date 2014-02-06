@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using FiresecAPI;
 using XFiresecAPI;
 
 namespace PlansModule.Converters

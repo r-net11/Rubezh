@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
 using VideoModule.ViewModels;
-using FiresecClient;
-using System;
-using System.Linq;
-using Infrastructure;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
 
 namespace VideoModule
 {

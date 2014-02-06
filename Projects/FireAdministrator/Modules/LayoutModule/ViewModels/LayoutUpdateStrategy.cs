@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Xceed.Wpf.AvalonDock.Layout;
-using Xceed.Wpf.AvalonDock;
-using System.Reflection;
-using System.Windows.Input;
-using System.Windows.Controls;
+﻿using Xceed.Wpf.AvalonDock.Layout;
 
 namespace LayoutModule.ViewModels
 {

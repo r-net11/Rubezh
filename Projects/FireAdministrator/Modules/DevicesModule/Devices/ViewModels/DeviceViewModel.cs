@@ -451,7 +451,7 @@ namespace DevicesModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			var brush = DevicePictureCache.GetBrush(Device);
+			var brush = PictureCacheSource.DevicePicture.GetBrush(Device);
 			return new Rectangle()
 			{
 				Fill = brush,

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
+using DeviceControls;
+using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -15,8 +13,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
-using FiresecAPI;
-using DeviceControls;
 
 namespace SKDModule.ViewModels
 {
@@ -67,6 +63,17 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => VisualizationState);
 		}
 
+		public string Name
+		{
+			get { return Device.Name; }
+			set
+			{
+				Device.Name = value;
+				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+
 		public string Address
 		{
 			get { return Device.Address; }
@@ -82,17 +89,6 @@ namespace SKDModule.ViewModels
 		public string PresentationAddress
 		{
 			get { return Device.Address; }
-		}
-
-		public string Description
-		{
-			get { return Device.Description; }
-			set
-			{
-				Device.Description = value;
-				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -209,7 +205,7 @@ namespace SKDModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			var brush = DevicePictureCache.GetSKDBrush(Device);
+			var brush = PictureCacheSource.SKDDevicePicture.GetSKDBrush(Device);
 			return new Rectangle
 			{
 				Fill = brush,

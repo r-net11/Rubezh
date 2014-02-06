@@ -1,5 +1,4 @@
-﻿using FiresecAPI.XModels;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels

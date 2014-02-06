@@ -14,14 +14,14 @@
                 <DataGridTemplateColumn Header="Наименование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding NamedTimeInterval.Name}" />
+                            <TextBlock Text="{Binding TimeInterval.Name}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Описание" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding NamedTimeInterval.Description}" />
+                            <TextBlock Text="{Binding TimeInterval.Description}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -38,19 +38,19 @@
                 <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" Margin="2">
+            <DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervalParts}" SelectedItem="{Binding SelectedTimeIntervalPart}" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Начало" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=StartTime, StringFormat=hh-mm}" />
+                                <TextBlock Text="{Binding Path=StartTime, StringFormat=HH-mm}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Конец" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=EndTime, StringFormat=hh-mm}" />
+                                <TextBlock Text="{Binding Path=EndTime, StringFormat=HH-mm}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

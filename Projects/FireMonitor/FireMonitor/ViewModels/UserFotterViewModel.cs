@@ -1,6 +1,6 @@
 ﻿using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 
 namespace FireMonitor.ViewModels

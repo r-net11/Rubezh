@@ -3,28 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SKDModule.Converters">
     <UserControl.Resources>
-        <Converters:DeviceParameterMissmatchTypeToColorConverter x:Key="DeviceParameterMissmatchTypeToColorConverter" />
-        <Converters:DeviceParameterMissmatchTypeToColorConverter2 x:Key="DeviceParameterMissmatchTypeToColorConverter2" />
         <Style TargetType="Label" x:Key="PropertyCaptionStyle">
             <Setter Property="Content" Value="{Binding Caption}" />
             <Setter Property="ToolTip" Value="{Binding Caption}" />
             <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="{Binding DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter2}}" />
             <Setter Property="TextBlock.FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
         </Style>
     </UserControl.Resources>
     <StackPanel Margin="2">
         <Grid Width="1000" />
-        <Grid Visibility="{Binding HasParameters, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition SharedSizeGroup="group1" Width="*" />
-                <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                <ColumnDefinition SharedSizeGroup="group3" Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" Text="В системе" Foreground="White" FontWeight="Bold" Margin="2" />
-            <TextBlock Grid.Column="2" Text="В устройстве" Foreground="White" FontWeight="Bold" Margin="2" />
-        </Grid>
         <ItemsControl ItemsSource="{Binding StringProperties}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -32,11 +21,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}" />
                         <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" VerticalAlignment="Center" Margin="2" />
-                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -48,11 +35,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}" />
                         <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2" />
-                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -64,11 +49,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
                         <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -80,9 +63,8 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition SharedSizeGroup="group1" Width="*" />
                             <ColumnDefinition SharedSizeGroup="group2" Width="*" />
-                            <ColumnDefinition SharedSizeGroup="group3" Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}"/>
+                        <Label Grid.Column="0"  Style="{StaticResource PropertyCaptionStyle}" />
                         <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled}" ToolTip="{Binding SelectedParameter.Name}" VerticalAlignment="Center" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -90,7 +72,6 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <TextBox Grid.Column="2" Text="{Binding DeviceAUParameterValue, Mode=OneWay}" VerticalAlignment="Center" Margin="2" IsEnabled="False" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

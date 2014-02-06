@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
@@ -15,7 +13,6 @@ namespace XFiresecAPI
 			AutoCreateChildren = new List<SKDDriverType>();
 			AvailableStateBits = new List<XStateBit>();
 			AvailableStateClasses = new List<XStateClass>();
-			AvailableCommandBits = new List<XStateBit>();
 			CanEditAddress = true;
 			HasAddress = true;
             IsPlaceable = false;
@@ -32,7 +29,6 @@ namespace XFiresecAPI
 		public List<XDriverProperty> Properties { get; set; }
 		public List<XStateBit> AvailableStateBits { get; set; }
 		public List<XStateClass> AvailableStateClasses { get; set; }
-		public List<XStateBit> AvailableCommandBits { get; set; }
 		public List<XMeasureParameter> MeasureParameters { get; set; }
 
 		public List<SKDDriverType> Children { get; set; }

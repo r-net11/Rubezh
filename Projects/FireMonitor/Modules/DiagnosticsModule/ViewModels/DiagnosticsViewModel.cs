@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
-using System.Windows;
-using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
+using GKProcessor;
 using Infrastructure.Common;
-using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
 using XFiresecAPI;
-using GKProcessor;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -85,7 +76,6 @@ namespace DiagnosticsModule.ViewModels
 					ApplicationService.Invoke(() =>
 					{
 						var hasLicense = LicenseHelper.CheckLicense(false);
-						Trace.WriteLine("CheckLicense " + hasLicense);
 					});
 					Thread.Sleep(TimeSpan.FromMilliseconds(3000));
 				}

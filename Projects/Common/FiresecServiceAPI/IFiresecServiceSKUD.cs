@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
-using System;
 using XFiresecAPI;
 
 namespace FiresecAPI
@@ -73,19 +73,22 @@ namespace FiresecAPI
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]
-		void SKDSetIgnoreRegime(Guid deviceUID);
+		void SKDSetRegimeOpen(Guid deviceUID);
 
 		[OperationContract]
-		void SKDResetIgnoreRegime(Guid deviceUID);
+		void SKDSetRegimeClose(Guid deviceUID);
+
+		[OperationContract]
+		void SKDSetRegimeControl(Guid deviceUID);
+
+		[OperationContract]
+		void SKDSetRegimeConversation(Guid deviceUID);
 
 		[OperationContract]
 		void SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]
 		void SKDCloseDevice(Guid deviceUID);
-
-		[OperationContract]
-		void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit);
 
 		[OperationContract]
 		void SKDAllowReader(Guid deviceUID);

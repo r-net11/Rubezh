@@ -3,7 +3,6 @@ using System.IO;
 using System.Media;
 using System.Threading;
 using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace Infrastructure.Common
 {

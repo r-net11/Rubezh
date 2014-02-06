@@ -4,15 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Microsoft.Win32;
 using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {

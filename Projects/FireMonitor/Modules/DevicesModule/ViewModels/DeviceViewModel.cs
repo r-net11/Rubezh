@@ -8,10 +8,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using System.Diagnostics;
-using Infrastructure.Common.TreeList;
 using Infrastructure.Models;
 
 namespace DevicesModule.ViewModels

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
-using SKDModule.Plans.Designer;
-using SKDModule.Plans.ViewModels;
-using SKDModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using SKDModule.Plans.Designer;
+using SKDModule.Plans.ViewModels;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Plans.InstrumentAdorners
 {

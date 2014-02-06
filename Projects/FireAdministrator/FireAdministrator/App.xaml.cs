@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Windows;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;

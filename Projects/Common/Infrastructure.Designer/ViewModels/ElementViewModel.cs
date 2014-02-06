@@ -1,9 +1,8 @@
 ﻿using System.Windows.Controls;
-using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

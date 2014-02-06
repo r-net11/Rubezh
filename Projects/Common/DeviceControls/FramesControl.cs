@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using FiresecAPI.Models;
-using XFiresecAPI;
 using Infrustructure.Plans.Devices;
-using System.Linq;
+using XFiresecAPI;
 
 namespace DeviceControls
 {
@@ -33,7 +33,7 @@ namespace DeviceControls
 			_index = -1;
 			var count = frames.Count();
 			if (count == 0)
-				Child = DevicePictureCache.EmptyPicture;
+				Child = PictureCacheSource.EmptyPicture;
 			else if (count == 1)
 				Child = Helper.GetVisual(frames.First().Image);
 			else if (count > 1)

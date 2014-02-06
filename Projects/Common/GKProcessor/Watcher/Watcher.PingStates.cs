@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using Common;
-using Infrastructure;
-using Infrastructure.Common.Windows;
-using XFiresecAPI;
-using System.Threading;
-using System;
-
+﻿
 namespace GKProcessor
 {
 	public partial class Watcher

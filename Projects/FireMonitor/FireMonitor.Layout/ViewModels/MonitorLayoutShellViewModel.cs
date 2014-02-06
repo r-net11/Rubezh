@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 using FireMonitor.ViewModels;
 using Infrastructure.Common.Services.Layout;
@@ -11,7 +12,6 @@ using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
-using System.Windows;
 
 namespace FireMonitor.Layout.ViewModels
 {

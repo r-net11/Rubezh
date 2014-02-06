@@ -3,16 +3,16 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using Common;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using Xceed.Wpf.AvalonDock.Layout;
-using Infrastructure.Common;
-using Common;
-using System.Windows.Media;
-using System.Windows;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace LayoutModule.ViewModels
 {

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Ribbon;
-using System.Windows.Input;
-using KeyboardKey = System.Windows.Input.Key;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
-using Infrastructure;
+using System.Linq;
+using System.Windows.Input;
 using FiresecAPI;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Ribbon;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
@@ -28,21 +27,21 @@ namespace SKDModule.ViewModels
 			RegisterShortcuts();
 			SetRibbonItems();
 
-			TimeIntervals = new ObservableCollection<NamedTimeIntervalViewModel>();
-			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.NamedTimeIntervals)
+			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
+			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			{
-				var timeInrervalViewModel = new NamedTimeIntervalViewModel(namedTimeInterval);
+				var timeInrervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
 		}
 
-		NamedSKDTimeInterval IntervalToCopy;
+		SKDTimeInterval IntervalToCopy;
 
-		public ObservableCollection<NamedTimeIntervalViewModel> TimeIntervals { get; private set; }
+		public ObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
 
-		NamedTimeIntervalViewModel _selectedTimeInterval;
-		public NamedTimeIntervalViewModel SelectedTimeInterval
+		TimeIntervalViewModel _selectedTimeInterval;
+		public TimeIntervalViewModel SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
@@ -52,14 +51,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Select(Guid intervalUID)
+		public void Select(Guid timeIntervalUID)
 		{
-			if (intervalUID != Guid.Empty)
+			if (timeIntervalUID != Guid.Empty)
 			{
-				var intervalViewModel = TimeIntervals.FirstOrDefault(x => x.NamedTimeInterval.UID == intervalUID);
-				if (intervalViewModel != null)
+				var timeIntervalViewModel = TimeIntervals.FirstOrDefault(x => x.TimeInterval.UID == timeIntervalUID);
+				if (timeIntervalViewModel != null)
 				{
-					SelectedTimeInterval = intervalViewModel;
+					SelectedTimeInterval = timeIntervalViewModel;
 				}
 			}
 		}
@@ -67,13 +66,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var namedTimeInrervalDetailsViewModel = new NamedTimeIntervalDetailsViewModel();
-			if (DialogService.ShowModalWindow(namedTimeInrervalDetailsViewModel))
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel();
+			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.NamedTimeIntervals.Add(namedTimeInrervalDetailsViewModel.NamedTimeInterval);
-				var timeInrervalViewModel = new NamedTimeIntervalViewModel(namedTimeInrervalDetailsViewModel.NamedTimeInterval);
-				TimeIntervals.Add(timeInrervalViewModel);
-				SelectedTimeInterval = timeInrervalViewModel;
+				SKDManager.SKDConfiguration.TimeIntervals.Add(timeIntervalDetailsViewModel.TimeInterval);
+				var timeIntervalViewModel = new TimeIntervalViewModel(timeIntervalDetailsViewModel.TimeInterval);
+				TimeIntervals.Add(timeIntervalViewModel);
+				SelectedTimeInterval = timeIntervalViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -85,20 +84,20 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.NamedTimeIntervals.Remove(SelectedTimeInterval.NamedTimeInterval);
+			SKDManager.SKDConfiguration.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
 			TimeIntervals.Remove(SelectedTimeInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanDelete()
 		{
-			return SelectedTimeInterval != null;
+			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var namedTimeInrervalDetailsViewModel = new NamedTimeIntervalDetailsViewModel(SelectedTimeInterval.NamedTimeInterval);
-			if (DialogService.ShowModalWindow(namedTimeInrervalDetailsViewModel))
+			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(SelectedTimeInterval.TimeInterval);
+			if (DialogService.ShowModalWindow(timeInrervalDetailsViewModel))
 			{
 				SelectedTimeInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
@@ -106,25 +105,25 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedTimeInterval != null;
+			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			IntervalToCopy = CopyInterval(SelectedTimeInterval.NamedTimeInterval);
+			IntervalToCopy = CopyInterval(SelectedTimeInterval.TimeInterval);
 		}
 		bool CanCopy()
 		{
-			return SelectedTimeInterval != null;
+			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.NamedTimeIntervals.Add(newInterval);
-			var timeInrervalViewModel = new NamedTimeIntervalViewModel(newInterval);
+			SKDManager.SKDConfiguration.TimeIntervals.Add(newInterval);
+			var timeInrervalViewModel = new TimeIntervalViewModel(newInterval);
 			TimeIntervals.Add(timeInrervalViewModel);
 			SelectedTimeInterval = timeInrervalViewModel;
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -134,18 +133,18 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null && TimeIntervals.Count < 256;
 		}
 
-		NamedSKDTimeInterval CopyInterval(NamedSKDTimeInterval source)
+		SKDTimeInterval CopyInterval(SKDTimeInterval source)
 		{
-			var copy = new NamedSKDTimeInterval();
+			var copy = new SKDTimeInterval();
 			copy.Name = source.Name;
-			foreach (var timeInterval in source.TimeIntervals)
+			foreach (var timeIntervalPart in source.TimeIntervalParts)
 			{
-				var copyTimeInterval = new SKDTimeInterval()
+				var copyTimeIntervalPart = new SKDTimeIntervalPart()
 				{
-					StartTime = timeInterval.StartTime,
-					EndTime = timeInterval.EndTime
+					StartTime = timeIntervalPart.StartTime,
+					EndTime = timeIntervalPart.EndTime
 				};
-				copy.TimeIntervals.Add(copyTimeInterval);
+				copy.TimeIntervalParts.Add(copyTimeIntervalPart);
 			}
 			return copy;
 		}

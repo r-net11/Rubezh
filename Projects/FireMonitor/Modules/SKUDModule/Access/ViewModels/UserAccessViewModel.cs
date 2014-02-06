@@ -23,8 +23,6 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			RemoveCardCommand = new RelayCommand(OnRemoveCard, CanRemoveCard);
-			RemoveCardsCommand = new RelayCommand(OnRemoveCards, CanRemoveCards);
-			CopyRightsCommand = new RelayCommand(OnCopyRights, CanCopyRights);
 
 			Cards = new ObservableCollection<CardViewModel>();
 		}
@@ -49,43 +47,30 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				var cardViewModel = new CardViewModel(card);
+				var cardViewModel = new CardViewModel(this, card);
 				Cards.Add(cardViewModel);
+				SelectedCard = cardViewModel;
 			}
 
 		}
 		public bool CanAddCard()
 		{
-			return true;
+			return Cards.Count < 10;
 		}
 
 		public RelayCommand RemoveCardCommand { get; private set; }
 		void OnRemoveCard()
 		{
-
+			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
+			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
+			{
+				var cardRemovalReason = cardRemovalReasonViewModel.CardRemovalReason;
+				Cards.Remove(SelectedCard);
+			}
 		}
 		public bool CanRemoveCard()
 		{
-			return true;
-		}
-
-		public RelayCommand RemoveCardsCommand { get; private set; }
-		void OnRemoveCards()
-		{
-
-		}
-		public bool CanRemoveCards()
-		{
-			return true;
-		}
-
-		public RelayCommand CopyRightsCommand { get; private set; }
-		void OnCopyRights()
-		{
-		}
-		public bool CanCopyRights()
-		{
-			return true;
+			return SelectedCard != null;
 		}
 	}
 }

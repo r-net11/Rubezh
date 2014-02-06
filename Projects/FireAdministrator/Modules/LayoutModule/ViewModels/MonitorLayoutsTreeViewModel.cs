@@ -1,6 +1,4 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Services.DragDrop;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

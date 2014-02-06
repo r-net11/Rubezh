@@ -2,11 +2,11 @@
 using DiagnosticsModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Events;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
+using Infrastructure.Events;
 
 namespace DiagnosticsModule
 {

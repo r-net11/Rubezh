@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
-using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -18,8 +15,8 @@ namespace SKDModule.ViewModels
 			WeeklyIntervalViewModel = weeklyIntervalViewModel;
 			WeeklyIntervalPart = weeklyIntervalPart;
 
-			AvailableTimeIntervals = new ObservableCollection<NamedSKDTimeInterval>();
-			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.NamedTimeIntervals)
+			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>();
+			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			{
 				AvailableTimeIntervals.Add(namedTimeInterval);
 			}
@@ -37,10 +34,10 @@ namespace SKDModule.ViewModels
 
 		public string Name { get; private set; }
 
-		public ObservableCollection<NamedSKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
 
-		NamedSKDTimeInterval _selectedTimeInterval;
-		public NamedSKDTimeInterval SelectedTimeInterval
+		SKDTimeInterval _selectedTimeInterval;
+		public SKDTimeInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
