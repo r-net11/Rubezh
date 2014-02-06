@@ -1,5 +1,5 @@
 ﻿
-namespace Infrustructure.Plans.Devices
+namespace Common
 {
 	public interface IDeviceState<TStateType>
 	{

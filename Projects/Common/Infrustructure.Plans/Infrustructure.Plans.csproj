@@ -56,7 +56,6 @@
     <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerSurface.cs" />
     <Compile Include="Designer\GridLine.cs" />
-    <Compile Include="Devices\IDeviceState.cs" />
     <Compile Include="Devices\ILibraryDevice.cs" />
     <Compile Include="Devices\ILibraryFrame.cs" />
     <Compile Include="Designer\IGridLineController.cs" />

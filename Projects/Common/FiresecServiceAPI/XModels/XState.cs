@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Infrustructure.Plans.Devices;
+using Common;
 
 namespace XFiresecAPI
 {

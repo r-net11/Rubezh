@@ -147,6 +147,7 @@
     <Compile Include="EnvironmentParameters.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
+    <Compile Include="IDeviceState.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="ImageCapturer.cs" />
     <Compile Include="Logger.cs" />
