@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.75, 20.5" name="SKUD">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.75, 23.375" name="SKUD">
   <DataContextMoniker Name="/SKUDDataContext" />
   <nestedChildShapes>
     <classShape Id="43604d1a-ee70-4b71-af29-b90da9b45d5c" absoluteBounds="3.375, 9.125, 2, 1.7535424804687505">
@@ -198,16 +198,10 @@
         <classShapeMoniker Id="fed949cf-9474-402b-93af-792fc42281d4" />
       </nodes>
     </associationConnector>
-    <classShape Id="6b5531f6-fe5c-477f-b558-608b5793eb79" absoluteBounds="9, 16.625, 2, 2.0822371419270809">
+    <classShape Id="6b5531f6-fe5c-477f-b558-608b5793eb79" absoluteBounds="9, 17.75, 2, 2.0822371419270809">
       <DataClassMoniker Name="/SKUDDataContext/Card" />
       <nestedChildShapes>
-        <elementListCompartment Id="5b558626-a0a2-445b-9f1a-1ca546f672eb" absoluteBounds="9.015, 17.085, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="b0a6b401-f766-48ef-8440-83ee6557dfaf" absoluteBounds="11.75, 15.125, 2, 1.5891951497395844">
-      <DataClassMoniker Name="/SKUDDataContext/CardZoneLink" />
-      <nestedChildShapes>
-        <elementListCompartment Id="1bb21ab1-f723-4be7-968d-93a0e93c6a00" absoluteBounds="11.765, 15.585, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5b558626-a0a2-445b-9f1a-1ca546f672eb" absoluteBounds="9.015, 18.21, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="b0ca9c24-8634-4ced-9956-46781b17853e" absoluteBounds="11.75, 17.5, 2, 2.7396264648437523">
@@ -222,32 +216,38 @@
         <elementListCompartment Id="1afc81e5-b0a1-4733-beab-e1c9d2cdf448" absoluteBounds="14.515, 18.335, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(6.90897026782813 : 5.95027913411458); (6.90897026782813 : 6.75); (7.48460620232292 : 6.75 : JumpStart); (7.65127286898958 : 6.75 : JumpEnd); (8.5 : 6.75); (8.5 : 11.25); (7.375 : 11.25); (7.375 : 17.6661185709635); (9 : 17.6661185709635)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.90897026782813 : 5.95027913411458); (6.90897026782813 : 6.75); (7.48460620232292 : 6.75 : JumpStart); (7.65127286898958 : 6.75 : JumpEnd); (8.5 : 6.75); (8.5 : 11.25); (7.375 : 11.25); (7.375 : 18.7911185709635); (9 : 18.7911185709635)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SKUDDataContext/Employee/Employee_Card" />
       <nodes>
         <classShapeMoniker Id="d4947fe3-8ce9-4f48-aa52-d5e02f593dd2" />
         <classShapeMoniker Id="6b5531f6-fe5c-477f-b558-608b5793eb79" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(10 : 16.625); (10 : 15.8749995); (11.75 : 15.8749995)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKUDDataContext/Card/Card_CardZoneLink" />
-      <nodes>
-        <classShapeMoniker Id="6b5531f6-fe5c-477f-b558-608b5793eb79" />
-        <classShapeMoniker Id="b0a6b401-f766-48ef-8440-83ee6557dfaf" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(11 : 18.1036185709635); (11.75 : 18.1036185709635)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(11 : 18.7911185709635); (11.75 : 18.7911185709635)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/SKUDDataContext/Card/Card_Journal" />
       <nodes>
         <classShapeMoniker Id="6b5531f6-fe5c-477f-b558-608b5793eb79" />
         <classShapeMoniker Id="b0ca9c24-8634-4ced-9956-46781b17853e" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(13.75 : 18.833944905599); (14.5 : 18.833944905599)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(13.75 : 18.833944905599); (14.5 : 18.833944905599)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SKUDDataContext/Journal/Journal_Frame" />
       <nodes>
         <classShapeMoniker Id="b0ca9c24-8634-4ced-9956-46781b17853e" />
         <classShapeMoniker Id="f7f6c76d-cab1-4aa4-ad52-a269e910f919" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="e1458918-bdfa-4718-82ed-3fd30b438c20" absoluteBounds="9.125, 21, 2, 2.0822371419270831">
+      <DataClassMoniker Name="/SKUDDataContext/CardZoneLink" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2ab5d907-e7d1-41e3-870f-2632c82bf68a" absoluteBounds="9.14, 21.46, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(10.0625 : 19.8322371419271); (10.0625 : 21)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SKUDDataContext/Card/Card_CardZoneLink" />
+      <nodes>
+        <classShapeMoniker Id="6b5531f6-fe5c-477f-b558-608b5793eb79" />
+        <classShapeMoniker Id="e1458918-bdfa-4718-82ed-3fd30b438c20" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

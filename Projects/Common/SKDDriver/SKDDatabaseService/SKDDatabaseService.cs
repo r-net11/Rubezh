@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
-
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using XFiresecAPI;
 
 namespace SKDDriver
@@ -13,7 +9,7 @@ namespace SKDDriver
 	public class SKDDatabaseService
 	{
 		DataAccess.SKUDDataContext Context;
-        
+		
 		public SKDDatabaseService()
 		{
 			Context = new DataAccess.SKUDDataContext();
@@ -95,11 +91,11 @@ namespace SKDDriver
 			catch { return new List<Frame>(); }
 		}
 
-		public IEnumerable<Card> GetCards(CardFilter filter)
+		public IEnumerable<SKDCard> GetCards(CardFilter filter)
 		{
 			try
 			{
-				var result = new List<Card>();
+				var result = new List<SKDCard>();
 				foreach (var item in Context.Card)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -107,7 +103,7 @@ namespace SKDDriver
 				}
 				return result;
 			}
-			catch { return new List<Card>(); }
+			catch { return new List<SKDCard>(); }
 		}
 
 		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
@@ -127,13 +123,88 @@ namespace SKDDriver
 		#endregion
 
 		#region Save
+		public void SaveEmployees(IEnumerable<Employee> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
+						Context.Employee.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+
+		public void SaveDepartments(IEnumerable<Department> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
+						Context.Department.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+
+		public void SavePositions(IEnumerable<Position> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
+						Context.Position.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+
+
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
 			try
 			{
 				foreach (var item in journalItems)
 				{
-					if (item != null)
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Journal.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
 						Context.Journal.InsertOnSubmit(Translator.TranslateBack(item));
 				}
 				Context.SubmitChanges();
@@ -147,7 +218,15 @@ namespace SKDDriver
 			{
 				foreach (var item in items)
 				{
-					if (item != null)
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
 						Context.Frame.InsertOnSubmit(Translator.TranslateBack(item));
 				}
 				Context.SubmitChanges();
@@ -155,13 +234,21 @@ namespace SKDDriver
 			catch { }
 		}
 
-		public void SaveCards(IEnumerable<Card> items)
+		public void SaveCards(IEnumerable<SKDCard> items)
 		{
 			try
 			{
 				foreach (var item in items)
 				{
-					if (item != null)
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
 						Context.Card.InsertOnSubmit(Translator.TranslateBack(item));
 				}
 				Context.SubmitChanges();
@@ -175,8 +262,138 @@ namespace SKDDriver
 			{
 				foreach (var item in items)
 				{
-					if (item != null)
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						databaseItem = Translator.TranslateBack(item);
+					}
+					else
 						Context.CardZoneLink.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		#endregion
+
+		#region MarkDeleted
+		public void MarkDeletedEmployees(IEnumerable<Employee> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedDepartments(IEnumerable<Department> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedPositions(IEnumerable<Position> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Journal.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedFrames(IEnumerable<Frame> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedCards(IEnumerable<SKDCard> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
 				}
 				Context.SubmitChanges();
 			}

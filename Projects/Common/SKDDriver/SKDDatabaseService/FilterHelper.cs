@@ -8,16 +8,19 @@ namespace SKDDriver
 {
 	static class FilterHelper
 	{
-		public static bool IsInFilter(DataAccess.Employee employee, EmployeeFilter filter)
+		public static bool IsInFilter(DataAccess.Employee item, EmployeeFilter filter)
 		{
 			if (filter == null)
 				return true;
 
-			bool isInUids = IsInUidList(employee.Uid, filter.Uids);
-			bool isInDepartments = IsInUidList(employee.DepartmentUid, filter.DepartmentUids);
-			bool isInPositions = IsInUidList(employee.PositionUid, filter.PositionUids);
-			bool isInAppointed = IsInDateTimePeriod(employee.Appointed, filter.Appointed);
-			bool isInDismissed = IsInDateTimePeriod(employee.Dismissed, filter.Dismissed);
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
+
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			bool isInDepartments = IsInUidList(item.DepartmentUid, filter.DepartmentUids);
+			bool isInPositions = IsInUidList(item.PositionUid, filter.PositionUids);
+			bool isInAppointed = IsInDateTimePeriod(item.Appointed, filter.Appointed);
+			bool isInDismissed = IsInDateTimePeriod(item.Dismissed, filter.Dismissed);
 			
 			return isInUids && isInDepartments && isInPositions && isInAppointed && isInDepartments;
 		}
@@ -26,6 +29,9 @@ namespace SKDDriver
 		{
 			if (filter == null)
 				return true;
+
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
 
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInSystemDate = IsInDateTimePeriod(item.SysemDate, filter.SystemDateTime);
@@ -39,6 +45,9 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
+
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 
 			return isInUids;
@@ -49,6 +58,9 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
+
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 
 			return isInUids;
@@ -58,6 +70,9 @@ namespace SKDDriver
 		{
 			if (filter == null)
 				return true;
+
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
 
 			bool IsInUids = IsInUidList(item.Uid, filter.Uids);
 			bool IsInCameras = IsInUidList(item.CameraUid, filter.CameraUid);
@@ -72,6 +87,9 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
+			if (!filter.WithDeleted && (bool)item.IsDeleted)
+				return false;
+
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 
 			return isInUids;
@@ -82,10 +100,18 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			if (!filter.WithDeleted && (bool)item.IsDeleted)
+				return false;
 
-			return isInUids;
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			bool isInCardUids = IsInUidList(item.CardUid, filter.CardUids);
+			bool isInZoneUids = IsInUidList(item.ZoneUid, filter.ZoneUids);
+			bool isInTimeCriteriaUids = IsInUidList(item.TimeCriteriaUid, filter.TimeCriteriaUids);
+
+			return isInUids && isInCardUids && isInZoneUids && isInTimeCriteriaUids;
 		}
+
+
 
 		static bool IsInDateTimePeriod(DateTime? dateTime, DateTimePeriod dateTimePeriod)
 		{

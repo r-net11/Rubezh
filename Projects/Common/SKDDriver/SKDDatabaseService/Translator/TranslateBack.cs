@@ -8,6 +8,51 @@ namespace SKDDriver
 {
 	static partial class Translator
 	{
+		public static Position TranslateBack(FiresecAPI.Position position)
+		{
+			if (position == null)
+				return null;
+			return new Position
+			{
+				Uid = position.Uid,
+				Name = position.Name,
+				Description = position.Description
+			};
+		}
+
+		public static Department TranslateBack(FiresecAPI.Department department)
+		{
+			if (department == null)
+				return null;
+			return new Department
+			{
+				Uid = department.Uid,
+				Name = department.Name,
+				Description = department.Description,
+				ParentDepartmentUid = department.ParentDepartmentUid,
+				ContactEmployeeUid = department.ContactEmployeeUid,
+				AttendantUid = department.AttendantEmployeeUId,
+			};
+		}
+
+		public static Employee TranslateBack(FiresecAPI.Employee employee)
+		{
+			if (employee == null)
+				return null;
+			return new Employee
+			{
+				Uid = employee.Uid,
+				FirstName = employee.FirstName,
+				SecondName = employee.SecondName,
+				LastName = employee.LastName,
+				Appointed = employee.Appointed,
+				Dismissed = employee.Dismissed,
+				PositionUid = employee.PositionUid,
+				DepartmentUid = employee.DepartmentUid,
+				ScheduleUid = employee.ScheduleUid,
+			};
+		}
+		
 		public static Journal TranslateBack(FiresecAPI.SKDJournalItem journalItem)
 		{
 			if (journalItem == null)
@@ -39,7 +84,7 @@ namespace SKDDriver
 			};
 		}
 
-		public static Card TranslateBack(FiresecAPI.Card card)
+		public static Card TranslateBack(FiresecAPI.SKDCard card)
 		{
 			if (card == null)
 				return null;
@@ -53,7 +98,7 @@ namespace SKDDriver
 				ValidTo = card.ValidTo
 			};
 		}
-
+		
 		public static CardZoneLink TranslateBack(FiresecAPI.CardZoneLink cardZoneLink)
 		{
 			if (cardZoneLink == null)
@@ -61,8 +106,11 @@ namespace SKDDriver
 			return new CardZoneLink
 			{
 				Uid = cardZoneLink.Uid,
+				AccessType = cardZoneLink.AccessType.ToString(),
+				IsAntipass = cardZoneLink.IsAntipass,
 				ZoneUid = cardZoneLink.ZoneUid,
-				CardUid = cardZoneLink.CardUid
+				CardUid = cardZoneLink.CardUid,
+				TimeCriteriaUid = cardZoneLink.TimeCriteriaUid
 			};
 		}
 	}

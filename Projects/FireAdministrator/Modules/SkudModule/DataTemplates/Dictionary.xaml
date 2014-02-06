@@ -4,7 +4,7 @@
 		<Views:SkudView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexMenuViewModel}">
+	<!--<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexMenuViewModel}">
 		<Views:EmployeeCardIndexMenuView />
 	</DataTemplate>
 
@@ -32,7 +32,7 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:EmployeeDictionaryMenuViewModel}">
 		<Views:EmployeeDictionaryMenuView />
-	</DataTemplate>
+	</DataTemplate>-->
 
 	<DataTemplate DataType="{x:Type ViewModels:PassCardDesignerViewModel}">
 		<clientPlans:PlanDesignerView />

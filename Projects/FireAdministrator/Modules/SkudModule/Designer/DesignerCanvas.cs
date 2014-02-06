@@ -2,7 +2,7 @@
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using SKDModule.ViewModels;
-using FiresecAPI.Models.SKDDatabase;
+using FiresecAPI;
 
 namespace SKDModule.Designer
 {

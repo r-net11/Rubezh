@@ -5,12 +5,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
     [DataContract]
-    public class CardZoneLinkFilter
+    public class CardFilter:FilterBase
     {
         [DataMember]
 		public List<Guid> Uids { get; set; }
 		
-		public CardZoneLinkFilter()
+		public CardFilter()
         {
             Uids = new List<Guid>();
         }

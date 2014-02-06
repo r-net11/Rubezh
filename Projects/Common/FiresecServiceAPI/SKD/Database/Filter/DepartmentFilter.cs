@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
     [DataContract]
-    public class PositionFilter
+	public class DepartmentFilter : FilterBase
     {
         [DataMember]
 		public List<Guid> Uids { get; set; }
@@ -14,8 +16,8 @@ namespace FiresecAPI
         {
             get { return Uids.Count > 0; }
         }
-
-        public PositionFilter()
+        
+        public DepartmentFilter()
         {
             Uids = new List<Guid>();
         }

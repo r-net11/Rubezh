@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Card
+	public class SKDCard
 	{
 		[DataMember]
 		public Guid Uid { get; set; }
@@ -20,6 +20,6 @@ namespace FiresecAPI
 		[DataMember]
 		public DateTime? ValidTo { get; set; }
 		[DataMember]
-		public List<Guid> ZoneUids { get; set; }
+		public List<Guid> ZoneLinkUids { get; set; }
 	}
 }

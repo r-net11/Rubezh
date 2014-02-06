@@ -5,7 +5,6 @@ using System.ServiceModel;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecAPI.Models.SKDDatabase;
 using XFiresecAPI;
 
 namespace FiresecService.Service
@@ -192,18 +191,20 @@ namespace FiresecService.Service
         }
 
 		#region SKD
-		public IEnumerable<Employee>GetEmployees(EmployeeFilter filter)
-        {
-            return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
-        }
-        public IEnumerable<Position> GetPositions(PositionFilter filter)
-        {
-            return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
-        }
-        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
-        {
-            return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
-        }
+		
+		#region Get
+		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+		}
+		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
+		}
+		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
+		}
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<SKDJournalItem>>(() => FiresecService.GetSKDJournalItems(filter));
@@ -212,13 +213,28 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<IEnumerable<Frame>>(() => FiresecService.GetFrames(filter));
 		}
-		public IEnumerable<Card> GetCards(CardFilter filter)
+		public IEnumerable<SKDCard> GetCards(CardFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Card>>(() => FiresecService.GetCards(filter));
+			return SafeContext.Execute<IEnumerable<SKDCard>>(() => FiresecService.GetCards(filter));
 		}
 		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<CardZoneLink>>(() => FiresecService.GetCardZoneLinks(filter));
+		}
+		#endregion
+
+		#region Save
+		public void SaveEmployees(IEnumerable<Employee> Employees)
+		{
+			SafeContext.Execute(() => FiresecService.SaveEmployees(Employees));
+		}
+		public void SaveDepartments(IEnumerable<Department> Departments)
+		{
+			SafeContext.Execute(() => FiresecService.SaveDepartments(Departments));
+		}
+		public void SavePositions(IEnumerable<Position> Positions)
+		{
+			SafeContext.Execute(() => FiresecService.SavePositions(Positions));
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -228,7 +244,7 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveFrames(frames));
 		}
-		public void SaveCards(IEnumerable<Card> items)
+		public void SaveCards(IEnumerable<SKDCard> items)
 		{
 			SafeContext.Execute(() => FiresecService.SaveCards(items));
 		}
@@ -236,6 +252,40 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveCardZoneLinks(items));
 		}
+		#endregion
+
+		#region MarkDeleted
+		public void MarkDeletedEmployees(IEnumerable<Employee> Employees)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedEmployees(Employees));
+		}
+		public void MarkDeletedDepartments(IEnumerable<Department> Departments)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedDepartments(Departments));
+		}
+		public void MarkDeletedPositions(IEnumerable<Position> Positions)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedPositions(Positions));
+		}
+		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedSKDJournalItems(journalItems));
+		}
+		public void MarkDeletedFrames(IEnumerable<Frame> frames)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedFrames(frames));
+		}
+		public void MarkDeletedCards(IEnumerable<SKDCard> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedCards(items));
+		}
+		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedCardZoneLinks(items));
+		}
+		#endregion
+		
+		
 
 
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)

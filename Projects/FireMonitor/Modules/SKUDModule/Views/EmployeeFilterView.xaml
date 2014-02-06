@@ -28,16 +28,6 @@
                             </GridView>
                         </tree:TreeList.View>
                     </tree:TreeList>
-                    <!--<ListBox ItemsSource="{Binding Departments}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Command="{Binding DepartmentCheckedCommand}"/>
-                                    <TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>-->
                 </TabItem>
                 <TabItem Header="Должности">
                     <ListBox ItemsSource="{Binding Positions}">

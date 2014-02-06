@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class FrameFilter
+	public class FrameFilter : FilterBase
 	{
 		[DataMember]
 		public List<Guid> Uids { get; set; }

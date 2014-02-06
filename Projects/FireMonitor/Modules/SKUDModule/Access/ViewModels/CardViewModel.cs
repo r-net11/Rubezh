@@ -22,9 +22,9 @@ namespace SKDModule.ViewModels
 			ChangeGroupRightsCommand = new RelayCommand(OnChangeGroupRights, CanChangeGroupRights);
 
 			Card = card;
-			ID = card.IDFamily + "/" + card.IDNo;
-			StartDate = card.StartDate;
-			EndDate = card.EndDate;
+			ID = card.Series+ "/" + card.Number;
+			StartDate = card.ValidFrom.Value;
+			EndDate = card.ValidTo.Value;
 
 			UpdateCardAccessItems();
 		}

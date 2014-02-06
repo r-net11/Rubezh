@@ -20,10 +20,10 @@ namespace SKDModule
 	public class SKDModule : ModuleBase
 	{
 		SkudViewModel _skdViewModel;
-		EmployeeCardIndexViewModel _employeeCardIndexViewModel;
-		EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
-		EmployeePositionsViewModel _employeePositionsViewModel;
-		EmployeeGroupsViewModel _employeeGroupsViewModel;
+		//EmployeeCardIndexViewModel _employeeCardIndexViewModel;
+		//EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
+		//EmployeePositionsViewModel _employeePositionsViewModel;
+		//EmployeeGroupsViewModel _employeeGroupsViewModel;
 		PassCardsDesignerViewModel _passCardDesignerViewModel;
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
@@ -47,10 +47,10 @@ namespace SKDModule
 			ServiceFactory.Events.GetEvent<EditSKDZoneEvent>().Subscribe(OnEditSKDZone);
 
 			_skdViewModel = new SkudViewModel();
-			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
-			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
-			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
-			_employeePositionsViewModel = new EmployeePositionsViewModel();
+			//_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
+			//_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
+			//_employeeGroupsViewModel = new EmployeeGroupsViewModel();
+			//_employeePositionsViewModel = new EmployeePositionsViewModel();
 			_passCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -73,11 +73,11 @@ namespace SKDModule
 		public override void Initialize()
 		{
 			_skdViewModel.Initialize();
-			_employeeCardIndexViewModel.Initialize();
+			//_employeeCardIndexViewModel.Initialize();
 
-			_employeeDepartmentsViewModel.Initialize();
-			_employeeGroupsViewModel.Initialize();
-			_employeePositionsViewModel.Initialize();
+			//_employeeDepartmentsViewModel.Initialize();
+			//_employeeGroupsViewModel.Initialize();
+			//_employeePositionsViewModel.Initialize();
 			_passCardDesignerViewModel.Initialize();
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
@@ -96,15 +96,15 @@ namespace SKDModule
 			{
 				new NavigationItem("СКУД", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowEmployeeCardIndexEvent>(_employeeCardIndexViewModel, "Картотека",null),
+					//new NavigationItem<ShowEmployeeCardIndexEvent>(_employeeCardIndexViewModel, "Картотека",null),
 					new NavigationItem<ShowPassCardEvent>(_skdViewModel, "Пропуск",null),
 					new NavigationItem<ShowPassCardDesignerEvent>(_passCardDesignerViewModel, "Дизайнер",null),
-					new NavigationItem("Справочники",null, new List<NavigationItem>()
-					{
-						new NavigationItem<ShowEmployeePositionsEvent>(_employeePositionsViewModel, "Должности",null),
-						new NavigationItem<ShowEmployeeDepartmentsEvent>(_employeeDepartmentsViewModel, "Подразделения",null),
-						new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
-					}),
+					//new NavigationItem("Справочники",null, new List<NavigationItem>()
+					//{
+					//    new NavigationItem<ShowEmployeePositionsEvent>(_employeePositionsViewModel, "Должности",null),
+					//    new NavigationItem<ShowEmployeeDepartmentsEvent>(_employeeDepartmentsViewModel, "Подразделения",null),
+					//    new NavigationItem<ShowEmployeeGroupsEvent>(_employeeGroupsViewModel, "Группы",null),
+					//}),
                     new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),

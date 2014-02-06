@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI;
-using FiresecAPI.Models.SKDDatabase;
 using SKDDriver;
 using System;
 using System.Linq;
@@ -13,18 +12,20 @@ namespace FiresecService.Service
 		SKDDatabaseService _skdService = new SKDDatabaseService();
 		
 		#region IFiresecService Members
-        public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
-        {
+		
+		#region Get
+		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+		{
 			return _skdService.GetEmployees(filter);
-        }
-        public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
-        {
+		}
+		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+		{
 			return _skdService.GetDepartments(filter);
-        }
-        public IEnumerable<Position> GetPositions(PositionFilter filter)
-        {
+		}
+		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		{
 			return _skdService.GetPositions(filter);
-        }
+		}
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			return _skdService.GetSKDJournalItems(filter);
@@ -33,13 +34,28 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetFrames(filter);
 		}
-		public IEnumerable<Card> GetCards(CardFilter filter)
+		public IEnumerable<SKDCard> GetCards(CardFilter filter)
 		{
 			return _skdService.GetCards(filter);
 		}
 		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
 		{
 			return _skdService.GetCardZoneLinks(filter);
+		}
+		#endregion
+
+		#region Save
+		public void SaveEmployees(IEnumerable<Employee> Employees)
+		{
+			_skdService.SaveEmployees(Employees);
+		}
+		public void SaveDepartments(IEnumerable<Department> Departments)
+		{
+			_skdService.SaveDepartments(Departments);
+		}
+		public void SavePositions(IEnumerable<Position> Positions)
+		{
+			_skdService.SavePositions(Positions);
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -49,7 +65,7 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveFrames(frames);
 		}
-		public void SaveCards(IEnumerable<Card> items)
+		public void SaveCards(IEnumerable<SKDCard> items)
 		{
 			_skdService.SaveCards(items);
 		}
@@ -57,8 +73,42 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveCardZoneLinks(items);
 		}
+		#endregion
 
-        #endregion
+		#region MarkDeleted
+		public void MarkDeletedEmployees(IEnumerable<Employee> Employees)
+		{
+			_skdService.MarkDeletedEmployees(Employees);
+		}
+		public void MarkDeletedDepartments(IEnumerable<Department> Departments)
+		{
+			_skdService.MarkDeletedDepartments(Departments);
+		}
+		public void MarkDeletedPositions(IEnumerable<Position> Positions)
+		{
+			_skdService.MarkDeletedPositions(Positions);
+		}
+		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		{
+			_skdService.MarkDeletedSKDJournalItems(journalItems);
+		}
+		public void MarkDeletedFrames(IEnumerable<Frame> frames)
+		{
+			_skdService.MarkDeletedFrames(frames);
+		}
+		public void MarkDeletedCards(IEnumerable<SKDCard> items)
+		{
+			_skdService.MarkDeletedCards(items);
+		}
+		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
+		{
+			_skdService.MarkDeletedCardZoneLinks(items);
+		}
+		#endregion
+
+
+
+		#endregion
 
 		#region Devices
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)

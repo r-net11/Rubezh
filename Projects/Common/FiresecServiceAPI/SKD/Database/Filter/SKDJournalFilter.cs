@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.Models.SKDDatabase;
 
 namespace FiresecAPI
 {
     [DataContract]
-    public class SKDJournalFilter
+	public class SKDJournalFilter : FilterBase
     {
         [DataMember]
         public List<Guid> Uids { get; set; }

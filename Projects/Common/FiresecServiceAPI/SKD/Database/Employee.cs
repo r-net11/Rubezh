@@ -17,6 +17,10 @@ namespace FiresecAPI
         public string SecondName { get; set; }
         [DataMember]
         public string LastName { get; set; }
+		[DataMember]
+		public DateTime? Appointed { get; set; }
+		[DataMember]
+		public DateTime? Dismissed { get; set; }
         [DataMember]
         public Guid? PositionUid { get; set; }
         [DataMember]
@@ -26,10 +30,8 @@ namespace FiresecAPI
         [DataMember]
         public Guid? ScheduleUid { get; set; }
         [DataMember]
-        public List<Guid> AdditionalColumnUids { get; set; } 
-        [DataMember]
-        public DateTime? Appointed { get; set; }
-        [DataMember]
-        public DateTime? Dismissed { get; set; }
+        public List<Guid> AdditionalColumnUids { get; set; }
+		[DataMember]
+		public List<Guid> CardUids { get; set; } 
 	}
 }

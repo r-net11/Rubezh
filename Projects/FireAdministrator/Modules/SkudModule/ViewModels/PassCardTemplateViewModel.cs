@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models.SKDDatabase;
+﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels

@@ -57,6 +57,12 @@ namespace SKDDriver
 			Guid? replacementUid = null;
 			if (employee.EmployeeReplacement != null)
 				replacementUid = employee.EmployeeReplacement.Uid;
+			var cardUids = new List<Guid>();
+			foreach (var item in employee.Card)
+			{
+				cardUids.Add(item.Uid);
+			}
+
 			var resultEmployee = new FiresecAPI.Employee
 			{
 				Uid = employee.Uid,
@@ -69,7 +75,8 @@ namespace SKDDriver
 				ReplacementUid = replacementUid,
 				DepartmentUid = employee.DepartmentUid,
 				ScheduleUid = employee.ScheduleUid,
-				AdditionalColumnUids = additionalColumnUids
+				AdditionalColumnUids = additionalColumnUids,
+				CardUids = cardUids
 			};
 			return resultEmployee;
 		}
@@ -152,17 +159,17 @@ namespace SKDDriver
 			};
 		}
 
-		public static FiresecAPI.Card Translate(Card card)
+		public static FiresecAPI.SKDCard Translate(Card card)
 		{
 			if (card == null)
 				return null;
 			var zoneUids = new List<Guid>();
 			foreach (var cardZoneLink in card.CardZoneLink)
 			{
-				if(cardZoneLink.Uid != null)
-					zoneUids.Add(cardZoneLink.Uid);
+				if(cardZoneLink.ZoneUid != null)
+					zoneUids.Add(cardZoneLink.ZoneUid.Value);
 			}
-			return new FiresecAPI.Card
+			return new FiresecAPI.SKDCard
 			{
 				EmployeeUid = card.EmployeeUid,
 				Number = card.Number,
@@ -170,21 +177,36 @@ namespace SKDDriver
 				Uid = card.Uid,
 				ValidFrom = card.ValidFrom,
 				ValidTo = card.ValidTo,
-				ZoneUids = zoneUids
+				ZoneLinkUids = zoneUids
 			};
 		}
 
-		public static FiresecAPI.CardZoneLink Translate(CardZoneLink cardZoneLink)
+		public static FiresecAPI.CardZoneLink Translate(CardZoneLink cardControllerLink)
 		{
-			if (cardZoneLink == null)
+			if (cardControllerLink == null)
 				return null;
+			FiresecAPI.AccessType accessType;
+			switch (cardControllerLink.AccessType)
+			{
+				case "WithEscort":
+					accessType = FiresecAPI.AccessType.WithEscort;
+					break;
+				default:
+					accessType = FiresecAPI.AccessType.Basic;
+					break;
+			}
 			return new FiresecAPI.CardZoneLink
 			{
-				Uid = cardZoneLink.Uid,
-				ZoneUid = cardZoneLink.ZoneUid,
-				CardUid = cardZoneLink.CardUid
+				Uid = cardControllerLink.Uid,
+				AccessType = accessType,
+				IsAntipass = cardControllerLink.IsAntipass,
+				ZoneUid = cardControllerLink.ZoneUid,
+				CardUid = cardControllerLink.CardUid,
+				TimeCriteriaUid = cardControllerLink.TimeCriteriaUid
 			};
 		}
+
+
 
 
 		//public FiresecAPI.Models.Skud.Interval Translate(Interval interval)
