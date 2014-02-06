@@ -18,6 +18,7 @@ namespace VideoModule.ViewModels
 		public CameraDetailsViewModel(Camera camera = null)
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
+			TestCommand = new RelayCommand(OnTest);
 			StateClasses = new List<XStateClass>();
 			StateClasses.Add(XStateClass.Fire1);
 			StateClasses.Add(XStateClass.Fire2);
@@ -35,7 +36,9 @@ namespace VideoModule.ViewModels
 				Camera = new Camera()
 				{
 					Name = "Новая камера",
-					Address = "172.16.7.88"
+					Address = "172.16.7.88",
+					Login = "admin",
+					Password = "admin"
 				};
 			}
 
@@ -46,10 +49,39 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
+			Login = Camera.Login;
+			Password = Camera.Password;
+			Left = Camera.Left;
+			Top = Camera.Top;
+			Width = Camera.Width;
+			Height = Camera.Height;
+			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateClass = Camera.StateClass;
 			if (Camera.ZoneUIDs == null)
 				Camera.ZoneUIDs = new List<Guid>();
 			Zones = Camera.ZoneUIDs.ToList();
+		}
+
+		string _login;
+		public string Login
+		{
+			get { return _login; }
+			set
+			{
+				_login = value;
+				OnPropertyChanged("Login");
+			}
+		}
+
+		string _password;
+		public string Password
+		{
+			get { return _password; }
+			set
+			{
+				_password = value;
+				OnPropertyChanged("Password");
+			}
 		}
 
 		string _name;
@@ -71,6 +103,61 @@ namespace VideoModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
+			}
+		}
+
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged("Left");
+			}
+		}
+
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged("Top");
+			}
+		}
+
+		int _width;
+		public int Width
+		{
+			get { return _width; }
+			set
+			{
+				_width = value;
+				OnPropertyChanged("Width");
+			}
+		}
+
+		int _height;
+		public int Height
+		{
+			get { return _height; }
+			set
+			{
+				_height = value;
+				OnPropertyChanged("Height");
+			}
+		}
+
+		bool _ignoreMoveResize;
+		public bool IgnoreMoveResize
+		{
+			get { return _ignoreMoveResize; }
+			set
+			{
+				_ignoreMoveResize = value;
+				OnPropertyChanged("IgnoreMoveResize");
 			}
 		}
 
@@ -114,12 +201,40 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			var camera = new FiresecAPI.Models.Camera()
+			{
+				Address = Address,
+				Login = Login,
+				Password = Password,
+				Left = Left,
+				Top = Top,
+				Width = Width,
+				Height = Height,
+				IgnoreMoveResize = IgnoreMoveResize
+			};
+			VideoService.ShowModal(camera); //"172.16.7.202"
+			Left = camera.Left;
+			Top = camera.Top;
+			Width = camera.Width;
+			Height = camera.Height;
+		}
+
 		protected override bool Save()
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
+			Camera.Login = Login;
+			Camera.Password = Password;
+			Camera.Left = Left;
+			Camera.Top = Top;
+			Camera.Width = Width;
+			Camera.Height = Height;
 			Camera.StateClass = SelectedStateClass;
 			Camera.ZoneUIDs = Zones.ToList();
+			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			return base.Save();
 		}
 	}

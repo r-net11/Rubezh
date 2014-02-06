@@ -28,6 +28,9 @@ namespace VideoModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ScreenShortCommand = new RelayCommand(OnScreenShort);
+			StartVideoCommand = new RelayCommand(OnStartVideo, () => SelectedCamera != null);
+			PauseVideoCommand = new RelayCommand(OnPauseVideo, () => SelectedCamera != null && (SelectedCamera.IsNowPlayed));
+			StopVideoCommand = new RelayCommand(OnStopVideo, () => (SelectedCamera != null) && (SelectedCamera.IsNowPlayed));
 			RegisterShortcuts();
 			Initialize();
 			//VlcInitialize();
@@ -73,7 +76,27 @@ namespace VideoModule.ViewModels
 				return _videoSequence;
 			}
 		}
-
+		public RelayCommand StartVideoCommand { get; private set; }
+		void OnStartVideo()
+		{
+			foreach (var camera in Cameras)
+			{
+				if (camera.IsNowPlayed)
+					camera.StopVideo();
+			}
+			SelectedCamera.StartVideo();
+			OnPropertyChanged("StartedCamera");
+		}
+		public RelayCommand PauseVideoCommand { get; private set; }
+		void OnPauseVideo()
+		{
+			SelectedCamera.PauseVideo();
+		}
+		public RelayCommand StopVideoCommand { get; private set; }
+		void OnStopVideo()
+		{
+			SelectedCamera.StopVideo();
+		}
 		public RelayCommand ScreenShortCommand { get; private set; }
 		void OnScreenShort()
 		{
@@ -103,6 +126,11 @@ namespace VideoModule.ViewModels
 				_selectedCamera = value;
 				OnPropertyChanged("SelectedCamera");
 			}
+		}
+
+		public CameraViewModel StartedCamera
+		{
+			get { return Cameras.FirstOrDefault(x => x.IsNowPlayed); }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
