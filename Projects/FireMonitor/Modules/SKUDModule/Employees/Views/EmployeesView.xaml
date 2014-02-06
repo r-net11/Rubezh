@@ -7,7 +7,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
             <StackPanel Orientation="Horizontal">
                 <!--<Button Command="{Binding AddCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Добавить пользователя">
                     <Image Height="24" Source="/Controls;component/Images/Add.png" />
@@ -21,7 +21,7 @@
                 <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
             </StackPanel>
         </Border>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.SecondName}" />

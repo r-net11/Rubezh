@@ -128,6 +128,11 @@
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
+    <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
+      <DependentUpon>PositionDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
@@ -251,6 +256,10 @@
     <Page Include="Employees\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Positions\Views\PositionDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Verification\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

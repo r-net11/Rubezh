@@ -1,34 +1,38 @@
-﻿using FiresecAPI;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
-	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
+	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public SKDZone Zone { get; private set; }
+		public Position Position { get; private set; }
 
-		public ZoneDetailsViewModel(SKDZone zone = null)
+		public PositionDetailsViewModel(Position position = null)
 		{
-			if (zone == null)
+			if (position == null)
 			{
-				Title = "Создание новой зоны";
-				Zone = new SKDZone()
+				Title = "Создание должности";
+				position = new Position()
 				{
 					Name = "Новая зона",
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства зоны: {0}", zone.Name);
-				Zone = zone;
+				Title = string.Format("Свойства должности: {0}", position.Name);
 			}
+			Position = position;
 			CopyProperties();
 		}
 
 		public void CopyProperties()
 		{
-			Name = Zone.Name;
-			Description = Zone.Description;
+			Name = Position.Name;
+			Description = Position.Description;
 		}
 
 		string _name;
@@ -61,12 +65,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Неконтролируемая территория";
+			return true;
 		}
 
 		protected override bool Save()
 		{
-			Zone = new SKDZone()
+			Position = new Position()
 			{
 				Name = Name,
 				Description = Description
