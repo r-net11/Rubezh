@@ -5,12 +5,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Common;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Designer;
-using Infrastructure.Client.Plans;
 using Infrastructure.Designer.InstrumentAdorners;
+using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels
 {

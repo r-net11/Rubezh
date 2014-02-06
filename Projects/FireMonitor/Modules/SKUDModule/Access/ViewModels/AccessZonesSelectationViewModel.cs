@@ -12,8 +12,10 @@ namespace SKDModule.ViewModels
 	{
 		public AccessZonesSelectationViewModel()
 		{
+			Title = "Выбор зон";
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
+			SelectedZone = RootZone;
 
 			foreach (var zone in AllZones)
 			{
@@ -21,6 +23,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#region Zones
 		public List<AccessZoneViewModel> AllZones;
 
 		AccessZoneViewModel _selectedZone;
@@ -33,7 +36,6 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedZone");
-				InitializeDevices();
 			}
 		}
 
@@ -66,30 +68,7 @@ namespace SKDModule.ViewModels
 			}
 			return zoneViewModel;
 		}
-
-		void InitializeDevices()
-		{
-			Devices = new ObservableCollection<SKDDevice>();
-			if (SelectedZone != null)
-			{
-				foreach (var device in SKDManager.Devices)
-				{
-					if (device.DriverType == XFiresecAPI.SKDDriverType.Controller && device.ZoneUID == SelectedZone.Zone.UID)
-						Devices.Add(device);
-				}
-			}
-		}
-
-		ObservableCollection<SKDDevice> _devices;
-		public ObservableCollection<SKDDevice> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
+		#endregion
 
 		protected override bool Save()
 		{

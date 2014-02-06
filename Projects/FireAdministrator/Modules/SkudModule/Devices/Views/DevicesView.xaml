@@ -10,7 +10,6 @@
              xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 
     <UserControl.Resources>
-        <Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
         <Conv:SwitchConverter x:Key="Tooltip" Else="{x:Null}">
             <Conv:SwitchCase Then="Устройство может быть размещено на плане" When="Multiple" />
             <Conv:SwitchCase Then="Устройство не размещено на плане" When="NotPresent" />
@@ -21,7 +20,6 @@
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернее устройство (Ctrl+N)" Command="{Binding AddCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительскому устройству (Ctrl+M)" Command="{Binding AddToParentCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" Command="{Binding RemoveCommand}" />
-            <!--<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLogic.png" Text="Настройка логики исполнительного устройства" Command="{Binding ShowLogicCommand}" />-->
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Вставить (Ctrl+V)" Command="{Binding ShowPropertiesCommand}" />
             <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
@@ -30,7 +28,6 @@
         <viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
         <viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
         <viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
-        <viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
     </UserControl.Resources>
 
     <Grid>
@@ -64,10 +61,23 @@
                                             <ControlTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-                                                    <TextBlock Foreground ="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.Driver.ShortName}" />
+                                                    <TextBlock Text="{Binding Name}" Width="1000" HorizontalAlignment="Left" VerticalAlignment="Center" />
                                                 </StackPanel>
                                             </ControlTemplate>
                                         </Controls:EditorPresenter.ViewTemplate>
+                                        <Controls:EditorPresenter.EditTemplate>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
+                                                    <TextBox Name="nameTextBox" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="1000" BorderThickness="0" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger SourceName="nameTextBox" Property="IsVisible" Value="True">
+                                                        <Setter TargetName="nameTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=nameTextBox}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Controls:EditorPresenter.EditTemplate>
                                     </Controls:EditorPresenter>
                                 </DockPanel>
                             </DataTemplate>
@@ -159,30 +169,6 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-
-                    <GridViewColumn Width="100" Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDescriptionComparer}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Controls:EditorPresenter>
-                                    <Controls:EditorPresenter.ViewTemplate>
-                                        <ControlTemplate>
-                                            <TextBlock Text="{Binding Description}" />
-                                        </ControlTemplate>
-                                    </Controls:EditorPresenter.ViewTemplate>
-                                    <Controls:EditorPresenter.EditTemplate>
-                                        <ControlTemplate>
-                                            <TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-                                            <ControlTemplate.Triggers>
-                                                <Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
-                                                    <Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Controls:EditorPresenter.EditTemplate>
-                                </Controls:EditorPresenter>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
                 </GridView>
             </tree:TreeList.View>
         </tree:TreeList>
@@ -205,7 +191,7 @@
 								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
-										<TextBlock Text="{Binding Device.Parent.PresentationName}" Margin="2" />
+										<TextBlock Text="{Binding Device.Parent.Name}" Margin="2" />
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>

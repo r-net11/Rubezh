@@ -6,11 +6,10 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
-using XFiresecAPI;
+using Infrastructure.Events;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {

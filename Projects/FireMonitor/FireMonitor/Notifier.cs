@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Mail;
 using Infrastructure.Events;
-using System.Linq;
 
 namespace FireMonitor.ViewModels
 {

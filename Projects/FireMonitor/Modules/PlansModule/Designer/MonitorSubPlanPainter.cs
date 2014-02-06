@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Media;
-using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
-using System.Windows.Input;
 using XFiresecAPI;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.Windows;
-using Infrustructure.Plans.Elements;
-using FiresecClient;
-using System.Diagnostics;
 
 namespace PlansModule.Designer
 {

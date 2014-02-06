@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -12,15 +10,22 @@ namespace FiresecAPI
 		public SKDTimeInterval()
 		{
 			UID = Guid.NewGuid();
+			TimeIntervalParts = new List<SKDTimeIntervalPart>();
 		}
 
 		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public DateTime StartTime { get; set; }
+		public bool IsDefault { get; set; }
 
 		[DataMember]
-		public DateTime EndTime { get; set; }
+		public string Name { get; set; }
+
+		[DataMember]
+		public string Description { get; set; }
+
+		[DataMember]
+		public List<SKDTimeIntervalPart> TimeIntervalParts { get; set; }
 	}
 }

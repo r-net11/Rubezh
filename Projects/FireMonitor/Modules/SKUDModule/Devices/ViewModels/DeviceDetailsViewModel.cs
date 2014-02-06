@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);
 			InitializePlans();
 
-			Title = Device.PresentationName;
+			Title = Device.Name;
 			TopMost = true;
 		}
 

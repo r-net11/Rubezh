@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Linq;
 using FiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -22,7 +19,7 @@ namespace SKDModule.ViewModels
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
-					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault().UID;
+					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault().UID;
 				}
 			}
 			else

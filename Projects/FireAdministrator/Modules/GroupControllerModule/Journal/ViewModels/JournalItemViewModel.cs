@@ -1,13 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Common;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
-using System;
-using Common;
 
 namespace GKModule.ViewModels
 {

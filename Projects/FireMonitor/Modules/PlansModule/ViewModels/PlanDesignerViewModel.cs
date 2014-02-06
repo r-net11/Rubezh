@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Media;
+using Common;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
+using Infrastructure.Events;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Designer;
-using FiresecClient;
-using Infrustructure.Plans.Designer;
-using Common;
-using System.Diagnostics;
-using Infrastructure.Common;
-using Infrastructure;
-using Infrastructure.Events;
 
 namespace PlansModule.ViewModels
 {

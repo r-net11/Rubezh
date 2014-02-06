@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI;
-using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalPartViewModel : BaseViewModel
 	{
 		SlideDayIntervalViewModel SlideDayIntervalViewModel;
-		public NamedSKDTimeInterval TimeInterval { get; private set; }
+		public SKDTimeInterval TimeInterval { get; private set; }
 
-		public SlideDayIntervalPartViewModel(SlideDayIntervalViewModel slideDayIntervalViewModel, NamedSKDTimeInterval timeInterval)
+		public SlideDayIntervalPartViewModel(SlideDayIntervalViewModel slideDayIntervalViewModel, SKDTimeInterval timeInterval)
 		{
 			SlideDayIntervalViewModel = slideDayIntervalViewModel;
 			TimeInterval = timeInterval;
 
-			AvailableTimeIntervals = new ObservableCollection<NamedSKDTimeInterval>();
-			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.NamedTimeIntervals)
+			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>();
+			foreach (var interval in SKDManager.SKDConfiguration.TimeIntervals)
 			{
-				AvailableTimeIntervals.Add(namedTimeInterval);
+				AvailableTimeIntervals.Add(interval);
 			}
 			SelectedTimeInterval = TimeInterval;
 		}
 
-		public ObservableCollection<NamedSKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
 
-		NamedSKDTimeInterval _selectedTimeInterval;
-		public NamedSKDTimeInterval SelectedTimeInterval
+		SKDTimeInterval _selectedTimeInterval;
+		public SKDTimeInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set

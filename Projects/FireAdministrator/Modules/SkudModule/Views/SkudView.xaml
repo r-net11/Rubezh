@@ -1,6 +1,0 @@
-﻿<UserControl x:Class="SKDModule.Views.SkudView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <TextBlock FontSize="48" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">NOT IMPLEMENTED</TextBlock>
-</UserControl>

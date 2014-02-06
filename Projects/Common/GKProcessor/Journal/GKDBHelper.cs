@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlServerCe;
 using System.IO;
-using Common;
-using Infrastructure.Common;
-using FiresecAPI;
-using XFiresecAPI;
-using System.Diagnostics;
+using System.Linq;
 using System.Threading;
+using Common;
+using FiresecAPI;
+using Infrastructure.Common;
+using XFiresecAPI;
 
 namespace GKProcessor
 {

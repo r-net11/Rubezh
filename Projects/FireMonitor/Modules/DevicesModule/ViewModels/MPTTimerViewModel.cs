@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Threading;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels

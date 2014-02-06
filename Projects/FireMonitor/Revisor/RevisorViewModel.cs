@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Infrastructure.Common;
-using Microsoft.Win32;
 
 namespace Revisor
 {

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Data;
 using System.Drawing;
+using System.Windows.Data;
 
 namespace Controls.Converters
 {

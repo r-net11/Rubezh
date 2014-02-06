@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.XModels;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
 using Microsoft.Practices.Prism.Events;
 using XFiresecAPI;
 

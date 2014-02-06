@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Navigation;
+﻿using System.Collections.Generic;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.Layout.ViewModels

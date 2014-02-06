@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI;
-using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {

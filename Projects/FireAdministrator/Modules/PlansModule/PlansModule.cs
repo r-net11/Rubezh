@@ -2,7 +2,6 @@
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Client.Layout;
-using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;

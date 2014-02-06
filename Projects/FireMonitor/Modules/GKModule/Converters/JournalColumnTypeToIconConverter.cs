@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Data;
-using GKProcessor;
-using FiresecClient;
-using XFiresecAPI;
 using Infrastructure.Models;
 
 namespace GKModule.Converters

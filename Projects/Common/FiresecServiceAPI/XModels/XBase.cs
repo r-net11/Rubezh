@@ -1,8 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using FiresecAPI;
-using XFiresecAPI;
 
 namespace XFiresecAPI
 {

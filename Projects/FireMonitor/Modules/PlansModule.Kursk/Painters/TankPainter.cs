@@ -1,22 +1,12 @@
 ﻿using System.Linq;
-using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Events;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using Controls.Converters;
-using System;
 
 namespace PlansModule.Kursk.Designer
 {

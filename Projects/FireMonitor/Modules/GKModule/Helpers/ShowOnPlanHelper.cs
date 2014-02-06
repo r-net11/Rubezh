@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using XFiresecAPI;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
 
 namespace GKModule
 {

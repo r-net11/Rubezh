@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Microsoft.Win32;
 using SKDModule.Plans.Designer;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
@@ -32,7 +29,6 @@ namespace SKDModule.ViewModels
 			Menu = new DevicesMenuViewModel(this);
 			Current = this;
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
-			ReadJournalFromFileCommand = new RelayCommand(OnReadJournalFromFile);
 			RegisterShortcuts();
 			IsRightPanelEnabled = true;
 			SubscribeEvents();
@@ -142,28 +138,6 @@ namespace SKDModule.ViewModels
 			foreach (var childDevice in device.Children)
 				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
-		}
-
-		public RelayCommand ReadJournalFromFileCommand { get; private set; }
-		void OnReadJournalFromFile()
-		{
-			var openDialog = new OpenFileDialog()
-			{
-				Filter = "Журнал событий Firesec|*.fscj",
-				DefaultExt = "Журнал событий Firesec|*.fscj"
-			};
-			if (openDialog.ShowDialog().Value)
-			{
-				using (var fileStream = new FileStream(openDialog.FileName, FileMode.Open, FileAccess.Read))
-				{
-					//var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
-					//var journalItemsCollection = (JournalItemsCollection)dataContractSerializer.ReadObject(fileStream);
-					//if (journalItemsCollection != null)
-					//{
-					//    DialogService.ShowModalWindow(new JournalFromFileViewModel(journalItemsCollection));
-					//}
-				}
-			}
 		}
 
 		private void RegisterShortcuts()

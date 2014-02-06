@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using FiresecClient;
 using Infrastructure;
 using XFiresecAPI;
-using FiresecClient;
 
 namespace GKModule.ViewModels
 {

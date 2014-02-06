@@ -8,12 +8,12 @@
         <Views:TimeIntervalsMenuView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NamedTimeIntervalDetailsViewModel}">
-        <Views:NamedTimeIntervalDetailsView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:TimeIntervalDetailsViewModel}">
         <Views:TimeIntervalDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:TimeIntervalPartDetailsViewModel}">
+        <Views:TimeIntervalPartDetailsView />
     </DataTemplate>
 
     

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Infrustructure.Plans.Services;
+﻿using Infrustructure.Plans.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

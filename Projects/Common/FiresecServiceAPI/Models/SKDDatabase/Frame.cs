@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Drawing;
-using System.IO;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {

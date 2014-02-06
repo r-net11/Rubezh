@@ -1,8 +1,7 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models.Layouts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Services.Layout;
 
 namespace Infrastructure.Client.Layout.ViewModels
 {

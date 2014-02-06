@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -16,7 +12,7 @@ namespace SKDModule.ViewModels
 		public ReaderDetailsViewModel(SKDDevice device)
 		{
 			Device = device;
-			Title = "Свойства считывателя " + Device.PresentationName;
+			Title = "Свойства считывателя " + Device.Name;
 			if (Device.SKDReaderProperty == null)
 				Device.SKDReaderProperty = new SKDReaderProperty();
 

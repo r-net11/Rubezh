@@ -10,7 +10,6 @@
              xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 
     <UserControl.Resources>
-        <Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
         <ContextMenu x:Key="ZoneContextMenu">
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернюю зону (Ctrl+N)" Command="{Binding AddCommand}" />
             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительской зоне (Ctrl+M)" Command="{Binding AddToParentCommand}" />
@@ -93,12 +92,12 @@
                         </Style>
                     </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="Auto" Header="Устройство в зоне">
+                        <DataGridTemplateColumn Header="Устройство в зоне" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                         <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding Driver.ShortName}">
+                                        <TextBlock Text="{Binding Name}">
 										<TextBlock.Style>
 											<Style>
 												<Style.Triggers>
@@ -115,8 +114,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="Auto" Binding="{Binding PresentationAddress}" Header="Адрес" />
-                        <DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
+                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -141,12 +139,12 @@
                         </Style>
                     </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="Auto" Header="Устройство">
+                        <DataGridTemplateColumn Header="Устройство" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                         <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding Driver.ShortName}">
+                                        <TextBlock Text="{Binding Name}">
 										<TextBlock.Style>
 											<Style>
 												<Style.Triggers>
@@ -163,8 +161,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="Auto" Binding="{Binding PresentationAddress}" Header="Адрес" />
-                        <DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
+                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

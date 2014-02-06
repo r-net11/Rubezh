@@ -6,12 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrastructure;
+using Infrastructure.Common.Services;
+using Infrastructure.Designer.DesignerItems;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.InstrumentAdorners;
-using Infrastructure.Designer.DesignerItems;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.InstrumentAdorners
 {

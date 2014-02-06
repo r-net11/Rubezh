@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client;
-using Infrastructure.Client.Layout.ViewModels;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using LayoutModule.ViewModels;
-using Infrastructure;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
 
 namespace LayoutModule
 {

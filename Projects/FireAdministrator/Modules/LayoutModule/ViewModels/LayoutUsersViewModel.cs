@@ -5,7 +5,6 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels

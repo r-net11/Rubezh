@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace XFiresecAPI
 {
 	public class XDirectionInternalState : XBaseInternalState

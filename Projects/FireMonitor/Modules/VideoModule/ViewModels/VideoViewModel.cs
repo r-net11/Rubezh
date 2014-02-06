@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FiresecClient;
+using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels

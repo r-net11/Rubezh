@@ -31,7 +31,7 @@ namespace SKDDriver
 			if (source == 1)
 			{
 				JournalItem.DeviceUID = device.UID;
-				JournalItem.DeviceName = device.PresentationName;
+				JournalItem.DeviceName = device.Name;
 			}
 			if (source > 1)
 			{
@@ -39,7 +39,7 @@ namespace SKDDriver
 				{
 					var childDevice = device.Children[source - 2];
 					JournalItem.DeviceUID = childDevice.UID;
-					JournalItem.DeviceName = childDevice.PresentationName;
+					JournalItem.DeviceName = childDevice.Name;
 				}
 			}
 		}

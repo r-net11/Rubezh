@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Devices;
 using System.Windows;
 using System.Windows.Media;
+using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {

@@ -1,12 +1,9 @@
 ﻿using System;
-using Common;
-using FiresecAPI.Models;
 using Infrastructure.Client.Plans;
-using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Services;
 
 namespace Infrastructure.Designer.ViewModels
 {

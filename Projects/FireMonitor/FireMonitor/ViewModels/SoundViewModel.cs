@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -7,12 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System.IO;
-using Microsoft.Windows.Controls;
 using XFiresecAPI;
-using FiresecAPI.XModels;
-using Infrastructure.Common.Windows;
-using System.Diagnostics;
 
 namespace FireMonitor.ViewModels
 {

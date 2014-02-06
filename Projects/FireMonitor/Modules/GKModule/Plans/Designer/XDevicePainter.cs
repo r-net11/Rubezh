@@ -1,20 +1,16 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Controls;
 using DeviceControls;
-using FiresecAPI;
 using FiresecAPI.Models;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using Infrastructure.Client.Plans.ViewModels;
-using GKModule.Views;
-using GKModule.ViewModels;
-using Infrastructure.Common.Windows;
 
 namespace GKModule.Plans.Designer
 {

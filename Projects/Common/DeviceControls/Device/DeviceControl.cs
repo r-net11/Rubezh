@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Devices;
-using Common;
 using FiresecClient;
-using System.Linq;
+using Infrustructure.Plans.Devices;
 
 namespace DeviceControls.Device
 {

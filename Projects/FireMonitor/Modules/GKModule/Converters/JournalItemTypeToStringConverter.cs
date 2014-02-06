@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using GKProcessor;
 using FiresecAPI;
 using XFiresecAPI;
 

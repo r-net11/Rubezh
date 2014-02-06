@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
-using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {

@@ -35,7 +35,7 @@ namespace SKDDriver
 			{
 				StopEvent = new AutoResetEvent(false);
 				RunThread = new Thread(OnRunThread);
-				RunThread.Name = "SKD Watcher " + Device.PresentationName;
+				RunThread.Name = "SKD Watcher " + Device.Name;
 				RunThread.Start();
 			}
 		}

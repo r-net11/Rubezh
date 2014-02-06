@@ -1,7 +1,6 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace LayoutModule.ViewModels
 {

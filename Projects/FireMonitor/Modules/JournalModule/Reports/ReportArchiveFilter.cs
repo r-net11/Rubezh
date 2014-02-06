@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using JournalModule.ViewModels;

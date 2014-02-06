@@ -10,7 +10,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" IsTabStop="True">
+        <ListView Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" IsTabStop="True" Margin="2">
             <ListView.Resources>
                 <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                     <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -39,14 +39,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1"  Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                <Label Content="Адрес" />
-                <TextBox Text="{Binding Address}"  Width="150" HorizontalAlignment="Left" />
+        <StackPanel Grid.Row="1" Margin="2">
+            <StackPanel Grid.Row="0" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="2">
+                <Label Content="Адрес" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
+                <TextBox Text="{Binding Address}" Width="200" HorizontalAlignment="Left" />
             </StackPanel>
-        </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
+                <Label Content="Название" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
+                <TextBox Text="{Binding Name}" Width="200" HorizontalAlignment="Left" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

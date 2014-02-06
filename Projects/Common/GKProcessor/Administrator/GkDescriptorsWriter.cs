@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Common;
-using Infrastructure.Common.Windows;
-using XFiresecAPI;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace GKProcessor
 {
@@ -125,7 +123,6 @@ namespace GKProcessor
 					if (sendResult.HasError)
 					{
 						GKProcessorManager.StopProgress(progressCallback);
-						Trace.WriteLine(progressStage);
 						return false;
 					}
 				}
