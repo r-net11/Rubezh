@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return PictureCacheSource.SKDDevicePicture.GetDynamicSKDBrush(Device); }
+			get { return PictureCacheSource.SKDDevicePicture.GetDynamicBrush(Device); }
 		}
 
 		public string PresentationZone

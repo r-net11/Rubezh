@@ -72,9 +72,9 @@ namespace SKDModule.Plans
 		{
 			_monitors.Clear();
 			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadSKDCache();
+				PictureCacheSource.SKDDevicePicture.LoadCache();
 			using (new TimeCounter("DevicePictureCache.LoadSKDDynamicCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadSKDDynamicCache();
+				PictureCacheSource.SKDDevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

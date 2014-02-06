@@ -224,7 +224,7 @@ namespace LibraryModule.ViewModels
 			{
 				var brush = (Brush)Brushes.Transparent;
 				if (SelectedDevice != null && SelectedState != null)
-					brush = PictureCacheSource.DevicePicture.CreatePreviewBrush(SelectedState.State.Frames);
+					brush = PictureCacheSource.CreateDynamicBrush(SelectedState.State.Frames);
 				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
 				OnPropertyChanged(() => IsPreviewEnabled);
 				return brush;

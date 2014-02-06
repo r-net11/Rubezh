@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XState
+	public class XState : IDeviceState<XStateClass>
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -121,5 +122,14 @@ namespace XFiresecAPI
 			state.StateClasses = StateClasses;
 			state.StateClass = StateClass;
 		}
+
+		#region IDeviceState<XStateClass> Members
+
+		XStateClass IDeviceState<XStateClass>.StateType
+		{
+			get { return StateClass; }
+		}
+
+		#endregion
 	}
 }

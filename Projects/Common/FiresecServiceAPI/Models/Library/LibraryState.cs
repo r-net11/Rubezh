@@ -5,7 +5,7 @@ using Infrustructure.Plans.Devices;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class LibraryState : ILibraryState<LibraryFrame>
+	public class LibraryState : ILibraryState<LibraryFrame, StateType>
 	{
 		public LibraryState()
 		{

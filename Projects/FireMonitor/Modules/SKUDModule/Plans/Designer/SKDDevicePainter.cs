@@ -68,7 +68,7 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.SKDDevicePicture.GetDynamicSKDBrush(Device);
+			return PictureCacheSource.SKDDevicePicture.GetDynamicBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }

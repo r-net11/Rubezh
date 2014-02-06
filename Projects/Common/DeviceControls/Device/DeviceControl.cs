@@ -8,12 +8,12 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls.Device
 {
-	public class DeviceControl : BaseDeviceControl<LibraryFrame>
+	public class DeviceControl : BaseDeviceControl<LibraryFrame, StateType>
 	{
 		public StateType StateType { get; set; }
 		public List<string> AdditionalStateCodes { get; set; }
 
-		protected override IEnumerable<ILibraryState<LibraryFrame>> GetStates()
+		protected override IEnumerable<ILibraryState<LibraryFrame, StateType>> GetStates()
 		{
 			var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
 			if (libraryDevice == null)
@@ -44,7 +44,7 @@ namespace DeviceControls.Device
 				}
 			}
 
-			var resultLibraryStates = new List<ILibraryState<LibraryFrame>>();
+			var resultLibraryStates = new List<ILibraryState<LibraryFrame, StateType>>();
 			if (libraryState != null)
 				resultLibraryStates.Add(libraryState);
 			foreach (var additionalLibraryState in additionalLibraryStates)

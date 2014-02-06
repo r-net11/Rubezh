@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class LibraryDevice
+	public class LibraryDevice : ILibraryDevice<LibraryState, LibraryFrame, StateType>
 	{
 		public LibraryDevice()
 		{

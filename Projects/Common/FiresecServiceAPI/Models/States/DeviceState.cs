@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class DeviceState
+	public class DeviceState : IDeviceState<StateType>
 	{
 		[DataMember]
 		public Guid DeviceUID { get; set; }

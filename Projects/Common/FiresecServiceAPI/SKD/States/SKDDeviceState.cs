@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using XFiresecAPI;
+using Infrustructure.Plans.Devices;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDDeviceState
+	public class SKDDeviceState : IDeviceState<XStateClass>
 	{
 		public SKDDeviceState()
 		{
@@ -64,5 +65,14 @@ namespace FiresecAPI
 			if (StateChanged != null)
 				StateChanged();
 		}
+
+		#region IDeviceState<XStateClass> Members
+
+		XStateClass IDeviceState<XStateClass>.StateType
+		{
+			get { return StateClass; }
+		}
+
+		#endregion
 	}
 }

@@ -9,10 +9,10 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public abstract class BaseDeviceControl<TFrame> : ContentControl, INotifyPropertyChanged
+	public abstract class BaseDeviceControl<TFrame, TStateType> : ContentControl, INotifyPropertyChanged
 		where TFrame : ILibraryFrame
 	{
-		private List<BaseStateViewModel<TFrame>> _stateViewModelList;
+		private List<BaseStateViewModel<TFrame, TStateType>> _stateViewModelList;
 		private Canvas _canvas;
 
 		public BaseDeviceControl()
@@ -34,22 +34,22 @@ namespace DeviceControls
 		{
 			if (_stateViewModelList.IsNotNullOrEmpty())
 				_stateViewModelList.ForEach(x => x.Dispose());
-			_stateViewModelList = new List<BaseStateViewModel<TFrame>>();
+			_stateViewModelList = new List<BaseStateViewModel<TFrame, TStateType>>();
 			var states = GetStates();
 			var canvases = new List<Canvas>();
 			if (states != null)
 			{
-				var sortedStates = from ILibraryState<TFrame> state in states
+				var sortedStates = from ILibraryState<TFrame, TStateType> state in states
 								   orderby state.Layer
 								   select state;
 				foreach (var libraryStates in sortedStates)
-					_stateViewModelList.Add(new BaseStateViewModel<TFrame>(libraryStates, canvases));
+					_stateViewModelList.Add(new BaseStateViewModel<TFrame, TStateType>(libraryStates, canvases));
 			}
 			_canvas.Children.Clear();
 			foreach (var canvas in canvases)
 				_canvas.Children.Add(new Viewbox() { Child = canvas });
 		}
-		protected abstract IEnumerable<ILibraryState<TFrame>> GetStates();
+		protected abstract IEnumerable<ILibraryState<TFrame, TStateType>> GetStates();
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected void OnPropertyChanged(string propertyName)

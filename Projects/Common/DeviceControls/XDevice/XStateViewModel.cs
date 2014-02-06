@@ -4,7 +4,7 @@ using XFiresecAPI;
 
 namespace DeviceControls.XDevice
 {
-	public class XStateViewModel : BaseStateViewModel<LibraryXFrame>
+	public class XStateViewModel : BaseStateViewModel<LibraryXFrame, XStateClass>
 	{
 		public XStateViewModel(LibraryXState state, ICollection<Canvas> stateCanvases)
 			: base(state.XFrames, stateCanvases)

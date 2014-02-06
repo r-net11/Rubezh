@@ -8,7 +8,7 @@ using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
-	public class BaseStateViewModel<TFrame> : IDisposable
+	public class BaseStateViewModel<TFrame, TStateType> : IDisposable
 		where TFrame : ILibraryFrame
 	{
 		private static DispatcherTimer Timer { get; set; }
@@ -24,7 +24,7 @@ namespace DeviceControls
 			Timer.Start();
 		}
 
-		public BaseStateViewModel(ILibraryState<TFrame> state, ICollection<Canvas> stateCanvases)
+		public BaseStateViewModel(ILibraryState<TFrame, TStateType> state, ICollection<Canvas> stateCanvases)
 			: this(state.Frames, stateCanvases)
 		{
 		}

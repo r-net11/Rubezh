@@ -296,7 +296,7 @@ namespace GKModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			var brush = PictureCacheSource.XDevicePicture.GetXBrush(Device);
+			var brush = PictureCacheSource.XDevicePicture.GetBrush(Device);
 			return new Rectangle
 			{
 				Fill = brush,
