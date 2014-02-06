@@ -14,7 +14,7 @@ namespace DeviceControls
 		Guid DriverId { get; set; }
 		IEnumerable<ILibraryState<TLibraryFrame>> GetStates();
 	}
-	public abstract class BasePictureCache<TLibraryFrame>
+	public abstract class BaseDevicePicture<TLibraryFrame>
 		where TLibraryFrame : ILibraryFrame
 	{
 		private Dictionary<Guid, Brush> _brushes = new Dictionary<Guid, Brush>();
@@ -53,7 +53,7 @@ namespace DeviceControls
 
 		private void RegisterBrush(ILibraryDevice<TLibraryFrame> libraryDevice)
 		{
-			var frameworkElement = libraryDevice == null ? DevicePictureCache.EmptyPicture : GetDefaultPicture(libraryDevice);
+			var frameworkElement = libraryDevice == null ? PictureCacheSource.EmptyPicture : GetDefaultPicture(libraryDevice);
 			var brush = new VisualBrush(frameworkElement);
 			if (_brushes.ContainsKey(libraryDevice == null ? Guid.Empty : libraryDevice.DriverId))
 				_brushes[libraryDevice == null ? Guid.Empty : libraryDevice.DriverId] = brush;
@@ -63,10 +63,15 @@ namespace DeviceControls
 		private FrameworkElement GetDefaultPicture(ILibraryDevice<TLibraryFrame> device)
 		{
 			var state = GetDefaultState(device);
-			return state != null && state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : DevicePictureCache.EmptyPicture;
+			return state != null && state.Frames.Count > 0 ? Helper.GetVisual(state.Frames[0].Image) : PictureCacheSource.EmptyPicture;
 		}
 
 		protected abstract ILibraryState<TLibraryFrame> GetDefaultState(ILibraryDevice<TLibraryFrame> libraryrDevice);
 		protected abstract IEnumerable<ILibraryDevice<TLibraryFrame>> EnumerateLibrary();
+
+		public Brush CreatePreviewBrush(List<TLibraryFrame> frames)
+		{
+			return CreateDynamicBrush(frames);
+		}
 	}
 }

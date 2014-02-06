@@ -33,7 +33,7 @@ namespace DeviceControls
 			_index = -1;
 			var count = frames.Count();
 			if (count == 0)
-				Child = DevicePictureCache.EmptyPicture;
+				Child = PictureCacheSource.EmptyPicture;
 			else if (count == 1)
 				Child = Helper.GetVisual(frames.First().Image);
 			else if (count > 1)

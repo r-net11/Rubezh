@@ -21,7 +21,7 @@ namespace GKModule.Plans.Designer
 		{
 			var xdevice = Helper.GetXDevice(_elementXDevice);
 			_toolTip.ImageSource = xdevice == null ? null : xdevice.Driver.ImageSource;
-			return DevicePictureCache.GetXBrush(xdevice);
+			return PictureCacheSource.XDevicePicture.GetXBrush(xdevice);
 		}
 
 		public override object GetToolTip(string title)

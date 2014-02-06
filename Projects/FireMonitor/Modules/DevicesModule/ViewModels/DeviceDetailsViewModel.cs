@@ -141,7 +141,7 @@ namespace DevicesModule.ViewModels
 
 		public Brush DevicePicture
 		{
-			get { return DevicePictureCache.GetDynamicBrush(Device, AlternativeLibraryDeviceUID); }
+			get { return PictureCacheSource.DevicePicture.GetDynamicBrush(Device, AlternativeLibraryDeviceUID); }
 		}
 
 		public StateType StateType

@@ -56,7 +56,7 @@ namespace DevicesModule.Plans
 		public void Initialize()
 		{
 			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
-				DevicePictureCache.LoadCache();
+				PictureCacheSource.DevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members

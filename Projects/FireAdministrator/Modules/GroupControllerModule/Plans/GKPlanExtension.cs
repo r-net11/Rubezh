@@ -58,7 +58,7 @@ namespace GKModule.Plans
 		public void Initialize()
 		{
 			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
-				DevicePictureCache.LoadXCache();
+				PictureCacheSource.XDevicePicture.LoadXCache();
 		}
 
 		#region IPlanExtension Members

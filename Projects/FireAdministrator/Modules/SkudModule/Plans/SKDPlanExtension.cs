@@ -57,7 +57,7 @@ namespace SKDModule.Plans
 		public void Initialize()
 		{
 			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				DevicePictureCache.LoadSKDCache();
+				PictureCacheSource.SKDDevicePicture.LoadSKDCache();
 		}
 
 		#region IPlanExtension Members

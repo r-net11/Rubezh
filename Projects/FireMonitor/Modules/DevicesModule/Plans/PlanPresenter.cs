@@ -71,9 +71,9 @@ namespace DevicesModule.Plans
 		{
 			_monitors.Clear();
 			using (new TimeCounter("DevicePictureCache.LoadCache: {0}"))
-				DevicePictureCache.LoadCache();
+				PictureCacheSource.DevicePicture.LoadCache();
 			using (new TimeCounter("DevicePictureCache.LoadDynamicCache: {0}"))
-				DevicePictureCache.LoadDynamicCache();
+				PictureCacheSource.DevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
