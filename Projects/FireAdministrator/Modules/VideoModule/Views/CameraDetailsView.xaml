@@ -20,22 +20,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
                 <Label Grid.Row="1" Grid.Column="0" Content="URL" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Состояние" HorizontalAlignment="Right" />
                 <Label Grid.Row="3" Grid.Column="0" Content="Зоны" HorizontalAlignment="Right" />
-                <Label Grid.Row="4" Grid.Column="0" Content="Отступ слева" HorizontalAlignment="Right" />
-                <Label Grid.Row="5" Grid.Column="0" Content="Отступ справа" HorizontalAlignment="Right" />
-                <Label Grid.Row="6" Grid.Column="0" Content="Ширина" HorizontalAlignment="Right" />
-                <Label Grid.Row="7" Grid.Column="0" Content="Высота" HorizontalAlignment="Right" />
-                <!--<Label Grid.Row="8" Grid.Column="0" Content="Запретить перетаскивание" HorizontalAlignment="Right" />-->
+
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
@@ -54,9 +45,9 @@
                         <TextBlock Margin="2">
                             <TextBlock.Style>
                                 <Style>
-                                    <Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
+                                    <Setter Property="TextBlock.Text" Value="{Binding PresentationZones}" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PresenrationZones}" Value="">
+                                        <DataTrigger Binding="{Binding PresentationZones}" Value="">
                                             <Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -65,14 +56,7 @@
                         </TextBlock>         
                     </Hyperlink>
                 </TextBlock>
-
-                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Left}" Minimum="0" Maximum="10000" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Top}" Minimum="0" Maximum="10000" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Width}" Minimum="100" Maximum="1000" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="7" Grid.Column="1" Value="{Binding Height}" Minimum="100" Maximum="1000" Margin="2" />
-                <!--<CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding IgnoreMoveResize}" Margin="2" />-->
             </Grid>
         </Border>
-        <Button Grid.Row="1" Content="Показать видео" Command="{Binding TestCommand}" Width="150" HorizontalAlignment="Right" Margin="0 5 0 0" />
     </Grid>
 </UserControl>

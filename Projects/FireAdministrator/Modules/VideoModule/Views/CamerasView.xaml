@@ -3,11 +3,60 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <Controls:XDataGrid ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
-            <DataGridTextColumn Header="URL" Width="200" Binding="{Binding Camera.Address}" />
-            <DataGridTextColumn Header="Зоны" Width="*" Binding="{Binding PresenrationZones}" />
-        </DataGrid.Columns>
-    </Controls:XDataGrid>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
+                <DataGridTextColumn Header="URL" Width="200" Binding="{Binding Camera.Address}" />
+                <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding PresenrationZones}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="2">
+                                <Hyperlink Command="{Binding StartVideoCommand}">
+                                    <TextBlock Text="Старт"/>
+                                </Hyperlink>
+                            </TextBlock>
+                                <TextBlock Margin="2">
+                                <Hyperlink Command="{Binding PauseVideoCommand}">
+                                    <TextBlock Text="Пауза"/>
+                                </Hyperlink>
+                            </TextBlock>
+                                <TextBlock Margin="2">
+                            <Hyperlink Command="{Binding StopVideoCommand}">
+                                <TextBlock Text="Стоп"/>
+                            </Hyperlink>
+                        </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <VisualBrush AlignmentX="Center" Stretch="Uniform" >
+                    <VisualBrush.Visual>
+                        <Image Source="{Binding Path=SelectedCamera.ImageSource}" Margin="30"/>
+                    </VisualBrush.Visual>
+                </VisualBrush >
+            </Grid.Background>
+        </Grid>
+    </Grid>
+    <!--<Grid>
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <VisualBrush Stretch="Uniform">
+                    <VisualBrush.Visual>
+                        <Image Source="{Binding Path=VideoSequence.Image}" />
+                    </VisualBrush.Visual>
+                </VisualBrush >
+            </Grid.Background>
+        </Grid>
+    </Grid>-->
 </UserControl>

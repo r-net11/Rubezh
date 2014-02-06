@@ -18,7 +18,6 @@ namespace VideoModule.ViewModels
 		public CameraDetailsViewModel(Camera camera = null)
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
-			TestCommand = new RelayCommand(OnTest);
 			StateClasses = new List<XStateClass>();
 			StateClasses.Add(XStateClass.Fire1);
 			StateClasses.Add(XStateClass.Fire2);
@@ -36,7 +35,7 @@ namespace VideoModule.ViewModels
 				Camera = new Camera()
 				{
 					Name = "Новая камера",
-					Address = "192.168.0.1"
+					Address = "172.16.7.88"
 				};
 			}
 
@@ -47,11 +46,6 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
-			Left = Camera.Left;
-			Top = Camera.Top;
-			Width = Camera.Width;
-			Height = Camera.Height;
-			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateClass = Camera.StateClass;
 			if (Camera.ZoneUIDs == null)
 				Camera.ZoneUIDs = new List<Guid>();
@@ -80,62 +74,7 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		int _left;
-		public int Left
-		{
-			get { return _left; }
-			set
-			{
-				_left = value;
-				OnPropertyChanged("Left");
-			}
-		}
-
-		int _top;
-		public int Top
-		{
-			get { return _top; }
-			set
-			{
-				_top = value;
-				OnPropertyChanged("Top");
-			}
-		}
-
-		int _width;
-		public int Width
-		{
-			get { return _width; }
-			set
-			{
-				_width = value;
-				OnPropertyChanged("Width");
-			}
-		}
-
-		int _height;
-		public int Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				OnPropertyChanged("Height");
-			}
-		}
-
-		bool _ignoreMoveResize;
-		public bool IgnoreMoveResize
-		{
-			get { return _ignoreMoveResize; }
-			set
-			{
-				_ignoreMoveResize = value;
-				OnPropertyChanged("IgnoreMoveResize");
-			}
-		}
-
-		public string PresenrationZones
+		public string PresentationZones
 		{
 			get
 			{
@@ -171,40 +110,16 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged("PresentationZones");
 			}
-		}
-
-		public RelayCommand TestCommand { get; private set; }
-		void OnTest()
-		{
-			var camera = new FiresecAPI.Models.Camera()
-			{
-				Address = Address,
-				Left = Left,
-				Top = Top,
-				Width = Width,
-				Height = Height,
-				IgnoreMoveResize = IgnoreMoveResize
-			};
-			VideoService.ShowModal(camera); //"172.16.7.202"
-			Left = camera.Left;
-			Top = camera.Top;
-			Width = camera.Width;
-			Height = camera.Height;
 		}
 
 		protected override bool Save()
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
-			Camera.Left = Left;
-			Camera.Top = Top;
-			Camera.Width = Width;
-			Camera.Height = Height;
 			Camera.StateClass = SelectedStateClass;
 			Camera.ZoneUIDs = Zones.ToList();
-			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			return base.Save();
 		}
 	}
