@@ -5,9 +5,9 @@ using SKDModule.Events;
 
 namespace SKDModule.Validation
 {
-	public class TimeIntervalValidationError : ObjectValidationError<SKDTimeInterval, ShowSKDTimeIntervalsEvent, Guid>
+	public class SlideDayIntervalValidationError : ObjectValidationError<SKDSlideDayInterval, ShowSKDSlideDayIntervalsEvent, Guid>
 	{
-		public TimeIntervalValidationError(SKDTimeInterval interval, string error, ValidationErrorLevel level)
+		public SlideDayIntervalValidationError(SKDSlideDayInterval interval, string error, ValidationErrorLevel level)
 			: base(interval, error, level)
 		{
 		}

@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 				Title = "Новый скользящий посуточный график";
 				slideDayInterval = new SKDSlideDayInterval()
 				{
-					Name = "Именованный интервал"
+					Name = "скользящий посуточный график"
 				};
 			}
 			else
@@ -59,6 +59,11 @@ namespace SKDModule.ViewModels
 				_startDate = value;
 				OnPropertyChanged("StartDate");
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен";
 		}
 
 		protected override bool Save()

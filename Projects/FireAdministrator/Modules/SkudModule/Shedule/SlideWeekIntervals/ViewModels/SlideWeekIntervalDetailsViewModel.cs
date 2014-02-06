@@ -6,14 +6,14 @@ namespace SKDModule.ViewModels
 {
 	public class SlideWeekIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public SKDSlideWeekInterval SlideWeekInterval { get; private set; }
+		public SKDSlideWeeklyInterval SlideWeekInterval { get; private set; }
 
-		public SlideWeekIntervalDetailsViewModel(SKDSlideWeekInterval slideWeekInterval = null)
+		public SlideWeekIntervalDetailsViewModel(SKDSlideWeeklyInterval slideWeekInterval = null)
 		{
 			if (slideWeekInterval == null)
 			{
 				Title = "Новый скользящий понедельный график";
-				slideWeekInterval = new SKDSlideWeekInterval()
+				slideWeekInterval = new SKDSlideWeeklyInterval()
 				{
 					Name = "Скользящий понедельный график"
 				};
@@ -59,6 +59,11 @@ namespace SKDModule.ViewModels
 				_startDate = value;
 				OnPropertyChanged("StartDate");
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен";
 		}
 
 		protected override bool Save()

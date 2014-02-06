@@ -30,6 +30,7 @@ namespace FiresecAPI
 		public static void SetEmptyConfiguration()
 		{
 			SKDConfiguration = new SKDConfiguration();
+			SKDConfiguration.ValidateVersion();
 			UpdateConfiguration();
 		}
 
@@ -117,6 +118,7 @@ namespace FiresecAPI
 		{
 			ClearAllReferences();
 			InitializeDevicesInZone();
+			InvalidateIntervals();
 		}
 
 		static void ClearAllReferences()
@@ -161,6 +163,13 @@ namespace FiresecAPI
 				}
 				else
 					device.OuterZoneUID = Guid.Empty;
+			}
+		}
+
+		static void InvalidateIntervals()
+		{
+			foreach (var weeklyInterval in SKDConfiguration.WeeklyIntervals)
+			{
 			}
 		}
 	}

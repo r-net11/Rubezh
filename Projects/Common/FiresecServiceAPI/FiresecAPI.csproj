@@ -256,7 +256,7 @@
     <Compile Include="SKD\States\SKDStates.cs" />
     <Compile Include="SKD\States\SKDZoneState.cs" />
     <Compile Include="SKD\TimeIntervals\SKDHoliday.cs" />
-    <Compile Include="SKD\TimeIntervals\SKDSlideWeekInterval.cs" />
+    <Compile Include="SKD\TimeIntervals\SKDSlideWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDTimeInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDSlideDayInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDTimeIntervalPart.cs" />

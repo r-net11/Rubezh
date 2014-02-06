@@ -23,9 +23,9 @@ namespace SKDModule
 		ZonesViewModel ZonesViewModel;
 		LibraryViewModel LibraryViewModel;
 		TimeIntervalsViewModel TimeIntervalsViewModel;
+		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
-		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
 		FiltersViewModel FiltersViewModel;
 		PassCardsDesignerViewModel PassCardDesignerViewModel;
@@ -43,9 +43,9 @@ namespace SKDModule
 			ZonesViewModel = new ZonesViewModel();
 			LibraryViewModel = new LibraryViewModel();
 			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
-			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SettingsViewModel = new SettingsViewModel();
 			FiltersViewModel = new FiltersViewModel();
@@ -58,7 +58,13 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			FiltersViewModel.Initialize();
-		
+
+			TimeIntervalsViewModel.Initialize();
+			WeeklyIntervalsViewModel.Initialize();
+			SlideDayIntervalsViewModel.Initialize();
+			SlideWeekIntervalsViewModel.Initialize();
+			HolidaysViewModel.Initialize();
+
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			Helper.BuildMap();
@@ -81,9 +87,9 @@ namespace SKDModule
 					new NavigationItem("Интервалы",null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					}),
 				}, PermissionType.Adm_SKUD) {IsExpanded = true},

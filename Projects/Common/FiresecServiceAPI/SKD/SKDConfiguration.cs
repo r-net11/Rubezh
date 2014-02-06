@@ -13,7 +13,7 @@ namespace XFiresecAPI
 		{
 			TimeIntervals = new List<SKDTimeInterval>();
 			SlideDayIntervals = new List<SKDSlideDayInterval>();
-			SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
+			SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
 			WeeklyIntervals = new List<SKDWeeklyInterval>();
 			Holidays = new List<SKDHoliday>();
 			SKDSystemConfiguration = new SKDSystemConfiguration();
@@ -35,7 +35,7 @@ namespace XFiresecAPI
 		public List<SKDSlideDayInterval> SlideDayIntervals { get; set; }
 
 		[DataMember]
-		public List<SKDSlideWeekInterval> SlideWeeklyIntervals { get; set; }
+		public List<SKDSlideWeeklyInterval> SlideWeeklyIntervals { get; set; }
 
 		[DataMember]
 		public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
@@ -88,9 +88,35 @@ namespace XFiresecAPI
 		public override bool ValidateVersion()
 		{
 			var result = true;
+			if(!ValidateIntervals())
+				result = false;
+
+			if (SKDSystemConfiguration == null)
+			{
+				SKDSystemConfiguration = new SKDSystemConfiguration();
+				result = false;
+			}
+
+			return result;
+		}
+
+		public bool ValidateIntervals()
+		{
+			TimeIntervals = new List<SKDTimeInterval>();
+			WeeklyIntervals = new List<SKDWeeklyInterval>();
+			SlideDayIntervals = new List<SKDSlideDayInterval>();
+			SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
+			Holidays = new List<SKDHoliday>();
+
+			var result = true;
 			if (TimeIntervals == null)
 			{
 				TimeIntervals = new List<SKDTimeInterval>();
+				result = false;
+			}
+			if (WeeklyIntervals == null)
+			{
+				WeeklyIntervals = new List<SKDWeeklyInterval>();
 				result = false;
 			}
 			if (SlideDayIntervals == null)
@@ -100,13 +126,29 @@ namespace XFiresecAPI
 			}
 			if (SlideWeeklyIntervals == null)
 			{
-				SlideWeeklyIntervals = new List<SKDSlideWeekInterval>();
+				SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
 				result = false;
 			}
-			if (WeeklyIntervals == null)
+			if (Holidays == null)
 			{
-				WeeklyIntervals = new List<SKDWeeklyInterval>();
+				Holidays = new List<SKDHoliday>();
 				result = false;
+			}
+			foreach (var weeklyInterval in WeeklyIntervals)
+			{
+				if (weeklyInterval.WeeklyIntervalParts == null)
+				{
+					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
+					result = false;
+				}
+			}
+			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)
+			{
+				if (slideWeeklyInterval.WeeklyIntervalUIDs == null)
+				{
+					slideWeeklyInterval.WeeklyIntervalUIDs = new List<Guid>();
+					result = false;
+				}
 			}
 
 			var alwaysTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Всегда" && x.IsDefault);
@@ -127,30 +169,61 @@ namespace XFiresecAPI
 				result = false;
 			}
 
-			foreach (var weeklyInterval in WeeklyIntervals)
+			var alwaysWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ разрешен" && x.IsDefault);
+			if (alwaysWeeklyInterval == null)
 			{
-				if (weeklyInterval.WeeklyIntervalParts == null)
+				alwaysWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ разрешен", IsDefault = true };
+				foreach (var weeklyIntervalPart in alwaysWeeklyInterval.WeeklyIntervalParts)
 				{
-					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
-					result = false;
+					weeklyIntervalPart.TimeIntervalUID = alwaysTimeInterval.UID;
 				}
-			}
-			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)
-			{
-				if (slideWeeklyInterval.WeeklyIntervalUIDs == null)
-				{
-					slideWeeklyInterval.WeeklyIntervalUIDs = new List<Guid>();
-					result = false;
-				}
-			}
-			if (Holidays == null)
-			{
-				Holidays = new List<SKDHoliday>();
+				WeeklyIntervals.Add(alwaysWeeklyInterval);
 				result = false;
 			}
-			if (SKDSystemConfiguration == null)
+
+			var neverWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
+			if (neverWeeklyInterval == null)
 			{
-				SKDSystemConfiguration = new SKDSystemConfiguration();
+				neverWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ запрещен", IsDefault = true };
+				foreach (var weeklyIntervalPart in neverWeeklyInterval.WeeklyIntervalParts)
+				{
+					weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
+				}
+				WeeklyIntervals.Add(neverWeeklyInterval);
+				result = false;
+			}
+
+			var neverSlideDayInterval = SlideDayIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
+			if (neverSlideDayInterval == null)
+			{
+				neverSlideDayInterval = new SKDSlideDayInterval() { Name = "Доступ запрещен", IsDefault = true };
+				neverSlideDayInterval.TimeIntervalUIDs.Add(neverTimeInterval.UID);
+				SlideDayIntervals.Add(neverSlideDayInterval);
+				result = false;
+			}
+
+			var neverSlideWeeklyInterval = SlideWeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
+			if (neverSlideWeeklyInterval == null)
+			{
+				neverSlideWeeklyInterval = new SKDSlideWeeklyInterval() { Name = "Доступ запрещен", IsDefault = true };
+				neverSlideWeeklyInterval.WeeklyIntervalUIDs.Add(neverWeeklyInterval.UID);
+				SlideWeeklyIntervals.Add(neverSlideWeeklyInterval);
+				result = false;
+			}
+
+			if (Holidays.Count == 0)
+			{
+				Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 1) });
+				Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 2) });
+				Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 3) });
+				Holidays.Add(new SKDHoliday() { Name = "Новогодние каникулы", DateTime = new DateTime(2000, 1, 4) });
+				Holidays.Add(new SKDHoliday() { Name = "Рождество", DateTime = new DateTime(2000, 1, 7) });
+				Holidays.Add(new SKDHoliday() { Name = "День советской армии и военно-морского флота", DateTime = new DateTime(2000, 2, 23) });
+				Holidays.Add(new SKDHoliday() { Name = "Международный женский день", DateTime = new DateTime(2000, 3, 8) });
+				Holidays.Add(new SKDHoliday() { Name = "День победы", DateTime = new DateTime(2000, 5, 9) });
+				Holidays.Add(new SKDHoliday() { Name = "День России", DateTime = new DateTime(2000, 6, 12) });
+				Holidays.Add(new SKDHoliday() { Name = "День примерения", DateTime = new DateTime(2000, 11, 4) });
+				Holidays.Add(new SKDHoliday() { Name = "Новый год", DateTime = new DateTime(2000, 12, 31) });
 				result = false;
 			}
 

@@ -26,7 +26,10 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
+		}
 
+		public void Initialize()
+		{
 			SlideWeekIntervals = new ObservableCollection<SlideWeekIntervalViewModel>();
 			foreach (var slideWeekInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
 			{
@@ -36,9 +39,18 @@ namespace SKDModule.ViewModels
 			SelectedSlideWeekInterval = SlideWeekIntervals.FirstOrDefault();
 		}
 
-		SKDSlideWeekInterval IntervalToCopy;
+		SKDSlideWeeklyInterval IntervalToCopy;
 
-		public ObservableCollection<SlideWeekIntervalViewModel> SlideWeekIntervals { get; private set; }
+		ObservableCollection<SlideWeekIntervalViewModel> _slideWeekIntervals;
+		public ObservableCollection<SlideWeekIntervalViewModel> SlideWeekIntervals
+		{
+			get { return _slideWeekIntervals; }
+			set
+			{
+				_slideWeekIntervals = value;
+				OnPropertyChanged("SlideWeekIntervals");
+			}
+		}
 
 		SlideWeekIntervalViewModel _selectedSlideWeekInterval;
 		public SlideWeekIntervalViewModel SelectedSlideWeekInterval
@@ -90,7 +102,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedSlideWeekInterval != null;
+			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -105,7 +117,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedSlideWeekInterval != null;
+			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -115,7 +127,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedSlideWeekInterval != null;
+			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -133,9 +145,9 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null && SlideWeekIntervals.Count < 256;
 		}
 
-		SKDSlideWeekInterval CopyInterval(SKDSlideWeekInterval source)
+		SKDSlideWeeklyInterval CopyInterval(SKDSlideWeeklyInterval source)
 		{
-			var copy = new SKDSlideWeekInterval();
+			var copy = new SKDSlideWeeklyInterval();
 			copy.Name = source.Name;
 			foreach (var timeIntervalUID in source.WeeklyIntervalUIDs)
 			{

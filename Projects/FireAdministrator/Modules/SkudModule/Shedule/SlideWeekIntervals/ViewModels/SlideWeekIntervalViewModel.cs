@@ -11,9 +11,9 @@ namespace SKDModule.ViewModels
 {
 	public class SlideWeekIntervalViewModel : BaseViewModel
 	{
-		public SKDSlideWeekInterval SlideWeekInterval { get; private set; }
+		public SKDSlideWeeklyInterval SlideWeekInterval { get; private set; }
 
-		public SlideWeekIntervalViewModel(SKDSlideWeekInterval slideWeekInterval)
+		public SlideWeekIntervalViewModel(SKDSlideWeeklyInterval slideWeekInterval)
 		{
 			SlideWeekInterval = slideWeekInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -78,6 +78,11 @@ namespace SKDModule.ViewModels
 		bool CanRemove()
 		{
 			return SelectedWeeklyInterval != null;
+		}
+
+		public bool IsEnabled
+		{
+			get { return !SlideWeekInterval.IsDefault; }
 		}
 	}
 }

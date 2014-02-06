@@ -48,6 +48,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(Name) && Name != "Всегда" && Name != "Никогда";
+		}
+
 		protected override bool Save()
 		{
 			TimeInterval.Name = Name;

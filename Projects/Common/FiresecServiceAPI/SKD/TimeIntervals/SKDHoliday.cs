@@ -9,6 +9,7 @@ namespace FiresecAPI
 		public SKDHoliday()
 		{
 			UID = Guid.NewGuid();
+			TypeNo = 1;
 		}
 
 		[DataMember]

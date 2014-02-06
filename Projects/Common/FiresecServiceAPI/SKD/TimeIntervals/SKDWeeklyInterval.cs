@@ -31,6 +31,9 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
+		public bool IsDefault { get; set; }
+
+		[DataMember]
 		public List<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }
 	}
 }

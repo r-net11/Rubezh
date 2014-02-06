@@ -26,7 +26,10 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
+		}
 
+		public void Initialize()
+		{
 			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			{
@@ -38,7 +41,16 @@ namespace SKDModule.ViewModels
 
 		SKDTimeInterval IntervalToCopy;
 
-		public ObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
+		ObservableCollection<TimeIntervalViewModel> _timeIntervals;
+		public ObservableCollection<TimeIntervalViewModel> TimeIntervals
+		{
+			get { return _timeIntervals; }
+			set
+			{
+				_timeIntervals = value;
+				OnPropertyChanged("TimeIntervals");
+			}
+		}
 
 		TimeIntervalViewModel _selectedTimeInterval;
 		public TimeIntervalViewModel SelectedTimeInterval

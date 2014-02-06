@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDSlideWeekInterval
+	public class SKDSlideWeeklyInterval
 	{
-		public SKDSlideWeekInterval()
+		public SKDSlideWeeklyInterval()
 		{
 			UID = Guid.NewGuid();
 			WeeklyIntervalUIDs = new List<Guid>();
@@ -24,6 +24,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTime StartDate { get; set; }
+
+		[DataMember]
+		public bool IsDefault { get; set; }
 
 		[DataMember]
 		public List<Guid> WeeklyIntervalUIDs { get; set; }

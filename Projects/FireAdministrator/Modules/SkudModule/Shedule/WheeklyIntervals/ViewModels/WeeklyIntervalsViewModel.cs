@@ -26,7 +26,10 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
+		}
 
+		public void Initialize()
+		{
 			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
 			foreach (var weeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
 			{
@@ -38,7 +41,16 @@ namespace SKDModule.ViewModels
 
 		SKDWeeklyInterval IntervalToCopy;
 
-		public ObservableCollection<WeeklyIntervalViewModel> WeeklyIntervals { get; private set; }
+		ObservableCollection<WeeklyIntervalViewModel> _weeklyIntervals;
+		public ObservableCollection<WeeklyIntervalViewModel> WeeklyIntervals
+		{
+			get { return _weeklyIntervals; }
+			set
+			{
+				_weeklyIntervals = value;
+				OnPropertyChanged("WeeklyIntervals");
+			}
+		}
 
 		WeeklyIntervalViewModel _selectedWeeklyInterval;
 		public WeeklyIntervalViewModel SelectedWeeklyInterval
@@ -90,7 +102,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -105,7 +117,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -115,7 +127,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedWeeklyInterval != null;
+			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }

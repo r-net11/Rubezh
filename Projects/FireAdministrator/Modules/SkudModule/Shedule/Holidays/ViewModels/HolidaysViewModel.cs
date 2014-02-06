@@ -24,7 +24,10 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			RegisterShortcuts();
 			SetRibbonItems();
+		}
 
+		public void Initialize()
+		{
 			Holidays = new ObservableCollection<HolidayViewModel>();
 			foreach (var holiday in SKDManager.SKDConfiguration.Holidays)
 			{
@@ -34,7 +37,16 @@ namespace SKDModule.ViewModels
 			SelectedHoliday = Holidays.FirstOrDefault();
 		}
 
-		public ObservableCollection<HolidayViewModel> Holidays { get; private set; }
+		ObservableCollection<HolidayViewModel> _holidays;
+		public ObservableCollection<HolidayViewModel> Holidays
+		{
+			get { return _holidays; }
+			set
+			{
+				_holidays = value;
+				OnPropertyChanged("Holidays");
+			}
+		}
 
 		HolidayViewModel _selectedHoliday;
 		public HolidayViewModel SelectedHoliday

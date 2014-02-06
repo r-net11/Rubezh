@@ -257,6 +257,10 @@
     <Compile Include="PassCard\Views\PassCardTemplatePropertiesView.xaml.cs">
       <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\WeeklyIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
+    <Compile Include="Validation\SlideDayIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.SlideDayIntervals.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
