@@ -28,24 +28,17 @@ namespace SKDModule.ViewModels
 			var devices = new HashSet<SKDDevice>();
 			var availableDevices = new HashSet<SKDDevice>();
 
-			if (!zone.IsRootZone)
+			foreach (var device in SKDManager.Devices)
 			{
-				foreach (var device in SKDManager.Devices)
+				if (device.Driver.HasOuterZone)
 				{
-					if (device.Driver.HasZone)
+					if (device.OuterZoneUID == Zone.UID)
 					{
-						if (device.ZoneUID == Zone.UID)
-						{
-							foreach (var parent in device.AllParents)
-								devices.Add(parent);
-							devices.Add(device);
-						}
-						else if (device.ZoneUID == Guid.Empty)
-						{
-							foreach (var parent in device.AllParents)
-								availableDevices.Add(parent);
-							availableDevices.Add(device);
-						}
+						devices.Add(device);
+					}
+					else if (device.OuterZoneUID == Guid.Empty)
+					{
+						availableDevices.Add(device);
 					}
 				}
 			}
@@ -53,38 +46,15 @@ namespace SKDModule.ViewModels
 			Devices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new ZoneDeviceViewModel(device)
-				{
-					IsBold = device.ZoneUID == Zone.UID
-				};
+				var deviceViewModel = new ZoneDeviceViewModel(device);
 				Devices.Add(deviceViewModel);
 			}
 
 			AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>();
 			foreach (var device in availableDevices)
 			{
-				var deviceViewModel = new ZoneDeviceViewModel(device)
-				{
-					IsBold = device.Driver.HasZone
-				};
+				var deviceViewModel = new ZoneDeviceViewModel(device);
 				AvailableDevices.Add(deviceViewModel);
-			}
-
-			foreach (var device in Devices)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.AddChild(device);
-				}
-			}
-			foreach (var device in AvailableDevices)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.AddChild(device);
-				}
 			}
 
 			OnPropertyChanged(() => Devices);
@@ -152,7 +122,7 @@ namespace SKDModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				SKDManager.AddDeviceToZone(availabledeviceViewModel.Device, Zone);
+				SKDManager.AddDeviceToOuterZone(availabledeviceViewModel.Device, Zone);
 			}
 
 			Initialize(Zone);
@@ -169,7 +139,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanAdd(object parameter)
 		{
-			return SelectedAvailableDevice != null && SelectedAvailableDevice.IsBold;
+			return SelectedAvailableDevice != null;
 		}
 
 		public RelayCommand<object> RemoveCommand { get; private set; }
@@ -191,7 +161,7 @@ namespace SKDModule.ViewModels
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				SKDManager.RemoveDeviceFromZone(deviceViewModel.Device, Zone);
+				SKDManager.RemoveDeviceFromOuterZone(deviceViewModel.Device, Zone);
 			}
 
 			Initialize(Zone);
@@ -208,7 +178,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanRemove(object parameter)
 		{
-			return SelectedDevice != null && SelectedDevice.IsBold;
+			return SelectedDevice != null;
 		}
 	}
 }

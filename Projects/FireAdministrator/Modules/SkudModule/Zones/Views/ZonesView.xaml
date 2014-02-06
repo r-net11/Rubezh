@@ -42,7 +42,10 @@
                                     <Controls:EditorPresenter>
                                         <Controls:EditorPresenter.ViewTemplate>
                                             <ControlTemplate>
-                                                <TextBlock Text="{Binding Name}" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                                                </StackPanel>
                                             </ControlTemplate>
                                         </Controls:EditorPresenter.ViewTemplate>
                                     </Controls:EditorPresenter>
@@ -92,29 +95,27 @@
                         </Style>
                     </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство в зоне" Width="*">
+                        <DataGridTemplateColumn Header="Считыватель, ведущий в зону" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <StackPanel Orientation="Horizontal">
                                         <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding Name}">
-										<TextBlock.Style>
-											<Style>
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding IsBold}" Value="True">
-														<DataTrigger.Setters>
-															<Setter Property="TextBlock.FontWeight" Value="Bold" />
-														</DataTrigger.Setters>
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding Name}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
+
+                        <DataGridTemplateColumn Header="Контроллер" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Parent.Driver.ImageSource}" />
+                                        <TextBlock Text="{Binding Device.Parent.Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -139,29 +140,26 @@
                         </Style>
                     </DataGrid.ItemContainerStyle>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство" Width="*">
+                        <DataGridTemplateColumn Header="Считыватель" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <StackPanel Orientation="Horizontal">
                                         <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Driver.ImageSource}" />
-                                        <TextBlock Text="{Binding Name}">
-										<TextBlock.Style>
-											<Style>
-												<Style.Triggers>
-													<DataTrigger Binding="{Binding IsBold}" Value="True">
-														<DataTrigger.Setters>
-															<Setter Property="TextBlock.FontWeight" Value="Bold" />
-														</DataTrigger.Setters>
-													</DataTrigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Style>
-                                        </TextBlock>
+                                        <TextBlock Text="{Binding Name}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding PresentationAddress}" Header="Адрес" Width="Auto" />
+                        <DataGridTemplateColumn Header="Контроллер" Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Parent.Driver.ImageSource}" />
+                                        <TextBlock Text="{Binding Device.Parent.Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

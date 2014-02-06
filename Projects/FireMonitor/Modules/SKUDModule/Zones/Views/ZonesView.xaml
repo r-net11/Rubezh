@@ -25,6 +25,7 @@
 								<DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
                                         <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
                                             <TextBlock.ContextMenu>
                                                 <ContextMenu>
@@ -36,8 +37,8 @@
                                             </TextBlock.ContextMenu>
                                             <TextBlock.ToolTip>
                                                 <StackPanel>
+                                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
                                                     <TextBlock Text="{Binding Zone.Name}" FontWeight="Bold" />
-                                                    <Views:DeviceStateView />
                                                 </StackPanel>
                                             </TextBlock.ToolTip>
                                         </TextBlock>
@@ -52,21 +53,31 @@
 		</Grid>
         <GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
         <Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
-            <tree:TreeList Focusable="True" Source="{Binding RootDevices}">
-                <tree:TreeList.View>
-                    <GridView>
-                        <GridViewColumn Width="250" Header="Устройство">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Views:DeviceView />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn DisplayMemberBinding="{Binding Device.Address}" Header="Адрес" Width="100" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" Width="100" />
-                    </GridView>
-                </tree:TreeList.View>
-            </tree:TreeList>
+            <DataGrid ItemsSource="{Binding Devices}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Считыватель, ведущий в зону" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
+                                    <TextBlock Text="{Binding Device.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Контроллер" Width="Auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Parent.Driver.ImageSource}" />
+                                    <TextBlock Text="{Binding Device.Parent.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

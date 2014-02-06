@@ -28,8 +28,8 @@ namespace SKDModule.ViewModels
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
 
-		protected DeviceViewModel ParentDeviceViewModel;
-		protected SKDDevice ParentDevice;
+		DeviceViewModel ParentDeviceViewModel;
+		SKDDevice ParentDevice;
 		public DeviceViewModel AddedDevice { get; protected set; }
 		public ObservableCollection<SKDDriver> Drivers { get; protected set; }
 
@@ -83,6 +83,7 @@ namespace SKDModule.ViewModels
 				DriverUID = SelectedDriver.UID,
 				Address = Address,
 				Name = Name,
+				Parent = ParentDevice
 			};
 			SKDManager.Devices.Add(device);
 			AddedDevice = new DeviceViewModel(device);

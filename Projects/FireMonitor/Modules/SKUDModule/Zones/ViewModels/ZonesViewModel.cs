@@ -111,51 +111,31 @@ namespace SKDModule.ViewModels
 			return zoneViewModel;
 		}
 
-		public DeviceViewModel RootDevice { get; private set; }
-		public DeviceViewModel[] RootDevices
+		ObservableCollection<DeviceViewModel> _devices;
+		public ObservableCollection<DeviceViewModel> Devices
 		{
-			get { return RootDevice == null ? null : new DeviceViewModel[] { RootDevice }; }
+			get { return _devices; }
+			set
+			{
+				_devices = value;
+				OnPropertyChanged("Devices");
+			}
 		}
 
 		void InitializeDevices()
 		{
-			if (SelectedZone == null)
-				return;
-
-			var devices = new HashSet<SKDDevice>();
-
+			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in SKDManager.Devices)
 			{
-				if (device.Driver.HasZone)
+				if (device.Driver.HasOuterZone)
 				{
-					if (device.ZoneUID == SelectedZone.Zone.UID)
+					if (device.OuterZoneUID == SelectedZone.Zone.UID)
 					{
-						device.AllParents.ForEach(x => { devices.Add(x); });
-						devices.Add(device);
+						var deviceViewModel = new DeviceViewModel(device);
+						Devices.Add(deviceViewModel);
 					}
 				}
 			}
-
-			var deviceViewModels = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in devices)
-			{
-				deviceViewModels.Add(new DeviceViewModel(device)
-				{
-					IsExpanded = true,
-				});
-			}
-
-			foreach (var device in deviceViewModels)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					parent.AddChild(device);
-				}
-			}
-
-			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
-			OnPropertyChanged("RootDevices");
 		}
 	}
 }

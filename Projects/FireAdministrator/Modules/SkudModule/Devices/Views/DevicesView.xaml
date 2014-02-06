@@ -106,7 +106,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="300" Header="Зона" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                    <GridViewColumn Width="300" Header="Расположено в зоне" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Controls:EditorPresenter>
@@ -123,7 +123,7 @@
 													</Style>
 												</TextBlock.Style>
 												<TextBlock.InputBindings>
-													<MouseBinding Command="{Binding ShowZoneCommand}" MouseAction="LeftClick" />
+													<MouseBinding Command="{Binding ChangeZoneCommand}" MouseAction="LeftClick" />
 												</TextBlock.InputBindings>
 												<TextBlock.ToolTip>
 													<WrapPanel>
@@ -138,7 +138,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="300" Header="Внешняя Зона" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                    <GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Controls:EditorPresenter>
@@ -155,7 +155,7 @@
 													</Style>
 												</TextBlock.Style>
 												<TextBlock.InputBindings>
-													<MouseBinding Command="{Binding ShowOuterZoneCommand}" MouseAction="LeftClick" />
+													<MouseBinding Command="{Binding ChangeOuterZoneCommand}" MouseAction="LeftClick" />
 												</TextBlock.InputBindings>
 												<TextBlock.ToolTip>
 													<WrapPanel>
@@ -206,7 +206,7 @@
                             </StackPanel.Style>
                         </StackPanel>
                         <WrapPanel Orientation="Horizontal" Visibility="{Binding Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="Зона " Foreground="White" Width="120" Margin="2 2 5 2" />
+                            <TextBlock Text="Расположено в зоне " Foreground="White" Width="120" Margin="2 2 5 2" />
                             <TextBlock Text="Зона не указана" Foreground="White" FontStyle="Italic" Margin="2 2 5 2">
 								<TextBlock.Style>
 									<Style>
@@ -245,7 +245,7 @@
 							</TextBlock>
                         </WrapPanel>
                         <WrapPanel Orientation="Horizontal" Visibility="{Binding Driver.HasOuterZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="Внешняя зона " Foreground="White" Width="120" Margin="2 2 5 2" />
+                            <TextBlock Text="Ведет в зону " Foreground="White" Width="120" Margin="2 2 5 2" />
                             <TextBlock Text="Зона не указана" Foreground="White" FontStyle="Italic" Margin="2 2 5 2">
 								<TextBlock.Style>
 									<Style>

@@ -13,6 +13,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -27,6 +28,8 @@ namespace SKDModule.ViewModels
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ChangeZoneCommand = new RelayCommand(OnChangeZone, CanChangeZone);
+			ChangeOuterZoneCommand = new RelayCommand(OnChangeOuterZone, CanChangeOuterZone);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOuterZoneCommand = new RelayCommand(OnShowOuterZone, CanShowOuterZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
@@ -264,8 +267,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowZoneCommand { get; private set; }
-		void OnShowZone()
+		public RelayCommand ChangeZoneCommand { get; private set; }
+		void OnChangeZone()
 		{
 			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.ZoneUID, false);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
@@ -279,9 +282,19 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanShowZone()
+		bool CanChangeZone()
 		{
 			return Device.Driver.HasZone;
+		}
+
+		public RelayCommand ShowZoneCommand { get; private set; }
+		void OnShowZone()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.ZoneUID);
+		}
+		bool CanShowZone()
+		{
+			return Device.Driver.HasZone && Device.ZoneUID != Guid.Empty;
 		}
 		#endregion
 
@@ -317,8 +330,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowOuterZoneCommand { get; private set; }
-		void OnShowOuterZone()
+		public RelayCommand ChangeOuterZoneCommand { get; private set; }
+		void OnChangeOuterZone()
 		{
 			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.OuterZoneUID, true);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
@@ -332,9 +345,19 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanShowOuterZone()
+		bool CanChangeOuterZone()
 		{
 			return Device.Driver.HasOuterZone;
+		}
+
+		public RelayCommand ShowOuterZoneCommand { get; private set; }
+		void OnShowOuterZone()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.OuterZoneUID);
+		}
+		bool CanShowOuterZone()
+		{
+			return Device.Driver.HasOuterZone && Device.OuterZoneUID != Guid.Empty; ;
 		}
 		#endregion
 
