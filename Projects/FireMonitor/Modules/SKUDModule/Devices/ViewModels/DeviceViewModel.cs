@@ -97,7 +97,7 @@ namespace SKDModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
+				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
             }
         }
 		bool CanSetIgnore()
@@ -110,7 +110,7 @@ namespace SKDModule.ViewModels
         {
             if (ServiceFactory.SecurityService.Validate())
             {
-				FiresecManager.FiresecService.SKDResetIgnoreRegime(Device);
+				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
             }
         }
 		bool CanResetIgnore()
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 				{
 					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
-						FiresecManager.FiresecService.SKDSetIgnoreRegime(device);
+						//FiresecManager.FiresecService.SKDSetIgnoreRegime(device);
 					}
 				}
 			}
@@ -158,7 +158,7 @@ namespace SKDModule.ViewModels
 				{
 					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
-						FiresecManager.FiresecService.SKDResetIgnoreRegime(device);
+						//FiresecManager.FiresecService.SKDResetIgnoreRegime(device);
 					}
 				}
 			}

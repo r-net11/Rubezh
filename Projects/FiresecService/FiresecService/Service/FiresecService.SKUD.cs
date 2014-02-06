@@ -101,12 +101,22 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public void SKDSetIgnoreRegime(Guid deviceUID)
+		public void SKDSetRegimeOpen(Guid deviceUID)
 		{
 
 		}
 
-		public void SKDResetIgnoreRegime(Guid deviceUID)
+		public void SKDSetRegimeClose(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDSetRegimeControl(Guid deviceUID)
+		{
+
+		}
+
+		public void SKDSetRegimeConversation(Guid deviceUID)
 		{
 
 		}
@@ -117,11 +127,6 @@ namespace FiresecService.Service
 		}
 
 		public void SKDCloseDevice(Guid deviceUID)
-		{
-
-		}
-
-		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
 		{
 
 		}

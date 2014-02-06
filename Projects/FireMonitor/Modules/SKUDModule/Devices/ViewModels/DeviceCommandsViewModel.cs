@@ -26,20 +26,69 @@ namespace SKDModule.ViewModels
 			DeviceState.StateChanged -= new System.Action(OnStateChanged);
 			DeviceState.StateChanged += new System.Action(OnStateChanged);
 
+			SetRegimeOpenCommand = new RelayCommand(OnSetRegimeOpen, CanSetRegimeOpen);
+			SetRegimeCloseCommand = new RelayCommand(OnSetRegimeClose, CanSetRegimeClose);
+			SetRegimeControlCommand = new RelayCommand(OnSetRegimeControl, CanSetRegimeControl);
+			SetRegimeConversationCommand = new RelayCommand(OnSetRegimeConversation, CanSetRegimeConversation);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
-
-			DeviceExecutableCommands = new ObservableCollection<DeviceExecutableCommandViewModel>();
-			foreach (var availableCommand in Device.Driver.AvailableCommandBits)
-			{
-				var deviceExecutableCommandViewModel = new DeviceExecutableCommandViewModel(Device, availableCommand);
-				DeviceExecutableCommands.Add(deviceExecutableCommandViewModel);
-			}
 		}
 
 		public bool CanControl
 		{
-			get { return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return Device.DriverType == SKDDriverType.Controller && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+		}
+
+		public RelayCommand SetRegimeOpenCommand { get; private set; }
+		void OnSetRegimeOpen()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.SKDSetRegimeOpen(Device);
+			}
+		}
+		bool CanSetRegimeOpen()
+		{
+			return true;
+		}
+
+		public RelayCommand SetRegimeCloseCommand { get; private set; }
+		void OnSetRegimeClose()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.SKDSetRegimeClose(Device);
+			}
+		}
+		bool CanSetRegimeClose()
+		{
+			return true;
+		}
+
+		public RelayCommand SetRegimeControlCommand { get; private set; }
+		void OnSetRegimeControl()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.SKDSetRegimeControl(Device);
+			}
+		}
+		bool CanSetRegimeControl()
+		{
+			return true;
+		}
+
+		public RelayCommand SetRegimeConversationCommand { get; private set; }
+		void OnSetRegimeConversation()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.SKDSetRegimeConversation(Device);
+			}
+		}
+		bool CanSetRegimeConversation()
+		{
+			return true;
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
@@ -68,12 +117,8 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public ObservableCollection<DeviceExecutableCommandViewModel> DeviceExecutableCommands { get; private set; }
-
 		void OnStateChanged()
 		{
-			OnPropertyChanged("ControlRegime");
-			OnPropertyChanged("IsControlRegime");
 		}
 	}
 }

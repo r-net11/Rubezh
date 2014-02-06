@@ -83,7 +83,6 @@
     </Compile>
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />

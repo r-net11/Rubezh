@@ -42,8 +42,11 @@ namespace SKDModule.ViewModels
 			WeeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
 			foreach (var timeInterval in TimeIntervals)
 			{
-				timeInterval.WeeklyIntervalPart.TimeIntervalUID = timeInterval.SelectedTimeInterval.UID;
-				WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
+				if (timeInterval.SelectedTimeInterval != null)
+				{
+					timeInterval.WeeklyIntervalPart.TimeIntervalUID = timeInterval.SelectedTimeInterval.UID;
+					WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
+				}
 			}
 		}
 

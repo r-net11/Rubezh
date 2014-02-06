@@ -254,13 +254,21 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(deviceUID, fileName); }, "SKDUpdateFirmware");
 		}
-		public void SKDSetIgnoreRegime(Guid deviceUID)
+		public void SKDSetRegimeOpen(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDSetIgnoreRegime(deviceUID); }, "SKDSetIgnoreRegime");
+			SafeOperationCall(() => { FiresecService.SKDSetRegimeOpen(deviceUID); }, "SKDSetIgnoreRegime");
 		}
-		public void SKDResetIgnoreRegime(Guid deviceUID)
+		public void SKDSetRegimeClose(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDResetIgnoreRegime(deviceUID); }, "SKDResetIgnoreRegime");
+			SafeOperationCall(() => { FiresecService.SKDSetRegimeClose(deviceUID); }, "SKDSetIgnoreRegime");
+		}
+		public void SKDSetRegimeControl(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDSetRegimeControl(deviceUID); }, "SKDSetRegimeControl");
+		}
+		public void SKDSetRegimeConversation(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SKDSetRegimeConversation(deviceUID); }, "SKDSetRegimeConversation");
 		}
 		public void SKDOpenDevice(Guid deviceUID)
 		{
@@ -269,10 +277,6 @@ namespace FiresecService.Service
 		public void SKDCloseDevice(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
-		}
-		public void SKDExecuteDeviceCommand(Guid deviceUID, XStateBit stateBit)
-		{
-			SafeOperationCall(() => { FiresecService.SKDExecuteDeviceCommand(deviceUID, stateBit); }, "SKDExecuteDeviceCommand");
 		}
 		public void SKDAllowReader(Guid deviceUID)
 		{
