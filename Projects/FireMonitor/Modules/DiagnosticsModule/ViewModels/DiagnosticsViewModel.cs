@@ -88,7 +88,13 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var minState = XManager.GetMinStateClass();
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				throw new Exception("TestCommand");
+			}));
+			thread.Name = "Diagnostics";
+			thread.IsBackground = true;
+			thread.Start();
 		}
 	}
 }

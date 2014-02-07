@@ -97,6 +97,8 @@ namespace FireMonitor
 			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 			Restart();
+			Environment.Exit(0);
+			return;
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}

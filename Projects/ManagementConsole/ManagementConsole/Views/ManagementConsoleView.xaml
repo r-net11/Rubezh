@@ -63,7 +63,7 @@
                     <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding RunRevisor}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Отладка" DataContext="{Binding GlobalSettingsViewModel}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Сервер" DataContext="{Binding GlobalSettingsViewModel}">
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -78,6 +78,20 @@
                     
                     <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
                     <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding UseHasp}" HorizontalAlignment="Left" Margin="2" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Отладка" DataContext="{Binding GlobalSettingsViewModel}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Использовать СКД" HorizontalAlignment="Right" Margin="2" />
+
+                    <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding UseSKD}" HorizontalAlignment="Left" Margin="2" />
                 </Grid>
             </TabItem>
             <TabItem Header="Модули" DataContext="{Binding GlobalSettingsViewModel}">

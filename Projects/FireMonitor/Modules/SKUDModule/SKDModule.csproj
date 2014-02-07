@@ -115,6 +115,8 @@
     <Compile Include="Events\ShowSKDPositionsEvent.cs" />
     <Compile Include="Events\ShowSKDDepartmentsEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
+    <Compile Include="Events\ShowSKDDocumentsEvent.cs" />
+    <Compile Include="Events\ShowSKDAdditionalColumnsEvent.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
@@ -176,6 +178,24 @@
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\ViewModels\DocumentDetailsViewModel.cs" />
+    <Compile Include="Documents\ViewModels\DocumentsViewModel.cs" />
+    <Compile Include="Documents\ViewModels\DocumentViewModel.cs" />
+    <Compile Include="Documents\Views\DocumentDetailsView.xaml.cs">
+      <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\Views\DocumentsView.xaml.cs">
+      <DependentUpon>DocumentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnDetailsViewModel.cs" />
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnsViewModel.cs" />
+    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnViewModel.cs" />
+    <Compile Include="AdditionalColumns\Views\AdditionalColumnDetailsView.xaml.cs">
+      <DependentUpon>AdditionalColumnDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdditionalColumns\Views\AdditionalColumnsView.xaml.cs">
+      <DependentUpon>AdditionalColumnsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +318,30 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\CardsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Documents\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Documents\Views\DocumentDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Documents\Views\DocumentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\Views\AdditionalColumnDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdditionalColumns\Views\AdditionalColumnsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

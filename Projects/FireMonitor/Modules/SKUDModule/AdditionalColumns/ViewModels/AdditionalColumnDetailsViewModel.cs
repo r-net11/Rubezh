@@ -7,32 +7,32 @@ using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionDetailsViewModel : SaveCancelDialogViewModel
+	public class AdditionalColumnDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Position Position { get; private set; }
+		public AdditionalColumn AdditionalColumn { get; private set; }
 
-		public PositionDetailsViewModel(Position position = null)
+		public AdditionalColumnDetailsViewModel(AdditionalColumn additionalColumn = null)
 		{
-			if (position == null)
+			if (additionalColumn == null)
 			{
-				Title = "Создание должности";
-				position = new Position()
+				Title = "Создание дополнительной колонки";
+				additionalColumn = new AdditionalColumn()
 				{
-					Name = "Новая должность",
+					Name = "Новая дополнительная колонка",
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства должности: {0}", position.Name);
+				Title = string.Format("Дополнительная колонка: {0}", additionalColumn.Name);
 			}
-			Position = position;
+			AdditionalColumn = additionalColumn;
 			CopyProperties();
 		}
 
 		public void CopyProperties()
 		{
-			Name = Position.Name;
-			Description = Position.Description;
+			Name = AdditionalColumn.Name;
+			Description = AdditionalColumn.Description;
 		}
 
 		string _name;
@@ -70,7 +70,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Position = new Position()
+			AdditionalColumn = new AdditionalColumn()
 			{
 				Name = Name,
 				Description = Description

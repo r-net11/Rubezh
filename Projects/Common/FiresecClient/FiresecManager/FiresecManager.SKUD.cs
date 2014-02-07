@@ -169,9 +169,5 @@ namespace FiresecClient
 		}
 		#endregion 
 
-
-
-
-
 	}
 }

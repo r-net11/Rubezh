@@ -28,6 +28,8 @@ namespace SKDModule
 		CardsViewModel CardsViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
+		DocumentsViewModel DocumentsViewModel;
+		AdditionalColumnsViewModel AdditionalColumnsViewModel;
 		private PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -46,6 +48,8 @@ namespace SKDModule
 			CardsViewModel = new CardsViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
+			DocumentsViewModel = new DocumentsViewModel();
+			AdditionalColumnsViewModel = new AdditionalColumnsViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -64,6 +68,8 @@ namespace SKDModule
 						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
 					})
 				};
 		}
@@ -93,6 +99,8 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)

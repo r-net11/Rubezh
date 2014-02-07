@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="SKDModule.Views.DocumentDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             MinWidth="600" MinHeight="500">
+
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Дата издания" HorizontalAlignment="Right" />
+                <Label Grid.Row="4" Grid.Column="0" Content="Дата вступления в силу" HorizontalAlignment="Right" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <Calendar Grid.Row="3" Grid.Column="1"
+                                SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}"
+                                DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" 
+                                SelectionMode="SingleDate" />
+
+                <Calendar Grid.Row="4" Grid.Column="1"
+                                SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}"
+                                DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" 
+                                SelectionMode="SingleDate" />
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>
