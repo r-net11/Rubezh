@@ -4,16 +4,24 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
-    [DataContract]
-    public class Schedule
+	[DataContract]
+	public class Schedule
 	{
-        [DataMember]
-        public Guid Uid { get; set; }
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public ScheduleScheme ScheduleScheme { get; set; }
-        [DataMember]
-        public List<RegisterDevice> RegisterDevices { get; set; }
+		public Schedule()
+		{
+			Uid = Guid.NewGuid();
+		}
+
+		[DataMember]
+		public Guid Uid { get; set; }
+
+		[DataMember]
+		public string Name { get; set; }
+
+		[DataMember]
+		public ScheduleScheme ScheduleScheme { get; set; }
+
+		[DataMember]
+		public List<RegisterDevice> RegisterDevices { get; set; }
 	}
 }

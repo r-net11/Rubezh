@@ -6,6 +6,11 @@ namespace FiresecAPI
 	[DataContract]
 	public class Position
 	{
+		public Position()
+		{
+			Uid = Guid.NewGuid();
+		}
+
 		[DataMember]
 		public Guid Uid;
 

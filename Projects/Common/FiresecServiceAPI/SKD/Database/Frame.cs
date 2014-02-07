@@ -9,6 +9,11 @@ namespace FiresecAPI
 	[DataContract]
 	public class Frame
 	{
+		public Frame()
+		{
+			Uid = Guid.NewGuid();
+		}
+
 		[DataMember]
 		public Guid Uid { get; set; }
 

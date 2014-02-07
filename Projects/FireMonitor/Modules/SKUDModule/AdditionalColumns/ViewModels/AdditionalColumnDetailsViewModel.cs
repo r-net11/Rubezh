@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -20,12 +21,15 @@ namespace SKDModule.ViewModels
 				{
 					Name = "Новая дополнительная колонка",
 				};
+				CanChangeAdditionalColumnType = true;
 			}
 			else
 			{
 				Title = string.Format("Дополнительная колонка: {0}", additionalColumn.Name);
+				CanChangeAdditionalColumnType = false;
 			}
 			AdditionalColumn = additionalColumn;
+			AvailableAdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(Enum.GetValues(typeof(AdditionalColumnType)).Cast<AdditionalColumnType>());
 			CopyProperties();
 		}
 
@@ -33,6 +37,7 @@ namespace SKDModule.ViewModels
 		{
 			Name = AdditionalColumn.Name;
 			Description = AdditionalColumn.Description;
+			AdditionalColumnType = AvailableAdditionalColumnTypes.FirstOrDefault(x => x == AdditionalColumn.Type);
 		}
 
 		string _name;
@@ -63,6 +68,21 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<AdditionalColumnType> AvailableAdditionalColumnTypes { get; private set; }
+
+		AdditionalColumnType _additionalColumnType;
+		public AdditionalColumnType AdditionalColumnType
+		{
+			get { return _additionalColumnType; }
+			set
+			{
+				_additionalColumnType = value;
+				OnPropertyChanged("AdditionalColumnType");
+			}
+		}
+
+		public bool CanChangeAdditionalColumnType { get; private set; }
+
 		protected override bool CanSave()
 		{
 			return true;
@@ -73,7 +93,8 @@ namespace SKDModule.ViewModels
 			AdditionalColumn = new AdditionalColumn()
 			{
 				Name = Name,
-				Description = Description
+				Description = Description,
+				Type = AdditionalColumnType
 			};
 			return true;
 		}

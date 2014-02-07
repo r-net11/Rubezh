@@ -9,10 +9,13 @@ namespace FiresecAPI
 	{
 		[DataMember]
 		public List<Guid> Uids { get; set; }
+
 		[DataMember]
 		public List<Guid> CardUids { get; set; }
+
 		[DataMember]
 		public List<Guid> ZoneUids { get; set; }
+
 		[DataMember]
 		public List<Guid> IntervalUids { get; set; }
 

@@ -6,6 +6,11 @@ namespace FiresecAPI
 	[DataContract]
 	public class Document
 	{
+		public Document()
+		{
+			Uid = Guid.NewGuid();
+		}
+
 		[DataMember]
 		public Guid Uid { get; set; }
 

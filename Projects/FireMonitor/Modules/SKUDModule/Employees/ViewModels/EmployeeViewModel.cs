@@ -24,5 +24,15 @@ namespace SKDModule.ViewModels
 		public string PositionName { get; set; }
 		public string AppointedString { get; set; }
 		public string DismissedString { get; set; }
+
+		public void Update(Employee employee)
+		{
+			Employee = employee;
+			OnPropertyChanged("Employee");
+			OnPropertyChanged("DepartmentName");
+			OnPropertyChanged("PositionName");
+			OnPropertyChanged("AppointedString");
+			OnPropertyChanged("DismissedString");
+		}
 	}
 }

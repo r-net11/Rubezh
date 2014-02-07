@@ -146,13 +146,21 @@ namespace GKProcessor
 					var driverProperty = descriptor.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 					if (driverProperty != null)
 					{
-						if (driverProperty.Min != 0)
-							if (property.Value < driverProperty.Min)
-								return "Парметр " + driverProperty.Caption + " должен быть больше " + driverProperty.Min.ToString();
+						double minValue = driverProperty.Min;
+						double maxValue = driverProperty.Max;
+						if (driverProperty.Multiplier != 0)
+						{
+							minValue /= driverProperty.Multiplier;
+							maxValue /= driverProperty.Multiplier;
+						}
 
-						if (driverProperty.Max != 0)
-							if (property.Value > driverProperty.Max)
-								return "Парметр " + driverProperty.Caption + " должен быть меньше " + driverProperty.Max.ToString();
+						if (minValue != 0)
+							if (property.Value < minValue)
+								return "Парметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString();
+
+						if (maxValue != 0)
+							if (property.Value > maxValue)
+								return "Парметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString();
 					}
 				}
 			}

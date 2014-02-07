@@ -9,21 +9,24 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
             <StackPanel Orientation="Horizontal">
-                <!--<Button Command="{Binding AddCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Добавить пользователя">
-                    <Image Height="24" Source="/Controls;component/Images/Add.png" />
-                </Button>
-                <Button Command="{Binding RemoveCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Удалить пользователя">
-                    <Image Height="24" Source="/Controls;component/Images/Delete.png" />
-                </Button>
-                <Button Command="{Binding EditCommand}" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Редактировать пользователя">
-                    <Image Height="24" Source="/Controls;component/Images/Edit.png" />
-                </Button>-->
                 <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
+                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
             </StackPanel>
         </Border>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}" />
+                <DataGridTemplateColumn Header="Имя" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.SecondName}" />
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.LastName}" />
                 <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" />
