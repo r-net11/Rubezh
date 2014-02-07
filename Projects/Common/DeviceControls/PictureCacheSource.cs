@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using FiresecClient;
-using XFiresecAPI;
 using DeviceControls.Device;
-using DeviceControls.XDevice;
 using DeviceControls.SKDDevice;
+using DeviceControls.XDevice;
+using Infrustructure.Plans.Devices;
 
 namespace DeviceControls
 {
@@ -35,6 +30,14 @@ namespace DeviceControls
 			DevicePicture = new DevicePicture();
 			XDevicePicture = new XDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();
+		}
+
+		public static Brush CreateDynamicBrush<TLibraryFrame>(List<TLibraryFrame> frames)
+			where TLibraryFrame : ILibraryFrame
+		{
+			var visualBrush = new VisualBrush();
+			visualBrush.Visual = new FramesControl(frames.Cast<ILibraryFrame>());
+			return visualBrush;
 		}
 	}
 }

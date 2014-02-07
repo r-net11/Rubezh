@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 			{
 				AvailableTimeIntervals.Add(interval);
 			}
-			SelectedTimeInterval = TimeInterval;
+			_selectedTimeInterval = TimeInterval;
 		}
 
 		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }

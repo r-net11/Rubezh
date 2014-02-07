@@ -6,13 +6,13 @@ using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using SKDModule.Plans.Designer;
 using Infrastructure;
-using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using SKDModule.Events;
+using SKDModule.Plans.Designer;
 using XFiresecAPI;
 
 namespace SKDModule.Plans
@@ -72,9 +72,9 @@ namespace SKDModule.Plans
 		{
 			_monitors.Clear();
 			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadSKDCache();
+				PictureCacheSource.SKDDevicePicture.LoadCache();
 			using (new TimeCounter("DevicePictureCache.LoadSKDDynamicCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadSKDDynamicCache();
+				PictureCacheSource.SKDDevicePicture.LoadDynamicCache();
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)

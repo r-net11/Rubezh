@@ -7,11 +7,11 @@ using XFiresecAPI;
 
 namespace DeviceControls.XDevice
 {
-	public class XDeviceControl : BaseDeviceControl<LibraryXFrame>
+	public class XDeviceControl : BaseDeviceControl<LibraryXFrame, XStateClass>
 	{
 		public XStateClass StateClass { get; set; }
 
-		protected override IEnumerable<ILibraryState<LibraryXFrame>> GetStates()
+		protected override IEnumerable<ILibraryState<LibraryXFrame, XStateClass>> GetStates()
 		{
 			var libraryXDevice = XManager.DeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == DriverId);
 			if (libraryXDevice == null)
@@ -31,7 +31,7 @@ namespace DeviceControls.XDevice
 				}
 			}
 
-			var resultLibraryStates = new List<ILibraryState<LibraryXFrame>>();
+			var resultLibraryStates = new List<ILibraryState<LibraryXFrame, XStateClass>>();
 			if (libraryState != null)
 				resultLibraryStates.Add(libraryState);
 			return resultLibraryStates;

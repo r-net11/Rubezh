@@ -1,10 +1,11 @@
 ﻿using FiresecAPI;
 using Infrastructure.Common.TreeList;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ZoneDeviceViewModel : TreeNodeViewModel<ZoneDeviceViewModel>
+	public class ZoneDeviceViewModel : BaseViewModel
 	{
 		public SKDDevice Device { get; private set; }
 
@@ -21,10 +22,9 @@ namespace SKDModule.ViewModels
 		{
 			get { return Device.Name; }
 		}
-		public string PresentationAddress
+		public string ControllerPresentationName
 		{
-			get { return Device.Address; }
+			get { return Device.Parent.Name; }
 		}
-		public bool IsBold { get; set; }
 	}
 }

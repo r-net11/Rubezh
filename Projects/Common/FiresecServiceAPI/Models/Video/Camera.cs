@@ -26,6 +26,12 @@ namespace FiresecAPI.Models
 		public string Address { get; set; }
 
 		[DataMember]
+		public string Login { get; set; }
+
+		[DataMember]
+		public string Password { get; set; }
+
+		[DataMember]
 		public int Left { get; set; }
 
 		[DataMember]

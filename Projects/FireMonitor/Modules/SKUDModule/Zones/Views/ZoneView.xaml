@@ -21,8 +21,8 @@
             </TextBlock.ContextMenu>
             <TextBlock.ToolTip>
                 <StackPanel>
+                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
                     <TextBlock Text="{Binding Device.Name}" FontWeight="Bold" />
-                    <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>
         </TextBlock>

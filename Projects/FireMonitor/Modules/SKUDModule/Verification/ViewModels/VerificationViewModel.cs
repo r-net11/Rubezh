@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using System.Collections.ObjectModel;
-using Infrastructure;
-using FiresecAPI;
-using Infrastructure.Events;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using FiresecAPI;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

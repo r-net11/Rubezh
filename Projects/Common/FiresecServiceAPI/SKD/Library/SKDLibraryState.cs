@@ -5,7 +5,7 @@ using Infrustructure.Plans.Devices;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class SKDLibraryState : ILibraryState<SKDLibraryFrame>
+	public class SKDLibraryState : ILibraryState<SKDLibraryFrame, XStateClass>
 	{
 		public SKDLibraryState()
 		{
@@ -25,5 +25,14 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public int Layer { get; set; }
+
+		#region ILibraryState<SKDLibraryFrame,XStateClass> Members
+
+		XStateClass ILibraryState<SKDLibraryFrame, XStateClass>.StateType
+		{
+			get { return StateClass; }
+		}
+
+		#endregion
 	}
 }

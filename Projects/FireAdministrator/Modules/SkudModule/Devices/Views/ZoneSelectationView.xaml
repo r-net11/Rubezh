@@ -21,7 +21,10 @@
                                 <Controls:EditorPresenter>
                                     <Controls:EditorPresenter.ViewTemplate>
                                         <ControlTemplate>
-                                            <TextBlock Text="{Binding Name}" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                                            </StackPanel>
                                         </ControlTemplate>
                                     </Controls:EditorPresenter.ViewTemplate>
                                 </Controls:EditorPresenter>

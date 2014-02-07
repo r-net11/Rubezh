@@ -19,7 +19,11 @@ namespace SKDModule.ViewModels
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
-					weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault().UID;
+					var neverTimeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
+					if (neverTimeInterval != null)
+					{
+						weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
+					}
 				}
 			}
 			else
@@ -51,6 +55,11 @@ namespace SKDModule.ViewModels
 				_description = value;
 				OnPropertyChanged("Description");
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен" && Name != "Доступ разрешен";
 		}
 
 		protected override bool Save()

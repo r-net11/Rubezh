@@ -26,6 +26,9 @@ namespace FiresecAPI
 		public DateTime StartDate { get; set; }
 
 		[DataMember]
+		public bool IsDefault { get; set; }
+
+		[DataMember]
 		public List<Guid> TimeIntervalUIDs { get; set; }
 	}
 }

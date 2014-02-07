@@ -39,13 +39,6 @@ namespace SKDModule.Plans
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(UpdateSKDDeviceInSKDZones);
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(UpdateSKDDeviceInSKDZones);
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(UpdateSKDDeviceInSKDZones);
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(UpdateSKDDeviceInSKDZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateSKDDeviceInSKDZones);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateSKDDeviceInSKDZones);
-
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
 			_instruments = null;
@@ -55,7 +48,7 @@ namespace SKDModule.Plans
 		public void Initialize()
 		{
 			using (new TimeCounter("DevicePictureCache.LoadSKDCache: {0}"))
-				PictureCacheSource.SKDDevicePicture.LoadSKDCache();
+				PictureCacheSource.SKDDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
@@ -267,102 +260,6 @@ namespace SKDModule.Plans
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleSKDZone || e.Element is ElementPolygonSKDZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
-		}
-
-		public void UpdateSKDDeviceInSKDZones(List<ElementBase> items)
-		{
-			if (IsDeviceInZonesChanged(items))
-			{
-				var deviceInZones = new Dictionary<SKDDevice, Guid>();
-				var handledSKDDevices = new List<SKDDevice>();
-				using (new WaitWrapper())
-				using (new TimeCounter("\tUpdateXDeviceInZones: {0}"))
-				{
-					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
-					foreach (var designerItem in _designerCanvas.Items)
-					{
-						var elementSKDDevice = designerItem.Element as ElementSKDDevice;
-						if (elementSKDDevice != null)
-						{
-							var skdDevice = Designer.Helper.GetSKDDevice(elementSKDDevice);
-							if (skdDevice == null || skdDevice.Driver == null || handledSKDDevices.Contains(skdDevice))
-								continue;
-							var point = new Point(elementSKDDevice.Left, elementSKDDevice.Top);
-							var zones = new List<IElementZone>();
-							foreach (var pair in geometries)
-								if (pair.Key.Bounds.Contains(point) && pair.Key.FillContains(point))
-									zones.Add(pair.Value);
-
-							if (skdDevice.ZoneUID == Guid.Empty)
-							{
-								if (zones.Count > 0)
-								{
-									var zone = Helper.GetSKDZone(GetTopZoneUID(zones));
-									if (zone != null)
-									{
-										SKDManager.AddDeviceToZone(skdDevice, zone);
-										handledSKDDevices.Add(skdDevice);
-									}
-								}
-							}
-							else
-							{
-								var isInZone = zones.Any(x => x.ZoneUID == skdDevice.ZoneUID);
-								if (!isInZone)
-								{
-									if (!deviceInZones.ContainsKey(skdDevice))
-										deviceInZones.Add(skdDevice, GetTopZoneUID(zones));
-								}
-								else
-								{
-									handledSKDDevices.Add(skdDevice);
-									if (deviceInZones.ContainsKey(skdDevice))
-										deviceInZones.Remove(skdDevice);
-								}
-								break;
-							}
-						}
-					}
-				}
-				ShowDeviceInZoneChanged(deviceInZones);
-			}
-		}
-		private bool IsDeviceInZonesChanged(List<ElementBase> items)
-		{
-			if (_processChanges && !_designerCanvas.IsLocked)
-				foreach (var item in items)
-					if (item is ElementSKDDevice || item is IElementZone)
-						return true;
-			return false;
-		}
-		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
-		{
-			var geometries = new Dictionary<Geometry, IElementZone>();
-			foreach (var designerItem in _designerCanvas.Items)
-			{
-				var elementZone = designerItem.Element as IElementZone;
-				if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
-					geometries.Add(((IGeometryPainter)designerItem.Painter).Geometry, elementZone);
-			}
-			return geometries;
-		}
-		private Guid GetTopZoneUID(List<IElementZone> zones)
-		{
-			return zones.OrderByDescending(item => item.ZIndex).Select(item => item.ZoneUID).FirstOrDefault();
-		}
-		private void ShowDeviceInZoneChanged(Dictionary<SKDDevice, Guid> deviceInZones)
-		{
-			if (deviceInZones.Count > 0)
-			{
-				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
-				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
-				if (!result)
-				{
-					_processChanges = false;
-					_designerCanvas.RevertLastAction();
-					_processChanges = true;
-				}
-			}
 		}
 	}
 }

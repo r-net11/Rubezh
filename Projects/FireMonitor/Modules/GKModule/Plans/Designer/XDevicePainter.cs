@@ -68,7 +68,7 @@ namespace GKModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.XDevicePicture.GetDynamicXBrush(Device);
+			return PictureCacheSource.XDevicePicture.GetDynamicBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }

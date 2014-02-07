@@ -9,7 +9,10 @@
             <DataGridTemplateColumn Header="Наименование" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Holiday.Name}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                            <TextBlock Text="{Binding Holiday.Name}" VerticalAlignment="Center" Margin="2" />
+                        </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

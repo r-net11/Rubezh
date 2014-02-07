@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -9,21 +10,50 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using VideoPlayerTest;
 using KeyboardKey = System.Windows.Input.Key;
+using Vlc.DotNet.Core;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
+		private VideoClass _videoSequence;
 		public CamerasViewModel()
 		{
 			Menu = new CamerasMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			ScreenShortCommand = new RelayCommand(OnScreenShort);
+			StartVideoCommand = new RelayCommand(OnStartVideo, () => SelectedCamera != null);
+			PauseVideoCommand = new RelayCommand(OnPauseVideo, () => SelectedCamera != null && (SelectedCamera.IsNowPlayed));
+			StopVideoCommand = new RelayCommand(OnStopVideo, () => (SelectedCamera != null) && (SelectedCamera.IsNowPlayed));
 			RegisterShortcuts();
+			Initialize();
+			//VlcInitialize();
 		}
+		private void VlcInitialize()
+		{
+			VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_X86;
+			VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_X86;
 
+			//Set the startup options
+			//VlcContext.StartupOptions.IgnoreConfig = true;
+			//VlcContext.StartupOptions.LogOptions.LogInFile = true;
+			//VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
+			//VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
+			
+			// Disable showing the movie file name as an overlay
+			VlcContext.StartupOptions.AddOption("--no-video-title-show");
+
+			// Initialize the VlcContext
+			VlcContext.Initialize();
+			_videoSequence = new VideoClass();
+			_videoSequence.Play();
+		}
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
@@ -39,6 +69,43 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
+		public VideoClass VideoSequence
+		{
+			get
+			{
+				return _videoSequence;
+			}
+		}
+		public RelayCommand StartVideoCommand { get; private set; }
+		void OnStartVideo()
+		{
+			foreach (var camera in Cameras)
+			{
+				if (camera.IsNowPlayed)
+					camera.StopVideo();
+			}
+			SelectedCamera.StartVideo();
+			OnPropertyChanged("StartedCamera");
+		}
+		public RelayCommand PauseVideoCommand { get; private set; }
+		void OnPauseVideo()
+		{
+			SelectedCamera.PauseVideo();
+		}
+		public RelayCommand StopVideoCommand { get; private set; }
+		void OnStopVideo()
+		{
+			SelectedCamera.StopVideo();
+		}
+		public RelayCommand ScreenShortCommand { get; private set; }
+		void OnScreenShort()
+		{
+			var image = _videoSequence.Image;
+			var encoder = new JpegBitmapEncoder();
+			encoder.Frames.Add(BitmapFrame.Create(image as BitmapImage));
+			using (var filestream = new FileStream("c:\\1.jpg", FileMode.Create))
+				encoder.Save(filestream);
+		}
 		ObservableCollection<CameraViewModel> _cameras;
 		public ObservableCollection<CameraViewModel> Cameras
 		{
@@ -59,6 +126,11 @@ namespace VideoModule.ViewModels
 				_selectedCamera = value;
 				OnPropertyChanged("SelectedCamera");
 			}
+		}
+
+		public CameraViewModel StartedCamera
+		{
+			get { return Cameras.FirstOrDefault(x => x.IsNowPlayed); }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -83,6 +155,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
+			SelectedCamera.StopVideo();
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
 			Cameras.Remove(SelectedCamera);
 			ServiceFactory.SaveService.CamerasChanged = true;

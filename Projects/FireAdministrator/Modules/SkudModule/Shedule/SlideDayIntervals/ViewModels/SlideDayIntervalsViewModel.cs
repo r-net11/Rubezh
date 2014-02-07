@@ -26,7 +26,10 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RegisterShortcuts();
 			SetRibbonItems();
+		}
 
+		public void Initialize()
+		{
 			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
 			foreach (var slideDayInterval in SKDManager.SKDConfiguration.SlideDayIntervals)
 			{
@@ -38,7 +41,16 @@ namespace SKDModule.ViewModels
 
 		SKDSlideDayInterval IntervalToCopy;
 
-		public ObservableCollection<SlideDayIntervalViewModel> SlideDayIntervals { get; private set; }
+		ObservableCollection<SlideDayIntervalViewModel> _slideDayIntervals;
+		public ObservableCollection<SlideDayIntervalViewModel> SlideDayIntervals
+		{
+			get { return _slideDayIntervals; }
+			set
+			{
+				_slideDayIntervals = value;
+				OnPropertyChanged("SlideDayIntervals");
+			}
+		}
 
 		SlideDayIntervalViewModel _selectedSlideDayInterval;
 		public SlideDayIntervalViewModel SelectedSlideDayInterval
@@ -90,7 +102,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedSlideDayInterval != null;
+			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -105,7 +117,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedSlideDayInterval != null;
+			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -115,7 +127,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedSlideDayInterval != null;
+			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }

@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 			{
 				AvailableWeeklyIntervals.Add(skdWeeklyInterval);
 			}
-			SelectedWeeklyInterval = WeeklyInterval;
+			_selectedWeeklyInterval = WeeklyInterval;
 		}
 
 		public ObservableCollection<SKDWeeklyInterval> AvailableWeeklyIntervals { get; private set; }

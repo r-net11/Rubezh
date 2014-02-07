@@ -1,11 +1,8 @@
-﻿using System;
-using FiresecClient;
+﻿using System.Collections.ObjectModel;
+using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using System.Collections.Generic;
-using FiresecAPI;
-using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient.SKDHelpers;
 

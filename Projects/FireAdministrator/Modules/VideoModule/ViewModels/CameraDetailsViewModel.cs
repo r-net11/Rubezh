@@ -36,7 +36,9 @@ namespace VideoModule.ViewModels
 				Camera = new Camera()
 				{
 					Name = "Новая камера",
-					Address = "192.168.0.1"
+					Address = "172.16.7.88",
+					Login = "admin",
+					Password = "admin"
 				};
 			}
 
@@ -47,6 +49,8 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
+			Login = Camera.Login;
+			Password = Camera.Password;
 			Left = Camera.Left;
 			Top = Camera.Top;
 			Width = Camera.Width;
@@ -56,6 +60,28 @@ namespace VideoModule.ViewModels
 			if (Camera.ZoneUIDs == null)
 				Camera.ZoneUIDs = new List<Guid>();
 			Zones = Camera.ZoneUIDs.ToList();
+		}
+
+		string _login;
+		public string Login
+		{
+			get { return _login; }
+			set
+			{
+				_login = value;
+				OnPropertyChanged("Login");
+			}
+		}
+
+		string _password;
+		public string Password
+		{
+			get { return _password; }
+			set
+			{
+				_password = value;
+				OnPropertyChanged("Password");
+			}
 		}
 
 		string _name;
@@ -135,7 +161,7 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		public string PresenrationZones
+		public string PresentationZones
 		{
 			get
 			{
@@ -171,7 +197,7 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged("PresentationZones");
 			}
 		}
 
@@ -181,6 +207,8 @@ namespace VideoModule.ViewModels
 			var camera = new FiresecAPI.Models.Camera()
 			{
 				Address = Address,
+				Login = Login,
+				Password = Password,
 				Left = Left,
 				Top = Top,
 				Width = Width,
@@ -198,6 +226,8 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
+			Camera.Login = Login;
+			Camera.Password = Password;
 			Camera.Left = Left;
 			Camera.Top = Top;
 			Camera.Width = Width;

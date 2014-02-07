@@ -7,8 +7,8 @@ namespace SKDModule.Validation
 {
 	public class TimeIntervalValidationError : ObjectValidationError<SKDTimeInterval, ShowSKDTimeIntervalsEvent, Guid>
 	{
-		public TimeIntervalValidationError(SKDTimeInterval device, string error, ValidationErrorLevel level)
-			: base(device, error, level)
+		public TimeIntervalValidationError(SKDTimeInterval interval, string error, ValidationErrorLevel level)
+			: base(interval, error, level)
 		{
 		}
 

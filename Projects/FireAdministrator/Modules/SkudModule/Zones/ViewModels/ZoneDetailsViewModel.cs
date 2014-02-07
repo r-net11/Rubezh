@@ -59,6 +59,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(Name) && Name != "Неконтролируемая территория";
+		}
+
 		protected override bool Save()
 		{
 			Zone = new SKDZone()

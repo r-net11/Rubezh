@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Common;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class DeviceState
+	public class DeviceState : IDeviceState<StateType>
 	{
 		[DataMember]
 		public Guid DeviceUID { get; set; }
@@ -72,17 +73,17 @@ namespace FiresecAPI.Models
 				}
 			}
 		}
-        public List<DeviceDriverState> ThreadSafeStates
-        {
-            get
-            {
-                if (States == null)
-                {
-                    States = new List<DeviceDriverState>();
-                }
-                return States.ToList();
-            }
-        }
+		public List<DeviceDriverState> ThreadSafeStates
+		{
+			get
+			{
+				if (States == null)
+				{
+					States = new List<DeviceDriverState>();
+				}
+				return States.ToList();
+			}
+		}
 
 		public List<ParentDeviceState> ThreadSafeParentStates
 		{
@@ -177,7 +178,7 @@ namespace FiresecAPI.Models
 			{
 				var stateTypes = new List<StateType>() { StateType.Norm };
 
-                foreach (var deviceDriverState in ThreadSafeStates)
+				foreach (var deviceDriverState in ThreadSafeStates)
 				{
 					if (deviceDriverState.DriverState != null)
 					{
@@ -207,7 +208,7 @@ namespace FiresecAPI.Models
 			get
 			{
 				var stringStates = new List<string>();
-                foreach (var state in ThreadSafeStates)
+				foreach (var state in ThreadSafeStates)
 				{
 					stringStates.Add(state.DriverState.Name);
 				}
@@ -231,7 +232,7 @@ namespace FiresecAPI.Models
 
 		public bool IsDisabled
 		{
-            get { return ThreadSafeStates.Any(x => x.DriverState.StateType == StateType.Off); }
+			get { return ThreadSafeStates.Any(x => x.DriverState.StateType == StateType.Off); }
 		}
 
 		public event Action StateChanged;

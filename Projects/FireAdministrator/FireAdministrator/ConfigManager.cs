@@ -183,6 +183,7 @@ namespace FireAdministrator
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
 					FiresecManager.PlansConfiguration.Update();
+					SKDManager.SetEmptyConfiguration();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();
 
 					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -193,7 +194,9 @@ namespace FireAdministrator
 					ServiceFactory.SaveService.CamerasChanged = true;
 					ServiceFactory.SaveService.GKChanged = true;
 					ServiceFactory.SaveService.XInstructionsChanged = true;
+					ServiceFactory.SaveService.SKDChanged = true;
 					ServiceFactory.SaveService.LayoutsChanged = true;
+
 
 					ShowFirstDevice();
 				}

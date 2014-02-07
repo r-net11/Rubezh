@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Infrustructure.Plans.Devices;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class LibraryXDevice
+	public class LibraryXDevice : ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>
 	{
 		public LibraryXDevice()
 		{
@@ -35,5 +36,20 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<LibraryXState> XStates { get; set; }
+
+		#region ILibraryDevice<XStateClass,LibraryXFrame,XState> Members
+
+		Guid ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.DriverId
+		{
+			get { return XDriverId; }
+			set { XDriverId = value; }
+		}
+
+		List<LibraryXState> ILibraryDevice<LibraryXState, LibraryXFrame, XStateClass>.States
+		{
+			get { return XStates; }
+		}
+
+		#endregion
 	}
 }

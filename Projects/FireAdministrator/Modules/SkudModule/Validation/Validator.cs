@@ -11,6 +11,8 @@ namespace SKDModule.Validation
 		{
 			Errors = new List<IValidationError>();
 			ValidateTimeIntervals();
+			ValidateWeklyIntervals();
+			ValidateSlideDayIntervals();
 			return Errors;
 		}
 	}

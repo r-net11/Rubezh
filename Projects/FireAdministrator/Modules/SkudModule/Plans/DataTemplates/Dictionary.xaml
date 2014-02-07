@@ -8,8 +8,4 @@
 		<Views:ZonePropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DevicesInZoneViewModel}">
-		<Views:DevicesInZoneView />
-	</DataTemplate>
-
 </ResourceDictionary>

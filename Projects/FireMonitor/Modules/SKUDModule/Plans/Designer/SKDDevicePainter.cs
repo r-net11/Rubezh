@@ -1,20 +1,16 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Controls;
 using DeviceControls;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
-using Infrastructure.Client.Plans.ViewModels;
-using SKDModule.Views;
+using SKDModule.Events;
 using SKDModule.ViewModels;
-using Infrastructure.Common.Windows;
 
 namespace SKDModule.Plans.Designer
 {
@@ -72,7 +68,7 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.SKDDevicePicture.GetDynamicSKDBrush(Device);
+			return PictureCacheSource.SKDDevicePicture.GetDynamicBrush(Device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }

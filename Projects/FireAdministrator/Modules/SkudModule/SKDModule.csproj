@@ -145,13 +145,9 @@
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
-      <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
@@ -257,6 +253,10 @@
     <Compile Include="PassCard\Views\PassCardTemplatePropertiesView.xaml.cs">
       <DependentUpon>PassCardTemplatePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\WeeklyIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
+    <Compile Include="Validation\SlideDayIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.SlideDayIntervals.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
@@ -386,10 +386,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\DevicePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\DevicesInZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

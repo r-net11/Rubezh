@@ -14,7 +14,10 @@
                 <DataGridTemplateColumn Header="Наименование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding WeeklyInterval.Name}" />
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding WeeklyInterval.Name}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -27,20 +30,26 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </Controls:XDataGrid>
-        <Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}">
+        <Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}" IsEnabled="{Binding IsEnabled}">
             <DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Наименование" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Интервал" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SelectedTimeInterval.Name}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding SelectedTimeInterval.Name}" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
@@ -48,7 +57,10 @@
                                 <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Name}" Foreground="Black" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="/Controls;component/Images/zone.png" Height="16" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                                <TextBlock Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" Margin="2" />
+                                            </StackPanel>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>

@@ -7,11 +7,11 @@ using XFiresecAPI;
 
 namespace DeviceControls.SKDDevice
 {
-	public class SKDDeviceControl : BaseDeviceControl<SKDLibraryFrame>
+	public class SKDDeviceControl : BaseDeviceControl<SKDLibraryFrame, XStateClass>
 	{
 		public XStateClass StateClass { get; set; }
 
-		protected override IEnumerable<ILibraryState<SKDLibraryFrame>> GetStates()
+		protected override IEnumerable<ILibraryState<SKDLibraryFrame, XStateClass>> GetStates()
 		{
 			var libraryDevice = SKDManager.SKDLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
 			if (libraryDevice == null)
@@ -31,7 +31,7 @@ namespace DeviceControls.SKDDevice
 				}
 			}
 
-			var resultLibraryStates = new List<ILibraryState<SKDLibraryFrame>>();
+			var resultLibraryStates = new List<ILibraryState<SKDLibraryFrame, XStateClass>>();
 			if (libraryState != null)
 				resultLibraryStates.Add(libraryState);
 			return resultLibraryStates;

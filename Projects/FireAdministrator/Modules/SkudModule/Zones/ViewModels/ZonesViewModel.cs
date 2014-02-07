@@ -259,6 +259,7 @@ namespace SKDModule.ViewModels
 
 		public override void OnShow()
 		{
+			SelectedZone = SelectedZone;
 			base.OnShow();
 		}
 		public override void OnHide()
@@ -272,18 +273,6 @@ namespace SKDModule.ViewModels
 			RibbonItems[0][0].Command = SelectedZone == null ? null : SelectedZone.AddCommand;
 			RibbonItems[0][1].Command = SelectedZone == null ? null : SelectedZone.EditCommand;
 			RibbonItems[0][2].Command = SelectedZone == null ? null : SelectedZone.RemoveCommand;
-
-			//RibbonItems[1][6][0].Command = SelectedDevice == null ? null : SelectedDevice.ReadCommand;
-			//RibbonItems[1][6][1].Command = SelectedDevice == null ? null : SelectedDevice.WriteCommand;
-			//RibbonItems[1][6][2].Command = SelectedDevice == null ? null : SelectedDevice.ReadAllCommand;
-			//RibbonItems[1][6][3].Command = SelectedDevice == null ? null : SelectedDevice.WriteAllCommand;
-			//RibbonItems[1][6][4].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromDeviceToSystemCommand;
-			//RibbonItems[1][6][5].Command = SelectedDevice == null ? null : SelectedDevice.SyncFromAllDeviceToSystemCommand;
-			//RibbonItems[1][6][6].Command = SelectedDevice == null ? null : SelectedDevice.CopyParamCommand;
-			//RibbonItems[1][6][7].Command = SelectedDevice == null ? null : SelectedDevice.PasteParamCommand;
-			//RibbonItems[1][6][8].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllParamCommand;
-			//RibbonItems[1][6][9].Command = SelectedDevice == null ? null : SelectedDevice.PasteTemplateCommand;
-			//RibbonItems[1][6][10].Command = SelectedDevice == null ? null : SelectedDevice.PasteAllTemplateCommand;
 		}
 		private void SetRibbonItems()
 		{

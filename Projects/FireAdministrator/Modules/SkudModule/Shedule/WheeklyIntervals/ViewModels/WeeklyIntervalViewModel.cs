@@ -12,8 +12,6 @@ namespace SKDModule.ViewModels
 		public WeeklyIntervalViewModel(SKDWeeklyInterval weeklyInterval)
 		{
 			WeeklyInterval = weeklyInterval;
-			//AddCommand = new RelayCommand(OnAdd, CanAdd);
-			//RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
 			foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 			{
@@ -50,31 +48,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		//public RelayCommand AddCommand { get; private set; }
-		//void OnAdd()
-		//{
-		//    var weeklyIntervalPart = new SKDWeeklyIntervalPart();
-		//    weeklyIntervalPart.TimeIntervalUID = SKDManager.SKDConfiguration.NamedTimeIntervals.FirstOrDefault().UID;
-		//    WeeklyInterval.WeeklyIntervalParts.Add(weeklyIntervalPart);
-		//    var slideDayIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
-		//    TimeIntervals.Add(slideDayIntervalPartViewModel);
-		//    ServiceFactory.SaveService.SKDChanged = true;
-		//}
-		//bool CanAdd()
-		//{
-		//    return TimeIntervals.Count < 31;
-		//}
-
-		//public RelayCommand RemoveCommand { get; private set; }
-		//void OnRemove()
-		//{
-		//    WeeklyInterval.WeeklyIntervalParts.Remove(SelectedTimeInterval.WeeklyIntervalPart);
-		//    TimeIntervals.Remove(SelectedTimeInterval);
-		//    ServiceFactory.SaveService.SKDChanged = true;
-		//}
-		//bool CanRemove()
-		//{
-		//    return SelectedTimeInterval != null;
-		//}
+		public bool IsEnabled
+		{
+			get { return !WeeklyInterval.IsDefault; }
+		}
 	}
 }

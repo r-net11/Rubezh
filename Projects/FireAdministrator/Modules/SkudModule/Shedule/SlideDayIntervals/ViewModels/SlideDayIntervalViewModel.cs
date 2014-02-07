@@ -77,7 +77,12 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedTimeInterval != null;
+			return SelectedTimeInterval != null && TimeIntervals.Count > 1;
+		}
+
+		public bool IsEnabled
+		{
+			get { return !SlideDayInterval.IsDefault; }
 		}
 	}
 }
