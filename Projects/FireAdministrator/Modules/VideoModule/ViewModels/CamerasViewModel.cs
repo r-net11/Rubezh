@@ -55,10 +55,6 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-
-			if (FiresecManager.SystemConfiguration.Cameras == null)
-				FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
-
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(camera);

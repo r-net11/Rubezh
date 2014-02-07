@@ -5,12 +5,13 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="300" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
-            <DataGrid.Columns><DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
                 <DataGridTextColumn Header="URL" Width="200" Binding="{Binding Camera.Address}" />
                 <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding PresentationZones}" />
             </DataGrid.Columns>

@@ -28,7 +28,8 @@ namespace VideoModule.ViewModels
 		public Camera Camera { get; set; }
 		public List<StringBuilder> ErrorLog { get; private set; }
 		public bool HasError { get; private set; }
-		public List<CameraFrameWatcher> CameraFramesWatcher { get; private set; } 
+		public List<CameraFrameWatcher> CameraFramesWatcher { get; private set; }
+
 		public CameraViewModel(Camera camera)
 		{
 			Camera = camera;

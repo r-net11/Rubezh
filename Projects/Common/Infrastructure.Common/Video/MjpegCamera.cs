@@ -12,21 +12,23 @@ using System.Windows.Threading;
 
 namespace Infrastructure.Common
 {
-
 	public class MjpegCamera
 	{
 		bool VideoThreadInterrupt = false;
 		public string URL { get; private set; }
 		public string Login { get; private set; }
 		public string Password { get; private set; }
+		
 		public MjpegCamera(string url, string login, string password)
 		{
 			URL = url;
 			Login = login;
 			Password = password;
 		}
+		
 		public event Action<Bitmap> FrameReady;
 		public event Action<string> ErrorHandler;
+		
 		public void StartVideo()
 		{
 			string source = "http://" + URL + "/cgi-bin/mjpg/video.cgi";

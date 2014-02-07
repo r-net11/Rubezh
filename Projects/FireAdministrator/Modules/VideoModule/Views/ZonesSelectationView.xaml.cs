@@ -2,11 +2,11 @@
 
 namespace VideoModule.Views
 {
-    public partial class ZonesSelectationView : UserControl
-    {
-        public ZonesSelectationView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ZonesSelectationView : UserControl
+	{
+		public ZonesSelectationView()
+		{
+			InitializeComponent();
+		}
+	}
 }

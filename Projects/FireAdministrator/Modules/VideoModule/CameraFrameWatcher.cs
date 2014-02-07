@@ -10,6 +10,7 @@ namespace VideoModule
 	{
 		public Bitmap Bitmap { get; private set; }
 		public DateTime DateTime { get; private set; }
+
 		public CameraFrameWatcher(Bitmap bitmap, DateTime dateTime)
 		{
 			Bitmap = bitmap;
@@ -23,8 +24,8 @@ namespace VideoModule
 
 		public int Compare(object a, object b)
 		{
-			var cameraFrameWather1 = (CameraFrameWatcher) a;
-			var cameraFrameWather2 = (CameraFrameWatcher) b;
+			var cameraFrameWather1 = (CameraFrameWatcher)a;
+			var cameraFrameWather2 = (CameraFrameWatcher)b;
 			if (cameraFrameWather1.DateTime > cameraFrameWather2.DateTime)
 				return 1;
 			if (cameraFrameWather1.DateTime < cameraFrameWather2.DateTime)
