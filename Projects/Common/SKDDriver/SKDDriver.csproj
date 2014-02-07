@@ -65,6 +65,7 @@
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Sending\SKDDeviceProcessor.cs" />
     <Compile Include="SKDDatabaseService\Translator\TranslateBack.cs" />
+    <Compile Include="SKDDatabaseService\Translator\Update.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />

@@ -87,12 +87,13 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
-			if (!filter.WithDeleted && (bool)item.IsDeleted)
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
 				return false;
 
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			bool isInEmployees = IsInUidList(item.EmployeeUid, filter.EmployeeUids);
 
-			return isInUids;
+			return isInUids && isInEmployees;
 		}
 
 		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneLinkFilter filter)
@@ -100,15 +101,15 @@ namespace SKDDriver
 			if (filter == null)
 				return true;
 
-			if (!filter.WithDeleted && (bool)item.IsDeleted)
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
 				return false;
 
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInCardUids = IsInUidList(item.CardUid, filter.CardUids);
 			bool isInZoneUids = IsInUidList(item.ZoneUid, filter.ZoneUids);
-			bool isInTimeCriteriaUids = IsInUidList(item.TimeCriteriaUid, filter.TimeCriteriaUids);
+			bool isInIntervalUids = IsInUidList(item.IntervalUid, filter.IntervalUids);
 
-			return isInUids && isInCardUids && isInZoneUids && isInTimeCriteriaUids;
+			return isInUids && isInCardUids && isInZoneUids && isInIntervalUids;
 		}
 
 

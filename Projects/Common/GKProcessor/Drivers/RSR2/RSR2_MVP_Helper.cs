@@ -35,10 +35,10 @@ namespace GKProcessor
 			};
 			driver.Properties.Add(property);
 
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0, Name = "Напряжение на АЛC1", InternalName = "Voltage_1", Multiplier = 10 });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Напряжение на АЛС2", InternalName = "Voltage_2", Multiplier = 10 });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Напряжение на АЛС3", InternalName = "Voltage_3", Multiplier = 10 });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 3, Name = "Напряжение на АЛС4", InternalName = "Voltage_4", Multiplier = 10 });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 0, Name = "Напряжение на АЛC1, В", InternalName = "Voltage_1", Multiplier = 10 });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Напряжение на АЛС2, В", InternalName = "Voltage_2", Multiplier = 10 });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Напряжение на АЛС3, В", InternalName = "Voltage_3", Multiplier = 10 });
+			driver.MeasureParameters.Add(new XMeasureParameter() { No = 3, Name = "Напряжение на АЛС4, В", InternalName = "Voltage_4", Multiplier = 10 });
 
 			return driver;
 		}

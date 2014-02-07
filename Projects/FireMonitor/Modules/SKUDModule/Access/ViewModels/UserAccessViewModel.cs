@@ -1,16 +1,13 @@
 ﻿using System;
-using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using XFiresecAPI;
-using Controls.Converters;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using System.Collections.Generic;
 using FiresecAPI;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -24,7 +21,14 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			RemoveCardCommand = new RelayCommand(OnRemoveCard, CanRemoveCard);
 
+			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.Uid } };
+			var cards = FiresecManager.GetCards(filter);
 			Cards = new ObservableCollection<CardViewModel>();
+			foreach (var item in cards)
+			{
+				Cards.Add(new CardViewModel(this, item));
+			}
+			SelectedCard = Cards.FirstOrDefault();
 		}
 
 		public ObservableCollection<CardViewModel> Cards { get; private set; }
@@ -47,14 +51,14 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
+				CardHelper.LinkToEmployee(card, Employee.Uid);
 				var cardViewModel = new CardViewModel(this, card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;
 			}
-
 		}
 		public bool CanAddCard()
-		{
+		{ 
 			return Cards.Count < 10;
 		}
 
@@ -65,7 +69,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
 				var cardRemovalReason = cardRemovalReasonViewModel.CardRemovalReason;
-				Cards.Remove(SelectedCard);
+				var card = Cards.FirstOrDefault();
+				Cards.Remove(card);
+				CardHelper.ToStopList(card.Card, cardRemovalReason);
 			}
 		}
 		public bool CanRemoveCard()

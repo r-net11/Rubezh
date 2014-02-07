@@ -21,5 +21,11 @@ namespace FiresecAPI
 		public DateTime? ValidTo { get; set; }
 		[DataMember]
 		public List<Guid> ZoneLinkUids { get; set; }
+		[DataMember]
+		public bool? IsAntipass { get; set; }
+		[DataMember]
+		public bool? IsInStopList { get; set; }
+		[DataMember]
+		public string StopReason { get; set; }
 	}
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SKDDriver.DataAccess;
 
 namespace SKDDriver
@@ -39,7 +36,7 @@ namespace SKDDriver
 		{
 			if (employee == null)
 				return null;
-			return new Employee
+			var result = new Employee
 			{
 				Uid = employee.Uid,
 				FirstName = employee.FirstName,
@@ -49,10 +46,11 @@ namespace SKDDriver
 				Dismissed = employee.Dismissed,
 				PositionUid = employee.PositionUid,
 				DepartmentUid = employee.DepartmentUid,
-				ScheduleUid = employee.ScheduleUid,
+				ScheduleUid = employee.ScheduleUid
 			};
+			return result;
 		}
-		
+
 		public static Journal TranslateBack(FiresecAPI.SKDJournalItem journalItem)
 		{
 			if (journalItem == null)
@@ -88,17 +86,34 @@ namespace SKDDriver
 		{
 			if (card == null)
 				return null;
-			return new Card
+			var validFrom = CheckDate(card.ValidFrom);
+			var validTo = CheckDate(card.ValidTo);
+			var result = new Card
 			{
 				EmployeeUid = card.EmployeeUid,
 				Number = card.Number,
 				Series = card.Series,
 				Uid = card.Uid,
-				ValidFrom = card.ValidFrom,
-				ValidTo = card.ValidTo
+				ValidFrom = validFrom,
+				ValidTo = validTo,
+				IsAntipass = card.IsAntipass,
+				IsInStopList = card.IsInStopList,
+				StopReason = card.StopReason
 			};
+			return result;
 		}
-		
+
+		static DateTime? CheckDate(DateTime? dateTime)
+		{
+			if (dateTime == null)
+				return null;
+			if (dateTime.Value.Year < 1754)
+				return null;
+			if(dateTime.Value.Year > 9998)
+				return null;
+			return dateTime;
+		}		
+
 		public static CardZoneLink TranslateBack(FiresecAPI.CardZoneLink cardZoneLink)
 		{
 			if (cardZoneLink == null)
@@ -106,11 +121,11 @@ namespace SKDDriver
 			return new CardZoneLink
 			{
 				Uid = cardZoneLink.Uid,
-				AccessType = cardZoneLink.AccessType.ToString(),
-				IsAntipass = cardZoneLink.IsAntipass,
+				IntervalType = cardZoneLink.IntervalType.ToString(),
+				IntervalUid = cardZoneLink.IntervalUid,
+				IsWithEscort = cardZoneLink.IsWithEscort,
 				ZoneUid = cardZoneLink.ZoneUid,
 				CardUid = cardZoneLink.CardUid,
-				TimeCriteriaUid = cardZoneLink.TimeCriteriaUid
 			};
 		}
 	}

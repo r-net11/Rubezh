@@ -38,7 +38,7 @@
                     <ComboBox ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedTimeCreteria}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" Margin="2" />
+                                <TextBlock Text="{Binding Description}" Margin="2" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

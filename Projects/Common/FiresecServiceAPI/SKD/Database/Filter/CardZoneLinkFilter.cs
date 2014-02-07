@@ -14,14 +14,14 @@ namespace FiresecAPI
 		[DataMember]
 		public List<Guid> ZoneUids { get; set; }
 		[DataMember]
-		public List<Guid> TimeCriteriaUids { get; set; }
+		public List<Guid> IntervalUids { get; set; }
 
 		public CardZoneLinkFilter()
 		{
 			Uids = new List<Guid>();
 			CardUids = new List<Guid>();
 			ZoneUids = new List<Guid>();
-			TimeCriteriaUids = new List<Guid>();
+			IntervalUids = new List<Guid>();
 		}
 	}
 }

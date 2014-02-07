@@ -132,13 +132,20 @@ namespace GKModule.Validation
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null)
 				{
+					double minValue = driverProperty.Min;
+					double maxValue = driverProperty.Max;
+					if (driverProperty.Multiplier != 0)
+					{
+						minValue /= driverProperty.Multiplier;
+						maxValue /= driverProperty.Multiplier;
+					}
 					if (driverProperty.Min != 0)
 						if (property.Value < driverProperty.Min)
-							Errors.Add(new DeviceValidationError(device, "Парметр " + driverProperty.Caption + " должен быть больше " + driverProperty.Min.ToString(), ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(device, "Парметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString(), ValidationErrorLevel.CannotWrite));
 
 					if (driverProperty.Max != 0)
 						if (property.Value > driverProperty.Max)
-							Errors.Add(new DeviceValidationError(device, "Парметр " + driverProperty.Caption + " должен быть меньше " + driverProperty.Max.ToString(), ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(device, "Парметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString(), ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}

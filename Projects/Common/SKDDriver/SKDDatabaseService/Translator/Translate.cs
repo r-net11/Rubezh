@@ -177,7 +177,10 @@ namespace SKDDriver
 				Uid = card.Uid,
 				ValidFrom = card.ValidFrom,
 				ValidTo = card.ValidTo,
-				ZoneLinkUids = zoneUids
+				ZoneLinkUids = zoneUids,
+				IsAntipass = card.IsAntipass,
+				IsInStopList = card.IsInStopList,
+				StopReason = card.StopReason
 			};
 		}
 
@@ -185,24 +188,30 @@ namespace SKDDriver
 		{
 			if (cardControllerLink == null)
 				return null;
-			FiresecAPI.AccessType accessType;
-			switch (cardControllerLink.AccessType)
+			FiresecAPI.IntervalType intervalType;
+			switch (cardControllerLink.IntervalType)
 			{
-				case "WithEscort":
-					accessType = FiresecAPI.AccessType.WithEscort;
+				case "Time":
+					intervalType = FiresecAPI.IntervalType.Time;
+					break;
+				case "Weekly":
+					intervalType = FiresecAPI.IntervalType.Weekly;
+					break;
+				case "SlideDay":
+					intervalType = FiresecAPI.IntervalType.SlideDay;
 					break;
 				default:
-					accessType = FiresecAPI.AccessType.Basic;
+					intervalType = FiresecAPI.IntervalType.SlideWeekly;
 					break;
 			}
 			return new FiresecAPI.CardZoneLink
 			{
 				Uid = cardControllerLink.Uid,
-				AccessType = accessType,
-				IsAntipass = cardControllerLink.IsAntipass,
+				IntervalType = intervalType,
+				IntervalUid = cardControllerLink.IntervalUid,
+				IsWithEscort = cardControllerLink.IsWithEscort,
 				ZoneUid = cardControllerLink.ZoneUid,
 				CardUid = cardControllerLink.CardUid,
-				TimeCriteriaUid = cardControllerLink.TimeCriteriaUid
 			};
 		}
 

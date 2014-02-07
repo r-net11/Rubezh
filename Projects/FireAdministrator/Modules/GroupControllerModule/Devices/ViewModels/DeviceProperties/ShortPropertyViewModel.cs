@@ -15,12 +15,12 @@ namespace GKModule.ViewModels
 				_text = driverProperty.Default;
 		}
 
-		double _text;
+		ushort _text;
 		public string Text
 		{
 			get 
 			{
-				var result = _text;
+				double result = _text;
 				if (DriverProperty.Multiplier != 0)
 					result /= DriverProperty.Multiplier;
 				return result.ToString(); 
@@ -32,10 +32,10 @@ namespace GKModule.ViewModels
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
-					_text = doubleValue;
-					Save((ushort)doubleValue);
+					_text = (ushort)doubleValue;
+					Save(_text);
 				}
-				OnPropertyChanged("Text");
+				OnPropertyChanged(()=>Text);
 			}
 		}
 	}

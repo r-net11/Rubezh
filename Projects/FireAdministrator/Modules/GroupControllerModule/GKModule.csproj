@@ -70,18 +70,18 @@
     </Compile>
     <Compile Include="Converters\LibraryXStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToJournalColorConverter.cs" />
-    <Compile Include="Descriptors\Converters\BytesToStringConverter.cs" />
-    <Compile Include="Descriptors\Converters\DescriptorNoToStringConverter.cs" />
-    <Compile Include="Descriptors\Converters\NullImageConverter.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorLogicItem.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorsViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\DescriptorsMenuViewModel.cs" />
-    <Compile Include="Descriptors\ViewModels\StackDirection.cs" />
-    <Compile Include="Descriptors\Views\DescriptorsView.xaml.cs">
+    <Compile Include="DeviceLibrary\Descriptors\Converters\BytesToStringConverter.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\Converters\DescriptorNoToStringConverter.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\Converters\NullImageConverter.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\ViewModels\DescriptorLogicItem.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\ViewModels\DescriptorsViewModel.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\ViewModels\DescriptorViewModel.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\ViewModels\DescriptorsMenuViewModel.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\ViewModels\StackDirection.cs" />
+    <Compile Include="DeviceLibrary\Descriptors\Views\DescriptorsView.xaml.cs">
       <DependentUpon>DescriptorsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Descriptors\Views\DescriptorsMenuView.xaml.cs">
+    <Compile Include="DeviceLibrary\Descriptors\Views\DescriptorsMenuView.xaml.cs">
       <DependentUpon>DescriptorsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\DevicesOnShleifViewModel.cs" />
@@ -386,7 +386,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="Descriptors\Views\DescriptorsView.xaml">
+    <Page Include="DeviceLibrary\Descriptors\Views\DescriptorsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -394,7 +394,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Descriptors\Views\DescriptorsMenuView.xaml">
+    <Page Include="DeviceLibrary\Descriptors\Views\DescriptorsMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

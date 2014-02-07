@@ -135,7 +135,7 @@ namespace SKDDriver
 					var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Employee.InsertOnSubmit(Translator.TranslateBack(item));
@@ -157,7 +157,7 @@ namespace SKDDriver
 					var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Department.InsertOnSubmit(Translator.TranslateBack(item));
@@ -179,7 +179,7 @@ namespace SKDDriver
 					var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Position.InsertOnSubmit(Translator.TranslateBack(item));
@@ -202,7 +202,7 @@ namespace SKDDriver
 					var databaseItem = Context.Journal.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Journal.InsertOnSubmit(Translator.TranslateBack(item));
@@ -224,7 +224,7 @@ namespace SKDDriver
 					var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Frame.InsertOnSubmit(Translator.TranslateBack(item));
@@ -246,7 +246,7 @@ namespace SKDDriver
 					var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.Card.InsertOnSubmit(Translator.TranslateBack(item));
@@ -268,7 +268,7 @@ namespace SKDDriver
 					var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
 					{
-						databaseItem = Translator.TranslateBack(item);
+						Translator.Update(databaseItem, item);
 					}
 					else
 						Context.CardZoneLink.InsertOnSubmit(Translator.TranslateBack(item));

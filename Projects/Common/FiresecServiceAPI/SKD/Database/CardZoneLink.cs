@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI
 {
@@ -13,17 +14,23 @@ namespace FiresecAPI
 		[DataMember]
 		public Guid? ZoneUid { get; set; }
 		[DataMember]
-		public Guid? TimeCriteriaUid { get; set; }
+		public bool? IsWithEscort { get; set; }
 		[DataMember]
-		public bool? IsAntipass { get; set; }
+		public IntervalType IntervalType { get; set; }
 		[DataMember]
-		public AccessType AccessType { get; set; }
+		public Guid? IntervalUid { get; set; }
 	}
 
 	[DataContract]
-	public enum AccessType
+	public enum IntervalType
 	{
-		WithEscort,
-		Basic,
+		[DescriptionAttribute("Временные зоны")]
+		Time,
+		[DescriptionAttribute("Недельные графики")]
+		Weekly,
+		[DescriptionAttribute("Скользящие посуточные графики")]
+		SlideDay,
+		[DescriptionAttribute("Скользящие понедельные графики")]
+		SlideWeekly
 	}
 }

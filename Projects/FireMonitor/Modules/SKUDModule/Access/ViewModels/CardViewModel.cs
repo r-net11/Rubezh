@@ -26,8 +26,8 @@ namespace SKDModule.ViewModels
 			UserAccessViewModel = userAccessViewModel;
 			Card = card;
 			ID = card.Series+ "/" + card.Number;
-			StartDate = card.ValidFrom.Value;
-			EndDate = card.ValidTo.Value;
+			StartDate = card.ValidFrom.GetValueOrDefault(DateTime.MinValue);
+			EndDate = card.ValidTo.GetValueOrDefault(DateTime.MaxValue);
 
 			ZoneUIDs = new List<Guid>();
 			UpdateZones();

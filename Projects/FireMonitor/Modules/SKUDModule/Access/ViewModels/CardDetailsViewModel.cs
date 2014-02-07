@@ -64,10 +64,12 @@ namespace SKDModule.ViewModels
 		{
 			Card = new SKDCard()
 			{
+				Uid = Guid.NewGuid(),
 				Series = IDFamily,
 				Number = IDNo,
 				ValidFrom = StartDate,
-				ValidTo = EndDate
+				ValidTo = EndDate,
+				
 			};
 			return true;
 		}

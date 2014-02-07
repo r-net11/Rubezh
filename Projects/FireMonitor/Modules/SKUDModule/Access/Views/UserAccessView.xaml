@@ -85,7 +85,7 @@
                                     <CheckBox Content="Доступ с комиссионированием" IsChecked="{Binding IsComission}" Foreground="White" Margin="2" />
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Временной критерий" Width="200" Foreground="White" Margin="2" />
-                                        <TextBlock Text="{Binding SelectedTimeCreteria.Name}" Foreground="White" Margin="2" />
+                                        <TextBlock Text="{Binding SelectedTimeCreteria.Description}" Foreground="White" Margin="2" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="" Width="200" Foreground="White" Margin="2" />
