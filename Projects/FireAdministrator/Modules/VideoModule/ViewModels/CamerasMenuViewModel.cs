@@ -1,31 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 namespace VideoModule.ViewModels
 {
 	public class CamerasMenuViewModel : BaseViewModel

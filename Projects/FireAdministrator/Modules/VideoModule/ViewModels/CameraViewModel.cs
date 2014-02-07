@@ -22,21 +22,22 @@ namespace VideoModule.ViewModels
 {
 	public class CameraViewModel : BaseViewModel
 	{
-		public Camera Camera { get; set; }
 		private const int IMAGES_BUFFER_SIZE = 10;
 		private int ImagesBufferIndex = 0;
 		private MjpegCamera MjpegCamera { get; set; }
+		public Camera Camera { get; set; }
 		public List<StringBuilder> ErrorLog { get; private set; }
 		public bool HasError { get; private set; }
+		public List<CameraFrameWatcher> CameraFramesWatcher { get; private set; } 
 		public CameraViewModel(Camera camera)
 		{
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera.Address, camera.Login, camera.Password);
-			ImagesBuffer = new List<Bitmap>(IMAGES_BUFFER_SIZE);
-			InitializeImagesBuffer();
+			CameraFramesWatcher = new List<CameraFrameWatcher>(IMAGES_BUFFER_SIZE);
+			InitializeCameraFramesWatcher();
 		}
-		public bool IsNowPlayed { get; private set; }
+		public bool IsNowPlaying { get; private set; }
 		void GetError(string error)
 		{
 			ErrorLog.Add(new StringBuilder(error));
@@ -59,11 +60,23 @@ namespace VideoModule.ViewModels
 				}));
 			}
 		}
-		List<Bitmap> ImagesBuffer { get; set; }
-		void InitializeImagesBuffer()
+
+		private void BmpToCameraFramesWatcher(Bitmap bmp)
+		{
+			var dateTime = DateTime.Now;
+			if (dateTime - CameraFramesWatcher.Max().DateTime > TimeSpan.FromSeconds(1))
+			{
+				var cameraFrameWatcher = new CameraFrameWatcher(bmp, dateTime);
+				ImagesBufferIndex = ImagesBufferIndex%IMAGES_BUFFER_SIZE;
+				CameraFramesWatcher[ImagesBufferIndex] = cameraFrameWatcher;
+				ImagesBufferIndex++;
+			}
+		}
+
+		void InitializeCameraFramesWatcher()
 		{
 			for (int i = 0; i < IMAGES_BUFFER_SIZE; i++)
-				ImagesBuffer.Add(new Bitmap(100, 100));
+				CameraFramesWatcher.Add(new CameraFrameWatcher(new Bitmap(100,100), new DateTime()));
 		}
 		public string PresentationZones
 		{
@@ -90,24 +103,28 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			IsNowPlayed = true;
+			IsNowPlaying = true;
+			return; //TODO: TEST (Camera isn't working now)
 			MjpegCamera.FrameReady += BmpToImageSource;
+			MjpegCamera.FrameReady += BmpToCameraFramesWatcher;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 		}
-		public void PauseVideo()
-		{
-
-		}
 		public void StopVideo()
 		{
+			//TODO: TEST (Camera isn't working now)
+			{
+				IsNowPlaying = false;
+				return;
+			}
 			MjpegCamera.StopVideo();
 			VideoThread.Join(5000);
 			MjpegCamera.FrameReady -= BmpToImageSource;
+			MjpegCamera.FrameReady -= BmpToCameraFramesWatcher;
 			MjpegCamera.ErrorHandler -= GetError;
 			ImageSource = new BitmapImage();
-			IsNowPlayed = false;
+			IsNowPlaying = false;
 		}
 
 		private ImageSource _imageSource;

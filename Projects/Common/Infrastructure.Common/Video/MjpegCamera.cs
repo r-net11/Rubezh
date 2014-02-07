@@ -176,30 +176,8 @@ namespace Infrastructure.Common
 									if (VideoThreadInterrupt)
 										return;
 									var bmp = (Bitmap)Image.FromStream(new MemoryStream(buffer, start, stop - start));
-									FrameReady(bmp);
-									//ImagesBufferIndex = ImagesBufferIndex%IMAGES_BUFFER_SIZE;
-									//ImagesBuffer[ImagesBufferIndex] = new Bitmap(bmp);
-									//ImagesBufferIndex++;
-									//using (var memory = new MemoryStream())
-									//{
-									//    bmp.Save(memory, ImageFormat.Jpeg);
-									//    memory.Position = 0;
-									//    var bitmapImage = new BitmapImage();
-									//    bitmapImage.BeginInit();
-									//    bitmapImage.StreamSource = memory;
-									//    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-									//    bitmapImage.EndInit();
-									//    bitmapImage.Freeze();
-									//    Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-									//    {
-									//        ImageSource = bitmapImage;
-									//    }));
-									//}
-
-									//bmp.Save("c:\\1111.jpeg");
-									// notify client
-									//NewFrame(this, new CameraEventArgs(bmp));
-									// release the image
+									if (FrameReady != null)
+										FrameReady(bmp);
 									bmp.Dispose();
 								}
 
@@ -223,19 +201,22 @@ namespace Infrastructure.Common
 				}
 				catch (WebException ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 					// wait for a while before the next try
 					Thread.Sleep(250);
 				}
 				catch (ApplicationException ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 					// wait for a while before the next try
 					Thread.Sleep(250);
 				}
 				catch (Exception ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 				}
 				finally
 				{
