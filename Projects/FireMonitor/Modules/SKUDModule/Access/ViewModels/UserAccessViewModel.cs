@@ -5,6 +5,9 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using System.Linq;
 using FiresecClient.SKDHelpers;
+using System.Collections.Generic;
+using System;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
