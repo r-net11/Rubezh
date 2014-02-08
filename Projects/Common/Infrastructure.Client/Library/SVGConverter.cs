@@ -7,13 +7,13 @@ using System.Xml;
 using System.Xml.Xsl;
 using Common;
 
-namespace LibraryModule
+namespace Infrastructure.Client.Library
 {
-	public static class ImageConverters
+	public static class SVGConverters
 	{
-		static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration\\XslFiles");
-		static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
-		static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
+		private static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration\\XslFiles");
+		private static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
+		private static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
 
 		public static string Svg2Xaml(string svgFileName)
 		{
@@ -43,7 +43,6 @@ namespace LibraryModule
 				return null;
 			}
 		}
-
 		public static string Svg2Xaml2(string svgFileName)
 		{
 			string result = null;
@@ -64,7 +63,6 @@ namespace LibraryModule
 			}
 			return result;
 		}
-
 		public static void Xaml2Svg(string xaml, string svgFileName)
 		{
 			if (CheckXaml2SvgFiles() == false)
@@ -80,7 +78,6 @@ namespace LibraryModule
 				xslt.Transform(xmlReader, xmlWriter);
 			}
 		}
-
 		public static Canvas Xml2Canvas(string xmlOfimage)
 		{
 			try
@@ -99,7 +96,7 @@ namespace LibraryModule
 			}
 		}
 
-		static bool CheckXaml2SvgFiles()
+		private static bool CheckXaml2SvgFiles()
 		{
 			var xaml2svgDirectory = Path.Combine(XslFilesDirectory, "xaml2svg");
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using Common;
-using DeviceControls.XDevice;
+using DeviceControls;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -43,7 +44,7 @@ namespace GKModule.ViewModels
 			{
 				XManager.DeviceLibraryConfiguration.XDevices.RemoveAll(x => x == libraryXDevice);
 			}
-			if(devicesToRemove.Count > 0)
+			if (devicesToRemove.Count > 0)
 				ServiceFactory.SaveService.XLibraryChanged = true;
 			var devices = from LibraryXDevice libraryXDevice in XManager.DeviceLibraryConfiguration.XDevices.Where(x => x.Driver != null) orderby libraryXDevice.Driver.DeviceClassName select libraryXDevice;
 			Devices = new ObservableCollection<XDeviceViewModel>();
@@ -64,7 +65,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 
@@ -80,7 +81,7 @@ namespace GKModule.ViewModels
 					oldSelectedStateClass = SelectedState.State.XStateClass;
 				}
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 
 				if (value != null)
 				{
@@ -136,7 +137,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_states = value;
-				OnPropertyChanged("States");
+				OnPropertyChanged(() => States);
 			}
 		}
 
@@ -147,8 +148,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedState = value;
-				OnPropertyChanged("SelectedState");
-				OnPropertyChanged("DeviceControl");
+				OnPropertyChanged(() => SelectedState);
+				OnPropertyChanged(() => PreviewBrush);
 			}
 		}
 
@@ -182,24 +183,23 @@ namespace GKModule.ViewModels
 			return (SelectedState != null && SelectedState.State.XStateClass != XStateClass.No);
 		}
 
-		public XDeviceControl DeviceControl
+		public bool IsPreviewEnabled { get; private set; }
+		public Brush PreviewBrush
 		{
 			get
 			{
-				if (SelectedDevice == null)
-					return null;
-				if (SelectedState == null)
-					return null;
-
-				var deviceControl = new XDeviceControl()
-				{
-					DriverId = SelectedDevice.LibraryDevice.XDriverId
-				};
-				deviceControl.StateClass = SelectedState.State.XStateClass;
-
-				deviceControl.Update();
-				return deviceControl;
+				var brush = (Brush)Brushes.Transparent;
+				if (SelectedDevice != null && SelectedState != null)
+					brush = PictureCacheSource.CreateDynamicBrush(SelectedState.State.XFrames);
+				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
+				OnPropertyChanged(() => IsPreviewEnabled);
+				return brush;
 			}
+		}
+		public void InvalidatePreview()
+		{
+			OnPropertyChanged(() => SelectedState);
+			OnPropertyChanged(() => PreviewBrush);
 		}
 
 		public bool IsDebug

@@ -100,7 +100,6 @@
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Library\Converters\SKDLibraryStateClassToIconConverter.cs" />
-    <Compile Include="Library\ImageConverters.cs" />
     <Compile Include="Library\ViewModels\LibraryDeviceDetailsViewModel.cs" />
     <Compile Include="Library\ViewModels\FrameViewModel.cs" />
     <Compile Include="Library\ViewModels\LibraryViewModel.cs" />

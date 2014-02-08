@@ -171,11 +171,6 @@
 				</TabControl>
 				<StackPanel Grid.Row="1" Grid.Column="1" Margin="-150, 50, 0, 0" Visibility="{Binding IsPreviewEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Slider Name="sliderScale" Margin="5" Cursor="Hand" Maximum="0.15" Minimum="0.01" Value="1.0" />
-					<!--<ContentControl Width="500" Height="500" Content="{Binding DeviceControl, Mode=OneWay}">
-						<ContentControl.LayoutTransform>
-							<ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" />
-						</ContentControl.LayoutTransform>
-					</ContentControl>-->
 					<Rectangle Width="500" Height="500" StrokeThickness="0" Fill="{Binding PreviewBrush}">
 						<Rectangle.LayoutTransform>
 							<ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" ScaleY="{Binding ElementName=sliderScale, Path=Value, Mode=OneWay}" />

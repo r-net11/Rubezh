@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 			var skdLibraryStates = new List<SKDLibraryState>();
 			foreach (XStateClass stateClass in Enum.GetValues(typeof(XStateClass)))
 			{
-				if ((!skdLibraryDevice.States.Any(x => x.StateClass == stateClass && x.Code == null)) && (skdLibraryDevice.Driver.AvailableStateClasses.Exists(x => x == stateClass)))
+				if ((!skdLibraryDevice.States.Any(x => x.StateClass == stateClass)) && (skdLibraryDevice.Driver.AvailableStateClasses.Exists(x => x == stateClass)))
 				{
 					var skdLibraryState = new SKDLibraryState()
 					{
