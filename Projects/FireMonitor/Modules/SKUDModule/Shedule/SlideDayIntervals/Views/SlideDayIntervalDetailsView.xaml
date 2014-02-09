@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SKDModule.Views.SlideDayIntervalDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="400" Height="400">
+
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Первый день графика" Foreground="White" Margin="2" />
+                <!--<loya:Dameer Grid.Row="2" Grid.Column="1" ShowCheckBox="False"
+                                     Format="Custom"
+                                     CustomFormat="dd MMMM yyyy"
+                                     Width="Auto"
+                                     Value="{Binding StartDate}" Margin="2" />-->
+
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

@@ -23,7 +23,10 @@ namespace SKDModule.ViewModels
 			}
 
 			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
-			BuildTree();
+			if (RootDepartment != null)
+			{
+				BuildTree();
+			}
 		}
 
 		ObservableCollection<DepartmentViewModel> _departments;
