@@ -9,21 +9,23 @@ using System.Threading;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Common
 {
 	public class MjpegCamera
 	{
 		bool VideoThreadInterrupt = false;
-		public string URL { get; private set; }
-		public string Login { get; private set; }
-		public string Password { get; private set; }
-		
-		public MjpegCamera(string url, string login, string password)
+		public string URL { get { return Camera.Address; } }
+		public string Login { get { return Camera.Login; } }
+		public string Password { get { return Camera.Password; } }
+		public Camera Camera { get; private set; }
+		public MjpegCamera(Camera camera)
 		{
-			URL = url;
-			Login = login;
-			Password = password;
+			//URL = url;
+			//Login = login;
+			//Password = password;
+			Camera = camera;
 		}
 		
 		public event Action<Bitmap> FrameReady;
