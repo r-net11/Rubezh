@@ -14,18 +14,6 @@
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
             Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
 
-      <Feature Id="GK.Features" Title="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
-        <ComponentRef Id="Administrator.GK_MODULE" />
-        <ComponentRef Id="Monitor.GK_MODULE" />
-      </Feature>
-      <Feature Id="SKUD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
-        <ComponentRef Id="Administrator.SKUD_MODULE" />
-      </Feature>
-      <Feature Id="Video.Features" Title="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
-        <ComponentRef Id="Administrator.VIDEO_MODULE" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE" />
-      </Feature>
-
       <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
       <ComponentRef Id="Administrator.SOUNDS_MODULE" />
