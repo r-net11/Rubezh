@@ -10,6 +10,7 @@ namespace Infrastructure.Common.Navigation
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{
+		private TreeViewItem _selectedItem;
 		public NavigationView()
 		{
 			InitializeComponent();
@@ -55,17 +56,40 @@ namespace Infrastructure.Common.Navigation
 		{
 			e.Handled = true;
 		}
+		private void TreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			var item = GetTreeViewItemClicked(e);
+			if (item != null)
+			{
+				item.MouseLeave += TreeViewItem_MouseLeave;
+				var tree = (TreeView)sender;
+				_selectedItem = tree.ItemContainerGenerator.ContainerFromItem(tree.SelectedItem) as TreeViewItem;
+				if (_selectedItem != null)
+					_selectedItem.RequestBringIntoView += TreeViewItem_RequestBringIntoView;
+			}
+		}
 		private void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			TreeViewItem item = GetTreeViewItemClicked(e);
+			ResetSelectedItem();
 			if (item != null)
 			{
 				NavigationItem navigation = item.Header as NavigationItem;
 				if (navigation != null && navigation.IsSelectionAllowed && navigation.IsSelected && navigation.SupportMultipleSelect)
 					navigation.Execute();
 				item.IsExpanded = !item.IsExpanded;
+				item.BringIntoView();
 				e.Handled = true;
 			}
+		}
+		private void TreeViewItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+		{
+			e.Handled = true;
+		}
+		private void TreeViewItem_MouseLeave(object sender, MouseEventArgs e)
+		{
+			((TreeViewItem)sender).MouseLeave -= TreeViewItem_MouseLeave;
+			ResetSelectedItem();
 		}
 
 		private TreeViewItem GetTreeViewItemClicked(RoutedEventArgs e)
@@ -119,6 +143,14 @@ namespace Infrastructure.Common.Navigation
 						return true;
 				}
 			return false;
+		}
+		private void ResetSelectedItem()
+		{
+			if (_selectedItem != null)
+			{
+				_selectedItem.RequestBringIntoView -= TreeViewItem_RequestBringIntoView;
+				_selectedItem = null;
+			}
 		}
 	}
 }
