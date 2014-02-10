@@ -220,6 +220,7 @@
     <Compile Include="SKD\Database\Holiday.cs" />
     <Compile Include="SKD\Database\Interval.cs" />
     <Compile Include="SKD\Database\NamedInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\IntervalTransitionType.cs" />
     <Compile Include="SKD\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />

@@ -19,5 +19,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTime EndTime { get; set; }
+
+		[DataMember]
+		public IntervalTransitionType IntervalTransitionType { get; set; }
 	}
 }

@@ -115,7 +115,7 @@
                                                         <Controls:IconLabel
                                                             ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
                                                             Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
-                                                            Foreground="Black"/>
+                                                            Foreground="Black" />
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -167,7 +167,7 @@
                                                             <Controls:IconLabel
                                                                 ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
                                                                 Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
-                                                                Foreground="Black"/>
+                                                                Foreground="Black" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
