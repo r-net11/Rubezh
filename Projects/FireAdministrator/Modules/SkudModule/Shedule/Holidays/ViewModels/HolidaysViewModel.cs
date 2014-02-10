@@ -116,14 +116,14 @@ namespace SKDModule.ViewModels
 			return SelectedHoliday != null;
 		}
 
-		private void RegisterShortcuts()
+		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 		}
 
-		private void SetRibbonItems()
+		void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{

@@ -204,7 +204,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FiresecManager\FiresecManager.SKUD.cs" />
+    <Compile Include="FiresecManager\FiresecManager.SKD.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

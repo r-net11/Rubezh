@@ -38,6 +38,10 @@ namespace SKDModule.ViewModels
 				AvailableTimeIntervals.Add(namedTimeInterval);
 			}
 			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.TimeIntervalUID);
+			if (_selectedTimeInterval == null)
+			{
+				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
+			}
 		}
 
 		ObservableCollection<SKDTimeInterval> _availableTimeIntervals;

@@ -155,6 +155,10 @@ namespace SKDModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
+			if (Device.Parent != null)
+			{
+				Device.Parent.Children.Remove(Device);
+			}
 			Plans.Designer.Helper.BuildMap();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

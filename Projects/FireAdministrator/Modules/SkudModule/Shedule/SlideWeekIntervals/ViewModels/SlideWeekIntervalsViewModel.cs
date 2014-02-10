@@ -60,6 +60,10 @@ namespace SKDModule.ViewModels
 			{
 				_selectedSlideWeekInterval = value;
 				OnPropertyChanged("SelectedSlideWeekInterval");
+				if (value != null)
+				{
+					value.Initialize();
+				}
 			}
 		}
 
@@ -156,7 +160,13 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-		private void RegisterShortcuts()
+		public override void OnShow()
+		{
+			SelectedSlideWeekInterval = SelectedSlideWeekInterval;
+			base.OnShow();
+		}
+
+		void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
@@ -165,7 +175,7 @@ namespace SKDModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}
 
-		private void SetRibbonItems()
+		void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{

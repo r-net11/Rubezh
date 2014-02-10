@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.TimeIntervalPartDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              Width="400" Height="400">
 
     <TabControl>
@@ -16,10 +16,10 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Начало" Foreground="White" Margin="2" />
-                <extToolkit:TimePicker Grid.Row="0" Grid.Column="1" Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <Controls:TimePicker Grid.Row="0" Grid.Column="1" Time="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Конец" Foreground="White" Margin="2" />
-                <extToolkit:TimePicker Grid.Row="1" Grid.Column="1" Value="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <Controls:TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
             </Grid>
         </TabItem>
     </TabControl>

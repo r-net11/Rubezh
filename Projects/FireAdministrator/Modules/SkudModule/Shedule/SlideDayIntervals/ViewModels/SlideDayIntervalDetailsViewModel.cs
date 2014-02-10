@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 				Title = "Новый скользящий посуточный график";
 				slideDayInterval = new SKDSlideDayInterval()
 				{
-					Name = "скользящий посуточный график"
+					Name = "Скользящий посуточный график"
 				};
 			}
 			else

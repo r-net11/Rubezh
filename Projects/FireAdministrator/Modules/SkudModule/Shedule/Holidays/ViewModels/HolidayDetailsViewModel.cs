@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 				Title = "Новый приаздничный день";
 				holiday = new SKDHoliday()
 				{
-					Name = "Понедельный график",
+					Name = "Приаздничный день",
 				};
 			}
 			else

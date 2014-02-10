@@ -12,6 +12,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Задание интервала";
 			TimeIntervalPart = timeIntervalPart;
+
 			StartTime = timeIntervalPart.StartTime;
 			EndTime = timeIntervalPart.EndTime;
 		}

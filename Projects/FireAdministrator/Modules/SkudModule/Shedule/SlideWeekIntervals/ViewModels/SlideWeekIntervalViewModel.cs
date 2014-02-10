@@ -18,8 +18,13 @@ namespace SKDModule.ViewModels
 			SlideWeekInterval = slideWeekInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			Initialize();
+		}
+
+		public void Initialize()
+		{
 			WeeklyIntervals = new ObservableCollection<SlideWeekIntervalPartViewModel>();
-			foreach (var weeklyIntervalUID in slideWeekInterval.WeeklyIntervalUIDs)
+			foreach (var weeklyIntervalUID in SlideWeekInterval.WeeklyIntervalUIDs)
 			{
 				var weeklyInterval = SKDManager.SKDConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == weeklyIntervalUID);
 				if (weeklyInterval != null)
@@ -30,7 +35,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<SlideWeekIntervalPartViewModel> WeeklyIntervals { get; private set; }
+		ObservableCollection<SlideWeekIntervalPartViewModel> _weeklyIntervals;
+		public ObservableCollection<SlideWeekIntervalPartViewModel> WeeklyIntervals
+		{
+			get { return _weeklyIntervals; }
+			set
+			{
+				_weeklyIntervals = value;
+				OnPropertyChanged("WeeklyIntervals");
+			}
+		}
 
 		SlideWeekIntervalPartViewModel _selectedWeeklyInterval;
 		public SlideWeekIntervalPartViewModel SelectedWeeklyInterval

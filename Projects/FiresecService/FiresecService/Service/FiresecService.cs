@@ -12,6 +12,7 @@ using FiresecService.ViewModels;
 using FiresecService.Processor;
 using Xceed.Wpf.Toolkit;
 using GKProcessor;
+using SKDDriver;
 
 namespace FiresecService.Service
 {
@@ -123,6 +124,7 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
+			VideoWatcher.Flash();
 			return "Test";
 		}
 

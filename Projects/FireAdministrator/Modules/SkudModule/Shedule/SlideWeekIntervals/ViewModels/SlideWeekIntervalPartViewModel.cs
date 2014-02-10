@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace SKDModule.ViewModels
 {
@@ -33,6 +34,7 @@ namespace SKDModule.ViewModels
 				_selectedWeeklyInterval = value;
 				OnPropertyChanged("SelectedWeeklyInterval");
 				SlideWeekIntervalViewModel.Update();
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 	}

@@ -12,15 +12,29 @@ namespace SKDModule.ViewModels
 		public WeeklyIntervalViewModel(SKDWeeklyInterval weeklyInterval)
 		{
 			WeeklyInterval = weeklyInterval;
+			Initialize();
+		}
+
+		public void Initialize()
+		{
 			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
-			foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+			foreach (var weeklyIntervalPart in WeeklyInterval.WeeklyIntervalParts)
 			{
 				var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
 				TimeIntervals.Add(weeklyIntervalPartViewModel);
 			}
 		}
 
-		public ObservableCollection<WeeklyIntervalPartViewModel> TimeIntervals { get; private set; }
+		ObservableCollection<WeeklyIntervalPartViewModel> _timeIntervals;
+		public ObservableCollection<WeeklyIntervalPartViewModel> TimeIntervals
+		{
+			get { return _timeIntervals; }
+			set
+			{
+				_timeIntervals = value;
+				OnPropertyChanged("TimeIntervals");
+			}
+		}
 
 		WeeklyIntervalPartViewModel _selectedTimeInterval;
 		public WeeklyIntervalPartViewModel SelectedTimeInterval

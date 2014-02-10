@@ -191,18 +191,18 @@
     <Compile Include="Shedule\SlideWeekIntervals\Views\SlideWeekIntervalsView.xaml.cs">
       <DependentUpon>SlideWeekIntervalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
-    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
-    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalsMenuViewModel.cs" />
-    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
-    <Compile Include="Shedule\WheeklyIntervals\ViewModels\WeeklyIntervalViewModel.cs" />
-    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyDetailsView.xaml.cs">
+    <Compile Include="Shedule\WeeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
+    <Compile Include="Shedule\WeeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
+    <Compile Include="Shedule\WeeklyIntervals\ViewModels\WeeklyIntervalsMenuViewModel.cs" />
+    <Compile Include="Shedule\WeeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
+    <Compile Include="Shedule\WeeklyIntervals\ViewModels\WeeklyIntervalViewModel.cs" />
+    <Compile Include="Shedule\WeeklyIntervals\Views\WeeklyDetailsView.xaml.cs">
       <DependentUpon>WeeklyDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsMenuView.xaml.cs">
+    <Compile Include="Shedule\WeeklyIntervals\Views\WeeklyIntervalsMenuView.xaml.cs">
       <DependentUpon>WeeklyIntervalsMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsView.xaml.cs">
+    <Compile Include="Shedule\WeeklyIntervals\Views\WeeklyIntervalsView.xaml.cs">
       <DependentUpon>WeeklyIntervalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shedule\SlideDayIntervals\ViewModels\SlideDayIntervalDetailsViewModel.cs" />
@@ -256,6 +256,14 @@
     <Compile Include="Validation\Validator.WeeklyIntervals.cs" />
     <Compile Include="Validation\SlideDayIntervalValidationError.cs" />
     <Compile Include="Validation\Validator.SlideDayIntervals.cs" />
+    <Compile Include="Validation\SlideWeeklyIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.SlideWeeklyIntervals.cs" />
+    <Compile Include="Validation\HolidayIntervalValidationError.cs" />
+    <Compile Include="Validation\Validator.Holidays.cs" />
+    <Compile Include="Validation\ZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.Zones.cs" />
+    <Compile Include="Validation\DeviceValidationError.cs" />
+    <Compile Include="Validation\Validator.Devices.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
@@ -428,15 +436,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyDetailsView.xaml">
+    <Page Include="Shedule\WeeklyIntervals\Views\WeeklyDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsMenuView.xaml">
+    <Page Include="Shedule\WeeklyIntervals\Views\WeeklyIntervalsMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Shedule\WheeklyIntervals\Views\WeeklyIntervalsView.xaml">
+    <Page Include="Shedule\WeeklyIntervals\Views\WeeklyIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
