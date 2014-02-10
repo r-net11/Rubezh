@@ -3,7 +3,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Models;
-using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -22,7 +21,7 @@ namespace SKDModule.Plans.Designer
 		private SKDZone Zone;
 		private ZoneViewModel ZoneViewModel;
 		private ContextMenu _contextMenu;
-		private ZoneTooltipViewModel _tooltip;
+		private SKDZoneTooltipViewModel _tooltip;
 
 		public SKDZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -57,7 +56,7 @@ namespace SKDModule.Plans.Designer
 			{
 				if (_tooltip == null)
 				{
-					_tooltip = new ZoneTooltipViewModel(Zone);
+					_tooltip = new SKDZoneTooltipViewModel(Zone);
 				}
 			}
 		}

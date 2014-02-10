@@ -19,7 +19,7 @@ namespace SKDModule.Plans.Designer
 		private PresenterItem _presenterItem;
 		private SKDDevice Device;
 		private ContextMenu _contextMenu;
-		private DeviceTooltipViewModel _tooltip;
+		private SKDDeviceTooltipViewModel _tooltip;
 
 		public SKDDevicePainter(PresenterItem presenterItem)
 			: base(presenterItem.Element)
@@ -57,7 +57,7 @@ namespace SKDModule.Plans.Designer
 
 			if (_tooltip == null)
 			{
-				_tooltip = new DeviceTooltipViewModel(Device);
+				_tooltip = new SKDDeviceTooltipViewModel(Device);
 			}
 			_tooltip.OnStateChanged();
 		}

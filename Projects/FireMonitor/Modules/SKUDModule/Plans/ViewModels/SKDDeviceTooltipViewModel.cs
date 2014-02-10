@@ -4,12 +4,12 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DeviceTooltipViewModel : BaseViewModel
+	public class SKDDeviceTooltipViewModel : BaseViewModel
 	{
 		public SKDDeviceState State { get; private set; }
 		public SKDDevice Device { get; private set; }
 
-		public DeviceTooltipViewModel(SKDDevice device)
+		public SKDDeviceTooltipViewModel(SKDDevice device)
 		{
 			Device = device;
 			State = device.State;

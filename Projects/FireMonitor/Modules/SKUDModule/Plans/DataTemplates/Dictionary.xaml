@@ -3,8 +3,12 @@
                     xmlns:Views="clr-namespace:SKDModule.Views"
                     xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
-        <Views:JournalView />
-    </DataTemplate>
-    
+	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceTooltipViewModel}">
+		<Views:SKDDeviceTooltipView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDZoneTooltipViewModel}">
+		<Views:SKDZoneTooltipView />
+	</DataTemplate>
+
 </ResourceDictionary>

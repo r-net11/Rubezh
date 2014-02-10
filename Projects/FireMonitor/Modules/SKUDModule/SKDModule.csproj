@@ -140,8 +140,14 @@
     <Compile Include="Plans\Designer\SKDZonePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\SKDDeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
+    <Compile Include="Plans\Views\SKDDeviceTooltipView.xaml.cs">
+      <DependentUpon>SKDDeviceTooltipView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
+      <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
@@ -347,6 +353,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Plans\Views\SKDDeviceTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\SKDZoneTooltipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Positions\Views\PositionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -485,7 +499,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Journal\DataTemplates\Dictionary.xaml">
+    <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
