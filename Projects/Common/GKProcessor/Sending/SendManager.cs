@@ -6,9 +6,11 @@ using System.Net.Sockets;
 using System.Threading;
 using FiresecClient;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKProcessor
 {
+	[DebuggerStepThrough]
 	public static class SendManager
 	{
 		static object locker = new object();

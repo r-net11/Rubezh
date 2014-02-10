@@ -1,0 +1,27 @@
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace FiresecAPI
+{
+	[DataContract]
+	public class EmployeeHoliday
+	{
+		public EmployeeHoliday()
+		{
+			UID = Guid.NewGuid();
+			TypeNo = 1;
+		}
+
+		[DataMember]
+		public Guid UID { get; set; }
+
+		[DataMember]
+		public string Name { get; set; }
+
+		[DataMember]
+		public DateTime DateTime { get; set; }
+
+		[DataMember]
+		public int TypeNo { get; set; }
+	}
+}

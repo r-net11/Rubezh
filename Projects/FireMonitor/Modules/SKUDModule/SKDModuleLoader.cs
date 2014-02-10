@@ -30,6 +30,11 @@ namespace SKDModule
 		PositionsViewModel PositionsViewModel;
 		DocumentsViewModel DocumentsViewModel;
 		AdditionalColumnsViewModel AdditionalColumnsViewModel;
+		TimeIntervalsViewModel TimeIntervalsViewModel;
+		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
+		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
+		SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
+		HolidaysViewModel HolidaysViewModel;
 		private PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -50,6 +55,11 @@ namespace SKDModule
 			PositionsViewModel = new PositionsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			AdditionalColumnsViewModel = new AdditionalColumnsViewModel();
+			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
+			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
+			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
+			HolidaysViewModel = new HolidaysViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -70,6 +80,14 @@ namespace SKDModule
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
+					new NavigationItem("Интервалы", null, new List<NavigationItem>()
+					{
+						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					}),
 					})
 				};
 		}
@@ -101,6 +119,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Shedule/DataTemplates/Dictionary.xaml"));
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
