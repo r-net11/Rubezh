@@ -46,14 +46,18 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeIntervalPart = new EmployeeTimeIntervalPart();
-			TimeInterval.TimeIntervalParts.Add(timeIntervalPart);
-			var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
-			TimeIntervalParts.Add(timeIntervalPartViewModel);
+			var timeIntervalPartDetailsViewModel = new TimeIntervalPartDetailsViewModel(TimeInterval);
+			if (DialogService.ShowModalWindow(timeIntervalPartDetailsViewModel))
+			{
+				var timeIntervalPart = timeIntervalPartDetailsViewModel.TimeIntervalPart;
+				TimeInterval.TimeIntervalParts.Add(timeIntervalPart);
+				var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
+				TimeIntervalParts.Add(timeIntervalPartViewModel);
+			}
 		}
 		bool CanAdd()
 		{
-			return TimeIntervalParts.Count < 4;
+			return TimeIntervalParts.Count < 100;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -64,13 +68,13 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault;
+			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault && TimeIntervalParts.Count > 1;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var timeIntervalPartDetailsViewModel = new TimeIntervalPartDetailsViewModel(SelectedTimeIntervalPart.TimeIntervalPart);
+			var timeIntervalPartDetailsViewModel = new TimeIntervalPartDetailsViewModel(TimeInterval, SelectedTimeIntervalPart.TimeIntervalPart);
 			if (DialogService.ShowModalWindow(timeIntervalPartDetailsViewModel))
 			{
 				SelectedTimeIntervalPart.TimeIntervalPart = SelectedTimeIntervalPart.TimeIntervalPart;
@@ -80,6 +84,11 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault;
+		}
+
+		public bool IsEnabled
+		{
+			get { return !TimeInterval.IsDefault; }
 		}
 	}
 }

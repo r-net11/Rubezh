@@ -1,15 +1,19 @@
 ﻿using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
+		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
+		bool IsNew;
 		public EmployeeWeeklyInterval WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalDetailsViewModel(EmployeeWeeklyInterval weeklyInterval = null)
+		public WeeklyIntervalDetailsViewModel(WeeklyIntervalsViewModel weeklyIntervalsViewModel, EmployeeWeeklyInterval weeklyInterval = null)
 		{
+			WeeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			if (weeklyInterval == null)
 			{
 				Title = "Новый понедельный график";
@@ -64,6 +68,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (WeeklyIntervalsViewModel.WeeklyIntervals.Any(x => x.WeeklyInterval.Name == Name && x.WeeklyInterval.UID != WeeklyInterval.UID))
+			{
+				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
+				return false;
+			}
+
 			WeeklyInterval.Name = Name;
 			WeeklyInterval.Description = Description;
 			return true;

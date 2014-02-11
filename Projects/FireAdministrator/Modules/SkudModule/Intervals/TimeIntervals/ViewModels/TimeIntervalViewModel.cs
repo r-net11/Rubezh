@@ -84,5 +84,10 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedTimeIntervalPart != null && !TimeInterval.IsDefault;
 		}
+
+		public bool IsEnabled
+		{
+			get { return !TimeInterval.IsDefault; }
+		}
 	}
 }

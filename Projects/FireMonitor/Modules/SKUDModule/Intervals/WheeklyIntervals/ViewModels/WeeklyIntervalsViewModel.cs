@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 	{
 		public WeeklyIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
@@ -27,8 +27,22 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
 			var employeeWeeklyIntervals = new List<EmployeeWeeklyInterval>();
+			var neverTimeInterval = employeeWeeklyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			if (neverTimeInterval == null)
+			{
+				neverTimeInterval = new EmployeeWeeklyInterval() { Name = "Никогда", IsDefault = true };
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 1, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 2, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 3, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 4, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 5, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 6, TimeIntervalUID = Guid.Empty });
+				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 7, TimeIntervalUID = Guid.Empty });
+				employeeWeeklyIntervals.Add(neverTimeInterval);
+			}
+
+			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
 			foreach (var weeklyInterval in employeeWeeklyIntervals)
 			{
 				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyInterval);
@@ -76,17 +90,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel();
+			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
 			{
 				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyIntervalDetailsViewModel.WeeklyInterval);
 				WeeklyIntervals.Add(timeInrervalViewModel);
 				SelectedWeeklyInterval = timeInrervalViewModel;
 			}
-		}
-		bool CanAdd()
-		{
-			return WeeklyIntervals.Count < 256;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -96,13 +106,13 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault && WeeklyIntervals.Count > 2;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel(SelectedWeeklyInterval.WeeklyInterval);
+			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel(this, SelectedWeeklyInterval.WeeklyInterval);
 			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
 			{
 				SelectedWeeklyInterval.Update();
@@ -133,7 +143,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return IntervalToCopy != null && WeeklyIntervals.Count < 256;
+			return IntervalToCopy != null;
 		}
 
 		EmployeeWeeklyInterval CopyInterval(EmployeeWeeklyInterval source)
@@ -145,7 +155,6 @@ namespace SKDModule.ViewModels
 				var copyWeeklyIntervalPart = new EmployeeWeeklyIntervalPart()
 				{
 					No = weeklyIntervalPart.No,
-					IsHolliday = weeklyIntervalPart.IsHolliday,
 					TimeIntervalUID = weeklyIntervalPart.TimeIntervalUID,
 				};
 				copy.WeeklyIntervalParts.Add(copyWeeklyIntervalPart);

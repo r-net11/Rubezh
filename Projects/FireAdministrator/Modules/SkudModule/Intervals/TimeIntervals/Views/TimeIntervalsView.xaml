@@ -31,7 +31,7 @@
             </DataGrid.Columns>
         </Controls:XDataGrid>
 
-        <Grid Grid.Column="1" DataContext="{Binding SelectedTimeInterval}">
+        <Grid Grid.Column="1" DataContext="{Binding SelectedTimeInterval}" IsEnabled="{Binding IsEnabled}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

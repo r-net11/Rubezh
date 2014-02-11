@@ -13,8 +13,6 @@ namespace SKDModule.ViewModels
 		public TimeIntervalPartViewModel(EmployeeTimeIntervalPart timeIntervalPart)
 		{
 			TimeIntervalPart = timeIntervalPart;
-			AvailableTransitions = new ObservableCollection<IntervalTransitionType>(Enum.GetValues(typeof(IntervalTransitionType)).OfType<IntervalTransitionType>());
-			SelectedTransition = timeIntervalPart.IntervalTransitionType;
 		}
 
 		public DateTime StartTime
@@ -27,34 +25,17 @@ namespace SKDModule.ViewModels
 			get { return TimeIntervalPart.EndTime; }
 		}
 
-		ObservableCollection<IntervalTransitionType> _availableTransitions;
-		public ObservableCollection<IntervalTransitionType> AvailableTransitions
+		public IntervalTransitionType IntervalTransitionType
 		{
-			get { return _availableTransitions; }
-			set
-			{
-				_availableTransitions = value;
-				OnPropertyChanged("AvailableTransitions");
-			}
+			get { return TimeIntervalPart.IntervalTransitionType; }
 		}
-
-		IntervalTransitionType _selectedTransition;
-		public IntervalTransitionType SelectedTransition
-		{
-			get { return _selectedTransition; }
-			set
-			{
-				_selectedTransition = value;
-				OnPropertyChanged("SelectedTransition");
-			}
-		}
-
 
 		public void Update()
 		{
 			OnPropertyChanged("TimeInterval");
 			OnPropertyChanged("StartTime");
 			OnPropertyChanged("EndTime");
+			OnPropertyChanged("IntervalTransitionType");
 		}
 	}
 }
