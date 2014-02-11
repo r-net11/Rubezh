@@ -403,27 +403,27 @@ namespace FiresecClient
 			}
 		}
 
-		public List<string> GetDistinctGKJournalNames()
+		public List<string> GetGkEventNames()
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalNames(), "GetDistinctGKJournalNames");
+				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalNames(), "GetGkEventNames");
 			}
 			else
 			{
-				return GKDBHelper.GetDistinctGKJournalNames();
+				return GKDBHelper.EventNames;
 			}
 		}
 
-		public List<string> GetDistinctGKJournalDescriptions()
+		public List<string> GetGkEventDescriptions()
 		{
 			if (IsGKAsAService)
 			{
-				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalDescriptions(), "GetDistinctGKJournalDescriptions");
+				return SafeOperationCall(() => FiresecService.GetDistinctGKJournalDescriptions(), "GetGkEventDescriptions");
 			}
 			else
 			{
-				return GKDBHelper.GetDistinctGKJournalDescriptions();
+				return GKDBHelper.EventDescriptions;
 			}
 		}
 		#endregion

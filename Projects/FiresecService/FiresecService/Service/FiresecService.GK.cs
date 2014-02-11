@@ -390,12 +390,12 @@ namespace FiresecService.Service
 
 		public List<string> GetDistinctGKJournalNames()
 		{
-			return GKDBHelper.GetDistinctGKJournalNames();
+			return GKDBHelper.EventNames;
 		}
 
 		public List<string> GetDistinctGKJournalDescriptions()
 		{
-			return GKDBHelper.GetDistinctGKJournalDescriptions();
+			return GKDBHelper.EventDescriptions;
 		}
 	}
 }

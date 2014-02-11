@@ -360,8 +360,8 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public CheckBoxItemList<ArchivePumpStationViewModel> PumpStations { get; private set; }
 		public CheckBoxItemList<ArchivePimViewModel> PIMs { get; private set; }
-		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetDistinctGKJournalNames();
-		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetDistinctGKJournalDescriptions();
+		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
+		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
 
 		public XArchiveFilter GetModel()
 		{

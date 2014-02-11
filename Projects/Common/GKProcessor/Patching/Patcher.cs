@@ -59,6 +59,15 @@ namespace GKProcessor
 
                 GKDBHelper.ExecuteNonQuery(@"UPDATE STATISTICS ON Journal WITH FULLSCAN");
             }));
+			AllPatches.Add(new Patch("DB.EventDescriptionsTable", () =>
+			{
+				GKDBHelper.DropTableIfExists("EventNames");
+				GKDBHelper.ExecuteNonQuery("CREATE TABLE EventNames (EventName nvarchar(500))");
+				GKDBHelper.ExecuteNonQuery("INSERT INTO EventNames (EventName) SELECT DISTINCT (Name) FROM Journal");
+				GKDBHelper.DropTableIfExists("EventDescriptions");
+				GKDBHelper.ExecuteNonQuery("CREATE TABLE EventDescriptions (EventDescription nvarchar(500))");
+				GKDBHelper.ExecuteNonQuery("INSERT INTO EventDescriptions (EventDescription) SELECT DISTINCT (Description) FROM Journal");
+			}));
 		}
 
 		public static void AddPatch(string index, PatchDelegate patchDelegate)
@@ -68,7 +77,7 @@ namespace GKProcessor
 
 		public static void Patch()
 		{
-            try
+			try
             {
                 var indexes = GKDBHelper.ReadAllPatches();
                 foreach (var patch in AllPatches)

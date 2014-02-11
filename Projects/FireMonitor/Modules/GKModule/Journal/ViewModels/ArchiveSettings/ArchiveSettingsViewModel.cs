@@ -125,7 +125,6 @@ namespace GKModule.ViewModels
 					ArchiveDefaultState.EndDate = EndDate;
 					break;
 
-				case ArchiveDefaultStateType.All:
 				default:
 					break;
 			}

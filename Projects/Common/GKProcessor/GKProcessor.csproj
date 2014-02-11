@@ -141,8 +141,10 @@
     <Compile Include="Journal\EventDescription.cs" />
     <Compile Include="Journal\EventNameEnum.cs" />
     <Compile Include="Journal\EventNameEnumHelper.cs" />
-    <Compile Include="Journal\GKDBHelper.cs" />
-    <Compile Include="Journal\GKDBHelper.Patches.cs" />
+    <Compile Include="Journal\GKDBHelper\GKDBHelper.Common.cs" />
+    <Compile Include="Journal\GKDBHelper\GKDBHelper.cs" />
+    <Compile Include="Journal\GKDBHelper\GKDBHelper.Patches.cs" />
+    <Compile Include="Journal\GKDBHelper\GKDBHelperNamesDescriptions.cs" />
     <Compile Include="Journal\JournalParser.cs" />
     <Compile Include="Journal\EventNameHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
