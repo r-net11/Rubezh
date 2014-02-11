@@ -4,6 +4,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecClient;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -16,6 +18,12 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 
 			Positions = new ObservableCollection<PositionViewModel>();
+			var positions = FiresecManager.GetPositions(null);
+			foreach (var position in positions)
+			{
+				var positionViewModel = new PositionViewModel(position);
+				Positions.Add(positionViewModel);
+			}
 			SelectedPosition = Positions.FirstOrDefault();
 		}
 
@@ -57,7 +65,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var index = Positions.IndexOf(SelectedPosition);
 			Positions.Remove(SelectedPosition);
+			index = Math.Min(index, Positions.Count - 1);
+			if (index > -1)
+				SelectedPosition = Positions[index];
 		}
 		bool CanRemove()
 		{

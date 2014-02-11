@@ -21,7 +21,7 @@ namespace SKDDriver
 			bool isInPositions = IsInUidList(item.PositionUid, filter.PositionUids);
 			bool isInAppointed = IsInDateTimePeriod(item.Appointed, filter.Appointed);
 			bool isInDismissed = IsInDateTimePeriod(item.Dismissed, filter.Dismissed);
-			
+
 			return isInUids && isInDepartments && isInPositions && isInAppointed && isInDepartments;
 		}
 
@@ -36,7 +36,7 @@ namespace SKDDriver
 			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInSystemDate = IsInDateTimePeriod(item.SysemDate, filter.SystemDateTime);
 			bool isInDeviceDate = IsInDateTimePeriod(item.DeviceDate, filter.DeviceDateTime);
-			
+
 			return isInUids && isInSystemDate && isInDeviceDate;
 		}
 

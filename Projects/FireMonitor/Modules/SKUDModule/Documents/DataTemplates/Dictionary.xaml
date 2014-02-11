@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Views="clr-namespace:SKDModule.Views"
+                    xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
+
+    <DataTemplate DataType="{x:Type ViewModels:DocumentsViewModel}">
+        <Views:DocumentsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
+        <Views:DocumentDetailsView />
+    </DataTemplate>
+
+</ResourceDictionary>

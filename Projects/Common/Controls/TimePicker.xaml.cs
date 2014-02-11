@@ -29,6 +29,7 @@ namespace Controls
 		public TimePicker()
 		{
 			InitializeComponent();
+			InitializeTime();
 		}
 
 		public DateTime Time

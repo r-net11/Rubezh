@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Ribbon;
 
@@ -60,29 +61,21 @@ namespace Infrastructure.Common.Windows.ViewModels
 				if (TextVisibility != value)
 					RegistrySettingsHelper.SetBool(Name + ".Shell.TextVisibility", !value);
 				textVisibility = value;
-				OnPropertyChanged("TextVisibility");
+				OnPropertyChanged(() => TextVisibility);
 			}
 		}
 
 		public string Name { get; private set; }
 
-		private List<NavigationItem> _navigationItems;
-		public List<NavigationItem> NavigationItems
+		private ReadOnlyCollection<NavigationItem> _navigationItems;
+		public ReadOnlyCollection<NavigationItem> NavigationItems
 		{
 			get { return _navigationItems; }
 			set
 			{
 				_navigationItems = value;
-				foreach (var navigationItem in _navigationItems)
-				{
-					navigationItem.Context = this;
-					if (navigationItem.Childs != null)
-						foreach (var navigationItemChild in navigationItem.Childs)
-						{
-							navigationItemChild.Context = this;
-						}
-				}
-				OnPropertyChanged("NavigationItems1");
+				UpdateNavigationItemContext(value);
+				OnPropertyChanged(() => NavigationItems);
 			}
 		}
 
@@ -93,7 +86,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_minWidth = value;
-				OnPropertyChanged("MinWidth");
+				OnPropertyChanged(() => MinWidth);
 			}
 		}
 		private double _minHeight;
@@ -103,7 +96,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_minHeight = value;
-				OnPropertyChanged("MinHeight");
+				OnPropertyChanged(() => MinHeight);
 			}
 		}
 		private double _height;
@@ -113,7 +106,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_height = value;
-				OnPropertyChanged("Height");
+				OnPropertyChanged(() => Height);
 			}
 		}
 		private double _width;
@@ -123,7 +116,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_width = value;
-				OnPropertyChanged("Width");
+				OnPropertyChanged(() => Width);
 			}
 		}
 
@@ -134,7 +127,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_contentItems = value;
-				OnPropertyChanged("ContentItems");
+				OnPropertyChanged(() => ContentItems);
 			}
 		}
 
@@ -156,7 +149,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_toolbar = value;
-				OnPropertyChanged("Toolbar");
+				OnPropertyChanged(() => Toolbar);
 			}
 		}
 
@@ -167,7 +160,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_rightContent = value;
-				OnPropertyChanged("RightContent");
+				OnPropertyChanged(() => RightContent);
 				RightPanelVisible = RightContent != null;
 				if (RightContent != null)
 					RightContent.Shell = this;
@@ -291,6 +284,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			UpdateWidth();
 			RegistrySettingsHelper.SetDouble(Name + ".Shell.SplitterDistance", _splitterDistance);
 			base.OnClosed();
+		}
+
+		private void UpdateNavigationItemContext(IEnumerable<NavigationItem> items)
+		{
+			if (items != null)
+				items.ForEach(item =>
+				{
+					item.Context = this;
+					UpdateNavigationItemContext(item.Childs);
+				});
 		}
 	}
 }

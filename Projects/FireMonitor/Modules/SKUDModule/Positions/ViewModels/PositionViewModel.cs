@@ -19,6 +19,7 @@ namespace SKDModule.ViewModels
 		public void Update(Position position)
 		{
 			Position = position;
+			OnPropertyChanged("Position");
 		}
 	}
 }

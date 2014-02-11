@@ -102,11 +102,11 @@ namespace XFiresecAPI
 
 		public bool ValidateIntervals()
 		{
-			TimeIntervals = new List<SKDTimeInterval>();
-			WeeklyIntervals = new List<SKDWeeklyInterval>();
-			SlideDayIntervals = new List<SKDSlideDayInterval>();
-			SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
-			Holidays = new List<SKDHoliday>();
+			//TimeIntervals = new List<SKDTimeInterval>();
+			//WeeklyIntervals = new List<SKDWeeklyInterval>();
+			//SlideDayIntervals = new List<SKDSlideDayInterval>();
+			//SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
+			//Holidays = new List<SKDHoliday>();
 
 			var result = true;
 			if (TimeIntervals == null)
@@ -151,15 +151,6 @@ namespace XFiresecAPI
 				}
 			}
 
-			var alwaysTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Всегда" && x.IsDefault);
-			if (alwaysTimeInterval == null)
-			{
-				alwaysTimeInterval = new SKDTimeInterval() { Name = "Всегда", IsDefault = true };
-				alwaysTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue.AddHours(23).AddMinutes(59) });
-				TimeIntervals.Add(alwaysTimeInterval);
-				result = false;
-			}
-
 			var neverTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverTimeInterval == null)
 			{
@@ -169,15 +160,12 @@ namespace XFiresecAPI
 				result = false;
 			}
 
-			var alwaysWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ разрешен" && x.IsDefault);
-			if (alwaysWeeklyInterval == null)
+			var alwaysTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Всегда" && x.IsDefault);
+			if (alwaysTimeInterval == null)
 			{
-				alwaysWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ разрешен", IsDefault = true };
-				foreach (var weeklyIntervalPart in alwaysWeeklyInterval.WeeklyIntervalParts)
-				{
-					weeklyIntervalPart.TimeIntervalUID = alwaysTimeInterval.UID;
-				}
-				WeeklyIntervals.Add(alwaysWeeklyInterval);
+				alwaysTimeInterval = new SKDTimeInterval() { Name = "Всегда", IsDefault = true };
+				alwaysTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue.AddHours(23).AddMinutes(59) });
+				TimeIntervals.Add(alwaysTimeInterval);
 				result = false;
 			}
 
@@ -190,6 +178,18 @@ namespace XFiresecAPI
 					weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
 				}
 				WeeklyIntervals.Add(neverWeeklyInterval);
+				result = false;
+			}
+
+			var alwaysWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ разрешен" && x.IsDefault);
+			if (alwaysWeeklyInterval == null)
+			{
+				alwaysWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ разрешен", IsDefault = true };
+				foreach (var weeklyIntervalPart in alwaysWeeklyInterval.WeeklyIntervalParts)
+				{
+					weeklyIntervalPart.TimeIntervalUID = alwaysTimeInterval.UID;
+				}
+				WeeklyIntervals.Add(alwaysWeeklyInterval);
 				result = false;
 			}
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 using Common;
-using DeviceControls.SKDDevice;
+using DeviceControls;
 using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Common;
@@ -31,15 +32,15 @@ namespace SKDModule.ViewModels
 				}
 				else
 				{
-						devicesToRemove.Add(libraryDevice);
-						Logger.Error("SKDLibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
+					devicesToRemove.Add(libraryDevice);
+					Logger.Error("SKDLibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
 				}
 			}
 			foreach (var libraryXDevice in devicesToRemove)
 			{
 				SKDManager.SKDLibraryConfiguration.Devices.RemoveAll(x => x == libraryXDevice);
 			}
-			if(devicesToRemove.Count > 0)
+			if (devicesToRemove.Count > 0)
 				ServiceFactory.SaveService.SKDLibraryChanged = true;
 			var devices = from SKDLibraryDevice libraryDevice in SKDManager.SKDLibraryConfiguration.Devices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
 			Devices = new ObservableCollection<LibraryDeviceViewModel>();
@@ -60,7 +61,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 
@@ -76,7 +77,7 @@ namespace SKDModule.ViewModels
 					oldSelectedStateClass = SelectedState.State.StateClass;
 				}
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 
 				if (value != null)
 				{
@@ -132,7 +133,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_states = value;
-				OnPropertyChanged("States");
+				OnPropertyChanged(() => States);
 			}
 		}
 
@@ -143,8 +144,8 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedState = value;
-				OnPropertyChanged("SelectedState");
-				OnPropertyChanged("DeviceControl");
+				OnPropertyChanged(() => SelectedState);
+				OnPropertyChanged(() => PreviewBrush);
 			}
 		}
 
@@ -178,24 +179,23 @@ namespace SKDModule.ViewModels
 			return (SelectedState != null && SelectedState.State.StateClass != XStateClass.No);
 		}
 
-		public SKDDeviceControl DeviceControl
+		public bool IsPreviewEnabled { get; private set; }
+		public Brush PreviewBrush
 		{
 			get
 			{
-				if (SelectedDevice == null)
-					return null;
-				if (SelectedState == null)
-					return null;
-
-				var deviceControl = new SKDDeviceControl()
-				{
-					DriverId = SelectedDevice.LibraryDevice.DriverId
-				};
-				deviceControl.StateClass = SelectedState.State.StateClass;
-
-				deviceControl.Update();
-				return deviceControl;
+				var brush = (Brush)Brushes.Transparent;
+				if (SelectedDevice != null && SelectedState != null)
+					brush = PictureCacheSource.CreateDynamicBrush(SelectedState.State.Frames);
+				IsPreviewEnabled = brush != null && brush != Brushes.Transparent;
+				OnPropertyChanged(() => IsPreviewEnabled);
+				return brush;
 			}
+		}
+		public void InvalidatePreview()
+		{
+			OnPropertyChanged(() => SelectedState);
+			OnPropertyChanged(() => PreviewBrush);
 		}
 
 		public bool IsDebug

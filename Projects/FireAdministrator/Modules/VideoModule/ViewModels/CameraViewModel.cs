@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
@@ -14,32 +13,30 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Video;
 using Infrastructure.Common.Windows.ViewModels;
-using mjpeg;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraViewModel : BaseViewModel
 	{
-		public Camera Camera { get; set; }
-		private const int IMAGES_BUFFER_SIZE = 10;
-		private int ImagesBufferIndex = 0;
 		private MjpegCamera MjpegCamera { get; set; }
+		public Camera Camera { get; set; }
 		public List<StringBuilder> ErrorLog { get; private set; }
 		public bool HasError { get; private set; }
+		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
 		public CameraViewModel(Camera camera)
 		{
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
-			MjpegCamera = new MjpegCamera(camera.Address, camera.Login, camera.Password);
-			ImagesBuffer = new List<Bitmap>(IMAGES_BUFFER_SIZE);
-			InitializeImagesBuffer();
+			MjpegCamera = new MjpegCamera(camera);
 		}
-		public bool IsNowPlayed { get; private set; }
+		public bool IsNowPlaying { get; private set; }
 		void GetError(string error)
 		{
 			ErrorLog.Add(new StringBuilder(error));
+			ImageSource = null;
 		}
 		void BmpToImageSource(Bitmap bmp)
 		{
@@ -59,12 +56,7 @@ namespace VideoModule.ViewModels
 				}));
 			}
 		}
-		List<Bitmap> ImagesBuffer { get; set; }
-		void InitializeImagesBuffer()
-		{
-			for (int i = 0; i < IMAGES_BUFFER_SIZE; i++)
-				ImagesBuffer.Add(new Bitmap(100, 100));
-		}
+
 		public string PresentationZones
 		{
 			get
@@ -90,24 +82,25 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			IsNowPlayed = true;
+			IsNowPlaying = true;
+			//return; //TODO: TEST (Camera isn't working now)
 			MjpegCamera.FrameReady += BmpToImageSource;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 		}
-		public void PauseVideo()
-		{
-
-		}
 		public void StopVideo()
 		{
-			MjpegCamera.StopVideo();
-			VideoThread.Join(5000);
+			//TODO: TEST (Camera isn't working now)
+			//{
+			//    IsNowPlaying = false;
+			//    return;
+			//}
 			MjpegCamera.FrameReady -= BmpToImageSource;
 			MjpegCamera.ErrorHandler -= GetError;
+			MjpegCamera.StopVideo();
 			ImageSource = new BitmapImage();
-			IsNowPlayed = false;
+			IsNowPlaying = false;
 		}
 
 		private ImageSource _imageSource;

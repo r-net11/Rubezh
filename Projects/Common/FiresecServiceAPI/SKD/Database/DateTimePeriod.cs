@@ -8,9 +8,8 @@ namespace FiresecAPI
 	{
 		[DataMember]
 		public DateTime StartDate { get; set; }
+
 		[DataMember]
 		public DateTime EndDate { get; set; }
 	}
 }
-
-

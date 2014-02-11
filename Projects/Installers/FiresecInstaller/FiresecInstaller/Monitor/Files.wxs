@@ -5,25 +5,28 @@
 	<Fragment>
 		<DirectoryRef Id="MONITORLOCATION">
 			<Component Id="Monitor.Files" Guid="6FE1B80B-3E17-4D02-83F2-20E081B6F49B">
-				<File Id="Monitor.FireMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
+        <File Id="Monitor.FireMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
         <File Id="Monitor.FireMonitor.exe.config" Name="FireMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.FireMonitor.exe.manifest" Name="FireMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
+
         <File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Monitor.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Monitor.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
-				<File Id="Monitor.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Common.TargetDir)" />
+
+        <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Monitor.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
@@ -33,8 +36,9 @@
         <File Id="Monitor.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Monitor.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.itextsharp.xtra.dll" Name="itextsharp.xtra.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.itextsharp.pdfa.dll" Name="itextsharp.pdfa.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.itextsharp.dll" Name="itextsharp.dll" Source="$(var.Common.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.PLANS_MODULE" Guid="921DBB68-07A3-457B-9D49-AAC3802E7706">

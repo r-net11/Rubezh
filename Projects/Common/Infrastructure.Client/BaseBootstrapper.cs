@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace Infrastructure.Client
 			ApplicationService.RegisterShell(shellViewModel);
 			LoadingService.DoStep("Загрузка модулей приложения");
 			CreateViewModels();
-			shellViewModel.NavigationItems = GetNavigationItems();
+			shellViewModel.NavigationItems = new ReadOnlyCollection<NavigationItem>(GetNavigationItems());
 			if (InitializeModules())
 			{
 				ApplicationService.User = FiresecManager.CurrentUser;
@@ -165,7 +166,7 @@ namespace Infrastructure.Client
 							GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
 							GlobalSettingsHelper.Save();
 						}
-                        if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
+						if (!GlobalSettingsHelper.GlobalSettings.ModuleItems.Contains(moduleElement.AssemblyFile))
 							continue;
 						string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
 						if (File.Exists(path))

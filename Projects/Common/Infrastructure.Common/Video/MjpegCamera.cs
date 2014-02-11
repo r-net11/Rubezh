@@ -9,24 +9,28 @@ using System.Threading;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Common
 {
-
 	public class MjpegCamera
 	{
 		bool VideoThreadInterrupt = false;
-		public string URL { get; private set; }
-		public string Login { get; private set; }
-		public string Password { get; private set; }
-		public MjpegCamera(string url, string login, string password)
+		public string URL { get { return Camera.Address; } }
+		public string Login { get { return Camera.Login; } }
+		public string Password { get { return Camera.Password; } }
+		public Camera Camera { get; private set; }
+		public MjpegCamera(Camera camera)
 		{
-			URL = url;
-			Login = login;
-			Password = password;
+			//URL = url;
+			//Login = login;
+			//Password = password;
+			Camera = camera;
 		}
+		
 		public event Action<Bitmap> FrameReady;
 		public event Action<string> ErrorHandler;
+		
 		public void StartVideo()
 		{
 			string source = "http://" + URL + "/cgi-bin/mjpg/video.cgi";
@@ -176,30 +180,8 @@ namespace Infrastructure.Common
 									if (VideoThreadInterrupt)
 										return;
 									var bmp = (Bitmap)Image.FromStream(new MemoryStream(buffer, start, stop - start));
-									FrameReady(bmp);
-									//ImagesBufferIndex = ImagesBufferIndex%IMAGES_BUFFER_SIZE;
-									//ImagesBuffer[ImagesBufferIndex] = new Bitmap(bmp);
-									//ImagesBufferIndex++;
-									//using (var memory = new MemoryStream())
-									//{
-									//    bmp.Save(memory, ImageFormat.Jpeg);
-									//    memory.Position = 0;
-									//    var bitmapImage = new BitmapImage();
-									//    bitmapImage.BeginInit();
-									//    bitmapImage.StreamSource = memory;
-									//    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-									//    bitmapImage.EndInit();
-									//    bitmapImage.Freeze();
-									//    Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-									//    {
-									//        ImageSource = bitmapImage;
-									//    }));
-									//}
-
-									//bmp.Save("c:\\1111.jpeg");
-									// notify client
-									//NewFrame(this, new CameraEventArgs(bmp));
-									// release the image
+									if (FrameReady != null)
+										FrameReady(bmp);
 									bmp.Dispose();
 								}
 
@@ -223,19 +205,22 @@ namespace Infrastructure.Common
 				}
 				catch (WebException ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 					// wait for a while before the next try
 					Thread.Sleep(250);
 				}
 				catch (ApplicationException ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 					// wait for a while before the next try
 					Thread.Sleep(250);
 				}
 				catch (Exception ex)
 				{
-					ErrorHandler(ex.Message);
+					if (ErrorHandler != null)
+						ErrorHandler(ex.Message);
 				}
 				finally
 				{

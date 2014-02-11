@@ -7,8 +7,4 @@
         <Views:DiagnosticsView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PerformanceViewModel}">
-		<Views:PerformanceView />
-	</DataTemplate>
-
 </ResourceDictionary>

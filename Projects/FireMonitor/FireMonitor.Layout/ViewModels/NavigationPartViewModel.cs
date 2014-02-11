@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -24,7 +25,7 @@ namespace FireMonitor.Layout.ViewModels
 			};
 		}
 
-		public List<NavigationItem> NavigationItems
+        public ReadOnlyCollection<NavigationItem> NavigationItems
 		{
 			get { return _monitorLayoutShellViewModel.NavigationItems; }
 		}

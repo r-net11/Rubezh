@@ -121,6 +121,10 @@ namespace SKDModule.ViewModels
 				ZonesViewModel.Current.AllZones.Remove(this);
 				ZonesViewModel.Current.SelectedZone = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
+			if (Zone.Parent != null)
+			{
+				Zone.Parent.Children.Remove(Zone);
+			}
 			Plans.Designer.Helper.BuildMap();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

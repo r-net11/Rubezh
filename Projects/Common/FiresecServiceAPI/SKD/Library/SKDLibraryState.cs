@@ -18,9 +18,6 @@ namespace XFiresecAPI
 		public XStateClass StateClass { get; set; }
 
 		[DataMember]
-		public string Code { get; set; }
-
-		[DataMember]
 		public List<SKDLibraryFrame> Frames { get; set; }
 
 		[DataMember]

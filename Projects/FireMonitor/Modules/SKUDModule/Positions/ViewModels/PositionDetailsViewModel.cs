@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 				Title = "Создание должности";
 				position = new Position()
 				{
-					Name = "Новая зона",
+					Name = "Новая должность",
 				};
 			}
 			else

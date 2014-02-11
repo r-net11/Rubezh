@@ -3,6 +3,7 @@ using Common;
 using DiagnosticsModule.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -10,8 +11,6 @@ namespace DiagnosticsModule.ViewModels
 	{
 		public DiagnosticsViewModel()
 		{
-			ShowDriversCommand = new RelayCommand(OnShowDrivers);
-			ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
 			Test1Command = new RelayCommand(OnTest1);
 		}
 
@@ -32,33 +31,10 @@ namespace DiagnosticsModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowDriversCommand { get; private set; }
-		private void OnShowDrivers()
-		{
-			var driversView = new DriversView();
-			driversView.ShowDialog();
-		}
-
-		public RelayCommand ShowXDriversCommand { get; private set; }
-		private void OnShowXDrivers()
-		{
-			var driversView = new XDriversView();
-			driversView.ShowDialog();
-		}
-
 		public RelayCommand Test1Command { get; private set; }
 		private void OnTest1()
 		{
-            try
-            {
-                var a = 0;
-                var x = 1 / a;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e);
-            }
-            //Logger.Error("Tet Error");
+			FiresecManager.FiresecService.Test("");
 		}
 	}
 }

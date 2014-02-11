@@ -24,8 +24,6 @@ namespace FiresecAPI
 			Uids = new List<Guid>();
 			CameraUid = new List<Guid>();
 			JournalItemUid = new List<Guid>();
-		}		
-
-
+		}
 	}
 }

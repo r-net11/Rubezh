@@ -47,6 +47,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="XamlTune">
+      <HintPath>..\..\..\3rdParty\SVG2XAML\XamlTune.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -63,6 +66,8 @@
     <Compile Include="Layout\Views\LayoutPartTitleView.xaml.cs">
       <DependentUpon>LayoutPartTitleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Library\BaseFrameViewModel.cs" />
+    <Compile Include="Library\SVGConverter.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="Login\Views\LoginView.xaml.cs">

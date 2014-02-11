@@ -10,6 +10,13 @@ namespace SKDModule.Validation
 		static void ValidateWeklyIntervals()
 		{
 			ValidateWeeklyIntervalEquality();
+			foreach (var weeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
+			{
+				if (string.IsNullOrEmpty(weeklyInterval.Name))
+				{
+					Errors.Add(new WeeklyIntervalValidationError(weeklyInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
+				}
+			}
 		}
 
 		static void ValidateWeeklyIntervalEquality()

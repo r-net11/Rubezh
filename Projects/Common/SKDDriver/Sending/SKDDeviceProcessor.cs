@@ -16,6 +16,8 @@ namespace SKDDriver
 		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
 			var stringIPAddress = device.Address;
+			if(string.IsNullOrEmpty(stringIPAddress))
+				return new SendResult("Не задан IP адрес");
 			int port = 0;
 			var portProperty = device.Properties.FirstOrDefault(x => x.Name == "Port");
 			if (portProperty != null)

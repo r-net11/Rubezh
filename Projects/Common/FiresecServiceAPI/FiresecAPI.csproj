@@ -193,6 +193,14 @@
     <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
+    <Compile Include="Models\Video\CameraFrame.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHoliday.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideDayInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideWeeklyInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeIntervalPart.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyIntervalPart.cs" />
     <Compile Include="SKD\Database\AdditionalColumn.cs" />
     <Compile Include="SKD\Database\Card.cs" />
     <Compile Include="SKD\Database\Filter\CardZoneLinkFilter.cs" />
@@ -212,6 +220,7 @@
     <Compile Include="SKD\Database\Holiday.cs" />
     <Compile Include="SKD\Database\Interval.cs" />
     <Compile Include="SKD\Database\NamedInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\IntervalTransitionType.cs" />
     <Compile Include="SKD\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />

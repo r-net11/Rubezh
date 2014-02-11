@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.GKReset(Zone);
+				//FiresecManager.FiresecService.SKDReset(Zone);
 			}
 		}
 		bool CanZone()

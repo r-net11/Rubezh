@@ -10,6 +10,17 @@ namespace SKDModule.Validation
 		static void ValidateSlideDayIntervals()
 		{
 			ValidateSlideDayIntervalEquality();
+			foreach (var slideDayInterval in SKDManager.SKDConfiguration.SlideDayIntervals)
+			{
+				if (string.IsNullOrEmpty(slideDayInterval.Name))
+				{
+					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
+				}
+				if (slideDayInterval.TimeIntervalUIDs.Count == 0)
+				{
+					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствуют составляющие части интервала", ValidationErrorLevel.CannotWrite));
+				}
+			}
 		}
 
 		static void ValidateSlideDayIntervalEquality()

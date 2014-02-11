@@ -60,7 +60,7 @@ namespace LibraryModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace LibraryModule.ViewModels
 					oldSelectedStateType = SelectedState.State.StateType;
 				}
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 
 				if (value != null)
 				{
@@ -171,7 +171,7 @@ namespace LibraryModule.ViewModels
 			set
 			{
 				_states = value;
-				OnPropertyChanged("States");
+				OnPropertyChanged(() => States);
 			}
 		}
 
@@ -182,7 +182,7 @@ namespace LibraryModule.ViewModels
 			set
 			{
 				_selectedState = value;
-				OnPropertyChanged("SelectedState");
+				OnPropertyChanged(() => SelectedState);
 				OnPropertyChanged(() => PreviewBrush);
 			}
 		}
@@ -232,6 +232,7 @@ namespace LibraryModule.ViewModels
 		}
 		public void InvalidatePreview()
 		{
+			OnPropertyChanged(() => SelectedState);
 			OnPropertyChanged(() => PreviewBrush);
 		}
 

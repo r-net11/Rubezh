@@ -28,9 +28,7 @@ namespace VideoModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			ScreenShortCommand = new RelayCommand(OnScreenShort);
-			StartVideoCommand = new RelayCommand(OnStartVideo, () => SelectedCamera != null);
-			PauseVideoCommand = new RelayCommand(OnPauseVideo, () => SelectedCamera != null && (SelectedCamera.IsNowPlayed));
-			StopVideoCommand = new RelayCommand(OnStopVideo, () => (SelectedCamera != null) && (SelectedCamera.IsNowPlayed));
+			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			RegisterShortcuts();
 			Initialize();
 			//VlcInitialize();
@@ -57,10 +55,6 @@ namespace VideoModule.ViewModels
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
-
-			if (FiresecManager.SystemConfiguration.Cameras == null)
-				FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
-
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(camera);
@@ -76,27 +70,26 @@ namespace VideoModule.ViewModels
 				return _videoSequence;
 			}
 		}
-		public RelayCommand StartVideoCommand { get; private set; }
-		void OnStartVideo()
+		public RelayCommand PlayVideoCommand { get; private set; }
+		void OnPlayVideo()
 		{
-			foreach (var camera in Cameras)
+			if (!IsNowPlaying)
 			{
-				if (camera.IsNowPlayed)
-					camera.StopVideo();
+				foreach (var camera in Cameras)
+				{
+					if (camera.IsNowPlaying)
+						camera.StopVideo();
+				}
+				SelectedCamera.StartVideo();
 			}
-			SelectedCamera.StartVideo();
+			else
+			{
+				StartedCamera.StopVideo();
+			}
 			OnPropertyChanged("StartedCamera");
+			OnPropertyChanged("IsNowPlaying");
 		}
-		public RelayCommand PauseVideoCommand { get; private set; }
-		void OnPauseVideo()
-		{
-			SelectedCamera.PauseVideo();
-		}
-		public RelayCommand StopVideoCommand { get; private set; }
-		void OnStopVideo()
-		{
-			SelectedCamera.StopVideo();
-		}
+
 		public RelayCommand ScreenShortCommand { get; private set; }
 		void OnScreenShort()
 		{
@@ -130,7 +123,12 @@ namespace VideoModule.ViewModels
 
 		public CameraViewModel StartedCamera
 		{
-			get { return Cameras.FirstOrDefault(x => x.IsNowPlayed); }
+			get { return Cameras.FirstOrDefault(x => x.IsNowPlaying); }
+		}
+
+		public bool IsNowPlaying
+		{
+			get { return StartedCamera != null; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }

@@ -18,9 +18,6 @@ namespace XFiresecAPI
 		public XStateClass XStateClass { get; set; }
 
 		[DataMember]
-		public string Code { get; set; }
-
-		[DataMember]
 		public List<LibraryXFrame> XFrames { get; set; }
 
 		[DataMember]

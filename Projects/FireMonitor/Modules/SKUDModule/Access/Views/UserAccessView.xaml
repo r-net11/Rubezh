@@ -16,7 +16,16 @@
         </Border>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Employee.FirstName}" />
+                <DataGridTemplateColumn Header="Имя" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
                 <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
             </DataGrid.Columns>

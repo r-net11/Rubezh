@@ -13,9 +13,13 @@ namespace SKDModule.Validation
 
 			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			{
+				if (string.IsNullOrEmpty(timeInterval.Name))
+				{
+					Errors.Add(new TimeIntervalValidationError(timeInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
+				}
 				if (timeInterval.TimeIntervalParts.Count == 0)
 				{
-					Errors.Add(new TimeIntervalValidationError(timeInterval, "Пустой интервал", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new TimeIntervalValidationError(timeInterval, "Отсутствуют составляющие части интервала", ValidationErrorLevel.CannotWrite));
 				}
 
 				foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)

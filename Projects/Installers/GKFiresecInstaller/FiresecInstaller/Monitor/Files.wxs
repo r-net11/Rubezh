@@ -56,18 +56,6 @@
         <File Id="Monitor.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
-      <Component Id="Monitor.GK_MODULE" Guid="7C84F6F3-BFE8-4C60-B062-A126AC9748C7">
-        <File Id="Monitor.GKModule.dll" Name="GKModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-        <File Id="Monitor.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Monitor.TargetDir)" />
-      </Component>
-
-      <Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
-        <File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-        <File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Monitor.TargetDir)" />
-        <File Id="Monitor.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Monitor.TargetDir)" />
-      </Component>
-
       <Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">
         <File Id="Monitor.Revisor.exe" Name="Revisor.exe" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
         <File Id="Monitor.Revisor.exe.manifest" Name="Revisor.exe.manifest" Source="$(var.Monitor.TargetDir)" />

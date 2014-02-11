@@ -70,21 +70,13 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="BaseDeviceControl.cs" />
     <Compile Include="BaseDevicePicture.cs" />
-    <Compile Include="BaseStateViewModel.cs" />
-    <Compile Include="Device\DeviceControl.cs" />
-    <Compile Include="Device\DevicePicture.cs" />
-    <Compile Include="SKDDevice\SKDDeviceControl.cs" />
-    <Compile Include="SKDDevice\SKDDevicePicture.cs" />
-    <Compile Include="SKDDevice\SKDStateViewModel.cs" />
+    <Compile Include="DevicePicture.cs" />
+    <Compile Include="SKDDevicePicture.cs" />
     <Compile Include="FramesControl.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="PictureCacheSource.cs" />
-    <Compile Include="Device\StateViewModel.cs" />
-    <Compile Include="XDevice\XDeviceControl.cs" />
-    <Compile Include="XDevice\XDevicePicture.cs" />
-    <Compile Include="XDevice\XStateViewModel.cs" />
+    <Compile Include="XDevicePicture.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

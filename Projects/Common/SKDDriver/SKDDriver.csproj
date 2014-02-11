@@ -68,6 +68,7 @@
     <Compile Include="SKDDatabaseService\Translator\Update.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
+    <Compile Include="VideoWatcher.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
     <Compile Include="Watcher\JournalParser.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />

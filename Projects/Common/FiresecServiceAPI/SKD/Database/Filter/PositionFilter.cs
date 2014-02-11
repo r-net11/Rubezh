@@ -4,20 +4,20 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
-    [DataContract]
+	[DataContract]
 	public class PositionFilter : FilterBase
-    {
-        [DataMember]
+	{
+		[DataMember]
 		public List<Guid> Uids { get; set; }
 
-        public bool HasUids
-        {
-            get { return Uids.Count > 0; }
-        }
+		public bool HasUids
+		{
+			get { return Uids.Count > 0; }
+		}
 
-        public PositionFilter()
-        {
-            Uids = new List<Guid>();
-        }
-    }
+		public PositionFilter()
+		{
+			Uids = new List<Guid>();
+		}
+	}
 }

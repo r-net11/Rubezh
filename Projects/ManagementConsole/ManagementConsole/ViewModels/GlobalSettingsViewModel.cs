@@ -20,6 +20,7 @@ namespace ManagementConsole
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
+			UseSKD = GlobalSettingsHelper.GlobalSettings.UseSKD;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
@@ -29,25 +30,27 @@ namespace ManagementConsole
 			FS_Password = GlobalSettingsHelper.GlobalSettings.FS_Password;
 
 			Modules = new List<ModuleViewModel>();
-			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
+			
 			Modules.Add(new ModuleViewModel("PlansModule.dll"));
 			Modules.Add(new ModuleViewModel("PlansModule.Kursk.dll"));
-			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
 			Modules.Add(new ModuleViewModel("SecurityModule.dll"));
-			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
 			Modules.Add(new ModuleViewModel("SoundsModule.dll"));
-			Modules.Add(new ModuleViewModel("InstructionsModule.dll"));
 			Modules.Add(new ModuleViewModel("SettingsModule.dll"));
 			Modules.Add(new ModuleViewModel("GKModule.dll"));
 			Modules.Add(new ModuleViewModel("OPCModule.dll"));
 			Modules.Add(new ModuleViewModel("NotificationModule.dll"));
 			Modules.Add(new ModuleViewModel("VideoModule.dll"));
 			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll"));
-			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
-			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
+
+			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
+			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
+			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
+			Modules.Add(new ModuleViewModel("InstructionsModule.dll"));
+			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
+			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 
             if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
                 GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
@@ -219,6 +222,17 @@ namespace ManagementConsole
 			}
 		}
 
+		bool _useSKD;
+		public bool UseSKD
+		{
+			get { return _useSKD; }
+			set
+			{
+				_useSKD = value;
+				OnPropertyChanged("UseSKD");
+			}
+		}
+
 		public bool IsDebug
 		{
 			get
@@ -249,6 +263,7 @@ namespace ManagementConsole
 
 			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
+			GlobalSettingsHelper.GlobalSettings.UseSKD = UseSKD;
 
             GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)
