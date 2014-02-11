@@ -212,7 +212,7 @@ namespace GKModule.ViewModels
 						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
 					break;
 				case ArchiveDefaultStateType.All:
-					//archiveFilter.StartDate = DateTime.MinValue.AddYears(1800);
+					archiveFilter.StartDate = DateTime.MinValue.AddYears(1800);
 					break;
 			}
 			return archiveFilter;
