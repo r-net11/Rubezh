@@ -2,11 +2,11 @@
 
 namespace AlarmModule.Views
 {
-    public partial class InstructionView : UserControl
-    {
-        public InstructionView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class InstructionView : UserControl
+	{
+		public InstructionView()
+		{
+			InitializeComponent();
+		}
+	}
 }

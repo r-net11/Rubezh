@@ -1,10 +1,11 @@
 ﻿using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace AlarmModule.ViewModels
 {
-	public class InstructionViewModel : DialogViewModel
+	public class InstructionViewModel : DialogViewModel, IWindowIdentity
 	{
 		public InstructionViewModel(Device device, Zone zone, AlarmType alarmType)
 		{
@@ -75,5 +76,12 @@ namespace AlarmModule.ViewModels
 
 			return null;
 		}
+
+		#region IWindowIdentity Members
+		public string Guid
+		{
+			get { return "Instruction"; }
+		}
+		#endregion
 	}
 }
