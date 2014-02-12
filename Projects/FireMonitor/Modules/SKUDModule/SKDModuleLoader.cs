@@ -14,10 +14,12 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace SKDModule
 {
-	public class SKDModuleLoader : ModuleBase
+	public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		EmployeesViewModel EmployeesViewModel;
 		JournalViewModel JournalViewModel;
@@ -80,14 +82,14 @@ namespace SKDModule
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
-					new NavigationItem("Интервалы", null, new List<NavigationItem>()
-					{
-						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					}),
+						new NavigationItem("Интервалы", null, new List<NavigationItem>()
+						{
+							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						}),
 					})
 				};
 		}
@@ -128,7 +130,6 @@ namespace SKDModule
 			SKDManager.CreateStates();
 			return true;
 		}
-
 		public override void AfterInitialize()
 		{
 			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
@@ -149,7 +150,6 @@ namespace SKDModule
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			});
 		}
-
 		void CopySKDStates(SKDStates skdStates)
 		{
 			foreach (var remoteDeviceState in skdStates.DeviceStates)
@@ -162,5 +162,30 @@ namespace SKDModule
 				}
 			}
 		}
+
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDEmployees, "Сотрудники", "BLevels.png", (p) => EmployeesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDJournal, "Журнал", "BLevels.png", (p) => JournalViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "BTree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "BTree.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "BTree.png", (p) => VerificationViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDUsersAccess, "Доступ сотрудников", "BTree.png", (p) => UsersAccessViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDCards, "Карты", "BTree.png", (p) => CardsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDepartments, "Отделы", "BTree.png", (p) => DepartmentsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "BTree.png", (p) => PositionsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDocuments, "Документы", "BTree.png", (p) => DocumentsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDAdditionalColumns, "Дополнительные колонки", "BTree.png", (p) => AdditionalColumnsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "BTree.png", (p) => TimeIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "BTree.png", (p) => WeeklyIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "BTree.png", (p) => SlideDayIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "BTree.png", (p) => SlideWeekIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "BTree.png", (p) => HolidaysViewModel);
+		}
+
+		#endregion
 	}
 }

@@ -80,16 +80,7 @@ namespace PlansModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription()
-			{
-				Name = "Планы",
-				Description = "Планы",
-				Index = 150,
-				UID = LayoutPartIdentities.Plans,
-				IconSource = "/Controls;component/Images/CMap.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BMap.png" },
-			};
+			yield return new LayoutPartDescription(LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png");
 		}
 
 		#endregion

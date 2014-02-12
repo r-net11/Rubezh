@@ -56,14 +56,8 @@ namespace LayoutModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription()
+			yield return new LayoutPartDescription(LayoutPartIdentities.Image, 4, "Картинка", "Показывает статическое изображение", "BView.png")
 			{
-				Name = "Картинка",
-				Description = "Показывает статическое изображение",
-				Index = 4,
-				UID = LayoutPartIdentities.Image,
-				IconSource = "/Controls;component/Images/BView.png",
-				AllowMultiple = true,
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};
 		}

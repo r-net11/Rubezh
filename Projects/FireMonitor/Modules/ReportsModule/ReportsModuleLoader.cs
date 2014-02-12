@@ -48,13 +48,7 @@ namespace ReportsModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Отчеты",
-				UID = LayoutPartIdentities.Reports,
-				IconSource = "/Controls;component/Images/Levels.png",
-				Factory = (p) =>  _reportViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Reports, "Отчеты", "Levels.png", (p) => _reportViewModel);
 		}
 
 		#endregion

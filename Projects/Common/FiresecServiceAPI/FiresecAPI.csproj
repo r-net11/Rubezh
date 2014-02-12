@@ -188,6 +188,7 @@
     <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\Layouts\LayoutPartCameraProperties.cs" />
     <Compile Include="Models\Layouts\ILayoutProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartImageProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPart.cs" />

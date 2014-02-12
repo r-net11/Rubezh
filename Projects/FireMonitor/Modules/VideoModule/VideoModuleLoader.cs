@@ -10,6 +10,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
 using VideoModule.ViewModels;
+using FiresecAPI.Models.Layouts;
 
 namespace VideoModule
 {
@@ -78,13 +79,8 @@ namespace VideoModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Видео",
-				UID = LayoutPartIdentities.Video,
-				IconSource = "/Controls;component/Images/Video1.png",
-				Factory = (p) => VideoViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Video, "Видео", "Video1.png", (p) => VideoViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Camera, "Камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
 		}
 
 		#endregion

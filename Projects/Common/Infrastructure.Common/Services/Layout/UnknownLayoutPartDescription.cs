@@ -5,9 +5,8 @@ namespace Infrastructure.Common.Services.Layout
 	public class UnknownLayoutPartDescription : LayoutPartDescription
 	{
 		public UnknownLayoutPartDescription(Guid uid)
+			: base(uid, 1, "Неизвестный элемент", null)
 		{
-			UID = uid;
-			Name = "Неизвестный элемент";
 		}
 	}
 }

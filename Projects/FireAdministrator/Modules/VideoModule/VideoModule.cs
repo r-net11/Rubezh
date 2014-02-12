@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
 using VideoModule.ViewModels;
 
 namespace VideoModule
 {
-	public class VideoModule : ModuleBase
+	public class VideoModule : ModuleBase, ILayoutDeclarationModule
 	{
 		CamerasViewModel CamerasViewModel;
 
@@ -34,6 +37,15 @@ namespace VideoModule
 		public override void Dispose()
 		{
 			VideoService.Close();
+		}
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription(LayoutPartIdentities.Video, 203, "Видео", "Панель видео", "BVideo.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Camera, 204, "Камера", "Изображение с камеры", "BVideo.png")
+			{
+				Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties),
+			};
 		}
 	}
 }

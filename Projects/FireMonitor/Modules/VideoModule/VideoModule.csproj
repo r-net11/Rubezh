@@ -79,7 +79,11 @@
   <ItemGroup>
     <Compile Include="VideoModuleLoader.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\VideoViewModel.cs" />
+    <Compile Include="Views\LayoutPartCameraView.xaml.cs">
+      <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VideoView.xaml.cs">
       <DependentUpon>VideoView.xaml</DependentUpon>
     </Compile>
@@ -139,6 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

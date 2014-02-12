@@ -14,10 +14,12 @@ using SKDModule.Plans;
 using SKDModule.Plans.Designer;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace SKDModule
 {
-	public class SKDModule : ModuleBase, IValidationModule
+	public class SKDModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
@@ -128,5 +130,29 @@ namespace SKDModule
 		{
 			ZonesViewModel.EditZone(zoneUID);
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDEmployees, 301, "Сотрудники", "Панель сотрудники", "BLevels.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDJournal, 302, "Журнал", "Панель журнал", "BLevels.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDDevices, 303, "СКД устройства", "Панель СКД устройства", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDZones, 304, "СКД зоны", "Панель СКД зоны", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDVerification, 305, "Верификация", "Панель верификация", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDUsersAccess, 306, "Доступ сотрудников", "Панель доступ сотрудников", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDCards, 307, "Карты", "Панель карты", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDDepartments, 308, "Отделы", "Панель отделы", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDPositions, 309, "Должности", "Панель должности", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDDocuments, 310, "Документы", "Панель документы", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDAdditionalColumns, 311, "Дополнительные колонки", "Панель дополнительные колонки", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDTimeIntervals, 312, "Именованные интервалы", "Панель именованные интервалы", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDWeeklyIntervals, 313, "Недельные графики", "Панель недельные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDSlideDayIntervals, 314, "Скользящие посуточные графики", "Панель скользящие посуточные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDSlideWeekIntervals, 315, "Скользящие понедельные графики", "Панель скользящие понедельные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.SKDHolidays, 316, "Праздничные дни", "Панель праздничные дни", "BTree.png");
+		}
+
+		#endregion
 	}
 }

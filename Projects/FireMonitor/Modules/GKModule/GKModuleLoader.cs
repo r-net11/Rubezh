@@ -191,55 +191,12 @@ namespace GKModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Состояния",
-				UID = LayoutPartIdentities.Alarms,
-				IconSource = "/Controls;component/Images/Alarm.png",
-				Factory = (p) => AlarmsViewModel,
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Устройства",
-				UID = LayoutPartIdentities.GDevices,
-				IconSource = "/Controls;component/Images/Tree.png",
-				Factory = (p) => DevicesViewModel,
-			};
-			//yield return new LayoutPartPresenter()
-			//{
-			//    Name = "Измерения",
-			//    UID = LayoutPartIdentities.DeviceParameters,
-			//    IconSource = "/Controls;component/Images/AllParameters.png",
-			//    Factory = (p) =>  DeviceParametersViewModel,
-			//};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Зоны",
-				UID = LayoutPartIdentities.Zones,
-				IconSource = "/Controls;component/Images/Zones.png",
-				Factory = (p) => ZonesViewModel,
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Направления",
-				UID = LayoutPartIdentities.Directions,
-				IconSource = "/Controls;component/Images/Direction.png",
-				Factory = (p) => DirectionsViewModel,
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Журнал событий",
-				UID = LayoutPartIdentities.Journals,
-				IconSource = "/Controls;component/Images/Book.png",
-				Factory = (p) => JournalsViewModel,
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Архив",
-				UID = LayoutPartIdentities.Archive,
-				IconSource = "/Controls;component/Images/Archive.png",
-				Factory = (p) => ArchiveViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journals, "Журнал событий", "Book.png", (p) => JournalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
 		}
 
 		#endregion

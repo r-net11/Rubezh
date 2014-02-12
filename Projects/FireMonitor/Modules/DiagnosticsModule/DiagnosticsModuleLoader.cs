@@ -48,13 +48,7 @@ namespace DiagnosticsModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Диагностика",
-				UID = LayoutPartIdentities.Diagnostics,
-				IconSource = "/Controls;component/Images/Bug.png",
-				Factory = (p) => DiagnosticsViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Diagnostics, "Диагностика", "Bug.png", (p) => DiagnosticsViewModel);
 		}
 
 		#endregion

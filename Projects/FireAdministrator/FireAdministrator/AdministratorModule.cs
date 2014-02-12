@@ -33,77 +33,12 @@ namespace FireAdministrator
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription()
-			{
-				Name = "Заглушка",
-				Description = "Пустая панель",
-				Index = 0,
-				UID = LayoutPartIdentities.EmptySpace,
-				IconSource = "/Controls;component/Images/BExit.png",
-				AllowMultiple = true,
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Индикаторы",
-				Description = "Панель индикаторов состояния",
-				Index = 1,
-				UID = LayoutPartIdentities.Indicator,
-				IconSource = "/Controls;component/Images/BAlarm.png",
-				AllowMultiple = false,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/IndicatorsPreview.png" },
-				Size = new LayoutPartSize() { PreferedSize = new Size(1000, 100) },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Навигатор",
-				Description = "Панель навигации",
-				Index = 2,
-				UID = LayoutPartIdentities.Navigation,
-				IconSource = "/Controls;component/Images/BTree.png",
-				AllowMultiple = false,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/NavigationPreview.png" },
-				Size = new LayoutPartSize() { PreferedSize = new Size(150, 500) },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Контейнер",
-				Description = "Контейнер содержания",
-				Index = 3,
-				UID = LayoutPartIdentities.Content,
-				IconSource = "/Controls;component/Images/BLayouts.png",
-				AllowMultiple = false,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/Layout/ContentPreview.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Отчеты",
-				Description = "Отчеты",
-				Index = 201,
-				UID = LayoutPartIdentities.Reports,
-				IconSource = "/Controls;component/Images/BLevels.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BLevels.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Диагностика",
-				Description = "Диагностика",
-				Index = 202,
-				UID = LayoutPartIdentities.Diagnostics,
-				IconSource = "/Controls;component/Images/BBug.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBug.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Видео",
-				Description = "Видео",
-				Index = 203,
-				UID = LayoutPartIdentities.Video,
-				IconSource = "/Controls;component/Images/BVideo.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BVideo.png" },
-			};
+			yield return new LayoutPartDescription(LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Indicator, 1, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
+			yield return new LayoutPartDescription(LayoutPartIdentities.Navigation, 2, "Навигатор", "Панель навигации", "BTree.png", false, new LayoutPartSize() { PreferedSize = new Size(150, 500) });
+			yield return new LayoutPartDescription(LayoutPartIdentities.Content, 3, "Контейнер", "Контейнер содержания", "BLayouts.png", false);
+			yield return new LayoutPartDescription(LayoutPartIdentities.Reports, 201, "Отчеты", "Панель отчетов", "BLevels.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Diagnostics, 202, "Диагностика", "Панель диагностики", "BBug.png");
 		}
 
 		#endregion

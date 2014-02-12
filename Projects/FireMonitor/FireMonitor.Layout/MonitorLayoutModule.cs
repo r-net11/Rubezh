@@ -36,41 +36,11 @@ namespace FireMonitor.Layout
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Заглушка",
-				UID = LayoutPartIdentities.EmptySpace,
-				IconSource = "/Controls;component/Images/Exit.png",
-				Factory = (p) => new EmptyPartViewModel(),
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Индикаторы",
-				UID = LayoutPartIdentities.Indicator,
-				IconSource = "/Controls;component/Images/Alarm.png",
-				Factory = (p) => MonitorLayoutShellViewModel.Toolbar,
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Навигатор",
-				UID = LayoutPartIdentities.Navigation,
-				IconSource = "/Controls;component/Images/Tree.png",
-				Factory = (p) => new NavigationPartViewModel(MonitorLayoutShellViewModel),
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Контейнер",
-				UID = LayoutPartIdentities.Content,
-				IconSource = "/Controls;component/Images/Layouts.png",
-				Factory = (p) => new ContentPartViewModel(MonitorLayoutShellViewModel),
-			};
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Картинка",
-				UID = LayoutPartIdentities.Image,
-				IconSource = "/Controls;component/Images/View.png",
-				Factory = (p) => new ImagePartViewModel(p as LayoutPartImageProperties),
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.EmptySpace, "Заглушка", "Exit.png", (p) => new EmptyPartViewModel());
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Indicator, "Индикаторы", "Alarm.png", (p) => MonitorLayoutShellViewModel.Toolbar);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Navigation, "Навигатор", "Tree.png", (p) => new NavigationPartViewModel(MonitorLayoutShellViewModel));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Content, "Контейнер", "Layouts.png", (p) => new ContentPartViewModel(MonitorLayoutShellViewModel));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Image, "Картинка", "View.png", (p) => new ImagePartViewModel(p as LayoutPartImageProperties));
 		}
 
 		#endregion
