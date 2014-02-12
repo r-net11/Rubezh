@@ -26,18 +26,20 @@ namespace VideoModule.ViewModels
 		public List<StringBuilder> ErrorLog { get; private set; }
 		public bool HasError { get; private set; }
 		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
+
+		public bool IsNowPlaying { get; private set; }
 		public CameraViewModel(Camera camera)
 		{
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera);
 		}
-		public bool IsNowPlaying { get; private set; }
 		void GetError(string error)
 		{
 			ErrorLog.Add(new StringBuilder(error));
-			ImageSource = null;
+			ImageSource = new BitmapImage();
 		}
+
 		void BmpToImageSource(Bitmap bmp)
 		{
 			using (var memory = new MemoryStream())
@@ -82,12 +84,13 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			IsNowPlaying = true;
 			//return; //TODO: TEST (Camera isn't working now)
 			MjpegCamera.FrameReady += BmpToImageSource;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
+			IsNowPlaying = true;
+			OnPropertyChanged("IsNowPlaying");
 		}
 		public void StopVideo()
 		{
@@ -101,6 +104,7 @@ namespace VideoModule.ViewModels
 			MjpegCamera.StopVideo();
 			ImageSource = new BitmapImage();
 			IsNowPlaying = false;
+			OnPropertyChanged("IsNowPlaying");
 		}
 
 		private ImageSource _imageSource;

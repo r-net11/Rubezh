@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -15,44 +16,63 @@ namespace Infrastructure.Common.Video
 		private const int IMAGES_BUFFER_SIZE = 10;
 		private int ImagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
+		private readonly Object _loker;
 		public CameraFramesWatcher (Camera camera)
 		{
-			CameraFrames = new List<CameraFrame>(IMAGES_BUFFER_SIZE);
 			MjpegCamera = new MjpegCamera(camera);
+			_loker = new object();
 			InitializeCameraFramesWatcher();
 		}
-
 		private void BmpToCameraFramesWatcher(Bitmap bmp)
 		{
 			var dateTime = DateTime.Now;
-			if (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1))
+			lock (_loker)
 			{
-				var cameraFrame = new CameraFrame(bmp, dateTime);
-				ImagesBufferIndex = ImagesBufferIndex % IMAGES_BUFFER_SIZE;
-				CameraFrames[ImagesBufferIndex] = cameraFrame;
-				ImagesBufferIndex++;
+				if ((CameraFrames != null) && (CameraFrames.Count != 0) &&
+				    (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1)))
+				{
+					var newbmp = new Bitmap(bmp);
+					var cameraFrame = new CameraFrame(newbmp, dateTime);
+					ImagesBufferIndex = ImagesBufferIndex%IMAGES_BUFFER_SIZE;
+					CameraFrames[ImagesBufferIndex] = cameraFrame;
+					ImagesBufferIndex++;
+				}
 			}
 		}
 
 		void InitializeCameraFramesWatcher()
 		{
+			ImagesBufferIndex = 0;
+			CameraFrames = new List<CameraFrame>(IMAGES_BUFFER_SIZE);
 			for (int i = 0; i < IMAGES_BUFFER_SIZE; i++)
 				CameraFrames.Add(new CameraFrame(new Bitmap(100, 100), new DateTime()));
 		}
 
 		public void Save()
 		{
-			var dir = new DirectoryInfo("Pictures\\" + DateTime.Now.ToLongDateString());
+			var dir = new DirectoryInfo("Pictures");
 			if (Directory.Exists(dir.FullName))
-				Directory.Delete(dir.FullName);
-			foreach (var cameraFrame in CameraFrames)
+				Directory.Delete(dir.FullName, true);
+			dir.Create();
+			int i = 1;
+			lock (_loker)
 			{
-				cameraFrame.Bitmap.Save(cameraFrame.DateTime.ToLongDateString());
+				foreach (var cameraFrame in CameraFrames)
+				{
+					string fileName = dir.FullName + "\\" + i + ".jpg";
+					if (cameraFrame.DateTime.Ticks == 0)
+						return;
+					var bmp = new Bitmap(cameraFrame.Bitmap);
+					bmp.Save(fileName, ImageFormat.Jpeg);
+					bmp.Dispose();
+					i++;
+				}
 			}
 		}
 
 		public void StartVideo()
 		{
+			InitializeCameraFramesWatcher();
 			MjpegCamera.FrameReady += BmpToCameraFramesWatcher;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();

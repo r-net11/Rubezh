@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -13,21 +10,19 @@ using Infrastructure.ViewModels;
 using VideoPlayerTest;
 using KeyboardKey = System.Windows.Input.Key;
 using Vlc.DotNet.Core;
-using System.Windows.Media.Imaging;
-using System.IO;
 
 namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
 		private VideoClass _videoSequence;
+
 		public CamerasViewModel()
 		{
 			Menu = new CamerasMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			ScreenShortCommand = new RelayCommand(OnScreenShort);
 			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			RegisterShortcuts();
 			Initialize();
@@ -70,35 +65,7 @@ namespace VideoModule.ViewModels
 				return _videoSequence;
 			}
 		}
-		public RelayCommand PlayVideoCommand { get; private set; }
-		void OnPlayVideo()
-		{
-			if (!IsNowPlaying)
-			{
-				foreach (var camera in Cameras)
-				{
-					if (camera.IsNowPlaying)
-						camera.StopVideo();
-				}
-				SelectedCamera.StartVideo();
-			}
-			else
-			{
-				StartedCamera.StopVideo();
-			}
-			OnPropertyChanged("StartedCamera");
-			OnPropertyChanged("IsNowPlaying");
-		}
 
-		public RelayCommand ScreenShortCommand { get; private set; }
-		void OnScreenShort()
-		{
-			var image = _videoSequence.Image;
-			var encoder = new JpegBitmapEncoder();
-			encoder.Frames.Add(BitmapFrame.Create(image as BitmapImage));
-			using (var filestream = new FileStream("c:\\1.jpg", FileMode.Create))
-				encoder.Save(filestream);
-		}
 		ObservableCollection<CameraViewModel> _cameras;
 		public ObservableCollection<CameraViewModel> Cameras
 		{
@@ -145,9 +112,24 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
+		public RelayCommand PlayVideoCommand { get; private set; }
+		void OnPlayVideo()
 		{
-			return SelectedCamera != null;
+			if (!IsNowPlaying)
+			{
+				foreach (var camera in Cameras)
+				{
+					if (camera.IsNowPlaying)
+						camera.StopVideo();
+				}
+				SelectedCamera.StartVideo();
+			}
+			else
+			{
+				StartedCamera.StopVideo();
+			}
+			OnPropertyChanged("StartedCamera");
+			OnPropertyChanged("IsNowPlaying");
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -169,6 +151,11 @@ namespace VideoModule.ViewModels
 				SelectedCamera.Update();
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
+		}
+
+		bool CanEditDelete()
+		{
+			return SelectedCamera != null;
 		}
 
 		private void RegisterShortcuts()

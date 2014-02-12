@@ -3,13 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
+    <UserControl.Resources>
+        <Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                <ContentPresenter VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+                    <Setter Property="FontStyle" Value="Italic"/>
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="300" />
             <RowDefinition Height="*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+        <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}" CellStyle="{StaticResource DataGridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
                 <DataGridTextColumn Header="URL" Width="200" Binding="{Binding Camera.Address}" />
