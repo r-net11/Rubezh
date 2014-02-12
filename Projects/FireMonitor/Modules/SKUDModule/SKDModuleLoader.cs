@@ -19,54 +19,54 @@ using SKDModule.ViewModels;
 
 namespace SKDModule
 {
-    public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
-    {
-        EmployeesViewModel EmployeesViewModel;
-        JournalViewModel JournalViewModel;
-        DevicesViewModel DevicesViewModel;
-        ZonesViewModel ZonesViewModel;
-        VerificationViewModel VerificationViewModel;
-        UsersAccessViewModel UsersAccessViewModel;
-        CardsViewModel CardsViewModel;
-        DepartmentsViewModel DepartmentsViewModel;
-        PositionsViewModel PositionsViewModel;
-        DocumentsViewModel DocumentsViewModel;
-        AdditionalColumnsViewModel AdditionalColumnsViewModel;
-        TimeIntervalsViewModel TimeIntervalsViewModel;
-        WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
-        SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
+	public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
+	{
+		EmployeesViewModel EmployeesViewModel;
+		JournalViewModel JournalViewModel;
+		DevicesViewModel DevicesViewModel;
+		ZonesViewModel ZonesViewModel;
+		VerificationViewModel VerificationViewModel;
+		UsersAccessViewModel UsersAccessViewModel;
+		CardsViewModel CardsViewModel;
+		DepartmentsViewModel DepartmentsViewModel;
+		PositionsViewModel PositionsViewModel;
+		DocumentsViewModel DocumentsViewModel;
+		AdditionalColumnsViewModel AdditionalColumnsViewModel;
+		TimeIntervalsViewModel TimeIntervalsViewModel;
+		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
+		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
-        HolidaysViewModel HolidaysViewModel;
-        private PlanPresenter _planPresenter;
+		HolidaysViewModel HolidaysViewModel;
+		private PlanPresenter _planPresenter;
 
-        public SKDModuleLoader()
-        {
-            _planPresenter = new PlanPresenter();
-        }
+		public SKDModuleLoader()
+		{
+			_planPresenter = new PlanPresenter();
+		}
 
-        public override void CreateViewModels()
-        {
-            EmployeesViewModel = new EmployeesViewModel();
-            JournalViewModel = new JournalViewModel();
-            DevicesViewModel = new DevicesViewModel();
-            ZonesViewModel = new ZonesViewModel();
-            VerificationViewModel = new VerificationViewModel();
-            UsersAccessViewModel = new UsersAccessViewModel();
-            CardsViewModel = new CardsViewModel();
-            DepartmentsViewModel = new DepartmentsViewModel();
-            PositionsViewModel = new PositionsViewModel();
-            DocumentsViewModel = new DocumentsViewModel();
-            AdditionalColumnsViewModel = new AdditionalColumnsViewModel();
-            TimeIntervalsViewModel = new TimeIntervalsViewModel();
-            WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
-            SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
+		public override void CreateViewModels()
+		{
+			EmployeesViewModel = new EmployeesViewModel();
+			JournalViewModel = new JournalViewModel();
+			DevicesViewModel = new DevicesViewModel();
+			ZonesViewModel = new ZonesViewModel();
+			VerificationViewModel = new VerificationViewModel();
+			UsersAccessViewModel = new UsersAccessViewModel();
+			CardsViewModel = new CardsViewModel();
+			DepartmentsViewModel = new DepartmentsViewModel();
+			PositionsViewModel = new PositionsViewModel();
+			DocumentsViewModel = new DocumentsViewModel();
+			AdditionalColumnsViewModel = new AdditionalColumnsViewModel();
+			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
+			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			MonthlyIntervalsViewModel = new MonthlyIntervalsViewModel();
-            HolidaysViewModel = new HolidaysViewModel();
-        }
+			HolidaysViewModel = new HolidaysViewModel();
+		}
 
-        public override IEnumerable<NavigationItem> CreateNavigation()
-        {
-            return new List<NavigationItem>
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "/Controls;component/Images/tree.png",
 					new List<NavigationItem>()
@@ -92,100 +92,100 @@ namespace SKDModule
 						}),
 					})
 				};
-        }
+		}
 
-        public override void Initialize()
-        {
-            _planPresenter.Initialize();
-            ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
-            DevicesViewModel.Initialize();
-            ZonesViewModel.Initialize();
-        }
+		public override void Initialize()
+		{
+			_planPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			DevicesViewModel.Initialize();
+			ZonesViewModel.Initialize();
+		}
 
-        public override string Name
-        {
-            get { return "СКД"; }
-        }
-        public override void RegisterResource()
-        {
-            base.RegisterResource();
-            var resourceService = new ResourceService();
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
-        }
+		public override string Name
+		{
+			get { return "СКД"; }
+		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+		}
 
-        public override bool BeforeInitialize(bool firstTime)
-        {
-            SKDManager.CreateStates();
-            return true;
-        }
-        public override void AfterInitialize()
-        {
-            SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
-            SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
-            ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
-            AutoActivationWatcher.Run();
-        }
+		public override bool BeforeInitialize(bool firstTime)
+		{
+			SKDManager.CreateStates();
+			return true;
+		}
+		public override void AfterInitialize()
+		{
+			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
+			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
+			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+			AutoActivationWatcher.Run();
+		}
 
-        void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
-        {
-            ApplicationService.Invoke(() =>
-            {
-                if (skdCallbackResult.JournalItems.Count > 0)
-                {
-                    ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(skdCallbackResult.JournalItems);
-                }
-                CopySKDStates(skdCallbackResult.SKDStates);
-                ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
-            });
-        }
-        void CopySKDStates(SKDStates skdStates)
-        {
-            foreach (var remoteDeviceState in skdStates.DeviceStates)
-            {
-                var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-                if (device != null)
-                {
-                    remoteDeviceState.CopyTo(device.State);
-                    device.State.OnStateChanged();
-                }
-            }
-        }
+		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				if (skdCallbackResult.JournalItems.Count > 0)
+				{
+					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(skdCallbackResult.JournalItems);
+				}
+				CopySKDStates(skdCallbackResult.SKDStates);
+				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
+			});
+		}
+		void CopySKDStates(SKDStates skdStates)
+		{
+			foreach (var remoteDeviceState in skdStates.DeviceStates)
+			{
+				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				if (device != null)
+				{
+					remoteDeviceState.CopyTo(device.State);
+					device.State.OnStateChanged();
+				}
+			}
+		}
 
 
-        #region ILayoutProviderModule Members
+		#region ILayoutProviderModule Members
 
-        public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
-        {
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDEmployees, "Сотрудники", "Levels.png", (p) => EmployeesViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDJournal, "Журнал", "Levels.png", (p) => JournalViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => VerificationViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDUsersAccess, "Доступ сотрудников", "Tree.png", (p) => UsersAccessViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDCards, "Карты", "Tree.png", (p) => CardsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDepartments, "Отделы", "Tree.png", (p) => DepartmentsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "Tree.png", (p) => PositionsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDocuments, "Документы", "Tree.png", (p) => DocumentsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDAdditionalColumns, "Дополнительные колонки", "Tree.png", (p) => AdditionalColumnsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => TimeIntervalsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "Tree.png", (p) => WeeklyIntervalsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "Tree.png", (p) => SlideDayIntervalsViewModel);
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDEmployees, "Сотрудники", "Levels.png", (p) => EmployeesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDJournal, "Журнал", "Levels.png", (p) => JournalViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => VerificationViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDUsersAccess, "Доступ сотрудников", "Tree.png", (p) => UsersAccessViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDCards, "Карты", "Tree.png", (p) => CardsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDepartments, "Отделы", "Tree.png", (p) => DepartmentsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "Tree.png", (p) => PositionsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDocuments, "Документы", "Tree.png", (p) => DocumentsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDAdditionalColumns, "Дополнительные колонки", "Tree.png", (p) => AdditionalColumnsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => TimeIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "Tree.png", (p) => WeeklyIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "Tree.png", (p) => SlideDayIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "BTree.png", (p) => MonthlyIntervalsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
-        }
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }
