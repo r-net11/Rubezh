@@ -69,7 +69,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Designer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutModule", "Modules\LayoutModule\LayoutModule.csproj", "{8CD90C43-088E-420C-AA4F-7346F6F11B57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModule", "Modules\SkudModule\SKDModule.csproj", "{BF76BEED-BCFB-488E-849E-D56F1F07D107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModule", "Modules\SKDModule\SKDModule.csproj", "{BF76BEED-BCFB-488E-849E-D56F1F07D107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
