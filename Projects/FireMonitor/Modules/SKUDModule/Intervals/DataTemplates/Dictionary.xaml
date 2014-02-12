@@ -22,12 +22,12 @@
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsViewModel}">
-        <Views:SlideWeekIntervalsView />
+    <DataTemplate DataType="{x:Type ViewModels:MonthlyIntervalsViewModel}">
+        <Views:MonthlyIntervalsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalDetailsViewModel}">
-        <Views:SlideWeekIntervalDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:MonthlyIntervalDetailsViewModel}">
+        <Views:MonthlyIntervalDetailsView />
     </DataTemplate>
 
 

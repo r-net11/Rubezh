@@ -5,12 +5,16 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeSlideWeeklyInterval
+	public class EmployeeMonthlyInterval
 	{
-		public EmployeeSlideWeeklyInterval()
+		public EmployeeMonthlyInterval()
 		{
 			UID = Guid.NewGuid();
-			WeeklyIntervalUIDs = new List<Guid>();
+			MonthlyIntervalParts = new List<EmployeeMonthlyIntervalPart>();
+			for (int i = 1; i <= 31; i++)
+			{
+				MonthlyIntervalParts.Add(new EmployeeMonthlyIntervalPart() { No = i });
+			}
 		}
 
 		[DataMember]
@@ -23,12 +27,9 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public DateTime StartDate { get; set; }
-
-		[DataMember]
 		public bool IsDefault { get; set; }
 
 		[DataMember]
-		public List<Guid> WeeklyIntervalUIDs { get; set; }
+		public List<EmployeeMonthlyIntervalPart> MonthlyIntervalParts { get; set; }
 	}
 }

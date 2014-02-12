@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SlideWeekIntervalsView"
+﻿<UserControl x:Class="SKDModule.Views.MonthlyIntervalsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
@@ -21,14 +21,14 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding SlideWeekIntervals}" SelectedItem="{Binding SelectedSlideWeekInterval}" Margin="2">
+            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MonthlyIntervals}" SelectedItem="{Binding SelectedMonthlyInterval}" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Наименование" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding SlideWeekInterval.Name}" VerticalAlignment="Center" Margin="2" />
+                                    <TextBlock Text="{Binding MonthlyInterval.Name}" VerticalAlignment="Center" Margin="2" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -36,42 +36,37 @@
                     <DataGridTemplateColumn Header="Описание" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SlideWeekInterval.Description}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="1-й день" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=SlideWeekInterval.StartDate, StringFormat=dd-MM-yy}" />
+                                <TextBlock Text="{Binding MonthlyInterval.Description}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </Controls:XDataGrid>
-            <Grid Grid.Column="1" DataContext="{Binding SelectedSlideWeekInterval}" IsEnabled="{Binding IsEnabled}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                </StackPanel>
-                <DataGrid Grid.Row="1" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}" IsReadOnly="False" Margin="2">
+            <Grid Grid.Column="1" DataContext="{Binding SelectedMonthlyInterval}" IsEnabled="{Binding IsEnabled}">
+                <DataGrid ItemsSource="{Binding MonthlyIntervals}" SelectedItem="{Binding SelectedMonthlyInterval}" IsReadOnly="False" Margin="2">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Наименование" Width="*">
+                        <DataGridTemplateColumn Header="День" Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                        <TextBlock Text="{Binding SelectedWeeklyInterval.Name}" VerticalAlignment="Center" Margin="2" />
+                                        <TextBlock Text="{Binding MonthlyIntervalPart.No}" VerticalAlignment="Center" Margin="2" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Интервал" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                        <TextBlock Text="{Binding SelectedTimeInterval.Name}" VerticalAlignment="Center" Margin="2" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableWeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">

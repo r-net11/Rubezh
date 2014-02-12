@@ -35,7 +35,7 @@ namespace SKDModule
         TimeIntervalsViewModel TimeIntervalsViewModel;
         WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
         SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
-        SlideWeekIntervalsViewModel SlideWeekIntervalsViewModel;
+		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
         HolidaysViewModel HolidaysViewModel;
         private PlanPresenter _planPresenter;
 
@@ -60,7 +60,7 @@ namespace SKDModule
             TimeIntervalsViewModel = new TimeIntervalsViewModel();
             WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
             SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
-            SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
+			MonthlyIntervalsViewModel = new MonthlyIntervalsViewModel();
             HolidaysViewModel = new HolidaysViewModel();
         }
 
@@ -87,7 +87,7 @@ namespace SKDModule
 							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSKDSlideWeekIntervalsEvent, Guid>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDMonthlyIntervalsEvent, Guid>(MonthlyIntervalsViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						}),
 					})
@@ -182,7 +182,7 @@ namespace SKDModule
             yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => TimeIntervalsViewModel);
             yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "Tree.png", (p) => WeeklyIntervalsViewModel);
             yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "Tree.png", (p) => SlideDayIntervalsViewModel);
-            yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "Tree.png", (p) => SlideWeekIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "BTree.png", (p) => MonthlyIntervalsViewModel);
             yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
         }
 

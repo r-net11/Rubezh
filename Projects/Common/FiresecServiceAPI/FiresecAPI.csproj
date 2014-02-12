@@ -197,7 +197,7 @@
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHoliday.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideDayInterval.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideWeeklyInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeIntervalPart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyInterval.cs" />
@@ -222,6 +222,7 @@
     <Compile Include="SKD\Database\Interval.cs" />
     <Compile Include="SKD\Database\NamedInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\IntervalTransitionType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyntervalPart.cs" />
     <Compile Include="SKD\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />

@@ -1,26 +1,33 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
+		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
+		bool IsNew;
 		public EmployeeSlideDayInterval SlideDayInterval { get; private set; }
 
-		public SlideDayIntervalDetailsViewModel(EmployeeSlideDayInterval slideDayInterval = null)
+		public SlideDayIntervalDetailsViewModel(SlideDayIntervalsViewModel slideDayIntervalsViewModel, EmployeeSlideDayInterval slideDayInterval = null)
 		{
+			SlideDayIntervalsViewModel = slideDayIntervalsViewModel;
 			if (slideDayInterval == null)
 			{
 				Title = "Новый скользящий посуточный график";
+				IsNew = true;
 				slideDayInterval = new EmployeeSlideDayInterval()
 				{
-					Name = "скользящий посуточный график"
+					Name = "Скользящий посуточный график"
 				};
 			}
 			else
 			{
 				Title = "Редактирование скользящего посуточного графика";
+				IsNew = false;
 			}
 			SlideDayInterval = slideDayInterval;
 			Name = SlideDayInterval.Name;
@@ -68,6 +75,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (SlideDayIntervalsViewModel.SlideDayIntervals.Any(x => x.SlideDayInterval.Name == Name && x.SlideDayInterval.UID != SlideDayInterval.UID))
+			{
+				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
+				return false;
+			}
+
 			SlideDayInterval.Name = Name;
 			SlideDayInterval.Description = Description;
 			SlideDayInterval.StartDate = StartDate;

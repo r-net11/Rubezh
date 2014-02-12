@@ -57,7 +57,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeInterval = (EmployeeTimeInterval)null; //SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
+			var timeInterval = new EmployeeTimeInterval(); //SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
 			if (timeInterval != null)
 			{
 				SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.UID);

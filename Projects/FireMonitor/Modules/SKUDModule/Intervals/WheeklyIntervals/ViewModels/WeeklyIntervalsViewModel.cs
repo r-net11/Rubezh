@@ -32,13 +32,6 @@ namespace SKDModule.ViewModels
 			if (neverTimeInterval == null)
 			{
 				neverTimeInterval = new EmployeeWeeklyInterval() { Name = "Никогда", IsDefault = true };
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 1, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 2, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 3, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 4, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 5, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 6, TimeIntervalUID = Guid.Empty });
-				neverTimeInterval.WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = 7, TimeIntervalUID = Guid.Empty });
 				employeeWeeklyIntervals.Add(neverTimeInterval);
 			}
 

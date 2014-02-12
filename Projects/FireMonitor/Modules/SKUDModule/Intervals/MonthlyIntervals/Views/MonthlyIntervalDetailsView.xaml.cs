@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class SlideWeekIntervalsView : UserControl
+	public partial class MonthlyIntervalDetailsView : UserControl
 	{
-		public SlideWeekIntervalsView()
+		public MonthlyIntervalDetailsView()
 		{
 			InitializeComponent();
 		}

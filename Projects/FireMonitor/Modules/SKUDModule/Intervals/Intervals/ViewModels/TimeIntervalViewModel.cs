@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		public TimeIntervalViewModel(EmployeeTimeInterval timeInterval)
 		{
 			TimeInterval = timeInterval;
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			TimeIntervalParts = new ObservableCollection<TimeIntervalPartViewModel>();
@@ -54,10 +54,6 @@ namespace SKDModule.ViewModels
 				var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
 				TimeIntervalParts.Add(timeIntervalPartViewModel);
 			}
-		}
-		bool CanAdd()
-		{
-			return TimeIntervalParts.Count < 100;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

@@ -12,6 +12,7 @@ namespace VideoModule.ViewModels
 	{
 		private LayoutPartCameraProperties _properties;
 		private LayoutPartPropertyPageViewModel _imagePage;
+
 		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
 		{
 			Title = "Камера";
