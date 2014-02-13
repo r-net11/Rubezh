@@ -15,6 +15,8 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		EmployeeTimeInterval IntervalToCopy;
+
 		public TimeIntervalsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -22,6 +24,7 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
@@ -45,7 +48,11 @@ namespace SKDModule.ViewModels
 			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
 		}
 
-		EmployeeTimeInterval IntervalToCopy;
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
+		}
 
 		ObservableCollection<TimeIntervalViewModel> _timeIntervals;
 		public ObservableCollection<TimeIntervalViewModel> TimeIntervals

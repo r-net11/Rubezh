@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="SKDModule.Views.OrganisationDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+    MinWidth="600" MinHeight="450">
+
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Название" Margin="2" HorizontalAlignment="Right" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Описание" Margin="2" HorizontalAlignment="Right" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

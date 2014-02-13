@@ -20,6 +20,7 @@
             <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
             <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
             <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="/Controls;component/Images/Paste.png" />
+            <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
         </StackPanel>
         <Grid Grid.Row="1" Margin="2">
             <Grid.ColumnDefinitions>

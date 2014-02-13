@@ -17,16 +17,16 @@ namespace SKDModule.ViewModels
 			MonthlyIntervalsViewModel = monthlyIntervalsViewModel;
 			if (monthlyInterval == null)
 			{
-				Title = "Новая месячная схема работы";
+				Title = "Новый месячный график работы";
 				IsNew = true;
 				monthlyInterval = new EmployeeMonthlyInterval()
 				{
-					Name = "Новая месячная схема работы"
+					Name = "Месячный график работы"
 				};
 			}
 			else
 			{
-				Title = "Редактирование месячной схемы работы";
+				Title = "Редактирование месячного графика работы";
 				IsNew = false;
 			}
 			MonthlyInterval = monthlyInterval;

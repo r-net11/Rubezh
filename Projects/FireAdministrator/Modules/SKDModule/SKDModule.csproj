@@ -85,6 +85,7 @@
     <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
+    <Compile Include="Events\ShowSKDOrganisationsEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\SKDEventViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
@@ -279,6 +280,19 @@
     </Compile>
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationsMenuViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Organisations\Views\OrganisationDetailsView.xaml.cs">
+      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\Views\OrganisationsMenuView.xaml.cs">
+      <DependentUpon>OrganisationsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
+      <DependentUpon>OrganisationsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -501,6 +515,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Zones\Views\ZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

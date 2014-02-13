@@ -16,10 +16,10 @@ namespace SKDModule.ViewModels
 			WeeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			if (weeklyInterval == null)
 			{
-				Title = "Новый понедельный график";
+				Title = "Новый недельный график";
 				weeklyInterval = new EmployeeWeeklyInterval()
 				{
-					Name = "Понедельный график",
+					Name = "Недельный график",
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = "Редактирование понедельногор графика";
+				Title = "Редактирование недельногор графика";
 			}
 			WeeklyInterval = weeklyInterval;
 			Name = WeeklyInterval.Name;

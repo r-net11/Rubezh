@@ -15,6 +15,8 @@ namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		EmployeeSlideDayInterval IntervalToCopy;
+
 		public SlideDayIntervalsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -22,6 +24,7 @@ namespace SKDModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
@@ -45,7 +48,11 @@ namespace SKDModule.ViewModels
 			SelectedSlideDayInterval = SlideDayIntervals.FirstOrDefault();
 		}
 
-		EmployeeSlideDayInterval IntervalToCopy;
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
+		}
 
 		ObservableCollection<SlideDayIntervalViewModel> _slideDayIntervals;
 		public ObservableCollection<SlideDayIntervalViewModel> SlideDayIntervals
