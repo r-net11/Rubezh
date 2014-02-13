@@ -47,7 +47,7 @@ namespace FiresecClient
 				var cards = GetCards(new CardFilter{ Uids = employee.CardUids });
 				foreach (var card in cards)
 				{
-					card.EmployeeUid = employee.Uid;
+					card.EmployeeUid = employee.UID;
 				}
 				FiresecService.SaveCards(cards);
 				 

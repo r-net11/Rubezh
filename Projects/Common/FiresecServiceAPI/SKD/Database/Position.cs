@@ -8,11 +8,11 @@ namespace FiresecAPI
 	{
 		public Position()
 		{
-			Uid = Guid.NewGuid();
+			UID = Guid.NewGuid();
 		}
 
 		[DataMember]
-		public Guid Uid;
+		public Guid UID;
 
 		[DataMember]
 		public string Name { get; set; }

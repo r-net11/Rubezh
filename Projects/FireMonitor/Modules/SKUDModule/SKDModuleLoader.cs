@@ -22,11 +22,11 @@ namespace SKDModule
 	public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		EmployeesViewModel EmployeesViewModel;
+		UsersAccessViewModel UsersAccessViewModel;
 		JournalViewModel JournalViewModel;
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		VerificationViewModel VerificationViewModel;
-		UsersAccessViewModel UsersAccessViewModel;
 		CardsViewModel CardsViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
@@ -48,11 +48,11 @@ namespace SKDModule
 		public override void CreateViewModels()
 		{
 			EmployeesViewModel = new EmployeesViewModel();
+			UsersAccessViewModel = new UsersAccessViewModel();
 			JournalViewModel = new JournalViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			VerificationViewModel = new VerificationViewModel();
-			UsersAccessViewModel = new UsersAccessViewModel();
 			CardsViewModel = new CardsViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
@@ -74,11 +74,11 @@ namespace SKDModule
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
+						new NavigationItem<ShowSKDUsersAccessEvent>(UsersAccessViewModel, "Доступ сотрудников", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
-						new NavigationItem<ShowSKDUsersAccessEvent>(UsersAccessViewModel, "Доступ сотрудников", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
@@ -114,11 +114,11 @@ namespace SKDModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));

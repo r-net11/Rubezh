@@ -17,7 +17,12 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			Initialize();
+		}
 
+		void Initialize()
+		{
 			AdditionalColumns = new ObservableCollection<AdditionalColumnViewModel>();
 			//var additionalColumns = FiresecManager.GetPositions(null);
 			var additionalColumns = new List<AdditionalColumn>();
@@ -27,6 +32,12 @@ namespace SKDModule.ViewModels
 				AdditionalColumns.Add(additionalColumnViewModel);
 			}
 			SelectedAdditionalColumn = AdditionalColumns.FirstOrDefault();
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 
 		ObservableCollection<AdditionalColumnViewModel> _additionalColumns;
@@ -54,7 +65,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel();
+			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(additionalColumnDetailsViewModel))
 			{
 				var additionalColumn = additionalColumnDetailsViewModel.AdditionalColumn;
@@ -81,7 +92,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel(SelectedAdditionalColumn.AdditionalColumn);
+			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel(this, SelectedAdditionalColumn.AdditionalColumn);
 			if (DialogService.ShowModalWindow(additionalColumnDetailsViewModel))
 			{
 				SelectedAdditionalColumn.Update(additionalColumnDetailsViewModel.AdditionalColumn);

@@ -11,7 +11,7 @@ namespace SKDDriver
 				return null;
 			return new Position
 			{
-				Uid = position.Uid,
+				Uid = position.UID,
 				Name = position.Name,
 				Description = position.Description
 			};
@@ -38,7 +38,7 @@ namespace SKDDriver
 				return null;
 			var result = new Employee
 			{
-				Uid = employee.Uid,
+				Uid = employee.UID,
 				FirstName = employee.FirstName,
 				SecondName = employee.SecondName,
 				LastName = employee.LastName,
@@ -93,7 +93,7 @@ namespace SKDDriver
 				EmployeeUid = card.EmployeeUid,
 				Number = card.Number,
 				Series = card.Series,
-				Uid = card.Uid,
+				Uid = card.UID,
 				ValidFrom = validFrom,
 				ValidTo = validTo,
 				IsAntipass = card.IsAntipass,

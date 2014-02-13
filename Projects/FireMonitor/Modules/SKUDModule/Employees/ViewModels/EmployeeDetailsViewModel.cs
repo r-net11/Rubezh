@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
+		EmployeesViewModel EmployeesViewModel;
 		public Employee Employee { get; private set; }
 
-		public EmployeeDetailsViewModel(Employee employee = null)
+		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
 		{
+			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
 				Title = "Создание сотрудника";
@@ -65,11 +68,17 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return true;
+			return !string.IsNullOrEmpty(FirstName);
 		}
 
 		protected override bool Save()
 		{
+			if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
+			{
+				MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
+				return false;
+			}
+
 			Employee = new Employee()
 			{
 				FirstName = FirstName,

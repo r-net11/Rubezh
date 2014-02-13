@@ -60,16 +60,16 @@
     </Compile>
     <Compile Include="Access\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Access\ViewModels\AccessZoneViewModel.cs" />
-    <Compile Include="Access\ViewModels\CardDetailsViewModel.cs" />
+    <Compile Include="Access\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Access\ViewModels\CardRemovalReasonViewModel.cs" />
-    <Compile Include="Access\ViewModels\CardViewModel.cs" />
+    <Compile Include="Access\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Access\ViewModels\UsersAccessViewModel.cs" />
     <Compile Include="Access\ViewModels\UserAccessViewModel.cs" />
     <Compile Include="Access\Views\AccessZonesSelectationView.xaml.cs">
       <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Access\Views\CardDetailsView.xaml.cs">
-      <DependentUpon>CardDetailsView.xaml</DependentUpon>
+    <Compile Include="Access\Views\EmployeeCardDetailsView.xaml.cs">
+      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Access\Views\CardRemovalReasonView.xaml.cs">
       <DependentUpon>CardRemovalReasonView.xaml</DependentUpon>
@@ -79,8 +79,13 @@
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
+    <Compile Include="Cards\ViewModels\CardViewModel.cs" />
+    <Compile Include="Cards\ViewModels\CardDetailsViewModel.cs" />
     <Compile Include="Cards\Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\Views\CardDetailsView.xaml.cs">
+      <DependentUpon>CardDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Departments\ViewModels\DepartmentDetailsViewModel.cs" />
     <Compile Include="Departments\ViewModels\DepartmentViewModel.cs" />
@@ -340,7 +345,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Access\Views\CardDetailsView.xaml">
+    <Page Include="Access\Views\EmployeeCardDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,6 +362,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Cards\Views\CardsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cards\Views\CardDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

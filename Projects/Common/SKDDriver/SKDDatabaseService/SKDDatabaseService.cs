@@ -132,7 +132,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -176,7 +176,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -243,7 +243,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -288,7 +288,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
@@ -322,7 +322,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
@@ -373,7 +373,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}

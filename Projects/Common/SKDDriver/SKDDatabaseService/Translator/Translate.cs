@@ -18,7 +18,7 @@ namespace SKDDriver
 				return null;
 			return new FiresecAPI.Position
 			{
-				Uid = position.Uid,
+				UID = position.Uid,
 				Name = position.Name,
 				Description = position.Description
 			};
@@ -65,7 +65,7 @@ namespace SKDDriver
 
 			var resultEmployee = new FiresecAPI.Employee
 			{
-				Uid = employee.Uid,
+				UID = employee.Uid,
 				FirstName = employee.FirstName,
 				SecondName = employee.SecondName,
 				LastName = employee.LastName,
@@ -118,7 +118,7 @@ namespace SKDDriver
 				return null;
 			return new FiresecAPI.Document
 			{
-				Uid = document.Uid,
+				UID = document.Uid,
 				Name = document.Name,
 				Description = document.Description,
 				IssueDate = document.IssueDate,
@@ -174,7 +174,7 @@ namespace SKDDriver
 				EmployeeUid = card.EmployeeUid,
 				Number = card.Number,
 				Series = card.Series,
-				Uid = card.Uid,
+				UID = card.Uid,
 				ValidFrom = card.ValidFrom,
 				ValidTo = card.ValidTo,
 				ZoneLinkUids = zoneUids,

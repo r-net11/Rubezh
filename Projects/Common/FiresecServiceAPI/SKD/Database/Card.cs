@@ -9,11 +9,11 @@ namespace FiresecAPI
 	{
 		public SKDCard()
 		{
-			Uid = Guid.NewGuid();
+			UID = Guid.NewGuid();
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public int? Series { get; set; }

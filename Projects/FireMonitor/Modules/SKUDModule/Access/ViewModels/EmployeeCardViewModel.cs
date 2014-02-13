@@ -7,13 +7,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class CardViewModel : BaseViewModel
+	public class EmployeeCardViewModel : BaseViewModel
 	{
 		public SKDCard Card { get; private set; }
 		UserAccessViewModel UserAccessViewModel;
 		List<Guid> ZoneUIDs;
 
-		public CardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
+		public EmployeeCardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
 		{
 			RemoveCommand = userAccessViewModel.RemoveCardCommand;
 			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanChangeZones);

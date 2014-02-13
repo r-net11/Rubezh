@@ -4,11 +4,11 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class CardDetailsViewModel : SaveCancelDialogViewModel
+	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public SKDCard Card { get; private set; }
 
-		public CardDetailsViewModel()
+		public EmployeeCardDetailsViewModel()
 		{
 			Title = "Выдача карт доступа";
 		}
@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 		{
 			Card = new SKDCard()
 			{
-				Uid = Guid.NewGuid(),
+				UID = Guid.NewGuid(),
 				Series = IDFamily,
 				Number = IDNo,
 				ValidFrom = StartDate,
