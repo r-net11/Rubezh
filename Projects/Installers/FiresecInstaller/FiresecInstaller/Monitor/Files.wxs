@@ -59,6 +59,7 @@
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
 				<File Id="Monitor.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
       <Component Id="Monitor.Revisor" Guid="B3038497-9AAE-4DBD-86AD-BC7B0174E543">

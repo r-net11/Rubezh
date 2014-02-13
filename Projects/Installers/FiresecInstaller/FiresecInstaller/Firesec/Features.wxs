@@ -13,12 +13,12 @@
       <ComponentRef Id="Firesec.Utils"/>
       <ComponentRef Id="Firesec.Utils.ProgramMenuShortcut" />
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
-            Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
+            Level="1" Display="hidden" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
     </Feature>
     <?endif?>
     <?if $(var.Firesec1Version)=50?>
     <Feature Id="Firesec.Features" Title="Драйвер FireSec" Description="Программа установит драйверы приборов Рубеж-4а, Рубеж-2ОП, БУНС. Выключите данную опцию для обеспечения обратной соместимости с FireSec-1"
-           Level="1" Display="expand" ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="no" Absent='allow' InstallDefault="local">
+           Level="1" Display="hidden" ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="no" Absent='allow' InstallDefault="local">
       <ComponentRef Id="Firesec5.Files1" />
       <ComponentRef Id="Firesec5.Files2" />
       <ComponentRef Id="Firesec5.Files3" />
