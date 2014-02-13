@@ -130,6 +130,12 @@
     <Compile Include="Events\ShowSKDDocumentsEvent.cs" />
     <Compile Include="Events\ShowSKDAdditionalColumnsEvent.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
+    <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
+    <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
+    <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
+    <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
+      <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
@@ -219,8 +225,8 @@
     <Compile Include="Intervals\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaysViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayViewModel.cs" />
-    <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
-      <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
+    <Compile Include="Intervals\Holidays\Views\HolidaySettingsView.xaml.cs">
+      <DependentUpon>HolidaySettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
@@ -353,6 +359,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Intervals\Holidays\Views\HolidayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -373,7 +383,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\Holidays\Views\HolidayDetailsView.xaml">
+    <Page Include="Intervals\Holidays\Views\HolidaySettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

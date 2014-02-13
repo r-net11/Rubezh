@@ -9,7 +9,7 @@ namespace FiresecAPI
 		public EmployeeHoliday()
 		{
 			UID = Guid.NewGuid();
-			TypeNo = 1;
+			EmployeeHolidayType = EmployeeHolidayType.Holiday;
 		}
 
 		[DataMember]
@@ -22,6 +22,13 @@ namespace FiresecAPI
 		public DateTime DateTime { get; set; }
 
 		[DataMember]
-		public int TypeNo { get; set; }
+		public EmployeeHolidayType EmployeeHolidayType { get; set; }
+
+		[DataMember]
+		public DateTime ShortageTime { get; set; }
+
+		[DataMember]
+		public DateTime TransitionDateTime { get; set; }
+
 	}
 }

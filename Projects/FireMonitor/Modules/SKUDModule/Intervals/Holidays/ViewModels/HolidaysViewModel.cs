@@ -13,100 +13,38 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidaysViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class HolidaysViewModel : ViewPartViewModel
 	{
 		public HolidaysViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			Initialize();
-		}
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 
-		public void Initialize()
-		{
-			Holidays = new ObservableCollection<HolidayViewModel>();
-			var employeeHolidays = new List<EmployeeHoliday>();
-			foreach (var holiday in employeeHolidays)
+			AvailableYears = new ObservableCollection<HolidayYearViewModel>();
+			for (int i = 2010; i <= 2020; i++)
 			{
-				var holidayViewModel = new HolidayViewModel(holiday);
-				Holidays.Add(holidayViewModel);
+				AvailableYears.Add(new HolidayYearViewModel(i));
 			}
-			SelectedHoliday = Holidays.FirstOrDefault();
+			SelectedYear = AvailableYears.FirstOrDefault(x => x.Year == DateTime.Now.Year);
 		}
 
-		ObservableCollection<HolidayViewModel> _holidays;
-		public ObservableCollection<HolidayViewModel> Holidays
+		public ObservableCollection<HolidayYearViewModel> AvailableYears { get; private set; }
+
+		HolidayYearViewModel _selectedYear;
+		public HolidayYearViewModel SelectedYear
 		{
-			get { return _holidays; }
+			get { return _selectedYear; }
 			set
 			{
-				_holidays = value;
-				OnPropertyChanged("Holidays");
+				_selectedYear = value;
+				OnPropertyChanged("SelectedYear");
 			}
 		}
 
-		HolidayViewModel _selectedHoliday;
-		public HolidayViewModel SelectedHoliday
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
 		{
-			get { return _selectedHoliday; }
-			set
-			{
-				_selectedHoliday = value;
-				OnPropertyChanged("SelectedHoliday");
-			}
-		}
-
-		public void Select(Guid holidayUID)
-		{
-			if (holidayUID != Guid.Empty)
-			{
-				var holidayViewModel = Holidays.FirstOrDefault(x => x.Holiday.UID == holidayUID);
-				if (holidayViewModel != null)
-				{
-					SelectedHoliday = holidayViewModel;
-				}
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var holidayDetailsViewModel = new HolidayDetailsViewModel();
-			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
-			{
-				var holidayViewModel = new HolidayViewModel(holidayDetailsViewModel.Holiday);
-				Holidays.Add(holidayViewModel);
-				SelectedHoliday = holidayViewModel;
-			}
-		}
-		bool CanAdd()
-		{
-			return Holidays.Count < 100;
-		}
-
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			Holidays.Remove(SelectedHoliday);
-		}
-		bool CanDelete()
-		{
-			return SelectedHoliday != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var holidayDetailsViewModel = new HolidayDetailsViewModel(SelectedHoliday.Holiday);
-			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
-			{
-				SelectedHoliday.Update();
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedHoliday != null;
+			var holidaySettingsViewModel = new HolidaySettingsViewModel();
+			DialogService.ShowModalWindow(holidaySettingsViewModel);
 		}
 	}
 }

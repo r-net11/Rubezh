@@ -197,6 +197,7 @@
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHoliday.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHolidayType.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideDayInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeInterval.cs" />

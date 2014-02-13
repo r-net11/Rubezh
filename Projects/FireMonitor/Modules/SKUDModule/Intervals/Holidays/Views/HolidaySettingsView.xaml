@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="SKDModule.Views.HolidaySettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             Width="400" Height="400">
+
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Ночное время с" Foreground="White" Margin="2" />
+                <Controls:TimePicker Grid.Row="0" Grid.Column="1" Time="{Binding NightStartTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Ночное время до" Foreground="White" Margin="2" />
+                <Controls:TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding NightEndTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Вечернее время с" Foreground="White" Margin="2" />
+                <Controls:TimePicker Grid.Row="2" Grid.Column="1" Time="{Binding EveningStartTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Вечернее время до" Foreground="White" Margin="2" />
+                <Controls:TimePicker Grid.Row="3" Grid.Column="1" Time="{Binding EveningEndTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

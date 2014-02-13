@@ -22,11 +22,10 @@
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Первый день графика" Foreground="White" Margin="2" />
-                <!--<loya:Dameer Grid.Row="2" Grid.Column="1" ShowCheckBox="False"
-                                     Format="Custom"
-                                     CustomFormat="dd MMMM yyyy"
-                                     Width="Auto"
-                                     Value="{Binding StartDate}" Margin="2" />-->
+                <Calendar Grid.Row="2" Grid.Column="1"
+                    SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" 
+                    SelectionMode="SingleDate" />
 
             </Grid>
         </TabItem>

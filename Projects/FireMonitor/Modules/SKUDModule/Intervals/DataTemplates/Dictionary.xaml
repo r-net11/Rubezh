@@ -47,4 +47,9 @@
     <DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
         <Views:HolidayDetailsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:HolidaySettingsViewModel}">
+        <Views:HolidaySettingsView />
+    </DataTemplate>
+
 </ResourceDictionary>
