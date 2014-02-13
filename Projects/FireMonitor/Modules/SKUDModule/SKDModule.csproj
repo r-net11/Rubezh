@@ -129,6 +129,7 @@
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowSKDDocumentsEvent.cs" />
     <Compile Include="Events\ShowSKDAdditionalColumnsEvent.cs" />
+    <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
@@ -160,6 +161,9 @@
       <DependentUpon>PositionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Converters\TransitionToStringConverter.cs" />
+    <Compile Include="Reports\Converters\EmployeeReportTypeToStringConverter.cs" />
+    <Compile Include="Reports\Models\EmployeeReportFilter.cs" />
+    <Compile Include="Reports\Models\EmployeeReportType.cs" />
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
@@ -274,6 +278,15 @@
     </Compile>
     <Compile Include="Intervals\Intervals\Views\TimeIntervalDetailsView.xaml.cs">
       <DependentUpon>TimeIntervalDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ViewModels\ReportSettingsViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
+    <Compile Include="Reports\ViewModels\ReportViewModel.cs" />
+    <Compile Include="Reports\Views\ReportSettingsView.xaml.cs">
+      <DependentUpon>ReportSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Views\ReportsView.xaml.cs">
+      <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -488,6 +501,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="AdditionalColumns\Views\AdditionalColumnsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\ReportSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\Views\ReportsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

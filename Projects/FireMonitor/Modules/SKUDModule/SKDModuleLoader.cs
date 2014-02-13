@@ -37,6 +37,7 @@ namespace SKDModule
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
+		ReportsViewModel ReportsViewModel;
 		private PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -62,6 +63,7 @@ namespace SKDModule
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			MonthlyIntervalsViewModel = new MonthlyIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
+			ReportsViewModel = new ReportsViewModel();
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -82,6 +84,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
 						new NavigationItem("Интервалы", null, new List<NavigationItem>()
 						{
 							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -122,6 +125,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AdditionalColumns/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
 
