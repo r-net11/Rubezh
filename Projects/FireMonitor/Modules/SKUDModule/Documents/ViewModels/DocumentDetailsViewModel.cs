@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		{
 			if (DocumentsViewModel.Documents.Any(x => x.Document.Name == Name && x.Document.UID != Document.UID))
 			{
-				MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
+				MessageBoxService.ShowWarning("Название документа совпадает с введенным ранее");
 				return false;
 			}
 

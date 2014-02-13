@@ -8,34 +8,34 @@ using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionDetailsViewModel : SaveCancelDialogViewModel
+	public class GUDDetailsViewModel : SaveCancelDialogViewModel
 	{
-		PositionsViewModel PositionsViewModel;
-		public Position Position { get; private set; }
+		GUDsViewModel GUDsViewModel;
+		public GUD GUD { get; private set; }
 
-		public PositionDetailsViewModel(PositionsViewModel positionsViewModel, Position position = null)
+		public GUDDetailsViewModel(GUDsViewModel gudsViewModel, GUD gud = null)
 		{
-			PositionsViewModel = positionsViewModel;
-			if (position == null)
+			GUDsViewModel = gudsViewModel;
+			if (gud == null)
 			{
-				Title = "Создание должности";
-				position = new Position()
+				Title = "Создание ГУД";
+				gud = new GUD()
 				{
-					Name = "Новая должность",
+					Name = "Новый ГУД",
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства должности: {0}", position.Name);
+				Title = string.Format("Свойства ГУД: {0}", gud.Name);
 			}
-			Position = position;
+			GUD = gud;
 			CopyProperties();
 		}
 
 		public void CopyProperties()
 		{
-			Name = Position.Name;
-			Description = Position.Description;
+			Name = GUD.Name;
+			Description = GUD.Description;
 		}
 
 		string _name;
@@ -73,13 +73,13 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (PositionsViewModel.Positions.Any(x => x.Position.Name == Name && x.Position.UID != Position.UID))
+			if (GUDsViewModel.GUDs.Any(x => x.GUD.Name == Name && x.GUD.UID != GUD.UID))
 			{
-				MessageBoxService.ShowWarning("Название должности совпадает с введеннымы ранее");
+				MessageBoxService.ShowWarning("Название ГУД совпадает с введеннымы ранее");
 				return false;
 			}
 
-			Position = new Position()
+			GUD = new GUD()
 			{
 				Name = Name,
 				Description = Description

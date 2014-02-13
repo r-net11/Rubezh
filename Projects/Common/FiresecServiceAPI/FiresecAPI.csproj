@@ -254,6 +254,7 @@
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
     <Compile Include="SKD\Library\SKDLibraryFrame.cs" />
     <Compile Include="SKD\Library\SKDLibraryState.cs" />
+    <Compile Include="SKD\GUD.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDEventsHelper.cs" />
     <Compile Include="SKD\SKDOrganisation.cs" />

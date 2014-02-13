@@ -75,7 +75,7 @@ namespace SKDModule.ViewModels
 		{
 			if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
 			{
-				MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
+				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
 				return false;
 			}
 

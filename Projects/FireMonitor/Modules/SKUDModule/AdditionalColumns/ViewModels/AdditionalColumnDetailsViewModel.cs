@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 		{
 			if (AdditionalColumnsViewModel.AdditionalColumns.Any(x => x.AdditionalColumn.Name == Name && x.AdditionalColumn.UID != AdditionalColumn.UID))
 			{
-				MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
+				MessageBoxService.ShowWarning("Название дополнительной колонки совпадает с введенным ранее");
 				return false;
 			}
 

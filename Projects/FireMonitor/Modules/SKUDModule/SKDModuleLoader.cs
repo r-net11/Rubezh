@@ -23,6 +23,7 @@ namespace SKDModule
 	{
 		EmployeesViewModel EmployeesViewModel;
 		UsersAccessViewModel UsersAccessViewModel;
+		GUDsViewModel GUDsViewModel;
 		JournalViewModel JournalViewModel;
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
@@ -49,6 +50,7 @@ namespace SKDModule
 		{
 			EmployeesViewModel = new EmployeesViewModel();
 			UsersAccessViewModel = new UsersAccessViewModel();
+			GUDsViewModel = new GUDsViewModel();
 			JournalViewModel = new JournalViewModel();
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -75,6 +77,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDUsersAccessEvent>(UsersAccessViewModel, "Доступ сотрудников", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDGUDAccessEvent>(GUDsViewModel, "ГУД", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -115,6 +118,7 @@ namespace SKDModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GUDs/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));

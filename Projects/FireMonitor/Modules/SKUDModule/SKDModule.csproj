@@ -135,6 +135,7 @@
     <Compile Include="Events\ShowSKDDocumentsEvent.cs" />
     <Compile Include="Events\ShowSKDAdditionalColumnsEvent.cs" />
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
+    <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
@@ -292,6 +293,15 @@
     </Compile>
     <Compile Include="Reports\Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUDs\ViewModels\GUDDetailsViewModel.cs" />
+    <Compile Include="GUDs\ViewModels\GUDsViewModel.cs" />
+    <Compile Include="GUDs\ViewModels\GUDViewModel.cs" />
+    <Compile Include="GUDs\Views\GUDDetailsView.xaml.cs">
+      <DependentUpon>GUDDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUDs\Views\GUDsView.xaml.cs">
+      <DependentUpon>GUDsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -522,6 +532,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reports\Views\ReportsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUDs\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUDs\Views\GUDDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUDs\Views\GUDsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
