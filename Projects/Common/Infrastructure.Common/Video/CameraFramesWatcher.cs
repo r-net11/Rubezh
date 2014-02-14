@@ -18,12 +18,8 @@ namespace Infrastructure.Common.Video
 		private int _imagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
 		private readonly Object _loker;
-<<<<<<< HEAD
-		public CameraFramesWatcher(Camera camera)
-=======
 		private List<StandbyFrames> StandbyFramesList { get; set; } 
 		public CameraFramesWatcher(Camera camera, int imagesBufferSizeBeforeEvent = 10, int imagesBufferFrameInterval = 1)
->>>>>>> CameraFramesWatcher fix
 		{
 			StandbyFramesList = new List<StandbyFrames>();
 			_imagesBufferSize = imagesBufferSizeBeforeEvent;
@@ -37,16 +33,6 @@ namespace Infrastructure.Common.Video
 			var dateTime = DateTime.Now;
 			lock (_loker)
 			{
-<<<<<<< HEAD
-				if ((CameraFrames != null) && (CameraFrames.Count != 0) &&
-					(dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1)))
-				{
-					var newbmp = new Bitmap(bmp);
-					var cameraFrame = new CameraFrame(newbmp, dateTime);
-					ImagesBufferIndex = ImagesBufferIndex % IMAGES_BUFFER_SIZE;
-					CameraFrames[ImagesBufferIndex] = cameraFrame;
-					ImagesBufferIndex++;
-=======
 				if ((CameraFrames != null) && (CameraFrames.Count == _imagesBufferSize) &&
 				    (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(_imagesBufferFrameInterval)))
 				{
@@ -67,7 +53,6 @@ namespace Infrastructure.Common.Video
 							bmpToSave.Dispose();
 							StandbyFramesList = new List<StandbyFrames>();
 						}
->>>>>>> CameraFramesWatcher fix
 				}
 			}
 		}
@@ -117,9 +102,6 @@ namespace Infrastructure.Common.Video
 			MjpegCamera.StopVideo();
 		}
 	}
-<<<<<<< HEAD
-}
-=======
 
 	public class StandbyFrames
 	{
@@ -134,4 +116,3 @@ namespace Infrastructure.Common.Video
 		}
 	}
 }
->>>>>>> CameraFramesWatcher fix

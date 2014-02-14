@@ -34,10 +34,6 @@ namespace VideoModule.ViewModels
 		public bool HasError { get; private set; }
 		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
 
-<<<<<<< HEAD
-		public bool IsNowPlaying { get; private set; }
-		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
-=======
 		private bool _isNowPlaying;
 		public bool IsNowPlaying
 		{
@@ -48,8 +44,7 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged("IsNowPlaying");
 			}
 		}
-		public CameraViewModel(Camera camera)
->>>>>>> CameraFramesWatcher fix
+		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
