@@ -22,7 +22,7 @@ namespace DiagnosticsModule.ViewModels
 			CameraFramesWatcher = new CameraFramesWatcher(camera);
 			StartCommand = new RelayCommand(OnStart, () => !IsNowPlaying);
 			StopCommand = new RelayCommand(OnStop, () => IsNowPlaying);
-			SaveCommand = new RelayCommand(OnSave, () => !IsNowPlaying);
+			SaveCommand = new RelayCommand(OnSave);
 		}
 
 		public RelayCommand StartCommand { get; private set; }
@@ -42,7 +42,9 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			CameraFramesWatcher.Save();
+			var guid = new Guid();
+			var i = 5;
+			CameraFramesWatcher.Save(guid, i);
 		}
 
 

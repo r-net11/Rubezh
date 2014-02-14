@@ -16,7 +16,7 @@ namespace Infrastructure.Common
 		public string Login { get { return Camera.Login; } }
 		public string Password { get { return Camera.Password; } }
 		public Camera Camera { get; private set; }
-		public List<StringBuilder> ErrorLog { get; private set; }
+		public string Error { get; private set; }
 		public MjpegCamera(Camera camera)
 		{
 			Camera = camera;
@@ -199,7 +199,7 @@ namespace Infrastructure.Common
 				}
 				catch (WebException ex)
 				{
-					ErrorLog.Add(new StringBuilder(ex.Message));
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 					// wait for a while before the next try
@@ -207,7 +207,7 @@ namespace Infrastructure.Common
 				}
 				catch (ApplicationException ex)
 				{
-					ErrorLog.Add(new StringBuilder(ex.Message));
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 					// wait for a while before the next try
@@ -215,7 +215,7 @@ namespace Infrastructure.Common
 				}
 				catch (Exception ex)
 				{
-					ErrorLog.Add(new StringBuilder(ex.Message));
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 				}

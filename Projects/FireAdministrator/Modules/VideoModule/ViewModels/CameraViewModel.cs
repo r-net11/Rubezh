@@ -34,8 +34,22 @@ namespace VideoModule.ViewModels
 		public bool HasError { get; private set; }
 		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
 
+<<<<<<< HEAD
 		public bool IsNowPlaying { get; private set; }
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
+=======
+		private bool _isNowPlaying;
+		public bool IsNowPlaying
+		{
+			get { return _isNowPlaying; }
+			private set
+			{
+				_isNowPlaying = value;
+				OnPropertyChanged("IsNowPlaying");
+			}
+		}
+		public CameraViewModel(Camera camera)
+>>>>>>> CameraFramesWatcher fix
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
@@ -103,7 +117,6 @@ namespace VideoModule.ViewModels
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 			IsNowPlaying = true;
-			OnPropertyChanged("IsNowPlaying");
 		}
 		public void StopVideo()
 		{
@@ -117,7 +130,6 @@ namespace VideoModule.ViewModels
 			MjpegCamera.StopVideo();
 			ImageSource = new BitmapImage();
 			IsNowPlaying = false;
-			OnPropertyChanged("IsNowPlaying");
 		}
 
 		private ImageSource _imageSource;
