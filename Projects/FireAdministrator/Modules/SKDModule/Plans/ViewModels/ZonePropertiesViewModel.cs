@@ -52,12 +52,12 @@ namespace SKDModule.Plans.ViewModels
 			}
 		}
 
-		private ZoneViewModel _selectedZone;
-
 		public ZoneViewModel[] RootZones
 		{
 			get { return new ZoneViewModel[] { RootZone }; }
 		}
+
+		private ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
@@ -108,9 +108,13 @@ namespace SKDModule.Plans.ViewModels
 		}
 		private bool CanEdit()
 		{
-			return SelectedZone != null;
+			return SelectedZone != null && !SelectedZone.Zone.IsRootZone;
 		}
 
+		protected override bool CanSave()
+		{
+			return SelectedZone == null || !SelectedZone.Zone.IsRootZone;
+		}
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;

@@ -17,7 +17,7 @@ namespace Infrastructure.Common.Video
 		private int ImagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
 		private readonly Object _loker;
-		public CameraFramesWatcher (Camera camera)
+		public CameraFramesWatcher(Camera camera)
 		{
 			MjpegCamera = new MjpegCamera(camera);
 			_loker = new object();
@@ -29,11 +29,11 @@ namespace Infrastructure.Common.Video
 			lock (_loker)
 			{
 				if ((CameraFrames != null) && (CameraFrames.Count != 0) &&
-				    (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1)))
+					(dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1)))
 				{
 					var newbmp = new Bitmap(bmp);
 					var cameraFrame = new CameraFrame(newbmp, dateTime);
-					ImagesBufferIndex = ImagesBufferIndex%IMAGES_BUFFER_SIZE;
+					ImagesBufferIndex = ImagesBufferIndex % IMAGES_BUFFER_SIZE;
 					CameraFrames[ImagesBufferIndex] = cameraFrame;
 					ImagesBufferIndex++;
 				}

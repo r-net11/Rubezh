@@ -50,12 +50,12 @@ namespace VideoModule.Plans.ViewModels
 			_camerasViewModel.SelectedCamera = Update(_elementCamera.CameraUID);
 			return base.Save();
 		}
-		private CameraViewModel Update(Guid deviceUID)
+		private CameraViewModel Update(Guid cameraUID)
 		{
-			var device = _camerasViewModel.Cameras.FirstOrDefault(x => x.Camera.UID == deviceUID);
-			if (device != null)
-				device.Update();
-			return device;
+			var cameraViewModel = _camerasViewModel.Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+			if (cameraViewModel != null)
+				cameraViewModel.Update();
+			return cameraViewModel;
 		}
 	}
 }
