@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
+using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
+using VideoModule.Plans;
+using VideoModule.Plans.Designer;
 using VideoModule.ViewModels;
 
 namespace VideoModule
@@ -13,15 +18,20 @@ namespace VideoModule
 	public class VideoModule : ModuleBase, ILayoutDeclarationModule
 	{
 		CamerasViewModel CamerasViewModel;
+		PlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
 			CamerasViewModel = new CamerasViewModel();
+			_planExtension = new PlanExtension(CamerasViewModel);
 		}
 
 		public override void Initialize()
 		{
 			CamerasViewModel.Initialize();
+			_planExtension.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			Helper.BuildMap();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

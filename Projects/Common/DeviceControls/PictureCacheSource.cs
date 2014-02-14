@@ -11,6 +11,7 @@ namespace DeviceControls
 	{
 		public static FrameworkElement EmptyPicture { get; private set; }
 		public static Brush EmptyBrush { get; private set; }
+		public static Brush CameraBrush { get; private set; }
 		public static DevicePicture DevicePicture { get; private set; }
 		public static XDevicePicture XDevicePicture { get; private set; }
 		public static SKDDevicePicture SKDDevicePicture { get; private set; }
@@ -24,6 +25,7 @@ namespace DeviceControls
 				SnapsToDevicePixels = false
 			};
 			EmptyBrush = new VisualBrush(EmptyPicture);
+			CameraBrush = new VisualBrush(new Button() { Content = "test", Padding = new Thickness(2) });
 			DevicePicture = new DevicePicture();
 			XDevicePicture = new XDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();

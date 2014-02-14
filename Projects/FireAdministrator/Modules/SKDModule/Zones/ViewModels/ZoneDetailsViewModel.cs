@@ -66,11 +66,8 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zone = new SKDZone()
-			{
-				Name = Name,
-				Description = Description
-			};
+			Zone.Name = Name;
+			Zone.Description = Description;
 			return true;
 		}
 	}

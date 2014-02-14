@@ -28,6 +28,7 @@ namespace SKDModule.ViewModels
 
 			Zone = zone;
 			zone.Changed += OnChanged;
+			Update();
 		}
 
 		void OnChanged()
@@ -42,9 +43,9 @@ namespace SKDModule.ViewModels
 		public void Update(SKDZone zone)
 		{
 			Zone = zone;
-			OnPropertyChanged("Zone");
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Zone);
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 			Update();
 		}
 
@@ -69,8 +70,7 @@ namespace SKDModule.ViewModels
 			get { return Zone.Description; }
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public SKDZone AddChildZone()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
@@ -80,12 +80,21 @@ namespace SKDModule.ViewModels
 				var zoneViewModel = new ZoneViewModel(zone);
 				this.Zone.Children.Add(zone);
 				this.AddChild(zoneViewModel);
-				this.Update();
+				IsExpanded = true;
 				SKDManager.SKDConfiguration.Update();
 				ZonesViewModel.Current.AllZones.Add(zoneViewModel);
 				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
+				Update();
+				return zone;
 			}
+			return null;
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			AddChildZone();
 		}
 
 		public RelayCommand AddToParentCommand { get; private set; }
@@ -139,8 +148,7 @@ namespace SKDModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(this.Zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				this.Zone = zoneDetailsViewModel.Zone;
-				Update(this.Zone);
+				Update(Zone);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

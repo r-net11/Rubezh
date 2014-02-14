@@ -432,7 +432,15 @@ namespace Infrastructure.Common.TreeList
 					yield return child;
 			}
 		}
-
+		public List<T> GetAllChildren(bool withSelf = true)
+		{
+			var list = new List<T>();
+			if (withSelf)
+				list.Add((T)this);
+			foreach (TreeNodeViewModel<T> child in Nodes)
+				list.AddRange(child.GetAllChildren(true));
+			return list;
+		}
 		public List<T> GetAllParents()
 		{
 			if (Parent == null)

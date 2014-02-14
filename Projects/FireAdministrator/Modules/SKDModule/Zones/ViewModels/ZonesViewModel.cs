@@ -12,6 +12,8 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.Models;
+using SKDModule.Plans.Designer;
 
 namespace SKDModule.ViewModels
 {
@@ -75,10 +77,10 @@ namespace SKDModule.ViewModels
 			if (zoneUID != Guid.Empty)
 			{
 				FillAllZones();
-				var deviceViewModel = AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-				if (deviceViewModel != null)
-					deviceViewModel.ExpandToThis();
-				SelectedZone = deviceViewModel;
+				var zoneViewModel = AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+				if (zoneViewModel != null)
+					zoneViewModel.ExpandToThis();
+				SelectedZone = zoneViewModel;
 			}
 		}
 		#endregion
@@ -216,7 +218,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
-		private void OnDeviceChanged(Guid zoneUID)
+		private void OnZoneChanged(Guid zoneUID)
 		{
 			var zone = AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)
@@ -232,7 +234,8 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			//elements.OfType<ElementXDevice>().ToList().ForEach(element => Helper.ResetXDevice(element));
+			elements.OfType<ElementRectangleSKDZone>().ToList().ForEach(element => Helper.ResetSKDZone(element));
+			elements.OfType<ElementPolygonSKDZone>().ToList().ForEach(element => Helper.ResetSKDZone(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -240,21 +243,28 @@ namespace SKDModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				//ElementXDevice elementDevice = element as ElementXDevice;
-				//if (elementDevice != null)
-				//    OnDeviceChanged(elementDevice.XDeviceUID);
+				var elementZone = GetElementSKDZone(element);
+				if (elementZone != null)
+					OnZoneChanged(elementZone.ZoneUID);
 			});
 			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			//ElementXDevice elementXDevice = element as ElementXDevice;
-			//if (elementXDevice != null)
-			//{
-			//    _lockSelection = true;
-			//    Select(elementXDevice.XDeviceUID);
-			//    _lockSelection = false;
-			//}
+			var elementZone = GetElementSKDZone(element);
+			if (elementZone != null)
+			{
+				_lockSelection = true;
+				Select(elementZone.ZoneUID);
+				_lockSelection = false;
+			}
+		}
+		private IElementZone GetElementSKDZone(ElementBase element)
+		{
+			IElementZone elementZone = element as ElementRectangleSKDZone;
+			if (elementZone == null)
+				elementZone = element as ElementPolygonSKDZone;
+			return elementZone;
 		}
 
 		public override void OnShow()
@@ -289,9 +299,8 @@ namespace SKDModule.ViewModels
 
 		public void CreateZone(CreateSKDZoneEventArg createZoneEventArg)
 		{
-			// Временная заглушка - всегда возвращает отмену
-			createZoneEventArg.Cancel = true;
-			createZoneEventArg.ZoneUID = Guid.Empty;
+			var zoneViewModel = createZoneEventArg.ParentZoneUID == Guid.Empty ? null : AllZones.FirstOrDefault(x => x.Zone.UID == createZoneEventArg.ParentZoneUID);
+			createZoneEventArg.Zone = zoneViewModel != null ? zoneViewModel.AddChildZone() : null;
 		}
 		public void EditZone(Guid zoneUID)
 		{

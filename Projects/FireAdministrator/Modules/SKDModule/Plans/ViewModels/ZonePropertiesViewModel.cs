@@ -24,28 +24,49 @@ namespace SKDModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
-			var zones = SKDManager.Zones;
-			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zone in zones)
-			{
-				var zoneViewModel = new ZoneViewModel(zone);
-				Zones.Add(zoneViewModel);
-			}
+			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+				SelectedZone = RootZone.GetAllChildren().FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
 			IsHiddenZone = iElementZone.IsHiddenZone;
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		private ZoneViewModel AddZoneInternal(SKDZone zone, ZoneViewModel parentZoneViewModel)
+		{
+			var zoneViewModel = new ZoneViewModel(zone);
+			if (parentZoneViewModel != null)
+				parentZoneViewModel.AddChild(zoneViewModel);
+
+			foreach (var childZone in zone.Children)
+				AddZoneInternal(childZone, zoneViewModel);
+			return zoneViewModel;
+		}
+
+		private ZoneViewModel _rootZone;
+		public ZoneViewModel RootZone
+		{
+			get { return _rootZone; }
+			private set
+			{
+				_rootZone = value;
+				OnPropertyChanged(() => RootZone);
+			}
+		}
 
 		private ZoneViewModel _selectedZone;
+
+		public ZoneViewModel[] RootZones
+		{
+			get { return new ZoneViewModel[] { RootZone }; }
+		}
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				if (SelectedZone != null)
+					SelectedZone.ExpandToThis();
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
@@ -64,15 +85,19 @@ namespace SKDModule.Plans.ViewModels
 		private void OnCreate()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			var createZoneEventArg = new CreateSKDZoneEventArg();
+			var createZoneEventArg = new CreateSKDZoneEventArg()
+			{
+				ParentZoneUID = (SelectedZone == null ? RootZone : SelectedZone).Zone.UID
+			};
 			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
+			{
 				IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
-			Helper.BuildMap();
-			Helper.SetSKDZone(IElementZone);
-			UpdateZones(zoneUID);
-			if (!createZoneEventArg.Cancel)
+				Helper.BuildMap();
+				Helper.SetSKDZone(IElementZone);
+				UpdateZones(zoneUID);
 				Close(true);
+			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }

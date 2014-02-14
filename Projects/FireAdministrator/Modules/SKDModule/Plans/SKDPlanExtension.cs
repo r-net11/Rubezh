@@ -176,8 +176,8 @@ namespace SKDModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 4);
-			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 5);
+			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 5);
+			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 6);
 		}
 		public void ExtensionAttached()
 		{

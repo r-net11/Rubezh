@@ -111,7 +111,9 @@ namespace FiresecClient
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-				
+
+				FiresecManager.SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
+
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
 				var zoneMap = new Dictionary<Guid, Zone>();
@@ -147,6 +149,13 @@ namespace FiresecClient
 				{
 					if (!skdZoneMap.ContainsKey(skdZone.UID))
 						skdZoneMap.Add(skdZone.UID, skdZone);
+				}
+
+				var cameraMap = new Dictionary<Guid, Camera>();
+				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+				{
+					if (!cameraMap.ContainsKey(camera.UID))
+						cameraMap.Add(camera.UID, camera);
 				}
 
 				var planMap = new Dictionary<Guid, Plan>();
@@ -223,6 +232,15 @@ namespace FiresecClient
 						UpdateSKDZoneType(skdZone, skdZone.ZoneUID != Guid.Empty && skdZoneMap.ContainsKey(skdZone.ZoneUID) ? skdZoneMap[skdZone.ZoneUID] : null);
 						if (skdZoneMap.ContainsKey(skdZone.ZoneUID))
 							skdZoneMap[skdZone.ZoneUID].PlanElementUIDs.Add(skdZone.UID);
+					}
+
+					for (int i = plan.ElementExtensions.Count(); i > 0; i--)
+					{
+						var elementExtension = plan.ElementExtensions[i - 1];
+						elementExtension.UpdateZLayer();
+						var elementCamera = elementExtension as ElementCamera;
+						if (elementCamera != null && cameraMap.ContainsKey(elementCamera.CameraUID))
+							cameraMap[elementCamera.CameraUID].PlanElementUIDs.Add(elementExtension.UID);
 					}
 
 					foreach (var subplan in plan.ElementSubPlans)
