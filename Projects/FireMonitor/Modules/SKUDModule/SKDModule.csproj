@@ -136,12 +136,28 @@
     <Compile Include="Events\ShowSKDAdditionalColumnsEvent.cs" />
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
+    <Compile Include="Events\ShowSKDShedulesEvent.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
     <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleDetailsViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulePartViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulesViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulePartDetailsViewModel.cs" />
+    <Compile Include="Intervals\Shedules\Views\SheduleDetailsView.xaml.cs">
+      <DependentUpon>SheduleDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\Shedules\Views\ShedulesView.xaml.cs">
+      <DependentUpon>ShedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml.cs">
+      <DependentUpon>ShedulePartDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
@@ -392,6 +408,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Intervals\Holidays\Views\HolidayDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Intervals\Shedules\Views\SheduleDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Intervals\Shedules\Views\ShedulesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

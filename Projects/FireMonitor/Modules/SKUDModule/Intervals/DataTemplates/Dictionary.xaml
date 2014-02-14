@@ -52,4 +52,17 @@
         <Views:HolidaySettingsView />
     </DataTemplate>
 
+
+    <DataTemplate DataType="{x:Type ViewModels:ShedulesViewModel}">
+        <Views:ShedulesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SheduleDetailsViewModel}">
+        <Views:SheduleDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ShedulePartDetailsViewModel}">
+        <Views:ShedulePartDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

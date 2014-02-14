@@ -38,6 +38,7 @@ namespace SKDModule
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
 		HolidaysViewModel HolidaysViewModel;
+		ShedulesViewModel ShedulesViewModel;
 		ReportsViewModel ReportsViewModel;
 		private PlanPresenter _planPresenter;
 
@@ -65,6 +66,7 @@ namespace SKDModule
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			MonthlyIntervalsViewModel = new MonthlyIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
+			ShedulesViewModel = new ShedulesViewModel();
 			ReportsViewModel = new ReportsViewModel();
 		}
 
@@ -95,6 +97,7 @@ namespace SKDModule
 							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDMonthlyIntervalsEvent, Guid>(MonthlyIntervalsViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDShedulesEvent, Guid>(ShedulesViewModel, "Графики работ", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						}),
 					})
 				};

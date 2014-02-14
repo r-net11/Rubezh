@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			SlideDayInterval.TimeIntervalUIDs.Add(SelectedTimeInterval.TimeInterval.UID);
+			SlideDayInterval.TimeIntervalUIDs.Remove(SelectedTimeInterval.TimeInterval.UID);
 			TimeIntervals.Remove(SelectedTimeInterval);
 		}
 		bool CanRemove()
