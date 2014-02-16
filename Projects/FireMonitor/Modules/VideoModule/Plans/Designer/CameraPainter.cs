@@ -10,6 +10,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.Plans.ViewModels;
 using Infrastructure.Common.Windows;
+using XFiresecAPI;
 
 namespace VideoModule.Plans.Designer
 {
@@ -64,7 +65,32 @@ namespace VideoModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.CameraBrush;
+			var background = PainterCache.GetBrush(GetStateColor());
+			return PictureCacheSource.CameraPicture.GetBrush(background);
+		}
+
+		private Color GetStateColor()
+		{
+			switch (_camera.StateClass)
+			{
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+					return Colors.Red;
+				case XStateClass.Attention:
+					return Colors.Yellow;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.Norm:
+					return Colors.Green;
+				default:
+					return Colors.White;
+			}
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }

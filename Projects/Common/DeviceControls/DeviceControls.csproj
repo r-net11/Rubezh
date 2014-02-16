@@ -71,6 +71,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BaseDevicePicture.cs" />
+    <Compile Include="CameraPicture.cs" />
     <Compile Include="DevicePicture.cs" />
     <Compile Include="SKDDevicePicture.cs" />
     <Compile Include="FramesControl.cs" />

@@ -16,7 +16,7 @@ namespace VideoModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.CameraBrush;
+			return PictureCacheSource.CameraPicture.GetDefaultBrush();
 		}
 	}
 }

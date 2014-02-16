@@ -28,7 +28,7 @@ namespace VideoModule.Plans.ViewModels
 
 		public Brush CameraPicture
 		{
-			get { return PictureCacheSource.CameraBrush; }
+			get { return PictureCacheSource.CameraPicture.GetDefaultBrush(); }
 		}
 
 		#region IWindowIdentity Members

@@ -165,7 +165,7 @@ namespace VideoModule.ViewModels
 		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
 		private UIElement OnCreateDragVisual(IDataObject dataObject)
 		{
-			var brush = PictureCacheSource.CameraBrush;
+			var brush = PictureCacheSource.CameraPicture.GetDefaultBrush();
 			return new System.Windows.Shapes.Rectangle
 			{
 				Fill = brush,

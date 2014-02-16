@@ -11,10 +11,10 @@ namespace DeviceControls
 	{
 		public static FrameworkElement EmptyPicture { get; private set; }
 		public static Brush EmptyBrush { get; private set; }
-		public static Brush CameraBrush { get; private set; }
 		public static DevicePicture DevicePicture { get; private set; }
 		public static XDevicePicture XDevicePicture { get; private set; }
 		public static SKDDevicePicture SKDDevicePicture { get; private set; }
+		public static CameraPicture CameraPicture { get; private set; }
 
 		static PictureCacheSource()
 		{
@@ -29,34 +29,7 @@ namespace DeviceControls
 			DevicePicture = new DevicePicture();
 			XDevicePicture = new XDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();
-			CameraBrush = new DrawingBrush()
-			{
-				Drawing = new GeometryDrawing()
-				{
-					Pen = new Pen(Brushes.Black, 1),
-					Geometry = new CombinedGeometry()
-					{
-						Geometry1 = new RectangleGeometry(new Rect(0, 0, 15, 10), 1, 1),
-						Geometry2 = new PathGeometry()
-						{
-							Figures = new PathFigureCollection()
-							{
-								new PathFigure()
-								{
-									StartPoint = new Point(15,3),
-									IsClosed = false,
-									Segments = new PathSegmentCollection()
-									{
-										new LineSegment(new Point(20,1),true),
-										new LineSegment(new Point(20,9),true),
-										new LineSegment(new Point(15,7),true),
-									}
-								}
-							}
-						}
-					}
-				}
-			};
+			CameraPicture = new CameraPicture();
 		}
 
 		public static Brush CreateDynamicBrush<TLibraryFrame>(List<TLibraryFrame> frames)
