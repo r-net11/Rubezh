@@ -79,6 +79,9 @@
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\CameraPropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\CameraPropertiesView.xaml.cs">
+      <DependentUpon>CameraPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,6 +134,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\CameraPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -4,13 +4,18 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
-	public class VideoViewModel : ViewPartViewModel
+	public class VideoViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public VideoViewModel()
 		{
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 		}
 
 		public void Initialize()
@@ -49,5 +54,27 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged("SelectedCamera");
 			}
 		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		private void OnShowOnPlan()
+		{
+			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(SelectedCamera.Camera);
+		}
+		public bool CanShowOnPlan()
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				if (plan.ElementExtensions.OfType<ElementCamera>().Any(x => x.CameraUID == SelectedCamera.Camera.UID))
+					return true;
+			return false;
+		}
+
+		#region ISelectable<Guid> Members
+
+		public void Select(Guid cameraUID)
+		{
+			SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
+		}
+
+		#endregion
 	}
 }

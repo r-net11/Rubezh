@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
+using DeviceControls;
 using FiresecAPI.Models;
+using FiresecClient;
+using VideoModule.Plans.Designer;
 using Infrastructure;
+using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using PlansModule.Kursk.Designer;
 using XFiresecAPI;
 
-namespace PlansModule.Kursk
+namespace VideoModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan>
 	{
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Subscribe(OnShowCameraOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -38,14 +43,14 @@ namespace PlansModule.Kursk
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			foreach (var element in plan.ElementExtensions.OfType<ElementRectangleTank>().Where(x => x.XDeviceUID != Guid.Empty))
+			foreach (var element in plan.ElementExtensions.OfType<ElementCamera>().Where(x => x.CameraUID != Guid.Empty))
 				yield return element;
 		}
 
 		public void RegisterPresenterItem(PresenterItem presenterItem)
 		{
-			if (presenterItem.Element is ElementRectangleTank)
-				presenterItem.OverridePainter(new TankPainter(presenterItem));
+			if (presenterItem.Element is ElementCamera)
+				presenterItem.OverridePainter(new CameraPainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
@@ -61,6 +66,17 @@ namespace PlansModule.Kursk
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
+		}
+
+		private void OnShowCameraOnPlan(Camera camera)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementExtensions.OfType<ElementCamera>())
+					if (element.CameraUID == camera.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
 		}
 	}
 }
