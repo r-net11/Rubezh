@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -18,14 +19,14 @@ namespace Infrustructure.Plans.Painters
 			{Primitive.SubPlan, typeof(SubPlanPainter)},
 			{Primitive.TextBlock, typeof(TextBlockPainter)},
 		};
-		public static IPainter Create(ElementBase element)
+		public static IPainter Create(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
 			Type type = element.GetType();
 			if (element is IPrimitive)
-				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive], element);
+				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive], designerCanvas, element);
 			var args = new PainterFactoryEventArgs(element);
 			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
-			return args.Painter ?? new DefaultPainter(element);
+			return args.Painter ?? new DefaultPainter(designerCanvas, element);
 		}
 	}
 }

@@ -9,9 +9,8 @@ using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Painters
 {
-	public static class PainterCache
+	public class PainterCache
 	{
-		private static ImageBrush _transparentBackgroundBrush;
 		private static Converter<Guid, BitmapImage> _imageFactory;
 		private static Converter<Guid, Drawing> _drawingFactory;
 		private static Dictionary<Color, Brush> _brushes = new Dictionary<Color, Brush>();
@@ -19,16 +18,12 @@ namespace Infrustructure.Plans.Painters
 		private static Dictionary<Guid, Brush> _pictureBrushes = new Dictionary<Guid, Brush>();
 		private static Dictionary<Color, Dictionary<double, Pen>> _pens = new Dictionary<Color, Dictionary<double, Pen>>();
 
-		public static Pen ZonePen { get; private set; }
-		public static Pen GridLinePen { get; private set; }
+		public static double DefaultPointSize { get; private set; }
 		public static Brush GridLineBrush { get; private set; }
 		public static Brush BlackBrush { get; private set; }
 		public static Brush WhiteBrush { get; private set; }
 		public static Brush TransparentBrush { get; private set; }
-		public static RectangleGeometry PointGeometry { get; private set; }
-		public static double Zoom { get; private set; }
-		public static double PointZoom { get; private set; }
-        public static bool UseTransparentImage { get; set; }
+		public static bool UseTransparentImage { get; set; }
 
 		static PainterCache()
 		{
@@ -41,15 +36,8 @@ namespace Infrustructure.Plans.Painters
 				BlackBrush.Freeze();
 				WhiteBrush = new SolidColorBrush(Colors.White);
 				WhiteBrush.Freeze();
-				ZonePen = new Pen(BlackBrush, 1);
 				GridLineBrush = new SolidColorBrush(Colors.Orange);
 				GridLineBrush.Freeze();
-				GridLinePen = new Pen(GridLineBrush, 1);
-				GridLinePen.EndLineCap = PenLineCap.Square;
-				GridLinePen.StartLineCap = PenLineCap.Square;
-				GridLinePen.DashStyle = DashStyles.Dash;
-				PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
-				_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
 			}
 			catch (Exception e)
 			{
@@ -68,16 +56,6 @@ namespace Infrustructure.Plans.Painters
 			_pictureBrushes.Clear();
 		}
 
-		public static void UpdateZoom(double zoom, double pointZoom)
-		{
-			Zoom = zoom;
-			PointZoom = pointZoom;
-			ZonePen.Thickness = 1 / Zoom;
-			GridLinePen.Thickness = 1 / Zoom;
-			PointGeometry.Rect = new Rect(-pointZoom / 2, -pointZoom / 2, pointZoom, pointZoom);
-			_transparentBackgroundBrush.Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom);
-		}
-
 		public static void CacheBrush(IElementBackground element)
 		{
 			if (element.BackgroundImageSource.HasValue && !_pictureBrushes.ContainsKey(element.BackgroundImageSource.Value))
@@ -85,31 +63,6 @@ namespace Infrustructure.Plans.Painters
 				var brush = GetBrush(element.BackgroundImageSource.Value, element.IsVectorImage);
 				_pictureBrushes.Add(element.BackgroundImageSource.Value, brush);
 			}
-		}
-		public static Brush GetBrush(IElementBackground element)
-		{
-            if (element.BackgroundImageSource.HasValue)
-            {
-                CacheBrush(element);
-                return _pictureBrushes[element.BackgroundImageSource.Value];
-                //return GetBrush(element.BackgroundImageSource.Value);
-            }
-            else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
-                return UseTransparentImage ? _transparentBackgroundBrush : TransparentBrush;
-            else
-                return GetBrush(element.BackgroundColor);
-		}
-		public static Brush GetTransparentBrush(IElementBackground element)
-		{
-			var brush = GetBrush(element);
-			if (!_transparentBrushes.ContainsKey(brush))
-			{
-				var transparent = brush.CloneCurrentValue();
-				transparent.Opacity = 0.5;
-				transparent.Freeze();
-				_transparentBrushes.Add(brush, transparent);
-			}
-			return _transparentBrushes[brush];
 		}
 		public static Brush GetBrush(Color color)
 		{
@@ -178,6 +131,61 @@ namespace Infrustructure.Plans.Painters
 				Viewport = new Rect(0, 0, 16, 16)
 			};
 			return brush;
+		}
+
+
+		private ImageBrush _transparentBackgroundBrush;
+		public Pen ZonePen { get; private set; }
+		public Pen GridLinePen { get; private set; }
+		public RectangleGeometry PointGeometry { get; private set; }
+		public double Zoom { get; private set; }
+		public double PointZoom { get; private set; }
+
+		public PainterCache()
+		{
+			ZonePen = new Pen(BlackBrush, 1);
+			GridLinePen = new Pen(GridLineBrush, 1);
+			GridLinePen.EndLineCap = PenLineCap.Square;
+			GridLinePen.StartLineCap = PenLineCap.Square;
+			GridLinePen.DashStyle = DashStyles.Dash;
+			PointGeometry = new RectangleGeometry(new Rect(-15, -15, 30, 30));
+			_transparentBackgroundBrush = CreateTransparentBackgroundBrush();
+		}
+
+		public void UpdateZoom(double zoom, double pointZoom)
+		{
+			Zoom = zoom;
+			PointZoom = pointZoom;
+			ZonePen.Thickness = 1 / Zoom;
+			GridLinePen.Thickness = 1 / Zoom;
+			PointGeometry.Rect = new Rect(-pointZoom / 2, -pointZoom / 2, pointZoom, pointZoom);
+			_transparentBackgroundBrush.Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom);
+			DefaultPointSize = PointZoom * Zoom;
+		}
+		public Brush GetBrush(IElementBackground element)
+		{
+			if (element.BackgroundImageSource.HasValue)
+			{
+				CacheBrush(element);
+				return _pictureBrushes[element.BackgroundImageSource.Value];
+				//return GetBrush(element.BackgroundImageSource.Value);
+			}
+			else if (element.AllowTransparent && element.BackgroundColor == Colors.Transparent)
+				return UseTransparentImage ? _transparentBackgroundBrush : TransparentBrush;
+			else
+				return GetBrush(element.BackgroundColor);
+		}
+		public Brush GetTransparentBrush(IElementBackground element)
+		{
+			var brush = GetBrush(element);
+			if (!_transparentBrushes.ContainsKey(brush))
+			{
+				var transparent = brush.CloneCurrentValue();
+				transparent.Opacity = 0.5;
+				transparent.Freeze();
+				_transparentBrushes.Add(brush, transparent);
+			}
+			return _transparentBrushes[brush];
 		}
 	}
 }

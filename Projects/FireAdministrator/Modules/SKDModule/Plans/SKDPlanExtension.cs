@@ -251,7 +251,7 @@ namespace SKDModule.Plans
 		{
 			var elementSKDDevice = args.Element as ElementSKDDevice;
 			if (elementSKDDevice != null)
-				args.Painter = new Painter(elementSKDDevice);
+				args.Painter = new Painter(_designerCanvas, elementSKDDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

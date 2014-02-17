@@ -147,7 +147,7 @@ namespace VideoModule.Plans
 		{
 			var elementCamera = args.Element as ElementCamera;
 			if (elementCamera != null)
-				args.Painter = new Painter(elementCamera);
+				args.Painter = new Painter(_designerCanvas, elementCamera);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

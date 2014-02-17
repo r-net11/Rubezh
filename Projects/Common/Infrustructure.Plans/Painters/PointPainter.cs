@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -8,15 +9,15 @@ namespace Infrustructure.Plans.Painters
 	{
 		private TranslateTransform _transform;
 
-		public PointPainter(ElementBase element)
-			: base(element)
+		public PointPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 			_transform = new TranslateTransform();
 		}
 
 		protected override RectangleGeometry CreateGeometry()
 		{
-			return PainterCache.PointGeometry;
+			return DesignerCanvas.PainterCache.PointGeometry;
 		}
 		protected override Pen GetPen()
 		{
@@ -40,7 +41,7 @@ namespace Infrustructure.Plans.Painters
 		}
 		public override Rect Bounds
 		{
-			get { return _transform.TransformBounds(PainterCache.PointGeometry.Rect); }
+			get { return _transform.TransformBounds(DesignerCanvas.PainterCache.PointGeometry.Rect); }
 		}
 	}
 }

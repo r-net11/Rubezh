@@ -1,24 +1,25 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
 	public class DefaultPainter : RectanglePainter
 	{
-		public DefaultPainter(ElementBase element)
-			: base(element)
+		public DefaultPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 		}
 
 		protected override RectangleGeometry CreateGeometry()
 		{
 			CalculateRectangle();
-			return Rect.Size == Size.Empty ? PainterCache.PointGeometry : base.CreateGeometry();
+			return Rect.Size == Size.Empty ? DesignerCanvas.PainterCache.PointGeometry : base.CreateGeometry();
 		}
 		public override void Transform()
 		{
-			if (Geometry != PainterCache.PointGeometry)
+			if (Geometry != DesignerCanvas.PainterCache.PointGeometry)
 				base.Transform();
 		}
 		protected override Pen GetPen()

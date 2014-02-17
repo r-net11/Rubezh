@@ -50,8 +50,6 @@ namespace VideoModule.ViewModels
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera);
-			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
-			CreateDragVisual = OnCreateDragVisual;
 		}
 		void GetError(string error)
 		{
@@ -99,7 +97,6 @@ namespace VideoModule.ViewModels
 			OnPropertyChanged(() => Camera);
 			OnPropertyChanged(() => PresentationZones);
 			OnPropertyChanged(() => IsOnPlan);
-			OnPropertyChanged(() => VisualizationState);
 		}
 
 		Thread VideoThread { get; set; }
@@ -140,37 +137,6 @@ namespace VideoModule.ViewModels
 		public bool IsOnPlan
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
-		}
-		public VisualizationState VisualizationState
-		{
-			get { return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; }
-		}
-
-		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
-		private void OnCreateDragObjectCommand(DataObject dataObject)
-		{
-			_camerasViewModel.SelectedCamera = this;
-			var plansElement = new ElementCamera
-			{
-				CameraUID = Camera.UID
-			};
-			dataObject.SetData("DESIGNER_ITEM", plansElement);
-		}
-		private bool CanCreateDragObjectCommand(DataObject dataObject)
-		{
-			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
-		}
-
-		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
-		private UIElement OnCreateDragVisual(IDataObject dataObject)
-		{
-			var brush = PictureCacheSource.CameraPicture.GetDefaultBrush();
-			return new System.Windows.Shapes.Rectangle
-			{
-				Fill = brush,
-				Height = PainterCache.PointZoom * PainterCache.Zoom,
-				Width = PainterCache.PointZoom * PainterCache.Zoom,
-			};
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

@@ -24,7 +24,7 @@ namespace SKDModule.Plans.Designer
 		private SKDZoneTooltipViewModel _tooltip;
 
 		public SKDZonePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			_presenterItem = presenterItem;

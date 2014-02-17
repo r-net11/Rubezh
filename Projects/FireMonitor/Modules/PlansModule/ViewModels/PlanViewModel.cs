@@ -58,7 +58,7 @@ namespace PlansModule.ViewModels
 				Parent.UpdateState();
 		}
 
-		public void RegisterPresenter(IPlanPresenter<Plan> planPresenter)
+		public void RegisterPresenter(IPlanPresenter<Plan, XStateClass> planPresenter)
 		{
 			planPresenter.SubscribeStateChanged(Plan, StateChanged);
 			StateChanged();

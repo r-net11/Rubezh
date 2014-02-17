@@ -16,7 +16,7 @@ namespace Infrustructure.Plans.Designer
 		public event EventHandler TitleChanged;
 		public event EventHandler IconSourceChanged;
 
-		public CommonDesignerCanvas DesignerCanvas { get; internal set; }
+		public CommonDesignerCanvas DesignerCanvas { get; private set; }
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; protected set; }
 		public bool IsMouseOver { get; private set; }
@@ -80,7 +80,13 @@ namespace Infrustructure.Plans.Designer
 		public CommonDesignerItem(ElementBase element)
 		{
 			IsBusy = false;
-			ResetElement(element);
+			Element = element;
+		}
+
+		internal void Bind(CommonDesignerCanvas designerCanvas)
+		{
+			DesignerCanvas = designerCanvas;
+			ResetElement(Element);
 			ResetIsEnabled();
 		}
 

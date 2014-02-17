@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
 	public class RectanglePainter : GeometryPainter<RectangleGeometry>
 	{
-		public RectanglePainter(ElementBase element)
-			: base(element)
+		public RectanglePainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 		}
 

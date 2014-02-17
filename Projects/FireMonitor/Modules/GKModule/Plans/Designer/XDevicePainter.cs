@@ -22,7 +22,7 @@ namespace GKModule.Plans.Designer
 		private DeviceTooltipViewModel _tooltip;
 
 		public XDevicePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			var elementXDevice = presenterItem.Element as ElementXDevice;

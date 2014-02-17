@@ -91,7 +91,7 @@ namespace Infrustructure.Plans.Designer
 			base.ResetElement(element);
 			IsSelectable = !element.IsLocked;
 			if (isNewElement || Painter == null)
-				Painter = PainterFactory.Create(Element);
+				Painter = PainterFactory.Create(DesignerCanvas, Element);
 			else
 				Painter.ResetElement(Element);
 			Painter.Invalidate();

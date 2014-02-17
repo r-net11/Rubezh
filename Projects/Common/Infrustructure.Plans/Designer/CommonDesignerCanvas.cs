@@ -17,6 +17,7 @@ namespace Infrustructure.Plans.Designer
 		private Dictionary<Guid, CommonDesignerItem> _map;
 		protected DesignerSurface DesignerSurface { get; private set; }
 		protected Guid SelectedUID { get; private set; }
+		public PainterCache PainterCache { get; private set; }
 		public IGridLineController GridLineController { get; protected set; }
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return CommonDesignerItem.DefaultPointSize; } }
@@ -24,6 +25,7 @@ namespace Infrustructure.Plans.Designer
 
 		public CommonDesignerCanvas(IEventAggregator eventAggregator)
 		{
+			PainterCache = new PainterCache();
 			IsLocked = false;
 			_map = new Dictionary<Guid, CommonDesignerItem>();
 			DataContext = this;
@@ -67,7 +69,7 @@ namespace Infrustructure.Plans.Designer
 		protected void Add(CommonDesignerItem designerItem)
 		{
 			_map.Add(designerItem.Element.UID, designerItem);
-			designerItem.DesignerCanvas = this;
+			designerItem.Bind(this);
 			DesignerSurface.AddDesignerItem(designerItem);
 		}
 		public double CanvasWidth

@@ -1,37 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using Common;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
-using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
 	public class PlansViewModel : ViewPartViewModel
 	{
 		bool _initialized;
-		public List<IPlanPresenter<Plan>> PlanPresenters { get; private set; }
+		public List<IPlanPresenter<Plan, XStateClass>> PlanPresenters { get; private set; }
 		public PlanTreeViewModel PlanTreeViewModel { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
-		public PlansViewModel()
+		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
 		{
+			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Subscribe(OnRegisterPlanPresenter);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			_initialized = false;
-			PlanPresenters = new List<IPlanPresenter<Plan>>();
 			PlanTreeViewModel = new PlanTreeViewModel(this);
 			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 			PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
@@ -52,21 +48,10 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			using (new TimeCounter("PlansViewModel.Initialize: {0}"))
-			{
-				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
-					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					{
-						PainterCache.CacheBrush(plan);
-						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-							PainterCache.CacheBrush(elementBase);
-					}
-				_initialized = false;
-				FiresecManager.InvalidatePlans();
-				PlanTreeViewModel.Initialize();
-				_initialized = true;
-				OnSelectedPlanChanged();
-			}
+			_initialized = false;
+			PlanTreeViewModel.Initialize();
+			_initialized = true;
+			OnSelectedPlanChanged();
 		}
 
 		void OnSelectPlan(Guid planUID)
@@ -85,17 +70,6 @@ namespace PlansModule.ViewModels
 		{
 			if (_initialized)
 				PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
-		}
-
-		void OnRegisterPlanPresenter(IPlanPresenter<Plan> planPresenter)
-		{
-			if (!PlanPresenters.Contains(planPresenter))
-			{
-				PlanPresenters.Add(planPresenter);
-				if (_initialized)
-					PlanTreeViewModel.AddPlanPresenter(planPresenter);
-				OnSelectedPlanChanged();
-			}
 		}
 
 		void OnShowElement(Guid elementUID)

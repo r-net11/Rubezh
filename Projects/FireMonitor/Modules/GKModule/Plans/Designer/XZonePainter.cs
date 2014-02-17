@@ -23,7 +23,7 @@ namespace GKModule.Plans.Designer
 		private ZoneTooltipViewModel _tooltip;
 
 		public XZonePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			_presenterItem = presenterItem;

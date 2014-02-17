@@ -43,7 +43,7 @@ namespace Infrustructure.Plans.Presenter
 
 		public void CreatePainter()
 		{
-			Painter = PainterFactory.Create(Element);
+			Painter = PainterFactory.Create(DesignerCanvas, Element);
 			Painter.Invalidate();
 		}
 

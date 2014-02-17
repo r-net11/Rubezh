@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using Infrustructure.Plans.Designer;
 
 namespace DevicesModule.Plans.Designer
 {
@@ -23,7 +24,7 @@ namespace DevicesModule.Plans.Designer
 		ContextMenu _contextMenu;
 
 		public DevicePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			_elementDevice = presenterItem.Element as ElementDevice;
@@ -75,15 +76,15 @@ namespace DevicesModule.Plans.Designer
 				stringBuilder.AppendLine(state.DriverState.Name);
 
 			if (_device.DeviceState.ThreadSafeParameters != null)
-                foreach (var parameter in _device.DeviceState.ThreadSafeParameters)
-                {
-                    if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
-                    {
-                        stringBuilder.Append(parameter.Caption);
-                        stringBuilder.Append(" - ");
-                        stringBuilder.AppendLine(parameter.Value);
-                    }
-                }
+				foreach (var parameter in _device.DeviceState.ThreadSafeParameters)
+				{
+					if (!parameter.IsIgnore && parameter.Visible && parameter.Value != "NAN")
+					{
+						stringBuilder.Append(parameter.Caption);
+						stringBuilder.Append(" - ");
+						stringBuilder.AppendLine(parameter.Value);
+					}
+				}
 			return stringBuilder.ToString().TrimEnd();
 		}
 
@@ -125,7 +126,7 @@ namespace DevicesModule.Plans.Designer
 				ShowInTreeCommand = new RelayCommand(OnShowInTree);
 				DisableCommand = new RelayCommand(OnDisable, CanDisable);
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-				
+
 				_contextMenu = new ContextMenu();
 				_contextMenu.Items.Add(new MenuItem()
 				{

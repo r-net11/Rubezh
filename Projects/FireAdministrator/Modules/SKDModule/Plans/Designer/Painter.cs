@@ -3,6 +3,7 @@ using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Painters;
+using Infrustructure.Plans.Designer;
 
 namespace SKDModule.Plans.Designer
 {
@@ -10,8 +11,8 @@ namespace SKDModule.Plans.Designer
 	{
 		private ElementSKDDevice _elementSKDDevice;
 		private ImageTextTooltipViewModel _toolTip;
-		public Painter(ElementSKDDevice elementSKDDevice)
-			: base(elementSKDDevice)
+		public Painter(CommonDesignerCanvas designerCanvas, ElementSKDDevice elementSKDDevice)
+			: base(designerCanvas, elementSKDDevice)
 		{
 			_elementSKDDevice = elementSKDDevice;
 			_toolTip = new ImageTextTooltipViewModel();

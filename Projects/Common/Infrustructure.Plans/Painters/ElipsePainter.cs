@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
 	public class ElipsePainter : GeometryPainter<EllipseGeometry>
 	{
-		public ElipsePainter(ElementBase element)
-			: base(element)
+		public ElipsePainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 		}
 

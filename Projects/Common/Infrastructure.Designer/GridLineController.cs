@@ -56,7 +56,7 @@ namespace Infrastructure.Designer
 			if (IsVisible)
 			{
 				drawingContext.PushClip(_clipGeometry);
-				drawingContext.DrawGeometry(null, PainterCache.GridLinePen, _geometry);
+				drawingContext.DrawGeometry(null, _canvas.PainterCache.GridLinePen, _geometry);
 				drawingContext.Pop();
 			}
 		}

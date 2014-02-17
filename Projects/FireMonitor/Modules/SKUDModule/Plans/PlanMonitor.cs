@@ -5,20 +5,18 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using SKDModule.Plans.Designer;
 using XFiresecAPI;
+using Infrustructure.Plans.Presenter;
 
 namespace SKDModule.Plans
 {
-	internal class PlanMonitor
+	internal class PlanMonitor : BaseMonitor<Plan>
 	{
-		Plan Plan;
-		Action CallBack;
 		List<SKDDeviceState> DeviceStates;
 		List<SKDZoneState> ZoneStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
+			: base(plan, callBack)
 		{
-			Plan = plan;
-			CallBack = callBack;
 			DeviceStates = new List<SKDDeviceState>();
 			ZoneStates = new List<SKDZoneState>();
 			Initialize();

@@ -1,12 +1,13 @@
 ﻿using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
 	public class PolygonPainter : GeometryPainter<PathGeometry>
 	{
-		public PolygonPainter(ElementBase element)
-			: base(element)
+		public PolygonPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 		}
 

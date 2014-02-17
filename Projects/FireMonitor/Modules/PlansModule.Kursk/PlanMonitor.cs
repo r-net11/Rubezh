@@ -1,18 +1,15 @@
 ﻿using System;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {
-	internal class PlanMonitor
+	internal class PlanMonitor : BaseMonitor<Plan>
 	{
-		private Plan _plan;
-		private Action _callBack;
-
 		public PlanMonitor(Plan plan, Action callBack)
+			: base(plan, callBack)
 		{
-			_plan = plan;
-			_callBack = callBack;
 			Initialize();
 		}
 		private void Initialize()

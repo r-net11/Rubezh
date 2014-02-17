@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -11,8 +12,8 @@ namespace Infrustructure.Plans.Painters
 		private RectangleGeometry _clipGeometry;
 		private ScaleTransform _scaleTransform;
 
-		public TextBlockPainter(ElementBase element)
-			: base(element)
+		public TextBlockPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
+			: base(designerCanvas, element)
 		{
 		}
 

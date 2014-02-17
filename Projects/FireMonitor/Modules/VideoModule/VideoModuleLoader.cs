@@ -14,6 +14,7 @@ using VideoModule.Plans;
 using VideoModule.ViewModels;
 using Infrustructure.Plans.Events;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace VideoModule
 {
@@ -60,7 +61,7 @@ namespace VideoModule
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
 			_CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()

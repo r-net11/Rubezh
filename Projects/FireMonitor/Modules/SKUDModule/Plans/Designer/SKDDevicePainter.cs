@@ -22,7 +22,7 @@ namespace SKDModule.Plans.Designer
 		private SKDDeviceTooltipViewModel _tooltip;
 
 		public SKDDevicePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			var elementSKDDevice = presenterItem.Element as ElementSKDDevice;

@@ -6,29 +6,27 @@ using FiresecAPI.Models;
 using FiresecAPI.XModels;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
+using Infrustructure.Plans.Presenter;
 
 namespace DevicesModule.Plans
 {
-	internal class PlanMonitor
+	internal class PlanMonitor : BaseMonitor<Plan>
 	{
-		private Plan _plan;
-		private Action _callBack;
 		private List<DeviceState> _deviceStates;
 		private List<ZoneState> _zoneStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
+			: base(plan, callBack)
 		{
-			_plan = plan;
-			_callBack = callBack;
 			_deviceStates = new List<DeviceState>();
 			_zoneStates = new List<ZoneState>();
 			Initialize();
 		}
 		private void Initialize()
 		{
-			_plan.ElementDevices.ForEach(item => Initialize(item));
-			_plan.ElementRectangleZones.ForEach(item => Initialize(item));
-			_plan.ElementPolygonZones.ForEach(item => Initialize(item));
+			Plan.ElementDevices.ForEach(item => Initialize(item));
+			Plan.ElementRectangleZones.ForEach(item => Initialize(item));
+			Plan.ElementPolygonZones.ForEach(item => Initialize(item));
 		}
 		private void Initialize(ElementDevice element)
 		{
@@ -36,7 +34,7 @@ namespace DevicesModule.Plans
 			if (device != null)
 			{
 				_deviceStates.Add(device.DeviceState);
-				device.DeviceState.StateChanged += _callBack;
+				device.DeviceState.StateChanged += CallBack;
 			}
 		}
 		private void Initialize(IElementZone element)
@@ -47,7 +45,7 @@ namespace DevicesModule.Plans
 				if (zone != null)
 				{
 					_zoneStates.Add(zone.ZoneState);
-					zone.ZoneState.StateChanged += _callBack;
+					zone.ZoneState.StateChanged += CallBack;
 				}
 			}
 		}

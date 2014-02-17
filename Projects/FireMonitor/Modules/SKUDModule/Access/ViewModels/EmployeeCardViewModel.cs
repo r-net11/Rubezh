@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeZonesCommand { get; private set; }
 		void OnChangeZones()
 		{
-			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel();
+			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Card);
 			if (DialogService.ShowModalWindow(accessZonesSelectationViewModel))
 			{
 				UpdateZones();

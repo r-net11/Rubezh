@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models;
-using VideoModule.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 using System.Linq;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Presenter;
+using VideoModule.Plans.Designer;
+using XFiresecAPI;
 
 namespace VideoModule.Plans
 {
-	internal class PlanMonitor
+	internal class PlanMonitor : BaseMonitor<Plan>
 	{
-		private Plan _plan;
-		private Action _callBack;
 		private List<XStateClass> _cameraStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
+			: base(plan, callBack)
 		{
-			_plan = plan;
-			_callBack = callBack;
 			_cameraStates = new List<XStateClass>();
 			Initialize();
 		}
+
 		private void Initialize()
 		{
-			foreach (var elementCamera in _plan.ElementExtensions.OfType<ElementCamera>())
+			foreach (var elementCamera in Plan.ElementExtensions.OfType<ElementCamera>())
 			{
 				var camera = Helper.GetCamera(elementCamera);
 				if (camera != null)
@@ -33,7 +31,6 @@ namespace VideoModule.Plans
 				}
 			}
 		}
-
 		public XStateClass GetState()
 		{
 			var result = XStateClass.No;

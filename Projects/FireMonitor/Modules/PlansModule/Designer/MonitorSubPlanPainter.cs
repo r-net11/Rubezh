@@ -20,7 +20,7 @@ namespace PlansModule.Designer
 		Guid PlanUID;
 
 		public MonitorSubPlanPainter(MonitorSubPlanPresenterItem presenterItem, Guid planUID)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			PlanUID = planUID;
 			_presenterItem = presenterItem;

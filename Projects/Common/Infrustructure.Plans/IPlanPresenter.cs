@@ -5,12 +5,12 @@ using Infrustructure.Plans.Presenter;
 
 namespace Infrustructure.Plans
 {
-	public interface IPlanPresenter<T>
+	public interface IPlanPresenter<TPlan, TState>
 	{
-		void SubscribeStateChanged(T plan, Action callBack);
-		int GetState(T plan);
+		void SubscribeStateChanged(TPlan plan, Action callBack);
+		TState GetState(TPlan plan);
 
-		IEnumerable<ElementBase> LoadPlan(T plan);
+		IEnumerable<ElementBase> LoadPlan(TPlan plan);
 		void RegisterPresenterItem(PresenterItem presenterItem);
 		void ExtensionAttached();
 	}

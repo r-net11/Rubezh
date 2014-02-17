@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
+using XFiresecAPI;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel
@@ -80,7 +81,7 @@ namespace PlansModule.ViewModels
 		{
 			return AllPlans.FirstOrDefault(item => item.Plan != null && item.Plan.UID == planUID);
 		}
-		public void AddPlanPresenter(IPlanPresenter<Plan> planPresenter)
+		public void AddPlanPresenter(IPlanPresenter<Plan, XStateClass> planPresenter)
 		{
 			AllPlans.ForEach(planViewModel => planViewModel.RegisterPresenter(planPresenter));
 		}

@@ -12,7 +12,7 @@ using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {
-	class PlanPresenter : IPlanPresenter<Plan>
+	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
@@ -27,13 +27,15 @@ namespace PlansModule.Kursk
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
 			Helper.BuildMap();
-			var monitor = new PlanMonitor(plan, callBack);
-			_monitors.Add(plan, monitor);
+			if (_monitors.ContainsKey(plan))
+				_monitors[plan].AddCallBack(callBack);
+			else
+				_monitors.Add(plan, new PlanMonitor(plan, callBack));
 		}
 
-		public int GetState(Plan plan)
+		public XStateClass GetState(Plan plan)
 		{
-			return (int)(_monitors.ContainsKey(plan) ? _monitors[plan].GetState() : XStateClass.No);
+			return _monitors.ContainsKey(plan) ? _monitors[plan].GetState() : XStateClass.No;
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)

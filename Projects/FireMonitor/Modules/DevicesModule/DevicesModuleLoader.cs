@@ -16,6 +16,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
 
 namespace DevicesModule
 {
@@ -53,7 +54,7 @@ namespace DevicesModule
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}

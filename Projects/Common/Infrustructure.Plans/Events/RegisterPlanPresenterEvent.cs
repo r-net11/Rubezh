@@ -2,7 +2,7 @@
 
 namespace Infrustructure.Plans.Events
 {
-	public class RegisterPlanPresenterEvent<T> : CompositePresentationEvent<IPlanPresenter<T>>
+	public class RegisterPlanPresenterEvent<TPlan, TState> : CompositePresentationEvent<IPlanPresenter<TPlan, TState>>
 	{
 	}
 }

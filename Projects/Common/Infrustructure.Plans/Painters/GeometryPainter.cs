@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -9,12 +10,14 @@ namespace Infrustructure.Plans.Painters
 	{
 		protected T Geometry { get; private set; }
 		protected ElementBase Element { get; private set; }
+		protected CommonDesignerCanvas DesignerCanvas { get; private set; }
 		protected Rect Rect { get; private set; }
 		protected Brush Brush { get; private set; }
 		protected Pen Pen { get; private set; }
 
-		public GeometryPainter(ElementBase element)
+		public GeometryPainter(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
+			DesignerCanvas = designerCanvas;
 			Element = element;
 			Geometry = CreateGeometry();
 		}
@@ -35,7 +38,7 @@ namespace Infrustructure.Plans.Painters
 
 		protected virtual Brush GetBrush()
 		{
-			return PainterCache.GetBrush(Element);
+			return DesignerCanvas.PainterCache.GetBrush(Element);
 		}
 		protected virtual Pen GetPen()
 		{

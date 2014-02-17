@@ -10,19 +10,35 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using Infrastructure.Client.Plans;
+using Common;
+using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Events;
+using System;
+using XFiresecAPI;
 
 namespace PlansModule
 {
 	public class PlansModuleLoader : ModuleBase, ILayoutProviderModule
 	{
+		private List<IPlanPresenter<Plan, XStateClass>> _planPresenters;
+		private List<PlansViewModel> _plansViewModels;
 		private PlansViewModel _plansViewModel;
 		private NavigationItem _planNavigationItem;
 
+		public PlansModuleLoader()
+		{
+			_plansViewModels = new List<PlansViewModel>();
+			_planPresenters = new List<IPlanPresenter<Plan, XStateClass>>();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Subscribe(OnRegisterPlanPresenter);
+		}
 		public override void CreateViewModels()
 		{
-            PainterCache.UseTransparentImage = false;
+			PainterCache.UseTransparentImage = false;
 			EventService.RegisterEventAggregator(ServiceFactory.Events);
-			_plansViewModel = new PlansViewModel();
+			_plansViewModel = new PlansViewModel(_planPresenters);
 		}
 
 		public override int Order
@@ -36,8 +52,20 @@ namespace PlansModule
 		public override void Initialize()
 		{
 			FiresecManager.UpdatePlansConfiguration();
+			using (new TimeCounter("PlansModuleLoader.Initialize: {0}"))
+			{
+				using (new TimeCounter("\tPlansModuleLoader.CacheBrushes: {0}"))
+					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					{
+						PainterCache.CacheBrush(plan);
+						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+							PainterCache.CacheBrush(elementBase);
+					}
+				FiresecManager.InvalidatePlans();
+			}
 			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;
 			_plansViewModel.Initialize();
+			_plansViewModels.ForEach(item => item.Initialize());
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -48,8 +76,21 @@ namespace PlansModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", (p) => _plansViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", CreatePlansViewModel);
 		}
 		#endregion
+
+		private BaseViewModel CreatePlansViewModel(ILayoutProperties properties)
+		{
+			var plansViewModel = new PlansViewModel(_planPresenters);
+			plansViewModel.Initialize();
+			_plansViewModels.Add(plansViewModel);
+			return plansViewModel;
+		}
+		private void OnRegisterPlanPresenter(IPlanPresenter<Plan, XStateClass> planPresenter)
+		{
+			if (!_planPresenters.Contains(planPresenter))
+				_planPresenters.Add(planPresenter);
+		}
 	}
 }

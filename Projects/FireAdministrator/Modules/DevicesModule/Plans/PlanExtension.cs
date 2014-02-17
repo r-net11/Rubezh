@@ -261,7 +261,7 @@ namespace DevicesModule.Plans
 		{
 			var elementDevice = args.Element as ElementDevice;
 			if (elementDevice != null)
-				args.Painter = new Painter(elementDevice);
+				args.Painter = new Painter(_designerCanvas, elementDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

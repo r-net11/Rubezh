@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Kursk.Designer
 {
@@ -18,7 +19,7 @@ namespace PlansModule.Kursk.Designer
 		private static Brush _brush;
 
 		public TankPainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			var elementRectangleTank = presenterItem.Element as ElementRectangleTank;
 			if (elementRectangleTank != null)
@@ -148,7 +149,7 @@ namespace PlansModule.Kursk.Designer
 		}
 		protected override Pen GetPen()
 		{
-			return PainterCache.ZonePen;
+			return DesignerCanvas.PainterCache.ZonePen;
 		}
 		public override void Transform()
 		{

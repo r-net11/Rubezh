@@ -16,6 +16,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
+using XFiresecAPI;
 
 namespace SKDModule
 {
@@ -106,7 +107,7 @@ namespace SKDModule
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}

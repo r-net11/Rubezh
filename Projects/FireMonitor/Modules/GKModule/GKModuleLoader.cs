@@ -114,7 +114,7 @@ namespace GKModule
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
 			_delaysNavigationItem.IsVisible = XManager.Delays.Count > 0;

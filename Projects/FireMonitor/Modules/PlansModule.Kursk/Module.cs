@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {
@@ -26,7 +27,7 @@ namespace PlansModule.Kursk
 		public override void Initialize()
 		{
 			_planPresenter.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

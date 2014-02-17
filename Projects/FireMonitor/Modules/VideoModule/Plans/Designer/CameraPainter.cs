@@ -22,7 +22,7 @@ namespace VideoModule.Plans.Designer
 		private CameraTooltipViewModel _tooltip;
 
 		public CameraPainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			var elementCamera = presenterItem.Element as ElementCamera;

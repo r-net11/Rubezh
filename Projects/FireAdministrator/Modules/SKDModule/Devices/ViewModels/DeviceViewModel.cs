@@ -216,8 +216,8 @@ namespace SKDModule.ViewModels
 			return new Rectangle
 			{
 				Fill = brush,
-				Height = PainterCache.PointZoom * PainterCache.Zoom,
-				Width = PainterCache.PointZoom * PainterCache.Zoom,
+				Height = PainterCache.DefaultPointSize,
+				Width = PainterCache.DefaultPointSize,
 			};
 		}
 
@@ -274,6 +274,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeZoneCommand { get; private set; }
 		void OnChangeZone()
 		{
+			IsSelected = true;
 			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.ZoneUID, false);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{

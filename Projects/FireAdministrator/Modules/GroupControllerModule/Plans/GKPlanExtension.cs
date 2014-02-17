@@ -337,7 +337,7 @@ namespace GKModule.Plans
 		{
 			var elementXDevice = args.Element as ElementXDevice;
 			if (elementXDevice != null)
-				args.Painter = new Painter(elementXDevice);
+				args.Painter = new Painter(_designerCanvas, elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

@@ -4,21 +4,19 @@ using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using XFiresecAPI;
+using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans
 {
-	internal class PlanMonitor
+	internal class PlanMonitor : BaseMonitor<Plan>
 	{
-		Plan Plan;
-		Action CallBack;
 		List<XState> DeviceStates;
 		List<XState> ZoneStates;
 		List<XState> DirectionStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
+			: base(plan, callBack)
 		{
-			Plan = plan;
-			CallBack = callBack;
 			DeviceStates = new List<XState>();
 			ZoneStates = new List<XState>();
 			DirectionStates = new List<XState>();

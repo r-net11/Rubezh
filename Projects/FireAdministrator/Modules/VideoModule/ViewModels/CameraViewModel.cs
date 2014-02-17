@@ -169,8 +169,8 @@ namespace VideoModule.ViewModels
 			return new System.Windows.Shapes.Rectangle
 			{
 				Fill = brush,
-				Height = PainterCache.PointZoom * PainterCache.Zoom,
-				Width = PainterCache.PointZoom * PainterCache.Zoom,
+				Height = PainterCache.DefaultPointSize,
+				Width = PainterCache.DefaultPointSize,
 			};
 		}
 

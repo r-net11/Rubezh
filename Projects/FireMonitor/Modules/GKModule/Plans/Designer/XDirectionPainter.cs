@@ -28,7 +28,7 @@ namespace GKModule.Plans.Designer
 		private bool _showText = false;
 
 		public XDirectionPainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_textDrawing = null;
 			_scaleTransform = new ScaleTransform();

@@ -24,7 +24,7 @@ namespace DevicesModule.Plans.Designer
 		private ContextMenu _contextMenu;
 
 		public ZonePainter(PresenterItem presenterItem)
-			: base(presenterItem.Element)
+			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			_presenterItem = presenterItem;

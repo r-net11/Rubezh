@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecClient
 {
@@ -15,124 +16,95 @@ namespace FiresecClient
 			{
 				foreach (var Plan in PlansConfiguration.AllPlans)
 				{
+					var keys = PlansConfiguration.AllPlans.Select(item => item.UID).ToList();
 					var elementSubPlans = new List<ElementSubPlan>();
 					foreach (var elementSubPlan in Plan.ElementSubPlans)
-					{
-						var existingPlan = PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
-						if (existingPlan != null)
-						{
+						if (keys.Contains(elementSubPlan.PlanUID))
 							elementSubPlans.Add(elementSubPlan);
-						}
-					}
 					Plan.ElementSubPlans = elementSubPlans;
 
+					keys = Zones.Select(item => item.UID).ToList();
 					var elementRectangleZones = new List<ElementRectangleZone>();
 					foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = Zones.FirstOrDefault(x => x.UID == elementRectangleZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementRectangleZone.ZoneUID))
 							elementRectangleZones.Add(elementRectangleZone);
-						}
-					}
 					Plan.ElementRectangleZones = elementRectangleZones;
 
 					var elementPolygonZones = new List<ElementPolygonZone>();
 					foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = Zones.FirstOrDefault(x => x.UID == elementPolygonZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementPolygonZone.ZoneUID))
 							elementPolygonZones.Add(elementPolygonZone);
-						}
-					}
 					Plan.ElementPolygonZones = elementPolygonZones;
 
+					keys = Devices.Select(item => item.UID).ToList();
 					var elementDevices = new List<ElementDevice>();
-					foreach (var elementDevice in Plan.ElementDevices)
-					{
-						if (elementDevice.DeviceUID == Guid.Empty)
-							continue;
-
-						var device = Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-						if (device != null)
-						{
+					foreach (var elementDevice in Plan.ElementDevices.Where(x => x.DeviceUID != Guid.Empty))
+						if (keys.Contains(elementDevice.DeviceUID))
 							elementDevices.Add(elementDevice);
-						}
-					}
 					Plan.ElementDevices = elementDevices;
 
+					keys = XManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleXZones = new List<ElementRectangleXZone>();
 					foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == elementRectangleXZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementRectangleXZone.ZoneUID))
 							elementRectangleXZones.Add(elementRectangleXZone);
-						}
-					}
 					Plan.ElementRectangleXZones = elementRectangleXZones;
 
 					var elementPolygonXZones = new List<ElementPolygonXZone>();
 					foreach (var elementPolygonXZone in Plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == elementPolygonXZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementPolygonXZone.ZoneUID))
 							elementPolygonXZones.Add(elementPolygonXZone);
-						}
-					}
 					Plan.ElementPolygonXZones = elementPolygonXZones;
 
+					keys = XManager.Devices.Select(item => item.UID).ToList();
 					var elementXDevices = new List<ElementXDevice>();
-					foreach (var elementXDevice in Plan.ElementXDevices)
-					{
-						if (elementXDevice.XDeviceUID == Guid.Empty)
-							continue;
-
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
-						if (device != null)
-						{
+					foreach (var elementXDevice in Plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
+						if (keys.Contains(elementXDevice.XDeviceUID))
 							elementXDevices.Add(elementXDevice);
-						}
-					}
 					Plan.ElementXDevices = elementXDevices;
 
+					keys = SKDManager.Zones.Select(item => item.UID).ToList();
 					var elementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 					foreach (var elementRectangleSKDZone in Plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == elementRectangleSKDZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementRectangleSKDZone.ZoneUID))
 							elementRectangleSKDZones.Add(elementRectangleSKDZone);
-						}
-					}
 					Plan.ElementRectangleSKDZones = elementRectangleSKDZones;
 
 					var elementPolygonSKDZones = new List<ElementPolygonSKDZone>();
 					foreach (var elementPolygonSKDZone in Plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty))
-					{
-						var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == elementPolygonSKDZone.ZoneUID);
-						if (zone != null)
-						{
+						if (keys.Contains(elementPolygonSKDZone.ZoneUID))
 							elementPolygonSKDZones.Add(elementPolygonSKDZone);
-						}
-					}
 					Plan.ElementPolygonSKDZones = elementPolygonSKDZones;
 
+					keys = SKDManager.Devices.Select(item => item.UID).ToList();
 					var elementSKDDevices = new List<ElementSKDDevice>();
-					foreach (var elementSKDDevice in Plan.ElementSKDDevices)
-					{
-						if (elementSKDDevice.DeviceUID == Guid.Empty)
-							continue;
-
-						var device = SKDManager.Devices.FirstOrDefault(x => x.UID == elementSKDDevice.DeviceUID);
-						if (device != null)
-						{
+					foreach (var elementSKDDevice in Plan.ElementSKDDevices.Where(x => x.DeviceUID != Guid.Empty))
+						if (keys.Contains(elementSKDDevice.DeviceUID))
 							elementSKDDevices.Add(elementSKDDevice);
+					Plan.ElementSKDDevices = elementSKDDevices;
+
+					keys = XManager.Devices.Select(item => item.UID).ToList();
+					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
+					var elementExtensions = new List<ElementBase>();
+					foreach (var elementExtension in Plan.ElementExtensions)
+					{
+						var elementTank = elementExtension as ElementRectangleTank;
+						if (elementTank != null)
+						{
+							if (keys.Contains(elementTank.XDeviceUID))
+								elementExtensions.Add(elementTank);
+						}
+						else
+						{
+							var elementCamera = elementExtension as ElementCamera;
+							if (elementCamera != null)
+							{
+								if (cameraKeys.Contains(elementCamera.CameraUID))
+									elementExtensions.Add(elementCamera);
+							}
 						}
 					}
-					Plan.ElementSKDDevices = elementSKDDevices;
+					Plan.ElementExtensions = elementExtensions;
 				}
 			}
 			catch (Exception e)
