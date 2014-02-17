@@ -23,7 +23,6 @@ namespace VideoModule.Plans.ViewModels
 			Camera = camera;
 			Title = Camera.Name;
 			TopMost = true;
-
 		}
 
 		public Brush CameraPicture

@@ -62,9 +62,12 @@ namespace VideoModule.ViewModels
 		}
 		public bool CanShowOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				if (plan.ElementExtensions.OfType<ElementCamera>().Any(x => x.CameraUID == SelectedCamera.Camera.UID))
-					return true;
+			if (SelectedCamera != null)
+			{
+				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+					if (plan.ElementExtensions.OfType<ElementCamera>().Any(x => x.CameraUID == SelectedCamera.Camera.UID))
+						return true;
+			}
 			return false;
 		}
 
@@ -72,7 +75,8 @@ namespace VideoModule.ViewModels
 
 		public void Select(Guid cameraUID)
 		{
-			SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
+			if (cameraUID != Guid.Empty)
+				SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
 		}
 
 		#endregion
