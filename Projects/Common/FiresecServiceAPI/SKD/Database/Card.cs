@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDCard
+	public class SKDCard : SKDModelBase
 	{
-		public SKDCard()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public int? Series { get; set; }
 
@@ -22,7 +15,7 @@ namespace FiresecAPI
 		public int? Number { get; set; }
 
 		[DataMember]
-		public Guid? EmployeeUid { get; set; }
+		public Guid? HolderUid { get; set; }
 
 		[DataMember]
 		public DateTime? ValidFrom { get; set; }

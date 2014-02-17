@@ -5,16 +5,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class ScheduleScheme
+	public class ScheduleScheme : OrganizationElementBase
 	{
-		public ScheduleScheme()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public string Name { get; set; }
 
@@ -22,14 +14,17 @@ namespace FiresecAPI
 		public ScheduleSchemeType Type { get; set; }
 
 		[DataMember]
-		public List<Day> Days { get; set; }
+		public List<Guid> DayUids { get; set; }
 	}
 
 	[DataContract]
 	public enum ScheduleSchemeType
 	{
+		[EnumMember]
 		Week,
+		[EnumMember]
 		Shift,
+		[EnumMember]
 		Month
 	}
 }

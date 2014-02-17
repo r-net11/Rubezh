@@ -5,20 +5,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class NamedInterval
+	public class NamedInterval : OrganizationElementBase
 	{
-		public NamedInterval()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
-		public List<Interval> Intervals { get; set; }
+		public List<Guid> IntervalUids { get; set; }
 	}
 }

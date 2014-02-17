@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Phone : OrganizationElementBase
+	public class Schedule : OrganizationElementBase
 	{
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
-		public string NumberString { get; set; }
+		public Guid ScheduleSchemeUid { get; set; }
 
 		[DataMember]
-		public Guid? DepartmentUid { get; set; }
+		public List<Guid> ZoneLinkUids { get; set; }
 	}
 }

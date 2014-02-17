@@ -33,6 +33,8 @@ namespace SKDModule.ViewModels
 			var positions = FiresecManager.GetPositions(null).ToList();
 			positions.ForEach(x => Positions.Add(new FilterPositionViewModel(x)));
 
+			//WithDeleted = filter.WithDeleted;
+			
 			Initialize();
 		}
 
@@ -78,6 +80,7 @@ namespace SKDModule.ViewModels
 				if (x.IsChecked)
 					Filter.PositionUids.Add(x.Position.Uid);
 			});
+			//Filter.WithDeleted = WithDeleted;
 			//if (StartDateTime > EndDateTime)
 			//{
 			//    MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
@@ -132,7 +135,7 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				departments = value;
-				OnPropertyChanged("Departments");
+				OnPropertyChanged(()=>Departments);
 			}
 		}
 
@@ -161,7 +164,18 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				positions = value;
-				OnPropertyChanged("Positions");
+				OnPropertyChanged(()=>Positions);
+			}
+		}
+
+		bool withDeleted;
+		public bool WithDeleted
+		{
+			get { return withDeleted; }
+			set
+			{
+				withDeleted = value;
+				OnPropertyChanged(() => WithDeleted);
 			}
 		}
 	}

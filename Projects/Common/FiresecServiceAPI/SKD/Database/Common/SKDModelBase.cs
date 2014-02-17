@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Day
+	public abstract class SKDModelBase
 	{
-		public Day()
+		public SKDModelBase()
 		{
 			Uid = Guid.NewGuid();
 		}
@@ -15,9 +15,9 @@ namespace FiresecAPI
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public NamedInterval NamedInterval { get; set; }
+		public bool? IsDeleted { get; set; }
 
 		[DataMember]
-		public int? Number { get; set; }
+		public DateTime? RemovalDate { get; set; } 
 	}
 }

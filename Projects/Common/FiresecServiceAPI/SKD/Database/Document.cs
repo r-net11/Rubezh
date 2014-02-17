@@ -4,16 +4,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Document
+	public class Document : OrganizationElementBase
 	{
-		public Document()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public string Name { get; set; }
 

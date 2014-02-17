@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Position : OrganizationElementBase
+	public class Organization : SKDModelBase
 	{
 		[DataMember]
 		public string Name { get; set; }

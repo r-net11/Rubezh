@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BytesHelper.cs" />
     <Compile Include="DeviceBytesHelper.cs" />
+    <Compile Include="SKDDatabaseService\DataAccess\IDatabaseElement.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\SKUD.cs">
       <DependentUpon>SKUD.dbml</DependentUpon>
     </Compile>

@@ -5,88 +5,113 @@ namespace SKDDriver
 {
 	static partial class Translator
 	{
-		public static void Update(Position position, FiresecAPI.Position apiPosition)
+		public static void Update(Position item, FiresecAPI.Position apiItem)
 		{
-			if (apiPosition == null)
+			if (apiItem == null)
 				return;
-			position.Name = apiPosition.Name;
-			position.Description = apiPosition.Description;
-			return;
+			item.Name = apiItem.Name;
+			item.Description = apiItem.Description;
+			UpdateOrganizationElement(item, apiItem);
 		}
 		
-		public static void Update(Department department, FiresecAPI.Department apiDepartment)
+		public static void Update(Department item, FiresecAPI.Department apiItem)
 		{
-			if (apiDepartment == null)
+			if (apiItem == null)
 				return;
-			department.Name = apiDepartment.Name;
-			department.Description = apiDepartment.Description;
-			department.ParentDepartmentUid = apiDepartment.ParentDepartmentUid;
-			department.ContactEmployeeUid = apiDepartment.ContactEmployeeUid;
-			department.AttendantUid = apiDepartment.AttendantEmployeeUId;
+			item.Name = apiItem.Name;
+			item.Description = apiItem.Description;
+			item.ParentDepartmentUid = apiItem.ParentDepartmentUid;
+			item.ContactEmployeeUid = apiItem.ContactEmployeeUid;
+			item.AttendantUid = apiItem.AttendantEmployeeUId;
+			UpdateOrganizationElement(item, apiItem);
 		}
 
-
-		public static void Update(Employee employee, FiresecAPI.Employee apiEmployee)
+		public static void Update(Employee item, FiresecAPI.Employee apiItem)
 		{
-			if (apiEmployee == null)
+			if (apiItem == null)
 				return;
-			employee.FirstName = apiEmployee.FirstName;
-			employee.SecondName = apiEmployee.SecondName;
-			employee.LastName = apiEmployee.LastName;
-			employee.Appointed = apiEmployee.Appointed;
-			employee.Dismissed = apiEmployee.Dismissed;
-			employee.PositionUid = apiEmployee.PositionUid;
-			employee.DepartmentUid = apiEmployee.DepartmentUid;
-			employee.ScheduleUid = apiEmployee.ScheduleUid;
-			return;
+			item.FirstName = apiItem.FirstName;
+			item.SecondName = apiItem.SecondName;
+			item.LastName = apiItem.LastName;
+			item.Appointed = apiItem.Appointed;
+			item.Dismissed = apiItem.Dismissed;
+			item.PositionUid = apiItem.PositionUid;
+			item.DepartmentUid = apiItem.DepartmentUid;
+			item.ScheduleUid = apiItem.ScheduleUid;
+			item.Type = (int)apiItem.Type;
+			UpdateOrganizationElement(item, apiItem);
 		}
 
-		public static void Update(Journal journalItem, FiresecAPI.SKDJournalItem apiJournalItem)
+		public static void Update(Journal item, FiresecAPI.SKDJournalItem apiItem)
 		{
-			if (apiJournalItem == null)
+			if (apiItem == null)
 				return;
-			journalItem.CardNo = apiJournalItem.CardNo;
-			journalItem.Description = apiJournalItem.Description;
-			journalItem.DeviceDate = apiJournalItem.DeviceDateTime;
-			journalItem.DeviceNo = apiJournalItem.DeviceJournalRecordNo;
-			journalItem.IpPort = apiJournalItem.IpAddress;
-			journalItem.Name = apiJournalItem.Name;
-			journalItem.SysemDate = CheckDate(apiJournalItem.SystemDateTime);
+			item.CardNo = apiItem.CardNo;
+			item.Description = apiItem.Description;
+			item.DeviceDate = apiItem.DeviceDateTime;
+			item.DeviceNo = apiItem.DeviceJournalRecordNo;
+			item.IpPort = apiItem.IpAddress;
+			item.Name = apiItem.Name;
+			item.SysemDate = CheckDate(apiItem.SystemDateTime);
+			//UpdateBase(item, apiItem);
 		}
 
-		public static void Update(Frame frame, FiresecAPI.Frame apiFrame)
+		public static void Update(Frame item, FiresecAPI.Frame apiItem)
 		{
-			if (apiFrame == null)
+			if (apiItem == null)
 				return;
-			frame.CameraUid = apiFrame.CameraUid;
-			frame.DateTime = CheckDate(apiFrame.DateTime);
-			frame.FrameData = apiFrame.FrameData;
-			frame.JournalItemUid = apiFrame.JournalItemUid;
+			item.CameraUid = apiItem.CameraUid;
+			item.DateTime = CheckDate(apiItem.DateTime);
+			item.FrameData = apiItem.FrameData;
+			item.JournalItemUid = apiItem.JournalItemUid;
+			UpdateBase(item, apiItem);
 		}
 
-		public static void Update(Card card, FiresecAPI.SKDCard apiCard)
+		public static void Update(Card item, FiresecAPI.SKDCard apiItem)
 		{
-			if (apiCard == null)
+			if (apiItem == null)
 				return;
-			card.Number = apiCard.Number;
-			card.Series = apiCard.Series;
-			card.EmployeeUid = apiCard.EmployeeUid;
-			card.ValidFrom = CheckDate(apiCard.ValidFrom);
-			card.ValidTo = CheckDate(apiCard.ValidTo);
-			card.IsAntipass = apiCard.IsAntipass;
-			card.IsInStopList = apiCard.IsInStopList;
-			card.StopReason = apiCard.StopReason;
+			item.Number = apiItem.Number;
+			item.Series = apiItem.Series;
+			item.EmployeeUid = apiItem.HolderUid;
+			item.ValidFrom = CheckDate(apiItem.ValidFrom);
+			item.ValidTo = CheckDate(apiItem.ValidTo);
+			item.IsAntipass = apiItem.IsAntipass;
+			item.IsInStopList = apiItem.IsInStopList;
+			item.StopReason = apiItem.StopReason;
+			UpdateBase(item, apiItem);
 		}
 
-		public static void Update(CardZoneLink cardZoneLink, FiresecAPI.CardZoneLink apiCardZoneLink)
+		public static void Update(CardZoneLink item, FiresecAPI.CardZoneLink apiItem)
 		{
-			if (apiCardZoneLink == null)
+			if (apiItem == null)
 				return;
-			cardZoneLink.IntervalType = apiCardZoneLink.IntervalType.ToString();
-			cardZoneLink.IntervalUid = apiCardZoneLink.IntervalUid;
-			cardZoneLink.IsWithEscort = apiCardZoneLink.IsWithEscort;
-			cardZoneLink.ZoneUid = apiCardZoneLink.ZoneUid;
-			cardZoneLink.CardUid = apiCardZoneLink.CardUid;
+			item.IntervalType = (int?)apiItem.IntervalType;
+			item.IntervalUid = apiItem.IntervalUid;
+			item.IsWithEscort = apiItem.IsWithEscort;
+			item.ZoneUid = apiItem.ZoneUid;
+			item.CardUid = apiItem.CardUid;
+			UpdateBase(item, apiItem);
+		}
+
+		public static void Update(Organization item, FiresecAPI.Organization apiItem)
+		{
+			if (apiItem == null)
+				return;
+			item.Name = apiItem.Name;
+			item.Description = apiItem.Description;
+			UpdateBase(item, apiItem);
+		}
+
+		static void UpdateBase(IDatabaseElement item, FiresecAPI.SKDModelBase apiItem)
+		{
+			item.IsDeleted = apiItem.IsDeleted;
+			item.RemovalDate = apiItem.RemovalDate;
+		}
+
+		static void UpdateOrganizationElement(IOrganizationDatabaseElement item, FiresecAPI.OrganizationElementBase apiItem)
+		{
+			item.OrganizationUid = apiItem.OrganizationUid;
 		}
 	}
 }

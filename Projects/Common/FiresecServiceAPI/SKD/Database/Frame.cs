@@ -7,16 +7,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Frame
+	public class Frame : SKDModelBase
 	{
-		public Frame()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public Guid? CameraUid { get; set; }
 

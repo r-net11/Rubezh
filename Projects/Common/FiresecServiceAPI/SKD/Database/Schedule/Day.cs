@@ -4,12 +4,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Position : OrganizationElementBase
+	public class Day : OrganizationElementBase
 	{
 		[DataMember]
-		public string Name { get; set; }
+		public Guid NamedIntervalUid { get; set; }
 
 		[DataMember]
-		public string Description { get; set; }
+		public int? Number { get; set; }
 	}
 }

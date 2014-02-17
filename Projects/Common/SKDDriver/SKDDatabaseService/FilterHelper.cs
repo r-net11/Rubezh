@@ -10,109 +10,69 @@ namespace SKDDriver
 	{
 		public static bool IsInFilter(DataAccess.Employee item, EmployeeFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInDepartments = IsInUidList(item.DepartmentUid, filter.DepartmentUids);
 			bool isInPositions = IsInUidList(item.PositionUid, filter.PositionUids);
 			bool isInAppointed = IsInDateTimePeriod(item.Appointed, filter.Appointed);
 			bool isInDismissed = IsInDateTimePeriod(item.Dismissed, filter.Dismissed);
-
-			return isInUids && isInDepartments && isInPositions && isInAppointed && isInDepartments;
+			return isInDepartments && isInPositions && isInAppointed && isInDepartments;// && IsInOrganizationFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.Journal item, SKDJournalFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
-			bool isInSystemDate = IsInDateTimePeriod(item.SysemDate, filter.SystemDateTime);
-			bool isInDeviceDate = IsInDateTimePeriod(item.DeviceDate, filter.DeviceDateTime);
-
-			return isInUids && isInSystemDate && isInDeviceDate;
+			return IsInFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.Department item, DepartmentFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
-
-			return isInUids;
+			return IsInOrganizationFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.Position item, PositionFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
-
-			return isInUids;
+			return IsInOrganizationFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.Frame item, FrameFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool IsInUids = IsInUidList(item.Uid, filter.Uids);
 			bool IsInCameras = IsInUidList(item.CameraUid, filter.CameraUid);
 			bool IsInJournalItems = IsInUidList(item.JournalItemUid, filter.JournalItemUid);
 			bool IsInDateTime = IsInDateTimePeriod(item.DateTime, filter.DateTime);
-
-			return IsInUids && IsInCameras && IsInJournalItems && IsInDateTime;
+			return IsInCameras && IsInJournalItems && IsInDateTime && IsInFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.Card item, CardFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInEmployees = IsInUidList(item.EmployeeUid, filter.EmployeeUids);
-
-			return isInUids && isInEmployees;
+			return isInEmployees && IsInFilterBase(item, filter);
 		}
 
 		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneLinkFilter filter)
 		{
-			if (filter == null)
-				return true;
-
-			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
-				return false;
-
-			bool isInUids = IsInUidList(item.Uid, filter.Uids);
 			bool isInCardUids = IsInUidList(item.CardUid, filter.CardUids);
 			bool isInZoneUids = IsInUidList(item.ZoneUid, filter.ZoneUids);
 			bool isInIntervalUids = IsInUidList(item.IntervalUid, filter.IntervalUids);
-
-			return isInUids && isInCardUids && isInZoneUids && isInIntervalUids;
+			return isInCardUids && isInZoneUids && isInIntervalUids && IsInFilterBase(item, filter);
 		}
 
+		public static bool IsInFilter(DataAccess.Organization item, OrganizationFilter filter)
+		{
+			return IsInFilterBase(item, filter);
+		}
 
+		static bool IsInFilterBase(DataAccess.IDatabaseElement item, FilterBase filter)
+		{
+			if (!filter.WithDeleted && item.IsDeleted.GetValueOrDefault(false))
+				return false;
+			bool isInUids = IsInUidList(item.Uid, filter.Uids);
+			bool isInRemovalDates = IsInDateTimePeriod(item.RemovalDate, filter.RemovalDates);
+			return isInUids && isInRemovalDates; 
+		}
+
+		static bool IsInOrganizationFilterBase(DataAccess.IOrganizationDatabaseElement item, OrganizationFilterBase filter)
+		{
+			bool isInOrganizations = IsInUidList(item.OrganizationUid, filter.OrganizationUids);
+			return IsInFilterBase(item, filter) && isInOrganizations;
+		}
 
 		static bool IsInDateTimePeriod(DateTime? dateTime, DateTimePeriod dateTimePeriod)
 		{

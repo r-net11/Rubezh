@@ -41,6 +41,16 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </TabItem>
+                <TabItem Header="Разное">
+                    <ListBox>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding WithDeleted}" VerticalAlignment="Center" />
+                                <TextBlock Text="Показать удалённых сотрудников" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </TabItem>
             </TabControl>
         </DockPanel>
     </Grid>

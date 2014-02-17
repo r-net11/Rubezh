@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -33,6 +34,11 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("PositionName");
 			OnPropertyChanged("AppointedString");
 			OnPropertyChanged("DismissedString");
+			OnPropertyChanged(()=>Employee);
+			OnPropertyChanged(()=>DepartmentName);
+			OnPropertyChanged(()=>PositionName);
+			OnPropertyChanged(()=>AppointedString);
+			OnPropertyChanged(()=>DismissedString);
 		}
 	}
 }

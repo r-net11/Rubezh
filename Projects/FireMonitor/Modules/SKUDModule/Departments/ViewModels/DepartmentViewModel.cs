@@ -6,6 +6,8 @@ using Infrastructure.Common.TreeList;
 using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -24,7 +26,7 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Department");
+			OnPropertyChanged(()=>Department);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -34,6 +36,8 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
+				DepartmentHelper.Save(department);
+
 				var departmentViewModel = new DepartmentViewModel(department);
 				this.Department.ChildDepartmentUids.Add(department.Uid);
 				this.AddChild(departmentViewModel);
@@ -64,6 +68,7 @@ namespace SKDModule.ViewModels
 
 				index = Math.Min(index, parent.ChildrenCount - 1);
 				DepartmentsViewModel.Current.Departments.Remove(this);
+				var children = DepartmentsViewModel.Current.GetAllChildrenModels(this);
 				DepartmentsViewModel.Current.SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
@@ -78,7 +83,9 @@ namespace SKDModule.ViewModels
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(this.Department);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				this.Department = departmentDetailsViewModel.Department;
+				var department = departmentDetailsViewModel.Department;
+				DepartmentHelper.Save(department);
+				this.Department = department;
 				Update();
 			}
 		}

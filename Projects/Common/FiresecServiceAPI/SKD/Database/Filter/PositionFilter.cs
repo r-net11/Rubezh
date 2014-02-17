@@ -5,19 +5,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class PositionFilter : FilterBase
+	public class PositionFilter : OrganizationFilterBase
 	{
-		[DataMember]
-		public List<Guid> Uids { get; set; }
-
-		public bool HasUids
-		{
-			get { return Uids.Count > 0; }
-		}
-
-		public PositionFilter()
-		{
-			Uids = new List<Guid>();
-		}
+		
 	}
 }

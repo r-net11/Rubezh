@@ -18,9 +18,16 @@ namespace SKDDriver
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
 		{
+			
 			try
 			{
 				var result = new List<Employee>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Employee)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Employee)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -30,12 +37,17 @@ namespace SKDDriver
 			}
 			catch { return new List<Employee>(); }
 		}
-
 		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
 		{
 			try
 			{
 				var result = new List<Department>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Department)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Department)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -45,12 +57,17 @@ namespace SKDDriver
 			}
 			catch { return new List<Department>(); }
 		}
-
 		public IEnumerable<Position> GetPositions(PositionFilter filter)
 		{
 			try
 			{
 				var result = new List<Position>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Position)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Position)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -60,12 +77,17 @@ namespace SKDDriver
 			}
 			catch { return new List<Position>(); }
 		}
-
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			try
 			{
 				var result = new List<SKDJournalItem>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Journal)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Journal)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -75,12 +97,17 @@ namespace SKDDriver
 			}
 			catch { return new List<SKDJournalItem>(); }
 		}
-
 		public IEnumerable<Frame> GetFrames(FrameFilter filter)
 		{
 			try
 			{
 				var result = new List<Frame>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Frame)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Frame)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -90,12 +117,17 @@ namespace SKDDriver
 			}
 			catch { return new List<Frame>(); }
 		}
-
 		public IEnumerable<SKDCard> GetCards(CardFilter filter)
 		{
 			try
 			{
 				var result = new List<SKDCard>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Card)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.Card)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -105,12 +137,17 @@ namespace SKDDriver
 			}
 			catch { return new List<SKDCard>(); }
 		}
-
 		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
 		{
 			try
 			{
 				var result = new List<CardZoneLink>();
+				if (filter == null)
+				{
+					foreach (var item in Context.CardZoneLink)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
 				foreach (var item in Context.CardZoneLink)
 				{
 					if (FilterHelper.IsInFilter(item, filter))
@@ -119,6 +156,26 @@ namespace SKDDriver
 				return result;
 			}
 			catch { return new List<CardZoneLink>(); }
+		}
+		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		{
+			try
+			{
+				var result = new List<Organization>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Organization)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
+				foreach (var item in Context.Organization)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Organization>(); }
 		}
 		#endregion
 
@@ -130,7 +187,7 @@ namespace SKDDriver
 				foreach (var item in items)
 				{
 					if (item == null)
-						continue;
+					    continue;
 
 					var databaseItem = Context.Employee.FirstOrDefault(x => x.Uid == item.Uid);
 					if (databaseItem != null)
@@ -144,7 +201,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
 		public void SaveDepartments(IEnumerable<Department> items)
 		{
 			try
@@ -166,7 +222,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
 		public void SavePositions(IEnumerable<Position> items)
 		{
 			try
@@ -188,8 +243,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
-
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
 			try
@@ -211,7 +264,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
 		public void SaveFrames(IEnumerable<Frame> items)
 		{
 			try
@@ -233,7 +285,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
 		public void SaveCards(IEnumerable<SKDCard> items)
 		{
 			try
@@ -255,7 +306,6 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-
 		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
 			try
@@ -272,6 +322,27 @@ namespace SKDDriver
 					}
 					else
 						Context.CardZoneLink.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void SaveOrganizations(IEnumerable<Organization> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.Uid);
+					if (databaseItem != null)
+					{
+						Translator.Update(databaseItem, item);
+					}
+					else
+						Context.Organization.InsertOnSubmit(Translator.TranslateBack(item));
 				}
 				Context.SubmitChanges();
 			}
@@ -377,7 +448,7 @@ namespace SKDDriver
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
-				}
+				} 
 				Context.SubmitChanges();
 			}
 			catch { }
@@ -391,6 +462,23 @@ namespace SKDDriver
 					if (item != null)
 					{
 						var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.Uid);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}

@@ -8,9 +8,6 @@ namespace FiresecAPI
 	public class SKDJournalFilter : FilterBase
 	{
 		[DataMember]
-		public List<Guid> Uids { get; set; }
-
-		[DataMember]
 		public DateTimePeriod SystemDateTime { get; set; }
 
 		[DataMember]
@@ -24,15 +21,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<string> EventNames { get; set; }
-
-		public bool HasUids
-		{
-			get { return Uids.Count > 0; }
-		}
-
+		
 		public SKDJournalFilter()
 		{
-			Uids = new List<Guid>();
 			EventNames = new List<string>();
 		}
 	}

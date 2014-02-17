@@ -12,18 +12,19 @@ namespace SKDDriver
 		
 		public static void Add(SKDJournalItem journalItem)
 		{
-			SKDService.SaveSKDJournalItems(new List<SKDJournalItem>{journalItem});	
+			//SKDService.SaveSKDJournalItems(new List<SKDJournalItem>{journalItem});	
 		}
 
 		public static void AddMany(List<SKDJournalItem> journalItems)
 		{
-			SKDService.SaveSKDJournalItems(journalItems);	
+			//SKDService.SaveSKDJournalItems(journalItems);	
 		}
 
 		public static SKDJournalItem AddMessage(string name, string userName)
 		{
-			var journalItem = new SKDJournalItem();
-			return journalItem;
+			return new SKDJournalItem();
+			//var journalItem = new SKDJournalItem();
+			//return journalItem;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static void LinkToEmployee(SKDCard card, Guid employeeUid)
 		{
-			card.EmployeeUid = employeeUid;
+			card.HolderUid = employeeUid;
 			FiresecManager.SaveCards(new List<SKDCard> { card });
 		}
 
@@ -18,7 +18,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			card.IsInStopList = true;
 			card.StopReason = reason;
-			card.EmployeeUid = null;
+			card.HolderUid = null;
 			FiresecManager.SaveCards(new List<SKDCard> { card });
 			
 			var cardZoneLinks = FiresecManager.GetCardZoneLinks(new CardZoneLinkFilter{ Uids =  card.ZoneLinkUids });

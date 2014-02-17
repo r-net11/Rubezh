@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using XFiresecAPI;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
@@ -23,6 +24,8 @@ namespace FiresecAPI
 		IEnumerable<SKDCard> GetCards(CardFilter filter);
 		[OperationContract]
 		IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter);
+		[OperationContract]
+		IEnumerable<Organization> GetOrganizations(OrganizationFilter filter);
 		#endregion
 
 		#region Save
@@ -40,6 +43,8 @@ namespace FiresecAPI
 		void SaveCards(IEnumerable<SKDCard> items);
 		[OperationContract]
 		void SaveCardZoneLinks(IEnumerable<CardZoneLink> items);
+		[OperationContract]
+		void SaveOrganizations(IEnumerable<Organization> items);
 		#endregion
 
 		#region MarkDeleted
@@ -57,6 +62,8 @@ namespace FiresecAPI
 		void MarkDeletedCards(IEnumerable<SKDCard> items);
 		[OperationContract]
 		void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items);
+		[OperationContract]
+		void MarkDeletedOrganizations(IEnumerable<Organization> items);
 		#endregion
 
 		#region DeviceCommands

@@ -5,16 +5,17 @@ using XFiresecAPI;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDJournalItem
+	public class SKDJournalItem//:SKDModelBase
 	{
-		public SKDJournalItem()
+		public SKDJournalItem():base()
 		{
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			DeviceStateClass = XStateClass.Norm;
 			JournalItemType = JournalItemType.System;
 		}
-
+		[DataMember]
+		public Guid Uid { get; set; }
 		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 		[DataMember]
@@ -53,8 +54,5 @@ namespace FiresecAPI
 		public string UserName { get; set; }
 		[DataMember]
 		public XSubsystemType SubsystemType { get; set; }
-
-		[DataMember]
-		public Guid Uid { get; set; }
 	}
 }

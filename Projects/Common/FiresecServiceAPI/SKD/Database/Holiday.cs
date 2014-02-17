@@ -4,16 +4,8 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Holiday
+	public class Holiday : OrganizationElementBase
 	{
-		public Holiday()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public string Name { get; set; }
 
@@ -30,7 +22,6 @@ namespace FiresecAPI
 		public int? Reduction { get; set; }
 	}
 
-	[DataContract]
 	public enum HolidayType
 	{
 		Holiday,

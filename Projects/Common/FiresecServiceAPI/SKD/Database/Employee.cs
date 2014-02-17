@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Employee
+	public class Employee : OrganizationElementBase
 	{
-		public Employee()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid { get; set; }
-
 		[DataMember]
 		public string FirstName { get; set; }
 
@@ -47,5 +40,16 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<Guid> CardUids { get; set; }
+
+		[DataMember]
+		public PersonType Type { get; set; }
+	}
+
+	public enum PersonType
+	{
+		[DescriptionAttribute("Работник")]
+		Employee,
+		[DescriptionAttribute("Гость")]
+		Guest
 	}
 }

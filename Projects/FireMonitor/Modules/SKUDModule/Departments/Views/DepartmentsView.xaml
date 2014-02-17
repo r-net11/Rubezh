@@ -12,13 +12,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
-            <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedDepartment}">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+            <StackPanel Orientation="Horizontal" >
+                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" DataContext="{Binding SelectedDepartment}" />
+                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" DataContext="{Binding SelectedDepartment}" />
+                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" DataContext="{Binding SelectedDepartment}" />
+                <Controls:ToolBarButton Command="{Binding WithDeletedCommand}" ToolTip="С удалёнными" ImageSource="/Controls;component/Images/Refresh.png" />
             </StackPanel>
         </Border>
-        <tree:TreeList Grid.Row="1" Focusable="True" Source="{Binding RootDepartments}" SelectedTreeNode="{Binding SelectedDepartment}">
+        <!--<tree:TreeList Grid.Row="1" Focusable="True" Source="{Binding RootDepartments}" SelectedTreeNode="{Binding SelectedDepartment}">
             <tree:TreeList.View>
                 <GridView>
                     <GridViewColumn Header="Наименование">
@@ -40,6 +41,6 @@
                     </GridViewColumn>
                 </GridView>
             </tree:TreeList.View>
-        </tree:TreeList>
+        </tree:TreeList>-->
     </Grid>
 </UserControl>

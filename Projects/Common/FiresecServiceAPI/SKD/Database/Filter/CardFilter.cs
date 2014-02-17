@@ -8,14 +8,10 @@ namespace FiresecAPI
 	public class CardFilter : FilterBase
 	{
 		[DataMember]
-		public List<Guid> Uids { get; set; }
-
-		[DataMember]
 		public List<Guid> EmployeeUids { get; set; }
 
-		public CardFilter()
+		public CardFilter():base()
 		{
-			Uids = new List<Guid>();
 			EmployeeUids = new List<Guid>();
 		}
 	}

@@ -5,102 +5,151 @@ namespace SKDDriver
 {
 	static partial class Translator
 	{
-		public static Position TranslateBack(FiresecAPI.Position position)
+		public static Position TranslateBack(FiresecAPI.Position item)
 		{
-			if (position == null)
+			if (item == null)
 				return null;
-			return new Position
+			var result = new Position
 			{
-				Uid = position.Uid,
-				Name = position.Name,
-				Description = position.Description
+				Name = item.Name,
+				Description = item.Description
 			};
+			TranslateBackOrganizationElement(item, result);
+			return result;
 		}
 
-		public static Department TranslateBack(FiresecAPI.Department department)
+		public static Department TranslateBack(FiresecAPI.Department item)
 		{
-			if (department == null)
+			if (item == null)
 				return null;
-			return new Department
+			var result = new Department
 			{
-				Uid = department.Uid,
-				Name = department.Name,
-				Description = department.Description,
-				ParentDepartmentUid = department.ParentDepartmentUid,
-				ContactEmployeeUid = department.ContactEmployeeUid,
-				AttendantUid = department.AttendantEmployeeUId,
+				Name = item.Name,
+				Description = item.Description,
+				ParentDepartmentUid = item.ParentDepartmentUid,
+				ContactEmployeeUid = item.ContactEmployeeUid,
+				AttendantUid = item.AttendantEmployeeUId,
 			};
+			TranslateBackOrganizationElement(item, result);
+			return result;
 		}
 
-		public static Employee TranslateBack(FiresecAPI.Employee employee)
+		public static Employee TranslateBack(FiresecAPI.Employee item)
 		{
-			if (employee == null)
+			if (item == null)
 				return null;
 			var result = new Employee
 			{
-				Uid = employee.Uid,
-				FirstName = employee.FirstName,
-				SecondName = employee.SecondName,
-				LastName = employee.LastName,
-				Appointed = employee.Appointed,
-				Dismissed = employee.Dismissed,
-				PositionUid = employee.PositionUid,
-				DepartmentUid = employee.DepartmentUid,
-				ScheduleUid = employee.ScheduleUid
+				FirstName = item.FirstName,
+				SecondName = item.SecondName,
+				LastName = item.LastName,
+				Appointed = CheckDate(item.Appointed),
+				Dismissed = CheckDate(item.Dismissed),
+				PositionUid = item.PositionUid,
+				DepartmentUid = item.DepartmentUid,
+				ScheduleUid = item.ScheduleUid,
+				Type = (int)item.Type
 			};
+			TranslateBackOrganizationElement(item, result);
 			return result;
 		}
 
-		public static Journal TranslateBack(FiresecAPI.SKDJournalItem journalItem)
+		public static Journal TranslateBack(FiresecAPI.SKDJournalItem item)
 		{
-			if (journalItem == null)
+			if (item == null)
 				return null;
-			return new Journal
+			var result = new Journal
 			{
-				Uid = journalItem.Uid,
-				CardNo = journalItem.CardNo,
-				Description = journalItem.Description,
-				DeviceDate = journalItem.DeviceDateTime,
-				DeviceNo = journalItem.DeviceJournalRecordNo,
-				IpPort = journalItem.IpAddress,
-				Name = journalItem.Name,
-				SysemDate = journalItem.SystemDateTime
+				CardNo = item.CardNo,
+				Description = item.Description,
+				DeviceDate = item.DeviceDateTime,
+				DeviceNo = item.DeviceJournalRecordNo,
+				IpPort = item.IpAddress,
+				Name = item.Name,
+				SysemDate = CheckDate(item.SystemDateTime)
 			};
+			//TranslateBackBase(item, result);
+			return result;
 		}
 
-		public static Frame TranslateBack(FiresecAPI.Frame frame)
+		public static Frame TranslateBack(FiresecAPI.Frame item)
 		{
-			if (frame == null)
+			if (item == null)
 				return null;
-			return new Frame
+			var result = new Frame
 			{
-				Uid = frame.Uid,
-				CameraUid = frame.CameraUid,
-				DateTime = frame.DateTime,
-				FrameData = frame.FrameData,
-				JournalItemUid = frame.JournalItemUid
+				CameraUid = item.CameraUid,
+				DateTime = CheckDate(item.DateTime),
+				FrameData = item.FrameData,
+				JournalItemUid = item.JournalItemUid
 			};
+			TranslateBackBase(item, result);
+			return result;
 		}
 
-		public static Card TranslateBack(FiresecAPI.SKDCard card)
+		public static Card TranslateBack(FiresecAPI.SKDCard item)
 		{
-			if (card == null)
+			if (item == null)
 				return null;
-			var validFrom = CheckDate(card.ValidFrom);
-			var validTo = CheckDate(card.ValidTo);
+			var validFrom = CheckDate(item.ValidFrom);
+			var validTo = CheckDate(item.ValidTo);
 			var result = new Card
 			{
-				EmployeeUid = card.EmployeeUid,
-				Number = card.Number,
-				Series = card.Series,
-				Uid = card.Uid,
+				EmployeeUid = item.HolderUid,
+				Number = item.Number,
+				Series = item.Series,
 				ValidFrom = validFrom,
 				ValidTo = validTo,
-				IsAntipass = card.IsAntipass,
-				IsInStopList = card.IsInStopList,
-				StopReason = card.StopReason
+				IsAntipass = item.IsAntipass,
+				IsInStopList = item.IsInStopList,
+				StopReason = item.StopReason
 			};
+			TranslateBackBase(item, result);
 			return result;
+		}
+
+		public static CardZoneLink TranslateBack(FiresecAPI.CardZoneLink item)
+		{
+			if (item == null)
+				return null;
+			var result = new CardZoneLink
+			{
+				IntervalType = (int?)item.IntervalType,
+				IntervalUid = item.IntervalUid,
+				IsWithEscort = item.IsWithEscort,
+				ZoneUid = item.ZoneUid,
+				CardUid = item.CardUid
+			};
+			TranslateBackBase(item, result);
+			return result;
+		}
+
+		public static Organization TranslateBack(FiresecAPI.Organization item)
+		{
+			if (item == null)
+				return null;
+			var result = new Organization
+			{
+				Name = item.Name,
+				Description = item.Description
+			};
+			TranslateBackBase(item, result);
+			return result;
+		}
+
+		static void TranslateBackBase<T>(FiresecAPI.SKDModelBase apiItem, T item)
+			where T : IDatabaseElement
+		{
+			item.Uid = apiItem.Uid;
+			item.IsDeleted = apiItem.IsDeleted;
+			item.RemovalDate = CheckDate(apiItem.RemovalDate);
+		}
+
+		static void TranslateBackOrganizationElement<T>(FiresecAPI.OrganizationElementBase apiItem, T item)
+			where T : IOrganizationDatabaseElement
+		{
+			TranslateBackBase(apiItem, item);
+			item.OrganizationUid = apiItem.OrganizationUid;
 		}
 
 		static DateTime? CheckDate(DateTime? dateTime)
@@ -109,24 +158,9 @@ namespace SKDDriver
 				return null;
 			if (dateTime.Value.Year < 1754)
 				return null;
-			if(dateTime.Value.Year > 9998)
+			if (dateTime.Value.Year > 9998)
 				return null;
 			return dateTime;
-		}		
-
-		public static CardZoneLink TranslateBack(FiresecAPI.CardZoneLink cardZoneLink)
-		{
-			if (cardZoneLink == null)
-				return null;
-			return new CardZoneLink
-			{
-				Uid = cardZoneLink.Uid,
-				IntervalType = cardZoneLink.IntervalType.ToString(),
-				IntervalUid = cardZoneLink.IntervalUid,
-				IsWithEscort = cardZoneLink.IsWithEscort,
-				ZoneUid = cardZoneLink.ZoneUid,
-				CardUid = cardZoneLink.CardUid,
-			};
 		}
 	}
 }

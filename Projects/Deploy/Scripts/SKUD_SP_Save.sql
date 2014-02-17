@@ -22,9 +22,6 @@ GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveScheduleScheme]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveScheduleScheme]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveRegisterDevice]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveRegisterDevice]
-GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveEmployee]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveEmployee]
 GO
@@ -46,8 +43,11 @@ GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAdditionalColumn]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveAdditionalColumn]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveJournal]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveJournal]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveGuest]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveGuest]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveOrganization]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveOrganization]
 
 GO
 CREATE PROCEDURE [dbo].[SaveInterval]
@@ -73,19 +73,31 @@ BEGIN
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Interval]   
-				(Uid,BeginDate,EndDate,Transition,NamedIntervalUid,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@BeginDate,@EndDate,@Transition,@NamedIntervalUid,@IsDeleted,@RemovalDate)
+			INSERT INTO [dbo].[Interval] (
+				Uid,
+				BeginDate,
+				EndDate,
+				Transition,
+				NamedIntervalUid,
+				IsDeleted,
+				RemovalDate)
+			VALUES (
+				@Uid,
+				@BeginDate,
+				@EndDate,
+				@Transition,
+				@NamedIntervalUid,
+				@IsDeleted,
+				@RemovalDate)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@IsDeleted bit = NULL,
 	@RemovalDate datetime = NULL
-
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[NamedInterval] WHERE Uid = @Uid)
@@ -93,19 +105,29 @@ BEGIN
 			Uid = @Uid,
 			Name = @Name,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
+			RemovalDate = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[NamedInterval]  
-				(Uid,Name,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@Name,@IsDeleted,@RemovalDate)
+			INSERT INTO [dbo].[NamedInterval] (
+				Uid,
+				Name,
+				IsDeleted,
+				RemovalDate,
+				OrganizationUid)
+			VALUES (
+				@Uid,
+				@Name,
+				@IsDeleted,
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDay]
 	@Uid uniqueidentifier,
+	@OrganizationUid uniqueidentifier = NULL,
 	@NamedIntervalUid uniqueidentifier = NULL,
 	@ScheduleSchemeUid uniqueidentifier = NULL,
 	@Number int = NULL,
@@ -121,19 +143,33 @@ BEGIN
 			ScheduleSchemeUid = @ScheduleSchemeUid,
 			Number = @Number,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
+			RemovalDate = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Day] 
-				(Uid,NamedIntervalUid,ScheduleSchemeUid,Number,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@NamedIntervalUid,@ScheduleSchemeUid,@Number,@IsDeleted,@RemovalDate)
+			INSERT INTO [dbo].[Day] (
+				Uid,
+				NamedIntervalUid,
+				ScheduleSchemeUid,
+				Number,
+				IsDeleted,
+				RemovalDate,
+				OrganizationUid)
+			VALUES	(
+				@Uid,
+				@NamedIntervalUid,
+				@ScheduleSchemeUid,
+				@Number,
+				@IsDeleted,
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveScheduleScheme]
 	@Uid uniqueidentifier,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@Type nvarchar(50) = NULL,
 	@Length int = NULL,
@@ -149,45 +185,33 @@ BEGIN
 			Type = @Type,
 			Length = @Length,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
+			RemovalDate = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[ScheduleScheme] 
-				(Uid,Name,Type,Length,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@Name,@Type,@Length,@IsDeleted,@RemovalDate)
-		END
-END
-GO
-CREATE PROCEDURE [dbo].[SaveRegisterDevice]
-	@Uid uniqueidentifier,
-	@CanControl bit = NULL,
-	@ScheduleUid uniqueidentifier,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
-
-AS
-BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[RegisterDevice] WHERE Uid = @Uid)
-		UPDATE [dbo].RegisterDevice SET 
-			Uid = @Uid,
-			CanControl = @CanControl,
-			ScheduleUid = @ScheduleUid,
-			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
-		WHERE Uid = @Uid
-	ELSE
-		BEGIN
-			INSERT INTO [dbo].[RegisterDevice] 
-				(Uid,CanControl,ScheduleUid,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@CanControl,@ScheduleUid,@IsDeleted,@RemovalDate)
+			INSERT INTO [dbo].[ScheduleScheme] (
+				Uid,
+				Name,
+				Type,
+				Length,
+				IsDeleted,
+				RemovalDate,
+				OrganizationUid)
+			VALUES	(
+				@Uid,
+				@Name,
+				@Type,
+				@Length,
+				@IsDeleted,
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveSchedule]
 	@Uid uniqueidentifier,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@ScheduleSchemeUid uniqueidentifier,
 	@IsDeleted bit = NULL,
@@ -201,19 +225,31 @@ BEGIN
 			Name = @Name,
 			ScheduleSchemeUid = @ScheduleSchemeUid,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
+			RemovalDate = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Schedule] 
-				(Uid,Name,ScheduleSchemeUid,IsDeleted,RemovalDate)
-			VALUES	
-				(@Uid,@Name,@ScheduleSchemeUid,@IsDeleted,@RemovalDate)
+			INSERT INTO [dbo].[Schedule] (
+				Uid,
+				Name,
+				ScheduleSchemeUid,
+				IsDeleted,
+				RemovalDate,
+				OrganizationUid)
+			VALUES (
+				@Uid,
+				@Name,
+				@ScheduleSchemeUid,
+				@IsDeleted,
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Uid uniqueidentifier,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@Type nvarchar(50)= NULL,
 	@Date datetime = NULL,
@@ -232,19 +268,37 @@ BEGIN
 			TransferDate = @TransferDate,
 			Reduction = @Reduction,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate
+			RemovalDate = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
-			INSERT INTO [dbo].[Holiday] 
-				(Uid,[Name], [Type], [Date], [TransferDate], [Reduction], [IsDeleted], [RemovalDate])
-			VALUES	
-				(@Uid,@Name, @Type, @Date, @TransferDate, @Reduction, @IsDeleted, @RemovalDate)
+			INSERT INTO [dbo].[Holiday](
+				Uid,
+				[Name], 
+				[Type], 
+				[Date], 
+				[TransferDate], 
+				[Reduction], 
+				[IsDeleted], 
+				[RemovalDate],
+				OrganizationUid)
+			VALUES (
+				@Uid,
+				@Name, 
+				@Type, 
+				@Date, 
+				@TransferDate, 
+				@Reduction, 
+				@IsDeleted, 
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveEmployee]
 	@Uid [uniqueidentifier],
+	@OrganizationUid uniqueidentifier = NULL,
 	@FirstName [nvarchar](50) = NULL,
 	@SecondName [nvarchar](50) = NULL,
 	@LastName [nvarchar](50) = NULL,
@@ -270,7 +324,8 @@ BEGIN
 			[Appointed] = @Appointed,
 			[Dismissed] = @Dismissed,
 			[IsDeleted] = @IsDeleted,
-			[RemovalDate] = @RemovalDate
+			[RemovalDate] = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -285,7 +340,9 @@ BEGIN
 				[Appointed] ,
 				[Dismissed] ,
 				[IsDeleted] ,
-				[RemovalDate] )
+				[RemovalDate],
+				OrganizationUid,
+				[Type] )
 			VALUES (
 				@Uid ,
 				@FirstName ,
@@ -297,12 +354,61 @@ BEGIN
 				@Appointed ,
 				@Dismissed ,
 				@IsDeleted ,
-				@RemovalDate)
+				@RemovalDate,
+				@OrganizationUid,
+				0)
 		END
+END
+GO
+CREATE PROCEDURE [dbo].[SaveGuest]
+	@Uid [uniqueidentifier],
+	@OrganizationUid uniqueidentifier = NULL,
+	@FirstName [nvarchar](50) = NULL,
+	@SecondName [nvarchar](50) = NULL,
+	@LastName [nvarchar](50) = NULL,
+	@PositionUid [uniqueidentifier] = NULL,
+	@DepartmentUid [uniqueidentifier] = NULL,
+	@ScheduleUid [uniqueidentifier] = NULL,
+	@Appointed [datetime] = NULL,
+	@Dismissed [datetime] = NULL,
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
+
+AS
+BEGIN
+	INSERT INTO [dbo].[Employee] (
+				[Uid] ,
+				[FirstName] ,
+				[SecondName] ,
+				[LastName] ,
+				[PositionUid] ,
+				[DepartmentUid] ,
+				[ScheduleUid] ,
+				[Appointed] ,
+				[Dismissed] ,
+				[IsDeleted] ,
+				[RemovalDate],
+				OrganizationUid,
+				[Type] )
+			VALUES (
+				@Uid ,
+				@FirstName ,
+				@SecondName ,
+				@LastName ,
+				@PositionUid ,
+				@DepartmentUid ,
+				@ScheduleUid ,
+				@Appointed ,
+				@Dismissed ,
+				@IsDeleted ,
+				@RemovalDate,
+				@OrganizationUid,
+				1)
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]
 	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@ParentDepartmentUid [uniqueidentifier] = NULL,
@@ -321,7 +427,8 @@ BEGIN
 			[ContactEmployeeUid] = @ContactEmployeeUid ,
 			[AttendantUid] = @AttendantUid,
 			[IsDeleted] = @IsDeleted,
-			[RemovalDate] = @RemovalDate
+			[RemovalDate] = @RemovalDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -333,7 +440,8 @@ BEGIN
 				[ContactEmployeeUid],
 				[AttendantUid],
 				[IsDeleted] ,
-				[RemovalDate])
+				[RemovalDate],
+				OrganizationUid)
 			VALUES (
 				@Uid,
 				@Name, 
@@ -342,12 +450,14 @@ BEGIN
 				@ContactEmployeeUid,
 				@AttendantUid,
 				@IsDeleted,
-				@RemovalDate)
+				@RemovalDate,
+				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveEmployeeReplacement]
-	@Uid [uniqueidentifier] ,	
+	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,	
 	@BeginDate [datetime] = NULL,
 	@EndDate [datetime] = NULL,
 	@EmployeeUid [uniqueidentifier] = NULL,
@@ -366,7 +476,8 @@ BEGIN
 			[EndDate] = @EndDate,
 			[EmployeeUid] = @EmployeeUid,
 			[DepartmentUid] = @DepartmentUid,
-			[ScheduleUid] = @ScheduleUid
+			[ScheduleUid] = @ScheduleUid,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -378,7 +489,8 @@ BEGIN
 				[EndDate] ,
 				[EmployeeUid] ,
 				[DepartmentUid] ,
-				[ScheduleUid] )
+				[ScheduleUid],
+				OrganizationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -387,18 +499,20 @@ BEGIN
 				@EndDate,
 				@EmployeeUid,
 				@DepartmentUid,
-				@ScheduleUid)
+				@ScheduleUid,
+				@OrganizationUid)
 		END
 END
 
 GO
 CREATE PROCEDURE [dbo].[SavePhone]
 	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@NumberString [nvarchar](50) = NULL,
 	@DepartmentUid [uniqueidentifier] = NULL,
 	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL	
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Phone] WHERE Uid = @Uid)
@@ -408,7 +522,8 @@ BEGIN
 			[RemovalDate] = @RemovalDate,
 			[Name] = @Name ,
 			[NumberString] = @NumberString ,
-			[DepartmentUid] = @DepartmentUid 	
+			[DepartmentUid] = @DepartmentUid,
+			OrganizationUid = @OrganizationUid  	
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -418,20 +533,23 @@ BEGIN
 				[RemovalDate],
 				[Name] ,
 				[NumberString] ,
-				[DepartmentUid] )
+				[DepartmentUid],
+				OrganizationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
 				@RemovalDate,
 				@Name ,
 				@NumberString ,
-				@DepartmentUid )
+				@DepartmentUid ,
+				@OrganizationUid)
 		END
 END
 
 GO
 CREATE PROCEDURE [dbo].[SaveDocument]
 	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,	
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@IssueDate [datetime] = NULL,
@@ -448,7 +566,8 @@ BEGIN
 			[Name] = @Name ,
 			[Description] = @Description,
 			[IssueDate] = @IssueDate,
-			[LaunchDate] = @LaunchDate
+			[LaunchDate] = @LaunchDate,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -459,7 +578,8 @@ BEGIN
 				[Name] ,
 				[Description] ,
 				[IssueDate] ,
-				[LaunchDate] )
+				[LaunchDate],
+				OrganizationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -467,13 +587,15 @@ BEGIN
 				@Name ,
 				@Description,
 				@IssueDate,
-				@LaunchDate)
+				@LaunchDate,
+				@OrganizationUid)
 		END
 END
 
 GO
 CREATE PROCEDURE [dbo].[SavePosition]
 	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@IsDeleted [bit] = NULL,
@@ -486,7 +608,8 @@ BEGIN
 			[IsDeleted] = @IsDeleted,
 			[RemovalDate] = @RemovalDate,
 			[Name] = @Name ,
-			[Description] = @Description
+			[Description] = @Description,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -495,19 +618,24 @@ BEGIN
 				[IsDeleted] ,
 				[RemovalDate],
 				[Name] ,
-				[Description])
+				[Description],
+				OrganizationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
 				@RemovalDate,
 				@Name ,
-				@Description)
+				@Description,
+				@OrganizationUid)
 		END
 END
+
+
 
 GO
 CREATE PROCEDURE [dbo].[SaveAdditionalColumn]
 	@Uid [uniqueidentifier] ,
+	@OrganizationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@Type [nvarchar](50) = NULL,
@@ -528,7 +656,8 @@ BEGIN
 			[Type] = @Type ,
 			[TextData] = @TextData,
 			[GraphicsData] =@GraphicsData,
-			[EmployeeUid] =@EmployeeUid
+			[EmployeeUid] =@EmployeeUid,
+			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -541,7 +670,8 @@ BEGIN
 				[Type] ,
 				[TextData] ,
 				[GraphicsData] ,
-				[EmployeeUid] )
+				[EmployeeUid],
+				OrganizationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -551,54 +681,31 @@ BEGIN
 				@Type ,
 				@TextData,
 				@GraphicsData,
-				@EmployeeUid)
+				@EmployeeUid,
+				@OrganizationUid)
 		END
 END
-
 GO
-CREATE PROCEDURE [dbo].[SaveJournal]
-	@Uid [uniqueidentifier],
-	@SysemDate [datetime] = NULL,
-	@DeviceDate [datetime] = NULL,
+CREATE PROCEDURE [dbo].[SaveOrganization]
+	@Uid [uniqueidentifier] ,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
-	@DeviceNo [int] = NULL,
-	@IpPort [nvarchar](50) = NULL,
-	@CardNo [int] = NULL	
+	@IsDeleted [bit] = NULL,
+	@RemovalDate [datetime] = NULL
 AS
 BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[Journal] WHERE Uid = @Uid)
-		UPDATE [dbo].[Journal] SET 
-			[Uid] = @Uid,
-			[SysemDate] = @SysemDate,
-			[DeviceDate] = @DeviceDate,
-			[Name]= @Name,
-			[Description] = @Description,
-			[DeviceNo] = @DeviceNo,
-			[IpPort] = @IpPort,
-			[CardNo] = @CardNo
-		WHERE Uid = @Uid
-	ELSE
-		BEGIN
-			INSERT INTO [dbo].[Journal] (
-				[Uid],
-				[SysemDate],
-				[DeviceDate],
-				[Name],
-				[Description],
-				[DeviceNo],
-				[IpPort],
-				[CardNo])
-			VALUES (
-				@Uid,
-				@SysemDate,
-				@DeviceDate,
-				@Name,
-				@Description,
-				@DeviceNo,
-				@IpPort,
-				@CardNo)
-		END
+	INSERT INTO [dbo].[Organization] (
+		[Uid],
+		[IsDeleted] ,
+		[RemovalDate],
+		[Name] ,
+		[Description] )
+	VALUES (
+		@Uid,
+		@IsDeleted,
+		@RemovalDate,
+		@Name ,
+		@Description )
 END
 
 	

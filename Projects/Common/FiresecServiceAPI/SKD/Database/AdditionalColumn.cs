@@ -5,16 +5,8 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AdditionalColumn
+	public class AdditionalColumn : OrganizationElementBase
 	{
-		public AdditionalColumn()
-		{
-			Uid = Guid.NewGuid();
-		}
-
-		[DataMember]
-		public Guid Uid;
-
 		[DataMember]
 		public string Name { get; set; }
 
@@ -31,15 +23,12 @@ namespace FiresecAPI
 		public byte[] GraphicsData { get; set; }
 	}
 
-	[DataContract]
 	public enum AdditionalColumnType
 	{
 		[Description("Текствовый")]
 		Text,
-
 		[Description("Графический")]
 		Graphics,
-
 		[Description("Смешанный")]
 		Mixed
 	}

@@ -226,7 +226,7 @@ namespace GKModule.ViewModels
 			{
 				_status = value;
 				OnPropertyChanged("Status");
-                OnPropertyChanged("IsLoading");
+				OnPropertyChanged("IsLoading");
 			}
 		}
 
@@ -314,13 +314,13 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public bool IsLoading
-        {
-            get
-            {
-                return Status == "Загрузка данных"; 
-            }
-        }
+		public bool IsLoading
+		{
+			get
+			{
+				return Status == "Загрузка данных"; 
+			}
+		}
 
 		public List<JournalColumnType> AdditionalColumns
 		{

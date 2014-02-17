@@ -195,7 +195,8 @@ namespace FiresecService.Service
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+			var result =  SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
+			return result;
 		}
 		public IEnumerable<Position> GetPositions(PositionFilter filter)
 		{
@@ -220,6 +221,10 @@ namespace FiresecService.Service
 		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<CardZoneLink>>(() => FiresecService.GetCardZoneLinks(filter));
+		}
+		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
 		}
 		#endregion
 
@@ -252,6 +257,10 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveCardZoneLinks(items));
 		}
+		public void SaveOrganizations(IEnumerable<Organization> items)
+		{
+			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -282,6 +291,10 @@ namespace FiresecService.Service
 		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
 			SafeContext.Execute(() => FiresecService.MarkDeletedCardZoneLinks(items));
+		}
+		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
 		}
 		#endregion
 		

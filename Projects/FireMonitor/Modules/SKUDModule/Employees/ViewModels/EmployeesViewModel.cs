@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -81,6 +83,7 @@ namespace SKDModule.ViewModels
 				var employeeViewModel = new EmployeeViewModel(employee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
+				EmployeeHelper.Save(employee);
 			}
 		}
 
@@ -88,10 +91,12 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var index = Employees.IndexOf(SelectedEmployee);
+			EmployeeHelper.MarkDeleted(SelectedEmployee.Employee);
 			Employees.Remove(SelectedEmployee);
 			index = Math.Min(index, Employees.Count - 1);
 			if (index > -1)
 				SelectedEmployee = Employees[index];
+			
 		}
 		bool CanRemove()
 		{
@@ -104,7 +109,9 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(SelectedEmployee.Employee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				SelectedEmployee.Update(employeeDetailsViewModel.Employee);
+				var employee = employeeDetailsViewModel.Employee;
+				SelectedEmployee.Update(employee);
+				EmployeeHelper.Save(employee);
 			}
 		}
 		bool CanEdit()

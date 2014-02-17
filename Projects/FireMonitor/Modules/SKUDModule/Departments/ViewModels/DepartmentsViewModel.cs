@@ -4,6 +4,9 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
 using System.Linq;
 using System;
+using System.Windows.Documents;
+using System.Collections.Generic;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -15,13 +18,30 @@ namespace SKDModule.ViewModels
 		{
 			Current = this;
 			Departments = new ObservableCollection<DepartmentViewModel>();
-			var departments = FiresecManager.GetDepartments(null);
-			foreach (var department in departments)
-			{
-				var departmentViewModel = new DepartmentViewModel(department);
-				Departments.Add(departmentViewModel);
-			}
+			//var departments = FiresecManager.GetDepartments(null);
+			//foreach (var department in departments)
+			//{
+			//    var departmentViewModel = new DepartmentViewModel(department);
+			//    Departments.Add(departmentViewModel);
+			//}
 
+			Filter = new DepartmentFilter();
+			//Update();
+			WithDeletedCommand = new RelayCommand(OnWithDeleted);
+		}
+
+		public RelayCommand WithDeletedCommand { get; private set; }
+		void OnWithDeleted()
+		{
+			Filter.WithDeleted = !Filter.WithDeleted;
+			Update();
+		}
+
+		DepartmentFilter Filter;
+
+		void Update()
+		{
+			Departments = new ObservableCollection<DepartmentViewModel>();
 			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
 			if (RootDepartment != null)
 			{
@@ -68,6 +88,19 @@ namespace SKDModule.ViewModels
 					AddChildren(child);
 				}
 			}
+		}
+
+		public List<Department> GetAllChildrenModels(DepartmentViewModel departmentViewModel)
+		{
+			var result = new List<Department>();
+			if(departmentViewModel.ChildrenCount == 0)
+				return result;
+			foreach (var child in departmentViewModel.Children)
+			{
+				result.Add(child.Department);
+				GetAllChildrenModels(child);
+			}
+			return (result);
 		}
 
 		DepartmentViewModel rootDepartment;

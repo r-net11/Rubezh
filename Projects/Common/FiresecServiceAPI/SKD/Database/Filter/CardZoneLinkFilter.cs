@@ -8,9 +8,6 @@ namespace FiresecAPI
 	public class CardZoneLinkFilter : FilterBase
 	{
 		[DataMember]
-		public List<Guid> Uids { get; set; }
-
-		[DataMember]
 		public List<Guid> CardUids { get; set; }
 
 		[DataMember]
@@ -19,9 +16,8 @@ namespace FiresecAPI
 		[DataMember]
 		public List<Guid> IntervalUids { get; set; }
 
-		public CardZoneLinkFilter()
+		public CardZoneLinkFilter():base()
 		{
-			Uids = new List<Guid>();
 			CardUids = new List<Guid>();
 			ZoneUids = new List<Guid>();
 			IntervalUids = new List<Guid>();
