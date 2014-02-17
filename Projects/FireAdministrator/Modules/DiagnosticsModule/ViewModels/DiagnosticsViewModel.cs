@@ -42,9 +42,8 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
-			var guid = new Guid();
-			var i = 5;
-			CameraFramesWatcher.Save(guid, i);
+			var guid = Guid.NewGuid();
+			CameraFramesWatcher.Save(guid, 5);
 		}
 
 

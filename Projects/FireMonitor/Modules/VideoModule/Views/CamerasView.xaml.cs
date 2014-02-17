@@ -2,9 +2,9 @@
 
 namespace VideoModule.Views
 {
-	public partial class VideoView : UserControl
+	public partial class CamerasView : UserControl
 	{
-		public VideoView()
+		public CamerasView()
 		{
 			InitializeComponent();
 		}

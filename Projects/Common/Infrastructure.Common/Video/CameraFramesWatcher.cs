@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -18,16 +19,22 @@ namespace Infrastructure.Common.Video
 		private int _imagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
 		private readonly Object _loker;
-		private List<StandbyFrames> StandbyFramesList { get; set; } 
+		private List<StandbyFrames> StandbyFramesList { get; set; }
+		private readonly string _videoArchivePath;
 		public CameraFramesWatcher(Camera camera, int imagesBufferSizeBeforeEvent = 10, int imagesBufferFrameInterval = 1)
 		{
+			_videoArchivePath = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "VideoArchive");
 			StandbyFramesList = new List<StandbyFrames>();
 			_imagesBufferSize = imagesBufferSizeBeforeEvent;
 			_imagesBufferFrameInterval = imagesBufferFrameInterval;
 			MjpegCamera = new MjpegCamera(camera);
 			_loker = new object();
-			InitializeCameraFramesWatcher(_imagesBufferSize);
+
+			//var dir = new DirectoryInfo(_videoArchivePath);
+			//if (!Directory.Exists(dir.FullName))
+			//    dir.Create();
 		}
+
 		private void BmpToCameraFramesWatcher(Bitmap bmp)
 		{
 			var dateTime = DateTime.Now;
@@ -42,56 +49,61 @@ namespace Infrastructure.Common.Video
 					CameraFrames[_imagesBufferIndex] = cameraFrame;
 					_imagesBufferIndex++;
 					if ((StandbyFramesList != null) && (StandbyFramesList.Count > 0))
+					{
+						StandbyFramesList.RemoveAll(x => x.Index == x.FramesCount);
 						foreach (var standbyFrames in StandbyFramesList)
 						{
-							var dir = new DirectoryInfo(standbyFrames.Guid.ToString());
+							var dir = new DirectoryInfo(Path.Combine(_videoArchivePath, standbyFrames.Guid.ToString()));
 							if (!Directory.Exists(dir.FullName))
 								dir.Create();
-							string fileName = dir.FullName + "\\" + standbyFrames.Index + "(afterEvent).jpg";
+							standbyFrames.Index++;
+							var dateString = DateTime.Now.ToString("HH-mm-ss-ff", CultureInfo.InvariantCulture);
+							string fileName = dir.FullName + "\\" + "afterEvent - " + standbyFrames.Index + " (" + dateString + ") " + ".jpg";
 							var bmpToSave = new Bitmap(bmp);
 							bmpToSave.Save(fileName, ImageFormat.Jpeg);
 							bmpToSave.Dispose();
-							StandbyFramesList = new List<StandbyFrames>();
 						}
+					}
 				}
 			}
 		}
 
-		void InitializeCameraFramesWatcher(int imagesBufferSize)
+		void InitializeCameraFramesWatcher()
 		{
 			_imagesBufferIndex = 0;
-			CameraFrames = new List<CameraFrame>(imagesBufferSize);
-			for (int i = 0; i < imagesBufferSize; i++)
+			CameraFrames = new List<CameraFrame>(_imagesBufferSize);
+			for (int i = 0; i < _imagesBufferSize; i++)
 				CameraFrames.Add(new CameraFrame(new Bitmap(100, 100), new DateTime()));
 		}
 
 		public void Save(Guid guid, int imagesBufferSizeAfterEvent)
 		{
-			var dir = new DirectoryInfo(guid.ToString());
+			var dir = new DirectoryInfo(Path.Combine(_videoArchivePath, guid.ToString()));
 			if (Directory.Exists(dir.FullName))
 				Directory.Delete(dir.FullName, true);
 			dir.Create();
 			int i = 1;
 			lock (_loker)
 			{
+				CameraFrames.Sort();
 				foreach (var cameraFrame in CameraFrames)
 				{
-					string fileName = dir.FullName + "\\" + i + ".jpg";
+					var dateString = cameraFrame.DateTime.ToString("HH-mm-ss-ff", CultureInfo.InvariantCulture);
+					string fileName = dir.FullName + "\\" + i + " (" + dateString + ") " + ".jpg";
 					if (cameraFrame.DateTime.Ticks == 0)
-						return;
+						continue;
 					var bmp = new Bitmap(cameraFrame.Bitmap);
 					bmp.Save(fileName, ImageFormat.Jpeg);
 					bmp.Dispose();
 					i++;
 				}
-				CameraFrames = new List<CameraFrame>(imagesBufferSizeAfterEvent);
 			}
-			StandbyFramesList.Add(new StandbyFrames(guid, 5));
+			StandbyFramesList.Add(new StandbyFrames(guid, imagesBufferSizeAfterEvent));
 		}
 
 		public void StartVideo()
 		{
-			InitializeCameraFramesWatcher(_imagesBufferSize);
+			InitializeCameraFramesWatcher();
 			MjpegCamera.FrameReady += BmpToCameraFramesWatcher;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();

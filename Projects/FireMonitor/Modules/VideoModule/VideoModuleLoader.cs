@@ -19,14 +19,14 @@ namespace VideoModule
 {
 	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
-		private VideoViewModel _videoViewModel;
+		private CamerasViewModel _CamerasViewModel;
 		private NavigationItem _videoNavigationItem;
 		private PlanPresenter _planPresenter;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			_videoViewModel = new VideoViewModel();
+			_CamerasViewModel = new CamerasViewModel();
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 		}
@@ -58,14 +58,14 @@ namespace VideoModule
 		{
 			OnDevicesStateChanged(Guid.Empty);
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
-			_videoViewModel.Initialize();
+			_CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_videoViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 		    {
 		        _videoNavigationItem
@@ -90,7 +90,7 @@ namespace VideoModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Video, "Видео", "Video1.png", (p) => _videoViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Video, "Видео", "Video1.png", (p) => _CamerasViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Camera, "Камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
 		}
 
