@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 				DepartmentHelper.Save(department);
 
 				var departmentViewModel = new DepartmentViewModel(department);
-				this.Department.ChildDepartmentUids.Add(department.Uid);
+				this.Department.ChildDepartmentUids.Add(department.UID);
 				this.AddChild(departmentViewModel);
 				this.Update();
 				DepartmentsViewModel.Current.Departments.Add(departmentViewModel);

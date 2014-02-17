@@ -18,7 +18,7 @@ namespace SKDDriver
 				return null;
 			var result = new FiresecAPI.Position
 			{
-				Uid = item.Uid,
+				UID = item.Uid,
 				Name = item.Name,
 				Description = item.Description
 			};
@@ -206,7 +206,7 @@ namespace SKDDriver
 		static void TranslateBase<T>(Guid uid, bool? isDeleted, DateTime? removalDate, T apiItem)
 			where T : FiresecAPI.SKDModelBase
 		{
-			apiItem.Uid = uid;
+			apiItem.UID = uid;
 			apiItem.IsDeleted = isDeleted;
 			apiItem.RemovalDate = removalDate;
 		}

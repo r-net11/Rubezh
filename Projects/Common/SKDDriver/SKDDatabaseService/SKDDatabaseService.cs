@@ -210,7 +210,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -273,7 +273,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -315,7 +315,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -336,7 +336,7 @@ namespace SKDDriver
 					if (item == null)
 						continue;
 
-					var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.Uid);
+					var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.UID);
 					if (databaseItem != null)
 					{
 						Translator.Update(databaseItem, item);
@@ -376,7 +376,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Department.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
@@ -427,7 +427,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Frame.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
@@ -461,7 +461,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}
@@ -478,7 +478,7 @@ namespace SKDDriver
 				{
 					if (item != null)
 					{
-						var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.Uid);
+						var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}

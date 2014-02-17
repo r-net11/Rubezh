@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 		{
 			if (departmentViewModel.Department.ChildDepartmentUids.Count > 0)
 			{
-				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUids.Any(y => y == x.Department.Uid));
+				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUids.Any(y => y == x.Department.UID));
 				foreach (var child in children)
 				{
 					departmentViewModel.AddChild(child);

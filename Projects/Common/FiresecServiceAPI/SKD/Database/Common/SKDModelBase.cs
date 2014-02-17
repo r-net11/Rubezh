@@ -8,11 +8,11 @@ namespace FiresecAPI
 	{
 		public SKDModelBase()
 		{
-			Uid = Guid.NewGuid();
+			UID = Guid.NewGuid();
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public bool? IsDeleted { get; set; }

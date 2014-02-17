@@ -140,7 +140,7 @@ namespace SKDDriver
 		static void TranslateBackBase<T>(FiresecAPI.SKDModelBase apiItem, T item)
 			where T : IDatabaseElement
 		{
-			item.Uid = apiItem.Uid;
+			item.Uid = apiItem.UID;
 			item.IsDeleted = apiItem.IsDeleted;
 			item.RemovalDate = CheckDate(apiItem.RemovalDate);
 		}

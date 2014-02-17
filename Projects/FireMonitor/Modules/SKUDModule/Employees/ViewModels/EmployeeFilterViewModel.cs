@@ -45,7 +45,7 @@ namespace SKDModule.ViewModels
 
 			Departments.ForEach(x =>
 			{
-				if (Filter.DepartmentUids.Any(y => y == x.Department.Uid))
+				if (Filter.DepartmentUids.Any(y => y == x.Department.UID))
 					x.IsChecked = true;
 			});
 
@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 			{
 				if (x.IsChecked)
 				{
-					Filter.DepartmentUids.Add(x.Department.Uid);
+					Filter.DepartmentUids.Add(x.Department.UID);
 				}
 			});
 			Filter.DepartmentUids.Distinct();
@@ -96,7 +96,7 @@ namespace SKDModule.ViewModels
 				return result;
 			Departments.ForEach(x =>
 			{
-				if (department.Department.ChildDepartmentUids.Contains(x.Department.Uid))
+				if (department.Department.ChildDepartmentUids.Contains(x.Department.UID))
 				{
 					result.Add(x);
 					result.AddRange(GetAllChildren(x));
@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		{
 			if (department.Department.ChildDepartmentUids.Count == 0)
 				return;
-			var children = Departments.Where(x => department.Department.ChildDepartmentUids.Any(y => y == x.Department.Uid));
+			var children = Departments.Where(x => department.Department.ChildDepartmentUids.Any(y => y == x.Department.UID));
 			foreach (var child in children)
 			{
 				department.AddChild(child);
