@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessZonesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public AccessZonesSelectationViewModel()
+		SKDCard Card;
+		public AccessZonesSelectationViewModel(SKDCard card)
 		{
+			Card = card;
 			Title = "Выбор зон";
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
@@ -68,6 +71,14 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			Card.ZoneLinkUids = new List<Guid>();
+			foreach (var zone in AllZones)
+			{
+				if (zone.IsChecked)
+				{
+					Card.ZoneLinkUids.Add(zone.Zone.UID);
+				}
+			}
 			return true;
 		}
 	}
