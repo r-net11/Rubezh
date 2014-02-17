@@ -15,9 +15,6 @@ namespace FiresecAPI
 		public int No { get; set; }
 
 		[DataMember]
-		public bool IsHolliday { get; set; }
-
-		[DataMember]
 		public Guid TimeIntervalUID { get; set; }
 	}
 }

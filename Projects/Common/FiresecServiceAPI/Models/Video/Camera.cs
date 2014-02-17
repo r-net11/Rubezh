@@ -12,8 +12,10 @@ namespace FiresecAPI.Models
 		{
             UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
+			PlanElementUIDs = new List<Guid>();
 			Width = 300;
 			Height = 300;
+			AllowMultipleVizualization = false;
 		}
 
         [DataMember]
@@ -51,5 +53,18 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> PlanElementUIDs { get; set; }
+
+		[DataMember]
+		public bool AllowMultipleVizualization { get; set; }
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public event Action Changed;
 	}
 }

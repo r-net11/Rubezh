@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Infrustructure.Plans.Services
 {
 	public class LayerGroupService : IEnumerable<string>
 	{
+		private class GroupItem
+		{
+			public int Order { get; set; }
+			public string Name { get; set; }
+			public string Alias { get; set; }
+		}
 		private static LayerGroupService _instance = null;
 		public static LayerGroupService Instance
 		{
@@ -16,53 +23,48 @@ namespace Infrustructure.Plans.Services
 		}
 
 		public const string ElementAlias = "Element";
-		private Dictionary<string, string> _groups = new Dictionary<string, string>();
-		private List<string> _order = new List<string>();
+		private Dictionary<string, GroupItem> _groups;
+		private Dictionary<string, int> _orders;
 
 		private LayerGroupService()
 		{
-			_groups.Add(ElementAlias, "Элементы");
-			_order.Add(ElementAlias);
+			_groups = new Dictionary<string, GroupItem>();
+			var elementsGroup = new GroupItem()
+			{
+				Alias = ElementAlias,
+				Name = "Элементы",
+				Order = 1000,
+			};
+			_groups.Add(ElementAlias, elementsGroup);
 		}
 
-		public void RegisterGroup(string alias, string name, int order = -1)
+		public void RegisterGroup(string alias, string name, int order = int.MaxValue)
 		{
+			var groupItem = new GroupItem()
+			{
+				Alias = alias,
+				Name = name,
+				Order = order,
+			};
 			if (_groups.ContainsKey(alias))
-			{
-				_groups[alias] = name;
-				if (order != -1)
-				{
-					_order.Remove(alias);
-					_order.Insert(order, alias);
-				}
-			}
+				_groups[alias] = groupItem;
 			else
-			{
-				_groups.Add(alias, name);
-				if (order == -1)
-					_order.Add(alias);
-				else
-					_order.Insert(order, alias);
-			}
+				_groups.Add(alias, groupItem);
 		}
 		public string this[string alias]
 		{
-			get { return _groups[alias]; }
-		}
-		public string this[int index]
-		{
-			get { return this[_order[index]]; }
+			get { return _groups[alias].Name; }
 		}
 		public int Count
 		{
-			get { return _order.Count; }
+			get { return _groups.Count; }
 		}
 
 		#region IEnumerable<string> Members
 
 		public IEnumerator<string> GetEnumerator()
 		{
-			return _order.GetEnumerator();
+			return _groups.Values.OrderBy(item => item.Order).Select(item => item.Alias).GetEnumerator();
 		}
 
 		#endregion
@@ -71,7 +73,7 @@ namespace Infrustructure.Plans.Services
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			return _order.GetEnumerator();
+			return GetEnumerator();
 		}
 
 		#endregion

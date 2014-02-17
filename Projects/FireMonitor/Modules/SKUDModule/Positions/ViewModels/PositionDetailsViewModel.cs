@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
+		PositionsViewModel PositionsViewModel;
 		public Position Position { get; private set; }
 
-		public PositionDetailsViewModel(Position position = null)
+		public PositionDetailsViewModel(PositionsViewModel positionsViewModel, Position position = null)
 		{
+			PositionsViewModel = positionsViewModel;
 			if (position == null)
 			{
 				Title = "Создание должности";
@@ -65,11 +68,17 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return true;
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()
 		{
+			if (PositionsViewModel.Positions.Any(x => x.Position.Name == Name && x.Position.UID != Position.UID))
+			{
+				MessageBoxService.ShowWarning("Название должности совпадает с введеннымы ранее");
+				return false;
+			}
+
 			Position = new Position()
 			{
 				Name = Name,

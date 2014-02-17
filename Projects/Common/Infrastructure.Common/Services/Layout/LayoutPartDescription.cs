@@ -6,11 +6,19 @@ namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartDescription : ILayoutPartDescription
 	{
+		public const string IconPath = "/Controls;component/Images/";
 		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
 
-		public LayoutPartDescription()
+		public LayoutPartDescription(Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
 		{
-			Size = new LayoutPartSize()
+			UID = uid;
+			Index = index;
+			Name = name;
+			Description = description;
+			if (!string.IsNullOrEmpty(iconName))
+				IconSource = IconPath + iconName;
+			AllowMultiple = allowMultiple;
+			Size = size ?? new LayoutPartSize()
 			{
 				PreferedSize = new Size(100, 100)
 			};

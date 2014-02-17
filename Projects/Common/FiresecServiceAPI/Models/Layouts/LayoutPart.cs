@@ -5,6 +5,7 @@ namespace FiresecAPI.Models.Layouts
 {
 	[DataContract]
 	[KnownType(typeof(LayoutPartImageProperties))]
+	[KnownType(typeof(LayoutPartCameraProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()

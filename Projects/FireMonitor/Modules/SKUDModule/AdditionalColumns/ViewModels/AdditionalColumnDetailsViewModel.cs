@@ -5,15 +5,18 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnDetailsViewModel : SaveCancelDialogViewModel
 	{
+		AdditionalColumnsViewModel AdditionalColumnsViewModel;
 		public AdditionalColumn AdditionalColumn { get; private set; }
 
-		public AdditionalColumnDetailsViewModel(AdditionalColumn additionalColumn = null)
+		public AdditionalColumnDetailsViewModel(AdditionalColumnsViewModel additionalColumnsViewModel, AdditionalColumn additionalColumn = null)
 		{
+			AdditionalColumnsViewModel = additionalColumnsViewModel;
 			if (additionalColumn == null)
 			{
 				Title = "Создание дополнительной колонки";
@@ -85,11 +88,17 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return true;
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()
 		{
+			if (AdditionalColumnsViewModel.AdditionalColumns.Any(x => x.AdditionalColumn.Name == Name && x.AdditionalColumn.UID != AdditionalColumn.UID))
+			{
+				MessageBoxService.ShowWarning("Название дополнительной колонки совпадает с введенным ранее");
+				return false;
+			}
+
 			AdditionalColumn = new AdditionalColumn()
 			{
 				Name = Name,

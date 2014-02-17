@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-using System.Windows.Documents;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using FiresecAPI.Models;
 
 namespace Infrastructure.Common
@@ -20,17 +16,15 @@ namespace Infrastructure.Common
 		public string Login { get { return Camera.Login; } }
 		public string Password { get { return Camera.Password; } }
 		public Camera Camera { get; private set; }
+		public string Error { get; private set; }
 		public MjpegCamera(Camera camera)
 		{
-			//URL = url;
-			//Login = login;
-			//Password = password;
 			Camera = camera;
 		}
 		
 		public event Action<Bitmap> FrameReady;
 		public event Action<string> ErrorHandler;
-		
+	
 		public void StartVideo()
 		{
 			string source = "http://" + URL + "/cgi-bin/mjpg/video.cgi";
@@ -205,6 +199,7 @@ namespace Infrastructure.Common
 				}
 				catch (WebException ex)
 				{
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 					// wait for a while before the next try
@@ -212,6 +207,7 @@ namespace Infrastructure.Common
 				}
 				catch (ApplicationException ex)
 				{
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 					// wait for a while before the next try
@@ -219,6 +215,7 @@ namespace Infrastructure.Common
 				}
 				catch (Exception ex)
 				{
+					Error = ex.Message;
 					if (ErrorHandler != null)
 						ErrorHandler(ex.Message);
 				}

@@ -36,7 +36,7 @@ namespace GKProcessor
 			}
 			set { eventDescriptions = value; }
 		}
-	
+
 		static List<string> GetDistinctGKJournalDescriptions()
 		{
 			try
@@ -104,8 +104,8 @@ namespace GKProcessor
 				var description = item.Description;
 				if (!EventDescriptions.Any(x => description == x))
 				{
-				    EventDescriptions.Add(description);
-				    commands.Add(@"Insert Into EventDescriptions (EventDescription) Values ('" + description + "')");
+					EventDescriptions.Add(description);
+					commands.Add(@"Insert Into EventDescriptions (EventDescription) Values ('" + description + "')");
 				}
 			}
 			ExecuteNonQuery(commands);

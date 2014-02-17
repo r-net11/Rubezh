@@ -3,7 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:SKDModule.Converters"
              Width="400" Height="400">
+
+    <UserControl.Resources>
+        <Converters:TransitionToStringConverter x:Key="TransitionToStringConverter" />
+    </UserControl.Resources>
 
     <TabControl>
         <TabItem Header="Основные">
@@ -15,12 +20,22 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Начало" Foreground="White" Margin="2" />
                 <Controls:TimePicker Grid.Row="0" Grid.Column="1" Time="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Конец" Foreground="White" Margin="2" />
                 <Controls:TimePicker Grid.Row="1" Grid.Column="1" Time="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Переход" Foreground="White" Margin="2" />
+                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AvailableTransitions}" SelectedItem="{Binding SelectedTransition, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource TransitionToStringConverter}}" Foreground="Black" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </TabItem>
     </TabControl>

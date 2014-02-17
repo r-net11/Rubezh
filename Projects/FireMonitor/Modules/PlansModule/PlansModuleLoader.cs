@@ -48,13 +48,7 @@ namespace PlansModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Планы",
-				UID = LayoutPartIdentities.Plans,
-				IconSource = "/Controls;component/Images/Map.png",
-				Factory = (p) => _plansViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", (p) => _plansViewModel);
 		}
 		#endregion
 	}

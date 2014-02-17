@@ -11,13 +11,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-            </StackPanel>
-        </Border>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+            <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+            <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+        </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Название" Width="*">

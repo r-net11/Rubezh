@@ -15,16 +15,7 @@ namespace SKDModule.ViewModels
 		{
 			WeeklyIntervalViewModel = weeklyIntervalViewModel;
 			WeeklyIntervalPart = weeklyIntervalPart;
-
-			if (weeklyIntervalPart.IsHolliday)
-			{
-				Name = "Тип праздника " + weeklyIntervalPart.No;
-			}
-			else
-			{
-				Name = IntToWeekDay(weeklyIntervalPart.No);
-			}
-
+			Name = IntToWeekDay(weeklyIntervalPart.No);
 			Update();
 		}
 

@@ -26,6 +26,9 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
+		public DateTime ConstantSlideTime { get; set; }
+
+		[DataMember]
 		public List<EmployeeTimeIntervalPart> TimeIntervalParts { get; set; }
 	}
 }

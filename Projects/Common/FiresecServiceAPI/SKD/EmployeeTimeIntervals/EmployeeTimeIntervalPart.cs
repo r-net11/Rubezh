@@ -9,6 +9,8 @@ namespace FiresecAPI
 		public EmployeeTimeIntervalPart()
 		{
 			UID = Guid.NewGuid();
+			StartTime = new DateTime(2000, 1, 1);
+			EndTime = new DateTime(2000, 1, 1);
 		}
 
 		[DataMember]

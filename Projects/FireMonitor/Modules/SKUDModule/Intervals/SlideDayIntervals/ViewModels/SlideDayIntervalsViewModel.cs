@@ -15,20 +15,31 @@ namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		EmployeeSlideDayInterval IntervalToCopy;
+
 		public SlideDayIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		public void Initialize()
 		{
-			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
 			var employeeSlideDayIntervals = new List<EmployeeSlideDayInterval>();
+			var neverTimeInterval = employeeSlideDayIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			if (neverTimeInterval == null)
+			{
+				neverTimeInterval = new EmployeeSlideDayInterval() { Name = "Никогда", IsDefault = true };
+				//neverTimeInterval.TimeIntervalUIDs.Add(Guid.Empty);
+				employeeSlideDayIntervals.Add(neverTimeInterval);
+			}
+
+			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
 			foreach (var slideDayInterval in employeeSlideDayIntervals)
 			{
 				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayInterval);
@@ -37,7 +48,11 @@ namespace SKDModule.ViewModels
 			SelectedSlideDayInterval = SlideDayIntervals.FirstOrDefault();
 		}
 
-		EmployeeSlideDayInterval IntervalToCopy;
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
+		}
 
 		ObservableCollection<SlideDayIntervalViewModel> _slideDayIntervals;
 		public ObservableCollection<SlideDayIntervalViewModel> SlideDayIntervals
@@ -76,17 +91,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel();
+			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(slideDayIntervalDetailsViewModel))
 			{
 				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayIntervalDetailsViewModel.SlideDayInterval);
 				SlideDayIntervals.Add(timeInrervalViewModel);
 				SelectedSlideDayInterval = timeInrervalViewModel;
 			}
-		}
-		bool CanAdd()
-		{
-			return SlideDayIntervals.Count < 256;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -102,7 +113,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel(SelectedSlideDayInterval.SlideDayInterval);
+			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel(this, SelectedSlideDayInterval.SlideDayInterval);
 			if (DialogService.ShowModalWindow(slideDayIntervalDetailsViewModel))
 			{
 				SelectedSlideDayInterval.Update();
@@ -133,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return IntervalToCopy != null && SlideDayIntervals.Count < 256;
+			return IntervalToCopy != null;
 		}
 
 		EmployeeSlideDayInterval CopyInterval(EmployeeSlideDayInterval source)

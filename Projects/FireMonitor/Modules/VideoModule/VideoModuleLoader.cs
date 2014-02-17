@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -9,18 +10,23 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
+using VideoModule.Plans;
 using VideoModule.ViewModels;
+using Infrustructure.Plans.Events;
+using FiresecAPI.Models;
 
 namespace VideoModule
 {
 	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
-		VideoViewModel VideoViewModel;
-		NavigationItem _videoNavigationItem;
+		private VideoViewModel _videoViewModel;
+		private NavigationItem _videoNavigationItem;
+		private PlanPresenter _planPresenter;
 
 		public override void CreateViewModels()
 		{
-			VideoViewModel = new VideoViewModel();
+			_planPresenter = new PlanPresenter();
+			_videoViewModel = new VideoViewModel();
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 		}
@@ -52,12 +58,14 @@ namespace VideoModule
 		{
 			OnDevicesStateChanged(Guid.Empty);
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
-			VideoViewModel.Initialize();
+			_videoViewModel.Initialize();
+			_planPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowVideoEvent>(VideoViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_videoViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 		    {
 		        _videoNavigationItem
@@ -68,7 +76,11 @@ namespace VideoModule
 		{
 			get { return "Видео"; }
 		}
-
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+		}
 		public override void Dispose()
 		{
 			VideoService.Close();
@@ -78,13 +90,8 @@ namespace VideoModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter()
-			{
-				Name = "Видео",
-				UID = LayoutPartIdentities.Video,
-				IconSource = "/Controls;component/Images/Video1.png",
-				Factory = (p) => VideoViewModel,
-			};
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Video, "Видео", "Video1.png", (p) => _videoViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Camera, "Камера", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
 		}
 
 		#endregion

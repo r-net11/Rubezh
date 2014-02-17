@@ -26,6 +26,7 @@ namespace PlansModule.Kursk
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
+			Helper.BuildMap();
 			var monitor = new PlanMonitor(plan, callBack);
 			_monitors.Add(plan, monitor);
 		}

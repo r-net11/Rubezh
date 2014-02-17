@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -12,47 +13,85 @@ namespace Infrastructure.Common.Video
 	{
 		Thread VideoThread { get; set; }
 		private MjpegCamera MjpegCamera { get; set; }
-		private const int IMAGES_BUFFER_SIZE = 10;
-		private int ImagesBufferIndex;
+		private readonly int _imagesBufferSize;
+		private readonly int _imagesBufferFrameInterval;
+		private int _imagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
-		public CameraFramesWatcher (Camera camera)
+		private readonly Object _loker;
+		private List<StandbyFrames> StandbyFramesList { get; set; } 
+		public CameraFramesWatcher(Camera camera, int imagesBufferSizeBeforeEvent = 10, int imagesBufferFrameInterval = 1)
 		{
-			CameraFrames = new List<CameraFrame>(IMAGES_BUFFER_SIZE);
+			StandbyFramesList = new List<StandbyFrames>();
+			_imagesBufferSize = imagesBufferSizeBeforeEvent;
+			_imagesBufferFrameInterval = imagesBufferFrameInterval;
 			MjpegCamera = new MjpegCamera(camera);
-			InitializeCameraFramesWatcher();
+			_loker = new object();
+			InitializeCameraFramesWatcher(_imagesBufferSize);
 		}
-
 		private void BmpToCameraFramesWatcher(Bitmap bmp)
 		{
 			var dateTime = DateTime.Now;
-			if (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(1))
+			lock (_loker)
 			{
-				var cameraFrame = new CameraFrame(bmp, dateTime);
-				ImagesBufferIndex = ImagesBufferIndex % IMAGES_BUFFER_SIZE;
-				CameraFrames[ImagesBufferIndex] = cameraFrame;
-				ImagesBufferIndex++;
+				if ((CameraFrames != null) && (CameraFrames.Count == _imagesBufferSize) &&
+				    (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(_imagesBufferFrameInterval)))
+				{
+					var newbmp = new Bitmap(bmp);
+					var cameraFrame = new CameraFrame(newbmp, dateTime);
+					_imagesBufferIndex = _imagesBufferIndex%_imagesBufferSize;
+					CameraFrames[_imagesBufferIndex] = cameraFrame;
+					_imagesBufferIndex++;
+					if ((StandbyFramesList != null) && (StandbyFramesList.Count > 0))
+						foreach (var standbyFrames in StandbyFramesList)
+						{
+							var dir = new DirectoryInfo(standbyFrames.Guid.ToString());
+							if (!Directory.Exists(dir.FullName))
+								dir.Create();
+							string fileName = dir.FullName + "\\" + standbyFrames.Index + "(afterEvent).jpg";
+							var bmpToSave = new Bitmap(bmp);
+							bmpToSave.Save(fileName, ImageFormat.Jpeg);
+							bmpToSave.Dispose();
+							StandbyFramesList = new List<StandbyFrames>();
+						}
+				}
 			}
 		}
 
-		void InitializeCameraFramesWatcher()
+		void InitializeCameraFramesWatcher(int imagesBufferSize)
 		{
-			for (int i = 0; i < IMAGES_BUFFER_SIZE; i++)
+			_imagesBufferIndex = 0;
+			CameraFrames = new List<CameraFrame>(imagesBufferSize);
+			for (int i = 0; i < imagesBufferSize; i++)
 				CameraFrames.Add(new CameraFrame(new Bitmap(100, 100), new DateTime()));
 		}
 
-		public void Save()
+		public void Save(Guid guid, int imagesBufferSizeAfterEvent)
 		{
-			var dir = new DirectoryInfo("Pictures\\" + DateTime.Now.ToLongDateString());
+			var dir = new DirectoryInfo(guid.ToString());
 			if (Directory.Exists(dir.FullName))
-				Directory.Delete(dir.FullName);
-			foreach (var cameraFrame in CameraFrames)
+				Directory.Delete(dir.FullName, true);
+			dir.Create();
+			int i = 1;
+			lock (_loker)
 			{
-				cameraFrame.Bitmap.Save(cameraFrame.DateTime.ToLongDateString());
+				foreach (var cameraFrame in CameraFrames)
+				{
+					string fileName = dir.FullName + "\\" + i + ".jpg";
+					if (cameraFrame.DateTime.Ticks == 0)
+						return;
+					var bmp = new Bitmap(cameraFrame.Bitmap);
+					bmp.Save(fileName, ImageFormat.Jpeg);
+					bmp.Dispose();
+					i++;
+				}
+				CameraFrames = new List<CameraFrame>(imagesBufferSizeAfterEvent);
 			}
+			StandbyFramesList.Add(new StandbyFrames(guid, 5));
 		}
 
 		public void StartVideo()
 		{
+			InitializeCameraFramesWatcher(_imagesBufferSize);
 			MjpegCamera.FrameReady += BmpToCameraFramesWatcher;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
@@ -61,6 +100,19 @@ namespace Infrastructure.Common.Video
 		{
 			MjpegCamera.FrameReady -= BmpToCameraFramesWatcher;
 			MjpegCamera.StopVideo();
+		}
+	}
+
+	public class StandbyFrames
+	{
+		public Guid Guid { get; private set; }
+		public int FramesCount { get; private set; }
+		public int Index { get; set; }
+		public StandbyFrames(Guid guid, int framesCount)
+		{
+			Guid = guid;
+			FramesCount = framesCount;
+			Index = 0;
 		}
 	}
 }

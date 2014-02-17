@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI;
 using FiresecService.Processor;
 using SKDDriver;
+using Common;
 
 namespace FiresecService
 {
@@ -12,13 +13,23 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
-			SKDManager.CreateDrivers();
-			SKDManager.UpdateConfiguration();
-			WatcherManager.Start();
+			try
+			{
+				SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
+				if (SKDManager.SKDConfiguration != null)
+				{
+					SKDManager.CreateDrivers();
+					SKDManager.UpdateConfiguration();
+					WatcherManager.Start();
 
-			SKDProcessorManager.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
-			SKDProcessorManager.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+					SKDProcessorManager.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+					SKDProcessorManager.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "SKDProcessor.Create");
+			}
 		}
 
 		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)

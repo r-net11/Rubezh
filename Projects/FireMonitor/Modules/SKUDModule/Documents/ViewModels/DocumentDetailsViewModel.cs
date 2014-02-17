@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
+		DocumentsViewModel DocumentsViewModel;
 		public Document Document { get; private set; }
 
-		public DocumentDetailsViewModel(Document document = null)
+		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Document document = null)
 		{
+			DocumentsViewModel = documentsViewModel;
 			if (document == null)
 			{
 				Title = "Создание документа";
@@ -117,6 +120,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (DocumentsViewModel.Documents.Any(x => x.Document.Name == Name && x.Document.UID != Document.UID))
+			{
+				MessageBoxService.ShowWarning("Название документа совпадает с введенным ранее");
+				return false;
+			}
+
 			Document = new Document()
 			{
 				Name = Name,

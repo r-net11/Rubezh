@@ -1,29 +1,39 @@
 ﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
+using System.Linq;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
+		bool IsNew;
+		TimeIntervalsViewModel TimeIntervalsViewModel;
 		public EmployeeTimeInterval TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(EmployeeTimeInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(TimeIntervalsViewModel timeIntervalsViewModel, EmployeeTimeInterval timeInterval = null)
 		{
+			TimeIntervalsViewModel = timeIntervalsViewModel;
 			if (timeInterval == null)
 			{
 				Title = "Новый именованный интервал";
+				IsNew = true;
 				timeInterval = new EmployeeTimeInterval()
 				{
 					Name = "Именованный интервал"
 				};
+				timeInterval.TimeIntervalParts.Add(new EmployeeTimeIntervalPart() { StartTime = new DateTime(2000, 1, 1, 9, 0, 0), EndTime = new DateTime(2000, 1, 1, 18, 0, 0) });
 			}
 			else
 			{
 				Title = "Редактирование именованного интервала";
+				IsNew = false;
 			}
 			TimeInterval = timeInterval;
 			Name = TimeInterval.Name;
 			Description = TimeInterval.Description;
+			ConstantSlideTime = TimeInterval.ConstantSlideTime;
 		}
 
 		string _name;
@@ -48,6 +58,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		DateTime _constantSlideTime;
+		public DateTime ConstantSlideTime
+		{
+			get { return _constantSlideTime; }
+			set
+			{
+				_constantSlideTime = value;
+				OnPropertyChanged("ConstantSlideTime");
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name) && Name != "Всегда" && Name != "Никогда";
@@ -55,8 +76,15 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (TimeIntervalsViewModel.TimeIntervals.Any(x => x.TimeInterval.Name == Name && x.TimeInterval.UID != TimeInterval.UID))
+			{
+				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
+				return false;
+			}
+
 			TimeInterval.Name = Name;
 			TimeInterval.Description = Description;
+			TimeInterval.ConstantSlideTime = ConstantSlideTime;
 			return true;
 		}
 	}

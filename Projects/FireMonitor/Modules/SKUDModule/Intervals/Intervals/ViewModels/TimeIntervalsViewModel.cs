@@ -15,20 +15,31 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		EmployeeTimeInterval IntervalToCopy;
+
 		public TimeIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		public void Initialize()
 		{
-			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
 			var employeeTimeIntervals = new List<EmployeeTimeInterval>();
+			var neverTimeInterval = employeeTimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			if (neverTimeInterval == null)
+			{
+				neverTimeInterval = new EmployeeTimeInterval() { Name = "Никогда", IsDefault = true };
+				neverTimeInterval.TimeIntervalParts.Add(new EmployeeTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
+				employeeTimeIntervals.Add(neverTimeInterval);
+			}
+
+			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in employeeTimeIntervals)
 			{
 				var timeInrervalViewModel = new TimeIntervalViewModel(timeInterval);
@@ -37,7 +48,11 @@ namespace SKDModule.ViewModels
 			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
 		}
 
-		EmployeeTimeInterval IntervalToCopy;
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
+		}
 
 		ObservableCollection<TimeIntervalViewModel> _timeIntervals;
 		public ObservableCollection<TimeIntervalViewModel> TimeIntervals
@@ -76,17 +91,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel();
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeIntervalDetailsViewModel.TimeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 				SelectedTimeInterval = timeIntervalViewModel;
 			}
-		}
-		bool CanAdd()
-		{
-			return TimeIntervals.Count < 256;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
@@ -102,7 +113,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(SelectedTimeInterval.TimeInterval);
+			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(this, SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeInrervalDetailsViewModel))
 			{
 				SelectedTimeInterval.Update();
@@ -133,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return IntervalToCopy != null && TimeIntervals.Count < 256;
+			return IntervalToCopy != null;
 		}
 
 		EmployeeTimeInterval CopyInterval(EmployeeTimeInterval source)

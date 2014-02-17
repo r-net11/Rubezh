@@ -14,6 +14,7 @@ namespace DeviceControls
 		public static DevicePicture DevicePicture { get; private set; }
 		public static XDevicePicture XDevicePicture { get; private set; }
 		public static SKDDevicePicture SKDDevicePicture { get; private set; }
+		public static CameraPicture CameraPicture { get; private set; }
 
 		static PictureCacheSource()
 		{
@@ -24,9 +25,11 @@ namespace DeviceControls
 				SnapsToDevicePixels = false
 			};
 			EmptyBrush = new VisualBrush(EmptyPicture);
+
 			DevicePicture = new DevicePicture();
 			XDevicePicture = new XDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();
+			CameraPicture = new CameraPicture();
 		}
 
 		public static Brush CreateDynamicBrush<TLibraryFrame>(List<TLibraryFrame> frames)

@@ -63,18 +63,9 @@ namespace GKModule.Plans
 
 		#region IPlanExtension Members
 
-		public int Index
-		{
-			get { return 1; }
-		}
 		public string Title
 		{
 			get { return "Устройства"; }
-		}
-
-		public object TabPage
-		{
-			get { return _devicesViewModel; }
 		}
 
 		public IEnumerable<IInstrument> Instruments
@@ -240,9 +231,9 @@ namespace GKModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 1);
-			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 2);
-			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 3);
+			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 2);
+			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 3);
+			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 4);
 		}
 		public void ExtensionAttached()
 		{

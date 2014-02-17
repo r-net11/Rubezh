@@ -20,7 +20,7 @@ namespace GKProcessor
 			var commands = new List<SqlCeCommand>();
 			var connection = new SqlCeConnection(ConnectionString);
 			foreach (var commandString in commandStrings)
-				commands.Add(new SqlCeCommand(commandString, connection));	
+				commands.Add(new SqlCeCommand(commandString, connection));
 			connection.Open();
 			foreach (var command in commands)
 				command.ExecuteNonQuery();

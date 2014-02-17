@@ -21,20 +21,20 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			RemoveCardCommand = new RelayCommand(OnRemoveCard, CanRemoveCard);
 
-			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.Uid } };
+			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.UID } };
 			var cards = FiresecManager.GetCards(filter);
-			Cards = new ObservableCollection<CardViewModel>();
+			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in cards)
 			{
-				Cards.Add(new CardViewModel(this, item));
+				Cards.Add(new EmployeeCardViewModel(this, item));
 			}
 			SelectedCard = Cards.FirstOrDefault();
 		}
 
-		public ObservableCollection<CardViewModel> Cards { get; private set; }
+		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 
-		CardViewModel _selectedCard;
-		public CardViewModel SelectedCard
+		EmployeeCardViewModel _selectedCard;
+		public EmployeeCardViewModel SelectedCard
 		{
 			get { return _selectedCard; }
 			set
@@ -47,12 +47,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			var cardDetailsViewModel = new CardDetailsViewModel();
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel();
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				CardHelper.LinkToEmployee(card, Employee.Uid);
-				var cardViewModel = new CardViewModel(this, card);
+				CardHelper.LinkToEmployee(card, Employee.UID);
+				var cardViewModel = new EmployeeCardViewModel(this, card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;
 			}

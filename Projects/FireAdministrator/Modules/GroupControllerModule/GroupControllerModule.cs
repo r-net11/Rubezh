@@ -208,66 +208,12 @@ namespace GKModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription()
-			{
-				Name = "Состояния",
-				Description = "Панель состояний",
-				Index = 110,
-				UID = LayoutPartIdentities.Alarms,
-				IconSource = "/Controls;component/Images/BAlarm.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BAlarm.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Устройства",
-				Description = "Панель с устройствами",
-				Index = 111,
-				UID = LayoutPartIdentities.GDevices,
-				IconSource = "/Controls;component/Images/BTree.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BTree.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Зоны",
-				Description = "Панель зон",
-				Index = 113,
-				UID = LayoutPartIdentities.Zones,
-				IconSource = "/Controls;component/Images/BZones.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BZones.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Направления",
-				Description = "Панель направления",
-				Index = 114,
-				UID = LayoutPartIdentities.Directions,
-				IconSource = "/Controls;component/Images/BDirection.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BDirection.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Журнал событий",
-				Description = "Панель журнал событий",
-				Index = 115,
-				UID = LayoutPartIdentities.Journals,
-				IconSource = "/Controls;component/Images/BBook.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BBook.png" },
-			};
-			yield return new LayoutPartDescription()
-			{
-				Name = "Архив",
-				Description = "Панель архив",
-				Index = 116,
-				UID = LayoutPartIdentities.Archive,
-				IconSource = "/Controls;component/Images/BArchive.png",
-				AllowMultiple = true,
-				//Content = new LayoutPartImageViewModel() { ImageSource = "/Controls;component/Images/BArchive.png" },
-			};
+			yield return new LayoutPartDescription(LayoutPartIdentities.Alarms, 110, "Состояния", "Панель состояний", "BAlarm.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.GDevices, 111, "Устройства", "Панель с устройствами", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Zones, 112, "Зоны", "Панель зон", "BZones.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Directions, 113, "Направления", "Панель направления", "BDirection.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Journals, 114, "Журнал событий", "Панель журнал событий", "BBook.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Archive, 115, "Архив", "Панель архив", "BArchive.png");
 		}
 
 		#endregion

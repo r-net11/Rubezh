@@ -188,11 +188,13 @@
     <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\ExtensionMethods.cs" />
+    <Compile Include="Models\Layouts\LayoutPartCameraProperties.cs" />
     <Compile Include="Models\Layouts\ILayoutProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartImageProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
+    <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\Database\Filter\OrganizationFilter.cs" />
     <Compile Include="SKD\Database\Common\OrganizationFilterBase.cs" />
@@ -201,8 +203,10 @@
     <Compile Include="SKD\Database\Schedule\ScheduleZoneLink.cs" />
     <Compile Include="SKD\Database\Common\SKDModelBase.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHoliday.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeHolidayType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeShedule.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideDayInterval.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSlideWeeklyInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeIntervalPart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyInterval.cs" />
@@ -227,6 +231,9 @@
     <Compile Include="SKD\Database\Schedule\Interval.cs" />
     <Compile Include="SKD\Database\Schedule\NamedInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\IntervalTransitionType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyntervalPart.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeShedulePart.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSheduleType.cs" />
     <Compile Include="SKD\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />
@@ -255,8 +262,10 @@
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
     <Compile Include="SKD\Library\SKDLibraryFrame.cs" />
     <Compile Include="SKD\Library\SKDLibraryState.cs" />
+    <Compile Include="SKD\GUD.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDEventsHelper.cs" />
+    <Compile Include="SKD\SKDOrganisation.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\SKDSystemConfiguration.cs" />
     <Compile Include="SKD\Device\SKDDevice.cs" />

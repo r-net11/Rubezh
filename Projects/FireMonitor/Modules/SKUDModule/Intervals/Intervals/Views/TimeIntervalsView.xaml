@@ -4,6 +4,7 @@
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:SKDModule.Converters">
+
     <UserControl.Resources>
         <Converters:TransitionToStringConverter x:Key="TransitionToStringConverter" />
     </UserControl.Resources>
@@ -19,6 +20,7 @@
             <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
             <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
             <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="/Controls;component/Images/Paste.png" />
+            <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
         </StackPanel>
         <Grid Grid.Row="1" Margin="2">
             <Grid.ColumnDefinitions>
@@ -47,7 +49,7 @@
                 </DataGrid.Columns>
             </Controls:XDataGrid>
 
-            <Grid Grid.Column="1" DataContext="{Binding SelectedTimeInterval}">
+            <Grid Grid.Column="1" DataContext="{Binding SelectedTimeInterval}" IsEnabled="{Binding IsEnabled}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -76,20 +78,7 @@
                         <DataGridTemplateColumn Header="Переход" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Controls:EditorPresenter>
-                                        <Controls:EditorPresenter.ViewTemplate>
-                                            <ControlTemplate>
-                                                <ComboBox ItemsSource="{Binding AvailableTransitions}" SelectedItem="{Binding SelectedTransition, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                                                    <ComboBox.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <!--<TextBlock Text="{Binding ., Converter={Binding TransitionToStringConverter}}" Foreground="Black" />-->
-                                                            <TextBlock Text="{Binding .}" Foreground="Black" />
-                                                        </DataTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
-                                            </ControlTemplate>
-                                        </Controls:EditorPresenter.ViewTemplate>
-                                    </Controls:EditorPresenter>
+                                    <TextBlock Text="{Binding IntervalTransitionType, Converter={StaticResource TransitionToStringConverter}}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

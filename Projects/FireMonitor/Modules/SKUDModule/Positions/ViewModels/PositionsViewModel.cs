@@ -16,7 +16,12 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			Initialize();
+		}
 
+		public void Initialize()
+		{
 			Positions = new ObservableCollection<PositionViewModel>();
 			var positions = FiresecManager.GetPositions(null);
 			foreach (var position in positions)
@@ -25,6 +30,12 @@ namespace SKDModule.ViewModels
 				Positions.Add(positionViewModel);
 			}
 			SelectedPosition = Positions.FirstOrDefault();
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 
 		ObservableCollection<PositionViewModel> _positions;
@@ -52,7 +63,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel();
+			var positionDetailsViewModel = new PositionDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				var position = positionDetailsViewModel.Position;
@@ -79,7 +90,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Position);
+			var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				SelectedPosition.Update(positionDetailsViewModel.Position);

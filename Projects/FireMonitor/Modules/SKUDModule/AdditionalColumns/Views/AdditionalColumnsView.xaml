@@ -21,6 +21,7 @@
                 <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
                 <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+                <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
             </StackPanel>
         </Border>
         <DataGrid Grid.Row="1" ItemsSource="{Binding AdditionalColumns}" SelectedItem="{Binding SelectedAdditionalColumn}" Margin="2">

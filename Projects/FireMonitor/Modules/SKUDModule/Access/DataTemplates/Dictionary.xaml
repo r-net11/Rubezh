@@ -7,8 +7,8 @@
         <Views:UsersAccessView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CardDetailsViewModel}">
-        <Views:CardDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardDetailsViewModel}">
+        <Views:EmployeeCardDetailsView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:AccessZonesSelectationViewModel}">

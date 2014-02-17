@@ -22,12 +22,12 @@
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsViewModel}">
-        <Views:SlideWeekIntervalsView />
+    <DataTemplate DataType="{x:Type ViewModels:MonthlyIntervalsViewModel}">
+        <Views:MonthlyIntervalsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalDetailsViewModel}">
-        <Views:SlideWeekIntervalDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:MonthlyIntervalDetailsViewModel}">
+        <Views:MonthlyIntervalDetailsView />
     </DataTemplate>
 
 
@@ -47,4 +47,22 @@
     <DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
         <Views:HolidayDetailsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:HolidaySettingsViewModel}">
+        <Views:HolidaySettingsView />
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type ViewModels:ShedulesViewModel}">
+        <Views:ShedulesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SheduleDetailsViewModel}">
+        <Views:SheduleDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ShedulePartDetailsViewModel}">
+        <Views:ShedulePartDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

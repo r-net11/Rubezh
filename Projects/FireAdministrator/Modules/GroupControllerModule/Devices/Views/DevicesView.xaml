@@ -1,13 +1,4 @@
-﻿<UserControl x:Class="GKModule.Views.DevicesView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-             xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" 
-             xmlns:Converters="clr-namespace:GKModule.Converters" 
-             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" 
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
-             xmlns:Views="clr-namespace:GKModule.Views" 
-             xmlns:viewModel="clr-namespace:GKModule.ViewModels">
+﻿<UserControl x:Class="GKModule.Views.DevicesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls" xmlns:Converters="clr-namespace:GKModule.Converters" xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
 
 	<UserControl.Resources>
 		<Converters:DeviceParameterMissmatchTypeToColorConverter3 x:Key="DeviceParameterMissmatchTypeToColorConverter3" />
@@ -17,37 +8,37 @@
 			<Conv:SwitchCase Then="Устройство нельзя размещать на плане" When="Prohibit" />
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
-        <ContextMenu x:Key="DeviceContextMenu">
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать (Ctrl+C)" Command="{Binding CopyCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать (Ctrl+Х)" Command="{Binding CutCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить (Ctrl+V)" Command="{Binding PasteCommand}" />
-            <Separator />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернее устройство (Ctrl+N)" Command="{Binding AddCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительскому устройству (Ctrl+M)" Command="{Binding AddToParentCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" Command="{Binding RemoveCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSelect.png" Text="Выбрать" Command="{Binding SelectCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLogic.png" Text="Настройка логики исполнительного устройства" Command="{Binding ShowLogicCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Вставить (Ctrl+V)" Command="{Binding ShowPropertiesCommand}" />
-            <Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" Command="{Binding AllowMultipleVizualizationCommand}" />
-            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersReadWrite.png" Text="Параметры">
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersRead.png" Text="Считать параметры" Command="{Binding ReadCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersReadAll.png" Text="Считать параметры дочерних устройств" Command="{Binding ReadAllCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать параметры" Command="{Binding WriteCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersWriteAll.png" Text="Записать параметры дочерних устройств" Command="{Binding WriteAllCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать параметры" Command="{Binding CopyParamCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить параметры" Command="{Binding PasteParamCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPasteAll.png" Text="Вставить параметры во все дочерние устройства" Command="{Binding PasteAllParamCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BBriefcase.png" Text="Применить шаблон" Command="{Binding PasteTemplateCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BBriefcaseAll.png" Text="Применить шаблон ко всем дочерним устройствам" Command="{Binding PasteAllTemplateCommand}" />
-                <Separator />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLeft.png" Text="Копировать параметры из устройства в систему" Command="{Binding SyncFromDeviceToSystemCommand}" />
-                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BLeftLeft.png" Text="Копировать параметры из всех дочерних устройств в систему" Command="{Binding SyncFromAllDeviceToSystemCommand}" />
-            </Controls:IconedMenuItem>
-        </ContextMenu>
+		<ContextMenu x:Key="DeviceContextMenu">
+			<Controls:IconedMenuItem Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать (Ctrl+C)" />
+			<Controls:IconedMenuItem Command="{Binding CutCommand}" ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать (Ctrl+Х)" />
+			<Controls:IconedMenuItem Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить (Ctrl+V)" />
+			<Separator />
+			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернее устройство (Ctrl+N)" />
+			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительскому устройству (Ctrl+M)" />
+			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
+			<Controls:IconedMenuItem Command="{Binding SelectCommand}" ImageSource="/Controls;component/Images/BSelect.png" Text="Выбрать" />
+			<Controls:IconedMenuItem Command="{Binding ShowLogicCommand}" ImageSource="/Controls;component/Images/BLogic.png" Text="Настройка логики исполнительного устройства" />
+			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Вставить (Ctrl+V)" />
+			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
+			<Controls:IconedMenuItem Command="{Binding AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
+			<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BParametersReadWrite.png" Text="Параметры">
+				<Controls:IconedMenuItem Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/BParametersRead.png" Text="Считать параметры" />
+				<Controls:IconedMenuItem Command="{Binding ReadAllCommand}" ImageSource="/Controls;component/Images/BParametersReadAll.png" Text="Считать параметры дочерних устройств" />
+				<Controls:IconedMenuItem Command="{Binding WriteCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать параметры" />
+				<Controls:IconedMenuItem Command="{Binding WriteAllCommand}" ImageSource="/Controls;component/Images/BParametersWriteAll.png" Text="Записать параметры дочерних устройств" />
+				<Separator />
+				<Controls:IconedMenuItem Command="{Binding CopyParamCommand}" ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать параметры" />
+				<Controls:IconedMenuItem Command="{Binding PasteParamCommand}" ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить параметры" />
+				<Controls:IconedMenuItem Command="{Binding PasteAllParamCommand}" ImageSource="/Controls;component/Images/BPasteAll.png" Text="Вставить параметры во все дочерние устройства" />
+				<Separator />
+				<Controls:IconedMenuItem Command="{Binding PasteTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcase.png" Text="Применить шаблон" />
+				<Controls:IconedMenuItem Command="{Binding PasteAllTemplateCommand}" ImageSource="/Controls;component/Images/BBriefcaseAll.png" Text="Применить шаблон ко всем дочерним устройствам" />
+				<Separator />
+				<Controls:IconedMenuItem Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="/Controls;component/Images/BLeft.png" Text="Копировать параметры из устройства в систему" />
+				<Controls:IconedMenuItem Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="/Controls;component/Images/BLeftLeft.png" Text="Копировать параметры из всех дочерних устройств в систему" />
+			</Controls:IconedMenuItem>
+		</ContextMenu>
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
 		<viewModel:DeviceViewModelAddressComparer x:Key="DeviceViewModelAddressComparer" />
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
@@ -85,7 +76,7 @@
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
 													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" />
-													<TextBlock Foreground ="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" />
+													<TextBlock Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding PropertiesViewModel.DeviceParameterMissmatchType, Converter={StaticResource DeviceParameterMissmatchTypeToColorConverter3}}" Text="{Binding Device.ShortName}" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
@@ -95,17 +86,12 @@
 													<ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
 														<ComboBox.ItemTemplate>
 															<DataTemplate>
-                                                                <Controls:IconLabel 
-                                                                    ImageSource="{Binding ImageSource}" 
-                                                                    Text="{Binding ShortName}" 
-                                                                    Foreground="Black" />
+																<Controls:IconLabel Foreground="Black" ImageSource="{Binding ImageSource}" Text="{Binding ShortName}" />
 															</DataTemplate>
 														</ComboBox.ItemTemplate>
 													</ComboBox>
-													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}"
-														Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}"
-														Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+													<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Driver.ImageSource}" Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+													<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Device.ShortName}" Visibility="{Binding CanChangeDriver, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.EditTemplate>
@@ -129,7 +115,7 @@
 											<Grid>
 												<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-											</Grid> 
+											</Grid>
 										</ControlTemplate>
 									</Controls:EditorPresenter.EditTemplate>
 								</Controls:EditorPresenter>
@@ -143,7 +129,7 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock MinWidth="100" Cursor="Hand" Text="{Binding EditingPresentationZone}" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" TextWrapping="NoWrap">
+											<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationZone}" TextWrapping="NoWrap" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
 												<TextBlock.Style>
 													<Style TargetType="TextBlock">
 														<Style.Triggers>
@@ -209,12 +195,12 @@
 							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="{Binding Driver.Name}" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="Подключено к " Foreground="White" Width="120" Margin="2 2 5 2" />
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Подключено к " />
 							<TextBlock VerticalAlignment="Center" FontWeight="Bold" Foreground="White">
 								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="{Binding Device.Parent.Driver.ImageSource}" />
-										<TextBlock Text="{Binding Device.Parent.PresentationName}" Margin="2" />
+										<TextBlock Margin="2" Text="{Binding Device.Parent.PresentationName}" />
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
@@ -229,8 +215,8 @@
 							</StackPanel.Style>
 						</StackPanel>
 						<WrapPanel Orientation="Horizontal" Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Text="Зона или Логика " Foreground="White" Width="120" Margin="2 2 5 2" />
-							<TextBlock Text="Зона или Логика не указана" Foreground="White" FontStyle="Italic" Margin="2 2 5 2">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Зона или Логика " />
+							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="White" Text="Зона или Логика не указана">
 								<TextBlock.Style>
 									<Style>
 										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -246,18 +232,18 @@
 								<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
-										<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" Margin="2" />
-                                    </StackPanel>
+										<TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+									</StackPanel>
 								</Hyperlink>
 								<TextBlock.Style>
 									<Style>
-                                        <Style.Setters>
-                                            <Setter Property="TextBlock.ToolTip">
-                                                <Setter.Value>
-                                                    <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style.Setters>
+										<Style.Setters>
+											<Setter Property="TextBlock.ToolTip">
+												<Setter.Value>
+													<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+												</Setter.Value>
+											</Setter>
+										</Style.Setters>
 										<Style.Triggers>
 											<DataTrigger Binding="{Binding PresentationZone}" Value="">
 												<Setter Property="TextBlock.Visibility" Value="Collapsed" />
@@ -271,16 +257,16 @@
 					</StackPanel>
 				</ScrollViewer>
 				<Grid Grid.Row="1">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/LeftLeft.png" />
-						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" ImageSource="/Controls;component/Images/Left.png" />
-						<Controls:ToolBarButton Command="{Binding ReadCommand}" ToolTip="Считать параметры" ImageSource="/Controls;component/Images/ParametersRead.png" />
-						<Controls:ToolBarButton Command="{Binding WriteCommand}" ToolTip="Записать параметры" ImageSource="/Controls;component/Images/ParametersWrite.png" />
-						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ToolTip="Считать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersReadAll.png" />
-						<Controls:ToolBarButton Command="{Binding WriteAllCommand}" ToolTip="Записать параметры дочерних устройств" ImageSource="/Controls;component/Images/ParametersWriteAll.png" />
-						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" ToolTip="Копировать параметры" ImageSource="/Controls;component/Images/Copy.png" />
-						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" ToolTip="Вставить параметры" ImageSource="/Controls;component/Images/Paste.png" />
-						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ToolTip = "Вставить параметры во все дочерние устройства" ImageSource = "/Controls;component/Images/PasteAll.png" />
+					<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
+						<Controls:ToolBarButton Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/ParametersRead.png" ToolTip="Считать параметры" />
+						<Controls:ToolBarButton Command="{Binding WriteCommand}" ImageSource="/Controls;component/Images/ParametersWrite.png" ToolTip="Записать параметры" />
+						<Controls:ToolBarButton Command="{Binding ReadAllCommand}" ImageSource="/Controls;component/Images/ParametersReadAll.png" ToolTip="Считать параметры дочерних устройств" />
+						<Controls:ToolBarButton Command="{Binding WriteAllCommand}" ImageSource="/Controls;component/Images/ParametersWriteAll.png" ToolTip="Записать параметры дочерних устройств" />
+						<Controls:ToolBarButton Command="{Binding CopyParamCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteParamCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить параметры" />
+						<Controls:ToolBarButton Command="{Binding PasteAllParamCommand}" ImageSource="/Controls;component/Images/PasteAll.png" ToolTip="Вставить параметры во все дочерние устройства" />
 					</StackPanel>
 				</Grid>
 			</Grid>

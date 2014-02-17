@@ -86,6 +86,5 @@ namespace GKProcessor
         {
             ExecuteNonQuery("DELETE FROM Patches WHERE Id = '" + patchName +"'");
         }
-
     }
 }

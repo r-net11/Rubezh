@@ -63,23 +63,8 @@
         <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
-      <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
-        <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-      </Component>
-
       <Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
         <File Id="Administrator.OPCModule.dll" Name="OPCModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-      </Component>
-
-      <Component Id="Administrator.SKUD_MODULE" Guid="*">
-        <File Id="Administrator.SkudModule.dll" Name="SkudModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-      </Component>
-
-      <Component Id="Administrator.VIDEO_MODULE" Guid="06A0E756-7AFF-4E90-8B9C-52C71F0ADF06">
-        <File Id="Administrator.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-        <File Id="Administrator.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
     </DirectoryRef>

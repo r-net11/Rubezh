@@ -38,22 +38,22 @@
                             <ListBoxItem>
                                 <WrapPanel Background="White">
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" VerticalAlignment="Center" Margin="5" />
-                                    <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="White" />
+                                    <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="Black" />
                                 </WrapPanel>
                             </ListBoxItem>
                             <ListBoxItem>
                                 <WrapPanel Margin="1">
                                     <TextBlock Text="Устройство: " FontWeight="Bold" Foreground="Orange" Background="White"/>
-                                    <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
-                                    <TextBlock Text=", " Foreground="White" />
-                                    <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="White" />
+                                    <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="Black" />
+                                    <TextBlock Text=", " Foreground="Black" />
+                                    <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="Black" />
                                 </WrapPanel>
                             </ListBoxItem>
                             <ListBoxItem>
                                 <WrapPanel Margin="1">
                                     <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
                                     <TextBlock TextWrapping="Wrap">
-                                <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding Device.ConnectedTo}" />
                                 </Hyperlink>
                             </TextBlock>
@@ -63,7 +63,7 @@
                                 <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                                     <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
                                     <TextBlock TextWrapping="Wrap">
-                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
                                 </Hyperlink>
                             </TextBlock>
@@ -79,19 +79,13 @@
                                 <WrapPanel Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                                     <TextBlock Text="План: " FontWeight="Bold" Foreground="Orange" />
                                     <TextBlock TextWrapping="Wrap">
-                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle}">
+                                <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
                                     <TextBlock Text="{Binding PlanName}" />
                                 </Hyperlink>
                             </TextBlock>
                                 </WrapPanel>
                             </ListBoxItem>
                         </ListBox>
-                        
-                        
-                        
-                        
-                        
-                        
                     </StackPanel>
                 </ScrollViewer>
                 

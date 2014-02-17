@@ -11,13 +11,9 @@ namespace FiresecAPI
 		{
 			UID = Guid.NewGuid();
 			WeeklyIntervalParts = new List<EmployeeWeeklyIntervalPart>();
-			for (int i = 1; i <= 7; i++)
-			{
-				WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = i, IsHolliday = false });
-			}
 			for (int i = 1; i <= 8; i++)
 			{
-				WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = i, IsHolliday = true });
+				WeeklyIntervalParts.Add(new EmployeeWeeklyIntervalPart() { No = i });
 			}
 		}
 

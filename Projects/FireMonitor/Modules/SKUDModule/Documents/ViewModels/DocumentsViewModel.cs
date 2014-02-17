@@ -17,7 +17,12 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			Initialize();
+		}
 
+		void Initialize()
+		{
 			Documents = new ObservableCollection<DocumentViewModel>();
 			//var documents = FiresecManager.GetDocuments(null);
 			var documents = new List<Document>();
@@ -27,6 +32,12 @@ namespace SKDModule.ViewModels
 				Documents.Add(documentViewModel);
 			}
 			SelectedDocument = Documents.FirstOrDefault();
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 
 		ObservableCollection<DocumentViewModel> _documents;
@@ -54,7 +65,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel();
+			var documentDetailsViewModel = new DocumentDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.Document;
@@ -81,7 +92,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(this, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				SelectedDocument.Update(documentDetailsViewModel.Document);

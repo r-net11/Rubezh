@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 
 			Positions.ForEach(x =>
 			{
-				if (Filter.PositionUids.Any(y => y == x.Position.Uid))
+				if (Filter.PositionUids.Any(y => y == x.Position.UID))
 					x.IsChecked = true;
 			});
 		}
@@ -78,7 +78,7 @@ namespace SKDModule.ViewModels
 			Positions.ForEach(x =>
 			{
 				if (x.IsChecked)
-					Filter.PositionUids.Add(x.Position.Uid);
+					Filter.PositionUids.Add(x.Position.UID);
 			});
 			//Filter.WithDeleted = WithDeleted;
 			//if (StartDateTime > EndDateTime)
