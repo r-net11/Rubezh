@@ -145,6 +145,7 @@
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleDetailsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulePartViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulesViewModel.cs" />

@@ -50,6 +50,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+                    <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
                     <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
                 </StackPanel>
                 <DataGrid Grid.Row="1" ItemsSource="{Binding SheduleParts}" SelectedItem="{Binding SelectedShedulePart}" IsReadOnly="False" Margin="2">

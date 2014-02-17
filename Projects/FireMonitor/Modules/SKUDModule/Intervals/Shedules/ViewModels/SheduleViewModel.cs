@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var shedulePartDetailsViewModel = new ShedulePartDetailsViewModel();
+			var shedulePartDetailsViewModel = new ShedulePartDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(shedulePartDetailsViewModel))
 			{
 				var shedulePart = shedulePartDetailsViewModel.ShedulePart;
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var shedulePartDetailsViewModel = new ShedulePartDetailsViewModel(SelectedShedulePart.ShedulePart);
+			var shedulePartDetailsViewModel = new ShedulePartDetailsViewModel(this, SelectedShedulePart.ShedulePart);
 			if (DialogService.ShowModalWindow(shedulePartDetailsViewModel))
 			{
 				SelectedShedulePart.ShedulePart = SelectedShedulePart.ShedulePart;
