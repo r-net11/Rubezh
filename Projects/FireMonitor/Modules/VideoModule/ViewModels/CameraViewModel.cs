@@ -50,6 +50,7 @@ namespace VideoModule.ViewModels
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 		}
 		void GetError(string error)
 		{
