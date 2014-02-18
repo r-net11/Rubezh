@@ -30,7 +30,7 @@ namespace VideoModule.ViewModels
 		private CamerasViewModel _camerasViewModel;
 		private MjpegCamera MjpegCamera { get; set; }
 		public Camera Camera { get; set; }
-		public List<StringBuilder> ErrorLog { get; private set; }
+		public string Error { get; private set; }
 		public bool HasError { get; private set; }
 		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
 
@@ -48,12 +48,11 @@ namespace VideoModule.ViewModels
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
-			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera);
 		}
 		void GetError(string error)
 		{
-			ErrorLog.Add(new StringBuilder(error));
+			Error = error;
 			ImageSource = new BitmapImage();
 		}
 

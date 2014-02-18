@@ -91,9 +91,13 @@
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VideoModuleLoader.cs" />
+    <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
+    <Compile Include="Views\CameraDetailsView.xaml.cs">
+      <DependentUpon>CameraDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
     </Compile>
@@ -182,6 +186,10 @@
     <Page Include="Plans\Views\CameraDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CameraDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutPartCameraView.xaml">
       <SubType>Designer</SubType>

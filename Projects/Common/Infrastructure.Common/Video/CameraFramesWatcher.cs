@@ -14,54 +14,46 @@ namespace Infrastructure.Common.Video
 	{
 		Thread VideoThread { get; set; }
 		private MjpegCamera MjpegCamera { get; set; }
-		private readonly int _imagesBufferSize;
-		private readonly int _imagesBufferFrameInterval;
+		private readonly int _sizeBefore;
+		private readonly int _sizeAfter;
+		private readonly int _frameInterval;
 		private int _imagesBufferIndex;
 		public List<CameraFrame> CameraFrames { get; private set; }
-		private readonly Object _loker;
+		private readonly object _loker = new object();
 		private List<StandbyFrames> StandbyFramesList { get; set; }
 		private readonly string _videoArchivePath;
-		public CameraFramesWatcher(Camera camera, int imagesBufferSizeBeforeEvent = 10, int imagesBufferFrameInterval = 1)
+		private DateTime _lastDateTime;
+
+		public CameraFramesWatcher(Camera camera, int sizeBeforeBefore = 10, int sizeAfter = 5, int frameInterval = 1000)
 		{
 			_videoArchivePath = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "VideoArchive");
 			StandbyFramesList = new List<StandbyFrames>();
-			_imagesBufferSize = imagesBufferSizeBeforeEvent;
-			_imagesBufferFrameInterval = imagesBufferFrameInterval;
+			_sizeBefore = sizeBeforeBefore;
+			_sizeAfter = sizeAfter;
+			_frameInterval = frameInterval;
 			MjpegCamera = new MjpegCamera(camera);
-			_loker = new object();
-
-			//var dir = new DirectoryInfo(_videoArchivePath);
-			//if (!Directory.Exists(dir.FullName))
-			//    dir.Create();
 		}
 
-		private void BmpToCameraFramesWatcher(Bitmap bmp)
+		private void OnFrameReady(Bitmap bmp)
 		{
 			var dateTime = DateTime.Now;
 			lock (_loker)
 			{
-				if ((CameraFrames != null) && (CameraFrames.Count == _imagesBufferSize) &&
-				    (dateTime - CameraFrames.Max().DateTime > TimeSpan.FromSeconds(_imagesBufferFrameInterval)))
+				if ((CameraFrames != null) && (CameraFrames.Count == _sizeBefore) && (dateTime - _lastDateTime > TimeSpan.FromMilliseconds(_frameInterval)))
 				{
+					_lastDateTime = dateTime;
 					var newbmp = new Bitmap(bmp);
 					var cameraFrame = new CameraFrame(newbmp, dateTime);
-					_imagesBufferIndex = _imagesBufferIndex%_imagesBufferSize;
+					_imagesBufferIndex = _imagesBufferIndex%_sizeBefore;
 					CameraFrames[_imagesBufferIndex] = cameraFrame;
 					_imagesBufferIndex++;
 					if ((StandbyFramesList != null) && (StandbyFramesList.Count > 0))
 					{
-						StandbyFramesList.RemoveAll(x => x.Index == x.FramesCount);
+						StandbyFramesList.RemoveAll(x => x.Index == _sizeAfter);
 						foreach (var standbyFrames in StandbyFramesList)
 						{
-							var dir = new DirectoryInfo(Path.Combine(_videoArchivePath, standbyFrames.Guid.ToString()));
-							if (!Directory.Exists(dir.FullName))
-								dir.Create();
 							standbyFrames.Index++;
-							var dateString = DateTime.Now.ToString("HH-mm-ss-ff", CultureInfo.InvariantCulture);
-							string fileName = dir.FullName + "\\" + "afterEvent - " + standbyFrames.Index + " (" + dateString + ") " + ".jpg";
-							var bmpToSave = new Bitmap(bmp);
-							bmpToSave.Save(fileName, ImageFormat.Jpeg);
-							bmpToSave.Dispose();
+							SavePicture(bmp, standbyFrames.Guid.ToString(), standbyFrames.Index, true);
 						}
 					}
 				}
@@ -71,46 +63,55 @@ namespace Infrastructure.Common.Video
 		void InitializeCameraFramesWatcher()
 		{
 			_imagesBufferIndex = 0;
-			CameraFrames = new List<CameraFrame>(_imagesBufferSize);
-			for (int i = 0; i < _imagesBufferSize; i++)
+			CameraFrames = new List<CameraFrame>(_sizeBefore);
+			for (int i = 0; i < _sizeBefore; i++)
 				CameraFrames.Add(new CameraFrame(new Bitmap(100, 100), new DateTime()));
 		}
 
-		public void Save(Guid guid, int imagesBufferSizeAfterEvent)
+		public void Save(Guid guid)
 		{
 			var dir = new DirectoryInfo(Path.Combine(_videoArchivePath, guid.ToString()));
 			if (Directory.Exists(dir.FullName))
 				Directory.Delete(dir.FullName, true);
 			dir.Create();
-			int i = 1;
+			int i = 0;
 			lock (_loker)
 			{
-				CameraFrames.Sort();
+				CameraFrames = CameraFrames.OrderBy(x => x.DateTime).ToList();
 				foreach (var cameraFrame in CameraFrames)
 				{
-					var dateString = cameraFrame.DateTime.ToString("HH-mm-ss-ff", CultureInfo.InvariantCulture);
-					string fileName = dir.FullName + "\\" + i + " (" + dateString + ") " + ".jpg";
 					if (cameraFrame.DateTime.Ticks == 0)
 						continue;
-					var bmp = new Bitmap(cameraFrame.Bitmap);
-					bmp.Save(fileName, ImageFormat.Jpeg);
-					bmp.Dispose();
 					i++;
+					SavePicture(cameraFrame.Bitmap, guid.ToString(), i);
 				}
 			}
-			StandbyFramesList.Add(new StandbyFrames(guid, imagesBufferSizeAfterEvent));
+			StandbyFramesList.Add(new StandbyFrames(guid));
+		}
+
+		private void SavePicture(Bitmap bmp, string dirName, int index, bool after = false)
+		{
+			var directoryInfo = new DirectoryInfo(Path.Combine(_videoArchivePath, dirName));
+			if (!Directory.Exists(directoryInfo.FullName))
+				directoryInfo.Create();
+			var dateString = DateTime.Now.ToString("HH-mm-ss-ff", CultureInfo.InvariantCulture);
+			var fileName = Path.Combine(directoryInfo.FullName, (after?"after - ":"") + index + " (" + dateString + ") " + ".jpg");
+			var bmpToSave = new Bitmap(bmp);
+			bmpToSave.Save(fileName, ImageFormat.Jpeg);
+			bmpToSave.Dispose();
 		}
 
 		public void StartVideo()
 		{
 			InitializeCameraFramesWatcher();
-			MjpegCamera.FrameReady += BmpToCameraFramesWatcher;
+			StandbyFramesList = new List<StandbyFrames>();
+			MjpegCamera.FrameReady += OnFrameReady;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 		}
 		public void StopVideo()
 		{
-			MjpegCamera.FrameReady -= BmpToCameraFramesWatcher;
+			MjpegCamera.FrameReady -= OnFrameReady;
 			MjpegCamera.StopVideo();
 		}
 	}
@@ -118,12 +119,11 @@ namespace Infrastructure.Common.Video
 	public class StandbyFrames
 	{
 		public Guid Guid { get; private set; }
-		public int FramesCount { get; private set; }
 		public int Index { get; set; }
-		public StandbyFrames(Guid guid, int framesCount)
+
+		public StandbyFrames(Guid guid)
 		{
 			Guid = guid;
-			FramesCount = framesCount;
 			Index = 0;
 		}
 	}

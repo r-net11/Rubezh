@@ -43,10 +43,9 @@ namespace DiagnosticsModule.ViewModels
 		void OnSave()
 		{
 			var guid = Guid.NewGuid();
-			CameraFramesWatcher.Save(guid, 5);
+			CameraFramesWatcher.Save(guid);
 		}
-
-
+		
 		public void StopThreads()
 		{
 			IsThreadStoping = true;
