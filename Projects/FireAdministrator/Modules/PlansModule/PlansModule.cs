@@ -13,6 +13,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using FiresecAPI.Models.Layouts;
 
 namespace PlansModule
 {
@@ -81,6 +82,10 @@ namespace PlansModule
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
 			yield return new LayoutPartDescription(LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.Plans2, 150, "Планы2", "Планы2", "CMap.png")
+			{
+				Factory = (p) => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
+			};
 		}
 
 		#endregion

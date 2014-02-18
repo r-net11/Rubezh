@@ -14,20 +14,19 @@ using Infrustructure.Plans.Elements;
 using VideoModule.Plans.Designer;
 using FiresecAPI.Models;
 using System.Collections.Generic;
+using Infrastructure.Events;
 
 namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
 		public CamerasViewModel()
 		{
-			_lockSelection = false;
 			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
 			Initialize();
 		}
-		
+
 		public void Initialize()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
@@ -58,8 +57,6 @@ namespace VideoModule.ViewModels
 			{
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
-				if (!_lockSelection && SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0)
-					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(SelectedCamera.Camera.PlanElementUIDs);
 			}
 		}
 
@@ -99,8 +96,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			if (SelectedCamera.Camera.PlanElementUIDs.Count > 0)
-				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(SelectedCamera.Camera.PlanElementUIDs);
+			ServiceFactoryBase.Events.GetEvent<ShowCameraOnPlanEvent>().Publish(SelectedCamera.Camera);
 		}
 
 		public void Select(Guid cameraUID)

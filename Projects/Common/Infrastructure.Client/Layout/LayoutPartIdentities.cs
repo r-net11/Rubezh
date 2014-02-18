@@ -18,6 +18,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Journals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
 		public static readonly Guid Archive = new Guid("{B8202F86-5ADD-4AB2-AAED-CBC10505E25A}");
 		public static readonly Guid Plans = new Guid("{61333BFC-6B02-467F-A2BA-E57E748908AC}");
+		public static readonly Guid Plans2 = new Guid("{7E9E5110-4E52-43CB-902D-DE2F715529EF}");
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
 		public static readonly Guid Video = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");

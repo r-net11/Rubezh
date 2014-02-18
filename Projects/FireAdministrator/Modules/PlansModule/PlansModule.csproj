@@ -154,6 +154,8 @@
     <Compile Include="ElementProperties\Views\SubPlanPropertiesView.xaml.cs">
       <DependentUpon>SubPlanPropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\LayoutPartPlansViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyPlansPageViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansTreeViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
