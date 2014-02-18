@@ -39,7 +39,6 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-
 		ObservableCollection<CameraViewModel> _cameras;
 		public ObservableCollection<CameraViewModel> Cameras
 		{

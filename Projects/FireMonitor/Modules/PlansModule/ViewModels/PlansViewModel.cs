@@ -83,6 +83,9 @@ namespace PlansModule.ViewModels
 		}
 		void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
+			if (PlanTreeViewModel.AllPlans == null)
+				return;
+
 			foreach (var plan in PlanTreeViewModel.AllPlans)
 				if (plan.PlanFolder == null)
 					foreach (var elementDevice in plan.Plan.ElementUnion)
