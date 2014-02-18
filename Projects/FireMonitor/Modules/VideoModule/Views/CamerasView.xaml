@@ -14,7 +14,7 @@
                 <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
             </DataGrid.Columns>
             <XDataGrid.ContextMenu>
-                <ContextMenu OverridesDefaultStyle="True">
+                <ContextMenu OverridesDefaultStyle="True" >
                     <IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
                     <IconedMenuItem Command="{Binding PlayVideoCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать видео" />
                 </ContextMenu>

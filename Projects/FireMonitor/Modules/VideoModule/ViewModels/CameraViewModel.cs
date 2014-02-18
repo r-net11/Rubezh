@@ -50,7 +50,6 @@ namespace VideoModule.ViewModels
 			Camera = camera;
 			ErrorLog = new List<StringBuilder>();
 			MjpegCamera = new MjpegCamera(camera);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 		}
 		void GetError(string error)
 		{
@@ -138,13 +137,6 @@ namespace VideoModule.ViewModels
 		public bool IsOnPlan
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
-		}
-
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
-		{
-			if (Camera.PlanElementUIDs.Count > 0)
-				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(Camera.PlanElementUIDs);
 		}
 	}
 }
