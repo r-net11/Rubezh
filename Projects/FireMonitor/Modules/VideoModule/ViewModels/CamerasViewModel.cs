@@ -4,6 +4,7 @@ using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
@@ -23,6 +24,7 @@ namespace VideoModule.ViewModels
 		{
 			_lockSelection = false;
 			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null);
 			Initialize();
 		}
 		
@@ -94,7 +96,14 @@ namespace VideoModule.ViewModels
 			OnPropertyChanged("StartedCamera");
 			OnPropertyChanged("IsNowPlaying");
 		}
-		
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			if (SelectedCamera.Camera.PlanElementUIDs.Count > 0)
+				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(SelectedCamera.Camera.PlanElementUIDs);
+		}
+
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)

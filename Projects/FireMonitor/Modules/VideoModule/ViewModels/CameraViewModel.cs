@@ -138,12 +138,5 @@ namespace VideoModule.ViewModels
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
 		}
-
-		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
-		{
-			if (Camera.PlanElementUIDs.Count > 0)
-				ServiceFactoryBase.Events.GetEvent<FindElementEvent>().Publish(Camera.PlanElementUIDs);
-		}
 	}
 }
