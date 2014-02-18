@@ -79,11 +79,8 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			Employee = new Employee()
-			{
-				FirstName = FirstName,
-				LastName = LastName
-			};
+			Employee.FirstName = FirstName;
+			Employee.LastName = LastName;
 			return true;
 		}
 	}

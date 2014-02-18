@@ -198,6 +198,7 @@
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\Database\Filter\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
+    <Compile Include="SKD\Database\CardZone.cs" />
     <Compile Include="SKD\Database\Filter\OrganizationFilter.cs" />
     <Compile Include="SKD\Database\Common\OrganizationFilterBase.cs" />
     <Compile Include="SKD\Database\Organization.cs" />

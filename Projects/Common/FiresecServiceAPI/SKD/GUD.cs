@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace FiresecAPI
 {
@@ -9,6 +10,7 @@ namespace FiresecAPI
 		public GUD()
 		{
 			UID = Guid.NewGuid();
+			CardZones = new List<CardZone>();
 		}
 
 		[DataMember]
@@ -19,5 +21,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Description { get; set; }
+
+		[DataMember]
+		public List<CardZone> CardZones { get; set; }
 	}
 }

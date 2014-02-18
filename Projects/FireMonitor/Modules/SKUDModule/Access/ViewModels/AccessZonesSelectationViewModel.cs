@@ -2,16 +2,17 @@
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessZonesSelectationViewModel : SaveCancelDialogViewModel
+	public class AccessZonesSelectationViewModel : BaseViewModel
 	{
-		SKDCard Card;
-		public AccessZonesSelectationViewModel(SKDCard card)
+		public List<CardZone> CardZones { get; private set; }
+
+		public AccessZonesSelectationViewModel(List<CardZone> cardZones)
 		{
-			Card = card;
-			Title = "Выбор зон";
+			CardZones = cardZones;
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = RootZone;
@@ -56,7 +57,7 @@ namespace SKDModule.ViewModels
 
 		AccessZoneViewModel AddZoneInternal(SKDZone zone, AccessZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new AccessZoneViewModel(zone);
+			var zoneViewModel = new AccessZoneViewModel(zone, CardZones);
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);
@@ -69,17 +70,25 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-		protected override bool Save()
+		public List<CardZone> GetCardZones()
 		{
-			Card.ZoneLinkUids = new List<Guid>();
+			CardZones = new List<CardZone>();
 			foreach (var zone in AllZones)
 			{
 				if (zone.IsChecked)
 				{
-					Card.ZoneLinkUids.Add(zone.Zone.UID);
+					var cardZone = new CardZone()
+					{
+						ZoneUID = zone.Zone.UID,
+						IsAntiPassback = zone.IsAntiPassback,
+						IsComission = zone.IsComission,
+						IntervalType = zone.SelectedTimeCreteria.IntervalType,
+						IntervalUID = zone.SelectedTimeType.UID
+					};
+					CardZones.Add(cardZone);
 				}
 			}
-			return true;
+			return CardZones;
 		}
 	}
 }

@@ -11,10 +11,6 @@
         <Views:EmployeeCardDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AccessZonesSelectationViewModel}">
-        <Views:AccessZonesSelectationView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:CardRemovalReasonViewModel}">
         <Views:CardRemovalReasonView />
     </DataTemplate>

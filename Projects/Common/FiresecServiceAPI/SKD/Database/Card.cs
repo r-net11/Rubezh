@@ -8,6 +8,12 @@ namespace FiresecAPI
 	[DataContract]
 	public class SKDCard : SKDModelBase
 	{
+		public SKDCard()
+		{
+			ZoneLinkUids = new List<Guid>();
+			CardZones = new List<CardZone>();
+		}
+
 		[DataMember]
 		public int? Series { get; set; }
 
@@ -25,6 +31,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<Guid> ZoneLinkUids { get; set; }
+
+		[DataMember]
+		public List<CardZone> CardZones { get; set; }
 
 		[DataMember]
 		public bool? IsAntipass { get; set; }

@@ -81,11 +81,8 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			Card = new SKDCard()
-			{
-				Series = Series,
-				Number = Number
-			};
+			Card.Series = Series;
+			Card.Number = Number;
 			return true;
 		}
 	}

@@ -19,7 +19,6 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
-			RemoveCardCommand = new RelayCommand(OnRemoveCard, CanRemoveCard);
 
 			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.UID } };
 			var cards = FiresecManager.GetCards(filter);
@@ -62,16 +61,14 @@ namespace SKDModule.ViewModels
 			return Cards.Count < 10;
 		}
 
-		public RelayCommand RemoveCardCommand { get; private set; }
-		void OnRemoveCard()
+		public void RemoveCard(EmployeeCardViewModel cardViewModel)
 		{
 			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
 				var cardRemovalReason = cardRemovalReasonViewModel.CardRemovalReason;
-				var card = Cards.FirstOrDefault();
-				Cards.Remove(card);
-				CardHelper.ToStopList(card.Card, cardRemovalReason);
+				Cards.Remove(cardViewModel);
+				CardHelper.ToStopList(cardViewModel.Card, cardRemovalReason);
 			}
 		}
 		public bool CanRemoveCard()

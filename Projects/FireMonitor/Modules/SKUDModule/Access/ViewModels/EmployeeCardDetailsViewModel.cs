@@ -7,10 +7,37 @@ namespace SKDModule.ViewModels
 	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public SKDCard Card { get; private set; }
+		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
 
-		public EmployeeCardDetailsViewModel()
+		public EmployeeCardDetailsViewModel(SKDCard card = null)
 		{
-			Title = "Выдача карт доступа";
+			Card = card;
+			if (card == null)
+			{
+				Title = "Создание карты";
+				card = new SKDCard()
+				{
+					Series = 0,
+					Number = 0,
+					ValidFrom = DateTime.Now,
+					ValidTo = DateTime.Now.AddYears(1)
+				};
+			}
+			else
+			{
+				Title = string.Format("Свойства карты: {0}", card.Series + "/" + card.Number);
+			}
+			Card = card;
+			if (Card.Series.HasValue)
+				IDFamily = Card.Series.Value;
+			if (Card.Number.HasValue)
+				IDNo = Card.Number.Value;
+			if (Card.ValidFrom.HasValue)
+				StartDate = Card.ValidFrom.Value;
+			if (Card.ValidTo.HasValue)
+				EndDate = Card.ValidTo.Value;
+
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Card.CardZones);
 		}
 
 		int _idFamily;
@@ -59,15 +86,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Card = new SKDCard()
-			{
-				UID = Guid.NewGuid(),
-				Series = IDFamily,
-				Number = IDNo,
-				ValidFrom = StartDate,
-				ValidTo = EndDate,
-				
-			};
+			Card.Series = IDFamily;
+			Card.Number = IDNo;
+			Card.ValidFrom = StartDate;
+			Card.ValidTo = EndDate;
+			Card.CardZones = AccessZonesSelectationViewModel.GetCardZones();
 			return true;
 		}
 	}

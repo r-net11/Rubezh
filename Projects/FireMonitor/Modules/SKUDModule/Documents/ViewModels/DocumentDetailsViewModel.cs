@@ -126,14 +126,11 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			Document = new Document()
-			{
-				Name = Name,
-				Description = Description,
-				No = No,
-				IssueDate = StartDateTime,
-				LaunchDate = EndDateTime
-			};
+				Document.Name = Name;
+				Document.Description = Description;
+				Document.No = No;
+				Document.IssueDate = StartDateTime;
+				Document.LaunchDate = EndDateTime;
 			return true;
 		}
 	}

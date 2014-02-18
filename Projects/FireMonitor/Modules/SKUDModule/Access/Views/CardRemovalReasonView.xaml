@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinWidth="400" MinHeight="200">
     
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Причина помещения в СТОП-лист" />
-        <TextBox Text="{Binding RemovalReason}" />
+    <StackPanel>
+        <TextBlock Text="Причина помещения в СТОП-лист" Foreground="White" Margin="2" />
+        <TextBox Text="{Binding RemovalReason}" Margin="2" />
     </StackPanel>
 </UserControl>

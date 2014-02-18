@@ -15,19 +15,13 @@ namespace SKDModule.ViewModels
 
 		public EmployeeCardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
 		{
-			RemoveCommand = userAccessViewModel.RemoveCardCommand;
-			ChangeZonesCommand = new RelayCommand(OnChangeZones, CanChangeZones);
-			ChangeTemplateCommand = new RelayCommand(OnChangeTemplate, CanChangeTemplate);
-			ChangeGroupRightsCommand = new RelayCommand(OnChangeGroupRights, CanChangeGroupRights);
+			RemoveCommand = new RelayCommand(OnRemove);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 
 			UserAccessViewModel = userAccessViewModel;
 			Card = card;
-			ID = card.Series+ "/" + card.Number;
-			StartDate = card.ValidFrom.GetValueOrDefault(DateTime.MinValue);
-			EndDate = card.ValidTo.GetValueOrDefault(DateTime.MaxValue);
-
 			ZoneUIDs = new List<Guid>();
-			UpdateZones();
+			Update();
 		}
 
 		bool _isBlocked;
@@ -41,55 +35,54 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public string ID { get; private set; }
-		public DateTime StartDate { get; private set; }
-		public DateTime EndDate { get; private set; }
+		public string ID
+		{
+			get { return Card.Series + "/" + Card.Number; }
+		}
+		public DateTime StartDate
+		{
+			get { return Card.ValidFrom.GetValueOrDefault(DateTime.MinValue); }
+		}
+		public DateTime EndDate
+		{
+			get { return Card.ValidTo.GetValueOrDefault(DateTime.MaxValue); }
+		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-
-		public RelayCommand ChangeZonesCommand { get; private set; }
-		void OnChangeZones()
+		void OnRemove()
 		{
-			var accessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Card);
-			if (DialogService.ShowModalWindow(accessZonesSelectationViewModel))
+			UserAccessViewModel.RemoveCard(this);
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Card);
+			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
-				UpdateZones();
+				Card = employeeCardDetailsViewModel.Card;
+				OnPropertyChanged("ID");
+				OnPropertyChanged("StartDate");
+				OnPropertyChanged("EndDate");
+				Update();
 			}
 		}
-		public bool CanChangeZones()
+		public bool CanShowProperties()
 		{
 			return true;
 		}
 
-		public RelayCommand ChangeTemplateCommand { get; private set; }
-		void OnChangeTemplate()
-		{
-			MessageBoxService.ShowWarning("Выбор шаблона");
-		}
-		public bool CanChangeTemplate()
-		{
-			return true;
-		}
-
-		public RelayCommand ChangeGroupRightsCommand { get; private set; }
-		void OnChangeGroupRights()
-		{
-			MessageBoxService.ShowWarning("Групповое представление прав доступа");
-		}
-		public bool CanChangeGroupRights()
-		{
-			return true;
-		}
-
-		void UpdateZones()
+		void Update()
 		{
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
+			OnPropertyChanged("RootZones");
 			SelectedZone = RootZone;
 
 			foreach (var zone in AllZones)
 			{
-				zone.ExpandToThis();
+				if (zone.IsChecked)
+					zone.ExpandToThis();
 			}
 		}
 
@@ -126,7 +119,7 @@ namespace SKDModule.ViewModels
 
 		AccessZoneViewModel AddZoneInternal(SKDZone zone, AccessZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new AccessZoneViewModel(zone);
+			var zoneViewModel = new AccessZoneViewModel(zone, Card.CardZones);
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);

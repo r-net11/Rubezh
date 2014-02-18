@@ -70,11 +70,8 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			Department = new Department()
-			{
-				Name = Name,
-				Description = Description
-			};
+			Department.Name = Name;
+			Department.Description = Description;
 			return true;
 		}
 	}

@@ -79,11 +79,8 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			Position = new Position()
-			{
-				Name = Name,
-				Description = Description
-			};
+			Position.Name = Name;
+			Position.Description = Description;
 			return true;
 		}
 	}

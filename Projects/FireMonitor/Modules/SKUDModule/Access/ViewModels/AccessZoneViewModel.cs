@@ -4,16 +4,19 @@ using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.TreeList;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessZoneViewModel : TreeNodeViewModel<AccessZoneViewModel>
 	{
 		public SKDZone Zone { get; private set; }
+		public List<CardZone> CardZones { get; private set; }
 
-		public AccessZoneViewModel(SKDZone zone)
+		public AccessZoneViewModel(SKDZone zone, List<CardZone> cardZones)
 		{
 			Zone = zone;
+			CardZones = cardZones;
 
 			CanSelect = false;
 			foreach (var device in zone.Devices)
@@ -28,6 +31,19 @@ namespace SKDModule.ViewModels
 				TimeCreterias.Add(new IntervalTypeViewModel(item));
 			}
 			SelectedTimeCreteria = TimeCreterias.FirstOrDefault();
+
+			if (CardZones == null)
+				CardZones = new List<CardZone>();
+
+			var cardZone = CardZones.FirstOrDefault(x => x.ZoneUID == zone.UID);
+			if (cardZone != null)
+			{
+				IsChecked = true;
+				IsAntiPassback = cardZone.IsAntiPassback;
+				IsComission = cardZone.IsComission;
+				SelectedTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardZone.IntervalType);
+				SelectedTimeType = TimeTypes.FirstOrDefault(x => x.UID == cardZone.IntervalUID);
+			}
 		}
 
 		public bool CanSelect { get; private set; }

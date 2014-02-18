@@ -12,6 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		GUDsViewModel GUDsViewModel;
 		public GUD GUD { get; private set; }
+		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
 
 		public GUDDetailsViewModel(GUDsViewModel gudsViewModel, GUD gud = null)
 		{
@@ -30,6 +31,8 @@ namespace SKDModule.ViewModels
 			}
 			GUD = gud;
 			CopyProperties();
+
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(GUD.CardZones);
 		}
 
 		public void CopyProperties()
@@ -79,11 +82,9 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			GUD = new GUD()
-			{
-				Name = Name,
-				Description = Description
-			};
+			GUD.Name = Name;
+			GUD.Description = Description;
+			GUD.CardZones = AccessZonesSelectationViewModel.GetCardZones();
 			return true;
 		}
 	}

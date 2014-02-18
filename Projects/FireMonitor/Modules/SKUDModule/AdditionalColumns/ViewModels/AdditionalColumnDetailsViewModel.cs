@@ -99,12 +99,9 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-			AdditionalColumn = new AdditionalColumn()
-			{
-				Name = Name,
-				Description = Description,
-				Type = AdditionalColumnType
-			};
+			AdditionalColumn.Name = Name;
+			AdditionalColumn.Description = Description;
+			AdditionalColumn.Type = AdditionalColumnType;
 			return true;
 		}
 	}
