@@ -11,5 +11,11 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTime EndDate { get; set; }
+
+		public DateTimePeriod()
+		{
+			StartDate = DateTime.Now.AddYears(-20);
+			EndDate = DateTime.Now;
+		}
 	}
 }

@@ -1,0 +1,30 @@
+﻿<TabItem x:Class="SKDModule.Views.FilterOrganizationTabItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Style="{StaticResource TabItemElementStyle}"
+        >
+    <TabItem.Header>
+        <TextBlock Text="Организации" Foreground="White" FontWeight="Bold">
+            <TextBlock.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Organizations.HasCheckedItems}" Value="True">
+                            <Setter Property="TextBlock.FontStyle" Value="Italic" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </TabItem.Header>
+    <ListBox ItemsSource="{Binding Organizations.Items}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                    <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                </StackPanel>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</TabItem>

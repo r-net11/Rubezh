@@ -177,6 +177,26 @@ namespace SKDDriver
 			}
 			catch { return new List<Organization>(); }
 		}
+		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		{
+			try
+			{
+				var result = new List<Document>();
+				if (filter == null)
+				{
+					foreach (var item in Context.Document)
+						result.Add(Translator.Translate(item));
+					return result;
+				}
+				foreach (var item in Context.Document)
+				{
+					if (FilterHelper.IsInFilter(item, filter))
+						result.Add(Translator.Translate(item));
+				}
+				return result;
+			}
+			catch { return new List<Document>(); }
+		}
 		#endregion
 
 		#region Save
@@ -348,6 +368,27 @@ namespace SKDDriver
 			}
 			catch { }
 		}
+		public void SaveDocuments(IEnumerable<Document> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+
+					var databaseItem = Context.Document.FirstOrDefault(x => x.Uid == item.UID);
+					if (databaseItem != null)
+					{
+						Translator.Update(databaseItem, item);
+					}
+					else
+						Context.Document.InsertOnSubmit(Translator.TranslateBack(item));
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -479,6 +520,23 @@ namespace SKDDriver
 					if (item != null)
 					{
 						var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.UID);
+						if (databaseItem != null)
+							databaseItem.IsDeleted = true;
+					}
+				}
+				Context.SubmitChanges();
+			}
+			catch { }
+		}
+		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item != null)
+					{
+						var databaseItem = Context.Document.FirstOrDefault(x => x.Uid == item.UID);
 						if (databaseItem != null)
 							databaseItem.IsDeleted = true;
 					}

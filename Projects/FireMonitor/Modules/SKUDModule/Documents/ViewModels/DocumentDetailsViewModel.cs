@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 		{
 			Name = Document.Name;
 			Description = Document.Description;
-			No = Document.No;
+			No = Document.No.GetValueOrDefault(-1);
 			if (Document.IssueDate.HasValue)
 				StartDateTime = Document.IssueDate.Value;
 			if (Document.LaunchDate.HasValue)

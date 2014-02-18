@@ -107,7 +107,8 @@ namespace SKDDriver
 				Name = item.Name,
 				Description = item.Description,
 				IssueDate = item.IssueDate,
-				LaunchDate = item.LaunchDate
+				LaunchDate = item.LaunchDate,
+				No = item.No
 			};
 			TranslateOrganizationElement(item.Uid, item.IsDeleted, item.RemovalDate, item.OrganizationUid, result);
 			return result;

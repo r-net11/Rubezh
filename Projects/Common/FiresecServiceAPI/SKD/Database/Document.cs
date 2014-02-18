@@ -13,7 +13,7 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public int No { get; set; }
+		public int? No { get; set; }
 
 		[DataMember]
 		public DateTime? IssueDate { get; set; }

@@ -8,7 +8,7 @@ namespace FiresecAPI
 	public abstract class FilterBase
 	{
 		[DataMember]
-		public bool WithDeleted { get; set; }
+		public DeletedType WithDeleted { get; set; }
 
 		[DataMember]
 		public List<Guid> Uids { get; set; }
@@ -19,6 +19,15 @@ namespace FiresecAPI
 		public FilterBase()
 		{
 			Uids = new List<Guid>();
+			RemovalDates = new DateTimePeriod();
+			WithDeleted = DeletedType.Not;
 		}
+	}
+
+	public enum DeletedType
+	{
+		Deleted,
+		Not,
+		All
 	}
 }

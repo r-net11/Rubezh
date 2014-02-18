@@ -27,11 +27,11 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', NULL, 2
 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 'Документ1', 'Документ1', '01/01/2013', '07/01/2013'
+EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 123, 'Документ1', 'Документ1Организации1', '01/01/2013', '07/01/2013'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 'Документ2', 'Документ2', '08/01/2014', '25/01/2013'
+EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 258, 'Документ2', 'Документ2Организации1', '08/01/2014', '25/01/2013'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 'Документ3', 'Документ3', '30/01/2014', '05/02/2013'
+EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 753, 'Документ3', 'Документ3Организации1', '30/01/2014', '05/02/2013'
 
 --ОХРАНА
 DECLARE @GuardNamedIntervalUid uniqueidentifier;
@@ -367,4 +367,11 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveGuest] @Uid, @Organization2Uid, 'Владимир', 'Александрович', 'Колокольцев'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveGuest] @Uid, @Organization2Uid, 'Рашид', 'Гумарович', 'Нургалиев'
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveDocument] @Uid, @Organization2Uid, 486, 'Документ1', 'Документ1Организации2', '01/01/2013', '07/01/2013'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveDocument] @Uid, @Organization2Uid, 729, 'Документ2', 'Документ2Организации2', '08/01/2014', '25/01/2013'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SaveDocument] @Uid, @Organization2Uid, 123, 'Документ3', 'Документ3Организации2', '30/01/2014', '05/02/2013'
 

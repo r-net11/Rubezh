@@ -18,14 +18,17 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
+			EditFilterCommand = new RelayCommand(OnEditFilter);
+			Filter = new DocumentFilter();
 			Initialize();
 		}
+
+		DocumentFilter Filter;
 
 		void Initialize()
 		{
 			Documents = new ObservableCollection<DocumentViewModel>();
-			//var documents = FiresecManager.GetDocuments(null);
-			var documents = new List<Document>();
+			var documents = FiresecManager.GetDocuments(Filter);
 			foreach (var document in documents)
 			{
 				var documentViewModel = new DocumentViewModel(document);
@@ -101,6 +104,17 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedDocument != null;
+		}
+
+		public RelayCommand EditFilterCommand { get; private set; }
+		void OnEditFilter()
+		{
+			var documentFilterViewModel = new DocumentFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(documentFilterViewModel))
+			{
+				Filter = documentFilterViewModel.Filter;
+				Initialize();
+			}
 		}
 	}
 }

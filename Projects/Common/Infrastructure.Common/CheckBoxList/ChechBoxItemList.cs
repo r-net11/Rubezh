@@ -2,7 +2,7 @@
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace GKModule.ViewModels
+namespace Infrastructure.Common.CheckBoxList
 {
 	public class CheckBoxItemList<T> : BaseViewModel, ICheckBoxItemList
 		where T:ICheckBoxItem

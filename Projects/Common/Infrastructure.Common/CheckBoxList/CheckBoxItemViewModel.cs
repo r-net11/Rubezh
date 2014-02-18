@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 
-namespace GKModule.ViewModels
+namespace Infrastructure.Common.CheckBoxList
 {
 	public abstract class CheckBoxItemViewModel : BaseViewModel, ICheckBoxItem
 	{

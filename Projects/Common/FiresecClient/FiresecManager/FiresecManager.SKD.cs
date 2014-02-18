@@ -36,6 +36,14 @@ namespace FiresecClient
 		{
 			return FiresecService.GetCardZoneLinks(filter);
 		}
+		public static IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		{
+			return FiresecService.GetDocuments(filter);
+		}
+		public static IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		{
+			return FiresecService.GetOrganizations(filter);
+		}
 		#endregion
 
 		#region Save
@@ -76,6 +84,14 @@ namespace FiresecClient
 		{
 			FiresecService.SaveCardZoneLinks(items);
 		}
+		public static void SaveDocuments(IEnumerable<Document> items)
+		{
+			FiresecService.SaveDocuments(items);
+		}
+		public static void SaveOrganizations(IEnumerable<Organization> items)
+		{
+			FiresecService.SaveOrganizations(items);
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -106,7 +122,15 @@ namespace FiresecClient
 		public static void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
 			FiresecService.MarkDeletedCardZoneLinks(items);
-		} 
+		}
+		public static void MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			FiresecService.MarkDeletedDocuments(items);
+		}
+		public static void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		{
+			FiresecService.MarkDeletedOrganizations(items);
+		}
 		#endregion
 
 		#region Get(Uid)
@@ -165,6 +189,22 @@ namespace FiresecClient
 			var filter = new CardZoneLinkFilter();
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetCardZoneLinks(filter).ToList().FirstOrDefault();
+		}
+		public static Document GetDocument(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var filter = new DocumentFilter();
+			filter.Uids.Add((Guid)uid);
+			return FiresecService.GetDocuments(filter).ToList().FirstOrDefault();
+		}
+		public static Organization GetOrganization(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var filter = new OrganizationFilter();
+			filter.Uids.Add((Guid)uid);
+			return FiresecService.GetOrganizations(filter).ToList().FirstOrDefault();
 		}
 		#endregion 
 

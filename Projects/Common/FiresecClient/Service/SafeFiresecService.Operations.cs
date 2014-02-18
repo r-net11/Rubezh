@@ -144,6 +144,14 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<IEnumerable<CardZoneLink>>(() => FiresecService.GetCardZoneLinks(filter));
 		}
+		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Document>>(() => FiresecService.GetDocuments(filter));
+		}
+		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
+		}
 		#endregion
 
 		#region Save
@@ -175,6 +183,14 @@ namespace FiresecClient
 		{
 			SafeContext.Execute(() => FiresecService.SaveCardZoneLinks(items));
 		}
+		public void SaveDocuments(IEnumerable<Document> items)
+		{
+			SafeContext.Execute(() => FiresecService.SaveDocuments(items));
+		}
+		public void SaveOrganizations(IEnumerable<Organization> items)
+		{
+			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -205,6 +221,14 @@ namespace FiresecClient
 		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
 			SafeContext.Execute(() => FiresecService.MarkDeletedCardZoneLinks(items));
+		}
+		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedDocuments(items));
+		}
+		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
 		}
 		#endregion
 

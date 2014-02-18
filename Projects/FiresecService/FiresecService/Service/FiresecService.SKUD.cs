@@ -46,6 +46,10 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetOrganizations(filter);
 		}
+		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		{
+			return _skdService.GetDocuments(filter);
+		}
 		#endregion
 
 		#region Save
@@ -81,6 +85,10 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveOrganizations(items);
 		}
+		public void SaveDocuments(IEnumerable<Document> items)
+		{
+			_skdService.SaveDocuments(items);
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -115,6 +123,10 @@ namespace FiresecService.Service
 		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
 			_skdService.MarkDeletedOrganizations(items);
+		}
+		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			_skdService.MarkDeletedDocuments(items);
 		}
 		#endregion
 

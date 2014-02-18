@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand WithDeletedCommand { get; private set; }
 		void OnWithDeleted()
 		{
-			Filter.WithDeleted = !Filter.WithDeleted;
+			Filter.WithDeleted = DeletedType.All;
 			Update();
 		}
 

@@ -1,4 +1,4 @@
-﻿namespace GKModule.ViewModels
+﻿namespace Infrastructure.Common.CheckBoxList
 {
 	public interface ICheckBoxItem
 	{

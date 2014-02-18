@@ -191,7 +191,6 @@ namespace FiresecService.Service
         }
 
 		#region SKD
-		
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
 		{
@@ -225,6 +224,10 @@ namespace FiresecService.Service
 		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
+		}
+		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		{
+			return SafeContext.Execute<IEnumerable<Document>>(() => FiresecService.GetDocuments(filter));
 		}
 		#endregion
 
@@ -261,6 +264,10 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
 		}
+		public void SaveDocuments(IEnumerable<Document> items)
+		{
+			SafeContext.Execute(() => FiresecService.SaveDocuments(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -295,6 +302,10 @@ namespace FiresecService.Service
 		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
 			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
+		}
+		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			SafeContext.Execute(() => FiresecService.MarkDeletedDocuments(items));
 		}
 		#endregion
 		

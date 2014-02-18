@@ -87,6 +87,15 @@
     <Compile Include="Cards\Views\CardDetailsView.xaml.cs">
       <DependentUpon>CardDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ViewModels\FilterBaseViewModel.cs" />
+    <Compile Include="Common\ViewModels\FilterOrganizationViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganizationFilterBaseViewModel.cs" />
+    <Compile Include="Common\Views\FilterMarkDeletedTabItem.xaml.cs">
+      <DependentUpon>FilterMarkDeletedTabItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\Views\FilterOrganizationTabItem.xaml.cs">
+      <DependentUpon>FilterOrganizationTabItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Departments\ViewModels\DepartmentDetailsViewModel.cs" />
     <Compile Include="Departments\ViewModels\DepartmentViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentDetailsView.xaml.cs">
@@ -111,6 +120,10 @@
     </Compile>
     <Compile Include="Devices\Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Documents\ViewModels\DocumentFilterViewModel.cs" />
+    <Compile Include="Documents\Views\DocumentFilterView.xaml.cs">
+      <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeDetailsViewModel.cs" />
     <Compile Include="Events\NewSKDJournalEvent.cs" />
@@ -396,11 +409,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Common\Views\FilterMarkDeletedTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\Views\FilterOrganizationTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\DepartmentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Documents\Views\DocumentFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

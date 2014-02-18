@@ -5,7 +5,7 @@ using XFiresecAPI;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDJournalItem//:SKDModelBase
+	public class SKDJournalItem : SKDModelBase
 	{
 		public SKDJournalItem():base()
 		{

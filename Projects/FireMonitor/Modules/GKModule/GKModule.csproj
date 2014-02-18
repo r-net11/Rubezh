@@ -96,12 +96,9 @@
     <Compile Include="Events\XJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePimViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchivePumpStationViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\ChechBoxItemList.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\CheckBoxItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\ICheckBoxItem.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />

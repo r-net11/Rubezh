@@ -68,7 +68,7 @@ namespace SKDDriver
 				Name = item.Name,
 				SysemDate = CheckDate(item.SystemDateTime)
 			};
-			//TranslateBackBase(item, result);
+			TranslateBackBase(item, result);
 			return result;
 		}
 
@@ -132,6 +132,22 @@ namespace SKDDriver
 			{
 				Name = item.Name,
 				Description = item.Description
+			};
+			TranslateBackBase(item, result);
+			return result;
+		}
+
+		public static Document TranslateBack(FiresecAPI.Document item)
+		{
+			if (item == null)
+				return null;
+			var result = new Document
+			{
+				Name = item.Name,
+				Description = item.Description,
+				IssueDate = item.IssueDate,
+				LaunchDate = item.LaunchDate,
+				No = item.No
 			};
 			TranslateBackBase(item, result);
 			return result;

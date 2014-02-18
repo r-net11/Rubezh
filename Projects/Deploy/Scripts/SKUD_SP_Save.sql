@@ -550,6 +550,7 @@ GO
 CREATE PROCEDURE [dbo].[SaveDocument]
 	@Uid [uniqueidentifier] ,
 	@OrganizationUid uniqueidentifier = NULL,	
+	@No [int] = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@IssueDate [datetime] = NULL,
@@ -567,7 +568,8 @@ BEGIN
 			[Description] = @Description,
 			[IssueDate] = @IssueDate,
 			[LaunchDate] = @LaunchDate,
-			OrganizationUid = @OrganizationUid 
+			OrganizationUid = @OrganizationUid,
+			[No] = @No
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -579,7 +581,8 @@ BEGIN
 				[Description] ,
 				[IssueDate] ,
 				[LaunchDate],
-				OrganizationUid )
+				OrganizationUid,
+				[No] )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -588,7 +591,8 @@ BEGIN
 				@Description,
 				@IssueDate,
 				@LaunchDate,
-				@OrganizationUid)
+				@OrganizationUid,
+				@No)
 		END
 END
 

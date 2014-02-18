@@ -26,6 +26,8 @@ namespace FiresecAPI
 		IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter);
 		[OperationContract]
 		IEnumerable<Organization> GetOrganizations(OrganizationFilter filter);
+		[OperationContract]
+		IEnumerable<Document> GetDocuments(DocumentFilter filter);
 		#endregion
 
 		#region Save
@@ -45,6 +47,8 @@ namespace FiresecAPI
 		void SaveCardZoneLinks(IEnumerable<CardZoneLink> items);
 		[OperationContract]
 		void SaveOrganizations(IEnumerable<Organization> items);
+		[OperationContract]
+		void SaveDocuments(IEnumerable<Document> items);
 		#endregion
 
 		#region MarkDeleted
@@ -64,6 +68,8 @@ namespace FiresecAPI
 		void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items);
 		[OperationContract]
 		void MarkDeletedOrganizations(IEnumerable<Organization> items);
+		[OperationContract]
+		void MarkDeletedDocuments(IEnumerable<Document> items);
 		#endregion
 
 		#region DeviceCommands
