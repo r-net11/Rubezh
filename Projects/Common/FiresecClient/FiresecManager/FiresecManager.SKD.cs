@@ -50,15 +50,6 @@ namespace FiresecClient
 		public static void SaveEmployees(IEnumerable<Employee> Employees)
 		{
 			FiresecService.SaveEmployees(Employees);
-			foreach (var employee in Employees)
-			{
-				var cards = GetCards(new CardFilter{ Uids = employee.CardUids });
-				foreach (var card in cards)
-				{
-					card.HolderUid = employee.UID;
-				}
-				FiresecService.SaveCards(cards);
-			}
 		}
 		public static void SaveDepartments(IEnumerable<Department> Departments)
 		{

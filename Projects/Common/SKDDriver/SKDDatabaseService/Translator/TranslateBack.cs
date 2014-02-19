@@ -137,22 +137,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static Document TranslateBack(FiresecAPI.Document item)
-		{
-			if (item == null)
-				return null;
-			var result = new Document
-			{
-				Name = item.Name,
-				Description = item.Description,
-				IssueDate = item.IssueDate,
-				LaunchDate = item.LaunchDate,
-				No = item.No
-			};
-			TranslateBackBase(item, result);
-			return result;
-		}
-
 		static void TranslateBackBase<T>(FiresecAPI.SKDModelBase apiItem, T item)
 			where T : IDatabaseElement
 		{
@@ -168,15 +152,6 @@ namespace SKDDriver
 			item.OrganizationUid = apiItem.OrganizationUid;
 		}
 
-		static DateTime? CheckDate(DateTime? dateTime)
-		{
-			if (dateTime == null)
-				return null;
-			if (dateTime.Value.Year < 1754)
-				return null;
-			if (dateTime.Value.Year > 9998)
-				return null;
-			return dateTime;
-		}
+		
 	}
 }

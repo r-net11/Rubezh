@@ -17,13 +17,17 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
+			EditFilterCommand = new RelayCommand(OnEditFilter);
+			Filter = new PositionFilter();
 			Initialize();
 		}
+
+		PositionFilter Filter;
 
 		public void Initialize()
 		{
 			Positions = new ObservableCollection<PositionViewModel>();
-			var positions = FiresecManager.GetPositions(null);
+			var positions = FiresecManager.GetPositions(Filter);
 			foreach (var position in positions)
 			{
 				var positionViewModel = new PositionViewModel(position);
@@ -99,6 +103,17 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedPosition != null;
+		}
+
+		public RelayCommand EditFilterCommand { get; private set; }
+		void OnEditFilter()
+		{
+			var filterViewModel = new PositionFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(filterViewModel))
+			{
+				Filter = filterViewModel.Filter;
+				Initialize();
+			}
 		}
 	}
 }

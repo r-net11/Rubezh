@@ -127,6 +127,7 @@
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DepartmentHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\DocumentHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
@@ -236,6 +237,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

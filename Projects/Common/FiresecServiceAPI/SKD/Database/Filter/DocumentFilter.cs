@@ -13,6 +13,9 @@ namespace FiresecAPI
 		public List<int> Nos { get; set; }
 
 		[DataMember]
+		public List<string> Names { get; set; }
+
+		[DataMember]
 		public DateTimePeriod IssueDate { get; set; }
 
 		[DataMember]

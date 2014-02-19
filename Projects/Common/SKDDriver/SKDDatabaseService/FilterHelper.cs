@@ -62,9 +62,10 @@ namespace SKDDriver
 		public static bool IsInFilter(DataAccess.Document item, DocumentFilter filter)
 		{
 			bool isInNos = IsInList<int>(item.No, filter.Nos);
+			bool isInNames = IsInList<string>(item.Name, filter.Names);
 			bool isInIsuueDates = IsInDateTimePeriod(item.IssueDate, filter.IssueDate);
 			bool isInLaunchDates = IsInDateTimePeriod(item.LaunchDate, filter.LaunchDate);
-			return isInNos && isInIsuueDates && isInLaunchDates && IsInOrganizationFilterBase(item, filter);
+			return isInNos && isInNames && isInIsuueDates && isInLaunchDates && IsInOrganizationFilterBase(item, filter);
 		}
 
 		static bool IsInFilterBase(DataAccess.IDatabaseElement item, FilterBase filter)
@@ -104,8 +105,15 @@ namespace SKDDriver
 			return dateTime >= dateTimePeriod.StartDate && dateTime <= dateTimePeriod.EndDate;
 		}
 
-		static bool IsInList<T>(T? item, List<T> list)
+		static bool IsInList<T>(T? item, List<T> list) 
 			where T:struct
+		{
+			if (list == null || list.Count == 0)
+				return true;
+			return list.Any(x => x.Equals(item));
+		}
+
+		static bool IsInList<T>(T item, List<T> list)
 		{
 			if (list == null || list.Count == 0)
 				return true;

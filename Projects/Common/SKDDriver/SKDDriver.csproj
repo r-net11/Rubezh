@@ -54,8 +54,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="SKDDatabaseService\Translators\DocumentsTranslator.cs" />
     <Compile Include="SKDDatabaseService\FilterHelper.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
+    <Compile Include="SKDDatabaseService\Translators\OrganizationTranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\TranslatorBase.cs" />
     <Compile Include="SKDDatabaseService\Translator\Translate.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -110,6 +113,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

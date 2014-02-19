@@ -103,18 +103,6 @@ namespace SKDDriver
 			UpdateBase(item, apiItem);
 		}
 
-		public static void Update(Document item, FiresecAPI.Document apiItem)
-		{
-			if (apiItem == null)
-				return;
-			item.Name = apiItem.Name;
-			item.Description = apiItem.Description;
-			item.IssueDate = apiItem.IssueDate;
-			item.LaunchDate = apiItem.LaunchDate;
-			item.No = apiItem.No;
-			UpdateOrganizationElement(item, apiItem);
-		}
-
 		static void UpdateBase(IDatabaseElement item, FiresecAPI.SKDModelBase apiItem)
 		{
 			item.IsDeleted = apiItem.IsDeleted;
@@ -124,6 +112,17 @@ namespace SKDDriver
 		static void UpdateOrganizationElement(IOrganizationDatabaseElement item, FiresecAPI.OrganizationElementBase apiItem)
 		{
 			item.OrganizationUid = apiItem.OrganizationUid;
+		}
+
+		static DateTime? CheckDate(DateTime? dateTime)
+		{
+			if (dateTime == null)
+				return null;
+			if (dateTime.Value.Year < 1754)
+				return null;
+			if (dateTime.Value.Year > 9998)
+				return null;
+			return dateTime;
 		}
 	}
 }

@@ -16,6 +16,7 @@
             <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
             <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
             <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+            <Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" Margin="2">
             <DataGrid.Columns>

@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using FiresecClient;
 using System;
 using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -28,7 +29,7 @@ namespace SKDModule.ViewModels
 		void Initialize()
 		{
 			Documents = new ObservableCollection<DocumentViewModel>();
-			var documents = FiresecManager.GetDocuments(Filter);
+			var documents = FiresecManager.FiresecService.GetDocuments(Filter);
 			foreach (var document in documents)
 			{
 				var documentViewModel = new DocumentViewModel(document);
@@ -74,6 +75,7 @@ namespace SKDModule.ViewModels
 				var document = documentDetailsViewModel.Document;
 				var documentViewModel = new DocumentViewModel(document);
 				Documents.Add(documentViewModel);
+				DocumentHelper.Save(document);
 				SelectedDocument = documentViewModel;
 			}
 		}
@@ -82,6 +84,7 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var index = Documents.IndexOf(SelectedDocument);
+			DocumentHelper.MarkDeleted(SelectedDocument.Document);
 			Documents.Remove(SelectedDocument);
 			index = Math.Min(index, Documents.Count - 1);
 			if (index > -1)
@@ -98,7 +101,9 @@ namespace SKDModule.ViewModels
 			var documentDetailsViewModel = new DocumentDetailsViewModel(this, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				SelectedDocument.Update(documentDetailsViewModel.Document);
+				var document = documentDetailsViewModel.Document;
+				SelectedDocument.Update(document);
+				DocumentHelper.Save(document);
 			}
 		}
 		bool CanEdit()

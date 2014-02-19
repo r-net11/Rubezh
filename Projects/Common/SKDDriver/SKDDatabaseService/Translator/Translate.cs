@@ -98,22 +98,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static FiresecAPI.Document Translate(Document item)
-		{
-			if (item == null)
-				return null;
-			var result = new FiresecAPI.Document
-			{
-				Name = item.Name,
-				Description = item.Description,
-				IssueDate = item.IssueDate,
-				LaunchDate = item.LaunchDate,
-				No = item.No
-			};
-			TranslateOrganizationElement(item.Uid, item.IsDeleted, item.RemovalDate, item.OrganizationUid, result);
-			return result;
-		}
-
 		public static FiresecAPI.SKDJournalItem Translate(Journal item)
 		{
 			if (item == null)
@@ -130,7 +114,7 @@ namespace SKDDriver
 				DeviceJournalRecordNo = item.DeviceNo,
 				IpAddress = item.IpPort
 			};
-			//TranslateBase(item.Uid, item.IsDeleted, item.RemovalDate, result);
+			TranslateBase(item.Uid, item.IsDeleted, item.RemovalDate, result);
 			return result;
 		}
 

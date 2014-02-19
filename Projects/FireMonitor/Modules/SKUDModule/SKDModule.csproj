@@ -192,11 +192,15 @@
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
       <DependentUpon>PositionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Converters\TransitionToStringConverter.cs" />
+    <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
+      <DependentUpon>PositionFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reports\Converters\EmployeeReportTypeToStringConverter.cs" />
     <Compile Include="Reports\Models\EmployeeReportFilter.cs" />
     <Compile Include="Reports\Models\EmployeeReportType.cs" />
@@ -512,6 +516,10 @@
     <Page Include="Intervals\WheeklyIntervals\Views\WeeklyIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Positions\Views\PositionFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Verification\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
