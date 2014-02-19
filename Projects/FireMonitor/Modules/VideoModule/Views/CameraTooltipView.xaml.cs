@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace VideoModule.Plans.Views
+namespace VideoModule.Views
 {
 	public partial class CameraTooltipView : UserControl
 	{

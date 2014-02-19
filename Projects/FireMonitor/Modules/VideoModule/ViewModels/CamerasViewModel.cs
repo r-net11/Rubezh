@@ -24,8 +24,15 @@ namespace VideoModule.ViewModels
 		{
 			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
 			Initialize();
 		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			DialogService.ShowWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
+		} 
 
 		public void Initialize()
 		{

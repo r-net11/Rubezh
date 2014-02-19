@@ -82,13 +82,9 @@
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="Plans\ViewModels\CameraTooltipViewModel.cs" />
-    <Compile Include="Plans\ViewModels\CameraDetailsViewModel.cs" />
-    <Compile Include="Plans\Views\CameraTooltipView.xaml.cs">
+    <Compile Include="ViewModels\CameraTooltipViewModel.cs" />
+    <Compile Include="Views\CameraTooltipView.xaml.cs">
       <DependentUpon>CameraTooltipView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Plans\Views\CameraDetailsView.xaml.cs">
-      <DependentUpon>CameraDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VideoModuleLoader.cs" />
     <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
@@ -175,15 +171,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Plans\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\CameraTooltipView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Plans\Views\CameraDetailsView.xaml">
+    <Page Include="Views\CameraTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

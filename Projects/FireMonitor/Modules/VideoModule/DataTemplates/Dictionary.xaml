@@ -8,6 +8,10 @@
         <Views:CameraDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:CameraTooltipViewModel}">
+        <Views:CameraTooltipView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:LayoutPartCameraViewModel}">
 		<Views:LayoutPartCameraView />
 	</DataTemplate>

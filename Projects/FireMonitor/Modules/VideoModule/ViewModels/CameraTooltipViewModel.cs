@@ -3,7 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using FiresecAPI.Models;
 
-namespace VideoModule.Plans.ViewModels
+namespace VideoModule.ViewModels
 {
 	public class CameraTooltipViewModel : BaseViewModel
 	{

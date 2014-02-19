@@ -13,15 +13,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System.Windows;
-using DeviceControls;
-using Infrustructure.Plans.Painters;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
-using System.Windows.Input;
-using Infrastructure;
 
 namespace VideoModule.ViewModels
 {
@@ -44,12 +38,14 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged("IsNowPlaying");
 			}
 		}
+
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
 		{
 			_camerasViewModel = camerasViewModel;
 			Camera = camera;
 			MjpegCamera = new MjpegCamera(camera);
 		}
+
 		void GetError(string error)
 		{
 			Error = error;

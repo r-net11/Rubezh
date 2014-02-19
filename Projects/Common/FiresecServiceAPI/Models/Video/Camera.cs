@@ -65,6 +65,12 @@ namespace FiresecAPI.Models
 			if (Changed != null)
 				Changed();
 		}
+
+		public string PresentationName
+		{
+			get { return Name + " " + Address; }
+		}
+
 		public event Action Changed;
 	}
 }

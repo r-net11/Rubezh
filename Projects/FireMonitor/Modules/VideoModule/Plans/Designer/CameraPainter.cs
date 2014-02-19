@@ -8,9 +8,10 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using VideoModule.Plans.ViewModels;
+using VideoModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using CameraDetailsViewModel = VideoModule.ViewModels.CameraDetailsViewModel;
 
 namespace VideoModule.Plans.Designer
 {
