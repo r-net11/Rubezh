@@ -7,7 +7,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Отсутствует лицензия")]
 		HasNoLicense = 0,
 
-		[DescriptionAttribute("База данных ПК не совпадает с прибором")]
+		[DescriptionAttribute("База данных прибора соответствует базе данных ПК")]
 		DBMissmatch = 1,
 
 		[DescriptionAttribute("Контроллер в технологическом режиме")]

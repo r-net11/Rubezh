@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public SKDCard Card { get; private set; }
-		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
+		public AccessZonesSelectationViewModel AccessZones { get; private set; }
+		public AccessZonesSelectationViewModel AdditionalGUDZones { get; private set; }
+		public AccessZonesSelectationViewModel ExceptedGUDZones { get; private set; }
 
 		public EmployeeCardDetailsViewModel(SKDCard card = null)
 		{
@@ -37,7 +41,12 @@ namespace SKDModule.ViewModels
 			if (Card.ValidTo.HasValue)
 				EndDate = Card.ValidTo.Value;
 
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Card.CardZones);
+			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones);
+			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones);
+			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones);
+
+			AvailableGUDs = new ObservableCollection<GUD>();
+			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUid);
 		}
 
 		int _idFamily;
@@ -84,13 +93,40 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		ObservableCollection<GUD> _availableGUDs;
+		public ObservableCollection<GUD> AvailableGUDs
+		{
+			get { return _availableGUDs; }
+			set
+			{
+				_availableGUDs = value;
+				OnPropertyChanged("AvailableGUDs");
+			}
+		}
+
+		GUD _selectedGUD;
+		public GUD SelectedGUD
+		{
+			get { return _selectedGUD; }
+			set
+			{
+				_selectedGUD = value;
+				OnPropertyChanged("SelectedGUD");
+			}
+		}
+
 		protected override bool Save()
 		{
 			Card.Series = IDFamily;
 			Card.Number = IDNo;
 			Card.ValidFrom = StartDate;
 			Card.ValidTo = EndDate;
-			Card.CardZones = AccessZonesSelectationViewModel.GetCardZones();
+			Card.CardZones = AccessZones.GetCardZones();
+			Card.AdditionalGUDZones = AdditionalGUDZones.GetCardZones();
+			Card.ExceptedGUDZones = ExceptedGUDZones.GetCardZones();
+
+			if (SelectedGUD != null)
+				Card.GUDUid = SelectedGUD.UID;
 			return true;
 		}
 	}

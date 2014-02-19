@@ -12,6 +12,7 @@ namespace SKDModule.ViewModels
 		public SKDCard Card { get; private set; }
 		UserAccessViewModel UserAccessViewModel;
 		List<Guid> ZoneUIDs;
+		public CardZonesViewModel CardZonesViewModel { get; private set; }
 
 		public EmployeeCardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
 		{
@@ -21,7 +22,7 @@ namespace SKDModule.ViewModels
 			UserAccessViewModel = userAccessViewModel;
 			Card = card;
 			ZoneUIDs = new List<Guid>();
-			Update();
+			CardZonesViewModel = new CardZonesViewModel(Card.CardZones);
 		}
 
 		bool _isBlocked;
@@ -64,71 +65,12 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("ID");
 				OnPropertyChanged("StartDate");
 				OnPropertyChanged("EndDate");
-				Update();
+				CardZonesViewModel.Update();
 			}
 		}
 		public bool CanShowProperties()
 		{
 			return true;
-		}
-
-		void Update()
-		{
-			AllZones = new List<AccessZoneViewModel>();
-			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
-			OnPropertyChanged("RootZones");
-			SelectedZone = RootZone;
-
-			foreach (var zone in AllZones)
-			{
-				if (zone.IsChecked)
-					zone.ExpandToThis();
-			}
-		}
-
-		public List<AccessZoneViewModel> AllZones;
-
-		AccessZoneViewModel _selectedZone;
-		public AccessZoneViewModel SelectedZone
-		{
-			get { return _selectedZone; }
-			set
-			{
-				_selectedZone = value;
-				if (value != null)
-					value.ExpandToThis();
-				OnPropertyChanged("SelectedZone");
-			}
-		}
-
-		AccessZoneViewModel _rootZone;
-		public AccessZoneViewModel RootZone
-		{
-			get { return _rootZone; }
-			private set
-			{
-				_rootZone = value;
-				OnPropertyChanged("RootZone");
-			}
-		}
-
-		public AccessZoneViewModel[] RootZones
-		{
-			get { return new AccessZoneViewModel[] { RootZone }; }
-		}
-
-		AccessZoneViewModel AddZoneInternal(SKDZone zone, AccessZoneViewModel parentZoneViewModel)
-		{
-			var zoneViewModel = new AccessZoneViewModel(zone, Card.CardZones);
-			AllZones.Add(zoneViewModel);
-			if (parentZoneViewModel != null)
-				parentZoneViewModel.AddChild(zoneViewModel);
-
-			foreach (var childZone in zone.Children)
-			{
-				AddZoneInternal(childZone, zoneViewModel);
-			}
-			return zoneViewModel;
 		}
 	}
 }

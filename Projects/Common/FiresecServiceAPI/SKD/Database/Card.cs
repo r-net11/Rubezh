@@ -12,6 +12,8 @@ namespace FiresecAPI
 		{
 			ZoneLinkUids = new List<Guid>();
 			CardZones = new List<CardZone>();
+			AdditionalGUDZones = new List<CardZone>();
+			ExceptedGUDZones = new List<CardZone>();
 		}
 
 		[DataMember]
@@ -34,6 +36,15 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<CardZone> CardZones { get; set; }
+
+		[DataMember]
+		public List<CardZone> AdditionalGUDZones { get; set; }
+
+		[DataMember]
+		public List<CardZone> ExceptedGUDZones { get; set; }
+
+		[DataMember]
+		public Guid GUDUid { get; set; }
 
 		[DataMember]
 		public bool? IsAntipass { get; set; }

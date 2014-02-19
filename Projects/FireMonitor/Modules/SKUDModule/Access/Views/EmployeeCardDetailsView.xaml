@@ -35,9 +35,26 @@
             </Grid>
         </TabItem>
         <TabItem Header="Зоны">
-            <Views:AccessZonesSelectationView DataContext="{Binding AccessZonesSelectationViewModel}" />
+            <Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />
         </TabItem>
         <TabItem Header="ГУД">
+            <DataGrid ItemsSource="{Binding AvailableGUDs}" SelectedItem="{Binding SelectedGUD}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="ГУД" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+        <TabItem Header="Исключения ГУД">
+            <Views:AccessZonesSelectationView DataContext="{Binding AdditionalGUDZones}" />
+        </TabItem>
+        <TabItem Header="Дополнения ГУД">
+            <Views:AccessZonesSelectationView DataContext="{Binding ExceptedGUDZones}" />
         </TabItem>
     </TabControl>
 </UserControl>

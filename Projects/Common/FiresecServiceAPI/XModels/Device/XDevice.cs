@@ -356,6 +356,7 @@ namespace XFiresecAPI
 					{
 						var property = new XProperty()
 						{
+							DriverProperty = driverProperty,
 							Name = driverProperty.Name,
 							Value = driverProperty.Default
 						};

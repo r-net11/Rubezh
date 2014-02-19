@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="Access\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Access\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Access\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Access\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Access\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Access\ViewModels\EmployeeCardViewModel.cs" />
@@ -76,6 +77,9 @@
     </Compile>
     <Compile Include="Access\Views\UserAccessView.xaml.cs">
       <DependentUpon>UserAccessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Access\Views\CardZonesView.xaml.cs">
+      <DependentUpon>CardZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
@@ -398,6 +402,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Access\Views\UserAccessView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Access\Views\CardZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

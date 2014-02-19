@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="SKDModule.Views.CardZonesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <tree:TreeList Grid.Column="0" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}" Margin="2">
+                <tree:TreeList.View>
+                    <GridView>
+                        <GridViewColumn Width="250" Header="Зона">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                        <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsChecked}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+                    </GridView>
+                </tree:TreeList.View>
+            </tree:TreeList>
+            <StackPanel Grid.Column="1" DataContext="{Binding SelectedZone}" IsEnabled="False" Margin="2">
+                <StackPanel Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}" IsEnabled="False">
+                    <CheckBox Content="Защита от передачи карт(Antipassback)" IsChecked="{Binding IsAntiPassback}" Foreground="White" Margin="2" />
+                    <CheckBox Content="Доступ с комиссионированием" IsChecked="{Binding IsComission}" Foreground="White" Margin="2" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Временной критерий" Width="200" Foreground="White" Margin="2" />
+                        <TextBlock Text="{Binding SelectedTimeCreteria.Description}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="" Width="200" Foreground="White" Margin="2" />
+                        <TextBlock Text="{Binding SelectedTimeType.Name}" Foreground="White" Margin="2" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

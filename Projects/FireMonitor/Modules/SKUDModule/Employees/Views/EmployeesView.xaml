@@ -7,14 +7,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
-            </StackPanel>
-        </Border>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+            <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+            <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
+        </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Имя" Width="*">

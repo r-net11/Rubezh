@@ -19,9 +19,9 @@ namespace SKDModule.ViewModels
 			CardZones = cardZones;
 
 			CanSelect = false;
-			foreach (var device in zone.Devices)
+			foreach (var device in SKDManager.Devices)
 			{
-				if (device.DriverType == SKDDriverType.Controller)
+				if(device.OuterZoneUID == Zone.UID)
 					CanSelect = true;
 			}
 

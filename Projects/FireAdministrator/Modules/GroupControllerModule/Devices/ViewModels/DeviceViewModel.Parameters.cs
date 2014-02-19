@@ -203,7 +203,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var property in device.Properties)
 				{
-					if (property.DriverProperty.IsAUParameter)
+					if (property.DriverProperty != null && property.DriverProperty.IsAUParameter)
 					{
 						var deviceProperty = device.DeviceProperties.FirstOrDefault(x => x.Name == property.Name);
 						if (deviceProperty == null)

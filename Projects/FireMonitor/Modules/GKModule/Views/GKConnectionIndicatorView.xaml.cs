@@ -92,7 +92,7 @@ namespace GKModule.Views
 					}
 					if (!IsGKDBEqual)
 					{
-						strings.Add("База данных ГК не совпадает с базой даных прибора");
+						strings.Add("База данных прибора соответствует базе данных ПК");
 					}
 					var text = string.Join("\n", strings);
 
