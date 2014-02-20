@@ -10,12 +10,12 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		DocumentsViewModel DocumentsViewModel;
+		OrganisationDocumentsViewModel OrganisationDocumentsViewModel;
 		public Document Document { get; private set; }
 
-		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Document document = null)
+		public DocumentDetailsViewModel(OrganisationDocumentsViewModel organisationDocumentsViewModel, Document document = null)
 		{
-			DocumentsViewModel = documentsViewModel;
+			OrganisationDocumentsViewModel = organisationDocumentsViewModel;
 			if (document == null)
 			{
 				Title = "Создание документа";
@@ -120,7 +120,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (DocumentsViewModel.Documents.Any(x => x.Document.Name == Name && x.Document.UID != Document.UID))
+			if (OrganisationDocumentsViewModel.Documents.Any(x => x.Document.Name == Name && x.Document.UID != Document.UID))
 			{
 				MessageBoxService.ShowWarning("Название документа совпадает с введенным ранее");
 				return false;

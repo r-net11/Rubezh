@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:GKModule.Views"
              xmlns:Converter="clr-namespace:Controls.Converters;assembly=Controls">
-    <UserControl.Resources>
-        <Converter:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
-    </UserControl.Resources>
 
     <TabControl Name="tabControl" BorderThickness="0"
                 ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=JournalFilterViewModel.JournalFilter.Name}"

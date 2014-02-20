@@ -126,6 +126,7 @@
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Documents\ViewModels\DocumentFilterViewModel.cs" />
+    <Compile Include="Documents\ViewModels\OrganisationDocumentsViewModel.cs" />
     <Compile Include="Documents\Views\DocumentFilterView.xaml.cs">
       <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
