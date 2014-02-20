@@ -13,10 +13,12 @@ namespace SKDDriver
 		public SKDDatabaseService()
 		{
 			Context = new DataAccess.SKUDDataContext();
-			DocumentsHelper = new DocumentsTranslator(Context.Document);
+			DocumentsTranslator = new DocumentsTranslator(Context.Document, Context);
+			PositionsTranslator = new PositionsTranslator(Context.Position, Context);
 		}
 
-		DocumentsTranslator DocumentsHelper;
+		DocumentsTranslator DocumentsTranslator;
+		PositionsTranslator PositionsTranslator;
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
 		{
@@ -59,25 +61,9 @@ namespace SKDDriver
 			}
 			catch { return new List<Department>(); }
 		}
-		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
-			try
-			{
-				var result = new List<Position>();
-				if (filter == null)
-				{
-					foreach (var item in Context.Position)
-						result.Add(Translator.Translate(item));
-					return result;
-				}
-				foreach (var item in Context.Position)
-				{
-					if (FilterHelper.IsInFilter(item, filter))
-						result.Add(Translator.Translate(item));
-				}
-				return result;
-			}
-			catch { return new List<Position>(); }
+			return PositionsTranslator.Get(filter);
 		}
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
@@ -179,9 +165,9 @@ namespace SKDDriver
 			}
 			catch { return new List<Organization>(); }
 		}
-		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
-			return DocumentsHelper.Get(filter);
+			return DocumentsTranslator.Get(filter);
 		}
 		#endregion
 
@@ -228,26 +214,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void SavePositions(IEnumerable<Position> items)
+		public OperationResult SavePositions(IEnumerable<Position> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-
-					var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.UID);
-					if (databaseItem != null)
-					{
-						Translator.Update(databaseItem, item);
-					}
-					else
-						Context.Position.InsertOnSubmit(Translator.TranslateBack(item));
-				}
-				Context.SubmitChanges();
-			}
-			catch { }
+			return PositionsTranslator.Save(items);
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -354,9 +323,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void SaveDocuments(IEnumerable<Document> items)
+		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
-			DocumentsHelper.Save(items);
+			return DocumentsTranslator.Save(items);
 		}
 		#endregion
 
@@ -395,22 +364,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void MarkDeletedPositions(IEnumerable<Position> items)
+		public OperationResult MarkDeletedPositions(IEnumerable<Position> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item != null)
-					{
-						var databaseItem = Context.Position.FirstOrDefault(x => x.Uid == item.UID);
-						if (databaseItem != null)
-							databaseItem.IsDeleted = true;
-					}
-				}
-				Context.SubmitChanges();
-			}
-			catch { }
+			return PositionsTranslator.MarkDeleted(items);
 		}
 		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> items)
 		{
@@ -497,9 +453,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
-			DocumentsHelper.MarkDeleted(items);
+			return DocumentsTranslator.MarkDeleted(items);
 		}
 		#endregion
 	}

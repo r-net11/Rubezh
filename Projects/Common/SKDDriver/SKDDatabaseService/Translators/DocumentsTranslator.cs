@@ -10,20 +10,23 @@ namespace SKDDriver
 {
 	public class DocumentsTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
 	{
-		public DocumentsTranslator(Table<DataAccess.Document> table)
-			: base(table)
+		public DocumentsTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
+			: base(table,context)
 		{
 
 		}
 
-		protected override void Verify(Document item)
+		protected override OperationResult CanSave(Document item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
-			if(sameName)
-				throw new Exception("Попытка добавления документа с совпадающим именем");
+			if (sameName)
+				return new OperationResult("Попытка добавления документа с совпадающим именем");
+			if(item.No <= 0)
+				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
 			if (sameNo)
-				throw new Exception("Попытка добавления документа с совпадающим номером");
+				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
+			return base.CanSave(item);
 		}
 
 		protected override Document Translate(DataAccess.Document tableItem)
@@ -42,8 +45,8 @@ namespace SKDDriver
 			var result = base.TranslateBack(apiItem);
 			result.Name = apiItem.Name;
 			result.Description = apiItem.Description;
-			result.IssueDate = apiItem.IssueDate;
-			result.LaunchDate = apiItem.LaunchDate;
+			result.IssueDate = CheckDate(apiItem.IssueDate);
+			result.LaunchDate = CheckDate(apiItem.LaunchDate);
 			result.No = apiItem.No;
 			return result;
 		}

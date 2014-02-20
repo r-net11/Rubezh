@@ -15,7 +15,7 @@ namespace FiresecAPI
 		[OperationContract]
 		IEnumerable<Department> GetDepartments(DepartmentFilter filter);
 		[OperationContract]
-		IEnumerable<Position> GetPositions(PositionFilter filter);
+		OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter);
 		[OperationContract]
 		IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
@@ -27,7 +27,7 @@ namespace FiresecAPI
 		[OperationContract]
 		IEnumerable<Organization> GetOrganizations(OrganizationFilter filter);
 		[OperationContract]
-		IEnumerable<Document> GetDocuments(DocumentFilter filter);
+		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		#endregion
 
 		#region Save
@@ -36,7 +36,7 @@ namespace FiresecAPI
 		[OperationContract]
 		void SaveDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
-		void SavePositions(IEnumerable<Position> Positions);
+		OperationResult SavePositions(IEnumerable<Position> Positions);
 		[OperationContract]
 		void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
@@ -48,7 +48,7 @@ namespace FiresecAPI
 		[OperationContract]
 		void SaveOrganizations(IEnumerable<Organization> items);
 		[OperationContract]
-		void SaveDocuments(IEnumerable<Document> items);
+		OperationResult SaveDocuments(IEnumerable<Document> items);
 		#endregion
 
 		#region MarkDeleted
@@ -57,7 +57,7 @@ namespace FiresecAPI
 		[OperationContract]
 		void MarkDeletedDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
-		void MarkDeletedPositions(IEnumerable<Position> Positions);
+		OperationResult MarkDeletedPositions(IEnumerable<Position> Positions);
 		[OperationContract]
 		void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
@@ -69,7 +69,7 @@ namespace FiresecAPI
 		[OperationContract]
 		void MarkDeletedOrganizations(IEnumerable<Organization> items);
 		[OperationContract]
-		void MarkDeletedDocuments(IEnumerable<Document> items);
+		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
 		#endregion
 
 		#region DeviceCommands

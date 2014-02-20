@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -30,9 +31,17 @@ namespace SKDModule.ViewModels
 			SetChildren(RootDepartment);
 
 			Positions = new List<FilterPositionViewModel>();
-			var positions = FiresecManager.GetPositions(null).ToList();
-			positions.ForEach(x => Positions.Add(new FilterPositionViewModel(x)));
 
+			var operationResult = FiresecManager.FiresecService.GetPositions(null);
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(operationResult.Error);
+			else
+			{
+				var positions = operationResult.Result;
+				foreach (var position in positions)
+					Positions.Add(new FilterPositionViewModel(position));
+			}
+			
 			//WithDeleted = filter.WithDeleted;
 			
 			Initialize();

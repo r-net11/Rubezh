@@ -16,10 +16,6 @@ namespace FiresecClient
 		{
 			return FiresecService.GetDepartments(filter);
 		}
-		public static IEnumerable<Position> GetPositions(PositionFilter filter)
-		{
-			return FiresecService.GetPositions(filter);
-		}
 		public static IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			return FiresecService.GetSKDJournalItems(filter);
@@ -36,10 +32,6 @@ namespace FiresecClient
 		{
 			return FiresecService.GetCardZoneLinks(filter);
 		}
-		public static IEnumerable<Document> GetDocuments(DocumentFilter filter)
-		{
-			return FiresecService.GetDocuments(filter);
-		}
 		public static IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
 		{
 			return FiresecService.GetOrganizations(filter);
@@ -54,10 +46,6 @@ namespace FiresecClient
 		public static void SaveDepartments(IEnumerable<Department> Departments)
 		{
 			FiresecService.SaveDepartments(Departments);
-		}
-		public static void SavePositions(IEnumerable<Position> Positions)
-		{
-			FiresecService.SavePositions(Positions);
 		}
 		public static void SaveJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -75,10 +63,6 @@ namespace FiresecClient
 		{
 			FiresecService.SaveCardZoneLinks(items);
 		}
-		public static void SaveDocuments(IEnumerable<Document> items)
-		{
-			FiresecService.SaveDocuments(items);
-		}
 		public static void SaveOrganizations(IEnumerable<Organization> items)
 		{
 			FiresecService.SaveOrganizations(items);
@@ -93,10 +77,6 @@ namespace FiresecClient
 		public static void MarkDeletedDepartments(IEnumerable<Department> Departments)
 		{
 			FiresecService.MarkDeletedDepartments(Departments);
-		}
-		public static void MarkDeletedPositions(IEnumerable<Position> Positions)
-		{
-			FiresecService.MarkDeletedPositions(Positions);
 		}
 		public static void MarkDeletedJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -113,10 +93,6 @@ namespace FiresecClient
 		public static void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
 			FiresecService.MarkDeletedCardZoneLinks(items);
-		}
-		public static void MarkDeletedDocuments(IEnumerable<Document> items)
-		{
-			FiresecService.MarkDeletedDocuments(items);
 		}
 		public static void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
@@ -140,14 +116,6 @@ namespace FiresecClient
 			var filter = new DepartmentFilter();
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetDepartments(filter).ToList().FirstOrDefault();
-		}
-		public static Position GetPosition(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var filter = new PositionFilter();
-			filter.Uids.Add((Guid)uid);
-			return FiresecService.GetPositions(filter).ToList().FirstOrDefault();
 		}
 		public static SKDJournalItem GetJournalItem(Guid? uid)
 		{
@@ -181,14 +149,14 @@ namespace FiresecClient
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetCardZoneLinks(filter).ToList().FirstOrDefault();
 		}
-		public static Document GetDocument(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var filter = new DocumentFilter();
-			filter.Uids.Add((Guid)uid);
-			return FiresecService.GetDocuments(filter).ToList().FirstOrDefault();
-		}
+		//public static Document GetDocument(Guid? uid)
+		//{
+		//    if (uid == null)
+		//        return null;
+		//    var filter = new DocumentFilter();
+		//    filter.Uids.Add((Guid)uid);
+		//    return FiresecService.GetDocuments(filter).ToList().FirstOrDefault();
+		//}
 		public static Organization GetOrganization(Guid? uid)
 		{
 			if (uid == null)

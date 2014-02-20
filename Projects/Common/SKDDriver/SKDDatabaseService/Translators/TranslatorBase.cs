@@ -15,10 +15,12 @@ namespace SKDDriver
 		where FilterT : FilterBase
 	{
 		protected Table<TableT> Table;
+		protected DataAccess.SKUDDataContext Context;
 
-		public TranslatorBase(Table<TableT> table)
+		public TranslatorBase(Table<TableT> table, DataAccess.SKUDDataContext context)
 		{
 			Table = table;
+			Context = context;
 		}
 
 		protected virtual ApiT Translate(TableT tableItem)
@@ -41,11 +43,15 @@ namespace SKDDriver
 		protected virtual void Update(TableT tableItem, ApiT apiItem)
 		{
 			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = apiItem.RemovalDate;
+			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 		}
-		protected virtual void Verify(ApiT item)
+		protected virtual OperationResult CanSave(ApiT item)
 		{
-			;
+			return new OperationResult();
+		}
+		protected virtual OperationResult CanDelete(ApiT item)
+		{
+			return new OperationResult();
 		}
 		protected virtual Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
@@ -73,7 +79,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		public IEnumerable<ApiT> Get(FilterT filter)
+		public OperationResult<IEnumerable<ApiT>> Get(FilterT filter)
 		{
 			try
 			{
@@ -85,16 +91,18 @@ namespace SKDDriver
 					query = Table.Where(IsInFilter(filter));
 				foreach (var item in query)
 					result.Add(Translate(item));
-				return result;
+				var operationResult = new OperationResult<IEnumerable<ApiT>>();
+				operationResult.Result = result;
+				return operationResult;
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
-				return new List<ApiT>();
+				return new OperationResult<IEnumerable<ApiT>>(e.Message);
 			}
+
 		}
 
-		public void Save(IEnumerable<ApiT> items)
+		public OperationResult Save(IEnumerable<ApiT> items)
 		{
 			try
 			{
@@ -102,7 +110,9 @@ namespace SKDDriver
 				{
 					if (item == null)
 						continue;
-					Verify(item);
+					var verifyResult = CanSave(item);
+					if (verifyResult.HasError)
+						return verifyResult;
 					var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
 					if (databaseItem != null)
 						Update(databaseItem, item);
@@ -110,19 +120,24 @@ namespace SKDDriver
 						Table.InsertOnSubmit(TranslateBack(item));
 				}
 				Table.Context.SubmitChanges();
+				return new OperationResult();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				return new OperationResult(e.Message);
 			}
 		}
 
-		public void MarkDeleted(IEnumerable<ApiT> items)
+		public OperationResult MarkDeleted(IEnumerable<ApiT> items)
 		{
+			var operationResult = new OperationResult();
 			try
 			{
 				foreach (var item in items)
 				{
+					var verifyResult = CanDelete(item);
+					if (verifyResult.HasError)
+						return verifyResult;
 					if (item != null)
 					{
 						var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
@@ -131,10 +146,11 @@ namespace SKDDriver
 					}
 				}
 				Table.Context.SubmitChanges();
+				return operationResult;
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				return new OperationResult(e.Message);
 			}
 		}
 
@@ -150,20 +166,6 @@ namespace SKDDriver
 			return dateTime;
 		}
 
-		//protected static bool IsInDeleted(DataAccess.IDatabaseElement item, FilterBase filter)
-		//{
-		//    bool isDeleted = item.IsDeleted.GetValueOrDefault(false);
-		//    switch (filter.WithDeleted)
-		//    {
-		//        case DeletedType.Deleted:
-		//            return isDeleted;
-		//        case DeletedType.Not:
-		//            return !isDeleted;
-		//        default:
-		//            return true;
-		//    }
-		//}
-
 		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
 		{
 			switch (filter.WithDeleted)
@@ -177,29 +179,6 @@ namespace SKDDriver
 			}
 		}
 
-		//protected static Expression<Func<TableT, bool>> IsInDateTimePeriod(DateTimePeriod dateTimePeriod)
-		//{
-		//    if (dateTimePeriod == null)
-		//        return e => true;
-		//    if (dateTime == null)
-		//        return true;
-		//    return e => e.DateTime >= dateTimePeriod.StartDate && dateTime <= dateTimePeriod.EndDate;
-		//}
-
-		//protected static Expression<Func<TableT, bool>> IsInList<T>(T? item, List<T> list)
-		//    where T : struct
-		//{
-		//    if (list == null || list.Count == 0)
-		//        return e => true;
-		//    return e => list.Any(x => x.Equals(e));
-		//}
-
-		//protected static Expression<Func<TableT, bool>> IsInList<T>(List<T> list)
-		//{
-		//    if (list == null || list.Count == 0)
-		//        return e => true;
-		//    return e => list.Any(x => x.Equals(e));
-		//}
 		#endregion
 	}
 }

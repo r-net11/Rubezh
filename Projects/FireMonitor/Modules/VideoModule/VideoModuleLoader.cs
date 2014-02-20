@@ -80,7 +80,7 @@ namespace VideoModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 		public override void Dispose()
 		{

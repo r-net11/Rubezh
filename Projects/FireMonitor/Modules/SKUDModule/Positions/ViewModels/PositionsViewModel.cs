@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
 using System;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -27,12 +28,11 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			Positions = new ObservableCollection<PositionViewModel>();
-			var positions = FiresecManager.GetPositions(Filter);
+			var positions = PositionHelper.GetPositions(Filter);
+			if (positions == null)
+				return;
 			foreach (var position in positions)
-			{
-				var positionViewModel = new PositionViewModel(position);
-				Positions.Add(positionViewModel);
-			}
+				Positions.Add(new PositionViewModel(position));
 			SelectedPosition = Positions.FirstOrDefault();
 		}
 
@@ -71,6 +71,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				var position = positionDetailsViewModel.Position;
+				bool saveResult = PositionHelper.Save(position);
+				if(!saveResult)
+					return;
 				var positionViewModel = new PositionViewModel(position);
 				Positions.Add(positionViewModel);
 				SelectedPosition = positionViewModel;
@@ -81,6 +84,10 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var index = Positions.IndexOf(SelectedPosition);
+			var position = SelectedPosition.Position;
+			bool removeResult = PositionHelper.MarkDeleted(position);
+			if (!removeResult)
+				return;
 			Positions.Remove(SelectedPosition);
 			index = Math.Min(index, Positions.Count - 1);
 			if (index > -1)
@@ -97,6 +104,10 @@ namespace SKDModule.ViewModels
 			var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
+				var position = positionDetailsViewModel.Position;
+				bool saveResult = PositionHelper.Save(position);
+				if (!saveResult)
+					return;
 				SelectedPosition.Update(positionDetailsViewModel.Position);
 			}
 		}

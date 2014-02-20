@@ -1,6 +1,7 @@
 ﻿using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -11,7 +12,7 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			var department = FiresecManager.GetDepartment(employee.DepartmentUid);
 			DepartmentName = (department != null) ? department.Name : "";
-			var position = FiresecManager.GetPosition(employee.PositionUid);
+			var position = PositionHelper.GetPosition(employee.PositionUid);
 			PositionName = (position != null) ? position.Name : "";
 			if (employee.Appointed.HasValue)
 				AppointedString = employee.Appointed.Value.ToString("d MMM yyyy");

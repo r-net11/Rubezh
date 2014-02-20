@@ -22,7 +22,7 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetDepartments(filter);
 		}
-		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
 			return _skdService.GetPositions(filter);
 		}
@@ -46,7 +46,7 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetOrganizations(filter);
 		}
-		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
 			return _skdService.GetDocuments(filter);
 		}
@@ -61,9 +61,9 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveDepartments(Departments);
 		}
-		public void SavePositions(IEnumerable<Position> Positions)
+		public OperationResult SavePositions(IEnumerable<Position> Positions)
 		{
-			_skdService.SavePositions(Positions);
+			return _skdService.SavePositions(Positions);
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -85,9 +85,9 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveOrganizations(items);
 		}
-		public void SaveDocuments(IEnumerable<Document> items)
+		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
-			_skdService.SaveDocuments(items);
+			return _skdService.SaveDocuments(items);
 		}
 		#endregion
 
@@ -100,9 +100,9 @@ namespace FiresecService.Service
 		{
 			_skdService.MarkDeletedDepartments(Departments);
 		}
-		public void MarkDeletedPositions(IEnumerable<Position> Positions)
+		public OperationResult MarkDeletedPositions(IEnumerable<Position> Positions)
 		{
-			_skdService.MarkDeletedPositions(Positions);
+			return _skdService.MarkDeletedPositions(Positions);
 		}
 		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -124,9 +124,9 @@ namespace FiresecService.Service
 		{
 			_skdService.MarkDeletedOrganizations(items);
 		}
-		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
-			_skdService.MarkDeletedDocuments(items);
+			return _skdService.MarkDeletedDocuments(items);
 		}
 		#endregion
 

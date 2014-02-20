@@ -29,11 +29,14 @@ namespace SKDModule.ViewModels
 		void Initialize()
 		{
 			Documents = new ObservableCollection<DocumentViewModel>();
-			var documents = FiresecManager.FiresecService.GetDocuments(Filter);
-			foreach (var document in documents)
+			var operationResult = FiresecManager.FiresecService.GetDocuments(Filter);
+			if (operationResult.HasError)
+				MessageBoxService.ShowWarning(operationResult.Error);
+			else
 			{
-				var documentViewModel = new DocumentViewModel(document);
-				Documents.Add(documentViewModel);
+				var documents = operationResult.Result;
+				foreach (var document in documents)
+					Documents.Add(new DocumentViewModel(document));
 			}
 			SelectedDocument = Documents.FirstOrDefault();
 		}

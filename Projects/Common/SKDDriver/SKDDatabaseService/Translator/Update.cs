@@ -5,15 +5,6 @@ namespace SKDDriver
 {
 	static partial class Translator
 	{
-		public static void Update(Position item, FiresecAPI.Position apiItem)
-		{
-			if (apiItem == null)
-				return;
-			item.Name = apiItem.Name;
-			item.Description = apiItem.Description;
-			UpdateOrganizationElement(item, apiItem);
-		}
-		
 		public static void Update(Department item, FiresecAPI.Department apiItem)
 		{
 			if (apiItem == null)

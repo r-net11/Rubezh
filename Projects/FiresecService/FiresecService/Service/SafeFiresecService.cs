@@ -197,9 +197,9 @@ namespace FiresecService.Service
 			var result =  SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
 			return result;
 		}
-		public IEnumerable<Position> GetPositions(PositionFilter filter)
+		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Position>>(() => FiresecService.GetPositions(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<Position>>>(() => FiresecService.GetPositions(filter));
 		}
 		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
 		{
@@ -225,9 +225,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
 		}
-		public IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Document>>(() => FiresecService.GetDocuments(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
 		}
 		#endregion
 
@@ -240,9 +240,9 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveDepartments(Departments));
 		}
-		public void SavePositions(IEnumerable<Position> Positions)
+		public OperationResult SavePositions(IEnumerable<Position> Positions)
 		{
-			SafeContext.Execute(() => FiresecService.SavePositions(Positions));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePositions(Positions));
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -264,9 +264,9 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
 		}
-		public void SaveDocuments(IEnumerable<Document> items)
+		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
-			SafeContext.Execute(() => FiresecService.SaveDocuments(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
 		}
 		#endregion
 
@@ -279,9 +279,9 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.MarkDeletedDepartments(Departments));
 		}
-		public void MarkDeletedPositions(IEnumerable<Position> Positions)
+		public OperationResult MarkDeletedPositions(IEnumerable<Position> Positions)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedPositions(Positions));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPositions(Positions));
 		}
 		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -303,9 +303,9 @@ namespace FiresecService.Service
 		{
 			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
 		}
-		public void MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedDocuments(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(items));
 		}
 		#endregion
 		

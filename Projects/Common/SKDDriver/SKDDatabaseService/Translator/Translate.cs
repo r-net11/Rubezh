@@ -12,20 +12,6 @@ namespace SKDDriver
 {
     static partial class Translator
 	{
-		public static FiresecAPI.Position Translate(Position item)
-		{
-			if (item == null)
-				return null;
-			var result = new FiresecAPI.Position
-			{
-				UID = item.Uid,
-				Name = item.Name,
-				Description = item.Description
-			};
-			TranslateOrganizationElement(item.Uid, item.IsDeleted, item.RemovalDate, item.OrganizationUid, result);
-			return result;
-		}
-
 		public static FiresecAPI.Department Translate(Department item)
 		{
 			if (item == null)
