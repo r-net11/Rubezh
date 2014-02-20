@@ -11,5 +11,7 @@ namespace FiresecAPI.Models.Layouts
 	{
 		[DataMember]
 		public Guid SourceUID { get; set; }
+		[DataMember]
+		public LayoutPartPlansType Type { get; set; }
 	}
 }

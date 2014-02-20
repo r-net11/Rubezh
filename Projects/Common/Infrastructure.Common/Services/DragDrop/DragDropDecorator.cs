@@ -218,6 +218,8 @@ namespace Infrastructure.Common.Services.DragDrop
 				else
 					ServiceFactoryBase.DragDropService.DoDragDropSimulate(dataObject, dragSource, ShowDragVisual, visual == null, DragEffect, () => IsDragging = false);
 			}
+			else
+				IsDragging = false;
 		}
 		private IDataObject GetDataObject(out bool cancel, bool drag)
 		{

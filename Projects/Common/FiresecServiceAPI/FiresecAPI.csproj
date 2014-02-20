@@ -194,6 +194,7 @@
     <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartPlansType.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />

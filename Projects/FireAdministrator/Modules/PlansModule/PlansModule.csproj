@@ -177,6 +177,12 @@
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
+    <Compile Include="Views\LayoutPartPlansView.xaml.cs">
+      <DependentUpon>LayoutPartPlansView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartPropertyPlansPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyPlansPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlansTreeView.xaml.cs">
       <DependentUpon>PlansTreeView.xaml</DependentUpon>
     </Compile>
@@ -249,6 +255,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\SubPlanPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartPlansView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartPropertyPlansPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -24,4 +24,12 @@
 		<Views:FolderPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPlansViewModel}">
+		<Views:LayoutPartPlansView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyPlansPageViewModel}">
+		<Views:LayoutPartPropertyPlansPageView />
+	</DataTemplate>
+	
 </ResourceDictionary>

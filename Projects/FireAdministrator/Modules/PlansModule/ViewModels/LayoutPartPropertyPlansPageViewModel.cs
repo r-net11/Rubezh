@@ -23,13 +23,37 @@ namespace PlansModule.ViewModels
 		public LayoutPartPropertyPlansPageViewModel(LayoutPartPlansViewModel layoutPartPlansViewModel)
 		{
 			_layoutPartPlansViewModel = layoutPartPlansViewModel;
-			//Plans = new ObservableCollection<Plan>(FiresecManager.SystemConfiguration.Cameras);
+			Types = new ObservableCollection<LayoutPartPlansType>(Enum.GetValues(typeof(LayoutPartPlansType)).Cast<LayoutPartPlansType>());
+			Plans = new ObservableCollection<PlanViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+				AddPlan(plan, null);
 			CopyProperties();
 			UpdateLayoutPart();
 		}
 
-		private ObservableCollection<Plan> _plans;
-		public ObservableCollection<Plan> Plans
+		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		{
+			var planViewModel = new PlanViewModel(plan);
+			if (parentPlanViewModel == null)
+				Plans.Add(planViewModel);
+			else
+				parentPlanViewModel.AddChild(planViewModel);
+			foreach (var childPlan in plan.Children)
+				AddPlan(childPlan, planViewModel);
+		}
+
+		public bool IsTreeEnabled
+		{
+			get { return Type != LayoutPartPlansType.All; }
+		}
+		public bool ShowCheckboxes
+		{
+			get { return Type == LayoutPartPlansType.Selected; }
+		}
+
+
+		private ObservableCollection<PlanViewModel> _plans;
+		public ObservableCollection<PlanViewModel> Plans
 		{
 			get { return _plans; }
 			set
@@ -39,14 +63,30 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private Plan _selectedPlan;
-		public Plan SelectedPlan
+		private PlanViewModel _selectedPlan;
+		public PlanViewModel SelectedPlan
 		{
 			get { return _selectedPlan; }
 			set
 			{
 				_selectedPlan = value;
 				OnPropertyChanged(() => SelectedPlan);
+			}
+		}
+
+		public ObservableCollection<LayoutPartPlansType> Types { get; private set; }
+		private LayoutPartPlansType _type;
+		public LayoutPartPlansType Type
+		{
+			get { return _type; }
+			set
+			{
+				_type = value;
+				OnPropertyChanged(() => Type);
+				OnPropertyChanged(() => IsTreeEnabled);
+				OnPropertyChanged(() => ShowCheckboxes);
+				if (!IsTreeEnabled)
+					SelectedPlan = null;
 			}
 		}
 
@@ -57,6 +97,7 @@ namespace PlansModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
+			Type = properties.Type;
 			//SelectedPlan = FiresecManager.SystemConfiguration.Plans.FirstOrDefault(item => item.UID == properties.SourceUID);
 		}
 		public override bool CanSave()
@@ -66,12 +107,13 @@ namespace PlansModule.ViewModels
 		public override bool Save()
 		{
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
-			//if ((SelectedPlan == null && properties.SourceUID != Guid.Empty) || (SelectedPlan != null && properties.SourceUID != SelectedPlan.UID))
-			//{
-			//    properties.SourceUID = SelectedPlan == null ? Guid.Empty : SelectedPlan.UID;
-			//    UpdateLayoutPart();
-			//    return true;
-			//}
+			if (properties.Type != Type)
+			{
+				properties.Type = Type;
+				//SelectedPlan = FiresecManager.SystemConfiguration.Plans.FirstOrDefault(item => item.UID == properties.SourceUID);
+				UpdateLayoutPart();
+				return true;
+			}
 			return false;
 		}
 
