@@ -25,8 +25,8 @@
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" Foreground="White" Margin="2" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" Content="Не учитывать праздники" Foreground="White" Margin="2" />
+                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" Content="Учитывать только первый вход последний выход" Foreground="White" Margin="2" />
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Схема работы" Foreground="White" Margin="2" />
                 <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding AvailableSheduleTypes}" SelectedItem="{Binding SelectedSheduleType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="2">

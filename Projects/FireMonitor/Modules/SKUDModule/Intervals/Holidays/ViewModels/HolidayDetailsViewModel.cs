@@ -9,13 +9,13 @@ namespace SKDModule.ViewModels
 {
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel
 	{
-		HolidayYearViewModel HolidayYearViewModel;
+		OrganisationHolidaysYearViewModel OrganisationHolidaysYearViewModel;
 		bool IsNew;
 		public EmployeeHoliday Holiday { get; private set; }
 
-		public HolidayDetailsViewModel(HolidayYearViewModel holidayYearViewModel, EmployeeHoliday holiday = null)
+		public HolidayDetailsViewModel(OrganisationHolidaysYearViewModel organisationHolidaysYearViewModel, EmployeeHoliday holiday = null)
 		{
-			HolidayYearViewModel = holidayYearViewModel;
+			OrganisationHolidaysYearViewModel = organisationHolidaysYearViewModel;
 			if (holiday == null)
 			{
 				Title = "Новый приаздничный день";
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (HolidayYearViewModel.Holidays.Any(x => x.Holiday.DateTime.Month == DateTime.Month && x.Holiday.DateTime.Date == DateTime.Date && x.Holiday.UID != Holiday.UID))
+			if (OrganisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.DateTime.Month == DateTime.Month && x.Holiday.DateTime.Date == DateTime.Date && x.Holiday.UID != Holiday.UID))
 			{
 				MessageBoxService.ShowWarning("Дата праздника совпадает с введенным ранее");
 				return false;

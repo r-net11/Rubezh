@@ -11,12 +11,12 @@ namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnDetailsViewModel : SaveCancelDialogViewModel
 	{
-		AdditionalColumnsViewModel AdditionalColumnsViewModel;
+		OrganisationAdditionalColumnsViewModel OrganisationAdditionalColumnsViewModel;
 		public AdditionalColumn AdditionalColumn { get; private set; }
 
-		public AdditionalColumnDetailsViewModel(AdditionalColumnsViewModel additionalColumnsViewModel, AdditionalColumn additionalColumn = null)
+		public AdditionalColumnDetailsViewModel(OrganisationAdditionalColumnsViewModel organisationAdditionalColumnsViewModel, AdditionalColumn additionalColumn = null)
 		{
-			AdditionalColumnsViewModel = additionalColumnsViewModel;
+			OrganisationAdditionalColumnsViewModel = organisationAdditionalColumnsViewModel;
 			if (additionalColumn == null)
 			{
 				Title = "Создание дополнительной колонки";
@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (AdditionalColumnsViewModel.AdditionalColumns.Any(x => x.AdditionalColumn.Name == Name && x.AdditionalColumn.UID != AdditionalColumn.UID))
+			if (OrganisationAdditionalColumnsViewModel.AdditionalColumns.Any(x => x.AdditionalColumn.Name == Name && x.AdditionalColumn.UID != AdditionalColumn.UID))
 			{
 				MessageBoxService.ShowWarning("Название дополнительной колонки совпадает с введенным ранее");
 				return false;

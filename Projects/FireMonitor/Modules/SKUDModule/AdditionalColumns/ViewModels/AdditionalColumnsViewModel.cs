@@ -14,24 +14,24 @@ namespace SKDModule.ViewModels
 	{
 		public AdditionalColumnsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		void Initialize()
 		{
-			AdditionalColumns = new ObservableCollection<AdditionalColumnViewModel>();
-			//var additionalColumns = FiresecManager.GetPositions(null);
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			//var additionalColumns = FiresecManager.GetAdditionalColumns(null);
 			var additionalColumns = new List<AdditionalColumn>();
-			foreach (var additionalColumn in additionalColumns)
+
+			OrganisationAdditionalColumns = new ObservableCollection<OrganisationAdditionalColumnsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				var additionalColumnViewModel = new AdditionalColumnViewModel(additionalColumn);
-				AdditionalColumns.Add(additionalColumnViewModel);
+				var additionalColumnViewModel = new OrganisationAdditionalColumnsViewModel();
+				additionalColumnViewModel.Initialize(organisation.Name, new List<AdditionalColumn>(additionalColumns.Where(x=>x.OrganizationUid.Value == organisation.UID)));
+				OrganisationAdditionalColumns.Add(additionalColumnViewModel);
 			}
-			SelectedAdditionalColumn = AdditionalColumns.FirstOrDefault();
+			SelectedOrganisationAdditionalColumn = OrganisationAdditionalColumns.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -40,67 +40,26 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<AdditionalColumnViewModel> _additionalColumns;
-		public ObservableCollection<AdditionalColumnViewModel> AdditionalColumns
+		ObservableCollection<OrganisationAdditionalColumnsViewModel> _organisationAdditionalColumns;
+		public ObservableCollection<OrganisationAdditionalColumnsViewModel> OrganisationAdditionalColumns
 		{
-			get { return _additionalColumns; }
+			get { return _organisationAdditionalColumns; }
 			set
 			{
-				_additionalColumns = value;
-				OnPropertyChanged("AdditionalColumns");
+				_organisationAdditionalColumns = value;
+				OnPropertyChanged("OrganisationAdditionalColumns");
 			}
 		}
 
-		AdditionalColumnViewModel _selectedAdditionalColumn;
-		public AdditionalColumnViewModel SelectedAdditionalColumn
+		OrganisationAdditionalColumnsViewModel _selectedOrganisationAdditionalColumn;
+		public OrganisationAdditionalColumnsViewModel SelectedOrganisationAdditionalColumn
 		{
-			get { return _selectedAdditionalColumn; }
+			get { return _selectedOrganisationAdditionalColumn; }
 			set
 			{
-				_selectedAdditionalColumn = value;
-				OnPropertyChanged("SelectedAdditionalColumn");
+				_selectedOrganisationAdditionalColumn = value;
+				OnPropertyChanged("SelectedOrganisationAdditionalColumn");
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(additionalColumnDetailsViewModel))
-			{
-				var additionalColumn = additionalColumnDetailsViewModel.AdditionalColumn;
-				var additionalColumnViewModel = new AdditionalColumnViewModel(additionalColumn);
-				AdditionalColumns.Add(additionalColumnViewModel);
-				SelectedAdditionalColumn = additionalColumnViewModel;
-			}
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var index = AdditionalColumns.IndexOf(SelectedAdditionalColumn);
-			AdditionalColumns.Remove(SelectedAdditionalColumn);
-			index = Math.Min(index, AdditionalColumns.Count - 1);
-			if (index > -1)
-				SelectedAdditionalColumn = AdditionalColumns[index];
-		}
-		bool CanRemove()
-		{
-			return SelectedAdditionalColumn != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var additionalColumnDetailsViewModel = new AdditionalColumnDetailsViewModel(this, SelectedAdditionalColumn.AdditionalColumn);
-			if (DialogService.ShowModalWindow(additionalColumnDetailsViewModel))
-			{
-				SelectedAdditionalColumn.Update(additionalColumnDetailsViewModel.AdditionalColumn);
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedAdditionalColumn != null;
 		}
 	}
 }

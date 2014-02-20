@@ -8,17 +8,15 @@ namespace SKDModule.ViewModels
 {
 	public class MonthlyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
-		bool IsNew;
+		OrganisationMonthlyIntervalsViewModel OrganisationMonthlyIntervalsViewModel;
 		public EmployeeMonthlyInterval MonthlyInterval { get; private set; }
 
-		public MonthlyIntervalDetailsViewModel(MonthlyIntervalsViewModel monthlyIntervalsViewModel, EmployeeMonthlyInterval monthlyInterval = null)
+		public MonthlyIntervalDetailsViewModel(OrganisationMonthlyIntervalsViewModel organisationMonthlyIntervalsViewModel, EmployeeMonthlyInterval monthlyInterval = null)
 		{
-			MonthlyIntervalsViewModel = monthlyIntervalsViewModel;
+			OrganisationMonthlyIntervalsViewModel = organisationMonthlyIntervalsViewModel;
 			if (monthlyInterval == null)
 			{
 				Title = "Новый месячный график работы";
-				IsNew = true;
 				monthlyInterval = new EmployeeMonthlyInterval()
 				{
 					Name = "Месячный график работы"
@@ -27,7 +25,6 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование месячного графика работы";
-				IsNew = false;
 			}
 			MonthlyInterval = monthlyInterval;
 			Name = MonthlyInterval.Name;
@@ -63,7 +60,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (MonthlyIntervalsViewModel.MonthlyIntervals.Any(x => x.MonthlyInterval.Name == Name && x.MonthlyInterval.UID != MonthlyInterval.UID))
+			if (OrganisationMonthlyIntervalsViewModel.MonthlyIntervals.Any(x => x.MonthlyInterval.Name == Name && x.MonthlyInterval.UID != MonthlyInterval.UID))
 			{
 				MessageBoxService.ShowWarning("Название графика совпадает с введенным ранее");
 				return false;

@@ -12,17 +12,16 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="2">
-            <Controls:ToolBarButton DataContext="{Binding SelectedDocument}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-            <Controls:ToolBarButton DataContext="{Binding SelectedDocument}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-            <Controls:ToolBarButton DataContext="{Binding SelectedDocument}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
             <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
             <Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
         </StackPanel>
 
-
         <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0"
-                ItemsSource="{Binding Documents}"
-                SelectedItem="{Binding SelectedDocument}">
+                ItemsSource="{Binding OrganisationDocuments}"
+                SelectedItem="{Binding SelectedOrganisationDocument}">
 
             <TabControl.ItemTemplate>
                 <DataTemplate>
@@ -84,7 +83,6 @@
                     <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
                 </Style>
             </TabControl.ItemContainerStyle>
-
         </TabControl>
     </Grid>
 </UserControl>

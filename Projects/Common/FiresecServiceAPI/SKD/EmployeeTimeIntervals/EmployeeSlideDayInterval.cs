@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeSlideDayInterval
+	public class EmployeeSlideDayInterval : OrganizationElementBase
 	{
 		public EmployeeSlideDayInterval()
 		{

@@ -10,41 +10,33 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class MonthlyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class MonthlyIntervalsViewModel : ViewPartViewModel
 	{
 		EmployeeMonthlyInterval IntervalToCopy;
 
 		public MonthlyIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		public void Initialize()
 		{
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
 			var employeeMonthlyIntervals = new List<EmployeeMonthlyInterval>();
-			var neverTimeInterval = employeeMonthlyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeMonthlyInterval() { Name = "Никогда", IsDefault = true };
-				employeeMonthlyIntervals.Add(neverTimeInterval);
-			}
 
-			MonthlyIntervals = new ObservableCollection<MonthlyIntervalViewModel>();
-			foreach (var monthlyInterval in employeeMonthlyIntervals)
+			OrganisationMonthlyIntervals = new ObservableCollection<OrganisationMonthlyIntervalsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				var timeInrervalViewModel = new MonthlyIntervalViewModel(monthlyInterval);
-				MonthlyIntervals.Add(timeInrervalViewModel);
+				var timeInrervalViewModel = new OrganisationMonthlyIntervalsViewModel();
+				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeMonthlyInterval>(employeeMonthlyIntervals.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				OrganisationMonthlyIntervals.Add(timeInrervalViewModel);
 			}
-			SelectedMonthlyInterval = MonthlyIntervals.FirstOrDefault();
+			SelectedOrganisationMonthlyInterval = OrganisationMonthlyIntervals.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -53,112 +45,26 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<MonthlyIntervalViewModel> _monthlyIntervals;
-		public ObservableCollection<MonthlyIntervalViewModel> MonthlyIntervals
+		ObservableCollection<OrganisationMonthlyIntervalsViewModel> _organisationMonthlyIntervals;
+		public ObservableCollection<OrganisationMonthlyIntervalsViewModel> OrganisationMonthlyIntervals
 		{
-			get { return _monthlyIntervals; }
+			get { return _organisationMonthlyIntervals; }
 			set
 			{
-				_monthlyIntervals = value;
-				OnPropertyChanged("MonthlyIntervals");
+				_organisationMonthlyIntervals = value;
+				OnPropertyChanged("OrganisationMonthlyIntervals");
 			}
 		}
 
-		MonthlyIntervalViewModel _selectedMonthlyInterval;
-		public MonthlyIntervalViewModel SelectedMonthlyInterval
+		OrganisationMonthlyIntervalsViewModel _selectedOrganisationMonthlyInterval;
+		public OrganisationMonthlyIntervalsViewModel SelectedOrganisationMonthlyInterval
 		{
-			get { return _selectedMonthlyInterval; }
+			get { return _selectedOrganisationMonthlyInterval; }
 			set
 			{
-				_selectedMonthlyInterval = value;
-				OnPropertyChanged("SelectedMonthlyInterval");
+				_selectedOrganisationMonthlyInterval = value;
+				OnPropertyChanged("SelectedOrganisationMonthlyInterval");
 			}
-		}
-
-		public void Select(Guid intervalUID)
-		{
-			if (intervalUID != Guid.Empty)
-			{
-				var intervalViewModel = MonthlyIntervals.FirstOrDefault(x => x.MonthlyInterval.UID == intervalUID);
-				if (intervalViewModel != null)
-				{
-					SelectedMonthlyInterval = intervalViewModel;
-				}
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var monthlyIntervalDetailsViewModel = new MonthlyIntervalDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(monthlyIntervalDetailsViewModel))
-			{
-				var timeInrervalViewModel = new MonthlyIntervalViewModel(monthlyIntervalDetailsViewModel.MonthlyInterval);
-				MonthlyIntervals.Add(timeInrervalViewModel);
-				SelectedMonthlyInterval = timeInrervalViewModel;
-			}
-		}
-		bool CanAdd()
-		{
-			return MonthlyIntervals.Count < 256;
-		}
-
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			MonthlyIntervals.Remove(SelectedMonthlyInterval);
-		}
-		bool CanDelete()
-		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var monthlyIntervalDetailsViewModel = new MonthlyIntervalDetailsViewModel(this, SelectedMonthlyInterval.MonthlyInterval);
-			if (DialogService.ShowModalWindow(monthlyIntervalDetailsViewModel))
-			{
-				SelectedMonthlyInterval.Update();
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			IntervalToCopy = CopyInterval(SelectedMonthlyInterval.MonthlyInterval);
-		}
-		bool CanCopy()
-		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			var newInterval = CopyInterval(IntervalToCopy);
-			var timeInrervalViewModel = new MonthlyIntervalViewModel(newInterval);
-			MonthlyIntervals.Add(timeInrervalViewModel);
-			SelectedMonthlyInterval = timeInrervalViewModel;
-		}
-		bool CanPaste()
-		{
-			return IntervalToCopy != null && MonthlyIntervals.Count < 256;
-		}
-
-		EmployeeMonthlyInterval CopyInterval(EmployeeMonthlyInterval source)
-		{
-			var copy = new EmployeeMonthlyInterval();
-			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.MonthlyIntervalParts)
-			{
-				copy.MonthlyIntervalParts.Add(timeIntervalUID);
-			}
-			return copy;
 		}
 	}
 }

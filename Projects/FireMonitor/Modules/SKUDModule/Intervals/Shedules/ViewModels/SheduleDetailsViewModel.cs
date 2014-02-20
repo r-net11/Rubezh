@@ -9,17 +9,15 @@ namespace SKDModule.ViewModels
 {
 	public class SheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
-		ShedulesViewModel ShedulesViewModel;
-		bool IsNew;
+		OrganisationShedulesViewModel OrganisationShedulesViewModel;
 		public EmployeeShedule Shedule { get; private set; }
 
-		public SheduleDetailsViewModel(ShedulesViewModel shedulesViewModel, EmployeeShedule shedule = null)
+		public SheduleDetailsViewModel(OrganisationShedulesViewModel organisationShedulesViewModel, EmployeeShedule shedule = null)
 		{
-			ShedulesViewModel = shedulesViewModel;
+			OrganisationShedulesViewModel = organisationShedulesViewModel;
 			if (shedule == null)
 			{
 				Title = "Новый график";
-				IsNew = true;
 				shedule = new EmployeeShedule()
 				{
 					Name = "Новый график работы"
@@ -28,7 +26,6 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование графика работы";
-				IsNew = false;
 			}
 			Shedule = shedule;
 			Name = Shedule.Name;
@@ -126,7 +123,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (ShedulesViewModel.Shedules.Any(x => x.Shedule.Name == Name && x.Shedule.UID != Shedule.UID))
+			if (OrganisationShedulesViewModel.Shedules.Any(x => x.Shedule.Name == Name && x.Shedule.UID != Shedule.UID))
 			{
 				MessageBoxService.ShowWarning("Название графика совпадает с введенным ранее");
 				return false;

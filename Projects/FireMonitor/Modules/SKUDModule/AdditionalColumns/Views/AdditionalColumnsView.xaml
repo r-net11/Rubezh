@@ -16,41 +16,63 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-                <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
-            </StackPanel>
-        </Border>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding AdditionalColumns}" SelectedItem="{Binding SelectedAdditionalColumn}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Название" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding AdditionalColumn.Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Описание" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding AdditionalColumn.Description}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Формат данных" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding AdditionalColumn.Type, Converter={StaticResource AdditionalColumnTypeToStringConverter}}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="2">
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAdditionalColumn}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAdditionalColumn}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAdditionalColumn}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+            <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+        </StackPanel>
+
+        <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0"
+                ItemsSource="{Binding OrganisationAdditionalColumns}"
+                SelectedItem="{Binding SelectedOrganisationAdditionalColumn}">
+
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding AdditionalColumns}" SelectedItem="{Binding SelectedAdditionalColumn}" Margin="2">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Название" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                            <TextBlock Text="{Binding AdditionalColumn.Name}" VerticalAlignment="Center" Margin="2" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Описание" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AdditionalColumn.Description}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Формат данных" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AdditionalColumn.Type, Converter={StaticResource AdditionalColumnTypeToStringConverter}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                    <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
     </Grid>
 </UserControl>

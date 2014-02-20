@@ -8,17 +8,15 @@ namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
-		bool IsNew;
+		OrganisationSlideDayIntervalsViewModel OrganisationSlideDayIntervalsViewModel;
 		public EmployeeSlideDayInterval SlideDayInterval { get; private set; }
 
-		public SlideDayIntervalDetailsViewModel(SlideDayIntervalsViewModel slideDayIntervalsViewModel, EmployeeSlideDayInterval slideDayInterval = null)
+		public SlideDayIntervalDetailsViewModel(OrganisationSlideDayIntervalsViewModel organisationSlideDayIntervalsViewModel, EmployeeSlideDayInterval slideDayInterval = null)
 		{
-			SlideDayIntervalsViewModel = slideDayIntervalsViewModel;
+			OrganisationSlideDayIntervalsViewModel = organisationSlideDayIntervalsViewModel;
 			if (slideDayInterval == null)
 			{
 				Title = "Новый скользящий посуточный график";
-				IsNew = true;
 				slideDayInterval = new EmployeeSlideDayInterval()
 				{
 					Name = "Скользящий посуточный график"
@@ -27,7 +25,6 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование скользящего посуточного графика";
-				IsNew = false;
 			}
 			SlideDayInterval = slideDayInterval;
 			Name = SlideDayInterval.Name;
@@ -75,7 +72,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (SlideDayIntervalsViewModel.SlideDayIntervals.Any(x => x.SlideDayInterval.Name == Name && x.SlideDayInterval.UID != SlideDayInterval.UID))
+			if (OrganisationSlideDayIntervalsViewModel.SlideDayIntervals.Any(x => x.SlideDayInterval.Name == Name && x.SlideDayInterval.UID != SlideDayInterval.UID))
 			{
 				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
 				return false;

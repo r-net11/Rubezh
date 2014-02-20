@@ -8,17 +8,15 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		bool IsNew;
-		TimeIntervalsViewModel TimeIntervalsViewModel;
+		OrganisationTimeIntervalsViewModel OrganisationTimeIntervalsViewModel;
 		public EmployeeTimeInterval TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(TimeIntervalsViewModel timeIntervalsViewModel, EmployeeTimeInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(OrganisationTimeIntervalsViewModel organisationTimeIntervalsViewModel, EmployeeTimeInterval timeInterval = null)
 		{
-			TimeIntervalsViewModel = timeIntervalsViewModel;
+			OrganisationTimeIntervalsViewModel = organisationTimeIntervalsViewModel;
 			if (timeInterval == null)
 			{
 				Title = "Новый именованный интервал";
-				IsNew = true;
 				timeInterval = new EmployeeTimeInterval()
 				{
 					Name = "Именованный интервал"
@@ -28,7 +26,6 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = "Редактирование именованного интервала";
-				IsNew = false;
 			}
 			TimeInterval = timeInterval;
 			Name = TimeInterval.Name;
@@ -76,7 +73,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (TimeIntervalsViewModel.TimeIntervals.Any(x => x.TimeInterval.Name == Name && x.TimeInterval.UID != TimeInterval.UID))
+			if (OrganisationTimeIntervalsViewModel.TimeIntervals.Any(x => x.TimeInterval.Name == Name && x.TimeInterval.UID != TimeInterval.UID))
 			{
 				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
 				return false;

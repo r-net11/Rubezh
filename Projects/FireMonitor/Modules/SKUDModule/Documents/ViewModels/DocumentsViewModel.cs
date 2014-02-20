@@ -25,32 +25,19 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			Documents = new ObservableCollection<OrganisationDocumentsViewModel>();
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
 			var documents = DocumentHelper.GetDocuments(Filter);
 			if (documents == null)
-				return;
-			var dictionary = new Dictionary<Guid, Document>();
-			var organisationDocuments = new List<OrganisationDocument>();
-			foreach (var document in documents)
-			{
+			OrganisationDocuments = new ObservableCollection<OrganisationDocumentsViewModel>();
+			foreach (var organisation in organisations)
 				if (document.OrganizationUid == null)
 					continue;
-				var organisationDocument = organisationDocuments.FirstOrDefault(x => x.OrganisationUID == document.OrganizationUid);
-				if (organisationDocument == null)
-				{
-					organisationDocument = new OrganisationDocument() { OrganisationUID = document.OrganizationUid.Value };
-					organisationDocuments.Add(organisationDocument);
-				}
-				organisationDocument.Documents.Add(document);
-			}
-
-			foreach (var organisationDocument in organisationDocuments)
 			{
 				var documentViewModel = new OrganisationDocumentsViewModel();
-				documentViewModel.Initialize(organisationDocument.OrganisationUID.ToString(), organisationDocument.Documents);
-				Documents.Add(documentViewModel);
+				documentViewModel.Initialize(organisation.Name, new List<Document>(documents.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				OrganisationDocuments.Add(documentViewModel);
 			}
-			SelectedDocument = Documents.FirstOrDefault();
+			SelectedOrganisationDocument = OrganisationDocuments.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -59,25 +46,25 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<OrganisationDocumentsViewModel> _documents;
-		public ObservableCollection<OrganisationDocumentsViewModel> Documents
+		ObservableCollection<OrganisationDocumentsViewModel> _organisationDocuments;
+		public ObservableCollection<OrganisationDocumentsViewModel> OrganisationDocuments
 		{
-			get { return _documents; }
+			get { return _organisationDocuments; }
 			set
 			{
-				_documents = value;
-				OnPropertyChanged("Documents");
+				_organisationDocuments = value;
+				OnPropertyChanged("OrganisationDocuments");
 			}
 		}
 
-		OrganisationDocumentsViewModel _selectedDocument;
-		public OrganisationDocumentsViewModel SelectedDocument
+		OrganisationDocumentsViewModel _selectedOrganisationDocument;
+		public OrganisationDocumentsViewModel SelectedOrganisationDocument
 		{
-			get { return _selectedDocument; }
+			get { return _selectedOrganisationDocument; }
 			set
 			{
-				_selectedDocument = value;
-				OnPropertyChanged("SelectedDocument");
+				_selectedOrganisationDocument = value;
+				OnPropertyChanged("SelectedOrganisationDocument");
 			}
 		}
 
@@ -91,16 +78,5 @@ namespace SKDModule.ViewModels
 				Initialize();
 			}
 		}
-	}
-
-	public class OrganisationDocument
-	{
-		public OrganisationDocument()
-		{
-			Documents = new List<Document>();
-		}
-
-		public Guid OrganisationUID { get; set; }
-		public List<Document> Documents { get; set; }
 	}
 }

@@ -82,6 +82,7 @@
       <DependentUpon>CardZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
+    <Compile Include="AdditionalColumns\ViewModels\OrganisationAdditionalColumnsViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardDetailsViewModel.cs" />
@@ -159,16 +160,20 @@
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
+    <Compile Include="Intervals\Holidays\ViewModels\OrganisationHolidaysYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\OrganisationTimeIntervalsViewModel.cs" />
+    <Compile Include="Intervals\MonthlyIntervals\ViewModels\OrganisationMonthlyIntervalsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleDetailsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulePartViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulesViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulePartDetailsViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\OrganisationShedulesViewModel.cs" />
     <Compile Include="Intervals\Shedules\Views\SheduleDetailsView.xaml.cs">
       <DependentUpon>SheduleDetailsView.xaml</DependentUpon>
     </Compile>
@@ -178,6 +183,8 @@
     <Compile Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml.cs">
       <DependentUpon>ShedulePartDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Intervals\SlideDayIntervals\ViewModels\OrganisationSlideDayIntervalsViewModel.cs" />
+    <Compile Include="Intervals\WheeklyIntervals\ViewModels\OrganisationWeeklyIntervalsViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">

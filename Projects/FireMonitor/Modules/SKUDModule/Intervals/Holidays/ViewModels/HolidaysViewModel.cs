@@ -17,7 +17,6 @@ namespace SKDModule.ViewModels
 	{
 		public HolidaysViewModel()
 		{
-			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
@@ -58,13 +57,6 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged("SelectedYear");
 			}
-		}
-
-		public RelayCommand ShowSettingsCommand { get; private set; }
-		void OnShowSettings()
-		{
-			var holidaySettingsViewModel = new HolidaySettingsViewModel();
-			DialogService.ShowModalWindow(holidaySettingsViewModel);
 		}
 	}
 }

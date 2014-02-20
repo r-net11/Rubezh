@@ -10,42 +10,33 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class TimeIntervalsViewModel : ViewPartViewModel
 	{
 		EmployeeTimeInterval IntervalToCopy;
 
 		public TimeIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		public void Initialize()
 		{
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
 			var employeeTimeIntervals = new List<EmployeeTimeInterval>();
-			var neverTimeInterval = employeeTimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeTimeInterval() { Name = "Никогда", IsDefault = true };
-				neverTimeInterval.TimeIntervalParts.Add(new EmployeeTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
-				employeeTimeIntervals.Add(neverTimeInterval);
-			}
 
-			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
-			foreach (var timeInterval in employeeTimeIntervals)
+			OrganisationTimeIntervals = new ObservableCollection<OrganisationTimeIntervalsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				var timeInrervalViewModel = new TimeIntervalViewModel(timeInterval);
-				TimeIntervals.Add(timeInrervalViewModel);
+				var timeInrervalViewModel = new OrganisationTimeIntervalsViewModel();
+				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeTimeInterval>(employeeTimeIntervals.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				OrganisationTimeIntervals.Add(timeInrervalViewModel);
 			}
-			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
+			SelectedOrganisationTimeInterval = OrganisationTimeIntervals.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -54,113 +45,26 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<TimeIntervalViewModel> _timeIntervals;
-		public ObservableCollection<TimeIntervalViewModel> TimeIntervals
+		ObservableCollection<OrganisationTimeIntervalsViewModel> _organisationTimeIntervals;
+		public ObservableCollection<OrganisationTimeIntervalsViewModel> OrganisationTimeIntervals
 		{
-			get { return _timeIntervals; }
+			get { return _organisationTimeIntervals; }
 			set
 			{
-				_timeIntervals = value;
-				OnPropertyChanged("TimeIntervals");
+				_organisationTimeIntervals = value;
+				OnPropertyChanged("OrganisationTimeIntervals");
 			}
 		}
 
-		TimeIntervalViewModel _selectedTimeInterval;
-		public TimeIntervalViewModel SelectedTimeInterval
+		OrganisationTimeIntervalsViewModel _selectedOrganisationTimeInterval;
+		public OrganisationTimeIntervalsViewModel SelectedOrganisationTimeInterval
 		{
-			get { return _selectedTimeInterval; }
+			get { return _selectedOrganisationTimeInterval; }
 			set
 			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
+				_selectedOrganisationTimeInterval = value;
+				OnPropertyChanged("SelectedOrganisationTimeInterval");
 			}
-		}
-
-		public void Select(Guid timeIntervalUID)
-		{
-			if (timeIntervalUID != Guid.Empty)
-			{
-				var timeIntervalViewModel = TimeIntervals.FirstOrDefault(x => x.TimeInterval.UID == timeIntervalUID);
-				if (timeIntervalViewModel != null)
-				{
-					SelectedTimeInterval = timeIntervalViewModel;
-				}
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
-			{
-				var timeIntervalViewModel = new TimeIntervalViewModel(timeIntervalDetailsViewModel.TimeInterval);
-				TimeIntervals.Add(timeIntervalViewModel);
-				SelectedTimeInterval = timeIntervalViewModel;
-			}
-		}
-
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			TimeIntervals.Remove(SelectedTimeInterval);
-		}
-		bool CanDelete()
-		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(this, SelectedTimeInterval.TimeInterval);
-			if (DialogService.ShowModalWindow(timeInrervalDetailsViewModel))
-			{
-				SelectedTimeInterval.Update();
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			IntervalToCopy = CopyInterval(SelectedTimeInterval.TimeInterval);
-		}
-		bool CanCopy()
-		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			var newInterval = CopyInterval(IntervalToCopy);
-			var timeInrervalViewModel = new TimeIntervalViewModel(newInterval);
-			TimeIntervals.Add(timeInrervalViewModel);
-			SelectedTimeInterval = timeInrervalViewModel;
-		}
-		bool CanPaste()
-		{
-			return IntervalToCopy != null;
-		}
-
-		EmployeeTimeInterval CopyInterval(EmployeeTimeInterval source)
-		{
-			var copy = new EmployeeTimeInterval();
-			copy.Name = source.Name;
-			foreach (var timeIntervalPart in source.TimeIntervalParts)
-			{
-				var copyTimeIntervalPart = new EmployeeTimeIntervalPart()
-				{
-					StartTime = timeIntervalPart.StartTime,
-					EndTime = timeIntervalPart.EndTime
-				};
-				copy.TimeIntervalParts.Add(copyTimeIntervalPart);
-			}
-			return copy;
 		}
 	}
 }

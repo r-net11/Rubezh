@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeShedule
+	public class EmployeeShedule : OrganizationElementBase
 	{
 		public EmployeeShedule()
 		{

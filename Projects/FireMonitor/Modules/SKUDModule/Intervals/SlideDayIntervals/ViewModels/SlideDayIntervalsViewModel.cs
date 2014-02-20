@@ -10,42 +10,33 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SlideDayIntervalsViewModel : ViewPartViewModel
 	{
 		EmployeeSlideDayInterval IntervalToCopy;
 
 		public SlideDayIntervalsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
 		public void Initialize()
 		{
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
 			var employeeSlideDayIntervals = new List<EmployeeSlideDayInterval>();
-			var neverTimeInterval = employeeSlideDayIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeSlideDayInterval() { Name = "Никогда", IsDefault = true };
-				//neverTimeInterval.TimeIntervalUIDs.Add(Guid.Empty);
-				employeeSlideDayIntervals.Add(neverTimeInterval);
-			}
 
-			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
-			foreach (var slideDayInterval in employeeSlideDayIntervals)
+			OrganisationSlideDayIntervals = new ObservableCollection<OrganisationSlideDayIntervalsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayInterval);
-				SlideDayIntervals.Add(timeInrervalViewModel);
+				var timeInrervalViewModel = new OrganisationSlideDayIntervalsViewModel();
+				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeSlideDayInterval>(employeeSlideDayIntervals.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				OrganisationSlideDayIntervals.Add(timeInrervalViewModel);
 			}
-			SelectedSlideDayInterval = SlideDayIntervals.FirstOrDefault();
+			SelectedOrganisationSlideDayInterval = OrganisationSlideDayIntervals.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -54,108 +45,26 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<SlideDayIntervalViewModel> _slideDayIntervals;
-		public ObservableCollection<SlideDayIntervalViewModel> SlideDayIntervals
+		ObservableCollection<OrganisationSlideDayIntervalsViewModel> _organisationSlideDayIntervals;
+		public ObservableCollection<OrganisationSlideDayIntervalsViewModel> OrganisationSlideDayIntervals
 		{
-			get { return _slideDayIntervals; }
+			get { return _organisationSlideDayIntervals; }
 			set
 			{
-				_slideDayIntervals = value;
-				OnPropertyChanged("SlideDayIntervals");
+				_organisationSlideDayIntervals = value;
+				OnPropertyChanged("OrganisationSlideDayIntervals");
 			}
 		}
 
-		SlideDayIntervalViewModel _selectedSlideDayInterval;
-		public SlideDayIntervalViewModel SelectedSlideDayInterval
+		OrganisationSlideDayIntervalsViewModel _selectedOrganisationSlideDayInterval;
+		public OrganisationSlideDayIntervalsViewModel SelectedOrganisationSlideDayInterval
 		{
-			get { return _selectedSlideDayInterval; }
+			get { return _selectedOrganisationSlideDayInterval; }
 			set
 			{
-				_selectedSlideDayInterval = value;
-				OnPropertyChanged("SelectedSlideDayInterval");
+				_selectedOrganisationSlideDayInterval = value;
+				OnPropertyChanged("SelectedOrganisationSlideDayInterval");
 			}
-		}
-
-		public void Select(Guid intervalUID)
-		{
-			if (intervalUID != Guid.Empty)
-			{
-				var intervalViewModel = SlideDayIntervals.FirstOrDefault(x => x.SlideDayInterval.UID == intervalUID);
-				if (intervalViewModel != null)
-				{
-					SelectedSlideDayInterval = intervalViewModel;
-				}
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(slideDayIntervalDetailsViewModel))
-			{
-				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayIntervalDetailsViewModel.SlideDayInterval);
-				SlideDayIntervals.Add(timeInrervalViewModel);
-				SelectedSlideDayInterval = timeInrervalViewModel;
-			}
-		}
-
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
-		{
-			SlideDayIntervals.Remove(SelectedSlideDayInterval);
-		}
-		bool CanDelete()
-		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel(this, SelectedSlideDayInterval.SlideDayInterval);
-			if (DialogService.ShowModalWindow(slideDayIntervalDetailsViewModel))
-			{
-				SelectedSlideDayInterval.Update();
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			IntervalToCopy = CopyInterval(SelectedSlideDayInterval.SlideDayInterval);
-		}
-		bool CanCopy()
-		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			var newInterval = CopyInterval(IntervalToCopy);
-			var timeInrervalViewModel = new SlideDayIntervalViewModel(newInterval);
-			SlideDayIntervals.Add(timeInrervalViewModel);
-			SelectedSlideDayInterval = timeInrervalViewModel;
-		}
-		bool CanPaste()
-		{
-			return IntervalToCopy != null;
-		}
-
-		EmployeeSlideDayInterval CopyInterval(EmployeeSlideDayInterval source)
-		{
-			var copy = new EmployeeSlideDayInterval();
-			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
-			{
-				copy.TimeIntervalUIDs.Add(timeIntervalUID);
-			}
-			return copy;
 		}
 	}
 }

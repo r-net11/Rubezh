@@ -7,13 +7,12 @@ namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
-		bool IsNew;
+		OrganisationWeeklyIntervalsViewModel OrganisationWeeklyIntervalsViewModel;
 		public EmployeeWeeklyInterval WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalDetailsViewModel(WeeklyIntervalsViewModel weeklyIntervalsViewModel, EmployeeWeeklyInterval weeklyInterval = null)
+		public WeeklyIntervalDetailsViewModel(OrganisationWeeklyIntervalsViewModel organisationWeeklyIntervalsViewModel, EmployeeWeeklyInterval weeklyInterval = null)
 		{
-			WeeklyIntervalsViewModel = weeklyIntervalsViewModel;
+			OrganisationWeeklyIntervalsViewModel = organisationWeeklyIntervalsViewModel;
 			if (weeklyInterval == null)
 			{
 				Title = "Новый недельный график";
@@ -68,7 +67,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (WeeklyIntervalsViewModel.WeeklyIntervals.Any(x => x.WeeklyInterval.Name == Name && x.WeeklyInterval.UID != WeeklyInterval.UID))
+			if (OrganisationWeeklyIntervalsViewModel.WeeklyIntervals.Any(x => x.WeeklyInterval.Name == Name && x.WeeklyInterval.UID != WeeklyInterval.UID))
 			{
 				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
 				return false;

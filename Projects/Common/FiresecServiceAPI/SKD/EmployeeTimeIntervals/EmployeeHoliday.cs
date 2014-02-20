@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeHoliday
+	public class EmployeeHoliday : OrganizationElementBase
 	{
 		public EmployeeHoliday()
 		{
