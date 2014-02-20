@@ -26,12 +26,15 @@ namespace SKDModule.ViewModels
 		void Initialize()
 		{
 			Documents = new ObservableCollection<OrganisationDocumentsViewModel>();
-			var documents = FiresecManager.FiresecService.GetDocuments(Filter);
-
+			var documents = DocumentHelper.GetDocuments(Filter);
+			if (documents == null)
+				return;
 			var dictionary = new Dictionary<Guid, Document>();
 			var organisationDocuments = new List<OrganisationDocument>();
 			foreach (var document in documents)
 			{
+				if (document.OrganizationUid == null)
+					continue;
 				var organisationDocument = organisationDocuments.FirstOrDefault(x => x.OrganisationUID == document.OrganizationUid);
 				if (organisationDocument == null)
 				{

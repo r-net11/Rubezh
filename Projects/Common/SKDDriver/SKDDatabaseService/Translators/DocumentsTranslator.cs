@@ -25,7 +25,7 @@ namespace SKDDriver
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
 			if (sameNo)
-				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
+				return new OperationResult("Попытка добавления документа с совпадающим номером");
 			return base.CanSave(item);
 		}
 

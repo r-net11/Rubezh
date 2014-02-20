@@ -74,9 +74,11 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.Document;
+				var saveResult = DocumentHelper.Save(document);
+				if (!saveResult)
+					return;
 				var documentViewModel = new DocumentViewModel(document);
 				Documents.Add(documentViewModel);
-				DocumentHelper.Save(document);
 				SelectedDocument = documentViewModel;
 			}
 		}
@@ -84,8 +86,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var document = SelectedDocument.Document;
+			var removeResult = DocumentHelper.MarkDeleted(document);
+			if (!removeResult)
+				return;
 			var index = Documents.IndexOf(SelectedDocument);
-			DocumentHelper.MarkDeleted(SelectedDocument.Document);
 			Documents.Remove(SelectedDocument);
 			index = Math.Min(index, Documents.Count - 1);
 			if (index > -1)
@@ -103,8 +108,10 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.Document;
+				var saveResult = DocumentHelper.Save(document);
+				if (!saveResult)
+					return;
 				SelectedDocument.Update(document);
-				DocumentHelper.Save(document);
 			}
 		}
 		bool CanEdit()
