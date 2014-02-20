@@ -27,11 +27,9 @@ namespace SKDModule.ViewModels
 		{
 			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
 			var documents = DocumentHelper.GetDocuments(Filter);
-			if (documents == null)
+
 			OrganisationDocuments = new ObservableCollection<OrganisationDocumentsViewModel>();
 			foreach (var organisation in organisations)
-				if (document.OrganizationUid == null)
-					continue;
 			{
 				var documentViewModel = new OrganisationDocumentsViewModel();
 				documentViewModel.Initialize(organisation.Name, new List<Document>(documents.Where(x => x.OrganizationUid.Value == organisation.UID)));
