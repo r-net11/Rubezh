@@ -4,6 +4,8 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using System.Data.Linq;
+using LinqKit;
+using System.Linq.Expressions;
 
 namespace SKDDriver
 {
@@ -45,14 +47,30 @@ namespace SKDDriver
 		{
 			;
 		}
-		protected virtual bool IsInFilter(TableT item, FilterT filter)
+		protected virtual Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
-			if (item == null)
-				return false;
-			bool isInDeleted = IsInDeleted(item, filter);
-			bool isInUids = IsInList<Guid>(item.Uid, filter.Uids);
-			bool isInRemovalDates = IsInDateTimePeriod(item.RemovalDate, filter.RemovalDates);
-			return isInDeleted && isInUids && isInRemovalDates;
+			var result = PredicateBuilder.True<TableT>();
+			var IsDeletedExpression = PredicateBuilder.True<TableT>();
+			switch (filter.WithDeleted)
+			{
+				case DeletedType.Deleted:
+					IsDeletedExpression = e => e != null && e.IsDeleted.GetValueOrDefault(false);
+					break;
+				case DeletedType.Not:
+					IsDeletedExpression = e => e != null && !e.IsDeleted.GetValueOrDefault(false);
+					break;
+				default:
+					IsDeletedExpression = e => e != null;
+					break;
+			}
+			result = result.And(IsDeletedExpression);
+			var uids = filter.Uids;
+			if (uids != null && uids.Count != 0)
+				result = result.And(e => uids.Contains(e.Uid));
+			var removalDates = filter.RemovalDates;
+			if (removalDates != null)
+				result = result.And(e => e.RemovalDate == null || (e.RemovalDate >= removalDates.StartDate && e.RemovalDate <= removalDates.EndDate));
+			return result;
 		}
 
 		public IEnumerable<ApiT> Get(FilterT filter)
@@ -60,13 +78,13 @@ namespace SKDDriver
 			try
 			{
 				List<ApiT> result = new List<ApiT>();
+				IQueryable<TableT> query;
 				if (filter == null)
-					Table.ForEach(x => result.Add(Translate(x)));
-				else foreach (var item in Table)
-					{
-						if (IsInFilter(item, filter))
-							result.Add(Translate(item));
-					}
+					query = Table;
+				else
+					query = Table.Where(IsInFilter(filter));
+				foreach (var item in query)
+					result.Add(Translate(item));
 				return result;
 			}
 			catch (Exception e)
@@ -132,43 +150,56 @@ namespace SKDDriver
 			return dateTime;
 		}
 
-		protected static bool IsInDeleted(DataAccess.IDatabaseElement item, FilterBase filter)
+		//protected static bool IsInDeleted(DataAccess.IDatabaseElement item, FilterBase filter)
+		//{
+		//    bool isDeleted = item.IsDeleted.GetValueOrDefault(false);
+		//    switch (filter.WithDeleted)
+		//    {
+		//        case DeletedType.Deleted:
+		//            return isDeleted;
+		//        case DeletedType.Not:
+		//            return !isDeleted;
+		//        default:
+		//            return true;
+		//    }
+		//}
+
+		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
 		{
-			bool isDeleted = item.IsDeleted.GetValueOrDefault(false);
 			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
-					return isDeleted;
+					return e => e != null && e.IsDeleted.GetValueOrDefault(false);
 				case DeletedType.Not:
-					return !isDeleted;
+					return e => e != null && !e.IsDeleted.GetValueOrDefault(false);
 				default:
-					return true;
+					return e => true;
 			}
 		}
 
-		protected static bool IsInDateTimePeriod(DateTime? dateTime, DateTimePeriod dateTimePeriod)
-		{
-			if (dateTimePeriod == null)
-				return true;
-			if (dateTime == null)
-				return true;
-			return dateTime >= dateTimePeriod.StartDate && dateTime <= dateTimePeriod.EndDate;
-		}
+		//protected static Expression<Func<TableT, bool>> IsInDateTimePeriod(DateTimePeriod dateTimePeriod)
+		//{
+		//    if (dateTimePeriod == null)
+		//        return e => true;
+		//    if (dateTime == null)
+		//        return true;
+		//    return e => e.DateTime >= dateTimePeriod.StartDate && dateTime <= dateTimePeriod.EndDate;
+		//}
 
-		protected static bool IsInList<T>(T? item, List<T> list)
-			where T : struct
-		{
-			if (list == null || list.Count == 0)
-				return true;
-			return list.Any(x => x.Equals(item));
-		}
+		//protected static Expression<Func<TableT, bool>> IsInList<T>(T? item, List<T> list)
+		//    where T : struct
+		//{
+		//    if (list == null || list.Count == 0)
+		//        return e => true;
+		//    return e => list.Any(x => x.Equals(e));
+		//}
 
-		protected static bool IsInList<T>(T item, List<T> list)
-		{
-			if (list == null || list.Count == 0)
-				return true;
-			return list.Any(x => x.Equals(item));
-		}
+		//protected static Expression<Func<TableT, bool>> IsInList<T>(List<T> list)
+		//{
+		//    if (list == null || list.Count == 0)
+		//        return e => true;
+		//    return e => list.Any(x => x.Equals(e));
+		//}
 		#endregion
 	}
 }

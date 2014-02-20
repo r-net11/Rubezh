@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI;
 using System.Data.Linq;
+using LinqKit;
+using System.Linq.Expressions;
 
 namespace SKDDriver
 {
@@ -29,11 +32,14 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override bool IsInFilter(TableT tableItem, FilterT filter)
+		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
-			bool isInOrganizations = IsInList<Guid>(tableItem.OrganizationUid, filter.OrganizationUids);
-			bool isInBase = base.IsInFilter(tableItem, filter);
-			return isInBase && isInOrganizations;
+			var result = PredicateBuilder.True<TableT>();
+			result = result.And(base.IsInFilter(filter));
+			var organizationUIDs = filter.OrganizationUids;
+			if (organizationUIDs != null && organizationUIDs.Count != 0)
+				result = result.And(e => organizationUIDs.Contains(e.OrganizationUid.GetValueOrDefault()));
+			return result;
 		}
 
 		protected override void Update(TableT tableItem, ApiT apiItem)

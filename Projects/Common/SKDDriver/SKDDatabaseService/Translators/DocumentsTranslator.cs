@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 using System.Data.Linq;
-using Common;
-using System.Windows;
+using LinqKit;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class DocumentsTranslator : TranslatorBase<DataAccess.Document, Document, DocumentFilter>
+	public class DocumentsTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
 	{
 		public DocumentsTranslator(Table<DataAccess.Document> table)
 			: base(table)
 		{
-			;
+
 		}
 
 		protected override void Verify(Document item)
@@ -50,14 +48,23 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override bool IsInFilter(DataAccess.Document tableItem, DocumentFilter filter)
+		protected override Expression<Func<DataAccess.Document, bool>> IsInFilter(DocumentFilter filter)
 		{
-			bool isInBase = base.IsInFilter(tableItem, filter);
-			bool isInNos = IsInList<int>(tableItem.No, filter.Nos);
-			bool isInNames = IsInList<string>(tableItem.Name, filter.Names);
-			bool isInIsuueDates = IsInDateTimePeriod(tableItem.IssueDate, filter.IssueDate);
-			bool isInLaunchDates = IsInDateTimePeriod(tableItem.LaunchDate, filter.LaunchDate);
-			return isInBase && isInNos && isInNames && isInIsuueDates && isInLaunchDates;
+			var result = PredicateBuilder.True<DataAccess.Document>();
+			result = result.And(base.IsInFilter(filter));
+			var nos = filter.Nos;
+			if (nos != null && nos.Count != 0)
+				result = result.And(e => nos.Contains(e.No.GetValueOrDefault(-1)));
+			var names = filter.Names;
+			if (names != null && names.Count != 0)
+				result = result.And(e => names.Contains(e.Name));
+			var issueDates = filter.IssueDate;
+			if (issueDates != null)
+				result = result.And(e => e.RemovalDate >= issueDates.StartDate && e.RemovalDate <= issueDates.EndDate);
+			var launchDates = filter.LaunchDate;
+			if (launchDates != null)
+				result = result.And(e => e.RemovalDate >= launchDates.StartDate && e.RemovalDate <= launchDates.EndDate);
+			return result;
 		}
 
 		protected override void Update(DataAccess.Document tableItem, Document apiItem)
@@ -68,7 +75,6 @@ namespace SKDDriver
 			tableItem.IssueDate = apiItem.IssueDate;
 			tableItem.LaunchDate = apiItem.LaunchDate;
 			tableItem.No = apiItem.No;
-			Translator.Update(tableItem, apiItem);
 		}
 	}
 }
