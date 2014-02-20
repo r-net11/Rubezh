@@ -15,9 +15,6 @@ namespace SKDModule.ViewModels
 	{
 		public DocumentsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new DocumentFilter();
@@ -28,11 +25,26 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			Documents = new ObservableCollection<DocumentViewModel>();
+			Documents = new ObservableCollection<OrganisationDocumentsViewModel>();
 			var documents = FiresecManager.FiresecService.GetDocuments(Filter);
+
+			var dictionary = new Dictionary<Guid, Document>();
+			var organisationDocuments = new List<OrganisationDocument>();
 			foreach (var document in documents)
 			{
-				var documentViewModel = new DocumentViewModel(document);
+				var organisationDocument = organisationDocuments.FirstOrDefault(x => x.OrganisationUID == document.OrganizationUid);
+				if (organisationDocument == null)
+				{
+					organisationDocument = new OrganisationDocument() { OrganisationUID = document.OrganizationUid.Value };
+					organisationDocuments.Add(organisationDocument);
+				}
+				organisationDocument.Documents.Add(document);
+			}
+
+			foreach (var organisationDocument in organisationDocuments)
+			{
+				var documentViewModel = new OrganisationDocumentsViewModel();
+				documentViewModel.Initialize(organisationDocument.OrganisationUID.ToString(), organisationDocument.Documents);
 				Documents.Add(documentViewModel);
 			}
 			SelectedDocument = Documents.FirstOrDefault();
@@ -44,8 +56,8 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<DocumentViewModel> _documents;
-		public ObservableCollection<DocumentViewModel> Documents
+		ObservableCollection<OrganisationDocumentsViewModel> _documents;
+		public ObservableCollection<OrganisationDocumentsViewModel> Documents
 		{
 			get { return _documents; }
 			set
@@ -55,8 +67,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DocumentViewModel _selectedDocument;
-		public DocumentViewModel SelectedDocument
+		OrganisationDocumentsViewModel _selectedDocument;
+		public OrganisationDocumentsViewModel SelectedDocument
 		{
 			get { return _selectedDocument; }
 			set
@@ -64,51 +76,6 @@ namespace SKDModule.ViewModels
 				_selectedDocument = value;
 				OnPropertyChanged("SelectedDocument");
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(documentDetailsViewModel))
-			{
-				var document = documentDetailsViewModel.Document;
-				var documentViewModel = new DocumentViewModel(document);
-				Documents.Add(documentViewModel);
-				DocumentHelper.Save(document);
-				SelectedDocument = documentViewModel;
-			}
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var index = Documents.IndexOf(SelectedDocument);
-			DocumentHelper.MarkDeleted(SelectedDocument.Document);
-			Documents.Remove(SelectedDocument);
-			index = Math.Min(index, Documents.Count - 1);
-			if (index > -1)
-				SelectedDocument = Documents[index];
-		}
-		bool CanRemove()
-		{
-			return SelectedDocument != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(this, SelectedDocument.Document);
-			if (DialogService.ShowModalWindow(documentDetailsViewModel))
-			{
-				var document = documentDetailsViewModel.Document;
-				SelectedDocument.Update(document);
-				DocumentHelper.Save(document);
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedDocument != null;
 		}
 
 		public RelayCommand EditFilterCommand { get; private set; }
@@ -121,5 +88,16 @@ namespace SKDModule.ViewModels
 				Initialize();
 			}
 		}
+	}
+
+	public class OrganisationDocument
+	{
+		public OrganisationDocument()
+		{
+			Documents = new List<Document>();
+		}
+
+		public Guid OrganisationUID { get; set; }
+		public List<Document> Documents { get; set; }
 	}
 }
