@@ -18,6 +18,11 @@
 	<DockPanel>
 		<ComboBox Margin="4" DockPanel.Dock="Top" ItemsSource="{Binding Types}" SelectedItem="{Binding Type, UpdateSourceTrigger=PropertyChanged}" />
 		<TreeList IsEnabled="{Binding IsTreeEnabled}" SelectedTreeNode="{Binding SelectedPlan}" Source="{Binding Plans}">
+			<TreeList.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type TreeListItem}}" TargetType="{x:Type TreeListItem}">
+					<Setter Property="Focusable" Value="{Binding DataContext.ShowCheckboxes, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource InverseBooleanConverter}}" />
+				</Style>
+			</TreeList.ItemContainerStyle>
 			<TreeList.View>
 				<GridView>
 					<GridViewColumn Width="250" Header="Планы">
@@ -25,8 +30,7 @@
 							<DataTemplate>
 								<Border Background="Transparent">
 									<StackPanel Orientation="Horizontal">
-										<!--  Visibility="{Binding ShowCheckboxes, Converter={StaticResource BoolToVisibilityConverter}}"  -->
-										<CheckBox Margin="2" IsChecked="{Binding IsChecked}" />
+										<CheckBox Margin="2" IsChecked="{Binding IsChecked}" Visibility="{Binding DataContext.ShowCheckboxes, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center"/>
 										<Image Name="Image" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/CMap.png" />
 										<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" />
 									</StackPanel>

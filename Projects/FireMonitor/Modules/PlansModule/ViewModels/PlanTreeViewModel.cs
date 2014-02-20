@@ -16,10 +16,12 @@ namespace PlansModule.ViewModels
 		public event EventHandler SelectedPlanChanged;
 		public List<PlanViewModel> AllPlans { get; private set; }
 		private PlansViewModel _plansViewModel;
+		private List<Guid> _filter;
 
-		public PlanTreeViewModel(PlansViewModel plansViewModel)
+		public PlanTreeViewModel(PlansViewModel plansViewModel, List<Guid> filter)
 		{
 			Current = this;
+			_filter = filter;
 			_plansViewModel = plansViewModel;
 		}
 
@@ -36,18 +38,21 @@ namespace PlansModule.ViewModels
 		}
 		private void AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
-			var planViewModel = new PlanViewModel(_plansViewModel, plan);
-			planViewModel.IsExpanded = true;
-			AllPlans.Add(planViewModel);
-			if (parentPlanViewModel == null)
-				Plans.Add(planViewModel);
-			else
-				parentPlanViewModel.AddChild(planViewModel);
-			if (SelectedPlan == null && !planViewModel.IsFolder)
-				SelectedPlan = planViewModel;
+			if (_filter == null || _filter.Contains(plan.UID))
+			{
+				var planViewModel = new PlanViewModel(_plansViewModel, plan);
+				planViewModel.IsExpanded = true;
+				AllPlans.Add(planViewModel);
+				if (parentPlanViewModel == null)
+					Plans.Add(planViewModel);
+				else
+					parentPlanViewModel.AddChild(planViewModel);
+				if (SelectedPlan == null && !planViewModel.IsFolder)
+					SelectedPlan = planViewModel;
 
-			foreach (var childPlan in plan.Children)
-				AddPlan(childPlan, planViewModel);
+				foreach (var childPlan in plan.Children)
+					AddPlan(childPlan, planViewModel);
+			}
 		}
 
 		PlanViewModel _selectedPlan;

@@ -332,6 +332,8 @@ namespace XFiresecAPI
 		{
 			get
 			{
+				if (Driver == null)
+					return false;
 				if (Driver.IsGroupDevice)
 					return false;
 				if (DriverType == XDriverType.System)

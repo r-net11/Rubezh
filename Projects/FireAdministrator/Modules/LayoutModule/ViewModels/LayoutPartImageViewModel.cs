@@ -2,6 +2,10 @@
 using System.Windows.Media;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
+using System;
+using Infrastructure.Common.Services;
+using Common;
+using Infrastructure.Common.Windows;
 
 namespace LayoutModule.ViewModels
 {
@@ -14,6 +18,7 @@ namespace LayoutModule.ViewModels
 			_imageSource = null;
 			_properties = properties ?? new LayoutPartImageProperties();
 			_imagePage = new LayoutPartPropertyImagePageViewModel(this);
+			UpdateLayoutPart();
 		}
 
 		public override ILayoutProperties Properties
@@ -47,6 +52,30 @@ namespace LayoutModule.ViewModels
 				_imageSource = value;
 				OnPropertyChanged(() => ImageSource);
 			}
+		}
+
+		public void UpdateLayoutPart()
+		{
+			Stretch = _properties.Stretch;
+			ImageSource = GetImage(_properties.SourceUID, _properties.IsVectorImage);
+		}
+		private ImageSource GetImage(Guid uid, bool isVector)
+		{
+			ImageSource imageSource = null;
+			if (uid != Guid.Empty)
+				try
+				{
+					if (isVector)
+						imageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(uid));
+					else
+						imageSource = ServiceFactoryBase.ContentService.GetBitmapContent(uid);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове LayoutPartPropertyImagePageViewModel.UpdateImage");
+					MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
+				}
+			return imageSource;
 		}
 	}
 }

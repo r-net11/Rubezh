@@ -4,9 +4,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Linq;
 
 namespace FireMonitor.ViewModels
 {
@@ -21,11 +23,7 @@ namespace FireMonitor.ViewModels
 			CurrentStateClass = XStateClass.Norm;
 			IsSoundOn = true;
 			IsEnabled = false;
-			try
-			{
-				OnStateChanged(null);
-			}
-			catch { ; }
+			OnStateChanged(null);
 		}
 
 		public XStateClass CurrentStateClass { get; private set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI.Models;
@@ -10,57 +11,73 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
+using FiresecAPI.Models.Layouts;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
 	public class PlansViewModel : ViewPartViewModel
 	{
-		bool _initialized;
+		private bool _initialized;
+		private LayoutPartPlansProperties _properties;
 		public List<IPlanPresenter<Plan, XStateClass>> PlanPresenters { get; private set; }
 		public PlanTreeViewModel PlanTreeViewModel { get; private set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; private set; }
 
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters)
+			: this(planPresenters, new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All })
 		{
+		}
+		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
+		{
+			_properties = properties;
 			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			_initialized = false;
-			PlanTreeViewModel = new PlanTreeViewModel(this);
-			PlanDesignerViewModel = new PlanDesignerViewModel(this);
-			PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
-
-			var isNotFirstTime = RegistrySettingsHelper.GetBool("Monitor.Plans.IsNotFirstTime");
-			var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
-			if (!isNotFirstTime && planNavigationWidth == 0)
+			if (_properties.Type != LayoutPartPlansType.Single)
 			{
-				planNavigationWidth = 100;
+				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
+				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
+				var isNotFirstTime = RegistrySettingsHelper.GetBool("Monitor.Plans.IsNotFirstTime");
+				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
+				if (!isNotFirstTime && planNavigationWidth == 0)
+				{
+					planNavigationWidth = 100;
+				}
+				PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
+				ApplicationService.ShuttingDown += () =>
+				{
+					RegistrySettingsHelper.SetDouble("Monitor.Plans.SplitterDistance", PlanNavigationWidth.Value);
+					RegistrySettingsHelper.SetBool("Monitor.Plans.IsNotFirstTime", true);
+				};
 			}
-			PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
-			ApplicationService.ShuttingDown += () =>
-			{
-				RegistrySettingsHelper.SetDouble("Monitor.Plans.SplitterDistance", PlanNavigationWidth.Value);
-				RegistrySettingsHelper.SetBool("Monitor.Plans.IsNotFirstTime", true);
-			};
+			else
+				PlanNavigationWidth = GridLength.Auto;
+			PlanDesignerViewModel = new PlanDesignerViewModel(this);
 		}
 
 		public void Initialize()
 		{
 			_initialized = false;
-			PlanTreeViewModel.Initialize();
+			if (PlanTreeViewModel != null)
+				PlanTreeViewModel.Initialize();
 			_initialized = true;
 			OnSelectedPlanChanged();
 		}
 
 		void OnSelectPlan(Guid planUID)
 		{
-			var newPlan = PlanTreeViewModel.FindPlan(planUID);
-			if (PlanTreeViewModel.SelectedPlan == newPlan)
-				PlanDesignerViewModel.Update();
-			else
-				PlanTreeViewModel.SelectedPlan = newPlan;
+			if (PlanTreeViewModel != null)
+			{
+				var newPlan = PlanTreeViewModel.FindPlan(planUID);
+				if (PlanTreeViewModel.SelectedPlan == newPlan)
+					PlanDesignerViewModel.Update();
+				else
+					PlanTreeViewModel.SelectedPlan = newPlan;
+			}
 		}
 		void SelectedPlanChanged(object sender, EventArgs e)
 		{
@@ -69,7 +86,20 @@ namespace PlansModule.ViewModels
 		void OnSelectedPlanChanged()
 		{
 			if (_initialized)
-				PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
+			{
+				if (PlanTreeViewModel != null)
+					PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
+				else if (_properties.Plans.Count > 0)
+				{
+					var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(item => item.UID == _properties.Plans[0]);
+					if (plan != null)
+					{
+						var planViewModel = new PlanViewModel(this, plan);
+						PlanPresenters.ForEach(planPresenter => planViewModel.RegisterPresenter(planPresenter));
+						PlanDesignerViewModel.SelectPlan(planViewModel);
+					}
+				}
+			}
 		}
 
 		void OnShowElement(Guid elementUID)
@@ -83,15 +113,16 @@ namespace PlansModule.ViewModels
 		}
 		void OnFindElementEvent(List<Guid> deviceUIDs)
 		{
-			foreach (var plan in PlanTreeViewModel.AllPlans)
-				if (plan.PlanFolder == null)
-					foreach (var elementDevice in plan.Plan.ElementUnion)
-						if (deviceUIDs.Contains(elementDevice.UID))
-						{
-							PlanTreeViewModel.SelectedPlan = plan;
-							OnShowElement(elementDevice.UID);
-							return;
-						}
+			if (PlanTreeViewModel != null)
+				foreach (var plan in PlanTreeViewModel.AllPlans)
+					if (plan.PlanFolder == null)
+						foreach (var elementDevice in plan.Plan.ElementUnion)
+							if (deviceUIDs.Contains(elementDevice.UID))
+							{
+								PlanTreeViewModel.SelectedPlan = plan;
+								OnShowElement(elementDevice.UID);
+								return;
+							}
 		}
 		void OnNavigate(NavigateToPlanElementEventArgs args)
 		{
@@ -103,7 +134,7 @@ namespace PlansModule.ViewModels
 
 		public bool IsPlanTreeVisible
 		{
-			get { return !GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree; }
+			get { return !GlobalSettingsHelper.GlobalSettings.Monitor_HidePlansTree && PlanTreeViewModel != null; }
 		}
 
 		public override void OnShow()
@@ -111,7 +142,8 @@ namespace PlansModule.ViewModels
 			base.OnShow();
 			foreach (var planPresenter in PlanPresenters)
 				planPresenter.ExtensionAttached();
-			PlanTreeViewModel.Select();
+			if (PlanTreeViewModel != null)
+				PlanTreeViewModel.Select();
 		}
 
 		GridLength _planNavigationWidth;

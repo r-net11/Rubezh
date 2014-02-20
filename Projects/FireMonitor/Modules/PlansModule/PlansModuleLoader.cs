@@ -52,6 +52,7 @@ namespace PlansModule
 		public override void Initialize()
 		{
 			FiresecManager.UpdatePlansConfiguration();
+			FiresecManager.PlansConfiguration.Update();
 			using (new TimeCounter("PlansModuleLoader.Initialize: {0}"))
 			{
 				using (new TimeCounter("\tPlansModuleLoader.CacheBrushes: {0}"))
@@ -77,12 +78,13 @@ namespace PlansModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", CreatePlansViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.PlansEx, "Планы", "Map.png", CreatePlansViewModel);
 		}
 		#endregion
 
 		private BaseViewModel CreatePlansViewModel(ILayoutProperties properties)
 		{
-			var plansViewModel = new PlansViewModel(_planPresenters);
+			var plansViewModel = new PlansViewModel(_planPresenters, properties as LayoutPartPlansProperties);
 			plansViewModel.Initialize();
 			_plansViewModels.Add(plansViewModel);
 			return plansViewModel;

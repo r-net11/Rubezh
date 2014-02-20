@@ -26,17 +26,22 @@ namespace FireMonitor.Layout.ViewModels
 			Layout = layout;
 		}
 
+		public void UpdateLayout(LayoutModel layout)
+		{
+			Layout = layout;
+			Initialize();
+			if (_serializer != null && Layout != null && !string.IsNullOrEmpty(Layout.Content))
+				using (var tr = new StringReader(Layout.Content))
+					_serializer.Deserialize(tr);
+		}
 		private void LoadLayout()
 		{
-			Initialize();
 			Manager.GridSplitterHeight = Layout.SplitterSize;
 			Manager.GridSplitterWidth = Layout.SplitterSize;
 			Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
 			Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
 			Manager.BorderThickness = new Thickness(Layout.BorderThickness);
-			if (!string.IsNullOrEmpty(Layout.Content))
-				using (var tr = new StringReader(Layout.Content))
-					_serializer.Deserialize(tr);
+			UpdateLayout(Layout);
 		}
 		private void Initialize()
 		{
@@ -52,8 +57,9 @@ namespace FireMonitor.Layout.ViewModels
 					foreach (var layoutPart in layoutProviderModule.GetLayoutParts())
 						map.Add(layoutPart.UID, layoutPart);
 			}
-			foreach (var layoutPart in Layout.Parts)
-				list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
+			if (Layout != null)
+				foreach (var layoutPart in Layout.Parts)
+					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
 		}
 

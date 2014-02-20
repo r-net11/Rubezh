@@ -24,8 +24,6 @@ namespace VideoModule.ViewModels
 		{
 			_layoutPartCameraViewModel = layoutPartCameraViewModel;
 			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
-			CopyProperties();
-			UpdateLayoutPart();
 		}
 
 		private ObservableCollection<Camera> _cameras;
@@ -69,16 +67,10 @@ namespace VideoModule.ViewModels
 			if ((SelectedCamera == null && properties.SourceUID != Guid.Empty) || (SelectedCamera != null && properties.SourceUID != SelectedCamera.UID))
 			{
 				properties.SourceUID = SelectedCamera == null ? Guid.Empty : SelectedCamera.UID;
-				UpdateLayoutPart();
+				_layoutPartCameraViewModel.UpdateLayoutPart(SelectedCamera);
 				return true;
 			}
 			return false;
-		}
-
-		private void UpdateLayoutPart()
-		{
-			var properties = (LayoutPartCameraProperties)_layoutPartCameraViewModel.Properties;
-			_layoutPartCameraViewModel.CameraTitle = SelectedCamera == null ? _layoutPartCameraViewModel.Title : SelectedCamera.Name;
 		}
 	}
 }

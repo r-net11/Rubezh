@@ -52,28 +52,20 @@ namespace FiresecClient
 		{
 			var minStateClass = XStateClass.No;
 			foreach (var device in XManager.Devices)
-			{
 				if (device.IsRealDevice)
 				{
 					var stateClass = device.State.StateClass;
 					if (device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
-					{
 						stateClass = XStateClass.Info;
-					}
 					if (stateClass < minStateClass)
 						minStateClass = device.State.StateClass;
 				}
-			}
 			foreach (var zone in XManager.Zones)
-			{
-				if (zone.State.StateClass < minStateClass)
+				if (zone.State != null && zone.State.StateClass < minStateClass)
 					minStateClass = zone.State.StateClass;
-			}
 			foreach (var direction in XManager.Directions)
-			{
-				if (direction.State.StateClass < minStateClass)
+				if (direction.State != null && direction.State.StateClass < minStateClass)
 					minStateClass = direction.State.StateClass;
-			}
 			return minStateClass;
 		}
 	}

@@ -35,7 +35,6 @@ namespace LayoutModule.ViewModels
 				OptimizePath = true,
 			};
 			StretchTypes = new ObservableCollection<Stretch>(Enum.GetValues(typeof(Stretch)).Cast<Stretch>());
-			UpdateLayoutPart();
 			SelectPictureCommand = new RelayCommand(OnSelectPicture);
 			RemovePictureCommand = new RelayCommand(OnRemovePicture, CanRemovePicture);
 		}
@@ -103,11 +102,10 @@ namespace LayoutModule.ViewModels
 		}
 		public override void CopyProperties()
 		{
-			var properties = (LayoutPartImageProperties)_layoutPartImageViewModel.Properties;
-			Stretch = properties.Stretch;
+			Stretch = _layoutPartImageViewModel.Stretch;
 			_sourceName = null;
 			_drawing = null;
-			ImageSource = GetImage(properties.SourceUID, properties.IsVectorImage);
+			ImageSource = _layoutPartImageViewModel.ImageSource;
 			_imageChanged = false;
 		}
 		public override bool CanSave()
@@ -135,35 +133,11 @@ namespace LayoutModule.ViewModels
 					properties.IsVectorImage = _drawing != null;
 				}
 				properties.Stretch = Stretch;
-				UpdateLayoutPart();
+				_layoutPartImageViewModel.UpdateLayoutPart();
 				return true;
 			}
 			return false;
 		}
 
-		private void UpdateLayoutPart()
-		{
-			var properties = (LayoutPartImageProperties)_layoutPartImageViewModel.Properties;
-			_layoutPartImageViewModel.Stretch = properties.Stretch;
-			_layoutPartImageViewModel.ImageSource = GetImage(properties.SourceUID, properties.IsVectorImage);
-		}
-		private ImageSource GetImage(Guid uid, bool isVector)
-		{
-			ImageSource imageSource = null;
-			if (uid != Guid.Empty)
-				try
-				{
-					if (isVector)
-						imageSource = new DrawingImage(ServiceFactoryBase.ContentService.GetDrawing(uid));
-					else
-						imageSource = ServiceFactoryBase.ContentService.GetBitmapContent(uid);
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове LayoutPartPropertyImagePageViewModel.UpdateImage");
-					MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
-				}
-			return imageSource;
-		}
 	}
 }

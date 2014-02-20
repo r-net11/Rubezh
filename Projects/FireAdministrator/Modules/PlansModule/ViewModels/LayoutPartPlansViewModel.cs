@@ -5,21 +5,20 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
 	public class LayoutPartPlansViewModel : LayoutPartTitleViewModel
 	{
 		private LayoutPartPlansProperties _properties;
-		private LayoutPartPropertyPageViewModel _plansPage;
 
 		public LayoutPartPlansViewModel(LayoutPartPlansProperties properties)
 		{
 			Title = "Планы";
 			IconSource = LayoutPartDescription.IconPath + "CMap.png";
-			_plansTitle = null;
 			_properties = properties ?? new LayoutPartPlansProperties();
-			_plansPage = new LayoutPartPropertyPlansPageViewModel(this);
+			UpdateLayoutPart();
 		}
 
 		public override ILayoutProperties Properties
@@ -30,19 +29,33 @@ namespace PlansModule.ViewModels
 		{
 			get
 			{
-				yield return _plansPage;
+				yield return new LayoutPartPropertyPlansPageViewModel(this);
 			}
 		}
 
-		private string _plansTitle;
-		public string PlansTitle
+		public string PlansTitle { get; private set; }
+
+		public void UpdateLayoutPart()
 		{
-			get { return _plansTitle; }
-			set
+			switch (_properties.Type)
 			{
-				_plansTitle = value;
-				OnPropertyChanged(() => PlansTitle);
+				case LayoutPartPlansType.All:
+					PlansTitle = "(Все планы)";
+					break;
+				case LayoutPartPlansType.Selected:
+				case LayoutPartPlansType.Single:
+					var names = GetPlanNames();
+					PlansTitle = string.Format("({0})", string.Join(", ", names));
+					break;
 			}
+			OnPropertyChanged(() => PlansTitle);
+		}
+		private List<string> GetPlanNames()
+		{
+			FiresecManager.PlansConfiguration.Update();
+			var map = new Dictionary<Guid, string>();
+			FiresecManager.PlansConfiguration.AllPlans.ForEach(item => map.Add(item.UID, item.Caption));
+			return _properties.Plans.Select(item => map[item]).ToList();
 		}
 	}
 }

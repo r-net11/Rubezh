@@ -5,13 +5,14 @@ using System.Text;
 using Infrastructure.Common.Services.Layout;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Client.Layout.ViewModels;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace VideoModule.ViewModels
 {
 	public class LayoutPartCameraViewModel : LayoutPartTitleViewModel
 	{
 		private LayoutPartCameraProperties _properties;
-		private LayoutPartPropertyPageViewModel _imagePage;
 
 		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
 		{
@@ -19,7 +20,8 @@ namespace VideoModule.ViewModels
 			IconSource = LayoutPartDescription.IconPath + "BVideo.png";
 			_сameraTitle = null;
 			_properties = properties ?? new LayoutPartCameraProperties();
-			_imagePage = new LayoutPartPropertyCameraPageViewModel(this);
+			var selectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.SourceUID);
+			UpdateLayoutPart(selectedCamera);
 		}
 
 		public override ILayoutProperties Properties
@@ -30,7 +32,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				yield return _imagePage;
+				yield return new LayoutPartPropertyCameraPageViewModel(this);
 			}
 		}
 
@@ -43,6 +45,11 @@ namespace VideoModule.ViewModels
 				_сameraTitle = value;
 				OnPropertyChanged(() => CameraTitle);
 			}
+		}
+
+		public void UpdateLayoutPart(Camera selectedCamera)
+		{
+			CameraTitle = selectedCamera == null ? Title : selectedCamera.Name;
 		}
 	}
 }

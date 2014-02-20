@@ -29,6 +29,6 @@ namespace FireMonitor.Layout.ViewModels
 		{
 			get { return LayoutPartPresenter.IconSource; }
 		}
-		public object Content { get; private set; }
+		public BaseViewModel Content { get; private set; }
 	}
 }

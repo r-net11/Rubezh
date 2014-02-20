@@ -10,7 +10,7 @@ namespace FiresecAPI.Models.Layouts
 	public class LayoutPartPlansProperties : ILayoutProperties
 	{
 		[DataMember]
-		public Guid SourceUID { get; set; }
+		public List<Guid> Plans { get; set; }
 		[DataMember]
 		public LayoutPartPlansType Type { get; set; }
 	}
