@@ -16,22 +16,36 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Семейство" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IDFamily}" HorizontalAlignment="Left" Margin="2" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Номер" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding IDNo}" HorizontalAlignment="Left" Margin="2" />
-
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <Calendar Grid.Row="2" Grid.Column="1" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" HorizontalAlignment="Left" IsTodayHighlighted="False"
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <Calendar Grid.Row="0" Grid.Column="1" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" HorizontalAlignment="Left" IsTodayHighlighted="False"
                     DisplayDateStart="{Binding StartDate, Mode=OneTime}"
                     SelectedDate="{Binding StartDate}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Конец действия" Foreground="White" Margin="2" />
-                <Calendar Grid.Row="3" Grid.Column="1" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" HorizontalAlignment="Left" IsTodayHighlighted="False"
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Конец действия" Foreground="White" Margin="2" />
+                <Calendar Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" HorizontalAlignment="Left" IsTodayHighlighted="False"
                     DisplayDateStart="{Binding EndDate, Mode=OneTime}"
                     SelectedDate="{Binding EndDate}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Семейство" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding IDFamily}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Номер" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding IDNo}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
+
+                <CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding UseStopList}" Content="Из СТОП-листа" Foreground="White" VerticalAlignment="Center" Margin="2" />
+                <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" IsEnabled="{Binding UseStopList}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Series}" Margin="2" />
+                                <TextBlock Text="{Binding Number}" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </TabItem>
         <TabItem Header="Зоны">
