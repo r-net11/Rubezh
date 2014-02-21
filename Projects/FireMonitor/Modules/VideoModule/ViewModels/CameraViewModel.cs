@@ -46,6 +46,13 @@ namespace VideoModule.ViewModels
 			MjpegCamera = new MjpegCamera(camera);
 		}
 
+
+		public CameraViewModel(Camera camera)
+		{
+			Camera = camera;
+			MjpegCamera = new MjpegCamera(camera);
+		}
+
 		void GetError(string error)
 		{
 			Error = error;
