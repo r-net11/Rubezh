@@ -5,7 +5,7 @@
     <Icon Id="MonitorIcon" SourceFile="Data\Monitor.ico"/>
 
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="Monitor.DesktopShortcut" Guid="*">
+      <Component Id="Monitor.DesktopShortcut" Guid="892043E1-4386-4963-893E-DB28A51E3DEF">
         <Shortcut Id="Monitor.DesktopShortcut" Name="$(var.MonitorName)" Target="[MONITORLOCATION]$(var.Monitor.TargetFileName)"
             WorkingDirectory="MONITORLOCATION" Description="$(var.MonitorName)" Icon="MonitorIcon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.MonitorName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
@@ -14,7 +14,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ProgramMenuDir">
-      <Component Id="Monitor.ProgramsMenuShortcut" Guid="*">
+      <Component Id="Monitor.ProgramsMenuShortcut" Guid="70ADCC32-904C-4020-B874-576FE1C898E9">
         <Shortcut Id="Monitor.ProgramsMenuShortcut" Name="$(var.MonitorName)" Target="[MONITORLOCATION]$(var.Monitor.TargetFileName)"
             WorkingDirectory="MONITORLOCATION" Description="$(var.MonitorName)" Icon="MonitorIcon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.MonitorName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />

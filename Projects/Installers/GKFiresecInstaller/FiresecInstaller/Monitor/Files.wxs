@@ -61,6 +61,10 @@
         <File Id="Monitor.PlansModule.Kursk.dll" Name="PlansModule.Kursk.dll" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
+      <Component Id="Monitor.SKD_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
+        <File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+      </Component>
+
       <Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
         <File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
         <File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
@@ -87,7 +91,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder">
-      <Component Id="Monitor.Hasp" Guid="*">
+      <Component Id="Monitor.Hasp" Guid="F1E5C7D0-D39F-4206-9209-3237AAB579F1">
         <File Id="Monitor.hasp_windows_83702.dll" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" KeyPath="yes" />
       </Component>
     </DirectoryRef>

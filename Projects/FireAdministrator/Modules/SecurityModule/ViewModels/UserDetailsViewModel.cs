@@ -6,6 +6,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using FiresecAPI;
+using System;
 
 namespace SecurityModule.ViewModels
 {
@@ -40,6 +43,15 @@ namespace SecurityModule.ViewModels
 			}
 
 			CopyProperties();
+
+			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			Organisations = new ObservableCollection<OrganisationViewModel>();
+			foreach (var organisation in organisations)
+			{
+				var organisationViewModel = new OrganisationViewModel(organisation);
+				organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
+				Organisations.Add(organisationViewModel);
+			}
 		}
 
 		void CopyProperties()
@@ -179,36 +191,6 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		void SaveProperties()
-		{
-			User.Login = Login;
-			User.Name = Name;
-
-			if (IsChangePassword)
-				User.PasswordHash = HashHelper.GetHashFromString(Password);
-
-			User.RoleUID = UserRole.UID;
-			PreventAdminPermissions();
-			User.PermissionStrings = new List<string>();
-			foreach (var permission in Permissions)
-			{
-				if (permission.IsEnable)
-				{
-					User.PermissionStrings.Add(permission.Name);
-				}
-			}
-			User.RemoreAccess = RemoteAccess.GetModel();
-		}
-
-		protected override bool Save()
-		{
-			if (CheckLogin() && CheckPassword() && CheckRole())
-				SaveProperties();
-			else
-				return false;
-			return base.Save();
-		}
-
 		bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
@@ -260,6 +242,50 @@ namespace SecurityModule.ViewModels
 					Adm_SetNewConfigPermission.IsEnable = true;
 				}
 			}
+		}
+
+		public bool IsSKDEnabled
+		{
+			get { return GlobalSettingsHelper.GlobalSettings.UseSKD; }
+		}
+
+		public ObservableCollection<OrganisationViewModel> Organisations { get; private set; }
+
+		void SaveProperties()
+		{
+			User.Login = Login;
+			User.Name = Name;
+
+			if (IsChangePassword)
+				User.PasswordHash = HashHelper.GetHashFromString(Password);
+
+			User.RoleUID = UserRole.UID;
+			PreventAdminPermissions();
+			User.PermissionStrings = new List<string>();
+			foreach (var permission in Permissions)
+			{
+				if (permission.IsEnable)
+				{
+					User.PermissionStrings.Add(permission.Name);
+				}
+			}
+			User.RemoreAccess = RemoteAccess.GetModel();
+
+			User.OrganisationUIDs = new List<Guid>();
+			foreach (var organisation in Organisations)
+			{
+				if (organisation.IsChecked)
+					User.OrganisationUIDs.Add(organisation.Organisation.UID);
+			}
+		}
+
+		protected override bool Save()
+		{
+			if (CheckLogin() && CheckPassword() && CheckRole())
+				SaveProperties();
+			else
+				return false;
+			return base.Save();
 		}
 	}
 }

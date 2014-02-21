@@ -18,6 +18,6 @@ namespace FiresecAPI
 		public bool? IsDeleted { get; set; }
 
 		[DataMember]
-		public DateTime? RemovalDate { get; set; } 
+		public DateTime? RemovalDate { get; set; }
 	}
 }

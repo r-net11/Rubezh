@@ -10,7 +10,7 @@ using System.Data.Linq;
 
 namespace SKDDriver
 {
-    static partial class Translator
+	static partial class Translator
 	{
 		public static FiresecAPI.Department Translate(Department item)
 		{
@@ -126,7 +126,7 @@ namespace SKDDriver
 			var zoneUids = new List<Guid>();
 			foreach (var cardZoneLink in item.CardZoneLink)
 			{
-				if(cardZoneLink.ZoneUid != null)
+				if (cardZoneLink.ZoneUid != null)
 					zoneUids.Add(cardZoneLink.ZoneUid.Value);
 			}
 			var result = new FiresecAPI.SKDCard

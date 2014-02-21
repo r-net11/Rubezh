@@ -5,9 +5,9 @@ namespace SKDModule.ViewModels
 {
     public class OrganisationViewModel : BaseViewModel
     {
-		public SKDOrganisation Organisation { get; set; }
+		public Organization Organisation { get; set; }
 
-		public OrganisationViewModel(SKDOrganisation organisation)
+		public OrganisationViewModel(Organization organisation)
 		{
 			Organisation = organisation;
 		}

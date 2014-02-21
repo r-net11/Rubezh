@@ -13,7 +13,7 @@ namespace SKDDriver
 		where FilterT : OrganizationFilterBase
 	{
 		public OrganizationTranslatorBase(Table<TableT> table, DataAccess.SKUDDataContext context)
-			: base(table,context)
+			: base(table, context)
 		{
 
 		}

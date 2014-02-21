@@ -11,7 +11,7 @@ namespace SKDDriver
 	public class PositionsTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
 	{
 		public PositionsTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
-			: base(table,context)
+			: base(table, context)
 		{
 
 		}
@@ -19,7 +19,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Position item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
-			if(sameName)
+			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
 		}

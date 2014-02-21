@@ -8,16 +8,18 @@ using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganizationFilterBaseViewModel<T>:FilterBaseViewModel<T>
+	public class OrganizationFilterBaseViewModel<T> : FilterBaseViewModel<T>
 		where T : OrganizationFilterBase
 	{
-		public OrganizationFilterBaseViewModel(T filter): base(filter)
+		public OrganizationFilterBaseViewModel(T filter)
+			: base(filter)
 		{
 			var organizations = FiresecManager.GetOrganizations(null);
 			Organizations = new CheckBoxItemList<FilterOrganizationViewModel>();
 			foreach (var organization in organizations)
 			{
-				Organizations.Add(new FilterOrganizationViewModel(organization));
+				if (FiresecManager.CurrentUser.OrganisationUIDs.Contains(organization.UID))
+					Organizations.Add(new FilterOrganizationViewModel(organization));
 			}
 
 			foreach (var organization in Organizations.Items)

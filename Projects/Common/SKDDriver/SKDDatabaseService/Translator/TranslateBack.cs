@@ -138,7 +138,5 @@ namespace SKDDriver
 			TranslateBackBase(apiItem, item);
 			item.OrganizationUid = apiItem.OrganizationUid;
 		}
-
-		
 	}
 }

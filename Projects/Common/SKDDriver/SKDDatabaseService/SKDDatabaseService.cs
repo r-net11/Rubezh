@@ -19,6 +19,7 @@ namespace SKDDriver
 
 		DocumentsTranslator DocumentsTranslator;
 		PositionsTranslator PositionsTranslator;
+
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
 		{

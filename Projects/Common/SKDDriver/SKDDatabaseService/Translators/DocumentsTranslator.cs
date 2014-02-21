@@ -11,7 +11,7 @@ namespace SKDDriver
 	public class DocumentsTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
 	{
 		public DocumentsTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
-			: base(table,context)
+			: base(table, context)
 		{
 
 		}
@@ -21,7 +21,7 @@ namespace SKDDriver
 			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
 			if (sameName)
 				return new OperationResult("Попытка добавления документа с совпадающим именем");
-			if(item.No <= 0)
+			if (item.No <= 0)
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
 			if (sameNo)
@@ -81,5 +81,3 @@ namespace SKDDriver
 		}
 	}
 }
-
-

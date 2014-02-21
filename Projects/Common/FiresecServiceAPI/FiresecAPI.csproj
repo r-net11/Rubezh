@@ -270,7 +270,6 @@
     <Compile Include="SKD\GUD.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDEventsHelper.cs" />
-    <Compile Include="SKD\SKDOrganisation.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\SKDSystemConfiguration.cs" />
     <Compile Include="SKD\Device\SKDDevice.cs" />

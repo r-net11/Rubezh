@@ -5,7 +5,7 @@
     <Icon Id="ManagementConsoleIcon" SourceFile="Data\ManagementConsole.ico"/>
 
     <!--<DirectoryRef Id="ProgramMenuDir.AdditionalFolder">
-      <Component Id="ManagementConsole.ProgramsMenuShortcut" Guid="*">
+      <Component Id="ManagementConsole.ProgramsMenuShortcut" Guid="56266DB1-34DC-45ec-8470-FA0BBEA90CA1">
         <Shortcut Id="ManagementConsole.ProgramsMenuShortcut" Name="$(var.ManagementConsoleName)" Target="[MANAGEMENTCONSOLELOCATION]$(var.ManagementConsole.TargetFileName)"
             WorkingDirectory="MANAGEMENTCONSOLELOCATION" Description="$(var.ManagementConsoleName)" Icon="ManagementConsoleIcon" />
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.ManagementConsoleName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
