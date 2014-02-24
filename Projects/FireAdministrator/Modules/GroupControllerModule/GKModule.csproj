@@ -339,6 +339,8 @@
     <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Validation\Validator.PumpStations.cs" />
     <Compile Include="Validation\PumpStationValidationError.cs" />
+    <Compile Include="Validation\MPTValidationError.cs" />
+    <Compile Include="Validation\Validator.MPTs.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />

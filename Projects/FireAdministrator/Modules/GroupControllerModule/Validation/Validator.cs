@@ -18,6 +18,7 @@ namespace GKModule.Validation
 			ValidateZones();
 			ValidateDirections();
 			ValidatePumpStations();
+			ValidateMPTs();
 			ValidateGuard();
 			return Errors;
 		}

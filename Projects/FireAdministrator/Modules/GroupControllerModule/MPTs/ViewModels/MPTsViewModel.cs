@@ -29,9 +29,12 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			MPTs = XManager.DeviceConfiguration.MPTs == null ? new ObservableCollection<MPTViewModel>() : new ObservableCollection<MPTViewModel>(
-				from mpt in XManager.DeviceConfiguration.MPTs
-				select new MPTViewModel(mpt));
+			MPTs = new ObservableCollection<MPTViewModel>();
+			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
+			{
+				var mptViewModel = new MPTViewModel(mpt);
+				MPTs.Add(mptViewModel);
+			}
 			SelectedMPT = MPTs.FirstOrDefault();
 		}
 
@@ -57,6 +60,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public bool HasSelectedMPT
+		{
+			get { return SelectedMPT != null; }
+		}
+
 		bool CanEditDelete()
 		{
 			return SelectedMPT != null;
@@ -72,6 +80,7 @@ namespace GKModule.ViewModels
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
                 MPTs.Add(mptViewModel);
                 SelectedMPT = mptViewModel;
+				OnPropertyChanged("HasSelectedMPT");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -79,12 +88,13 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить фильтр " + SelectedMPT.MPT.Name);
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				SelectedMPT = MPTs.FirstOrDefault();
+				OnPropertyChanged("HasSelectedMPT");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
