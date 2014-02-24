@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Events
+namespace GKModule.Events
 {
 	public class ShowXOPCZonesEvent : CompositePresentationEvent<Guid>
 	{

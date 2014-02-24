@@ -1,6 +1,6 @@
 ﻿using System;
+using GKModule.Events;
 using Infrastructure.Common.Validation;
-using Infrastructure.Events;
 using XFiresecAPI;
 
 namespace GKModule.Validation

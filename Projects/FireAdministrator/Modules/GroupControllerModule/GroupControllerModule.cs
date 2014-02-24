@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Plans.Designer;
 using GKModule.Validation;

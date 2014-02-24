@@ -106,6 +106,26 @@
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateXDirectionEvent.cs" />
+    <Compile Include="Events\CreateXZoneEvent.cs" />
+    <Compile Include="Events\EditXDirectionEvent.cs" />
+    <Compile Include="Events\EditXZoneEvent.cs" />
+    <Compile Include="Events\ShowXDescriptorsEvent.cs" />
+    <Compile Include="Events\ShowXDeviceLidraryEvent.cs" />
+    <Compile Include="Events\ShowXDevicePropertiesEvent.cs" />
+    <Compile Include="Events\ShowXDiagnosticsEvent.cs" />
+    <Compile Include="Events\ShowXDirectionEvent.cs" />
+    <Compile Include="Events\ShowXGuardEvent.cs" />
+    <Compile Include="Events\ShowXGuardUserEvent.cs" />
+    <Compile Include="Events\ShowXInstructionsEvent.cs" />
+    <Compile Include="Events\ShowXJournalFilterEvent.cs" />
+    <Compile Include="Events\ShowXMPTEvent.cs" />
+    <Compile Include="Events\ShowXOPCDevicesEvent.cs" />
+    <Compile Include="Events\ShowXOPCDirectionsEvent.cs" />
+    <Compile Include="Events\ShowXOPCZonesEvent.cs" />
+    <Compile Include="Events\ShowXParameterTemplatesEvent.cs" />
+    <Compile Include="Events\ShowXPumpStationEvent.cs" />
+    <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />

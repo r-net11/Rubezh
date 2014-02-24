@@ -1,8 +1,8 @@
 ﻿using Microsoft.Practices.Prism.Events;
 
-namespace Infrastructure.Events
+namespace GKModule.Events
 {
 	public class ShowXDiagnosticsEvent : CompositePresentationEvent<object>
-    {
-    }
+	{
+	}
 }

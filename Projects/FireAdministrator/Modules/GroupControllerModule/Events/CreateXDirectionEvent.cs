@@ -2,7 +2,7 @@
 using Microsoft.Practices.Prism.Events;
 using XFiresecAPI;
 
-namespace Infrastructure.Events
+namespace GKModule.Events
 {
 	public class CreateXDirectionEvent : CompositePresentationEvent<CreateXDirectionEventArg>
 	{
@@ -11,7 +11,7 @@ namespace Infrastructure.Events
 	public class CreateXDirectionEventArg
 	{
 		public bool Cancel { get; set; }
-        public Guid DirectionUID { get; set; }
+		public Guid DirectionUID { get; set; }
 		public XDirection Direction { get; set; }
 	}
 }

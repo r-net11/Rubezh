@@ -374,7 +374,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDDeviceEvent>().Publish(Device.Parent.UID);
 		}
 		bool CanShowParent()
 		{
