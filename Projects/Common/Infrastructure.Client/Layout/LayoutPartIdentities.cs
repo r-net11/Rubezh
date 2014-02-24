@@ -21,8 +21,8 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid PlansEx = new Guid("{7E9E5110-4E52-43CB-902D-DE2F715529EF}");
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
-		public static readonly Guid Video = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
-		public static readonly Guid Camera = new Guid("{6B780C39-A017-4B34-90B8-D7717918D13A}");
+		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
+		public static readonly Guid CameraVideo = new Guid("{6B780C39-A017-4B34-90B8-D7717918D13A}");
 		public static readonly Guid MultiCamera = new Guid("{521F0B43-C0D3-47CB-9C8B-CB5B7C8FF39C}");
 
 		// SKD

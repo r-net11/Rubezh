@@ -105,7 +105,7 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			//return; //TODO: TEST (Camera isn't working now)
+			//return; //TODO: TEST (CameraVideo isn't working now)
 			MjpegCamera.FrameReady += BmpToImageSource;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
@@ -114,7 +114,7 @@ namespace VideoModule.ViewModels
 		}
 		public void StopVideo()
 		{
-			//TODO: TEST (Camera isn't working now)
+			//TODO: TEST (CameraVideo isn't working now)
 			//{
 			//    IsNowPlaying = false;
 			//    return;

@@ -18,7 +18,14 @@ namespace VideoModule.ViewModels
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
 		public CameraViewModel CameraViewModel { get; set; }
-		public Camera Camera { get; private set; }
+		public Camera Camera { get; set; }
+
+		public LayoutPartCameraViewModel(Camera camera)
+		{
+			Camera = camera;
+			CameraViewModel = new CameraViewModel(Camera);
+		}
+
 		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
 		{
 			if (properties != null)
