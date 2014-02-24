@@ -14,12 +14,15 @@ namespace SKDDriver
 		{
 			var no = BytesHelper.SubstructInt(bytes, 0);
 			var source = bytes[4];
-			var code = bytes[5];
-			var cardNo = BytesHelper.SubstructInt(bytes, 6);
+			var address = bytes[5];
+			var code = bytes[6];
+			var cardSeries = BytesHelper.SubstructInt(bytes, 7);
+			var cardNo = BytesHelper.SubstructInt(bytes, 11);
 
 			JournalItem = new SKDJournalItem();
 			JournalItem.IpAddress = device.Address;
 			JournalItem.DeviceJournalRecordNo = no;
+			JournalItem.CardSeries = cardSeries;
 			JournalItem.CardNo = cardNo;
 
 			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == code);
@@ -37,9 +40,12 @@ namespace SKDDriver
 			{
 				if (device.Children.Count > source - 2)
 				{
-					var childDevice = device.Children[source - 2];
-					JournalItem.DeviceUID = childDevice.UID;
-					JournalItem.DeviceName = childDevice.Name;
+					var childDevice = device.Children.First(x => x.Address == address.ToString());
+					if (childDevice != null)
+					{
+						JournalItem.DeviceUID = childDevice.UID;
+						JournalItem.DeviceName = childDevice.Name;
+					}
 				}
 			}
 		}

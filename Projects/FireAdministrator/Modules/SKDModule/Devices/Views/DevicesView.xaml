@@ -81,7 +81,7 @@
 								<Controls:EditorPresenter>
 									<Controls:EditorPresenter.ViewTemplate>
 										<ControlTemplate>
-											<TextBlock Text="{Binding PresentationAddress}" />
+											<TextBlock Text="{Binding Address}" />
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>
 									<Controls:EditorPresenter.EditTemplate>

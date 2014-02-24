@@ -77,9 +77,12 @@
     <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SKDDeviceSourceViewModel.cs" />
-    <Compile Include="ViewModels\SKDDeviceViewModel.cs" />
-    <Compile Include="ViewModels\SKDViewModel.cs" />
+    <Compile Include="ViewModels\SKD\ControllerEventViewModel.cs" />
+    <Compile Include="ViewModels\SKD\ReaderEventViewModel.cs" />
+    <Compile Include="ViewModels\SKD\SKDDeviceSourceViewModel.cs" />
+    <Compile Include="ViewModels\SKD\ControllerViewModel.cs" />
+    <Compile Include="ViewModels\SKD\ReaderViewModel.cs" />
+    <Compile Include="ViewModels\SKD\SKDViewModel.cs" />
     <Compile Include="ViewModels\StateBitViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

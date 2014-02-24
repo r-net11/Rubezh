@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -9,37 +10,40 @@ namespace FiresecAPI
 		static SKDEventsHelper()
 		{
 			SKDEvents = new List<SKDEvent>();
-			SKDEvents.Add(new SKDEvent(1,  "Проход"));
-			SKDEvents.Add(new SKDEvent(2,  "Проход с нарушением ВРЕМЕНИ"));
-			SKDEvents.Add(new SKDEvent(3,  "Проход с нарушением ЗОНАЛЬНОСТИ"));
-			SKDEvents.Add(new SKDEvent(4,  "Проход с нарушением ВРЕМЕНИ и ЗОНАЛЬНОСТИ"));
-			SKDEvents.Add(new SKDEvent(5,  "Постановка на охрану"));
-			SKDEvents.Add(new SKDEvent(6,  "Снятие с охраны"));
-			SKDEvents.Add(new SKDEvent(7,  "Проход разрешен"));
-			SKDEvents.Add(new SKDEvent(8,  "Нарушение ВРЕМЕНИ"));
-			SKDEvents.Add(new SKDEvent(9,  "Нарушение ЗОНАЛЬНОСТИ"));
-			SKDEvents.Add(new SKDEvent(10, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ"));
-			SKDEvents.Add(new SKDEvent(11, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН"));
-			SKDEvents.Add(new SKDEvent(12, "Идентификатор ЗАБЛОКИРОВАН"));
-			SKDEvents.Add(new SKDEvent(13, "Идентификатор ИЗ СТОП-ЛИСТА"));
-			SKDEvents.Add(new SKDEvent(14, "Идентификатор ПРОСРОЧЕН"));
-			SKDEvents.Add(new SKDEvent(15, "Нарушение режима доступа"));
-			SKDEvents.Add(new SKDEvent(16, "Взлом ИУ"));
-			SKDEvents.Add(new SKDEvent(17, "Проход от ДУ"));
-			SKDEvents.Add(new SKDEvent(18, "Запрс прохода от ДУ"));
-			SKDEvents.Add(new SKDEvent(19, "Ожидание комиссионирования прохода"));
+			SKDEvents.Add(new SKDEvent(1,  "Проход", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(2, "Проход с нарушением ВРЕМЕНИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(3, "Проход с нарушением ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(4, "Проход с нарушением ВРЕМЕНИ и ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(5, "Проход разрешен", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(6, "Нарушение ВРЕМЕНИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(7, "Нарушение ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(8, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(9, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(10, "Идентификатор ЗАБЛОКИРОВАН", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(11, "Идентификатор ИЗ СТОП-ЛИСТА", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(12, "Идентификатор ПРОСРОЧЕН", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(13, "Нарушение режима доступа", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(14, "Взлом ИУ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(15, "Проход от ДУ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(16, "Запрс прохода от ДУ", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(17, "Ожидание комиссионирования прохода", SKDDriverType.Reader));
+
+			SKDEvents.Add(new SKDEvent(18, "Неисправность", SKDDriverType.Controller));
+			SKDEvents.Add(new SKDEvent(19, "Неисправность устранена", SKDDriverType.Controller));
 		}
 	}
 
 	public class SKDEvent
 	{
-		public SKDEvent(int no, string name)
+		public SKDEvent(int no, string name, SKDDriverType driverType)
 		{
 			No = no;
 			Name = name;
+			DriverType = driverType;
 		}
 
 		public int No { get; set; }
 		public string Name { get; set; }
+		public SKDDriverType DriverType { get; set; }
 	}
 }

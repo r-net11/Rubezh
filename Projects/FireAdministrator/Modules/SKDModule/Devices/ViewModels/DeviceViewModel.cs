@@ -84,14 +84,8 @@ namespace SKDModule.ViewModels
 			{
 				Device.Address = value;
 				OnPropertyChanged("Address");
-				OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
-		}
-
-		public string PresentationAddress
-		{
-			get { return Device.Address; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
