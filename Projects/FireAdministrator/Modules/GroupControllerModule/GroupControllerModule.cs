@@ -29,8 +29,9 @@ namespace GKModule
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
 		PumpStationsViewModel PumpStationsViewModel;
-		GuardViewModel GuardViewModel;
 		FiltersViewModel FiltersViewModel;
+		MPTsViewModel MPTsViewModel;
+		GuardViewModel GuardViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -52,8 +53,9 @@ namespace GKModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
-			GuardViewModel = new GuardViewModel();
 			FiltersViewModel = new FiltersViewModel();
+			GuardViewModel = new GuardViewModel();
+			MPTsViewModel = new MPTsViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -71,6 +73,7 @@ namespace GKModule
 			ZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
+			MPTsViewModel.Initialize();
 			GuardViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -91,6 +94,7 @@ namespace GKModule
 					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/Alarm_shield.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
                     new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
                     new NavigationItem<ShowXDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
