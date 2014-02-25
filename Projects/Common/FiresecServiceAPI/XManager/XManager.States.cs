@@ -27,6 +27,11 @@ namespace FiresecClient
 				pumpStation.InternalState = new XPumpStationInternalState(pumpStation);
 				pumpStation.State = new XState(pumpStation);
 			}
+			foreach (var mpt in MPTs)
+			{
+				mpt.InternalState = new XMPTInternalState(mpt);
+				mpt.State = new XState(mpt);
+			}
 		}
 
 		static List<XDevice> allDeviceChildren;

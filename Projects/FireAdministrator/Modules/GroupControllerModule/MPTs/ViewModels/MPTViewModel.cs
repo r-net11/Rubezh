@@ -7,6 +7,7 @@ using FiresecClient;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -18,12 +19,86 @@ namespace GKModule.ViewModels
 		{
 			MPT = mpt;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
-			ChangeStopLogicCommand = new RelayCommand(OnChangeStopLogic);
-			ChangeAutomaticOffLogicCommand = new RelayCommand(OnChangeAutomaticOffLogic);
-			ChangeOffTableDevicesCommand = new RelayCommand(OnChangeOffTableDevices);
-			ChangeOnTableDevicesCommand = new RelayCommand(OnChangeOnTableDevices);
-			ChangeAutomaticTableDevicesCommand = new RelayCommand(OnChangeAutomaticTableDevices);
-			ChangeSirenaDevicesCommand = new RelayCommand(OnChangeSirenaDevices);
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
+			Devices = new ObservableCollection<MPTDeviceViewModel>();
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
+				Devices.Add(deviceViewModel);
+			}
+			SelectedDevice = Devices.FirstOrDefault();
+		}
+
+		ObservableCollection<MPTDeviceViewModel> _devices;
+		public ObservableCollection<MPTDeviceViewModel> Devices
+		{
+			get { return _devices; }
+			set
+			{
+				_devices = value;
+				OnPropertyChanged("Devices");
+			}
+		}
+
+		MPTDeviceViewModel _selectedDevice;
+		public MPTDeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var devices = new List<XDevice>();
+			foreach (var device in XManager.Devices)
+			{
+				switch (device.DriverType)
+				{
+					case XDriverType.RSR2_MVK8:
+					case XDriverType.RSR2_Table:
+					case XDriverType.RSR2_Siren:
+					case XDriverType.RSR2_AM_1:
+						devices.Add(device);
+						break;
+				}
+			}
+
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(null, devices);
+			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			{
+				deviceSelectationViewModel.SelectedDevice.IsInMPT = true;
+
+				var mptDevice = new MPTDevice();
+				mptDevice.Device = deviceSelectationViewModel.SelectedDevice;
+				mptDevice.DeviceUID = mptDevice.Device.UID;
+				mptDevice.MPTDeviceType = MPTDevice.GetAvailableMPTDeviceTypes(mptDevice.Device.DriverType).FirstOrDefault();
+
+				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
+				Devices.Add(deviceViewModel);
+				SelectedDevice = deviceViewModel;
+				MPT.MPTDevices.Add(mptDevice);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
+		{
+			Devices.Remove(SelectedDevice);
+			MPT.MPTDevices.Remove(SelectedDevice.MPTDevice);
+			SelectedDevice.MPTDevice.Device.IsInMPT = true;
+			ServiceFactory.SaveService.GKChanged = true;
+		}
+		bool CanDelete()
+		{
+			return SelectedDevice != null;
 		}
 
 		public void Update()
@@ -48,158 +123,26 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(MPT.StartLogic); }
 		}
 
-		public RelayCommand ChangeStopLogicCommand { get; private set; }
-		void OnChangeStopLogic()
+		public int Delay
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, MPT.StopLogic);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			get { return MPT.Delay; }
+			set
 			{
-				MPT.StopLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("StopPresentationName");
+				MPT.Delay = value;
+				OnPropertyChanged("Delay");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public string StopPresentationName
+		public bool UseDoorAutomatic
 		{
-			get { return XManager.GetPresentationZone(MPT.StopLogic); }
-		}
-
-		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
-		void OnChangeAutomaticOffLogic()
-		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, MPT.AutomaticOffLogic);
-			if (DialogService.ShowModalWindow(deviceLogicViewModel))
+			get { return MPT.UseDoorAutomatic; }
+			set
 			{
-				MPT.AutomaticOffLogic = deviceLogicViewModel.GetModel();
-				OnPropertyChanged("AutomaticOffPresentationName");
+				MPT.UseDoorAutomatic = value;
+				OnPropertyChanged("UseDoorAutomatic");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
-		}
-
-		public string AutomaticOffPresentationName
-		{
-			get { return XManager.GetPresentationZone(MPT.AutomaticOffLogic); }
-		}
-
-		public RelayCommand ChangeOffTableDevicesCommand { get; private set; }
-		void OnChangeOffTableDevices()
-		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.RSR2_Table)
-				{
-					sourceDevices.Add(device);
-				}
-			}
-
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(MPT.OffTableDevices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				MPT.OffTableDevices = devicesSelectationViewModel.DevicesList;
-				MPT.OffTableDeviceUIDs = new List<Guid>();
-				foreach (var device in MPT.OffTableDevices)
-				{
-					MPT.OffTableDeviceUIDs.Add(device.UID);
-				}
-				OnPropertyChanged("OffTableDevicesPresentationName");
-			}
-		}
-
-		public string OffTableDevicesPresentationName
-		{
-			get { return XManager.GetCommaSeparatedDevices(MPT.OffTableDevices); }
-		}
-
-		public RelayCommand ChangeOnTableDevicesCommand { get; private set; }
-		void OnChangeOnTableDevices()
-		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.RSR2_Table)
-				{
-					sourceDevices.Add(device);
-				}
-			}
-
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(MPT.OnTableDevices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				MPT.OnTableDevices = devicesSelectationViewModel.DevicesList;
-				MPT.OnTableDeviceUIDs = new List<Guid>();
-				foreach (var device in MPT.OnTableDevices)
-				{
-					MPT.OnTableDeviceUIDs.Add(device.UID);
-				}
-				OnPropertyChanged("OnTableDevicesPresentationName");
-			}
-		}
-
-		public string OnTableDevicesPresentationName
-		{
-			get { return XManager.GetCommaSeparatedDevices(MPT.OnTableDevices); }
-		}
-
-		public RelayCommand ChangeAutomaticTableDevicesCommand { get; private set; }
-		void OnChangeAutomaticTableDevices()
-		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.RSR2_Table)
-				{
-					sourceDevices.Add(device);
-				}
-			}
-
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(MPT.AutomaticTableDevices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				MPT.AutomaticTableDevices = devicesSelectationViewModel.DevicesList;
-				MPT.AutomaticTableDeviceUIDs = new List<Guid>();
-				foreach (var device in MPT.AutomaticTableDevices)
-				{
-					MPT.AutomaticTableDeviceUIDs.Add(device.UID);
-				}
-				OnPropertyChanged("AutomaticTableDevicesPresentationName");
-			}
-		}
-
-		public string AutomaticTableDevicesPresentationName
-		{
-			get { return XManager.GetCommaSeparatedDevices(MPT.AutomaticTableDevices); }
-		}
-
-		public RelayCommand ChangeSirenaDevicesCommand { get; private set; }
-		void OnChangeSirenaDevices()
-		{
-			var sourceDevices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.RSR2_Siren)
-				{
-					sourceDevices.Add(device);
-				}
-			}
-
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(MPT.SirenaDevices, sourceDevices);
-			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-			{
-				MPT.SirenaDevices = devicesSelectationViewModel.DevicesList;
-				MPT.SirenaDeviceUIDs = new List<Guid>();
-				foreach (var device in MPT.SirenaDevices)
-				{
-					MPT.SirenaDeviceUIDs.Add(device.UID);
-				}
-				OnPropertyChanged("SirenaDevicesPresentationName");
-			}
-		}
-
-		public string SirenaDevicesPresentationName
-		{
-			get { return XManager.GetCommaSeparatedDevices(MPT.SirenaDevices); }
 		}
 	}
 }

@@ -12,7 +12,11 @@
 		<Views:DevicesSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
+        <Views:DeviceSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
 		<Views:ZonesSelectationView />
 	</DataTemplate>
 

@@ -108,6 +108,13 @@ namespace FiresecClient
 				pumpStation.InputDirections = new List<XDirection>();
 				pumpStation.NSDevices = new List<XDevice>();
 			}
+			foreach (var mpt in DeviceConfiguration.MPTs)
+			{
+				mpt.InputZones = new List<XZone>();
+				mpt.InputDevices = new List<XDevice>();
+				mpt.InputDirections = new List<XDirection>();
+				mpt.NSDevices = new List<XDevice>();
+			}
 		}
 
 		static void InitializeDevicesInZone()
@@ -284,70 +291,74 @@ namespace FiresecClient
 		{
 			foreach (var mpt in DeviceConfiguration.MPTs)
 			{
-				InvalidateMPTLogic(DeviceConfiguration, mpt.StartLogic);
-				InvalidateMPTLogic(DeviceConfiguration, mpt.StopLogic);
-				InvalidateMPTLogic(DeviceConfiguration, mpt.AutomaticOffLogic);
+				InvalidateMPTLogic(mpt, mpt.StartLogic);
 
-				var offTableDeviceUIDs = new List<Guid>();
-				mpt.OffTableDevices = new List<XDevice>();
-				foreach (var deviceUID in mpt.OffTableDeviceUIDs)
+				var mptDevices = new List<MPTDevice>();
+				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
+					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
+					if (device != null && MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Contains(mptDevice.MPTDeviceType))
 					{
-						offTableDeviceUIDs.Add(device.UID);
-						mpt.OffTableDevices.Add(device);
+						mptDevice.Device = device;
+						mptDevices.Add(mptDevice);
+						device.IsInMPT = true;
+						mpt.NSDevices.Add(device);
 					}
 				}
-				mpt.OffTableDeviceUIDs = offTableDeviceUIDs;
-
-				var onTableDeviceUIDs = new List<Guid>();
-				mpt.OnTableDevices = new List<XDevice>();
-				foreach (var deviceUID in mpt.OnTableDeviceUIDs)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
-					{
-						onTableDeviceUIDs.Add(device.UID);
-						mpt.OnTableDevices.Add(device);
-					}
-				}
-				mpt.OnTableDeviceUIDs = onTableDeviceUIDs;
-
-				var automaticTableDeviceUIDs = new List<Guid>();
-				mpt.AutomaticTableDevices = new List<XDevice>();
-				foreach (var deviceUID in mpt.AutomaticTableDeviceUIDs)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
-					{
-						automaticTableDeviceUIDs.Add(device.UID);
-						mpt.AutomaticTableDevices.Add(device);
-					}
-				}
-				mpt.AutomaticTableDeviceUIDs = automaticTableDeviceUIDs;
-
-				var sirenaDeviceUIDs = new List<Guid>();
-				mpt.SirenaDevices = new List<XDevice>();
-				foreach (var deviceUID in mpt.SirenaDeviceUIDs)
-				{
-					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Siren)
-					{
-						sirenaDeviceUIDs.Add(device.UID);
-						mpt.SirenaDevices.Add(device);
-					}
-				}
-				mpt.SirenaDeviceUIDs = sirenaDeviceUIDs;
+				mpt.MPTDevices = mptDevices;
 			}
 		}
 
-		public static void InvalidateMPTLogic(XDeviceConfiguration deviceConfiguration, XDeviceLogic deviceLogic)
+		public static void InvalidateMPTLogic(XMPT mpt, XDeviceLogic deviceLogic)
 		{
 			var clauses = new List<XClause>();
 			foreach (var clause in deviceLogic.Clauses)
 			{
-				InvalidateOneMPTClause(deviceConfiguration, clause);
+				clause.Devices = new List<XDevice>();
+				clause.Zones = new List<XZone>();
+				clause.Directions = new List<XDirection>();
+
+				var deviceUIDs = new List<Guid>();
+				foreach (var deviceUID in clause.DeviceUIDs)
+				{
+					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					{
+						deviceUIDs.Add(deviceUID);
+						clause.Devices.Add(clauseDevice);
+						if (!mpt.InputDevices.Contains(clauseDevice))
+							mpt.InputDevices.Add(clauseDevice);
+					}
+				}
+				clause.DeviceUIDs = deviceUIDs;
+
+				var zoneUIDs = new List<Guid>();
+				foreach (var zoneUID in clause.ZoneUIDs)
+				{
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zoneUIDs.Add(zoneUID);
+						clause.Zones.Add(zone);
+						if (!mpt.InputZones.Contains(zone))
+							mpt.InputZones.Add(zone);
+					}
+				}
+				clause.ZoneUIDs = zoneUIDs;
+
+				var directionUIDs = new List<Guid>();
+				foreach (var directionUID in clause.DirectionUIDs)
+				{
+					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+					if (direction != null)
+					{
+						directionUIDs.Add(directionUID);
+						clause.Directions.Add(direction);
+						if (!mpt.InputDirections.Contains(direction))
+							mpt.InputDirections.Add(direction);
+					}
+				}
+				clause.DirectionUIDs = directionUIDs;
 
 				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
 					clauses.Add(clause);

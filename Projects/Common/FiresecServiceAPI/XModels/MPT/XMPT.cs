@@ -7,55 +7,46 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XMPT
+	public class XMPT : XBase
 	{
 		public XMPT()
 		{
-			BaseUID = Guid.NewGuid();
 			StartLogic = new XDeviceLogic();
-			StopLogic = new XDeviceLogic();
-			AutomaticOffLogic = new XDeviceLogic();
-			OffTableDeviceUIDs = new List<Guid>();
-			OnTableDeviceUIDs = new List<Guid>();
-			AutomaticTableDeviceUIDs = new List<Guid>();
-			SirenaDeviceUIDs = new List<Guid>();
-
-			OffTableDevices = new List<XDevice>();
-			OnTableDevices = new List<XDevice>();
-			AutomaticTableDevices = new List<XDevice>();
-			SirenaDevices = new List<XDevice>();
+			MPTDevices = new List<MPTDevice>();
 		}
 
-		public List<XDevice> OffTableDevices { get; set; }
-		public List<XDevice> OnTableDevices { get; set; }
-		public List<XDevice> AutomaticTableDevices { get; set; }
-		public List<XDevice> SirenaDevices { get; set; }
-
-		[DataMember]
-		public Guid BaseUID { get; set; }
+		public List<XDevice> InputDevices { get; set; }
+		public List<XZone> InputZones { get; set; }
+		public List<XDirection> InputDirections { get; set; }
+		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
+		public int Delay { get; set; }
+
+		[DataMember]
+		public int Hold { get; set; }
+
+		[DataMember]
+		public DelayRegime DelayRegime { get; set; }
+
+		[DataMember]
 		public XDeviceLogic StartLogic { get; set; }
 
 		[DataMember]
-		public XDeviceLogic StopLogic { get; set; }
+		public List<MPTDevice> MPTDevices { get; set; }
 
 		[DataMember]
-		public XDeviceLogic AutomaticOffLogic { get; set; }
+		public bool UseDoorAutomatic { get; set; }
 
-		[DataMember]
-		public List<Guid> OffTableDeviceUIDs { get; set; }
 
-		[DataMember]
-		public List<Guid> OnTableDeviceUIDs { get; set; }
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.MPT; } }
 
-		[DataMember]
-		public List<Guid> AutomaticTableDeviceUIDs { get; set; }
-
-		[DataMember]
-		public List<Guid> SirenaDeviceUIDs { get; set; }
+		public override string PresentationName
+		{
+			get { return "M" + "." + Name; }
+		}
 	}
 }

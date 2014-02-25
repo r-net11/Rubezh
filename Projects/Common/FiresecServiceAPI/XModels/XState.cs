@@ -89,6 +89,14 @@ namespace XFiresecAPI
 			BaseObjectType = XBaseObjectType.PumpStation;
 		}
 
+		public XState(XMPT mpt)
+			: this()
+		{
+			MPT = mpt;
+			UID = mpt.BaseUID;
+			BaseObjectType = XBaseObjectType.PumpStation;
+		}
+
 		public XState(XDelay delay)
 			: this()
 		{
@@ -109,6 +117,7 @@ namespace XFiresecAPI
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
 		public XPumpStation PumpStation { get; private set; }
+		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 		public XBaseObjectType BaseObjectType { get; private set; }
