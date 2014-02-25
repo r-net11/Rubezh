@@ -106,6 +106,26 @@
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\CreateXDirectionEvent.cs" />
+    <Compile Include="Events\CreateXZoneEvent.cs" />
+    <Compile Include="Events\EditXDirectionEvent.cs" />
+    <Compile Include="Events\EditXZoneEvent.cs" />
+    <Compile Include="Events\ShowXDescriptorsEvent.cs" />
+    <Compile Include="Events\ShowXDeviceLidraryEvent.cs" />
+    <Compile Include="Events\ShowXDevicePropertiesEvent.cs" />
+    <Compile Include="Events\ShowXDiagnosticsEvent.cs" />
+    <Compile Include="Events\ShowXDirectionEvent.cs" />
+    <Compile Include="Events\ShowXGuardEvent.cs" />
+    <Compile Include="Events\ShowXGuardUserEvent.cs" />
+    <Compile Include="Events\ShowXInstructionsEvent.cs" />
+    <Compile Include="Events\ShowXJournalFilterEvent.cs" />
+    <Compile Include="Events\ShowXMPTEvent.cs" />
+    <Compile Include="Events\ShowXOPCDevicesEvent.cs" />
+    <Compile Include="Events\ShowXOPCDirectionsEvent.cs" />
+    <Compile Include="Events\ShowXOPCZonesEvent.cs" />
+    <Compile Include="Events\ShowXParameterTemplatesEvent.cs" />
+    <Compile Include="Events\ShowXPumpStationEvent.cs" />
+    <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
@@ -319,6 +339,8 @@
     <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Validation\Validator.PumpStations.cs" />
     <Compile Include="Validation\PumpStationValidationError.cs" />
+    <Compile Include="Validation\MPTValidationError.cs" />
+    <Compile Include="Validation\Validator.MPTs.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
@@ -372,6 +394,19 @@
     </Compile>
     <Compile Include="Filters\Views\FiltersView.xaml.cs">
       <DependentUpon>FiltersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTsMenuViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
+    <Compile Include="MPTs\Views\MPTDetailsView.xaml.cs">
+      <DependentUpon>MPTDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MPTs\Views\MPTsMenuView.xaml.cs">
+      <DependentUpon>MPTsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MPTs\Views\MPTsView.xaml.cs">
+      <DependentUpon>MPTsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -612,6 +647,18 @@
     <Page Include="Filters\Views\FiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MPTs\Views\MPTDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPTs\Views\MPTsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPTs\Views\MPTsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

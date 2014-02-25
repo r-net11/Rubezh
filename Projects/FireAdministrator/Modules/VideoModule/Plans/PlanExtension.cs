@@ -85,7 +85,7 @@ namespace VideoModule.Plans
 			{
 				designerItem.ItemPropertyChanged += CameraPropertyChanged;
 				OnCameraPropertyChanged(designerItem);
-				designerItem.Group = "Camera";
+				designerItem.Group = "CameraVideo";
 				designerItem.UpdateProperties += UpdateDesignerItemCamera;
 				UpdateDesignerItemCamera(designerItem);
 			}
@@ -103,11 +103,11 @@ namespace VideoModule.Plans
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
 			_designerCanvas = designerCanvas;
-			LayerGroupService.Instance.RegisterGroup("Camera", "Камеры", 7);
+			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 7);
 		}
 		public void ExtensionAttached()
 		{
-			using (new TimeCounter("Video.ExtensionAttached.BuildMap: {0}"))
+			using (new TimeCounter("CamerasList.ExtensionAttached.BuildMap: {0}"))
 				Helper.BuildMap();
 		}
 

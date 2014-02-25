@@ -44,37 +44,43 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                        <TabControl>
+                            <TabItem Header="Основные">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ID}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ID}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StartDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StartDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EndDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EndDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                <Controls:ToolBarButton Grid.Row="3" Grid.Column="0" Command="{Binding ShowPropertiesCommand}" ToolTip="Свойства" ImageSource="/Controls;component/Images/Edit.png" Margin="2" />
-                            </Grid>
+                                        <Controls:ToolBarButton Grid.Row="3" Grid.Column="0" Command="{Binding ShowPropertiesCommand}" ToolTip="Свойства" ImageSource="/Controls;component/Images/Edit.png" Margin="2" />
+                                    </Grid>
+                                    <Views:CardZonesView Grid.Column="1" DataContext="{Binding CardZonesViewModel}" />
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Пропуск">
 
-                            <Views:CardZonesView Grid.Column="1" DataContext="{Binding CardZonesViewModel}" />
-                        </Grid>
+                            </TabItem>
+                        </TabControl>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>

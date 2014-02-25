@@ -16,4 +16,8 @@
 		<Views:LayoutPartCameraView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
+        <Views:LayoutMultiCameraView />
+    </DataTemplate>
+
 </ResourceDictionary>

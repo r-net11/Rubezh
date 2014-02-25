@@ -24,10 +24,16 @@ namespace FiresecAPI
 		}
 	}
 
+	[DataContract]
 	public enum DeletedType
 	{
+		[EnumMember]
 		Deleted,
+
+		[EnumMember]
 		Not,
+
+		[EnumMember]
 		All
 	}
 }

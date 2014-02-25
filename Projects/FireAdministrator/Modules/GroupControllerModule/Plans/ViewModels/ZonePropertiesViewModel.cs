@@ -2,12 +2,12 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
+using GKModule.Events;
 using GKModule.Plans.Designer;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.ViewModels

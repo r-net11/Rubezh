@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;

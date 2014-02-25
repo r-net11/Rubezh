@@ -43,6 +43,9 @@ namespace SKDModule.ViewModels
 
 			AvailableGUDs = new ObservableCollection<GUD>();
 			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUid);
+
+			StopListCards = new ObservableCollection<SKDCard>();
+			SelectedStopListCard = StopListCards.FirstOrDefault();
 		}
 
 		int _idFamily;
@@ -108,6 +111,35 @@ namespace SKDModule.ViewModels
 			{
 				_selectedGUD = value;
 				OnPropertyChanged("SelectedGUD");
+			}
+		}
+
+		bool _useStopList;
+		public bool UseStopList
+		{
+			get { return _useStopList; }
+			set
+			{
+				_useStopList = value;
+				OnPropertyChanged("UseStopList");
+			}
+		}
+
+		public ObservableCollection<SKDCard> StopListCards { get; private set; }
+
+		SKDCard _selectedStopListCard;
+		public SKDCard SelectedStopListCard
+		{
+			get { return _selectedStopListCard; }
+			set
+			{
+				_selectedStopListCard = value;
+				OnPropertyChanged("SelectedStopListCard");
+				if (value != null)
+				{
+					IDFamily = value.Series.Value;
+					IDNo = value.Number.Value;
+				}
 			}
 		}
 

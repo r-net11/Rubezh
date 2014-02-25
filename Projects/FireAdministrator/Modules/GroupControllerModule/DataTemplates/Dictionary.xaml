@@ -84,6 +84,18 @@
         <Views:PumpStationsMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+        <Views:MPTsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
+        <Views:MPTDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">
+        <Views:MPTsMenuView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>

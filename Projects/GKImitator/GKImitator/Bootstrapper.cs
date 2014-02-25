@@ -19,7 +19,8 @@ namespace GKImitator
 
 			var mainViewModel = new MainViewModel();
 			ApplicationService.Run(mainViewModel, false, false);
-			//Application.Current.MainWindow.BringIntoView();
+			Application.Current.MainWindow.BringIntoView();
+			Application.Current.MainWindow.Show();
 		}
 	}
 }

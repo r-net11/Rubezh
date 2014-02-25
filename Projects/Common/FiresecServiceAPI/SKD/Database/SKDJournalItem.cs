@@ -43,9 +43,9 @@ namespace FiresecAPI
 		[DataMember]
 		public XStateClass DeviceStateClass { get; set; }
 		[DataMember]
-		public int? CardNo { get; set; }
-		[DataMember]
 		public int? CardSeries { get; set; }
+		[DataMember]
+		public int? CardNo { get; set; }
 		[DataMember]
 		public Guid? CardUid { get; set; }
 
