@@ -15,10 +15,12 @@ namespace SKDDriver
 			Context = new DataAccess.SKUDDataContext();
 			DocumentsTranslator = new DocumentsTranslator(Context.Document, Context);
 			PositionsTranslator = new PositionsTranslator(Context.Position, Context);
+			CardsTranslator = new CardsTranslator(Context.Card, Context);
 		}
 
 		DocumentsTranslator DocumentsTranslator;
 		PositionsTranslator PositionsTranslator;
+		CardsTranslator CardsTranslator;
 
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
@@ -106,27 +108,11 @@ namespace SKDDriver
 			}
 			catch { return new List<Frame>(); }
 		}
-		public IEnumerable<SKDCard> GetCards(CardFilter filter)
+		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
-			try
-			{
-				var result = new List<SKDCard>();
-				if (filter == null)
-				{
-					foreach (var item in Context.Card)
-						result.Add(Translator.Translate(item));
-					return result;
-				}
-				foreach (var item in Context.Card)
-				{
-					if (FilterHelper.IsInFilter(item, filter))
-						result.Add(Translator.Translate(item));
-				}
-				return result;
-			}
-			catch { return new List<SKDCard>(); }
+			return CardsTranslator.Get(filter);
 		}
-		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
 		{
 			try
 			{
@@ -261,26 +247,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void SaveCards(IEnumerable<SKDCard> items)
+		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-
-					var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.UID);
-					if (databaseItem != null)
-					{
-						Translator.Update(databaseItem, item);
-					}
-					else
-						Context.Card.InsertOnSubmit(Translator.TranslateBack(item));
-				}
-				Context.SubmitChanges();
-			}
-			catch { }
+			return CardsTranslator.Save(items);
 		}
 		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
@@ -403,22 +372,9 @@ namespace SKDDriver
 			}
 			catch { }
 		}
-		public void MarkDeletedCards(IEnumerable<SKDCard> items)
+		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item != null)
-					{
-						var databaseItem = Context.Card.FirstOrDefault(x => x.Uid == item.UID);
-						if (databaseItem != null)
-							databaseItem.IsDeleted = true;
-					}
-				} 
-				Context.SubmitChanges();
-			}
-			catch { }
+			return CardsTranslator.Save(items);
 		}
 		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{

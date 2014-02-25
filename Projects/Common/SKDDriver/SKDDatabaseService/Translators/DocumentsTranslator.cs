@@ -51,13 +51,23 @@ namespace SKDDriver
 			return result;
 		}
 
+		protected override void Update(DataAccess.Document tableItem, Document apiItem)
+		{
+			base.Update(tableItem, apiItem);
+			tableItem.Name = apiItem.Name;
+			tableItem.Description = apiItem.Description;
+			tableItem.IssueDate = apiItem.IssueDate;
+			tableItem.LaunchDate = apiItem.LaunchDate;
+			tableItem.No = apiItem.No;
+		}
+
 		protected override Expression<Func<DataAccess.Document, bool>> IsInFilter(DocumentFilter filter)
 		{
 			var result = PredicateBuilder.True<DataAccess.Document>();
 			result = result.And(base.IsInFilter(filter));
 			var nos = filter.Nos;
 			if (nos != null && nos.Count != 0)
-				result = result.And(e => nos.Contains(e.No.GetValueOrDefault(-1)));
+				result = result.And(e => nos.Contains(e.No));
 			var names = filter.Names;
 			if (names != null && names.Count != 0)
 				result = result.And(e => names.Contains(e.Name));
@@ -70,14 +80,5 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Document tableItem, Document apiItem)
-		{
-			base.Update(tableItem, apiItem);
-			tableItem.Name = apiItem.Name;
-			tableItem.Description = apiItem.Description;
-			tableItem.IssueDate = apiItem.IssueDate;
-			tableItem.LaunchDate = apiItem.LaunchDate;
-			tableItem.No = apiItem.No;
-		}
 	}
 }

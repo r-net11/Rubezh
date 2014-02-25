@@ -34,10 +34,8 @@ namespace SKDModule.ViewModels
 
 		public void CopyProperties()
 		{
-			if (Card.Series.HasValue)
-				Series = Card.Series.Value;
-			if (Card.Number.HasValue)
-				Number = Card.Number.Value;
+			Series = Card.Series;
+			Number = Card.Number;
 		}
 
 		int _series;

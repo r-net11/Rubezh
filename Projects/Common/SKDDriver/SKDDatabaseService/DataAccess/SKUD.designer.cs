@@ -45,6 +45,9 @@ namespace SKDDriver.DataAccess
     partial void InsertDepartment(Department instance);
     partial void UpdateDepartment(Department instance);
     partial void DeleteDepartment(Department instance);
+    partial void InsertDocument(Document instance);
+    partial void UpdateDocument(Document instance);
+    partial void DeleteDocument(Document instance);
     partial void InsertEmployee(Employee instance);
     partial void UpdateEmployee(Employee instance);
     partial void DeleteEmployee(Employee instance);
@@ -84,9 +87,6 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleZoneLink(ScheduleZoneLink instance);
     partial void UpdateScheduleZoneLink(ScheduleZoneLink instance);
     partial void DeleteScheduleZoneLink(ScheduleZoneLink instance);
-    partial void InsertDocument(Document instance);
-    partial void UpdateDocument(Document instance);
-    partial void DeleteDocument(Document instance);
     #endregion
 		
 		public SKUDDataContext() : 
@@ -156,6 +156,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Department>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Document> Document
+		{
+			get
+			{
+				return this.GetTable<Document>();
 			}
 		}
 		
@@ -262,14 +270,6 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<ScheduleZoneLink>();
 			}
 		}
-		
-		public System.Data.Linq.Table<Document> Document
-		{
-			get
-			{
-				return this.GetTable<Document>();
-			}
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AdditionalColumn")]
@@ -280,9 +280,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _Uid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private string _Name;
 		
@@ -308,9 +308,9 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUidChanging(System.Guid value);
     partial void OnUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
@@ -355,8 +355,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -375,8 +375,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -640,25 +640,25 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _Uid;
 		
-		private System.Nullable<int> _Series;
+		private int _Series;
 		
-		private System.Nullable<int> _Number;
+		private int _Number;
 		
 		private System.Nullable<System.Guid> _EmployeeUid;
 		
-		private System.Nullable<System.DateTime> _ValidFrom;
+		private System.DateTime _ValidFrom;
 		
-		private System.Nullable<System.DateTime> _ValidTo;
+		private System.DateTime _ValidTo;
 		
-		private System.Nullable<bool> _IsAntipass;
+		private bool _IsAntipass;
 		
-		private System.Nullable<bool> _IsInStopList;
+		private bool _IsInStopList;
 		
 		private string _StopReason;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntitySet<CardZoneLink> _CardZoneLink;
 		
@@ -672,25 +672,25 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUidChanging(System.Guid value);
     partial void OnUidChanged();
-    partial void OnSeriesChanging(System.Nullable<int> value);
+    partial void OnSeriesChanging(int value);
     partial void OnSeriesChanged();
-    partial void OnNumberChanging(System.Nullable<int> value);
+    partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
     partial void OnEmployeeUidChanging(System.Nullable<System.Guid> value);
     partial void OnEmployeeUidChanged();
-    partial void OnValidFromChanging(System.Nullable<System.DateTime> value);
+    partial void OnValidFromChanging(System.DateTime value);
     partial void OnValidFromChanged();
-    partial void OnValidToChanging(System.Nullable<System.DateTime> value);
+    partial void OnValidToChanging(System.DateTime value);
     partial void OnValidToChanged();
-    partial void OnIsAntipassChanging(System.Nullable<bool> value);
+    partial void OnIsAntipassChanging(bool value);
     partial void OnIsAntipassChanged();
-    partial void OnIsInStopListChanging(System.Nullable<bool> value);
+    partial void OnIsInStopListChanging(bool value);
     partial void OnIsInStopListChanged();
     partial void OnStopReasonChanging(string value);
     partial void OnStopReasonChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -722,8 +722,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Series", DbType="Int")]
-		public System.Nullable<int> Series
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Series", DbType="Int NOT NULL")]
+		public int Series
 		{
 			get
 			{
@@ -742,8 +742,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int")]
-		public System.Nullable<int> Number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
 		{
 			get
 			{
@@ -786,8 +786,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidFrom", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ValidFrom
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidFrom", DbType="DateTime NOT NULL")]
+		public System.DateTime ValidFrom
 		{
 			get
 			{
@@ -806,8 +806,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidTo", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ValidTo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidTo", DbType="DateTime NOT NULL")]
+		public System.DateTime ValidTo
 		{
 			get
 			{
@@ -826,8 +826,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit")]
-		public System.Nullable<bool> IsAntipass
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
+		public bool IsAntipass
 		{
 			get
 			{
@@ -846,8 +846,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsInStopList", DbType="Bit")]
-		public System.Nullable<bool> IsInStopList
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsInStopList", DbType="Bit NOT NULL")]
+		public bool IsInStopList
 		{
 			get
 			{
@@ -866,7 +866,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopReason", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopReason", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
 		public string StopReason
 		{
 			get
@@ -886,8 +886,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -906,8 +906,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -1049,9 +1049,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _IntervalType;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntityRef<Card> _Card;
 		
@@ -1071,9 +1071,9 @@ namespace SKDDriver.DataAccess
     partial void OnIntervalUidChanged();
     partial void OnIntervalTypeChanging(System.Nullable<int> value);
     partial void OnIntervalTypeChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -1207,8 +1207,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -1227,8 +1227,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -1316,9 +1316,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Number;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -1340,9 +1340,9 @@ namespace SKDDriver.DataAccess
     partial void OnScheduleSchemeUidChanged();
     partial void OnNumberChanging(System.Nullable<int> value);
     partial void OnNumberChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -1444,8 +1444,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -1464,8 +1464,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -1649,9 +1649,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _AttendantUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -1687,9 +1687,9 @@ namespace SKDDriver.DataAccess
     partial void OnContactEmployeeUidChanged();
     partial void OnAttendantUidChanging(System.Nullable<System.Guid> value);
     partial void OnAttendantUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -1840,8 +1840,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -1860,8 +1860,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -2161,6 +2161,301 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Document")]
+	public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private int _No;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private System.DateTime _IssueDate;
+		
+		private System.DateTime _LaunchDate;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganizationUid;
+		
+		private EntityRef<Organization> _Organization;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnNoChanging(int value);
+    partial void OnNoChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIssueDateChanging(System.DateTime value);
+    partial void OnIssueDateChanged();
+    partial void OnLaunchDateChanging(System.DateTime value);
+    partial void OnLaunchDateChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUidChanged();
+    #endregion
+		
+		public Document()
+		{
+			this._Organization = default(EntityRef<Organization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_No", DbType="Int NOT NULL")]
+		public int No
+		{
+			get
+			{
+				return this._No;
+			}
+			set
+			{
+				if ((this._No != value))
+				{
+					this.OnNoChanging(value);
+					this.SendPropertyChanging();
+					this._No = value;
+					this.SendPropertyChanged("No");
+					this.OnNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueDate", DbType="DateTime NOT NULL")]
+		public System.DateTime IssueDate
+		{
+			get
+			{
+				return this._IssueDate;
+			}
+			set
+			{
+				if ((this._IssueDate != value))
+				{
+					this.OnIssueDateChanging(value);
+					this.SendPropertyChanging();
+					this._IssueDate = value;
+					this.SendPropertyChanged("IssueDate");
+					this.OnIssueDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LaunchDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LaunchDate
+		{
+			get
+			{
+				return this._LaunchDate;
+			}
+			set
+			{
+				if ((this._LaunchDate != value))
+				{
+					this.OnLaunchDateChanging(value);
+					this.SendPropertyChanging();
+					this._LaunchDate = value;
+					this.SendPropertyChanged("LaunchDate");
+					this.OnLaunchDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUid
+		{
+			get
+			{
+				return this._OrganizationUid;
+			}
+			set
+			{
+				if ((this._OrganizationUid != value))
+				{
+					if (this._Organization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationUidChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationUid = value;
+					this.SendPropertyChanged("OrganizationUid");
+					this.OnOrganizationUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Organization Organization
+		{
+			get
+			{
+				return this._Organization.Entity;
+			}
+			set
+			{
+				Organization previousValue = this._Organization.Entity;
+				if (((previousValue != value) 
+							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organization.Entity = null;
+						previousValue.Document.Remove(this);
+					}
+					this._Organization.Entity = value;
+					if ((value != null))
+					{
+						value.Document.Add(this);
+						this._OrganizationUid = value.Uid;
+					}
+					else
+					{
+						this._OrganizationUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Employee")]
 	public partial class Employee : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2187,9 +2482,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Type;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -2235,9 +2530,9 @@ namespace SKDDriver.DataAccess
     partial void OnDismissedChanged();
     partial void OnTypeChanging(System.Nullable<int> value);
     partial void OnTypeChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -2469,8 +2764,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -2489,8 +2784,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -2837,9 +3132,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _ScheduleUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -2867,9 +3162,9 @@ namespace SKDDriver.DataAccess
     partial void OnDepartmentUidChanged();
     partial void OnScheduleUidChanging(System.Nullable<System.Guid> value);
     partial void OnScheduleUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -3016,8 +3311,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -3036,8 +3331,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -3253,9 +3548,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Data.Linq.Binary _FrameData;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntityRef<Journal> _Journal;
 		
@@ -3273,9 +3568,9 @@ namespace SKDDriver.DataAccess
     partial void OnDateTimeChanged();
     partial void OnFrameDataChanging(System.Data.Linq.Binary value);
     partial void OnFrameDataChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -3389,8 +3684,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -3409,8 +3704,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -3502,9 +3797,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Reduction;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -3526,9 +3821,9 @@ namespace SKDDriver.DataAccess
     partial void OnTransferDateChanged();
     partial void OnReductionChanging(System.Nullable<int> value);
     partial void OnReductionChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -3660,8 +3955,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -3680,8 +3975,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -3795,9 +4090,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _NamedIntervalUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntityRef<NamedInterval> _NamedInterval;
 		
@@ -3815,9 +4110,9 @@ namespace SKDDriver.DataAccess
     partial void OnUidChanged();
     partial void OnNamedIntervalUidChanging(System.Nullable<System.Guid> value);
     partial void OnNamedIntervalUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -3931,8 +4226,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -3951,8 +4246,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -4052,9 +4347,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _CardNo;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntitySet<Frame> _Frame;
 		
@@ -4084,9 +4379,9 @@ namespace SKDDriver.DataAccess
     partial void OnCardSeriesChanged();
     partial void OnCardNoChanging(System.Nullable<int> value);
     partial void OnCardNoChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -4301,8 +4596,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -4321,8 +4616,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -4431,9 +4726,9 @@ namespace SKDDriver.DataAccess
 		
 		private string _Name;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -4451,9 +4746,9 @@ namespace SKDDriver.DataAccess
     partial void OnUidChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -4507,8 +4802,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -4527,8 +4822,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -4688,15 +4983,17 @@ namespace SKDDriver.DataAccess
 		
 		private string _Description;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntitySet<AdditionalColumn> _AdditionalColumn;
 		
 		private EntitySet<Day> _Day;
 		
 		private EntitySet<Department> _Department;
+		
+		private EntitySet<Document> _Document;
 		
 		private EntitySet<Employee> _Employee;
 		
@@ -4714,8 +5011,6 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<ScheduleScheme> _ScheduleScheme;
 		
-		private EntitySet<Document> _Document;
-		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4726,9 +5021,9 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -4737,6 +5032,7 @@ namespace SKDDriver.DataAccess
 			this._AdditionalColumn = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumn), new Action<AdditionalColumn>(this.detach_AdditionalColumn));
 			this._Day = new EntitySet<Day>(new Action<Day>(this.attach_Day), new Action<Day>(this.detach_Day));
 			this._Department = new EntitySet<Department>(new Action<Department>(this.attach_Department), new Action<Department>(this.detach_Department));
+			this._Document = new EntitySet<Document>(new Action<Document>(this.attach_Document), new Action<Document>(this.detach_Document));
 			this._Employee = new EntitySet<Employee>(new Action<Employee>(this.attach_Employee), new Action<Employee>(this.detach_Employee));
 			this._EmployeeReplacement = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacement), new Action<EmployeeReplacement>(this.detach_EmployeeReplacement));
 			this._Holiday = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holiday), new Action<Holiday>(this.detach_Holiday));
@@ -4745,7 +5041,6 @@ namespace SKDDriver.DataAccess
 			this._Position = new EntitySet<Position>(new Action<Position>(this.attach_Position), new Action<Position>(this.detach_Position));
 			this._Schedule = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedule), new Action<Schedule>(this.detach_Schedule));
 			this._ScheduleScheme = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleScheme), new Action<ScheduleScheme>(this.detach_ScheduleScheme));
-			this._Document = new EntitySet<Document>(new Action<Document>(this.attach_Document), new Action<Document>(this.detach_Document));
 			OnCreated();
 		}
 		
@@ -4809,8 +5104,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -4829,8 +5124,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -4885,6 +5180,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._Department.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="Uid", OtherKey="OrganizationUid")]
+		public EntitySet<Document> Document
+		{
+			get
+			{
+				return this._Document;
+			}
+			set
+			{
+				this._Document.Assign(value);
 			}
 		}
 		
@@ -4992,19 +5300,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="Uid", OtherKey="OrganizationUid")]
-		public EntitySet<Document> Document
-		{
-			get
-			{
-				return this._Document;
-			}
-			set
-			{
-				this._Document.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -5056,6 +5351,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Department(Department entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = null;
+		}
+		
+		private void attach_Document(Document entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = this;
+		}
+		
+		private void detach_Document(Document entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organization = null;
@@ -5156,18 +5463,6 @@ namespace SKDDriver.DataAccess
 			this.SendPropertyChanging();
 			entity.Organization = null;
 		}
-		
-		private void attach_Document(Document entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = this;
-		}
-		
-		private void detach_Document(Document entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Phone")]
@@ -5184,9 +5479,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _DepartmentUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -5206,9 +5501,9 @@ namespace SKDDriver.DataAccess
     partial void OnNumberStringChanged();
     partial void OnDepartmentUidChanging(System.Nullable<System.Guid> value);
     partial void OnDepartmentUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -5305,8 +5600,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -5325,8 +5620,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -5470,9 +5765,9 @@ namespace SKDDriver.DataAccess
 		
 		private string _Description;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -5490,9 +5785,9 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -5525,7 +5820,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string Name
 		{
 			get
@@ -5545,7 +5840,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
 		public string Description
 		{
 			get
@@ -5565,8 +5860,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -5585,8 +5880,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -5721,9 +6016,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _ScheduleSchemeUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -5747,9 +6042,9 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnScheduleSchemeUidChanging(System.Nullable<System.Guid> value);
     partial void OnScheduleSchemeUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -5829,8 +6124,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -5849,8 +6144,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -6071,9 +6366,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Length;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private System.Nullable<System.Guid> _OrganizationUid;
 		
@@ -6095,9 +6390,9 @@ namespace SKDDriver.DataAccess
     partial void OnTypeChanged();
     partial void OnLengthChanging(System.Nullable<int> value);
     partial void OnLengthChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
     partial void OnOrganizationUidChanged();
@@ -6191,8 +6486,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -6211,8 +6506,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -6372,9 +6667,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _ScheduleUid;
 		
-		private System.Nullable<bool> _IsDeleted;
+		private bool _IsDeleted;
 		
-		private System.Nullable<System.DateTime> _RemovalDate;
+		private System.DateTime _RemovalDate;
 		
 		private EntityRef<Schedule> _Schedule;
 		
@@ -6388,9 +6683,9 @@ namespace SKDDriver.DataAccess
     partial void OnZoneUidChanged();
     partial void OnScheduleUidChanging(System.Nullable<System.Guid> value);
     partial void OnScheduleUidChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
+    partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
     #endregion
 		
@@ -6464,8 +6759,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
 		{
 			get
 			{
@@ -6484,8 +6779,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
 		{
 			get
 			{
@@ -6534,301 +6829,6 @@ namespace SKDDriver.DataAccess
 						this._ScheduleUid = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Document")]
-	public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Uid;
-		
-		private System.Nullable<int> _No;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private System.Nullable<System.DateTime> _IssueDate;
-		
-		private System.Nullable<System.DateTime> _LaunchDate;
-		
-		private System.Nullable<bool> _IsDeleted;
-		
-		private System.Nullable<System.DateTime> _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganizationUid;
-		
-		private EntityRef<Organization> _Organization;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUidChanging(System.Guid value);
-    partial void OnUidChanged();
-    partial void OnNoChanging(System.Nullable<int> value);
-    partial void OnNoChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnIssueDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnIssueDateChanged();
-    partial void OnLaunchDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnLaunchDateChanged();
-    partial void OnIsDeletedChanging(System.Nullable<bool> value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
-    #endregion
-		
-		public Document()
-		{
-			this._Organization = default(EntityRef<Organization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Uid
-		{
-			get
-			{
-				return this._Uid;
-			}
-			set
-			{
-				if ((this._Uid != value))
-				{
-					this.OnUidChanging(value);
-					this.SendPropertyChanging();
-					this._Uid = value;
-					this.SendPropertyChanged("Uid");
-					this.OnUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_No", DbType="Int")]
-		public System.Nullable<int> No
-		{
-			get
-			{
-				return this._No;
-			}
-			set
-			{
-				if ((this._No != value))
-				{
-					this.OnNoChanging(value);
-					this.SendPropertyChanging();
-					this._No = value;
-					this.SendPropertyChanged("No");
-					this.OnNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> IssueDate
-		{
-			get
-			{
-				return this._IssueDate;
-			}
-			set
-			{
-				if ((this._IssueDate != value))
-				{
-					this.OnIssueDateChanging(value);
-					this.SendPropertyChanging();
-					this._IssueDate = value;
-					this.SendPropertyChanged("IssueDate");
-					this.OnIssueDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LaunchDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> LaunchDate
-		{
-			get
-			{
-				return this._LaunchDate;
-			}
-			set
-			{
-				if ((this._LaunchDate != value))
-				{
-					this.OnLaunchDateChanging(value);
-					this.SendPropertyChanging();
-					this._LaunchDate = value;
-					this.SendPropertyChanged("LaunchDate");
-					this.OnLaunchDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit")]
-		public System.Nullable<bool> IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
-		{
-			get
-			{
-				return this._OrganizationUid;
-			}
-			set
-			{
-				if ((this._OrganizationUid != value))
-				{
-					if (this._Organization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganizationUidChanging(value);
-					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Organization Organization
-		{
-			get
-			{
-				return this._Organization.Entity;
-			}
-			set
-			{
-				Organization previousValue = this._Organization.Entity;
-				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organization.Entity = null;
-						previousValue.Document.Remove(this);
-					}
-					this._Organization.Entity = value;
-					if ((value != null))
-					{
-						value.Document.Add(this);
-						this._OrganizationUid = value.Uid;
-					}
-					else
-					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organization");
 				}
 			}
 		}

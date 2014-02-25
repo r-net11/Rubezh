@@ -126,6 +126,7 @@
     <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DepartmentHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DocumentHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />

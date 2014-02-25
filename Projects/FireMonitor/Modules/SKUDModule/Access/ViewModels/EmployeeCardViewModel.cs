@@ -42,11 +42,11 @@ namespace SKDModule.ViewModels
 		}
 		public DateTime StartDate
 		{
-			get { return Card.ValidFrom.GetValueOrDefault(DateTime.MinValue); }
+			get { return Card.ValidFrom; }
 		}
 		public DateTime EndDate
 		{
-			get { return Card.ValidTo.GetValueOrDefault(DateTime.MaxValue); }
+			get { return Card.ValidTo; }
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

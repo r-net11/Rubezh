@@ -57,12 +57,13 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="SKDDatabaseService\Translators\CardsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DocumentsTranslator.cs" />
     <Compile Include="SKDDatabaseService\FilterHelper.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
-    <Compile Include="SKDDatabaseService\Translators\OrganizationTranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\Base\OrganizationTranslatorBase.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
-    <Compile Include="SKDDatabaseService\Translators\TranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\Base\TranslatorBase.cs" />
     <Compile Include="SKDDatabaseService\Translator\Translate.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

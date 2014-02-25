@@ -19,6 +19,8 @@ namespace GKModule.ViewModels
 			ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
 			foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
 			{
+				if (item == ArchiveDefaultStateType.All)
+					continue;
 				ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
 			}
 

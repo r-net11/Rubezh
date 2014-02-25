@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZoneLinkFilter : FilterBase
+	public class CardZoneFilter : FilterBase
 	{
 		[DataMember]
 		public List<Guid> CardUids { get; set; }
@@ -16,7 +16,7 @@ namespace FiresecAPI
 		[DataMember]
 		public List<Guid> IntervalUids { get; set; }
 
-		public CardZoneLinkFilter():base()
+		public CardZoneFilter():base()
 		{
 			CardUids = new List<Guid>();
 			ZoneUids = new List<Guid>();

@@ -16,8 +16,11 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
+			Filter = new CardFilter();
 			Initialize();
 		}
+
+		CardFilter Filter;
 
 		public void Initialize()
 		{

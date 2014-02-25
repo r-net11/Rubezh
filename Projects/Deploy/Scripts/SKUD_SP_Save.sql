@@ -56,8 +56,8 @@ CREATE PROCEDURE [dbo].[SaveInterval]
 	@EndDate datetime = NULL,
 	@Transition nvarchar(10) = null,
 	@NamedIntervalUid uniqueidentifier = NULL,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 
 AS
 BEGIN
@@ -96,8 +96,8 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[NamedInterval] WHERE Uid = @Uid)
@@ -131,8 +131,8 @@ CREATE PROCEDURE [dbo].[SaveDay]
 	@NamedIntervalUid uniqueidentifier = NULL,
 	@ScheduleSchemeUid uniqueidentifier = NULL,
 	@Number int = NULL,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 
 AS
 BEGIN
@@ -173,8 +173,8 @@ CREATE PROCEDURE [dbo].[SaveScheduleScheme]
 	@Name nvarchar(50) = NULL,
 	@Type nvarchar(50) = NULL,
 	@Length int = NULL,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 
 AS
 BEGIN
@@ -214,8 +214,8 @@ CREATE PROCEDURE [dbo].[SaveSchedule]
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@ScheduleSchemeUid uniqueidentifier,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 
 AS
 BEGIN
@@ -251,12 +251,12 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
-	@Type nvarchar(50)= NULL,
+	@Type int = NULL,
 	@Date datetime = NULL,
 	@TransferDate datetime = NULL,
 	@Reduction int = NULL,
-	@IsDeleted bit = NULL,
-	@RemovalDate datetime = NULL
+	@IsDeleted bit ,
+	@RemovalDate datetime 
 
 AS
 BEGIN
@@ -366,11 +366,6 @@ CREATE PROCEDURE [dbo].[SaveGuest]
 	@FirstName [nvarchar](50) = NULL,
 	@SecondName [nvarchar](50) = NULL,
 	@LastName [nvarchar](50) = NULL,
-	@PositionUid [uniqueidentifier] = NULL,
-	@DepartmentUid [uniqueidentifier] = NULL,
-	@ScheduleUid [uniqueidentifier] = NULL,
-	@Appointed [datetime] = NULL,
-	@Dismissed [datetime] = NULL,
 	@IsDeleted [bit] = NULL,
 	@RemovalDate [datetime] = NULL
 
@@ -395,11 +390,11 @@ BEGIN
 				@FirstName ,
 				@SecondName ,
 				@LastName ,
-				@PositionUid ,
-				@DepartmentUid ,
-				@ScheduleUid ,
-				@Appointed ,
-				@Dismissed ,
+				NULL ,
+				NULL ,
+				NULL ,
+				NULL ,
+				NULL ,
 				@IsDeleted ,
 				@RemovalDate,
 				@OrganizationUid,
@@ -550,13 +545,13 @@ GO
 CREATE PROCEDURE [dbo].[SaveDocument]
 	@Uid [uniqueidentifier] ,
 	@OrganizationUid uniqueidentifier = NULL,	
-	@No [int] = NULL,
-	@Name [nvarchar](50) = NULL,
-	@Description [nvarchar](max) = NULL,
-	@IssueDate [datetime] = NULL,
-	@LaunchDate [datetime] = NULL,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL
+	@No [int] ,
+	@Name [nvarchar](50) ,
+	@Description [nvarchar](max) ,
+	@IssueDate [datetime] ,
+	@LaunchDate [datetime] ,
+	@IsDeleted [bit] ,
+	@RemovalDate [datetime] 
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Document] WHERE Uid = @Uid)
@@ -600,10 +595,10 @@ GO
 CREATE PROCEDURE [dbo].[SavePosition]
 	@Uid [uniqueidentifier] ,
 	@OrganizationUid uniqueidentifier = NULL,
-	@Name [nvarchar](50) = NULL,
-	@Description [nvarchar](max) = NULL,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL
+	@Name [nvarchar](50) ,
+	@Description [nvarchar](max) ,
+	@IsDeleted [bit] ,
+	@RemovalDate [datetime] 
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Position] WHERE Uid = @Uid)

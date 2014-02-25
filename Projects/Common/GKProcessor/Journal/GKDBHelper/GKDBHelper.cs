@@ -333,6 +333,41 @@ namespace GKProcessor
 			return -1;
 		}
 
+		public static DateTime GetMinDate()
+		{
+			try
+			{
+				lock (locker)
+				{
+					if (File.Exists(AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf")))
+					{
+						using (var dataContext = new SqlCeConnection(ConnectionString))
+						{
+							var query = "SELECT MIN(SystemDateTime) FROM Journal";
+							var sqlCeCommand = new SqlCeCommand(query, dataContext);
+							dataContext.Open();
+							var reader = sqlCeCommand.ExecuteReader();
+							var result = DateTime.Now;
+							if (reader.Read())
+							{
+								if (!reader.IsDBNull(0))
+								{
+									result = reader.GetDateTime(0);
+								}
+							}
+							dataContext.Close();
+							return result;
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "GKDBHelper.GetLastGKID");
+			}
+			return DateTime.Now;
+		}
+
 		public static List<JournalItem> GetGKTopLastJournalItems(int count)
 		{
 			var journalItems = new List<JournalItem>();

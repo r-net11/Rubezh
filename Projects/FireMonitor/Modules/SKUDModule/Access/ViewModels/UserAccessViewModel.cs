@@ -21,11 +21,12 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.UID } };
-			var cards = FiresecManager.GetCards(filter);
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			foreach (var item in cards)
+			var cards = CardHelper.Get(filter);
+			if (cards != null)
 			{
-				Cards.Add(new EmployeeCardViewModel(this, item));
+				foreach (var item in cards)
+					Cards.Add(new EmployeeCardViewModel(this, item));
 			}
 			SelectedCard = Cards.FirstOrDefault();
 		}

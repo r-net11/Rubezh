@@ -32,6 +32,13 @@ namespace SKDDriver
 			return result;
 		}
 
+
+		protected override void Update(TableT tableItem, ApiT apiItem)
+		{
+			base.Update(tableItem, apiItem);
+			tableItem.OrganizationUid = apiItem.OrganizationUid;
+		}
+
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = PredicateBuilder.True<TableT>();
@@ -40,12 +47,6 @@ namespace SKDDriver
 			if (organizationUIDs != null && organizationUIDs.Count != 0)
 				result = result.And(e => organizationUIDs.Contains(e.OrganizationUid.GetValueOrDefault()));
 			return result;
-		}
-
-		protected override void Update(TableT tableItem, ApiT apiItem)
-		{
-			base.Update(tableItem, apiItem);
-			tableItem.OrganizationUid = apiItem.OrganizationUid;
 		}
 	}
 }

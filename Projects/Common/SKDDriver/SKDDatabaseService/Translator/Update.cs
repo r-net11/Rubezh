@@ -43,7 +43,7 @@ namespace SKDDriver
 			item.DeviceNo = apiItem.DeviceJournalRecordNo;
 			item.IpPort = apiItem.IpAddress;
 			item.Name = apiItem.Name;
-			item.SysemDate = CheckDate(apiItem.SystemDateTime);
+			item.SysemDate = CheckDate(apiItem.SystemDateTime.GetValueOrDefault(new DateTime()));
 			//UpdateBase(item, apiItem);
 		}
 
@@ -52,7 +52,7 @@ namespace SKDDriver
 			if (apiItem == null)
 				return;
 			item.CameraUid = apiItem.CameraUid;
-			item.DateTime = CheckDate(apiItem.DateTime);
+			item.DateTime = CheckDate(apiItem.DateTime.GetValueOrDefault(new DateTime()));
 			item.FrameData = apiItem.FrameData;
 			item.JournalItemUid = apiItem.JournalItemUid;
 			UpdateBase(item, apiItem);
@@ -105,14 +105,15 @@ namespace SKDDriver
 			item.OrganizationUid = apiItem.OrganizationUid;
 		}
 
-		static DateTime? CheckDate(DateTime? dateTime)
+		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+
+		static DateTime CheckDate(DateTime dateTime)
 		{
-			if (dateTime == null)
-				return null;
-			if (dateTime.Value.Year < 1754)
-				return null;
-			if (dateTime.Value.Year > 9998)
-				return null;
+			if (dateTime < MinYear)
+				return MinYear;
+			if (dateTime > MaxYear)
+				return MaxYear;
 			return dateTime;
 		}
 	}

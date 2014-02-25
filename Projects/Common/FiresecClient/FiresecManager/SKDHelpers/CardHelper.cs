@@ -11,7 +11,7 @@ namespace FiresecClient.SKDHelpers
 		public static void LinkToEmployee(SKDCard card, Guid employeeUid)
 		{
 			card.HolderUid = employeeUid;
-			FiresecManager.SaveCards(new List<SKDCard> { card });
+			FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
 		}
 
 		public static void ToStopList(SKDCard card, string reason)
@@ -19,12 +19,18 @@ namespace FiresecClient.SKDHelpers
 			card.IsInStopList = true;
 			card.StopReason = reason;
 			card.HolderUid = null;
-			FiresecManager.SaveCards(new List<SKDCard> { card });
+			FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
 			
-			var cardZoneLinks = FiresecManager.GetCardZoneLinks(new CardZoneLinkFilter{ Uids =  card.ZoneLinkUids });
+			var cardZoneLinks = FiresecManager.GetCardZoneLinks(new CardZoneFilter{ Uids =  card.ZoneLinkUids });
 			foreach (var item in cardZoneLinks)
 				item.CardUid = null;
 			FiresecManager.SaveCardZoneLinks(cardZoneLinks);
+		}
+
+		public static IEnumerable<SKDCard> Get(CardFilter filter)
+		{
+			var result = FiresecManager.FiresecService.GetCards(filter);
+			return Common.ShowErrorIfExists(result);
 		}
 	}
 }

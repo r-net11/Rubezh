@@ -370,14 +370,14 @@ namespace GKProcessor
 			var hour = bytes[32 + 7];
 			var minute = bytes[32 + 8];
 			var second = bytes[32 + 9];
-			try
-			{
-				JournalItem.DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
-			}
-			catch
-			{
-				JournalItem.DeviceDateTime = DateTime.MinValue;
-			}
+			//try
+			//{
+			//    JournalItem.DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
+			//}
+			//catch
+			//{
+			//    JournalItem.DeviceDateTime = DateTime.MinValue;
+			//}
 			JournalItem.SystemDateTime = DateTime.Now;
 		}
 	}

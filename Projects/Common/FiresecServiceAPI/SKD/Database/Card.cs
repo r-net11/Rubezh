@@ -17,19 +17,19 @@ namespace FiresecAPI
 		}
 
 		[DataMember]
-		public int? Series { get; set; }
+		public int Series { get; set; }
 
 		[DataMember]
-		public int? Number { get; set; }
+		public int Number { get; set; }
 
 		[DataMember]
 		public Guid? HolderUid { get; set; }
 
 		[DataMember]
-		public DateTime? ValidFrom { get; set; }
+		public DateTime ValidFrom { get; set; }
 
 		[DataMember]
-		public DateTime? ValidTo { get; set; }
+		public DateTime ValidTo { get; set; }
 
 		[DataMember]
 		public List<Guid> ZoneLinkUids { get; set; }
@@ -47,10 +47,10 @@ namespace FiresecAPI
 		public Guid GUDUid { get; set; }
 
 		[DataMember]
-		public bool? IsAntipass { get; set; }
+		public bool IsAntipass { get; set; }
 
 		[DataMember]
-		public bool? IsInStopList { get; set; }
+		public bool IsInStopList { get; set; }
 
 		[DataMember]
 		public string StopReason { get; set; }

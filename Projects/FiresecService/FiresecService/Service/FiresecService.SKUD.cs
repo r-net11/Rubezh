@@ -34,11 +34,11 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetFrames(filter);
 		}
-		public IEnumerable<SKDCard> GetCards(CardFilter filter)
+		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
 			return _skdService.GetCards(filter);
 		}
-		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
 		{
 			return _skdService.GetCardZoneLinks(filter);
 		}
@@ -73,9 +73,9 @@ namespace FiresecService.Service
 		{
 			_skdService.SaveFrames(frames);
 		}
-		public void SaveCards(IEnumerable<SKDCard> items)
+		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
-			_skdService.SaveCards(items);
+			return _skdService.SaveCards(items);
 		}
 		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
@@ -112,9 +112,9 @@ namespace FiresecService.Service
 		{
 			_skdService.MarkDeletedFrames(frames);
 		}
-		public void MarkDeletedCards(IEnumerable<SKDCard> items)
+		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
-			_skdService.MarkDeletedCards(items);
+			return _skdService.MarkDeletedCards(items);
 		}
 		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
@@ -129,9 +129,6 @@ namespace FiresecService.Service
 			return _skdService.MarkDeletedDocuments(items);
 		}
 		#endregion
-
-
-
 		#endregion
 
 		#region Devices

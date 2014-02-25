@@ -46,7 +46,7 @@ namespace SKDDriver
 			return isInEmployees && IsInFilterBase(item, filter);
 		}
 
-		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneLinkFilter filter)
+		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneFilter filter)
 		{
 			bool isInCardUids = IsInList<Guid>(item.CardUid, filter.CardUids);
 			bool isInZoneUids = IsInList<Guid>(item.ZoneUid, filter.ZoneUids);
@@ -72,13 +72,15 @@ namespace SKDDriver
 		{
 			bool isInDeleted = IsInDeleted(item, filter);
 			bool isInUids = IsInList<Guid>(item.Uid, filter.Uids);
-			bool isInRemovalDates = IsInDateTimePeriod(item.RemovalDate, filter.RemovalDates);
+			bool isInRemovalDates = true;
+			if(filter.WithDeleted == DeletedType.Deleted)
+				isInRemovalDates = IsInDateTimePeriod(item.RemovalDate, filter.RemovalDates);
 			return isInDeleted && isInUids && isInRemovalDates; 
 		}
 
 		static bool IsInDeleted(DataAccess.IDatabaseElement item, FilterBase filter)
 		{
-			bool isDeleted = item.IsDeleted.GetValueOrDefault(false);
+			bool isDeleted = item.IsDeleted;
 			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:

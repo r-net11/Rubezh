@@ -24,11 +24,7 @@ namespace FiresecClient
 		{
 			return FiresecService.GetFrames(filter);
 		}
-		public static IEnumerable<SKDCard> GetCards(CardFilter filter)
-		{
-			return FiresecService.GetCards(filter);
-		}
-		public static IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		public static IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
 		{
 			return FiresecService.GetCardZoneLinks(filter);
 		}
@@ -54,10 +50,6 @@ namespace FiresecClient
 		public static void SaveFrames(IEnumerable<Frame> frames)
 		{
 			FiresecService.SaveFrames(frames);
-		}
-		public static void SaveCards(IEnumerable<SKDCard> items)
-		{
-			FiresecService.SaveCards(items);
 		}
 		public static void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
@@ -85,10 +77,6 @@ namespace FiresecClient
 		public static void MarkDeletedFrames(IEnumerable<Frame> frames)
 		{
 			FiresecService.MarkDeletedFrames(frames);
-		}
-		public static void MarkDeletedCards(IEnumerable<SKDCard> items)
-		{
-			FiresecService.MarkDeletedCards(items);
 		}
 		public static void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{
@@ -133,30 +121,14 @@ namespace FiresecClient
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetFrames(filter).ToList().FirstOrDefault();
 		}
-		public static SKDCard GetCard(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var filter = new CardFilter();
-			filter.Uids.Add((Guid)uid);
-			return FiresecService.GetCards(filter).ToList().FirstOrDefault();
-		}
 		public static CardZoneLink GetCardZoneLink(Guid? uid)
 		{
 			if (uid == null)
 				return null;
-			var filter = new CardZoneLinkFilter();
+			var filter = new CardZoneFilter();
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetCardZoneLinks(filter).ToList().FirstOrDefault();
 		}
-		//public static Document GetDocument(Guid? uid)
-		//{
-		//    if (uid == null)
-		//        return null;
-		//    var filter = new DocumentFilter();
-		//    filter.Uids.Add((Guid)uid);
-		//    return FiresecService.GetDocuments(filter).ToList().FirstOrDefault();
-		//}
 		public static Organization GetOrganization(Guid? uid)
 		{
 			if (uid == null)

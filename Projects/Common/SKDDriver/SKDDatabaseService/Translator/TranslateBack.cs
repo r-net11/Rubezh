@@ -30,8 +30,8 @@ namespace SKDDriver
 				FirstName = item.FirstName,
 				SecondName = item.SecondName,
 				LastName = item.LastName,
-				Appointed = CheckDate(item.Appointed),
-				Dismissed = CheckDate(item.Dismissed),
+				Appointed = CheckDate(item.Appointed.GetValueOrDefault(new DateTime())),
+				Dismissed = CheckDate(item.Dismissed.GetValueOrDefault(new DateTime())),
 				PositionUid = item.PositionUid,
 				DepartmentUid = item.DepartmentUid,
 				ScheduleUid = item.ScheduleUid,
@@ -53,7 +53,7 @@ namespace SKDDriver
 				DeviceNo = item.DeviceJournalRecordNo,
 				IpPort = item.IpAddress,
 				Name = item.Name,
-				SysemDate = CheckDate(item.SystemDateTime)
+				SysemDate = CheckDate(item.SystemDateTime.GetValueOrDefault(new DateTime()))
 			};
 			TranslateBackBase(item, result);
 			return result;
@@ -66,7 +66,7 @@ namespace SKDDriver
 			var result = new Frame
 			{
 				CameraUid = item.CameraUid,
-				DateTime = CheckDate(item.DateTime),
+				DateTime = CheckDate(item.DateTime.GetValueOrDefault(new DateTime())),
 				FrameData = item.FrameData,
 				JournalItemUid = item.JournalItemUid
 			};

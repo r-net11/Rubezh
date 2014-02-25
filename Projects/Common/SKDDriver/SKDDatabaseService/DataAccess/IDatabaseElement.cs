@@ -8,8 +8,8 @@ namespace SKDDriver.DataAccess
 	public interface IDatabaseElement
 	{
 		Guid Uid { get; set; }
-		bool? IsDeleted { get; set; }
-		DateTime? RemovalDate { get; set; }
+		bool IsDeleted { get; set; }
+		DateTime RemovalDate { get; set; }
 	}
 
 	public interface IOrganizationDatabaseElement : IDatabaseElement

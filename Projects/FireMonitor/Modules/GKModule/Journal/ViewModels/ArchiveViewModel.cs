@@ -44,9 +44,14 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
+		public DateTime GetFirstDate()
+		{
+			return GKDBHelper.GetMinDate();
+		}
+
 		public void Initialize()
 		{
-			ArchiveFirstDate = DateTime.Now.AddDays(-1);
+			ArchiveFirstDate = GetFirstDate(); // DateTime.Now.AddDays(-1);
 			_isFilterOn = false;
 		}
 
@@ -212,7 +217,7 @@ namespace GKModule.ViewModels
 						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
 					break;
 				case ArchiveDefaultStateType.All:
-					archiveFilter.StartDate = DateTime.MinValue.AddYears(1800);
+					archiveFilter.StartDate = DateTime.MinValue.AddYears(1900);
 					break;
 			}
 			return archiveFilter;

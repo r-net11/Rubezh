@@ -32,14 +32,10 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства карты: {0}", card.Series + "/" + card.Number);
 			}
 			Card = card;
-			if (Card.Series.HasValue)
-				IDFamily = Card.Series.Value;
-			if (Card.Number.HasValue)
-				IDNo = Card.Number.Value;
-			if (Card.ValidFrom.HasValue)
-				StartDate = Card.ValidFrom.Value;
-			if (Card.ValidTo.HasValue)
-				EndDate = Card.ValidTo.Value;
+			IDFamily = Card.Series;
+			IDNo = Card.Number;
+			StartDate = Card.ValidFrom;
+			EndDate = Card.ValidTo;
 
 			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones);
 			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones);

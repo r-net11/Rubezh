@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZone
+	public class CardZone: SKDModelBase
 	{
 		[DataMember]
 		public Guid ZoneUID { get; set; }
@@ -22,6 +22,6 @@ namespace FiresecAPI
 		public IntervalType IntervalType { get; set; }
 
 		[DataMember]
-		public Guid IntervalUID { get; set; }
+		public Guid? IntervalUID { get; set; }
 	}
 }

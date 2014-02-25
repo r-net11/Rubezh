@@ -136,11 +136,11 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<IEnumerable<Frame>>(() => FiresecService.GetFrames(filter));
 		}
-		public IEnumerable<SKDCard> GetCards(CardFilter filter)
+		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<SKDCard>>(() => FiresecService.GetCards(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneLinkFilter filter)
+		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<CardZoneLink>>(() => FiresecService.GetCardZoneLinks(filter));
 		}
@@ -165,7 +165,7 @@ namespace FiresecClient
 		}
 		public OperationResult SavePositions(IEnumerable<Position> items)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePositions(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePositions(items)); 
 		}
 		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
@@ -175,9 +175,9 @@ namespace FiresecClient
 		{
 			SafeContext.Execute(() => FiresecService.SaveFrames(items));
 		}
-		public void SaveCards(IEnumerable<SKDCard> items)
+		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
-			SafeContext.Execute(() => FiresecService.SaveCards(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCards(items));
 		}
 		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
 		{

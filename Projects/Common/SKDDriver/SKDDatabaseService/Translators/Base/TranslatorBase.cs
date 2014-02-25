@@ -60,10 +60,10 @@ namespace SKDDriver
 			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
-					IsDeletedExpression = e => e != null && e.IsDeleted.GetValueOrDefault(false);
+					IsDeletedExpression = e => e != null && e.IsDeleted;
 					break;
 				case DeletedType.Not:
-					IsDeletedExpression = e => e != null && !e.IsDeleted.GetValueOrDefault(false);
+					IsDeletedExpression = e => e != null && !e.IsDeleted;
 					break;
 				default:
 					IsDeletedExpression = e => e != null;
@@ -74,12 +74,14 @@ namespace SKDDriver
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.Uid));
 			var removalDates = filter.RemovalDates;
-			if (removalDates != null)
-				result = result.And(e => e.RemovalDate == null || (e.RemovalDate >= removalDates.StartDate && e.RemovalDate <= removalDates.EndDate));
+			if (removalDates != null && filter.WithDeleted == DeletedType.Deleted)
+				result = result.And(e => e.RemovalDate == null || 
+					(e.RemovalDate >= removalDates.StartDate && 
+						e.RemovalDate <= removalDates.EndDate));
 			return result;
 		}
 
-		public OperationResult<IEnumerable<ApiT>> Get(FilterT filter)
+		public virtual OperationResult<IEnumerable<ApiT>> Get(FilterT filter)
 		{
 			try
 			{
@@ -102,7 +104,7 @@ namespace SKDDriver
 
 		}
 
-		public OperationResult Save(IEnumerable<ApiT> items)
+		public virtual OperationResult Save(IEnumerable<ApiT> items)
 		{
 			try
 			{
@@ -128,7 +130,7 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult MarkDeleted(IEnumerable<ApiT> items)
+		public virtual OperationResult MarkDeleted(IEnumerable<ApiT> items)
 		{
 			var operationResult = new OperationResult();
 			try
@@ -142,7 +144,10 @@ namespace SKDDriver
 					{
 						var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
 						if (databaseItem != null)
+						{
 							databaseItem.IsDeleted = true;
+							databaseItem.RemovalDate = DateTime.Now;
+						}
 					}
 				}
 				Table.Context.SubmitChanges();
@@ -155,14 +160,15 @@ namespace SKDDriver
 		}
 
 		#region Static
-		protected static DateTime? CheckDate(DateTime? dateTime)
+		static readonly DateTime MinYear = new DateTime(1900, 0, 0);
+		static readonly DateTime MaxYear = new DateTime(9000, 0, 0);
+
+		protected static DateTime CheckDate(DateTime dateTime)
 		{
-			if (dateTime == null)
-				return null;
-			if (dateTime.Value.Year < 1754)
-				return null;
-			if (dateTime.Value.Year > 9998)
-				return null;
+			if (dateTime < MinYear)
+				return MinYear;
+			if (dateTime > MaxYear)
+				return MaxYear;
 			return dateTime;
 		}
 
@@ -171,9 +177,9 @@ namespace SKDDriver
 			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
-					return e => e != null && e.IsDeleted.GetValueOrDefault(false);
+					return e => e != null && e.IsDeleted;
 				case DeletedType.Not:
-					return e => e != null && !e.IsDeleted.GetValueOrDefault(false);
+					return e => e != null && !e.IsDeleted;
 				default:
 					return e => true;
 			}

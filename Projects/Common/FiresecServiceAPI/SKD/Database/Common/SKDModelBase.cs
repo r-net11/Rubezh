@@ -15,9 +15,9 @@ namespace FiresecAPI
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public bool? IsDeleted { get; set; }
+		public bool IsDeleted { get; set; }
 
 		[DataMember]
-		public DateTime? RemovalDate { get; set; }
+		public DateTime RemovalDate { get; set; }
 	}
 }

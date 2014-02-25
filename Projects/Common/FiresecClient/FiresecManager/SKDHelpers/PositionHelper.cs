@@ -10,24 +10,14 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(Position position)
 		{
-			var operatonResult = FiresecManager.FiresecService.SavePositions(new List<Position> { position });
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
-				return false;
-			}
-			return true;
+			var operationResult = FiresecManager.FiresecService.SavePositions(new List<Position> { position });
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(Position position)
 		{
-			var operatonResult = FiresecManager.FiresecService.MarkDeletedPositions(new List<Position> { position });
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
-				return false;
-			}
-			return true;
+			var operationResult = FiresecManager.FiresecService.MarkDeletedPositions(new List<Position> { position });
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static Position GetPosition(Guid? uid)
@@ -37,24 +27,13 @@ namespace FiresecClient.SKDHelpers
 			var filter = new PositionFilter();
 			filter.Uids.Add((Guid)uid);
 			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
-			if (operationResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operationResult.Error);
-				return null;
-			}
-			else
-				return operationResult.Result.FirstOrDefault();
+			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
 		public static IEnumerable<Position> GetPositions(PositionFilter filter)
 		{
-			var operatonResult = FiresecManager.FiresecService.GetPositions(filter);
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
-				return null;
-			}
-			return operatonResult.Result;
+			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 	}
 }

@@ -174,7 +174,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		static void TranslateBase<T>(Guid uid, bool? isDeleted, DateTime? removalDate, T apiItem)
+		static void TranslateBase<T>(Guid uid, bool isDeleted, DateTime removalDate, T apiItem)
 			where T : FiresecAPI.SKDModelBase
 		{
 			apiItem.UID = uid;
@@ -182,7 +182,7 @@ namespace SKDDriver
 			apiItem.RemovalDate = removalDate;
 		}
 
-		static void TranslateOrganizationElement<T>(Guid uid, bool? isDeleted, DateTime? removalDate, Guid? organizationUid, T apiItem)
+		static void TranslateOrganizationElement<T>(Guid uid, bool isDeleted, DateTime removalDate, Guid? organizationUid, T apiItem)
 			where T : FiresecAPI.OrganizationElementBase
 		{
 			TranslateBase(uid, isDeleted, removalDate, apiItem);
