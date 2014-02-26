@@ -7,9 +7,9 @@ using XFiresecAPI;
 
 namespace SKDModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateDevices()
+		void ValidateDevices()
 		{
 			ValidateDevicesEquality();
 			foreach (var device in SKDManager.Devices)
@@ -42,7 +42,7 @@ namespace SKDModule.Validation
 			}
 		}
 
-		static void ValidateDevicesEquality()
+		void ValidateDevicesEquality()
 		{
 			foreach (var device in SKDManager.Devices)
 			{

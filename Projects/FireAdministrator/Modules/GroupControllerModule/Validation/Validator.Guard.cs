@@ -5,9 +5,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateGuard()
+		void ValidateGuard()
 		{
 			ValidateGuardPasswordEquality();
 
@@ -23,7 +23,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateGuardPasswordEquality()
+		void ValidateGuardPasswordEquality()
 		{
 			var guardUserNos = new HashSet<string>();
 			foreach (var guardUser in XManager.DeviceConfiguration.GuardUsers)
@@ -33,13 +33,13 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateEmptyPassword(XGuardUser guardUser)
+		void ValidateEmptyPassword(XGuardUser guardUser)
 		{
 			if (string.IsNullOrEmpty(guardUser.Password))
 				Errors.Add(new GuardUserValidationError(guardUser, "Пустой пароль охранного пользователя", ValidationErrorLevel.CannotWrite));
 		}
 
-		static void ValidateGuardUserDifferentGK(XGuardUser guardUser)
+		void ValidateGuardUserDifferentGK(XGuardUser guardUser)
 		{
 			if (IsManyGK())
 			{
@@ -53,7 +53,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateEmptyGuardUser(XGuardUser guardUser)
+		void ValidateEmptyGuardUser(XGuardUser guardUser)
 		{
 			if(guardUser.ZoneUIDs.Count == 0)
 				Errors.Add(new GuardUserValidationError(guardUser, "У охранного пользователя отсутствуют зоны", ValidationErrorLevel.CannotWrite));

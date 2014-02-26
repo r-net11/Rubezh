@@ -106,24 +106,24 @@
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
-    <Compile Include="ViewModels\MeasureParameterViewModel.cs" />
-    <Compile Include="ViewModels\PimDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PimsViewModel.cs" />
-    <Compile Include="ViewModels\PimViewModel.cs" />
-    <Compile Include="Views\PimDetailsView.xaml.cs">
+    <Compile Include="Devices\ViewModels\MeasureParameterViewModel.cs" />
+    <Compile Include="PIMs\ViewModels\PimDetailsViewModel.cs" />
+    <Compile Include="PIMs\ViewModels\PimsViewModel.cs" />
+    <Compile Include="PIMs\ViewModels\PimViewModel.cs" />
+    <Compile Include="PIMs\Views\PimDetailsView.xaml.cs">
       <DependentUpon>PimDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PimsView.xaml.cs">
+    <Compile Include="PIMs\Views\PimsView.xaml.cs">
       <DependentUpon>PimsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\PimToolTipView.xaml.cs">
+    <Compile Include="PIMs\Views\PimToolTipView.xaml.cs">
       <DependentUpon>PimToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\DeviceTooltipView.xaml.cs">
+    <Compile Include="Devices\Views\DeviceTooltipView.xaml.cs">
       <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\DevicePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\DirectionDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
     <Compile Include="ViewModels\PlanLinkViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
@@ -186,68 +186,68 @@
     <Compile Include="Reports\JournalReportPdf.cs" />
     <Compile Include="Reports\ReportArchiveFilter.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
-    <Compile Include="ViewModels\DeviceControlRegime.cs" />
-    <Compile Include="ViewModels\DeviceExecutableCommandViewModel.cs" />
-    <Compile Include="ViewModels\DeviceParametersViewModel.cs" />
-    <Compile Include="ViewModels\DeviceParameterViewModel.cs" />
-    <Compile Include="ViewModels\DeviceStateViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModelComparer.cs" />
-    <Compile Include="ViewModels\DirectionDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DirectionsViewModel.cs" />
-    <Compile Include="ViewModels\DirectionViewModel.cs" />
-    <Compile Include="ViewModels\DirectionZoneViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceControlRegime.cs" />
+    <Compile Include="Devices\ViewModels\DeviceExecutableCommandViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceParametersViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceStateViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDetailsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionZoneViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
-    <Compile Include="ViewModels\ZoneDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DelaysViewModel.cs" />
-    <Compile Include="ViewModels\DelayViewModel.cs" />
-    <Compile Include="ViewModels\DelayDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PumpStationDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PumpStationsViewModel.cs" />
-    <Compile Include="ViewModels\PumpStationViewModel.cs" />
-    <Compile Include="Views\DeviceParametersView.xaml.cs">
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Delays\ViewModels\DelaysViewModel.cs" />
+    <Compile Include="Delays\ViewModels\DelayViewModel.cs" />
+    <Compile Include="Delays\ViewModels\DelayDetailsViewModel.cs" />
+    <Compile Include="PumpStations\ViewModels\PumpStationDetailsViewModel.cs" />
+    <Compile Include="PumpStations\ViewModels\PumpStationsViewModel.cs" />
+    <Compile Include="PumpStations\ViewModels\PumpStationViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceParametersView.xaml.cs">
       <DependentUpon>DeviceParametersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeviceStateView.xaml.cs">
+    <Compile Include="Devices\Views\DeviceStateView.xaml.cs">
       <DependentUpon>DeviceStateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DeviceView.xaml.cs">
+    <Compile Include="Devices\Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DirectionDetailsView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionDetailsView.xaml.cs">
       <DependentUpon>DirectionDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DirectionsView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\DelayToolTipView.xaml.cs">
+    <Compile Include="Delays\Views\DelayToolTipView.xaml.cs">
       <DependentUpon>DelayToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\DirectionToolTipView.xaml.cs">
+    <Compile Include="Directions\Views\DirectionToolTipView.xaml.cs">
       <DependentUpon>DirectionToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\ZoneToolTipView.xaml.cs">
+    <Compile Include="Zones\Views\ZoneToolTipView.xaml.cs">
       <DependentUpon>ZoneToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ToolTip\PumpStationToolTipView.xaml.cs">
+    <Compile Include="PumpStations\Views\PumpStationToolTipView.xaml.cs">
       <DependentUpon>PumpStationToolTipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZoneDetailsView.xaml.cs">
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DelaysView.xaml.cs">
+    <Compile Include="Delays\Views\DelaysView.xaml.cs">
       <DependentUpon>DelaysView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DelayDetailsView.xaml.cs">
+    <Compile Include="Delays\Views\DelayDetailsView.xaml.cs">
       <DependentUpon>DelayDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PumpStationDetailsView.xaml.cs">
+    <Compile Include="PumpStations\Views\PumpStationDetailsView.xaml.cs">
       <DependentUpon>PumpStationDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PumpStationsView.xaml.cs">
+    <Compile Include="PumpStations\Views\PumpStationsView.xaml.cs">
       <DependentUpon>PumpStationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
@@ -265,23 +265,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DevicesViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
-    <Compile Include="ViewModels\ZonesViewModel.cs" />
-    <Compile Include="ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevicesView.xaml.cs">
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ZonesView.xaml.cs">
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -335,27 +335,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PimDetailsView.xaml">
+    <Page Include="PIMs\Views\PimDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PimsView.xaml">
+    <Page Include="PIMs\Views\PimsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DelaysView.xaml">
+    <Page Include="Delays\Views\DelaysView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DelayDetailsView.xaml">
+    <Page Include="Delays\Views\DelayDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PumpStationDetailsView.xaml">
+    <Page Include="PumpStations\Views\PumpStationDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PumpStationsView.xaml">
+    <Page Include="PumpStations\Views\PumpStationsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -372,39 +372,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="Views\ToolTip\PimToolTipView.xaml">
+    <Page Include="PIMs\Views\PimToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ToolTip\DeviceTooltipView.xaml">
+    <Page Include="Devices\Views\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceDetailsView.xaml">
+    <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceParametersView.xaml">
+    <Page Include="Devices\Views\DeviceParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceStateView.xaml">
+    <Page Include="Devices\Views\DeviceStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesView.xaml">
+    <Page Include="Devices\Views\DevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\DeviceView.xaml">
+    <Page Include="Devices\Views\DeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DirectionDetailsView.xaml">
+    <Page Include="Directions\Views\DirectionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DirectionsView.xaml">
+    <Page Include="Directions\Views\DirectionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -416,27 +416,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolTip\DelayToolTipView.xaml">
+    <Page Include="Delays\Views\DelayToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolTip\DirectionToolTipView.xaml">
+    <Page Include="Directions\Views\DirectionToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolTip\ZoneToolTipView.xaml">
+    <Page Include="Zones\Views\ZoneToolTipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ToolTip\PumpStationToolTipView.xaml">
+    <Page Include="PumpStations\Views\PumpStationToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ZoneDetailsView.xaml">
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ZonesView.xaml">
+    <Page Include="Zones\Views\ZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -483,7 +483,10 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MPTs\ViewModels\" />
+    <Folder Include="MPTs\Views\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

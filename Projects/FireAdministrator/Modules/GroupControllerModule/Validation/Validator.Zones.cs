@@ -6,9 +6,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateZones()
+		void ValidateZones()
 		{
 			ValidateZoneNoEquality();
 
@@ -25,7 +25,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateZoneNoEquality()
+		void ValidateZoneNoEquality()
 		{
 			var zoneNos = new HashSet<int>();
 			foreach (var zone in XManager.Zones)
@@ -35,7 +35,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDifferentGK(XZone zone)
+		void ValidateDifferentGK(XZone zone)
 		{
 			if (AreDevicesInSameGK(zone.Devices))
 				Errors.Add(new ZoneValidationError(zone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
@@ -44,7 +44,7 @@ namespace GKModule.Validation
 				Errors.Add(new ZoneValidationError(zone, "Зона участвует в логике устройств разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		static void ValidateZoneHasNoDevices(XZone zone)
+		void ValidateZoneHasNoDevices(XZone zone)
 		{
 			if (zone.Devices.Count == 0)
 			{
@@ -52,7 +52,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateZoneDetectorCount(XZone zone)
+		void ValidateZoneDetectorCount(XZone zone)
 		{
 			var fire1Count = zone.Devices.Count(x => x.Driver.AvailableStateBits.Contains(XStateBit.Fire1));
 			var fire2Count = zone.Devices.Count(x => x.Driver.AvailableStateBits.Contains(XStateBit.Fire2));
@@ -67,7 +67,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateZoneFire1Fire2Count(XZone zone)
+		void ValidateZoneFire1Fire2Count(XZone zone)
 		{
 			if (zone.Fire1Count >= zone.Fire2Count)
 			{

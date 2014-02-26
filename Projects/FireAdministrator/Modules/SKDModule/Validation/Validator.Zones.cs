@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateZones()
+		void ValidateZones()
 		{
 			ValidateZonesEquality();
 			foreach (var zone in SKDManager.Zones)
@@ -19,7 +19,7 @@ namespace SKDModule.Validation
 			}
 		}
 
-		static void ValidateZonesEquality()
+		void ValidateZonesEquality()
 		{
 			foreach (var zone in SKDManager.Zones)
 			{

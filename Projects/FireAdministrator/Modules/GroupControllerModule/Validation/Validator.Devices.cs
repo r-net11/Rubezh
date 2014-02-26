@@ -9,9 +9,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateDevices()
+		void ValidateDevices()
 		{
 			ValidateAddressEquality();
 
@@ -38,12 +38,12 @@ namespace GKModule.Validation
 			}
 		}
 
-		static bool MustValidate(string errorName)
+		bool MustValidate(string errorName)
 		{
 			return GlobalSettingsHelper.GlobalSettings.IgnoredErrors == null || !GlobalSettingsHelper.GlobalSettings.IgnoredErrors.Contains(errorName);
 		}
 
-		static void ValidateAddressEquality()
+		void ValidateAddressEquality()
 		{
 			var deviceAddresses = new HashSet<string>();
 			foreach (var device in XManager.Devices)
@@ -58,7 +58,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateIPAddress(XDevice device)
+		void ValidateIPAddress(XDevice device)
 		{
 			if (!XManager.IsValidIpAddress(device))
 			{
@@ -66,7 +66,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static bool CheckIpAddress(string ipAddress)
+		bool CheckIpAddress(string ipAddress)
 		{
 			if (String.IsNullOrEmpty(ipAddress))
 				return false;
@@ -74,7 +74,7 @@ namespace GKModule.Validation
 			return IPAddress.TryParse(ipAddress, out address);
 		}
 
-		static void ValidateDifferentGK(XDevice device)
+		void ValidateDifferentGK(XDevice device)
 		{
 			foreach (var clause in device.DeviceLogic.Clauses)
 			{
@@ -86,7 +86,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDeviceZone(XDevice device)
+		void ValidateDeviceZone(XDevice device)
 		{
 			if (device.IsInMPT)
 				return;
@@ -98,7 +98,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDeviceLogic(XDevice device)
+		void ValidateDeviceLogic(XDevice device)
 		{
 			if(device.IsInMPT)
 				return;
@@ -113,7 +113,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateGKNotEmptyChildren(XDevice device)
+		void ValidateGKNotEmptyChildren(XDevice device)
 		{
 			if (device.DriverType == XDriverType.GK)
 			{
@@ -122,7 +122,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateKAUNotEmptyChildren(XDevice device)
+		void ValidateKAUNotEmptyChildren(XDevice device)
 		{
 			if (device.Driver.IsKauOrRSR2Kau)
 			{
@@ -131,7 +131,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateParametersMinMax(XDevice device)
+		void ValidateParametersMinMax(XDevice device)
 		{
 			foreach (var property in device.Properties)
 			{
@@ -156,7 +156,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateNotUsedLogic(XDevice device)
+		void ValidateNotUsedLogic(XDevice device)
 		{
 			foreach (var clause in device.DeviceLogic.Clauses)
 			{
@@ -168,7 +168,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDeviceRangeAddress(XDevice device)
+		void ValidateDeviceRangeAddress(XDevice device)
 		{
 			if (device.Driver.IsGroupDevice)
 			{
@@ -177,7 +177,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateRSR2AddressFollowing(XDevice device)
+		void ValidateRSR2AddressFollowing(XDevice device)
 		{
 			if (device.DriverType == XDriverType.RSR2_KAU)
 			{
@@ -201,7 +201,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateKAUAddressFollowing(XDevice device)
+		void ValidateKAUAddressFollowing(XDevice device)
 		{
 			if (device.DriverType == XDriverType.GK)
 			{
@@ -213,7 +213,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateKAUAddressFollowingInOneLine(List<XDevice> kauChildren)
+		void ValidateKAUAddressFollowingInOneLine(List<XDevice> kauChildren)
 		{
 			for (int i = 0; i < kauChildren.Count; i++)
 			{

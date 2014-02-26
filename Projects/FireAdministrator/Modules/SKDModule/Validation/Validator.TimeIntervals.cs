@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateTimeIntervals()
+		void ValidateTimeIntervals()
 		{
 			ValidateTimeIntervalEquality();
 
@@ -44,7 +44,7 @@ namespace SKDModule.Validation
 			}
 		}
 
-		static void ValidateTimeIntervalEquality()
+		void ValidateTimeIntervalEquality()
 		{
 			var timeIntervals = new HashSet<string>();
 			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)

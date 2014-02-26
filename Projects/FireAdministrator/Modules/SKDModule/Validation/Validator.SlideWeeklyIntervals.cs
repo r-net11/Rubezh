@@ -5,9 +5,9 @@ using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateSlideWeklyIntervals()
+		void ValidateSlideWeklyIntervals()
 		{
 			ValidateSlideWeeklyIntervalEquality();
 			foreach (var slideWeeklyInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
@@ -23,7 +23,7 @@ namespace SKDModule.Validation
 			}
 		}
 
-		static void ValidateSlideWeeklyIntervalEquality()
+		void ValidateSlideWeeklyIntervalEquality()
 		{
 			var slideWeeklyIntervals = new HashSet<string>();
 			foreach (var slideWeeklyInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)

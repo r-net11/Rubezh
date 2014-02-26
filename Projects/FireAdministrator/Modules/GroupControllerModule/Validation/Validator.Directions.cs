@@ -6,9 +6,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-    public static partial class Validator
+    public partial class Validator
     {
-		static void ValidateDirections()
+		void ValidateDirections()
 		{
 			ValidateDirectionNoEquality();
 
@@ -31,7 +31,7 @@ namespace GKModule.Validation
 			}
 		}
 
-        static void ValidateDirectionNoEquality()
+        void ValidateDirectionNoEquality()
         {
             var directionNos = new HashSet<int>();
             foreach (var direction in XManager.Directions)
@@ -41,7 +41,7 @@ namespace GKModule.Validation
             }
         }
 
-        static void ValidateDifferentGK(XDirection direction)
+        void ValidateDifferentGK(XDirection direction)
         {
             var devices = new List<XDevice>();
             devices.AddRange(direction.InputDevices);
@@ -55,19 +55,19 @@ namespace GKModule.Validation
                 Errors.Add(new DirectionValidationError(direction, "Направление содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
         }
 
-        static void ValidateDirectionInputCount(XDirection direction)
+        void ValidateDirectionInputCount(XDirection direction)
         {
             if (direction.InputDevices.Count + direction.InputZones.Count == 0)
                 Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют входные устройства или зоны", ValidationErrorLevel.CannotWrite));
         }
 
-        static void ValidateDirectionOutputCount(XDirection direction)
+        void ValidateDirectionOutputCount(XDirection direction)
         {
             if (direction.OutputDevices.Count == 0)
                 Errors.Add(new DirectionValidationError(direction, "В направлении отсутствуют выходные устройства", ValidationErrorLevel.CannotWrite));
         }
 
-        static bool ValidateEmptyDirection(XDirection direction)
+        bool ValidateEmptyDirection(XDirection direction)
         {
             var count = direction.InputZones.Count + direction.InputDevices.Count + direction.OutputDevices.Count;
             if (count == 0)
@@ -78,7 +78,7 @@ namespace GKModule.Validation
             return true;
         }
 
-        static void ValidateEmptyZoneInDirection(XDirection direction)
+        void ValidateEmptyZoneInDirection(XDirection direction)
         {
             foreach (var zone in direction.InputZones)
             {
@@ -89,7 +89,7 @@ namespace GKModule.Validation
             }
         }
 
-        static void ValidateSameInputOutputDevices(XDirection direction)
+        void ValidateSameInputOutputDevices(XDirection direction)
         {
             foreach (var device in direction.OutputDevices)
             {

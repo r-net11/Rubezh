@@ -38,7 +38,8 @@ namespace InstructionsModule
 		#region IValidationModule Members
 		public IEnumerable<IValidationError> Validate()
 		{
-			return Validator.Validate();
+			var validator = new Validator();
+			return validator.Validate();
 		}
 		#endregion
 	}

@@ -6,11 +6,11 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-    public static partial class Validator
+    public partial class Validator
 	{
-		static List<IValidationError> Errors { get; set; }
+		List<IValidationError> Errors { get; set; }
 
-		public static IEnumerable<IValidationError> Validate()
+		public IEnumerable<IValidationError> Validate()
 		{
 			XManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
@@ -23,7 +23,7 @@ namespace GKModule.Validation
 			return Errors;
 		}
 
-        static bool IsManyGK()
+        bool IsManyGK()
         {
             return XManager.Devices.Where(x=>x.DriverType == XDriverType.GK).Count() > 1;
         }

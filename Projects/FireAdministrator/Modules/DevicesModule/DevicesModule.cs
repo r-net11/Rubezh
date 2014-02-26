@@ -108,8 +108,8 @@ namespace DevicesModule
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			var devicesValidator = new Validator(FiresecManager.FiresecConfiguration);
-			return devicesValidator.Validate();
+			var validator = new Validator(FiresecManager.FiresecConfiguration);
+			return validator.Validate();
 		}
 
 		#endregion

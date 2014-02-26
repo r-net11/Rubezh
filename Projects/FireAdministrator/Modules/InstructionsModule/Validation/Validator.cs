@@ -6,9 +6,9 @@ using Infrastructure.Common.Validation;
 
 namespace InstructionsModule.Validation
 {
-	public static class Validator
+	public class Validator
 	{
-		public static IEnumerable<IValidationError> Validate()
+		public IEnumerable<IValidationError> Validate()
 		{
 			foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
                 if (FiresecManager.SystemConfiguration.Instructions.Count(x => ((x.AlarmType == instruction.AlarmType) && (x.InstructionType == InstructionType.General))) > 1)

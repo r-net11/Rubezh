@@ -7,9 +7,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidatePumpStations()
+		void ValidatePumpStations()
 		{
 			ValidatePumpStationNoEquality();
 			ValidatePumpsInDifferentNS();
@@ -29,7 +29,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidatePumpStationNoEquality()
+		void ValidatePumpStationNoEquality()
 		{
 			var pumpStationNos = new HashSet<int>();
 			foreach (var pumpStation in XManager.PumpStations)
@@ -39,7 +39,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidatePumpStationDifferentDevices()
+		void ValidatePumpStationDifferentDevices()
 		{
 			var nsDevices = new HashSet<Guid>();
 			foreach (var pumpStation in XManager.PumpStations)
@@ -52,7 +52,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDifferentGK(XPumpStation pumpStation)
+		void ValidateDifferentGK(XPumpStation pumpStation)
 		{
 			var devices = new List<XDevice>();
 			devices.AddRange(pumpStation.InputDevices);
@@ -70,7 +70,7 @@ namespace GKModule.Validation
 				Errors.Add(new PumpStationValidationError(pumpStation, "НС содержит объекты устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		static bool ValidateEmptyPumpStation(XPumpStation pumpStation)
+		bool ValidateEmptyPumpStation(XPumpStation pumpStation)
 		{
 			var count = pumpStation.InputZones.Count + pumpStation.InputDevices.Count + pumpStation.InputDirections.Count + pumpStation.NSDevices.Count;
 			if (count == 0)
@@ -81,13 +81,13 @@ namespace GKModule.Validation
 			return true;
 		}
 
-		static void ValidatePumpStationInput(XPumpStation pumpStation)
+		void ValidatePumpStationInput(XPumpStation pumpStation)
 		{
 			if (pumpStation.StartLogic.Clauses.Count == 0)
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite));
 		}
 
-		static void ValidatePumpStationOutput(XPumpStation pumpStation)
+		void ValidatePumpStationOutput(XPumpStation pumpStation)
 		{
 			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == XDriverType.FirePump);
 			if (pumpsCount == 0)
@@ -117,7 +117,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateEmptyObjectsInPumpStation(XPumpStation pumpStation)
+		void ValidateEmptyObjectsInPumpStation(XPumpStation pumpStation)
 		{
 			foreach (var zone in pumpStation.InputZones)
 			{
@@ -136,7 +136,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidatePumpInNSInputLogic(XPumpStation pumpStation)
+		void ValidatePumpInNSInputLogic(XPumpStation pumpStation)
 		{
 			foreach (var clause in pumpStation.StartLogic.Clauses)
 			{
@@ -151,7 +151,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidatePumpsInDifferentNS()
+		void ValidatePumpsInDifferentNS()
 		{
 			var nsDevices = new List<XDevice>();
 			foreach (var pumpStation in XManager.PumpStations)

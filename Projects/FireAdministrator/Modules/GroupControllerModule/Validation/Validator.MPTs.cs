@@ -6,9 +6,9 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public static partial class Validator
+	public partial class Validator
 	{
-		static void ValidateMPTs()
+		void ValidateMPTs()
 		{
 			ValidateMPTNameEquality();
 
@@ -24,7 +24,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateMPTNameEquality()
+		void ValidateMPTNameEquality()
 		{
 			var mptNames = new HashSet<string>();
 			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
@@ -34,13 +34,13 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateDifferentMPT(XMPT mpt)
+		void ValidateDifferentMPT(XMPT mpt)
 		{
 			if (AreDevicesInSameGK(GetAllMPTDevices(mpt)))
 				Errors.Add(new MPTValidationError(mpt, "МПТ содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
-		static void ValidateMPTHasNoDevices(XMPT mpt)
+		void ValidateMPTHasNoDevices(XMPT mpt)
 		{
 			var allDevices = GetAllMPTDevices(mpt);
 			if (allDevices.Count == 0)
@@ -56,13 +56,13 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateMPTHasNoLogic(XMPT mpt)
+		void ValidateMPTHasNoLogic(XMPT mpt)
 		{
 			if (mpt.StartLogic.Clauses.Count == 0)
 				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite));
 		}
 
-		static void ValidateMPTSameDevices(XMPT mpt)
+		void ValidateMPTSameDevices(XMPT mpt)
 		{
 			var devices = new HashSet<XDevice>();
 			foreach (var device in GetAllMPTDevices(mpt))
@@ -72,7 +72,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateMPTDeviceParameters(XMPT mpt)
+		void ValidateMPTDeviceParameters(XMPT mpt)
 		{
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
@@ -84,7 +84,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static void ValidateMPTDeviceParametersMissmatch(XMPT mpt)
+		void ValidateMPTDeviceParametersMissmatch(XMPT mpt)
 		{
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
@@ -104,7 +104,7 @@ namespace GKModule.Validation
 			}
 		}
 
-		static List<XDevice> GetAllMPTDevices(XMPT mpt)
+		List<XDevice> GetAllMPTDevices(XMPT mpt)
 		{
 			var result = new List<XDevice>();
 			foreach (var mptDevice in mpt.MPTDevices)
