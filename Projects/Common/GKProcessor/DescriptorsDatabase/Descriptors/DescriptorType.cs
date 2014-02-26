@@ -6,6 +6,7 @@
 		Zone,
 		Direction,
 		PumpStation,
+		MPT,
 		Delay,
 		Pim
 	}

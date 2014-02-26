@@ -9,110 +9,69 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1*" MinWidth="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="2*" MinWidth="200" />
             </Grid.ColumnDefinitions>
             <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" Margin="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Width="*" Binding="{Binding MPT.Name}" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
-            <Border Grid.Column="1" CornerRadius="5" Background="White" Margin="2">
-                <Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Табличка Уходи" FontWeight="Bold" Width="250" Margin="5 2" />
-                            <WrapPanel>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Margin="2">
-				                    <Hyperlink Command="{Binding ChangeOffTableDevicesCommand}" Style="{StaticResource HyperlinkStyle2}">
-					                    <TextBlock TextWrapping="Wrap" Margin="2">
-						                    <TextBlock.Style>
-							                    <Style>
-								                    <Setter Property="TextBlock.Text" Value="{Binding OffTableDevicesPresentationName}" />
-								                    <Style.Triggers>
-									                    <DataTrigger Binding="{Binding OffTableDevicesPresentationName}" Value="">
-										                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-									                    </DataTrigger>
-								                    </Style.Triggers>
-							                    </Style>
-						                    </TextBlock.Style>
-					                    </TextBlock>
-				                    </Hyperlink>
-			                    </TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Табличка Не входи" FontWeight="Bold" Width="250" Margin="5 2" />
-                            <WrapPanel>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Margin="2">
-				                    <Hyperlink Command="{Binding ChangeOnTableDevicesCommand}" Style="{StaticResource HyperlinkStyle2}">
-					                    <TextBlock TextWrapping="Wrap" Margin="2">
-						                    <TextBlock.Style>
-							                    <Style>
-								                    <Setter Property="TextBlock.Text" Value="{Binding OnTableDevicesPresentationName}" />
-								                    <Style.Triggers>
-									                    <DataTrigger Binding="{Binding OnTableDevicesPresentationName}" Value="">
-										                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-									                    </DataTrigger>
-								                    </Style.Triggers>
-							                    </Style>
-						                    </TextBlock.Style>
-					                    </TextBlock>
-				                    </Hyperlink>
-			                    </TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 
+            <Grid Grid.Column="2" Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                <Grid DataContext="{Binding SelectedMPT}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+                        <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Grid.Row="1">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Тип" MinWidth="200" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding AvailableMPTDeviceTypes}" SelectedItem="{Binding MPTDeviceType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ., Converter={StaticResource MPTDeviceTypeToStringConverter}}" Foreground="Black" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Устройство" MinWidth="200" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Margin="2 0 0 0" />
+                                            <TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" MinWidth="100" Width="Auto" />
+                            <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" MinWidth="100" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="2">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Табличка Автоматика" FontWeight="Bold" Width="250" Margin="5 2" />
-                            <WrapPanel>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Margin="2">
-				                    <Hyperlink Command="{Binding ChangeAutomaticTableDevicesCommand}" Style="{StaticResource HyperlinkStyle2}">
-					                    <TextBlock TextWrapping="Wrap" Margin="2">
-						                    <TextBlock.Style>
-							                    <Style>
-								                    <Setter Property="TextBlock.Text" Value="{Binding AutomaticTableDevicesPresentationName}" />
-								                    <Style.Triggers>
-									                    <DataTrigger Binding="{Binding AutomaticTableDevicesPresentationName}" Value="">
-										                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-									                    </DataTrigger>
-								                    </Style.Triggers>
-							                    </Style>
-						                    </TextBlock.Style>
-					                    </TextBlock>
-				                    </Hyperlink>
-			                    </TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Сирена" FontWeight="Bold" Width="250" Margin="5 2" />
-                            <WrapPanel>
-                                <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Margin="2">
-				                    <Hyperlink Command="{Binding ChangeSirenaDevicesCommand}" Style="{StaticResource HyperlinkStyle2}">
-					                    <TextBlock TextWrapping="Wrap" Margin="2">
-						                    <TextBlock.Style>
-							                    <Style>
-								                    <Setter Property="TextBlock.Text" Value="{Binding SirenaDevicesPresentationName}" />
-								                    <Style.Triggers>
-									                    <DataTrigger Binding="{Binding SirenaDevicesPresentationName}" Value="">
-										                    <Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-									                    </DataTrigger>
-								                    </Style.Triggers>
-							                    </Style>
-						                    </TextBlock.Style>
-					                    </TextBlock>
-				                    </Hyperlink>
-			                    </TextBlock>
-                            </WrapPanel>
+                            <TextBlock Text="Примечание" Width="200" Foreground="White" Margin="2" />
+                            <TextBox Text="{Binding Description}" Width="200" Margin="2" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-            </Border>
+            </Grid>
         </Grid>
 
-        <Border Grid.Row="1" CornerRadius="5" Background="White" Margin="2">
+        <Border Grid.Row="1" CornerRadius="5" Background="White" Margin="2 7 2 2">
             <Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
                     <StackPanel Orientation="Horizontal">
@@ -134,44 +93,14 @@
 				            </Hyperlink>
 			            </TextBlock>
                     </StackPanel>
+
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для останова или запрета пуска" FontWeight="Bold" Width="250" Margin="5 2" />
-                        <TextBlock VerticalAlignment="Center" Margin="2">
-				            <Hyperlink Command="{Binding ChangeStopLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
-					            <TextBlock Margin="2">
-						            <TextBlock.Style>
-							            <Style>
-								            <Setter Property="TextBlock.Text" Value="{Binding StopPresentationName}" />
-								            <Style.Triggers>
-									            <DataTrigger Binding="{Binding StopPresentationName}" Value="">
-										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
-									            </DataTrigger>
-								            </Style.Triggers>
-							            </Style>
-						            </TextBlock.Style>
-					            </TextBlock>
-				            </Hyperlink>
-			            </TextBlock>
+                        <TextBlock Text="Задержка" Width="200" Margin="2" />
+                        <TextBox Text="{Binding Delay}" Width="200" Background="LightCyan" Margin="2" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для отключения автоматики" FontWeight="Bold" Width="250" Margin="5 2" />
-                        <TextBlock VerticalAlignment="Center" Margin="2">
-				            <Hyperlink Command="{Binding ChangeAutomaticOffLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
-					            <TextBlock Margin="2">
-						            <TextBlock.Style>
-							            <Style>
-								            <Setter Property="TextBlock.Text" Value="{Binding AutomaticOffPresentationName}" />
-								            <Style.Triggers>
-									            <DataTrigger Binding="{Binding AutomaticOffPresentationName}" Value="">
-										            <Setter Property="TextBlock.Text" Value="Нажмите для выбора логики" />
-									            </DataTrigger>
-								            </Style.Triggers>
-							            </Style>
-						            </TextBlock.Style>
-					            </TextBlock>
-				            </Hyperlink>
-			            </TextBlock>
-                    </StackPanel>
+
+                    <CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
+
                 </StackPanel>
             </Grid>
         </Border>

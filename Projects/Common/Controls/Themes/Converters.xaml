@@ -32,6 +32,7 @@
     <Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
 	<Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
+    <Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
     <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
     <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
 	<Converters:IntToEnumConverter x:Key="IntToEnumConverter" />

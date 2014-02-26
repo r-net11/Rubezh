@@ -395,6 +395,8 @@
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
+    <Compile Include="XModels\MPT\MPTDevice.cs" />
+    <Compile Include="XModels\MPT\MPTDeviceType.cs" />
     <Compile Include="XModels\MPT\XMPT.cs" />
     <Compile Include="XModels\PIM\XPim.cs" />
     <Compile Include="XModels\PumpStation\XPumpStation.cs" />
@@ -410,6 +412,7 @@
     <Compile Include="XModels\States\XStateClass.cs" />
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneInternalState.cs" />
+    <Compile Include="XModels\States\XMPTInternalState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

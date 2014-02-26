@@ -57,18 +57,7 @@ namespace SKDModule.ViewModels
 		{
 			using (new TimeCounter("PassCardsDesignerViewModel.Initialize: {0}"))
 			{
-				//using (new TimeCounter("\tPassCardsDesignerViewModel.CacheBrushes: {0}"))
-				//    foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-				//    {
-				//        if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-				//            plan.BackgroundImageSource = null;
-				//        Helper.UpgradeBackground(plan);
-				//        foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-				//            Helper.UpgradeBackground(elementBase);
-				//    }
 				PassCardTemplates = new ObservableCollection<PassCardTemplateViewModel>();
-				//foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-				//    AddPlan(plan, null);
 				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
 			}
 		}

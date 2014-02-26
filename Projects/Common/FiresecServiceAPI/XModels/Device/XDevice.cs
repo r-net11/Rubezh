@@ -41,6 +41,7 @@ namespace XFiresecAPI
 		public List<XDevice> DevicesInLogic { get; set; }
 		public bool HasDifferences { get; set; }
 		public bool HasMissingDifferences { get; set; }
+		public bool IsInMPT { get; set; }
 		public object Clone()
 		{
 			return this.MemberwiseClone();

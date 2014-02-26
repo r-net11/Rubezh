@@ -47,35 +47,17 @@ namespace GKModule.Validation
 			}
 			else
 			{
-				if (mpt.OffTableDevices.Count == 0)
+				if (mpt.MPTDevices.Count == 0)
 				{
-					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключена табличка Выходи", ValidationErrorLevel.CannotWrite));
-				}
-				if (mpt.OnTableDevices.Count == 0)
-				{
-					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключена табличка Не входи", ValidationErrorLevel.CannotWrite));
-				}
-				if (mpt.AutomaticTableDevices.Count == 0)
-				{
-					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключена табличка Автоматика отключена", ValidationErrorLevel.CannotWrite));
-				}
-				if (mpt.SirenaDevices.Count == 0)
-				{
-					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключена сирена", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new MPTValidationError(mpt, "К МПТ не подключены устройства", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}
 
 		static void ValidateMPTHasNoLogic(XMPT mpt)
 		{
-			if (mpt.AutomaticOffLogic.Clauses.Count == 0)
-				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика отключения автоматики", ValidationErrorLevel.Warning));
-
 			if (mpt.StartLogic.Clauses.Count == 0)
 				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.Warning));
-
-			if (mpt.StopLogic.Clauses.Count == 0)
-				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика выключения", ValidationErrorLevel.Warning));
 		}
 
 		static void ValidateMPTSameDevices(XMPT mpt)
@@ -91,10 +73,10 @@ namespace GKModule.Validation
 		static List<XDevice> GetAllMPTDevices(XMPT mpt)
 		{
 			var result = new List<XDevice>();
-			result.AddRange(mpt.OffTableDevices);
-			result.AddRange(mpt.OnTableDevices);
-			result.AddRange(mpt.AutomaticTableDevices);
-			result.AddRange(mpt.SirenaDevices);
+			foreach (var mptDevice in mpt.MPTDevices)
+			{
+				result.Add(mptDevice.Device);
+			}
 			return result;
 		}
 	}

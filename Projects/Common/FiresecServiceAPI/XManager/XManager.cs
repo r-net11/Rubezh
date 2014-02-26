@@ -36,6 +36,10 @@ namespace FiresecClient
 		{
 			get { return DeviceConfiguration.PumpStations; }
 		}
+		public static List<XMPT> MPTs
+		{
+			get { return DeviceConfiguration.MPTs; }
+		}
 		public static List<XDriver> Drivers
 		{
 			get { return DriversConfiguration.XDrivers; }

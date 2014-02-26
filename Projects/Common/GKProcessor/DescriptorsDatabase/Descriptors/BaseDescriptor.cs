@@ -13,6 +13,7 @@ namespace GKProcessor
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
 		public XPumpStation PumpStation { get; protected set; }
+		public XMPT MPT { get; protected set; }
 		public XDelay Delay { get; protected set; }
 		public XPim Pim { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
@@ -164,6 +165,9 @@ namespace GKProcessor
 
 					case DescriptorType.PumpStation:
 						return PumpStation;
+
+					case DescriptorType.MPT:
+						return MPT;
 
 					case DescriptorType.Delay:
 						return Delay;
