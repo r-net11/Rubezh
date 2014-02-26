@@ -31,13 +31,20 @@ namespace XFiresecAPI
 					result.Add(MPTDeviceType.Bomb);
 					break;
 
-				case XDriverType.RSR2_Table:
+				case XDriverType.RSR2_OPS:
 					result.Add(MPTDeviceType.DoNotEnterBoard);
 					result.Add(MPTDeviceType.ExitBoard);
 					result.Add(MPTDeviceType.AutomaticOffBoard);
 					break;
 
-				case XDriverType.RSR2_Siren:
+				case XDriverType.RSR2_OPZ:
+					result.Add(MPTDeviceType.Speaker);
+					break;
+
+				case XDriverType.RSR2_OPK:
+					result.Add(MPTDeviceType.DoNotEnterBoard);
+					result.Add(MPTDeviceType.ExitBoard);
+					result.Add(MPTDeviceType.AutomaticOffBoard);
 					result.Add(MPTDeviceType.Speaker);
 					break;
 

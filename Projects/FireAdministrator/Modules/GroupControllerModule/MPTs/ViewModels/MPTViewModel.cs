@@ -62,8 +62,9 @@ namespace GKModule.ViewModels
 				switch (device.DriverType)
 				{
 					case XDriverType.RSR2_MVK8:
-					case XDriverType.RSR2_Table:
-					case XDriverType.RSR2_Siren:
+					case XDriverType.RSR2_OPS:
+					case XDriverType.RSR2_OPZ:
+					case XDriverType.RSR2_OPK:
 					case XDriverType.RSR2_AM_1:
 						devices.Add(device);
 						break;
