@@ -8,28 +8,39 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class CardHelper
 	{
-		public static void LinkToEmployee(SKDCard card, Guid employeeUid)
-		{
-			card.HolderUid = employeeUid;
-			FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
-		}
-
-		public static void ToStopList(SKDCard card, string reason)
+		public static bool ToStopList(SKDCard card, string reason)
 		{
 			card.IsInStopList = true;
 			card.StopReason = reason;
 			card.HolderUid = null;
-			FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
-			
-			var cardZoneLinks = FiresecManager.GetCardZoneLinks(new CardZoneFilter{ Uids =  card.ZoneLinkUids });
-			foreach (var item in cardZoneLinks)
-				item.CardUid = null;
-			FiresecManager.SaveCardZoneLinks(cardZoneLinks);
+			card.CardZones = null;
+			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static IEnumerable<SKDCard> GetStopListCards()
+		{
+			var filter = new CardFilter();
+			filter.WithBlocked = DeletedType.Deleted;
+			var result = FiresecManager.FiresecService.GetCards(filter);
+			return Common.ShowErrorIfExists(result);
 		}
 
 		public static IEnumerable<SKDCard> Get(CardFilter filter)
 		{
 			var result = FiresecManager.FiresecService.GetCards(filter);
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool Save(SKDCard card)
+		{
+			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool MarkDeleted(SKDCard card)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedCards(new List<SKDCard> { card });
 			return Common.ShowErrorIfExists(result);
 		}
 	}

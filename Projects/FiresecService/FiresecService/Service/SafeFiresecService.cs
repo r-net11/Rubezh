@@ -217,9 +217,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute < OperationResult < IEnumerable < SKDCard >>> (() => FiresecService.GetCards(filter));
 		}
-		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
+		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<CardZoneLink>>(() => FiresecService.GetCardZoneLinks(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<CardZone>>>(() => FiresecService.GetCardZones(filter));
 		}
 		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
 		{
@@ -256,9 +256,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCards(items));
 		}
-		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
+		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
 		{
-			SafeContext.Execute(() => FiresecService.SaveCardZoneLinks(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardZones(items));
 		}
 		public void SaveOrganizations(IEnumerable<Organization> items)
 		{
@@ -295,9 +295,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCards(items));
 		}
-		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
+		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedCardZoneLinks(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCardZones(items));
 		}
 		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{

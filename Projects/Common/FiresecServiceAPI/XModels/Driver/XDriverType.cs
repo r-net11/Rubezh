@@ -51,8 +51,9 @@
 		Battery,
 		Shu,
 		Shuv,
-		RSR2_Siren,
-		RSR2_Table,
+		RSR2_OPK,
+		RSR2_OPS,
+		RSR2_OPZ,
 		RSR2_MVP
 	}
 }

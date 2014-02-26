@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_Table)
+				if (device.DriverType == XDriverType.RSR2_OPS)
 				{
 					sourceDevices.Add(device);
 				}
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_Table)
+				if (device.DriverType == XDriverType.RSR2_OPS)
 				{
 					sourceDevices.Add(device);
 				}
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_Table)
+				if (device.DriverType == XDriverType.RSR2_OPS)
 				{
 					sourceDevices.Add(device);
 				}
@@ -178,7 +178,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_Siren)
+				if (device.DriverType == XDriverType.RSR2_OPZ)
 				{
 					sourceDevices.Add(device);
 				}

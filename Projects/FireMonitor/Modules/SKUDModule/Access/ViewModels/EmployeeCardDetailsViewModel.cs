@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -12,12 +13,14 @@ namespace SKDModule.ViewModels
 		public AccessZonesSelectationViewModel AccessZones { get; private set; }
 		public AccessZonesSelectationViewModel AdditionalGUDZones { get; private set; }
 		public AccessZonesSelectationViewModel ExceptedGUDZones { get; private set; }
+		bool IsNewCard;
 
 		public EmployeeCardDetailsViewModel(SKDCard card = null)
 		{
 			Card = card;
 			if (card == null)
 			{
+				IsNewCard = true;
 				Title = "Создание карты";
 				card = new SKDCard()
 				{
@@ -37,14 +40,19 @@ namespace SKDModule.ViewModels
 			StartDate = Card.ValidFrom;
 			EndDate = Card.ValidTo;
 
-			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones);
-			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones);
-			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones);
+			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID);
+			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones, Card.UID);
+			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones, Card.UID);
 
 			AvailableGUDs = new ObservableCollection<GUD>();
 			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUid);
 
 			StopListCards = new ObservableCollection<SKDCard>();
+			var stopListCards = CardHelper.GetStopListCards();
+			if (stopListCards == null)
+				return;
+			foreach (var item in stopListCards)
+				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 		}
 
@@ -134,17 +142,25 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedStopListCard = value;
-				OnPropertyChanged("SelectedStopListCard");
-				if (value != null)
+				if (UseStopList && value != null)
 				{
-					IDFamily = value.Series.Value;
-					IDNo = value.Number.Value;
+					IDFamily = value.Series;
+					IDNo = value.Number;
 				}
+				OnPropertyChanged("SelectedStopListCard");
 			}
 		}
 
 		protected override bool Save()
 		{
+			if (UseStopList)
+			{
+				if(!IsNewCard)
+					CardHelper.ToStopList(Card, "Заменена на карту " + IDFamily + @"\" + IDNo);
+				Card.UID = SelectedStopListCard.UID;
+				Card.IsInStopList = false;
+				Card.StopReason = null;
+			}
 			Card.Series = IDFamily;
 			Card.Number = IDNo;
 			Card.ValidFrom = StartDate;
@@ -152,7 +168,7 @@ namespace SKDModule.ViewModels
 			Card.CardZones = AccessZones.GetCardZones();
 			Card.AdditionalGUDZones = AdditionalGUDZones.GetCardZones();
 			Card.ExceptedGUDZones = ExceptedGUDZones.GetCardZones();
-
+			
 			if (SelectedGUD != null)
 				Card.GUDUid = SelectedGUD.UID;
 			return true;

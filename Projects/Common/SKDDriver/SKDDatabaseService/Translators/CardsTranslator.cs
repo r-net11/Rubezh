@@ -10,16 +10,19 @@ namespace SKDDriver
 {
 	public class CardsTranslator:TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardsTranslator(Table<DataAccess.Card> table, DataAccess.SKUDDataContext context)
+		public CardsTranslator(Table<DataAccess.Card> table, DataAccess.SKUDDataContext context, CardZonesTranslator cardsTranslator)
 			: base(table, context)
 		{
-
+			CardZonesTranslator = cardsTranslator;
 		}
+
+		CardZonesTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
 			bool sameSeriesNo = Table.Any(x => x.Number == item.Number &&
-				x.Series == item.Series);
+				x.Series == item.Series &&
+				x.Uid != item.UID);
 			if (sameSeriesNo)
 				return new OperationResult("Попытка добавления карты с совпадающей комбинацией серии и номера");
 			return base.CanSave(item);
@@ -35,51 +38,31 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(IEnumerable<SKDCard> items)
 		{
-			//try
-			//{
-			//    foreach (var item in items)
-			//    {
-			//        if (item == null)
-			//            continue;
-			//        foreach (var cardZone in item.CardZones)
-			//        {
-			//            if (cardZone != null)
-			//                continue;
-			//            var databaseItem = Context.CardZoneLink.FirstOrDefault(x => x.Uid == cardZone.UID);
-			//            if (databaseItem != null)
-			//            {
-			//                databaseItem.IsDeleted = true;
-			//                databaseItem.RemovalDate = DateTime.Now;
-			//            }
-			//        }
-			//    }
-			//    Context.SubmitChanges();
-			//}
-			//catch(Exception e)
-			//{
-			//    return new OperationResult(e.Message);
-			//}
+			try
+			{
+				foreach (var item in items)
+				{
+					if (item == null)
+						continue;
+					CardZonesTranslator.MarkDeleted(item.CardZones);
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 			return base.MarkDeleted(items);
 		}
 
-
-
-
-		protected override SKDCard Translate(DataAccess.Card tableItem)
+		protected override SKDCard Translate(DataAccess.Card tableItem) 
 		{
 			var result = base.Translate(tableItem);
-			var zoneUids = new List<Guid>();
-			foreach (var cardZoneLink in tableItem.CardZoneLink)
-			{
-				if (cardZoneLink.ZoneUid != null)
-					zoneUids.Add(cardZoneLink.ZoneUid.Value);
-			}
 			result.HolderUid = tableItem.EmployeeUid;
 			result.Number = tableItem.Number;
 			result.Series = tableItem.Series;
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
-			result.ZoneLinkUids = zoneUids;
+			result.CardZones = CardZonesTranslator.Get(tableItem);
 			result.IsAntipass = tableItem.IsAntipass;
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
@@ -113,10 +96,33 @@ namespace SKDDriver
 			tableItem.StopReason = apiItem.StopReason;
 		}
 
+		public override OperationResult Save(IEnumerable<SKDCard> items)
+		{
+			var updateZonesResult = CardZonesTranslator.UpdateZones(items);
+			if (updateZonesResult.HasError)
+				return updateZonesResult;
+			return base.Save(items);
+		}
+
 		protected override Expression<Func<DataAccess.Card, bool>> IsInFilter(CardFilter filter)
 		{
 			var result = PredicateBuilder.True<DataAccess.Card>();
 			result = result.And(base.IsInFilter(filter));
+
+			var IsBlockedExpression = PredicateBuilder.True<DataAccess.Card>();
+			switch (filter.WithBlocked)
+			{
+				case DeletedType.Deleted:
+					IsBlockedExpression = e => e.IsInStopList;
+					break;
+				case DeletedType.Not:
+					IsBlockedExpression = e => !e.IsInStopList;
+					break;
+				default:
+					break;
+			}
+			result = result.And(IsBlockedExpression);
+
 			var employeeUIDs = filter.EmployeeUids;
 			if (employeeUIDs != null && employeeUIDs.Count != 0)
 				result = result.And(e => e.EmployeeUid.HasValue && employeeUIDs.Contains(e.EmployeeUid.Value));

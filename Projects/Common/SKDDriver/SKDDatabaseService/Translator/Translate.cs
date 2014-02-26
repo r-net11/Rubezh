@@ -119,48 +119,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static FiresecAPI.SKDCard Translate(Card item)
-		{
-			if (item == null)
-				return null;
-			var zoneUids = new List<Guid>();
-			foreach (var cardZoneLink in item.CardZoneLink)
-			{
-				if (cardZoneLink.ZoneUid != null)
-					zoneUids.Add(cardZoneLink.ZoneUid.Value);
-			}
-			var result = new FiresecAPI.SKDCard
-			{
-				HolderUid = item.EmployeeUid,
-				Number = item.Number,
-				Series = item.Series,
-				ValidFrom = item.ValidFrom,
-				ValidTo = item.ValidTo,
-				ZoneLinkUids = zoneUids,
-				IsAntipass = item.IsAntipass,
-				IsInStopList = item.IsInStopList,
-				StopReason = item.StopReason
-			};
-			TranslateBase(item.Uid, item.IsDeleted, item.RemovalDate, result);
-			return result;
-		}
-
-		public static FiresecAPI.CardZoneLink Translate(CardZoneLink item)
-		{
-			if (item == null)
-				return null;
-			var result = new FiresecAPI.CardZoneLink
-			{
-				IntervalType = (FiresecAPI.IntervalType)item.IntervalType,
-				IntervalUid = item.IntervalUid,
-				IsWithEscort = item.IsWithEscort,
-				ZoneUid = item.ZoneUid,
-				CardUid = item.CardUid,
-			};
-			TranslateBase(item.Uid, item.IsDeleted, item.RemovalDate, result);
-			return result;
-		}
-
 		public static FiresecAPI.Organization Translate(Organization item)
 		{
 			if (item == null)

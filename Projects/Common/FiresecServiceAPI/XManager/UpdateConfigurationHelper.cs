@@ -293,7 +293,7 @@ namespace FiresecClient
 				foreach (var deviceUID in mpt.OffTableDeviceUIDs)
 				{
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
+					if (device != null && device.DriverType == XDriverType.RSR2_OPS)
 					{
 						offTableDeviceUIDs.Add(device.UID);
 						mpt.OffTableDevices.Add(device);
@@ -306,7 +306,7 @@ namespace FiresecClient
 				foreach (var deviceUID in mpt.OnTableDeviceUIDs)
 				{
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
+					if (device != null && device.DriverType == XDriverType.RSR2_OPS)
 					{
 						onTableDeviceUIDs.Add(device.UID);
 						mpt.OnTableDevices.Add(device);
@@ -319,7 +319,7 @@ namespace FiresecClient
 				foreach (var deviceUID in mpt.AutomaticTableDeviceUIDs)
 				{
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Table)
+					if (device != null && device.DriverType == XDriverType.RSR2_OPS)
 					{
 						automaticTableDeviceUIDs.Add(device.UID);
 						mpt.AutomaticTableDevices.Add(device);
@@ -332,7 +332,7 @@ namespace FiresecClient
 				foreach (var deviceUID in mpt.SirenaDeviceUIDs)
 				{
 					var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null && device.DriverType == XDriverType.RSR2_Siren)
+					if (device != null && device.DriverType == XDriverType.RSR2_OPK)
 					{
 						sirenaDeviceUIDs.Add(device.UID);
 						mpt.SirenaDevices.Add(device);

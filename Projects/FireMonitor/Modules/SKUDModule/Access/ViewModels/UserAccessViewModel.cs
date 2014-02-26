@@ -51,7 +51,10 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				CardHelper.LinkToEmployee(card, Employee.UID);
+				card.HolderUid = Employee.UID;
+				var saveResult = CardHelper.Save(card);
+				if (!saveResult)
+					return;
 				var cardViewModel = new EmployeeCardViewModel(this, card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;
@@ -67,14 +70,18 @@ namespace SKDModule.ViewModels
 			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
+				var card = cardViewModel.Card;
 				var cardRemovalReason = cardRemovalReasonViewModel.CardRemovalReason;
+				var toStopListResult =  CardHelper.ToStopList(card, cardRemovalReason);
+				if (!toStopListResult)
+					return;
 				Cards.Remove(cardViewModel);
-				CardHelper.ToStopList(cardViewModel.Card, cardRemovalReason);
+				SelectedCard = Cards.FirstOrDefault();
 			}
 		}
 		public bool CanRemoveCard()
 		{
 			return SelectedCard != null;
 		}
-	}
+	} 
 }

@@ -38,9 +38,9 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetCards(filter);
 		}
-		public IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
+		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
 		{
-			return _skdService.GetCardZoneLinks(filter);
+			return _skdService.GetCardZones(filter);
 		}
 		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
 		{
@@ -77,9 +77,9 @@ namespace FiresecService.Service
 		{
 			return _skdService.SaveCards(items);
 		}
-		public void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
+		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
 		{
-			_skdService.SaveCardZoneLinks(items);
+			return _skdService.SaveCardZones(items);
 		}
 		public void SaveOrganizations(IEnumerable<Organization> items)
 		{
@@ -116,9 +116,9 @@ namespace FiresecService.Service
 		{
 			return _skdService.MarkDeletedCards(items);
 		}
-		public void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
+		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
 		{
-			_skdService.MarkDeletedCardZoneLinks(items);
+			return _skdService.MarkDeletedCardZones(items);
 		}
 		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{

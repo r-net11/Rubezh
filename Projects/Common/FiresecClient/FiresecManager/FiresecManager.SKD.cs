@@ -24,10 +24,6 @@ namespace FiresecClient
 		{
 			return FiresecService.GetFrames(filter);
 		}
-		public static IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter)
-		{
-			return FiresecService.GetCardZoneLinks(filter);
-		}
 		public static IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
 		{
 			return FiresecService.GetOrganizations(filter);
@@ -51,10 +47,6 @@ namespace FiresecClient
 		{
 			FiresecService.SaveFrames(frames);
 		}
-		public static void SaveCardZoneLinks(IEnumerable<CardZoneLink> items)
-		{
-			FiresecService.SaveCardZoneLinks(items);
-		}
 		public static void SaveOrganizations(IEnumerable<Organization> items)
 		{
 			FiresecService.SaveOrganizations(items);
@@ -77,10 +69,6 @@ namespace FiresecClient
 		public static void MarkDeletedFrames(IEnumerable<Frame> frames)
 		{
 			FiresecService.MarkDeletedFrames(frames);
-		}
-		public static void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items)
-		{
-			FiresecService.MarkDeletedCardZoneLinks(items);
 		}
 		public static void MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
@@ -120,14 +108,6 @@ namespace FiresecClient
 			var filter = new FrameFilter();
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetFrames(filter).ToList().FirstOrDefault();
-		}
-		public static CardZoneLink GetCardZoneLink(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var filter = new CardZoneFilter();
-			filter.Uids.Add((Guid)uid);
-			return FiresecService.GetCardZoneLinks(filter).ToList().FirstOrDefault();
 		}
 		public static Organization GetOrganization(Guid? uid)
 		{

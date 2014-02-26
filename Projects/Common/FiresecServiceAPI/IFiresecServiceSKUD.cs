@@ -23,7 +23,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 		[OperationContract]
-		IEnumerable<CardZoneLink> GetCardZoneLinks(CardZoneFilter filter);
+		OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter);
 		[OperationContract]
 		IEnumerable<Organization> GetOrganizations(OrganizationFilter filter);
 		[OperationContract]
@@ -44,7 +44,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveCards(IEnumerable<SKDCard> items);
 		[OperationContract]
-		void SaveCardZoneLinks(IEnumerable<CardZoneLink> items);
+		OperationResult SaveCardZones(IEnumerable<CardZone> items);
 		[OperationContract]
 		void SaveOrganizations(IEnumerable<Organization> items);
 		[OperationContract]
@@ -65,7 +65,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
 		[OperationContract]
-		void MarkDeletedCardZoneLinks(IEnumerable<CardZoneLink> items);
+		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
 		[OperationContract]
 		void MarkDeletedOrganizations(IEnumerable<Organization> items);
 		[OperationContract]

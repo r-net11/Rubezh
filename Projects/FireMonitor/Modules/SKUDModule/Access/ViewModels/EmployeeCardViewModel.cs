@@ -4,6 +4,7 @@ using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -62,6 +63,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				Card = employeeCardDetailsViewModel.Card;
+				var saveResult = CardHelper.Save(Card);
+				if (!saveResult)
+					return;
 				OnPropertyChanged("ID");
 				OnPropertyChanged("StartDate");
 				OnPropertyChanged("EndDate");

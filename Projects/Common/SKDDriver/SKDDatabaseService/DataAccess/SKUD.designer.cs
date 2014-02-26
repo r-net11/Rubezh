@@ -33,21 +33,12 @@ namespace SKDDriver.DataAccess
     partial void InsertAdditionalColumn(AdditionalColumn instance);
     partial void UpdateAdditionalColumn(AdditionalColumn instance);
     partial void DeleteAdditionalColumn(AdditionalColumn instance);
-    partial void InsertCard(Card instance);
-    partial void UpdateCard(Card instance);
-    partial void DeleteCard(Card instance);
-    partial void InsertCardZoneLink(CardZoneLink instance);
-    partial void UpdateCardZoneLink(CardZoneLink instance);
-    partial void DeleteCardZoneLink(CardZoneLink instance);
     partial void InsertDay(Day instance);
     partial void UpdateDay(Day instance);
     partial void DeleteDay(Day instance);
     partial void InsertDepartment(Department instance);
     partial void UpdateDepartment(Department instance);
     partial void DeleteDepartment(Department instance);
-    partial void InsertDocument(Document instance);
-    partial void UpdateDocument(Document instance);
-    partial void DeleteDocument(Document instance);
     partial void InsertEmployee(Employee instance);
     partial void UpdateEmployee(Employee instance);
     partial void DeleteEmployee(Employee instance);
@@ -75,9 +66,6 @@ namespace SKDDriver.DataAccess
     partial void InsertPhone(Phone instance);
     partial void UpdatePhone(Phone instance);
     partial void DeletePhone(Phone instance);
-    partial void InsertPosition(Position instance);
-    partial void UpdatePosition(Position instance);
-    partial void DeletePosition(Position instance);
     partial void InsertSchedule(Schedule instance);
     partial void UpdateSchedule(Schedule instance);
     partial void DeleteSchedule(Schedule instance);
@@ -87,6 +75,18 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleZoneLink(ScheduleZoneLink instance);
     partial void UpdateScheduleZoneLink(ScheduleZoneLink instance);
     partial void DeleteScheduleZoneLink(ScheduleZoneLink instance);
+    partial void InsertCard(Card instance);
+    partial void UpdateCard(Card instance);
+    partial void DeleteCard(Card instance);
+    partial void InsertDocument(Document instance);
+    partial void UpdateDocument(Document instance);
+    partial void DeleteDocument(Document instance);
+    partial void InsertPosition(Position instance);
+    partial void UpdatePosition(Position instance);
+    partial void DeletePosition(Position instance);
+    partial void InsertCardZoneLink(CardZoneLink instance);
+    partial void UpdateCardZoneLink(CardZoneLink instance);
+    partial void DeleteCardZoneLink(CardZoneLink instance);
     #endregion
 		
 		public SKUDDataContext() : 
@@ -127,22 +127,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Card> Card
-		{
-			get
-			{
-				return this.GetTable<Card>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CardZoneLink> CardZoneLink
-		{
-			get
-			{
-				return this.GetTable<CardZoneLink>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Day> Day
 		{
 			get
@@ -156,14 +140,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Department>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Document> Document
-		{
-			get
-			{
-				return this.GetTable<Document>();
 			}
 		}
 		
@@ -239,14 +215,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Position> Position
-		{
-			get
-			{
-				return this.GetTable<Position>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Schedule> Schedule
 		{
 			get
@@ -268,6 +236,38 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<ScheduleZoneLink>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Card> Card
+		{
+			get
+			{
+				return this.GetTable<Card>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Document> Document
+		{
+			get
+			{
+				return this.GetTable<Document>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Position> Position
+		{
+			get
+			{
+				return this.GetTable<Position>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CardZoneLink> CardZoneLink
+		{
+			get
+			{
+				return this.GetTable<CardZoneLink>();
 			}
 		}
 	}
@@ -607,676 +607,6 @@ namespace SKDDriver.DataAccess
 						this._OrganizationUid = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
-	public partial class Card : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Uid;
-		
-		private int _Series;
-		
-		private int _Number;
-		
-		private System.Nullable<System.Guid> _EmployeeUid;
-		
-		private System.DateTime _ValidFrom;
-		
-		private System.DateTime _ValidTo;
-		
-		private bool _IsAntipass;
-		
-		private bool _IsInStopList;
-		
-		private string _StopReason;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntitySet<CardZoneLink> _CardZoneLink;
-		
-		private EntitySet<Journal> _Journal;
-		
-		private EntityRef<Employee> _Employee;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUidChanging(System.Guid value);
-    partial void OnUidChanged();
-    partial void OnSeriesChanging(int value);
-    partial void OnSeriesChanged();
-    partial void OnNumberChanging(int value);
-    partial void OnNumberChanged();
-    partial void OnEmployeeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnEmployeeUidChanged();
-    partial void OnValidFromChanging(System.DateTime value);
-    partial void OnValidFromChanged();
-    partial void OnValidToChanging(System.DateTime value);
-    partial void OnValidToChanged();
-    partial void OnIsAntipassChanging(bool value);
-    partial void OnIsAntipassChanged();
-    partial void OnIsInStopListChanging(bool value);
-    partial void OnIsInStopListChanged();
-    partial void OnStopReasonChanging(string value);
-    partial void OnStopReasonChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public Card()
-		{
-			this._CardZoneLink = new EntitySet<CardZoneLink>(new Action<CardZoneLink>(this.attach_CardZoneLink), new Action<CardZoneLink>(this.detach_CardZoneLink));
-			this._Journal = new EntitySet<Journal>(new Action<Journal>(this.attach_Journal), new Action<Journal>(this.detach_Journal));
-			this._Employee = default(EntityRef<Employee>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Uid
-		{
-			get
-			{
-				return this._Uid;
-			}
-			set
-			{
-				if ((this._Uid != value))
-				{
-					this.OnUidChanging(value);
-					this.SendPropertyChanging();
-					this._Uid = value;
-					this.SendPropertyChanged("Uid");
-					this.OnUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Series", DbType="Int NOT NULL")]
-		public int Series
-		{
-			get
-			{
-				return this._Series;
-			}
-			set
-			{
-				if ((this._Series != value))
-				{
-					this.OnSeriesChanging(value);
-					this.SendPropertyChanging();
-					this._Series = value;
-					this.SendPropertyChanged("Series");
-					this.OnSeriesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
-		{
-			get
-			{
-				return this._Number;
-			}
-			set
-			{
-				if ((this._Number != value))
-				{
-					this.OnNumberChanging(value);
-					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> EmployeeUid
-		{
-			get
-			{
-				return this._EmployeeUid;
-			}
-			set
-			{
-				if ((this._EmployeeUid != value))
-				{
-					if (this._Employee.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnEmployeeUidChanging(value);
-					this.SendPropertyChanging();
-					this._EmployeeUid = value;
-					this.SendPropertyChanged("EmployeeUid");
-					this.OnEmployeeUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidFrom", DbType="DateTime NOT NULL")]
-		public System.DateTime ValidFrom
-		{
-			get
-			{
-				return this._ValidFrom;
-			}
-			set
-			{
-				if ((this._ValidFrom != value))
-				{
-					this.OnValidFromChanging(value);
-					this.SendPropertyChanging();
-					this._ValidFrom = value;
-					this.SendPropertyChanged("ValidFrom");
-					this.OnValidFromChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidTo", DbType="DateTime NOT NULL")]
-		public System.DateTime ValidTo
-		{
-			get
-			{
-				return this._ValidTo;
-			}
-			set
-			{
-				if ((this._ValidTo != value))
-				{
-					this.OnValidToChanging(value);
-					this.SendPropertyChanging();
-					this._ValidTo = value;
-					this.SendPropertyChanged("ValidTo");
-					this.OnValidToChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
-		public bool IsAntipass
-		{
-			get
-			{
-				return this._IsAntipass;
-			}
-			set
-			{
-				if ((this._IsAntipass != value))
-				{
-					this.OnIsAntipassChanging(value);
-					this.SendPropertyChanging();
-					this._IsAntipass = value;
-					this.SendPropertyChanged("IsAntipass");
-					this.OnIsAntipassChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsInStopList", DbType="Bit NOT NULL")]
-		public bool IsInStopList
-		{
-			get
-			{
-				return this._IsInStopList;
-			}
-			set
-			{
-				if ((this._IsInStopList != value))
-				{
-					this.OnIsInStopListChanging(value);
-					this.SendPropertyChanging();
-					this._IsInStopList = value;
-					this.SendPropertyChanged("IsInStopList");
-					this.OnIsInStopListChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopReason", DbType="Text NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public string StopReason
-		{
-			get
-			{
-				return this._StopReason;
-			}
-			set
-			{
-				if ((this._StopReason != value))
-				{
-					this.OnStopReasonChanging(value);
-					this.SendPropertyChanging();
-					this._StopReason = value;
-					this.SendPropertyChanged("StopReason");
-					this.OnStopReasonChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_CardZoneLink", ThisKey="Uid", OtherKey="CardUid")]
-		public EntitySet<CardZoneLink> CardZoneLink
-		{
-			get
-			{
-				return this._CardZoneLink;
-			}
-			set
-			{
-				this._CardZoneLink.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journal", ThisKey="Uid", OtherKey="CardUid")]
-		public EntitySet<Journal> Journal
-		{
-			get
-			{
-				return this._Journal;
-			}
-			set
-			{
-				this._Journal.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Employee", ThisKey="EmployeeUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Employee Employee
-		{
-			get
-			{
-				return this._Employee.Entity;
-			}
-			set
-			{
-				Employee previousValue = this._Employee.Entity;
-				if (((previousValue != value) 
-							|| (this._Employee.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Employee.Entity = null;
-						previousValue.Card.Remove(this);
-					}
-					this._Employee.Entity = value;
-					if ((value != null))
-					{
-						value.Card.Add(this);
-						this._EmployeeUid = value.Uid;
-					}
-					else
-					{
-						this._EmployeeUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Employee");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_CardZoneLink(CardZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_CardZoneLink(CardZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-		
-		private void attach_Journal(Journal entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_Journal(Journal entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardZoneLink")]
-	public partial class CardZoneLink : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Uid;
-		
-		private System.Nullable<System.Guid> _ZoneUid;
-		
-		private System.Nullable<System.Guid> _CardUid;
-		
-		private System.Nullable<bool> _IsWithEscort;
-		
-		private System.Nullable<System.Guid> _IntervalUid;
-		
-		private System.Nullable<int> _IntervalType;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<Card> _Card;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUidChanging(System.Guid value);
-    partial void OnUidChanged();
-    partial void OnZoneUidChanging(System.Nullable<System.Guid> value);
-    partial void OnZoneUidChanged();
-    partial void OnCardUidChanging(System.Nullable<System.Guid> value);
-    partial void OnCardUidChanged();
-    partial void OnIsWithEscortChanging(System.Nullable<bool> value);
-    partial void OnIsWithEscortChanged();
-    partial void OnIntervalUidChanging(System.Nullable<System.Guid> value);
-    partial void OnIntervalUidChanged();
-    partial void OnIntervalTypeChanging(System.Nullable<int> value);
-    partial void OnIntervalTypeChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public CardZoneLink()
-		{
-			this._Card = default(EntityRef<Card>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Uid
-		{
-			get
-			{
-				return this._Uid;
-			}
-			set
-			{
-				if ((this._Uid != value))
-				{
-					this.OnUidChanging(value);
-					this.SendPropertyChanging();
-					this._Uid = value;
-					this.SendPropertyChanged("Uid");
-					this.OnUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ZoneUid
-		{
-			get
-			{
-				return this._ZoneUid;
-			}
-			set
-			{
-				if ((this._ZoneUid != value))
-				{
-					this.OnZoneUidChanging(value);
-					this.SendPropertyChanging();
-					this._ZoneUid = value;
-					this.SendPropertyChanged("ZoneUid");
-					this.OnZoneUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> CardUid
-		{
-			get
-			{
-				return this._CardUid;
-			}
-			set
-			{
-				if ((this._CardUid != value))
-				{
-					if (this._Card.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCardUidChanging(value);
-					this.SendPropertyChanging();
-					this._CardUid = value;
-					this.SendPropertyChanged("CardUid");
-					this.OnCardUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithEscort", DbType="Bit")]
-		public System.Nullable<bool> IsWithEscort
-		{
-			get
-			{
-				return this._IsWithEscort;
-			}
-			set
-			{
-				if ((this._IsWithEscort != value))
-				{
-					this.OnIsWithEscortChanging(value);
-					this.SendPropertyChanging();
-					this._IsWithEscort = value;
-					this.SendPropertyChanged("IsWithEscort");
-					this.OnIsWithEscortChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> IntervalUid
-		{
-			get
-			{
-				return this._IntervalUid;
-			}
-			set
-			{
-				if ((this._IntervalUid != value))
-				{
-					this.OnIntervalUidChanging(value);
-					this.SendPropertyChanging();
-					this._IntervalUid = value;
-					this.SendPropertyChanged("IntervalUid");
-					this.OnIntervalUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalType", DbType="Int")]
-		public System.Nullable<int> IntervalType
-		{
-			get
-			{
-				return this._IntervalType;
-			}
-			set
-			{
-				if ((this._IntervalType != value))
-				{
-					this.OnIntervalTypeChanging(value);
-					this.SendPropertyChanging();
-					this._IntervalType = value;
-					this.SendPropertyChanged("IntervalType");
-					this.OnIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_Card", ThisKey="CardUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Card Card
-		{
-			get
-			{
-				return this._Card.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.CardZoneLink.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.CardZoneLink.Add(this);
-						this._CardUid = value.Uid;
-					}
-					else
-					{
-						this._CardUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Card");
 				}
 			}
 		}
@@ -2161,301 +1491,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Document")]
-	public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Uid;
-		
-		private int _No;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private System.DateTime _IssueDate;
-		
-		private System.DateTime _LaunchDate;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganizationUid;
-		
-		private EntityRef<Organization> _Organization;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUidChanging(System.Guid value);
-    partial void OnUidChanged();
-    partial void OnNoChanging(int value);
-    partial void OnNoChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnIssueDateChanging(System.DateTime value);
-    partial void OnIssueDateChanged();
-    partial void OnLaunchDateChanging(System.DateTime value);
-    partial void OnLaunchDateChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
-    #endregion
-		
-		public Document()
-		{
-			this._Organization = default(EntityRef<Organization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Uid
-		{
-			get
-			{
-				return this._Uid;
-			}
-			set
-			{
-				if ((this._Uid != value))
-				{
-					this.OnUidChanging(value);
-					this.SendPropertyChanging();
-					this._Uid = value;
-					this.SendPropertyChanged("Uid");
-					this.OnUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_No", DbType="Int NOT NULL")]
-		public int No
-		{
-			get
-			{
-				return this._No;
-			}
-			set
-			{
-				if ((this._No != value))
-				{
-					this.OnNoChanging(value);
-					this.SendPropertyChanging();
-					this._No = value;
-					this.SendPropertyChanged("No");
-					this.OnNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueDate", DbType="DateTime NOT NULL")]
-		public System.DateTime IssueDate
-		{
-			get
-			{
-				return this._IssueDate;
-			}
-			set
-			{
-				if ((this._IssueDate != value))
-				{
-					this.OnIssueDateChanging(value);
-					this.SendPropertyChanging();
-					this._IssueDate = value;
-					this.SendPropertyChanged("IssueDate");
-					this.OnIssueDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LaunchDate", DbType="DateTime NOT NULL")]
-		public System.DateTime LaunchDate
-		{
-			get
-			{
-				return this._LaunchDate;
-			}
-			set
-			{
-				if ((this._LaunchDate != value))
-				{
-					this.OnLaunchDateChanging(value);
-					this.SendPropertyChanging();
-					this._LaunchDate = value;
-					this.SendPropertyChanged("LaunchDate");
-					this.OnLaunchDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
-		{
-			get
-			{
-				return this._OrganizationUid;
-			}
-			set
-			{
-				if ((this._OrganizationUid != value))
-				{
-					if (this._Organization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganizationUidChanging(value);
-					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Organization Organization
-		{
-			get
-			{
-				return this._Organization.Entity;
-			}
-			set
-			{
-				Organization previousValue = this._Organization.Entity;
-				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organization.Entity = null;
-						previousValue.Document.Remove(this);
-					}
-					this._Organization.Entity = value;
-					if ((value != null))
-					{
-						value.Document.Add(this);
-						this._OrganizationUid = value.Uid;
-					}
-					else
-					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Employee")]
 	public partial class Employee : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2490,21 +1525,21 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<AdditionalColumn> _AdditionalColumn;
 		
-		private EntitySet<Card> _Card;
-		
 		private EntitySet<Department> _Department;
 		
 		private EntitySet<Department> _Department1;
 		
 		private EntityRef<EmployeeReplacement> _EmployeeReplacement;
 		
+		private EntitySet<Card> _Card;
+		
 		private EntityRef<Department> _Department2;
 		
 		private EntityRef<Organization> _Organization;
 		
-		private EntityRef<Position> _Position;
-		
 		private EntityRef<Schedule> _Schedule;
+		
+		private EntityRef<Position> _Position;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -2541,14 +1576,14 @@ namespace SKDDriver.DataAccess
 		public Employee()
 		{
 			this._AdditionalColumn = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumn), new Action<AdditionalColumn>(this.detach_AdditionalColumn));
-			this._Card = new EntitySet<Card>(new Action<Card>(this.attach_Card), new Action<Card>(this.detach_Card));
 			this._Department = new EntitySet<Department>(new Action<Department>(this.attach_Department), new Action<Department>(this.detach_Department));
 			this._Department1 = new EntitySet<Department>(new Action<Department>(this.attach_Department1), new Action<Department>(this.detach_Department1));
 			this._EmployeeReplacement = default(EntityRef<EmployeeReplacement>);
+			this._Card = new EntitySet<Card>(new Action<Card>(this.attach_Card), new Action<Card>(this.detach_Card));
 			this._Department2 = default(EntityRef<Department>);
 			this._Organization = default(EntityRef<Organization>);
-			this._Position = default(EntityRef<Position>);
 			this._Schedule = default(EntityRef<Schedule>);
+			this._Position = default(EntityRef<Position>);
 			OnCreated();
 		}
 		
@@ -2841,19 +1876,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Card", ThisKey="Uid", OtherKey="EmployeeUid")]
-		public EntitySet<Card> Card
-		{
-			get
-			{
-				return this._Card;
-			}
-			set
-			{
-				this._Card.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department", Storage="_Department", ThisKey="Uid", OtherKey="ContactEmployeeUid")]
 		public EntitySet<Department> Department
 		{
@@ -2906,6 +1928,19 @@ namespace SKDDriver.DataAccess
 					}
 					this.SendPropertyChanged("EmployeeReplacement");
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Card", ThisKey="Uid", OtherKey="EmployeeUid")]
+		public EntitySet<Card> Card
+		{
+			get
+			{
+				return this._Card;
+			}
+			set
+			{
+				this._Card.Assign(value);
 			}
 		}
 		
@@ -2977,40 +2012,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Position", ThisKey="PositionUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Position Position
-		{
-			get
-			{
-				return this._Position.Entity;
-			}
-			set
-			{
-				Position previousValue = this._Position.Entity;
-				if (((previousValue != value) 
-							|| (this._Position.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Position.Entity = null;
-						previousValue.Employee.Remove(this);
-					}
-					this._Position.Entity = value;
-					if ((value != null))
-					{
-						value.Employee.Add(this);
-						this._PositionUid = value.Uid;
-					}
-					else
-					{
-						this._PositionUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Position");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Schedule", ThisKey="ScheduleUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Schedule Schedule
 		{
@@ -3041,6 +2042,40 @@ namespace SKDDriver.DataAccess
 						this._ScheduleUid = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Position", ThisKey="PositionUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Position Position
+		{
+			get
+			{
+				return this._Position.Entity;
+			}
+			set
+			{
+				Position previousValue = this._Position.Entity;
+				if (((previousValue != value) 
+							|| (this._Position.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Position.Entity = null;
+						previousValue.Employee.Remove(this);
+					}
+					this._Position.Entity = value;
+					if ((value != null))
+					{
+						value.Employee.Add(this);
+						this._PositionUid = value.Uid;
+					}
+					else
+					{
+						this._PositionUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Position");
 				}
 			}
 		}
@@ -3077,18 +2112,6 @@ namespace SKDDriver.DataAccess
 			entity.Employee = null;
 		}
 		
-		private void attach_Card(Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = this;
-		}
-		
-		private void detach_Card(Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = null;
-		}
-		
 		private void attach_Department(Department entity)
 		{
 			this.SendPropertyChanging();
@@ -3111,6 +2134,18 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Employee1 = null;
+		}
+		
+		private void attach_Card(Card entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = this;
+		}
+		
+		private void detach_Card(Card entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = null;
 		}
 	}
 	
@@ -4993,8 +4028,6 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Department> _Department;
 		
-		private EntitySet<Document> _Document;
-		
 		private EntitySet<Employee> _Employee;
 		
 		private EntitySet<EmployeeReplacement> _EmployeeReplacement;
@@ -5005,11 +4038,13 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Phone> _Phone;
 		
-		private EntitySet<Position> _Position;
-		
 		private EntitySet<Schedule> _Schedule;
 		
 		private EntitySet<ScheduleScheme> _ScheduleScheme;
+		
+		private EntitySet<Document> _Document;
+		
+		private EntitySet<Position> _Position;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -5032,15 +4067,15 @@ namespace SKDDriver.DataAccess
 			this._AdditionalColumn = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumn), new Action<AdditionalColumn>(this.detach_AdditionalColumn));
 			this._Day = new EntitySet<Day>(new Action<Day>(this.attach_Day), new Action<Day>(this.detach_Day));
 			this._Department = new EntitySet<Department>(new Action<Department>(this.attach_Department), new Action<Department>(this.detach_Department));
-			this._Document = new EntitySet<Document>(new Action<Document>(this.attach_Document), new Action<Document>(this.detach_Document));
 			this._Employee = new EntitySet<Employee>(new Action<Employee>(this.attach_Employee), new Action<Employee>(this.detach_Employee));
 			this._EmployeeReplacement = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacement), new Action<EmployeeReplacement>(this.detach_EmployeeReplacement));
 			this._Holiday = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holiday), new Action<Holiday>(this.detach_Holiday));
 			this._NamedInterval = new EntitySet<NamedInterval>(new Action<NamedInterval>(this.attach_NamedInterval), new Action<NamedInterval>(this.detach_NamedInterval));
 			this._Phone = new EntitySet<Phone>(new Action<Phone>(this.attach_Phone), new Action<Phone>(this.detach_Phone));
-			this._Position = new EntitySet<Position>(new Action<Position>(this.attach_Position), new Action<Position>(this.detach_Position));
 			this._Schedule = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedule), new Action<Schedule>(this.detach_Schedule));
 			this._ScheduleScheme = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleScheme), new Action<ScheduleScheme>(this.detach_ScheduleScheme));
+			this._Document = new EntitySet<Document>(new Action<Document>(this.attach_Document), new Action<Document>(this.detach_Document));
+			this._Position = new EntitySet<Position>(new Action<Position>(this.attach_Position), new Action<Position>(this.detach_Position));
 			OnCreated();
 		}
 		
@@ -5183,19 +4218,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="Uid", OtherKey="OrganizationUid")]
-		public EntitySet<Document> Document
-		{
-			get
-			{
-				return this._Document;
-			}
-			set
-			{
-				this._Document.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Employee", ThisKey="Uid", OtherKey="OrganizationUid")]
 		public EntitySet<Employee> Employee
 		{
@@ -5261,19 +4283,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Position", ThisKey="Uid", OtherKey="OrganizationUid")]
-		public EntitySet<Position> Position
-		{
-			get
-			{
-				return this._Position;
-			}
-			set
-			{
-				this._Position.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Schedule", ThisKey="Uid", OtherKey="OrganizationUid")]
 		public EntitySet<Schedule> Schedule
 		{
@@ -5297,6 +4306,32 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._ScheduleScheme.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="Uid", OtherKey="OrganizationUid")]
+		public EntitySet<Document> Document
+		{
+			get
+			{
+				return this._Document;
+			}
+			set
+			{
+				this._Document.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Position", ThisKey="Uid", OtherKey="OrganizationUid")]
+		public EntitySet<Position> Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				this._Position.Assign(value);
 			}
 		}
 		
@@ -5351,18 +4386,6 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Department(Department entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = null;
-		}
-		
-		private void attach_Document(Document entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = this;
-		}
-		
-		private void detach_Document(Document entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organization = null;
@@ -5428,18 +4451,6 @@ namespace SKDDriver.DataAccess
 			entity.Organization = null;
 		}
 		
-		private void attach_Position(Position entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = this;
-		}
-		
-		private void detach_Position(Position entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = null;
-		}
-		
 		private void attach_Schedule(Schedule entity)
 		{
 			this.SendPropertyChanging();
@@ -5459,6 +4470,30 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_ScheduleScheme(ScheduleScheme entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = null;
+		}
+		
+		private void attach_Document(Document entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = this;
+		}
+		
+		private void detach_Document(Document entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = null;
+		}
+		
+		private void attach_Position(Position entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = this;
+		}
+		
+		private void detach_Position(Position entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organization = null;
@@ -5750,257 +4785,6 @@ namespace SKDDriver.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Position")]
-	public partial class Position : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _Uid;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganizationUid;
-		
-		private EntitySet<Employee> _Employee;
-		
-		private EntityRef<Organization> _Organization;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUidChanging(System.Guid value);
-    partial void OnUidChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
-    #endregion
-		
-		public Position()
-		{
-			this._Employee = new EntitySet<Employee>(new Action<Employee>(this.attach_Employee), new Action<Employee>(this.detach_Employee));
-			this._Organization = default(EntityRef<Organization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid Uid
-		{
-			get
-			{
-				return this._Uid;
-			}
-			set
-			{
-				if ((this._Uid != value))
-				{
-					this.OnUidChanging(value);
-					this.SendPropertyChanging();
-					this._Uid = value;
-					this.SendPropertyChanged("Uid");
-					this.OnUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
-		{
-			get
-			{
-				return this._OrganizationUid;
-			}
-			set
-			{
-				if ((this._OrganizationUid != value))
-				{
-					if (this._Organization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganizationUidChanging(value);
-					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Employee", ThisKey="Uid", OtherKey="PositionUid")]
-		public EntitySet<Employee> Employee
-		{
-			get
-			{
-				return this._Employee;
-			}
-			set
-			{
-				this._Employee.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true)]
-		public Organization Organization
-		{
-			get
-			{
-				return this._Organization.Entity;
-			}
-			set
-			{
-				Organization previousValue = this._Organization.Entity;
-				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organization.Entity = null;
-						previousValue.Position.Remove(this);
-					}
-					this._Organization.Entity = value;
-					if ((value != null))
-					{
-						value.Position.Add(this);
-						this._OrganizationUid = value.Uid;
-					}
-					else
-					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Employee(Employee entity)
-		{
-			this.SendPropertyChanging();
-			entity.Position = this;
-		}
-		
-		private void detach_Employee(Employee entity)
-		{
-			this.SendPropertyChanging();
-			entity.Position = null;
 		}
 	}
 	
@@ -6829,6 +5613,1222 @@ namespace SKDDriver.DataAccess
 						this._ScheduleUid = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
+	public partial class Card : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private int _Series;
+		
+		private int _Number;
+		
+		private System.Nullable<System.Guid> _EmployeeUid;
+		
+		private System.DateTime _ValidFrom;
+		
+		private System.DateTime _ValidTo;
+		
+		private bool _IsAntipass;
+		
+		private bool _IsInStopList;
+		
+		private string _StopReason;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntitySet<Journal> _Journal;
+		
+		private EntitySet<CardZoneLink> _CardZoneLink;
+		
+		private EntityRef<Employee> _Employee;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnSeriesChanging(int value);
+    partial void OnSeriesChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
+    partial void OnEmployeeUidChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUidChanged();
+    partial void OnValidFromChanging(System.DateTime value);
+    partial void OnValidFromChanged();
+    partial void OnValidToChanging(System.DateTime value);
+    partial void OnValidToChanged();
+    partial void OnIsAntipassChanging(bool value);
+    partial void OnIsAntipassChanged();
+    partial void OnIsInStopListChanging(bool value);
+    partial void OnIsInStopListChanged();
+    partial void OnStopReasonChanging(string value);
+    partial void OnStopReasonChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public Card()
+		{
+			this._Journal = new EntitySet<Journal>(new Action<Journal>(this.attach_Journal), new Action<Journal>(this.detach_Journal));
+			this._CardZoneLink = new EntitySet<CardZoneLink>(new Action<CardZoneLink>(this.attach_CardZoneLink), new Action<CardZoneLink>(this.detach_CardZoneLink));
+			this._Employee = default(EntityRef<Employee>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Series", DbType="Int NOT NULL")]
+		public int Series
+		{
+			get
+			{
+				return this._Series;
+			}
+			set
+			{
+				if ((this._Series != value))
+				{
+					this.OnSeriesChanging(value);
+					this.SendPropertyChanging();
+					this._Series = value;
+					this.SendPropertyChanged("Series");
+					this.OnSeriesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> EmployeeUid
+		{
+			get
+			{
+				return this._EmployeeUid;
+			}
+			set
+			{
+				if ((this._EmployeeUid != value))
+				{
+					if (this._Employee.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnEmployeeUidChanging(value);
+					this.SendPropertyChanging();
+					this._EmployeeUid = value;
+					this.SendPropertyChanged("EmployeeUid");
+					this.OnEmployeeUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidFrom", DbType="DateTime NOT NULL")]
+		public System.DateTime ValidFrom
+		{
+			get
+			{
+				return this._ValidFrom;
+			}
+			set
+			{
+				if ((this._ValidFrom != value))
+				{
+					this.OnValidFromChanging(value);
+					this.SendPropertyChanging();
+					this._ValidFrom = value;
+					this.SendPropertyChanged("ValidFrom");
+					this.OnValidFromChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValidTo", DbType="DateTime NOT NULL")]
+		public System.DateTime ValidTo
+		{
+			get
+			{
+				return this._ValidTo;
+			}
+			set
+			{
+				if ((this._ValidTo != value))
+				{
+					this.OnValidToChanging(value);
+					this.SendPropertyChanging();
+					this._ValidTo = value;
+					this.SendPropertyChanged("ValidTo");
+					this.OnValidToChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
+		public bool IsAntipass
+		{
+			get
+			{
+				return this._IsAntipass;
+			}
+			set
+			{
+				if ((this._IsAntipass != value))
+				{
+					this.OnIsAntipassChanging(value);
+					this.SendPropertyChanging();
+					this._IsAntipass = value;
+					this.SendPropertyChanged("IsAntipass");
+					this.OnIsAntipassChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsInStopList", DbType="Bit NOT NULL")]
+		public bool IsInStopList
+		{
+			get
+			{
+				return this._IsInStopList;
+			}
+			set
+			{
+				if ((this._IsInStopList != value))
+				{
+					this.OnIsInStopListChanging(value);
+					this.SendPropertyChanging();
+					this._IsInStopList = value;
+					this.SendPropertyChanged("IsInStopList");
+					this.OnIsInStopListChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopReason", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string StopReason
+		{
+			get
+			{
+				return this._StopReason;
+			}
+			set
+			{
+				if ((this._StopReason != value))
+				{
+					this.OnStopReasonChanging(value);
+					this.SendPropertyChanging();
+					this._StopReason = value;
+					this.SendPropertyChanged("StopReason");
+					this.OnStopReasonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journal", ThisKey="Uid", OtherKey="CardUid")]
+		public EntitySet<Journal> Journal
+		{
+			get
+			{
+				return this._Journal;
+			}
+			set
+			{
+				this._Journal.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_CardZoneLink", ThisKey="Uid", OtherKey="CardUid")]
+		public EntitySet<CardZoneLink> CardZoneLink
+		{
+			get
+			{
+				return this._CardZoneLink;
+			}
+			set
+			{
+				this._CardZoneLink.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Employee", ThisKey="EmployeeUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Employee Employee
+		{
+			get
+			{
+				return this._Employee.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Employee.Entity;
+				if (((previousValue != value) 
+							|| (this._Employee.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Employee.Entity = null;
+						previousValue.Card.Remove(this);
+					}
+					this._Employee.Entity = value;
+					if ((value != null))
+					{
+						value.Card.Add(this);
+						this._EmployeeUid = value.Uid;
+					}
+					else
+					{
+						this._EmployeeUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Employee");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Journal(Journal entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = this;
+		}
+		
+		private void detach_Journal(Journal entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = null;
+		}
+		
+		private void attach_CardZoneLink(CardZoneLink entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = this;
+		}
+		
+		private void detach_CardZoneLink(CardZoneLink entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Document")]
+	public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private int _No;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private System.DateTime _IssueDate;
+		
+		private System.DateTime _LaunchDate;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganizationUid;
+		
+		private EntityRef<Organization> _Organization;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnNoChanging(int value);
+    partial void OnNoChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIssueDateChanging(System.DateTime value);
+    partial void OnIssueDateChanged();
+    partial void OnLaunchDateChanging(System.DateTime value);
+    partial void OnLaunchDateChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUidChanged();
+    #endregion
+		
+		public Document()
+		{
+			this._Organization = default(EntityRef<Organization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_No", DbType="Int NOT NULL")]
+		public int No
+		{
+			get
+			{
+				return this._No;
+			}
+			set
+			{
+				if ((this._No != value))
+				{
+					this.OnNoChanging(value);
+					this.SendPropertyChanging();
+					this._No = value;
+					this.SendPropertyChanged("No");
+					this.OnNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IssueDate", DbType="DateTime NOT NULL")]
+		public System.DateTime IssueDate
+		{
+			get
+			{
+				return this._IssueDate;
+			}
+			set
+			{
+				if ((this._IssueDate != value))
+				{
+					this.OnIssueDateChanging(value);
+					this.SendPropertyChanging();
+					this._IssueDate = value;
+					this.SendPropertyChanged("IssueDate");
+					this.OnIssueDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LaunchDate", DbType="DateTime NOT NULL")]
+		public System.DateTime LaunchDate
+		{
+			get
+			{
+				return this._LaunchDate;
+			}
+			set
+			{
+				if ((this._LaunchDate != value))
+				{
+					this.OnLaunchDateChanging(value);
+					this.SendPropertyChanging();
+					this._LaunchDate = value;
+					this.SendPropertyChanged("LaunchDate");
+					this.OnLaunchDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUid
+		{
+			get
+			{
+				return this._OrganizationUid;
+			}
+			set
+			{
+				if ((this._OrganizationUid != value))
+				{
+					if (this._Organization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationUidChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationUid = value;
+					this.SendPropertyChanged("OrganizationUid");
+					this.OnOrganizationUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Organization Organization
+		{
+			get
+			{
+				return this._Organization.Entity;
+			}
+			set
+			{
+				Organization previousValue = this._Organization.Entity;
+				if (((previousValue != value) 
+							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organization.Entity = null;
+						previousValue.Document.Remove(this);
+					}
+					this._Organization.Entity = value;
+					if ((value != null))
+					{
+						value.Document.Add(this);
+						this._OrganizationUid = value.Uid;
+					}
+					else
+					{
+						this._OrganizationUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Position")]
+	public partial class Position : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganizationUid;
+		
+		private EntitySet<Employee> _Employee;
+		
+		private EntityRef<Organization> _Organization;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUidChanged();
+    #endregion
+		
+		public Position()
+		{
+			this._Employee = new EntitySet<Employee>(new Action<Employee>(this.attach_Employee), new Action<Employee>(this.detach_Employee));
+			this._Organization = default(EntityRef<Organization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUid
+		{
+			get
+			{
+				return this._OrganizationUid;
+			}
+			set
+			{
+				if ((this._OrganizationUid != value))
+				{
+					if (this._Organization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationUidChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationUid = value;
+					this.SendPropertyChanged("OrganizationUid");
+					this.OnOrganizationUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Employee", ThisKey="Uid", OtherKey="PositionUid")]
+		public EntitySet<Employee> Employee
+		{
+			get
+			{
+				return this._Employee;
+			}
+			set
+			{
+				this._Employee.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="Uid", IsForeignKey=true)]
+		public Organization Organization
+		{
+			get
+			{
+				return this._Organization.Entity;
+			}
+			set
+			{
+				Organization previousValue = this._Organization.Entity;
+				if (((previousValue != value) 
+							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organization.Entity = null;
+						previousValue.Position.Remove(this);
+					}
+					this._Organization.Entity = value;
+					if ((value != null))
+					{
+						value.Position.Add(this);
+						this._OrganizationUid = value.Uid;
+					}
+					else
+					{
+						this._OrganizationUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Employee(Employee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Position = this;
+		}
+		
+		private void detach_Employee(Employee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Position = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardZoneLink")]
+	public partial class CardZoneLink : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _Uid;
+		
+		private System.Guid _ZoneUid;
+		
+		private System.Nullable<System.Guid> _CardUid;
+		
+		private bool _IsWithEscort;
+		
+		private System.Nullable<System.Guid> _IntervalUid;
+		
+		private System.Nullable<int> _IntervalType;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<Card> _Card;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUidChanging(System.Guid value);
+    partial void OnUidChanged();
+    partial void OnZoneUidChanging(System.Guid value);
+    partial void OnZoneUidChanged();
+    partial void OnCardUidChanging(System.Nullable<System.Guid> value);
+    partial void OnCardUidChanged();
+    partial void OnIsWithEscortChanging(bool value);
+    partial void OnIsWithEscortChanged();
+    partial void OnIntervalUidChanging(System.Nullable<System.Guid> value);
+    partial void OnIntervalUidChanged();
+    partial void OnIntervalTypeChanging(System.Nullable<int> value);
+    partial void OnIntervalTypeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public CardZoneLink()
+		{
+			this._Card = default(EntityRef<Card>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uid", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid Uid
+		{
+			get
+			{
+				return this._Uid;
+			}
+			set
+			{
+				if ((this._Uid != value))
+				{
+					this.OnUidChanging(value);
+					this.SendPropertyChanging();
+					this._Uid = value;
+					this.SendPropertyChanged("Uid");
+					this.OnUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUid", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ZoneUid
+		{
+			get
+			{
+				return this._ZoneUid;
+			}
+			set
+			{
+				if ((this._ZoneUid != value))
+				{
+					this.OnZoneUidChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneUid = value;
+					this.SendPropertyChanged("ZoneUid");
+					this.OnZoneUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> CardUid
+		{
+			get
+			{
+				return this._CardUid;
+			}
+			set
+			{
+				if ((this._CardUid != value))
+				{
+					if (this._Card.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCardUidChanging(value);
+					this.SendPropertyChanging();
+					this._CardUid = value;
+					this.SendPropertyChanged("CardUid");
+					this.OnCardUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithEscort", DbType="Bit NOT NULL")]
+		public bool IsWithEscort
+		{
+			get
+			{
+				return this._IsWithEscort;
+			}
+			set
+			{
+				if ((this._IsWithEscort != value))
+				{
+					this.OnIsWithEscortChanging(value);
+					this.SendPropertyChanging();
+					this._IsWithEscort = value;
+					this.SendPropertyChanged("IsWithEscort");
+					this.OnIsWithEscortChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUid", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> IntervalUid
+		{
+			get
+			{
+				return this._IntervalUid;
+			}
+			set
+			{
+				if ((this._IntervalUid != value))
+				{
+					this.OnIntervalUidChanging(value);
+					this.SendPropertyChanging();
+					this._IntervalUid = value;
+					this.SendPropertyChanged("IntervalUid");
+					this.OnIntervalUidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalType", DbType="Int")]
+		public System.Nullable<int> IntervalType
+		{
+			get
+			{
+				return this._IntervalType;
+			}
+			set
+			{
+				if ((this._IntervalType != value))
+				{
+					this.OnIntervalTypeChanging(value);
+					this.SendPropertyChanging();
+					this._IntervalType = value;
+					this.SendPropertyChanged("IntervalType");
+					this.OnIntervalTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_Card", ThisKey="CardUid", OtherKey="Uid", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Card Card
+		{
+			get
+			{
+				return this._Card.Entity;
+			}
+			set
+			{
+				Card previousValue = this._Card.Entity;
+				if (((previousValue != value) 
+							|| (this._Card.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Card.Entity = null;
+						previousValue.CardZoneLink.Remove(this);
+					}
+					this._Card.Entity = value;
+					if ((value != null))
+					{
+						value.CardZoneLink.Add(this);
+						this._CardUid = value.Uid;
+					}
+					else
+					{
+						this._CardUid = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Card");
 				}
 			}
 		}

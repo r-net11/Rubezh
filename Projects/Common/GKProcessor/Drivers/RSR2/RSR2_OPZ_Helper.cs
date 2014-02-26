@@ -3,17 +3,17 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class RSR2_Siren_Helper
+	public static class RSR2_OPZ_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
-				DriverTypeNo = 0xE4,
-				DriverType = XDriverType.RSR2_Siren,
+				DriverTypeNo = 0xE6,
+				DriverType = XDriverType.RSR2_OPZ,
 				UID = new Guid("24A6FC19-0428-43A9-8B1C-35B748BD202B"),
-				Name = "Адресный оповещатель",
-				ShortName = "ОПОПз",
+				Name = "Оповещатель звуковой",
+				ShortName = "ОПЗ-RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true
@@ -50,23 +50,6 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property1, "Выключается", 0);
 			GKDriversHelper.AddPropertyParameter(property1, "Остаётся включённым", 1);
 			driver.Properties.Add(property1);
-
-			var property2 = new XDriverProperty()
-			{
-				No = 2,
-				Name = "Состояние светодиода в режиме удержание и включено",
-				Caption = "Состояние светодиода в режиме удержание и включено",
-				Default = 0,
-				IsLowByte = true,
-				Mask = 0x06
-			};
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НР", 0);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт НЗ", 2);
-			GKDriversHelper.AddPropertyParameter(property2, "Контакт переключается", 4);
-			driver.Properties.Add(property2);
-
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
-			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет удержания, с", IsDelay = true });
 
 			return driver;
 		}

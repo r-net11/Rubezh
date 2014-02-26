@@ -56,20 +56,22 @@ namespace SKDDriver
 		protected virtual Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = PredicateBuilder.True<TableT>();
+			result = result.And(e => e != null);
+			
 			var IsDeletedExpression = PredicateBuilder.True<TableT>();
 			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
-					IsDeletedExpression = e => e != null && e.IsDeleted;
+					IsDeletedExpression = e => e.IsDeleted;
 					break;
 				case DeletedType.Not:
-					IsDeletedExpression = e => e != null && !e.IsDeleted;
+					IsDeletedExpression = e => !e.IsDeleted;
 					break;
 				default:
-					IsDeletedExpression = e => e != null;
 					break;
 			}
 			result = result.And(IsDeletedExpression);
+			
 			var uids = filter.Uids;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.Uid));
@@ -160,8 +162,8 @@ namespace SKDDriver
 		}
 
 		#region Static
-		static readonly DateTime MinYear = new DateTime(1900, 0, 0);
-		static readonly DateTime MaxYear = new DateTime(9000, 0, 0);
+		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
 
 		protected static DateTime CheckDate(DateTime dateTime)
 		{

@@ -23,5 +23,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? IntervalUID { get; set; }
+
+		[DataMember]
+		public Guid? ParentUID { get; set; }
 	}
 }

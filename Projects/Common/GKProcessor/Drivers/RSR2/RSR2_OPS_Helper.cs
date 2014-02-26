@@ -3,17 +3,17 @@ using XFiresecAPI;
 
 namespace GKProcessor
 {
-	public static class RSR2_Table_Helper
+	public static class RSR2_OPS_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0xE3,
-				DriverType = XDriverType.RSR2_Table,
+				DriverType = XDriverType.RSR2_OPS,
 				UID = new Guid("A8AC8A76-064B-4ED0-A071-37B4A15958A7"),
-				Name = "Адресная табличка",
-				ShortName = "ОПОПс",
+				Name = "Оповещатель световой",
+				ShortName = "ОПС-RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IsPlaceable = true
@@ -78,7 +78,7 @@ namespace GKProcessor
 			};
 			GKDriversHelper.AddPropertyParameter(property3, "Гашение", 0);
 			GKDriversHelper.AddPropertyParameter(property3, "Горение", 16);
-			GKDriversHelper.AddPropertyParameter(property3, "Включено", 32);
+			GKDriversHelper.AddPropertyParameter(property3, "Мерцание", 32);
 			driver.Properties.Add(property3);
 
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });

@@ -74,43 +74,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static Card TranslateBack(FiresecAPI.SKDCard item)
-		{
-			if (item == null)
-				return null;
-			var validFrom = CheckDate(item.ValidFrom);
-			var validTo = CheckDate(item.ValidTo);
-			var result = new Card
-			{
-				EmployeeUid = item.HolderUid,
-				Number = item.Number,
-				Series = item.Series,
-				ValidFrom = validFrom,
-				ValidTo = validTo,
-				IsAntipass = item.IsAntipass,
-				IsInStopList = item.IsInStopList,
-				StopReason = item.StopReason
-			};
-			TranslateBackBase(item, result);
-			return result;
-		}
-
-		public static CardZoneLink TranslateBack(FiresecAPI.CardZoneLink item)
-		{
-			if (item == null)
-				return null;
-			var result = new CardZoneLink
-			{
-				IntervalType = (int?)item.IntervalType,
-				IntervalUid = item.IntervalUid,
-				IsWithEscort = item.IsWithEscort,
-				ZoneUid = item.ZoneUid,
-				CardUid = item.CardUid
-			};
-			TranslateBackBase(item, result);
-			return result;
-		}
-
 		public static Organization TranslateBack(FiresecAPI.Organization item)
 		{
 			if (item == null)

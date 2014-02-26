@@ -66,8 +66,9 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_HeatDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_CombinedDetector_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_Pump_Helper.Create());
-            AddDriverToKau_RSR2(RSR2_Siren_Helper.Create());
-            AddDriverToKau_RSR2(RSR2_Table_Helper.Create());
+            AddDriverToKau_RSR2(RSR2_OPK_Helper.Create());
+            AddDriverToKau_RSR2(RSR2_OPS_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_OPZ_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
 		}
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -24,8 +25,10 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var cards = new List<SKDCard>();
 			Cards = new ObservableCollection<CardViewModel>();
+			var cards = CardHelper.Get(Filter);
+			if (cards == null)
+				return;
 			foreach (var card in cards)
 			{
 				var cardViewModel = new CardViewModel(card);
@@ -68,6 +71,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
+				var saveResult = CardHelper.Save(card);
+				if (saveResult == false)
+					return;
 				var cardViewModel = new CardViewModel(card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;
@@ -77,6 +83,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var card = SelectedCard.Card;
+			var removeResult = CardHelper.MarkDeleted(card);
+			if (removeResult == false)
+				return;
 			var index = Cards.IndexOf(SelectedCard);
 			Cards.Remove(SelectedCard);
 			index = Math.Min(index, Cards.Count - 1);
@@ -94,6 +104,10 @@ namespace SKDModule.ViewModels
 			var cardDetailsViewModel = new CardDetailsViewModel(this, SelectedCard.Card);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
+				var card = cardDetailsViewModel.Card;
+				var saveResult = CardHelper.Save(card);
+				if (!saveResult)
+					return;
 				SelectedCard.Update(cardDetailsViewModel.Card);
 			}
 		}

@@ -58,33 +58,6 @@ namespace SKDDriver
 			UpdateBase(item, apiItem);
 		}
 
-		public static void Update(Card item, FiresecAPI.SKDCard apiItem)
-		{
-			if (apiItem == null)
-				return;
-			item.Number = apiItem.Number;
-			item.Series = apiItem.Series;
-			item.EmployeeUid = apiItem.HolderUid;
-			item.ValidFrom = CheckDate(apiItem.ValidFrom);
-			item.ValidTo = CheckDate(apiItem.ValidTo);
-			item.IsAntipass = apiItem.IsAntipass;
-			item.IsInStopList = apiItem.IsInStopList;
-			item.StopReason = apiItem.StopReason;
-			UpdateBase(item, apiItem);
-		}
-
-		public static void Update(CardZoneLink item, FiresecAPI.CardZoneLink apiItem)
-		{
-			if (apiItem == null)
-				return;
-			item.IntervalType = (int?)apiItem.IntervalType;
-			item.IntervalUid = apiItem.IntervalUid;
-			item.IsWithEscort = apiItem.IsWithEscort;
-			item.ZoneUid = apiItem.ZoneUid;
-			item.CardUid = apiItem.CardUid;
-			UpdateBase(item, apiItem);
-		}
-
 		public static void Update(Organization item, FiresecAPI.Organization apiItem)
 		{
 			if (apiItem == null)

@@ -75,8 +75,8 @@ namespace SKDModule.ViewModels
 		{
 			if (CardsViewModel.Cards.Any(x => x.Card.Series == Series && x.Card.Number == Number && x.Card.UID != Card.UID))
 			{
-				MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
-				return false;
+				//MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
+				//return false;
 			}
 
 			Card.Series = Series;
