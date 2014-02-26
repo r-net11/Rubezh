@@ -4,10 +4,10 @@ using System.Linq;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
+using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Infrastructure.Common.CheckBoxList;
 
 namespace GKModule.ViewModels
 {

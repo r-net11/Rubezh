@@ -6,7 +6,6 @@ using System.Threading;
 using Common;
 using FiresecClient;
 using GKModule.Events;
-using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using GKModule.Plans;
 using GKModule.Reports;
 using GKModule.ViewModels;

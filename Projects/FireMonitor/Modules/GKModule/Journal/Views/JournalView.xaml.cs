@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using Common;
 using GKModule.ViewModels;
 using Infrastructure.Models;
-using System;
-using Common;
 
 namespace GKModule.Views
 {

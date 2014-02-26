@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

@@ -2,8 +2,8 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
-using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using XFiresecAPI;
 

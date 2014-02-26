@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;

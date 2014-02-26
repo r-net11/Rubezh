@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using XFiresecAPI;
 using Infrastructure.Common.CheckBoxList;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

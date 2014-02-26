@@ -1,6 +1,6 @@
-﻿using Infrastructure.Common.TreeList;
+﻿using Infrastructure.Common.CheckBoxList;
+using Infrastructure.Common.TreeList;
 using XFiresecAPI;
-using Infrastructure.Common.CheckBoxList;
 
 namespace GKModule.ViewModels
 {

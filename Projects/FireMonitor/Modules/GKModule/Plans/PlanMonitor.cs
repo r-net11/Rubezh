@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 using Infrustructure.Plans.Presenter;
+using XFiresecAPI;
 
 namespace GKModule.Plans
 {

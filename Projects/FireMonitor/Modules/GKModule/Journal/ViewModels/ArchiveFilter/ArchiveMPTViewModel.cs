@@ -1,5 +1,5 @@
-﻿using XFiresecAPI;
-using Infrastructure.Common.CheckBoxList;
+﻿using Infrastructure.Common.CheckBoxList;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

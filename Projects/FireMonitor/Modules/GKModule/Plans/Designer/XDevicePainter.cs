@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
+using GKModule.Events;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;

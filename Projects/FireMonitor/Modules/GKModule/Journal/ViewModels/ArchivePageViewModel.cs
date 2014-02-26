@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
