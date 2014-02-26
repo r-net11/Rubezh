@@ -104,19 +104,19 @@
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrids\1x7GridView.xaml.cs">
+    <Compile Include="Views\MultiGrid\1x7GridView.xaml.cs">
       <DependentUpon>1x7GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrids\2x2GridView.xaml.cs">
+    <Compile Include="Views\MultiGrid\2x2GridView.xaml.cs">
       <DependentUpon>2x2GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrids\3x3GridView.xaml.cs">
+    <Compile Include="Views\MultiGrid\3x3GridView.xaml.cs">
       <DependentUpon>3x3GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrids\4x4GridView.xaml.cs">
+    <Compile Include="Views\MultiGrid\4x4GridView.xaml.cs">
       <DependentUpon>4x4GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrids\6x6GridView.xaml.cs">
+    <Compile Include="Views\MultiGrid\6x6GridView.xaml.cs">
       <DependentUpon>6x6GridView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -210,23 +210,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrids\1x7GridView.xaml">
+    <Page Include="Views\MultiGrid\1x7GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrids\2x2GridView.xaml">
+    <Page Include="Views\MultiGrid\2x2GridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MultiGrids\3x3GridView.xaml">
+    <Page Include="Views\MultiGrid\3x3GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrids\4x4GridView.xaml">
+    <Page Include="Views\MultiGrid\4x4GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrids\6x6GridView.xaml">
+    <Page Include="Views\MultiGrid\6x6GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

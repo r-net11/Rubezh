@@ -709,6 +709,7 @@
     <Resource Include="StateIcons\Service.png" />
     <Resource Include="StateIcons\Unknown.png" />
     <Resource Include="Images\Alarm_MPT.png" />
+    <Resource Include="Images\Alarm_shield.png" />
     <Resource Include="StateIcons\No.png" />
     <Resource Include="Images\write.png" />
     <Resource Include="Images\read.png" />
@@ -1010,6 +1011,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_OPK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\2x2Grid.png" />
+    <Resource Include="Images\MultiGrid\3x3Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\4x4Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\6x6Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\1x7Grid.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

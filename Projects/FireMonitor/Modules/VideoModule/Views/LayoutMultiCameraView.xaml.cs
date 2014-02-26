@@ -17,27 +17,48 @@ using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для LayoutMultiCameraView.xaml
-	/// </summary>
 	public partial class LayoutMultiCameraView
 	{
-		private bool flag = false;
 		public LayoutMultiCameraView()
 		{
-			InitializeComponent();
-
+            InitializeComponent();
+            Loaded += UI_Loaded;
 		}
 
-		void CreateGrid()
+        private void UI_Loaded(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _2X2GridView());
+        }
+
+        void CreateGrid(UserControl userControl)
 		{
+            IsFullScreen = false;
 			var layoutPartCameraViewModel = new LayoutPartCameraViewModel(((LayoutMultiCameraViewModel)DataContext).CameraViewModels.FirstOrDefault().Camera);
-			var _3X3GridView = new _3X3GridView();
-			var controls = GetLogicalChildCollection<Grid>(_3X3GridView).FindAll(x => !String.IsNullOrEmpty(x.Name));
-			foreach (var grid in controls)
-				grid.Children.Add(new LayoutPartCameraView { DataContext = layoutPartCameraViewModel });
-			_grid.Children.Add(_3X3GridView);
+            var controls = GetLogicalChildCollection<Border>(userControl).FindAll(x => !String.IsNullOrEmpty(x.Name));
+            foreach (var border in controls)
+            {
+                border.Child = new LayoutPartCameraView { DataContext = layoutPartCameraViewModel };
+                border.MouseLeftButtonDown += FullScreenSize;
+            }
+            _grid.Child = userControl;
 		}
+
+        bool IsFullScreen{get;set;}
+        UIElement BackUpView { get; set; }
+        public void FullScreenSize(object sender, RoutedEventArgs e)
+        {
+            if (IsFullScreen)
+            {
+                _grid.Child = BackUpView;
+            }
+            else
+            {
+                BackUpView = _grid.Child;
+                _grid.Child = new LayoutPartCameraView { DataContext = ((sender as Border).Child as LayoutPartCameraView).DataContext };
+                _grid.Child.MouseLeftButtonDown += FullScreenSize;
+            }
+            IsFullScreen = !IsFullScreen;
+        }
 
 		public static List<T> GetLogicalChildCollection<T>(object parent) where T : DependencyObject
 		{
@@ -62,11 +83,29 @@ namespace VideoModule.Views
 			}
 		}
 
-		private void _grid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			if (!flag)
-				CreateGrid();
-			flag = true;
-		}
+        private void On_2x2Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _2X2GridView());
+        }
+
+        private void On_1x7Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _1X7GridView());
+        }
+
+        private void On_3x3Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _3X3GridView());
+        }
+
+        private void On_4x4Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _4X4GridView());
+        }
+
+        private void On_6x6Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid(new _6X6GridView());
+        }
 	}
 }
