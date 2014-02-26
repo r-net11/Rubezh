@@ -119,6 +119,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="SecurityModule.cs" />
+    <Compile Include="ViewModels\OrganisationViewModel.cs" />
     <Compile Include="ViewModels\RemoteAccessTypeViewModel.cs" />
     <Compile Include="ViewModels\RemoteAccessViewModel.cs" />
     <Compile Include="ViewModels\RemoteMachineViewModel.cs" />

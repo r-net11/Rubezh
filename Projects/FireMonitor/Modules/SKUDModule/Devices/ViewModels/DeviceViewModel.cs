@@ -55,6 +55,11 @@ namespace SKDModule.ViewModels
 			get { return SKDManager.GetPresentationZone(Device); }
 		}
 
+		public string OuterPresentationZone
+		{
+			get { return SKDManager.GetPresentationOuterZone(Device); }
+		}
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{

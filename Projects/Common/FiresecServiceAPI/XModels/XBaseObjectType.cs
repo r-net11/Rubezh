@@ -16,6 +16,9 @@ namespace XFiresecAPI
 		[DescriptionAttribute("НС")]
 		PumpStation,
 
+		[DescriptionAttribute("МПТ")]
+		MPT,
+
 		[DescriptionAttribute("Задержка")]
 		Delay,
 

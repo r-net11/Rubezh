@@ -65,6 +65,7 @@
     <Compile Include="DescriptorsDatabase\CommonDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DescriptorsDatabase\Descriptors\FormulaBuilder.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\ZoneDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\PumpStationCreator.cs" />
+    <Compile Include="DescriptorsDatabase\MPTCreator.cs" />
     <Compile Include="DescriptorStateHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Diagnostics\DiagnosticsItem.cs" />

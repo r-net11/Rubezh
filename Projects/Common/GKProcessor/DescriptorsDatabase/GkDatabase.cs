@@ -10,6 +10,7 @@ namespace GKProcessor
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
 		public List<XPumpStation> PumpStations { get; set; }
+		public List<XMPT> MPTs { get; set; }
 		public List<XDelay> Delays { get; set; }
 		public List<XPim> Pims { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
@@ -20,6 +21,7 @@ namespace GKProcessor
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
 			PumpStations = new List<XPumpStation>();
+			MPTs = new List<XMPT>();
 			Delays = new List<XDelay>();
 			Pims = new List<XPim>();
 			KauDatabases = new List<KauDatabase>();
@@ -108,6 +110,15 @@ namespace GKProcessor
 				}
 			}
 
+			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
+			{
+				if (mpt.GkDatabaseParent == RootDevice)
+				{
+					//mpt.GKDescriptorNo = NextDescriptorNo;
+					MPTs.Add(mpt);
+				}
+			}
+
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
@@ -124,6 +135,7 @@ namespace GKProcessor
 				var directionDescriptor = new DirectionDescriptor(direction);
 				Descriptors.Add(directionDescriptor);
 			}
+
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.GKDescriptorNo = NextDescriptorNo;
@@ -132,6 +144,16 @@ namespace GKProcessor
 
 				var pumpStationCreator = new PumpStationCreator(this, pumpStation, pumpStationDescriptor.MainDelay);
 				pumpStationCreator.Create();
+			}
+
+			foreach (var mpt in MPTs)
+			{
+				mpt.GKDescriptorNo = NextDescriptorNo;
+				var mptDescriptor = new MPTDescriptor(this, mpt);
+				Descriptors.Add(mptDescriptor);
+
+				var mptCreator = new MPTCreator(this, mpt);
+				mptCreator.Create();
 			}
 
 			Descriptors.ForEach(x => x.InitializeAllBytes());

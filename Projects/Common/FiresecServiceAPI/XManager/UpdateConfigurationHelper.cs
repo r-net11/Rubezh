@@ -76,6 +76,7 @@ namespace FiresecClient
 			InitializeLogic();
 			InitializeDirections();
 			InitializePumpStations();
+			InitializeMPTs();
 			InitializeGuardUsers();
 			UpdateGKChildrenDescription();
 		}
@@ -106,6 +107,13 @@ namespace FiresecClient
 				pumpStation.InputDevices = new List<XDevice>();
 				pumpStation.InputDirections = new List<XDirection>();
 				pumpStation.NSDevices = new List<XDevice>();
+			}
+			foreach (var mpt in DeviceConfiguration.MPTs)
+			{
+				mpt.InputZones = new List<XZone>();
+				mpt.InputDevices = new List<XDevice>();
+				mpt.InputDirections = new List<XDirection>();
+				mpt.NSDevices = new List<XDevice>();
 			}
 		}
 
@@ -277,6 +285,128 @@ namespace FiresecClient
 					pumpStation.AutomaticOffLogic = new XDeviceLogic();
 				InvalidatePumpStationLogic(pumpStation, pumpStation.AutomaticOffLogic);
 			}
+		}
+
+		static void InitializeMPTs()
+		{
+			foreach (var mpt in DeviceConfiguration.MPTs)
+			{
+				InvalidateMPTLogic(mpt, mpt.StartLogic);
+
+				var mptDevices = new List<MPTDevice>();
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
+					if (device != null && MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Contains(mptDevice.MPTDeviceType))
+					{
+						mptDevice.Device = device;
+						mptDevices.Add(mptDevice);
+						device.IsInMPT = true;
+						mpt.NSDevices.Add(device);
+					}
+				}
+				mpt.MPTDevices = mptDevices;
+			}
+		}
+
+		public static void InvalidateMPTLogic(XMPT mpt, XDeviceLogic deviceLogic)
+		{
+			var clauses = new List<XClause>();
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				clause.Devices = new List<XDevice>();
+				clause.Zones = new List<XZone>();
+				clause.Directions = new List<XDirection>();
+
+				var deviceUIDs = new List<Guid>();
+				foreach (var deviceUID in clause.DeviceUIDs)
+				{
+					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (clauseDevice != null && !clauseDevice.IsNotUsed)
+					{
+						deviceUIDs.Add(deviceUID);
+						clause.Devices.Add(clauseDevice);
+						if (!mpt.InputDevices.Contains(clauseDevice))
+							mpt.InputDevices.Add(clauseDevice);
+					}
+				}
+				clause.DeviceUIDs = deviceUIDs;
+
+				var zoneUIDs = new List<Guid>();
+				foreach (var zoneUID in clause.ZoneUIDs)
+				{
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zoneUIDs.Add(zoneUID);
+						clause.Zones.Add(zone);
+						if (!mpt.InputZones.Contains(zone))
+							mpt.InputZones.Add(zone);
+					}
+				}
+				clause.ZoneUIDs = zoneUIDs;
+
+				var directionUIDs = new List<Guid>();
+				foreach (var directionUID in clause.DirectionUIDs)
+				{
+					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+					if (direction != null)
+					{
+						directionUIDs.Add(directionUID);
+						clause.Directions.Add(direction);
+						if (!mpt.InputDirections.Contains(direction))
+							mpt.InputDirections.Add(direction);
+					}
+				}
+				clause.DirectionUIDs = directionUIDs;
+
+				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+					clauses.Add(clause);
+			}
+			deviceLogic.Clauses = clauses;
+		}
+
+		static void InvalidateOneMPTClause(XDeviceConfiguration deviceConfiguration, XClause clause)
+		{
+			clause.Devices = new List<XDevice>();
+			clause.Zones = new List<XZone>();
+			clause.Directions = new List<XDirection>();
+
+			var zoneUIDs = new List<Guid>();
+			foreach (var zoneUID in clause.ZoneUIDs)
+			{
+				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				if (zone != null)
+				{
+					zoneUIDs.Add(zoneUID);
+					clause.Zones.Add(zone);
+				}
+			}
+			clause.ZoneUIDs = zoneUIDs;
+
+			var deviceUIDs = new List<Guid>();
+			foreach (var deviceUID in clause.DeviceUIDs)
+			{
+				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				if (clauseDevice != null && !clauseDevice.IsNotUsed)
+				{
+					deviceUIDs.Add(deviceUID);
+					clause.Devices.Add(clauseDevice);
+				}
+			}
+			clause.DeviceUIDs = deviceUIDs;
+
+			var directionUIDs = new List<Guid>();
+			foreach (var directionUID in clause.DirectionUIDs)
+			{
+				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				if (direction != null)
+				{
+					directionUIDs.Add(directionUID);
+					clause.Directions.Add(direction);
+				}
+			}
+			clause.DirectionUIDs = directionUIDs;
 		}
 
 		public static void InvalidatePumpStationLogic(XPumpStation pumpStation, XDeviceLogic deviceLogic)

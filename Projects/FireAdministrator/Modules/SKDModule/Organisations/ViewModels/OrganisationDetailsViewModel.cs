@@ -11,16 +11,16 @@ namespace SKDModule.ViewModels
 	{
 		OrganisationsViewModel OrganisationsViewModel;
 		bool IsNew;
-		public SKDOrganisation Organisation { get; set; }
+		public Organization Organisation { get; set; }
 
-		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, SKDOrganisation organisation = null)
+		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organization organisation = null)
 		{
 			OrganisationsViewModel = organisationsViewModel;
 			if (organisation == null)
 			{
 				Title = "Создание новой организации";
 
-				Organisation = new SKDOrganisation()
+				Organisation = new Organization()
 				{
 					Name = "Огранизация",
 				};

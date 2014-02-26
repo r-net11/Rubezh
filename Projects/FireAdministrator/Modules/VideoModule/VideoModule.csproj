@@ -102,6 +102,7 @@
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Views\CameraDetailsView.xaml.cs">

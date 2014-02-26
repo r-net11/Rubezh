@@ -18,8 +18,9 @@
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
-      <Feature Id="SKUD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
-        <ComponentRef Id="Administrator.SKUD_MODULE" />
+      <Feature Id="SKD.Features" Title="СКД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
+        <ComponentRef Id="Administrator.SKD_MODULE" />
+        <ComponentRef Id="Monitor.SKD_MODULE" />
       </Feature>
       <Feature Id="Video.Features" Title="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
         <ComponentRef Id="Administrator.VIDEO_MODULE" />

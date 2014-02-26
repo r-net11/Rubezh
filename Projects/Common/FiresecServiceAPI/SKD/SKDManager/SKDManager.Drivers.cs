@@ -14,7 +14,8 @@ namespace FiresecAPI
 				UID = new Guid("EC1089D1-7DBC-4797-A5AB-F37104999E91"),
 				Name = "Система",
 				ShortName = "Система",
-				DriverType = SKDDriverType.System
+				DriverType = SKDDriverType.System,
+				CanEditAddress = false,
 			};
 			systemDriver.Children.Add(SKDDriverType.Controller);
 			Drivers.Add(systemDriver);
@@ -25,6 +26,7 @@ namespace FiresecAPI
 				Name = "Контроллер",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
+				CanEditAddress = true,
 				IsControlDevice = true,
 				HasZone = true,
 				IsPlaceable = true
@@ -53,6 +55,7 @@ namespace FiresecAPI
 				Name = "Считыватель",
 				ShortName = "Считыватель",
 				DriverType = SKDDriverType.Reader,
+				CanEditAddress = false,
 				HasZone = true,
 				HasOuterZone = true,
 				IsPlaceable = true
@@ -68,6 +71,7 @@ namespace FiresecAPI
 				Name = "Шлакбаум",
 				ShortName = "Шлакбаум",
 				DriverType = SKDDriverType.Gate,
+				CanEditAddress = false,
 				HasZone = true,
 				HasOuterZone = true,
 				IsPlaceable = true

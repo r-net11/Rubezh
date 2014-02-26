@@ -17,62 +17,92 @@
 
     <TabControl>
         <TabItem Header="СКД" DataContext="{Binding SKDViewModel}">
-            <ItemsControl ItemsSource="{Binding SKDDevices}" Background="White">
-                <ItemsControl.ItemTemplate>
+            <TabControl ItemsSource="{Binding Controllers}" SelectedItem="{Binding SelectedController}" Background="White">
+                <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="LightGray" CornerRadius="10" Margin="10">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal" Background="DarkGray" Margin="5">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Устройство" Width="100" Margin="2" />
-                                        <TextBlock Text="{Binding SKDDevice.Driver.ShortName}" Margin="2" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="10 0">
-                                        <TextBlock Text="Адрес" Width="100" Margin="2" />
-                                        <TextBlock Text="{Binding SKDDevice.Address}" Margin="2" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Порт" Width="100" Margin="2" />
-                                        <TextBlock Text="{Binding PortNo}" Margin="2" />
-                                    </StackPanel>
-                                </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Device.Address}" Margin="2" />
+                            <TextBlock Text="{Binding PortNo}" Margin="2" />
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="LightGray">
 
-                                <StackPanel Orientation="Horizontal">
-                                    <StackPanel Margin="5">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Номер карты" Width="100" Margin="2" />
-                                            <TextBox Text="{Binding CardNo}" Margin="2" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Событие" Width="100" Margin="2" />
-                                            <ComboBox ItemsSource="{Binding SKDEvents}" SelectedItem="{Binding SelectedSKDEvent}" Margin="2">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" />
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Источник" Width="100" Margin="2" />
-                                            <ComboBox ItemsSource="{Binding DeviceSources}" SelectedItem="{Binding SelectedDeviceSource}" Margin="2">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock Text="{Binding Name}" />
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                        </StackPanel>
+
+                            <Grid Margin="0 10 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Контроллер" FontWeight="Bold" Margin="2" />
+                                        <TextBlock Text="{Binding Device.Name}" FontWeight="Bold" Margin="2" />
                                     </StackPanel>
 
-                                    <Button Content="Событие" Command="{Binding NewEventCommand}" Width="150" Margin="2" />
                                     <CheckBox Content="Связь есть" IsChecked="{Binding IsConnected}" VerticalAlignment="Center" Margin="2" />
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
+                                <ItemsControl Grid.Column="1" ItemsSource="{Binding SKDEvents}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{Binding SKDEvent.Name}" Command="{Binding NewEventCommand}" Width="300" Margin="2" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Grid>
+
+                            <ItemsControl ItemsSource="{Binding Readers}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Считыватель" FontWeight="Bold" Margin="2" />
+                                                    <TextBlock Text="{Binding Device.Name}" FontWeight="Bold" Margin="2" />
+                                                </StackPanel>
+
+                                                <StackPanel Margin="5">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Серия карты" Width="100" Margin="2" />
+                                                        <TextBox Text="{Binding CardSeries}" Margin="2" />
+                                                    </StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="Номер карты" Width="100" Margin="2" />
+                                                        <TextBox Text="{Binding CardNo}" Margin="2" />
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <ItemsControl Grid.Column="1" ItemsSource="{Binding SKDEvents}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="{Binding SKDEvent.Name}" Command="{Binding NewEventCommand}" Width="300" Margin="2" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                </TabControl.ContentTemplate>
+            </TabControl>
         </TabItem>
         <TabItem Header="ГК">
             <Grid Background="White" Margin="5">

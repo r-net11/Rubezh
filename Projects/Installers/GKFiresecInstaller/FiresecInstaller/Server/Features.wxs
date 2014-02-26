@@ -11,7 +11,7 @@
       <ComponentRef Id="Server.AppData.EmptyLocation" />
       <ComponentRef Id="AppData.ServerLocation.Sounds" />
       <ComponentRef Id="AppData.Manual.pdf" />
-      <ComponentRef Id="Server.SKUD_MODULE" />
+      <ComponentRef Id="Server.SKD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.AutorunComponent" />
       <ComponentRef Id="AppData.FiresecLocation.Permissions" />

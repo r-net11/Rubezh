@@ -9,8 +9,9 @@ namespace FiresecAPI.Models
     {
         public User()
         {
-			PermissionStrings = new List<string>();
 			UID = Guid.NewGuid();
+			PermissionStrings = new List<string>();
+			OrganisationUIDs = new List<Guid>();
         }
 
 		[DataMember]
@@ -38,5 +39,8 @@ namespace FiresecAPI.Models
 		{
 			return PermissionStrings.Contains(permissionType.ToString());
 		}
+
+		[DataMember]
+		public List<Guid> OrganisationUIDs { get; set; }
     }
 }

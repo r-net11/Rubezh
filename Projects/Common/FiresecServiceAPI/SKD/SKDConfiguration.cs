@@ -85,6 +85,34 @@ namespace XFiresecAPI
 			}
 		}
 
+		public void Reorder()
+		{
+			foreach (var device in Devices)
+			{
+				if (device.DriverType == SKDDriverType.Controller)
+				{
+					var children = new List<SKDDevice>();
+					foreach (var childDevice in device.Children)
+					{
+						if (childDevice.DriverType == SKDDriverType.Reader)
+						{
+							children.Add(childDevice);
+							childDevice.Address = children.Count.ToString();
+						}
+					}
+					foreach (var childDevice in device.Children)
+					{
+						if (childDevice.DriverType != SKDDriverType.Reader)
+						{
+							children.Add(childDevice);
+							childDevice.Address = null;
+						}
+					}
+					device.Children = children;
+				}
+			}
+		}
+
 		public override bool ValidateVersion()
 		{
 			var result = true;

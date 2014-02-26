@@ -16,8 +16,47 @@
             <XDataGrid.ContextMenu>
                 <ContextMenu OverridesDefaultStyle="True" >
                     <IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
-                    <IconedMenuItem Command="{Binding PlayVideoCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать видео" />
-                    <IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Свойства" />
+                    <MenuItem Command="{Binding PlayVideoCommand}">
+                        <MenuItem.Header>
+                            <Border Name="Border" Padding="5 1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="16" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Width="16">
+                                        <Image.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BStop.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
+                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BPlay.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="4 0 0 0">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+                                                        <Setter Property="TextBlock.Text" Value="Остановить видео"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
+                                                        <Setter Property="TextBlock.Text" Value="Запустить видео"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
                 </ContextMenu>
             </XDataGrid.ContextMenu>
             <DataGrid.InputBindings>

@@ -84,14 +84,8 @@ namespace SKDModule.ViewModels
 			{
 				Device.Address = value;
 				OnPropertyChanged("Address");
-				OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
-		}
-
-		public string PresentationAddress
-		{
-			get { return Device.Address; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -374,7 +368,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowSKDDeviceEvent>().Publish(Device.Parent.UID);
 		}
 		bool CanShowParent()
 		{

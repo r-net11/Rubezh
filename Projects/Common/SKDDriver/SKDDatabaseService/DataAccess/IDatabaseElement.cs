@@ -12,7 +12,7 @@ namespace SKDDriver.DataAccess
 		DateTime? RemovalDate { get; set; }
 	}
 
-	public interface IOrganizationDatabaseElement:IDatabaseElement
+	public interface IOrganizationDatabaseElement : IDatabaseElement
 	{
 		Guid? OrganizationUid { get; set; }
 	}
@@ -37,5 +37,4 @@ namespace SKDDriver.DataAccess
 	public partial class Frame : IDatabaseElement { }
 	public partial class CardZoneLink : IDatabaseElement { }
 	public partial class Card : IDatabaseElement { }
-
 }

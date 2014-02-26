@@ -12,7 +12,11 @@
 		<Views:DevicesSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
+        <Views:DeviceSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
 		<Views:ZonesSelectationView />
 	</DataTemplate>
 
@@ -82,6 +86,18 @@
 
     <DataTemplate DataType="{x:Type ViewModels:PumpStationsMenuViewModel}">
         <Views:PumpStationsMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+        <Views:MPTsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
+        <Views:MPTDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">
+        <Views:MPTsMenuView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
