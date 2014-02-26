@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 	{
 		public XDevice Device { get; private set; }
 
-		public DeviceLogicViewModel(XDevice device, XDeviceLogic deviceLogic)
+		public DeviceLogicViewModel(XDevice device, XDeviceLogic deviceLogic, bool hasOffClause = true)
 		{
 			if (device.DriverType == XDriverType.System)
 				Title = "Настройка логики";
@@ -31,6 +31,8 @@ namespace GKModule.ViewModels
 
 			SelectedMROMessageNo = deviceLogic.ZoneLogicMROMessageNo;
 			SelectedMROMessageType = deviceLogic.ZoneLogicMROMessageType;
+
+			HasOffClause = hasOffClause;
 		}
 
 		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
@@ -76,6 +78,8 @@ namespace GKModule.ViewModels
 			}
 		}
 		#endregion
+
+		public bool HasOffClause { get; private set; }
 
 		public string OffClauseName
 		{

@@ -88,6 +88,9 @@ namespace GKModule.Validation
 
 		static void ValidateDeviceZone(XDevice device)
 		{
+			if (device.IsInMPT)
+				return;
+
 			if (device.Driver.HasZone)
 			{
 				if (device.Zones.Count == 0)
@@ -97,6 +100,9 @@ namespace GKModule.Validation
 
 		static void ValidateDeviceLogic(XDevice device)
 		{
+			if(device.IsInMPT)
+				return;
+
 			if (device.DriverType == XDriverType.GKLine || device.DriverType == XDriverType.GKRele)
 				return;
 

@@ -11,7 +11,9 @@ namespace XFiresecAPI
 	{
 		public MPTDevice()
 		{
-
+			MPTDeviceType = MPTDeviceType.Unknown;
+			Delay = 0;
+			Hold = 2;
 		}
 
 		public XDevice Device { get; set; }
@@ -21,6 +23,12 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public MPTDeviceType MPTDeviceType { get; set; }
+
+		[DataMember]
+		public int Delay { get; set; }
+
+		[DataMember]
+		public int Hold { get; set; }
 
 		public static List<MPTDeviceType> GetAvailableMPTDeviceTypes(XDriverType driverType)
 		{

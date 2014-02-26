@@ -66,7 +66,8 @@ namespace GKModule.ViewModels
 					case XDriverType.RSR2_OPZ:
 					case XDriverType.RSR2_OPK:
 					case XDriverType.RSR2_AM_1:
-						devices.Add(device);
+						if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.UID))
+							devices.Add(device);
 						break;
 				}
 			}
@@ -110,7 +111,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, MPT.StartLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, MPT.StartLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				MPT.StartLogic = deviceLogicViewModel.GetModel();
@@ -142,6 +143,17 @@ namespace GKModule.ViewModels
 			{
 				MPT.UseDoorAutomatic = value;
 				OnPropertyChanged("UseDoorAutomatic");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public bool UseFailureAutomatic
+		{
+			get { return MPT.UseFailureAutomatic; }
+			set
+			{
+				MPT.UseFailureAutomatic = value;
+				OnPropertyChanged("UseFailureAutomatic");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

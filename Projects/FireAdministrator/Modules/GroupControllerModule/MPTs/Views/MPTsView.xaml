@@ -66,6 +66,18 @@
                             <TextBlock Text="Примечание" Width="200" Foreground="White" Margin="2" />
                             <TextBox Text="{Binding Description}" Width="200" Margin="2" />
                         </StackPanel>
+
+                        <StackPanel Visibility="{Binding HasHoldOrDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
+                                <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
+                                <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -96,10 +108,12 @@
 
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Задержка" Width="200" Margin="2" />
-                        <TextBox Text="{Binding Delay}" Width="200" Background="LightCyan" Margin="2" />
+                        <TextBox Text="{Binding Delay}" Width="200" Background="LightGray" Margin="2" />
                     </StackPanel>
 
+
                     <CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
+                    <CheckBox IsChecked="{Binding UseFailureAutomatic}" Content="Отключать автоматику при неисправности любого устройства" Margin="2" />
 
                 </StackPanel>
             </Grid>

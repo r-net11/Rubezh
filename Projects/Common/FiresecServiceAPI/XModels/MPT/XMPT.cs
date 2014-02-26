@@ -41,6 +41,8 @@ namespace XFiresecAPI
 		[DataMember]
 		public bool UseDoorAutomatic { get; set; }
 
+		[DataMember]
+		public bool UseFailureAutomatic { get; set; }
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.MPT; } }
 

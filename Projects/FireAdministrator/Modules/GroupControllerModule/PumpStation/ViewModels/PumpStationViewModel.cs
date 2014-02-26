@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStartLogicCommand { get; private set; }
 		void OnChangeStartLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StartLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.StartLogic = deviceLogicViewModel.GetModel();
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeStopLogicCommand { get; private set; }
 		void OnChangeStopLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.StopLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.StopLogic = deviceLogicViewModel.GetModel();
@@ -140,7 +140,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeAutomaticOffLogicCommand { get; private set; }
 		void OnChangeAutomaticOffLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(XManager.DeviceConfiguration.RootDevice, PumpStation.AutomaticOffLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				PumpStation.AutomaticOffLogic = deviceLogicViewModel.GetModel();

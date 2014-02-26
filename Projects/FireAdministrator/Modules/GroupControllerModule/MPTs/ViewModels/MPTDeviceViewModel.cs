@@ -31,7 +31,11 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
-			MPTDeviceType = MPTDevice.MPTDeviceType;
+			if (HasHoldOrDelay)
+			{
+				Delay = Delay;
+				Hold = Hold;
+			}
 		}
 
 		public string PresentationZone
@@ -46,16 +50,13 @@ namespace GKModule.ViewModels
 
 		public ObservableCollection<MPTDeviceType> AvailableMPTDeviceTypes { get; private set; }
 
-		MPTDeviceType _mptDeviceType;
 		public MPTDeviceType MPTDeviceType
 		{
-			get { return _mptDeviceType; }
+			get { return MPTDevice.MPTDeviceType; }
 			set
 			{
-				_mptDeviceType = value;
-				OnPropertyChanged("MPTDeviceType");
-
 				MPTDevice.MPTDeviceType = value;
+				OnPropertyChanged("MPTDeviceType");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -66,9 +67,55 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.Description = value;
+				Device.OnChanged();
 				OnPropertyChanged("Description");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public bool HasHoldOrDelay
+		{
+			get { return Device.DriverType != XDriverType.RSR2_AM_1; }
+		}
+
+		public int Delay
+		{
+			get { return MPTDevice.Delay; }
+			set
+			{
+				MPTDevice.Delay = value;
+				OnPropertyChanged("Delay");
+				SetDeviceProperty("Задержка на включение, с", value);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public int Hold
+		{
+			get { return MPTDevice.Hold; }
+			set
+			{
+				MPTDevice.Hold = value;
+				OnPropertyChanged("Hold");
+				SetDeviceProperty("Время удержания, с", value);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		void SetDeviceProperty(string propertyName, int value)
+		{
+			var property = Device.Properties.FirstOrDefault(x => x.Name == propertyName);
+			if (property == null)
+			{
+				property = new XProperty()
+				{
+					Name = propertyName,
+					DriverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == propertyName)
+				};
+				Device.Properties.Add(property);
+			}
+			property.Value = (ushort)value;
+			Device.OnChanged();
 		}
 	}
 }
