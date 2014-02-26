@@ -1,5 +1,11 @@
 ﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
+using FiresecClient;
+using System.Linq;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -13,12 +19,15 @@ namespace SKDModule.ViewModels
 		{
 			Device = device;
 			Title = "Свойства считывателя " + Device.Name;
-			if (Device.SKDReaderProperty == null)
-				Device.SKDReaderProperty = new SKDReaderProperty();
+
+			SelectCameraCommand = new RelayCommand(OnSelectCamera);
+			RemoveCameraCommand = new RelayCommand(OnRemoveCamera, CanRemove);
 
 			DUControl = new SKDReaderDUPropertyViewModel(Device.SKDReaderProperty.DUControl);
 			DUConversation = new SKDReaderDUPropertyViewModel(Device.SKDReaderProperty.DUConversation);
 			VerificationTime = Device.SKDReaderProperty.VerificationTime;
+
+			Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == Device.CameraUID);
 		}
 
 		int _verificationTime;
@@ -32,11 +41,43 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		Camera _camera;
+		public Camera Camera
+		{
+			get { return _camera; }
+			set
+			{
+				_camera = value;
+				OnPropertyChanged("Camera");
+			}
+		}
+
+		public RelayCommand SelectCameraCommand { get; private set; }
+		void OnSelectCamera()
+		{
+			var cameraSelectationViewModel = new CameraSelectationViewModel(Camera);
+			if (DialogService.ShowModalWindow(cameraSelectationViewModel))
+			{
+				Camera = cameraSelectationViewModel.SelectedCamera;
+			}
+		}
+
+		public RelayCommand RemoveCameraCommand { get; private set; }
+		void OnRemoveCamera()
+		{
+			Camera = null;
+		}
+		bool CanRemove()
+		{
+			return Camera != null;
+		}
+
 		protected override bool Save()
 		{
 			DUControl.Save();
 			DUConversation.Save();
 			Device.SKDReaderProperty.VerificationTime = VerificationTime;
+			Device.CameraUID = Camera == null ? Guid.Empty : Camera.UID;
 			return true;
 		}
 	}

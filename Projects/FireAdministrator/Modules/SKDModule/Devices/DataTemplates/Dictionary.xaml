@@ -16,6 +16,10 @@
         <Views:ReaderDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:CameraSelectationViewModel}">
+        <Views:CameraSelectationView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
         <Views:ZoneSelectationView />
     </DataTemplate>

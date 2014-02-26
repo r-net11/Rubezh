@@ -63,9 +63,13 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="Devices\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ReaderDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ZoneSelectationViewModel.cs" />
+    <Compile Include="Devices\Views\CameraSelectationView.xaml.cs">
+      <DependentUpon>CameraSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\ReaderDetailsView.xaml.cs">
       <DependentUpon>ReaderDetailsView.xaml</DependentUpon>
     </Compile>
@@ -343,6 +347,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\CameraSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

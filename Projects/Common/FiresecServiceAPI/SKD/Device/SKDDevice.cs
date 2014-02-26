@@ -61,6 +61,9 @@ namespace FiresecAPI
 		[DataMember]
 		public SKDReaderProperty SKDReaderProperty { get; set; }
 
+		[DataMember]
+		public Guid CameraUID { get; set; }
+
 		public bool IsRealDevice
 		{
 			get
