@@ -140,6 +140,7 @@
     <Compile Include="Events\ShowXDelayEvent.cs" />
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
     <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
+    <Compile Include="Events\ShowXMPTEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />

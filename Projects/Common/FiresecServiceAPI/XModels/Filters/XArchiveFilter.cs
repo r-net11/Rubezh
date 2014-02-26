@@ -24,6 +24,7 @@ namespace XFiresecAPI
 			DelayUIDs = new List<Guid>();
 			PimUIDs = new List<Guid>();
 			PumpStationUIDs = new List<Guid>();
+			MPTUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -58,6 +59,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<Guid> PumpStationUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> MPTUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> DelayUIDs { get; set; }

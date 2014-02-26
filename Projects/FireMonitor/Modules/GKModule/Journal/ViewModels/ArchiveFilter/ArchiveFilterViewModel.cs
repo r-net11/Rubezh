@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 			InitializeDescriptions(archiveFilter);
 			InitializeSubsystemTypes(archiveFilter);
 			InitializePumpStations(archiveFilter);
+			InitializeMPTs(archiveFilter);
 			InitializePIMs(archiveFilter);
 		}
 
@@ -48,6 +49,7 @@ namespace GKModule.ViewModels
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.System));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Zone));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.PumpStation));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.MPT));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Delay));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Pim));
 			foreach (var journalItemType in archiveFilter.JournalItemTypes)
@@ -170,9 +172,9 @@ namespace GKModule.ViewModels
 		void InitializePumpStations(XArchiveFilter archiveFilter)
 		{
 			PumpStations = new CheckBoxItemList<ArchivePumpStationViewModel>();
-			foreach (var direction in XManager.PumpStations)
+			foreach (var pumpStation in XManager.PumpStations)
 			{
-				var archiveDirectionViewModel = new ArchivePumpStationViewModel(direction);
+				var archiveDirectionViewModel = new ArchivePumpStationViewModel(pumpStation);
 				PumpStations.Add(archiveDirectionViewModel);
 			}
 			foreach (var uid in archiveFilter.PumpStationUIDs)
@@ -181,6 +183,24 @@ namespace GKModule.ViewModels
 				if (pumpStation != null)
 				{
 					pumpStation.IsChecked = true;
+				}
+			}
+		}
+
+		void InitializeMPTs(XArchiveFilter archiveFilter)
+		{
+			MPTs = new CheckBoxItemList<ArchiveMPTViewModel>();
+			foreach (var mpt in XManager.MPTs)
+			{
+				var archiveDirectionViewModel = new ArchiveMPTViewModel(mpt);
+				MPTs.Add(archiveDirectionViewModel);
+			}
+			foreach (var uid in archiveFilter.MPTUIDs)
+			{
+				var mpt = MPTs.Items.FirstOrDefault(x => x.MPT.BaseUID == uid);
+				if (mpt != null)
+				{
+					mpt.IsChecked = true;
 				}
 			}
 		}
@@ -360,6 +380,7 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList<ArchiveDescriptionViewModel> ArchiveDescriptions { get; private set; }
 		public CheckBoxItemList<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public CheckBoxItemList<ArchivePumpStationViewModel> PumpStations { get; private set; }
+		public CheckBoxItemList<ArchiveMPTViewModel> MPTs { get; private set; }
 		public CheckBoxItemList<ArchivePimViewModel> PIMs { get; private set; }
 		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
@@ -417,6 +438,11 @@ namespace GKModule.ViewModels
 				if (pumpStation.IsChecked)
 					archiveFilter.PumpStationUIDs.Add(pumpStation.PumpStation.UID);
 			}
+			foreach (var mpt in MPTs.Items)
+			{
+				if (mpt.IsChecked)
+					archiveFilter.MPTUIDs.Add(mpt.MPT.BaseUID);
+			}
 			foreach (var pim in PIMs.Items)
 			{
 				if (pim.IsChecked)
@@ -438,6 +464,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(()=>ArchiveDescriptions);
 			OnPropertyChanged(()=>SubsystemTypes);
 			OnPropertyChanged(()=>PumpStations);
+			OnPropertyChanged(() => MPTs);
 			OnPropertyChanged(()=>PIMs);
 		}
 

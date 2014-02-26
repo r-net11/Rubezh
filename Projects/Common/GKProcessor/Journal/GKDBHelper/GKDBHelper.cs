@@ -280,6 +280,7 @@ namespace GKProcessor
 			objectUIDs.AddRange(archiveFilter.DelayUIDs);
 			objectUIDs.AddRange(archiveFilter.PimUIDs);
 			objectUIDs.AddRange(archiveFilter.PumpStationUIDs);
+			objectUIDs.AddRange(archiveFilter.MPTUIDs);
 			if (objectUIDs.Count > 0)
 			{
 				int index = 0;

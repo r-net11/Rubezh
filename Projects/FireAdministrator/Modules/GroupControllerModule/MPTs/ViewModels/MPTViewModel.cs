@@ -1,13 +1,12 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure;
-using FiresecClient;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

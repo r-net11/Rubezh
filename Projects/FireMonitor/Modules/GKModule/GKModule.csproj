@@ -101,8 +101,21 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveMPTViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
+    <Compile Include="MPTs\Views\MPTDetailsView.xaml.cs">
+      <DependentUpon>MPTDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MPTs\Views\MPTsView.xaml.cs">
+      <DependentUpon>MPTsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MPTs\Views\MPTToolTipView.xaml.cs">
+      <DependentUpon>MPTToolTipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
@@ -335,6 +348,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MPTs\Views\MPTDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPTs\Views\MPTsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MPTs\Views\MPTToolTipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PIMs\Views\PimDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -483,10 +508,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MPTs\ViewModels\" />
-    <Folder Include="MPTs\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -302,6 +302,33 @@
 
             <TabItem>
                 <TabItem.Header>
+                    <TextBlock Text="МПТ" Foreground="White" FontWeight="Bold">
+                        <TextBlock.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="True">
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </TabItem.Header>
+                <ListBox ItemsSource="{Binding MPTs.Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/BAlarm_shield.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
                     <TextBlock Text="ПИМ" Foreground="White" FontWeight="Bold">
                         <TextBlock.Style>
                             <Style>

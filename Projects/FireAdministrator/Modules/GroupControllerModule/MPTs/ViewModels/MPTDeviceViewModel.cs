@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Shapes;
-using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows;
-using Infrastructure.Events;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
-using XFiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
