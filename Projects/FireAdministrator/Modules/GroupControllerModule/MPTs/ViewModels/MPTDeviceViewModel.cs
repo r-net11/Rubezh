@@ -18,9 +18,12 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
-			if (HasHoldOrDelay)
+			if (HasDelay)
 			{
 				Delay = Delay;
+			}
+			if (HasHold)
+			{
 				Hold = Hold;
 			}
 		}
@@ -60,9 +63,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool HasHoldOrDelay
+		public bool HasDelay
 		{
 			get { return Device.DriverType != XDriverType.RSR2_AM_1; }
+		}
+
+		public bool HasHold
+		{
+			get { return Device.DriverType == XDriverType.RSR2_MVK8; }
 		}
 
 		public int Delay

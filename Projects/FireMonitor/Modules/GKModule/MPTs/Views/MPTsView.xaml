@@ -28,11 +28,11 @@
 				    </Style>
 			    </DataGrid.ItemContainerStyle>
 			    <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="НС">
+                    <DataGridTemplateColumn Width="*" MinWidth="250" Header="МПТ">
 					    <DataGridTemplateColumn.CellTemplate>
 						    <DataTemplate>
 							    <StackPanel Orientation="Horizontal">
-                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BAlarm_shield.png" VerticalAlignment="Center" />
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
                                     <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
                                     <TextBlock Width="200" Text="{Binding MPT.PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									    <TextBlock.ContextMenu>
@@ -56,16 +56,6 @@
                             </DataTemplate>
 					    </DataGridTemplateColumn.CellTemplate>
 				    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Время тушения" Width="Auto" MinWidth="100">
-					    <DataGridTemplateColumn.CellTemplate>
-						    <DataTemplate>
-                                <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
-                                    <TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
-                                    <TextBlock Text="сек" Margin="2" />
-                                </StackPanel>
-						    </DataTemplate>
-					    </DataGridTemplateColumn.CellTemplate>
-				    </DataGridTemplateColumn>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
@@ -79,7 +69,7 @@
                     </Style>
                 </DataGrid.RowStyle>
 		    </DataGrid>
-            <DataGrid Grid.Column="1" ItemsSource="{Binding Pumps}" DataContext="{Binding SelectedMPT}" Margin="2">
+            <DataGrid Grid.Column="1" ItemsSource="{Binding Devices}" DataContext="{Binding SelectedMPT}" Margin="2">
                 <DataGrid.Resources>
                     <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                         <MouseBinding Command="{Binding DataContext.SelectedPump.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -91,7 +81,7 @@
                     </Style>
                 </DataGrid.ItemContainerStyle>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Насосы" MinWidth="150" Width="150">
+                    <DataGridTemplateColumn Header="Устройства" MinWidth="150" Width="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Views:DeviceView Margin="2 0" />
@@ -105,7 +95,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding PresentationZoneWithNS}" Header="Дополнительное условие включения" MinWidth="100" Width="*" />
+                    <DataGridTextColumn Binding="{Binding Device.Description}" Header="Описание" MinWidth="100" Width="*" />
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
@@ -126,14 +116,6 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
                     <TextBlock Text="{Binding StartPresentationName}" VerticalAlignment="Center" Margin="2" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Условие для останова или запрета пуска" FontWeight="Bold" Width="250" Margin="5 2" />
-                    <TextBlock Text="{Binding StopPresentationName}" VerticalAlignment="Center" Margin="2" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Условие для отключения автоматики" FontWeight="Bold" Width="250" Margin="5 2" />
-                    <TextBlock Text="{Binding AutomaticOffPresentationName}" VerticalAlignment="Center" Margin="2" />
                 </StackPanel>
             </StackPanel>
         </Border>

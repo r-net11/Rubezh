@@ -224,7 +224,7 @@ namespace FiresecClient
 					mpt.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 
-				var outputDevice = mpt.NSDevices.FirstOrDefault();
+				var outputDevice = mpt.Devices.FirstOrDefault();
 				if (outputDevice != null)
 				{
 					mpt.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);

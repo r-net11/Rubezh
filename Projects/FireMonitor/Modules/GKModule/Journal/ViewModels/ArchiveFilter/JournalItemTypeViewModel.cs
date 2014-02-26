@@ -42,6 +42,9 @@ namespace GKModule.ViewModels
 					case JournalItemType.PumpStation:
 						return "/Controls;component/Images/BPumpStation.png";
 
+					case JournalItemType.MPT:
+						return "/Controls;component/Images/BMPT.png";
+
 					case JournalItemType.Delay:
 						return "/Controls;component/Images/Delay.png";
 
@@ -49,7 +52,7 @@ namespace GKModule.ViewModels
 						return "/Controls;component/Images/Pim.png";
 
 					default:
-						return "";
+						return null;
 
 				}
 			}

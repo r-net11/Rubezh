@@ -58,8 +58,8 @@ namespace GKModule.Validation
 
 		void ValidateMPTHasNoLogic(XMPT mpt)
 		{
-			if (mpt.StartLogic.Clauses.Count == 0)
-				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения", ValidationErrorLevel.CannotWrite));
+			if (mpt.StartLogic.Clauses.Count + mpt.MPTDevices.Count(x=>x.MPTDeviceType == MPTDeviceType.HandStart) == 0)
+				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения и устройства ручного пуска", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateMPTSameDevices(XMPT mpt)

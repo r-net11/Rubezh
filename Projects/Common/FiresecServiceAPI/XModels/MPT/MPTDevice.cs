@@ -36,6 +36,9 @@ namespace XFiresecAPI
 			switch (driverType)
 			{
 				case XDriverType.RSR2_MVK8:
+					result.Add(MPTDeviceType.DoNotEnterBoard);
+					result.Add(MPTDeviceType.ExitBoard);
+					result.Add(MPTDeviceType.AutomaticOffBoard);
 					result.Add(MPTDeviceType.Bomb);
 					break;
 

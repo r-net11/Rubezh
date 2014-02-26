@@ -74,6 +74,10 @@ namespace GKProcessor
 			{
 				CheckDelay(pumpStation);
 			}
+			foreach (var mpt in XManager.MPTs)
+			{
+				CheckDelay(mpt);
+			}
 			foreach (var delay in XManager.Delays)
 			{
 				CheckDelay(delay);
@@ -232,6 +236,14 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_НС;
 				}
 			}
+			if (xBase is XMPT)
+			{
+				if (descriptorStateHelper.TypeNo != 0x106)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_НС;
+				}
+			}
 			if (xBase is XDelay)
 			{
 				if (descriptorStateHelper.TypeNo != 0x101)
@@ -322,6 +334,13 @@ namespace GKProcessor
 				if (pumpStation.GkDatabaseParent == gkDevice)
 				{
 					OnObjectStateChanged(pumpStation);
+				}
+			}
+			foreach (var mpt in XManager.MPTs)
+			{
+				if (mpt.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(mpt);
 				}
 			}
 			foreach (var delay in XManager.Delays)

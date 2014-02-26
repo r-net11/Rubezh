@@ -15,7 +15,16 @@
             </Grid.ColumnDefinitions>
             <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Width="*" Binding="{Binding MPT.Name}" />
+                    <DataGridTemplateColumn Header="Название" MinWidth="250" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
+                                    <TextBlock Width="200" Text="{Binding MPT.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </Controls:XDataGrid>
 
@@ -67,13 +76,13 @@
                             <TextBox Text="{Binding Description}" Width="200" Margin="2" />
                         </StackPanel>
 
-                        <StackPanel Visibility="{Binding HasHoldOrDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasHold, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
                             </StackPanel>
@@ -113,6 +122,7 @@
 
 
                     <CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
+                    <CheckBox IsChecked="{Binding UseDoorStop}" Content="Останавливать при срабатывании датчика двери-окна" Margin="2" />
                     <CheckBox IsChecked="{Binding UseFailureAutomatic}" Content="Отключать автоматику при неисправности любого устройства" Margin="2" />
 
                 </StackPanel>

@@ -18,7 +18,7 @@ namespace XFiresecAPI
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDirection> InputDirections { get; set; }
-		public List<XDevice> NSDevices { get; set; }
+		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -42,13 +42,16 @@ namespace XFiresecAPI
 		public bool UseDoorAutomatic { get; set; }
 
 		[DataMember]
+		public bool UseDoorStop { get; set; }
+
+		[DataMember]
 		public bool UseFailureAutomatic { get; set; }
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.MPT; } }
 
 		public override string PresentationName
 		{
-			get { return "M" + "." + Name; }
+			get { return "MПТ" + "." + Name; }
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace GKModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/BAlarm_shield.png"; }
+			get { return "/Controls;component/Images/BMPT.png"; }
 		}
 	}
 }

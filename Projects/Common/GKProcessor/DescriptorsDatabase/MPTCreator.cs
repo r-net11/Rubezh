@@ -61,6 +61,12 @@ namespace GKProcessor
 					formula.AddGetBit(XStateBit.Norm, mptDevice.Device);
 					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный устройства");
 					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, mptDevice.Device);
+
+					formula.AddGetBit(XStateBit.Off, MPT);
+					formula.AddGetBit(XStateBit.Norm, mptDevice.Device);
+					formula.Add(FormulaOperationType.AND);
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, mptDevice.Device);
+
 					formula.Add(FormulaOperationType.END);
 					deviceDescriptor.Formula = formula;
 					deviceDescriptor.FormulaBytes = formula.GetBytes();

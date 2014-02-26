@@ -40,13 +40,6 @@
                         <TextBlock Text="Сек" FontSize="24" Margin="2" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock Text="Время тушения" Margin="2" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding State.HoldDelay}" FontSize="24" Margin="2" />
-                        <TextBlock Text="Сек" FontSize="24" Margin="2" />
-                    </StackPanel>
-                </StackPanel>
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">
@@ -58,7 +51,7 @@
                                 <TextBlock>
 				                    <Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
                                         <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Source="/Controls;component/Images/BAlarm_shield.png" Margin="2 0" />
+                                            <Image Width="16" Source="/Controls;component/Images/BMPT.png" Margin="2 0" />
                                             <TextBlock Text="{Binding MPT.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
                                         </StackPanel>
                                     </Hyperlink>
@@ -113,18 +106,6 @@
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Задержка: " Margin="2" />
                                 <TextBlock Text="{Binding MPT.Delay}" Margin="2" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Время тушения: " Margin="2" />
-                                <TextBlock Text="{Binding MPT.Hold}" Margin="2" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Количество основных насосов: " Margin="2" />
-                                <TextBlock Text="{Binding MPT.NSPumpsCount}" Margin="2" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Время разновременного пуска: " Margin="2" />
-                                <TextBlock Text="{Binding MPT.NSDeltaTime}" Margin="2" />
                             </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>

@@ -35,6 +35,7 @@ namespace GKModule.ViewModels
 		public XZone Zone;
 		public XDirection Direction;
 		public XPumpStation PumpStation;
+		public XMPT MPT;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; set; }
 		public object Clone()
@@ -80,6 +81,16 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.PumpStation;
+		}
+
+		public ObjectViewModel(XMPT mpt)
+		{
+			MPT = mpt;
+			Name = mpt.PresentationName;
+			ImageSource = "/Controls;component/Images/BMPT.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.MPT;
 		}
 
 		int IComparable.CompareTo(object a)
@@ -139,6 +150,10 @@ namespace GKModule.ViewModels
 				if (object1.PumpStation.No < object2.PumpStation.No)
 					return -1;
 			}
+			if (object1.ObjectType == ObjectType.MPT)
+			{
+				return string.Compare(object1.MPT.Name, object2.MPT.Name);
+			}
 			return 0;
 		}
 	}
@@ -148,6 +163,7 @@ namespace GKModule.ViewModels
 		Device = 0,
 		Zone = 1,
 		Direction = 2,
-		PumpStation = 3
+		PumpStation = 3,
+		MPT = 4
 	}
 }

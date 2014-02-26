@@ -146,6 +146,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public bool UseDoorStop
+		{
+			get { return MPT.UseDoorStop; }
+			set
+			{
+				MPT.UseDoorStop = value;
+				OnPropertyChanged("UseDoorStop");
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
 		public bool UseFailureAutomatic
 		{
 			get { return MPT.UseFailureAutomatic; }

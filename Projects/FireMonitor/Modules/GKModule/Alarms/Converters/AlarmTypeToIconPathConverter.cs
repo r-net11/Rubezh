@@ -11,7 +11,7 @@ namespace GKModule.Converters
 			switch ((XAlarmType) value)
             {
 				case XAlarmType.NPTOn:
-                    return "/Controls;component/Images/Alarm_shield.png";
+                    return "/Controls;component/Images/Alarm_MPT.png";
 
 				case XAlarmType.Fire1:
                     return "/Controls;component/Images/Alarm_Main_0_Fire1.png";

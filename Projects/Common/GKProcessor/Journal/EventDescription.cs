@@ -67,6 +67,9 @@ namespace GKProcessor
 		[DescriptionAttribute("Не совпадает тип для НС")]
 		Не_совпадает_тип_для_НС,
 
+		[DescriptionAttribute("Не совпадает тип для МПТ")]
+		Не_совпадает_тип_для_МПТ,
+
 		[DescriptionAttribute("Не совпадает тип для Задержки")]
 		Не_совпадает_тип_для_Задержки,
 

@@ -148,6 +148,15 @@ namespace GKModule
                     pumpStation.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteMPTState in gkStates.MPTStates)
+			{
+				var mpt = XManager.MPTs.FirstOrDefault(x => x.BaseUID == remoteMPTState.UID);
+				if (mpt != null)
+				{
+					remoteMPTState.CopyTo(mpt.State);
+					mpt.State.OnStateChanged();
+				}
+			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
 				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);

@@ -12,6 +12,7 @@ namespace XFiresecAPI
 			ZoneStates = new List<XState>();
 			DirectionStates = new List<XState>();
 			PumpStationStates = new List<XState>();
+			MPTStates = new List<XState>();
 			DelayStates = new List<XState>();
 			PimStates = new List<XState>();
 			DeviceMeasureParameters = new List<XDeviceMeasureParameters>();
@@ -28,6 +29,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XState> PumpStationStates { get; set; }
+
+		[DataMember]
+		public List<XState> MPTStates { get; set; }
 
 		[DataMember]
 		public List<XState> DelayStates { get; set; }

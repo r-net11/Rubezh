@@ -26,11 +26,11 @@ namespace GKModule.ViewModels
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 
-			Pumps = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in MPT.NSDevices)
+			Devices = new ObservableCollection<DeviceViewModel>();
+			foreach (var device in MPT.Devices)
 			{
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);
-				Pumps.Add(deviceViewModel);
+				Devices.Add(deviceViewModel);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("HasHoldDelay");
 		}
 
-		public ObservableCollection<DeviceViewModel> Pumps { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
@@ -62,10 +62,6 @@ namespace GKModule.ViewModels
 		public bool HasOnDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
-		}
-		public bool HasHoldDelay
-		{
-			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public string StartPresentationName

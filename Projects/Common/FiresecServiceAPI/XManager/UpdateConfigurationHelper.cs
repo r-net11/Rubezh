@@ -113,7 +113,7 @@ namespace FiresecClient
 				mpt.InputZones = new List<XZone>();
 				mpt.InputDevices = new List<XDevice>();
 				mpt.InputDirections = new List<XDirection>();
-				mpt.NSDevices = new List<XDevice>();
+				mpt.Devices = new List<XDevice>();
 			}
 		}
 
@@ -302,7 +302,7 @@ namespace FiresecClient
 						mptDevice.Device = device;
 						mptDevices.Add(mptDevice);
 						device.IsInMPT = true;
-						mpt.NSDevices.Add(device);
+						mpt.Devices.Add(device);
 					}
 				}
 				mpt.MPTDevices = mptDevices;

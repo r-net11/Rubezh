@@ -467,6 +467,10 @@ namespace GKProcessor
 				{
 					gkStates.PumpStationStates.Add(xBase.State);
 				}
+				if (xBase is XMPT)
+				{
+					gkStates.MPTStates.Add(xBase.State);
+				}
 				if (xBase is XDelay)
 				{
 					xBase.State.PresentationName = xBase.PresentationName;
