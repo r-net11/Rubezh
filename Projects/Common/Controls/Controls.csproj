@@ -709,7 +709,6 @@
     <Resource Include="StateIcons\Service.png" />
     <Resource Include="StateIcons\Unknown.png" />
     <Resource Include="Images\Alarm_MPT.png" />
-    <Resource Include="Images\Alarm_shield.png" />
     <Resource Include="StateIcons\No.png" />
     <Resource Include="Images\write.png" />
     <Resource Include="Images\read.png" />
