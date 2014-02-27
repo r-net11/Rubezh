@@ -301,7 +301,7 @@ namespace GKModule.ViewModels
 							message = "Устройство " + device.PresentationName +
 								"\nЗначение параметра\n" +
 								driverProperty.Caption +
-								"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() + 
+								"\nдолжно быть целым числом в диапазоне от " + driverProperty.Min.ToString() +
 								" до " + driverProperty.Max.ToString();
 						}
 						MessageBoxService.Show(message, "Firesec");
@@ -489,6 +489,11 @@ namespace GKModule.ViewModels
 				return true;
 			MessageBoxService.ShowError("Конфигурации различны. Операция запрещена");
 			return false;
+		}
+
+		public bool IsParamtersEnabled
+		{
+			get { return !Device.IsInMPT; }
 		}
 	}
 }

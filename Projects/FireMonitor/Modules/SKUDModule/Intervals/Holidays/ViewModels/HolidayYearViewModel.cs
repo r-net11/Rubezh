@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -24,7 +25,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			var employeeHolidays = new List<EmployeeHoliday>();
 
 			OrganisationHolidays = new ObservableCollection<OrganisationHolidaysYearViewModel>();

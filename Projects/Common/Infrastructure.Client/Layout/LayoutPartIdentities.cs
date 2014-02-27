@@ -15,6 +15,8 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
 		public static readonly Guid Zones = new Guid("{753B008A-D326-4A1D-B67D-DAE7A4A6CD1B}");
 		public static readonly Guid Directions = new Guid("{020501DC-00A7-4EA7-B251-D4C98B7C796F}");
+		public static readonly Guid PumpStations = new Guid("{C96EB8B0-E6DA-482c-B19C-3BD862768713}");
+		public static readonly Guid MPTs = new Guid("{BE50C86B-75C2-4850-8894-A325B14F946A}");
 		public static readonly Guid Journals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
 		public static readonly Guid Archive = new Guid("{B8202F86-5ADD-4AB2-AAED-CBC10505E25A}");
 		public static readonly Guid Plans = new Guid("{61333BFC-6B02-467F-A2BA-E57E748908AC}");

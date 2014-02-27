@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -26,7 +27,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			var employeeWeeklyIntervals = new List<EmployeeWeeklyInterval>();
 
 			OrganisationWeeklyIntervals = new ObservableCollection<OrganisationWeeklyIntervalsViewModel>();

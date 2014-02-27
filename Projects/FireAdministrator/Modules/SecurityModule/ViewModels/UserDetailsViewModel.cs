@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using FiresecAPI;
 using System;
+using FiresecClient.SKDHelpers;
 
 namespace SecurityModule.ViewModels
 {
@@ -44,7 +45,7 @@ namespace SecurityModule.ViewModels
 
 			CopyProperties();
 
-			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			foreach (var organisation in organisations)
 			{

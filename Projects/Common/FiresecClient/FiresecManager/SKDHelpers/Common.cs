@@ -20,7 +20,7 @@ namespace FiresecClient.SKDHelpers
 		}
 
 		public static T ShowErrorIfExists<T>(OperationResult<T> operationResult)
-			where T:class
+			where T : class
 		{
 			if (operationResult.HasError)
 			{

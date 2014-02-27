@@ -81,10 +81,18 @@ namespace GKModule.ViewModels
 				mptDevice.DeviceUID = mptDevice.Device.UID;
 				mptDevice.MPTDeviceType = MPTDevice.GetAvailableMPTDeviceTypes(mptDevice.Device.DriverType).FirstOrDefault();
 
-				var deviceViewModel = new MPTDeviceViewModel(mptDevice);
-				Devices.Add(deviceViewModel);
-				SelectedDevice = deviceViewModel;
+				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
+				Devices.Add(mptDeviceViewModel);
+				SelectedDevice = mptDeviceViewModel;
 				MPT.MPTDevices.Add(mptDevice);
+
+				UpdateConfigurationHelper.CopyMPTProperty(mptDevice);
+				mptDevice.Device.OnChanged();
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == mptDevice.Device.UID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.UpdateProperties();
+				}
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -92,9 +100,10 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Devices.Remove(SelectedDevice);
+			SelectedDevice.MPTDevice.Device.IsInMPT = false;
+			SelectedDevice.MPTDevice.Device.OnChanged();
 			MPT.MPTDevices.Remove(SelectedDevice.MPTDevice);
-			SelectedDevice.MPTDevice.Device.IsInMPT = true;
+			Devices.Remove(SelectedDevice);
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()

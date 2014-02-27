@@ -5,6 +5,7 @@ using System.Text;
 using FiresecAPI;
 using Infrastructure.Common.CheckBoxList;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -14,12 +15,15 @@ namespace SKDModule.ViewModels
 		public OrganizationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
-			var organizations = FiresecManager.GetOrganizations(null);
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			Organizations = new CheckBoxItemList<FilterOrganizationViewModel>();
-			foreach (var organization in organizations)
+			if (organisations != null)
 			{
-				if (FiresecManager.CurrentUser.OrganisationUIDs.Contains(organization.UID))
-					Organizations.Add(new FilterOrganizationViewModel(organization));
+				foreach (var organisation in organisations)
+				{
+					if (FiresecManager.CurrentUser.OrganisationUIDs.Contains(organisation.UID))
+						Organizations.Add(new FilterOrganizationViewModel(organisation));
+				}
 			}
 
 			foreach (var organization in Organizations.Items)

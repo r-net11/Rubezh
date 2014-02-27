@@ -32,10 +32,15 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter());
-			Organisations = new ObservableCollection<OrganisationViewModel>(
-				from organisation in organisations
-				orderby organisation.Name
-				select new OrganisationViewModel(organisation));
+			Organisations = new ObservableCollection<OrganisationViewModel>();
+			if (organisations != null)
+			{
+				foreach (var organisation in organisations)
+				{
+					var organisationViewModel = new OrganisationViewModel(organisation);
+					Organisations.Add(organisationViewModel);
+				}
+			}
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 

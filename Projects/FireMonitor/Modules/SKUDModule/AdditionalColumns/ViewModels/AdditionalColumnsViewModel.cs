@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using FiresecClient;
 using System;
 using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			var organisations = FiresecManager.GetOrganizations(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			//var additionalColumns = FiresecManager.GetAdditionalColumns(null);
 			var additionalColumns = new List<AdditionalColumn>();
 

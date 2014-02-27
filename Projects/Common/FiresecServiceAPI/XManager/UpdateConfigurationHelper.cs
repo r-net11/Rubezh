@@ -527,16 +527,71 @@ namespace FiresecClient
 			{
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					switch(mptDevice.MPTDeviceType)
-					{
-						case MPTDeviceType.AutomaticOffBoard:
-						case MPTDeviceType.DoNotEnterBoard:
-						case MPTDeviceType.ExitBoard:
-						case MPTDeviceType.Speaker:
-							break;
-					}
+					CopyMPTProperty(mptDevice);
 				}
 			}
+		}
+
+		public static void CopyMPTProperty(MPTDevice mptDevice)
+		{
+			if (mptDevice.Device != null)
+			{
+				mptDevice.Device.IsInMPT = true;
+				mptDevice.Device.DeviceLogic = new XDeviceLogic();
+
+				switch (mptDevice.Device.DriverType)
+				{
+					case XDriverType.RSR2_AM_1:
+						SetDeviceProperty(mptDevice.Device, "Конфигурация", 1);
+						break;
+
+					case XDriverType.RSR2_OPS:
+					case XDriverType.RSR2_OPZ:
+					case XDriverType.RSR2_OPK:
+						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
+						SetDeviceProperty(mptDevice.Device, "Время удержания, с", 65000);
+						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние для модуля Выключено", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние для режима Удержания", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние для режима Включено", 0);
+						break;
+
+					case XDriverType.RSR2_MVK8:
+						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
+						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
+						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(mptDevice.Device, "Контроль", 3);
+						SetDeviceProperty(mptDevice.Device, "Норма питания, 0.1В", 80);
+						break;
+
+					case XDriverType.RSR2_RM_1:
+						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
+						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
+						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
+						break;
+				}
+			}
+		}
+
+		static void SetDeviceProperty(XDevice device, string propertyName, int value)
+		{
+			var property = device.Properties.FirstOrDefault(x => x.Name == propertyName);
+			if (property == null)
+			{
+				property = new XProperty()
+				{
+					Name = propertyName,
+					DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == propertyName)
+				};
+				device.Properties.Add(property);
+			}
+			property.Value = (ushort)value;
 		}
 	}
 }
