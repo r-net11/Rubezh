@@ -239,6 +239,7 @@
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyntervalPart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeShedulePart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSheduleType.cs" />
+    <Compile Include="SKD\GUDFilter.cs" />
     <Compile Include="SKD\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />

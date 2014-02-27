@@ -40,13 +40,19 @@ namespace SKDModule.ViewModels
 			StartDate = Card.ValidFrom;
 			EndDate = Card.ValidTo;
 
-			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID);
-			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones, Card.UID);
-			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones, Card.UID);
+			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID, ParentType.Card);
+			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones, Card.UID, ParentType.GUDAdditions);
+			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones, Card.UID, ParentType.GUDExceptons);
 
 			AvailableGUDs = new ObservableCollection<GUD>();
+			var guds = GUDHelper.Get(new GUDFilter());
+			if (guds != null)
+			{
+				foreach (var gud in guds)
+					AvailableGUDs.Add(gud);
+			}
+			
 			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUid);
-
 			StopListCards = new ObservableCollection<SKDCard>();
 			var stopListCards = CardHelper.GetStopListCards();
 			if (stopListCards == null)
@@ -130,6 +136,7 @@ namespace SKDModule.ViewModels
 			{
 				_useStopList = value;
 				OnPropertyChanged("UseStopList");
+				UpdateStopListCard();
 			}
 		}
 
@@ -142,12 +149,17 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedStopListCard = value;
-				if (UseStopList && value != null)
-				{
-					IDFamily = value.Series;
-					IDNo = value.Number;
-				}
 				OnPropertyChanged("SelectedStopListCard");
+				UpdateStopListCard();
+			}
+		}
+
+		void UpdateStopListCard()
+		{
+			if (UseStopList && SelectedStopListCard != null)
+			{
+				IDFamily = SelectedStopListCard.Series;
+				IDNo = SelectedStopListCard.Number;
 			}
 		}
 

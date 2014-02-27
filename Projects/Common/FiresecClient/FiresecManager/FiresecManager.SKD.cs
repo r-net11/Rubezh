@@ -24,10 +24,6 @@ namespace FiresecClient
 		{
 			return FiresecService.GetFrames(filter);
 		}
-		public static IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
-		{
-			return FiresecService.GetOrganizations(filter);
-		}
 		#endregion
 
 		#region Save
@@ -47,10 +43,6 @@ namespace FiresecClient
 		{
 			FiresecService.SaveFrames(frames);
 		}
-		public static void SaveOrganizations(IEnumerable<Organization> items)
-		{
-			FiresecService.SaveOrganizations(items);
-		}
 		#endregion
 
 		#region MarkDeleted
@@ -69,10 +61,6 @@ namespace FiresecClient
 		public static void MarkDeletedFrames(IEnumerable<Frame> frames)
 		{
 			FiresecService.MarkDeletedFrames(frames);
-		}
-		public static void MarkDeletedOrganizations(IEnumerable<Organization> items)
-		{
-			FiresecService.MarkDeletedOrganizations(items);
 		}
 		#endregion
 
@@ -108,14 +96,6 @@ namespace FiresecClient
 			var filter = new FrameFilter();
 			filter.Uids.Add((Guid)uid);
 			return FiresecService.GetFrames(filter).ToList().FirstOrDefault();
-		}
-		public static Organization GetOrganization(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var filter = new OrganizationFilter();
-			filter.Uids.Add((Guid)uid);
-			return FiresecService.GetOrganizations(filter).ToList().FirstOrDefault();
 		}
 		#endregion 
 

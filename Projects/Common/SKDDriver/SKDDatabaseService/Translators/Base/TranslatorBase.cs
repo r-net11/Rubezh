@@ -32,12 +32,11 @@ namespace SKDDriver
 			result.RemovalDate = tableItem.RemovalDate;
 			return result;
 		}
-		protected virtual TableT TranslateBack(ApiT apiItem)
+		TableT TranslateBack(ApiT apiItem)
 		{
 			var result = new TableT();
 			result.Uid = apiItem.UID;
-			result.IsDeleted = apiItem.IsDeleted;
-			result.RemovalDate = CheckDate(apiItem.RemovalDate);
+			Update(result, apiItem);
 			return result;
 		}
 		protected virtual void Update(TableT tableItem, ApiT apiItem)
@@ -110,6 +109,8 @@ namespace SKDDriver
 		{
 			try
 			{
+				if (items == null)
+					return new OperationResult();
 				foreach (var item in items)
 				{
 					if (item == null)

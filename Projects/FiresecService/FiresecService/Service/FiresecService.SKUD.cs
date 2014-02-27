@@ -7,8 +7,8 @@ using XFiresecAPI;
 
 namespace FiresecService.Service
 {
-    public partial class FiresecService : IFiresecService
-    {
+	public partial class FiresecService : IFiresecService
+	{
 		SKDDatabaseService _skdService = new SKDDatabaseService();
 		
 		#region IFiresecService Members
@@ -42,13 +42,17 @@ namespace FiresecService.Service
 		{
 			return _skdService.GetCardZones(filter);
 		}
-		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
 		{
 			return _skdService.GetOrganizations(filter);
 		}
 		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
 			return _skdService.GetDocuments(filter);
+		}
+		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
+		{
+			return _skdService.GetGUDs(filter);
 		}
 		#endregion
 
@@ -81,13 +85,17 @@ namespace FiresecService.Service
 		{
 			return _skdService.SaveCardZones(items);
 		}
-		public void SaveOrganizations(IEnumerable<Organization> items)
+		public OperationResult SaveOrganizations(IEnumerable<Organization> Organizations)
 		{
-			_skdService.SaveOrganizations(items);
+			return _skdService.SaveOrganizations(Organizations);
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return _skdService.SaveDocuments(items);
+		}
+		public OperationResult SaveGUDs(IEnumerable<GUD> items)
+		{
+			return _skdService.SaveGUDs(items);
 		}
 		#endregion
 
@@ -120,13 +128,17 @@ namespace FiresecService.Service
 		{
 			return _skdService.MarkDeletedCardZones(items);
 		}
-		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations)
 		{
-			_skdService.MarkDeletedOrganizations(items);
+			return _skdService.MarkDeletedOrganizations(Organizations);
 		}
 		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
 			return _skdService.MarkDeletedDocuments(items);
+		}
+		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
+		{
+			return _skdService.MarkDeletedGUDs(items);
 		}
 		#endregion
 		#endregion
@@ -212,5 +224,5 @@ namespace FiresecService.Service
 
 		}
 		#endregion
-    }
+	}
 }

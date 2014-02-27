@@ -24,7 +24,12 @@ namespace SKDDriver
 				x.Series == item.Series &&
 				x.Uid != item.UID);
 			if (sameSeriesNo)
-				return new OperationResult("Попытка добавления карты с совпадающей комбинацией серии и номера");
+				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
+			foreach (var cardZone in item.AdditionalGUDZones)
+			{
+				if(item.ExceptedGUDZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
+					return new OperationResult("Попытка добавить одну и ту же зону как исключение и как расширение ГУД");
+			}
 			return base.CanSave(item);
 		}
 
@@ -62,24 +67,13 @@ namespace SKDDriver
 			result.Series = tableItem.Series;
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
-			result.CardZones = CardZonesTranslator.Get(tableItem);
+			result.GUDUid = tableItem.GUDUid;
+			result.CardZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.Card);
+			result.AdditionalGUDZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.GUDAdditions);
+			result.ExceptedGUDZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.GUDExceptons);
 			result.IsAntipass = tableItem.IsAntipass;
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
-			return result;
-		}
-
-		protected override DataAccess.Card TranslateBack(SKDCard apiItem)
-		{
-			var result = base.TranslateBack(apiItem);
-			result.EmployeeUid = apiItem.HolderUid;
-			result.Number = apiItem.Number;
-			result.Series = apiItem.Series;
-			result.ValidFrom = CheckDate(apiItem.ValidFrom);
-			result.ValidTo = CheckDate(apiItem.ValidTo);
-			result.IsAntipass = apiItem.IsAntipass;
-			result.IsInStopList = apiItem.IsInStopList;
-			result.StopReason = apiItem.StopReason;
 			return result;
 		}
 
@@ -94,11 +88,12 @@ namespace SKDDriver
 			tableItem.IsAntipass = apiItem.IsAntipass;
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
+			tableItem.GUDUid = apiItem.GUDUid;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)
 		{
-			var updateZonesResult = CardZonesTranslator.UpdateZones(items);
+			var updateZonesResult = CardZonesTranslator.SaveFromCards(items);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
 			return base.Save(items);
