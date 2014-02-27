@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common;
-using DeviceControls;
 using FiresecAPI.Models;
 using FiresecClient;
-using VideoModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
+using VideoModule.Plans.Designer;
 using XFiresecAPI;
 
 namespace VideoModule.Plans

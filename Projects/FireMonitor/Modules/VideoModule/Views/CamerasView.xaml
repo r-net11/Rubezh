@@ -29,10 +29,10 @@
                                             <Style>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
-                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BStop.png"/>
+                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BStop.png" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
-                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BPlay.png"/>
+                                                        <Setter Property="Image.Source" Value="/Controls;component/Images/BPlay.png" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -43,10 +43,10 @@
                                             <Style>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
-                                                        <Setter Property="TextBlock.Text" Value="Остановить видео"/>
+                                                        <Setter Property="TextBlock.Text" Value="Остановить видео" />
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
-                                                        <Setter Property="TextBlock.Text" Value="Запустить видео"/>
+                                                        <Setter Property="TextBlock.Text" Value="Запустить видео" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
