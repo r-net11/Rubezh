@@ -42,12 +42,11 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override DataAccess.Position TranslateBack(Position apiItem)
+		protected override void Update(DataAccess.Position tableItem, Position apiItem)
 		{
-			var result = base.TranslateBack(apiItem);
-			result.Name = apiItem.Name;
-			result.Description = apiItem.Description;
-			return result;
+			base.Update(tableItem, apiItem);
+			tableItem.Name = apiItem.Name;
+			tableItem.Description = apiItem.Description;
 		}
 
 		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(PositionFilter filter)
@@ -58,13 +57,6 @@ namespace SKDDriver
 			if (names != null && names.Count != 0)
 				result = result.And(e => names.Contains(e.Name));
 			return result;
-		}
-
-		protected override void Update(DataAccess.Position tableItem, Position apiItem)
-		{
-			base.Update(tableItem, apiItem);
-			tableItem.Name = apiItem.Name;
-			tableItem.Description = apiItem.Description;
 		}
 	}
 }

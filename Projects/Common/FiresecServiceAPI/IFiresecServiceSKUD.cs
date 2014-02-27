@@ -25,9 +25,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter);
 		[OperationContract]
-		IEnumerable<Organization> GetOrganizations(OrganizationFilter filter);
+		OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter);
 		#endregion
 
 		#region Save
@@ -46,9 +48,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveCardZones(IEnumerable<CardZone> items);
 		[OperationContract]
-		void SaveOrganizations(IEnumerable<Organization> items);
+		OperationResult SaveOrganizations(IEnumerable<Organization> Organizations);
 		[OperationContract]
 		OperationResult SaveDocuments(IEnumerable<Document> items);
+		[OperationContract]
+		OperationResult SaveGUDs(IEnumerable<GUD> items);
 		#endregion
 
 		#region MarkDeleted
@@ -67,9 +71,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
 		[OperationContract]
-		void MarkDeletedOrganizations(IEnumerable<Organization> items);
+		OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations);
 		[OperationContract]
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
+		[OperationContract]
+		OperationResult MarkDeletedGUDs(IEnumerable<GUD> items);
 		#endregion
 
 		#region DeviceCommands

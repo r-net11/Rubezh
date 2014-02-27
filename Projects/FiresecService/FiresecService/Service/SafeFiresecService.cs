@@ -11,184 +11,184 @@ namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public class SafeFiresecService : IFiresecService
-    {
-        public FiresecService FiresecService { get; set; }
+	public class SafeFiresecService : IFiresecService
+	{
+		public FiresecService FiresecService { get; set; }
 
-        public SafeFiresecService()
-        {
-            FiresecService = new FiresecService();
-        }
+		public SafeFiresecService()
+		{
+			FiresecService = new FiresecService();
+		}
 
-        public void BeginOperation(string operationName)
-        {
-        }
+		public void BeginOperation(string operationName)
+		{
+		}
 
-        public void EndOperation()
-        {
-        }
+		public void EndOperation()
+		{
+		}
 
-        public OperationResult<T> CreateEmptyOperationResult<T>(string message)
-        {
-            var operationResult = new OperationResult<T>
-            {
-                Result = default(T),
-                HasError = true,
-                Error = "Ошибка при выполнении операции на сервере" + "\n\r" + message
-            };
-            return operationResult;
-        }
+		public OperationResult<T> CreateEmptyOperationResult<T>(string message)
+		{
+			var operationResult = new OperationResult<T>
+			{
+				Result = default(T),
+				HasError = true,
+				Error = "Ошибка при выполнении операции на сервере" + "\n\r" + message
+			};
+			return operationResult;
+		}
 
-        OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
-        {
-            try
-            {
-                BeginOperation(operationName);
-                var result = func();
-                EndOperation();
-                return result;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-                return CreateEmptyOperationResult<T>(e.Message + "\n" + e.StackTrace);
-            }
-        }
+		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
+		{
+			try
+			{
+				BeginOperation(operationName);
+				var result = func();
+				EndOperation();
+				return result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
+				return CreateEmptyOperationResult<T>(e.Message + "\n" + e.StackTrace);
+			}
+		}
 
-        T SafeOperationCall<T>(Func<T> func, string operationName)
-        {
-            try
-            {
-                BeginOperation(operationName);
-                var result = func();
-                EndOperation();
-                return result;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-            }
-            return default(T);
-        }
+		T SafeOperationCall<T>(Func<T> func, string operationName)
+		{
+			try
+			{
+				BeginOperation(operationName);
+				var result = func();
+				EndOperation();
+				return result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
+			}
+			return default(T);
+		}
 
-        void SafeOperationCall(Action action, string operationName)
-        {
-            try
-            {
-                BeginOperation(operationName);
-                action();
-                EndOperation();
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-            }
-        }
+		void SafeOperationCall(Action action, string operationName)
+		{
+			try
+			{
+				BeginOperation(operationName);
+				action();
+				EndOperation();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
+			}
+		}
 
-        public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
-        {
-            return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
-        }
+		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
+		{
+			return SafeOperationCall(() => { return FiresecService.Connect(uid, clientCredentials, isNew); }, "Connect");
+		}
 
 		public OperationResult<bool> Reconnect(Guid uid, string userName, string password)
-        {
-            return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
-        }
+		{
+			return SafeOperationCall(() => { return FiresecService.Reconnect(uid, userName, password); }, "Reconnect");
+		}
 
-        public void Disconnect(Guid uid)
-        {
-            SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
-        }
+		public void Disconnect(Guid uid)
+		{
+			SafeOperationCall(() => { FiresecService.Disconnect(uid); }, "Disconnect");
+		}
 
 		public string Ping()
 		{
 			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
 		}
 
-        public List<CallbackResult> Poll(Guid uid)
-        {
-            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
-        }
+		public List<CallbackResult> Poll(Guid uid)
+		{
+			return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.Poll(uid));
+		}
 
-        public void NotifyClientsOnConfigurationChanged()
-        {
+		public void NotifyClientsOnConfigurationChanged()
+		{
 			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
-        }
+		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
-        public OperationResult<int> GetJournalLastId()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
-        }
+		public OperationResult<int> GetJournalLastId()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
+		}
 
-        public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
-        {
-            return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
-        }
+		public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
+		}
 
-        public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-        {
-            return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
-        }
+		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
+		}
 
-        public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
-        {
-            SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
-        }
+		public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
+		}
 
-        public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-        }
+		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
+		}
 
-        public OperationResult<DateTime> GetArchiveStartDate()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
-        }
+		public OperationResult<DateTime> GetArchiveStartDate()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
+		}
 
 		public void AddJournalRecords(List<JournalRecord> journalRecords)
-        {
-            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
-        }
+		{
+			SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
+		}
 
-        public List<string> GetFileNamesList(string directory)
-        {
-            return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");
-        }
+		public List<string> GetFileNamesList(string directory)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");
+		}
 
-        public Dictionary<string, string> GetDirectoryHash(string directory)
-        {
-            return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
-        }
+		public Dictionary<string, string> GetDirectoryHash(string directory)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDirectoryHash(directory); }, "GetDirectoryHash");
+		}
 
-        public System.IO.Stream GetFile(string dirAndFileName)
-        {
-            return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
-        }
+		public System.IO.Stream GetFile(string dirAndFileName)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
+		}
 
-        public Stream GetConfig()
-        {
-            return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
-        }
+		public Stream GetConfig()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetConfig(); }, "GetConfig");
+		}
 
-        public void SetConfig(Stream stream)
-        {
-            SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
-        }
+		public void SetConfig(Stream stream)
+		{
+			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
+		}
 
 		public void SetJournal(List<JournalRecord> journalRecords)
-        {
+		{
 			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); }, "ConvertJournal");
-        }
+		}
 
-        public string Test(string arg)
-        {
-            return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
-        }
+		public string Test(string arg)
+		{
+			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
+		}
 
 		#region SKD
 		#region Get
@@ -221,13 +221,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<CardZone>>>(() => FiresecService.GetCardZones(filter));
 		}
-		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<Organization>>>(() => FiresecService.GetOrganizations(filter));
 		}
 		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
+		}
+		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<GUD>>>(() => FiresecService.GetGUDs(filter));
 		}
 		#endregion
 
@@ -260,13 +264,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardZones(items));
 		}
-		public void SaveOrganizations(IEnumerable<Organization> items)
+		public OperationResult SaveOrganizations(IEnumerable<Organization> Organizations)
 		{
-			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizations(Organizations));
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
+		}
+		public OperationResult SaveGUDs(IEnumerable<GUD> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
 		}
 		#endregion
 
@@ -299,13 +307,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCardZones(items));
 		}
-		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganizations(Organizations));
 		}
 		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(items));
+		}
+		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedGUDs(items));
 		}
 		#endregion
 		

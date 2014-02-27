@@ -5,16 +5,13 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class GUD
+	public class GUD:OrganizationElementBase
 	{
 		public GUD()
+			:base()
 		{
-			UID = Guid.NewGuid();
 			CardZones = new List<CardZone>();
 		}
-
-		[DataMember]
-		public Guid UID;
 
 		[DataMember]
 		public string Name { get; set; }

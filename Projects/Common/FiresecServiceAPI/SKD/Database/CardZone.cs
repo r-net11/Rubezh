@@ -26,5 +26,16 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? ParentUID { get; set; }
+
+		[DataMember]
+		public ParentType ParentType { get; set; }
+	}
+
+	public enum ParentType
+	{
+		Card,
+		GUDExceptons,
+		GUDAdditions,
+		GUD
 	}
 }

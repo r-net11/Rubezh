@@ -17,12 +17,16 @@ namespace SKDDriver
 			PositionsTranslator = new PositionsTranslator(Context.Position, Context);
 			CardZonesTranslator = new CardZonesTranslator(Context.CardZoneLink, Context);
 			CardsTranslator = new CardsTranslator(Context.Card, Context, CardZonesTranslator);
+			GUDTranslator = new GUDTranslator(Context.GUD, Context, CardZonesTranslator);
+			OrganizationTranslator = new OrganizationTranslator(Context.Organization, Context);
 		}
 
 		DocumentsTranslator DocumentsTranslator;
 		PositionsTranslator PositionsTranslator;
 		CardsTranslator CardsTranslator;
 		CardZonesTranslator CardZonesTranslator;
+		GUDTranslator GUDTranslator;
+		OrganizationTranslator OrganizationTranslator;
 
 		#region Get
 		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
@@ -66,10 +70,6 @@ namespace SKDDriver
 			}
 			catch { return new List<Department>(); }
 		}
-		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
-		{
-			return PositionsTranslator.Get(filter);
-		}
 		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			try
@@ -110,6 +110,15 @@ namespace SKDDriver
 			}
 			catch { return new List<Frame>(); }
 		}
+		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
+		{
+			return OrganizationTranslator.Get(filter);
+		}
+		
+		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
+		{
+			return PositionsTranslator.Get(filter);
+		}
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
 			return CardsTranslator.Get(filter);
@@ -118,29 +127,13 @@ namespace SKDDriver
 		{
 			return CardZonesTranslator.Get(filter);
 		}
-		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
-		{
-			try
-			{
-				var result = new List<Organization>();
-				if (filter == null)
-				{
-					foreach (var item in Context.Organization)
-						result.Add(Translator.Translate(item));
-					return result;
-				}
-				foreach (var item in Context.Organization)
-				{
-					if (FilterHelper.IsInFilter(item, filter))
-						result.Add(Translator.Translate(item));
-				}
-				return result;
-			}
-			catch { return new List<Organization>(); }
-		}
 		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
 			return DocumentsTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
+		{
+			return GUDTranslator.Get(filter);
 		}
 		#endregion
 
@@ -241,30 +234,17 @@ namespace SKDDriver
 		{
 			return CardZonesTranslator.Save(items);
 		}
-		public void SaveOrganizations(IEnumerable<Organization> items)
+		public OperationResult SaveOrganizations(IEnumerable<Organization> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-
-					var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.UID);
-					if (databaseItem != null)
-					{
-						Translator.Update(databaseItem, item);
-					}
-					else
-						Context.Organization.InsertOnSubmit(Translator.TranslateBack(item));
-				}
-				Context.SubmitChanges();
-			}
-			catch { }
+			return OrganizationTranslator.Save(items);
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return DocumentsTranslator.Save(items);
+		}
+		public OperationResult SaveGUDs(IEnumerable<GUD> items)
+		{
+			return GUDTranslator.Save(items);
 		}
 		#endregion
 
@@ -349,26 +329,17 @@ namespace SKDDriver
 		{
 			return CardZonesTranslator.MarkDeleted(items);
 		}
-		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item != null)
-					{
-						var databaseItem = Context.Organization.FirstOrDefault(x => x.Uid == item.UID);
-						if (databaseItem != null)
-							databaseItem.IsDeleted = true;
-					}
-				}
-				Context.SubmitChanges();
-			}
-			catch { }
+			return OrganizationTranslator.MarkDeleted(items);
 		}
 		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
 			return DocumentsTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
+		{
+			return GUDTranslator.MarkDeleted(items);
 		}
 		#endregion
 	}

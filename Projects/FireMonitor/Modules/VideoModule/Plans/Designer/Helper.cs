@@ -6,8 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 
 namespace VideoModule.Plans.Designer
 {

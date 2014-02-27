@@ -10,14 +10,16 @@ namespace SKDModule.ViewModels
 	{
 		public List<CardZone> CardZones { get; private set; }
 		Guid? ParentUID;
+		ParentType ParentType;
 
-		public AccessZonesSelectationViewModel(List<CardZone> cardZones, Guid? parentUID)
+		public AccessZonesSelectationViewModel(List<CardZone> cardZones, Guid? parentUID, ParentType parentType)
 		{
 			CardZones = cardZones;
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = RootZone;
 			ParentUID = parentUID;
+			ParentType = parentType;
 
 			foreach (var zone in AllZones)
 			{
@@ -86,7 +88,8 @@ namespace SKDModule.ViewModels
 						IsComission = zone.IsComission,
 						IntervalType = zone.SelectedTimeCreteria.IntervalType,
 						IntervalUID = zone.SelectedTimeType.UID,
-						ParentUID = ParentUID
+						ParentUID = ParentUID,
+						ParentType = ParentType
 					};
 					CardZones.Add(cardZone);
 				}

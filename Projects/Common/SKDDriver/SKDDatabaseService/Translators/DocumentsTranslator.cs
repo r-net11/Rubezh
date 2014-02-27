@@ -13,19 +13,25 @@ namespace SKDDriver
 		public DocumentsTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
 			: base(table, context)
 		{
-
+			
 		}
 
 		protected override OperationResult CanSave(Document item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && 
+				x.OrganizationUid == item.OrganizationUid && 
+				x.Uid != item.UID && 
+				x.IsDeleted == false);
 			if (sameName)
-				return new OperationResult("Попытка добавления документа с совпадающим именем");
+				return new OperationResult("Документ с таким же именем уже содержится в базе данных");
 			if (item.No <= 0)
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
-			bool sameNo = Table.Any(x => x.No == item.No && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
+			bool sameNo = Table.Any(x => x.No == item.No &&
+				x.OrganizationUid == item.OrganizationUid && 
+				x.Uid != item.UID && 
+				x.IsDeleted == false);
 			if (sameNo)
-				return new OperationResult("Попытка добавления документа с совпадающим номером");
+				return new OperationResult("Документ с таким же номером уже содержится в базе данных");
 			return base.CanSave(item);
 		}
 
@@ -37,17 +43,6 @@ namespace SKDDriver
 			result.IssueDate = tableItem.IssueDate;
 			result.LaunchDate = tableItem.LaunchDate;
 			result.No = tableItem.No;
-			return result;
-		}
-
-		protected override DataAccess.Document TranslateBack(Document apiItem)
-		{
-			var result = base.TranslateBack(apiItem);
-			result.Name = apiItem.Name;
-			result.Description = apiItem.Description;
-			result.IssueDate = CheckDate(apiItem.IssueDate);
-			result.LaunchDate = CheckDate(apiItem.LaunchDate);
-			result.No = apiItem.No;
 			return result;
 		}
 

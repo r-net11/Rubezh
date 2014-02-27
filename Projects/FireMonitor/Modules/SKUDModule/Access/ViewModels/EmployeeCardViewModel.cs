@@ -62,10 +62,11 @@ namespace SKDModule.ViewModels
 			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
-				Card = employeeCardDetailsViewModel.Card;
-				var saveResult = CardHelper.Save(Card);
+				var card = employeeCardDetailsViewModel.Card;
+				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;
+				Card = card;
 				OnPropertyChanged("ID");
 				OnPropertyChanged("StartDate");
 				OnPropertyChanged("EndDate");

@@ -48,6 +48,7 @@ namespace FiresecClient
 
 			InitializeProperties();
 			Invalidate();
+			CopyMPTProperties();
 		}
 
 		static void InitializeProperties()
@@ -517,6 +518,24 @@ namespace FiresecClient
 				device.Children[12].PredefinedName = "Реле 3";
 				device.Children[13].PredefinedName = "Реле 4";
 				device.Children[14].PredefinedName = "Реле 5";
+			}
+		}
+
+		static void CopyMPTProperties()
+		{
+			foreach (var mpt in DeviceConfiguration.MPTs)
+			{
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+					switch(mptDevice.MPTDeviceType)
+					{
+						case MPTDeviceType.AutomaticOffBoard:
+						case MPTDeviceType.DoNotEnterBoard:
+						case MPTDeviceType.ExitBoard:
+						case MPTDeviceType.Speaker:
+							break;
+					}
+				}
 			}
 		}
 	}

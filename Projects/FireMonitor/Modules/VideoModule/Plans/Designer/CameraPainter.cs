@@ -5,11 +5,11 @@ using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
-using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using CameraDetailsViewModel = VideoModule.ViewModels.CameraDetailsViewModel;
 
