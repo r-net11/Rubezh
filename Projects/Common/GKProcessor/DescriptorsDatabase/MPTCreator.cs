@@ -21,6 +21,7 @@ namespace GKProcessor
 		{
 			CreateAutomaticBoards();
 			CreateOnDevices();
+			CreateBombDevices();
 			SetCrossReferences();
 		}
 
@@ -35,9 +36,7 @@ namespace GKProcessor
 
 					formula.AddGetBit(XStateBit.Norm, MPT);
 					formula.Add(FormulaOperationType.COM);
-					formula.AddGetBit(XStateBit.Norm, mptDevice.Device);
-					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный устройства");
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, mptDevice.Device);
+					formula.AddStandardTurning(mptDevice.Device);
 					formula.Add(FormulaOperationType.END);
 					deviceDescriptor.Formula = formula;
 					deviceDescriptor.FormulaBytes = formula.GetBytes();
@@ -51,8 +50,35 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.ExitBoard ||
-					mptDevice.MPTDeviceType == MPTDeviceType.Speaker ||
-					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
+					mptDevice.MPTDeviceType == MPTDeviceType.Speaker)
+				{
+					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var formula = new FormulaBuilder();
+
+					formula.AddGetBit(XStateBit.TurningOn, MPT);
+					formula.AddGetBit(XStateBit.On, MPT);
+					formula.Add(FormulaOperationType.OR);
+					formula.AddGetBit(XStateBit.Norm, mptDevice.Device);
+					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный устройства");
+					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, mptDevice.Device);
+
+					formula.AddGetBit(XStateBit.Off, MPT);
+					formula.AddGetBit(XStateBit.Norm, mptDevice.Device);
+					formula.Add(FormulaOperationType.AND);
+					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, mptDevice.Device);
+
+					formula.Add(FormulaOperationType.END);
+					deviceDescriptor.Formula = formula;
+					deviceDescriptor.FormulaBytes = formula.GetBytes();
+				}
+			}
+		}
+
+		void CreateBombDevices()
+		{
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				if (mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
 				{
 					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
 					var formula = new FormulaBuilder();
@@ -85,6 +111,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
 				{
 					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, MPT);
+					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
 				}
 
 				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic ||
