@@ -1011,6 +1011,25 @@
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_OPK.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\2x2Grid.png" />
+    <Resource Include="Images\MultiGrid\3x3Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\4x4Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\6x6Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MultiGrid\1x7Grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MPT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMPT.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

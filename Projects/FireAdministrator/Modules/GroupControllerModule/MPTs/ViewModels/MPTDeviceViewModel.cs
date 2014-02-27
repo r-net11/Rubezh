@@ -18,14 +18,14 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
-			if (HasDelay)
-			{
-				Delay = Delay;
-			}
-			if (HasHold)
-			{
-				Hold = Hold;
-			}
+			//if (HasDelay)
+			//{
+			//    Delay = Delay;
+			//}
+			//if (HasHold)
+			//{
+			//    Hold = Hold;
+			//}
 		}
 
 		public string PresentationZone

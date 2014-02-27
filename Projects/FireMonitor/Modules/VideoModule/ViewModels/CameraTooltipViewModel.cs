@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using FiresecAPI.Models;
 
 namespace VideoModule.ViewModels
 {

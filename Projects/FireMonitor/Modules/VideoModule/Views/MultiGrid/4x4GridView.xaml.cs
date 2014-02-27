@@ -1,8 +1,8 @@
 ﻿namespace VideoModule.Views
 {
-	public partial class _3X3GridView
+	public partial class _4X4GridView
 	{
-		public _3X3GridView()
+		public _4X4GridView()
 		{
 			InitializeComponent();
 		}

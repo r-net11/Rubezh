@@ -1,5 +1,31 @@
 ﻿<UserControl x:Class="VideoModule.Views.LayoutMultiCameraView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Name="_grid" Background="Yellow" MouseLeftButtonDown="_grid_OnMouseLeftButtonDown" />
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="75" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" MinHeight="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="75" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" MinWidth="10" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Name="_grid" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5" />
+        <Grid Grid.Column="0" Grid.Row="2" />
+        <Grid Grid.Row="2" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_2x2Button_Click" ImageSource="/Controls;component/Images/MultiGrid/2x2Grid.png" ToolTip="2x2" />
+                <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_1x7Button_Click" ImageSource="/Controls;component/Images/MultiGrid/1x7Grid.png" ToolTip="1x7" />
+                <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_3x3Button_Click" ImageSource="/Controls;component/Images/MultiGrid/3x3Grid.png" ToolTip="3x3" />
+                <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_4x4Button_Click" ImageSource="/Controls;component/Images/MultiGrid/4x4Grid.png" ToolTip="4x4" />
+                <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_6x6Button_Click" ImageSource="/Controls;component/Images/MultiGrid/6x6Grid.png" ToolTip="6x6" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="2" />
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Width="5" Background="Transparent"  VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="5" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+    </Grid>
 </UserControl>

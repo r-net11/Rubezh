@@ -1,4 +1,4 @@
-﻿namespace VideoModule.Views.MultiGrids
+﻿namespace VideoModule.Views
 {
 	public partial class _6X6GridView
 	{
