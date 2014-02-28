@@ -9,5 +9,10 @@
                 </VisualBrush.Visual>
             </VisualBrush>
         </Grid.Background>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
     </Grid>
 </UserControl>

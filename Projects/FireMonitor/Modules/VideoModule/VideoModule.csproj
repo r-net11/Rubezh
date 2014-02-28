@@ -84,6 +84,8 @@
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="ViewModels\CameraTooltipViewModel.cs" />
     <Compile Include="ViewModels\LayoutMultiCameraViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
+    <Compile Include="ViewModels\MultiGridViewModels\2x2GridViewModel.cs" />
     <Compile Include="Views\CameraTooltipView.xaml.cs">
       <DependentUpon>CameraTooltipView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +105,9 @@
     </Compile>
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartPropertyCameraPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyCameraPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MultiGrid\1x7GridView.xaml.cs">
       <DependentUpon>1x7GridView.xaml</DependentUpon>
@@ -207,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CamerasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartPropertyCameraPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
