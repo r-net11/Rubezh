@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI;
+using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
-using SKDModule.Designer;
+using SKDModule.PassCard.Designer;
 
 namespace SKDModule.ViewModels
 {
@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.IsRightPanel = false;
 			AllowScalePoint = false;
+			CanCollapse = false;
 		}
 
 		public void Initialize(PassCardTemplate passCardTemplate)
@@ -53,6 +54,14 @@ namespace SKDModule.ViewModels
 			foreach (var elementPolyline in PassCardTemplate.ElementPolylines)
 				yield return elementPolyline;
 		}
-
+		public override void RegisterDesignerItem(Infrustructure.Plans.Designer.DesignerItem designerItem)
+		{
+			base.RegisterDesignerItem(designerItem);
+			if (designerItem.Element is IElementPassCardProperty)
+			{
+				designerItem.Group = PassCardsDesignerViewModel.PassCardPropertiesGroup;
+				designerItem.Title = ((IElementPassCardProperty)designerItem.Element).Property;
+			}
+		}
 	}
 }

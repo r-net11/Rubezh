@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using FiresecAPI.SKD.PassCardLibrary;
 
 namespace FiresecAPI
 {
@@ -9,11 +10,13 @@ namespace FiresecAPI
 	{
 		public static SKDConfiguration SKDConfiguration { get; set; }
 		public static SKDLibraryConfiguration SKDLibraryConfiguration { get; set; }
+		public static SKDPassCardLibraryConfiguration SKDPassCardLibraryConfiguration { get; set; }
 		public static List<SKDDriver> Drivers { get; set; }
 
 		static SKDManager()
 		{
 			SKDConfiguration = new SKDConfiguration();
+			SKDPassCardLibraryConfiguration = new SKDPassCardLibraryConfiguration();
 			CreateDrivers();
 		}
 

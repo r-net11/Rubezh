@@ -52,5 +52,6 @@
     <Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />
     <Converters:XSubsystemTypeToIconConverter x:Key="XSubsystemTypeToIconConverter" />
     <Converters:DelayRegimeToStringConverter x:Key="DelayRegimeToStringConverter" />
-    <Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+	<Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
+	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 </ResourceDictionary>

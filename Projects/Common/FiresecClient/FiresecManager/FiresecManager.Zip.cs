@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
 using XFiresecAPI;
+using FiresecAPI.SKD.PassCardLibrary;
 
 namespace FiresecClient
 {
@@ -69,6 +70,9 @@ namespace FiresecClient
 							break;
 						case "SKDLibraryConfiguration.xml":
 							SKDManager.SKDLibraryConfiguration = ZipSerializeHelper.DeSerialize<SKDLibraryConfiguration>(configurationFileName);
+							break;
+						case "SKDPassCardLibraryConfiguration.xml":
+							SKDManager.SKDPassCardLibraryConfiguration = ZipSerializeHelper.DeSerialize<SKDPassCardLibraryConfiguration>(configurationFileName);
 							break;
 						case "LayoutsConfiguration.xml":
 							LayoutsConfiguration = ZipSerializeHelper.DeSerialize<LayoutsConfiguration>(configurationFileName);

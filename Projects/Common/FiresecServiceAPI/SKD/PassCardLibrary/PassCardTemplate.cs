@@ -5,7 +5,7 @@ using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using FiresecAPI.Models;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD.PassCardLibrary
 {
 	[DataContract]
 	public class PassCardTemplate : IElementBackground, IElementRectangle
@@ -28,6 +28,8 @@ namespace FiresecAPI
 			ElementPolygons = new List<ElementPolygon>();
 			ElementPolylines = new List<ElementPolyline>();
 			ElementExtensions = new List<ElementBase>();
+			ElementImageProperties = new List<ElementPassCardImageProperty>();
+			ElementTextProperties = new List<ElementPassCardTextProperty>();
 		}
 
 		[DataMember]
@@ -64,6 +66,10 @@ namespace FiresecAPI
 		public List<ElementPolyline> ElementPolylines { get; set; }
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
+		[DataMember]
+		public List<ElementPassCardImageProperty> ElementImageProperties { get; set; }
+		[DataMember]
+		public List<ElementPassCardTextProperty> ElementTextProperties { get; set; }
 
 		public bool AllowTransparent
 		{

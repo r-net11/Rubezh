@@ -3,8 +3,10 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using SKDModule.ViewModels;
+using FiresecAPI.SKD.PassCardLibrary;
+using Infrastructure;
 
-namespace SKDModule.Designer
+namespace SKDModule.PassCard.Designer
 {
 	public class DesignerCanvas : Infrastructure.Designer.DesignerCanvas
 	{
@@ -39,6 +41,10 @@ namespace SKDModule.Designer
 				PassCardTemplate.ElementPolylines.Add(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				PassCardTemplate.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+			else if (elementBase is ElementPassCardImageProperty)
+				PassCardTemplate.ElementImageProperties.Add(elementBase as ElementPassCardImageProperty);
+			else if (elementBase is ElementPassCardTextProperty)
+				PassCardTemplate.ElementTextProperties.Add(elementBase as ElementPassCardTextProperty);
 			return Create(elementBase);
 		}
 		protected override void RemoveElement(ElementBase elementBase)
@@ -53,13 +59,16 @@ namespace SKDModule.Designer
 				PassCardTemplate.ElementPolylines.Remove(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				PassCardTemplate.ElementTextBlocks.Remove(elementBase as ElementTextBlock);
+			else if (elementBase is ElementPassCardImageProperty)
+				PassCardTemplate.ElementImageProperties.Remove(elementBase as ElementPassCardImageProperty);
+			else if (elementBase is ElementPassCardTextProperty)
+				PassCardTemplate.ElementTextProperties.Remove(elementBase as ElementPassCardTextProperty);
 		}
 
 		public override void DesignerChanged()
 		{
 			base.DesignerChanged();
-			//ServiceFactory.SaveService.PlansChanged = true;
-			// NOTIFY CONFIGURATION CHANGED
+			ServiceFactory.SaveService.SKDPassCardLibraryChanged = true;
 		}
 	}
 }

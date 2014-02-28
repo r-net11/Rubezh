@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels

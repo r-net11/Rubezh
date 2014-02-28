@@ -14,7 +14,7 @@ namespace Infrastructure.Designer.ViewModels
 		public DesignerCanvas DesignerCanvas { get; set; }
 
 		private bool _isNotEmpty;
-		public bool IsNotEmpty 
+		public bool IsNotEmpty
 		{
 			get { return _isNotEmpty; }
 			protected set
@@ -28,11 +28,12 @@ namespace Infrastructure.Designer.ViewModels
 		public PlanDesignerViewModel()
 		{
 			IsNotEmpty = false;
+			CanCollapse = true;
 			InitializeHistory();
 			InitializeZIndexCommands();
 			InitializeAlignCommands();
 			InitializeCopyPasteCommands();
-			
+
 			ServiceFactoryBase.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 		}
 
@@ -63,17 +64,16 @@ namespace Infrastructure.Designer.ViewModels
 		}
 
 		public bool HasPermissionsToScale
-		{ get { return true; } }
+		{
+			get { return true; }
+		}
 
 		public bool AlwaysShowScroll
 		{
 			get { return true; }
 		}
 
-		public bool CanCollapse
-		{
-			get { return true; }
-		}
+		public bool CanCollapse { get; protected set; }
 
 		private bool _isCollapsed;
 		public bool IsCollapsed
