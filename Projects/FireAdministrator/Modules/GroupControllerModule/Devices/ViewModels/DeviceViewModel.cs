@@ -59,6 +59,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
 			OnPropertyChanged("EditingPresentationZone");
+			OnPropertyChanged("IsParamtersEnabled");
 		}
 
 		public void UpdateProperties()

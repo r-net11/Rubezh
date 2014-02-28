@@ -8,11 +8,18 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
+using FiresecAPI;
+using Infrustructure.Plans.Designer;
+using System.Collections.Generic;
+using Infrastructure.Client.Plans;
+using SKDModule.PassCard.InstrumentAdorners;
+using Infrustructure.Plans.Services;
 
 namespace SKDModule.ViewModels
 {
 	public class PassCardsDesignerViewModel : MenuViewPartViewModel
 	{
+		public const string PassCardPropertiesGroup = "PassCardPropertiesGroup";
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PassCardDesignerViewModel PassCardDesignerViewModel { get; private set; }
 		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
@@ -22,6 +29,7 @@ namespace SKDModule.ViewModels
 
 		public PassCardsDesignerViewModel()
 		{
+			LayerGroupService.Instance.RegisterGroup(PassCardPropertiesGroup, "Свойства", 1);
 			PassCardDesignerViewModel = new PassCardDesignerViewModel();
 			PassCardDesignerViewModel.IsCollapsedChanged += new EventHandler(PassCardDesignerViewModel_IsCollapsedChanged);
 			OnPropertyChanged(() => PassCardDesignerViewModel);
@@ -58,7 +66,9 @@ namespace SKDModule.ViewModels
 			using (new TimeCounter("PassCardsDesignerViewModel.Initialize: {0}"))
 			{
 				PassCardTemplates = new ObservableCollection<PassCardTemplateViewModel>();
+				SKDManager.SKDPassCardLibraryConfiguration.Templates.ForEach(item => PassCardTemplates.Add(new PassCardTemplateViewModel(item)));
 				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
+				DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 			}
 		}
 
@@ -128,7 +138,7 @@ namespace SKDModule.ViewModels
 					var passCardTemplateViewModel = new PassCardTemplateViewModel(dialog.PassCardTemplate);
 					PassCardTemplates.Add(passCardTemplateViewModel);
 					SelectedPassCardTemplate = passCardTemplateViewModel;
-					// ADD TO DATABASE/MARK AS UNSAVED
+					SKDManager.SKDPassCardLibraryConfiguration.Templates.Add(dialog.PassCardTemplate);
 					DesignerCanvas.DesignerChanged();
 				}
 		}
@@ -139,8 +149,8 @@ namespace SKDModule.ViewModels
 			if (MessageBoxService.ShowConfirmation(message) == System.Windows.MessageBoxResult.Yes)
 				using (new WaitWrapper())
 				{
+					SKDManager.SKDPassCardLibraryConfiguration.Templates.Remove(SelectedPassCardTemplate.PassCardTemplate);
 					PassCardTemplates.Remove(SelectedPassCardTemplate);
-					// DROP FROM DATABASE
 					DesignerCanvas.DesignerChanged();
 					SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
 				}
@@ -153,7 +163,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedPassCardTemplate.Update();
 				DesignerCanvas.Update();
-				// UPDATE DATAVSE
+				PassCardDesignerViewModel.Update();
 				DesignerCanvas.Refresh();
 				DesignerCanvas.DesignerChanged();
 			}
@@ -161,6 +171,26 @@ namespace SKDModule.ViewModels
 		private bool CanEditRemove()
 		{
 			return SelectedPassCardTemplate != null;
+		}
+
+		private IEnumerable<IInstrument> GetInstruments()
+		{
+			yield return new InstrumentViewModel()
+			{
+				ImageSource = "/Controls;component/Images/Text.png",
+				ToolTip = "Текстовое свойство",
+				Adorner = new PassCardTextPropertyAdorner(DesignerCanvas),
+				Index = 300,
+				Autostart = true
+			};
+			yield return new InstrumentViewModel()
+			{
+				ImageSource = "/Controls;component/Images/Photo.png",
+				ToolTip = "Графическое свойство",
+				Adorner = new PassCardImagePropertyAdorner(DesignerCanvas),
+				Index = 301,
+				Autostart = true
+			};
 		}
 	}
 }

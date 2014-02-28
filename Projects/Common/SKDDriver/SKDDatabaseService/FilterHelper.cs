@@ -40,20 +40,6 @@ namespace SKDDriver
 			return IsInCameras && IsInJournalItems && IsInDateTime && IsInFilterBase(item, filter);
 		}
 
-		public static bool IsInFilter(DataAccess.Card item, CardFilter filter)
-		{
-			bool isInEmployees = IsInList<Guid>(item.EmployeeUid, filter.EmployeeUids);
-			return isInEmployees && IsInFilterBase(item, filter);
-		}
-
-		public static bool IsInFilter(DataAccess.CardZoneLink item, CardZoneFilter filter)
-		{
-			bool isInCardUids = IsInList<Guid>(item.CardUid, filter.CardUids);
-			bool isInZoneUids = IsInList<Guid>(item.ZoneUid, filter.ZoneUids);
-			bool isInIntervalUids = IsInList<Guid>(item.IntervalUid, filter.IntervalUids);
-			return isInCardUids && isInZoneUids && isInIntervalUids && IsInFilterBase(item, filter);
-		}
-
 		public static bool IsInFilter(DataAccess.Organization item, OrganizationFilter filter)
 		{
 			return IsInFilterBase(item, filter);

@@ -69,6 +69,9 @@
     <Compile Include="Access\Views\AccessZonesSelectationView.xaml.cs">
       <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUDs\Views\GUDFilterView.xaml.cs">
+      <DependentUpon>GUDFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Access\Views\EmployeeCardDetailsView.xaml.cs">
       <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,7 @@
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
     <Compile Include="Events\ShowSKDShedulesEvent.cs" />
+    <Compile Include="GUDs\ViewModels\GUDFilterViewModel.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
@@ -398,6 +402,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Access\Views\AccessZonesSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUDs\Views\GUDFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

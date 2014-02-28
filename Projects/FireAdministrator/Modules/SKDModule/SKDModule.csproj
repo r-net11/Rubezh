@@ -62,7 +62,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
-    <Compile Include="Designer\DesignerCanvas.cs" />
+    <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
     <Compile Include="Devices\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />
     <Compile Include="Devices\ViewModels\ReaderDetailsViewModel.cs" />
@@ -143,6 +143,10 @@
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PassCard\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
+    <Compile Include="PassCard\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardImagePropertyViewModel.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardTextPropertyViewModel.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\SKDPlanExtension.cs" />

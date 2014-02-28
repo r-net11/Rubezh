@@ -253,11 +253,13 @@
 								</TextBlock.Style>
 							</TextBlock>
 						</WrapPanel>
-						<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-					</StackPanel>
+                        <Grid IsEnabled="{Binding IsParamtersEnabled}">
+                            <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+                        </Grid>
+                    </StackPanel>
 				</ScrollViewer>
 				<Grid Grid.Row="1">
-					<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <StackPanel IsEnabled="{Binding IsParamtersEnabled}" HorizontalAlignment="Right" Orientation="Horizontal">
 						<Controls:ToolBarButton Command="{Binding SyncFromAllDeviceToSystemCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Заменить все значения параметров системы на значения параметров в устройстве" />
 						<Controls:ToolBarButton Command="{Binding SyncFromDeviceToSystemCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Заменить значения параметров системы на значения параметров в устройстве" />
 						<Controls:ToolBarButton Command="{Binding ReadCommand}" ImageSource="/Controls;component/Images/ParametersRead.png" ToolTip="Считать параметры" />

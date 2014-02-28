@@ -148,9 +148,13 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
 		}
-		public IEnumerable<Organization> GetOrganizations(OrganizationFilter filter)
+		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Organization>>(() => FiresecService.GetOrganizations(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<GUD>>>(() => FiresecService.GetGUDs(filter));
+		}
+		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Organization>>>(() => FiresecService.GetOrganizations(filter));
 		}
 		#endregion
 
@@ -187,9 +191,13 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
 		}
-		public void SaveOrganizations(IEnumerable<Organization> items)
+		public OperationResult SaveGUDs(IEnumerable<GUD> items)
 		{
-			SafeContext.Execute(() => FiresecService.SaveOrganizations(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
+		}
+		public OperationResult SaveOrganizations(IEnumerable<Organization> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizations(items));
 		}
 		#endregion
 
@@ -226,9 +234,13 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedDocuments(items));
 		}
-		public void MarkDeletedOrganizations(IEnumerable<Organization> items)
+		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedGUDs(items));
+		}
+		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> items)
+		{
+			return SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
 		}
 		#endregion
 

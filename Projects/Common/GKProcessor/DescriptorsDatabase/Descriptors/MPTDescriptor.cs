@@ -30,16 +30,6 @@ namespace GKProcessor
 			Formula = new FormulaBuilder();
 
 			bool hasOnExpression = false;
-			foreach (var mptDevice in MPT.MPTDevices)
-			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
-				{
-					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-					if (hasOnExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasOnExpression = true;
-				}
-			}
 			if (MPT.UseDoorAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
@@ -68,6 +58,30 @@ namespace GKProcessor
 			if (hasOnExpression)
 				Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
+
+			var hasAutomaticExpression = false;
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
+				{
+					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+					if (hasAutomaticExpression)
+						Formula.Add(FormulaOperationType.OR);
+					hasAutomaticExpression = true;
+				}
+			}
+			if (hasAutomaticExpression)
+			{
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.AddGetBit(XStateBit.Norm, MPT);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
+
+				Formula.AddGetBit(XStateBit.Norm, MPT);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
+			}
 
 			hasOnExpression = false;
 			if (MPT.StartLogic.Clauses.Count > 0)

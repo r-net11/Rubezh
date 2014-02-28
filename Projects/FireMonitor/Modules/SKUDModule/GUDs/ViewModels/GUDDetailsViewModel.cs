@@ -31,8 +31,7 @@ namespace SKDModule.ViewModels
 			}
 			GUD = gud;
 			CopyProperties();
-
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(GUD.CardZones, GUD.UID);
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(GUD.CardZones, GUD.UID, ParentType.GUD);
 		}
 
 		public void CopyProperties()

@@ -86,22 +86,22 @@ namespace GKModule.Validation
 
 		void ValidateMPTDeviceParametersMissmatch(XMPT mpt)
 		{
-			foreach (var mptDevice in mpt.MPTDevices)
-			{
-				var property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
-				if (property != null)
-				{
-					if(mptDevice.Delay != property.Value)
-						Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение задержки не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
+			//foreach (var mptDevice in mpt.MPTDevices)
+			//{
+			//    var property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
+			//    if (property != null)
+			//    {
+			//        if(mptDevice.Delay != property.Value)
+			//            Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение задержки не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
+			//    }
 
-				property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
-				if (property != null)
-				{
-					if (mptDevice.Hold != property.Value)
-						Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение удержания не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
-				}
-			}
+			//    property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
+			//    if (property != null)
+			//    {
+			//        if (mptDevice.Hold != property.Value)
+			//            Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение удержания не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
+			//    }
+			//}
 		}
 
 		List<XDevice> GetAllMPTDevices(XMPT mpt)

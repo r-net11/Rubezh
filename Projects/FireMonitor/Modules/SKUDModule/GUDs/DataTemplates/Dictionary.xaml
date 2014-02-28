@@ -11,4 +11,8 @@
         <Views:GUDDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GUDFilterViewModel}">
+        <Views:GUDFilterView />
+    </DataTemplate>
+
 </ResourceDictionary>

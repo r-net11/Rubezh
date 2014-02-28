@@ -46,6 +46,7 @@ namespace FiresecAPI.Models
 			names.Add("XDeviceLibraryConfiguration.xml");
 			names.Add("SKDConfiguration.xml");
 			names.Add("SKDLibraryConfiguration.xml");
+			names.Add("SKDPassCardLibraryConfiguration.xml");
 			names.Add("LayoutsConfiguration.xml");
 			return names;
 		}

@@ -29,6 +29,7 @@ namespace SKDDriver.DataAccess
 	public partial class Position : IOrganizationDatabaseElement { }
 	public partial class Schedule : IOrganizationDatabaseElement { }
 	public partial class ScheduleScheme : IOrganizationDatabaseElement { }
+	public partial class GUD : IOrganizationDatabaseElement { }
 
 	public partial class ScheduleZoneLink : IDatabaseElement { }
 	public partial class Organization : IDatabaseElement { }

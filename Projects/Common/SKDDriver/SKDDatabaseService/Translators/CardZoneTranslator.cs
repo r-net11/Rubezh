@@ -23,18 +23,8 @@ namespace SKDDriver
 			result.IntervalUID = tableItem.IntervalUid;
 			result.IsComission = tableItem.IsWithEscort;
 			result.ZoneUID = tableItem.ZoneUid;
-			result.ParentUID = tableItem.CardUid;
-			return result;
-		}
-
-		protected override DataAccess.CardZoneLink TranslateBack(CardZone apiItem)
-		{
-			var result = base.TranslateBack(apiItem);
-			result.IntervalType = (int)apiItem.IntervalType;
-			result.IntervalUid = apiItem.IntervalUID;
-			result.IsWithEscort = apiItem.IsComission;
-			result.ZoneUid = apiItem.ZoneUID;
-			result.CardUid = apiItem.ParentUID;
+			result.ParentUID = tableItem.ParentUid;
+			result.ParentType = (ParentType)tableItem.ParentType;
 			return result;
 		}
 
@@ -45,16 +35,19 @@ namespace SKDDriver
 			tableItem.IntervalUid = apiItem.IntervalUID;
 			tableItem.IsWithEscort = apiItem.IsComission;
 			tableItem.ZoneUid = apiItem.ZoneUID;
-			tableItem.CardUid = apiItem.ParentUID;
+			tableItem.ParentUid = apiItem.ParentUID;
+			tableItem.ParentType = (int?)apiItem.ParentType;
 		}
 
-		public List<CardZone> Get(DataAccess.Card card)
+		public List<CardZone> Get(Guid parentUID, ParentType parentType)
 		{
 			var result = new List<CardZone>();
-			foreach (var cardZoneLink in card.CardZoneLink)
+			foreach (var cardZoneLink in Table.Where(x => x != null && 
+				!x.IsDeleted && 
+				x.ParentUid == parentUID && 
+				(ParentType)x.ParentType == parentType)) 
 			{
-				if (cardZoneLink != null)
-					result.Add(Translate(cardZoneLink));
+				result.Add(Translate(cardZoneLink));
 			}
 			return result;
 		}
@@ -78,18 +71,37 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult UpdateZones(IEnumerable<SKDCard> cards)
+		public OperationResult SaveFromCards(IEnumerable<SKDCard> cards)
 		{
 			var operationResult = new OperationResult();
 			try
 			{
 				foreach (var card in cards)
 				{
-					var databaseItems = Table.Where(x => x.CardUid == card.UID);
+					var databaseItems = Table.Where(x => x.ParentUid == card.UID);
 					databaseItems.ForEach(x => MarkDeleted(x));
-					var apiCardZones = card.CardZones;
-					if(apiCardZones != null)
-						Save(apiCardZones);
+					Save(card.CardZones);
+					Save(card.AdditionalGUDZones);
+					Save(card.ExceptedGUDZones);
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult SaveFromGUDs(IEnumerable<GUD> gUDs)
+		{
+			var operationResult = new OperationResult();
+			try
+			{
+				foreach (var gUD in gUDs)
+				{
+					var databaseItems = Table.Where(x => x.ParentUid == gUD.UID);
+					databaseItems.ForEach(x => MarkDeleted(x));
+					Save(gUD.CardZones);
 				}
 				return new OperationResult();
 			}
@@ -105,7 +117,7 @@ namespace SKDDriver
 			result = result.And(base.IsInFilter(filter));
 			var cardUIDs = filter.CardUids;
 			if (cardUIDs != null && cardUIDs.Count != 0)
-				result = result.And(e => e.CardUid.HasValue && cardUIDs.Contains(e.CardUid.Value));
+				result = result.And(e => e.ParentUid.HasValue && cardUIDs.Contains(e.ParentUid.Value));
 			var zoneUIDs = filter.ZoneUids;
 			if (zoneUIDs != null && zoneUIDs.Count != 0)
 				result = result.And(e => zoneUIDs.Contains(e.ZoneUid));

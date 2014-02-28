@@ -10,7 +10,6 @@ namespace FiresecAPI
 	{
 		public SKDCard()
 		{
-			ZoneLinkUids = new List<Guid>();
 			CardZones = new List<CardZone>();
 			AdditionalGUDZones = new List<CardZone>();
 			ExceptedGUDZones = new List<CardZone>();
@@ -32,9 +31,6 @@ namespace FiresecAPI
 		public DateTime ValidTo { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneLinkUids { get; set; }
-
-		[DataMember]
 		public List<CardZone> CardZones { get; set; }
 
 		[DataMember]
@@ -44,7 +40,7 @@ namespace FiresecAPI
 		public List<CardZone> ExceptedGUDZones { get; set; }
 
 		[DataMember]
-		public Guid GUDUid { get; set; }
+		public Guid? GUDUid { get; set; }
 
 		[DataMember]
 		public bool IsAntipass { get; set; }

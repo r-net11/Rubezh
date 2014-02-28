@@ -16,6 +16,7 @@ using SKDModule.Validation;
 using SKDModule.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
+using Infrastructure.Designer;
 
 namespace SKDModule
 {
@@ -118,6 +119,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			DesignerLoader.RegisterResource();
 		}
 
 		#region IValidationModule Members

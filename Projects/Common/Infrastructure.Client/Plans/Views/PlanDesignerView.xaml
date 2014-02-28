@@ -21,7 +21,7 @@
 
 		<Grid Grid.Row="2" Visibility="{Binding HasPermissionsToScale, Converter={StaticResource BoolToVisibilityConverter}}">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="{Binding AllowScalePoint, Converter={StaticResource BoolToGridLengthConverter}}" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>

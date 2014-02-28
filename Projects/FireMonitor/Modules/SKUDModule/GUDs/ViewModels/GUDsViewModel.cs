@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using FiresecClient;
 using System;
 using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -18,13 +19,19 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
+			EditFilterCommand = new RelayCommand(OnEditFilter);
+			Filter = new GUDFilter();
 			Initialize();
 		}
+
+		GUDFilter Filter;
 
 		public void Initialize()
 		{
 			GUDs = new ObservableCollection<GUDViewModel>();
-			var guds = new List<GUD>();
+			var guds = GUDHelper.Get(Filter);
+			if (guds == null)
+				return;
 			foreach (var gud in guds)
 			{
 				var gudViewModel = new GUDViewModel(gud);
@@ -68,6 +75,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(gudDetailsViewModel))
 			{
 				var gud = gudDetailsViewModel.GUD;
+				var saveResult = GUDHelper.Save(gud);
+				if (saveResult == false)
+					return;
 				var gudViewModel = new GUDViewModel(gud);
 				GUDs.Add(gudViewModel);
 				SelectedGUD = gudViewModel;
@@ -77,6 +87,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var gUD = SelectedGUD.GUD;
+			var removeResult = GUDHelper.MarkDeleted(gUD);
+			if (removeResult == false)
+				return;
 			var index = GUDs.IndexOf(SelectedGUD);
 			GUDs.Remove(SelectedGUD);
 			index = Math.Min(index, GUDs.Count - 1);
@@ -94,12 +108,27 @@ namespace SKDModule.ViewModels
 			var gudDetailsViewModel = new GUDDetailsViewModel(this, SelectedGUD.GUD);
 			if (DialogService.ShowModalWindow(gudDetailsViewModel))
 			{
-				SelectedGUD.Update(gudDetailsViewModel.GUD);
+				var gud = gudDetailsViewModel.GUD;
+				var saveResult = GUDHelper.Save(gud);
+				if (saveResult == false)
+					return;
+				SelectedGUD.Update(gud);
 			}
 		}
 		bool CanEdit()
 		{
 			return SelectedGUD != null;
+		}
+
+		public RelayCommand EditFilterCommand { get; private set; }
+		void OnEditFilter()
+		{
+			var gUDFilterViewModel = new GUDFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(gUDFilterViewModel))
+			{
+				Filter = gUDFilterViewModel.Filter;
+				Initialize();
+			}
 		}
 	}
 }

@@ -63,6 +63,8 @@
     <Compile Include="SKDDatabaseService\FilterHelper.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\OrganizationTranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\GUDTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\TranslatorBase.cs" />
     <Compile Include="SKDDatabaseService\Translator\Translate.cs" />

@@ -239,7 +239,12 @@
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeMonthlyntervalPart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeShedulePart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeSheduleType.cs" />
-    <Compile Include="SKD\PassCardTemplate.cs" />
+    <Compile Include="SKD\GUDFilter.cs" />
+    <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\IElementPassCardProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />
     <Compile Include="SKD\Database\Position.cs" />
     <Compile Include="SKD\Database\Filter\PositionFilter.cs" />

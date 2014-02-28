@@ -18,14 +18,6 @@ namespace GKModule.ViewModels
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
 			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
-			//if (HasDelay)
-			//{
-			//    Delay = Delay;
-			//}
-			//if (HasHold)
-			//{
-			//    Hold = Hold;
-			//}
 		}
 
 		public string PresentationZone
@@ -59,6 +51,13 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				Device.OnChanged();
 				OnPropertyChanged("Description");
+
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.OnPropertyChanged("Description");
+				}
+
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -111,6 +110,11 @@ namespace GKModule.ViewModels
 			}
 			property.Value = (ushort)value;
 			Device.OnChanged();
+			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+			if (deviceViewModel != null)
+			{
+				deviceViewModel.UpdateProperties();
+			}
 		}
 	}
 }
