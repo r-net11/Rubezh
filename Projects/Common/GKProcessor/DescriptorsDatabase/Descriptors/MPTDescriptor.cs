@@ -13,7 +13,7 @@ namespace GKProcessor
 			DescriptorType = DescriptorType.MPT;
 			MPT = mpt;
 			MPT.Hold = 10;
-			MPT.DelayRegime = DelayRegime.Off;
+			MPT.DelayRegime = DelayRegime.On;
 			Build();
 		}
 
@@ -59,29 +59,29 @@ namespace GKProcessor
 				Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
-			var hasAutomaticExpression = false;
-			foreach (var mptDevice in MPT.MPTDevices)
-			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
-				{
-					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-					if (hasAutomaticExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasAutomaticExpression = true;
-				}
-			}
-			if (hasAutomaticExpression)
-			{
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
+            var hasAutomaticExpression = false;
+            foreach (var mptDevice in MPT.MPTDevices)
+            {
+                if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
+                {
+                    Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+                    if (hasAutomaticExpression)
+                        Formula.Add(FormulaOperationType.OR);
+                    hasAutomaticExpression = true;
+                }
+            }
+            if (hasAutomaticExpression)
+            {
+                Formula.Add(FormulaOperationType.DUP);
+                Formula.AddGetBit(XStateBit.Norm, MPT);
+                Formula.Add(FormulaOperationType.AND);
+                Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.COM);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
-			}
+                Formula.AddGetBit(XStateBit.Norm, MPT);
+                Formula.Add(FormulaOperationType.COM);
+                Formula.Add(FormulaOperationType.AND);
+                Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
+            }
 
 			hasOnExpression = false;
 			if (MPT.StartLogic.Clauses.Count > 0)

@@ -44,7 +44,7 @@
         </Grid>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
                     <ItemsControl Background="White">
                         <ItemsControl.Items>
                             <WrapPanel>
