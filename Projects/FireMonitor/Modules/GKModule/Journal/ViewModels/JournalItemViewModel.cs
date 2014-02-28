@@ -19,10 +19,11 @@ namespace GKModule.ViewModels
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
 		public XPumpStation PumpStation { get; private set; }
+		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 		public string PresentationName { get; private set; }
-		
+
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
@@ -31,7 +32,7 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			JournalItem = journalItem;
 			IsExistsInConfig = true;
-			
+
 			try
 			{
 				switch (JournalItem.JournalItemType)
@@ -68,6 +69,14 @@ namespace GKModule.ViewModels
 						}
 						break;
 
+					case JournalItemType.MPT:
+						MPT = XManager.MPTs.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+						if (MPT != null)
+						{
+							PresentationName = MPT.PresentationName;
+						}
+						break;
+
 					case JournalItemType.Delay:
 						Delay = XManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 						if (Delay != null)
@@ -100,7 +109,7 @@ namespace GKModule.ViewModels
 					IsExistsInConfig = false;
 				}
 
-				if(PresentationName == null)
+				if (PresentationName == null)
 					PresentationName = "<Нет в конфигурации>";
 			}
 			catch (Exception e)
@@ -166,6 +175,10 @@ namespace GKModule.ViewModels
 					DialogService.ShowWindow(new PumpStationDetailsViewModel(PumpStation));
 					break;
 
+				case JournalItemType.MPT:
+					DialogService.ShowWindow(new MPTDetailsViewModel(MPT));
+					break;
+
 				case JournalItemType.Delay:
 					DialogService.ShowWindow(new DelayDetailsViewModel(Delay));
 					break;
@@ -186,6 +199,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
 				case JournalItemType.PumpStation:
+				case JournalItemType.MPT:
 				case JournalItemType.Delay:
 				case JournalItemType.Pim:
 					return true;
@@ -214,6 +228,10 @@ namespace GKModule.ViewModels
 					ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
 					break;
 
+				case JournalItemType.MPT:
+					ServiceFactory.Events.GetEvent<ShowXMPTEvent>().Publish(JournalItem.ObjectUID);
+					break;
+
 				case JournalItemType.Delay:
 					ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(JournalItem.ObjectUID);
 					break;
@@ -237,6 +255,7 @@ namespace GKModule.ViewModels
 				case JournalItemType.Zone:
 				case JournalItemType.Direction:
 				case JournalItemType.PumpStation:
+				case JournalItemType.MPT:
 				case JournalItemType.Delay:
 				case JournalItemType.Pim:
 				case JournalItemType.GK:
@@ -274,7 +293,7 @@ namespace GKModule.ViewModels
 		{
 			if (!IsExistsInConfig)
 				return false;
-			
+
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:

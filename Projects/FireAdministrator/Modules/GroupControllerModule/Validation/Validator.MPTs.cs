@@ -58,7 +58,7 @@ namespace GKModule.Validation
 
 		void ValidateMPTHasNoLogic(XMPT mpt)
 		{
-			if (mpt.StartLogic.Clauses.Count + mpt.MPTDevices.Count(x=>x.MPTDeviceType == MPTDeviceType.HandStart) == 0)
+			if (mpt.StartLogic.Clauses.Count + mpt.MPTDevices.Count(x => x.MPTDeviceType == MPTDeviceType.HandStart) == 0)
 				Errors.Add(new MPTValidationError(mpt, "Отсутствует логика включения и устройства ручного пуска", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -67,7 +67,7 @@ namespace GKModule.Validation
 			var devices = new HashSet<XDevice>();
 			foreach (var device in GetAllMPTDevices(mpt))
 			{
-				if(!devices.Add(device))
+				if (!devices.Add(device))
 					Errors.Add(new MPTValidationError(mpt, "Выходные устройства совпадают", ValidationErrorLevel.CannotWrite));
 			}
 		}
@@ -76,7 +76,7 @@ namespace GKModule.Validation
 		{
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
-				if(mptDevice.Delay < 0 || mptDevice.Delay > 10)
+				if (mptDevice.Delay < 0 || mptDevice.Delay > 10)
 					Errors.Add(new MPTValidationError(mpt, "Задержка МПТ для устройства " + mptDevice.Device.PresentationName + " должна быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
 
 				if (mptDevice.Hold < 0 || mptDevice.Hold > 10)

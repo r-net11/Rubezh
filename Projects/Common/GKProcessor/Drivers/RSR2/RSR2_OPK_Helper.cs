@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using XFiresecAPI;
 
 namespace GKProcessor
@@ -71,6 +71,4 @@ namespace GKProcessor
 			return driver;
 		}
 	}
-
-	
 }

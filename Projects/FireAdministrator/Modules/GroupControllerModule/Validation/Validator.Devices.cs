@@ -133,6 +133,9 @@ namespace GKModule.Validation
 
 		void ValidateParametersMinMax(XDevice device)
 		{
+            if (device.IsInMPT)
+                return;
+
 			foreach (var property in device.Properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
