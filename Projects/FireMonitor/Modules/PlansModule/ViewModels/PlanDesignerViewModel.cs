@@ -116,6 +116,10 @@ namespace PlansModule.ViewModels
 		{
 			get { return true; }
 		}
+		public bool FullScreenSize
+		{
+			get { return true; }
+		}
 
 		public void ChangeZoom(double zoom)
 		{

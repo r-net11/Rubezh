@@ -103,6 +103,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock">
       <HintPath>..\..\..\3rdParty\AvalonDock\Bin\Version2.0\Xceed.Wpf.AvalonDock\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -307,6 +310,10 @@
     <Page Include="Ribbon\Themes\RibbonButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\RepeatButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\IconedMenuStyle.xaml">
       <SubType>Designer</SubType>

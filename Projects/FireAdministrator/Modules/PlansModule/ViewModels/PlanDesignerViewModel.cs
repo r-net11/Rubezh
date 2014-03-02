@@ -27,6 +27,7 @@ namespace PlansModule.ViewModels
 				    Adorner = new SubPlanAdorner(DesignerCanvas),
 				}});
 			AllowScalePoint = true;
+			FullScreenSize = true;
 		}
 
 		public void Initialize(Plan plan)

@@ -19,5 +19,6 @@ namespace Infrastructure.Client.Plans
 		bool CanCollapse { get; }
 		bool IsCollapsed { get; set; }
 		bool AllowScalePoint { get; }
+		bool FullScreenSize { get; }
 	}
 }
