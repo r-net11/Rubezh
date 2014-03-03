@@ -5,7 +5,7 @@
         MinWidth="700" MinHeight="400">
 
     <DataGrid x:Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+        SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
         <DataGrid.Resources>
             <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                 <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
@@ -21,13 +21,14 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" >
-                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0" VerticalAlignment="Center"/>
-                            <TextBlock Margin="2" Text="{Binding ShortName}" VerticalAlignment="Center"/>
+                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="1 0 0 0" VerticalAlignment="Center" />
+                            <TextBlock Margin="2" Text="{Binding ShortName}" VerticalAlignment="Center" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="*" />
+            <DataGridTextColumn Binding="{Binding DottedAddress}" Header="Адрес" Width="Auto" />
+            <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

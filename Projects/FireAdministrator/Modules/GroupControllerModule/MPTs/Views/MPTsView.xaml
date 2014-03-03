@@ -76,7 +76,7 @@
                             <TextBox Text="{Binding Description}" Width="200" Margin="2" />
                         </StackPanel>
 
-                        <StackPanel Visibility="{Binding HasDelay, Converter={StaticResource HasDelayAndHold}}">
+                        <StackPanel Visibility="{Binding HasDelayAndHold, Converter={StaticResource BoolToVisibilityConverter}}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
