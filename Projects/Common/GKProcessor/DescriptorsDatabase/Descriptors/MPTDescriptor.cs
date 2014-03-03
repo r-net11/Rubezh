@@ -18,7 +18,7 @@ namespace GKProcessor
 			MPT.DelayRegime = DelayRegime.On;
 
 			AutomaticOffDelay = new XDelay();
-			AutomaticOffDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+			AutomaticOffDelay.UID = GuidHelper.CreateOn(MPT.BaseUID);
 			gkDatabase.AddDelay(AutomaticOffDelay);
 
 			Build();

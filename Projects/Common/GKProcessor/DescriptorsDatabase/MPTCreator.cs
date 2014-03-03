@@ -24,6 +24,7 @@ namespace GKProcessor
 			CreateAutomaticBoards();
 			CreateOnDevices();
 			CreateBombDevices();
+			CreateAutomaticOffDelay();
 			SetCrossReferences();
 		}
 
@@ -112,7 +113,6 @@ namespace GKProcessor
 			var delayDescriptor = new DelayDescriptor(AutomaticOffDelay);
 			GkDatabase.Descriptors.Add(delayDescriptor);
 			UpdateConfigurationHelper.LinkXBases(MPT, AutomaticOffDelay);
-			UpdateConfigurationHelper.LinkXBases(AutomaticOffDelay, MPT);
 
 			var formula = new FormulaBuilder();
 
@@ -125,19 +125,20 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
+					UpdateConfigurationHelper.LinkXBases(AutomaticOffDelay, mptDevice.Device);
 				}
 			}
 			if (hasAutomaticExpression)
 			{
 				formula.Add(FormulaOperationType.DUP);
-				formula.AddGetBit(XStateBit.Norm, MPT);
+				formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
 				formula.Add(FormulaOperationType.AND);
-				formula.AddPutBit(XStateBit.SetRegime_Manual, AutomaticOffDelay);
+				formula.AddPutBit(XStateBit.TurnOff_InAutomatic, AutomaticOffDelay);
 
-				formula.AddGetBit(XStateBit.Norm, MPT);
+				formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
 				formula.Add(FormulaOperationType.COM);
 				formula.Add(FormulaOperationType.AND);
-				formula.AddPutBit(XStateBit.SetRegime_Automatic, AutomaticOffDelay);
+				formula.AddPutBit(XStateBit.TurnOn_InAutomatic, AutomaticOffDelay);
 			}
 
 			formula.Add(FormulaOperationType.END);
@@ -147,11 +148,9 @@ namespace GKProcessor
 
 		void SetCrossReferences()
 		{
-			//UpdateConfigurationHelper.LinkXBases(MPT, MPT);
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard ||
-					mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
+				if (mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.ExitBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
@@ -160,10 +159,9 @@ namespace GKProcessor
 					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
 				}
 
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic ||
-						mptDevice.MPTDeviceType == MPTDeviceType.HandStart ||
-						mptDevice.MPTDeviceType == MPTDeviceType.HandStop ||
-						mptDevice.MPTDeviceType == MPTDeviceType.Door)
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandStart ||
+					mptDevice.MPTDeviceType == MPTDeviceType.HandStop ||
+					mptDevice.MPTDeviceType == MPTDeviceType.Door)
 				{
 					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
 				}
