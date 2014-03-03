@@ -102,7 +102,7 @@ namespace GKProcessor
 
 		void SetCrossReferences()
 		{
-			UpdateConfigurationHelper.LinkXBases(MPT, MPT);
+			//UpdateConfigurationHelper.LinkXBases(MPT, MPT);
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard ||

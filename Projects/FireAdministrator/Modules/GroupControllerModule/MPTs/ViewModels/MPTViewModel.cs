@@ -104,6 +104,7 @@ namespace GKModule.ViewModels
 			SelectedDevice.MPTDevice.Device.OnChanged();
 			MPT.MPTDevices.Remove(SelectedDevice.MPTDevice);
 			Devices.Remove(SelectedDevice);
+			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()

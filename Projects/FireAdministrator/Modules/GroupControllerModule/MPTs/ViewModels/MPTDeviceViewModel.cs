@@ -62,14 +62,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool HasDelay
+		public bool HasDelayAndHold
 		{
-			get { return Device.DriverType != XDriverType.RSR2_AM_1; }
-		}
-
-		public bool HasHold
-		{
-			get { return Device.DriverType == XDriverType.RSR2_MVK8; }
+			get { return MPTDeviceType == XFiresecAPI.MPTDeviceType.Bomb; }
 		}
 
 		public int Delay
