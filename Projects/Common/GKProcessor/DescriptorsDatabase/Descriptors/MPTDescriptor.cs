@@ -7,6 +7,8 @@ namespace GKProcessor
 {
 	public class MPTDescriptor : BaseDescriptor
 	{
+		public XDelay AutomaticOffDelay { get; private set; }
+
 		public MPTDescriptor(GkDatabase gkDatabase, XMPT mpt)
 		{
 			DatabaseType = DatabaseType.Gk;
@@ -14,6 +16,11 @@ namespace GKProcessor
 			MPT = mpt;
 			MPT.Hold = 10;
 			MPT.DelayRegime = DelayRegime.On;
+
+			AutomaticOffDelay = new XDelay();
+			AutomaticOffDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+			gkDatabase.AddDelay(AutomaticOffDelay);
+
 			Build();
 		}
 
@@ -29,7 +36,25 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			bool hasOnExpression = false;
+			var hasOnExpression = false;
+			if (MPT.UseFailureAutomatic)
+			{
+				foreach (var mptDevice in MPT.MPTDevices)
+				{
+					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
+					if (hasOnExpression)
+						Formula.Add(FormulaOperationType.OR);
+					hasOnExpression = true;
+				}
+			}
+			if (hasOnExpression)
+			{
+				Formula.AddGetBit(XStateBit.Norm, MPT);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
+			}
+
+			hasOnExpression = false;
 			if (MPT.UseDoorAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
@@ -43,36 +68,7 @@ namespace GKProcessor
 					}
 				}
 			}
-			if (MPT.UseFailureAutomatic)
-			{
-				foreach (var mptDevice in MPT.MPTDevices)
-				{
-					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
-					if (hasOnExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasOnExpression = true;
-				}
-			}
-
 			if (hasOnExpression)
-			{
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-			}
-
-			var hasAutomaticExpression = false;
-			foreach (var mptDevice in MPT.MPTDevices)
-			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
-				{
-					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-					if (hasAutomaticExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasAutomaticExpression = true;
-				}
-			}
-			if (hasAutomaticExpression)
 			{
 				Formula.Add(FormulaOperationType.DUP);
 				Formula.AddGetBit(XStateBit.Norm, MPT);
@@ -80,6 +76,9 @@ namespace GKProcessor
 				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
 				Formula.AddGetBit(XStateBit.Norm, MPT);
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+				Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
 				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
 				Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);

@@ -10,11 +10,13 @@ namespace GKProcessor
 	{
 		GkDatabase GkDatabase;
 		XMPT MPT;
+		public XDelay AutomaticOffDelay { get; private set; }
 
-		public MPTCreator(GkDatabase gkDatabase, XMPT mpt)
+		public MPTCreator(GkDatabase gkDatabase, XMPT mpt, XDelay automaticOffDelay)
 		{
 			GkDatabase = gkDatabase;
 			MPT = mpt;
+			AutomaticOffDelay = automaticOffDelay;
 		}
 
 		public void Create()
@@ -98,6 +100,49 @@ namespace GKProcessor
 					deviceDescriptor.FormulaBytes = formula.GetBytes();
 				}
 			}
+		}
+
+		void CreateAutomaticOffDelay()
+		{
+			AutomaticOffDelay.Name = "АО " + MPT.PresentationName;
+			AutomaticOffDelay.DelayTime = 0;
+			AutomaticOffDelay.SetTime = 10;
+			AutomaticOffDelay.DelayRegime = DelayRegime.On;
+
+			var delayDescriptor = new DelayDescriptor(AutomaticOffDelay);
+			GkDatabase.Descriptors.Add(delayDescriptor);
+			UpdateConfigurationHelper.LinkXBases(MPT, AutomaticOffDelay);
+			UpdateConfigurationHelper.LinkXBases(AutomaticOffDelay, MPT);
+
+			var formula = new FormulaBuilder();
+
+			var hasAutomaticExpression = false;
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
+				{
+					formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+					if (hasAutomaticExpression)
+						formula.Add(FormulaOperationType.OR);
+					hasAutomaticExpression = true;
+				}
+			}
+			if (hasAutomaticExpression)
+			{
+				formula.Add(FormulaOperationType.DUP);
+				formula.AddGetBit(XStateBit.Norm, MPT);
+				formula.Add(FormulaOperationType.AND);
+				formula.AddPutBit(XStateBit.SetRegime_Manual, AutomaticOffDelay);
+
+				formula.AddGetBit(XStateBit.Norm, MPT);
+				formula.Add(FormulaOperationType.COM);
+				formula.Add(FormulaOperationType.AND);
+				formula.AddPutBit(XStateBit.SetRegime_Automatic, AutomaticOffDelay);
+			}
+
+			formula.Add(FormulaOperationType.END);
+			delayDescriptor.Formula = formula;
+			delayDescriptor.FormulaBytes = formula.GetBytes();
 		}
 
 		void SetCrossReferences()
