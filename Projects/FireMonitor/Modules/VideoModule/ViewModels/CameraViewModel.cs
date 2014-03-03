@@ -54,6 +54,7 @@ namespace VideoModule.ViewModels
 		void GetError(string error)
 		{
 			Error = error;
+            StopVideo();
 			ImageSource = new BitmapImage();
 		}
 
@@ -102,7 +103,6 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			//return; //TODO: TEST (CameraVideo isn't working now)
 			MjpegCamera.FrameReady += BmpToImageSource;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
@@ -111,11 +111,6 @@ namespace VideoModule.ViewModels
 		}
 		public void StopVideo()
 		{
-			//TODO: TEST (CameraVideo isn't working now)
-			//{
-			//    IsNowPlaying = false;
-			//    return;
-			//}
 			MjpegCamera.FrameReady -= BmpToImageSource;
 			MjpegCamera.ErrorHandler -= GetError;
 			MjpegCamera.StopVideo();

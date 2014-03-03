@@ -16,6 +16,7 @@ namespace GKProcessor
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
 		public XPumpStation PumpStation { get; private set; }
+		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 
@@ -242,7 +243,7 @@ namespace GKProcessor
 
 						case 8:
 							JournalItem.Name = "Информация";
-                            JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
+							JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
 							break;
 
 						case 9:
@@ -344,6 +345,13 @@ namespace GKProcessor
 					JournalItem.JournalItemType = JournalItemType.PumpStation;
 					JournalItem.ObjectUID = PumpStation.UID;
 					JournalItem.ObjectName = PumpStation.PresentationName;
+				}
+				MPT = XManager.MPTs.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				if (MPT != null)
+				{
+					JournalItem.JournalItemType = JournalItemType.MPT;
+					JournalItem.ObjectUID = MPT.BaseUID;
+					JournalItem.ObjectName = MPT.PresentationName;
 				}
 				Delay = XManager.Delays.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Delay != null)

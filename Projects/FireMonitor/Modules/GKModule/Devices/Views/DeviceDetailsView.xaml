@@ -48,7 +48,7 @@
 		<TabControl Grid.Row="1">
 			<TabItem Header="Основные">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
-					<ItemsControl Background="White">
+                    <ItemsControl Background="White" Padding="2">
 						<ItemsControl.Items>
                             <StackPanel Orientation="Horizontal" Margin="2">
 								<TextBlock Width="110" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" Text="Устройство: " />

@@ -77,12 +77,12 @@
                         </StackPanel>
 
                         <StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasHold, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasHold, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
                             </StackPanel>

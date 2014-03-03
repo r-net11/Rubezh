@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 			DesignerCanvas = new DesignerCanvas(this);
 			DesignerCanvas.Toolbox.IsRightPanel = false;
 			AllowScalePoint = false;
+			FullScreenSize = false;
 			CanCollapse = false;
 		}
 

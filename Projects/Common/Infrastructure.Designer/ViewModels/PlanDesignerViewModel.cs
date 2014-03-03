@@ -24,6 +24,7 @@ namespace Infrastructure.Designer.ViewModels
 			}
 		}
 		public bool AllowScalePoint { get; protected set; }
+		public bool FullScreenSize { get; protected set; }
 
 		public PlanDesignerViewModel()
 		{

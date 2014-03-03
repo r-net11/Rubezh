@@ -65,7 +65,7 @@ namespace FiresecClient
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				}
-				device.DeviceProperties.RemoveAll(x=>x.DriverProperty== null);
+				device.DeviceProperties.RemoveAll(x => x.DriverProperty == null);
 				device.InitializeDefaultProperties();
 			}
 		}
@@ -271,10 +271,10 @@ namespace FiresecClient
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
 					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
-                    if (nsDevice != null && ((nsDevice.DriverType == XDriverType.FirePump) || (nsDevice.DriverType == XDriverType.JockeyPump)))
+					if (nsDevice != null && ((nsDevice.DriverType == XDriverType.FirePump) || (nsDevice.DriverType == XDriverType.JockeyPump)))
 					{
-                        nsDeviceUIDs.Add(nsDevice.UID);
-                        pumpStation.NSDevices.Add(nsDevice);
+						nsDeviceUIDs.Add(nsDevice.UID);
+						pumpStation.NSDevices.Add(nsDevice);
 					}
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
@@ -552,8 +552,8 @@ namespace FiresecClient
 						SetDeviceProperty(mptDevice.Device, "Время удержания, с", 65000);
 						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(mptDevice.Device, "Состояние для модуля Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Удержания", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Включено", 0);
+						SetDeviceProperty(mptDevice.Device, "Состояние для режима Удержания", 4);
+						SetDeviceProperty(mptDevice.Device, "Состояние для режима Включено", 16);
 						break;
 
 					case XDriverType.RSR2_MVK8:

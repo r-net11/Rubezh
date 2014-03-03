@@ -185,19 +185,20 @@ namespace Infrastructure.Client.Plans
 			var viewModel = (IPlanDesignerViewModel)DataContext;
 			if (viewModel == null || viewModel.Canvas == null)
 				return;
-			var margin = viewModel.AlwaysShowScroll ? 51 : 5;
-
-			double scaleX = (_scrollViewer.ViewportWidth - margin) / viewModel.Canvas.CanvasWidth;
-			double scaleY = (_scrollViewer.ViewportHeight - margin) / viewModel.Canvas.CanvasHeight;
-			double scale = Math.Min(scaleX, scaleY);
-			if (scale < 0)
-				return;
-			if (Double.IsNaN(scale))
-				scale = 1;
-			initialScale = scale;
-
-			scaleTransform.ScaleX = scale;
-			scaleTransform.ScaleY = scale;
+			if (viewModel.FullScreenSize)
+			{
+				var margin = viewModel.AlwaysShowScroll ? 51 : 5;
+				double scaleX = (_scrollViewer.ViewportWidth - margin) / viewModel.Canvas.CanvasWidth;
+				double scaleY = (_scrollViewer.ViewportHeight - margin) / viewModel.Canvas.CanvasHeight;
+				double scale = Math.Min(scaleX, scaleY);
+				if (scale < 0)
+					return;
+				if (Double.IsNaN(scale))
+					scale = 1;
+				initialScale = scale;
+			}
+			else
+				initialScale = 1;
 		}
 
 		private void OnDeviceZoomOut(object sender, RoutedEventArgs e)

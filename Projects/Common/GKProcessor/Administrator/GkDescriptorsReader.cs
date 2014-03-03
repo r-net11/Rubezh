@@ -242,7 +242,7 @@ namespace GKProcessor
 
 				try
 				{
-					if (description.StartsWith("MPT."))
+                    if (description.StartsWith("MПТ."))
 					{
 						isMPT = true;
 					}

@@ -52,7 +52,7 @@
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl Background="White">
+                    <ItemsControl Background="White" Padding="2">
                         <ItemsControl.Items>
                             <WrapPanel Margin="2">
                                 <TextBlock>

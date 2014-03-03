@@ -37,6 +37,9 @@ namespace GKModule.Converters
 				case JournalItemType.PumpStation:
 					return "/Controls;component/Images/BPumpStation.png";
 
+				case JournalItemType.MPT:
+					return "/Controls;component/Images/BMPT.png";
+
 				default:
 					return "/Controls;component/Images/blank.png";
 			}

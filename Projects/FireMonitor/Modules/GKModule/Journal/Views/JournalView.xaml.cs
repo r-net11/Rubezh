@@ -28,11 +28,15 @@ namespace GKModule.Views
 				if ((DataContext as JournalViewModel) != null)
 				{
 					var dataContext = DataContext as JournalViewModel;
+					if (dataContext == null)
+						return;
 					additionalColumns = dataContext.AdditionalColumns;
 				}
 				else
 				{
 					var dataContext = DataContext as ArchiveViewModel;
+					if (dataContext == null)
+						return;
 					additionalColumns = dataContext.AdditionalColumns;
 				}
 				var ipColumn = dataGrid.Columns.FirstOrDefault(x => x.Header.ToString() == "IP-адрес ГК");
