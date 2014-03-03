@@ -11,13 +11,23 @@ namespace GKModule.ViewModels
 	public partial class MPTDeviceViewModel : BaseViewModel
 	{
 		public MPTDevice MPTDevice { get; private set; }
-		public XDevice Device { get; private set; }
 
 		public MPTDeviceViewModel(MPTDevice mptDevice)
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
-			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
+		}
+
+		XDevice _device;
+		public XDevice Device
+		{
+			get { return _device; }
+			set
+			{
+				_device = value;
+				OnPropertyChanged("Device");
+				OnPropertyChanged("Description");
+			}
 		}
 
 		public string PresentationZone
@@ -30,26 +40,20 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<MPTDeviceType> AvailableMPTDeviceTypes { get; private set; }
-
 		public MPTDeviceType MPTDeviceType
 		{
 			get { return MPTDevice.MPTDeviceType; }
-			set
-			{
-				MPTDevice.MPTDeviceType = value;
-				OnPropertyChanged("MPTDeviceType");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public string Description
 		{
-			get { return Device.Description; }
+			get { return Device != null ? Device.Description : null; }
 			set
 			{
+				if (Device == null)
+					return;
+
 				Device.Description = value;
-				Device.OnChanged();
 				OnPropertyChanged("Description");
 
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
@@ -57,6 +61,7 @@ namespace GKModule.ViewModels
 				{
 					deviceViewModel.OnPropertyChanged("Description");
 				}
+				Device.OnChanged();
 
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -93,6 +98,9 @@ namespace GKModule.ViewModels
 
 		void SetDeviceProperty(string propertyName, int value)
 		{
+			if (Device == null)
+				return;
+
 			var property = Device.Properties.FirstOrDefault(x => x.Name == propertyName);
 			if (property == null)
 			{

@@ -36,25 +36,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			var hasOnExpression = false;
-			if (MPT.UseFailureAutomatic)
-			{
-				foreach (var mptDevice in MPT.MPTDevices)
-				{
-					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
-					if (hasOnExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasOnExpression = true;
-				}
-			}
-			if (hasOnExpression)
-			{
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-			}
-
-			hasOnExpression = false;
+			var hasAutomaticDoorExpression = false;
 			if (MPT.UseDoorAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
@@ -62,29 +44,46 @@ namespace GKProcessor
 					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
 					{
 						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-						if (hasOnExpression)
+						if (hasAutomaticDoorExpression)
 							Formula.Add(FormulaOperationType.OR);
-						hasOnExpression = true;
+						hasAutomaticDoorExpression = true;
 					}
 				}
 			}
-			if (hasOnExpression)
+			if (hasAutomaticDoorExpression)
 			{
 				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.COM);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
-				Formula.Add(FormulaOperationType.COM);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
 			}
 
-			hasOnExpression = false;
+			var hasAutomaticFailureExpression = false;
+			if (MPT.UseFailureAutomatic)
+			{
+				foreach (var mptDevice in MPT.MPTDevices)
+				{
+					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
+					if (hasAutomaticFailureExpression)
+						Formula.Add(FormulaOperationType.OR);
+					hasAutomaticFailureExpression = true;
+				}
+			}
+
+			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+			if (hasAutomaticFailureExpression || hasAutomaticDoorExpression)
+				Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
+
+
+			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+			Formula.Add(FormulaOperationType.COM);
+			if (hasAutomaticDoorExpression)
+			{
+				Formula.Add(FormulaOperationType.COM);
+				Formula.Add(FormulaOperationType.AND);
+			}
+			Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
+
+
+			var hasOnExpression = false;
 			if (MPT.StartLogic.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.StartLogic.Clauses);
