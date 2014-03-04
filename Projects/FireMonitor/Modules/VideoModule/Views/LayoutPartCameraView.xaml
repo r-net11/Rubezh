@@ -14,6 +14,7 @@
             <Grid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}"/>
+                    <MenuItem Header="Удалить" Command="{Binding RemoveCommand}"/>
                 </ContextMenu>
             </Grid.ContextMenu>
         </Grid>

@@ -78,15 +78,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MultiGridHelper.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="ViewModels\CameraTooltipViewModel.cs" />
-    <Compile Include="ViewModels\LayoutMultiCameraViewModel.cs" />
+    <Compile Include="ViewModels\MultiLayoutCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
-    <Compile Include="ViewModels\MultiGridViewModels\2x2GridViewModel.cs" />
     <Compile Include="Views\CameraTooltipView.xaml.cs">
       <DependentUpon>CameraTooltipView.xaml</DependentUpon>
     </Compile>
@@ -98,8 +96,8 @@
     <Compile Include="Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LayoutMultiCameraView.xaml.cs">
-      <DependentUpon>LayoutMultiCameraView.xaml</DependentUpon>
+    <Compile Include="Views\MultiLayoutCameraView.xaml.cs">
+      <DependentUpon>MultiLayoutCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
@@ -110,19 +108,19 @@
     <Compile Include="Views\LayoutPartPropertyCameraPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyCameraPageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrid\1x7GridView.xaml.cs">
+    <Compile Include="Views\MultiLayoutCamera\1x7GridView.xaml.cs">
       <DependentUpon>1x7GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrid\2x2GridView.xaml.cs">
+    <Compile Include="Views\MultiLayoutCamera\2x2GridView.xaml.cs">
       <DependentUpon>2x2GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrid\3x3GridView.xaml.cs">
+    <Compile Include="Views\MultiLayoutCamera\3x3GridView.xaml.cs">
       <DependentUpon>3x3GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrid\4x4GridView.xaml.cs">
+    <Compile Include="Views\MultiLayoutCamera\4x4GridView.xaml.cs">
       <DependentUpon>4x4GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiGrid\6x6GridView.xaml.cs">
+    <Compile Include="Views\MultiLayoutCamera\6x6GridView.xaml.cs">
       <DependentUpon>6x6GridView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -204,7 +202,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutMultiCameraView.xaml">
+    <Page Include="Views\MultiLayoutCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,23 +218,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrid\1x7GridView.xaml">
+    <Page Include="Views\MultiLayoutCamera\1x7GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrid\2x2GridView.xaml">
+    <Page Include="Views\MultiLayoutCamera\2x2GridView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MultiGrid\3x3GridView.xaml">
+    <Page Include="Views\MultiLayoutCamera\3x3GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrid\4x4GridView.xaml">
+    <Page Include="Views\MultiLayoutCamera\4x4GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MultiGrid\6x6GridView.xaml">
+    <Page Include="Views\MultiLayoutCamera\6x6GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

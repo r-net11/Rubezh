@@ -12,32 +12,28 @@ namespace Infrastructure
 	{
 		public static readonly string ArchiveDefaultStateFileName = AppDataFolderHelper.GetMonitorSettingsPath("ArchiveDefaultState.xml");
 		public static readonly string AutoActivationSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("AutoActivationSettings.xml");
+        public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 
-		static ArchiveDefaultState _archiveDefaultState;
+        static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
 		{
-			get
-			{
-				if (_archiveDefaultState == null)
-					_archiveDefaultState = new ArchiveDefaultState();
-
-				return _archiveDefaultState;
-			}
-			set { _archiveDefaultState = value; }
+			get { return _archiveDefaultState ?? (_archiveDefaultState = new ArchiveDefaultState()); }
+		    set { _archiveDefaultState = value; }
 		}
 
 		static AutoActivationSettings _autoActivationSettings;
 		public static AutoActivationSettings AutoActivationSettings
 		{
-			get
-			{
-				if (_autoActivationSettings == null)
-					_autoActivationSettings = new AutoActivationSettings();
-
-				return _autoActivationSettings;
-			}
-			set { _autoActivationSettings = value; }
+			get { return _autoActivationSettings ?? (_autoActivationSettings = new AutoActivationSettings()); }
+		    set { _autoActivationSettings = value; }
 		}
+
+        static MultiLayoutCameraSettings _multiLayoutCameraSettings;
+        public static MultiLayoutCameraSettings MultiLayoutMultiLayoutCameraSettings
+        {
+            get { return _multiLayoutCameraSettings ?? (_multiLayoutCameraSettings = new MultiLayoutCameraSettings()); }
+            set { _multiLayoutCameraSettings = value; }
+        }
 
 		public static void LoadSettings()
 		{
@@ -45,6 +41,7 @@ namespace Infrastructure
 			{
 				LoadArchiveDefaultState();
 				LoadAutoActivationSettings();
+                LoadCameraSettings();
 			}
 			catch (Exception e)
 			{
@@ -61,6 +58,7 @@ namespace Infrastructure
 
 				SaveArchiveDefaultState();
 				SaveAutoActivationSettings();
+                SaveCameraSettings();
 			}
 			catch (Exception e)
 			{
@@ -102,6 +100,22 @@ namespace Infrastructure
 			}
 		}
 
+        static void LoadCameraSettings()
+        {
+            if (File.Exists(MultiLayoutCameraSettingsFileName))
+            {
+                using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Open))
+                {
+                    var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
+                    MultiLayoutMultiLayoutCameraSettings = (MultiLayoutCameraSettings)dataContractSerializer.ReadObject(fileStream);
+                }
+            }
+            else
+            {
+                MultiLayoutMultiLayoutCameraSettings = new MultiLayoutCameraSettings();
+            }
+        }
+
 		static void SaveArchiveDefaultState()
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
@@ -119,5 +133,14 @@ namespace Infrastructure
 				dataContractSerializer.WriteObject(fileStream, AutoActivationSettings);
 			}
 		}
+
+        static void SaveCameraSettings()
+        {
+            using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Create))
+            {
+                var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
+                dataContractSerializer.WriteObject(fileStream, MultiLayoutMultiLayoutCameraSettings);
+            }
+        }
 	}
 }
