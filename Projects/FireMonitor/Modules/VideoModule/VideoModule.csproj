@@ -78,6 +78,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MultiGridHelper.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />

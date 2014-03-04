@@ -53,7 +53,6 @@ namespace VideoModule.ViewModels
             if (SelectedCamera != null)
             {
                 _layoutPartCameraViewModel.Camera = SelectedCamera;
-                _layoutPartCameraViewModel.CameraViewModel.StartVideo();
                 return true;
             }
             return false;

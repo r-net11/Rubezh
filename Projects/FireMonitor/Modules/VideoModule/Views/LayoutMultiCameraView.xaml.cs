@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using FiresecClient;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
@@ -23,12 +24,12 @@ namespace VideoModule.Views
 		void CreateGrid(UserControl userControl)
 		{
 			IsFullScreen = false;
-			var layoutPartCameraViewModel = new LayoutPartCameraViewModel(((LayoutMultiCameraViewModel)DataContext).CameraViewModels.FirstOrDefault().Camera);
-			var controls = GetLogicalChildCollection<Border>(userControl).FindAll(x => !String.IsNullOrEmpty(x.Name));
+			//var layoutPartCameraViewModel = new LayoutPartCameraViewModel(((LayoutMultiCameraViewModel)DataContext).CameraViewModels.FirstOrDefault().Camera);
+            var controls = GetLogicalChildCollection<LayoutPartCameraView>(userControl).FindAll(x => !String.IsNullOrEmpty(x.Name));
 			foreach (var border in controls)
 			{
-				border.Child = new LayoutPartCameraView { DataContext = layoutPartCameraViewModel };
-				border.MouseLeftButtonDown += FullScreenSize;
+			    //border.Child = new LayoutPartCameraView { DataContext = layoutPartCameraViewModel };
+			    //border.MouseLeftButtonDown += FullScreenSize;
 			}
 			_grid.Child = userControl;
 		}
@@ -97,5 +98,27 @@ namespace VideoModule.Views
 		{
 			CreateGrid(new _6X6GridView());
 		}
+
+	    void Initialize(UserControl userControl, Dictionary<string, Guid> collection )
+	    {
+            var controls = GetLogicalChildCollection<LayoutPartCameraView>(userControl).FindAll(x => !String.IsNullOrEmpty(x.Name));
+            foreach (var control in controls)
+            {
+                var cameraUID = collection.FirstOrDefault(x => x.Key == control.Name).Value;
+                var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
+                var layoutPartCameraViewModel = new LayoutPartCameraViewModel(camera);
+                control.DataContext = layoutPartCameraViewModel;
+                collection.Add(control.Name, layoutPartCameraViewModel.Camera.UID);
+            }
+	    }
+
+	    void InitializeAllEmpty()
+	    {
+	        Initialize(new _2X2GridView(), MultiGridHelper._2X2Collection);
+            Initialize(new _1X7GridView(), MultiGridHelper._1X7Collection);
+            Initialize(new _3X3GridView(), MultiGridHelper._3X3Collection);
+            Initialize(new _4X4GridView(), MultiGridHelper._4X4Collection);
+            Initialize(new _6X6GridView(), MultiGridHelper._6X6Collection);
+	    }
 	}
 }

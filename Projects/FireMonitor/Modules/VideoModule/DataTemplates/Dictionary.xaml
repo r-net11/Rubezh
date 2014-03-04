@@ -22,6 +22,6 @@
 
     <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
         <Views:LayoutPartPropertyCameraPageView />
-    </DataTemplate>    
+    </DataTemplate>
 
 </ResourceDictionary>

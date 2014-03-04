@@ -58,7 +58,7 @@ namespace VideoModule.ViewModels
 			ImageSource = new BitmapImage();
 		}
 
-		void BmpToImageSource(Bitmap bmp)
+		void OnFrameReady(Bitmap bmp)
 		{
 			using (var memory = new MemoryStream())
 			{
@@ -76,6 +76,9 @@ namespace VideoModule.ViewModels
 				}));
 			}
 		}
+
+  
+        public string Test { get { return "Test"; } }
 
 		public string PresentationZones
 		{
@@ -103,7 +106,7 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			MjpegCamera.FrameReady += BmpToImageSource;
+			MjpegCamera.FrameReady += OnFrameReady;
 			MjpegCamera.ErrorHandler += GetError;
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
@@ -111,7 +114,7 @@ namespace VideoModule.ViewModels
 		}
 		public void StopVideo()
 		{
-			MjpegCamera.FrameReady -= BmpToImageSource;
+			MjpegCamera.FrameReady -= OnFrameReady;
 			MjpegCamera.ErrorHandler -= GetError;
 			MjpegCamera.StopVideo();
 			ImageSource = new BitmapImage();
