@@ -42,7 +42,7 @@ namespace GKProcessor
 			var property1 = new XDriverProperty()
 			{
 				No = 3,
-				Name = "Состояние для модуля Выключено",
+				Name = "Состояние для режима Выключено",
 				Caption = "Состояние для модуля Выключено",
 				Default = 0,
 				IsLowByte = true,

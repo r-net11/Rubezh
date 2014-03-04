@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			AvailableMPTDeviceTypes.Add(MPTDeviceType.HandStop);
 			AvailableMPTDeviceTypes.Add(MPTDeviceType.HandAutomatic);
 			AvailableMPTDeviceTypes.Add(MPTDeviceType.Bomb);
-			SelectedMPTDeviceType = AvailableMPTDeviceTypes.FirstOrDefault();
+			SelectedMPTDeviceType = MPTDeviceType.HandAutomatic;// AvailableMPTDeviceTypes.FirstOrDefault();
 		}
 
 		public ObservableCollection<MPTDeviceType> AvailableMPTDeviceTypes { get; private set; }

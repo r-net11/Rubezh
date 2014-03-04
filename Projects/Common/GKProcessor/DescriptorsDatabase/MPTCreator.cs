@@ -150,7 +150,8 @@ namespace GKProcessor
 		{
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
+				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard ||
+					mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.ExitBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)

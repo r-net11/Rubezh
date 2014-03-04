@@ -15,19 +15,22 @@ namespace GKModule.ViewModels
 			NavigateCommand = new RelayCommand(OnNavigate);
 			DescriptorsViewModel = descriptorsViewModel;
 			Descriptor = descriptor;
-			Description = descriptor.XBase.PresentationName;
+			PresentationName = descriptor.XBase.PresentationName;
 			switch (descriptor.DescriptorType)
 			{
 				case DescriptorType.Device:
 					ImageSource = descriptor.Device.Driver.ImageSource;
+					Description = descriptor.Device.Description;
 					break;
 
 				case DescriptorType.Zone:
 					ImageSource = "/Controls;component/Images/Zone.png";
+					Description = descriptor.Zone.Description;
 					break;
 
 				case DescriptorType.Direction:
 					ImageSource = "/Controls;component/Images/Blue_Direction.png";
+					Description = descriptor.Direction.Description;
 					break;
 
 				case DescriptorType.PumpStation:
@@ -62,6 +65,7 @@ namespace GKModule.ViewModels
 
 		public BaseDescriptor Descriptor { get; set; }
 		public string ImageSource { get; set; }
+		public string PresentationName { get; set; }
 		public string Description { get; set; }
 		public bool IsFormulaInvalid { get; set; }
 
