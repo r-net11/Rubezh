@@ -6,96 +6,57 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using System;
+using Infrastructure.Common.CheckBoxList;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeFilterViewModel : DialogViewModel
+	public class EmployeeFilterViewModel : OrganizationFilterBaseViewModel<EmployeeFilter>
 	{
-		public EmployeeFilter Filter { get; private set; }
-
-		public EmployeeFilterViewModel(EmployeeFilter filter)
+		public EmployeeFilterViewModel(EmployeeFilter filter): base(filter)
 		{
-			Title = "Настройки фмльтра";
-
-			Filter = filter;
-
-			ClearCommand = new RelayCommand(OnClear);
-			SaveCommand = new RelayCommand(OnSave);
-			CancelCommand = new RelayCommand(OnCancel);
-
-			Departments = new List<FilterDepartmentViewModel>();
-			var departments = FiresecManager.GetDepartments(null).ToList();
-			departments.ForEach(x => Departments.Add(new FilterDepartmentViewModel(x, this)));
-			
-			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
-			SetChildren(RootDepartment);
-
-			Positions = new List<FilterPositionViewModel>();
-
-			var operationResult = FiresecManager.FiresecService.GetPositions(null);
-			if (operationResult.HasError)
-				MessageBoxService.ShowWarning(operationResult.Error);
-			else
-			{
-				var positions = operationResult.Result;
-				foreach (var position in positions)
-					Positions.Add(new FilterPositionViewModel(position));
-			}
-			
-			//WithDeleted = filter.WithDeleted;
-			
-			Initialize();
+			ResetCommand = new RelayCommand(OnReset);
 		}
 
-		void Initialize()
+		protected override void Initialize()
 		{
-			Departments.ForEach(x => x.IsChecked = false);
-			Positions.ForEach(x => x.IsChecked = false);
+			base.Initialize();
+			
+			Departments = new List<FilterDepartmentViewModel>();
+			var departments = DepartmentHelper.Get(null);
+			if (departments != null)
+			{
+				foreach (var department in departments)
+				{
+					Departments.Add(new FilterDepartmentViewModel(department, this));
+				}
+				RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
+				SetChildren(RootDepartment);
+			}
+			
+			Positions = new CheckBoxItemList<FilterPositionViewModel>();
+			var positions = PositionHelper.Get(null);
+			if (positions != null)
+				foreach (var position in positions)
+					Positions.Add(new FilterPositionViewModel(position));
+		}
 
+		protected override void Update()
+		{
+			base.Update();
+			Departments.ForEach(x => x.IsChecked = false);
+			Positions.Items.ForEach(x => x.IsChecked = false);
 			Departments.ForEach(x =>
 			{
 				if (Filter.DepartmentUids.Any(y => y == x.Department.UID))
 					x.IsChecked = true;
 			});
-
-			Positions.ForEach(x =>
+			Positions.Items.ForEach(x =>
 			{
 				if (Filter.PositionUids.Any(y => y == x.Position.UID))
 					x.IsChecked = true;
 			});
-		}
-
-		public RelayCommand ClearCommand { get; private set; }
-		void OnClear()
-		{
-			Filter = new EmployeeFilter();
-			Initialize();
-		}
-
-		public RelayCommand SaveCommand { get; private set; }
-		void OnSave()
-		{
-			Filter = new EmployeeFilter();
-			Departments.ForEach(x =>
-			{
-				if (x.IsChecked)
-				{
-					Filter.DepartmentUids.Add(x.Department.UID);
-				}
-			});
-			Filter.DepartmentUids.Distinct();
-			Positions.ForEach(x =>
-			{
-				if (x.IsChecked)
-					Filter.PositionUids.Add(x.Position.UID);
-			});
-			//Filter.WithDeleted = WithDeleted;
-			//if (StartDateTime > EndDateTime)
-			//{
-			//    MessageBoxService.ShowWarning("Начальная дата должна быть меньше конечной");
-			//    return;
-			//}
-			Close(true);
 		}
 
 		List<FilterDepartmentViewModel> GetAllChildren(FilterDepartmentViewModel department)
@@ -131,12 +92,7 @@ namespace SKDModule.ViewModels
 			GetAllChildren(department).ForEach(x => x.IsChecked = true);
 		}
 
-		public RelayCommand CancelCommand { get; private set; }
-		void OnCancel()
-		{
-			Close(false);
-		}
-
+		
 		List<FilterDepartmentViewModel> departments;
 		public List<FilterDepartmentViewModel> Departments
 		{
@@ -166,26 +122,31 @@ namespace SKDModule.ViewModels
 		}
 
 
-		List<FilterPositionViewModel> positions;
-		public List<FilterPositionViewModel> Positions
+		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
+
+		protected override bool Save()
 		{
-			get { return positions; }
-			private set
+			base.Save();
+			Filter.PositionUids = new List<Guid>();
+			foreach (var position in Positions.Items)
 			{
-				positions = value;
-				OnPropertyChanged(()=>Positions);
-			}
+				if (position.IsChecked)
+					Filter.PositionUids.Add(position.Position.UID);
+			};
+			Filter.DepartmentUids = new List<Guid>();
+			foreach (var Department in Departments)
+			{
+				if (Department.IsChecked)
+					Filter.DepartmentUids.Add(Department.Department.UID);
+			};
+			return true;
 		}
 
-		bool withDeleted;
-		public bool WithDeleted
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
 		{
-			get { return withDeleted; }
-			set
-			{
-				withDeleted = value;
-				OnPropertyChanged(() => WithDeleted);
-			}
+			Filter = new EmployeeFilter();
+			Update();
 		}
 	}
 
@@ -220,7 +181,7 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class FilterPositionViewModel : BaseViewModel
+	public class FilterPositionViewModel : CheckBoxItemViewModel
 	{
 		public FilterPositionViewModel(Position position)
 		{
@@ -228,16 +189,5 @@ namespace SKDModule.ViewModels
 		}
 
 		public Position Position { get; private set; }
-
-		bool _isChecked;
-		public bool IsChecked
-		{
-			get { return _isChecked; }
-			set
-			{
-				_isChecked = value;
-				OnPropertyChanged("IsChecked");
-			}
-		}
 	}
 }

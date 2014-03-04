@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class PositionsTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
+	public class PositionTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
 	{
-		public PositionsTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
+		public PositionTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
 			: base(table, context)
 		{
 
@@ -42,9 +42,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Position tableItem, Position apiItem)
+		protected override void TranslateBack(DataAccess.Position tableItem, Position apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 		}

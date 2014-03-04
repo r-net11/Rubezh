@@ -10,14 +10,12 @@ namespace SKDModule.ViewModels
 		public ReportViewModel(Employee employee)
 		{
 			Employee = employee;
-			var department = FiresecManager.GetDepartment(employee.DepartmentUid);
+			var department = DepartmentHelper.GetSingle(employee.DepartmentUid);
 			DepartmentName = (department != null) ? department.Name : "";
-			var position = PositionHelper.GetPosition(employee.PositionUid);
+			var position = PositionHelper.GetSingle(employee.PositionUid);
 			PositionName = (position != null) ? position.Name : "";
-			if (employee.Appointed.HasValue)
-				AppointedString = employee.Appointed.Value.ToString("d MMM yyyy");
-			if (employee.Dismissed.HasValue)
-				DismissedString = employee.Dismissed.Value.ToString("d MMM yyyy");
+			AppointedString = employee.Appointed.ToString("d MMM yyyy");
+			DismissedString = employee.Dismissed.ToString("d MMM yyyy");
 		}
 
 		public Employee Employee { get; set; }

@@ -230,8 +230,6 @@
     <Compile Include="SKD\Database\Filter\EmployeeFilter.cs" />
     <Compile Include="SKD\Database\EmployeeReplacement.cs" />
     <Compile Include="SKD\Database\Common\FilterBase.cs" />
-    <Compile Include="SKD\Database\Frame.cs" />
-    <Compile Include="SKD\Database\Filter\FrameFilter.cs" />
     <Compile Include="SKD\Database\Holiday.cs" />
     <Compile Include="SKD\Database\Schedule\Interval.cs" />
     <Compile Include="SKD\Database\Schedule\NamedInterval.cs" />

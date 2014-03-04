@@ -7,6 +7,13 @@ namespace FiresecAPI
 	[DataContract]
 	public class Department : OrganizationElementBase
 	{
+		public Department()
+			:base()
+		{
+			ChildDepartmentUids = new List<Guid>();
+			PhoneUids = new List<Guid>();
+		}
+		
 		[DataMember]
 		public string Name { get; set; }
 

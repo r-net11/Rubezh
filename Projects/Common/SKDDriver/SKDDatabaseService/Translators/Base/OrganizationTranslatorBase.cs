@@ -25,9 +25,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(TableT tableItem, ApiT apiItem)
+		protected override void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.OrganizationUid = apiItem.OrganizationUid;
 		}
 

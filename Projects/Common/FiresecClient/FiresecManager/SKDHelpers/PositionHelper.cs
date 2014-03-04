@@ -20,7 +20,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static Position GetPosition(Guid? uid)
+		public static Position GetSingle(Guid? uid)
 		{
 			if (uid == null)
 				return null;
@@ -30,7 +30,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static IEnumerable<Position> GetPositions(PositionFilter filter)
+		public static IEnumerable<Position> Get(PositionFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
 			return Common.ShowErrorIfExists(operationResult);

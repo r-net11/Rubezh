@@ -4,7 +4,6 @@ using FiresecAPI;
 using System.Data.Linq;
 using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace SKDDriver
 {
@@ -15,8 +14,6 @@ namespace SKDDriver
 		{
 			;
 		}
-
-		CardZonesTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(Organization item)
 		{
@@ -54,9 +51,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Organization tableItem, Organization apiItem)
+		protected override void TranslateBack(DataAccess.Organization tableItem, Organization apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 		}

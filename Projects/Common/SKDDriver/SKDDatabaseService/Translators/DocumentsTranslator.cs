@@ -4,13 +4,12 @@ using FiresecAPI;
 using System.Data.Linq;
 using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class DocumentsTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
+	public class DocumentTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
 	{
-		public DocumentsTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
+		public DocumentTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
 			: base(table, context)
 		{
 			
@@ -46,9 +45,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Document tableItem, Document apiItem)
+		protected override void TranslateBack(DataAccess.Document tableItem, Document apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.IssueDate = apiItem.IssueDate;

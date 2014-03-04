@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using SKDModule.Models;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -59,7 +60,14 @@ namespace SKDModule.ViewModels
 		void UpdateReports()
 		{
 			Reports = new ObservableCollection<ReportViewModel>();
-			FiresecManager.GetEmployees(Filter).ToList().ForEach(x => Reports.Add(new ReportViewModel(x)));
+
+			var employees = EmployeeHelper.Get(Filter);
+			if (employees == null)
+				return;
+			foreach (var employee in employees)
+			{
+				Reports.Add(new ReportViewModel(employee));
+			}
 		}
 
 		public RelayCommand ShowFilterCommand { get; private set; }

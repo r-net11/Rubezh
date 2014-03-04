@@ -7,6 +7,7 @@ using System;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using Infrastructure.Common;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -18,16 +19,8 @@ namespace SKDModule.ViewModels
 		{
 			Current = this;
 			Departments = new ObservableCollection<DepartmentViewModel>();
-			//var departments = FiresecManager.GetDepartments(null);
-			//foreach (var department in departments)
-			//{
-			//    var departmentViewModel = new DepartmentViewModel(department);
-			//    Departments.Add(departmentViewModel);
-			//}
-
 			Filter = new DepartmentFilter();
-			//Update();
-			WithDeletedCommand = new RelayCommand(OnWithDeleted);
+			Update();
 		}
 
 		public RelayCommand WithDeletedCommand { get; private set; }
@@ -42,8 +35,14 @@ namespace SKDModule.ViewModels
 		void Update()
 		{
 			Departments = new ObservableCollection<DepartmentViewModel>();
-			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
-			if (RootDepartment != null)
+			var departments = DepartmentHelper.Get(new DepartmentFilter());
+			foreach (var department in departments)
+			{
+				var departmentViewModel = new DepartmentViewModel(department);
+				Departments.Add(departmentViewModel);
+			}
+			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUid == null).ToArray();
+			if (RootDepartments.IsNotNullOrEmpty())
 			{
 				BuildTree();
 			}
@@ -74,7 +73,10 @@ namespace SKDModule.ViewModels
 		#region Tree
 		void BuildTree()
 		{
-			AddChildren(RootDepartment);
+			foreach (var root in RootDepartments)
+			{
+				AddChildren(root);	
+			}
 		}
 
 		void AddChildren(DepartmentViewModel departmentViewModel)
@@ -103,21 +105,15 @@ namespace SKDModule.ViewModels
 			return (result);
 		}
 
-		DepartmentViewModel rootDepartment;
-		public DepartmentViewModel RootDepartment
-		{
-			get { return rootDepartment; }
-			private set
-			{
-				rootDepartment = value;
-				OnPropertyChanged(() => RootDepartment);
-				OnPropertyChanged(() => RootDepartments);
-			}
-		}
-
+		DepartmentViewModel[] rootDepartments;
 		public DepartmentViewModel[] RootDepartments
 		{
-			get { return new DepartmentViewModel[] { RootDepartment }; }
+			get { return rootDepartments; }
+			set
+			{
+				rootDepartments = value;
+				OnPropertyChanged(() => RootDepartments);
+			}
 		}
 		#endregion
 	}

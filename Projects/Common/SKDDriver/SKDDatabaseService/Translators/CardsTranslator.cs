@@ -8,20 +8,21 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardsTranslator:TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
+	public class CardTranslator:TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardsTranslator(Table<DataAccess.Card> table, DataAccess.SKUDDataContext context, CardZonesTranslator cardsTranslator)
+		public CardTranslator(Table<DataAccess.Card> table, DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(table, context)
 		{
 			CardZonesTranslator = cardsTranslator;
 		}
 
-		CardZonesTranslator CardZonesTranslator;
+		CardZoneTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
 			bool sameSeriesNo = Table.Any(x => x.Number == item.Number &&
 				x.Series == item.Series &&
+				!x.IsDeleted && 
 				x.Uid != item.UID);
 			if (sameSeriesNo)
 				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
@@ -36,7 +37,7 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(SKDCard item)
 		{
 			if (Context.Employee.Any(x => x.Uid == item.HolderUid &&
-					x.IsDeleted == true))
+					!x.IsDeleted))
 				return new OperationResult("Не могу удалить карту, пока она указана у действующих сотрудников");
 			return base.CanSave(item);
 		}
@@ -77,9 +78,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Card tableItem, SKDCard apiItem)
+		protected override void TranslateBack(DataAccess.Card tableItem, SKDCard apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Number = apiItem.Number;
 			tableItem.Series = apiItem.Series;
 			tableItem.EmployeeUid = apiItem.HolderUid;

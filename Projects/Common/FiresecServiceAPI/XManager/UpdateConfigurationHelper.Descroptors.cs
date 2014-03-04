@@ -105,6 +105,9 @@ namespace FiresecClient
 
 		static void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
 		{
+			if (clauses == null)
+				return;
+
 			foreach (var clause in clauses)
 			{
 				foreach (var zone in clause.Zones)

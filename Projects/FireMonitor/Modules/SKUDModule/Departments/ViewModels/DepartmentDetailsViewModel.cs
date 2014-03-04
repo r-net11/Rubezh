@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Department Department { get; private set; }
-
+		
 		public DepartmentDetailsViewModel(Department department = null)
 		{
 			if (department == null)

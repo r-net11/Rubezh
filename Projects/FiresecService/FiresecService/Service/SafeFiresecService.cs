@@ -192,26 +192,21 @@ namespace FiresecService.Service
 
 		#region SKD
 		#region Get
-		public IEnumerable<Employee> GetEmployees(EmployeeFilter filter)
+		public OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter)
 		{
-			var result =  SafeContext.Execute<IEnumerable<Employee>>(() => FiresecService.GetEmployees(filter));
-			return result;
+			return SafeContext.Execute < OperationResult<IEnumerable<Employee>>>(() => FiresecService.GetEmployees(filter));
 		}
 		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Position>>>(() => FiresecService.GetPositions(filter));
 		}
-		public IEnumerable<Department> GetDepartments(DepartmentFilter filter)
+		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<Department>>(() => FiresecService.GetDepartments(filter));
+			return SafeContext.Execute < OperationResult<IEnumerable<Department>>>(() => FiresecService.GetDepartments(filter));
 		}
-		public IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter)
+		public OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<SKDJournalItem>>(() => FiresecService.GetSKDJournalItems(filter));
-		}
-		public IEnumerable<Frame> GetFrames(FrameFilter filter)
-		{
-			return SafeContext.Execute<IEnumerable<Frame>>(() => FiresecService.GetFrames(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<SKDJournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
@@ -236,25 +231,21 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Save
-		public void SaveEmployees(IEnumerable<Employee> Employees)
+		public OperationResult SaveEmployees(IEnumerable<Employee> Employees)
 		{
-			SafeContext.Execute(() => FiresecService.SaveEmployees(Employees));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployees(Employees));
 		}
-		public void SaveDepartments(IEnumerable<Department> Departments)
+		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
 		{
-			SafeContext.Execute(() => FiresecService.SaveDepartments(Departments));
+			return SafeContext.Execute < OperationResult>(() => FiresecService.SaveDepartments(Departments));
 		}
 		public OperationResult SavePositions(IEnumerable<Position> Positions)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePositions(Positions));
 		}
-		public void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		public OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> SKDJournalItems)
 		{
-			SafeContext.Execute(() => FiresecService.SaveSKDJournalItems(journalItems));
-		}
-		public void SaveFrames(IEnumerable<Frame> frames)
-		{
-			SafeContext.Execute(() => FiresecService.SaveFrames(frames));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveSKDJournalItems(SKDJournalItems));
 		}
 		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
@@ -279,25 +270,21 @@ namespace FiresecService.Service
 		#endregion
 
 		#region MarkDeleted
-		public void MarkDeletedEmployees(IEnumerable<Employee> Employees)
+		public OperationResult MarkDeletedEmployees(IEnumerable<Employee> Employees)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedEmployees(Employees));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployees(Employees));
 		}
-		public void MarkDeletedDepartments(IEnumerable<Department> Departments)
+		public OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedDepartments(Departments));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartments(Departments));
 		}
 		public OperationResult MarkDeletedPositions(IEnumerable<Position> Positions)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPositions(Positions));
 		}
-		public void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		public OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> SKDJournalItems)
 		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedSKDJournalItems(journalItems));
-		}
-		public void MarkDeletedFrames(IEnumerable<Frame> frames)
-		{
-			SafeContext.Execute(() => FiresecService.MarkDeletedFrames(frames));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedSKDJournalItems(SKDJournalItems));
 		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{

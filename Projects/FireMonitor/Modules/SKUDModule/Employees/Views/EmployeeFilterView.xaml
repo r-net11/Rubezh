@@ -2,13 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-             Height="400" Width="300">
+             xmlns:Views="clr-namespace:SKDModule.Views"
+             Height="400" Width="600">
     <Grid>
         <DockPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Bottom">
-                <Button Content="Cброс" Command="{Binding ClearCommand}" Margin="2" Width="100"/>
-                <Button Content="ОК" Command="{Binding SaveCommand}" Margin="2" Width="100"/>
-                <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="2" Width="100"/>
+            <StackPanel DockPanel.Dock="Bottom">
+                <Button Content="Сброс" Width="100" HorizontalAlignment="Right" Command="{Binding ResetCommand}" />
             </StackPanel>
             <TabControl>
                 <TabItem Header="Отделы">
@@ -30,7 +29,7 @@
                     </tree:TreeList>
                 </TabItem>
                 <TabItem Header="Должности">
-                    <ListBox ItemsSource="{Binding Positions}">
+                    <ListBox ItemsSource="{Binding Positions.Items}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -41,16 +40,8 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </TabItem>
-                <TabItem Header="Разное">
-                    <ListBox>
-                        <ListBoxItem>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding WithDeleted}" VerticalAlignment="Center" />
-                                <TextBlock Text="Показать удалённых сотрудников" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </ListBoxItem>
-                    </ListBox>
-                </TabItem>
+                <Views:FilterMarkDeletedTabItem />
+                <Views:FilterOrganizationTabItem />
             </TabControl>
         </DockPanel>
     </Grid>

@@ -18,10 +18,10 @@ namespace FiresecAPI
 		public string LastName { get; set; }
 
 		[DataMember]
-		public DateTime? Appointed { get; set; }
+		public DateTime Appointed { get; set; }
 
 		[DataMember]
-		public DateTime? Dismissed { get; set; }
+		public DateTime Dismissed { get; set; }
 
 		[DataMember]
 		public Guid? PositionUid { get; set; }

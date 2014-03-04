@@ -10,19 +10,20 @@ namespace SKDDriver
 {
 	public class GUDTranslator:TranslatorBase<DataAccess.GUD, GUD, GUDFilter>
 	{
-		public GUDTranslator(Table<DataAccess.GUD> table, DataAccess.SKUDDataContext context, CardZonesTranslator cardsTranslator)
+		public GUDTranslator(Table<DataAccess.GUD> table, DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(table, context)
 		{
 			CardZonesTranslator = cardsTranslator;
 		}
 
-		CardZonesTranslator CardZonesTranslator;
+		CardZoneTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(GUD item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && 
 				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID);
+				x.Uid != item.UID &&
+				!x.IsDeleted);
 			if (sameName)
 				return new OperationResult("Попытка добавить ГУД с совпадающим именем");
 			return base.CanSave(item);
@@ -62,9 +63,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.GUD tableItem, GUD apiItem)
+		protected override void TranslateBack(DataAccess.GUD tableItem, GUD apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 		}
 
