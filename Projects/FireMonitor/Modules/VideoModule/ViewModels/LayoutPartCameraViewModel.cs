@@ -19,7 +19,6 @@ namespace VideoModule.ViewModels
 		{
 			Camera = camera;
 		    InitializeCommand();
-
 		}
 
         public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)

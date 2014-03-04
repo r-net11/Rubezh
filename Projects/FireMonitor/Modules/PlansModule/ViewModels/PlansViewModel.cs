@@ -37,7 +37,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			_initialized = false;
-			if (_properties.Type != LayoutPartPlansType.Single)
+			if (_properties != null && _properties.Type != LayoutPartPlansType.Single)
 			{
 				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
@@ -89,7 +89,7 @@ namespace PlansModule.ViewModels
 			{
 				if (PlanTreeViewModel != null)
 					PlanDesignerViewModel.SelectPlan(PlanTreeViewModel.SelectedPlan);
-				else if (_properties.Plans.Count > 0)
+				else if (_properties != null && _properties.Plans.Count > 0)
 				{
 					var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(item => item.UID == _properties.Plans[0]);
 					if (plan != null)

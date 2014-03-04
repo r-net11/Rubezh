@@ -77,9 +77,6 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-  
-        public string Test { get { return "Test"; } }
-
 		public string PresentationZones
 		{
 			get
