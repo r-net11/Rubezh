@@ -15,7 +15,7 @@ namespace VideoModule.Views
             var controls = GetLogicalChildCollection<LayoutPartCameraView>(this).FindAll(x => !String.IsNullOrEmpty(x.Name));
             foreach (var control in controls)
             {
-                var layoutPartCameraViewModel = new LayoutPartCameraViewModel();
+                var layoutPartCameraViewModel = new LayoutPartCameraViewModel(control.Name, MultiGridHelper._3X3Collection);
                 control.DataContext = layoutPartCameraViewModel;
             }
 		}
