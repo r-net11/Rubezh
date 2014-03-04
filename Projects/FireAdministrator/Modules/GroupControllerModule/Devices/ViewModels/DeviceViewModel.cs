@@ -66,6 +66,7 @@ namespace GKModule.ViewModels
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
+			OnPropertyChanged("IsParamtersEnabled");
 		}
 
 		public void Update()

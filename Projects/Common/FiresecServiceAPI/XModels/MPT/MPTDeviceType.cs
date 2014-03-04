@@ -29,7 +29,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Ручной останов")]
 		HandStop,
 
-		[DescriptionAttribute("Ручное отключение автоматики")]
+		[DescriptionAttribute("Ручное изменение режима автоматики")]
 		HandAutomatic,
 
 		[DescriptionAttribute("Пуск")]

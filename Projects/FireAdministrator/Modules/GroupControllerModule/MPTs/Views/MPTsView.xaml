@@ -39,6 +39,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+                        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
                         <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
                     </StackPanel>
                     <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Grid.Row="1">
@@ -46,13 +47,7 @@
                             <DataGridTemplateColumn Header="Тип" MinWidth="200" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding AvailableMPTDeviceTypes}" SelectedItem="{Binding MPTDeviceType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" VerticalContentAlignment="Center">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding ., Converter={StaticResource MPTDeviceTypeToStringConverter}}" Foreground="Black" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
+                                        <TextBlock Text="{Binding MPTDeviceType, Converter={StaticResource MPTDeviceTypeToStringConverter}}" Margin="2 0" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -67,7 +62,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" MinWidth="100" Width="Auto" />
-                            <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" MinWidth="100" Width="*" />
+                            <DataGridTextColumn Header="Примечание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="2">
@@ -76,13 +71,13 @@
                             <TextBox Text="{Binding Description}" Width="200" Margin="2" />
                         </StackPanel>
 
-                        <StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasDelay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel Visibility="{Binding HasDelayAndHold, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
                             </StackPanel>
 
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasHold, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
                                 <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
                             </StackPanel>
@@ -96,7 +91,7 @@
             <Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="Условие для запуска" FontWeight="Bold" Width="200" Margin="5 2" />
                         <TextBlock VerticalAlignment="Center" Margin="2">
 				            <Hyperlink Command="{Binding ChangeStartLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 					            <TextBlock Margin="2">

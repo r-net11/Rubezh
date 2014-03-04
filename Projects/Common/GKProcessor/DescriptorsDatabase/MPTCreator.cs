@@ -10,11 +10,13 @@ namespace GKProcessor
 	{
 		GkDatabase GkDatabase;
 		XMPT MPT;
+		public XDelay AutomaticOffDelay { get; private set; }
 
-		public MPTCreator(GkDatabase gkDatabase, XMPT mpt)
+		public MPTCreator(GkDatabase gkDatabase, XMPT mpt, XDelay automaticOffDelay)
 		{
 			GkDatabase = gkDatabase;
 			MPT = mpt;
+			AutomaticOffDelay = automaticOffDelay;
 		}
 
 		public void Create()
@@ -22,6 +24,7 @@ namespace GKProcessor
 			CreateAutomaticBoards();
 			CreateOnDevices();
 			CreateBombDevices();
+			CreateAutomaticOffDelay();
 			SetCrossReferences();
 		}
 
@@ -100,13 +103,54 @@ namespace GKProcessor
 			}
 		}
 
-		void SetCrossReferences()
+		void CreateAutomaticOffDelay()
 		{
-			UpdateConfigurationHelper.LinkXBases(MPT, MPT);
+			AutomaticOffDelay.Name = "АО " + MPT.PresentationName;
+			AutomaticOffDelay.DelayTime = 0;
+			AutomaticOffDelay.SetTime = 10;
+			AutomaticOffDelay.DelayRegime = DelayRegime.On;
+
+			var delayDescriptor = new DelayDescriptor(AutomaticOffDelay);
+			GkDatabase.Descriptors.Add(delayDescriptor);
+			UpdateConfigurationHelper.LinkXBases(MPT, AutomaticOffDelay);
+
+			var formula = new FormulaBuilder();
+
+			var hasAutomaticExpression = false;
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard ||
-					mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
+				{
+					formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+					if (hasAutomaticExpression)
+						formula.Add(FormulaOperationType.OR);
+					hasAutomaticExpression = true;
+					UpdateConfigurationHelper.LinkXBases(AutomaticOffDelay, mptDevice.Device);
+				}
+			}
+			if (hasAutomaticExpression)
+			{
+				formula.Add(FormulaOperationType.DUP);
+				formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+				formula.Add(FormulaOperationType.AND);
+				formula.AddPutBit(XStateBit.TurnOff_InAutomatic, AutomaticOffDelay);
+
+				formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+				formula.Add(FormulaOperationType.COM);
+				formula.Add(FormulaOperationType.AND);
+				formula.AddPutBit(XStateBit.TurnOn_InAutomatic, AutomaticOffDelay);
+			}
+
+			formula.Add(FormulaOperationType.END);
+			delayDescriptor.Formula = formula;
+			delayDescriptor.FormulaBytes = formula.GetBytes();
+		}
+
+		void SetCrossReferences()
+		{
+			foreach (var mptDevice in MPT.MPTDevices)
+			{
+				if (mptDevice.MPTDeviceType == MPTDeviceType.DoNotEnterBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.ExitBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
@@ -115,10 +159,9 @@ namespace GKProcessor
 					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
 				}
 
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic ||
-						mptDevice.MPTDeviceType == MPTDeviceType.HandStart ||
-						mptDevice.MPTDeviceType == MPTDeviceType.HandStop ||
-						mptDevice.MPTDeviceType == MPTDeviceType.Door)
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandStart ||
+					mptDevice.MPTDeviceType == MPTDeviceType.HandStop ||
+					mptDevice.MPTDeviceType == MPTDeviceType.Door)
 				{
 					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
 				}

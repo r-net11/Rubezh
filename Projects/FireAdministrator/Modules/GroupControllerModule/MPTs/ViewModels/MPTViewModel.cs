@@ -19,6 +19,7 @@ namespace GKModule.ViewModels
 			MPT = mpt;
 			ChangeStartLogicCommand = new RelayCommand(OnChangeStartLogic);
 			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
@@ -55,60 +56,80 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var devices = new List<XDevice>();
-			foreach (var device in XManager.Devices)
+			var mptDeviceTypeViewModel = new MPTDeviceTypeViewModel();
+			if (DialogService.ShowModalWindow(mptDeviceTypeViewModel))
 			{
-				switch (device.DriverType)
-				{
-					case XDriverType.RSR2_MVK8:
-					case XDriverType.RSR2_OPS:
-					case XDriverType.RSR2_OPZ:
-					case XDriverType.RSR2_OPK:
-					case XDriverType.RSR2_AM_1:
-						if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.UID))
-							devices.Add(device);
-						break;
-				}
-			}
-
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(null, devices);
-			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-			{
-				deviceSelectationViewModel.SelectedDevice.IsInMPT = true;
-
 				var mptDevice = new MPTDevice();
-				mptDevice.Device = deviceSelectationViewModel.SelectedDevice;
-				mptDevice.DeviceUID = mptDevice.Device.UID;
-				mptDevice.MPTDeviceType = MPTDevice.GetAvailableMPTDeviceTypes(mptDevice.Device.DriverType).FirstOrDefault();
+				mptDevice.MPTDeviceType = mptDeviceTypeViewModel.SelectedMPTDeviceType;
 
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
 				Devices.Add(mptDeviceViewModel);
 				SelectedDevice = mptDeviceViewModel;
 				MPT.MPTDevices.Add(mptDevice);
 
-				UpdateConfigurationHelper.CopyMPTProperty(mptDevice);
-				mptDevice.Device.OnChanged();
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == mptDevice.Device.UID);
-				if (deviceViewModel != null)
-				{
-					deviceViewModel.UpdateProperties();
-				}
 				ServiceFactory.SaveService.GKChanged = true;
 			}
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var devices = new List<XDevice>();
+			foreach (var device in XManager.Devices)
+			{
+				if (MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Any(x => SelectedDevice.MPTDeviceType == x))
+					if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.UID))
+						devices.Add(device);
+			}
+
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices);
+			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			{
+				if (SelectedDevice.MPTDevice.Device != null)
+				{
+					ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
+				}
+
+				SelectedDevice.MPTDevice.Device = deviceSelectationViewModel.SelectedDevice;
+				SelectedDevice.MPTDevice.DeviceUID = deviceSelectationViewModel.SelectedDevice.UID;
+				UpdateConfigurationHelper.CopyMPTProperty(SelectedDevice.MPTDevice);
+				SelectedDevice.Device = deviceSelectationViewModel.SelectedDevice;
+				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
+
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanEdit()
+		{
+			return SelectedDevice != null;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SelectedDevice.MPTDevice.Device.IsInMPT = false;
-			SelectedDevice.MPTDevice.Device.OnChanged();
+			ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
 			MPT.MPTDevices.Remove(SelectedDevice.MPTDevice);
 			Devices.Remove(SelectedDevice);
+			SelectedDevice = Devices.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanDelete()
 		{
 			return SelectedDevice != null;
+		}
+
+		void ChangeIsInMPT(XDevice device, bool isInMPT)
+		{
+			if (device != null)
+			{
+				device.IsInMPT = isInMPT;
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.UpdateProperties();
+				}
+				device.OnChanged();
+			}
 		}
 
 		public void Update()

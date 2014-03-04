@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels

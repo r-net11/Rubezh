@@ -92,6 +92,10 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
+				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
+				{
+					mptDevice.Device.IsInMPT = false;
+				}
 				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				SelectedMPT = MPTs.FirstOrDefault();

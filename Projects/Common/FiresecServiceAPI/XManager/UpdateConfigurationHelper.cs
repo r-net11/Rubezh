@@ -548,7 +548,7 @@ namespace FiresecClient
 					case XDriverType.RSR2_OPS:
 					case XDriverType.RSR2_OPZ:
 					case XDriverType.RSR2_OPK:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
+						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", 0);
 						SetDeviceProperty(mptDevice.Device, "Время удержания, с", 65000);
 						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
 						SetDeviceProperty(mptDevice.Device, "Состояние для модуля Выключено", 0);
