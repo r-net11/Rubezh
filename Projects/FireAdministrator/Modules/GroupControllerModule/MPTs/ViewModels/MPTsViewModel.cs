@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
 				{
-					mptDevice.Device.IsInMPT = false;
+					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
 				}
 				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);

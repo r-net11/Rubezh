@@ -56,11 +56,11 @@ namespace GKModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var mptDeviceTypeViewModel = new MPTDeviceTypeViewModel();
-			if (DialogService.ShowModalWindow(mptDeviceTypeViewModel))
+			var mptDeviceTypeSelectationViewModel = new MPTDeviceTypeSelectationViewModel();
+			if (DialogService.ShowModalWindow(mptDeviceTypeSelectationViewModel))
 			{
 				var mptDevice = new MPTDevice();
-				mptDevice.MPTDeviceType = mptDeviceTypeViewModel.SelectedMPTDeviceType;
+				mptDevice.MPTDeviceType = mptDeviceTypeSelectationViewModel.SelectedMPTDeviceType.MPTDeviceType;
 
 				var mptDeviceViewModel = new MPTDeviceViewModel(mptDevice);
 				Devices.Add(mptDeviceViewModel);
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 			return SelectedDevice != null;
 		}
 
-		void ChangeIsInMPT(XDevice device, bool isInMPT)
+		public static void ChangeIsInMPT(XDevice device, bool isInMPT)
 		{
 			if (device != null)
 			{

@@ -73,11 +73,14 @@ namespace GKProcessor
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
 
+			if (hasAutomaticDoorExpression)
+			{
+				Formula.Add(FormulaOperationType.COM);
+			}
 			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
 			Formula.Add(FormulaOperationType.COM);
 			if (hasAutomaticDoorExpression)
 			{
-				Formula.Add(FormulaOperationType.COM);
 				Formula.Add(FormulaOperationType.AND);
 			}
 			Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);

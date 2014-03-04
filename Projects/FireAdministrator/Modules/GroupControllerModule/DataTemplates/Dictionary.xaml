@@ -96,8 +96,8 @@
         <Views:MPTDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTDeviceTypeViewModel}">
-        <Views:MPTDeviceTypeView />
+    <DataTemplate DataType="{x:Type ViewModels:MPTDeviceTypeSelectationViewModel}">
+        <Views:MPTDeviceTypeSelectationView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">

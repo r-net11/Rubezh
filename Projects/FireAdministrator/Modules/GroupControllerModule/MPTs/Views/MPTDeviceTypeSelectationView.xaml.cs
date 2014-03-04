@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class MPTDeviceTypeView : UserControl
+	public partial class MPTDeviceTypeSelectationView : UserControl
 	{
-		public MPTDeviceTypeView()
+		public MPTDeviceTypeSelectationView()
 		{
 			InitializeComponent();
 		}
