@@ -22,22 +22,22 @@ namespace VideoModule.Views
 
 		private void UI_Loaded(object sender, RoutedEventArgs e)
 		{
-            InitializeUIElement(_2X2GridView);
-            InitializeUIElement(_1X7GridView);
-            InitializeUIElement(_3X3GridView);
-            InitializeUIElement(_4X4GridView);
-            InitializeUIElement(_6X6GridView);
+			InitializeUIElement(_2X2GridView);
+			InitializeUIElement(_1X7GridView);
+			InitializeUIElement(_3X3GridView);
+			InitializeUIElement(_4X4GridView);
+			InitializeUIElement(_6X6GridView);
 			_grid.Child = _2X2GridView;
 		}
 
-        private void InitializeUIElement(UIElement uiElement)
+		private void InitializeUIElement(UIElement uiElement)
 		{
-            var controls = new List<LayoutPartCameraView>();
-            GetLogicalChildCollection(uiElement, controls);
+			var controls = new List<LayoutPartCameraView>();
+			GetLogicalChildCollection(uiElement, controls);
 			foreach (var control in controls)
 			{
-                control.DataContext = new LayoutPartCameraViewModel(control.Name);
-                control.MouseDoubleClick += OnFullScreenSize;
+				control.DataContext = new LayoutPartCameraViewModel(control.Name);
+				control.MouseDoubleClick += OnFullScreenSize;
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace VideoModule.Views
 			IsFullScreen = false;
 		}
 
-        private static void GetLogicalChildCollection(DependencyObject parent, List<LayoutPartCameraView> logicalCollection)
+		private static void GetLogicalChildCollection(DependencyObject parent, List<LayoutPartCameraView> logicalCollection)
 		{
 			var children = LogicalTreeHelper.GetChildren(parent);
 			foreach (var child in children)
@@ -79,16 +79,16 @@ namespace VideoModule.Views
 				if (child is DependencyObject)
 				{
 					var depChild = child as DependencyObject;
-                    if (child is LayoutPartCameraView)
+					if (child is LayoutPartCameraView)
 					{
-                        logicalCollection.Add(child as LayoutPartCameraView);
+						logicalCollection.Add(child as LayoutPartCameraView);
 					}
 					GetLogicalChildCollection(depChild, logicalCollection);
 				}
 			}
 		}
 
-        void OnFullScreenSize(object sender, RoutedEventArgs e)
+		void OnFullScreenSize(object sender, RoutedEventArgs e)
 		{
 			if (IsFullScreen)
 			{
@@ -98,7 +98,7 @@ namespace VideoModule.Views
 			{
 				BackUpView = _grid.Child;
 				_grid.Child = new LayoutPartCameraView { DataContext = (sender as LayoutPartCameraView).DataContext };
-                (_grid.Child as LayoutPartCameraView).MouseDoubleClick += OnFullScreenSize;
+				(_grid.Child as LayoutPartCameraView).MouseDoubleClick += OnFullScreenSize;
 			}
 			IsFullScreen = !IsFullScreen;
 		}

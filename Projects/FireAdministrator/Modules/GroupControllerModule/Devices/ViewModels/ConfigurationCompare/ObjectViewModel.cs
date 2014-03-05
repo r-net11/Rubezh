@@ -22,15 +22,15 @@ namespace GKModule.ViewModels
 			}
 		}
 
-	    public bool HasDifferences
-	    {
-	        get
-	        {
-	            return !String.IsNullOrEmpty(DifferenceDiscription);
-	        }
-	    }
+		public bool HasDifferences
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(DifferenceDiscription);
+			}
+		}
 
-	    public string DifferenceDiscription { get; set; }
+		public string DifferenceDiscription { get; set; }
 		public XDevice Device;
 		public XZone Zone;
 		public XDirection Direction;

@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 		void CopyProperties()
 		{
 			Name = MPT.Name;
-        }
+		}
 
 		string _name;
 		public string Name
@@ -49,9 +49,9 @@ namespace GKModule.ViewModels
 			return base.Save();
 		}
 
-        protected override bool CanSave()
-        {
+		protected override bool CanSave()
+		{
 			return true;
-        }
+		}
 	}
 }

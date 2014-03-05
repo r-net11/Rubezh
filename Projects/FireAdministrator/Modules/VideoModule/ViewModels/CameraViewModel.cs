@@ -116,8 +116,8 @@ namespace VideoModule.ViewModels
 		{
 			//TODO: TEST (CameraVideo isn't working now)
 			//{
-			//    IsNowPlaying = false;
-			//    return;
+			//	IsNowPlaying = false;
+			//	return;
 			//}
 			MjpegCamera.FrameReady -= BmpToImageSource;
 			MjpegCamera.ErrorHandler -= GetError;

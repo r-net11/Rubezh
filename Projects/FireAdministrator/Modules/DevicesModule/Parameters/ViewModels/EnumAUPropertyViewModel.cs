@@ -45,13 +45,13 @@ namespace DevicesModule.DeviceProperties
 
 		//public override string DeviceAUParameterValue
 		//{
-		//    get
-		//    {
-		//        var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == base.DeviceAUParameterValue);
-		//        if (driverPropertyParameter != null)
-		//            return driverPropertyParameter.Name;
-		//        return "Неизвестно";
-		//    }
+		//	get
+		//	{
+		//		var driverPropertyParameter = DriverProperty.Parameters.FirstOrDefault(x => x.Value == base.DeviceAUParameterValue);
+		//		if (driverPropertyParameter != null)
+		//			return driverPropertyParameter.Name;
+		//		return "Неизвестно";
+		//	}
 		//}
 	}
 }

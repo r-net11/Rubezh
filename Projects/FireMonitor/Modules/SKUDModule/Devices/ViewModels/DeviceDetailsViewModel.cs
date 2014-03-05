@@ -125,7 +125,7 @@ namespace SKDModule.ViewModels
 			//var zone = Device.Zones.FirstOrDefault();
 			//if (zone != null)
 			//{
-			//    ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(zone.UID);
+			//	ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(zone.UID);
 			//}
 		}
 

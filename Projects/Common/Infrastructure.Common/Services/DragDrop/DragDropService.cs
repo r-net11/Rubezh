@@ -153,8 +153,8 @@ namespace Infrastructure.Common.Services.DragDrop
 		{
 			//if (e.Source == DragScope)
 			//{
-			//    _dragHasLeftScope = true;
-			//    e.Handled = true;
+			//	_dragHasLeftScope = true;
+			//	e.Handled = true;
 			//}
 			if (!e.Handled)
 			{

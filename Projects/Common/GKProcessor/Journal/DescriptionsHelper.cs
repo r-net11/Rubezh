@@ -21,35 +21,35 @@ namespace GKProcessor
 				AddToResult(JournalStringsHelper.ToInformation((byte)i), DescriptionType.Information);
 				AddToResult(JournalStringsHelper.ToUser((byte)i), DescriptionType.User);
 			}
-            foreach (EventDescription item in Enum.GetValues(typeof(EventDescription)))
-            {
-                AddToResult(item.ToDescription(), GetType(item));
-            }
+			foreach (EventDescription item in Enum.GetValues(typeof(EventDescription)))
+			{
+				AddToResult(item.ToDescription(), GetType(item));
+			}
 			result.Sort(new DescriptionComparer());
 			return result;
 		}
 
-        //Для сообщений, добавляемых программой
-        public static DescriptionType GetType(EventDescription description)
-        {
-            switch(description)
-            {
-                case(EventDescription.Остановка_пуска):
-                case(EventDescription.Выключить_немедленно):
-                case(EventDescription.Выключить):
-                case(EventDescription.Включить_немедленно):
-                case(EventDescription.Включить):
-                case(EventDescription.Перевод_в_ручной_режим):
-                case(EventDescription.Перевод_в_автоматический_режим):
+		//Для сообщений, добавляемых программой
+		public static DescriptionType GetType(EventDescription description)
+		{
+			switch(description)
+			{
+				case(EventDescription.Остановка_пуска):
+				case(EventDescription.Выключить_немедленно):
+				case(EventDescription.Выключить):
+				case(EventDescription.Включить_немедленно):
+				case(EventDescription.Включить):
+				case(EventDescription.Перевод_в_ручной_режим):
+				case(EventDescription.Перевод_в_автоматический_режим):
 				case (EventDescription.Перевод_в_отключенный_режим):
-                case(EventDescription.Сброс):
-                    return DescriptionType.Information;
-                case(EventDescription.Не_найдено_родительское_устройство_ГК):
-                    return DescriptionType.Failure;
-                default:
-                    return DescriptionType.Unknown;
-            }
-        }
+				case(EventDescription.Сброс):
+					return DescriptionType.Information;
+				case(EventDescription.Не_найдено_родительское_устройство_ГК):
+					return DescriptionType.Failure;
+				default:
+					return DescriptionType.Unknown;
+			}
+		}
 
 		public class DescriptionComparer : IComparer<Description>
 		{

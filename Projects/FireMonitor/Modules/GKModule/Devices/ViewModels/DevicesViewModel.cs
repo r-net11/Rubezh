@@ -9,20 +9,20 @@ namespace GKModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-        public static DevicesViewModel Current { get; private set; }
-        public DevicesViewModel()
-        {
-            Current = this;
-        }
+		public static DevicesViewModel Current { get; private set; }
+		public DevicesViewModel()
+		{
+			Current = this;
+		}
 
-        public void Initialize()
-        {
-            BuildTree();
-            if (RootDevice != null)
-            {
-                RootDevice.IsExpanded = true;
-                SelectedDevice = RootDevice;
-            }
+		public void Initialize()
+		{
+			BuildTree();
+			if (RootDevice != null)
+			{
+				RootDevice.IsExpanded = true;
+				SelectedDevice = RootDevice;
+			}
 
 			foreach (var device in AllDevices)
 			{
@@ -30,77 +30,77 @@ namespace GKModule.ViewModels
 					device.ExpandToThis();
 			}
 
-            OnPropertyChanged("RootDevices");
-        }
+			OnPropertyChanged("RootDevices");
+		}
 
-        #region DeviceSelection
-        public List<DeviceViewModel> AllDevices;
+		#region DeviceSelection
+		public List<DeviceViewModel> AllDevices;
 
-        public void FillAllDevices()
-        {
-            AllDevices = new List<DeviceViewModel>();
-            AddChildPlainDevices(RootDevice);
-        }
+		public void FillAllDevices()
+		{
+			AllDevices = new List<DeviceViewModel>();
+			AddChildPlainDevices(RootDevice);
+		}
 
-        void AddChildPlainDevices(DeviceViewModel parentViewModel)
-        {
-            AllDevices.Add(parentViewModel);
-            foreach (var childViewModel in parentViewModel.Children)
-                AddChildPlainDevices(childViewModel);
-        }
+		void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		{
+			AllDevices.Add(parentViewModel);
+			foreach (var childViewModel in parentViewModel.Children)
+				AddChildPlainDevices(childViewModel);
+		}
 
-        public void Select(Guid deviceUID)
-        {
-            if (deviceUID != Guid.Empty)
-            {
-                var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-                if (deviceViewModel != null)
+		public void Select(Guid deviceUID)
+		{
+			if (deviceUID != Guid.Empty)
+			{
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
 					deviceViewModel.ExpandToThis();
-                SelectedDevice = deviceViewModel;
-            }
-        }
-        #endregion
+				SelectedDevice = deviceViewModel;
+			}
+		}
+		#endregion
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                if (value != null)
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				if (value != null)
 					value.ExpandToThis();
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
 
-        DeviceViewModel _rootDevice;
-        public DeviceViewModel RootDevice
-        {
-            get { return _rootDevice; }
-            private set
-            {
-                _rootDevice = value;
-                OnPropertyChanged("RootDevice");
-            }
-        }
+		DeviceViewModel _rootDevice;
+		public DeviceViewModel RootDevice
+		{
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged("RootDevice");
+			}
+		}
 
-        public DeviceViewModel[] RootDevices
-        {
-            get { return new DeviceViewModel[] { RootDevice }; }
-        }
+		public DeviceViewModel[] RootDevices
+		{
+			get { return new DeviceViewModel[] { RootDevice }; }
+		}
 
-        void BuildTree()
-        {
-            RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
-            FillAllDevices();
-        }
+		void BuildTree()
+		{
+			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			FillAllDevices();
+		}
 
-        private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
-        {
-            var deviceViewModel = new DeviceViewModel(device);
-            if (parentDeviceViewModel != null)
-                parentDeviceViewModel.AddChild(deviceViewModel);
+		private DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 					AddDeviceInternal(childDevice, deviceViewModel);
 				}
 			}
-            return deviceViewModel;
-        }
+			return deviceViewModel;
+		}
 	}
 }

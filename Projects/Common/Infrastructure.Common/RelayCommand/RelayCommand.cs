@@ -65,18 +65,18 @@ namespace Infrastructure.Common
 
 		public bool CanExecute(object parameter)
 		{
-            if (_canExecute != null)
-            {
-                try
-                {
-                    return _canExecute(parameter);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e, "RelayCommand.CanExecute");
-                    return false;
-                }
-            }
+			if (_canExecute != null)
+			{
+				try
+				{
+					return _canExecute(parameter);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "RelayCommand.CanExecute");
+					return false;
+				}
+			}
 			return true;
 		}
 

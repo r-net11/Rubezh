@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace JournalModule.Events
 {
-    public class ArchiveDefaultStateCheckedEvent : CompositePresentationEvent<ArchiveDefaultStateViewModel>
-    {
-    }
+	public class ArchiveDefaultStateCheckedEvent : CompositePresentationEvent<ArchiveDefaultStateViewModel>
+	{
+	}
 }

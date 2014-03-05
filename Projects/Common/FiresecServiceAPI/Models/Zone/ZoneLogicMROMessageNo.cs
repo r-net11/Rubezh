@@ -22,10 +22,10 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("Сообщение 6")]
 		Message6,
 
-        [DescriptionAttribute("Сообщение 7")]
-        Message7,
+		[DescriptionAttribute("Сообщение 7")]
+		Message7,
 
-        [DescriptionAttribute("Сообщение 8")]
-        Message8,
+		[DescriptionAttribute("Сообщение 8")]
+		Message8,
 	}
 }

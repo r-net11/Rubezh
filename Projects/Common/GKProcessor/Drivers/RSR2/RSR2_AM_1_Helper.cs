@@ -15,12 +15,12 @@ namespace GKProcessor
 				Name = "Пожарная адресная метка МА RSR2",
 				ShortName = "МА RSR2",
 				HasZone = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
 
 			var property1 = new XDriverProperty()

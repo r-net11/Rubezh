@@ -27,7 +27,7 @@
 						<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableSounds}" SelectedItem="{Binding SoundName,  Converter={StaticResource SoundToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="Black" />
+									<TextBlock Text="{Binding ., Converter={StaticResource SoundToStringConverter}}" Foreground="Black" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

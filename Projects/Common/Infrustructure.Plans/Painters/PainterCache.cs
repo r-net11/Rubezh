@@ -27,7 +27,7 @@ namespace Infrustructure.Plans.Painters
 
 		static PainterCache()
 		{
-            UseTransparentImage = true;
+			UseTransparentImage = true;
 			try
 			{
 				TransparentBrush = new SolidColorBrush(Colors.Transparent);

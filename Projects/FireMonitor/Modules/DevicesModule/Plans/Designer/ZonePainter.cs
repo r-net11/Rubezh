@@ -186,8 +186,8 @@ namespace DevicesModule.Plans.Designer
 		//public RelayCommand ShowPropertiesCommand { get; private set; }
 		//void OnShowProperties()
 		//{
-		//    var zoneDetailsViewModel = new ZoneDetailsViewModel(_zone);
-		//    DialogService.ShowWindow(zoneDetailsViewModel);
+		//	var zoneDetailsViewModel = new ZoneDetailsViewModel(_zone);
+		//	DialogService.ShowWindow(zoneDetailsViewModel);
 		//}
 
 		private ContextMenu CreateContextMenu()
@@ -228,8 +228,8 @@ namespace DevicesModule.Plans.Designer
 				});
 				//_contextMenu.Items.Add(new MenuItem()
 				//{
-				//    Header = "Свойства",
-				//    Command = ShowPropertiesCommand
+				//	Header = "Свойства",
+				//	Command = ShowPropertiesCommand
 				//});
 			}
 			return _contextMenu;

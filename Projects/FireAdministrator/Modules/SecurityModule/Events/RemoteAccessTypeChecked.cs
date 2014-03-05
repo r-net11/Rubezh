@@ -3,7 +3,7 @@ using SecurityModule.ViewModels;
 
 namespace SecurityModule.Events
 {
-    public class RemoteAccessTypeChecked : CompositePresentationEvent<RemoteAccessTypeViewModel>
-    {
-    }
+	public class RemoteAccessTypeChecked : CompositePresentationEvent<RemoteAccessTypeViewModel>
+	{
+	}
 }

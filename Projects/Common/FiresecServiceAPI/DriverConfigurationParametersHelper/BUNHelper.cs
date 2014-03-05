@@ -6,6 +6,6 @@ namespace FiresecAPI.Models
 		public static void Create(Driver driver)
 		{
 			
-        }
+		}
 	}
 }

@@ -375,7 +375,7 @@ namespace DevicesModule.Views
 				buisy = true;
 
 				//if (addressEditor.SelectionStart >= addressEditor.Text.Length)
-				//    addressEditor.SelectionStart = addressEditor.Text.Length - 1;
+				//	addressEditor.SelectionStart = addressEditor.Text.Length - 1;
 
 				if (addressEditor.Text.Length > addressEditor.SelectionStart)
 				{

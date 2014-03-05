@@ -19,10 +19,10 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
+				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
 				<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
-                <DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire1Count}" Header="П1" CanUserResize="False" />
-                <DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire2Count}" Header="П2" CanUserResize="False" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire1Count}" Header="П1" CanUserResize="False" />
+				<DataGridTextColumn Width="Auto" Binding="{Binding Zone.Fire2Count}" Header="П2" CanUserResize="False" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
 

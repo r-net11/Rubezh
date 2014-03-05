@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class BindMsView : UserControl
-    {
-        public BindMsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class BindMsView : UserControl
+	{
+		public BindMsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

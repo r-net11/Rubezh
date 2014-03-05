@@ -14,9 +14,9 @@ namespace SettingsModule
 
 		public override void CreateViewModels()
 		{
-            ServiceFactory.Events.GetEvent<EditValidationEvent>().Subscribe(OnEditValidation);
-            
-            SettingsViewModel = new SettingsViewModel();
+			ServiceFactory.Events.GetEvent<EditValidationEvent>().Subscribe(OnEditValidation);
+			
+			SettingsViewModel = new SettingsViewModel();
 			ServiceFactory.RibbonService.AddRibbonItems(new RibbonMenuItemViewModel("Настройки", SettingsViewModel, "/Controls;component/Images/BSettings.png", "Настройка приложения") { Order = int.MaxValue - 1 });
 		}
 
@@ -33,9 +33,9 @@ namespace SettingsModule
 			get { return "Настройки"; }
 		}
 
-        void OnEditValidation(object obj)
-        {
+		void OnEditValidation(object obj)
+		{
 			SettingsViewModel.ShowErrorsFilterCommand.Execute();
-        }
+		}
 	}
 }

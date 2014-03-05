@@ -1,37 +1,37 @@
 ﻿<UserControl x:Class="SKDModule.Views.EmployeesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-            <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
-            <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
-        </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Имя" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.SecondName}" />
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.LastName}" />
-                <DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" />
-                <DataGridTextColumn Header="Должность" Binding="{Binding PositionName}" />
-                <DataGridTextColumn Header="Назначен" Binding="{Binding AppointedString}" />
-                <DataGridTextColumn Header="Уволен" Binding="{Binding DismissedString}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+			<Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+			<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
+			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+			<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Имя" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Отчество" Binding="{Binding Employee.SecondName}" />
+				<DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.LastName}" />
+				<DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" />
+				<DataGridTextColumn Header="Должность" Binding="{Binding PositionName}" />
+				<DataGridTextColumn Header="Назначен" Binding="{Binding AppointedString}" />
+				<DataGridTextColumn Header="Уволен" Binding="{Binding DismissedString}" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
 </UserControl>

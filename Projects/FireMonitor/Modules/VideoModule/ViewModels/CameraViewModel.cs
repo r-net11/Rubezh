@@ -54,7 +54,7 @@ namespace VideoModule.ViewModels
 		void GetError(string error)
 		{
 			Error = error;
-            StopVideo();
+			StopVideo();
 			ImageSource = new BitmapImage();
 		}
 

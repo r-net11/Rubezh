@@ -9,24 +9,24 @@ namespace Firesec
 {
 	public class Watcher
 	{
-        internal static Watcher Current;
+		internal static Watcher Current;
 		FiresecSerializedClient FiresecSerializedClient;
 		int LastJournalNo = 0;
 		HashSet<DeviceState> ChangedDevices;
 		HashSet<ZoneState> ChangedZones;
-        bool MustMonitorJournal;
+		bool MustMonitorJournal;
 
-        public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates, bool mustMonitorJournal)
+		public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates, bool mustMonitorJournal)
 		{
-            Current = this;
+			Current = this;
 			FiresecSerializedClient = firesecSerializedClient;
-            MustMonitorJournal = mustMonitorJournal;
-            if (mustMonitorJournal)
+			MustMonitorJournal = mustMonitorJournal;
+			if (mustMonitorJournal)
 			{
 				SetLastEvent();
-            }
-            if (mustMonitorStates)
-            {
+			}
+			if (mustMonitorStates)
+			{
 				FiresecSerializedClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
 				FiresecSerializedClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
@@ -96,10 +96,10 @@ namespace Firesec
 			{
 				OnParametersChanged(coreParameters.Result);
 			}
-            else
-            {
-                Logger.Error("Watcher.ForceParametersChanged Список параметров драйвера пуст");
-            }
+			else
+			{
+				Logger.Error("Watcher.ForceParametersChanged Список параметров драйвера пуст");
+			}
 		}
 
 		public void OnParametersChanged(Firesec.Models.DeviceParameters.config coreParameters)
@@ -155,14 +155,14 @@ namespace Firesec
 		public void ForceStateChanged()
 		{
 			var coreState = FiresecSerializedClient.GetCoreState();
-            if (coreState != null && coreState.Result != null)
-            {
-                OnStateChanged(coreState.Result);
-            }
-            else
-            {
-                throw new FiresecException("Список состояний драйвера пуст");
-            }
+			if (coreState != null && coreState.Result != null)
+			{
+				OnStateChanged(coreState.Result);
+			}
+			else
+			{
+				throw new FiresecException("Список состояний драйвера пуст");
+			}
 		}
 
 		void OnStateChanged(Firesec.Models.CoreState.config coreState)
@@ -216,17 +216,17 @@ namespace Firesec
 					if (device.Driver == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver = null");
-                        continue;
+						continue;
 					}
 					if (device.Driver.States == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver.States = null");
-                        continue;
+						continue;
 					}
-                    if (innerDevice.state == null)
-                    {
+					if (innerDevice.state == null)
+					{
 						innerDevice.state = (new List<Firesec.Models.CoreState.stateType>()).ToArray();
-                    }
+					}
 
 					foreach (var driverState in device.Driver.States)
 					{
@@ -417,7 +417,7 @@ namespace Firesec
 				{
 					StateType minZoneStateType = StateType.Norm;
 					var devices = ConfigurationCash.DeviceConfiguration.Devices.
-                        Where(x => x.ZoneUID == zone.UID && !x.Driver.IgnoreInZoneState);
+						Where(x => x.ZoneUID == zone.UID && !x.Driver.IgnoreInZoneState);
 
 					foreach (var device in devices)
 					{
@@ -425,7 +425,7 @@ namespace Firesec
 							minZoneStateType = device.DeviceState.StateType;
 					}
 
-                    if (ConfigurationCash.DeviceConfiguration.Devices.Any(x => x.ZoneUID == zone.UID) == false)
+					if (ConfigurationCash.DeviceConfiguration.Devices.Any(x => x.ZoneUID == zone.UID) == false)
 						minZoneStateType = StateType.Unknown;
 
 					if (zone.ZoneState.StateType != minZoneStateType)
@@ -474,7 +474,7 @@ namespace Firesec
 				NewJournalRecords(journalRecords);
 		}
 
-        public event Action<int, string, int, int> Progress;
+		public event Action<int, string, int, int> Progress;
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			if (Progress != null)

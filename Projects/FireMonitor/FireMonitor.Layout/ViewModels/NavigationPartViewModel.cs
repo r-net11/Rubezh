@@ -25,7 +25,7 @@ namespace FireMonitor.Layout.ViewModels
 			};
 		}
 
-        public ReadOnlyCollection<NavigationItem> NavigationItems
+		public ReadOnlyCollection<NavigationItem> NavigationItems
 		{
 			get { return _monitorLayoutShellViewModel.NavigationItems; }
 		}

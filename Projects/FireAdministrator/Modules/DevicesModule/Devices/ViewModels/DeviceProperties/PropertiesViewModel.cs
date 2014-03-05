@@ -13,11 +13,11 @@ namespace DevicesModule.DeviceProperties
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
 
-        public static DevicesViewModel Context { get; private set; }
-        public PropertiesViewModel(DevicesViewModel deviceViewModel)
-        {
-            Context = deviceViewModel;
-        }
+		public static DevicesViewModel Context { get; private set; }
+		public PropertiesViewModel(DevicesViewModel deviceViewModel)
+		{
+			Context = deviceViewModel;
+		}
 
 		public PropertiesViewModel(Device device)
 		{
@@ -27,8 +27,8 @@ namespace DevicesModule.DeviceProperties
 			EnumProperties = new List<EnumPropertyViewModel>();
 			foreach (var driverProperty in device.Driver.Properties)
 			{
-                if(device.Driver.DriverType == DriverType.Exit)
-                    continue;
+				if(device.Driver.DriverType == DriverType.Exit)
+					continue;
 
 				if (device.Driver.DriverType == DriverType.PumpStation && driverProperty.Name == "AllowControl")
 					continue;

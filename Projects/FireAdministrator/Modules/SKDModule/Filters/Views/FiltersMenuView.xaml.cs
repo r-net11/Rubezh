@@ -2,11 +2,11 @@
 
 namespace SKDModule.Views
 {
-    public partial class FiltersMenuView : UserControl
-    {
-        public FiltersMenuView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class FiltersMenuView : UserControl
+	{
+		public FiltersMenuView()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -7,7 +7,7 @@ namespace VideoModule.ViewModels
 {
 	public class LayoutPartPropertyCameraPageViewModel : SaveCancelDialogViewModel
 	{
-        public LayoutPartPropertyCameraPageViewModel()
+		public LayoutPartPropertyCameraPageViewModel()
 		{
 			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 		}
@@ -42,6 +42,6 @@ namespace VideoModule.ViewModels
 		protected override bool Save()
 		{
 			return true;
-        }
+		}
 	}
 }

@@ -21,9 +21,9 @@ namespace GKModule.ViewModels
 			}
 
 			EventNames = new ObservableCollection<EventNameViewModel>();
-            foreach (var eventName in EventNameHelper.EventNames)
+			foreach (var eventName in EventNameHelper.EventNames)
 			{
-                EventNames.Add(new EventNameViewModel(eventName));
+				EventNames.Add(new EventNameViewModel(eventName));
 			}
 
 			if (journalFilter == null)
@@ -53,16 +53,16 @@ namespace GKModule.ViewModels
 			StateClasses.Where(
 				viewModel => JournalFilter.StateClasses.Any(
 					x => x == viewModel.StateClass)).All(x => x.IsChecked = true);
-            
-            foreach (var eventViewModel in EventNames)
-            {
-                foreach (var xEvent in JournalFilter.EventNames)
-                {
-                    if (xEvent.Name == eventViewModel.EventName.Name)
-                        eventViewModel.IsChecked = true;
-                }
-            }
-        }
+			
+			foreach (var eventViewModel in EventNames)
+			{
+				foreach (var xEvent in JournalFilter.EventNames)
+				{
+					if (xEvent.Name == eventViewModel.EventName.Name)
+						eventViewModel.IsChecked = true;
+				}
+			}
+		}
 
 		string _name;
 		public string Name
@@ -122,15 +122,15 @@ namespace GKModule.ViewModels
 			JournalFilter.Description = Description;
 			JournalFilter.LastRecordsCount = LastRecordsCount;
 			JournalFilter.StateClasses = StateClasses.Where(x => x.IsChecked).Select(x => x.StateClass).Cast<XStateClass>().ToList();
-            JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName).ToList();
+			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName).ToList();
 			return base.Save();
 		}
 
-        protected override bool CanSave()
-        {
+		protected override bool CanSave()
+		{
 			return StateClasses.Where(x => x.IsChecked == true).ToList().Count > 0 ||
-                EventNames.Where(x => x.IsChecked == true).ToList().Count > 0;
-        }
+				EventNames.Where(x => x.IsChecked == true).ToList().Count > 0;
+		}
 	}
 
 	

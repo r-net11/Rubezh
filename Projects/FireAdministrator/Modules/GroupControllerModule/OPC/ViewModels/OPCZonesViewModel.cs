@@ -6,9 +6,9 @@ using Infrastructure.Common.Windows.ViewModels;
 namespace GKModule.ViewModels
 {
 	public class OPCZonesViewModel : ViewPartViewModel
-    {
-        public void Initialize()
-        {
+	{
+		public void Initialize()
+		{
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
 			{
@@ -16,18 +16,18 @@ namespace GKModule.ViewModels
 				Zones.Add(zoneViewModel);
 			}
 			SelectedZone = Zones.FirstOrDefault();
-        }
+		}
 
-        ObservableCollection<ZoneViewModel> _zones;
-        public ObservableCollection<ZoneViewModel> Zones
-        {
-            get { return _zones; }
-            set
-            {
-                _zones = value;
-                OnPropertyChanged("Zones");
-            }
-        }
+		ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				_zones = value;
+				OnPropertyChanged("Zones");
+			}
+		}
 
 		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone

@@ -16,15 +16,15 @@ namespace GKModule.ViewModels
 		public EventName EventName { get; private set; }
 		
 		bool _isEnabled;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                _isEnabled = value;
-                OnPropertyChanged("IsEnabled");
-            }
-        }
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged("IsEnabled");
+			}
+		}
 
 		public static int Compare(EventNameViewModel x, EventNameViewModel y)
 		{

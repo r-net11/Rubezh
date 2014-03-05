@@ -64,7 +64,7 @@ namespace GKProcessor
 			var sendResult = SendManager.Send(gkDevice, 0, 21, 0);
 			if (sendResult.HasError)
 				{ Error = "Невозможно начать процедуру записи "; return; }
-            bytesList.AddRange(gkFileInfo.FileBytes);
+			bytesList.AddRange(gkFileInfo.FileBytes);
 			var progressCallback = GKProcessorManager.StartProgress("Запись файла в " + gkDevice.PresentationName, null, bytesList.Count / 256, true, GKProgressClientType.Administrator);
 			for (var i = 0; i < bytesList.Count; i += 256)
 			{

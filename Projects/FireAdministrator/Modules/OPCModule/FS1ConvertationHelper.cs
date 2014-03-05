@@ -31,8 +31,8 @@ namespace OPCModule
 						MessageBoxService.ShowError(convertationResult.Error);
 						return;
 					}
-                    LoadingService.Show("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
-                    FiresecManager.FiresecDriver.Synchronyze(false);
+					LoadingService.Show("Синхронизация конфигурации", "Конвертирование конфигурации", 6);
+					FiresecManager.FiresecDriver.Synchronyze(false);
 
 					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;

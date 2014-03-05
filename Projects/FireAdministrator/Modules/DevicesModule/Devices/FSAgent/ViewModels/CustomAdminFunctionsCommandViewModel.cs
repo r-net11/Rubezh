@@ -7,42 +7,42 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class CustomAdminFunctionsCommandViewModel : SaveCancelDialogViewModel
-    {
-        Device _device;
+	public class CustomAdminFunctionsCommandViewModel : SaveCancelDialogViewModel
+	{
+		Device _device;
 		bool _isUsb;
 
-        public CustomAdminFunctionsCommandViewModel(Device device, bool isUsb)
-        {
-            _device = device;
+		public CustomAdminFunctionsCommandViewModel(Device device, bool isUsb)
+		{
+			_device = device;
 			_isUsb = isUsb;
-            Title = "Выбор функции";
+			Title = "Выбор функции";
 
-            var operationResult = FiresecManager.FiresecDriver.DeviceCustomFunctionList(device.Driver.UID);
-            if (operationResult.HasError)
-            {
+			var operationResult = FiresecManager.FiresecDriver.DeviceCustomFunctionList(device.Driver.UID);
+			if (operationResult.HasError)
+			{
 				MessageBoxService.ShowError(operationResult.Error, "Ошибка при выполнении операции");
-                return;
-            }
-            Functions = operationResult.Result;
+				return;
+			}
+			Functions = operationResult.Result;
 			foreach (var function in Functions)
 			{
 				Trace.WriteLine(device.Driver.ShortName + " " + function.Code + " " + function.Description + " " + function.Name);
 			}
-        }
+		}
 
-        public List<DeviceCustomFunction> Functions { get; private set; }
+		public List<DeviceCustomFunction> Functions { get; private set; }
 
-        DeviceCustomFunction _selectedFunction;
-        public DeviceCustomFunction SelectedFunction
-        {
-            get { return _selectedFunction; }
-            set
-            {
-                _selectedFunction = value;
-                OnPropertyChanged("SelectedFunction");
-            }
-        }
+		DeviceCustomFunction _selectedFunction;
+		public DeviceCustomFunction SelectedFunction
+		{
+			get { return _selectedFunction; }
+			set
+			{
+				_selectedFunction = value;
+				OnPropertyChanged("SelectedFunction");
+			}
+		}
 
 		protected override bool Save()
 		{
@@ -52,5 +52,5 @@ namespace DevicesModule.ViewModels
 			}
 			return base.Save();
 		}
-    }
+	}
 }

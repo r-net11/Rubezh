@@ -93,11 +93,11 @@ namespace GKProcessor
 			Add("Вход пользователя в систему", XStateClass.Norm, "Вход пользователя в ОПС Firesec");
 			Add("Выход пользователя из системы", XStateClass.Norm, "Выход пользователя из ОПС Firesec");
 			Add("Команда оператора", XStateClass.Info, "Команда на сброс, управление ИУ, отключение, снятие отключения");
-            foreach (EventNameEnum item in Enum.GetValues(typeof(EventNameEnum)))
-            {
-                Add(item.ToDescription(), EventNamesHelper.GetStateClass(item), "");
-            }
-        }
+			foreach (EventNameEnum item in Enum.GetValues(typeof(EventNameEnum)))
+			{
+				Add(item.ToDescription(), EventNamesHelper.GetStateClass(item), "");
+			}
+		}
 
 		static void Add(string name, XStateClass stateClass, string description)
 		{

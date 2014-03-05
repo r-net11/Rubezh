@@ -79,11 +79,11 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-                if (plan.ElementPolygonZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
+				if (plan.ElementPolygonZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
 				{
 					return true;
 				}
-                if (plan.ElementRectangleZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
+				if (plan.ElementRectangleZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
 				{
 					return true;
 				}
@@ -111,7 +111,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand DisableAllCommand { get; private set; }
@@ -160,7 +160,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanUnSetGuard()
 		{
-            //return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(ZoneState) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
+			//return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && FiresecManager.IsZoneOnGuard(ZoneState) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 			return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null);// && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 		}
 	}

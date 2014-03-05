@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class DevicesMenuView : UserControl
-    {
-        public DevicesMenuView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class DevicesMenuView : UserControl
+	{
+		public DevicesMenuView()
+		{
+			InitializeComponent();
+		}
+	}
 }

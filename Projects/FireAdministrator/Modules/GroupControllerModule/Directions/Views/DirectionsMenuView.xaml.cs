@@ -3,10 +3,10 @@
 namespace GKModule.Views
 {
 	public partial class DirectionsMenuView : UserControl
-    {
-        public DirectionsMenuView()
-        {
-            InitializeComponent();
-        }
-    }
+	{
+		public DirectionsMenuView()
+		{
+			InitializeComponent();
+		}
+	}
 }

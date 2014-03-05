@@ -19,7 +19,7 @@ namespace XFiresecAPI
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
-            IsPlaceable = false;
+			IsPlaceable = false;
 		}
 
 		public XDriverType DriverType { get; set; }
@@ -27,8 +27,8 @@ namespace XFiresecAPI
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string ShortName { get; set; }
-        public string DeviceClassName { get; set; }
-        public List<XDriverState> XStates { get; set; }
+		public string DeviceClassName { get; set; }
+		public List<XDriverState> XStates { get; set; }
 
 		public List<XDriverProperty> Properties { get; set; }
 		public List<XStateBit> AvailableStateBits { get; set; }
@@ -52,7 +52,7 @@ namespace XFiresecAPI
 		public bool IgnoreHasLogic { get; set; }
 		public bool HasZone { get; set; }
 		public bool IsControlDevice { get; set; }
-        public bool IsPlaceable { get; set; }
+		public bool IsPlaceable { get; set; }
 		public bool IsGroupDevice { get; set; }
 		public XDriverType GroupDeviceChildType { get; set; }
 		public byte GroupDeviceChildrenCount { get; set; }
@@ -62,14 +62,14 @@ namespace XFiresecAPI
 			get { return DriverType == XDriverType.KAU || DriverType == XDriverType.RSR2_KAU; }
 		}
 
-	    public bool IsPump
-	    {
-	        get
-	        {
-	            return ((DriverType == XDriverType.FirePump) || (DriverType == XDriverType.JockeyPump) ||
-	                    (DriverType == XDriverType.DrainagePump));
-	        }
-	    }
+		public bool IsPump
+		{
+			get
+			{
+				return ((DriverType == XDriverType.FirePump) || (DriverType == XDriverType.JockeyPump) ||
+						(DriverType == XDriverType.DrainagePump));
+			}
+		}
 
 
 		public string ImageSource

@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Navigation
 	public class NavigationItem : BaseViewModel
 	{
 		public ReadOnlyCollection<NavigationItem> Childs { get; private set; }
-        public ShellViewModel Context { get; set; }
+		public ShellViewModel Context { get; set; }
 
 		public NavigationItem(string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null)
 		{

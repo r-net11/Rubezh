@@ -6,7 +6,7 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-    public partial class Validator
+	public partial class Validator
 	{
 		List<IValidationError> Errors { get; set; }
 
@@ -23,20 +23,20 @@ namespace GKModule.Validation
 			return Errors;
 		}
 
-        bool IsManyGK()
-        {
-            return XManager.Devices.Where(x=>x.DriverType == XDriverType.GK).Count() > 1;
-        }
+		bool IsManyGK()
+		{
+			return XManager.Devices.Where(x=>x.DriverType == XDriverType.GK).Count() > 1;
+		}
 
-        static bool AreDevicesInSameGK(List<XDevice> devices)
-        {
-            var gkDevices = new HashSet<XDevice>();
-            foreach (var device in devices)
-            {
-                if (device.GKParent != null)
-                    gkDevices.Add(device.GKParent);
-            }
-            return (gkDevices.Count > 1);
-        }
+		static bool AreDevicesInSameGK(List<XDevice> devices)
+		{
+			var gkDevices = new HashSet<XDevice>();
+			foreach (var device in devices)
+			{
+				if (device.GKParent != null)
+					gkDevices.Add(device.GKParent);
+			}
+			return (gkDevices.Count > 1);
+		}
 	}
 }

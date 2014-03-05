@@ -14,7 +14,7 @@ namespace DevicesModule.ViewModels
 {
 	public class ZoneDevicesViewModel : BaseViewModel
 	{
-        Zone Zone;
+		Zone Zone;
 
 		public ZoneDevicesViewModel()
 		{
@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
 
 		public void Initialize(Zone zone)
 		{
-            Zone = zone;
+			Zone = zone;
 
 			var devices = new HashSet<Device>();
 			var availableDevices = new HashSet<Device>();
@@ -34,10 +34,10 @@ namespace DevicesModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-                if (zone.ZoneType == ZoneType.Fire && device.Driver.DriverType == DriverType.AM1_O)
-                    continue;
-                if (zone.ZoneType == ZoneType.Guard && device.Driver.DriverType != DriverType.AM1_O)
-                    continue;
+				if (zone.ZoneType == ZoneType.Fire && device.Driver.DriverType == DriverType.AM1_O)
+					continue;
+				if (zone.ZoneType == ZoneType.Guard && device.Driver.DriverType != DriverType.AM1_O)
+					continue;
 
 				if (device.Driver.IsZoneDevice)
 				{
@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 						availableDevices.Add(device);
 					}
 
-                    if (device.ZoneUID != Guid.Empty && device.ZoneUID == Zone.UID)
+					if (device.ZoneUID != Guid.Empty && device.ZoneUID == Zone.UID)
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);
@@ -56,7 +56,7 @@ namespace DevicesModule.ViewModels
 
 				if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
 				{
-                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.ZoneUIDs.Contains(Zone.UID)))
+					foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.ZoneUIDs.Contains(Zone.UID)))
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);
@@ -170,8 +170,8 @@ namespace DevicesModule.ViewModels
 			var oldIndex = availableDeviceViewModels.IndexOf(SelectedAvailableDevice);
 			var oldDeviceUID = SelectedAvailableDevice.Device.UID;
 
-            FiresecManager.FiresecConfiguration.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
-            Initialize(Zone);
+			FiresecManager.FiresecConfiguration.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
+			Initialize(Zone);
 
 			SelectedDevice = deviceViewModels.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
 			if (availableDeviceViewModels.Count > 0)
@@ -186,10 +186,10 @@ namespace DevicesModule.ViewModels
 
 			ServiceFactory.SaveService.FSChanged = true;
 		}
-        public bool CanAdd()
-        {
-            return SelectedAvailableDevice != null && SelectedAvailableDevice.IsZoneDevice;
-        }
+		public bool CanAdd()
+		{
+			return SelectedAvailableDevice != null && SelectedAvailableDevice.IsZoneDevice;
+		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
@@ -213,10 +213,10 @@ namespace DevicesModule.ViewModels
 
 			ServiceFactory.SaveService.FSChanged = true;
 		}
-        public bool CanRemove()
-        {
-            return SelectedDevice != null && SelectedDevice.IsZoneDevice;
-        }
+		public bool CanRemove()
+		{
+			return SelectedDevice != null && SelectedDevice.IsZoneDevice;
+		}
 
 		public RelayCommand ShowZoneLogicCommand { get; private set; }
 		void OnShowZoneLogic()
@@ -225,12 +225,12 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneLogicViewModel))
 			{
 				ServiceFactory.SaveService.FSChanged = true;
-                Initialize(Zone);
+				Initialize(Zone);
 			}
 		}
-        public bool CanShowZoneLogic()
-        {
-            return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
-        }
+		public bool CanShowZoneLogic()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
+		}
 	}
 }

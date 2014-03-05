@@ -5,46 +5,46 @@ using XFiresecAPI;
 namespace GKModule.Converters
 {
 	public class AlarmTypeToShortStringConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            switch ((XAlarmType) value)
-            {
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			switch ((XAlarmType) value)
+			{
 				case XAlarmType.NPTOn:
 					return "НП";
 
 				case XAlarmType.Fire1:
-                    return "П1";
+					return "П1";
 
 				case XAlarmType.Fire2:
 					return "П2";
 
 				case XAlarmType.Attention:
-                    return "В";
+					return "В";
 
 				case XAlarmType.Failure:
-                    return "Н";
+					return "Н";
 
 				case XAlarmType.Ignore:
-                    return "О";
+					return "О";
 
 				case XAlarmType.Turning:
-                    return "ВК";
+					return "ВК";
 
 				case XAlarmType.Service:
-                    return "ТО";
+					return "ТО";
 
 				case XAlarmType.AutoOff:
-                    return "АО";
+					return "АО";
 
-                default:
-                    return "";
-            }
-        }
+				default:
+					return "";
+			}
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

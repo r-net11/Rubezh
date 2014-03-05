@@ -5,34 +5,34 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
-    public class UserViewModel : BaseViewModel
-    {
-        public UserViewModel(User user)
-        {
-            User = user;
-        }
+	public class UserViewModel : BaseViewModel
+	{
+		public UserViewModel(User user)
+		{
+			User = user;
+		}
 
-        User _user;
-        public User User
-        {
-            get { return _user; }
-            set
-            {
-                _user = value;
+		User _user;
+		public User User
+		{
+			get { return _user; }
+			set
+			{
+				_user = value;
 
-                RoleName = string.Empty;
-                if (value != null)
-                {
+				RoleName = string.Empty;
+				if (value != null)
+				{
 					var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.UID == value.RoleUID);
-                    if (role != null)
-                        RoleName = role.Name;
-                }
+					if (role != null)
+						RoleName = role.Name;
+				}
 
-                OnPropertyChanged("User");
-                OnPropertyChanged("RoleName");
-            }
-        }
+				OnPropertyChanged("User");
+				OnPropertyChanged("RoleName");
+			}
+		}
 
-        public string RoleName { get; private set; }
-    }
+		public string RoleName { get; private set; }
+	}
 }

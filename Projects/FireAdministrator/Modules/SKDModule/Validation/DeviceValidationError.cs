@@ -29,9 +29,9 @@ namespace SKDModule.Validation
 		{
 			get { return ""; }
 		}
-        public override string ImageSource
-        {
+		public override string ImageSource
+		{
 			get { return "/Controls;component/Images/zone.png"; }
-        }
+		}
 	}
 }

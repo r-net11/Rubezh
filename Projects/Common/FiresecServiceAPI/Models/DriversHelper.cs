@@ -34,10 +34,10 @@ namespace FiresecAPI.Models
 			return DriverDataList.FirstOrDefault(x => x.DriverType == driverType).Name;
 		}
 
-        public static Guid GetDriverUidByType(DriverType driverType)
-        {
-            return new Guid(DriverDataList.FirstOrDefault(x => x.DriverType == driverType).DriverId);
-        }
+		public static Guid GetDriverUidByType(DriverType driverType)
+		{
+			return new Guid(DriverDataList.FirstOrDefault(x => x.DriverType == driverType).DriverId);
+		}
 
 		public static List<DriverData> DriverDataList { get; private set; }
 

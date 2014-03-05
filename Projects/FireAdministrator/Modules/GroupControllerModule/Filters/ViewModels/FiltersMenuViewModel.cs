@@ -2,13 +2,13 @@
 
 namespace GKModule.ViewModels
 {
-    public class FiltersMenuViewModel : BaseViewModel
-    {
-        public FiltersMenuViewModel(FiltersViewModel context)
-        {
-            Context = context;
-        }
+	public class FiltersMenuViewModel : BaseViewModel
+	{
+		public FiltersMenuViewModel(FiltersViewModel context)
+		{
+			Context = context;
+		}
 
-        public FiltersViewModel Context { get; private set; }
-    }
+		public FiltersViewModel Context { get; private set; }
+	}
 }

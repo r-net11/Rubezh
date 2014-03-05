@@ -5,9 +5,9 @@
 				<MouseBinding Command="{Binding DataContext.Layouts.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Mode=OneTime}" MouseAction="LeftDoubleClick" />
 			</InputBindingCollection>
 			<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.Layouts, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}">
-                <MenuItem Command="{Binding EditCommand}" Header="Редактировать">
+				<MenuItem Command="{Binding EditCommand}" Header="Редактировать">
 					<MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BEdit.png" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<!--
@@ -20,20 +20,20 @@
 					</MenuItem.Header>
 					</MenuItem>
 				-->
-                <MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
-                    <MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
+				<MenuItem Command="{Binding RemoveCommand}" Header="Удалить">
+					<MenuItem.Icon>
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BDelete.png" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<Separator />
-                <MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
-                    <MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
+				<MenuItem Command="{Binding LayoutCopyCommand}" Header="Копировать">
+					<MenuItem.Icon>
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCopy.png" />
 					</MenuItem.Icon>
 				</MenuItem>
-                <MenuItem Command="{Binding LayoutCutCommand}" Header="Вырезать">
-                    <MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
+				<MenuItem Command="{Binding LayoutCutCommand}" Header="Вырезать">
+					<MenuItem.Icon>
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BCut.png" />
 					</MenuItem.Icon>
 				</MenuItem>
 				<!--
@@ -57,14 +57,14 @@
 		</ListView.ItemContainerStyle>
 		<ListView.ContextMenu>
 			<ContextMenu>
-                <MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить шаблон">
-                    <MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
+				<MenuItem Command="{Binding Layouts.AddCommand}" Header="Добавить шаблон">
+					<MenuItem.Icon>
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BAdd.png" />
 					</MenuItem.Icon>
 				</MenuItem>
-                <MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить">
-                    <MenuItem.Icon>
-					    <Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
+				<MenuItem Command="{Binding Layouts.LayoutPasteCommand}" CommandParameter="{StaticResource True}" Header="Вставить">
+					<MenuItem.Icon>
+						<Image Width="16" VerticalAlignment="Center" Source="/Controls;component/Images/BPaste.png" />
 					</MenuItem.Icon>
 				</MenuItem>
 			</ContextMenu>

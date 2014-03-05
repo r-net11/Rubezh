@@ -89,7 +89,7 @@ namespace GKProcessor
 			for (int i = 0; i < 10; i++)
 			{
 				if (progressCallback.IsCanceled)
-                    return false;
+					return false;
 				if (IsInTechnologicalRegime(device))
 					return true;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
@@ -121,7 +121,7 @@ namespace GKProcessor
 			for (int i = 0; i < 3; i++)
 			{
 				if (progressCallback.IsCanceled)
-                    return false;
+					return false;
 				var sendResult = SendManager.Send(device, 0, 15, 0, null, true, false, 10000);
 				if (!sendResult.HasError)
 				{

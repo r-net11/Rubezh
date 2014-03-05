@@ -1,9 +1,9 @@
 ﻿namespace Infrastructure.Common.Validation
 {
-    public enum ValidationErrorLevel
-    {
-        CannotSave,
-        CannotWrite,
-        Warning
-    }
+	public enum ValidationErrorLevel
+	{
+		CannotSave,
+		CannotWrite,
+		Warning
+	}
 }

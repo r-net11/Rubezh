@@ -240,32 +240,32 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
-                if (Alarm.Device != null)
-                {
-                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Alarm.Device != null)
+				{
+					if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
-                    }
-                }
+					}
+				}
 
-                if (Alarm.Zone != null)
-                {
-                    if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+				if (Alarm.Zone != null)
+				{
+					if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
-                    }
-                }
+					}
+				}
 
-                if (Alarm.Direction != null)
-                {
-                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+				if (Alarm.Direction != null)
+				{
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
-                    }
-                }
-            }
+					}
+				}
+			}
 		}
 		bool CanResetIgnore()
 		{
@@ -300,26 +300,26 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-        void OnTurnOnAutomatic()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
-                if (Alarm.Device != null)
-                {
-                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
-                    {
+		void OnTurnOnAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Alarm.Device != null)
+				{
+					if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
-                    }
-                }
-                if (Alarm.Direction != null)
-                {
-                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
-                    {
+					}
+				}
+				if (Alarm.Direction != null)
+				{
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
-                    }
-                }
-            }
-        }
+					}
+				}
+			}
+		}
 		bool CanTurnOnAutomatic()
 		{
 			if (Alarm.AlarmType == XAlarmType.AutoOff)
@@ -385,7 +385,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowInstruction()
 		{
-            var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
 		public bool CanShowInstructionCommand
@@ -396,7 +396,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-                var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 				return instructionViewModel.Instruction;
 			}
 		}

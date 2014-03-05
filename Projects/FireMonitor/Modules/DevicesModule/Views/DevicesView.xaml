@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="DevicesModule.Views.DevicesView" 
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls" 
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
-             xmlns:viewModel="clr-namespace:DevicesModule.ViewModels">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+			 xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls" 
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
+			 xmlns:viewModel="clr-namespace:DevicesModule.ViewModels">
 	<UserControl.Resources>
 		<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
 		<viewModel:DeviceViewModelDeviceComparer x:Key="DeviceViewModelDeviceComparer" />
@@ -19,12 +19,12 @@
 	</UserControl.Resources>
 
 	<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="200" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="150" MinHeight="150" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="150" MinHeight="150" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
@@ -87,7 +87,7 @@
 									<StackPanel Orientation="Horizontal">
 										<Image Margin="0, 0, 5, 0" VerticalAlignment="Center" Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" />
 										<TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                                        <Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" ImageSource="/Controls;component/Images/Close.png" ToolTip="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}" />
+										<Controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" ImageSource="/Controls;component/Images/Close.png" ToolTip="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>

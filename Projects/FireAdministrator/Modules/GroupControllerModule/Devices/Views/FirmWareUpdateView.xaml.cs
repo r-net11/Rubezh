@@ -1,10 +1,10 @@
 ﻿namespace GKModule.Views
 {
-    public partial class FirmWareUpdateView
-    {
-        public FirmWareUpdateView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class FirmWareUpdateView
+	{
+		public FirmWareUpdateView()
+		{
+			InitializeComponent();
+		}
+	}
 }

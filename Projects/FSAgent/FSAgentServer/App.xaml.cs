@@ -17,7 +17,7 @@ namespace FSAgentServer
 		{
 			base.OnStartup(e);
 			PatchManager.Patch();
-            Microsoft.Win32.SystemEvents.SessionEnding += new Microsoft.Win32.SessionEndingEventHandler(SystemEvents_SessionEnding);
+			Microsoft.Win32.SystemEvents.SessionEnding += new Microsoft.Win32.SessionEndingEventHandler(SystemEvents_SessionEnding);
 
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 			{

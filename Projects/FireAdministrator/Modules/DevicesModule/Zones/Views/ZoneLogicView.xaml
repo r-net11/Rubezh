@@ -9,11 +9,11 @@
 		<Converters:ClauseOperationToStringConverter x:Key="ClauseOperationToStringConverter" />
 		<Converters:ClauseStateToStringConverter x:Key="ClauseStateToStringConverter" />
 		<Converters:ZoneLogicJoinOperatorConverter x:Key="ZoneLogicJoinOperatorConverter" />
-        <Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
-        <Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
+		<Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
+		<Converters:MROMessageTypeToStringConverter x:Key="MROMessageTypeToStringConverter" />
 	</UserControl.Resources>
 
-    <Border Padding="5">
+	<Border Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -52,7 +52,7 @@
 											</ComboBox>
 
 											<Grid Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-                                                <Button Command="{Binding ShowZonesCommand}" Foreground="White" Style="{StaticResource ToolBarButtonStyle}" Background="DarkGray">
+												<Button Command="{Binding ShowZonesCommand}" Foreground="White" Style="{StaticResource ToolBarButtonStyle}" Background="DarkGray">
 													<TextBlock Margin="2">
 														<TextBlock.Style>
 															<Style>
@@ -65,14 +65,14 @@
 															</Style>
 														</TextBlock.Style>
 													</TextBlock>
-                                                </Button>
-                                            </Grid>
+												</Button>
+											</Grid>
 
 										</StackPanel>
 
 										<TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 											<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
-											    <TextBlock Text="{Binding PresenrationSelectedDevice}" />
+												<TextBlock Text="{Binding PresenrationSelectedDevice}" />
 												<TextBlock Text="Нажмите для выбора устройства" Margin="2">
 													<TextBlock.Style>
 														<Style>
@@ -95,29 +95,29 @@
 										CommandParameter="{Binding}"
 										ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" />
 								</Grid>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsSonar, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                                    <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </StackPanel>
+								<StackPanel Orientation="Horizontal" Visibility="{Binding IsSonar, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+									<ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+										<ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+									</ComboBox>
+									<ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+										<ComboBox.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+											</DataTemplate>
+										</ComboBox.ItemTemplate>
+									</ComboBox>
+								</StackPanel>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
+									<Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 										Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"
 										Command="{Binding ChangeJoinOperatorCommand}"
 										Width="75" HorizontalAlignment="Left" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
-                                    </Button>
-                                </Grid>
+									</Button>
+								</Grid>
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

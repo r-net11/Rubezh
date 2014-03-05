@@ -38,7 +38,7 @@
 				<DockPanel Grid.Column="2" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}">
 					<Controls:ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб" />
 					<Controls:ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб" />
-                    <Slider x:Name="slider" Minimum="0.1" Maximum="5" Value="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="Изменить масштаб" />
+					<Slider x:Name="slider" Minimum="0.1" Maximum="5" Value="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="Изменить масштаб" />
 				</DockPanel>
 			</Grid>
 			<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">

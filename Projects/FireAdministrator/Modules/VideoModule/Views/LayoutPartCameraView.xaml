@@ -3,7 +3,7 @@
 		<AlignableWrapPanel.LayoutTransform>
 			<ScaleTransform ScaleX="2" ScaleY="2" />
 		</AlignableWrapPanel.LayoutTransform>
-        <Image Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Width="16" Margin="4" Stretch="Uniform" />
-        <TextBlock Text="{Binding CameraTitle}" VerticalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+		<Image Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Width="16" Margin="4" Stretch="Uniform" />
+		<TextBlock Text="{Binding CameraTitle}" VerticalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
 	</AlignableWrapPanel>
 </UserControl>

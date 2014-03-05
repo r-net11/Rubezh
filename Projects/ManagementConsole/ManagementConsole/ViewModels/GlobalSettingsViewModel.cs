@@ -52,16 +52,16 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
 			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 
-            if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
-                GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
-            foreach (var moduleName in GlobalSettingsHelper.GlobalSettings.ModuleItems)
-            {
-                var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
-                if (moduleViewModel != null)
-                {
-                    moduleViewModel.IsSelected = true;
-                }
-            }
+			if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
+				GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
+			foreach (var moduleName in GlobalSettingsHelper.GlobalSettings.ModuleItems)
+			{
+				var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
+				if (moduleViewModel != null)
+				{
+					moduleViewModel.IsSelected = true;
+				}
+			}
 
 			ManagementConsoleViewModel.Curent.HasChanges = false;
 		}
@@ -265,12 +265,12 @@ namespace ManagementConsole
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
 			GlobalSettingsHelper.GlobalSettings.UseSKD = UseSKD;
 
-            GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
+			GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)
 			{
 				if (moduleViewModel.IsSelected)
 				{
-                    GlobalSettingsHelper.GlobalSettings.ModuleItems.Add(moduleViewModel.Name);
+					GlobalSettingsHelper.GlobalSettings.ModuleItems.Add(moduleViewModel.Name);
 				}
 			}
 

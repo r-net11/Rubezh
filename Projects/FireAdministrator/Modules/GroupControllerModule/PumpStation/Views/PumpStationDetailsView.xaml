@@ -1,49 +1,49 @@
 ﻿<UserControl x:Class="GKModule.Views.PumpStationDetailsView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-    xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-    xmlns:controls="clr-namespace:Controls;assembly=Controls"
-    MinWidth="600" MinHeight="450">
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:controls="clr-namespace:Controls;assembly=Controls"
+	MinWidth="600" MinHeight="450">
 
-    <TabControl>
-        <TabItem Header="Основные">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
-                <Label Grid.Row="3" Grid.Column="0" Content="Время тушения, с" HorizontalAlignment="Right" />
-                <Label Grid.Row="4" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
-                <Label Grid.Row="5" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
+	<TabControl>
+		<TabItem Header="Основные">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+				<Label Grid.Row="2" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="3" Grid.Column="0" Content="Время тушения, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Количество основных насосов" HorizontalAlignment="Right" Margin="2" />
+				<Label Grid.Row="5" Grid.Column="0" Content="Интервал разновременного пуска, с" HorizontalAlignment="Right" Margin="2" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
-                    <controls:XAutoCompleteBox.TextBoxStyle>
-                        <Style TargetType="TextBox">
-                            <Setter Property="MaxLength" Value="20" />
-                            <Setter Property="ContextMenu" Value="{x:Null}" />
-                        </Style>
-                    </controls:XAutoCompleteBox.TextBoxStyle>
-                </controls:XAutoCompleteBox>
-                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="30" Maximum="180" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="60" Maximum="600" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="5" Maximum="30" Width="50" HorizontalAlignment="Left" Margin="2" />
-            </Grid>
-        </TabItem>
-    </TabControl>
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
+					<controls:XAutoCompleteBox.TextBoxStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="MaxLength" Value="20" />
+							<Setter Property="ContextMenu" Value="{x:Null}" />
+						</Style>
+					</controls:XAutoCompleteBox.TextBoxStyle>
+				</controls:XAutoCompleteBox>
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" Minimum="30" Maximum="180" Width="50" HorizontalAlignment="Left" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Hold}" Minimum="60" Maximum="600" Width="50" HorizontalAlignment="Left" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding NSPumpsCount}" Minimum="1" Maximum="10" Width="50" HorizontalAlignment="Left" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding NSDeltaTime}" Minimum="5" Maximum="30" Width="50" HorizontalAlignment="Left" Margin="2" />
+			</Grid>
+		</TabItem>
+	</TabControl>
 </UserControl>

@@ -352,12 +352,12 @@ namespace JournalModule.ViewModels
 
 		//void OnGetFS2FilteredArchiveCompleted(IEnumerable<FS2JournalItem> journalItems)
 		//{
-		//    var archivePageViewModel = new ArchivePageViewModel(journalItems);
-		//    Pages.Add(archivePageViewModel);
-		//    TotalPageNumber = Pages.Count;
-		//    if (CurrentPageNumber == 0)
-		//        CurrentPageNumber = 1;
-		//    Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
+		//	var archivePageViewModel = new ArchivePageViewModel(journalItems);
+		//	Pages.Add(archivePageViewModel);
+		//	TotalPageNumber = Pages.Count;
+		//	if (CurrentPageNumber == 0)
+		//		CurrentPageNumber = 1;
+		//	Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
 		//}
 
 		public override void OnShow()

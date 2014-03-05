@@ -2,13 +2,13 @@
 
 namespace GKModule.ViewModels
 {
-    public class MPTsMenuViewModel : BaseViewModel
-    {
+	public class MPTsMenuViewModel : BaseViewModel
+	{
 		public MPTsMenuViewModel(MPTsViewModel context)
-        {
-            Context = context;
-        }
+		{
+			Context = context;
+		}
 
 		public MPTsViewModel Context { get; private set; }
-    }
+	}
 }

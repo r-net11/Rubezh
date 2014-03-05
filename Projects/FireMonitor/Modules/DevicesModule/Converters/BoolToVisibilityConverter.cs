@@ -4,20 +4,20 @@ using System.Windows.Data;
 
 namespace DevicesModule.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (parameter != null && System.Convert.ToBoolean(parameter))
-            {
-                return (bool)value ? Visibility.Collapsed : Visibility.Visible;
-            }
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
-        }
+	public class BoolToVisibilityConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			if (parameter != null && System.Convert.ToBoolean(parameter))
+			{
+				return (bool)value ? Visibility.Collapsed : Visibility.Visible;
+			}
+			return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

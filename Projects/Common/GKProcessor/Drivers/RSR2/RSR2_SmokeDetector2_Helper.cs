@@ -15,13 +15,13 @@ namespace GKProcessor
 				Name = "Пожарный дымовой извещатель ИП2Д RSR2",
 				ShortName = "ИП2Д RSR2",
 				HasZone = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Порог срабатывания по дыму, 0.001*дБ/м", 800, 50, 1000);
 

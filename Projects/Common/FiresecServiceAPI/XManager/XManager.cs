@@ -10,7 +10,7 @@ namespace FiresecClient
 	{
 		public static XDeviceConfiguration DeviceConfiguration { get; set; }
 		public static XDriversConfiguration DriversConfiguration { get; set; }
-        public static XDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
+		public static XDeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 
 		static XManager()
 		{
@@ -90,23 +90,23 @@ namespace FiresecClient
 		public static string GetIpAddress(XDevice device)
 		{
 			XDevice gkDevice = null;
-            switch (device.DriverType)
-            {
-                case XDriverType.GK:
-                    gkDevice = device;
-                    break;
+			switch (device.DriverType)
+			{
+				case XDriverType.GK:
+					gkDevice = device;
+					break;
 
-                case XDriverType.KAU:
+				case XDriverType.KAU:
 				case XDriverType.RSR2_KAU:
-                    gkDevice = device.Parent;
-                    break;
+					gkDevice = device.Parent;
+					break;
 
-                default:
-                    {
-                        Logger.Error("XManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ");
-                        throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
-                    }
-            }
+				default:
+					{
+						Logger.Error("XManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ");
+						throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
+					}
+			}
 			var ipAddress = gkDevice.GetGKIpAddress();
 			return ipAddress;
 		}

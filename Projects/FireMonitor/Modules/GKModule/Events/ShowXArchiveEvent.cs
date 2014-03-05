@@ -4,8 +4,8 @@ using XFiresecAPI;
 namespace GKModule.Events
 {
 	public class ShowXArchiveEvent : CompositePresentationEvent<ShowXArchiveEventArgs>
-    {
-    }
+	{
+	}
 
 	public class ShowXArchiveEventArgs
 	{

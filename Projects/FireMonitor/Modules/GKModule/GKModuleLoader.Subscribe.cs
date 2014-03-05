@@ -118,7 +118,7 @@ namespace GKModule
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
-                    device.State.OnStateChanged();
+					device.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
@@ -127,7 +127,7 @@ namespace GKModule
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
-                    zone.State.OnStateChanged();
+					zone.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
@@ -136,7 +136,7 @@ namespace GKModule
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
-                    direction.State.OnStateChanged();
+					direction.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -145,7 +145,7 @@ namespace GKModule
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
-                    pumpStation.State.OnStateChanged();
+					pumpStation.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteMPTState in gkStates.MPTStates)
@@ -165,7 +165,7 @@ namespace GKModule
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
-                    delay.State.OnStateChanged();
+					delay.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
@@ -176,7 +176,7 @@ namespace GKModule
 				if (pim != null)
 				{
 					remotePimState.CopyTo(pim.State);
-                    pim.State.OnStateChanged();
+					pim.State.OnStateChanged();
 				}
 			}
 			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)

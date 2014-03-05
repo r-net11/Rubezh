@@ -30,10 +30,10 @@ namespace Controls.Converters
 					return Brushes.Gray;
 
 				case StateType.Info:
-                    return Brushes.Transparent;
+					return Brushes.Transparent;
 
 				case StateType.Norm:
-                    return Brushes.Transparent;
+					return Brushes.Transparent;
 
 				default:
 					return Brushes.Transparent;

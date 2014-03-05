@@ -130,71 +130,71 @@ namespace FSAgentServer
 				//var fileName00 = @"..\..\Firesec5\scktsrvr.exe";
 				//if (File.Exists(fileName00))
 				//{
-				//    return fileName00;
+				//	return fileName00;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File00 Not Exists " + fileName00);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File00 Not Exists " + fileName00);
 				//}
 
 				//var fileName01 = @"..\..\Firesec\scktsrvr.exe";
 				//if (File.Exists(fileName01))
 				//{
-				//    return fileName01;
+				//	return fileName01;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File01 Not Exists " + fileName01);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File01 Not Exists " + fileName01);
 				//}
 
 				//var directoryPath = GetPathFromRegistry();
 				//if (directoryPath != null)
 				//{
-				//    var filePath1 = Path.Combine(directoryPath, "scktsrvr.exe");
-				//    if (File.Exists(filePath1))
-				//    {
-				//        return filePath1;
-				//    }
-				//    else
-				//    {
-				//        Logger.Error("SocketServerHelper.GetSocketServerPath File1 Not Exists " + filePath1);
-				//    }
+				//	var filePath1 = Path.Combine(directoryPath, "scktsrvr.exe");
+				//	if (File.Exists(filePath1))
+				//	{
+				//		return filePath1;
+				//	}
+				//	else
+				//	{
+				//		Logger.Error("SocketServerHelper.GetSocketServerPath File1 Not Exists " + filePath1);
+				//	}
 				//}
 				//var filePath2 = @"C:\Program Files\Firesec\scktsrvr.exe";
 				//if (File.Exists(filePath2))
 				//{
-				//    return filePath2;
+				//	return filePath2;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File2 Not Exists " + filePath2);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File2 Not Exists " + filePath2);
 				//}
 				//var filePath3 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec\scktsrvr.exe");
 				//if (File.Exists(filePath3))
 				//{
-				//    return filePath3;
+				//	return filePath3;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File3 Not Exists " + filePath3);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File3 Not Exists " + filePath3);
 				//}
 				//var filePath4 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec5\scktsrvr.exe");
 				//if (File.Exists(filePath4))
 				//{
-				//    return filePath4;
+				//	return filePath4;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File4 Not Exists " + filePath4);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File4 Not Exists " + filePath4);
 				//}
 				//var filePath5 = @"C:\Program Files\Firesec5\scktsrvr.exe";
 				//if (File.Exists(filePath5))
 				//{
-				//    return filePath5;
+				//	return filePath5;
 				//}
 				//else
 				//{
-				//    Logger.Error("SocketServerHelper.GetSocketServerPath File5 Not Exists " + filePath5);
+				//	Logger.Error("SocketServerHelper.GetSocketServerPath File5 Not Exists " + filePath5);
 				//}
 
 				//LoadingErrorManager.Add("Не удалось обнаружить драйвер устройств");
@@ -210,7 +210,7 @@ namespace FSAgentServer
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetSocketServerPath");
-                LoadingErrorManager.Add(e);
+				LoadingErrorManager.Add(e);
 				return null;
 			}
 		}

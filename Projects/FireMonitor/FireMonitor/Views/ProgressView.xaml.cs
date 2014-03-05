@@ -2,11 +2,11 @@
 
 namespace FireMonitor.Views
 {
-    public partial class ProgressView : UserControl
-    {
-        public ProgressView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ProgressView : UserControl
+	{
+		public ProgressView()
+		{
+			InitializeComponent();
+		}
+	}
 }

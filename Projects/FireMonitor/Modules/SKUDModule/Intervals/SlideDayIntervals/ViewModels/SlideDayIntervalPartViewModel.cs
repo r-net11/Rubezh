@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 			AvailableTimeIntervals = new ObservableCollection<EmployeeTimeInterval>();
 			//foreach (var interval in SKDManager.SKDConfiguration.TimeIntervals)
 			//{
-			//    AvailableTimeIntervals.Add(interval);
+			//	AvailableTimeIntervals.Add(interval);
 			//}
 			_selectedTimeInterval = TimeInterval;
 		}

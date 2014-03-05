@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace JournalModule.Converters
 {
-    public class StateTypeToColorConverter : IValueConverter
+	public class StateTypeToColorConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

@@ -26,8 +26,8 @@ namespace DevicesModule.Views
 
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FS2ClientContract.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
-			//    FS2ClientContract.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
+			//	FS2ClientContract.ConnectionLost += new Action(FS2OrAgent_ConnectionLost);
+			//	FS2ClientContract.ConnectionAppeared += new Action(FS2OrAgent_ConnectionAppeared);
 			//}
 			//else
 			{

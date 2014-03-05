@@ -15,14 +15,14 @@ namespace GKProcessor
 				Name = "Пожарный тепловой извещатель ИП 101-29-A3R1",
 				ShortName = "ИП-29",
 				HasZone = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 70, 54, 85);
 

@@ -2,7 +2,7 @@
 
 namespace GKModule.Events
 {
-    public class ShowXJournalEvent : CompositePresentationEvent<object>
-    {
-    }
+	public class ShowXJournalEvent : CompositePresentationEvent<object>
+	{
+	}
 }

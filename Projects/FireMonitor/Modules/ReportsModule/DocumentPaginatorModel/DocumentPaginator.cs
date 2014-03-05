@@ -68,7 +68,7 @@ namespace ReportsModule.DocumentPaginatorModel
 			//DrawingVisual background = new DrawingVisual();
 			//using (DrawingContext ctx = background.RenderOpen())
 			//{
-			//    ctx.DrawRectangle(new SolidColorBrush(Color.FromRgb(240, 240, 240)), null, page.ContentBox);
+			//	ctx.DrawRectangle(new SolidColorBrush(Color.FromRgb(240, 240, 240)), null, page.ContentBox);
 			//}
 			//newpage.Children.Add(background); // Scale down page and center
 			ContainerVisual smallerPage = new ContainerVisual();

@@ -38,8 +38,8 @@ namespace GKProcessor
 			if (!DeviceBytesHelper.GoToTechnologicalRegime(gkDevice, progressCallback))
 			{
 				Error = "Не удалось перевести " + gkDevice.PresentationName + " в технологический режим\n" +
-				        "Устройство не доступно, либо вашего " +
-				        "IP адреса нет в списке разрешенного адреса ГК";
+						"Устройство не доступно, либо вашего " +
+						"IP адреса нет в списке разрешенного адреса ГК";
 				GKProcessorManager.StopProgress(progressCallback);
 				return false;
 			}
@@ -242,7 +242,7 @@ namespace GKProcessor
 
 				try
 				{
-                    if (description.StartsWith("MПТ."))
+					if (description.StartsWith("MПТ."))
 					{
 						isMPT = true;
 					}

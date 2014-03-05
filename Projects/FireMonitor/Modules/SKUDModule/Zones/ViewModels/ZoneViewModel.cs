@@ -82,13 +82,13 @@ namespace SKDModule.ViewModels
 
 		#region Ignore
 		public RelayCommand ZoneCommand { get; private set; }
-        void OnZone()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnZone()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Zone);
-            }
-        }
+			}
+		}
 		bool CanZone()
 		{
 			return true && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);

@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.ViewModels" xmlns:Views="clr-namespace:GKModule.Views">
 	
-    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
 		<Views:DevicesView />
 	</DataTemplate>
 
@@ -64,52 +64,52 @@
 		<Views:ConfirmationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
-        <Views:DiagnosticsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
+		<Views:DiagnosticsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
-        <Views:DelaysView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
+		<Views:DelaysView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
-        <Views:DelayDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
+		<Views:DelayDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
-        <Views:PimsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PimsViewModel}">
+		<Views:PimsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PimDetailsViewModel}">
-        <Views:PimDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PimDetailsViewModel}">
+		<Views:PimDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
-        <Views:PumpStationsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
+		<Views:PumpStationsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
-        <Views:PumpStationDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
+		<Views:PumpStationDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
-        <Views:MPTsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+		<Views:MPTsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
-        <Views:MPTDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
+		<Views:MPTDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
-        <Views:DeviceTooltipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DeviceTooltipViewModel}">
+		<Views:DeviceTooltipView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionTooltipViewModel}">
-        <Views:DirectionToolTipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionTooltipViewModel}">
+		<Views:DirectionToolTipView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
-        <Views:ZoneToolTipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ZoneTooltipViewModel}">
+		<Views:ZoneToolTipView />
+	</DataTemplate>
 
 </ResourceDictionary>

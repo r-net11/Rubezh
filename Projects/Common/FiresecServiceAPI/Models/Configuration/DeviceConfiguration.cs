@@ -89,20 +89,20 @@ namespace FiresecAPI.Models
 			{
 				var copyDevice = new Device();
 				//{
-				//    UID = currentDevice.UID,
-				//    DriverUID = currentDevice.DriverUID,
-				//    IntAddress = currentDevice.IntAddress,
-				//    Description = currentDevice.Description,
-				//    ZoneUID = currentDevice.ZoneUID,
-				//    Properties = new List<Property>(currentDevice.Properties),
-				//    SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
-				//    DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
+				//	UID = currentDevice.UID,
+				//	DriverUID = currentDevice.DriverUID,
+				//	IntAddress = currentDevice.IntAddress,
+				//	Description = currentDevice.Description,
+				//	ZoneUID = currentDevice.ZoneUID,
+				//	Properties = new List<Property>(currentDevice.Properties),
+				//	SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties),
+				//	DeviceAUProperties = new List<Property>(currentDevice.DeviceAUProperties)
 				//};
 				copyDevice.UID = currentDevice.UID;
 				copyDevice.DriverUID = currentDevice.DriverUID;
 				copyDevice.IntAddress = currentDevice.IntAddress;
 				copyDevice.Description = currentDevice.Description;
-                copyDevice.ZoneUID = currentDevice.ZoneUID;
+				copyDevice.ZoneUID = currentDevice.ZoneUID;
 				copyDevice.Properties = new List<Property>(currentDevice.Properties);
 				if (currentDevice.SystemAUProperties != null)
 					copyDevice.SystemAUProperties = new List<Property>(currentDevice.SystemAUProperties);
@@ -156,8 +156,8 @@ namespace FiresecAPI.Models
 			}
 		}
 
-        public override bool ValidateVersion()
-        {
+		public override bool ValidateVersion()
+		{
 			var result = true;
 			if (RootDevice == null)
 			{
@@ -230,6 +230,6 @@ namespace FiresecAPI.Models
 			}
 
 			return result;
-        }
+		}
 	}
 }

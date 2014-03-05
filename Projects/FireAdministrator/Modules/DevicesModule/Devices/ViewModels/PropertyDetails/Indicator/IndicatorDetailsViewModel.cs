@@ -109,17 +109,17 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged("SelectedDevice");
-                OnPropertyChanged("CanEditColors");
+				OnPropertyChanged("CanEditColors");
 			}
 		}
 
-        public bool CanEditColors
-        {
-            get
-            {
-                return SelectedDevice != null && SelectedDevice.Driver.DriverType != DriverType.PumpStation && SelectedDevice.Parent.Driver.DriverType != DriverType.PumpStation;
-            }
-        }
+		public bool CanEditColors
+		{
+			get
+			{
+				return SelectedDevice != null && SelectedDevice.Driver.DriverType != DriverType.PumpStation && SelectedDevice.Parent.Driver.DriverType != DriverType.PumpStation;
+			}
+		}
 
 		public List<IndicatorColorType> Colors
 		{

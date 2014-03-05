@@ -50,28 +50,28 @@ namespace GKProcessor
 
 			//var additionalSwitcherProperty = new XDriverProperty()
 			//{
-			//    No = 0x8d,
-			//    Name = "Дополнительные выключатели",
-			//    Caption = "Дополнительные выключатели",
-			//    Default = 0,
-			//    Offset = 0,
-			//    Mask = 3,
-			//    IsHieghByte=true
+			//	No = 0x8d,
+			//	Name = "Дополнительные выключатели",
+			//	Caption = "Дополнительные выключатели",
+			//	Default = 0,
+			//	Offset = 0,
+			//	Mask = 3,
+			//	IsHieghByte=true
 			//};
 			//var parameter1 = new XDriverPropertyParameter()
 			//{
-			//    Name = "Нет",
-			//    Value = 0
+			//	Name = "Нет",
+			//	Value = 0
 			//};
 			//var parameter2 = new XDriverPropertyParameter()
 			//{
-			//    Name = "муфтовые выключатели",
-			//    Value = 1
+			//	Name = "муфтовые выключатели",
+			//	Value = 1
 			//};
 			//var parameter3 = new XDriverPropertyParameter()
 			//{
-			//    Name = "датчик уровня",
-			//    Value = 2
+			//	Name = "датчик уровня",
+			//	Value = 2
 			//};
 			//additionalSwitcherProperty.Parameters.Add(parameter1);
 			//additionalSwitcherProperty.Parameters.Add(parameter2);

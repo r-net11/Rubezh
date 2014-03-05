@@ -2,12 +2,12 @@
 
 namespace DevicesModule.Views
 {
-    public partial class ZoneSelectationView : UserControl
-    {
+	public partial class ZoneSelectationView : UserControl
+	{
 		public ZoneSelectationView()
-        {
-            InitializeComponent();
-        }
+		{
+			InitializeComponent();
+		}
 
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -17,5 +17,5 @@ namespace DevicesModule.Views
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
 			}
 		}
-    }
+	}
 }

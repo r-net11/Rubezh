@@ -17,13 +17,13 @@ namespace AlarmModule.ViewModels
 {
 	public class AlarmsViewModel : ViewPartViewModel
 	{
-        public static AlarmsViewModel Current { get; private set; }
+		public static AlarmsViewModel Current { get; private set; }
 		List<Alarm> allAlarms;
 		AlarmType? SortingAlarmType;
 
 		public AlarmsViewModel()
 		{
-            Current = this;
+			Current = this;
 			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
 			AddToIgnoreAllDevicesInFireCommand = new RelayCommand(OnAddToIgnoreAllDevicesInFire, CanAddToIgnoreAllDevicesInFire);
@@ -38,21 +38,21 @@ namespace AlarmModule.ViewModels
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
 
-        public void Update(List<Alarm> alarms)
-        {
-            allAlarms = alarms;
-            Sort(SortingAlarmType);
-        }
+		public void Update(List<Alarm> alarms)
+		{
+			allAlarms = alarms;
+			Sort(SortingAlarmType);
+		}
 
 		public void Sort(AlarmType? sortingAlarmType)
 		{
 			SortingAlarmType = sortingAlarmType;
 
-            Alarm oldAlarm = null;
-            if (SelectedAlarm != null)
-            {
-                oldAlarm = SelectedAlarm.Alarm.Clone();
-            }
+			Alarm oldAlarm = null;
+			if (SelectedAlarm != null)
+			{
+				oldAlarm = SelectedAlarm.Alarm.Clone();
+			}
 
 			Alarms.Clear();
 			foreach (var alarm in allAlarms)
@@ -64,10 +64,10 @@ namespace AlarmModule.ViewModels
 				}
 			}
 
-            if (oldAlarm != null)
-            {
-                SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
-            }
+			if (oldAlarm != null)
+			{
+				SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
+			}
 		}
 
 		public ObservableCollection<AlarmViewModel> Alarms { get; private set; }
@@ -128,26 +128,26 @@ namespace AlarmModule.ViewModels
 		}
 
 		public RelayCommand RemoveAllFromIgnoreListCommand { get; private set; }
-        void OnRemoveAllFromIgnoreList()
-        {
-            var devices = new List<Device>();
-            foreach (var alarmViewModel in Alarms)
-            {
-                if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
-                {
-                    if (alarmViewModel.Alarm.Device != null)
-                    {
-                        if (FiresecManager.CanDisable(alarmViewModel.Alarm.Device.DeviceState) && alarmViewModel.Alarm.Device.DeviceState.IsDisabled)
-                            devices.Add(alarmViewModel.Alarm.Device);
-                    }
-                }
-            }
+		void OnRemoveAllFromIgnoreList()
+		{
+			var devices = new List<Device>();
+			foreach (var alarmViewModel in Alarms)
+			{
+				if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
+				{
+					if (alarmViewModel.Alarm.Device != null)
+					{
+						if (FiresecManager.CanDisable(alarmViewModel.Alarm.Device.DeviceState) && alarmViewModel.Alarm.Device.DeviceState.IsDisabled)
+							devices.Add(alarmViewModel.Alarm.Device);
+					}
+				}
+			}
 
-            if (ServiceFactory.SecurityService.Validate())
-            {
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.RemoveFromIgnoreList(devices);
-            }
-        }
+			}
+		}
 		public bool CanRemoveAllFromIgnoreList()
 		{
 			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);

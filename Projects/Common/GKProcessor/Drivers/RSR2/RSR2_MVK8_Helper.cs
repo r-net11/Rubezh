@@ -16,7 +16,7 @@ namespace GKProcessor
 				ShortName = "МВК RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

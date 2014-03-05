@@ -90,7 +90,7 @@ namespace FSAgentServer
 			System.Environment.Exit(1);
 
 #if DEBUG
-            return;
+			return;
 #endif
 			Process.GetCurrentProcess().Kill();
 		}

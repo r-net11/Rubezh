@@ -72,7 +72,7 @@ namespace FSAgentServer
 				}
 				catch (Exception e)
 				{
-                    string exceptionText = "Exception " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
+					string exceptionText = "Exception " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
 					Logger.Error(e, exceptionText);
 					resultData.Result = default(T);
 					resultData.HasError = true;

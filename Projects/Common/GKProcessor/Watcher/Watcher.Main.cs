@@ -207,7 +207,7 @@ namespace GKProcessor
 					if (IsPingFailure)
 						AddFailureJournalItem(EventNameEnum.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
 					else
-                        AddFailureJournalItem(EventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(EventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -413,20 +413,20 @@ namespace GKProcessor
 		}
 
 		void AddFailureJournalItem(EventNameEnum name, string description = "")
-        {
-            var journalItem = new JournalItem()
-            {
-                Name = name.ToDescription(),
+		{
+			var journalItem = new JournalItem()
+			{
+				Name = name.ToDescription(),
 				Description = description,
-                StateClass = XStateClass.Unknown,
-                ObjectStateClass = XStateClass.Norm,
-                GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
-            };
-            GKDBHelper.Add(journalItem);
-            GKCallbackResult.JournalItems.Add(journalItem);
-        }
-        
-        void AddFailureJournalItem(EventNameEnum name, EventDescription description)
+				StateClass = XStateClass.Unknown,
+				ObjectStateClass = XStateClass.Norm,
+				GKIpAddress = GkDatabase.RootDevice.GetGKIpAddress()
+			};
+			GKDBHelper.Add(journalItem);
+			GKCallbackResult.JournalItems.Add(journalItem);
+		}
+		
+		void AddFailureJournalItem(EventNameEnum name, EventDescription description)
 		{
 			var journalItem = new JournalItem()
 			{

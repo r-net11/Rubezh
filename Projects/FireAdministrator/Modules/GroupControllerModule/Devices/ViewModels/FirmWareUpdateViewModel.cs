@@ -6,16 +6,16 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    class FirmWareUpdateViewModel : DialogViewModel
-    {
-        public FirmWareUpdateViewModel(List<XDevice> devices)
-        {
-            Title = "Выберете устройства, у которых следуют обновить ПО";
-            UpdatedDevices = Initialize(devices);
+	class FirmWareUpdateViewModel : DialogViewModel
+	{
+		public FirmWareUpdateViewModel(List<XDevice> devices)
+		{
+			Title = "Выберете устройства, у которых следуют обновить ПО";
+			UpdatedDevices = Initialize(devices);
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			DeSelectAllCommand = new RelayCommand(OnDeSelectAll);
-            UpdateCommand = new RelayCommand(OnUpdate, CanUpdate);
-        }
+			UpdateCommand = new RelayCommand(OnUpdate, CanUpdate);
+		}
 
 		public RelayCommand SelectAllCommand { get; private set; }
 		void OnSelectAll()
@@ -33,40 +33,40 @@ namespace GKModule.ViewModels
 				device.IsChecked = false;
 			}
 		}
-        public List<UpdatedDeviceViewModel> UpdatedDevices { get; set; }
-        List<UpdatedDeviceViewModel> Initialize(List<XDevice> devices)
-        {
-            return devices.Select(device => new UpdatedDeviceViewModel(device)).ToList();
-        }
+		public List<UpdatedDeviceViewModel> UpdatedDevices { get; set; }
+		List<UpdatedDeviceViewModel> Initialize(List<XDevice> devices)
+		{
+			return devices.Select(device => new UpdatedDeviceViewModel(device)).ToList();
+		}
 
-        string updateButtonToolTip = "Обновить";
-        public string UpdateButtonToolTip
-        {
-            get
-            {
-                return updateButtonToolTip;
-            }
-            set
-            {
-                updateButtonToolTip = value;
-                OnPropertyChanged("UpdateButtonToolTip");
-            }
-        }
-        public RelayCommand UpdateCommand { get; private set; }
-        void OnUpdate()
-        {
-            Close(true);
-        }
+		string updateButtonToolTip = "Обновить";
+		public string UpdateButtonToolTip
+		{
+			get
+			{
+				return updateButtonToolTip;
+			}
+			set
+			{
+				updateButtonToolTip = value;
+				OnPropertyChanged("UpdateButtonToolTip");
+			}
+		}
+		public RelayCommand UpdateCommand { get; private set; }
+		void OnUpdate()
+		{
+			Close(true);
+		}
 
-        bool CanUpdate()
-        {
-            if (UpdatedDevices.Any(x => x.IsChecked))
-            {
-                UpdateButtonToolTip = "Обновить";
-                return true;
-            }
-            UpdateButtonToolTip = "Выберите хотя бы одно устройство";
-            return false;
-        }
-    }
+		bool CanUpdate()
+		{
+			if (UpdatedDevices.Any(x => x.IsChecked))
+			{
+				UpdateButtonToolTip = "Обновить";
+				return true;
+			}
+			UpdateButtonToolTip = "Выберите хотя бы одно устройство";
+			return false;
+		}
+	}
 }

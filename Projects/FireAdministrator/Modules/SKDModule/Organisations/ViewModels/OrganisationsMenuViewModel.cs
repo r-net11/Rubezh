@@ -2,13 +2,13 @@
 
 namespace SKDModule.ViewModels
 {
-    public class OrganisationsMenuViewModel : BaseViewModel
-    {
+	public class OrganisationsMenuViewModel : BaseViewModel
+	{
 		public OrganisationsMenuViewModel(OrganisationsViewModel context)
-        {
-            Context = context;
-        }
+		{
+			Context = context;
+		}
 
 		public OrganisationsViewModel Context { get; private set; }
-    }
+	}
 }

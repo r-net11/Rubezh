@@ -16,11 +16,11 @@ namespace FiresecClient
 			set { ConfigurationCash.DriversConfiguration = value; }
 		}
 
-        public XDriversConfiguration XDriversConfiguration
-        {
-            get { return XConfigurationCash.XDriversConfiguration; }
-            set { XConfigurationCash.XDriversConfiguration = value; }
-        }
+		public XDriversConfiguration XDriversConfiguration
+		{
+			get { return XConfigurationCash.XDriversConfiguration; }
+			set { XConfigurationCash.XDriversConfiguration = value; }
+		}
 
 		public DeviceConfiguration DeviceConfiguration
 		{
@@ -32,47 +32,47 @@ namespace FiresecClient
 		{
 			if (DeviceConfiguration == null)
 			{
-                LoadingErrorManager.Add("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
+				LoadingErrorManager.Add("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				return;
 			}
 
 			DeviceConfiguration.Update();
-            DeviceConfiguration.Reorder();
+			DeviceConfiguration.Reorder();
 
 			var unknwnDevices = new List<Device>();
 
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver == null)
-                {
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
 					unknwnDevices.Add(device);
-                    LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
-                    Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
-                    continue;
-                }
-            }
+					LoadingErrorManager.Add("Не удается найти драйвер для " + device.DriverUID.ToString());
+					Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
+					continue;
+				}
+			}
 			foreach(var device in unknwnDevices)
 			{
 				device.Parent.Children.Remove(device);
 				DeviceConfiguration.Devices.Remove(device);
 			}
 
-            InvalidateConfiguration();
+			InvalidateConfiguration();
 			UpateGuardZoneSecPanelUID();
 
-            foreach (var device in DeviceConfiguration.Devices)
-            {
+			foreach (var device in DeviceConfiguration.Devices)
+			{
 				device.UpdateHasExternalDevices();
-            }
+			}
 		}
 
-        public void InvalidateConfiguration()
-        {
-            DeviceConfiguration.InvalidateConfiguration();
-            DeviceConfiguration.UpdateCrossReferences();
-        }
+		public void InvalidateConfiguration()
+		{
+			DeviceConfiguration.InvalidateConfiguration();
+			DeviceConfiguration.UpdateCrossReferences();
+		}
 
 		public void UpateGuardZoneSecPanelUID()
 		{
@@ -118,7 +118,7 @@ namespace FiresecClient
 
 		public List<Zone> GetChannelZones(Device device)
 		{
-            DeviceConfiguration.UpdateCrossReferences();
+			DeviceConfiguration.UpdateCrossReferences();
 			var zones = new List<Zone>();
 			var channelDevice = device.ParentChannel;
 
@@ -141,7 +141,7 @@ namespace FiresecClient
 
 		public List<Zone> GetPanelZones(Device device)
 		{
-            DeviceConfiguration.UpdateCrossReferences();
+			DeviceConfiguration.UpdateCrossReferences();
 			var zones = new List<Zone>();
 			var channelDevice = device.ParentPanel;
 
@@ -217,7 +217,7 @@ namespace FiresecClient
 				{
 					if (child.ZoneUID != Guid.Empty)
 					{
-                        var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == child.ZoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == child.ZoneUID);
 						if (zone != null)
 						{
 							zones.Add(zone);

@@ -68,9 +68,9 @@ namespace VideoModule
 		{
 			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
-		    {
-		        _videoNavigationItem
-		    };
+			{
+				_videoNavigationItem
+			};
 		}
 
 		public override string Name
