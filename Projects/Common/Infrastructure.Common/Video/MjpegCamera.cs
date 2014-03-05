@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -11,12 +10,12 @@ namespace Infrastructure.Common
 {
 	public class MjpegCamera
 	{
-		bool VideoThreadInterrupt = false;
-		public string URL { get { return Camera.Address; } }
-		public string Login { get { return Camera.Login; } }
-		public string Password { get { return Camera.Password; } }
-		public Camera Camera { get; private set; }
-		public string Error { get; private set; }
+		bool _videoThreadInterrupt;
+		string URL { get { return Camera.Address; } }
+		string Login { get { return Camera.Login; } }
+		string Password { get { return Camera.Password; } }
+		Camera Camera { get; set; }
+		string Error { get; set; }
 		public MjpegCamera(Camera camera)
 		{
 			Camera = camera;
@@ -79,7 +78,7 @@ namespace Infrastructure.Common
 					// loop
 					while (true)
 					{
-						if (VideoThreadInterrupt)
+						if (_videoThreadInterrupt)
 							return;
 						// check total read
 						if (total > bufSize - readSize)
@@ -171,7 +170,7 @@ namespace Infrastructure.Common
 								//if (NewFrame != null)
 								if (start != 0x32)
 								{
-									if (VideoThreadInterrupt)
+									if (_videoThreadInterrupt)
 										return;
 									var bmp = (Bitmap)Image.FromStream(new MemoryStream(buffer, start, stop - start));
 									if (FrameReady != null)
@@ -221,7 +220,7 @@ namespace Infrastructure.Common
 				}
 				finally
 				{
-					VideoThreadInterrupt = false;
+					_videoThreadInterrupt = false;
 					// abort request
 					if (req != null)
 						req.Abort();
@@ -237,7 +236,7 @@ namespace Infrastructure.Common
 
 		public void StopVideo()
 		{
-			VideoThreadInterrupt = true;
+			_videoThreadInterrupt = true;
 		}
 		// Find subarray in array
 		public static int Find(byte[] array, byte[] needle, int startIndex, int count)

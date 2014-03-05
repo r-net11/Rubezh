@@ -29,7 +29,7 @@ namespace Infrastructure
 		}
 
         static MultiLayoutCameraSettings _multiLayoutCameraSettings;
-        public static MultiLayoutCameraSettings MultiLayoutMultiLayoutCameraSettings
+        public static MultiLayoutCameraSettings MultiLayoutCameraSettings
         {
             get { return _multiLayoutCameraSettings ?? (_multiLayoutCameraSettings = new MultiLayoutCameraSettings()); }
             set { _multiLayoutCameraSettings = value; }
@@ -107,12 +107,14 @@ namespace Infrastructure
                 using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Open))
                 {
                     var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
-                    MultiLayoutMultiLayoutCameraSettings = (MultiLayoutCameraSettings)dataContractSerializer.ReadObject(fileStream);
+                    MultiLayoutCameraSettings = (MultiLayoutCameraSettings)dataContractSerializer.ReadObject(fileStream);
+                    if (MultiLayoutCameraSettings.Dictionary == null)
+                        MultiLayoutCameraSettings.Dictionary = new Dictionary<string, Guid>();
                 }
             }
             else
             {
-                MultiLayoutMultiLayoutCameraSettings = new MultiLayoutCameraSettings();
+                MultiLayoutCameraSettings = new MultiLayoutCameraSettings();
             }
         }
 
@@ -139,7 +141,7 @@ namespace Infrastructure
             using (var fileStream = new FileStream(MultiLayoutCameraSettingsFileName, FileMode.Create))
             {
                 var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
-                dataContractSerializer.WriteObject(fileStream, MultiLayoutMultiLayoutCameraSettings);
+                dataContractSerializer.WriteObject(fileStream, MultiLayoutCameraSettings);
             }
         }
 	}

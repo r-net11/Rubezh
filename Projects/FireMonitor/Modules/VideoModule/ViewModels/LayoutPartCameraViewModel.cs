@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -13,13 +14,6 @@ namespace VideoModule.ViewModels
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
         private string ViewName { get; set; }
-        private Dictionary<string, Guid> Dictionary { get; set; }
-
-		public LayoutPartCameraViewModel(Camera camera)
-		{
-			Camera = camera;
-		    InitializeCommand();
-		}
 
         public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
         {
@@ -28,11 +22,10 @@ namespace VideoModule.ViewModels
             InitializeCommand();
         }
 
-        public LayoutPartCameraViewModel(string viewName, Dictionary<string, Guid> dictionary)
+        public LayoutPartCameraViewModel(string viewName)
         {
             ViewName = viewName;
-            Dictionary = dictionary;
-            var cameraUID = dictionary.FirstOrDefault(x => x.Key == viewName).Value;
+            var cameraUID = ClientSettings.MultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == viewName).Value;
             if (cameraUID != Guid.Empty)
             {
                 Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
@@ -63,10 +56,14 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var layoutPartPropertyCameraPageViewModel = new LayoutPartPropertyCameraPageViewModel(this);
+			var layoutPartPropertyCameraPageViewModel = new LayoutPartPropertyCameraPageViewModel();
+			layoutPartPropertyCameraPageViewModel.SelectedCamera = Camera;
 		    if (DialogService.ShowModalWindow(layoutPartPropertyCameraPageViewModel))
-		    {
-		        Dictionary.Add(ViewName, Camera.UID);
+			{
+				Camera = layoutPartPropertyCameraPageViewModel.SelectedCamera;
+		        if (ClientSettings.MultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == ViewName).Value == Camera.UID)
+		            return;
+		        ClientSettings.MultiLayoutCameraSettings.Dictionary.Add(ViewName, Camera.UID);
 		        CameraViewModel = new CameraViewModel(Camera);
 		        CameraViewModel.StartVideo();
 		    }
@@ -75,8 +72,8 @@ namespace VideoModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            Dictionary.Remove(ViewName);
-            Camera = new Camera();
+            ClientSettings.MultiLayoutCameraSettings.Dictionary.Remove(ViewName);
+            Camera = null;
             CameraViewModel.StopVideo();
             CameraViewModel = null;
         }

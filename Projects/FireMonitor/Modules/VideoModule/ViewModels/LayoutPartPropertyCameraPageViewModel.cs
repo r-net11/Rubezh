@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
 
 namespace VideoModule.ViewModels
 {
 	public class LayoutPartPropertyCameraPageViewModel : SaveCancelDialogViewModel
 	{
-		LayoutPartCameraViewModel _layoutPartCameraViewModel { get; set; }
-		public LayoutPartPropertyCameraPageViewModel(LayoutPartCameraViewModel layoutPartCameraViewModel)
+        public LayoutPartPropertyCameraPageViewModel()
 		{
-			_layoutPartCameraViewModel = layoutPartCameraViewModel;
 			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 		}
 
@@ -45,17 +36,12 @@ namespace VideoModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return true;
+			return SelectedCamera != null;
 		}
 
 		protected override bool Save()
 		{
-			if (SelectedCamera != null)
-			{
-				_layoutPartCameraViewModel.Camera = SelectedCamera;
-				return true;
-			}
-			return false;
-		}
+			return true;
+        }
 	}
 }

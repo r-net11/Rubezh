@@ -22,25 +22,25 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <views:LayoutPartCameraView x:Name="_grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid02" Grid.Row ="0" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid03" Grid.Row ="0" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid02" Grid.Row ="0" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid03" Grid.Row ="0" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
 
-        <views:LayoutPartCameraView x:Name="_grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid12" Grid.Row ="2" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid13" Grid.Row ="2" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid12" Grid.Row ="2" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid13" Grid.Row ="2" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
 
-        <views:LayoutPartCameraView x:Name="_grid20" Grid.Row ="4" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid21" Grid.Row ="4" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid22" Grid.Row ="4" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid23" Grid.Row ="4" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid20" Grid.Row ="4" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid21" Grid.Row ="4" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid22" Grid.Row ="4" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid23" Grid.Row ="4" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
 
-        <views:LayoutPartCameraView x:Name="_grid30" Grid.Row ="6" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid31" Grid.Row ="6" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid32" Grid.Row ="6" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid33" Grid.Row ="6" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid30" Grid.Row ="6" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid31" Grid.Row ="6" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid32" Grid.Row ="6" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_4X4Grid33" Grid.Row ="6" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
 
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="7" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
         <GridSplitter Grid.Row="0" Grid.Column="3" Grid.RowSpan="7" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />

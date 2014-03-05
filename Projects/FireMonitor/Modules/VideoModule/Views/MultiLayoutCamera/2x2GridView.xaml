@@ -13,10 +13,10 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <views:LayoutPartCameraView x:Name="_grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <views:LayoutPartCameraView x:Name="_grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_2X2Grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_2X2Grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_2X2Grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+        <views:LayoutPartCameraView x:Name="_2X2Grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
         <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="5" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
     </Grid>

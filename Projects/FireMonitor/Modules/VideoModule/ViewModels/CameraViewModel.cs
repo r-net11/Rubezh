@@ -105,6 +105,7 @@ namespace VideoModule.ViewModels
 		{
 			MjpegCamera.FrameReady += OnFrameReady;
 			MjpegCamera.ErrorHandler += GetError;
+			ImageSource = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/LoadingVideo.png"));
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 			IsNowPlaying = true;
