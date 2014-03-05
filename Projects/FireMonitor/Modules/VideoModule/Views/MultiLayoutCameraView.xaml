@@ -4,21 +4,16 @@
 			 xmlns:controls="clr-namespace:Controls;assembly=Controls">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition MinHeight="75" />
+			<RowDefinition Height="*" MinHeight="100" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition MinWidth="75" />
-		</Grid.ColumnDefinitions>
 		<Border Grid.Row="0" Name="_grid" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5" />
-		<Grid Grid.Row="1">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-				<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_2x2Button_Click" ImageSource="/Controls;component/Images/MultiGrid/2x2Grid.png" ToolTip="2x2" />
-				<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_1x7Button_Click" ImageSource="/Controls;component/Images/MultiGrid/1x7Grid.png" ToolTip="1x7" />
-				<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_3x3Button_Click" ImageSource="/Controls;component/Images/MultiGrid/3x3Grid.png" ToolTip="3x3" />
-				<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_4x4Button_Click" ImageSource="/Controls;component/Images/MultiGrid/4x4Grid.png" ToolTip="4x4" />
-				<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_6x6Button_Click" ImageSource="/Controls;component/Images/MultiGrid/6x6Grid.png" ToolTip="6x6" />
-			</StackPanel>
-		</Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+			<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_2x2Button_Click" ImageSource="/Controls;component/Images/MultiGrid/2x2Grid.png" ToolTip="2x2" />
+			<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_1x7Button_Click" ImageSource="/Controls;component/Images/MultiGrid/1x7Grid.png" ToolTip="1x7" />
+			<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_3x3Button_Click" ImageSource="/Controls;component/Images/MultiGrid/3x3Grid.png" ToolTip="3x3" />
+			<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_4x4Button_Click" ImageSource="/Controls;component/Images/MultiGrid/4x4Grid.png" ToolTip="4x4" />
+			<controls:ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_6x6Button_Click" ImageSource="/Controls;component/Images/MultiGrid/6x6Grid.png" ToolTip="6x6" />
+		</StackPanel>
 	</Grid>
 </UserControl>
