@@ -37,6 +37,7 @@ namespace Controls.Converters
 					return Brushes.Yellow;
 
 				case XStateClass.On:
+				case XStateClass.TurningOn:
 					return Brushes.LightBlue;
 
 				case XStateClass.AutoOff:
@@ -46,6 +47,7 @@ namespace Controls.Converters
 				//	return Brushes.Green;
 
 				case XStateClass.Off:
+				case XStateClass.TurningOff:
 				case XStateClass.Norm:
 					return Brushes.Green;
 

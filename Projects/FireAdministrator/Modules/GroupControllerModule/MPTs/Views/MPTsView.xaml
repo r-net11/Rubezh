@@ -91,7 +91,7 @@
 			<Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="200" Margin="5 2" />
+						<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="200" Margin="2" />
 						<TextBlock VerticalAlignment="Center" Margin="2">
 							<Hyperlink Command="{Binding ChangeStartLogicCommand}" Style="{StaticResource HyperlinkStyle2}">
 								<TextBlock Margin="2">

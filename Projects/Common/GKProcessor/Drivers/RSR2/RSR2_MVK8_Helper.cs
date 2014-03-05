@@ -36,8 +36,8 @@ namespace GKProcessor
 			driver.AvailableCommandBits.Add(XStateBit.TurnOffNow_InManual);
 
 			GKDriversHelper.AddIntProprety(driver, 0, "Задержка на включение, с", 10, 0, 65535);
-			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 1, 1, 65535);
-			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 1, 1, 65535);
+			GKDriversHelper.AddIntProprety(driver, 1, "Время удержания, с", 1, 0, 65535);
+			GKDriversHelper.AddIntProprety(driver, 2, "Задержка на выключение, с", 1, 0, 65535);
 
 			var property1 = new XDriverProperty()
 			{

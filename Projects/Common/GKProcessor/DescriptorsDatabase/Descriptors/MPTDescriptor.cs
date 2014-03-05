@@ -36,7 +36,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			var hasAutomaticDoorExpression = false;
+			var hasAutomaticOffExpression = false;
 			if (MPT.UseDoorAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
@@ -44,42 +44,51 @@ namespace GKProcessor
 					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
 					{
 						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-						if (hasAutomaticDoorExpression)
+						if (hasAutomaticOffExpression)
 							Formula.Add(FormulaOperationType.OR);
-						hasAutomaticDoorExpression = true;
+						hasAutomaticOffExpression = true;
 					}
 				}
 			}
-			if (hasAutomaticDoorExpression)
-			{
-				Formula.Add(FormulaOperationType.DUP);
-			}
 
-			var hasAutomaticFailureExpression = false;
 			if (MPT.UseFailureAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
 				{
 					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
-					if (hasAutomaticFailureExpression)
+					if (hasAutomaticOffExpression)
 						Formula.Add(FormulaOperationType.OR);
-					hasAutomaticFailureExpression = true;
+					hasAutomaticOffExpression = true;
 				}
 			}
 
 			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
-			if (hasAutomaticFailureExpression || hasAutomaticDoorExpression)
+			if (hasAutomaticOffExpression)
 				Formula.Add(FormulaOperationType.OR);
 			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
 
-			if (hasAutomaticDoorExpression)
+			var hasAutomaticOnExpression = false;
+			if (MPT.UseDoorAutomatic)
+			{
+				foreach (var mptDevice in MPT.MPTDevices)
+				{
+					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
+					{
+						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+						if (hasAutomaticOnExpression)
+							Formula.Add(FormulaOperationType.OR);
+						hasAutomaticOnExpression = true;
+					}
+				}
+			}
+			if (hasAutomaticOnExpression)
 			{
 				Formula.Add(FormulaOperationType.COM);
 			}
 			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
 			Formula.Add(FormulaOperationType.COM);
-			if (hasAutomaticDoorExpression)
+			if (hasAutomaticOnExpression)
 			{
 				Formula.Add(FormulaOperationType.AND);
 			}
