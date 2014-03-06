@@ -28,8 +28,8 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Отключено")]
 		Ignore = 7,
 
-        [DescriptionAttribute("Неисправность")]
-        Failure = 8,
+		[DescriptionAttribute("Неисправность")]
+		Failure = 8,
 
 		[DescriptionAttribute("Включено")]
 		On = 9,

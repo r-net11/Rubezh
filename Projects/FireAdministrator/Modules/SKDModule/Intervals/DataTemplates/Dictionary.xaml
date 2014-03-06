@@ -1,70 +1,70 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client" xmlns:ViewModels="clr-namespace:SKDModule.ViewModels" xmlns:Views="clr-namespace:SKDModule.Views">
 
-    <DataTemplate DataType="{x:Type ViewModels:TimeIntervalsViewModel}">
-        <Views:TimeIntervalsView />
+	<DataTemplate DataType="{x:Type ViewModels:TimeIntervalsViewModel}">
+		<Views:TimeIntervalsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TimeIntervalsMenuViewModel}">
-        <Views:TimeIntervalsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:TimeIntervalsMenuViewModel}">
+		<Views:TimeIntervalsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TimeIntervalDetailsViewModel}">
-        <Views:TimeIntervalDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:TimeIntervalDetailsViewModel}">
+		<Views:TimeIntervalDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TimeIntervalPartDetailsViewModel}">
-        <Views:TimeIntervalPartDetailsView />
-    </DataTemplate>
-
-
-    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsViewModel}">
-        <Views:WeeklyIntervalsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsMenuViewModel}">
-        <Views:WeeklyIntervalsMenuView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalDetailsViewModel}">
-        <Views:WeeklyIntervalDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:TimeIntervalPartDetailsViewModel}">
+		<Views:TimeIntervalPartDetailsView />
+	</DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsViewModel}">
-        <Views:SlideDayIntervalsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsViewModel}">
+		<Views:WeeklyIntervalsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsMenuViewModel}">
-        <Views:SlideDayIntervalsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalsMenuViewModel}">
+		<Views:WeeklyIntervalsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalDetailsViewModel}">
-        <Views:SlideDayIntervalDetailsView />
-    </DataTemplate>
-
-
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsViewModel}">
-        <Views:SlideWeekIntervalsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsMenuViewModel}">
-        <Views:SlideWeekIntervalsMenuView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalDetailsViewModel}">
-        <Views:SlideWeekIntervalDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:WeeklyIntervalDetailsViewModel}">
+		<Views:WeeklyIntervalDetailsView />
+	</DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">
-        <Views:HolidaysView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsViewModel}">
+		<Views:SlideDayIntervalsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:HolidaysMenuViewModel}">
-        <Views:HolidaysMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalsMenuViewModel}">
+		<Views:SlideDayIntervalsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
-        <Views:HolidayDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SlideDayIntervalDetailsViewModel}">
+		<Views:SlideDayIntervalDetailsView />
+	</DataTemplate>
+
+
+	<DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsViewModel}">
+		<Views:SlideWeekIntervalsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalsMenuViewModel}">
+		<Views:SlideWeekIntervalsMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SlideWeekIntervalDetailsViewModel}">
+		<Views:SlideWeekIntervalDetailsView />
+	</DataTemplate>
+
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">
+		<Views:HolidaysView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidaysMenuViewModel}">
+		<Views:HolidaysMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
+		<Views:HolidayDetailsView />
+	</DataTemplate>
 </ResourceDictionary>

@@ -34,9 +34,9 @@ namespace ReportsModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
-		    {
-		        new NavigationItem<ShowReportsEvent>(_reportViewModel, "Отчеты", "/Controls;component/Images/levels.png"),
-		    };
+			{
+				new NavigationItem<ShowReportsEvent>(_reportViewModel, "Отчеты", "/Controls;component/Images/levels.png"),
+			};
 		}
 
 		public override string Name

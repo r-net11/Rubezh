@@ -1,27 +1,27 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.DiagnosticsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DiagnosticsModule.Views">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
-            <TabItem Header="Управление">
-                <WrapPanel>
-                    <Button Content="Влючать/выключать РМ" Command="{Binding TurnOnOffRMCommand}" Width="200" Margin="2" />
-                    <Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
-                    <Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
-                </WrapPanel>
-            </TabItem>
-            <TabItem Header="Основные">
-                <WrapPanel>
-                </WrapPanel>
-            </TabItem>
-        </TabControl>
-        <ScrollViewer Grid.Row="1" Margin="2">
-            <TextBox Text="{Binding Text}" Margin="2" />
-        </ScrollViewer>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:DiagnosticsModule.Views">
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<TabControl Grid.Row="0">
+			<TabItem Header="Управление">
+				<WrapPanel>
+					<Button Content="Влючать/выключать РМ" Command="{Binding TurnOnOffRMCommand}" Width="200" Margin="2" />
+					<Button Content="Проверить HASP" Command="{Binding CheckHaspCommand}" Width="200" Margin="2" />
+					<Button Content="Тест" Command="{Binding TestCommand}" Width="200" Margin="2" />
+				</WrapPanel>
+			</TabItem>
+			<TabItem Header="Основные">
+				<WrapPanel>
+				</WrapPanel>
+			</TabItem>
+		</TabControl>
+		<ScrollViewer Grid.Row="1" Margin="2">
+			<TextBox Text="{Binding Text}" Margin="2" />
+		</ScrollViewer>
+	</Grid>
 </UserControl>

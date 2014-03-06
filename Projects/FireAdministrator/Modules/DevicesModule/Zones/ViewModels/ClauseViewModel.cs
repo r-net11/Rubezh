@@ -325,17 +325,17 @@ namespace DevicesModule.ViewModels
 			var zonesSelectionViewModel = new ZonesSelectionViewModel(Device, Zones, SelectedState);
 			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
-                var zones = new List<Zone>();
-                if (zonesSelectionViewModel.Zones != null)
-                {
-                    foreach (var zoneUID in zonesSelectionViewModel.Zones)
-                    {
-                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                        if (zone != null)
-                            zones.Add(zone);
-                    }
-                }
-                var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
+				var zones = new List<Zone>();
+				if (zonesSelectionViewModel.Zones != null)
+				{
+					foreach (var zoneUID in zonesSelectionViewModel.Zones)
+					{
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+						if (zone != null)
+							zones.Add(zone);
+					}
+				}
+				var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
 				Zones = zoneUIDs.ToList();
 				OnPropertyChanged("PresenrationZones");
 			}

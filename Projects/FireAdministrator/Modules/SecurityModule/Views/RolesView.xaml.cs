@@ -2,11 +2,11 @@
 
 namespace SecurityModule.Views
 {
-    public partial class RolesView : UserControl
-    {
-        public RolesView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class RolesView : UserControl
+	{
+		public RolesView()
+		{
+			InitializeComponent();
+		}
+	}
 }

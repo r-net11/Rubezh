@@ -61,7 +61,7 @@ namespace Infrastructure.Common.BalloonTrayTip.Views
 				Storyboard sb = this.FindResource("OpeningAnimation") as Storyboard;
 				BeginStoryboard(sb);
 			}
-			catch (Exception e)
+			catch
 			{
 				Close();
 			}

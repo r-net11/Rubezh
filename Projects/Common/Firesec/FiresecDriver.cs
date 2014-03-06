@@ -23,83 +23,83 @@ namespace Firesec
 				FiresecSerializedClient.FSAgent = fsAgent;
 				FiresecSerializedClient.SubscribeFsAgentEvents();
 
-                ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+				ConfigurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 				var result = ConfigurationConverter.ConvertMetadataFromFiresec();
-                if (!result.HasError)
-                {
-                    ConfigurationCash.DriversConfiguration = result.Result;
-                    return new OperationResult<bool>() { Result = true };
-                }
-                else
-                {
+				if (!result.HasError)
+				{
+					ConfigurationCash.DriversConfiguration = result.Result;
+					return new OperationResult<bool>() { Result = true };
+				}
+				else
+				{
 					return new OperationResult<bool>(result.Error);
-                }
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecDriver.Synchronyze");
-                LoadingErrorManager.Add(e);
-                return new OperationResult<bool>(e.Message);
+				LoadingErrorManager.Add(e);
+				return new OperationResult<bool>(e.Message);
 			}
 		}
 
 		public void Synchronyze(bool removeMissing = false)
-        {
+		{
 			ConfigurationConverter.SynchronyzeConfiguration(removeMissing);
-        }
+		}
 
-        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
-        {
-            if (Watcher == null)
-                Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+		{
+			if (Watcher == null)
+				Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
 
-            if (mustMonitorStates)
-            {
-                Watcher.ForceStateChanged();
-                Watcher.ForceParametersChanged();
-            }
-        }
+			if (mustMonitorStates)
+			{
+				Watcher.ForceStateChanged();
+				Watcher.ForceParametersChanged();
+			}
+		}
 
-        public OperationResult<bool> Convert()
-        {
-            try
-            {
-                var result1 = ConfigurationConverter.ConvertCoreConfig();
-                if (result1.HasError)
-                {
-                    return new OperationResult<bool>(result1.Error);
-                }
-                var deviceConfiguration = result1.Result;
-                if (deviceConfiguration == null)
-                {
-                    return new OperationResult<bool>("Нулевая конфигурация");
-                }
-                ConfigurationCash.DeviceConfiguration = deviceConfiguration;
+		public OperationResult<bool> Convert()
+		{
+			try
+			{
+				var result1 = ConfigurationConverter.ConvertCoreConfig();
+				if (result1.HasError)
+				{
+					return new OperationResult<bool>(result1.Error);
+				}
+				var deviceConfiguration = result1.Result;
+				if (deviceConfiguration == null)
+				{
+					return new OperationResult<bool>("Нулевая конфигурация");
+				}
+				ConfigurationCash.DeviceConfiguration = deviceConfiguration;
 
-                var result2 = ConfigurationConverter.ConvertPlans(deviceConfiguration);
-                if (result2.HasError)
-                {
-                    return new OperationResult<bool>(result2.Error);
-                }
-                var plansConfiguration = result2.Result;
-                if (plansConfiguration != null)
-                {
-                    ConfigurationCash.PlansConfiguration = plansConfiguration;
-                }
+				var result2 = ConfigurationConverter.ConvertPlans(deviceConfiguration);
+				if (result2.HasError)
+				{
+					return new OperationResult<bool>(result2.Error);
+				}
+				var plansConfiguration = result2.Result;
+				if (plansConfiguration != null)
+				{
+					ConfigurationCash.PlansConfiguration = plansConfiguration;
+				}
 
-                return new OperationResult<bool>() { Result = true };
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecDriver.Synchronyze");
-                LoadingErrorManager.Add(e);
-                return new OperationResult<bool>() { Result = true };
-            }
-        }
+				return new OperationResult<bool>() { Result = true };
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				LoadingErrorManager.Add(e);
+				return new OperationResult<bool>() { Result = true };
+			}
+		}
 
 		public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
-            return ConfigurationConverter.ConvertBack(deviceConfiguration, includeSecurity);
+			return ConfigurationConverter.ConvertBack(deviceConfiguration, includeSecurity);
 		}
 
 		public OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration)
@@ -133,12 +133,12 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceDatetimeSync(firesecConfiguration, device.GetPlaceInTree());
 		}
 
-        public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-        {
-            var firesecConfiguration = ConvertBack(deviceConfiguration, false);
-            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.GetPlaceInTree());
-        }
+		public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+		{
+			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
+			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.GetPlaceInTree());
+		}
 
 		public OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
@@ -194,7 +194,7 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>();
 
-            var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+			var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
 			operationResult.Result = configurationConverter.ConvertOnlyDevices(result.Result);
 			return operationResult;
 		}
@@ -216,8 +216,8 @@ namespace Firesec
 			if (result.Result == null)
 				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
-            var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
-            operationResult.Result = configurationConverter.ConvertDevicesAndZones(result.Result);
+			var configurationConverter = new ConfigurationConverter(FiresecSerializedClient);
+			operationResult.Result = configurationConverter.ConvertDevicesAndZones(result.Result);
 			return operationResult;
 		}
 
@@ -308,10 +308,10 @@ namespace Firesec
 			FiresecSerializedClient.AddUserMessage(message);
 		}
 
-        public OperationResult<bool> ExecuteCommand(Device device, string methodName)
-        {
-            return FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
-        }
+		public OperationResult<bool> ExecuteCommand(Device device, string methodName)
+		{
+			return FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
+		}
 
 		public OperationResult<bool> CheckHaspPresence()
 		{

@@ -16,12 +16,12 @@ namespace GKProcessor
 				ShortName = "МРО-2М",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 			
 			driver.AvailableCommandBits.Add(XStateBit.TurnOn_InManual);

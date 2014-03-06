@@ -3,10 +3,10 @@
 namespace SKDModule.Views
 {
 	public partial class ZoneView : UserControl
-    {
-        public ZoneView()
-        {
-            InitializeComponent();
-        }
-    }
+	{
+		public ZoneView()
+		{
+			InitializeComponent();
+		}
+	}
 }

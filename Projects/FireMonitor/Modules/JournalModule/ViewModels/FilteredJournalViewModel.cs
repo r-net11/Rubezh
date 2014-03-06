@@ -35,15 +35,15 @@ namespace JournalModule.ViewModels
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
-			//    if (operationResult.Result != null)
-			//    {
-			//        foreach (var journalItem in operationResult.Result)
-			//        {
-			//            var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-			//            JournalRecords.Add(journalRecordViewModel);
-			//        }
-			//    }
+			//	var operationResult = FiresecManager.FS2ClientContract.GetFilteredJournal(JournalFilter);
+			//	if (operationResult.Result != null)
+			//	{
+			//		foreach (var journalItem in operationResult.Result)
+			//		{
+			//			var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+			//			JournalRecords.Add(journalRecordViewModel);
+			//		}
+			//	}
 			//}
 			//else
 			{
@@ -93,22 +93,22 @@ namespace JournalModule.ViewModels
 
 		//void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
 		//{
-		//    Dispatcher.BeginInvoke(new Action(() =>
-		//        {
-		//            foreach (var journalItem in journalItems)
-		//            {
-		//                if (FilterFS2JournalItem(journalItem) == false)
-		//                    return;
+		//	Dispatcher.BeginInvoke(new Action(() =>
+		//		{
+		//			foreach (var journalItem in journalItems)
+		//			{
+		//				if (FilterFS2JournalItem(journalItem) == false)
+		//					return;
 
-		//                if (JournalRecords.Count > 0)
-		//                    JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
-		//                else
-		//                    JournalRecords.Add(new JournalRecordViewModel(journalItem));
+		//				if (JournalRecords.Count > 0)
+		//					JournalRecords.Insert(0, new JournalRecordViewModel(journalItem));
+		//				else
+		//					JournalRecords.Add(new JournalRecordViewModel(journalItem));
 
-		//                if (JournalRecords.Count > JournalFilter.LastRecordsCount)
-		//                    JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
-		//            }
-		//        }));
+		//				if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+		//					JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+		//			}
+		//		}));
 		//}
 
 		bool FilterJournalRecord(JournalRecord journalRecord)
@@ -143,32 +143,32 @@ namespace JournalModule.ViewModels
 
 		//bool FilterFS2JournalItem(FS2JournalItem journalItem)
 		//{
-		//    if (JournalFilter.Categories.IsNotNullOrEmpty())
-		//    {
-		//        Device device = null;
-		//        if (journalItem.DeviceUID != Guid.Empty)
-		//        {
-		//            device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
-		//        }
-		//        else
-		//        {
-		//            device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
-		//        }
+		//	if (JournalFilter.Categories.IsNotNullOrEmpty())
+		//	{
+		//		Device device = null;
+		//		if (journalItem.DeviceUID != Guid.Empty)
+		//		{
+		//			device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+		//		}
+		//		else
+		//		{
+		//			device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
+		//		}
 
-		//        if (device != null)
-		//        {
-		//            if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
-		//                return false;
-		//        }
-		//    }
+		//		if (device != null)
+		//		{
+		//			if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
+		//				return false;
+		//		}
+		//	}
 
-		//    if (JournalFilter.StateTypes.IsNotNullOrEmpty())
-		//    {
-		//        if (JournalFilter.StateTypes.Any(x => x == journalItem.StateType) == false)
-		//            return false;
-		//    }
+		//	if (JournalFilter.StateTypes.IsNotNullOrEmpty())
+		//	{
+		//		if (JournalFilter.StateTypes.Any(x => x == journalItem.StateType) == false)
+		//			return false;
+		//	}
 
-		//    return true;
+		//	return true;
 		//}
 	}
 }

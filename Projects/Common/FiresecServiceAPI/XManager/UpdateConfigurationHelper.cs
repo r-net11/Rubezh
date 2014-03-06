@@ -537,7 +537,9 @@ namespace FiresecClient
 			if (mptDevice.Device != null)
 			{
 				mptDevice.Device.IsInMPT = true;
-				mptDevice.Device.DeviceLogic = new XDeviceLogic();
+				XManager.ChangeDeviceLogic(mptDevice.Device, new XDeviceLogic());
+				mptDevice.Device.ZoneUIDs = new List<Guid>();
+				mptDevice.Device.Zones.Clear();
 
 				switch (mptDevice.Device.DriverType)
 				{

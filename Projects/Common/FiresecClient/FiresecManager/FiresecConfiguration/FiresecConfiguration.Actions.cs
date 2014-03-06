@@ -20,10 +20,10 @@ namespace FiresecClient
 			{
 				device.ZoneUID = parentDevice.ZoneUID;
 			}
-            if (driver.DriverType == DriverType.Valve)
-            {
-                device.Properties.Add(new Property() { Name = "Action", Value = "1" });
-            }
+			if (driver.DriverType == DriverType.Valve)
+			{
+				device.Properties.Add(new Property() { Name = "Action", Value = "1" });
+			}
 			parentDevice.Children.Add(device);
 			AddAutoCreateChildren(device);
 			AddAutoChildren(device);
@@ -102,28 +102,28 @@ namespace FiresecClient
 
 		public void RemoveZone(Zone zone)
 		{
-            DeviceConfiguration.Zones.Remove(zone);
+			DeviceConfiguration.Zones.Remove(zone);
 			zone.OnColorTypeChanged();
-            foreach (var device in zone.DevicesInZone)
-            {
-                device.Zone = null;
-                device.ZoneUID = Guid.Empty;
-                device.OnChanged();
-            }
+			foreach (var device in zone.DevicesInZone)
+			{
+				device.Zone = null;
+				device.ZoneUID = Guid.Empty;
+				device.OnChanged();
+			}
 			var devicesInZoneLogic = new List<Device>(zone.DevicesInZoneLogic);
 			foreach (var device in devicesInZoneLogic)
 			{
 				var dateTime = DateTime.Now;
-                DeviceConfiguration.InvalidateOneDevice(device);
-                DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+				DeviceConfiguration.InvalidateOneDevice(device);
+				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
-            zone.UpdateExternalDevices();
+			zone.UpdateExternalDevices();
 			var indicatorsInZone = new List<Device>(zone.IndicatorsInZone);
 			foreach (var device in indicatorsInZone)
 			{
-                DeviceConfiguration.InvalidateOneDevice(device);
-                DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+				DeviceConfiguration.InvalidateOneDevice(device);
+				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
 		}
@@ -149,31 +149,31 @@ namespace FiresecClient
 			zone.OnChanged();
 		}
 
-        List<Device> GetMPTGroup(Device device)
-        {
-            var devices = new List<Device>();
-            devices.Add(device);
-            if (device.Driver.DriverType == DriverType.MPT)
-            {
-                foreach (var child in device.Children)
-                {
-                    devices.Add(child);
-                }
-            }
-            return devices;
-        }
+		List<Device> GetMPTGroup(Device device)
+		{
+			var devices = new List<Device>();
+			devices.Add(device);
+			if (device.Driver.DriverType == DriverType.MPT)
+			{
+				foreach (var child in device.Children)
+				{
+					devices.Add(child);
+				}
+			}
+			return devices;
+		}
 
-        public void AddDeviceToZone(Device parentDevice, Zone zone)
-        {
-            foreach (var device in GetMPTGroup(parentDevice))
-            {
-                if (device.Zone != null)
-                {
+		public void AddDeviceToZone(Device parentDevice, Zone zone)
+		{
+			foreach (var device in GetMPTGroup(parentDevice))
+			{
+				if (device.Zone != null)
+				{
 					device.Zone.DevicesInZone.Remove(device);
-                    device.Zone.UpdateExternalDevices();
-                    device.Zone.OnChanged();
-                }
-                device.Zone = zone;
+					device.Zone.UpdateExternalDevices();
+					device.Zone.OnChanged();
+				}
+				device.Zone = zone;
 				if (zone != null)
 				{
 					device.ZoneUID = zone.UID;
@@ -187,16 +187,16 @@ namespace FiresecClient
 				}
 				device.UpdateHasExternalDevices();
 				device.OnChanged();
-            }
-        }
+			}
+		}
 
-        public void RemoveDeviceFromZone(Device parentDevice, Zone zone)
-        {
-            foreach (var device in GetMPTGroup(parentDevice))
-            {
+		public void RemoveDeviceFromZone(Device parentDevice, Zone zone)
+		{
+			foreach (var device in GetMPTGroup(parentDevice))
+			{
 				var oldZone = device.Zone;
-                device.Zone = null;
-                device.ZoneUID = Guid.Empty;
+				device.Zone = null;
+				device.ZoneUID = Guid.Empty;
 				if (oldZone != null)
 				{
 					oldZone.UpdateExternalDevices();
@@ -208,8 +208,8 @@ namespace FiresecClient
 					zone.OnChanged();
 				}
 				device.OnChanged();
-            }
-        }
+			}
+		}
 
 		List<Device> GetMRO2Group(Device device)
 		{
@@ -253,37 +253,37 @@ namespace FiresecClient
 			}
 		}
 
-        public void SetIndicatorLogic(Device device, IndicatorLogic indicatorLogic)
-        {
-            foreach (var zone in device.IndicatorLogic.Zones)
-                zone.IndicatorsInZone.Remove(device);
-            device.IndicatorLogic = indicatorLogic;
-            DeviceConfiguration.InvalidateIndicator(device);
-            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
-            device.OnChanged();
-        }
+		public void SetIndicatorLogic(Device device, IndicatorLogic indicatorLogic)
+		{
+			foreach (var zone in device.IndicatorLogic.Zones)
+				zone.IndicatorsInZone.Remove(device);
+			device.IndicatorLogic = indicatorLogic;
+			DeviceConfiguration.InvalidateIndicator(device);
+			DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+			device.OnChanged();
+		}
 
-        public void SetPDUGroupLogic(Device device, PDUGroupLogic pduGroupLogic)
-        {
-            foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
-            {
-                pduGroupDevice.Device = null;
-                if (pduGroupDevice.DeviceUID != Guid.Empty)
-                {
-                    var pduDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pduGroupDevice.DeviceUID);
-                    if (pduDevice != null)
-                    {
-                        pduGroupDevice.Device = pduDevice;
-                        pduDevice.DependentDevices.Remove(device);
-                    }
-                }
-            }
+		public void SetPDUGroupLogic(Device device, PDUGroupLogic pduGroupLogic)
+		{
+			foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
+			{
+				pduGroupDevice.Device = null;
+				if (pduGroupDevice.DeviceUID != Guid.Empty)
+				{
+					var pduDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pduGroupDevice.DeviceUID);
+					if (pduDevice != null)
+					{
+						pduGroupDevice.Device = pduDevice;
+						pduDevice.DependentDevices.Remove(device);
+					}
+				}
+			}
 
-            device.PDUGroupLogic = pduGroupLogic;
-            DeviceConfiguration.InvalidatePDUDirection(device);
-            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
-            device.OnChanged();
-        }
+			device.PDUGroupLogic = pduGroupLogic;
+			DeviceConfiguration.InvalidatePDUDirection(device);
+			DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+			device.OnChanged();
+		}
 
 		public void SetIsNotUsed(Device device, bool isUsed)
 		{
@@ -300,8 +300,8 @@ namespace FiresecClient
 			var changeZone = !(device.Driver.IsZoneDevice && driver.IsZoneDevice);
 			device.Driver = driver;
 			device.DriverUID = driver.UID;
-            if (driver.IsRangeEnabled)
-                device.IntAddress = driver.MinAddress;
+			if (driver.IsRangeEnabled)
+				device.IntAddress = driver.MinAddress;
 			if (changeZone)
 			{
 				RemoveDeviceFromZone(device, null);

@@ -1,10 +1,10 @@
 ﻿<UserControl 
-    x:Class="GKModule.Views.DirectionsView" 
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
-    xmlns:Views="clr-namespace:GKModule.Views"
-    xmlns:Converters="clr-namespace:GKModule.Converters">
+	x:Class="GKModule.Views.DirectionsView" 
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
+	xmlns:Views="clr-namespace:GKModule.Views"
+	xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -15,7 +15,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
+		<DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedDirection.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -27,67 +27,67 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-			    <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+				<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-                                <TextBlock Width="200" Text="{Binding Direction.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
+								<TextBlock HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+								<TextBlock Width="200" Text="{Binding Direction.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 									<TextBlock.ContextMenu>
 										<ContextMenu>
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-                                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-									    </ContextMenu>
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+										</ContextMenu>
 									</TextBlock.ContextMenu>
 								</TextBlock>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
+				<DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                                <TextBlock Text="сек" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-                            <StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
-                                <TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
-                                <TextBlock Text="сек" Margin="2" />
-                            </StackPanel>
+							<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">
+								<TextBlock Text="{Binding State.OnDelay}" Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+								<TextBlock Text="сек" Margin="2" />
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="ToolTip">
-                        <Setter.Value>
-                            <Views:DirectionToolTipView />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
+				<DataGridTemplateColumn Header="Удержание" Width="Auto" MinWidth="100">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold">
+								<TextBlock Text="{Binding State.HoldDelay}" Visibility="{Binding HasHoldDelay, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2" />
+								<TextBlock Text="сек" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+			<DataGrid.RowStyle>
+				<Style TargetType="{x:Type DataGridRow}">
+					<Setter Property="ToolTip">
+						<Setter.Value>
+							<Views:DirectionToolTipView />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</DataGrid.RowStyle>
 		</DataGrid>
 
-        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="2">
+		<DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedOutputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -102,8 +102,8 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Выходные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView Margin="2 0" />
-                        </DataTemplate>
+							<Views:DeviceView Margin="2 0" />
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
@@ -113,23 +113,23 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
+				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZoneWithNS}" Header="Зона или Логика" />
 			</DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="ToolTip">
-                        <Setter.Value>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
-                                <Views:DeviceStateView />
-                            </StackPanel>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
+			<DataGrid.RowStyle>
+				<Style TargetType="{x:Type DataGridRow}">
+					<Setter Property="ToolTip">
+						<Setter.Value>
+							<StackPanel>
+								<TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
+								<Views:DeviceStateView />
+							</StackPanel>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</DataGrid.RowStyle>
 		</DataGrid>
 
-        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding InputDevices}" Margin="2">
+		<DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding InputDevices}" Margin="2">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedInputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -144,8 +144,8 @@
 				<DataGridTemplateColumn Width="150" MinWidth="150" Header="Входные устройства">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <Views:DeviceView Margin="2 0" />
-                        </DataTemplate>
+							<Views:DeviceView Margin="2 0" />
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn MinWidth="25" Header="Адрес">
@@ -155,58 +155,58 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="25" Header="Состояние">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="2" Width="16" Source="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}" />
-                                <TextBlock Text="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
-			</DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="ToolTip">
-                        <Setter.Value>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
-                                <Views:DeviceStateView />
-                            </StackPanel>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
-		</DataGrid>
-
-        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="2">
-			<DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" Header="Входные зоны">
+				<DataGridTemplateColumn MinWidth="25" Header="Состояние">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-                                <TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" />
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="2" Width="16" Source="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}" />
+								<TextBlock Text="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Width="*" MinWidth="100" Binding="{Binding PresentationZone}" Header="Зона или Логика" />
+			</DataGrid.Columns>
+			<DataGrid.RowStyle>
+				<Style TargetType="{x:Type DataGridRow}">
+					<Setter Property="ToolTip">
+						<Setter.Value>
+							<StackPanel>
+								<TextBlock Text="{Binding Device.PresentationName}" FontWeight="Bold" />
+								<Views:DeviceStateView />
+							</StackPanel>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</DataGrid.RowStyle>
+		</DataGrid>
+
+		<DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="2">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" Header="Входные зоны">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+								<TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" />
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">
-                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />
-                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
-                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetFireCommand}" />
-                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                        <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                    </ContextMenu>
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BReset.png" Text="Сбросить" Command="{Binding ResetFireCommand}" />
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									</ContextMenu>
 								</StackPanel.ContextMenu>
 								<StackPanel.InputBindings>
 									<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
@@ -216,25 +216,25 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Header="Состояние" MinWidth="100" Width="Auto">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="{Binding StateType, Converter={StaticResource XStateTypeToIconConverter}}" />
-                                <TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="ToolTip">
-                        <Setter.Value>
-                            <Views:ZoneToolTipView />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.RowStyle>
-        </DataGrid>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" Width="16" Source="{Binding StateType, Converter={StaticResource XStateTypeToIconConverter}}" />
+								<TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+			<DataGrid.RowStyle>
+				<Style TargetType="{x:Type DataGridRow}">
+					<Setter Property="ToolTip">
+						<Setter.Value>
+							<Views:ZoneToolTipView />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</DataGrid.RowStyle>
+		</DataGrid>
 	</Grid>
 </UserControl>

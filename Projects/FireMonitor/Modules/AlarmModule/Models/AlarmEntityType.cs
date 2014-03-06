@@ -1,8 +1,8 @@
 ﻿namespace AlarmModule
 {
-    public enum AlarmEntityType
-    {
-        Device,
-        Zone
-    }
+	public enum AlarmEntityType
+	{
+		Device,
+		Zone
+	}
 }

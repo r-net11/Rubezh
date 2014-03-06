@@ -10,7 +10,7 @@ namespace SKDModule.Events
 
 	public class CreateSKDZoneEventArg
 	{
-        public Guid ParentZoneUID { get; set; }
+		public Guid ParentZoneUID { get; set; }
 		public SKDZone Zone { get; set; }
 	}
 }

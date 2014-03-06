@@ -36,11 +36,12 @@ namespace SKDModule.ViewModels
 		{
 			Departments = new ObservableCollection<DepartmentViewModel>();
 			var departments = DepartmentHelper.Get(new DepartmentFilter());
-			foreach (var department in departments)
-			{
-				var departmentViewModel = new DepartmentViewModel(department);
-				Departments.Add(departmentViewModel);
-			}
+			if (departments != null)
+				foreach (var department in departments)
+				{
+					var departmentViewModel = new DepartmentViewModel(department);
+					Departments.Add(departmentViewModel);
+				}
 			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
 			if (RootDepartments.IsNotNullOrEmpty())
 			{

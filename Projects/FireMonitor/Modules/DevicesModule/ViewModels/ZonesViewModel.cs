@@ -43,21 +43,21 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public void Select(Guid zoneUID)
+		public void Select(Guid zoneUID)
 		{
-            if (zoneUID != Guid.Empty)
-                SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
-        public void InitializeDevices()
-        {
-            BuildTree();
-            if (RootDevice != null)
-            {
-                RootDevice.IsExpanded = true;
-            }
-            OnPropertyChanged("RootDevices");
-        }
+		public void InitializeDevices()
+		{
+			BuildTree();
+			if (RootDevice != null)
+			{
+				RootDevice.IsExpanded = true;
+			}
+			OnPropertyChanged("RootDevices");
+		}
 
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
@@ -70,42 +70,42 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        DeviceViewModel _rootDevice;
-        public DeviceViewModel RootDevice
-        {
-            get { return _rootDevice; }
-            private set
-            {
-                _rootDevice = value;
-                OnPropertyChanged("RootDevice");
-            }
-        }
+		DeviceViewModel _rootDevice;
+		public DeviceViewModel RootDevice
+		{
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged("RootDevice");
+			}
+		}
 
-        public DeviceViewModel[] RootDevices
-        {
+		public DeviceViewModel[] RootDevices
+		{
 			get { return RootDevice == null ? null : new DeviceViewModel[] { RootDevice }; }
-        }
+		}
 
-        void BuildTree()
-        {
-            RootDevice = AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
-        }
+		void BuildTree()
+		{
+			RootDevice = AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+		}
 
-        private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
-        {
-            var deviceViewModel = new DeviceViewModel(device);
-            deviceViewModel.IsExpanded = true;
-            if (parentDeviceViewModel != null)
-                parentDeviceViewModel.AddChild(deviceViewModel);
+		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			deviceViewModel.IsExpanded = true;
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.AddChild(deviceViewModel);
 
-            foreach (var childDevice in device.Children)
-            {
-                if (SelectedZone.Zone.DevicesInZone.Any(x => x.AllParents.Contains(childDevice)) || SelectedZone.Zone.DevicesInZone.Any(x => x == childDevice))
-                {
-                    AddDeviceInternal(childDevice, deviceViewModel);
-                }
-            }
-            return deviceViewModel;
-        }
+			foreach (var childDevice in device.Children)
+			{
+				if (SelectedZone.Zone.DevicesInZone.Any(x => x.AllParents.Contains(childDevice)) || SelectedZone.Zone.DevicesInZone.Any(x => x == childDevice))
+				{
+					AddDeviceInternal(childDevice, deviceViewModel);
+				}
+			}
+			return deviceViewModel;
+		}
 	}
 }

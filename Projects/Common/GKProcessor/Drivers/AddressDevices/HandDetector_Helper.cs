@@ -15,11 +15,11 @@ namespace GKProcessor
 				Name = "Ручной извещатель ИПР513-11",
 				ShortName = "ИПР",
 				HasZone = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire2);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire2);
 
 			return driver;
 		}

@@ -2,12 +2,12 @@
 
 namespace XFiresecAPI
 {
-    public enum ClauseJounOperationType
-    {
-        [DescriptionAttribute("и")]
-        And,
+	public enum ClauseJounOperationType
+	{
+		[DescriptionAttribute("и")]
+		And,
 
-        [DescriptionAttribute("или")]
-        Or
-    }
+		[DescriptionAttribute("или")]
+		Or
+	}
 }

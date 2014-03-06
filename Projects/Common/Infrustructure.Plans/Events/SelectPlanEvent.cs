@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Events
 {
-    public class SelectPlanEvent : CompositePresentationEvent<Guid>
-    {
-    }
+	public class SelectPlanEvent : CompositePresentationEvent<Guid>
+	{
+	}
 }

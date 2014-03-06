@@ -32,6 +32,9 @@ namespace GKModule.ViewModels
 
 			foreach (var device in XManager.Devices)
 			{
+				if (device.IsInMPT)
+					continue;
+
 				if (device.Driver.HasLogic)
 				{
 					foreach (var clause in device.DeviceLogic.Clauses)

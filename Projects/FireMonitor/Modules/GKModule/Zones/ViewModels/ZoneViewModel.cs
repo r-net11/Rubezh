@@ -49,13 +49,13 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
-        void OnResetFire()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnResetFire()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKReset(Zone);
-            }
-        }
+			}
+		}
 		bool CanResetFire()
 		{
 			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
@@ -63,13 +63,13 @@ namespace GKModule.ViewModels
 
 		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
-        void OnSetIgnore()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnore()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
-            }
-        }
+			}
+		}
 		bool CanSetIgnore()
 		{
 			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);

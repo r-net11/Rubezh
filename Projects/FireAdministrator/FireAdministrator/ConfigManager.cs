@@ -45,7 +45,7 @@ namespace FireAdministrator
 					{
 						//if (FiresecManager.IsFS2Enabled)
 						//{
-						//    FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
+						//	FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
 						//}
 						//else
 						{

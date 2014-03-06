@@ -7,16 +7,16 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class ZoneViewModel : BaseViewModel
-    {
+	public class ZoneViewModel : BaseViewModel
+	{
 		private VisualizationState _visualizetionState;
 		public XZone Zone { get; set; }
 
-        public ZoneViewModel(XZone zone)
-        {
-            Zone = zone;
+		public ZoneViewModel(XZone zone)
+		{
+			Zone = zone;
 			Update();
-        }
+		}
 
 		public string Name
 		{

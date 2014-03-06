@@ -59,9 +59,9 @@ namespace GKProcessor
 			return null;
 		}
 
-        void ReadAndPublish(int startIndex, int endIndex)
-        {
-            var journalItems = new List<JournalItem>();
+		void ReadAndPublish(int startIndex, int endIndex)
+		{
+			var journalItems = new List<JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalItem = ReadJournal(index);
@@ -81,19 +81,19 @@ namespace GKProcessor
 						}
 						ParseAdditionalStates(journalItem);
 						OnObjectStateChanged(descriptor.XBase);
-                        if (descriptor.XBase is XDevice)
-                        {
-                            XDevice device = descriptor.XBase as XDevice;
-                            if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
-                            {
-                                OnObjectStateChanged(device.Parent);
-                            }
+						if (descriptor.XBase is XDevice)
+						{
+							XDevice device = descriptor.XBase as XDevice;
+							if (device.Parent != null && device.Parent.Driver.IsGroupDevice)
+							{
+								OnObjectStateChanged(device.Parent);
+							}
 							var shleifParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU_Shleif || x.Driver.DriverType == XDriverType.RSR2_KAU_Shleif);
 							if (shleifParent != null)
 							{
 								OnObjectStateChanged(shleifParent);
 							}
-                        }
+						}
 					}
 
 					if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
@@ -107,11 +107,11 @@ namespace GKProcessor
 					}
 				}
 			}
-            if (journalItems.Count > 0)
-            {
+			if (journalItems.Count > 0)
+			{
 				AddJournalItems(journalItems);
-            }
-        }
+			}
+		}
 
 		void ChangeJournalOnDevice(BaseDescriptor descriptor, JournalItem journalItem)
 		{

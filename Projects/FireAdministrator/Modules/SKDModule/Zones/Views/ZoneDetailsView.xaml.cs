@@ -2,11 +2,11 @@
 
 namespace SKDModule.Views
 {
-    public partial class ZoneDetailsView : UserControl
-    {
+	public partial class ZoneDetailsView : UserControl
+	{
 		public ZoneDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+		{
+			InitializeComponent();
+		}
+	}
 }

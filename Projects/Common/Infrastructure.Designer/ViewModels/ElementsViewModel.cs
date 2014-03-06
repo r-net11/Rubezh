@@ -88,8 +88,8 @@ namespace Infrastructure.Designer.ViewModels
 				elementViewModel = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementUID);
 				//if (elementViewModel != null)
 				//{
-				//    elementViewModel.ExpantToThis();
-				//    elementViewModel.IsSelected = true;
+				//	elementViewModel.ExpantToThis();
+				//	elementViewModel.IsSelected = true;
 				//}
 				SelectedElement = elementViewModel;
 			}

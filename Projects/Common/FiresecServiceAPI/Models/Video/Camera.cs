@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
 	{
 		public Camera()
 		{
-            UID = Guid.NewGuid();
+			UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			Width = 300;
@@ -18,8 +18,8 @@ namespace FiresecAPI.Models
 			AllowMultipleVizualization = false;
 		}
 
-        [DataMember]
-        public Guid UID { get; set; }
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

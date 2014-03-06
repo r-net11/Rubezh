@@ -8,10 +8,10 @@
 		<Border Grid.Column="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 			<ContentPresenter Grid.Row="0" Content="{Binding PlanDesignerViewModel}" />
 		</Border>
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE"
-                Visibility="{Binding IsPlanTreeVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-        <Grid Grid.Column="2" Visibility="{Binding IsPlanTreeVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <ContentPresenter Grid.Column="1" Content="{Binding PlanTreeViewModel}" />
-        </Grid>
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE"
+				Visibility="{Binding IsPlanTreeVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
+		<Grid Grid.Column="2" Visibility="{Binding IsPlanTreeVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ContentPresenter Grid.Column="1" Content="{Binding PlanTreeViewModel}" />
+		</Grid>
 	</Grid>
 </UserControl>

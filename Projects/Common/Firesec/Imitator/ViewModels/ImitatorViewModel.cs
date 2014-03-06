@@ -11,43 +11,43 @@ namespace Firesec.Imitator.ViewModels
 	{
 		internal static ImitatorViewModel Current { get; private set; }
 
-        public ImitatorViewModel()
-        {
-            Current = this;
+		public ImitatorViewModel()
+		{
+			Current = this;
 
-            Title = "Имитатор состояний устройств";
-            Devices = new ObservableCollection<DeviceViewModel>();
+			Title = "Имитатор состояний устройств";
+			Devices = new ObservableCollection<DeviceViewModel>();
 
-            foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
-            {
-                if (device.Driver.DriverType == DriverType.IndicationBlock)
-                    continue;
-                if (device.Driver.DriverType == DriverType.Page)
-                    continue;
-                if (device.Driver.DriverType == DriverType.Indicator)
-                    continue;
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == DriverType.IndicationBlock)
+					continue;
+				if (device.Driver.DriverType == DriverType.Page)
+					continue;
+				if (device.Driver.DriverType == DriverType.Indicator)
+					continue;
 
-                var deviceViewModel = new DeviceViewModel(device.DeviceState);
-                Devices.Add(deviceViewModel);
-            }
+				var deviceViewModel = new DeviceViewModel(device.DeviceState);
+				Devices.Add(deviceViewModel);
+			}
 
-            if (Watcher.Current != null)
-            {
-                Watcher.Current.DevicesStateChanged += new System.Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
-            }
-        }
+			if (Watcher.Current != null)
+			{
+				Watcher.Current.DevicesStateChanged += new System.Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
+			}
+		}
 
-        void OnDevicesStateChanged(List<DeviceState> deviceStates)
-        {
-            foreach (var deviceState in deviceStates)
-            {
-                var device = Devices.FirstOrDefault(x => x.DeviceState == deviceState);
-                if (device != null)
-                {
-                    device.OnPropertyChanged("StateType");
-                }
-            }
-        }
+		void OnDevicesStateChanged(List<DeviceState> deviceStates)
+		{
+			foreach (var deviceState in deviceStates)
+			{
+				var device = Devices.FirstOrDefault(x => x.DeviceState == deviceState);
+				if (device != null)
+				{
+					device.OnPropertyChanged("StateType");
+				}
+			}
+		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 

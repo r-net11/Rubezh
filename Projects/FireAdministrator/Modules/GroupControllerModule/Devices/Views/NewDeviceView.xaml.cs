@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class NewDeviceView : UserControl
-    {
-        public NewDeviceView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class NewDeviceView : UserControl
+	{
+		public NewDeviceView()
+		{
+			InitializeComponent();
+		}
+	}
 }

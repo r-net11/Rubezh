@@ -20,7 +20,7 @@ namespace FiltersModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -62,9 +62,9 @@ namespace FiltersModule.ViewModels
 			{
 				var filter = filterDetailsViewModel.GetModel();
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
-                var filterViewModel = new FilterViewModel(filter);
-                Filters.Add(filterViewModel);
-                SelectedFilter = filterViewModel;
+				var filterViewModel = new FilterViewModel(filter);
+				Filters.Add(filterViewModel);
+				SelectedFilter = filterViewModel;
 				ServiceFactory.SaveService.FilterChanged = true;
 			}
 		}
@@ -96,12 +96,12 @@ namespace FiltersModule.ViewModels
 			ServiceFactory.SaveService.FilterChanged = true;
 		}
 
-        void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 
 		private void SetRibbonItems()
 		{

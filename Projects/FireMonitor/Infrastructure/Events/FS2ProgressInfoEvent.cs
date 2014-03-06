@@ -4,7 +4,7 @@
 
 //namespace Infrastructure.Events
 //{
-//    public class FS2ProgressInfoEvent : CompositePresentationEvent<FS2ProgressInfo>
-//    {
-//    }
+//	public class FS2ProgressInfoEvent : CompositePresentationEvent<FS2ProgressInfo>
+//	{
+//	}
 //}

@@ -2,11 +2,11 @@
 
 namespace SecurityModule.Views
 {
-    public partial class RemoteAccessView : UserControl
-    {
-        public RemoteAccessView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class RemoteAccessView : UserControl
+	{
+		public RemoteAccessView()
+		{
+			InitializeComponent();
+		}
+	}
 }

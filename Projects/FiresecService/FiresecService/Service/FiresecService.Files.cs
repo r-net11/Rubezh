@@ -65,7 +65,7 @@ namespace FiresecService.Service
 			//var newFileName = AppDataFolderHelper.GetTempFileName();
 			//using (Stream newFile = File.OpenWrite(newFileName))
 			//{
-			//    CopyStream(stream, newFile);
+			//	CopyStream(stream, newFile);
 			//}
 			//var unZipFile = ZipFile.Read(newFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 			//var newFileInfo = new FileInfo(newFileName);

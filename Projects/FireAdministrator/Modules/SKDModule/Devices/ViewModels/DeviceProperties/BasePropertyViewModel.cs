@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		public BasePropertyViewModel(XDriverProperty driverProperty, SKDDevice device)
 		{
 			DriverProperty = driverProperty;
-            IsAUParameter = driverProperty.IsAUParameter;
+			IsAUParameter = driverProperty.IsAUParameter;
 			Device = device;
 
 			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        public bool IsAUParameter { get; set; }
+		public bool IsAUParameter { get; set; }
 		public string Caption
 		{
 			get { return DriverProperty.Caption; }

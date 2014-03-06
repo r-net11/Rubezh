@@ -118,7 +118,7 @@ namespace Infrastructure.Common.Windows.Views
 				if (Height + e.VerticalChange >= MinHeight && Height + e.VerticalChange <= MaxHeight)
 					Height += e.VerticalChange;
 				//else
-				//    thumb.ReleaseMouseCapture();
+				//	thumb.ReleaseMouseCapture();
 			}
 			if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
 			{
@@ -128,7 +128,7 @@ namespace Infrastructure.Common.Windows.Views
 					Top += e.VerticalChange;
 				}
 				//else
-				//    thumb.ReleaseMouseCapture();
+				//	thumb.ReleaseMouseCapture();
 			}
 			if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
 			{
@@ -138,14 +138,14 @@ namespace Infrastructure.Common.Windows.Views
 					Left += e.HorizontalChange;
 				}
 				//else
-				//    thumb.ReleaseMouseCapture();
+				//	thumb.ReleaseMouseCapture();
 			}
 			if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
 			{
 				if (Width + e.HorizontalChange >= MinWidth && Width + e.HorizontalChange <= MaxWidth)
 					Width += e.HorizontalChange;
 				//else
-				//    thumb.ReleaseMouseCapture();
+				//	thumb.ReleaseMouseCapture();
 			}
 		}
 

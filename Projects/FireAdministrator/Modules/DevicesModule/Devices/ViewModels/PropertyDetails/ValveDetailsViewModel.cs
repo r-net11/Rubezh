@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 		public ValveDetailsViewModel(Device device)
 		{
 			Title = "Параметры устройства: ШУЗ";
-            Actions = new List<string>() { "0", "1" };
+			Actions = new List<string>() { "0", "1" };
 			Device = device;
 
 			var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 				SelectiedAction = actionProperty.Value;
 		}
 
-        public List<string> Actions { get; private set; }
+		public List<string> Actions { get; private set; }
 
 		string _selectiedAction;
 		public string SelectiedAction

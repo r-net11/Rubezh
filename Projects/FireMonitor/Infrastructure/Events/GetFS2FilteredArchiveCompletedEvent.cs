@@ -4,7 +4,7 @@
 
 //namespace Infrastructure.Events
 //{
-//    public class GetFS2FilteredArchiveCompletedEvent : CompositePresentationEvent<IEnumerable<FS2JournalItem>>
-//    {
-//    }
+//	public class GetFS2FilteredArchiveCompletedEvent : CompositePresentationEvent<IEnumerable<FS2JournalItem>>
+//	{
+//	}
 //}

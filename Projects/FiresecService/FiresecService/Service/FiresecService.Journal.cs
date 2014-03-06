@@ -105,22 +105,22 @@ namespace FiresecService.Service
 
 			//try
 			//{
-			//    var journalItem = new FS2JournalItem()
-			//    {
-			//        DeviceTime = DateTime.Now,
-			//        SystemTime = DateTime.Now,
-			//        StateType = StateType.Info,
-			//        Description = mesage,
-			//        UserName = userName,
-			//        DeviceName = "",
-			//        PanelName = "",
-			//        ZoneName = ""
-			//    };
-			//    ServerFS2Database.AddJournalItems(new List<FS2JournalItem>() { journalItem });
+			//	var journalItem = new FS2JournalItem()
+			//	{
+			//		DeviceTime = DateTime.Now,
+			//		SystemTime = DateTime.Now,
+			//		StateType = StateType.Info,
+			//		Description = mesage,
+			//		UserName = userName,
+			//		DeviceName = "",
+			//		PanelName = "",
+			//		ZoneName = ""
+			//	};
+			//	ServerFS2Database.AddJournalItems(new List<FS2JournalItem>() { journalItem });
 			//}
 			//catch
 			//{
-			//    Logger.Error("FiresecService.AddInfoMessage.FS2JournalItem");
+			//	Logger.Error("FiresecService.AddInfoMessage.FS2JournalItem");
 			//}
 		}
 	}

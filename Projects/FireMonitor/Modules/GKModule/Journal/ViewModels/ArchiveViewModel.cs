@@ -389,9 +389,9 @@ namespace GKModule.ViewModels
 				}
 				//else
 				//{
-				//    GKDBHelper.IsAbort = false;
-				//    var journalItems = GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
-				//    Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
+				//	GKDBHelper.IsAbort = false;
+				//	var journalItems = GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
+				//	Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
 				//}
 			}
 			catch (ThreadAbortException) { }

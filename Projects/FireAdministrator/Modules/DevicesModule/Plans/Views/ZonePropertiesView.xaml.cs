@@ -2,13 +2,13 @@
 
 namespace DevicesModule.Plans.Views
 {
-    public partial class ZonePropertiesView : UserControl
-    {
-        public ZonePropertiesView()
-        {
-            InitializeComponent();
+	public partial class ZonePropertiesView : UserControl
+	{
+		public ZonePropertiesView()
+		{
+			InitializeComponent();
 			Loaded += new System.Windows.RoutedEventHandler(ZonePropertiesView_Loaded);
-        }
+		}
 
 		void ZonePropertiesView_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
@@ -22,13 +22,13 @@ namespace DevicesModule.Plans.Views
 			}
 		}
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var dataGrid = sender as DataGrid;
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var dataGrid = sender as DataGrid;
 			if (dataGrid != null && dataGrid.SelectedItem != null)
-            {
-                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-            }
-        }
-    }
+			{
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+			}
+		}
+	}
 }

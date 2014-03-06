@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		public void InitializeEventNames(XArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
-            foreach (var eventName in EventNameHelper.EventNames)
+			foreach (var eventName in EventNameHelper.EventNames)
 			{
 				EventNames.Add(new EventNameViewModel(eventName, DistinctDatabaseNames));
 			}
@@ -406,7 +406,7 @@ namespace GKModule.ViewModels
 			foreach (var eventName in EventNames.Items)
 			{
 				if (eventName.IsChecked)
-                    archiveFilter.EventNames.Add(eventName.EventName.Name);
+					archiveFilter.EventNames.Add(eventName.EventName.Name);
 			}
 			foreach (var archiveDevice in AllDevices.Items)
 			{

@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
 		public static bool ConfigFromFile { get; private set; }
-        public string Error { get; private set; }
+		public string Error { get; private set; }
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
@@ -35,12 +35,12 @@ namespace GKModule.ViewModels
 
 			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
-		    if (RemoteDevice == null)
-		    {
-		        Error = "ГК в удаленной конфигурации имеет невалидный IP адрес";
-                return;
-		    }
-		    LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
+			if (RemoteDevice == null)
+			{
+				Error = "ГК в удаленной конфигурации имеет невалидный IP адрес";
+				return;
+			}
+			LocalObjectsViewModel = new ObjectsListViewModel(LocalDevice, localConfiguration);
 			RemoteObjectsViewModel = new ObjectsListViewModel(RemoteDevice, remoteConfiguration);
 			CompareObjectLists();
 			InitializeMismatchedIndexes();
@@ -182,23 +182,23 @@ namespace GKModule.ViewModels
 
 		string GetZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
 		{
-            var zonesDifferences = new StringBuilder();
+			var zonesDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
-                zonesDifferences.Append("Не совпадает название");
-		    var fire1CountDiff = object1.Zone.Fire1Count != object2.Zone.Fire1Count;
-            var fire2CountDiff = object1.Zone.Fire2Count != object2.Zone.Fire2Count;
-		    if (fire1CountDiff || fire2CountDiff)
-		    {
-                if (zonesDifferences.Length != 0)
-                    zonesDifferences.Append(". ");
-                zonesDifferences.Append("Не совпадает число датчиков для формирования: ");
-                var fires = new List<string>();
-                if (fire1CountDiff)
-                    fires.Add("Пожар1");
-                if (fire2CountDiff)
-                    fires.Add("Пожар2");
-                zonesDifferences.Append(String.Join(", ", fires));
-		    }
+				zonesDifferences.Append("Не совпадает название");
+			var fire1CountDiff = object1.Zone.Fire1Count != object2.Zone.Fire1Count;
+			var fire2CountDiff = object1.Zone.Fire2Count != object2.Zone.Fire2Count;
+			if (fire1CountDiff || fire2CountDiff)
+			{
+				if (zonesDifferences.Length != 0)
+					zonesDifferences.Append(". ");
+				zonesDifferences.Append("Не совпадает число датчиков для формирования: ");
+				var fires = new List<string>();
+				if (fire1CountDiff)
+					fires.Add("Пожар1");
+				if (fire2CountDiff)
+					fires.Add("Пожар2");
+				zonesDifferences.Append(String.Join(", ", fires));
+			}
 			return zonesDifferences.ToString() == "" ? null : zonesDifferences.ToString();
 		}
 
@@ -206,76 +206,76 @@ namespace GKModule.ViewModels
 		{
 			var directionsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
-                directionsDifferences.Append("Не совпадает название");
-            bool delayDiff = object1.Direction.Delay != object2.Direction.Delay;
-            bool holdDiff = object1.Direction.Hold != object2.Direction.Hold;
-            bool regimeDiff = object1.Direction.DelayRegime != object2.Direction.DelayRegime;
-		    if (delayDiff || holdDiff || regimeDiff)
-		    {
-                if (directionsDifferences.Length != 0)
-                    directionsDifferences.Append(". ");
-                directionsDifferences.Append("Не совпадают следующие параметры: ");
-		        var parameters = new List<string>();
-                if(delayDiff)
-                    parameters.Add("Задержка");
-                if (holdDiff)
-                    parameters.Add("Удержание");
-                if (regimeDiff)
-                    parameters.Add("Режим работы");
-		        directionsDifferences.Append(String.Join(", ", parameters));
-		    }
-		    return directionsDifferences.ToString() == "" ? null : directionsDifferences.ToString();
+				directionsDifferences.Append("Не совпадает название");
+			bool delayDiff = object1.Direction.Delay != object2.Direction.Delay;
+			bool holdDiff = object1.Direction.Hold != object2.Direction.Hold;
+			bool regimeDiff = object1.Direction.DelayRegime != object2.Direction.DelayRegime;
+			if (delayDiff || holdDiff || regimeDiff)
+			{
+				if (directionsDifferences.Length != 0)
+					directionsDifferences.Append(". ");
+				directionsDifferences.Append("Не совпадают следующие параметры: ");
+				var parameters = new List<string>();
+				if(delayDiff)
+					parameters.Add("Задержка");
+				if (holdDiff)
+					parameters.Add("Удержание");
+				if (regimeDiff)
+					parameters.Add("Режим работы");
+				directionsDifferences.Append(String.Join(", ", parameters));
+			}
+			return directionsDifferences.ToString() == "" ? null : directionsDifferences.ToString();
 		}
 
 		string GetPumpStationsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)
 		{
-            var pumpStationsDifferences = new StringBuilder();
+			var pumpStationsDifferences = new StringBuilder();
 			if (object1.Name != object2.Name)
-                pumpStationsDifferences.Append("Не совпадает название");
+				pumpStationsDifferences.Append("Не совпадает название");
 			if (object1.PumpStation.NSDevices.Any(nsDevice => object2.PumpStation.NSDevices.All(x => new ObjectViewModel(x).Compare(new ObjectViewModel(x), new ObjectViewModel(nsDevice)) != 0)))
-            {
-                if (pumpStationsDifferences.Length != 0)
-                    pumpStationsDifferences.Append(". ");
-			    pumpStationsDifferences.Append("Не совпадает количество насосов");
-            }
-            bool startDiff = XManager.GetPresentationZone(object1.PumpStation.StartLogic) != XManager.GetPresentationZone(object2.PumpStation.StartLogic);
-            bool stopDiff = XManager.GetPresentationZone(object1.PumpStation.StopLogic) != XManager.GetPresentationZone(object2.PumpStation.StopLogic);
-            bool automaticDiff = XManager.GetPresentationZone(object1.PumpStation.AutomaticOffLogic) != XManager.GetPresentationZone(object2.PumpStation.AutomaticOffLogic);
-		    if (startDiff || stopDiff || automaticDiff)
-		    {
-		        if (pumpStationsDifferences.Length != 0)
-		            pumpStationsDifferences.Append(". ");
-		        pumpStationsDifferences.Append("Не совпадают следующие условия: ");
-                var logics = new List<string>();
-                if(startDiff)
-                    logics.Add("Запуска");
-                if(stopDiff)
-                    logics.Add("Запрета пуска");
-                if(automaticDiff)
-                    logics.Add("Отключения");
-		        pumpStationsDifferences.Append(String.Join(", ", logics));
-		    }
-		    bool delayDiff = object1.PumpStation.Delay != object2.PumpStation.Delay;
-		    bool holdDiff = object1.PumpStation.Hold != object2.PumpStation.Hold;
-		    bool nsPumpsCountDiff = object1.PumpStation.NSPumpsCount != object2.PumpStation.NSPumpsCount;
-		    bool nsDeltaTimeDiff = object1.PumpStation.NSDeltaTime != object2.PumpStation.NSDeltaTime;
-		    if (delayDiff || holdDiff || nsPumpsCountDiff || nsDeltaTimeDiff)
-		    {
-                if (pumpStationsDifferences.Length != 0)
-                    pumpStationsDifferences.Append(". ");
-		        pumpStationsDifferences.Append("Не совпадают следующие параметры: ");
-                var parameters = new List<string>();
-                if (delayDiff)
-                    parameters.Add("Задержка");
-                if (holdDiff)
-                    parameters.Add("Время тушения");
-                if (nsPumpsCountDiff)
-                    parameters.Add("Количество основных насосов");
-                if (nsDeltaTimeDiff)
-                    parameters.Add("Интервал разновременного пуска");
-                pumpStationsDifferences.Append(String.Join(", ", parameters));
-		    }
-		    return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
+			{
+				if (pumpStationsDifferences.Length != 0)
+					pumpStationsDifferences.Append(". ");
+				pumpStationsDifferences.Append("Не совпадает количество насосов");
+			}
+			bool startDiff = XManager.GetPresentationZone(object1.PumpStation.StartLogic) != XManager.GetPresentationZone(object2.PumpStation.StartLogic);
+			bool stopDiff = XManager.GetPresentationZone(object1.PumpStation.StopLogic) != XManager.GetPresentationZone(object2.PumpStation.StopLogic);
+			bool automaticDiff = XManager.GetPresentationZone(object1.PumpStation.AutomaticOffLogic) != XManager.GetPresentationZone(object2.PumpStation.AutomaticOffLogic);
+			if (startDiff || stopDiff || automaticDiff)
+			{
+				if (pumpStationsDifferences.Length != 0)
+					pumpStationsDifferences.Append(". ");
+				pumpStationsDifferences.Append("Не совпадают следующие условия: ");
+				var logics = new List<string>();
+				if(startDiff)
+					logics.Add("Запуска");
+				if(stopDiff)
+					logics.Add("Запрета пуска");
+				if(automaticDiff)
+					logics.Add("Отключения");
+				pumpStationsDifferences.Append(String.Join(", ", logics));
+			}
+			bool delayDiff = object1.PumpStation.Delay != object2.PumpStation.Delay;
+			bool holdDiff = object1.PumpStation.Hold != object2.PumpStation.Hold;
+			bool nsPumpsCountDiff = object1.PumpStation.NSPumpsCount != object2.PumpStation.NSPumpsCount;
+			bool nsDeltaTimeDiff = object1.PumpStation.NSDeltaTime != object2.PumpStation.NSDeltaTime;
+			if (delayDiff || holdDiff || nsPumpsCountDiff || nsDeltaTimeDiff)
+			{
+				if (pumpStationsDifferences.Length != 0)
+					pumpStationsDifferences.Append(". ");
+				pumpStationsDifferences.Append("Не совпадают следующие параметры: ");
+				var parameters = new List<string>();
+				if (delayDiff)
+					parameters.Add("Задержка");
+				if (holdDiff)
+					parameters.Add("Время тушения");
+				if (nsPumpsCountDiff)
+					parameters.Add("Количество основных насосов");
+				if (nsDeltaTimeDiff)
+					parameters.Add("Интервал разновременного пуска");
+				pumpStationsDifferences.Append(String.Join(", ", parameters));
+			}
+			return pumpStationsDifferences.ToString() == "" ? null : pumpStationsDifferences.ToString();
 		}
 
 		string GetMPTsDifferences(ObjectViewModel object1, ObjectViewModel object2, bool isLocalConfig)

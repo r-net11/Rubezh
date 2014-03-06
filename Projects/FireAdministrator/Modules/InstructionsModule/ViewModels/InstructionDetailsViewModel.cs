@@ -40,7 +40,7 @@ namespace InstructionsModule.ViewModels
 
 			Name = Instruction.Name;
 			Text = Instruction.Text;
-            AlarmType = Instruction.AlarmType;
+			AlarmType = Instruction.AlarmType;
 			InstructionType = Instruction.InstructionType;
 			switch (InstructionType)
 			{
@@ -83,19 +83,19 @@ namespace InstructionsModule.ViewModels
 			get { return InstructionType == InstructionType.Details; }
 		}
 
-        AlarmType _alarmType;
-        public AlarmType AlarmType
+		AlarmType _alarmType;
+		public AlarmType AlarmType
 		{
 			get { return _alarmType; }
 			set
 			{
 				_alarmType = value;
-                OnPropertyChanged("AlarmType");
+				OnPropertyChanged("AlarmType");
 			}
 		}
-        public List<AlarmType> AvailableAlarmTypes
+		public List<AlarmType> AvailableAlarmTypes
 		{
-            get { return Enum.GetValues(typeof(AlarmType)).Cast<AlarmType>().ToList(); }
+			get { return Enum.GetValues(typeof(AlarmType)).Cast<AlarmType>().ToList(); }
 		}
 
 		InstructionType _instructionType;
@@ -174,7 +174,7 @@ namespace InstructionsModule.ViewModels
 		{
 			Instruction.Name = Name;
 			Instruction.Text = Text;
-            Instruction.AlarmType = AlarmType;
+			Instruction.AlarmType = AlarmType;
 			Instruction.InstructionType = InstructionType;
 			if (InstructionType == InstructionType.Details)
 			{
@@ -184,7 +184,7 @@ namespace InstructionsModule.ViewModels
 			else
 			{
 				Instruction.Devices = new List<Guid>();
-                Instruction.ZoneUIDs = new List<Guid>();
+				Instruction.ZoneUIDs = new List<Guid>();
 			}
 			return base.Save();
 		}

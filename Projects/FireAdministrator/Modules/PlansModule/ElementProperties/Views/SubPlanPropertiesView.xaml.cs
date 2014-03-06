@@ -2,11 +2,11 @@
 
 namespace PlansModule.Views
 {
-    public partial class SubPlanPropertiesView : UserControl
-    {
-        public SubPlanPropertiesView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class SubPlanPropertiesView : UserControl
+	{
+		public SubPlanPropertiesView()
+		{
+			InitializeComponent();
+		}
+	}
 }

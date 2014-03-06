@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 		public BasePropertyViewModel(XDriverProperty driverProperty, XDevice device)
 		{
 			DriverProperty = driverProperty;
-            IsAUParameter = driverProperty.IsAUParameter;
+			IsAUParameter = driverProperty.IsAUParameter;
 			Device = device;
 
 			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			UpdateDeviceParameterMissmatchType();
 		}
 
-        public bool IsAUParameter { get; set; }
+		public bool IsAUParameter { get; set; }
 		public string Caption
 		{
 			get { return DriverProperty.Caption; }
@@ -56,8 +56,8 @@ namespace GKModule.ViewModels
 		{
 			var deviceProperty = Device.DeviceProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			var systemProperty = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
-            if (systemProperty == null|| systemProperty.DriverProperty == null || !systemProperty.DriverProperty.IsAUParameter)
-                return;
+			if (systemProperty == null|| systemProperty.DriverProperty == null || !systemProperty.DriverProperty.IsAUParameter)
+				return;
 			if (!DriverProperty.IsReadOnly)
 			{
 				if (deviceProperty == null)
@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-                    DeviceParameterMissmatchType = deviceProperty.Value == systemProperty.Value ? DeviceParameterMissmatchType.Equal : DeviceParameterMissmatchType.Unequal;
+					DeviceParameterMissmatchType = deviceProperty.Value == systemProperty.Value ? DeviceParameterMissmatchType.Equal : DeviceParameterMissmatchType.Unequal;
 				}
 			}
 		}

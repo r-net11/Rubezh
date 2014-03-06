@@ -53,14 +53,14 @@ namespace GKProcessor
 			property8.Parameters.Add(property8Parameter1);
 			//var property8Parameter2 = new XDriverPropertyParameter()
 			//{
-			//    Name = "Жокей насос",
-			//    Value = 2
+			//	Name = "Жокей насос",
+			//	Value = 2
 			//};
 			//property8.Parameters.Add(property8Parameter2);
 			//var property8Parameter3 = new XDriverPropertyParameter()
 			//{
-			//    Name = "Пожарный насос",
-			//    Value = 3
+			//	Name = "Пожарный насос",
+			//	Value = 3
 			//};
 			//property8.Parameters.Add(property8Parameter3);
 			driver.Properties.Add(property8);

@@ -89,31 +89,31 @@ namespace FireMonitor.Views
 			}
 			if (IsPlansAutoActivation)
 			{
-                foreach (var journalRecord in journalRecords)
-                {
+				foreach (var journalRecord in journalRecords)
+				{
 					if (journalRecord.DeviceDatabaseUID != Guid.Empty)
-                    {
-                        var globalStateType = StateType.No;
-                        foreach (var device in FiresecManager.Devices)
-                        {
-                            if (device.DeviceState.StateType < globalStateType)
-                                globalStateType = device.DeviceState.StateType;
-                        }
+					{
+						var globalStateType = StateType.No;
+						foreach (var device in FiresecManager.Devices)
+						{
+							if (device.DeviceState.StateType < globalStateType)
+								globalStateType = device.DeviceState.StateType;
+						}
 
 						var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
-                        if (journalDevice != null)
-                        {
+						if (journalDevice != null)
+						{
 							if (journalDevice.DeviceState.StateType <= globalStateType || (globalStateType != StateType.Fire && globalStateType != StateType.Attention) || journalDevice.Driver.DriverType == DriverType.AM1_O)
-                            {
-                                var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
-                                if (existsOnPlan)
-                                {
-                                    ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
-                                }
-                            }
-                        }
-                    }
-                }
+							{
+								var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
+								if (existsOnPlan)
+								{
+									ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 

@@ -3,7 +3,7 @@ using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation
 {
-    public partial class Validator
+	public partial class Validator
 	{
 		List<IValidationError> Errors { get; set; }
 

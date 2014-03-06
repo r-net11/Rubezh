@@ -18,7 +18,7 @@ namespace FiresecAPI.Models.Binary
 
 		public HashSet<Zone> TempLocalZones = new HashSet<Zone>();
 		public HashSet<Zone> TempRemoteZones = new HashSet<Zone>();
-        public HashSet<Direction> TempDirections = new HashSet<Direction>();
+		public HashSet<Direction> TempDirections = new HashSet<Direction>();
 
 		public BinaryPanel(Device parentPanel)
 		{
@@ -58,7 +58,7 @@ namespace FiresecAPI.Models.Binary
 					if (binaryLocalZone != null)
 					{
 						//if (!binaryDevice.BinaryZones.Contains(binaryLocalZone))
-						//    binaryDevice.BinaryZones.Add(binaryLocalZone);
+						//	binaryDevice.BinaryZones.Add(binaryLocalZone);
 					}
 
 					if (binaryLocalZone == null)
@@ -66,7 +66,7 @@ namespace FiresecAPI.Models.Binary
 						foreach (var binaryRemoteZone in BinaryRemoteZones)
 						{
 							//if (!binaryDevice.BinaryZones.Contains(binaryRemoteZone))
-							//    binaryDevice.BinaryZones.Add(binaryRemoteZone);
+							//	binaryDevice.BinaryZones.Add(binaryRemoteZone);
 
 							foreach (var binaryPanel in binaryRemoteZone.BinaryPanels)
 							{

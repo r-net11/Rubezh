@@ -2,7 +2,7 @@
 
 namespace GKProcessor
 {
-    public enum EventNameEnum
+	public enum EventNameEnum
 	{
 		[DescriptionAttribute("Подтверждение тревоги")]
 		Подтверждение_тревоги,

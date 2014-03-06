@@ -62,7 +62,7 @@ namespace FiresecClient
 			}
 		}
 
-        public OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName)
+		public OperationResult<bool> GKUpdateFirmware(XDevice device, string fileName)
 		{
 			if (IsGKAsAService)
 			{
@@ -70,11 +70,11 @@ namespace FiresecClient
 			}
 			else
 			{
-                return GKProcessorManager.GKUpdateFirmware(device, fileName, FiresecManager.CurrentUser.Name);
+				return GKProcessorManager.GKUpdateFirmware(device, fileName, FiresecManager.CurrentUser.Name);
 			}
 		}
 
-        public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, List<XDevice> devices)
+		public OperationResult<bool> GKUpdateFirmwareFSCS(HexFileCollectionInfo hxcFileInfo, List<XDevice> devices)
 		{
 			if (IsGKAsAService)
 			{

@@ -71,11 +71,11 @@ namespace LayoutModule.ViewModels
 		{
 			//if (_layout != null && !_locked)
 			//{
-			//    if (layoutUserViewModel.IsActive && !_layout.Users.Contains(layoutUserViewModel.User.UID))
-			//        _layout.Users.Add(layoutUserViewModel.User.UID);
-			//    else if (!layoutUserViewModel.IsActive && _layout.Users.Contains(layoutUserViewModel.User.UID))
-			//        _layout.Users.Remove(layoutUserViewModel.User.UID);
-			//    ServiceFactory.SaveService.LayoutsChanged = true;
+			//	if (layoutUserViewModel.IsActive && !_layout.Users.Contains(layoutUserViewModel.User.UID))
+			//		_layout.Users.Add(layoutUserViewModel.User.UID);
+			//	else if (!layoutUserViewModel.IsActive && _layout.Users.Contains(layoutUserViewModel.User.UID))
+			//		_layout.Users.Remove(layoutUserViewModel.User.UID);
+			//	ServiceFactory.SaveService.LayoutsChanged = true;
 			//}
 		}
 		private int Comparison(LayoutUserViewModel x, LayoutUserViewModel y)

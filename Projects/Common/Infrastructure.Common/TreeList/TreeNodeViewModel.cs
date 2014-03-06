@@ -25,11 +25,11 @@ namespace Infrastructure.Common.TreeList
 		{
 			_root = root;
 			//foreach (var child in Nodes)
-			//    child.AssignToTree(Tree);
+			//	child.AssignToTree(Tree);
 			//if (ParentNode == null)
 			//{
-			//    Tree.Rows.Add(this);
-			//    CreateChildrenRows();
+			//	Tree.Rows.Add(this);
+			//	CreateChildrenRows();
 			//}
 		}
 
@@ -262,7 +262,7 @@ namespace Infrastructure.Common.TreeList
 				var nodes = AllVisibleChildren.ToArray();
 				Root.Rows.InsertRange(index + 1, nodes);
 				//if (nodes.Contains(Tree.SelectedTreeItem))
-				//    Tree.ResumeSelection();
+				//	Tree.ResumeSelection();
 			}
 		}
 

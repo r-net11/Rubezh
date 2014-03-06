@@ -11,8 +11,8 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class JournalsViewModel : ViewPartViewModel
-    {
+	public class JournalsViewModel : ViewPartViewModel
+	{
 		public void Initialize()
 		{
 			Journals = new ObservableCollection<JournalViewModel>();
@@ -38,27 +38,27 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        ObservableCollection<JournalViewModel> _journals;
+		ObservableCollection<JournalViewModel> _journals;
 		public ObservableCollection<JournalViewModel> Journals
-        {
-            get { return _journals; }
-            set
-            {
-                _journals = value;
-                OnPropertyChanged("Journals");
-            }
-        }
+		{
+			get { return _journals; }
+			set
+			{
+				_journals = value;
+				OnPropertyChanged("Journals");
+			}
+		}
 
-        JournalViewModel _selectedJournal;
-        public JournalViewModel SelectedJournal
-        {
-            get { return _selectedJournal; }
-            set
-            {
-                _selectedJournal = value;
-                OnPropertyChanged("SelectedJournal");
-            }
-        }
+		JournalViewModel _selectedJournal;
+		public JournalViewModel SelectedJournal
+		{
+			get { return _selectedJournal; }
+			set
+			{
+				_selectedJournal = value;
+				OnPropertyChanged("SelectedJournal");
+			}
+		}
 
 		void UpdateSelectedJournal()
 		{
@@ -68,19 +68,19 @@ namespace GKModule.ViewModels
 		}
 		
 		void OnNewJournal(List<JournalItem> journalItems)
-        {
-            foreach (var journalItem in journalItems)
-            {
-                if ((journalItem.JournalItemType == JournalItemType.Zone || journalItem.JournalItemType == JournalItemType.Direction) &&
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if ((journalItem.JournalItemType == JournalItemType.Zone || journalItem.JournalItemType == JournalItemType.Direction) &&
 					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
-                {
-                    if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
-                    {
-                        var confirmationViewModel = new ConfirmationViewModel(journalItem);
-                        DialogService.ShowWindow(confirmationViewModel);
-                    }
-                }
-            }
-        }
-    }
+				{
+					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+					{
+						var confirmationViewModel = new ConfirmationViewModel(journalItem);
+						DialogService.ShowWindow(confirmationViewModel);
+					}
+				}
+			}
+		}
+	}
 }

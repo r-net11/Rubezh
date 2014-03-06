@@ -26,7 +26,7 @@ namespace JournalModule
 			ArchiveViewModel = new ArchiveViewModel();
 		}
 
-        int _unreadJournalCount;
+		int _unreadJournalCount;
 		private int UnreadJournalCount
 		{
 			get { return _unreadJournalCount; }
@@ -43,16 +43,16 @@ namespace JournalModule
 			UnreadJournalCount = 0;
 			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
 		}
-        void OnNewJournalRecord(List<JournalRecord> journalRecords)
-        {
-            if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-                UnreadJournalCount += journalRecords.Count;
-        }
+		void OnNewJournalRecord(List<JournalRecord> journalRecords)
+		{
+			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+				UnreadJournalCount += journalRecords.Count;
+		}
 
 		//void OnNewFS2JournalItems(List<FS2JournalItem> journalItems)
 		//{
-		//    if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-		//        UnreadJournalCount += journalItems.Count;
+		//	if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+		//		UnreadJournalCount += journalItems.Count;
 		//}
 
 		public override void Initialize()

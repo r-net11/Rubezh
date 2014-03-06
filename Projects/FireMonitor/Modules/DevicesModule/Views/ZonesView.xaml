@@ -50,7 +50,7 @@
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
 												<MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
 												<MenuItem Command="{Binding DisableAllCommand}" Header="Отключить все устройства в зоне" />
-                                                <MenuItem Command="{Binding EnableAllCommand}" Header="Снять отключение всех устройств в зоне" />
+												<MenuItem Command="{Binding EnableAllCommand}" Header="Снять отключение всех устройств в зоне" />
 												<MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
 												<MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
 											</ContextMenu>
@@ -87,17 +87,17 @@
 									<Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
 									<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
 									<TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
-                                    <TextBlock.Style>
-                                        <Style>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                    <DataTrigger.Setters>
-                                                        <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                    </DataTrigger.Setters>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsBold}" Value="True">
+													<DataTrigger.Setters>
+														<Setter Property="TextBlock.FontWeight" Value="Bold" />
+													</DataTrigger.Setters>
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
 									</TextBlock>
 									<StackPanel.ContextMenu>
 										<ContextMenu>

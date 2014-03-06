@@ -5,16 +5,16 @@ using FiresecAPI;
 
 namespace XFiresecAPI
 {
-    [DataContract]
-    public class SKDLibraryConfiguration : VersionedConfiguration
-    {
+	[DataContract]
+	public class SKDLibraryConfiguration : VersionedConfiguration
+	{
 		public SKDLibraryConfiguration()
-        {
+		{
 			Devices = new List<SKDLibraryDevice>();
-        }
+		}
 
-        [DataMember]
-        public List<SKDLibraryDevice> Devices { get; set; }
+		[DataMember]
+		public List<SKDLibraryDevice> Devices { get; set; }
 
 		public override bool ValidateVersion()
 		{
@@ -29,5 +29,5 @@ namespace XFiresecAPI
 			}
 			return result;
 		}
-    }
+	}
 }

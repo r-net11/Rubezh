@@ -25,7 +25,7 @@ namespace InstructionsModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -74,10 +74,10 @@ namespace InstructionsModule.ViewModels
 			var instructionDetailsViewModel = new InstructionDetailsViewModel();
 			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
 			{
-                FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
-                var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
-                Instructions.Add(instructionViewModel);
-                SelectedInstruction = instructionViewModel;
+				FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
+				var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
+				Instructions.Add(instructionViewModel);
+				SelectedInstruction = instructionViewModel;
 				ServiceFactory.SaveService.InstructionsChanged = true;
 			}
 		}
@@ -124,17 +124,17 @@ namespace InstructionsModule.ViewModels
 		#region ISelectable<Guid> Members
 		public void Select(Guid instructionUID)
 		{
-            if (instructionUID != Guid.Empty)
-                SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.UID == instructionUID);
+			if (instructionUID != Guid.Empty)
+				SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.UID == instructionUID);
 		}
 		#endregion
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 
 		private void SetRibbonItems()
 		{

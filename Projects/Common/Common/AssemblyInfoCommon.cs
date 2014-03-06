@@ -7,6 +7,6 @@ using System.Windows;
 [assembly: AssemblyTrademark("http://www.rubezh.ru/")]
 [assembly: AssemblyCulture("")]
 [assembly: ThemeInfo(
-    ResourceDictionaryLocation.None,
-    ResourceDictionaryLocation.SourceAssembly
+	ResourceDictionaryLocation.None,
+	ResourceDictionaryLocation.SourceAssembly
 )]

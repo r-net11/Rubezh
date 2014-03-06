@@ -8,7 +8,7 @@ namespace FiresecAPI.Models
 		public static void Create(List<Driver> drivers)
 		{
 			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4);
-            driver.HasConfigurationProperties = true;
+			driver.HasConfigurationProperties = true;
 
 			AddAM(driver);
 		}
@@ -54,13 +54,13 @@ namespace FiresecAPI.Models
 
 			//var property1Parameter6 = new DriverPropertyParameter()
 			//{
-			//    Name = "Охранная конфигурация",
-			//    Value = "6"
+			//	Name = "Охранная конфигурация",
+			//	Value = "6"
 			//};
 			//var property1Parameter7 = new DriverPropertyParameter()
 			//{
-			//    Name = "Охранная конфигурация с дополнительным резистором",
-			//    Value = "7"
+			//	Name = "Охранная конфигурация с дополнительным резистором",
+			//	Value = "7"
 			//};
 			//property1.Parameters.Add(property1Parameter6);
 			//property1.Parameters.Add(property1Parameter7);

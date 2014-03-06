@@ -2,11 +2,11 @@
 
 namespace SKDModule.Views
 {
-    public partial class DeviceView : UserControl
-    {
-        public DeviceView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class DeviceView : UserControl
+	{
+		public DeviceView()
+		{
+			InitializeComponent();
+		}
+	}
 }

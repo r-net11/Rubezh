@@ -70,17 +70,17 @@ namespace JournalModule.ViewModels
 
 		//void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
 		//{
-		//    foreach (var journalItem in journalItems)
-		//    {
-		//        if (journalItem.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
-		//        {
-		//            var confirmationViewModel = new ConfirmationViewModel(journalItem);
-		//            ApplicationService.Invoke(() =>
-		//            {
-		//                DialogService.ShowWindow(confirmationViewModel);
-		//            });
-		//        }
-		//    }
+		//	foreach (var journalItem in journalItems)
+		//	{
+		//		if (journalItem.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+		//		{
+		//			var confirmationViewModel = new ConfirmationViewModel(journalItem);
+		//			ApplicationService.Invoke(() =>
+		//			{
+		//				DialogService.ShowWindow(confirmationViewModel);
+		//			});
+		//		}
+		//	}
 		//}
 	}
 }

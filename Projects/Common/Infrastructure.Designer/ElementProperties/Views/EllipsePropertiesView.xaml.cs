@@ -2,11 +2,11 @@
 
 namespace Infrastructure.Designer.ElementProperties.Views
 {
-    public partial class EllipsePropertiesView : UserControl
-    {
-        public EllipsePropertiesView()
-        {
+	public partial class EllipsePropertiesView : UserControl
+	{
+		public EllipsePropertiesView()
+		{
 			InitializeComponent();
-        }
-    }
+		}
+	}
 }

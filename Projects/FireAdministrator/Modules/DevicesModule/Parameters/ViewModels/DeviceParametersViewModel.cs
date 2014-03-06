@@ -41,8 +41,8 @@ namespace DevicesModule.ViewModels
 
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FS2AuParametersHelper.Progress -= new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
-			//    FS2AuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+			//	FS2AuParametersHelper.Progress -= new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
+			//	FS2AuParametersHelper.Progress += new Action<string, int>(FiresecDriverAuParametersHelper_Progress);
 			//}
 			//else
 			{
@@ -222,7 +222,7 @@ namespace DevicesModule.ViewModels
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FS2AuParametersHelper.BeginSetAuParameters(devices);
+			//	FS2AuParametersHelper.BeginSetAuParameters(devices);
 			//}
 			//else
 			{
@@ -234,7 +234,7 @@ namespace DevicesModule.ViewModels
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FS2AuParametersHelper.BeginGetAuParameters(devices);
+			//	FS2AuParametersHelper.BeginGetAuParameters(devices);
 			//}
 			//else
 			{
@@ -517,8 +517,8 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
-                if (device.SystemAUProperties == null)
-                    device.SystemAUProperties = new List<Property>();
+				if (device.SystemAUProperties == null)
+					device.SystemAUProperties = new List<Property>();
 				foreach (var driverProperty in device.Driver.Properties)
 				{
 					if (driverProperty.IsAUParameter)

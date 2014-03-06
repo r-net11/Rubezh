@@ -37,7 +37,7 @@ namespace FiresecClient
 					{
 						State = clause.State,
 						Operation = clause.Operation,
-                        ZoneUIDs = clause.ZoneUIDs.ToList()
+						ZoneUIDs = clause.ZoneUIDs.ToList()
 					});
 				}
 			}

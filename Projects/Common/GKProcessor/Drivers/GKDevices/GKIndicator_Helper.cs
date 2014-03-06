@@ -15,7 +15,7 @@ namespace GKProcessor
 				Name = "Индикатор ГК",
 				ShortName = "Индикатор ГК",
 				CanEditAddress = false,
-                HasAddress = false,
+				HasAddress = false,
 				IsAutoCreate = true,
 				MinAddress = 2,
 				MaxAddress = 11,

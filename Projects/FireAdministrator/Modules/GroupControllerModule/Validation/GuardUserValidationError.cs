@@ -30,9 +30,9 @@ namespace GKModule.Validation
 		{
 			get { return Object.Name; }
 		}
-        public override string ImageSource
-        {
-            get { return "/Controls;component/Images/BUser.png"; }
-        }
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/BUser.png"; }
+		}
 	}
 }

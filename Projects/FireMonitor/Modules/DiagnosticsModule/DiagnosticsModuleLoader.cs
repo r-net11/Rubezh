@@ -31,7 +31,7 @@ namespace DiagnosticsModule
 		{
 			return new List<NavigationItem>()
 			{
-			    new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png")
+				new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png")
 			};
 		}
 		public override string Name

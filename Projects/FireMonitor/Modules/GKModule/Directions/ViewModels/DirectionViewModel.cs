@@ -54,10 +54,10 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
-        void OnShowProperties()
-        {
-            DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
-        }
+		void OnShowProperties()
+		{
+			DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
+		}
 
 		public bool HasOnDelay
 		{

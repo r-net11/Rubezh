@@ -47,16 +47,16 @@ namespace PlansModule.Kursk
 			{
 				if (_instruments == null)
 					_instruments = new List<IInstrument>()
-				    {
+					{
 						new InstrumentViewModel()
 						{
-						    ImageSource="/Controls;component/Images/Tank.png",
-						    ToolTip="Бак",
-						    Adorner = new TankRectangleAdorner(_designerCanvas),
-						    Index = 299,
-						    Autostart = true
+							ImageSource="/Controls;component/Images/Tank.png",
+							ToolTip="Бак",
+							Adorner = new TankRectangleAdorner(_designerCanvas),
+							Index = 299,
+							Autostart = true
 						},
-				    };
+					};
 				return _instruments;
 			}
 		}
@@ -118,7 +118,7 @@ namespace PlansModule.Kursk
 		{
 			//var elementXDevice = args.Element as ElementXDevice;
 			//if (elementXDevice != null)
-			//    args.Painter = new Painter(elementXDevice);
+			//	args.Painter = new Painter(elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

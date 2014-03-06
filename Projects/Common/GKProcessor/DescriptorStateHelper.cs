@@ -50,11 +50,11 @@ namespace GKProcessor
 			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == TypeNo);
 			if (driver != null)
 			{
-                var driverType = driver.DriverType;
+				var driverType = driver.DriverType;
 				if (driverType == XDriverType.GK && XBase.GKDescriptorNo > 1)
-                    driverType = XDriverType.KAU;
+					driverType = XDriverType.KAU;
 
-                switch (driverType)
+				switch (driverType)
 				{
 					case XDriverType.KAU:
 					case XDriverType.RSR2_KAU:
@@ -72,7 +72,7 @@ namespace GKProcessor
 						if (bitArray[5])
 							AddAdditionalState(XStateClass.Failure, "Отказ АЛС 7 или 8");
 						if (bitArray[6])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (bitArray[8])
 							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 1");
 						if (bitArray[9])
@@ -102,7 +102,7 @@ namespace GKProcessor
 						if (bitArray[3])
 							AddAdditionalState(XStateClass.Failure, "РЛС");
 						if (bitArray[6])
-                            AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
+							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						break;
 
 					case XDriverType.RSR2_Bush:
@@ -123,9 +123,9 @@ namespace GKProcessor
 						if (sensorBitArray[0])
 							AddAdditionalState(XStateClass.Info, "Низкий уровень");
 						if (sensorBitArray[1])
-                            AddAdditionalState(XStateClass.Info, "Высокий уровень");
+							AddAdditionalState(XStateClass.Info, "Высокий уровень");
 						if (sensorBitArray[2])
-                            AddAdditionalState(XStateClass.Failure, "Аварийный уровень");
+							AddAdditionalState(XStateClass.Failure, "Аварийный уровень");
 
 						if (bushType == 1)
 						{
@@ -308,11 +308,11 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.FirePump:
-                    case XDriverType.JockeyPump:
-                    case XDriverType.DrainagePump:
+					case XDriverType.JockeyPump:
+					case XDriverType.DrainagePump:
 						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
-						//    if (bitArray[8 + 0])
-						//        AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+						//	if (bitArray[8 + 0])
+						//		AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
 						var pumpType = 0;
 						if (xBase is XDevice)
@@ -341,9 +341,9 @@ namespace GKProcessor
 						if (bitArray[8 + 0])
 							AddAdditionalState(XStateClass.Failure, JournalStringsHelper.GetPumpFailureMessage("КЗ входа 3", pumpType));
 						//if (bitArray[8 + 2])
-						//    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 4", addressOnShleif));
+						//	AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("Обрыв входа 4", addressOnShleif));
 						//if (bitArray[8 + 3])
-						//    AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 4", addressOnShleif));
+						//	AddAdditionalState(XStateClass.Failure, StringHelper.GetPumpFailureMessage("КЗ входа 4", addressOnShleif));
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[4] });
 						if (!bitArray[3])
@@ -359,7 +359,7 @@ namespace GKProcessor
 					case XDriverType.Valve:
 						//bitArray = new BitArray(new int[1] { additionalShortParameters[0] });
 						//if (bitArray[7])
-						//    AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
+						//	AddAdditionalState(XStateClass.Failure, "Обрыв цепи питания двигателя");
 
 						bitArray = new BitArray(new int[1] { additionalShortParameters[3] });
 						if (bitArray[1])
@@ -433,16 +433,16 @@ namespace GKProcessor
 						break;
 				}
 
-                switch (driverType)
-                {
-                    case XDriverType.RSR2_MVK8:
-                    case XDriverType.RSR2_RM_1:
-                    case XDriverType.RSR2_Bush:
-                        OnDelay = additionalShortParameters[0];
-                        HoldDelay = additionalShortParameters[1];
-                        OffDelay = additionalShortParameters[2];
-                        break;
-                }
+				switch (driverType)
+				{
+					case XDriverType.RSR2_MVK8:
+					case XDriverType.RSR2_RM_1:
+					case XDriverType.RSR2_Bush:
+						OnDelay = additionalShortParameters[0];
+						HoldDelay = additionalShortParameters[1];
+						OffDelay = additionalShortParameters[2];
+						break;
+				}
 			}
 			else
 			{

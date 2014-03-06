@@ -13,7 +13,7 @@ namespace FiresecClient
 			{
 				//if (IsFS2Enabled)
 				//{
-				//    FS2ClientContract.SetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
+				//	FS2ClientContract.SetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
 				//}
 				//else
 				{
@@ -39,7 +39,7 @@ namespace FiresecClient
 			{
 				//if (IsFS2Enabled)
 				//{
-				//    FS2ClientContract.UnSetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
+				//	FS2ClientContract.UnSetZoneGuard(zone.UID, FiresecManager.CurrentUser.Name);
 				//}
 				//else
 				{
@@ -65,7 +65,7 @@ namespace FiresecClient
 			{
 				//if (IsFS2Enabled)
 				//{
-				//    FS2ClientContract.SetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
+				//	FS2ClientContract.SetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
 				//}
 				//else
 				{
@@ -84,7 +84,7 @@ namespace FiresecClient
 			{
 				//if (IsFS2Enabled)
 				//{
-				//    FS2ClientContract.UnSetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
+				//	FS2ClientContract.UnSetDeviceGuard(device.UID, FiresecManager.CurrentUser.Name);
 				//}
 				//else
 				{

@@ -42,10 +42,10 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-                        <GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding OuterPresentationZone}" ToolTip="{Binding OuterPresentationZone}">
+						<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<TextBlock HorizontalAlignment="Stretch" Text="{Binding OuterPresentationZone}" ToolTip="{Binding OuterPresentationZone}">
 										<TextBlock.Resources>
 											<Style TargetType="ToolTip">
 												<Style.Triggers>
@@ -58,11 +58,11 @@
 												</Style.Triggers>
 											</Style>
 										</TextBlock.Resources>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
+									</TextBlock>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</Grid>
@@ -70,7 +70,7 @@
 		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" Padding="5" TextBlock.FontSize="11" TextBlock.Foreground="White">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
-                    <TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.Name}" />
+					<TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.Name}" />
 					<Views:DeviceStateView TextElement.Foreground="White" />
 				</StackPanel>
 			</ScrollViewer>

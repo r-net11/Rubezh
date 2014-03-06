@@ -27,8 +27,8 @@ namespace SecurityModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-            if (!FiresecManager.CheckPermission(PermissionType.Adm_Security))
-                return null;
+			if (!FiresecManager.CheckPermission(PermissionType.Adm_Security))
+				return null;
 
 			return new List<NavigationItem>()
 			{

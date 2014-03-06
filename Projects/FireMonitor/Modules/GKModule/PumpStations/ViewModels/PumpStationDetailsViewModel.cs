@@ -95,79 +95,79 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
-        void OnSetAutomaticState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetAutomaticState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(PumpStation);
-            }
-        }
+			}
+		}
 		bool CanSetAutomaticState()
 		{
 			return ControlRegime != DeviceControlRegime.Automatic;
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-        void OnSetManualState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetManualState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetManualRegime(PumpStation);
-            }
-        }
+			}
+		}
 		bool CanSetManualState()
 		{
 			return ControlRegime != DeviceControlRegime.Manual;
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-        void OnSetIgnoreState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnoreState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(PumpStation);
-            }
-        }
+			}
+		}
 		bool CanSetIgnoreState()
 		{
 			return ControlRegime != DeviceControlRegime.Ignore;
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
-        void OnTurnOn()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOn()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOn(PumpStation);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
-        void OnTurnOnNow()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOnNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOnNow(PumpStation);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
-        void OnTurnOff()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOff(PumpStation);
-            }
-        }
+			}
+		}
 
 		public RelayCommand ForbidStartCommand { get; private set; }
-        void OnForbidStart()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnForbidStart()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKStop(PumpStation);
-            }
-        }
+			}
+		}
 
 		public bool HasOnDelay
 		{

@@ -307,14 +307,14 @@ namespace SKDDriver
 			{
 				//try
 				//{
-				//    if (!IsConnected)
-				//    {
-				//        return;
-				//    }
+				//	if (!IsConnected)
+				//	{
+				//		return;
+				//	}
 				//}
 				//catch (Exception e)
 				//{
-				//    Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
+				//	Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
 				//}
 
 				try

@@ -31,7 +31,7 @@ namespace FSAgentServer.ViewModels
 			menuItem2.Click += new EventHandler(onClose);
 			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 
-            _notifyIcon.Text = "Агент Firesec";
+			_notifyIcon.Text = "Агент Firesec";
 		}
 		public static void Stop()
 		{

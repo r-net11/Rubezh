@@ -54,7 +54,7 @@ namespace VideoModule.ViewModels
 		void GetError(string error)
 		{
 			Error = error;
-            StopVideo();
+			StopVideo();
 			ImageSource = new BitmapImage();
 		}
 
@@ -76,9 +76,6 @@ namespace VideoModule.ViewModels
 				}));
 			}
 		}
-
-  
-        public string Test { get { return "Test"; } }
 
 		public string PresentationZones
 		{
@@ -108,6 +105,7 @@ namespace VideoModule.ViewModels
 		{
 			MjpegCamera.FrameReady += OnFrameReady;
 			MjpegCamera.ErrorHandler += GetError;
+			ImageSource = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/LoadingVideo.png"));
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 			IsNowPlaying = true;

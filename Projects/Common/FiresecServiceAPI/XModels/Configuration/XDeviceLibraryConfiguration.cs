@@ -5,16 +5,16 @@ using FiresecAPI;
 
 namespace XFiresecAPI
 {
-    [DataContract]
-    public class XDeviceLibraryConfiguration : VersionedConfiguration
-    {
-        public XDeviceLibraryConfiguration()
-        {
-            XDevices = new List<LibraryXDevice>();
-        }
+	[DataContract]
+	public class XDeviceLibraryConfiguration : VersionedConfiguration
+	{
+		public XDeviceLibraryConfiguration()
+		{
+			XDevices = new List<LibraryXDevice>();
+		}
 
-        [DataMember]
-        public List<LibraryXDevice> XDevices { get; set; }
+		[DataMember]
+		public List<LibraryXDevice> XDevices { get; set; }
 
 		public override bool ValidateVersion()
 		{
@@ -29,5 +29,5 @@ namespace XFiresecAPI
 			}
 			return result;
 		}
-    }
+	}
 }

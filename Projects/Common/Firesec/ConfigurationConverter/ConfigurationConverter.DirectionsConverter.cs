@@ -9,7 +9,7 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-        void ConvertDirections(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
+		void ConvertDirections(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			deviceConfiguration.Directions = new List<Direction>();
 
@@ -30,12 +30,12 @@ namespace Firesec
 						{
 							foreach (var item in innerDirection.PinZ)
 							{
-                                if (string.IsNullOrWhiteSpace(item.pidz) == false)
-                                {
-                                    var zoneNo = int.Parse(item.pidz);
-                                    var zone = deviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
-                                    direction.ZoneUIDs.Add(zone.UID);
-                                }
+								if (string.IsNullOrWhiteSpace(item.pidz) == false)
+								{
+									var zoneNo = int.Parse(item.pidz);
+									var zone = deviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
+									direction.ZoneUIDs.Add(zone.UID);
+								}
 							}
 						}
 
@@ -53,7 +53,7 @@ namespace Firesec
 			}
 		}
 
-        void ConvertDirectionsBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
+		void ConvertDirectionsBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
 		{
 			var innerDirections = new List<partType>();
 			int no = 0;
@@ -71,13 +71,13 @@ namespace Firesec
 				++no;
 
 				var zonesPartTypePinZ = new List<partTypePinZ>();
-                foreach (var zoneUID in direction.ZoneUIDs)
+				foreach (var zoneUID in direction.ZoneUIDs)
 				{
-                    var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                    if (zone != null)
-                    {
-                        zonesPartTypePinZ.Add(new partTypePinZ() { pidz = zone.No.ToString() });
-                    }
+					var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						zonesPartTypePinZ.Add(new partTypePinZ() { pidz = zone.No.ToString() });
+					}
 				}
 				innerDirection.PinZ = zonesPartTypePinZ.ToArray();
 

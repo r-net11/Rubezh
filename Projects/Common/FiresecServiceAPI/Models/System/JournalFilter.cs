@@ -9,15 +9,15 @@ namespace FiresecAPI.Models
 	{
 		public JournalFilter()
 		{
-            UID = Guid.NewGuid();
+			UID = Guid.NewGuid();
 			LastRecordsCount = 100;
 			LastDaysCount = 10;
 			StateTypes = new List<StateType>();
 			Categories = new List<DeviceCategoryType>();
 		}
 
-        [DataMember]
-        public Guid UID { get; set; }
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

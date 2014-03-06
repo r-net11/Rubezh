@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -69,9 +69,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
 				SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters.Add(filterDetailsViewModel.JournalFilter);
-                var filterViewModel = new FilterViewModel(filterDetailsViewModel.JournalFilter);
-                JournalFilters.Add(filterViewModel);
-                SelectedJournalFilter = filterViewModel;
+				var filterViewModel = new FilterViewModel(filterDetailsViewModel.JournalFilter);
+				JournalFilters.Add(filterViewModel);
+				SelectedJournalFilter = filterViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -112,12 +112,12 @@ namespace SKDModule.ViewModels
 			base.OnHide();
 		}
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 
 
 		private void SetRibbonItems()

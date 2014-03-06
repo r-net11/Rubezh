@@ -7,7 +7,7 @@ namespace Firesec
 {
 	public static class IndicatorLogicConverter
 	{
-        public static IndicatorLogic Convert(DeviceConfiguration deviceConfiguration, LEDProperties lEDProperties)
+		public static IndicatorLogic Convert(DeviceConfiguration deviceConfiguration, LEDProperties lEDProperties)
 		{
 			var indicatorLogic = new IndicatorLogic();
 
@@ -26,15 +26,15 @@ namespace Firesec
 			{
 				foreach (var item in lEDProperties.zone)
 				{
-                    if (string.IsNullOrWhiteSpace(item) == false)
-                    {
-                        int zoneNo = int.Parse(item);
-                        var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-                        if (zone != null)
-                        {
-                            indicatorLogic.ZoneUIDs.Add(zone.UID);
-                        }
-                    }
+					if (string.IsNullOrWhiteSpace(item) == false)
+					{
+						int zoneNo = int.Parse(item);
+						var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+						if (zone != null)
+						{
+							indicatorLogic.ZoneUIDs.Add(zone.UID);
+						}
+					}
 				}
 			}
 
