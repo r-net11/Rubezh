@@ -27,7 +27,7 @@ namespace SKDDriver
 		{
 
 			var result = new ApiT();
-			result.UID = tableItem.Uid;
+			result.UID = tableItem.UID;
 			result.IsDeleted = tableItem.IsDeleted;
 			result.RemovalDate = tableItem.RemovalDate;
 			return result;
@@ -66,7 +66,7 @@ namespace SKDDriver
 			
 			var uids = filter.Uids;
 			if (uids != null && uids.Count != 0)
-				result = result.And(e => uids.Contains(e.Uid));
+				result = result.And(e => uids.Contains(e.UID));
 			var removalDates = filter.RemovalDates;
 			if (removalDates != null && filter.WithDeleted == DeletedType.Deleted)
 				result = result.And(e => e.RemovalDate == null || 
@@ -111,11 +111,11 @@ namespace SKDDriver
 					var verifyResult = CanSave(apiItem);
 					if (verifyResult.HasError)
 						return verifyResult;
-					var tableItem = (from x in Table where x.Uid.Equals(apiItem.UID) select x).FirstOrDefault();
+					var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
 					if (tableItem == null)
 					{
 						tableItem = new TableT();
-						tableItem.Uid = apiItem.UID;
+						tableItem.UID = apiItem.UID;
 						TranslateBack(tableItem, apiItem);
 						Table.InsertOnSubmit(tableItem);
 					}
@@ -143,7 +143,7 @@ namespace SKDDriver
 						return verifyResult;
 					if (item != null)
 					{
-						var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
+						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
 						if (databaseItem != null)
 						{
 							databaseItem.IsDeleted = true;

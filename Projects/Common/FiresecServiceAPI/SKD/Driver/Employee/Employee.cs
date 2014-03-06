@@ -24,22 +24,25 @@ namespace FiresecAPI
 		public DateTime Dismissed { get; set; }
 
 		[DataMember]
-		public Guid? PositionUid { get; set; }
+		public Guid? PositionUID { get; set; }
 
 		[DataMember]
-		public Guid? DepartmentUid { get; set; }
+		public Guid? DepartmentUID { get; set; }
 
 		[DataMember]
-		public Guid? ReplacementUid { get; set; }
+		public Guid? ReplacementUID { get; set; }
 
 		[DataMember]
-		public Guid? ScheduleUid { get; set; }
+		public Guid? ScheduleUID { get; set; }
 
 		[DataMember]
-		public List<Guid> AdditionalColumnUids { get; set; }
+		public Guid? PhotoUID { get; set; }
 
 		[DataMember]
-		public List<Guid> CardUids { get; set; }
+		public List<Guid> AdditionalColumnUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> CardUIDs { get; set; }
 
 		[DataMember]
 		public PersonType Type { get; set; }

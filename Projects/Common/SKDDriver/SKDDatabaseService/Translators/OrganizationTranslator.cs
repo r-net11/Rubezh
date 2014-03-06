@@ -26,7 +26,7 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Organization item)
 		{
 			var uid = item.UID;
-			if (Context.AdditionalColumn.Any(x => x.OrganizationUid == uid) ||
+			if (Context.AdditionalColumnType.Any(x => x.OrganizationUid == uid) ||
 					Context.Day.Any(x => x.OrganizationUid == uid) ||
 					Context.Department.Any(x => x.OrganizationUid == uid) ||
 					Context.Document.Any(x => x.OrganizationUid == uid) ||
@@ -48,6 +48,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
+			result.PhotoUID = tableItem.PhotoUID;
 			return result;
 		}
 
@@ -56,6 +57,7 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
 		protected override Expression<Func<DataAccess.Organization, bool>> IsInFilter(OrganizationFilter filter)

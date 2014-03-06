@@ -228,6 +228,18 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<GUD>>>(() => FiresecService.GetGUDs(filter));
 		}
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
+		}
+		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumn>>>(() => FiresecService.GetAdditionalColumns(filter));
+		}
+		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Photo>>>(() => FiresecService.GetPhotos(filter));
+		}
 		#endregion
 
 		#region Save
@@ -267,6 +279,18 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
 		}
+		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnTypes(items));
+		}
+		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumns(items));
+		}
+		public OperationResult SavePhotos(IEnumerable<Photo> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePhotos(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -305,6 +329,18 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedGUDs(items));
+		}
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnTypes(items));
+		}
+		public OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumns(items));
+		}
+		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPhotos(items));
 		}
 		#endregion
 		

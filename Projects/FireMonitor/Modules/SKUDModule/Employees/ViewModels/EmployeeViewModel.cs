@@ -10,9 +10,9 @@ namespace SKDModule.ViewModels
 		public EmployeeViewModel(Employee employee)
 		{
 			Employee = employee;
-			var department = DepartmentHelper.GetSingle(employee.DepartmentUid);
+			var department = DepartmentHelper.GetSingle(employee.DepartmentUID);
 			DepartmentName = (department != null) ? department.Name : "";
-			var position = PositionHelper.GetSingle(employee.PositionUid);
+			var position = PositionHelper.GetSingle(employee.PositionUID);
 			PositionName = (position != null) ? position.Name : "";
 			AppointedString = employee.Appointed.ToString("d MMM yyyy");
 			DismissedString = employee.Dismissed.ToString("d MMM yyyy");

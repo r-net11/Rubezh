@@ -28,6 +28,12 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
 		#endregion
 
 		#region Save
@@ -49,6 +55,12 @@ namespace FiresecAPI
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult SaveGUDs(IEnumerable<GUD> items);
+		[OperationContract]
+		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		[OperationContract]
+		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		[OperationContract]
+		OperationResult SavePhotos(IEnumerable<Photo> items);
 		#endregion
 
 		#region MarkDeleted
@@ -70,6 +82,12 @@ namespace FiresecAPI
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult MarkDeletedGUDs(IEnumerable<GUD> items);
+		[OperationContract]
+		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		[OperationContract]
+		OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		[OperationContract]
+		OperationResult MarkDeletedPhotos(IEnumerable<Photo> items);
 		#endregion
 
 		#region DeviceCommands

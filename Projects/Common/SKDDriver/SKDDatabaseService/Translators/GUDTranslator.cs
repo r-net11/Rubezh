@@ -21,8 +21,8 @@ namespace SKDDriver
 		protected override OperationResult CanSave(GUD item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && 
-				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID &&
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)
 				return new OperationResult("Попытка добавить ГУД с совпадающим именем");
@@ -58,7 +58,7 @@ namespace SKDDriver
 		protected override GUD Translate(DataAccess.GUD tableItem) 
 		{
 			var result = base.Translate(tableItem);
-			result.CardZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.GUD);
+			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUD);
 			result.Name = tableItem.Name;
 			return result;
 		}

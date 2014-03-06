@@ -7,12 +7,12 @@ using FiresecAPI;
 
 namespace SKDModule.Converters
 {
-	public class AdditionalColumnTypeToStringConverter : IValueConverter
+	public class DataTypeToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (value is AdditionalColumnType)
-				return ((AdditionalColumnType)value).ToDescription();
+			if (value is DataType)
+				return ((DataType)value).ToDescription();
 			return "";
 		}
 

@@ -57,6 +57,8 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTypeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DepartmentTranslator.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="SKDDatabaseService\Translators\GUDTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\JournalItemTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\PhotoTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\TranslatorBase.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class AdditionalColumnDetailsView : UserControl
+	public partial class AdditionalColumnTypesView : UserControl
 	{
-		public AdditionalColumnDetailsView()
+		public AdditionalColumnTypesView()
 		{
 			InitializeComponent();
 		}

@@ -21,8 +21,8 @@ namespace SKDDriver
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
 				x.SecondName == item.SecondName &&
 				x.LastName == item.LastName && 
-				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID && 
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID && 
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
@@ -45,31 +45,32 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 
-			var additionalColumnUids = new List<Guid>();
-			foreach (var additionalColumn in Context.AdditionalColumn.Where(x => x.EmployeeUid == tableItem.Uid))
-				additionalColumnUids.Add(additionalColumn.Uid);
-			
-			var replacement = Context.EmployeeReplacement.Where(x => x.EmployeeUid == tableItem.Uid).FirstOrDefault();
+			var additionalColumnUIDs = new List<Guid>();
+			foreach (var additionalColumn in Context.AdditionalColumn.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID))
+				additionalColumnUIDs.Add(additionalColumn.UID);
+
+			var replacement = Context.EmployeeReplacement.Where(x => !x.IsDeleted && x.EmployeeUid == tableItem.UID).FirstOrDefault();
 			Guid? replacementUID = null;
 			if (replacement != null)
-				replacementUID = replacement.Uid;
+				replacementUID = replacement.UID;
 			
-			var cardUids = new List<Guid>();
-			foreach (var card in Context.Card.Where(x => x.EmployeeUid == tableItem.Uid))
-				cardUids.Add(card.Uid);
+			var cardUIDs = new List<Guid>();
+			foreach (var card in Context.Card.Where(x => x.EmployeeUid == tableItem.UID))
+				cardUIDs.Add(card.UID);
 		
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
 			result.Appointed = tableItem.Appointed;
 			result.Dismissed = tableItem.Dismissed;
-			result.PositionUid = tableItem.PositionUid;
-			result.ReplacementUid = replacementUID;
-			result.DepartmentUid = tableItem.DepartmentUid;
-			result.ScheduleUid = tableItem.ScheduleUid;
-			result.AdditionalColumnUids = additionalColumnUids;
+			result.PositionUID = tableItem.PositionUid;
+			result.ReplacementUID = replacementUID;
+			result.DepartmentUID = tableItem.DepartmentUid;
+			result.ScheduleUID = tableItem.ScheduleUid;
+			result.AdditionalColumnUIDs = additionalColumnUIDs;
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
-			result.CardUids = cardUids;
+			result.CardUIDs = cardUIDs;
+			result.PhotoUID = tableItem.PhotoUID;
 			return result;
 		}
 
@@ -81,9 +82,10 @@ namespace SKDDriver
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
 			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
-			tableItem.PositionUid = apiItem.PositionUid;
-			tableItem.DepartmentUid = apiItem.DepartmentUid;
-			tableItem.ScheduleUid = apiItem.ScheduleUid;
+			tableItem.PositionUid = apiItem.PositionUID;
+			tableItem.DepartmentUid = apiItem.DepartmentUID;
+			tableItem.ScheduleUid = apiItem.ScheduleUID;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.Type = (int)apiItem.Type;
 		}
 
@@ -109,6 +111,5 @@ namespace SKDDriver
 				result = result.And(e => e.Dismissed >= dismissedDates.StartDate && e.Dismissed <= dismissedDates.EndDate);
 			return result;
 		}
-
 	}
 }

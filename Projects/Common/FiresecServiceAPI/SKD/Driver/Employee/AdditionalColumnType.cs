@@ -1,11 +1,10 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.ComponentModel;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AdditionalColumn : OrganizationElementBase
+	public class AdditionalColumnType : OrganizationElementBase
 	{
 		[DataMember]
 		public string Name { get; set; }
@@ -14,16 +13,10 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public AdditionalColumnType Type { get; set; }
-
-		[DataMember]
-		public string TextData { get; set; }
-
-		[DataMember]
-		public byte[] GraphicsData { get; set; }
+		public DataType DataType { get; set; }
 	}
 
-	public enum AdditionalColumnType
+	public enum DataType
 	{
 		[Description("Текствовый")]
 		Text,

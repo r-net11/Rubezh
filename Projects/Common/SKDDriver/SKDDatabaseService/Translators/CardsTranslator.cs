@@ -22,8 +22,8 @@ namespace SKDDriver
 		{
 			bool sameSeriesNo = Table.Any(x => x.Number == item.Number &&
 				x.Series == item.Series &&
-				!x.IsDeleted && 
-				x.Uid != item.UID);
+				!x.IsDeleted &&
+				x.UID != item.UID);
 			if (sameSeriesNo)
 				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
 			foreach (var cardZone in item.AdditionalGUDZones)
@@ -36,7 +36,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(SKDCard item)
 		{
-			if (Context.Employee.Any(x => x.Uid == item.HolderUid &&
+			if (Context.Employee.Any(x => x.UID == item.HolderUid &&
 					!x.IsDeleted))
 				return new OperationResult("Не могу удалить карту, пока она указана у действующих сотрудников");
 			return base.CanSave(item);
@@ -69,9 +69,9 @@ namespace SKDDriver
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
 			result.GUDUid = tableItem.GUDUid;
-			result.CardZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.Card);
-			result.AdditionalGUDZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.GUDAdditions);
-			result.ExceptedGUDZones = CardZonesTranslator.Get(tableItem.Uid, ParentType.GUDExceptons);
+			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
+			result.AdditionalGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDAdditions);
+			result.ExceptedGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDExceptons);
 			result.IsAntipass = tableItem.IsAntipass;
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;

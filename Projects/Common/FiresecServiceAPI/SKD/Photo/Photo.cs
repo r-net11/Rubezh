@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Organization : SKDModelBase
+	public class Photo : SKDModelBase
 	{
 		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public string Description { get; set; }
+		public byte[] Data { get; set; }
 	}
 }

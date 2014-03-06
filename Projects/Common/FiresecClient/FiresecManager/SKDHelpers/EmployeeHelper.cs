@@ -20,7 +20,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static Employee Get(Guid? uid)
+		public static Employee GetSingle(Guid? uid)
 		{
 			if (uid == null)
 				return null;

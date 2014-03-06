@@ -18,16 +18,16 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Document item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && 
-				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID && 
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID && 
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Документ с таким же именем уже содержится в базе данных");
 			if (item.No <= 0)
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No &&
-				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID && 
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID && 
 				x.IsDeleted == false);
 			if (sameNo)
 				return new OperationResult("Документ с таким же номером уже содержится в базе данных");

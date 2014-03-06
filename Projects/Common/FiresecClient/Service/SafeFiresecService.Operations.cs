@@ -148,9 +148,21 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<GUD>>>(() => FiresecService.GetGUDs(filter));
 		}
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
+		}
+		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumn>>>(() => FiresecService.GetAdditionalColumns(filter));
+		}
 		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Organization>>>(() => FiresecService.GetOrganizations(filter));
+		}
+		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Photo>>>(() => FiresecService.GetPhotos(filter));
 		}
 		#endregion
 
@@ -187,9 +199,21 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
 		}
+		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnTypes(items));
+		}
+		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumns(items));
+		}
 		public OperationResult SaveOrganizations(IEnumerable<Organization> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizations(items));
+		}
+		public OperationResult SavePhotos(IEnumerable<Photo> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePhotos(items));
 		}
 		#endregion
 
@@ -226,9 +250,21 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedGUDs(items));
 		}
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SafeContext.Execute(() => FiresecService.MarkDeletedAdditionalColumnTypes(items));
+		}
+		public OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SafeContext.Execute(() => FiresecService.MarkDeletedAdditionalColumns(items));
+		}
 		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> items)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedOrganizations(items));
+		}
+		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
+		{
+			return SafeContext.Execute(() => FiresecService.MarkDeletedPhotos(items));
 		}
 		#endregion
 

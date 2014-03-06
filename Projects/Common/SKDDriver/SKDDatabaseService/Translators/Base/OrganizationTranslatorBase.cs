@@ -37,7 +37,7 @@ namespace SKDDriver
 			result = result.And(base.IsInFilter(filter));
 			var organizationUIDs = filter.OrganizationUids;
 			if (organizationUIDs != null && organizationUIDs.Count != 0)
-				result = result.And(e => organizationUIDs.Contains(e.OrganizationUid.GetValueOrDefault()));
+				result = result.And(e => e.OrganizationUid != null && organizationUIDs.Contains(e.OrganizationUid.Value));
 			return result;
 		}
 	}

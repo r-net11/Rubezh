@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 				{
 					Departments.Add(new FilterDepartmentViewModel(department, this));
 				}
-				RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
+				RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUID == null);
 				SetChildren(RootDepartment);
 			}
 			
@@ -62,11 +62,11 @@ namespace SKDModule.ViewModels
 		List<FilterDepartmentViewModel> GetAllChildren(FilterDepartmentViewModel department)
 		{
 			var result = new List<FilterDepartmentViewModel>();
-			if (department.Department.ChildDepartmentUids.Count == 0)
+			if (department.Department.ChildDepartmentUIDs.Count == 0)
 				return result;
 			Departments.ForEach(x =>
 			{
-				if (department.Department.ChildDepartmentUids.Contains(x.Department.UID))
+				if (department.Department.ChildDepartmentUIDs.Contains(x.Department.UID))
 				{
 					result.Add(x);
 					result.AddRange(GetAllChildren(x));
@@ -77,9 +77,9 @@ namespace SKDModule.ViewModels
 
 		void SetChildren(FilterDepartmentViewModel department)
 		{
-			if (department.Department.ChildDepartmentUids.Count == 0)
+			if (department.Department.ChildDepartmentUIDs.Count == 0)
 				return;
-			var children = Departments.Where(x => department.Department.ChildDepartmentUids.Any(y => y == x.Department.UID));
+			var children = Departments.Where(x => department.Department.ChildDepartmentUIDs.Any(y => y == x.Department.UID));
 			foreach (var child in children)
 			{
 				department.AddChild(child);

@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 				var departmentViewModel = new DepartmentViewModel(department);
 				Departments.Add(departmentViewModel);
 			}
-			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUid == null).ToArray();
+			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
 			if (RootDepartments.IsNotNullOrEmpty())
 			{
 				BuildTree();
@@ -81,9 +81,9 @@ namespace SKDModule.ViewModels
 
 		void AddChildren(DepartmentViewModel departmentViewModel)
 		{
-			if (departmentViewModel.Department.ChildDepartmentUids.Count > 0)
+			if (departmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
 			{
-				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUids.Any(y => y == x.Department.UID));
+				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUIDs.Any(y => y == x.Department.UID));
 				foreach (var child in children)
 				{
 					departmentViewModel.AddChild(child);

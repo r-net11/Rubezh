@@ -10,8 +10,8 @@ namespace FiresecAPI
 		public Department()
 			:base()
 		{
-			ChildDepartmentUids = new List<Guid>();
-			PhoneUids = new List<Guid>();
+			ChildDepartmentUIDs = new List<Guid>();
+			PhoneUIDs = new List<Guid>();
 		}
 		
 		[DataMember]
@@ -21,18 +21,21 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid? ParentDepartmentUid { get; set; }
+		public Guid? ParentDepartmentUID { get; set; }
 
 		[DataMember]
-		public List<Guid> ChildDepartmentUids { get; set; }
+		public List<Guid> ChildDepartmentUIDs { get; set; }
 
 		[DataMember]
-		public Guid? ContactEmployeeUid { get; set; }
+		public Guid? ContactEmployeeUID { get; set; }
 
 		[DataMember]
-		public Guid? AttendantEmployeeUId { get; set; }
+		public Guid? AttendantEmployeeUID { get; set; }
 
 		[DataMember]
-		public List<Guid> PhoneUids { get; set; }
+		public Guid? PhotoUID { get; set; }
+
+		[DataMember]
+		public List<Guid> PhoneUIDs { get; set; }
 	}
 }

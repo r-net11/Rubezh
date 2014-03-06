@@ -9,128 +9,159 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		SKDDatabaseService _skdService = new SKDDatabaseService();
-		
-		#region IFiresecService Members
-		
 		#region Get
 		public OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter)
 		{
-			return _skdService.GetEmployees(filter);
+			return SKDDatabaseService.EmployeeTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{
-			return _skdService.GetDepartments(filter);
+			return SKDDatabaseService.DepartmentTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
-			return _skdService.GetPositions(filter);
+			return SKDDatabaseService.PositionTranslator.Get(filter);
 		}
 		public  OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
 		{
-			return _skdService.GetSKDJournalItems(filter);
+			return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
-			return _skdService.GetCards(filter);
+			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
 		{
-			return _skdService.GetCardZones(filter);
+			return SKDDatabaseService.CardZoneTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
 		{
-			return _skdService.GetOrganizations(filter);
+			return SKDDatabaseService.OrganizationTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
 		{
-			return _skdService.GetDocuments(filter);
+			return SKDDatabaseService.DocumentTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
 		{
-			return _skdService.GetGUDs(filter);
+			return SKDDatabaseService.GUDTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
+		{
+			return SKDDatabaseService.AdditionalColumnTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
+		{
+			return SKDDatabaseService.PhotoTranslator.Get(filter);
 		}
 		#endregion
 
 		#region Save
 		public OperationResult SaveEmployees(IEnumerable<Employee> Employees)
 		{
-			return _skdService.SaveEmployees(Employees);
+			return SKDDatabaseService.EmployeeTranslator.Save(Employees);
 		}
 		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
 		{
-			return _skdService.SaveDepartments(Departments);
+			return SKDDatabaseService.DepartmentTranslator.Save(Departments);
 		}
 		public OperationResult SavePositions(IEnumerable<Position> Positions)
 		{
-			return _skdService.SavePositions(Positions);
+			return SKDDatabaseService.PositionTranslator.Save(Positions);
 		}
 		public OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
-			return _skdService.SaveSKDJournalItems(journalItems);
+			return SKDDatabaseService.JournalItemTranslator.Save(journalItems);
 		}
 		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
-			return _skdService.SaveCards(items);
+			return SKDDatabaseService.CardTranslator.Save(items);
 		}
 		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
 		{
-			return _skdService.SaveCardZones(items);
+			return SKDDatabaseService.CardZoneTranslator.Save(items);
 		}
 		public OperationResult SaveOrganizations(IEnumerable<Organization> Organizations)
 		{
-			return _skdService.SaveOrganizations(Organizations);
+			return SKDDatabaseService.OrganizationTranslator.Save(Organizations);
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
-			return _skdService.SaveDocuments(items);
+			return SKDDatabaseService.DocumentTranslator.Save(items);
 		}
 		public OperationResult SaveGUDs(IEnumerable<GUD> items)
 		{
-			return _skdService.SaveGUDs(items);
+			return SKDDatabaseService.GUDTranslator.Save(items);
+		}
+		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(items);
+		}
+		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SKDDatabaseService.AdditionalColumnTranslator.Save(items);
+		}
+		public OperationResult SavePhotos(IEnumerable<Photo> items)
+		{
+			return SKDDatabaseService.PhotoTranslator.Save(items);
 		}
 		#endregion
 
 		#region MarkDeleted
 		public OperationResult MarkDeletedEmployees(IEnumerable<Employee> Employees)
 		{
-			return _skdService.MarkDeletedEmployees(Employees);
+			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(Employees);
 		}
 		public OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments)
 		{
-			return _skdService.MarkDeletedDepartments(Departments);
+			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(Departments);
 		}
 		public OperationResult MarkDeletedPositions(IEnumerable<Position> Positions)
 		{
-			return _skdService.MarkDeletedPositions(Positions);
+			return SKDDatabaseService.PositionTranslator.MarkDeleted(Positions);
 		}
 		public OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
-			return _skdService.MarkDeletedSKDJournalItems(journalItems);
+			return SKDDatabaseService.JournalItemTranslator.MarkDeleted(journalItems);
 		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
-			return _skdService.MarkDeletedCards(items);
+			return SKDDatabaseService.CardTranslator.MarkDeleted(items);
 		}
 		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
 		{
-			return _skdService.MarkDeletedCardZones(items);
+			return SKDDatabaseService.CardZoneTranslator.MarkDeleted(items);
 		}
 		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations)
 		{
-			return _skdService.MarkDeletedOrganizations(Organizations);
+			return SKDDatabaseService.OrganizationTranslator.MarkDeleted(Organizations);
 		}
 		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
 		{
-			return _skdService.MarkDeletedDocuments(items);
+			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
 		}
 		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
 		{
-			return _skdService.MarkDeletedGUDs(items);
+			return SKDDatabaseService.GUDTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		{
+			return SKDDatabaseService.AdditionalColumnTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
+		{
+			return SKDDatabaseService.PhotoTranslator.MarkDeleted(items);
 		}
 		#endregion
-		#endregion
-
+		
 		#region Devices
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{

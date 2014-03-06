@@ -19,8 +19,8 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Department item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUid == item.OrganizationUid && 
-				x.Uid != item.UID && 
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID && 
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
@@ -33,7 +33,7 @@ namespace SKDDriver
 			if (isHasEmployees)
 				return new OperationResult("Не могу удалить отдел, пока он указан содержит действующих сотрудников");
 
-			if(item.ChildDepartmentUids.IsNotNullOrEmpty())
+			if(item.ChildDepartmentUIDs.IsNotNullOrEmpty())
 				return new OperationResult("Не могу удалить отдел, пока он содержит дочерние отделы");
 			return base.CanSave(item);
 		}
@@ -42,25 +42,26 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 
-			var phoneUids = new List<Guid>();
-			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUid == tableItem.Uid))
+			var phoneUIDs = new List<Guid>();
+			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUid == tableItem.UID))
 			{
-				phoneUids.Add(phone.Uid);
+				phoneUIDs.Add(phone.UID);
 			} 
-			var childDepartmentUids = new List<Guid>();
-			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUid == tableItem.Uid))
+			var childDepartmentUIDs = new List<Guid>();
+			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUid == tableItem.UID))
 			{
-				childDepartmentUids.Add(department.Uid);
+				childDepartmentUIDs.Add(department.UID);
 			}
 
-			tableItem.Department2.ToList().ForEach(x => childDepartmentUids.Add(x.Uid));
+			tableItem.Department2.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.ParentDepartmentUid = tableItem.ParentDepartmentUid;
-			result.ChildDepartmentUids = childDepartmentUids;
-			result.ContactEmployeeUid = tableItem.ContactEmployeeUid;
-			result.AttendantEmployeeUId = tableItem.AttendantUid;
-			result.PhoneUids = phoneUids;
+			result.ParentDepartmentUID = tableItem.ParentDepartmentUid;
+			result.ChildDepartmentUIDs = childDepartmentUIDs;
+			result.ContactEmployeeUID = tableItem.ContactEmployeeUid;
+			result.AttendantEmployeeUID = tableItem.AttendantUid;
+			result.PhoneUIDs = phoneUIDs;
+			result.PhotoUID = tableItem.PhotoUID;
 			return result;
 		}
 
@@ -69,9 +70,10 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.ParentDepartmentUid = apiItem.ParentDepartmentUid;
-			tableItem.ContactEmployeeUid = apiItem.ContactEmployeeUid;
-			tableItem.AttendantUid = apiItem.AttendantEmployeeUId;
+			tableItem.ParentDepartmentUid = apiItem.ParentDepartmentUID;
+			tableItem.ContactEmployeeUid = apiItem.ContactEmployeeUID;
+			tableItem.AttendantUid = apiItem.AttendantEmployeeUID;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 	}
 }

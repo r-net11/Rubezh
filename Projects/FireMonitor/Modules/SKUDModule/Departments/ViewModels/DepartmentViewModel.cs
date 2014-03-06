@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 				if (!saveResult)
 					return;
 				var departmentViewModel = new DepartmentViewModel(department);
-				this.Department.ChildDepartmentUids.Add(department.UID);
+				this.Department.ChildDepartmentUIDs.Add(department.UID);
 				this.AddChild(departmentViewModel);
 				this.Update();
 				DepartmentsViewModel.Current.Departments.Add(departmentViewModel);
