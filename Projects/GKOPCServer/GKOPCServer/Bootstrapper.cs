@@ -162,7 +162,7 @@ namespace GKOPCServer
 			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
-				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
+				var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == delayState.UID);
 				if (delay == null)
 					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
 				if (delay != null)
@@ -172,7 +172,7 @@ namespace GKOPCServer
 			}
 			foreach (var remotePimState in gkStates.PimStates)
 			{
-				var pim = XManager.Pims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				var pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == remotePimState.UID);
 				if (pim == null)
 					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
 				if (pim != null)
