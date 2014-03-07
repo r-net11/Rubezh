@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -154,7 +155,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
-			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU) && Device.DriverType != XDriverType.KAUIndicator)
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
@@ -363,6 +364,7 @@ namespace GKModule.ViewModels
 		void OnShowZoneOrLogic()
 		{
 			IsSelected = true;
+
 			if (CanShowZones())
 				OnShowZones();
 
@@ -371,7 +373,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return CanShowZones() || CanShowLogic();
+			return !Device.IsInMPT && (CanShowZones() || CanShowLogic());
 		}
 
 		public bool IsZoneOrLogic
@@ -528,6 +530,29 @@ namespace GKModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
+
+		public string MPTName
+		{
+			get
+			{
+				var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
+				if (mpt != null)
+					return mpt.Name;
+				return null;
+			}
+		}
+
+		public RelayCommand ShowMPTCommand { get; private set; }
+		void OnShowMPT()
+		{
+			var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.UID == Device.UID));
+			if (mpt != null)
+				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.BaseUID);
+		}
+		bool CanShowMPT()
+		{
+			return true;
+		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }

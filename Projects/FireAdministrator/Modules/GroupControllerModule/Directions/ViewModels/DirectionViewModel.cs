@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 			var sourceDevices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.Driver.IsDeviceOnShleif && device.Driver.HasLogic)
+				if (device.Driver.IsDeviceOnShleif && device.Driver.HasLogic && !device.IsInMPT)
 					sourceDevices.Add(device);
 			}
 

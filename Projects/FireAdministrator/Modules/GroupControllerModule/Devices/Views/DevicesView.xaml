@@ -232,7 +232,7 @@
 								<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
-										<TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+										<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" Margin="2" />
 									</StackPanel>
 								</Hyperlink>
 								<TextBlock.Style>
@@ -253,7 +253,21 @@
 								</TextBlock.Style>
 							</TextBlock>
 						</WrapPanel>
-						<Grid IsEnabled="{Binding IsParamtersEnabled}">
+
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding Device.IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="МПТ " />
+                            
+                            <TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding ShowMPTCommand}" Style="{StaticResource HyperlinkStyle}">
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/BMPT.png" />
+										<TextBlock Text="{Binding MPTName}" Margin="2" />
+									</StackPanel>
+								</Hyperlink>
+							</TextBlock>
+                        </StackPanel>
+
+                        <Grid IsEnabled="{Binding IsParamtersEnabled}">
 							<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 						</Grid>
 					</StackPanel>

@@ -127,6 +127,7 @@ namespace XFiresecAPI
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
+					deviceParameterTemplate.XDevice.BaseUID = deviceParameterTemplate.XDevice.UID;
 				}
 			}
 			foreach (var direction in Directions)

@@ -326,6 +326,14 @@ namespace FiresecService.Service
 					return XManager.Directions.FirstOrDefault(x => x.UID == uid);
 				case XBaseObjectType.Zone:
 					return XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				case XBaseObjectType.PumpStation:
+					return XManager.PumpStations.FirstOrDefault(x => x.UID == uid);
+				case XBaseObjectType.MPT:
+					return XManager.MPTs.FirstOrDefault(x => x.BaseUID == uid);
+				case XBaseObjectType.Pim:
+					return XManager.Pims.FirstOrDefault(x => x.UID == uid);
+				case XBaseObjectType.Delay:
+					return XManager.Delays.FirstOrDefault(x => x.UID == uid);
 			}
 			return null;
 		}

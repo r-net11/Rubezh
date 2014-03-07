@@ -303,6 +303,10 @@ namespace GKProcessor
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, pumpStation);
 			}
+			foreach (var mpt in XManager.MPTs)
+			{
+				Watcher.AddObjectStateToGKStates(gkStates, mpt);
+			}
 			foreach (var delay in XManager.Delays)
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, delay);

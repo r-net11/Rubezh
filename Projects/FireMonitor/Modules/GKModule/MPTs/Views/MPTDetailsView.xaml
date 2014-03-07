@@ -43,12 +43,42 @@
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
-			<TabItem Header="Основные">
-				<ScrollViewer VerticalScrollBarVisibility="Auto">
-					<ItemsControl Background="White" Padding="2">
-						<ItemsControl.Items>
-							<WrapPanel>
-								<TextBlock>
+            <TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 5">
+                        <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
+                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White" />
+                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
+                    </StackPanel>
+                    <Grid Grid.Row="1" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
+                            <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Стоп" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
+                            <Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl Background="White" Padding="2">
+                        <ItemsControl.Items>
+                            <WrapPanel>
+                                <TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="/Controls;component/Images/BMPT.png" Margin="2 0" />
@@ -56,10 +86,10 @@
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-							</WrapPanel>
-							<StackPanel Orientation="Horizontal">
-								<WrapPanel>
-									<TextBlock>
+                            </WrapPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <WrapPanel>
+                                    <TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
@@ -67,19 +97,19 @@
 											</StackPanel>
 										</Hyperlink>
 									</TextBlock>
-								</WrapPanel>
-							</StackPanel>
-							<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
-								<TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
-								<ItemsControl ItemsSource="{Binding Plans}">
-									<ItemsControl.ItemsPanel>
-										<ItemsPanelTemplate>
-											<StackPanel Orientation="Horizontal" />
-										</ItemsPanelTemplate>
-									</ItemsControl.ItemsPanel>
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<TextBlock Margin="2 0">
+                                </WrapPanel>
+                            </StackPanel>
+                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                                <ItemsControl ItemsSource="{Binding Plans}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="2 0">
 												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
 													<StackPanel Orientation="Horizontal">
 														<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
@@ -87,60 +117,30 @@
 													</StackPanel>
 												</Hyperlink>
 											</TextBlock>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
-							</WrapPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Входных зон: " Margin="2" />
-								<TextBlock Text="{Binding InputZonesCount}" Margin="2" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Входных устройств: " Margin="2" />
-								<TextBlock Text="{Binding InputDevicesCount}" Margin="2" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Входных направлений: " Margin="2" />
-								<TextBlock Text="{Binding InputDirectionsCount}" Margin="2" />
-							</StackPanel>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Задержка: " Margin="2" />
-								<TextBlock Text="{Binding MPT.Delay}" Margin="2" />
-							</StackPanel>
-						</ItemsControl.Items>
-					</ItemsControl>
-				</ScrollViewer>
-			</TabItem>
-			<TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-					<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 5">
-						<Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-						<TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White" />
-						<TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
-					</StackPanel>
-					<Grid Grid.Row="1" Background="White">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition />
-						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0">
-							<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
-						</StackPanel>
-						<StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-							<Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Стоп" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
-							<Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
-						</StackPanel>
-					</Grid>
-				</Grid>
-			</TabItem>
-		</TabControl>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </WrapPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Входных зон: " Margin="2" />
+                                <TextBlock Text="{Binding InputZonesCount}" Margin="2" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Входных устройств: " Margin="2" />
+                                <TextBlock Text="{Binding InputDevicesCount}" Margin="2" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Входных направлений: " Margin="2" />
+                                <TextBlock Text="{Binding InputDirectionsCount}" Margin="2" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Задержка: " Margin="2" />
+                                <TextBlock Text="{Binding MPT.Delay}" Margin="2" />
+                            </StackPanel>
+                        </ItemsControl.Items>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
 	</Grid>
 </UserControl>

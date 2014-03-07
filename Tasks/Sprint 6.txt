@@ -6,10 +6,10 @@
 - нативное Android-приложение
 - SourceForge TreeListView. DateTimePicker
 - JournalDictionary
-- VSS
 - ITV idk
-- МПТ в конфигурации
 - Installer макеты
+- ОЗ. Свойства устройства внизу кнопки управления
+
 
 РОМА
 - Захват видео и отдельного кадра с WEB-камеры, подключенной по USB

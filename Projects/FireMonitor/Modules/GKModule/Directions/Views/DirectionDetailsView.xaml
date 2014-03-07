@@ -50,81 +50,7 @@
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
-			<TabItem Header="Основные">
-				<ScrollViewer VerticalScrollBarVisibility="Auto">
-					<ItemsControl Background="White" Padding="2">
-						<ItemsControl.Items>
-							<WrapPanel Margin="2">
-								<TextBlock>
-									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" Margin="2 0"/>
-											<TextBlock Text="{Binding Direction.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold"/>
-										</StackPanel>
-									</Hyperlink>
-								</TextBlock>
-							</WrapPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock>
-									<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
-											<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
-										</StackPanel>
-									</Hyperlink>
-								</TextBlock>
-							</StackPanel>
-							<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-								<TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
-								<ItemsControl ItemsSource="{Binding Plans}">
-									<ItemsControl.ItemsPanel>
-										<ItemsPanelTemplate>
-											<StackPanel Orientation="Horizontal" />
-										</ItemsPanelTemplate>
-									</ItemsControl.ItemsPanel>
-									<ItemsControl.ItemTemplate>
-										<DataTemplate>
-											<TextBlock Margin="2 0">
-												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-													<StackPanel Orientation="Horizontal">
-														<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
-														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
-													</StackPanel>
-												</Hyperlink>
-											</TextBlock>
-										</DataTemplate>
-									</ItemsControl.ItemTemplate>
-								</ItemsControl>
-							</WrapPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Входных зон: "/>
-								<TextBlock Text="{Binding InputZonesCount}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Входных устройств: " />
-								<TextBlock Text="{Binding InputDevicesCount}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Выходных устройств: " />
-								<TextBlock Text="{Binding OutputDevicesCount}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Задержка: " />
-								<TextBlock Text="{Binding Direction.Delay}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Удержание: " />
-								<TextBlock Text="{Binding Direction.Hold}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Margin="2">
-								<TextBlock Text="Режим после удержания: " />
-								<TextBlock Text="{Binding Direction.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}" />
-							</StackPanel>
-						</ItemsControl.Items>
-					</ItemsControl>
-				</ScrollViewer>
-			</TabItem>
-			<TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -154,6 +80,80 @@
 					</Grid>
 				</Grid>
 			</TabItem>
-		</TabControl>
+            <TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl Background="White" Padding="2">
+                        <ItemsControl.Items>
+                            <WrapPanel Margin="2">
+                                <TextBlock>
+									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" Margin="2 0"/>
+											<TextBlock Text="{Binding Direction.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold"/>
+										</StackPanel>
+									</Hyperlink>
+								</TextBlock>
+                            </WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock>
+									<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
+											<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" Margin="2" FontWeight="Bold"/>
+										</StackPanel>
+									</Hyperlink>
+								</TextBlock>
+                            </StackPanel>
+                            <WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                                <TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
+                                <ItemsControl ItemsSource="{Binding Plans}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="2 0">
+												<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+													<StackPanel Orientation="Horizontal">
+														<Image Width="16" Source="/Controls;component/Images/CMap.png" Margin="1" />
+														<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="1" />
+													</StackPanel>
+												</Hyperlink>
+											</TextBlock>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </WrapPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Входных зон: "/>
+                                <TextBlock Text="{Binding InputZonesCount}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Входных устройств: " />
+                                <TextBlock Text="{Binding InputDevicesCount}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Выходных устройств: " />
+                                <TextBlock Text="{Binding OutputDevicesCount}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Задержка: " />
+                                <TextBlock Text="{Binding Direction.Delay}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Удержание: " />
+                                <TextBlock Text="{Binding Direction.Hold}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <TextBlock Text="Режим после удержания: " />
+                                <TextBlock Text="{Binding Direction.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}" />
+                            </StackPanel>
+                        </ItemsControl.Items>
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
 	</Grid>
 </UserControl>

@@ -18,13 +18,14 @@ namespace GKModule.ViewModels
 		XDeviceConfiguration RemoteConfiguration { get; set; }
 		public ObjectsListViewModel LocalObjectsViewModel { get; set; }
 		public ObjectsListViewModel RemoteObjectsViewModel { get; set; }
-		public static bool ConfigFromFile { get; private set; }
+		internal static bool ConfigFromFile { get; private set; }
 		public string Error { get; private set; }
+
 		public ConfigurationCompareViewModel(XDeviceConfiguration localConfiguration, XDeviceConfiguration remoteConfiguration, XDevice device, bool configFromFile)
 		{
 			Title = "Сравнение конфигураций " + device.PresentationName;
 			ConfigFromFile = configFromFile;
-			ChangeCommand = new RelayCommand(OnChange);
+			ChangeCommand = new RelayCommand(OnChange, CanChange);
 			NextDifferenceCommand = new RelayCommand(OnNextDifference, CanNextDifference);
 			PreviousDifferenceCommand = new RelayCommand(OnPreviousDifference, CanPreviousDifference);
 
@@ -106,6 +107,11 @@ namespace GKModule.ViewModels
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
 			Close(true);
+		}
+
+		bool CanChange()
+		{
+			return ConfigFromFile;
 		}
 
 		public void CompareObjectLists()
@@ -287,7 +293,7 @@ namespace GKModule.ViewModels
 			{
 				if (mptsDifferences.Length != 0)
 					mptsDifferences.Append(". ");
-				mptsDifferences.Append("Не совпадает количество устройств");
+				mptsDifferences.Append("Не совпадают устройства");
 			}
 			bool startDiff = XManager.GetPresentationZone(object1.MPT.StartLogic) != XManager.GetPresentationZone(object2.MPT.StartLogic);
 			if (startDiff)

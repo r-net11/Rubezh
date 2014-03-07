@@ -75,7 +75,7 @@ namespace FiresecService
 				}
 
 				GKProcessorManager.AddGKMessage(EventNameEnum.Применение_конфигурации, "", null, null);
-				if (!allHashesAreEqual)
+				//if (!allHashesAreEqual)
 				{
 					Stop();
 					Create();

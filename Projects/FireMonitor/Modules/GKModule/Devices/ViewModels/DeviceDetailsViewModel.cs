@@ -48,6 +48,8 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			Title = Device.PresentationName;
+			if (!string.IsNullOrEmpty(Device.Description))
+				Title += " (" + Device.Description + ")";
 			TopMost = true;
 
 			StartMeasureParametersMonitoring();
@@ -220,6 +222,11 @@ namespace GKModule.ViewModels
 				Device = Device
 			};
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
+		}
+
+		public bool CanNotControl
+		{
+			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		#region IWindowIdentity Members
