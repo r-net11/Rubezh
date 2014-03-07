@@ -157,7 +157,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.UID);
+			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Delay.UID.ToString(); }
+			get { return Delay.BaseUID.ToString(); }
 		}
 		#endregion
 

@@ -129,7 +129,7 @@ namespace GKProcessor
 				gkDevice = GetGKDevice(gkDevice);
 				if (WatcherManager.Watchers != null && gkDevice != null)
 				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkDevice.BaseUID);
 					if (watcher != null)
 						watcher.Suspend();
 				}
@@ -143,7 +143,7 @@ namespace GKProcessor
 				gkDevice = GetGKDevice(gkDevice);
 				if (WatcherManager.Watchers != null && gkDevice != null)
 				{
-					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == gkDevice.UID);
+					var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == gkDevice.BaseUID);
 					if (watcher != null)
 						watcher.Resume();
 				}
@@ -392,7 +392,7 @@ namespace GKProcessor
 
 		public static void GKStartMeasureMonitoring(XDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == device.GkDatabaseParent.BaseUID);
 			if (watcher != null)
 			{
 				watcher.StartDeviceMeasure(device);
@@ -401,7 +401,7 @@ namespace GKProcessor
 
 		public static void GKStopMeasureMonitoring(XDevice device)
 		{
-			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.UID == device.GkDatabaseParent.UID);
+			var watcher = WatcherManager.Watchers.FirstOrDefault(x => x.GkDatabase.RootDevice.BaseUID == device.GkDatabaseParent.BaseUID);
 			if (watcher != null)
 			{
 				watcher.StopDeviceMeasure(device);
@@ -424,27 +424,27 @@ namespace GKProcessor
 			{
 				if (xBase is XDevice)
 				{
-					uid = (xBase as XDevice).UID;
+					uid = (xBase as XDevice).BaseUID;
 					journalItemType = JournalItemType.Device;
 				}
 				if (xBase is XZone)
 				{
-					uid = (xBase as XZone).UID;
+					uid = (xBase as XZone).BaseUID;
 					journalItemType = JournalItemType.Zone;
 				}
 				if (xBase is XDirection)
 				{
-					uid = (xBase as XDirection).UID;
+					uid = (xBase as XDirection).BaseUID;
 					journalItemType = JournalItemType.Direction;
 				}
 				if (xBase is XDelay)
 				{
-					uid = (xBase as XDelay).UID;
+					uid = (xBase as XDelay).BaseUID;
 					journalItemType = JournalItemType.Delay;
 				}
 				if (xBase is XPim)
 				{
-					uid = (xBase as XPim).UID;
+					uid = (xBase as XPim).BaseUID;
 					journalItemType = JournalItemType.Pim;
 				}
 			}

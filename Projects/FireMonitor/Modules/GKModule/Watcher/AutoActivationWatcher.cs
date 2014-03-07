@@ -42,10 +42,10 @@ namespace GKModule
 						switch (journalItem.JournalItemType)
 						{
 							case JournalItemType.Device:
-								var device = XManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (device != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementXDevices.Any(y => y.XDeviceUID == device.UID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementXDevices.Any(y => y.XDeviceUID == device.BaseUID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(device);
@@ -54,15 +54,15 @@ namespace GKModule
 								break;
 
 							case JournalItemType.Zone:
-								var zone = XManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (zone != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.UID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.BaseUID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
 									}
-									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.UID); });
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.BaseUID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Publish(zone);
@@ -71,15 +71,15 @@ namespace GKModule
 								break;
 
 							case JournalItemType.Direction:
-								var direction = XManager.Directions.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+								var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (direction != null)
 								{
-									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXDirections.Any(y => y.DirectionUID == direction.UID); });
+									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXDirections.Any(y => y.DirectionUID == direction.BaseUID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);
 									}
-									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXDirections.Any(y => y.DirectionUID == direction.UID); });
+									existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXDirections.Any(y => y.DirectionUID == direction.BaseUID); });
 									if (existsOnPlan)
 									{
 										ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);

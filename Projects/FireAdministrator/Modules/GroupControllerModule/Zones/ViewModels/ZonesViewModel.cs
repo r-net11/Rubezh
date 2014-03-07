@@ -178,13 +178,13 @@ namespace GKModule.ViewModels
 			else
 			{
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = result.Zone.UID;
+				createZoneEventArg.ZoneUID = result.Zone.BaseUID;
 				createZoneEventArg.Zone = result.Zone;
 			}
 		}
 		public void EditZone(Guid zoneUID)
 		{
-			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel.Zone);
 		}
@@ -205,7 +205,7 @@ namespace GKModule.ViewModels
 		public void Select(Guid zoneUID)
 		{
 			if (zoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
 		}
 
 		#endregion
@@ -237,7 +237,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnZoneChanged(Guid zoneUID)
 		{
-			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			var zone = Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
 			if (zone != null)
 			{
 				zone.Update();

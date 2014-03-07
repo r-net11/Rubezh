@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 				Device.Description = value;
 				OnPropertyChanged("Description");
 
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.OnPropertyChanged("Description");
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 			}
 			property.Value = (ushort)value;
 			Device.OnChanged();
-			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
 			if (deviceViewModel != null)
 			{
 				deviceViewModel.UpdateProperties();

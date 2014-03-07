@@ -13,7 +13,7 @@ namespace PlansModule.Kursk.Designer
 		public static void BuildMap()
 		{
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
-			XManager.Devices.ForEach(item => _xdeviceMap.Add(item.UID, item));
+			XManager.Devices.ForEach(item => _xdeviceMap.Add(item.BaseUID, item));
 		}
 
 		public static XDevice GetXDevice(ElementRectangleTank element)

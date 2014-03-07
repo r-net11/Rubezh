@@ -89,8 +89,8 @@ namespace GKModule.ViewModels
 		public RelayCommand ChangeCommand { get; private set; }
 		void OnChange()
 		{
-			RemoteDevice.UID = LocalDevice.UID;
-			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.UID == LocalDevice.Parent.UID);
+			RemoteDevice.BaseUID = LocalDevice.BaseUID;
+			var rootDevice = LocalConfiguration.Devices.FirstOrDefault(x => x.BaseUID == LocalDevice.Parent.BaseUID);
 			rootDevice.Children.Remove(LocalDevice);
 			rootDevice.Children.Add(RemoteDevice);
 			if (LocalDevice.DriverType == XDriverType.GK)

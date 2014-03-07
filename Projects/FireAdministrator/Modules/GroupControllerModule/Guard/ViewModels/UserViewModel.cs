@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 			foreach (var zone in XManager.Zones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
-				if (GuardUser.ZoneUIDs.Contains(zone.UID))
+				if (GuardUser.ZoneUIDs.Contains(zone.BaseUID))
 					Zones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
 
-			GuardUser.ZoneUIDs.Add(SelectedSourceZone.Zone.UID);
+			GuardUser.ZoneUIDs.Add(SelectedSourceZone.Zone.BaseUID);
 			Zones.Add(SelectedSourceZone);
 			SourceZones.Remove(SelectedSourceZone);
 
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = Zones.IndexOf(SelectedZone);
 
-			GuardUser.ZoneUIDs.Remove(SelectedZone.Zone.UID);
+			GuardUser.ZoneUIDs.Remove(SelectedZone.Zone.BaseUID);
 			SourceZones.Add(SelectedZone);
 			Zones.Remove(SelectedZone);
 

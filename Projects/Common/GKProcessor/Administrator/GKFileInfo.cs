@@ -29,7 +29,7 @@ namespace GKProcessor
 		{
 			DescriptorsManager.Create();
 			Date = DateTime.Now;
-			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.BaseUID == gkDevice.BaseUID);
 			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
 			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)

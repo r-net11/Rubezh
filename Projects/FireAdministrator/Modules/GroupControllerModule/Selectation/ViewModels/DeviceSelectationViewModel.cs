@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 
 			Devices = new ObservableCollection<XDevice>(sourceDevices);
 			if (selectedDevice != null)
-				SelectedDevice = Devices.FirstOrDefault(x => x.UID == selectedDevice.UID);
+				SelectedDevice = Devices.FirstOrDefault(x => x.BaseUID == selectedDevice.BaseUID);
 		}
 
 		public ObservableCollection<XDevice> Devices { get; private set; }

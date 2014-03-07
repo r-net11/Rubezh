@@ -82,15 +82,15 @@ namespace GKModule.ViewModels
 			ArchiveFilter = new XArchiveFilter();
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 			if (showXArchiveEventArgs.Device != null)
-				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.UID);
+				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.BaseUID);
 			if (showXArchiveEventArgs.Zone != null)
-				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.UID);
+				ArchiveFilter.ZoneUIDs.Add(showXArchiveEventArgs.Zone.BaseUID);
 			if (showXArchiveEventArgs.Direction != null)
-				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.UID);
+				ArchiveFilter.DirectionUIDs.Add(showXArchiveEventArgs.Direction.BaseUID);
 			if (showXArchiveEventArgs.Delay != null)
-				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.UID);
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
 			if (showXArchiveEventArgs.Pim != null)
-				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.UID);
+				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.BaseUID);
 			if (showXArchiveEventArgs.PumpStation != null)
 				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.UID);
 			if (showXArchiveEventArgs.MPT != null)

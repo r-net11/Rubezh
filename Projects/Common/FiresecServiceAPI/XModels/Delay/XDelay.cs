@@ -8,13 +8,13 @@ namespace XFiresecAPI
 	{
 		public XDelay()
 		{
-			UID = BaseUID;// Guid.NewGuid();
+			//UID = BaseUID;// Guid.NewGuid();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Delay; } }
 
-		[DataMember]
-		public Guid UID { get; set; }
+		//[DataMember]
+		//public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

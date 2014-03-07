@@ -16,7 +16,7 @@ namespace GKProcessor
 			PumpStation = pumpStation;
 
 			MainDelay = new XDelay();
-			MainDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+			MainDelay.BaseUID = GuidHelper.CreateOn(PumpStation.UID);
 			gkDatabase.AddDelay(MainDelay);
 
 			Build();

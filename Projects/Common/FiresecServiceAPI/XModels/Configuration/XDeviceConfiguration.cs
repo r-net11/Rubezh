@@ -105,13 +105,16 @@ namespace XFiresecAPI
 
 			Update();
 
+			if (PumpStations == null)
+			{
+				PumpStations = new List<XPumpStation>();
+				result = false;
+			}
+
 			if (MPTs == null)
 			{
 				MPTs = new List<XMPT>();
-			}
-
-			foreach (var journalFilter in JournalFilters)
-			{
+				result = false;
 			}
 
 			foreach (var device in Devices)
@@ -122,17 +125,20 @@ namespace XFiresecAPI
 			{
 				zone.BaseUID = zone.UID;
 			}
-
+			foreach (var direction in Directions)
+			{
+				direction.BaseUID = direction.UID;
+			}
+			foreach (var pumpStation in PumpStations)
+			{
+				pumpStation.BaseUID = pumpStation.UID;
+			}
 			foreach (var parameterTemplate in ParameterTemplates)
 			{
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
 					deviceParameterTemplate.XDevice.BaseUID = deviceParameterTemplate.XDevice.UID;
 				}
-			}
-			foreach (var direction in Directions)
-			{
-				direction.BaseUID = direction.UID;
 			}
 
 			foreach (var journalFilter in JournalFilters)

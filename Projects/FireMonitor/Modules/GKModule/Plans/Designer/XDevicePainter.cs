@@ -75,7 +75,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

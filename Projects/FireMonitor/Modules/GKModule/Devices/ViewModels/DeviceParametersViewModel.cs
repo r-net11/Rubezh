@@ -112,7 +112,7 @@ namespace GKModule.ViewModels
 
 		void ParameterUpdateHelper_NewAUParameterValue(MeasureParameterViewModel auParameterValue)
 		{
-			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.UID == auParameterValue.Device.UID);
+			var deviceParameterViewModel = Devices.FirstOrDefault(x => x.Device.BaseUID == auParameterValue.Device.BaseUID);
 			if (deviceParameterViewModel != null)
 			{
 				deviceParameterViewModel.OnNewAUParameterValue(auParameterValue);

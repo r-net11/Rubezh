@@ -21,22 +21,22 @@ namespace GKModule.Plans.Designer
 			_xzoneMap = new Dictionary<Guid, XZone>();
 			foreach (var zone in XManager.Zones)
 			{
-				if (!_xzoneMap.ContainsKey(zone.UID))
-					_xzoneMap.Add(zone.UID, zone);
+				if (!_xzoneMap.ContainsKey(zone.BaseUID))
+					_xzoneMap.Add(zone.BaseUID, zone);
 			}
 
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (!_xdeviceMap.ContainsKey(device.UID))
-					_xdeviceMap.Add(device.UID, device);
+				if (!_xdeviceMap.ContainsKey(device.BaseUID))
+					_xdeviceMap.Add(device.BaseUID, device);
 			}
 
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
 			foreach (var direction in XManager.Directions)
 			{
-				if (!_xdirectionMap.ContainsKey(direction.UID))
-					_xdirectionMap.Add(direction.UID, direction);
+				if (!_xdirectionMap.ContainsKey(direction.BaseUID))
+					_xdirectionMap.Add(direction.BaseUID, direction);
 			}
 		}
 

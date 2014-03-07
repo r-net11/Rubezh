@@ -11,7 +11,7 @@ namespace PlansModule.Kursk.Designer
 	{
 		public static void SetXDevice(ElementRectangleTank element, XDevice device)
 		{
-			element.XDeviceUID = device == null ? Guid.Empty : device.UID;
+			element.XDeviceUID = device == null ? Guid.Empty : device.BaseUID;
 			element.BackgroundColor = GetTankColor(device);
 		}
 		public static void SetXDevice(ElementRectangleTank element)
@@ -21,7 +21,7 @@ namespace PlansModule.Kursk.Designer
 		}
 		public static XDevice GetXDevice(ElementRectangleTank element)
 		{
-			return element.XDeviceUID == Guid.Empty ? null : XManager.DeviceConfiguration.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush && item.UID == element.XDeviceUID).FirstOrDefault();
+			return element.XDeviceUID == Guid.Empty ? null : XManager.DeviceConfiguration.Devices.Where(item => item.DriverType == XDriverType.RSR2_Bush && item.BaseUID == element.XDeviceUID).FirstOrDefault();
 		}
 		public static Color GetTankColor(XDevice xdevice)
 		{

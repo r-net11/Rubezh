@@ -193,20 +193,20 @@ namespace FireAdministrator.ViewModels
 			foreach (var device in XDeviceConfiguration.Devices)
 			{
 				var uid = Guid.NewGuid();
-				DeviceUIDs.Add(device.UID, uid);
-				device.UID = uid;
+				DeviceUIDs.Add(device.BaseUID, uid);
+				device.BaseUID = uid;
 			}
 			foreach (var zone in XDeviceConfiguration.Zones)
 			{
 				var uid = Guid.NewGuid();
-				ZoneUIDs.Add(zone.UID, uid);
-				zone.UID = uid;
+				ZoneUIDs.Add(zone.BaseUID, uid);
+				zone.BaseUID = uid;
 			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
-				DirectionUIDs.Add(direction.UID, uid);
-				direction.UID = uid;
+				DirectionUIDs.Add(direction.BaseUID, uid);
+				direction.BaseUID = uid;
 			}
 
 			foreach (var device in XDeviceConfiguration.Devices)

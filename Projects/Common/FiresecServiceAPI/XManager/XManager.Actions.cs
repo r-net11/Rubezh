@@ -19,7 +19,7 @@ namespace FiresecClient
 			foreach (var zone in zones)
 			{
 				device.Zones.Add(zone);
-				device.ZoneUIDs.Add(zone.UID);
+				device.ZoneUIDs.Add(zone.BaseUID);
 				zone.Devices.Add(device);
 				zone.OnChanged();
 			}
@@ -30,8 +30,8 @@ namespace FiresecClient
 		{
 			if (!device.Zones.Contains(zone))
 				device.Zones.Add(zone);
-			if (!device.ZoneUIDs.Contains(zone.UID))
-				device.ZoneUIDs.Add(zone.UID);
+			if (!device.ZoneUIDs.Contains(zone.BaseUID))
+				device.ZoneUIDs.Add(zone.BaseUID);
 			zone.Devices.Add(device);
 			zone.OnChanged();
 			device.OnChanged();
@@ -42,7 +42,7 @@ namespace FiresecClient
 			if (zone != null)
 			{
 				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
+				device.ZoneUIDs.Remove(zone.BaseUID);
 				zone.Devices.Remove(device);
 				zone.OnChanged();
 				device.OnChanged();
@@ -114,7 +114,7 @@ namespace FiresecClient
 			foreach (var device in zone.Devices)
 			{
 				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
+				device.ZoneUIDs.Remove(zone.BaseUID);
 				device.OnChanged();
 			}
 			foreach (var direction in zone.Directions)
@@ -180,7 +180,7 @@ namespace FiresecClient
 				direction.InputZones.Add(zone);
 				var directionZone = new XDirectionZone()
 				{
-					ZoneUID = zone.UID,
+					ZoneUID = zone.BaseUID,
 					Zone = zone
 				};
 				var existingDirectionZone = oldDirectionZones.FirstOrDefault(x => x.Zone == zone);
@@ -209,7 +209,7 @@ namespace FiresecClient
 			{
 				var directionDevice = new XDirectionDevice()
 				{
-					DeviceUID = device.UID,
+					DeviceUID = device.BaseUID,
 					Device = device
 				};
 				if(device.Driver.AvailableStateBits.Contains(XStateBit.Fire1))

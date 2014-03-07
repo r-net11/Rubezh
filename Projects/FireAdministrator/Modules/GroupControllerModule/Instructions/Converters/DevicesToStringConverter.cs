@@ -17,7 +17,7 @@ namespace GKModule.Converters
 			var devices = new List<XDevice>();
 			foreach (var uid in deviceUIDs)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == uid);
 				if (device != null)
 					devices.Add(device);
 			}

@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 					{
 						foreach (var clauseZone in clause.Zones)
 						{
-							if (clauseZone.UID == zone.UID)
+							if (clauseZone.BaseUID == zone.BaseUID)
 							{
 								devices.Add(device);
 							}
@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 
 				if (device.Driver.HasZone)
 				{
-					if (device.ZoneUIDs.Contains(Zone.UID))
+					if (device.ZoneUIDs.Contains(Zone.BaseUID))
 					{
 						devices.Add(device);
 					}
@@ -70,7 +70,7 @@ namespace GKModule.ViewModels
 			{
 				var deviceViewModel = new ZoneDeviceViewModel(device)
 				{
-					IsBold = device.ZoneUIDs.Contains(Zone.UID)
+					IsBold = device.ZoneUIDs.Contains(Zone.BaseUID)
 				};
 				Devices.Add(deviceViewModel);
 			}

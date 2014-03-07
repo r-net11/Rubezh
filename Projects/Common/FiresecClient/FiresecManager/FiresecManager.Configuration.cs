@@ -122,20 +122,20 @@ namespace FiresecClient
 				var xdeviceMap = new Dictionary<Guid, XDevice>();
 				foreach (var xDevice in XManager.Devices)
 				{
-					if (!xdeviceMap.ContainsKey(xDevice.UID))
-						xdeviceMap.Add(xDevice.UID, xDevice);
+					if (!xdeviceMap.ContainsKey(xDevice.BaseUID))
+						xdeviceMap.Add(xDevice.BaseUID, xDevice);
 				}
 				var xZoneMap = new Dictionary<Guid, XZone>();
 				foreach (var xzone in XManager.Zones)
 				{
-					if (!xZoneMap.ContainsKey(xzone.UID))
-					xZoneMap.Add(xzone.UID, xzone);
+					if (!xZoneMap.ContainsKey(xzone.BaseUID))
+					xZoneMap.Add(xzone.BaseUID, xzone);
 				}
 				var xdirectionMap = new Dictionary<Guid, XDirection>();
 				foreach (var xdirection in XManager.Directions)
 				{
-					if (!xdirectionMap.ContainsKey(xdirection.UID))
-						xdirectionMap.Add(xdirection.UID, xdirection);
+					if (!xdirectionMap.ContainsKey(xdirection.BaseUID))
+						xdirectionMap.Add(xdirection.BaseUID, xdirection);
 				}
 
 				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				

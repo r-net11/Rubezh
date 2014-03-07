@@ -32,7 +32,7 @@ namespace GKModule.Plans.ViewModels
 				Zones.Add(zoneViewModel);
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == iElementZone.ZoneUID);
 			IsHiddenZone = iElementZone.IsHiddenZone;
 		}
 
@@ -67,7 +67,7 @@ namespace GKModule.Plans.ViewModels
 			var createZoneEventArg = new CreateXZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
-				IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
+				IElementZone.ZoneUID = createZoneEventArg.Zone.BaseUID;
 			Helper.BuildMap();
 			Helper.SetXZone(IElementZone);
 			UpdateZones(xzoneUID);
@@ -78,7 +78,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Publish(SelectedZone.Zone.UID);
+			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Publish(SelectedZone.Zone.BaseUID);
 			SelectedZone.Update(SelectedZone.Zone);
 		}
 		private bool CanEdit()
@@ -106,7 +106,7 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void Update(Guid zoneUID)
 		{
-			var zone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			var zone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.BaseUID == zoneUID);
 			if (zone != null)
 				zone.Update();
 		}

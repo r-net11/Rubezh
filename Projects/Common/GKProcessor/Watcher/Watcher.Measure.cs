@@ -13,7 +13,7 @@ namespace GKProcessor
 		{
 			if (device.Driver.MeasureParameters.Count > 0)
 			{
-				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.UID == device.UID);
+				var measureDeviceInfo = MeasureDeviceInfos.FirstOrDefault(x => x.Device.BaseUID == device.BaseUID);
 				if (measureDeviceInfo == null)
 				{
 					measureDeviceInfo = new MeasureDeviceInfo(device);
@@ -28,7 +28,7 @@ namespace GKProcessor
 
 		public void StopDeviceMeasure(XDevice device)
 		{
-			MeasureDeviceInfos.RemoveAll(x => x.Device.UID == device.UID);
+			MeasureDeviceInfos.RemoveAll(x => x.Device.BaseUID == device.BaseUID);
 		}
 
 		void CheckMeasure()
@@ -49,7 +49,7 @@ namespace GKProcessor
 				if (measureParameters != null && measureParameters.Count > 0)
 				{
 					var deviceMeasureParameters = new XDeviceMeasureParameters();
-					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.UID;
+					deviceMeasureParameters.DeviceUID = measureDeviceInfo.Device.BaseUID;
 					foreach (var measureParameter in measureParameters)
 					{
 						deviceMeasureParameters.MeasureParameterValues.Add(measureParameter);

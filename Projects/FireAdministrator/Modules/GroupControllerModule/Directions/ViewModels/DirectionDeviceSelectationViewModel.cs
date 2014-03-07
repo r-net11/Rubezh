@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in Devices.Where(x => x.Device.Parent != null))
 			{
-				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+				var parent = Devices.FirstOrDefault(x => x.Device.BaseUID == device.Device.Parent.BaseUID);
 				parent.AddChild(device);
 			}
 

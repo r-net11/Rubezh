@@ -146,7 +146,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.UID);
+			ServiceFactory.Events.GetEvent<ShowXPimEvent>().Publish(Pim.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -173,7 +173,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Pim.UID.ToString(); }
+			get { return Pim.BaseUID.ToString(); }
 		}
 		#endregion
 

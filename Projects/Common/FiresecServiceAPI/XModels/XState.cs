@@ -61,7 +61,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			Device = device;
-			UID = device.UID;
+			UID = device.BaseUID;
 			BaseObjectType = XBaseObjectType.Deivce;
 		}
 
@@ -69,7 +69,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			Zone = zone;
-			UID = zone.UID;
+			UID = zone.BaseUID;
 			BaseObjectType = XBaseObjectType.Zone;
 		}
 
@@ -77,7 +77,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			Direction = direction;
-			UID = direction.UID;
+			UID = direction.BaseUID;
 			BaseObjectType = XBaseObjectType.Direction;
 		}
 
@@ -101,7 +101,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			Delay = delay;
-			UID = delay.UID;
+			UID = delay.BaseUID;
 			BaseObjectType = XBaseObjectType.Delay;
 		}
 
@@ -109,7 +109,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			Pim = pim;
-			UID = pim.UID;
+			UID = pim.BaseUID;
 			BaseObjectType = XBaseObjectType.Pim;
 		}
 

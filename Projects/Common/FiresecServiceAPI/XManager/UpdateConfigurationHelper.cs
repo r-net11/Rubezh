@@ -127,7 +127,7 @@ namespace FiresecClient
 				{
 					foreach (var zoneUID in device.ZoneUIDs)
 					{
-						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 						if (zone != null)
 						{
 							zoneUIDs.Add(zoneUID);
@@ -185,7 +185,7 @@ namespace FiresecClient
 			var zoneUIDs = new List<Guid>();
 			foreach (var zoneUID in clause.ZoneUIDs)
 			{
-				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 				if (zone != null)
 				{
 					zoneUIDs.Add(zoneUID);
@@ -198,7 +198,7 @@ namespace FiresecClient
 			var deviceUIDs = new List<Guid>();
 			foreach (var deviceUID in clause.DeviceUIDs)
 			{
-				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 				if (clauseDevice != null && !clauseDevice.IsNotUsed)
 				{
 					deviceUIDs.Add(deviceUID);
@@ -211,7 +211,7 @@ namespace FiresecClient
 			var directionUIDs = new List<Guid>();
 			foreach (var directionUID in clause.DirectionUIDs)
 			{
-				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
 				if (direction != null)
 				{
 					directionUIDs.Add(directionUID);
@@ -232,7 +232,7 @@ namespace FiresecClient
 				{
 					if (directionDevice.DeviceUID != Guid.Empty)
 					{
-						var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
+						var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == directionDevice.DeviceUID);
 						directionDevice.Device = device;
 						if (device != null)
 						{
@@ -249,7 +249,7 @@ namespace FiresecClient
 				{
 					if (directionZone.ZoneUID != Guid.Empty)
 					{
-						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == directionZone.ZoneUID);
 						directionZone.Zone = zone;
 						if (zone != null)
 						{
@@ -270,10 +270,10 @@ namespace FiresecClient
 				var nsDeviceUIDs = new List<Guid>();
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
-					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == nsDeviceUID);
+					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == nsDeviceUID);
 					if (nsDevice != null && ((nsDevice.DriverType == XDriverType.FirePump) || (nsDevice.DriverType == XDriverType.JockeyPump)))
 					{
-						nsDeviceUIDs.Add(nsDevice.UID);
+						nsDeviceUIDs.Add(nsDevice.BaseUID);
 						pumpStation.NSDevices.Add(nsDevice);
 					}
 				}
@@ -297,7 +297,7 @@ namespace FiresecClient
 				var mptDevices = new List<MPTDevice>();
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == mptDevice.DeviceUID);
+					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == mptDevice.DeviceUID);
 					if (device != null && MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Contains(mptDevice.MPTDeviceType))
 					{
 						mptDevice.Device = device;
@@ -322,7 +322,7 @@ namespace FiresecClient
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
-					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 					if (clauseDevice != null && !clauseDevice.IsNotUsed)
 					{
 						deviceUIDs.Add(deviceUID);
@@ -336,7 +336,7 @@ namespace FiresecClient
 				var zoneUIDs = new List<Guid>();
 				foreach (var zoneUID in clause.ZoneUIDs)
 				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 					{
 						zoneUIDs.Add(zoneUID);
@@ -350,7 +350,7 @@ namespace FiresecClient
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)
 				{
-					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
 					if (direction != null)
 					{
 						directionUIDs.Add(directionUID);
@@ -376,7 +376,7 @@ namespace FiresecClient
 			var zoneUIDs = new List<Guid>();
 			foreach (var zoneUID in clause.ZoneUIDs)
 			{
-				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 				if (zone != null)
 				{
 					zoneUIDs.Add(zoneUID);
@@ -388,7 +388,7 @@ namespace FiresecClient
 			var deviceUIDs = new List<Guid>();
 			foreach (var deviceUID in clause.DeviceUIDs)
 			{
-				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 				if (clauseDevice != null && !clauseDevice.IsNotUsed)
 				{
 					deviceUIDs.Add(deviceUID);
@@ -400,7 +400,7 @@ namespace FiresecClient
 			var directionUIDs = new List<Guid>();
 			foreach (var directionUID in clause.DirectionUIDs)
 			{
-				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
 				if (direction != null)
 				{
 					directionUIDs.Add(directionUID);
@@ -422,7 +422,7 @@ namespace FiresecClient
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
 				{
-					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 					if (clauseDevice != null && !clauseDevice.IsNotUsed)
 					{
 						deviceUIDs.Add(deviceUID);
@@ -437,7 +437,7 @@ namespace FiresecClient
 				var zoneUIDs = new List<Guid>();
 				foreach (var zoneUID in clause.ZoneUIDs)
 				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 					{
 						zoneUIDs.Add(zoneUID);
@@ -452,7 +452,7 @@ namespace FiresecClient
 				var directionUIDs = new List<Guid>();
 				foreach (var directionUID in clause.DirectionUIDs)
 				{
-					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == directionUID);
+					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
 					if (direction != null)
 					{
 						directionUIDs.Add(directionUID);
@@ -480,7 +480,7 @@ namespace FiresecClient
 				if (guardUser.ZoneUIDs != null)
 					foreach (var zoneUID in guardUser.ZoneUIDs)
 					{
-						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 						if (zone != null)
 						{
 							guardUser.Zones.Add(zone);

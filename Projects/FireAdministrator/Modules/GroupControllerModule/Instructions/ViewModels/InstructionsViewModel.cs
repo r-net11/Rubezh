@@ -41,8 +41,8 @@ namespace GKModule.ViewModels
 					{
 						if (instruction.ZoneUIDs == null)
 							instruction.ZoneUIDs = new List<Guid>();
-						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => XManager.Devices.Any(x => x.UID == deviceGuid)));
-						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => XManager.Zones.Any(x => x.UID == zoneUID)));
+						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => XManager.Devices.Any(x => x.BaseUID == deviceGuid)));
+						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => XManager.Zones.Any(x => x.BaseUID == zoneUID)));
 					}
 					Instructions.Add(new InstructionViewModel(instruction));
 				}

@@ -209,7 +209,7 @@ namespace GKModule.ViewModels
 					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 						continue;
 				}
-				if (device.UID == Device.UID)
+				if (device.BaseUID == Device.BaseUID)
 					continue;
 				if (device.Driver.AvailableStateBits.Contains(SelectedStateType))
 					sourceDevices.Add(device);

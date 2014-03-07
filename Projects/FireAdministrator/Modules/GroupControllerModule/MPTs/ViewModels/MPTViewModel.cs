@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 			foreach (var device in XManager.Devices)
 			{
 				if (MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Any(x => SelectedDevice.MPTDeviceType == x))
-					if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.UID))
+					if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.BaseUID))
 						devices.Add(device);
 			}
 
@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 				}
 
 				SelectedDevice.MPTDevice.Device = deviceSelectationViewModel.SelectedDevice;
-				SelectedDevice.MPTDevice.DeviceUID = deviceSelectationViewModel.SelectedDevice.UID;
+				SelectedDevice.MPTDevice.DeviceUID = deviceSelectationViewModel.SelectedDevice.BaseUID;
 				UpdateConfigurationHelper.CopyMPTProperty(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = deviceSelectationViewModel.SelectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 			if (device != null)
 			{
 				device.IsInMPT = isInMPT;
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == device.UID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == device.BaseUID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.UpdateProperties();

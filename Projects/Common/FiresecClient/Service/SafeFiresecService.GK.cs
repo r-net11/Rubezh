@@ -81,7 +81,7 @@ namespace FiresecClient
 				var deviceUIDs = new List<Guid>();
 				foreach (var device in devices)
 				{
-					deviceUIDs.Add(device.UID);
+					deviceUIDs.Add(device.BaseUID);
 				}
 				var result = SafeOperationCall(() => FiresecService.GKUpdateFirmwareFSCS(hxcFileInfo, FiresecManager.CurrentUser.Name, deviceUIDs), "GKUpdateFirmwareFSCS");
 				return result;
@@ -216,7 +216,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire1(zone.UID); }, "GKResetFire1");
+				SafeOperationCall(() => { FiresecService.GKResetFire1(zone.BaseUID); }, "GKResetFire1");
 			}
 			else
 			{
@@ -228,7 +228,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKResetFire2(zone.UID); }, "GKResetFire2");
+				SafeOperationCall(() => { FiresecService.GKResetFire2(zone.BaseUID); }, "GKResetFire2");
 			}
 			else
 			{
@@ -336,7 +336,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(device.UID); }, "GKStartMeasureMonitoring");
+				SafeOperationCall(() => { FiresecService.GKStartMeasureMonitoring(device.BaseUID); }, "GKStartMeasureMonitoring");
 			}
 			else
 			{
@@ -348,7 +348,7 @@ namespace FiresecClient
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.UID); }, "GKStopMeasureMonitoring");
+				SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(device.BaseUID); }, "GKStopMeasureMonitoring");
 			}
 			else
 			{

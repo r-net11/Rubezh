@@ -34,7 +34,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.BaseUID == mptDevice.Device.BaseUID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(XStateBit.Norm, MPT);
@@ -55,7 +55,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == MPTDeviceType.ExitBoard ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Speaker)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.BaseUID == mptDevice.Device.BaseUID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(XStateBit.TurningOn, MPT);
@@ -83,7 +83,7 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
 				{
-					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == mptDevice.Device.UID);
+					var deviceDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.BaseUID == mptDevice.Device.BaseUID);
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(XStateBit.On, MPT);

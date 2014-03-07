@@ -43,7 +43,7 @@ namespace VideoModule
 			{
 				foreach (var zoneUID in camera.ZoneUIDs)
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 					{
 						if (zone.State.StateClass == camera.StateClass)

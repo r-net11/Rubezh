@@ -166,14 +166,14 @@ namespace GKModule.ViewModels
 			var zones = new List<XZone>();
 			foreach (var uid in InstructionZones)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == uid);
 				if (zone != null)
 					zones.Add(zone);
 			}
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(zones);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
-				var uids = zonesSelectationViewModel.Zones.Select(x => x.UID).ToList();
+				var uids = zonesSelectationViewModel.Zones.Select(x => x.BaseUID).ToList();
 				InstructionZones = new ObservableCollection<Guid>(uids);
 			}
 		}
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 			var devices = new List<XDevice>();
 			foreach (var uid in InstructionDevices)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == uid);
 				if (device != null)
 					devices.Add(device);
 			}
@@ -197,7 +197,7 @@ namespace GKModule.ViewModels
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(devices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
-				var uids = devicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
+				var uids = devicesSelectationViewModel.Devices.Select(x => x.BaseUID).ToList();
 				InstructionDevices = new ObservableCollection<Guid>(uids);
 			}
 		}
@@ -208,14 +208,14 @@ namespace GKModule.ViewModels
 			var directions = new List<XDirection>();
 			foreach (var uid in InstructionDirections)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}
 			var directionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
 			{
-				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
+				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.BaseUID).ToList();
 				InstructionDirections = new ObservableCollection<Guid>(uids);
 			}
 		}
