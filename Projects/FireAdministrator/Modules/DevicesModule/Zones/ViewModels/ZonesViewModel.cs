@@ -275,13 +275,13 @@ namespace DevicesModule.ViewModels
 				{
 					OnZoneChanged(elementZone.ZoneUID);
 					//if (guid != Guid.Empty)
-					//    OnZoneChanged(guid);
+					//	OnZoneChanged(guid);
 					//guid = elementZone.ZoneUID;
 				}
 			});
 			_lockSelection = false;
 			//if (guid != Guid.Empty)
-			//    OnZoneChanged(guid);
+			//	OnZoneChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{

@@ -17,7 +17,7 @@ namespace GKModule.Converters
 			var zones = new List<XZone>();
 			foreach (var uid in zoneUIDs)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == uid);
 				if (zone != null)
 					zones.Add(zone);
 			}

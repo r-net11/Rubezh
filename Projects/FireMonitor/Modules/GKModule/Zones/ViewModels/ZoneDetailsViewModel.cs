@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -79,39 +79,39 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ResetFireCommand { get; private set; }
-        void OnResetFire()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnResetFire()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKReset(Zone);
-            }
-        }
+			}
+		}
 		bool CanResetFire()
 		{
 			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
-        void OnSetIgnore()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnore()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
-            }
-        }
+			}
+		}
 		bool CanSetIgnore()
 		{
 			return !State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
-        void OnResetIgnore()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnResetIgnore()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
-            }
-        }
+			}
+		}
 		bool CanResetIgnore()
 		{
 			return State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -141,7 +141,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Zone.UID.ToString(); }
+			get { return Zone.BaseUID.ToString(); }
 		}
 		#endregion
 

@@ -133,8 +133,8 @@ namespace GKModule.Validation
 
 		void ValidateParametersMinMax(XDevice device)
 		{
-            if (device.IsInMPT)
-                return;
+			if (device.IsInMPT)
+				return;
 
 			foreach (var property in device.Properties)
 			{

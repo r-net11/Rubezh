@@ -54,11 +54,11 @@ namespace VideoModule.ViewModels
 		void GetError(string error)
 		{
 			Error = error;
-            StopVideo();
+			StopVideo();
 			ImageSource = new BitmapImage();
 		}
 
-		void BmpToImageSource(Bitmap bmp)
+		void OnFrameReady(Bitmap bmp)
 		{
 			using (var memory = new MemoryStream())
 			{
@@ -84,7 +84,7 @@ namespace VideoModule.ViewModels
 				var zones = new List<XZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs)
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
@@ -103,15 +103,16 @@ namespace VideoModule.ViewModels
 		Thread VideoThread { get; set; }
 		public void StartVideo()
 		{
-			MjpegCamera.FrameReady += BmpToImageSource;
+			MjpegCamera.FrameReady += OnFrameReady;
 			MjpegCamera.ErrorHandler += GetError;
+			ImageSource = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/LoadingVideo.png"));
 			VideoThread = new Thread(MjpegCamera.StartVideo);
 			VideoThread.Start();
 			IsNowPlaying = true;
 		}
 		public void StopVideo()
 		{
-			MjpegCamera.FrameReady -= BmpToImageSource;
+			MjpegCamera.FrameReady -= OnFrameReady;
 			MjpegCamera.ErrorHandler -= GetError;
 			MjpegCamera.StopVideo();
 			ImageSource = new BitmapImage();

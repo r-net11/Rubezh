@@ -4,7 +4,6 @@ using FiresecAPI;
 using System.Data.Linq;
 using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace SKDDriver
 {
@@ -15,8 +14,6 @@ namespace SKDDriver
 		{
 			;
 		}
-
-		CardZonesTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(Organization item)
 		{
@@ -29,7 +26,7 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Organization item)
 		{
 			var uid = item.UID;
-			if (Context.AdditionalColumn.Any(x => x.OrganizationUid == uid) ||
+			if (Context.AdditionalColumnType.Any(x => x.OrganizationUid == uid) ||
 					Context.Day.Any(x => x.OrganizationUid == uid) ||
 					Context.Department.Any(x => x.OrganizationUid == uid) ||
 					Context.Document.Any(x => x.OrganizationUid == uid) ||
@@ -51,14 +48,16 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
+			result.PhotoUID = tableItem.PhotoUID;
 			return result;
 		}
 
-		protected override void Update(DataAccess.Organization tableItem, Organization apiItem)
+		protected override void TranslateBack(DataAccess.Organization tableItem, Organization apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
 		protected override Expression<Func<DataAccess.Organization, bool>> IsInFilter(OrganizationFilter filter)

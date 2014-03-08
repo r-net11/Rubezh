@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class ShowNothingEvent : CompositePresentationEvent<object>
-    {
-    }
+	public class ShowNothingEvent : CompositePresentationEvent<object>
+	{
+	}
 }

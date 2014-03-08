@@ -20,8 +20,8 @@ namespace FireMonitor
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Unsubscribe(OnFS2Progress);
-			//    ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Subscribe(OnFS2Progress);
+			//	ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Unsubscribe(OnFS2Progress);
+			//	ServiceFactory.Events.GetEvent<FS2ProgressInfoEvent>().Subscribe(OnFS2Progress);
 			//}
 			//else
 			{
@@ -33,14 +33,14 @@ namespace FireMonitor
 			}
 		}
 
-        public static void Close()
-        {
-            progressViewModel.Close();
-        }
+		public static void Close()
+		{
+			progressViewModel.Close();
+		}
 
 		//static void OnFS2Progress(FS2ProgressInfo progressInfo)
 		//{
-		//    Watcher_Progress(progressInfo.CurrentStage, progressInfo.Comment, progressInfo.PercentComplete, progressInfo.BytesRW);
+		//	Watcher_Progress(progressInfo.CurrentStage, progressInfo.Comment, progressInfo.PercentComplete, progressInfo.BytesRW);
 		//}
 
 		static void Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)

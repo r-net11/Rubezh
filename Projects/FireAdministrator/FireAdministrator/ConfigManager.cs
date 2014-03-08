@@ -45,7 +45,7 @@ namespace FireAdministrator
 					{
 						//if (FiresecManager.IsFS2Enabled)
 						//{
-						//    FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
+						//	FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
 						//}
 						//else
 						{
@@ -227,7 +227,7 @@ namespace FireAdministrator
 				var deviceUID = Guid.Empty;
 				var firstDevice = XManager.Devices.FirstOrDefault();
 				if (firstDevice != null)
-					deviceUID = firstDevice.UID;
+					deviceUID = firstDevice.BaseUID;
 				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(deviceUID);
 			}
 		}

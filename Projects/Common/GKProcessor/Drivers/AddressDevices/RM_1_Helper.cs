@@ -16,12 +16,12 @@ namespace GKProcessor
 				ShortName = "РМ-1",
 				IsControlDevice = true,
 				HasLogic = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOn);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Off);
 			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.TurningOff);
@@ -36,7 +36,7 @@ namespace GKProcessor
 				Name = "Конфигурация релейного модуля",
 				Caption = "Конфигурация релейного модуля",
 				Default = 1,
-                IsLowByte = true
+				IsLowByte = true
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Выключено, Пуск - Включено", 1);
 			GKDriversHelper.AddPropertyParameter(property1, "Стоп - Выключено, Пуск - Мерцает", 2);
@@ -55,7 +55,7 @@ namespace GKProcessor
 				Name = "Тип контроля выхода",
 				Caption = "Тип контроля выхода",
 				Default = 1,
-                IsLowByte=true
+				IsLowByte=true
 			};
 			GKDriversHelper.AddPropertyParameter(property2, "Состояние цепи не контролируется", 1);
 			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на обрыв", 2);

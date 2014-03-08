@@ -257,7 +257,7 @@ namespace XFiresecAPI
 			{
 				if (Parent != null && Parent.Driver.IsGroupDevice)
 					return false;
-				if(AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+				if (AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
 					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}

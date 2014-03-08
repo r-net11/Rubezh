@@ -26,11 +26,11 @@ namespace GKModule.ViewModels
 			}
 			//if (JournalItemsList != null)
 			//{
-			//    foreach (var journalItem in JournalItemsList)
-			//    {
-			//        var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-			//        JournalRecords.Add(journalRecordViewModel);
-			//    }
+			//	foreach (var journalItem in JournalItemsList)
+			//	{
+			//		var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+			//		JournalRecords.Add(journalRecordViewModel);
+			//	}
 			//}
 		}
 

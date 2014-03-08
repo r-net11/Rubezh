@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class InstructionsView : UserControl
-    {
-        public InstructionsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class InstructionsView : UserControl
+	{
+		public InstructionsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

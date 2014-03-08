@@ -19,10 +19,10 @@ namespace DevicesModule.ViewModels
 		public ZonesSelectionViewModel(Device device, List<Guid> zones, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор зон устройства " + device.PresentationAddressAndName;
-            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
-            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
-            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
+			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 			Zones = zones;
 			TargetZones = new ObservableCollection<ZoneViewModel>();
 			SourceZones = new ObservableCollection<ZoneViewModel>();
@@ -59,13 +59,13 @@ namespace DevicesModule.ViewModels
 					if (!zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.MPT))
 						continue;
 
-                    //if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
-                    //{
-                    //    continue;
-                    //}
+					//if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
+					//{
+					//	continue;
+					//}
 				}
 
-                if (Zones.Contains(zone.UID))
+				if (Zones.Contains(zone.UID))
 					TargetZones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -128,56 +128,56 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public RelayCommand<object> AddCommand { get; private set; }
-	    public IList SelectedSourceZones;
+		public RelayCommand<object> AddCommand { get; private set; }
+		public IList SelectedSourceZones;
 
-        void OnAdd(object parameter)
+		void OnAdd(object parameter)
 		{
 			var index = SourceZones.IndexOf(SelectedSourceZone);
 
-            SelectedSourceZones = (IList)parameter;
-            var zoneViewModels = new List<ZoneViewModel>();
-            foreach (var selectedZone in SelectedSourceZones)
-            {
-                ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
-                if(zoneViewModel != null)
-                    zoneViewModels.Add(zoneViewModel);
-            }
-            foreach (var zoneViewModel in zoneViewModels)
-            {
-                TargetZones.Add(zoneViewModel);
-                SourceZones.Remove(zoneViewModel);
-            }
+			SelectedSourceZones = (IList)parameter;
+			var zoneViewModels = new List<ZoneViewModel>();
+			foreach (var selectedZone in SelectedSourceZones)
+			{
+				ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
+				if(zoneViewModel != null)
+					zoneViewModels.Add(zoneViewModel);
+			}
+			foreach (var zoneViewModel in zoneViewModels)
+			{
+				TargetZones.Add(zoneViewModel);
+				SourceZones.Remove(zoneViewModel);
+			}
 
-            OnPropertyChanged("SourceZones");
+			OnPropertyChanged("SourceZones");
 
 			index = Math.Min(index, SourceZones.Count - 1);
 			if (index > -1)
 				SelectedSourceZone = SourceZones[index];
 		}
 
-        public RelayCommand<object> RemoveCommand { get; private set; }
-        public IList SelectedTargetZones;
-        void OnRemove(object parameter)
+		public RelayCommand<object> RemoveCommand { get; private set; }
+		public IList SelectedTargetZones;
+		void OnRemove(object parameter)
 		{
 			var index = TargetZones.IndexOf(SelectedTargetZone);
 
-            SelectedTargetZones = (IList)parameter;
-            var zoneViewModels = new List<ZoneViewModel>();
-            foreach (var selectedZone in SelectedTargetZones)
-            {
-                ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
-                if(zoneViewModel != null)
-                    zoneViewModels.Add(zoneViewModel);
-            }
-            foreach (var zoneViewModel in zoneViewModels)
-            {
-                SourceZones.Add(zoneViewModel);
-                TargetZones.Remove(zoneViewModel);
-            }
+			SelectedTargetZones = (IList)parameter;
+			var zoneViewModels = new List<ZoneViewModel>();
+			foreach (var selectedZone in SelectedTargetZones)
+			{
+				ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
+				if(zoneViewModel != null)
+					zoneViewModels.Add(zoneViewModel);
+			}
+			foreach (var zoneViewModel in zoneViewModels)
+			{
+				SourceZones.Add(zoneViewModel);
+				TargetZones.Remove(zoneViewModel);
+			}
 
-            OnPropertyChanged("TargetZones");
-            SelectedTargetZone = TargetZones.FirstOrDefault();
+			OnPropertyChanged("TargetZones");
+			SelectedTargetZone = TargetZones.FirstOrDefault();
 
 			index = Math.Min(index, TargetZones.Count - 1);
 			if (index > -1)
@@ -185,7 +185,7 @@ namespace DevicesModule.ViewModels
 		}
 
 
-        public RelayCommand AddAllCommand { get; private set; }
+		public RelayCommand AddAllCommand { get; private set; }
 		void OnAddAll()
 		{
 			foreach (var zoneViewModel in SourceZones)
@@ -193,7 +193,7 @@ namespace DevicesModule.ViewModels
 				TargetZones.Add(zoneViewModel);
 			}
 			SourceZones.Clear();
-            SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -204,10 +204,10 @@ namespace DevicesModule.ViewModels
 				SourceZones.Add(zoneViewModel);
 			}
 			TargetZones.Clear();
-            SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
-        bool CanAdd(object parameter)
+		bool CanAdd(object parameter)
 		{
 			return SelectedSourceZone != null;
 		}
@@ -217,19 +217,19 @@ namespace DevicesModule.ViewModels
 			return SelectedTargetZone != null;
 		}
 
-        public bool CanAddAll()
-        {
-            return (SourceZones.Count > 0);
-        }
+		public bool CanAddAll()
+		{
+			return (SourceZones.Count > 0);
+		}
 
-        public bool CanRemoveAll()
-        {
-            return (TargetZones.Count > 0);
-        }
+		public bool CanRemoveAll()
+		{
+			return (TargetZones.Count > 0);
+		}
 
 		protected override bool Save()
 		{
-            Zones = new List<Guid>(TargetZones.Select(x => x.Zone.UID));
+			Zones = new List<Guid>(TargetZones.Select(x => x.Zone.UID));
 			return base.Save();
 		}
 	}

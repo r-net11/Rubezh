@@ -4,9 +4,9 @@ namespace FiltersModule.Views
 {
 	public partial class FilterMenuView : UserControl
 	{
-        public FilterMenuView()
-        {
-            InitializeComponent();
-        }
+		public FilterMenuView()
+		{
+			InitializeComponent();
+		}
 	}
 }

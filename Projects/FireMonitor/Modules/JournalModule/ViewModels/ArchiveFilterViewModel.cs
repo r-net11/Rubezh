@@ -20,8 +20,8 @@ namespace JournalModule.ViewModels
 
 			Initialize();
 
-            StartDateTime = archiveFilter.StartDate;
-            EndDateTime = DateTime.Now;
+			StartDateTime = archiveFilter.StartDate;
+			EndDateTime = DateTime.Now;
 
 			UseSystemDate = archiveFilter.UseSystemDate;
 
@@ -121,29 +121,29 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-        DateTime _startDateTime;
-        public DateTime StartDateTime
-        {
-            get { return _startDateTime; }
-            set
-            {
-                _startDateTime = value;
-                OnPropertyChanged("startDateTime");
-            }
-        }
+		DateTime _startDateTime;
+		public DateTime StartDateTime
+		{
+			get { return _startDateTime; }
+			set
+			{
+				_startDateTime = value;
+				OnPropertyChanged("startDateTime");
+			}
+		}
 
-        DateTime _endDateTime;
-        public DateTime EndDateTime
-        {
-            get { return _endDateTime; }
-            set
-            {
-                _endDateTime = value;
-                OnPropertyChanged("endDateTime");
-            }
-        }
+		DateTime _endDateTime;
+		public DateTime EndDateTime
+		{
+			get { return _endDateTime; }
+			set
+			{
+				_endDateTime = value;
+				OnPropertyChanged("endDateTime");
+			}
+		}
 
-        public List<DeviceViewModel> Devices { get; private set; }
+		public List<DeviceViewModel> Devices { get; private set; }
 
 		public ArchiveFilter GetModel()
 		{
@@ -162,9 +162,9 @@ namespace JournalModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-            StartDateTime = EndDateTime = DateTime.Now;
-            StartDateTime = StartDateTime.AddDays(-1);
-            UseSystemDate = false;
+			StartDateTime = EndDateTime = DateTime.Now;
+			StartDateTime = StartDateTime.AddDays(-1);
+			UseSystemDate = false;
 
 			JournalTypes.ForEach(x => x.IsEnable = false);
 			JournalEvents.ForEach(x => x.IsEnable = false);

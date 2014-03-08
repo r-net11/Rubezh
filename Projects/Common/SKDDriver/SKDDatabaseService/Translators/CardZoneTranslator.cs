@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardZonesTranslator:TranslatorBase<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
+	public class CardZoneTranslator:TranslatorBase<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
 	{
-		public CardZonesTranslator(Table<DataAccess.CardZoneLink> table, DataAccess.SKUDDataContext context)
+		public CardZoneTranslator(Table<DataAccess.CardZoneLink> table, DataAccess.SKUDDataContext context)
 			: base(table, context)
 		{
 
@@ -28,9 +28,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.CardZoneLink tableItem, CardZone apiItem)
+		protected override void TranslateBack(DataAccess.CardZoneLink tableItem, CardZone apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.IntervalType = (int?)apiItem.IntervalType;
 			tableItem.IntervalUid = apiItem.IntervalUID;
 			tableItem.IsWithEscort = apiItem.IsComission;

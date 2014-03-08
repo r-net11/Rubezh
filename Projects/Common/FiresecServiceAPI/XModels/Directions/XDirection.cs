@@ -10,12 +10,12 @@ namespace XFiresecAPI
 		public XDirection()
 		{
 			UID = BaseUID;// Guid.NewGuid();
-            DirectionZones = new List<XDirectionZone>();
-            DirectionDevices = new List<XDirectionDevice>();
+			DirectionZones = new List<XDirectionZone>();
+			DirectionDevices = new List<XDirectionDevice>();
 			DelayRegime = DelayRegime.Off;
 			InputZones = new List<XZone>();
 			InputDevices = new List<XDevice>();
-            OutputDevices = new List<XDevice>();
+			OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
 
@@ -23,7 +23,7 @@ namespace XFiresecAPI
 
 		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
-        public List<XDevice> OutputDevices { get; set; }
+		public List<XDevice> OutputDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -47,10 +47,10 @@ namespace XFiresecAPI
 		public DelayRegime DelayRegime { get; set; }
 
 		[DataMember]
-        public List<XDirectionZone> DirectionZones { get; set; }
+		public List<XDirectionZone> DirectionZones { get; set; }
 
 		[DataMember]
-        public List<XDirectionDevice> DirectionDevices { get; set; }
+		public List<XDirectionDevice> DirectionDevices { get; set; }
 
 		[DataMember]
 		public bool IsOPCUsed { get; set; }

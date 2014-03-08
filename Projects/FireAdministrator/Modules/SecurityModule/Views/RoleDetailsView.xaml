@@ -1,30 +1,30 @@
 ﻿<UserControl x:Class="SecurityModule.Views.RoleDetailsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SecurityModule.Converters"
-             MinWidth="400" MinHeight="500">
-    <Border CornerRadius="5" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0">
-                <Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
-                <TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
-            </DockPanel>
-            <Label Grid.Row="1" Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
-            <ListBox Grid.Row="2" ItemsSource="{Binding Permissions, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=PermissionTypeName}" Padding="7">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsEnable}" />
-                            <TextBlock Text="{Binding Desciption}" Margin="4, 1, 1, 1" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-    </Border>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Converters="clr-namespace:SecurityModule.Converters"
+			 MinWidth="400" MinHeight="500">
+	<Border CornerRadius="5" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<DockPanel Grid.Row="0">
+				<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
+				<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
+			</DockPanel>
+			<Label Grid.Row="1" Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
+			<ListBox Grid.Row="2" ItemsSource="{Binding Permissions, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=PermissionTypeName}" Padding="7">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding IsEnable}" />
+							<TextBlock Text="{Binding Desciption}" Margin="4, 1, 1, 1" />
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
+	</Border>
 </UserControl>

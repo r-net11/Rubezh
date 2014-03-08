@@ -28,9 +28,9 @@ namespace InstructionsModule.Validation
 		{
 			get { return ""; }
 		}
-        public override string ImageSource
-        {
-            get { return "/Controls;component/Images/Blue_Direction.png"; }
-        }
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Blue_Direction.png"; }
+		}
 	}
 }

@@ -148,7 +148,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(_direction.UID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(_direction.BaseUID);
 		}
 		private bool CanShowInTree()
 		{

@@ -128,7 +128,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				//if (SelectedPlan == value)
-				//    return;
+				//	return;
 				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}", true, true))
 				{
 					_selectedPlan = value;

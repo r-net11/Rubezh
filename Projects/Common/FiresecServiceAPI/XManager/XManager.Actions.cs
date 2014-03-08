@@ -7,31 +7,31 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
-        public static void ChangeDeviceZones(XDevice device, List<XZone> zones)
-        {
-            foreach (var zone in device.Zones)
-            {
-                zone.Devices.Remove(device);
-                zone.OnChanged();
-            }
-            device.Zones.Clear();
-            device.ZoneUIDs.Clear();
-            foreach (var zone in zones)
-            {
-                device.Zones.Add(zone);
-                device.ZoneUIDs.Add(zone.UID);
-                zone.Devices.Add(device);
-                zone.OnChanged();
-            }
-            device.OnChanged();
-        }
+		public static void ChangeDeviceZones(XDevice device, List<XZone> zones)
+		{
+			foreach (var zone in device.Zones)
+			{
+				zone.Devices.Remove(device);
+				zone.OnChanged();
+			}
+			device.Zones.Clear();
+			device.ZoneUIDs.Clear();
+			foreach (var zone in zones)
+			{
+				device.Zones.Add(zone);
+				device.ZoneUIDs.Add(zone.BaseUID);
+				zone.Devices.Add(device);
+				zone.OnChanged();
+			}
+			device.OnChanged();
+		}
 
 		public static void AddDeviceToZone(XDevice device, XZone zone)
 		{
 			if (!device.Zones.Contains(zone))
 				device.Zones.Add(zone);
-			if (!device.ZoneUIDs.Contains(zone.UID))
-				device.ZoneUIDs.Add(zone.UID);
+			if (!device.ZoneUIDs.Contains(zone.BaseUID))
+				device.ZoneUIDs.Add(zone.BaseUID);
 			zone.Devices.Add(device);
 			zone.OnChanged();
 			device.OnChanged();
@@ -42,7 +42,7 @@ namespace FiresecClient
 			if (zone != null)
 			{
 				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
+				device.ZoneUIDs.Remove(zone.BaseUID);
 				zone.Devices.Remove(device);
 				zone.OnChanged();
 				device.OnChanged();
@@ -79,7 +79,7 @@ namespace FiresecClient
 			Devices.Remove(device);
 
 			//if (parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
-			//    RebuildRSR2Addresses(parentDevice.Parent);
+			//	RebuildRSR2Addresses(parentDevice.Parent);
 			//device.OnChanged();
 		}
 
@@ -114,18 +114,18 @@ namespace FiresecClient
 			foreach (var device in zone.Devices)
 			{
 				device.Zones.Remove(zone);
-				device.ZoneUIDs.Remove(zone.UID);
+				device.ZoneUIDs.Remove(zone.BaseUID);
 				device.OnChanged();
 			}
 			foreach (var direction in zone.Directions)
 			{
 				direction.InputZones.Remove(zone);
-                var directionZone = direction.DirectionZones.FirstOrDefault(x => x.Zone == zone);
-                if (directionZone != null)
-                {
-                    direction.DirectionZones.Remove(directionZone);
-                    direction.InputZones.Remove(zone);
-                }
+				var directionZone = direction.DirectionZones.FirstOrDefault(x => x.Zone == zone);
+				if (directionZone != null)
+				{
+					direction.DirectionZones.Remove(directionZone);
+					direction.InputZones.Remove(zone);
+				}
 				direction.OnChanged();
 			}
 			Zones.Remove(zone);
@@ -173,45 +173,45 @@ namespace FiresecClient
 				zone.OnChanged();
 			}
 			direction.InputZones.Clear();
-            var oldDirectionZones = new List<XDirectionZone>(direction.DirectionZones);
-            direction.DirectionZones.Clear();
-            foreach (var zone in zones)
-            {
-                direction.InputZones.Add(zone);
-                var directionZone = new XDirectionZone()
-                {
-                    ZoneUID = zone.UID,
-                    Zone = zone
-                };
-                var existingDirectionZone = oldDirectionZones.FirstOrDefault(x => x.Zone == zone);
-                if (existingDirectionZone != null)
-                {
-                    directionZone.StateBit = existingDirectionZone.StateBit;
-                }
-                direction.DirectionZones.Add(directionZone);
-                zone.Directions.Add(direction);
-                zone.OnChanged();
-            }
+			var oldDirectionZones = new List<XDirectionZone>(direction.DirectionZones);
+			direction.DirectionZones.Clear();
+			foreach (var zone in zones)
+			{
+				direction.InputZones.Add(zone);
+				var directionZone = new XDirectionZone()
+				{
+					ZoneUID = zone.BaseUID,
+					Zone = zone
+				};
+				var existingDirectionZone = oldDirectionZones.FirstOrDefault(x => x.Zone == zone);
+				if (existingDirectionZone != null)
+				{
+					directionZone.StateBit = existingDirectionZone.StateBit;
+				}
+				direction.DirectionZones.Add(directionZone);
+				zone.Directions.Add(direction);
+				zone.OnChanged();
+			}
 			direction.OnChanged();
 		}
 
 		public static void ChangeDirectionDevices(XDirection direction, List<XDevice> devices)
 		{
 			foreach (var device in direction.InputDevices)
-            {
-                device.Directions.Remove(direction);
-                device.OnChanged();
-            }
-            direction.InputDevices.Clear();
-            var oldDirectionDevices = new List<XDirectionDevice>(direction.DirectionDevices);
-            direction.DirectionDevices.Clear();
-            foreach (var device in devices)
-            {
-                var directionDevice = new XDirectionDevice()
-                {
-                    DeviceUID = device.UID,
-                    Device = device
-                };
+			{
+				device.Directions.Remove(direction);
+				device.OnChanged();
+			}
+			direction.InputDevices.Clear();
+			var oldDirectionDevices = new List<XDirectionDevice>(direction.DirectionDevices);
+			direction.DirectionDevices.Clear();
+			foreach (var device in devices)
+			{
+				var directionDevice = new XDirectionDevice()
+				{
+					DeviceUID = device.BaseUID,
+					Device = device
+				};
 				if(device.Driver.AvailableStateBits.Contains(XStateBit.Fire1))
 				{
 					directionDevice.StateBit = XStateBit.Fire1;
@@ -224,16 +224,16 @@ namespace FiresecClient
 				{
 					directionDevice.StateBit = XStateBit.On;
 				}
-                var existingDirectionDevice = oldDirectionDevices.FirstOrDefault(x => x.Device == device);
-                if (existingDirectionDevice != null)
-                {
-                    directionDevice.StateBit = existingDirectionDevice.StateBit;
-                }
-                direction.DirectionDevices.Add(directionDevice);
-                direction.InputDevices.Add(device);
+				var existingDirectionDevice = oldDirectionDevices.FirstOrDefault(x => x.Device == device);
+				if (existingDirectionDevice != null)
+				{
+					directionDevice.StateBit = existingDirectionDevice.StateBit;
+				}
+				direction.DirectionDevices.Add(directionDevice);
+				direction.InputDevices.Add(device);
 				device.Directions.Add(direction);
-                device.OnChanged();
-            }
+				device.OnChanged();
+			}
 			direction.OnChanged();
 		}
 

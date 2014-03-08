@@ -80,70 +80,70 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
-        void OnSetAutomaticState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetAutomaticState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Delay);
-            }
-        }
+			}
+		}
 		bool CanSetAutomaticState()
 		{
 			return ControlRegime != DeviceControlRegime.Automatic;
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-        void OnSetManualState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetManualState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetManualRegime(Delay);
-            }
-        }
+			}
+		}
 		bool CanSetManualState()
 		{
 			return ControlRegime != DeviceControlRegime.Manual;
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-        void OnSetIgnoreState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnoreState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Delay);
-            }
-        }
+			}
+		}
 		bool CanSetIgnoreState()
 		{
 			return ControlRegime != DeviceControlRegime.Ignore;
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
-        void OnTurnOn()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOn()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOn(Delay);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
-        void OnTurnOnNow()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOnNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOnNow(Delay);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
-        void OnTurnOff()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOff(Delay);
-            }
-        }
+			}
+		}
 
 		public bool HasOnDelay
 		{
@@ -157,7 +157,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.UID);
+			ServiceFactory.Events.GetEvent<ShowXDelayEvent>().Publish(Delay.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Delay.UID.ToString(); }
+			get { return Delay.BaseUID.ToString(); }
 		}
 		#endregion
 

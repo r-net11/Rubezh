@@ -143,12 +143,12 @@ namespace DevicesModule.ViewModels
 				{
 					//if (FiresecManager.IsFS2Enabled)
 					//{
-					//    var guardUsers = new List<GuardUser>();
-					//    foreach (var deviceUser in DeviceUsers)
-					//    {
-					//        guardUsers.Add(deviceUser.GuardUser);
-					//    }
-					//    FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
+					//	var guardUsers = new List<GuardUser>();
+					//	foreach (var deviceUser in DeviceUsers)
+					//	{
+					//		guardUsers.Add(deviceUser.GuardUser);
+					//	}
+					//	FS2DeviceSetGuardUsersListHelper.Run(SelectedDevice, guardUsers);
 					//}
 					//else
 					{

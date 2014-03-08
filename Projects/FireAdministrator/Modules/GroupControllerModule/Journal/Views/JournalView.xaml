@@ -1,45 +1,45 @@
 ﻿<UserControl x:Class="GKModule.Views.JournalView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:GKModule.Views"
-             MinWidth="800" MinHeight="500">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Views:JournalGridView Grid.Row="0" />
-        <StackPanel Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="Начальный номер записи" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding StartIndex}" Margin="2" />
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Конечный номер записи" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding EndIndex}" Margin="2" />
-                </StackPanel>
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="Количество последних записей" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding LastCount, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                </StackPanel>
-            </Grid>
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
-                <Button Content="Сохранить" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="100" />
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:GKModule.Views"
+			 MinWidth="800" MinHeight="500">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Views:JournalGridView Grid.Row="0" />
+		<StackPanel Grid.Row="1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<StackPanel Grid.Column="0">
+					<TextBlock Text="Начальный номер записи" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding StartIndex}" Margin="2" />
+				</StackPanel>
+				<StackPanel Grid.Column="1">
+					<TextBlock Text="Конечный номер записи" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding EndIndex}" Margin="2" />
+				</StackPanel>
+				<StackPanel Grid.Column="2">
+					<TextBlock Text="Количество последних записей" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding LastCount, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				</StackPanel>
+			</Grid>
+			<StackPanel Orientation="Horizontal" Margin="5">
+				<TextBlock Text="Всего записей: " Foreground="White" HorizontalAlignment="Right" Margin="2" />
+				<TextBlock Text="{Binding TotalCount}" Margin="2" Foreground="White" HorizontalAlignment="Right" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+				<Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+				<Button Content="Сохранить" Command="{Binding SaveToFileCommand}" IsEnabled="{Binding IsNotEmpty, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="100" />
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </UserControl>

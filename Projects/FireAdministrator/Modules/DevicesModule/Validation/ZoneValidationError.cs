@@ -24,13 +24,13 @@ namespace DevicesModule.Validation
 		{
 			get { return Object.Name; }
 		}
-        public override string Address
-        {
-            get { return Object.No.ToString(); }
-        }
-        public override string ImageSource
-        {
-            get { return "/Controls;component/Images/Blue_Direction.png"; }
-        }
+		public override string Address
+		{
+			get { return Object.No.ToString(); }
+		}
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Blue_Direction.png"; }
+		}
 	}
 }

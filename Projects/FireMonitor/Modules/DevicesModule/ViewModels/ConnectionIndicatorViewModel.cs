@@ -2,7 +2,7 @@
 
 namespace DevicesModule.ViewModels
 {
-    public class ConnectionIndicatorViewModel : BaseViewModel
-    {
-    }
+	public class ConnectionIndicatorViewModel : BaseViewModel
+	{
+	}
 }

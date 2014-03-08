@@ -8,7 +8,7 @@ namespace Infrastructure.Common.Validation
 			Error = error;
 			ErrorLevel = validationErrorLevel;
 			Source = string.Empty;
-            ImageSource = string.Empty;
+			ImageSource = string.Empty;
 			Address = string.Empty;
 		}
 		public CommonValidationError(string module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
@@ -24,7 +24,7 @@ namespace Infrastructure.Common.Validation
 		public virtual string Module { get; protected set; }
 		public virtual string Source { get; protected set; }
 		public virtual string Address { get; protected set; }
-        public virtual string ImageSource { get; protected set; }
+		public virtual string ImageSource { get; protected set; }
 
 		public string Error { get; private set; }
 		public ValidationErrorLevel ErrorLevel { get; private set; }

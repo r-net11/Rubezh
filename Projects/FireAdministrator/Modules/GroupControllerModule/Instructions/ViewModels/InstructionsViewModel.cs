@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -35,14 +35,14 @@ namespace GKModule.ViewModels
 
 			if (XManager.DeviceConfiguration.Instructions.IsNotNullOrEmpty())
 			{
-                foreach (var instruction in XManager.DeviceConfiguration.Instructions)
+				foreach (var instruction in XManager.DeviceConfiguration.Instructions)
 				{
 					if (instruction.InstructionType == XInstructionType.Details)
 					{
-                        if (instruction.ZoneUIDs == null)
-                            instruction.ZoneUIDs = new List<Guid>();
-						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => XManager.Devices.Any(x => x.UID == deviceGuid)));
-                        instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => XManager.Zones.Any(x => x.UID == zoneUID)));
+						if (instruction.ZoneUIDs == null)
+							instruction.ZoneUIDs = new List<Guid>();
+						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => XManager.Devices.Any(x => x.BaseUID == deviceGuid)));
+						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => XManager.Zones.Any(x => x.BaseUID == zoneUID)));
 					}
 					Instructions.Add(new InstructionViewModel(instruction));
 				}
@@ -79,10 +79,10 @@ namespace GKModule.ViewModels
 			var instructionDetailsViewModel = new InstructionDetailsViewModel();
 			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
 			{
-                XManager.DeviceConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
-                var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
-                Instructions.Add(instructionViewModel);
-                SelectedInstruction = instructionViewModel;
+				XManager.DeviceConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
+				var instructionViewModel = new InstructionViewModel(instructionDetailsViewModel.Instruction);
+				Instructions.Add(instructionViewModel);
+				SelectedInstruction = instructionViewModel;
 				ServiceFactory.SaveService.XInstructionsChanged = true;
 			}
 		}
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-            XManager.DeviceConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
+			XManager.DeviceConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
 			Instructions.Remove(SelectedInstruction);
 			if (Instructions.IsNotNullOrEmpty())
 				SelectedInstruction = Instructions[0];
@@ -130,17 +130,17 @@ namespace GKModule.ViewModels
 		#region ISelectable<Guid> Members
 		public void Select(Guid instructionUID)
 		{
-            if (instructionUID != Guid.Empty)
-                SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.UID == instructionUID);
+			if (instructionUID != Guid.Empty)
+				SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.UID == instructionUID);
 		}
 		#endregion
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		}
 
 
 		private void SetRibbonItems()

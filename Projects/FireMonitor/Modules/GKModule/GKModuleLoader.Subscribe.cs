@@ -114,29 +114,29 @@ namespace GKModule
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == remoteDeviceState.UID);
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
-                    device.State.OnStateChanged();
+					device.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == remoteZoneState.UID);
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
-                    zone.State.OnStateChanged();
+					zone.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == remoteDirectionState.UID);
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
-                    direction.State.OnStateChanged();
+					direction.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePumpStationState in gkStates.PumpStationStates)
@@ -145,7 +145,7 @@ namespace GKModule
 				if (pumpStation != null)
 				{
 					remotePumpStationState.CopyTo(pumpStation.State);
-                    pumpStation.State.OnStateChanged();
+					pumpStation.State.OnStateChanged();
 				}
 			}
 			foreach (var remoteMPTState in gkStates.MPTStates)
@@ -159,29 +159,29 @@ namespace GKModule
 			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
-				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
+				var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == delayState.UID);
 				if (delay == null)
 					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
 				if (delay != null)
 				{
 					delayState.CopyTo(delay.State);
-                    delay.State.OnStateChanged();
+					delay.State.OnStateChanged();
 				}
 			}
 			foreach (var remotePimState in gkStates.PimStates)
 			{
-				var pim = XManager.Pims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				var pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == remotePimState.UID);
 				if (pim == null)
 					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
 				if (pim != null)
 				{
 					remotePimState.CopyTo(pim.State);
-                    pim.State.OnStateChanged();
+					pim.State.OnStateChanged();
 				}
 			}
 			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceMeasureParameter.DeviceUID);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceMeasureParameter.DeviceUID);
 				if (device != null)
 				{
 					device.State.XMeasureParameterValues = deviceMeasureParameter.MeasureParameterValues;

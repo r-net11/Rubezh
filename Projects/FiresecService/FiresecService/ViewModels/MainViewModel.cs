@@ -86,12 +86,12 @@ namespace FiresecService.ViewModels
 			delegate()
 			{
 				LastLog = message;
-                InfoLog += message + "\n";
+				InfoLog += message + "\n";
 			}
 			));
 		}
 
-        string _lastLog = "";
+		string _lastLog = "";
 		public string LastLog
 		{
 			get { return _lastLog; }

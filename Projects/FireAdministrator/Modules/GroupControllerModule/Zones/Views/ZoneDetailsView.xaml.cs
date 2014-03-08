@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class ZoneDetailsView : UserControl
-    {
-        public ZoneDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ZoneDetailsView : UserControl
+	{
+		public ZoneDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

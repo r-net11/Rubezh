@@ -33,7 +33,7 @@ namespace SKDModule
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
 		DocumentsViewModel DocumentsViewModel;
-		AdditionalColumnsViewModel AdditionalColumnsViewModel;
+		AdditionalColumnTypesViewModel AdditionalColumnsViewModel;
 		TimeIntervalsViewModel TimeIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
@@ -61,7 +61,7 @@ namespace SKDModule
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
-			AdditionalColumnsViewModel = new AdditionalColumnsViewModel();
+			AdditionalColumnsViewModel = new AdditionalColumnTypesViewModel();
 			TimeIntervalsViewModel = new TimeIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();

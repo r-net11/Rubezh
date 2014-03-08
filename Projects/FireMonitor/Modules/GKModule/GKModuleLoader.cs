@@ -171,8 +171,8 @@ namespace GKModule
 		{
 			return new List<IReportProvider>()
 			{
-                new DriverCounterReport(),
-                new DeviceListReport(),
+				new DriverCounterReport(),
+				new DeviceListReport(),
 				new JournalReport(),
 #if DEBUG
 				new DeviceParametersReport()

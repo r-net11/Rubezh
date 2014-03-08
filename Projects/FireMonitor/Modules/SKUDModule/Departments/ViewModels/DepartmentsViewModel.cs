@@ -7,6 +7,7 @@ using System;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using Infrastructure.Common;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -18,16 +19,8 @@ namespace SKDModule.ViewModels
 		{
 			Current = this;
 			Departments = new ObservableCollection<DepartmentViewModel>();
-			//var departments = FiresecManager.GetDepartments(null);
-			//foreach (var department in departments)
-			//{
-			//    var departmentViewModel = new DepartmentViewModel(department);
-			//    Departments.Add(departmentViewModel);
-			//}
-
 			Filter = new DepartmentFilter();
-			//Update();
-			WithDeletedCommand = new RelayCommand(OnWithDeleted);
+			Update();
 		}
 
 		public RelayCommand WithDeletedCommand { get; private set; }
@@ -42,8 +35,15 @@ namespace SKDModule.ViewModels
 		void Update()
 		{
 			Departments = new ObservableCollection<DepartmentViewModel>();
-			RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUid == null);
-			if (RootDepartment != null)
+			var departments = DepartmentHelper.Get(new DepartmentFilter());
+			if (departments != null)
+				foreach (var department in departments)
+				{
+					var departmentViewModel = new DepartmentViewModel(department);
+					Departments.Add(departmentViewModel);
+				}
+			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
+			if (RootDepartments.IsNotNullOrEmpty())
 			{
 				BuildTree();
 			}
@@ -74,14 +74,17 @@ namespace SKDModule.ViewModels
 		#region Tree
 		void BuildTree()
 		{
-			AddChildren(RootDepartment);
+			foreach (var root in RootDepartments)
+			{
+				AddChildren(root);	
+			}
 		}
 
 		void AddChildren(DepartmentViewModel departmentViewModel)
 		{
-			if (departmentViewModel.Department.ChildDepartmentUids.Count > 0)
+			if (departmentViewModel.Department.ChildDepartmentUIDs != null && departmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
 			{
-				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUids.Any(y => y == x.Department.UID));
+				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUIDs.Any(y => y == x.Department.UID));
 				foreach (var child in children)
 				{
 					departmentViewModel.AddChild(child);
@@ -103,21 +106,15 @@ namespace SKDModule.ViewModels
 			return (result);
 		}
 
-		DepartmentViewModel rootDepartment;
-		public DepartmentViewModel RootDepartment
-		{
-			get { return rootDepartment; }
-			private set
-			{
-				rootDepartment = value;
-				OnPropertyChanged(() => RootDepartment);
-				OnPropertyChanged(() => RootDepartments);
-			}
-		}
-
+		DepartmentViewModel[] rootDepartments;
 		public DepartmentViewModel[] RootDepartments
 		{
-			get { return new DepartmentViewModel[] { RootDepartment }; }
+			get { return rootDepartments; }
+			set
+			{
+				rootDepartments = value;
+				OnPropertyChanged(() => RootDepartments);
+			}
 		}
 		#endregion
 	}

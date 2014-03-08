@@ -4,24 +4,24 @@
 		<Views:CamerasView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
-        <Views:CameraDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
+		<Views:CameraDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CameraTooltipViewModel}">
-        <Views:CameraTooltipView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CameraTooltipViewModel}">
+		<Views:CameraTooltipView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartCameraViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartCameraViewModel}">
 		<Views:LayoutPartCameraView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
-        <Views:LayoutMultiCameraView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MultiLayoutCameraViewModel}">
+		<Views:LayoutMultiCameraView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
-        <Views:LayoutPartPropertyCameraPageView />
-    </DataTemplate>    
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
+		<Views:LayoutPartPropertyCameraPageView />
+	</DataTemplate>
 
 </ResourceDictionary>

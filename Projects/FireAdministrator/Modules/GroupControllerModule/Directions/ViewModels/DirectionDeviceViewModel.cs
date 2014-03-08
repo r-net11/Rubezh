@@ -5,14 +5,14 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class DirectionDeviceViewModel
-    {
-        public DirectionDeviceViewModel(XDirectionDevice directionDevice)
-        {
-            DirectionDevice = directionDevice;
-        }
+	public class DirectionDeviceViewModel
+	{
+		public DirectionDeviceViewModel(XDirectionDevice directionDevice)
+		{
+			DirectionDevice = directionDevice;
+		}
 
-        public XDirectionDevice DirectionDevice { get; private set; }
+		public XDirectionDevice DirectionDevice { get; private set; }
 
 		public string PresentationZone
 		{
@@ -24,19 +24,19 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        public XStateBit StateType
-        {
-            get { return DirectionDevice.StateBit; }
-            set
-            {
+		public XStateBit StateType
+		{
+			get { return DirectionDevice.StateBit; }
+			set
+			{
 				DirectionDevice.StateBit = value;
-                ServiceFactory.SaveService.GKChanged = true;
-            }
-        }
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
 
 		public List<XStateBit> StateTypes
-        {
-            get { return DirectionDevice.Device.Driver.AvailableStateBits; }
-        }
-    }
+		{
+			get { return DirectionDevice.Device.Driver.AvailableStateBits; }
+		}
+	}
 }

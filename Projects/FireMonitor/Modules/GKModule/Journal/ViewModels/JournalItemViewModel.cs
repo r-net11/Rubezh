@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
-						Device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						Device = XManager.Devices.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (Device != null)
 						{
 							PresentationName = Device.PresentationName;
@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Zone:
-						Zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						Zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (Zone != null)
 						{
 							PresentationName = Zone.PresentationName;
@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Direction:
-						Direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						Direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (Direction != null)
 						{
 							PresentationName = Direction.PresentationName;
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Delay:
-						Delay = XManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						Delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (Delay != null)
 						{
 							PresentationName = Delay.PresentationName;
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Pim:
-						Pim = XManager.Pims.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						Pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (Pim != null)
 						{
 							PresentationName = Pim.PresentationName;

@@ -54,21 +54,21 @@ namespace SKDModule
 								break;
 
 							//case JournalItemType.Zone:
-							//    var zone = XManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-							//    if (zone != null)
-							//    {
-							//        var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.UID); });
-							//        if (existsOnPlan)
-							//        {
-							//            ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
-							//        }
-							//        existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.UID); });
-							//        if (existsOnPlan)
-							//        {
-							//            ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
-							//        }
-							//    }
-							//    break;
+							//	var zone = XManager.Zones.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+							//	if (zone != null)
+							//	{
+							//		var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleXZones.Any(y => y.ZoneUID == zone.UID); });
+							//		if (existsOnPlan)
+							//		{
+							//			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
+							//		}
+							//		existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementPolygonXZones.Any(y => y.ZoneUID == zone.UID); });
+							//		if (existsOnPlan)
+							//		{
+							//			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
+							//		}
+							//	}
+							//	break;
 						}
 					}
 				}

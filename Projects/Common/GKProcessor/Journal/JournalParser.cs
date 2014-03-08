@@ -290,11 +290,11 @@ namespace GKProcessor
 
 			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
 			//{
-			//    var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
-			//    if (pumpTypeProperty != null)
-			//    {
-			//        JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
-			//    }
+			//	var pumpTypeProperty = Device.Properties.FirstOrDefault(x => x.Name == "PumpType");
+			//	if (pumpTypeProperty != null)
+			//	{
+			//		JournalItem.Description = JournalStringsHelper.GetPumpFailureMessage(JournalItem.Description, pumpTypeProperty.Value);
+			//	}
 			//}
 
 			if (JournalItem.StateClass == XStateClass.No)
@@ -322,21 +322,21 @@ namespace GKProcessor
 				if (Device != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Device;
-					JournalItem.ObjectUID = Device.UID;
+					JournalItem.ObjectUID = Device.BaseUID;
 					JournalItem.ObjectName = Device.DottedPresentationAddress + Device.ShortName;
 				}
 				Zone = XManager.Zones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Zone != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Zone;
-					JournalItem.ObjectUID = Zone.UID;
+					JournalItem.ObjectUID = Zone.BaseUID;
 					JournalItem.ObjectName = Zone.PresentationName;
 				}
 				Direction = XManager.Directions.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Direction != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Direction;
-					JournalItem.ObjectUID = Direction.UID;
+					JournalItem.ObjectUID = Direction.BaseUID;
 					JournalItem.ObjectName = Direction.PresentationName;
 				}
 				PumpStation = XManager.PumpStations.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
@@ -357,14 +357,14 @@ namespace GKProcessor
 				if (Delay != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Delay;
-					JournalItem.ObjectUID = Delay.UID;
+					JournalItem.ObjectUID = Delay.BaseUID;
 					JournalItem.ObjectName = Delay.PresentationName;
 				}
 				Pim = XManager.Pims.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
 				if (Pim != null)
 				{
 					JournalItem.JournalItemType = JournalItemType.Pim;
-					JournalItem.ObjectUID = Pim.UID;
+					JournalItem.ObjectUID = Pim.BaseUID;
 					JournalItem.ObjectName = Pim.PresentationName;
 				}
 			}
@@ -380,11 +380,11 @@ namespace GKProcessor
 			var second = bytes[32 + 9];
 			//try
 			//{
-			//    JournalItem.DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
+			//	JournalItem.DeviceDateTime = new DateTime(2000 + year, month, day, hour, minute, second);
 			//}
 			//catch
 			//{
-			//    JournalItem.DeviceDateTime = DateTime.MinValue;
+			//	JournalItem.DeviceDateTime = DateTime.MinValue;
 			//}
 			JournalItem.SystemDateTime = DateTime.Now;
 		}

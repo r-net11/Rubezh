@@ -155,16 +155,16 @@ namespace Infrastructure.Designer.DesignerItems
 
 		//public override void DragStarted(Point point)
 		//{
-		//    if (IsSelected)
-		//    {
-		//        IsBusy = true;
-		//        ((DesignerCanvas)DesignerCanvas).BeginMove(point);
-		//    }
+		//	if (IsSelected)
+		//	{
+		//		IsBusy = true;
+		//		((DesignerCanvas)DesignerCanvas).BeginMove(point);
+		//	}
 		//}
 		//public override void DragCompleted(Point point)
 		//{
-		//    IsBusy = false;
-		//    ((DesignerCanvas)DesignerCanvas).EndMove();
+		//	IsBusy = false;
+		//	((DesignerCanvas)DesignerCanvas).EndMove();
 		//}
 
 		protected override void OnChanged()

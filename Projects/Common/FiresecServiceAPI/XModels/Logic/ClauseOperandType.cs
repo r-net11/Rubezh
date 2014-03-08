@@ -2,12 +2,12 @@
 
 //namespace XFiresecAPI
 //{
-//    public enum ClauseOperandType
-//    {
-//        [DescriptionAttribute("устройство")]
-//        Device,
+//	public enum ClauseOperandType
+//	{
+//		[DescriptionAttribute("устройство")]
+//		Device,
 
-//        [DescriptionAttribute("зона")]
-//        Zone
-//    }
+//		[DescriptionAttribute("зона")]
+//		Zone
+//	}
 //}

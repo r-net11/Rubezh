@@ -14,7 +14,7 @@ namespace XFiresecAPI
 			Fire2Count = 3;
 			Devices = new List<XDevice>();
 			Directions = new List<XDirection>();
-            DevicesInLogic = new List<XDevice>();
+			DevicesInLogic = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
 
@@ -22,7 +22,7 @@ namespace XFiresecAPI
 
 		public List<XDevice> Devices { get; set; }
 		public List<XDirection> Directions { get; set; }
-        public List<XDevice> DevicesInLogic { get; set; }
+		public List<XDevice> DevicesInLogic { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

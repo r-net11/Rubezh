@@ -1,32 +1,32 @@
 ﻿<UserControl x:Class="LibraryModule.Views.StateDetailsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             MinWidth="400" MinHeight="500">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 MinWidth="400" MinHeight="500">
 
-    <DataGrid Focusable="True" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True">
-        <DataGrid.Resources>
-            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-            </InputBindingCollection>
-        </DataGrid.Resources>
-        <DataGrid.ItemContainerStyle>
-            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-            </Style>
-        </DataGrid.ItemContainerStyle>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Состояние" SortMemberPath="State.StateType" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding State.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" />
-                            <TextBlock Text="{Binding ClassName}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Описание" Binding="{Binding AdditionalName}" Width="*" />
-        </DataGrid.Columns>
-    </DataGrid>
+	<DataGrid Focusable="True" ItemsSource="{Binding States}" SelectedItem="{Binding SelectedState}" CanUserSortColumns="True">
+		<DataGrid.Resources>
+			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+			</InputBindingCollection>
+		</DataGrid.Resources>
+		<DataGrid.ItemContainerStyle>
+			<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+			</Style>
+		</DataGrid.ItemContainerStyle>
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Состояние" SortMemberPath="State.StateType" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Source="{Binding State.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" />
+							<TextBlock Text="{Binding ClassName}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTextColumn Header="Описание" Binding="{Binding AdditionalName}" Width="*" />
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>

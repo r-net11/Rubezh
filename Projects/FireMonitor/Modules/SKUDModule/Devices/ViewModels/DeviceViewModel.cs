@@ -96,26 +96,26 @@ namespace SKDModule.ViewModels
 
 		#region Ignore
 		public RelayCommand SetIgnoreCommand { get; private set; }
-        void OnSetIgnore()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnore()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
-            }
-        }
+			}
+		}
 		bool CanSetIgnore()
 		{
 			return Device.IsRealDevice && !Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
-        void OnResetIgnore()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnResetIgnore()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
-            }
-        }
+			}
+		}
 		bool CanResetIgnore()
 		{
 			return Device.IsRealDevice && Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);

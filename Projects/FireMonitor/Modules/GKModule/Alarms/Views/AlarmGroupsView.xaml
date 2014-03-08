@@ -1,72 +1,72 @@
 ﻿<UserControl x:Class="GKModule.Views.AlarmGroupsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:GKModule.Converters">
-    <UserControl.Resources>
-        <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
-        <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
-        <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
-        <Converters:AlarmTypeToShortStringConverter x:Key="AlarmTypeToShortStringConverter" />
-    </UserControl.Resources>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:Converters="clr-namespace:GKModule.Converters">
+	<UserControl.Resources>
+		<Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
+		<Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
+		<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+		<Converters:AlarmTypeToShortStringConverter x:Key="AlarmTypeToShortStringConverter" />
+	</UserControl.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Controls:AlarmButton Grid.Column="0" Command="{Binding ResetCommand}" 
-                Width="70" Height="70" Margin="5 2" FontSize="15" GlowColor="Transparent" IsGlowing="{Binding CanReset}" IsEnabled="{Binding CanReset}"
-                MouseDown="Button_MouseDown">
-                <StackPanel>
-                    <TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
-                    <Image Source="/Controls;component/Images/ResetAlarm.png" Width="32" />
-                </StackPanel>
-            </Controls:AlarmButton>
-            <Grid.ToolTip>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Controls;component/Images/Reset.png" Width="16" Margin="2" />
-                    <TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Grid.ToolTip>
-        </Grid>
-        
-        <ItemsControl Grid.Column="1" ItemsSource="{Binding AlarmGroups}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
-                            GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
-                            IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
-                            <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
-                        </Controls:AlarmButton>
-                        <Grid.ToolTip>
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" /> 
-                                    <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>    
-                                </StackPanel>
-                                <ItemsControl ItemsSource="{Binding Alarms}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 1" />
-                                                <TextBlock Text="{Binding ObjectName}" Margin="2 1" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Grid.ToolTip>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<Grid Grid.Column="0">
+			<Controls:AlarmButton Grid.Column="0" Command="{Binding ResetCommand}" 
+				Width="70" Height="70" Margin="5 2" FontSize="15" GlowColor="Transparent" IsGlowing="{Binding CanReset}" IsEnabled="{Binding CanReset}"
+				MouseDown="Button_MouseDown">
+				<StackPanel>
+					<TextBlock Text="СБРОС" HorizontalAlignment="Center" Margin="0 3" Foreground="White" FontWeight="Bold" VerticalAlignment="Top" />
+					<Image Source="/Controls;component/Images/ResetAlarm.png" Width="32" />
+				</StackPanel>
+			</Controls:AlarmButton>
+			<Grid.ToolTip>
+				<StackPanel Orientation="Horizontal">
+					<Image Source="/Controls;component/Images/Reset.png" Width="16" Margin="2" />
+					<TextBlock Text="Сбросить все(F4)" FontWeight="Black" VerticalAlignment="Center"/>
+				</StackPanel>
+			</Grid.ToolTip>
+		</Grid>
+		
+		<ItemsControl Grid.Column="1" ItemsSource="{Binding AlarmGroups}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
+							GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
+							IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
+							<Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+						</Controls:AlarmButton>
+						<Grid.ToolTip>
+							<StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToBIconConverter}}" Width="16" Margin="2" /> 
+									<TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" FontWeight="Black" VerticalAlignment="Center"/>	
+								</StackPanel>
+								<ItemsControl ItemsSource="{Binding Alarms}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="2 1" />
+												<TextBlock Text="{Binding ObjectName}" Margin="2 1" />
+											</StackPanel>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</StackPanel>
+						</Grid.ToolTip>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
 </UserControl>

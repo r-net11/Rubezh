@@ -17,7 +17,7 @@ namespace GKProcessor
 			try
 			{
 				DescriptorsManager.Create();
-				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+				var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.BaseUID == gkDevice.BaseUID);
 				if (gkDatabase != null)
 				{
 					var result = DeviceBytesHelper.Ping(gkDatabase.RootDevice);

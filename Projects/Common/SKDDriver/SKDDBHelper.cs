@@ -8,23 +8,22 @@ namespace SKDDriver
 {
 	public static class SKDDBHelper
 	{
-		static SKDDatabaseService SKDService = new SKDDatabaseService();
-		
 		public static void Add(SKDJournalItem journalItem)
 		{
-			//SKDService.SaveSKDJournalItems(new List<SKDJournalItem>{journalItem});	
+			SKDDatabaseService.JournalItemTranslator.Save(new List<SKDJournalItem> { journalItem });	
 		}
 
 		public static void AddMany(List<SKDJournalItem> journalItems)
 		{
-			//SKDService.SaveSKDJournalItems(journalItems);	
+			SKDDatabaseService.JournalItemTranslator.Save(journalItems);	
 		}
 
 		public static SKDJournalItem AddMessage(string name, string userName)
 		{
-			return new SKDJournalItem();
-			//var journalItem = new SKDJournalItem();
-			//return journalItem;
+			var result = new SKDJournalItem();
+			result.Name = name;
+			result.UserName = userName;
+			return result;
 		}
 	}
 }

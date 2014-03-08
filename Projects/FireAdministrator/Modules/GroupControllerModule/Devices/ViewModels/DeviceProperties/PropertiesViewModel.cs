@@ -28,10 +28,10 @@ namespace GKModule.ViewModels
 			EnumProperties = new List<EnumPropertyViewModel>();
 			if (Device != null)
 			{
-                if (Device.PredefinedName == "Тест")
-                {
-                    return;
-                }
+				if (Device.PredefinedName == "Тест")
+				{
+					return;
+				}
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
 					if (driverProperty.IsMPTOrMRORegime)
@@ -71,29 +71,29 @@ namespace GKModule.ViewModels
 				DeviceParameterMissmatchType maxDeviceParameterMissmatchType = DeviceParameterMissmatchType.Equal;
 				foreach (var auProperty in StringProperties)
 				{
-                    if (!auProperty.IsAUParameter)
-                        continue;
+					if (!auProperty.IsAUParameter)
+						continue;
 					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
 						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
 				}
 				foreach (var auProperty in ShortProperties)
 				{
-                    if (!auProperty.IsAUParameter)
-                        continue;
+					if (!auProperty.IsAUParameter)
+						continue;
 					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
 						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
 				}
 				foreach (var auProperty in BoolProperties)
 				{
-                    if (!auProperty.IsAUParameter)
-                        continue;
+					if (!auProperty.IsAUParameter)
+						continue;
 					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
 						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
 				}
 				foreach (var auProperty in EnumProperties)
 				{
-                    if (!auProperty.IsAUParameter)
-                        continue;
+					if (!auProperty.IsAUParameter)
+						continue;
 					if (auProperty.DeviceParameterMissmatchType > maxDeviceParameterMissmatchType)
 						maxDeviceParameterMissmatchType = auProperty.DeviceParameterMissmatchType;
 				}
@@ -116,7 +116,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-                if ((Device == null) || (Device.PredefinedName == "Тест"))
+				if ((Device == null) || (Device.PredefinedName == "Тест"))
 					return false;
 				return Device.Properties.Count != 0;
 			}

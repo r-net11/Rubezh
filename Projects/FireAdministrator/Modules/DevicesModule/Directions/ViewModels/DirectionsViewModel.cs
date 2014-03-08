@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
 			AddCommand = new RelayCommand(OnAdd);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -86,9 +86,9 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				FiresecManager.Directions.Add(directionDetailsViewModel.Direction);
-                var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
-                Directions.Add(directionViewModel);
-                SelectedDirection = directionViewModel;
+				var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
+				Directions.Add(directionViewModel);
+				SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
@@ -96,17 +96,17 @@ namespace DevicesModule.ViewModels
 		#region ISelectable<Guid> Members
 		public void Select(Guid directionUID)
 		{
-            if (directionUID != Guid.Empty)
-                SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
+			if (directionUID != Guid.Empty)
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 		#endregion
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 
 		private void SetRibbonItems()
 		{

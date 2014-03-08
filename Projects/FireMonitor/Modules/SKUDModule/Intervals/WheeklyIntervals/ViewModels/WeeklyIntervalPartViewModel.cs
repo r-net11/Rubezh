@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 			AvailableTimeIntervals = new ObservableCollection<EmployeeTimeInterval>();
 			//foreach (var namedTimeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			//{
-			//    AvailableTimeIntervals.Add(namedTimeInterval);
+			//	AvailableTimeIntervals.Add(namedTimeInterval);
 			//}
 			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.TimeIntervalUID);
 		}

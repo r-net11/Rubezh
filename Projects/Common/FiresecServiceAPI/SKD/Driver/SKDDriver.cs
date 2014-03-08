@@ -15,7 +15,7 @@ namespace XFiresecAPI
 			AvailableStateClasses = new List<XStateClass>();
 			CanEditAddress = true;
 			HasAddress = true;
-            IsPlaceable = false;
+			IsPlaceable = false;
 		}
 
 		public SKDDriverType DriverType { get; set; }
@@ -23,8 +23,8 @@ namespace XFiresecAPI
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string ShortName { get; set; }
-        public string DeviceClassName { get; set; }
-        public List<XDriverState> XStates { get; set; }
+		public string DeviceClassName { get; set; }
+		public List<XDriverState> XStates { get; set; }
 
 		public List<XDriverProperty> Properties { get; set; }
 		public List<XStateBit> AvailableStateBits { get; set; }
@@ -44,7 +44,7 @@ namespace XFiresecAPI
 		public bool HasZone { get; set; }
 		public bool HasOuterZone { get; set; }
 		public bool IsControlDevice { get; set; }
-        public bool IsPlaceable { get; set; }
+		public bool IsPlaceable { get; set; }
 
 		public string ImageSource
 		{

@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		public void InitializeEventNames(XArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
-            foreach (var eventName in EventNameHelper.EventNames)
+			foreach (var eventName in EventNameHelper.EventNames)
 			{
 				EventNames.Add(new EventNameViewModel(eventName, DistinctDatabaseNames));
 			}
@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var zoneUID in archiveFilter.ZoneUIDs)
 			{
-				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.UID == zoneUID);
+				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.BaseUID == zoneUID);
 				if (archiveZone != null)
 				{
 					archiveZone.IsChecked = true;
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var directionUID in archiveFilter.DirectionUIDs)
 			{
-				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.UID == directionUID);
+				var archiveDirection = ArchiveDirections.Items.FirstOrDefault(x => (x as ArchiveDirectionViewModel).Direction.BaseUID == directionUID);
 				if (archiveDirection != null)
 				{
 					archiveDirection.IsChecked = true;
@@ -215,7 +215,7 @@ namespace GKModule.ViewModels
 			}
 			foreach (var uid in archiveFilter.PimUIDs)
 			{
-				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.UID == uid);
+				var pim = PIMs.Items.FirstOrDefault(x => x.Pim.BaseUID == uid);
 				if (pim != null)
 				{
 					pim.IsChecked = true;
@@ -237,7 +237,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.UID == deviceUID)
+					if (archiveDevice.Device.BaseUID == deviceUID)
 					{
 						archiveDevice.IsChecked = true;
 						archiveDevice.ExpandToThis();
@@ -271,7 +271,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (ArchiveDeviceViewModel archiveDevice in AllDevices.Items)
 				{
-					if (archiveDevice.Device.UID == deviceUID)
+					if (archiveDevice.Device.BaseUID == deviceUID)
 					{
 						archiveDevice.ExpandToThis();
 						SelectedDevice = archiveDevice;
@@ -406,22 +406,22 @@ namespace GKModule.ViewModels
 			foreach (var eventName in EventNames.Items)
 			{
 				if (eventName.IsChecked)
-                    archiveFilter.EventNames.Add(eventName.EventName.Name);
+					archiveFilter.EventNames.Add(eventName.EventName.Name);
 			}
 			foreach (var archiveDevice in AllDevices.Items)
 			{
 				if (archiveDevice.IsChecked)
-					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.UID);
+					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.BaseUID);
 			}
 			foreach (var archiveZone in ArchiveZones.Items)
 			{
 				if (archiveZone.IsChecked)
-					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.UID);
+					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.BaseUID);
 			}
 			foreach (var archiveDirection in ArchiveDirections.Items)
 			{
 				if (archiveDirection.IsChecked)
-					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.UID);
+					archiveFilter.DirectionUIDs.Add(archiveDirection.Direction.BaseUID);
 			}
 			foreach (var description in ArchiveDescriptions.Items)
 			{
@@ -446,7 +446,7 @@ namespace GKModule.ViewModels
 			foreach (var pim in PIMs.Items)
 			{
 				if (pim.IsChecked)
-					archiveFilter.PimUIDs.Add(pim.Pim.UID);
+					archiveFilter.PimUIDs.Add(pim.Pim.BaseUID);
 			}
 			return archiveFilter;
 		}

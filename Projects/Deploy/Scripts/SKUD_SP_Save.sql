@@ -393,8 +393,8 @@ BEGIN
 				NULL ,
 				NULL ,
 				NULL ,
-				NULL ,
-				NULL ,
+				'01/01/1900' ,
+				'01/01/1900' ,
 				@IsDeleted ,
 				@RemovalDate,
 				@OrganizationUid,
@@ -629,61 +629,6 @@ BEGIN
 		END
 END
 
-
-
-GO
-CREATE PROCEDURE [dbo].[SaveAdditionalColumn]
-	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,
-	@Name [nvarchar](50) = NULL,
-	@Description [nvarchar](max) = NULL,
-	@Type [nvarchar](50) = NULL,
-	@TextData [text] = NULL,
-	@GraphicsData [binary](8000) = NULL,
-	@EmployeeUid [uniqueidentifier] = NULL,
-	@IsDeleted [bit] = NULL,
-	@RemovalDate [datetime] = NULL
-AS
-BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[AdditionalColumn] WHERE Uid = @Uid)
-		UPDATE [dbo].[AdditionalColumn] SET 
-			[Uid] = @Uid ,
-			[IsDeleted] = @IsDeleted,
-			[RemovalDate] = @RemovalDate,
-			[Name] = @Name ,
-			[Description] = @Description,
-			[Type] = @Type ,
-			[TextData] = @TextData,
-			[GraphicsData] =@GraphicsData,
-			[EmployeeUid] =@EmployeeUid,
-			OrganizationUid = @OrganizationUid 
-		WHERE Uid = @Uid
-	ELSE
-		BEGIN
-			INSERT INTO [dbo].[AdditionalColumn] (
-				[Uid],
-				[IsDeleted] ,
-				[RemovalDate],
-				[Name] ,
-				[Description],
-				[Type] ,
-				[TextData] ,
-				[GraphicsData] ,
-				[EmployeeUid],
-				OrganizationUid )
-			VALUES (
-				@Uid,
-				@IsDeleted,
-				@RemovalDate,
-				@Name ,
-				@Description,
-				@Type ,
-				@TextData,
-				@GraphicsData,
-				@EmployeeUid,
-				@OrganizationUid)
-		END
-END
 GO
 CREATE PROCEDURE [dbo].[SaveOrganization]
 	@Uid [uniqueidentifier] ,

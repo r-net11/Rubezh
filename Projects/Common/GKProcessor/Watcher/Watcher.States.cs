@@ -105,7 +105,7 @@ namespace GKProcessor
 				var holdDelay = xBase.InternalState.HoldDelay;
 				var offDelay = xBase.InternalState.OffDelay;
 
-				if (MeasureDeviceInfos.Any(x => x.Device.UID == xBase.BaseUID))
+				if (MeasureDeviceInfos.Any(x => x.Device.BaseUID == xBase.BaseUID))
 				{
 					GetDelays(xBase);
 				}
@@ -303,7 +303,7 @@ namespace GKProcessor
 
 		void NotifyAllObjectsStateChanged()
 		{
-			var gkDevice = XManager.Devices.FirstOrDefault(x => x.UID == GkDatabase.RootDevice.UID);
+			var gkDevice = XManager.Devices.FirstOrDefault(x => x.BaseUID == GkDatabase.RootDevice.BaseUID);
 			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
 			{
 				OnObjectStateChanged(device);

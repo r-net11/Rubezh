@@ -85,7 +85,7 @@ namespace VideoModule.ViewModels
 				var zones = new List<XZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs)
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
@@ -116,8 +116,8 @@ namespace VideoModule.ViewModels
 		{
 			//TODO: TEST (CameraVideo isn't working now)
 			//{
-			//    IsNowPlaying = false;
-			//    return;
+			//	IsNowPlaying = false;
+			//	return;
 			//}
 			MjpegCamera.FrameReady -= BmpToImageSource;
 			MjpegCamera.ErrorHandler -= GetError;

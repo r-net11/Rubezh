@@ -24,8 +24,8 @@ namespace GKModule.Plans.Designer
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
 			foreach (var xdevice in XManager.Devices)
 			{
-				if (!_xdeviceMap.ContainsKey(xdevice.UID))
-					_xdeviceMap.Add(xdevice.UID, xdevice);
+				if (!_xdeviceMap.ContainsKey(xdevice.BaseUID))
+					_xdeviceMap.Add(xdevice.BaseUID, xdevice);
 			}
 		}
 		public static void BuildXZoneMap()
@@ -33,8 +33,8 @@ namespace GKModule.Plans.Designer
 			_xzoneMap = new Dictionary<Guid, XZone>();
 			foreach (var xzone in XManager.Zones)
 			{
-				if (!_xzoneMap.ContainsKey(xzone.UID))
-					_xzoneMap.Add(xzone.UID, xzone);
+				if (!_xzoneMap.ContainsKey(xzone.BaseUID))
+					_xzoneMap.Add(xzone.BaseUID, xzone);
 			}
 		}
 		public static void BuildXDirectionMap()
@@ -42,8 +42,8 @@ namespace GKModule.Plans.Designer
 			_xdirectionMap = new Dictionary<Guid, XDirection>();
 			foreach (var xdirection in XManager.Directions)
 			{
-				if (!_xdirectionMap.ContainsKey(xdirection.UID))
-					_xdirectionMap.Add(xdirection.UID, xdirection);
+				if (!_xdirectionMap.ContainsKey(xdirection.BaseUID))
+					_xdirectionMap.Add(xdirection.BaseUID, xdirection);
 			}
 		}
 	
@@ -72,7 +72,7 @@ namespace GKModule.Plans.Designer
 		public static void SetXZone(IElementZone element, XZone xzone)
 		{
 			ResetXZone(element);
-			element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
+			element.ZoneUID = xzone == null ? Guid.Empty : xzone.BaseUID;
 			element.BackgroundColor = GetXZoneColor(xzone);
 			if (xzone != null)
 				xzone.PlanElementUIDs.Add(element.UID);
@@ -116,7 +116,7 @@ namespace GKModule.Plans.Designer
 		public static void SetXDirection(IElementDirection element, XDirection xdirection)
 		{
 			ResetXDirection(element);
-			element.DirectionUID = xdirection == null ? Guid.Empty : xdirection.UID;
+			element.DirectionUID = xdirection == null ? Guid.Empty : xdirection.BaseUID;
 			element.BackgroundColor = GetXDirectionColor(xdirection);
 			if (xdirection != null)
 				xdirection.PlanElementUIDs.Add(element.UID);
@@ -159,7 +159,7 @@ namespace GKModule.Plans.Designer
 		public static void SetXDevice(ElementXDevice element, XDevice device)
 		{
 			ResetXDevice(element);
-			element.XDeviceUID = device == null ? Guid.Empty : device.UID;
+			element.XDeviceUID = device == null ? Guid.Empty : device.BaseUID;
 			if (device != null)
 				device.PlanElementUIDs.Add(element.UID);
 		}

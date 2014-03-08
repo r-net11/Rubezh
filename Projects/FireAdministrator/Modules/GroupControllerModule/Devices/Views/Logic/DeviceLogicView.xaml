@@ -1,39 +1,39 @@
 ﻿<UserControl x:Class="GKModule.Views.DeviceLogicView"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		xmlns:Converters="clr-namespace:GKModule.Converters"
 		xmlns:Views="clr-namespace:GKModule.Views"
 		MinWidth="800" MinHeight="500">
 
-    <TabControl>
-        <TabItem Header="Условие включения">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <Views:ClausesView DataContext="{Binding OnLogicViewModel}" />
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsMRO_2M, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
-                        <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
-        </TabItem>
-        <TabItem Header="{Binding OffClauseName}" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Views:ClausesView DataContext="{Binding OffLogicViewModel}" />
-            </ScrollViewer>
-        </TabItem>
-    </TabControl>
+	<TabControl>
+		<TabItem Header="Условие включения">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<StackPanel>
+					<Views:ClausesView DataContext="{Binding OnLogicViewModel}" />
+					<StackPanel Orientation="Horizontal" Visibility="{Binding IsMRO_2M, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+						<ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</TabItem>
+		<TabItem Header="{Binding OffClauseName}" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<Views:ClausesView DataContext="{Binding OffLogicViewModel}" />
+			</ScrollViewer>
+		</TabItem>
+	</TabControl>
 </UserControl>

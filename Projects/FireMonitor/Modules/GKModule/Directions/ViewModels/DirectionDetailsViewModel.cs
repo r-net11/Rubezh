@@ -96,79 +96,79 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
-        void OnSetAutomaticState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetAutomaticState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Direction);
-            }
-        }
+			}
+		}
 		bool CanSetAutomaticState()
 		{
 			return ControlRegime != DeviceControlRegime.Automatic;
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-        void OnSetManualState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetManualState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetManualRegime(Direction);
-            }
-        }
+			}
+		}
 		bool CanSetManualState()
 		{
 			return ControlRegime != DeviceControlRegime.Manual;
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-        void OnSetIgnoreState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnoreState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Direction);
-            }
-        }
+			}
+		}
 		bool CanSetIgnoreState()
 		{
 			return ControlRegime != DeviceControlRegime.Ignore;
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
-        void OnTurnOn()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOn()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOn(Direction);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
-        void OnTurnOnNow()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOnNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOnNow(Direction);
-            }
-        }
+			}
+		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
-        void OnTurnOff()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKTurnOff(Direction);
-            }
-        }
+			}
+		}
 
 		public RelayCommand ForbidStartCommand { get; private set; }
-        void OnForbidStart()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnForbidStart()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKStop(Direction);
-            }
-        }
+			}
+		}
 
 		public bool HasOnDelay
 		{
@@ -182,7 +182,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.UID);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Direction.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -206,7 +206,7 @@ namespace GKModule.ViewModels
 			Plans = new ObservableCollection<PlanLinkViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				ElementBase elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Direction.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -215,7 +215,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.UID);
+				elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Direction.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -233,7 +233,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Direction.UID.ToString(); }
+			get { return Direction.BaseUID.ToString(); }
 		}
 		#endregion
 

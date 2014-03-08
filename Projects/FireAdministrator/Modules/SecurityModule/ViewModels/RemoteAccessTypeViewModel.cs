@@ -5,27 +5,27 @@ using SecurityModule.Events;
 
 namespace SecurityModule.ViewModels
 {
-    public class RemoteAccessTypeViewModel : BaseViewModel
-    {
-        public RemoteAccessTypeViewModel(RemoteAccessType remoteAccessType)
-        {
-            RemoteAccessType = remoteAccessType;
-        }
+	public class RemoteAccessTypeViewModel : BaseViewModel
+	{
+		public RemoteAccessTypeViewModel(RemoteAccessType remoteAccessType)
+		{
+			RemoteAccessType = remoteAccessType;
+		}
 
-        public RemoteAccessType RemoteAccessType { get; private set; }
+		public RemoteAccessType RemoteAccessType { get; private set; }
 
-        bool _isActive;
-        public bool IsActive
-        {
-            get { return _isActive; }
-            set
-            {
-                _isActive = value;
-                if (_isActive)
-                    ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Publish(this);
+		bool _isActive;
+		public bool IsActive
+		{
+			get { return _isActive; }
+			set
+			{
+				_isActive = value;
+				if (_isActive)
+					ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Publish(this);
 
-                OnPropertyChanged("IsActive");
-            }
-        }
-    }
+				OnPropertyChanged("IsActive");
+			}
+		}
+	}
 }

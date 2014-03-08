@@ -48,6 +48,8 @@ namespace GKModule.ViewModels
 			InitializePlans();
 
 			Title = Device.PresentationName;
+			if (!string.IsNullOrEmpty(Device.Description))
+				Title += " (" + Device.Description + ")";
 			TopMost = true;
 
 			StartMeasureParametersMonitoring();
@@ -149,13 +151,13 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.BaseUID);
 		}
 
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.BaseUID);
 		}
 		bool CanShowParent()
 		{
@@ -173,7 +175,7 @@ namespace GKModule.ViewModels
 			Plans = new ObservableCollection<PlanLinkViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				ElementBase elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Device.UID);
+				ElementBase elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Device.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -187,7 +189,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.BaseUID));
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
@@ -208,7 +210,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(zone.BaseUID);
 			}
 		}
 
@@ -222,10 +224,15 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Publish(showXArchiveEventArgs);
 		}
 
+		public bool CanNotControl
+		{
+			get { return !(Device.Driver.IsControlDevice || (Device.Driver.IsDeviceOnShleif && !Device.Driver.IsControlDevice)) || !FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+		}
+
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return Device.UID.ToString(); }
+			get { return Device.BaseUID.ToString(); }
 		}
 		#endregion
 

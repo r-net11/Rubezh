@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="FireMonitor.Views.SoundView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"             
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"			 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Button Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук" IsEnabled="{Binding IsEnabled}">
+	<Button Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук" IsEnabled="{Binding IsEnabled}">
 		<Button.Style>
 			<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 				<Style.Triggers>

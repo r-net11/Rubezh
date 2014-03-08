@@ -57,17 +57,21 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTypeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\DepartmentTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DocumentsTranslator.cs" />
-    <Compile Include="SKDDatabaseService\FilterHelper.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\OrganizationTranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\EmployeeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\GUDTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\JournalItemTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\PhotoTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\TranslatorBase.cs" />
-    <Compile Include="SKDDatabaseService\Translator\Translate.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -76,8 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Sending\SKDDeviceProcessor.cs" />
-    <Compile Include="SKDDatabaseService\Translator\TranslateBack.cs" />
-    <Compile Include="SKDDatabaseService\Translator\Update.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="VideoWatcher.cs" />

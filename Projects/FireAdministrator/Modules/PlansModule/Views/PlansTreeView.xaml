@@ -6,15 +6,15 @@
 					<MouseBinding Command="{Binding DataContext.PlansViewModel.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
 				</InputBindingCollection>
 				<ContextMenu x:Key="contextMenu" DataContext="{Binding DataContext.PlansViewModel, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}">
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочерний план" Command="{Binding AddSubPlanCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Добавить дочернюю папку" Command="{Binding AddSubFolderCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding RemoveCommand}" />
-                    <Separator />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" Command="{Binding PlanCopyCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" Command="{Binding PlanCutCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" />
-                </ContextMenu>
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочерний план" Command="{Binding AddSubPlanCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Добавить дочернюю папку" Command="{Binding AddSubFolderCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding RemoveCommand}" />
+					<Separator />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCopy.png" Text="Копировать" Command="{Binding PlanCopyCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BCut.png" Text="Вырезать" Command="{Binding PlanCutCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlanPasteCommand}" CommandParameter="{StaticResource False}" />
+				</ContextMenu>
 			</tree:TreeList.Resources>
 			<tree:TreeList.ItemContainerStyle>
 				<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
@@ -25,9 +25,9 @@
 			</tree:TreeList.ItemContainerStyle>
 			<tree:TreeList.ContextMenu>
 				<ContextMenu>
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Копировать" Command="{Binding PlansViewModel.AddCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.PlanCutCommand}" />
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Копировать" Command="{Binding PlansViewModel.AddCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.PlanCutCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" />
 				</ContextMenu>
 			</tree:TreeList.ContextMenu>
 			<tree:TreeList.View>
@@ -39,14 +39,14 @@
 								<Border Background="Transparent">
 									<StackPanel Orientation="Horizontal">
 										<Image Name="Image" Source="/Controls;component/Images/CMap.png" Margin="2" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
-                                    </StackPanel>
-                                </Border>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsFolder}" Value="True">
-                                        <Setter Property="Image.Source" Value="/Controls;component/Images/CFolder.png" TargetName="Image"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
+										<TextBlock Text="{Binding Caption}" VerticalAlignment="Center" />
+									</StackPanel>
+								</Border>
+								<DataTemplate.Triggers>
+									<DataTrigger Binding="{Binding IsFolder}" Value="True">
+										<Setter Property="Image.Source" Value="/Controls;component/Images/CFolder.png" TargetName="Image"/>
+									</DataTrigger>
+								</DataTemplate.Triggers>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

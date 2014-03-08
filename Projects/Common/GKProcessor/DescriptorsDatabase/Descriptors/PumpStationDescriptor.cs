@@ -16,7 +16,7 @@ namespace GKProcessor
 			PumpStation = pumpStation;
 
 			MainDelay = new XDelay();
-			MainDelay.UID = GuidHelper.CreateOn(PumpStation.UID);
+			MainDelay.BaseUID = GuidHelper.CreateOn(PumpStation.UID);
 			gkDatabase.AddDelay(MainDelay);
 
 			Build();
@@ -30,9 +30,9 @@ namespace GKProcessor
 			SetPropertiesBytes();
 		}
 
-        void SetFormulaBytes()
-        {
-            Formula = new FormulaBuilder();
+		void SetFormulaBytes()
+		{
+			Formula = new FormulaBuilder();
 
 			Formula.AddGetBit(XStateBit.On, MainDelay);
 			Formula.AddGetBit(XStateBit.Norm, PumpStation);
@@ -62,9 +62,9 @@ namespace GKProcessor
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный НС");
 			Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, PumpStation);
 
-            Formula.Add(FormulaOperationType.END);
-            FormulaBytes = Formula.GetBytes();
-        }
+			Formula.Add(FormulaOperationType.END);
+			FormulaBytes = Formula.GetBytes();
+		}
 
 		void SetPropertiesBytes()
 		{

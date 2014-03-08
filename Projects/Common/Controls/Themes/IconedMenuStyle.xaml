@@ -1,179 +1,179 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Converters="clr-namespace:Controls.Converters"
-                    xmlns:local="clr-namespace:Controls">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Converters="clr-namespace:Controls.Converters"
+					xmlns:local="clr-namespace:Controls">
 
-    <Converters:StringToImageConverter x:Key="StringToImageConverter" />
-    <Converters:NullToImageConverter x:Key="NullToImageConverter" />
+	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
+	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 
-    <SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
+	<SolidColorBrush x:Key="EnabledForegroundBrush" Color="Black" />
 
-    <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Color="#CCC" Offset="0.0"/>
-                <GradientStop Color="#444" Offset="1.0"/>
-            </GradientStopCollection>
-        </GradientBrush.GradientStops>
-    </LinearGradientBrush>
+	<LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
+		<GradientBrush.GradientStops>
+			<GradientStopCollection>
+				<GradientStop Color="#CCC" Offset="0.0"/>
+				<GradientStop Color="#444" Offset="1.0"/>
+			</GradientStopCollection>
+		</GradientBrush.GradientStops>
+	</LinearGradientBrush>
 
-    <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
-    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
+	<SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+	<SolidColorBrush x:Key="GlyphBrush" Color="#444" />
 
-    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}"
-       TargetType="Separator">
-        <Setter Property="Height" Value="1"/>
-        <Setter Property="Margin" Value="0,4,0,4"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Separator">
-                    <Border BorderBrush="{StaticResource SolidBorderBrush}"
-                BorderThickness="1"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+	<Style x:Key="{x:Static MenuItem.SeparatorStyleKey}"
+	   TargetType="Separator">
+		<Setter Property="Height" Value="1"/>
+		<Setter Property="Margin" Value="0,4,0,4"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Separator">
+					<Border BorderBrush="{StaticResource SolidBorderBrush}"
+				BorderThickness="1"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
 
-    <!-- TopLevelHeader -->
-    <ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
-        <Border Name="Border" Padding="5 1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
-                <TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
-                <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                    </Border>
-                </Popup>
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsSuspendingPopupAnimation" Value="true">
-                <Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
-            </Trigger>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
-            </Trigger>
-            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource EnabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-    
-    <!-- TopLevelItem -->
+	<!-- TopLevelHeader -->
+	<ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
+		<Border Name="Border" Padding="5 1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
+				<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
+				<Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+					<Border  Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+					</Border>
+				</Popup>
+			</Grid>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsSuspendingPopupAnimation" Value="true">
+				<Setter TargetName="Popup" Property="PopupAnimation" Value="None"/>
+			</Trigger>
+			<Trigger Property="IsHighlighted" Value="true">
+				<Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}"/>
+				<Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+			</Trigger>
+			<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+				<Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4"/>
+				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,3"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Foreground" Value="{StaticResource EnabledForegroundBrush}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+	
+	<!-- TopLevelItem -->
 
-    <ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
-        <Border Name="Border" Padding="5 1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
-                <TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}"/>
-                <Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+	<ControlTemplate x:Key="{x:Static IconedMenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
+		<Border Name="Border" Padding="5 1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
+				<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
+			</Grid>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsHighlighted" Value="true">
+				<Setter TargetName="Border" Property="Background" Value="{DynamicResource PressedBackgroundBrush}"/>
+				<Setter TargetName="Border" Property="BorderBrush" Value="Transparent"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
 
-    <!-- SubmenuItem -->
+	<!-- SubmenuItem -->
 
-    <ControlTemplate x:Key="{x:Static IconedMenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
-        <Border Name="Border" Padding="5 1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
-                <TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background"
-              Value="{DynamicResource HighlightedBackgoundBrush}"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+	<ControlTemplate x:Key="{x:Static IconedMenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
+		<Border Name="Border" Padding="5 1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
+				<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0 0 0" />
+			</Grid>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsHighlighted" Value="true">
+				<Setter TargetName="Border" Property="Background"
+			  Value="{DynamicResource HighlightedBackgoundBrush}"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="false">
+				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
 
-    <!-- SubmenuHeader -->
+	<!-- SubmenuHeader -->
 
-    <ControlTemplate x:Key="{x:Static IconedMenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
-        <Border Name="Border" Padding="5 1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
-                <TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0" />
-                <Path Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
-                <Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
-                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                    </Border>
-                </Popup>
-            </Grid>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}"/>
-            </Trigger>
-            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
-                <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
-                <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+	<ControlTemplate x:Key="{x:Static IconedMenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type local:IconedMenuItem}">
+		<Border Name="Border" Padding="5 1">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Image Grid.Column="0" Width="16" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
+				<TextBlock Grid.Column="1" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" Margin="2 0" />
+				<Path Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 0 7 L 4 3.5 Z" Fill="{StaticResource GlyphBrush}" />
+				<Popup Name="Popup" Placement="Right" HorizontalOffset="-4" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+					<Border Name="SubmenuBorder" SnapsToDevicePixels="True" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}" BorderThickness="1" >
+						<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+					</Border>
+				</Popup>
+			</Grid>
+		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsHighlighted" Value="true">
+				<Setter TargetName="Border" Property="Background" Value="{DynamicResource HighlightedBackgoundBrush}"/>
+			</Trigger>
+			<Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+				<Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4"/>
+				<Setter TargetName="SubmenuBorder" Property="Padding" Value="0,3,0,3"/>
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="false">
+				<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
 
-    <!-- MenuItem Style -->
+	<!-- MenuItem Style -->
 
-    <Style x:Key="{x:Type local:IconedMenuItem}" TargetType="{x:Type local:IconedMenuItem}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Style.Triggers>
-            <Trigger Property="Role" Value="TopLevelHeader">
-                <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.TopLevelHeaderTemplateKey}}"/>
-                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
-            </Trigger>
-            <Trigger Property="Role" Value="TopLevelItem">
-                <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.TopLevelItemTemplateKey}}"/>
-            </Trigger>
-            <Trigger Property="Role" Value="SubmenuHeader">
-                <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuHeaderTemplateKey}}"/>
-            </Trigger>
-            <Trigger Property="Role" Value="SubmenuItem">
-                <Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuItemTemplateKey}}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
+	<Style x:Key="{x:Type local:IconedMenuItem}" TargetType="{x:Type local:IconedMenuItem}">
+		<Setter Property="OverridesDefaultStyle" Value="True"/>
+		<Style.Triggers>
+			<Trigger Property="Role" Value="TopLevelHeader">
+				<Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.TopLevelHeaderTemplateKey}}"/>
+				<Setter Property="Grid.IsSharedSizeScope" Value="true"/>
+			</Trigger>
+			<Trigger Property="Role" Value="TopLevelItem">
+				<Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.TopLevelItemTemplateKey}}"/>
+			</Trigger>
+			<Trigger Property="Role" Value="SubmenuHeader">
+				<Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuHeaderTemplateKey}}"/>
+			</Trigger>
+			<Trigger Property="Role" Value="SubmenuItem">
+				<Setter Property="Template" Value="{StaticResource {x:Static IconedMenuItem.SubmenuItemTemplateKey}}"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
 
 </ResourceDictionary>

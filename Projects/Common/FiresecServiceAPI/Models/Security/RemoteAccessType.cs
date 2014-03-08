@@ -2,15 +2,15 @@
 
 namespace FiresecAPI.Models
 {
-    public enum RemoteAccessType
-    {
-        [DescriptionAttribute("Запрещен")]
-        RemoteAccessBanned,
+	public enum RemoteAccessType
+	{
+		[DescriptionAttribute("Запрещен")]
+		RemoteAccessBanned,
 
-        [DescriptionAttribute("Разрешен с любых компьютеров")]
-        RemoteAccessAllowed,
+		[DescriptionAttribute("Разрешен с любых компьютеров")]
+		RemoteAccessAllowed,
 
-        [DescriptionAttribute("Разрешен только с указанных компьютеров")]
-        SelectivelyAllowed
-    }
+		[DescriptionAttribute("Разрешен только с указанных компьютеров")]
+		SelectivelyAllowed
+	}
 }

@@ -48,12 +48,12 @@
 		</Setter>
 	</Style>
 
-    <Style TargetType="{x:Type TabItem}">
+	<Style TargetType="{x:Type TabItem}">
 		<Setter Property="Template" Value="{StaticResource TabItemStyle}" />
 	</Style>
 
-    <Style x:Key="TabItemElementStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
-    </Style>
+	<Style x:Key="TabItemElementStyle" TargetType="{x:Type TabItem}">
+		<Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+	</Style>
 
 </ResourceDictionary>

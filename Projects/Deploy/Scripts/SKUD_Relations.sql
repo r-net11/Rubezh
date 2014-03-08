@@ -2,7 +2,7 @@ USE [SKUD]
 GO
 SET ANSI_PADDING OFF
 GO
-ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_Employee] FOREIGN KEY([EmployeeUid])
+ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_Employee] FOREIGN KEY([EmployeeUID])
 REFERENCES [dbo].[Employee] ([Uid])
 ON UPDATE SET NULL
 ON DELETE SET NULL
@@ -10,10 +10,19 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[AdditionalColumn] CHECK CONSTRAINT [FK_AdditionalColumn_Employee]
 GO
+ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_AdditionalColumnType] FOREIGN KEY([AdditionalColumnTypeUID])
+REFERENCES [dbo].[AdditionalColumnType] ([Uid])
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
+NOT FOR REPLICATION
+GO
+ALTER TABLE [dbo].[AdditionalColumn] CHECK CONSTRAINT [FK_AdditionalColumn_AdditionalColumnType] 
+
+GO
 ALTER TABLE [dbo].[Day]  WITH NOCHECK ADD  CONSTRAINT [FK_Day_NamedInterval] FOREIGN KEY([NamedIntervalUid])
 REFERENCES [dbo].[NamedInterval] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Day] NOCHECK CONSTRAINT [FK_Day_NamedInterval]
@@ -40,6 +49,14 @@ ON UPDATE SET NULL
 ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
+ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD  CONSTRAINT [FK_Department_Photo] FOREIGN KEY([PhotoUID])
+REFERENCES [dbo].[Photo] ([Uid])
+ON UPDATE SET NULL
+ON DELETE SET NULL
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[Department] CHECK CONSTRAINT [FK_Department_Photo]
+GO
 ALTER TABLE [dbo].[Employee] NOCHECK CONSTRAINT [FK_Employee_Department1]
 GO
 ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD  CONSTRAINT [FK_Employee_Position] FOREIGN KEY([PositionUid])
@@ -57,6 +74,12 @@ ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Schedule]
+GO
+ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD  CONSTRAINT [FK_Employee_Photo] FOREIGN KEY([PhotoUID])
+REFERENCES [dbo].[Photo] ([Uid])
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Photo]
 GO
 ALTER TABLE [dbo].[EmployeeReplacement]  WITH CHECK ADD  CONSTRAINT [FK_EmployeeReplacement_Department] FOREIGN KEY([DepartmentUid])
 REFERENCES [dbo].[Department] ([Uid])
@@ -130,14 +153,6 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_Employee2]
 GO
-ALTER TABLE [dbo].[Frame]  WITH NOCHECK ADD  CONSTRAINT [FK_Frame_Journal] FOREIGN KEY([JournalItemUid])
-REFERENCES [dbo].[Journal] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
-NOT FOR REPLICATION 
-GO
-ALTER TABLE [dbo].[Frame] NOCHECK CONSTRAINT [FK_Frame_Journal]
-GO
 ALTER TABLE [dbo].[Journal]  WITH NOCHECK ADD  CONSTRAINT [FK_Journal_Card] FOREIGN KEY([CardUid])
 REFERENCES [dbo].[Card] ([Uid])
 ON UPDATE SET NULL
@@ -178,18 +193,16 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_GUD]
 GO
-ALTER TABLE [dbo].[AdditionalColumn]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumn_Organization] FOREIGN KEY([OrganizationUid])
+ALTER TABLE [dbo].[AdditionalColumnType]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumnType_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])
 ON UPDATE SET NULL
 ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
-ALTER TABLE [dbo].[AdditionalColumn] NOCHECK CONSTRAINT [FK_AdditionalColumn_Organization]
+ALTER TABLE [dbo].[AdditionalColumnType] NOCHECK CONSTRAINT [FK_AdditionalColumnType_Organization]
 GO
 ALTER TABLE [dbo].[Day]  WITH NOCHECK ADD CONSTRAINT [FK_Day_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Day] NOCHECK CONSTRAINT [FK_Day_Organization]
@@ -209,6 +222,12 @@ ON DELETE NO ACTION
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Schedule] NOCHECK CONSTRAINT [FK_Schedule_Organization]
+GO
+ALTER TABLE [dbo].[Organization]  WITH NOCHECK ADD  CONSTRAINT [FK_Organization_Photo] FOREIGN KEY([PhotoUID])
+REFERENCES [dbo].[Photo] ([Uid])
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Photo]
 GO
 ALTER TABLE [dbo].[ScheduleScheme]  WITH NOCHECK ADD CONSTRAINT [FK_ScheduleScheme_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])

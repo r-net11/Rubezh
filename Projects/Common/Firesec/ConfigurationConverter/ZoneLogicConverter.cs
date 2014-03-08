@@ -22,15 +22,15 @@ namespace Firesec
 					{
 						foreach (var item in innerClause.zone)
 						{
-                            if (string.IsNullOrWhiteSpace(item) == false)
-                            {
-                                var zoneNo = int.Parse(item);
-                                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-                                if (zone != null)
-                                {
-                                    clause.ZoneUIDs.Add(zone.UID);
-                                }
-                            }
+							if (string.IsNullOrWhiteSpace(item) == false)
+							{
+								var zoneNo = int.Parse(item);
+								var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+								if (zone != null)
+								{
+									clause.ZoneUIDs.Add(zone.UID);
+								}
+							}
 						}
 					}
 					if (innerClause.device != null)
@@ -103,13 +103,13 @@ namespace Firesec
 								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message6;
 								break;
 
-                            case "6":
-                                clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message7;
-                                break;
+							case "6":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message7;
+								break;
 
-                            case "7":
-                                clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message8;
-                                break;
+							case "7":
+								clause.ZoneLogicMROMessageNo = ZoneLogicMROMessageNo.Message8;
+								break;
 						}
 					}
 
@@ -202,13 +202,13 @@ namespace Firesec
 							innerClause.MRO_MessageNo = "5";
 							break;
 
-                        case ZoneLogicMROMessageNo.Message7:
-                            innerClause.MRO_MessageNo = "6";
-                            break;
+						case ZoneLogicMROMessageNo.Message7:
+							innerClause.MRO_MessageNo = "6";
+							break;
 
-                        case ZoneLogicMROMessageNo.Message8:
-                            innerClause.MRO_MessageNo = "7";
-                            break;
+						case ZoneLogicMROMessageNo.Message8:
+							innerClause.MRO_MessageNo = "7";
+							break;
 
 						default:
 							innerClause.MRO_MessageNo = null;
@@ -245,7 +245,7 @@ namespace Firesec
 					innerClause.device = deviceTypes.ToArray();
 				}
 
-                innerClause.zone = clause.Zones.Select(x => x.No.ToString()).ToArray();
+				innerClause.zone = clause.Zones.Select(x => x.No.ToString()).ToArray();
 				innerClauses.Add(innerClause);
 			}
 

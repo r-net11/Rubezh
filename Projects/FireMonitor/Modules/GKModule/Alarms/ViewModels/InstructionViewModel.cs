@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		public XStateBit StateType { get; private set; }
 		public XInstruction Instruction { get; private set; }
 
-        XInstruction FindInstruction(XDevice device, XZone zone, XDirection direction)
+		XInstruction FindInstruction(XDevice device, XZone zone, XDirection direction)
 		{
 			var availableStateTypeInstructions = XManager.DeviceConfiguration.Instructions.FindAll(x => x.AlarmType == AlarmType);
 
@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.Devices.Contains(device.UID))
+					if (instruction.Devices.Contains(device.BaseUID))
 					{
 						return instruction;
 					}
@@ -41,25 +41,25 @@ namespace GKModule.ViewModels
 			{
 				foreach (var instruction in availableStateTypeInstructions)
 				{
-					if (instruction.ZoneUIDs.Contains(zone.UID))
+					if (instruction.ZoneUIDs.Contains(zone.BaseUID))
 					{
 						return instruction;
 					}
 				}
 			}
 
-            if (direction != null)
-            {
-                foreach (var instruction in availableStateTypeInstructions)
-                {
-                    if (instruction.Directions == null)
-                        break;
-                    if (instruction.Directions.Contains(direction.UID))
-                    {
-                        return instruction;
-                    }
-                }
-            }
+			if (direction != null)
+			{
+				foreach (var instruction in availableStateTypeInstructions)
+				{
+					if (instruction.Directions == null)
+						break;
+					if (instruction.Directions.Contains(direction.BaseUID))
+					{
+						return instruction;
+					}
+				}
+			}
 
 			foreach (var instruction in availableStateTypeInstructions)
 			{

@@ -7,6 +7,8 @@ namespace GKProcessor
 {
 	public class MPTDescriptor : BaseDescriptor
 	{
+		public XDelay AutomaticOffDelay { get; private set; }
+
 		public MPTDescriptor(GkDatabase gkDatabase, XMPT mpt)
 		{
 			DatabaseType = DatabaseType.Gk;
@@ -14,6 +16,11 @@ namespace GKProcessor
 			MPT = mpt;
 			MPT.Hold = 10;
 			MPT.DelayRegime = DelayRegime.On;
+
+			AutomaticOffDelay = new XDelay();
+			AutomaticOffDelay.BaseUID = GuidHelper.CreateOn(MPT.BaseUID);
+			gkDatabase.AddDelay(AutomaticOffDelay);
+
 			Build();
 		}
 
@@ -29,7 +36,7 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
-			bool hasOnExpression = false;
+			var hasAutomaticOffExpression = false;
 			if (MPT.UseDoorAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
@@ -37,60 +44,84 @@ namespace GKProcessor
 					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
 					{
 						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-						if (hasOnExpression)
+						if (hasAutomaticOffExpression)
 							Formula.Add(FormulaOperationType.OR);
-						hasOnExpression = true;
+						hasAutomaticOffExpression = true;
 					}
 				}
 			}
+
 			if (MPT.UseFailureAutomatic)
 			{
 				foreach (var mptDevice in MPT.MPTDevices)
 				{
 					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
-					if (hasOnExpression)
+					if (hasAutomaticOffExpression)
 						Formula.Add(FormulaOperationType.OR);
-					hasOnExpression = true;
+					hasAutomaticOffExpression = true;
 				}
 			}
 
-			if (hasOnExpression)
-			{
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-			}
+			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+			if (hasAutomaticOffExpression)
+				Formula.Add(FormulaOperationType.OR);
+			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
 
-			var hasAutomaticExpression = false;
-			foreach (var mptDevice in MPT.MPTDevices)
+
+			var hasAutomaticOnExpression = false;
+			if (MPT.UseDoorAutomatic)
 			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandAutomatic)
+				foreach (var mptDevice in MPT.MPTDevices)
 				{
-					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-					if (hasAutomaticExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasAutomaticExpression = true;
+					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
+					{
+						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+						if (hasAutomaticOnExpression)
+							Formula.Add(FormulaOperationType.OR);
+						hasAutomaticOnExpression = true;
+					}
 				}
 			}
-			if (hasAutomaticExpression)
+			if (hasAutomaticOnExpression)
 			{
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-
-				Formula.AddGetBit(XStateBit.Norm, MPT);
 				Formula.Add(FormulaOperationType.COM);
-				Formula.Add(FormulaOperationType.AND);
-				Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
 			}
+			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
+			Formula.Add(FormulaOperationType.COM);
+			if (hasAutomaticOnExpression)
+			{
+				Formula.Add(FormulaOperationType.AND);
+			}
+			Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
 
-			hasOnExpression = false;
+
+			var hasOnExpression = false;
 			if (MPT.StartLogic.Clauses.Count > 0)
 			{
 				Formula.AddClauseFormula(MPT.StartLogic.Clauses);
-				Formula.AddGetBit(XStateBit.Norm, MPT);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
+
+				if (MPT.UseDoorStop)
+				{
+					foreach (var mptDevice in MPT.MPTDevices)
+					{
+						if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
+						{
+							Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+							Formula.AddGetBit(XStateBit.TurningOn, MPT);
+							Formula.Add(FormulaOperationType.AND);
+							Formula.Add(FormulaOperationType.COM);
+							if (hasOnExpression)
+								Formula.Add(FormulaOperationType.AND);
+							hasOnExpression = true;
+						}
+					}
+				}
+				if (hasOnExpression)
+				{
+					Formula.AddGetBit(XStateBit.Norm, MPT);
+					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
+				}
+
 				hasOnExpression = true;
 			}
 
@@ -105,16 +136,17 @@ namespace GKProcessor
 				}
 			}
 
-			foreach (var mptDevice in MPT.MPTDevices)
+			if (hasOnExpression)
 			{
-				if (mptDevice.MPTDeviceType == MPTDeviceType.HandStop)
-				{
-					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-					Formula.Add(FormulaOperationType.COM);
-					if (hasOnExpression)
-						Formula.Add(FormulaOperationType.AND);
-					hasOnExpression = true;
-				}
+				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, MPT);
+			}
+
+			var hasOffExpression = false;
+			if (MPT.StartLogic.Clauses.Count > 0)
+			{
+				Formula.AddClauseFormula(MPT.StartLogic.Clauses);
+				Formula.Add(FormulaOperationType.COM);
+				hasOffExpression = true;
 			}
 			if (MPT.UseDoorStop)
 			{
@@ -125,19 +157,25 @@ namespace GKProcessor
 						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
 						Formula.AddGetBit(XStateBit.TurningOn, MPT);
 						Formula.Add(FormulaOperationType.AND);
-						Formula.Add(FormulaOperationType.COM);
-						if (hasOnExpression)
-							Formula.Add(FormulaOperationType.AND);
-						hasOnExpression = true;
+						if (hasOffExpression)
+							Formula.Add(FormulaOperationType.OR);
+						hasOffExpression = true;
 					}
 				}
 			}
 
-			if (hasOnExpression)
+			foreach (var mptDevice in MPT.MPTDevices)
 			{
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, MPT);
-				Formula.Add(FormulaOperationType.COM);
+				if (mptDevice.MPTDeviceType == MPTDeviceType.HandStop)
+				{
+					Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
+					if (hasOffExpression)
+						Formula.Add(FormulaOperationType.OR);
+					hasOffExpression = true;
+				}
+			}
+			if (hasOffExpression)
+			{
 				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, MPT);
 			}
 

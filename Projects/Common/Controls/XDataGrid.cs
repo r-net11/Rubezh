@@ -27,7 +27,7 @@ namespace Controls
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
 				//var container = dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem) as IInputElement;
 				//if (container != null)
-				//    container.Focus();
+				//	container.Focus();
 				//FocusManager.SetFocusedElement(Window.GetWindow(this), container);
 				var dgrow = (DataGridRow)ItemContainerGenerator.ContainerFromItem(dataGrid.SelectedItem);
 				if (dgrow != null)

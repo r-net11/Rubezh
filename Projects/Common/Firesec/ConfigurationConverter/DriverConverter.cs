@@ -72,7 +72,7 @@ namespace Firesec
 			{
 				driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
 			}
-            
+			
 
 			driver.CanEditAddress = true;
 			if (innerDriver.ar_no_addr != null)
@@ -315,7 +315,7 @@ namespace Firesec
 						Name = innerParameter.name,
 						Caption = innerParameter.caption,
 						//Visible = innerParameter.hidden == "0" && innerParameter.showOnlyInState == "1"
-                        Visible = innerParameter.showOnlyInState == "1"
+						Visible = innerParameter.showOnlyInState == "1"
 					});
 				}
 			}

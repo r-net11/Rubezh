@@ -96,7 +96,7 @@ namespace GKProcessor
 					SetTime = 2,
 					DelayRegime = DelayRegime.Off
 				};
-				delay.UID = GuidHelper.CreateOn(pumpDevice.UID);
+				delay.BaseUID = GuidHelper.CreateOn(pumpDevice.BaseUID);
 
 				var pumpDelay = new PumpDelay
 				{
@@ -116,7 +116,7 @@ namespace GKProcessor
 			for (int i = 0; i < PumpDelays.Count; i++)
 			{
 				var pumpDelay = PumpDelays[i];
-				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.UID == pumpDelay.Delay.UID);
+				var delayDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Delay != null && x.Delay.BaseUID == pumpDelay.Delay.BaseUID);
 				var formula = new FormulaBuilder();
 
 				AddCountFirePumpDevicesFormula(formula);
@@ -150,14 +150,14 @@ namespace GKProcessor
 			for (int i = 0; i < FirePumpDevices.Count; i++)
 			{
 				var pumpDevice = FirePumpDevices[i];
-				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == pumpDevice.UID);
+				var pumpDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.BaseUID == pumpDevice.BaseUID);
 				if (pumpDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
 					AddCountFirePumpDevicesFormula(formula);
 					if (i > 0)
 					{
-						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.UID == pumpDevice.UID);
+						var pumpDelay = PumpDelays.FirstOrDefault(x => x.Device.BaseUID == pumpDevice.BaseUID);
 						formula.AddGetBit(XStateBit.On, pumpDelay.Delay);
 						formula.Add(FormulaOperationType.AND);
 					}
@@ -218,7 +218,7 @@ namespace GKProcessor
 		{
 			if (JNPumpDevice != null)
 			{
-				var jnDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.UID == JNPumpDevice.UID);
+				var jnDescriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.Device != null && x.Device.BaseUID == JNPumpDevice.BaseUID);
 				if (jnDescriptor != null)
 				{
 					var formula = new FormulaBuilder();
@@ -240,7 +240,7 @@ namespace GKProcessor
 			{
 				Name = PumpStation.PresentationName
 			};
-			Pim.UID = GuidHelper.CreateOn(PumpStation.UID);
+			Pim.BaseUID = GuidHelper.CreateOn(PumpStation.UID);
 			GkDatabase.AddPim(Pim);
 			var pimDescriptor = new PimDescriptor(Pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
@@ -294,7 +294,7 @@ namespace GKProcessor
 			{
 				foreach (var pumpDelay in PumpDelays)
 				{
-					if (pumpDelay.Device.UID == nsDevice.UID)
+					if (pumpDelay.Device.BaseUID == nsDevice.BaseUID)
 					{
 						UpdateConfigurationHelper.LinkXBases(nsDevice, pumpDelay.Delay);
 					}

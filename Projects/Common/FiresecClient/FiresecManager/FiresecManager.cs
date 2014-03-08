@@ -99,29 +99,29 @@ namespace FiresecClient
 			}
 		}
 
-        static object locker = new object();
+		static object locker = new object();
 		public static bool IsDisconnected { get; private set; }
 		public static void Disconnect()
 		{
 			try
 			{
-                lock (locker)
-                {
-                    if (!IsDisconnected)
-                    {
+				lock (locker)
+				{
+					if (!IsDisconnected)
+					{
 						if (FSAgent != null)
 							FSAgent.Stop();
 
 						//if (FS2ClientContract != null)
-						//    FS2ClientContract.Stop();
+						//	FS2ClientContract.Stop();
 
-                        if (FiresecService != null)
-                        {
-                            FiresecService.Dispose();
-                        }
-                    }
-                    IsDisconnected = true;
-                }
+						if (FiresecService != null)
+						{
+							FiresecService.Dispose();
+						}
+					}
+					IsDisconnected = true;
+				}
 			}
 			catch (Exception e)
 			{

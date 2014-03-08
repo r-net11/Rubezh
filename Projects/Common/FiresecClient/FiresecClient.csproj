@@ -125,6 +125,7 @@
     <Compile Include="FiresecManager\FiresecManager.FS2.cs" />
     <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DepartmentHelper.cs" />
@@ -209,9 +210,6 @@
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="FiresecManager\FiresecManager.SKD.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

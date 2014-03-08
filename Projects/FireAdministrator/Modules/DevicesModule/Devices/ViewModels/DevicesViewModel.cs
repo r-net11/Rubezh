@@ -369,7 +369,7 @@ namespace DevicesModule.ViewModels
 			});
 			_lockSelection = false;
 			//if (guid != Guid.Empty)
-			//    OnDeviceChanged(guid);
+			//	OnDeviceChanged(guid);
 		}
 		void OnElementSelected(ElementBase element)
 		{
@@ -405,45 +405,45 @@ namespace DevicesModule.ViewModels
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    RibbonItems = new List<RibbonMenuItemViewModel>()
-			//    {
-			//        new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-			//        {
-			//            new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
-			//            new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-			//            new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
-			//            new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
-			//            new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
-			//            new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
-			//        }, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
-			//        new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
-			//        {
-			//            new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
-			//            new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
-			//            new RibbonMenuItemViewModel("Считать конфигурацию из прибора", FS2DeviceCommandsViewModel.ReadDeviceCommand,false, "/Controls;component/Images/BParametersRead.png"),
-			//            new RibbonMenuItemViewModel("Информация о приборе", FS2DeviceCommandsViewModel.GetDescriptionCommand, false, "/Controls;component/Images/BInformation.png"),
-			//            new RibbonMenuItemViewModel("Журнал событий", FS2DeviceCommandsViewModel.GetDeviceJournalCommand, false, "/Controls;component/Images/BJournal.png"),
-			//            new RibbonMenuItemViewModel("Записать конфигурацию в прибор", FS2DeviceCommandsViewModel.WriteDeviceCommand, false, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
-			//            new RibbonMenuItemViewModel("Записать конфигурацию во все приборы", FS2DeviceCommandsViewModel.WriteAllDeviceCommand , "/Controls;component/Images/BParametersWriteAll.png"),
-			//            new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", FS2DeviceCommandsViewModel.SynchronizeDeviceCommand, false, "/Controls;component/Images/BWatch.png")  { IsNewGroup = true },
-			//            new RibbonMenuItemViewModel("Обновление ПО", FS2DeviceCommandsViewModel.UpdateSoftCommand, false, "/Controls;component/Images/BParametersSync.png"),
-			//            new RibbonMenuItemViewModel("Задать пароль", FS2DeviceCommandsViewModel.SetPasswordCommand, false, "/Controls;component/Images/BPassword.png"),
-			//            new RibbonMenuItemViewModel("Привязать", FS2DeviceCommandsViewModel.BindMsCommand, "/Controls;component/Images/BLink.png"),
-			//            new RibbonMenuItemViewModel("Другие функции", FS2DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, false, "/Controls;component/Images/BSettings.png"),
-			//            new RibbonMenuItemViewModel("USB", new ObservableCollection<RibbonMenuItemViewModel>()
-			//            {
-			//                new RibbonMenuItemViewModel("Считать конфигурацию из прибора", FS2DeviceCommandsViewModel.ReadDeviceCommand, true, "/Controls;component/Images/BParametersRead.png"),
-			//                new RibbonMenuItemViewModel("Информация о приборе", FS2DeviceCommandsViewModel.GetDescriptionCommand, true, "/Controls;component/Images/BInformation.png"),
-			//                new RibbonMenuItemViewModel("Журнал событий", FS2DeviceCommandsViewModel.GetDeviceJournalCommand, true, "/Controls;component/Images/BJournal.png"),
-			//                new RibbonMenuItemViewModel("Записать конфигурацию в прибор", FS2DeviceCommandsViewModel.WriteDeviceCommand, true, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
-			//                new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", FS2DeviceCommandsViewModel.SynchronizeDeviceCommand, true, "/Controls;component/Images/BWatch.png") { IsNewGroup = true },
-			//                new RibbonMenuItemViewModel("Обновление ПО", FS2DeviceCommandsViewModel.UpdateSoftCommand, true, "/Controls;component/Images/BParametersSync.png"),
-			//                new RibbonMenuItemViewModel("Задать пароль", FS2DeviceCommandsViewModel.SetPasswordCommand, true, "/Controls;component/Images/BPassword.png"),
-			//                new RibbonMenuItemViewModel("Другие функции", FS2DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
-			//            }, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
-			//            new RibbonMenuItemViewModel("Считать журнал событий из файла", FS2DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
-			//        }, "/Controls;component/Images/BDevice.png") { Order = 2 }
-			//    };
+			//	RibbonItems = new List<RibbonMenuItemViewModel>()
+			//	{
+			//		new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+			//		{
+			//			new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
+			//			new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
+			//			new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
+			//			new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
+			//			new RibbonMenuItemViewModel("Вырезать", CutCommand, "/Controls;component/Images/BCut.png"),
+			//			new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
+			//		}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
+			//		new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
+			//		{
+			//			new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
+			//			new RibbonMenuItemViewModel("Автопоиск", FS2DeviceCommandsViewModel.AutoDetectCommand, "/Controls;component/Images/BSearch.png"),
+			//			new RibbonMenuItemViewModel("Считать конфигурацию из прибора", FS2DeviceCommandsViewModel.ReadDeviceCommand,false, "/Controls;component/Images/BParametersRead.png"),
+			//			new RibbonMenuItemViewModel("Информация о приборе", FS2DeviceCommandsViewModel.GetDescriptionCommand, false, "/Controls;component/Images/BInformation.png"),
+			//			new RibbonMenuItemViewModel("Журнал событий", FS2DeviceCommandsViewModel.GetDeviceJournalCommand, false, "/Controls;component/Images/BJournal.png"),
+			//			new RibbonMenuItemViewModel("Записать конфигурацию в прибор", FS2DeviceCommandsViewModel.WriteDeviceCommand, false, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
+			//			new RibbonMenuItemViewModel("Записать конфигурацию во все приборы", FS2DeviceCommandsViewModel.WriteAllDeviceCommand , "/Controls;component/Images/BParametersWriteAll.png"),
+			//			new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", FS2DeviceCommandsViewModel.SynchronizeDeviceCommand, false, "/Controls;component/Images/BWatch.png")  { IsNewGroup = true },
+			//			new RibbonMenuItemViewModel("Обновление ПО", FS2DeviceCommandsViewModel.UpdateSoftCommand, false, "/Controls;component/Images/BParametersSync.png"),
+			//			new RibbonMenuItemViewModel("Задать пароль", FS2DeviceCommandsViewModel.SetPasswordCommand, false, "/Controls;component/Images/BPassword.png"),
+			//			new RibbonMenuItemViewModel("Привязать", FS2DeviceCommandsViewModel.BindMsCommand, "/Controls;component/Images/BLink.png"),
+			//			new RibbonMenuItemViewModel("Другие функции", FS2DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, false, "/Controls;component/Images/BSettings.png"),
+			//			new RibbonMenuItemViewModel("USB", new ObservableCollection<RibbonMenuItemViewModel>()
+			//			{
+			//				new RibbonMenuItemViewModel("Считать конфигурацию из прибора", FS2DeviceCommandsViewModel.ReadDeviceCommand, true, "/Controls;component/Images/BParametersRead.png"),
+			//				new RibbonMenuItemViewModel("Информация о приборе", FS2DeviceCommandsViewModel.GetDescriptionCommand, true, "/Controls;component/Images/BInformation.png"),
+			//				new RibbonMenuItemViewModel("Журнал событий", FS2DeviceCommandsViewModel.GetDeviceJournalCommand, true, "/Controls;component/Images/BJournal.png"),
+			//				new RibbonMenuItemViewModel("Записать конфигурацию в прибор", FS2DeviceCommandsViewModel.WriteDeviceCommand, true, "/Controls;component/Images/BParametersWrite.png") { IsNewGroup = true },
+			//				new RibbonMenuItemViewModel("Синхронизировать часы прибора с системными", FS2DeviceCommandsViewModel.SynchronizeDeviceCommand, true, "/Controls;component/Images/BWatch.png") { IsNewGroup = true },
+			//				new RibbonMenuItemViewModel("Обновление ПО", FS2DeviceCommandsViewModel.UpdateSoftCommand, true, "/Controls;component/Images/BParametersSync.png"),
+			//				new RibbonMenuItemViewModel("Задать пароль", FS2DeviceCommandsViewModel.SetPasswordCommand, true, "/Controls;component/Images/BPassword.png"),
+			//				new RibbonMenuItemViewModel("Другие функции", FS2DeviceCommandsViewModel.ExecuteCustomAdminFunctionsCommand, true, "/Controls;component/Images/BInformation.png"),
+			//			}, "/Controls;component/Images/BUsb.png") { IsNewGroup = true },
+			//			new RibbonMenuItemViewModel("Считать журнал событий из файла", FS2DeviceCommandsViewModel.ReadJournalFromFileCommand, "/Controls;component/Images/BJournal.png"),
+			//		}, "/Controls;component/Images/BDevice.png") { Order = 2 }
+			//	};
 			//}
 			//else
 			{

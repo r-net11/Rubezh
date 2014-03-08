@@ -18,14 +18,14 @@ namespace InstructionsModule.Converters
 				var delimString = ", ";
 				var result = new StringBuilder();
 
-                foreach (var zoneUID in zoneUIDs)
+				foreach (var zoneUID in zoneUIDs)
 				{
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                    if (zone != null)
-                    {
-                        result.Append(zone.No);
-                        result.Append(delimString);
-                    }
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						result.Append(zone.No);
+						result.Append(delimString);
+					}
 				}
 
 				return result.ToString().Remove(result.Length - delimString.Length);

@@ -419,11 +419,11 @@ namespace GKModule.ViewModels
 				{
 					var result = FiresecManager.FiresecService.GKSetSingleParameter(device, baseDescriptor.Parameters);
 					if (result.HasError)
-						errorLog += "\n" + device.PresentationName;
+						errorLog += "\n" + device.PresentationName + ". " + result.Error;
 				}
 				else
 				{
-					errorLog += "\n" + device.PresentationName;
+					errorLog += "\n" + device.PresentationName + ". Не найден дескриптор";
 				}
 				if (devices.Count() > 1 && i < devices.Count())
 					Thread.Sleep(100);

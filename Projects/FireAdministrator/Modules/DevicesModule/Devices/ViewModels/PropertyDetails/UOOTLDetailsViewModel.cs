@@ -422,49 +422,49 @@ namespace DevicesModule.ViewModels
 			return base.Save();
 		}
 
-        public void GetConfiguration(string deviceData)
-        {
-            // TESTMODE
-            // var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
-			// var DeviceData = "10                   20                   30                   40                   000151235670111100000000000000000000000000000000000000000000111100000000000"
-			// var DeviceData = "10                   20                   30                   40                   00023942412340111100000000000000000000000000000000000000000000111100000000000"
-			// var DeviceData = "10                   20                   30                   40                   0002004240000111100000000000000000000000000000000000000000111100000000000"
-			// var DeviceData = "10                   20                   30                   40                   00023174404240000111100000000000000000000000000000000000000000111100000000000"
-            deviceData = deviceData.Substring(0, 84) + deviceData.Substring(84).Replace(" ", "");
+		public void GetConfiguration(string deviceData)
+		{
+			// TESTMODE
+			// var DeviceData = "0					0					0					0					00000212010100000000111001100000000000000000000000000000000000000000000000";
+			// var DeviceData = "10				   20				   30				   40				   000151235670111100000000000000000000000000000000000000000000111100000000000"
+			// var DeviceData = "10				   20				   30				   40				   00023942412340111100000000000000000000000000000000000000000000111100000000000"
+			// var DeviceData = "10				   20				   30				   40				   0002004240000111100000000000000000000000000000000000000000111100000000000"
+			// var DeviceData = "10				   20				   30				   40				   00023174404240000111100000000000000000000000000000000000000000111100000000000"
+			deviceData = deviceData.Substring(0, 84) + deviceData.Substring(84).Replace(" ", "");
 			var lenght = deviceData.Length - 10;
-            string result = "";
+			string result = "";
 
-            result = result.PadRight(result.Length, '0');
-            string s;
-            s = deviceData.Substring(0, 21);
-            s = DeleteCharsFromEnd(s, ' ');
-            Phone1 = s;
+			result = result.PadRight(result.Length, '0');
+			string s;
+			s = deviceData.Substring(0, 21);
+			s = DeleteCharsFromEnd(s, ' ');
+			Phone1 = s;
 
-            s = deviceData.Substring(21, 21);
-            s = DeleteCharsFromEnd(s, ' ');
-            Phone2 = s;
+			s = deviceData.Substring(21, 21);
+			s = DeleteCharsFromEnd(s, ' ');
+			Phone2 = s;
 
-            s = deviceData.Substring(42, 21);
-            s = DeleteCharsFromEnd(s, ' ');
-            Phone3 = s;
+			s = deviceData.Substring(42, 21);
+			s = DeleteCharsFromEnd(s, ' ');
+			Phone3 = s;
 
-            s = deviceData.Substring(63, 21);
-            s = DeleteCharsFromEnd(s, ' ');
-            Phone4 = s;
+			s = deviceData.Substring(63, 21);
+			s = DeleteCharsFromEnd(s, ' ');
+			Phone4 = s;
 
-            ObjectNumber = int.Parse(deviceData.Substring(84, 4));
+			ObjectNumber = int.Parse(deviceData.Substring(84, 4));
 			var testDialtoneLenght = lenght - 58 - 90;
 			TestDialtone = int.Parse(deviceData.Substring(88, testDialtoneLenght)) * 2;
 			TestVoltage = int.Parse(deviceData.Substring(lenght-58, 1)) * 10;
 			CountRecalls = int.Parse(deviceData.Substring(lenght-57, 1));
 			Timeout = int.Parse(deviceData.Substring(lenght-56, 1)) * 10;
 			OutcomingTest = int.Parse(deviceData.Substring(lenght-55, 1)) * 10;
-            for (int i = 0; i < 54; i++)
-            {
+			for (int i = 0; i < 54; i++)
+			{
 				if (deviceData[lenght - 54 + i] == '1')
-                    FilterItems[i].IsActive = true;
-            }
-        }
+					FilterItems[i].IsActive = true;
+			}
+		}
 		static int BinStrToByte(string str)
 		{
 			int result = 0;

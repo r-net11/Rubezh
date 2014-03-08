@@ -16,7 +16,7 @@ namespace JournalModule.ViewModels
 
 		//public ArchivePageViewModel(IEnumerable<FS2JournalItem> journalItems)
 		//{
-		//    JournalItemsList = journalItems;
+		//	JournalItemsList = journalItems;
 		//}
 
 		public void Create()
@@ -32,11 +32,11 @@ namespace JournalModule.ViewModels
 			}
 			//if (JournalItemsList != null)
 			//{
-			//    foreach (var journalItem in JournalItemsList)
-			//    {
-			//        var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-			//        JournalRecords.Add(journalRecordViewModel);
-			//    }
+			//	foreach (var journalItem in JournalItemsList)
+			//	{
+			//		var journalRecordViewModel = new JournalRecordViewModel(journalItem);
+			//		JournalRecords.Add(journalRecordViewModel);
+			//	}
 			//}
 		}
 

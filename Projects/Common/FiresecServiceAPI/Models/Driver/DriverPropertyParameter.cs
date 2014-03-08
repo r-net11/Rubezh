@@ -2,14 +2,14 @@
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
-    public class DriverPropertyParameter
-    {
-        [DataMember]
-        public string Name { get; set; }
+	[DataContract]
+	public class DriverPropertyParameter
+	{
+		[DataMember]
+		public string Name { get; set; }
 
-        [DataMember]
-        public string Value { get; set; }
+		[DataMember]
+		public string Value { get; set; }
 
 	}
 }

@@ -21,10 +21,10 @@
 								</ControlTemplate>
 							</ToggleButton.Template>
 							<Border Name="border" Height="34" Margin="2" Background="Transparent" BorderBrush="Transparent"
-							        BorderThickness="1" CornerRadius="2" Padding="1"
-							        ToolTip="{Binding ToolTip}"
-							        ToolTipService.ShowOnDisabled="True"
-							        Visibility="{TemplateBinding Visibility}">
+									BorderThickness="1" CornerRadius="2" Padding="1"
+									ToolTip="{Binding ToolTip}"
+									ToolTipService.ShowOnDisabled="True"
+									Visibility="{TemplateBinding Visibility}">
 								<Grid>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="30" />

@@ -1,90 +1,90 @@
 ﻿<UserControl x:Class="SKDModule.Views.UsersAccessView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:SKDModule.Views"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="200" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="200" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-            <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-        </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Имя" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="200" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+			<Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Margin="2">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Имя" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
+				<DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
+			</DataGrid.Columns>
+		</DataGrid>
+		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-        <Grid Grid.Row="3" DataContext="{Binding SelectedUser}">
-            <TabControl ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" Margin="2">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding ID}" Width="50" />
-                            <Button Content="X" Command="{Binding RemoveCommand}" Width="25" Height="25" Margin="-2" />
-                        </StackPanel>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <TabControl>
-                            <TabItem Header="Основные">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
+		<Grid Grid.Row="3" DataContext="{Binding SelectedUser}">
+			<TabControl ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" Margin="2">
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding ID}" Width="50" />
+							<Button Content="X" Command="{Binding RemoveCommand}" Width="25" Height="25" Margin="-2" />
+						</StackPanel>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+				<TabControl.ContentTemplate>
+					<DataTemplate>
+						<TabControl>
+							<TabItem Header="Основные">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<Grid Grid.Column="0">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+											<RowDefinition Height="Auto" />
+										</Grid.RowDefinitions>
 
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ID}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+										<TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+										<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ID}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StartDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+										<TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+										<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StartDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EndDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+										<TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+										<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EndDate}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
 
-                                        <Controls:ToolBarButton Grid.Row="3" Grid.Column="0" Command="{Binding ShowPropertiesCommand}" ToolTip="Свойства" ImageSource="/Controls;component/Images/Edit.png" Margin="2" />
-                                    </Grid>
-                                    <Views:CardZonesView Grid.Column="1" DataContext="{Binding CardZonesViewModel}" />
-                                </Grid>
-                            </TabItem>
-                            <TabItem Header="Пропуск">
+										<Controls:ToolBarButton Grid.Row="3" Grid.Column="0" Command="{Binding ShowPropertiesCommand}" ToolTip="Свойства" ImageSource="/Controls;component/Images/Edit.png" Margin="2" />
+									</Grid>
+									<Views:CardZonesView Grid.Column="1" DataContext="{Binding CardZonesViewModel}" />
+								</Grid>
+							</TabItem>
+							<TabItem Header="Пропуск">
 
-                            </TabItem>
-                        </TabControl>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-            <Button Content="Выдать карту" Command="{Binding AddCardCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="30" Margin="2" />
-        </Grid>
-    </Grid>
+							</TabItem>
+						</TabControl>
+					</DataTemplate>
+				</TabControl.ContentTemplate>
+			</TabControl>
+			<Button Content="Выдать карту" Command="{Binding AddCardCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Height="30" Margin="2" />
+		</Grid>
+	</Grid>
 </UserControl>

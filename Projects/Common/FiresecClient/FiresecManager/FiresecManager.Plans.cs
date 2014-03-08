@@ -43,7 +43,7 @@ namespace FiresecClient
 							elementDevices.Add(elementDevice);
 					Plan.ElementDevices = elementDevices;
 
-					keys = XManager.Zones.Select(item => item.UID).ToList();
+					keys = XManager.Zones.Select(item => item.BaseUID).ToList();
 					var elementRectangleXZones = new List<ElementRectangleXZone>();
 					foreach (var elementRectangleXZone in Plan.ElementRectangleXZones.Where(x => x.ZoneUID != Guid.Empty))
 						if (keys.Contains(elementRectangleXZone.ZoneUID))
@@ -56,7 +56,7 @@ namespace FiresecClient
 							elementPolygonXZones.Add(elementPolygonXZone);
 					Plan.ElementPolygonXZones = elementPolygonXZones;
 
-					keys = XManager.Devices.Select(item => item.UID).ToList();
+					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
 					var elementXDevices = new List<ElementXDevice>();
 					foreach (var elementXDevice in Plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
 						if (keys.Contains(elementXDevice.XDeviceUID))
@@ -83,7 +83,7 @@ namespace FiresecClient
 							elementSKDDevices.Add(elementSKDDevice);
 					Plan.ElementSKDDevices = elementSKDDevices;
 
-					keys = XManager.Devices.Select(item => item.UID).ToList();
+					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
 					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
 					var elementExtensions = new List<ElementBase>();
 					foreach (var elementExtension in Plan.ElementExtensions)

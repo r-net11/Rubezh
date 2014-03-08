@@ -3,11 +3,11 @@
 namespace GKModule.Views
 {
 	public partial class DevicesSelectationView : UserControl
-    {
-        public DevicesSelectationView()
-        {
-            InitializeComponent();
-        }
+	{
+		public DevicesSelectationView()
+		{
+			InitializeComponent();
+		}
 
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -17,5 +17,5 @@ namespace GKModule.Views
 				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
 			}
 		}
-    }
+	}
 }

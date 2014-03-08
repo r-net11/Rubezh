@@ -11,6 +11,17 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Фильтр";
 			Filter = filter;
+			Initialize();
+			Update();
+		}
+
+		protected virtual void Initialize()
+		{
+			;
+		}
+
+		protected virtual void Update()
+		{
 			switch (Filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
@@ -19,13 +30,15 @@ namespace SKDModule.ViewModels
 					break;
 				case DeletedType.All:
 					WithDeleted = true;
+					OnlyDeleted = false;
 					break;
 				default:
+					WithDeleted = false;
+					OnlyDeleted = false;
 					break;
 			}
-			RemovalDatesStart = filter.RemovalDates.StartDate;
-			RemovalDatesEnd = filter.RemovalDates.EndDate;
-
+			RemovalDatesStart = Filter.RemovalDates.StartDate;
+			RemovalDatesEnd = Filter.RemovalDates.EndDate;
 		}
 
 		T filter;

@@ -28,25 +28,27 @@ namespace Controls.Converters
 					return Brushes.Yellow;
 
 				//case XStateClass.Failure:
-				//    return Brushes.Pink;
+				//	return Brushes.Pink;
 
 				//case XStateClass.Service:
-				//    return Brushes.Yellow;
+				//	return Brushes.Yellow;
 
 				case XStateClass.Ignore:
 					return Brushes.Yellow;
 
 				case XStateClass.On:
+				case XStateClass.TurningOn:
 					return Brushes.LightBlue;
 
 				case XStateClass.AutoOff:
 					return Brushes.Yellow;
 
 				//case XStateClass.Test:
-				//    return Brushes.Green;
+				//	return Brushes.Green;
 
 				case XStateClass.Off:
-                case XStateClass.Norm:
+				case XStateClass.TurningOff:
+				case XStateClass.Norm:
 					return Brushes.Green;
 
 				default:

@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 				switch (JournalItem.JournalItemType)
 				{
 					case JournalItemType.Device:
-						var device = XManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (device != null)
 						{
 							PresentationName = device.PresentationName;
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Zone:
-						var zone = XManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (zone != null)
 						{
 							PresentationName = zone.PresentationName;
@@ -101,7 +101,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Direction:
-						var direction = XManager.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (direction != null)
 						{
 							PresentationName = direction.PresentationName;
@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Delay:
-						var delay = XManager.Delays.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (delay != null)
 						{
 							PresentationName = delay.PresentationName;
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
 						break;
 
 					case JournalItemType.Pim:
-						var pim = XManager.Pims.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+						var pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
 						if (pim != null)
 						{
 							PresentationName = pim.PresentationName;
@@ -163,21 +163,21 @@ namespace GKModule.ViewModels
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					if (XManager.Devices.Any(x => x.UID == JournalItem.ObjectUID))
+					if (XManager.Devices.Any(x => x.BaseUID == JournalItem.ObjectUID))
 					{
 						ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
 				case JournalItemType.Zone:
-					if (XManager.Zones.Any(x => x.UID == JournalItem.ObjectUID))
+					if (XManager.Zones.Any(x => x.BaseUID == JournalItem.ObjectUID))
 					{
 						ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
 
 				case JournalItemType.Direction:
-					if (XManager.Directions.Any(x => x.UID == JournalItem.ObjectUID))
+					if (XManager.Directions.Any(x => x.BaseUID == JournalItem.ObjectUID))
 					{
 						ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(JournalItem.ObjectUID);
 					}

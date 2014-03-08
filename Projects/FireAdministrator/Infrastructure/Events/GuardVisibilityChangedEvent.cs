@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class GuardVisibilityChangedEvent : CompositePresentationEvent<bool>
-    {
-    }
+	public class GuardVisibilityChangedEvent : CompositePresentationEvent<bool>
+	{
+	}
 }

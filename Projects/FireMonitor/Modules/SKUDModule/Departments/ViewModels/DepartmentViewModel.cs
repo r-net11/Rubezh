@@ -36,10 +36,12 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
-				DepartmentHelper.Save(department);
-
+				DepartmentHelper.LinkToParent(department, Department);
+				var saveResult = DepartmentHelper.Save(department);
+				if (!saveResult)
+					return;
 				var departmentViewModel = new DepartmentViewModel(department);
-				this.Department.ChildDepartmentUids.Add(department.UID);
+				this.Department.ChildDepartmentUIDs.Add(department.UID);
 				this.AddChild(departmentViewModel);
 				this.Update();
 				DepartmentsViewModel.Current.Departments.Add(departmentViewModel);
@@ -62,6 +64,10 @@ namespace SKDModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
+				var removeResult = DepartmentHelper.MarkDeleted(Department);
+				if (!removeResult)
+					return;
+				
 				var index = ZonesViewModel.Current.SelectedZone.VisualIndex;
 				parent.Nodes.Remove(this);
 				parent.Update();
@@ -84,7 +90,9 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
-				DepartmentHelper.Save(department);
+				var saveResult = DepartmentHelper.Save(department);
+				if (!saveResult)
+					return;
 				this.Department = department;
 				Update();
 			}

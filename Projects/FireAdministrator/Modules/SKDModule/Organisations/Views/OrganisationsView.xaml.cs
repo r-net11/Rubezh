@@ -2,11 +2,11 @@
 
 namespace SKDModule.Views
 {
-    public partial class OrganisationsView : UserControl
-    {
+	public partial class OrganisationsView : UserControl
+	{
 		public OrganisationsView()
-        {
-            InitializeComponent();
-        }
-    }
+		{
+			InitializeComponent();
+		}
+	}
 }

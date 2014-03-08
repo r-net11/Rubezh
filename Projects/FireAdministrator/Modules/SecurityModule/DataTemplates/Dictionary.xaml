@@ -1,26 +1,26 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:SecurityModule.Views"
-                    xmlns:ViewModels="clr-namespace:SecurityModule.ViewModels">
-    <DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
-        <Views:UsersView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
-        <Views:UserDetailsView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
-        <Views:UsersMenuView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:RolesViewModel}">
-        <Views:RolesView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:RoleDetailsViewModel}">
-        <Views:RoleDetailsView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:RolesMenuViewModel}">
-        <Views:RolesMenuView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type ViewModels:RemoteMachineViewModel}">
-        <Views:RemoteMachineView />
-    </DataTemplate>
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:SecurityModule.Views"
+					xmlns:ViewModels="clr-namespace:SecurityModule.ViewModels">
+	<DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
+		<Views:UsersView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
+		<Views:UserDetailsView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
+		<Views:UsersMenuView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RolesViewModel}">
+		<Views:RolesView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RoleDetailsViewModel}">
+		<Views:RoleDetailsView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RolesMenuViewModel}">
+		<Views:RolesMenuView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RemoteMachineViewModel}">
+		<Views:RemoteMachineView />
+	</DataTemplate>
 </ResourceDictionary>

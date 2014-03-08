@@ -25,7 +25,7 @@ namespace FireAdministrator
 			backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
 			backgroundWorker.RunWorkerAsync();
 
-            DialogService.ShowModalWindow(_progressViewModel);
+			DialogService.ShowModalWindow(_progressViewModel);
 		}
 
 		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)

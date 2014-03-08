@@ -7,7 +7,7 @@ namespace SKDDriver.DataAccess
 {
 	public interface IDatabaseElement
 	{
-		Guid Uid { get; set; }
+		Guid UID { get; set; }
 		bool IsDeleted { get; set; }
 		DateTime RemovalDate { get; set; }
 	}
@@ -17,7 +17,7 @@ namespace SKDDriver.DataAccess
 		Guid? OrganizationUid { get; set; }
 	}
 
-	public partial class AdditionalColumn : IOrganizationDatabaseElement { }
+	public partial class AdditionalColumnType : IOrganizationDatabaseElement { }
 	public partial class Day : IOrganizationDatabaseElement { }
 	public partial class Department : IOrganizationDatabaseElement { }
 	public partial class Document : IOrganizationDatabaseElement { }
@@ -35,7 +35,8 @@ namespace SKDDriver.DataAccess
 	public partial class Organization : IDatabaseElement { }
 	public partial class Journal : IDatabaseElement { }
 	public partial class Interval : IDatabaseElement { }
-	public partial class Frame : IDatabaseElement { }
 	public partial class CardZoneLink : IDatabaseElement { }
 	public partial class Card : IDatabaseElement { }
+	public partial class AdditionalColumn : IDatabaseElement { }
+	public partial class Photo : IDatabaseElement { }
 }

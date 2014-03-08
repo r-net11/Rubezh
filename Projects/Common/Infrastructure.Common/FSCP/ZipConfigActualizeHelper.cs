@@ -22,7 +22,7 @@ namespace Infrastructure.Common
 				//var plansConfiguration = GetConfigurationFromZip<PlansConfiguration>(zipFile, "PlansConfiguration.xml", out result);
 				//if (!result)
 				//{
-				//    AddConfigurationToZip(zipFile, plansConfiguration, "PlansConfiguration.xml");
+				//	AddConfigurationToZip(zipFile, plansConfiguration, "PlansConfiguration.xml");
 				//}
 				var systemConfiguration = GetConfigurationFromZip<SystemConfiguration>(zipFile, "SystemConfiguration.xml", out result);
 				if (!result)

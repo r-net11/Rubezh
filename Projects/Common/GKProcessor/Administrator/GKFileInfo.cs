@@ -29,7 +29,7 @@ namespace GKProcessor
 		{
 			DescriptorsManager.Create();
 			Date = DateTime.Now;
-			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.UID == gkDevice.UID);
+			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault(x => x.RootDevice.BaseUID == gkDevice.BaseUID);
 			MinorVersion = (byte)deviceConfiguration.Version.MinorVersion;
 			MajorVersion = (byte)deviceConfiguration.Version.MajorVersion;
 			if (gkDatabase != null)
@@ -54,20 +54,20 @@ namespace GKProcessor
 			foreach (var zone in deviceConfiguration.Zones)
 			{
 				if (zone.GkDatabaseParent == gkDevice)
-					stringBuilder.Append(zone.No).Append("@");
+					stringBuilder.Append(zone.PresentationName).Append("@");
 			}
 			stringBuilder.Append("directions:");
 			foreach (var direction in deviceConfiguration.Directions)
 			{
 				if (direction.GkDatabaseParent == gkDevice)
-					stringBuilder.Append(direction.No).Append("@");
+					stringBuilder.Append(direction.PresentationName).Append("@");
 			}
 			stringBuilder.Append("pumpStations:");
 			foreach (var pumpStation in deviceConfiguration.PumpStations)
 			{
 				if (pumpStation.GkDatabaseParent == gkDevice)
 				{
-					stringBuilder.Append(pumpStation.No).Append("@");
+					stringBuilder.Append(pumpStation.PresentationName).Append("@");
 					if (pumpStation.NSDevices != null)
 					{
 						stringBuilder.Append("nsDevices:");
@@ -75,6 +75,23 @@ namespace GKProcessor
 						{
 							if (nsDevice.GKParent == gkDevice)
 								stringBuilder.Append(nsDevice.PresentationName).Append("@");
+						}
+					}
+				}
+			}
+			stringBuilder.Append("mpts:");
+			foreach (var mpt in deviceConfiguration.MPTs)
+			{
+				if (mpt.GkDatabaseParent == gkDevice)
+				{
+					stringBuilder.Append(mpt.PresentationName).Append("@");
+					if (mpt.Devices != null)
+					{
+						stringBuilder.Append("nsDevices:");
+						foreach (var device in mpt.Devices)
+						{
+							if (device.GKParent == gkDevice)
+								stringBuilder.Append(device.PresentationName).Append("@");
 						}
 					}
 				}

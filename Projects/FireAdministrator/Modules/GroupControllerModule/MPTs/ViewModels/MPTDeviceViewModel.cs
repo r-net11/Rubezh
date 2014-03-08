@@ -11,13 +11,23 @@ namespace GKModule.ViewModels
 	public partial class MPTDeviceViewModel : BaseViewModel
 	{
 		public MPTDevice MPTDevice { get; private set; }
-		public XDevice Device { get; private set; }
 
 		public MPTDeviceViewModel(MPTDevice mptDevice)
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
-			AvailableMPTDeviceTypes = new ObservableCollection<MPTDeviceType>(MPTDevice.GetAvailableMPTDeviceTypes(MPTDevice.Device.DriverType));
+		}
+
+		XDevice _device;
+		public XDevice Device
+		{
+			get { return _device; }
+			set
+			{
+				_device = value;
+				OnPropertyChanged("Device");
+				OnPropertyChanged("Description");
+			}
 		}
 
 		public string PresentationZone
@@ -30,46 +40,36 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<MPTDeviceType> AvailableMPTDeviceTypes { get; private set; }
-
 		public MPTDeviceType MPTDeviceType
 		{
 			get { return MPTDevice.MPTDeviceType; }
-			set
-			{
-				MPTDevice.MPTDeviceType = value;
-				OnPropertyChanged("MPTDeviceType");
-				ServiceFactory.SaveService.GKChanged = true;
-			}
 		}
 
 		public string Description
 		{
-			get { return Device.Description; }
+			get { return Device != null ? Device.Description : null; }
 			set
 			{
+				if (Device == null)
+					return;
+
 				Device.Description = value;
-				Device.OnChanged();
 				OnPropertyChanged("Description");
 
-				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
 				if (deviceViewModel != null)
 				{
 					deviceViewModel.OnPropertyChanged("Description");
 				}
+				Device.OnChanged();
 
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
-		public bool HasDelay
+		public bool HasDelayAndHold
 		{
-			get { return Device.DriverType != XDriverType.RSR2_AM_1; }
-		}
-
-		public bool HasHold
-		{
-			get { return Device.DriverType == XDriverType.RSR2_MVK8; }
+			get { return MPTDeviceType == XFiresecAPI.MPTDeviceType.Bomb; }
 		}
 
 		public int Delay
@@ -98,6 +98,9 @@ namespace GKModule.ViewModels
 
 		void SetDeviceProperty(string propertyName, int value)
 		{
+			if (Device == null)
+				return;
+
 			var property = Device.Properties.FirstOrDefault(x => x.Name == propertyName);
 			if (property == null)
 			{
@@ -110,7 +113,7 @@ namespace GKModule.ViewModels
 			}
 			property.Value = (ushort)value;
 			Device.OnChanged();
-			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == Device.UID);
+			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
 			if (deviceViewModel != null)
 			{
 				deviceViewModel.UpdateProperties();

@@ -66,19 +66,19 @@ namespace Infrastructure.Designer.ViewModels
 					var designerItems = new List<DesignerItem>();
 					DesignerCanvas.Toolbox.SetDefault();
 					DesignerCanvas.DeselectAll();
-                    var newItems = new List<DesignerItem>();
+					var newItems = new List<DesignerItem>();
 					foreach (var elementBase in _buffer)
 					{
 						var element = elementBase.Clone();
 						element.UID = Guid.NewGuid();
 						var designerItem = DesignerCanvas.CreateElement(element);
 						designerItems.Add(designerItem);
-                        newItems.Add(designerItem);
+						newItems.Add(designerItem);
 					}
-                    newItems.ForEach(item => item.IsSelected = true);
+					newItems.ForEach(item => item.IsSelected = true);
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements.ToList());
 					MoveToFrontCommand.Execute();
-                    DesignerCanvas.DesignerChanged();
+					DesignerCanvas.DesignerChanged();
 				}
 		}
 		private bool CanPaste(IInputElement obj)
@@ -128,7 +128,7 @@ namespace Infrastructure.Designer.ViewModels
 				}
 				Vector shift = new Vector(border.X - minLeft, border.Y - minTop);
 				//if (shift.X == 0 && shift.Y == 0)
-				//    shift = new Vector(-minLeft / 2, -minTop / 2);
+				//	shift = new Vector(-minLeft / 2, -minTop / 2);
 				foreach (var elementBase in _buffer)
 					elementBase.Position += shift;
 			}

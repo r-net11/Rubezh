@@ -8,7 +8,7 @@ namespace FiresecAPI.Models
 	public class ElementRectangleZone : ElementBaseRectangle, IElementZone, IPrimitive
 	{
 		[DataMember]
-        public Guid ZoneUID { get; set; }
+		public Guid ZoneUID { get; set; }
 		[DataMember]
 		public bool IsHiddenZone { get; set; }
 

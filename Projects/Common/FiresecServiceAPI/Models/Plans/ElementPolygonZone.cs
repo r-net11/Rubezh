@@ -7,8 +7,8 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementPolygonZone : ElementBasePolygon, IElementZone, IPrimitive
 	{
-        [DataMember]
-        public Guid ZoneUID { get; set; }
+		[DataMember]
+		public Guid ZoneUID { get; set; }
 		[DataMember]
 		public bool IsHiddenZone { get; set; }
 

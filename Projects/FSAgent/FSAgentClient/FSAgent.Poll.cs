@@ -12,7 +12,7 @@ namespace FSAgentClient
 		public bool SuspendPoll = false;
 		Thread PollThread;
 		bool IsClosing = false;
-        bool IsDisconnecting = false;
+		bool IsDisconnecting = false;
 
 		public void Start()
 		{
@@ -22,7 +22,7 @@ namespace FSAgentClient
 
 		public void Stop()
 		{
-            IsDisconnecting = true;
+			IsDisconnecting = true;
 			StopLifetime();
 			StopPollThread();
 		}

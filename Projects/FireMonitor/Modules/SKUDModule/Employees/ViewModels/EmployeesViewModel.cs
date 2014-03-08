@@ -59,7 +59,13 @@ namespace SKDModule.ViewModels
 		void UpdateEmployees()
 		{
 			Employees = new ObservableCollection<EmployeeViewModel>();
-			FiresecManager.GetEmployees(Filter).ToList().ForEach(x => Employees.Add(new EmployeeViewModel(x)));
+			var employees = EmployeeHelper.Get(Filter);
+			if (employees == null)
+				return;
+			foreach (var employee in employees)
+			{
+				Employees.Add(new EmployeeViewModel(employee));
+			}
 		}
 
 
@@ -80,23 +86,28 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				var employee = employeeDetailsViewModel.Employee;
+				var saveResult = EmployeeHelper.Save(employee);
+				if (!saveResult)
+					return;
 				var employeeViewModel = new EmployeeViewModel(employee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
-				EmployeeHelper.Save(employee);
 			}
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var employee = SelectedEmployee.Employee;
+			var removeResult = EmployeeHelper.MarkDeleted(employee);
+			if (!removeResult)
+				return;
+			
 			var index = Employees.IndexOf(SelectedEmployee);
-			EmployeeHelper.MarkDeleted(SelectedEmployee.Employee);
 			Employees.Remove(SelectedEmployee);
 			index = Math.Min(index, Employees.Count - 1);
 			if (index > -1)
 				SelectedEmployee = Employees[index];
-			
 		}
 		bool CanRemove()
 		{
@@ -110,8 +121,11 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				var employee = employeeDetailsViewModel.Employee;
+				var saveResult = EmployeeHelper.Save(employee);
+				if (!saveResult)
+					return;
+
 				SelectedEmployee.Update(employee);
-				EmployeeHelper.Save(employee);
 			}
 		}
 		bool CanEdit()

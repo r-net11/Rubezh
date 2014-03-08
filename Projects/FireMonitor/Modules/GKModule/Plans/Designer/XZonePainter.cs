@@ -103,7 +103,7 @@ namespace GKModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.BaseUID);
 		}
 		private bool CanShowInTree()
 		{

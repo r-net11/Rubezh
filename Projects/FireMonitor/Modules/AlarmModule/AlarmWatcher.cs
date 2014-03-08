@@ -10,134 +10,134 @@ using Infrastructure.Common.Windows;
 
 namespace AlarmModule
 {
-    public class AlarmWatcher
-    {
-        List<Alarm> Alarms;
+	public class AlarmWatcher
+	{
+		List<Alarm> Alarms;
 
-        public AlarmWatcher()
-        {
-            Alarms = new List<Alarm>();
-            ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-            ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
-            OnDevicesStateChanged(null);
+		public AlarmWatcher()
+		{
+			Alarms = new List<Alarm>();
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			OnDevicesStateChanged(null);
 
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
-        }
+		}
 
-        void OnDevicesStateChanged(object obj)
-        {
-            Alarms = new List<Alarm>();
+		void OnDevicesStateChanged(object obj)
+		{
+			Alarms = new List<Alarm>();
 			UpdateZoneAlarms();
-            UpdateDeviceAlarms();
-            Alarms = (from Alarm alarm in Alarms orderby alarm.StateType select alarm).ToList<Alarm>();
-            AlarmsViewModel.Current.Update(Alarms);
-            AlarmGroupsViewModel.Current.Update(Alarms);
-        }
+			UpdateDeviceAlarms();
+			Alarms = (from Alarm alarm in Alarms orderby alarm.StateType select alarm).ToList<Alarm>();
+			AlarmsViewModel.Current.Update(Alarms);
+			AlarmGroupsViewModel.Current.Update(Alarms);
+		}
 
-        void UpdateDeviceAlarms()
-        {
-            foreach (var device in FiresecManager.Devices)
-            {
-                foreach (var state in device.DeviceState.ThreadSafeStates)
-                {
-                    AlarmType? alarmType = StateToAlarmType(state, device.Driver);
-                    if (alarmType.HasValue == false)
-                        continue;
+		void UpdateDeviceAlarms()
+		{
+			foreach (var device in FiresecManager.Devices)
+			{
+				foreach (var state in device.DeviceState.ThreadSafeStates)
+				{
+					AlarmType? alarmType = StateToAlarmType(state, device.Driver);
+					if (alarmType.HasValue == false)
+						continue;
 
-                    var newAlarm = new Alarm()
-                    {
-                        AlarmType = alarmType.Value,
-                        StateType = state.DriverState.StateType,
-                        Device = device,
-                        Zone = device.Zone,
-                        StateName = state.DriverState.Name
-                    };
-                    Alarms.Add(newAlarm);
-                }
-            }
-        }
+					var newAlarm = new Alarm()
+					{
+						AlarmType = alarmType.Value,
+						StateType = state.DriverState.StateType,
+						Device = device,
+						Zone = device.Zone,
+						StateName = state.DriverState.Name
+					};
+					Alarms.Add(newAlarm);
+				}
+			}
+		}
 
-        void UpdateZoneAlarms()
-        {
-            foreach (var zone in FiresecManager.Zones)
-            {
-                switch (zone.ZoneType)
-                {
-                    case ZoneType.Fire:
-                        if (zone.ZoneState.StateType == StateType.Fire)
-                        {
-                            var newAlarm = new Alarm()
-                            {
-                                AlarmType = AlarmType.Fire,
-                                StateType = StateType.Fire,
-                                Zone = zone,
-                                StateName = "Пожар"
-                            };
-                            Alarms.Add(newAlarm);
-                        }
-                        break;
-                    case ZoneType.Guard:
-                        if (FiresecManager.IsZoneOnGuardAlarm(zone.ZoneState))
-                        {
-                            var newAlarm = new Alarm()
-                            {
-                                AlarmType = AlarmType.Guard,
-                                StateType = StateType.Fire,
-                                Zone = zone,
-                                StateName = "Тревога"
-                            };
-                            Alarms.Add(newAlarm);
-                        }
-                        break;
-                }
-            }
-        }
+		void UpdateZoneAlarms()
+		{
+			foreach (var zone in FiresecManager.Zones)
+			{
+				switch (zone.ZoneType)
+				{
+					case ZoneType.Fire:
+						if (zone.ZoneState.StateType == StateType.Fire)
+						{
+							var newAlarm = new Alarm()
+							{
+								AlarmType = AlarmType.Fire,
+								StateType = StateType.Fire,
+								Zone = zone,
+								StateName = "Пожар"
+							};
+							Alarms.Add(newAlarm);
+						}
+						break;
+					case ZoneType.Guard:
+						if (FiresecManager.IsZoneOnGuardAlarm(zone.ZoneState))
+						{
+							var newAlarm = new Alarm()
+							{
+								AlarmType = AlarmType.Guard,
+								StateType = StateType.Fire,
+								Zone = zone,
+								StateName = "Тревога"
+							};
+							Alarms.Add(newAlarm);
+						}
+						break;
+				}
+			}
+		}
 
-        AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
-        {
+		AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
+		{
 			if (state.DriverState == null)
 			{
 				return null;
 			}
-            if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
-                return AlarmType.Auto;
+			if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
+				return AlarmType.Auto;
 
-            AlarmType? alarmType = null;
-            switch (state.DriverState.StateType)
-            {
-                case StateType.Fire:
-                    return null;
+			AlarmType? alarmType = null;
+			switch (state.DriverState.StateType)
+			{
+				case StateType.Fire:
+					return null;
 
-                case StateType.Attention:
-                    if (state.DriverState.CanResetOnPanel == false)
-                        return null;
-                    alarmType = AlarmType.Attention;
-                    break;
+				case StateType.Attention:
+					if (state.DriverState.CanResetOnPanel == false)
+						return null;
+					alarmType = AlarmType.Attention;
+					break;
 
-                case StateType.Info:
-                    if (state.DriverState.CanResetOnPanel == false)
-                        return null;
-                    alarmType = AlarmType.Info;
-                    break;
+				case StateType.Info:
+					if (state.DriverState.CanResetOnPanel == false)
+						return null;
+					alarmType = AlarmType.Info;
+					break;
 
-                case StateType.Off:
-                    if (driver.CanDisable == false)
-                        return null;
-                    alarmType = AlarmType.Off;
-                    break;
+				case StateType.Off:
+					if (driver.CanDisable == false)
+						return null;
+					alarmType = AlarmType.Off;
+					break;
 
-                case StateType.Failure:
-                    alarmType = AlarmType.Failure;
-                    break;
+				case StateType.Failure:
+					alarmType = AlarmType.Failure;
+					break;
 
-                case StateType.Service:
-                    alarmType = AlarmType.Service;
-                    break;
-            }
+				case StateType.Service:
+					alarmType = AlarmType.Service;
+					break;
+			}
 
-            return alarmType;
-        }
+			return alarmType;
+		}
 
 		void OnNewJournalRecords(List<JournalRecord> journalRecords)
 		{
@@ -154,5 +154,5 @@ namespace AlarmModule
 				}
 			}
 		}
-    }
+	}
 }

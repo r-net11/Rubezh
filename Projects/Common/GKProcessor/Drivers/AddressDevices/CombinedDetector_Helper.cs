@@ -15,14 +15,14 @@ namespace GKProcessor
 				Name = "Пожарный комбинированный извещатель ИП212/101-64-А2R1",
 				ShortName = "ИП-64К",
 				HasZone = true,
-                IsPlaceable = true
+				IsPlaceable = true
 			};
 
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Test);
 			GKDriversHelper.AddAvailableStateBits(driver, XStateBit.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
-            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Test);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+			GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01*дБ/м", 18, 5, 20);
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", 70, 54, 85);

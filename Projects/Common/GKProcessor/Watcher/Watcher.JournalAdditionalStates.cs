@@ -6,92 +6,92 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-        void ParseAdditionalStates(JournalItem journalItem)
-        {
-            var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
+		void ParseAdditionalStates(JournalItem journalItem)
+		{
+			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 
-            if (descriptor != null && descriptor.Device != null)
-            {
-                var deviceState = descriptor.Device.InternalState;
-                if (journalItem.Name == "Неисправность")
-                {
-                    if (!string.IsNullOrEmpty(journalItem.Description))
-                    {
-                        AddAdditionalState(deviceState, journalItem.Description, XStateClass.Failure);
-                        if (descriptor.Device.DriverType == XDriverType.Battery)
-                        {
-                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.Names.Contains(journalItem.Description));
-                            if (batteryNamesGroup != null)
-                            {
-                                foreach (var name in batteryNamesGroup.Names)
-                                {
-                                    if (name != journalItem.Description)
-                                    {
-                                        deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (journalItem.Name == "Неисправность устранена")
-                {
-                    if (string.IsNullOrEmpty(journalItem.Description))
-                    {
-                        deviceState.AdditionalStates.RemoveAll(x => x.StateClass == XStateClass.Failure);
-                    }
-                    else
-                    {
-                        deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
-                        if (descriptor.Device.DriverType == XDriverType.Battery)
-                        {
-                            var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
-                            if (batteryNamesGroup != null)
-                            {
-                                foreach (var name in batteryNamesGroup.Names)
-                                {
-                                    deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
-                                }
-                            }
-                        }
-                    }
-                }
-                if (journalItem.Name == "Информация")
-                {
-                    switch (journalItem.Description)
-                    {
-                        case "Низкий уровень":
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
-                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
-                            break;
-                        case "Высокий уровень":
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
-                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
-                            AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
-                            break;
-                        case "Аварийный уровень":
-                            AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
-                            AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
-                            AddAdditionalState(deviceState, "Аварийный уровень", XStateClass.Failure);
-                            break;
-                        case "Уровень норма":
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Низкий уровень");
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
-                            deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
-                            break;
-                    }
-                }
-            }
-        }
+			if (descriptor != null && descriptor.Device != null)
+			{
+				var deviceState = descriptor.Device.InternalState;
+				if (journalItem.Name == "Неисправность")
+				{
+					if (!string.IsNullOrEmpty(journalItem.Description))
+					{
+						AddAdditionalState(deviceState, journalItem.Description, XStateClass.Failure);
+						if (descriptor.Device.DriverType == XDriverType.Battery)
+						{
+							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.Names.Contains(journalItem.Description));
+							if (batteryNamesGroup != null)
+							{
+								foreach (var name in batteryNamesGroup.Names)
+								{
+									if (name != journalItem.Description)
+									{
+										deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+									}
+								}
+							}
+						}
+					}
+				}
+				if (journalItem.Name == "Неисправность устранена")
+				{
+					if (string.IsNullOrEmpty(journalItem.Description))
+					{
+						deviceState.AdditionalStates.RemoveAll(x => x.StateClass == XStateClass.Failure);
+					}
+					else
+					{
+						deviceState.AdditionalStates.RemoveAll(x => x.Name == journalItem.Description);
+						if (descriptor.Device.DriverType == XDriverType.Battery)
+						{
+							var batteryNamesGroup = BatteryJournalHelper.BatteryNamesGroups.FirstOrDefault(x => x.ResetName == journalItem.Description);
+							if (batteryNamesGroup != null)
+							{
+								foreach (var name in batteryNamesGroup.Names)
+								{
+									deviceState.AdditionalStates.RemoveAll(x => x.Name == name);
+								}
+							}
+						}
+					}
+				}
+				if (journalItem.Name == "Информация")
+				{
+					switch (journalItem.Description)
+					{
+						case "Низкий уровень":
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+							AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+							break;
+						case "Высокий уровень":
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+							AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+							AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
+							break;
+						case "Аварийный уровень":
+							AddAdditionalState(deviceState, "Низкий уровень", XStateClass.Info);
+							AddAdditionalState(deviceState, "Высокий уровень", XStateClass.Info);
+							AddAdditionalState(deviceState, "Аварийный уровень", XStateClass.Failure);
+							break;
+						case "Уровень норма":
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Низкий уровень");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Высокий уровень");
+							deviceState.AdditionalStates.RemoveAll(x => x.Name == "Аварийный уровень");
+							break;
+					}
+				}
+			}
+		}
 
-        void AddAdditionalState(XBaseInternalState baseState, string description, XStateClass stateClass)
+		void AddAdditionalState(XBaseInternalState baseState, string description, XStateClass stateClass)
 		{
 			if (!baseState.AdditionalStates.Any(x => x.Name == description))
 			{
 				var additionalState = new XAdditionalState()
 				{
-                    StateClass = stateClass,
+					StateClass = stateClass,
 					Name = description
 				};
 				baseState.AdditionalStates.Add(additionalState);

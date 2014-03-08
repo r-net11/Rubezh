@@ -8,7 +8,7 @@ namespace Firesec
 {
 	public partial class ConfigurationConverter
 	{
-        void ConvertGuardUsers(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
+		void ConvertGuardUsers(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig)
 		{
 			deviceConfiguration.GuardUsers = new List<GuardUser>();
 
@@ -28,8 +28,8 @@ namespace Firesec
 						{
 							foreach (var partZone in innerGuardUser.PinZ)
 							{
-                                var zoneNo = int.Parse(partZone.pidz);
-                                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+								var zoneNo = int.Parse(partZone.pidz);
+								var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
 								guardUser.ZoneUIDs.Add(zone.UID);
 							}
 						}
@@ -85,7 +85,7 @@ namespace Firesec
 			}
 		}
 
-        void ConvertGuardUsersBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
+		void ConvertGuardUsersBack(DeviceConfiguration deviceConfiguration, Firesec.Models.CoreConfiguration.config coreConfig, ref int gid)
 		{
 			var innerGuardUsers = new List<partType>();
 			int no = 0;

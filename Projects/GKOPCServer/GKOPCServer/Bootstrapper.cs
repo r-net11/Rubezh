@@ -130,7 +130,7 @@ namespace GKOPCServer
 		{
 			foreach (var remoteDeviceState in gkStates.DeviceStates)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == remoteDeviceState.UID);
 				if (device != null)
 				{
 					remoteDeviceState.CopyTo(device.State);
@@ -138,7 +138,7 @@ namespace GKOPCServer
 			}
 			foreach (var remoteZoneState in gkStates.ZoneStates)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == remoteZoneState.UID);
 				if (zone != null)
 				{
 					remoteZoneState.CopyTo(zone.State);
@@ -146,7 +146,7 @@ namespace GKOPCServer
 			}
 			foreach (var remoteDirectionState in gkStates.DirectionStates)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == remoteDirectionState.UID);
+				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == remoteDirectionState.UID);
 				if (direction != null)
 				{
 					remoteDirectionState.CopyTo(direction.State);
@@ -162,7 +162,7 @@ namespace GKOPCServer
 			}
 			foreach (var delayState in gkStates.DelayStates)
 			{
-				var delay = XManager.Delays.FirstOrDefault(x => x.UID == delayState.UID);
+				var delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == delayState.UID);
 				if (delay == null)
 					delay = XManager.Delays.FirstOrDefault(x => x.PresentationName == delayState.PresentationName);
 				if (delay != null)
@@ -172,7 +172,7 @@ namespace GKOPCServer
 			}
 			foreach (var remotePimState in gkStates.PimStates)
 			{
-				var pim = XManager.Pims.FirstOrDefault(x => x.UID == remotePimState.UID);
+				var pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == remotePimState.UID);
 				if (pim == null)
 					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
 				if (pim != null)

@@ -53,7 +53,7 @@ namespace VideoModule.ViewModels
 				var zones = new List<XZone>();
 				foreach (var zoneUID in Camera.ZoneUIDs.ToList())
 				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
 					if (zone != null)
 						zones.Add(zone);
 				}
@@ -67,7 +67,7 @@ namespace VideoModule.ViewModels
 			get
 			{
 				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementExtensions.OfType<ElementCamera>().Any(element => element.CameraUID == Camera.UID));
-				var planViewModels = new ObservableCollection<PlanViewModel>();  
+				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{
 					planViewModels.Add(new PlanViewModel(plan, Camera));

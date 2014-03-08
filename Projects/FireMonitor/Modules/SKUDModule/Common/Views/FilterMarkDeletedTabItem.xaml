@@ -1,55 +1,55 @@
 ﻿<TabItem x:Class="SKDModule.Views.FilterMarkDeletedTabItem"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Style="{StaticResource TabItemElementStyle}">
-    <TabItem.Header>
-        <TextBlock Text="Удалённые" Foreground="White" FontWeight="Bold">
-            <TextBlock.Style>
-                <Style>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding WithDeleted}" Value="True">
-                            <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
-    </TabItem.Header>
-    <TabItem.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
-    </TabItem.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Text="Показывать удалённых" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" />
-        <CheckBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                    IsChecked="{Binding WithDeleted}" />
-        <TextBlock Text="Показывать только удалённых" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" 
-                    IsEnabled="{Binding WithDeleted}" />
-        <CheckBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                    IsChecked="{Binding OnlyDeleted}" 
-                    IsEnabled="{Binding WithDeleted}" />
-        <TextBlock Text="C" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" />
-        <Calendar Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Left" SelectionMode="SingleDate" 
-                    SelectedDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}" 
-                    IsEnabled="{Binding WithDeleted}" />
-        <TextBlock Text="По" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" />
-        <Calendar Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" SelectionMode="SingleDate" 
-                    SelectedDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}" 
-                    IsEnabled="{Binding WithDeleted}" />
-    </Grid>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Style="{StaticResource TabItemElementStyle}">
+	<TabItem.Header>
+		<TextBlock Text="Удалённые" Foreground="White" FontWeight="Bold">
+			<TextBlock.Style>
+				<Style>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding WithDeleted}" Value="True">
+							<Setter Property="TextBlock.FontStyle" Value="Italic" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</TextBlock.Style>
+		</TextBlock>
+	</TabItem.Header>
+	<TabItem.Resources>
+		<Style TargetType="TextBlock">
+			<Setter Property="Foreground" Value="White" />
+			<Setter Property="Margin" Value="5" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+	</TabItem.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TextBlock Text="Показывать удалённых" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" />
+		<CheckBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" 
+					IsChecked="{Binding WithDeleted}" />
+		<TextBlock Text="Показывать только удалённых" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" 
+					IsEnabled="{Binding WithDeleted}" />
+		<CheckBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+					IsChecked="{Binding OnlyDeleted}" 
+					IsEnabled="{Binding WithDeleted}" />
+		<TextBlock Text="C" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" />
+		<Calendar Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Left" SelectionMode="SingleDate" 
+					SelectedDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding RemovalDatesStart, UpdateSourceTrigger=PropertyChanged}" 
+					IsEnabled="{Binding WithDeleted}" />
+		<TextBlock Text="По" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" />
+		<Calendar Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" SelectionMode="SingleDate" 
+					SelectedDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}"
+					DisplayDate="{Binding RemovalDatesEnd, UpdateSourceTrigger=PropertyChanged}" 
+					IsEnabled="{Binding WithDeleted}" />
+	</Grid>
 </TabItem>

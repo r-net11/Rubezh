@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 		{
 			SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
 			SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
-            SelectDirectionCommand = new RelayCommand(OnSelectDirectionCommand, CanSelect);
+			SelectDirectionCommand = new RelayCommand(OnSelectDirectionCommand, CanSelect);
 			GetMediaCommand = new RelayCommand(OnGetMedia);
 			RemoveMediaCommand = new RelayCommand(OnRemoveMedia);
 			if (instruction != null)
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 		{
 			InstructionZones = new ObservableCollection<Guid>();
 			InstructionDevices = new ObservableCollection<Guid>();
-            InstructionDirections = new ObservableCollection<Guid>();
+			InstructionDirections = new ObservableCollection<Guid>();
 			Name = Instruction.Name;
 			Text = Instruction.Text;
 			AlarmType = Instruction.AlarmType;
@@ -55,8 +55,8 @@ namespace GKModule.ViewModels
 						InstructionZones = new ObservableCollection<Guid>(Instruction.ZoneUIDs);
 					if (Instruction.Devices.IsNotNullOrEmpty())
 						InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
-                    if (Instruction.Directions.IsNotNullOrEmpty())
-                        InstructionDirections = new ObservableCollection<Guid>(Instruction.Directions);
+					if (Instruction.Directions.IsNotNullOrEmpty())
+						InstructionDirections = new ObservableCollection<Guid>(Instruction.Directions);
 					break;
 
 				case XInstructionType.General:
@@ -144,16 +144,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        ObservableCollection<Guid> _instructionDirections;
-        public ObservableCollection<Guid> InstructionDirections
-        {
-            get { return _instructionDirections; }
-            set
-            {
-                _instructionDirections = value;
-                OnPropertyChanged("InstructionDirections");
-            }
-        }
+		ObservableCollection<Guid> _instructionDirections;
+		public ObservableCollection<Guid> InstructionDirections
+		{
+			get { return _instructionDirections; }
+			set
+			{
+				_instructionDirections = value;
+				OnPropertyChanged("InstructionDirections");
+			}
+		}
 
 		bool CanSelect()
 		{
@@ -166,14 +166,14 @@ namespace GKModule.ViewModels
 			var zones = new List<XZone>();
 			foreach (var uid in InstructionZones)
 			{
-				var zone = XManager.Zones.FirstOrDefault(x => x.UID == uid);
+				var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == uid);
 				if (zone != null)
 					zones.Add(zone);
 			}
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(zones);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
-				var uids = zonesSelectationViewModel.Zones.Select(x => x.UID).ToList();
+				var uids = zonesSelectationViewModel.Zones.Select(x => x.BaseUID).ToList();
 				InstructionZones = new ObservableCollection<Guid>(uids);
 			}
 		}
@@ -184,7 +184,7 @@ namespace GKModule.ViewModels
 			var devices = new List<XDevice>();
 			foreach (var uid in InstructionDevices)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == uid);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == uid);
 				if (device != null)
 					devices.Add(device);
 			}
@@ -197,28 +197,28 @@ namespace GKModule.ViewModels
 			var devicesSelectationViewModel = new DevicesSelectationViewModel(devices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
-				var uids = devicesSelectationViewModel.Devices.Select(x => x.UID).ToList();
+				var uids = devicesSelectationViewModel.Devices.Select(x => x.BaseUID).ToList();
 				InstructionDevices = new ObservableCollection<Guid>(uids);
 			}
 		}
 
-        public RelayCommand SelectDirectionCommand { get; private set; }
-        void OnSelectDirectionCommand()
-        {
-            var directions = new List<XDirection>();
+		public RelayCommand SelectDirectionCommand { get; private set; }
+		void OnSelectDirectionCommand()
+		{
+			var directions = new List<XDirection>();
 			foreach (var uid in InstructionDirections)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}
 			var directionsSelectationViewModel = new DirectionsSelectationViewModel(directions);
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
-            {
-				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.UID).ToList();
+			{
+				var uids = directionsSelectationViewModel.TargetDirections.Select(x => x.BaseUID).ToList();
 				InstructionDirections = new ObservableCollection<Guid>(uids);
-            }
-        }
+			}
+		}
 
 		public RelayCommand GetMediaCommand { get; private set; }
 		void OnGetMedia()
@@ -266,13 +266,13 @@ namespace GKModule.ViewModels
 			{
 				Instruction.Devices = InstructionDevices.ToList();
 				Instruction.ZoneUIDs = InstructionZones.ToList();
-                Instruction.Directions = InstructionDirections.ToList();
+				Instruction.Directions = InstructionDirections.ToList();
 			}
 			else
 			{
 				Instruction.Devices = new List<Guid>();
 				Instruction.ZoneUIDs = new List<Guid>();
-                Instruction.Directions = new List<Guid>();
+				Instruction.Directions = new List<Guid>();
 			}
 			return base.Save();
 		}

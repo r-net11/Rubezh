@@ -11,12 +11,12 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    var deviceUIDs = new List<Guid>();
-			//    foreach (var device in devices)
-			//    {
-			//        deviceUIDs.Add(device.UID);
-			//    }
-			//    FS2ClientContract.AddToIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
+			//	var deviceUIDs = new List<Guid>();
+			//	foreach (var device in devices)
+			//	{
+			//		deviceUIDs.Add(device.UID);
+			//	}
+			//	FS2ClientContract.AddToIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
 			//}
 			//else
 			{
@@ -28,12 +28,12 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    var deviceUIDs = new List<Guid>();
-			//    foreach (var device in devices)
-			//    {
-			//        deviceUIDs.Add(device.UID);
-			//    }
-			//    FS2ClientContract.RemoveFromIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
+			//	var deviceUIDs = new List<Guid>();
+			//	foreach (var device in devices)
+			//	{
+			//		deviceUIDs.Add(device.UID);
+			//	}
+			//	FS2ClientContract.RemoveFromIgnoreList(deviceUIDs, FiresecManager.CurrentUser.Name);
 			//}
 			//else
 			{
@@ -45,25 +45,25 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    var paneleResetItems = new List<PanelResetItem>();
-			//    foreach (var resetItem in resetItems)
-			//    {
-			//        var parentPanel = resetItem.DeviceState.Device;
-			//        var panelResetItem = paneleResetItems.FirstOrDefault(x => x.PanelUID == parentPanel.UID);
-			//        if (panelResetItem == null)
-			//        {
-			//            panelResetItem = new PanelResetItem()
-			//            {
-			//                PanelUID = parentPanel.UID
-			//            };
-			//            paneleResetItems.Add(panelResetItem);
-			//        }
-			//        foreach (var deviceDriverState in resetItem.States)
-			//        {
-			//            panelResetItem.Ids.Add(deviceDriverState.DriverState.Code);
-			//        }
-			//    }
-			//    FS2ClientContract.ResetStates(paneleResetItems, FiresecManager.CurrentUser.Name);
+			//	var paneleResetItems = new List<PanelResetItem>();
+			//	foreach (var resetItem in resetItems)
+			//	{
+			//		var parentPanel = resetItem.DeviceState.Device;
+			//		var panelResetItem = paneleResetItems.FirstOrDefault(x => x.PanelUID == parentPanel.UID);
+			//		if (panelResetItem == null)
+			//		{
+			//			panelResetItem = new PanelResetItem()
+			//			{
+			//				PanelUID = parentPanel.UID
+			//			};
+			//			paneleResetItems.Add(panelResetItem);
+			//		}
+			//		foreach (var deviceDriverState in resetItem.States)
+			//		{
+			//			panelResetItem.Ids.Add(deviceDriverState.DriverState.Code);
+			//		}
+			//	}
+			//	FS2ClientContract.ResetStates(paneleResetItems, FiresecManager.CurrentUser.Name);
 			//}
 			//else
 			{
@@ -75,9 +75,9 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    if (methodName.StartsWith("Control$"))
-			//        methodName = methodName.Replace("Control$", "");
-			//    FS2ClientContract.ExecuteCommand(device.UID, methodName, FiresecManager.CurrentUser.Name);
+			//	if (methodName.StartsWith("Control$"))
+			//		methodName = methodName.Replace("Control$", "");
+			//	FS2ClientContract.ExecuteCommand(device.UID, methodName, FiresecManager.CurrentUser.Name);
 			//}
 			//else
 			{
@@ -90,7 +90,7 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    return FiresecManager.FS2ClientContract.GetArchiveStartDate();
+			//	return FiresecManager.FS2ClientContract.GetArchiveStartDate();
 			//}
 			//else
 			{
@@ -102,7 +102,7 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    FiresecManager.FS2ClientContract.BeginGetFilteredArchive(archiveFilter);
+			//	FiresecManager.FS2ClientContract.BeginGetFilteredArchive(archiveFilter);
 			//}
 			//else
 			{
@@ -114,7 +114,7 @@ namespace FiresecClient
 		{
 			//if (IsFS2Enabled)
 			//{
-			//    return FiresecManager.FS2ClientContract.GetDistinctDescriptions();
+			//	return FiresecManager.FS2ClientContract.GetDistinctDescriptions();
 			//}
 			//else
 			{

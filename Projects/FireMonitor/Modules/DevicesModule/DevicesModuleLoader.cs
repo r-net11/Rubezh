@@ -90,10 +90,10 @@ namespace DevicesModule
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FiresecManager.InitializeFS2();
-			//    FiresecManager.FS2ClientContract.Start();
-			//    FiresecManager.FS2UpdateDeviceStates();
-			//    return true;
+			//	FiresecManager.InitializeFS2();
+			//	FiresecManager.FS2ClientContract.Start();
+			//	FiresecManager.FS2UpdateDeviceStates();
+			//	return true;
 			//}
 			//else
 			{
@@ -142,7 +142,7 @@ namespace DevicesModule
 		{
 			//if (FiresecManager.IsFS2Enabled)
 			//{
-			//    FS2Helper.Initialize();
+			//	FS2Helper.Initialize();
 			//}
 			ServiceFactory.SubscribeEvents();
 		}

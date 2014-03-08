@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
+			ShowMPTCommand = new RelayCommand(OnShowMPT, CanShowMPT);
 
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -66,6 +67,7 @@ namespace GKModule.ViewModels
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
 			OnPropertyChanged("PropertiesViewModel");
+			OnPropertyChanged("IsParamtersEnabled");
 		}
 
 		public void Update()
@@ -153,7 +155,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
-			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU) && Device.DriverType != XDriverType.KAUIndicator)
 				return true;
 			if (Driver.Children.Count > 0)
 				return true;
@@ -194,7 +196,7 @@ namespace GKModule.ViewModels
 				index = Math.Min(index, parent.ChildrenCount - 1);
 				foreach (var device in allDevices)
 				{
-					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.UID == device.UID);
+					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.BaseUID == device.BaseUID);
 				}
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
@@ -286,7 +288,7 @@ namespace GKModule.ViewModels
 			IsSelected = true;
 			var plansElement = new ElementXDevice
 				{
-					XDeviceUID = Device.UID
+					XDeviceUID = Device.BaseUID
 				};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
@@ -362,6 +364,7 @@ namespace GKModule.ViewModels
 		void OnShowZoneOrLogic()
 		{
 			IsSelected = true;
+
 			if (CanShowZones())
 				OnShowZones();
 
@@ -370,7 +373,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowZoneOrLogic()
 		{
-			return CanShowZones() || CanShowLogic();
+			return !Device.IsInMPT && (CanShowZones() || CanShowLogic());
 		}
 
 		public bool IsZoneOrLogic
@@ -384,7 +387,7 @@ namespace GKModule.ViewModels
 			var zone = Device.Zones.FirstOrDefault();
 			if (zone != null)
 			{
-				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.UID);
+				ServiceFactoryBase.Events.GetEvent<ShowXZoneEvent>().Publish(zone.BaseUID);
 			}
 		}
 		bool CanShowZone()
@@ -395,7 +398,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowNSLogicCommand { get; private set; }
 		void OnShowNSLogic()
 		{
-			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.NSLogic);
+			var deviceLogicViewModel = new DeviceLogicViewModel(Device, Device.NSLogic, false);
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				Device.NSLogic = deviceLogicViewModel.GetModel();
@@ -519,7 +522,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowParentCommand { get; private set; }
 		void OnShowParent()
 		{
-			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.UID);
+			ServiceFactoryBase.Events.GetEvent<ShowXDeviceEvent>().Publish(Device.Parent.BaseUID);
 		}
 		bool CanShowParent()
 		{
@@ -527,6 +530,29 @@ namespace GKModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
+
+		public string MPTName
+		{
+			get
+			{
+				var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.BaseUID == Device.BaseUID));
+				if (mpt != null)
+					return mpt.Name;
+				return null;
+			}
+		}
+
+		public RelayCommand ShowMPTCommand { get; private set; }
+		void OnShowMPT()
+		{
+			var mpt = XManager.MPTs.FirstOrDefault(x => x.Devices.Any(y => y.BaseUID == Device.BaseUID));
+			if (mpt != null)
+				ServiceFactoryBase.Events.GetEvent<ShowXMPTEvent>().Publish(mpt.BaseUID);
+		}
+		bool CanShowMPT()
+		{
+			return true;
+		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }

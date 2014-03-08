@@ -28,9 +28,9 @@ namespace DevicesModule.Validation
 		{
 			get { return Object.DottedAddress; }
 		}
-        public override string ImageSource
-        {
-            get { return "/Controls;component/Images/Blue_Direction.png"; }
-        }
+		public override string ImageSource
+		{
+			get { return "/Controls;component/Images/Blue_Direction.png"; }
+		}
 	}
 }

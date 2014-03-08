@@ -8,5 +8,5 @@ namespace GKModule.Views
 		{
 			InitializeComponent();
 		}
-    }
+	}
 }

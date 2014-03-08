@@ -40,10 +40,10 @@
 			<Table.Columns>
 				<TableColumn Width="1*" />
 				<TableColumn Width="1*" />
-                <TableColumn Width="1*" />
-                <TableColumn Width="2*" />
-                <TableColumn Width="2*" />
-            </Table.Columns>
+				<TableColumn Width="1*" />
+				<TableColumn Width="2*" />
+				<TableColumn Width="2*" />
+			</Table.Columns>
 			<TableRowGroup Style="{StaticResource header1}">
 				<TableRow>
 					<TableCell ColumnSpan="5">
@@ -61,10 +61,10 @@
 					<TableCell>
 						<Paragraph TextAlignment="Center">Дата в приборе</Paragraph>
 					</TableCell>
-                    <TableCell>
-                        <Paragraph TextAlignment="Center">Дата в системе</Paragraph>
-                    </TableCell>
-                    <TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Дата в системе</Paragraph>
+					</TableCell>
+					<TableCell>
 						<Paragraph TextAlignment="Center">Название</Paragraph>
 					</TableCell>
 					<TableCell>
@@ -73,7 +73,7 @@
 					<TableCell>
 						<Paragraph TextAlignment="Center">Объект</Paragraph>
 					</TableCell>
-                </TableRow>
+				</TableRow>
 			</TableRowGroup>
 			<TableRowGroup Style="{StaticResource text}">
 				<xrd:TableRowForDataTable TableName="Journal">
@@ -82,27 +82,27 @@
 							<xrd:InlineTableCellValue PropertyName="DeviceDateTime" />
 						</Paragraph>
 					</TableCell>
-                    <TableCell>
-                        <Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="SystemDateTime" />
-                        </Paragraph>
-                    </TableCell>
-                    <TableCell>
+					<TableCell>
 						<Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="Name" />
+							<xrd:InlineTableCellValue PropertyName="SystemDateTime" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-                        <Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="Description" />
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="Name" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-                        <Paragraph TextAlignment="Center">
-                            <xrd:InlineTableCellValue PropertyName="ObjectName" />
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="Description" />
 						</Paragraph>
 					</TableCell>
-                </xrd:TableRowForDataTable>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="ObjectName" />
+						</Paragraph>
+					</TableCell>
+				</xrd:TableRowForDataTable>
 			</TableRowGroup>
 
 		</Table>

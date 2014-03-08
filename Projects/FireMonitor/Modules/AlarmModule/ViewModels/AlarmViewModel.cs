@@ -25,39 +25,39 @@ namespace AlarmModule.ViewModels
 			ShowInstructionCommand = new RelayCommand(OnShowInstruction, CanShowInstruction);
 		}
 
-        public string DeviceName
+		public string DeviceName
 		{
 			get
 			{
-                if (Alarm.Device != null)
-                {
+				if (Alarm.Device != null)
+				{
 					return Alarm.Device.DottedPresentationAddressAndName;
-                }
+				}
 				return "";
 			}
 		}
 
-        public string ZoneName
-        {
-            get
-            {
-                if (Alarm.Zone != null)
-                {
-                    return "Зона " + Alarm.Zone.PresentationName;
-                }
-                return "";
-            }
-        }
+		public string ZoneName
+		{
+			get
+			{
+				if (Alarm.Zone != null)
+				{
+					return "Зона " + Alarm.Zone.PresentationName;
+				}
+				return "";
+			}
+		}
 
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
 			Alarm.Reset();
 		}
-        public bool CanReset()
-        {
-            return Alarm.CanReset();
-        }
+		public bool CanReset()
+		{
+			return Alarm.CanReset();
+		}
 
 		public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
 		void OnRemoveFromIgnoreList()
@@ -67,10 +67,10 @@ namespace AlarmModule.ViewModels
 				Alarm.RemoveFromIgnoreList();
 			}
 		}
-        public bool CanRemoveFromIgnoreList()
-        {
-            return Alarm.CanRemoveFromIgnoreList();
-        }
+		public bool CanRemoveFromIgnoreList()
+		{
+			return Alarm.CanRemoveFromIgnoreList();
+		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
@@ -83,9 +83,9 @@ namespace AlarmModule.ViewModels
 			{
 				ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Alarm.Zone.UID);
 			}
-		}       
-        bool CanShowOnPlan()
-        {
+		}	   
+		bool CanShowOnPlan()
+		{
 			if (Alarm.Device != null)
 			{
 				return FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
@@ -96,49 +96,49 @@ namespace AlarmModule.ViewModels
 					FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementRectangleZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
 			}
 			return false;
-        }
-        public string PlanName
-        {
-            get
-            {
-                if (Alarm.Device != null)
-                {
-                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
-                    if(plan != null)
-                        return plan.Caption;
-                }
-                if (Alarm.Zone != null)
-                {
-                    var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementRectangleZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
-                    if (plan != null)
-                        return plan.Caption;
-                    plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementPolygonZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
-                    if (plan != null)
-                        return plan.Caption;
-                }
-                return null;
-            }
-        }
+		}
+		public string PlanName
+		{
+			get
+			{
+				if (Alarm.Device != null)
+				{
+					var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementDevices.Any(y => y.DeviceUID == Alarm.Device.UID); });
+					if(plan != null)
+						return plan.Caption;
+				}
+				if (Alarm.Zone != null)
+				{
+					var plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementRectangleZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
+					if (plan != null)
+						return plan.Caption;
+					plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => { return x.ElementPolygonZones.Any(y => y.ZoneUID == Alarm.Zone.UID); });
+					if (plan != null)
+						return plan.Caption;
+				}
+				return null;
+			}
+		}
 
 		public RelayCommand ShowDeviceCommand { get; private set; }
 		void OnShowDevice()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Alarm.Device.UID);
 		}
-        bool CanShowDevice()
-        {
-            return (Alarm.Device != null);
-        }
+		bool CanShowDevice()
+		{
+			return (Alarm.Device != null);
+		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Alarm.Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Alarm.Zone.UID);
 		}
-        bool CanShowZone()
-        {
-            return Alarm.Zone != null;
-        }
+		bool CanShowZone()
+		{
+			return Alarm.Zone != null;
+		}
 
 		public RelayCommand ShowInstructionCommand { get; private set; }
 		void OnShowInstruction()
@@ -146,18 +146,18 @@ namespace AlarmModule.ViewModels
 			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
 			DialogService.ShowModalWindow(instructionViewModel);
 		}
-        bool CanShowInstruction()
-        {
-            var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
-            return instructionViewModel.HasContent;
-        }
-        public Instruction Instruction
-        {
-            get
-            {
-                var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
-                return instructionViewModel.Instruction;
-            }
-        }
+		bool CanShowInstruction()
+		{
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+			return instructionViewModel.HasContent;
+		}
+		public Instruction Instruction
+		{
+			get
+			{
+				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.AlarmType);
+				return instructionViewModel.Instruction;
+			}
+		}
 	}
 }

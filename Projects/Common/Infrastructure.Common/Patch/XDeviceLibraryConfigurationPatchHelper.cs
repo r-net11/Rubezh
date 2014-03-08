@@ -7,6 +7,7 @@ using Common;
 using FiresecAPI;
 using Ionic.Zip;
 using XFiresecAPI;
+using System.Windows.Forms;
 
 namespace Infrastructure.Common
 {
@@ -24,17 +25,24 @@ namespace Infrastructure.Common
 
 		public static void PatchLibrary(string configurationFileName, Type configurationType)
 		{
-			var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
-			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
-
-			var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-			var configuration = GetConfigurationFomZip(emptyZipFile, configurationFileName, configurationType);
-
-			if (configuration != null)
+			try
 			{
-				var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
-				AddConfigurationToZip(zipFile, configuration, "XDeviceLibraryConfiguration.xml");
-				zipFile.Save(fileName);
+				var emptyFileName = AppDataFolderHelper.GetFileInFolder("Empty", "Config.fscp");
+				var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+
+				var emptyZipFile = ZipFile.Read(emptyFileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+				var configuration = GetConfigurationFomZip(emptyZipFile, configurationFileName, configurationType);
+
+				if (configuration != null)
+				{
+					var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+					AddConfigurationToZip(zipFile, configuration, "XDeviceLibraryConfiguration.xml");
+					zipFile.Save(fileName);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ConfigActualizeHelper.PatchLibrary");
 			}
 		}
 

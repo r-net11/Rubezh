@@ -6,29 +6,29 @@ namespace FireMonitor.ViewModels
 {
 	public class ProgressViewModel : DialogViewModel
 	{
-        public bool IsShown { get; set; }
+		public bool IsShown { get; set; }
 
 		public ProgressViewModel()
 		{
-            Title = "Опрос устройств";
+			Title = "Опрос устройств";
 			ProgressItems = new ObservableCollection<string>();
 			IsShown = false;
 		}
 
-        public void Add(string item)
-        {
+		public void Add(string item)
+		{
 			if (string.IsNullOrEmpty(item))
 				return;
-            if (ProgressItems.Count == 0)
-                ProgressItems.Add(item);
-            else
-                ProgressItems.Insert(0, item);
+			if (ProgressItems.Count == 0)
+				ProgressItems.Add(item);
+			else
+				ProgressItems.Insert(0, item);
 
-            if (ProgressItems.Count > 100)
-                ProgressItems.RemoveAt(100);
+			if (ProgressItems.Count > 100)
+				ProgressItems.RemoveAt(100);
 
-            SelectedProgressItem = ProgressItems.FirstOrDefault();
-        }
+			SelectedProgressItem = ProgressItems.FirstOrDefault();
+		}
 
 		ObservableCollection<string> _progressItems;
 		public ObservableCollection<string> ProgressItems

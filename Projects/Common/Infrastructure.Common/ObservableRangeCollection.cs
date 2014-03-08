@@ -5,29 +5,29 @@ using System.Collections.Specialized;
 
 namespace Infrastructure.Common
 {
-    public class ObservableRangeCollection<T> : ObservableCollection<T>
-    {
-        private bool _suppressNotification = false;
+	public class ObservableRangeCollection<T> : ObservableCollection<T>
+	{
+		private bool _suppressNotification = false;
 
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (!_suppressNotification)
-                base.OnCollectionChanged(e);
-        }
+		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+		{
+			if (!_suppressNotification)
+				base.OnCollectionChanged(e);
+		}
 
-        public void AddRange(IEnumerable<T> list)
-        {
-            if (list == null)
-                throw new ArgumentNullException("list");
+		public void AddRange(IEnumerable<T> list)
+		{
+			if (list == null)
+				throw new ArgumentNullException("list");
 
-            _suppressNotification = true;
+			_suppressNotification = true;
 
-            foreach (T item in list)
-            {
-                Add(item);
-            }
-            _suppressNotification = false;
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-    }
+			foreach (T item in list)
+			{
+				Add(item);
+			}
+			_suppressNotification = false;
+			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+		}
+	}
 }

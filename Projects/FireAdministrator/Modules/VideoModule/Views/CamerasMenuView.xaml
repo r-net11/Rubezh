@@ -1,41 +1,41 @@
 ﻿<UserControl x:Class="VideoModule.Views.CamerasMenuView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+		<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 		<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-        <Button Name="playButton" Command="{Binding PlayVideoCommand}" Style="{StaticResource ToolBarButtonStyle}">
-            <ContentControl>
-                <ContentControl.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/Stop.png" Height="24" Width="32" ToolTip="Остановить" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
-                                <DataTrigger.Setters>
-                                    <Setter Property="ContentControl.Content">
-                                        <Setter.Value>
-                                            <Image Source="/Controls;component/Images/Play.png" Height="32" ToolTip="Проигрывать" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger.Setters>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
-        </Button>
-        <!--<Controls:ToolBarButton Command="{Binding StartVideoCommand}" ToolTip="Проигрывать" ImageSource="/Controls;component/Images/Play.png" />
-        <Controls:ToolBarButton Command="{Binding StopVideoCommand}" ToolTip="Остановить" ImageSource="/Controls;component/Images/Stop.png" />-->
-    </StackPanel>
+		<Button Name="playButton" Command="{Binding PlayVideoCommand}" Style="{StaticResource ToolBarButtonStyle}">
+			<ContentControl>
+				<ContentControl.Style>
+					<Style>
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+								<DataTrigger.Setters>
+									<Setter Property="ContentControl.Content">
+										<Setter.Value>
+											<Image Source="/Controls;component/Images/Stop.png" Height="24" Width="32" ToolTip="Остановить" />
+										</Setter.Value>
+									</Setter>
+								</DataTrigger.Setters>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
+								<DataTrigger.Setters>
+									<Setter Property="ContentControl.Content">
+										<Setter.Value>
+											<Image Source="/Controls;component/Images/Play.png" Height="32" ToolTip="Проигрывать" />
+										</Setter.Value>
+									</Setter>
+								</DataTrigger.Setters>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</ContentControl.Style>
+			</ContentControl>
+		</Button>
+		<!--<Controls:ToolBarButton Command="{Binding StartVideoCommand}" ToolTip="Проигрывать" ImageSource="/Controls;component/Images/Play.png" />
+		<Controls:ToolBarButton Command="{Binding StopVideoCommand}" ToolTip="Остановить" ImageSource="/Controls;component/Images/Stop.png" />-->
+	</StackPanel>
 </UserControl>

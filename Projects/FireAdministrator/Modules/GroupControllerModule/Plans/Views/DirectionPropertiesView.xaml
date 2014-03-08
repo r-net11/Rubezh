@@ -4,39 +4,39 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding XDirections}" SelectedItem="{Binding SelectedXDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
-                      SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
-            <DataGrid.Resources>
-                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                    <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick"/>
-                </InputBindingCollection>
-            </DataGrid.Resources>
-            <DataGrid.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                </Style>
-            </DataGrid.ItemContainerStyle>
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="№" SortMemberPath="No" Width="Auto" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
-                                <TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Direction.Name}" Header="Наименование" Width="*" />
-                <DataGridTextColumn Binding="{Binding Direction.Description}" Header="Примечание" />
-            </DataGrid.Columns>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
-        
+		<DataGrid Grid.Row="0" ItemsSource="{Binding XDirections}" SelectedItem="{Binding SelectedXDirection}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+					  SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
+			<DataGrid.Resources>
+				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+					<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick"/>
+				</InputBindingCollection>
+			</DataGrid.Resources>
+			<DataGrid.ItemContainerStyle>
+				<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+				</Style>
+			</DataGrid.ItemContainerStyle>
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="№" SortMemberPath="No" Width="Auto" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" />
+								<TextBlock Margin="2" HorizontalAlignment="Stretch" Text="{Binding Direction.No}" VerticalAlignment="Center" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Binding="{Binding Direction.Name}" Header="Наименование" Width="*" />
+				<DataGridTextColumn Binding="{Binding Direction.Description}" Header="Примечание" />
+			</DataGrid.Columns>
+			<DataGrid.ContextMenu>
+				<ContextMenu>
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать" Command="{Binding EditCommand}" />
+				</ContextMenu>
+			</DataGrid.ContextMenu>
+		</DataGrid>
+		
 		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button Width="100" Margin="2" Command="{Binding EditCommand}" Content="Редактировать" />
 			<Button Width="100" Margin="2" Command="{Binding CreateCommand}" Content="Создать" />

@@ -81,10 +81,10 @@ namespace DevicesModule.DeviceProperties
 
 		protected void Save(string value, bool useSaveService = true)
 		{
-            if (useSaveService)
-            {
+			if (useSaveService)
+			{
 				ServiceFactory.SaveService.FSParametersChanged = true;
-            }
+			}
 
 			var systemProperty = Device.SystemAUProperties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 			if (systemProperty != null)

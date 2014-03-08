@@ -227,10 +227,10 @@ namespace FiresecClient
 			}
 		}
 
-		public static void LinkXBases(XBase inputXBase, XBase outputXBase)
+		public static void LinkXBases(XBase value, XBase dependsOn)
 		{
-			AddInputOutputObject(inputXBase.InputXBases, outputXBase);
-			AddInputOutputObject(outputXBase.OutputXBases, inputXBase);
+			AddInputOutputObject(value.InputXBases, dependsOn);
+			AddInputOutputObject(dependsOn.OutputXBases, value);
 		}
 
 		static void AddInputOutputObject(List<XBase> objects, XBase newObject)

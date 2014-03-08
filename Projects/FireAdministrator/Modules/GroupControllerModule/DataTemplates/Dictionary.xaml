@@ -12,31 +12,31 @@
 		<Views:DevicesSelectationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
-        <Views:DeviceSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectationViewModel}">
+		<Views:DeviceSelectationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
 		<Views:ZonesSelectationView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
-        <Views:DirectionsSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionsSelectationViewModel}">
+		<Views:DirectionsSelectationView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
 		<Views:NewDeviceView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:RSR2NewDeviceViewModel}">
-        <Views:RSR2NewDeviceView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RSR2NewDeviceViewModel}">
+		<Views:RSR2NewDeviceView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DevicesOnShleifViewModel}">
-        <Views:DevicesOnShleifView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DevicesOnShleifViewModel}">
+		<Views:DevicesOnShleifView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:PropertiesViewModel}">
 		<Views:PropertiesView />
 	</DataTemplate>
 
@@ -44,11 +44,11 @@
 		<Views:DevicesMenuView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ConfigurationCompareViewModel}">
-        <Views:ConfigurationCompareView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ConfigurationCompareViewModel}">
+		<Views:ConfigurationCompareView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
 		<Views:ZonesView />
 	</DataTemplate>
 
@@ -60,132 +60,136 @@
 		<Views:ZonesMenuView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionsViewModel}">
-        <Views:DirectionsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionsViewModel}">
+		<Views:DirectionsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionDetailsViewModel}">
-        <Views:DirectionDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionDetailsViewModel}">
+		<Views:DirectionDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionsMenuViewModel}">
-        <Views:DirectionsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionsMenuViewModel}">
+		<Views:DirectionsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectationViewModel}">
-        <Views:DirectionDeviceSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectationViewModel}">
+		<Views:DirectionDeviceSelectationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
-        <Views:PumpStationsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
+		<Views:PumpStationsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
-        <Views:PumpStationDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationDetailsViewModel}">
+		<Views:PumpStationDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PumpStationsMenuViewModel}">
-        <Views:PumpStationsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:PumpStationsMenuViewModel}">
+		<Views:PumpStationsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
-        <Views:MPTsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+		<Views:MPTsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
-        <Views:MPTDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTDetailsViewModel}">
+		<Views:MPTDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">
-        <Views:MPTsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:MPTDeviceTypeSelectationViewModel}">
+		<Views:MPTDeviceTypeSelectationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:MPTsMenuViewModel}">
+		<Views:MPTsMenuView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:JournalFromFileViewModel}">
-        <Views:JournalFromFileView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:JournalFromFileViewModel}">
+		<Views:JournalFromFileView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
-        <Views:FiltersView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
+		<Views:FiltersView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
-        <Views:FilterDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
+		<Views:FilterDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FiltersMenuViewModel}">
-        <Views:FiltersMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:FiltersMenuViewModel}">
+		<Views:FiltersMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ConvertationViewModel}">
-        <Views:ConvertationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ConvertationViewModel}">
+		<Views:ConvertationView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
-        <Views:LibraryView />
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
-        <Views:DeviceDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LibraryViewModel}">
+		<Views:LibraryView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
+		<Views:DeviceDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:StateDetailsViewModel}">
-        <Views:StateDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:StateDetailsViewModel}">
+		<Views:StateDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstructionsViewModel}">
-        <Views:InstructionsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:InstructionsViewModel}">
+		<Views:InstructionsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstructionDetailsViewModel}">
-        <Views:InstructionDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:InstructionDetailsViewModel}">
+		<Views:InstructionDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:InstructionsMenuViewModel}">
-        <Views:InstructionsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:InstructionsMenuViewModel}">
+		<Views:InstructionsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
-        <Views:DiagnosticsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
+		<Views:DiagnosticsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DescriptorsViewModel}">
-        <Views:DescriptorsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DescriptorsViewModel}">
+		<Views:DescriptorsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DescriptorsMenuViewModel}">
-        <Views:DescriptorsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:DescriptorsMenuViewModel}">
+		<Views:DescriptorsMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
-        <Views:GuardView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
+		<Views:GuardView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
-        <Views:UserDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
+		<Views:UserDetailsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
-        <Views:GuardMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
+		<Views:GuardMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
-        <Views:OPCDevicesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OPCDevicesViewModel}">
+		<Views:OPCDevicesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OPCZonesViewModel}">
-        <Views:OPCZonesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OPCZonesViewModel}">
+		<Views:OPCZonesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OPCDirectionsViewModel}">
-        <Views:OPCDirectionsView />
-    </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:FirmWareUpdateViewModel}">
-        <Views:FirmWareUpdateView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:OPCDirectionsViewModel}">
+		<Views:OPCDirectionsView />
+	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:FirmWareUpdateViewModel}">
+		<Views:FirmWareUpdateView />
+	</DataTemplate>
 
 </ResourceDictionary>

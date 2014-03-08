@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 		{
 			if (directionUID != Guid.Empty)
 			{
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.BaseUID == directionUID);
 			}
 			InitializeInputOutputObjects();
 		}

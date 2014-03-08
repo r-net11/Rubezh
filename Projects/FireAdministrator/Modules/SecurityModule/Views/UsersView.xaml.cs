@@ -2,14 +2,14 @@
 
 namespace SecurityModule.Views
 {
-    public partial class UsersView : UserControl
-    {
-        public UsersView()
-        {
-            InitializeComponent();
+	public partial class UsersView : UserControl
+	{
+		public UsersView()
+		{
+			InitializeComponent();
 			
-        }
+		}
 
 		
-    }
+	}
 }

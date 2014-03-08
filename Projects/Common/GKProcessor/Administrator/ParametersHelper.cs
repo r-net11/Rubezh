@@ -19,11 +19,7 @@ namespace GKProcessor
 					var descriptor = commonDatabase.Descriptors.FirstOrDefault(x => x.XBase.BaseUID == xBase.BaseUID);
 					if (descriptor != null)
 					{
-						var result = SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
-						if (result != null)
-						{
-							return "Ошибка";
-						}
+						return SetDeviceParameters(commonDatabase, descriptor, parameterBytes);
 					}
 				}
 			}
@@ -148,18 +144,21 @@ namespace GKProcessor
 					{
 						double minValue = driverProperty.Min;
 						double maxValue = driverProperty.Max;
+						double value = property.Value;
+
 						if (driverProperty.Multiplier != 0)
 						{
 							minValue /= driverProperty.Multiplier;
 							maxValue /= driverProperty.Multiplier;
+							value /= driverProperty.Multiplier;
 						}
 
 						if (minValue != 0)
-							if (property.Value < minValue)
+							if (value < minValue)
 								return "Парметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString();
 
 						if (maxValue != 0)
-							if (property.Value > maxValue)
+							if (value > maxValue)
 								return "Парметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString();
 					}
 				}

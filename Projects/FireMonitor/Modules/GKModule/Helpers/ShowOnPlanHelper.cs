@@ -13,7 +13,7 @@ namespace GKModule
 	{
 		public static void ShowDevice(XDevice device, Plan plan)
 		{
-			var element = plan == null ? null : plan.ElementXDevices.FirstOrDefault(item => item.XDeviceUID == device.UID);
+			var element = plan == null ? null : plan.ElementXDevices.FirstOrDefault(item => item.XDeviceUID == device.BaseUID);
 			if (plan == null || element == null)
 				ShowDevice(device);
 			else
@@ -27,7 +27,7 @@ namespace GKModule
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementXDevices.Any(x => x.XDeviceUID == device.UID))
+				if (plan.ElementXDevices.Any(x => x.XDeviceUID == device.BaseUID))
 				{
 					return true;
 				}
@@ -43,9 +43,9 @@ namespace GKModule
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementPolygonXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
 					return true;
-				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+				if (plan.ElementRectangleXZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
 					return true;
 			}
 			return false;
@@ -59,9 +59,9 @@ namespace GKModule
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == direction.UID))
+				if (plan.ElementRectangleXDirections.Any(x => x.DirectionUID == direction.BaseUID))
 					return true;
-				if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == direction.UID))
+				if (plan.ElementPolygonXDirections.Any(x => x.DirectionUID == direction.BaseUID))
 					return true;
 			}
 			return false;

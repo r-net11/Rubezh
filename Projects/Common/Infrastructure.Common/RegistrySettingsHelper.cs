@@ -207,7 +207,7 @@ namespace Infrastructure.Common
 			{
 				//using (var mutex = new Mutex(true, "RegistryDataConfiguration"))
 				//{
-				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
 				for (int i = 0; i < 3; i++)
 				{
 					var tempFileName = FileName + "." + Guid.NewGuid().ToString();
@@ -251,7 +251,7 @@ namespace Infrastructure.Common
 				//eventWaitHandle.
 				//using (var mutex = new Mutex(false, "RegistryDataConfiguration"))
 				//{
-				//    mutex.WaitOne(TimeSpan.FromSeconds(1));
+				//	mutex.WaitOne(TimeSpan.FromSeconds(1));
 				for (int i = 0; i < 3; i++)
 				{
 					var tempFileName = FileName + "." + Guid.NewGuid().ToString();

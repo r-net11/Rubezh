@@ -2,11 +2,11 @@
 
 namespace CallModule.Views
 {
-    public partial class CallView : UserControl
-    {
-        public CallView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class CallView : UserControl
+	{
+		public CallView()
+		{
+			InitializeComponent();
+		}
+	}
 }

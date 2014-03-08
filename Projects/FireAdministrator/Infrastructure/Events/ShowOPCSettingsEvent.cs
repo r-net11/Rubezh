@@ -3,6 +3,6 @@
 namespace Infrastructure.Events
 {
 	public class ShowOPCSettingsEvent : CompositePresentationEvent<object>
-    {
-    }
+	{
+	}
 }

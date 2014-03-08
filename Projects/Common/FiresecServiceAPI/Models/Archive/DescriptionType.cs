@@ -7,6 +7,6 @@ namespace FiresecAPI.Models
 		Information,
 		Fire,
 		User,
-        Unknown
+		Unknown
 	}
 }

@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class PositionsTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
+	public class PositionTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
 	{
-		public PositionsTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
+		public PositionTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
 			: base(table, context)
 		{
 
@@ -18,7 +18,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(Position item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.UID != item.UID);
 			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
@@ -28,7 +28,7 @@ namespace SKDDriver
 		{
 			if (Context.Employee.Any(x => x.PositionUid == item.UID && x.OrganizationUid == item.OrganizationUid && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.Uid != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.UID != item.UID);
 			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
@@ -42,9 +42,9 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void Update(DataAccess.Position tableItem, Position apiItem)
+		protected override void TranslateBack(DataAccess.Position tableItem, Position apiItem)
 		{
-			base.Update(tableItem, apiItem);
+			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 		}

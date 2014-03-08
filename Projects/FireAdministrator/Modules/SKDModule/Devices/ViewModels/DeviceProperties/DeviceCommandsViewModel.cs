@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 		{
 			DevicesViewModel = devicesViewModel;
 
-            WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
@@ -76,49 +76,49 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        bool CanWriteConfig()
-        {
+		bool CanWriteConfig()
+		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
-        }
+		}
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-		    var result = new OperationResult<bool>();
+			var result = new OperationResult<bool>();
 			if (SelectedDevice.Device.DriverType == SKDDriverType.Controller)
-		    {
-		        var openDialog = new OpenFileDialog()
-		        {
-		            Filter = "FSCS updater|*.fscs",
-		            DefaultExt = "FSCS updater|*.fscs"
-		        };
-		        if (openDialog.ShowDialog().Value)
-		        {
-                    //var skdControllerDevice = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == SKDDriverType.Controller));
+			{
+				var openDialog = new OpenFileDialog()
+				{
+					Filter = "FSCS updater|*.fscs",
+					DefaultExt = "FSCS updater|*.fscs"
+				};
+				if (openDialog.ShowDialog().Value)
+				{
+					//var skdControllerDevice = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == SKDDriverType.Controller));
 					//var firmWareUpdateViewModel = new FirmWareUpdateViewModel(skdControllerDevice);
 					//if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 					//{
-					//    var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-					//    var devices = new List<XDevice>();
-					//    firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-					//    result = FiresecManager.FiresecService.SKDUpdateFirmwareFSCS(hxcFileInfo, devices);
+					//	var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
+					//	var devices = new List<XDevice>();
+					//	firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
+					//	result = FiresecManager.FiresecService.SKDUpdateFirmwareFSCS(hxcFileInfo, devices);
 
 					//}
-		        }
-		    }
-		    else
-            {
-		        var openDialog = new OpenFileDialog()
-		        {
-		            Filter = "soft update files|*.hcs",
-		            DefaultExt = "soft update files|*.hcs"
-		        };
+				}
+			}
+			else
+			{
+				var openDialog = new OpenFileDialog()
+				{
+					Filter = "soft update files|*.hcs",
+					DefaultExt = "soft update files|*.hcs"
+				};
 				if (openDialog.ShowDialog().Value)
-				    result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
-            }
-            if (result.HasError)
-                MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+					result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+			}
+			if (result.HasError)
+				MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
 		}
 
 		bool CanUpdateFirmwhare()
@@ -147,7 +147,7 @@ namespace SKDModule.ViewModels
 				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
 				{
 					//if (syncParameters)
-					//    SelectedDevice.SyncFromSystemToDeviceProperties(SelectedDevice.GetRealChildren());
+					//	SelectedDevice.SyncFromSystemToDeviceProperties(SelectedDevice.GetRealChildren());
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 					return !cancelEventArgs.Cancel;

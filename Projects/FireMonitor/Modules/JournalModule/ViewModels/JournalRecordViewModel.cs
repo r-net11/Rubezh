@@ -48,27 +48,27 @@ namespace JournalModule.ViewModels
 
 		//public JournalRecordViewModel(FS2JournalItem journalItem)
 		//{
-		//    ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-		//    ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
-		//    ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+		//	ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+		//	ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
+		//	ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 
-		//    DeviceTime = journalItem.DeviceTime;
-		//    SystemTime = journalItem.SystemTime;
-		//    ZoneName = journalItem.ZoneName;
-		//    Description = journalItem.Description;
-		//    Detalization = journalItem.Detalization;
-		//    DeviceName = journalItem.DeviceName;
-		//    PanelName = journalItem.PanelName;
-		//    User = journalItem.UserName;
-		//    SubsystemType = journalItem.SubsystemType;
-		//    StateType = journalItem.StateType;
+		//	DeviceTime = journalItem.DeviceTime;
+		//	SystemTime = journalItem.SystemTime;
+		//	ZoneName = journalItem.ZoneName;
+		//	Description = journalItem.Description;
+		//	Detalization = journalItem.Detalization;
+		//	DeviceName = journalItem.DeviceName;
+		//	PanelName = journalItem.PanelName;
+		//	User = journalItem.UserName;
+		//	SubsystemType = journalItem.SubsystemType;
+		//	StateType = journalItem.StateType;
 
-		//    if (journalItem.DeviceUID != Guid.Empty)
-		//        Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
-		//    else
-		//        Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
+		//	if (journalItem.DeviceUID != Guid.Empty)
+		//		Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+		//	else
+		//		Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalItem.PanelUID);
 
-		//    Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalItem.ZoneName);
+		//	Zone = FiresecManager.Zones.FirstOrDefault(x => x.FullPresentationName == journalItem.ZoneName);
 		//}
 
 		public DateTime DeviceTime { get; private set; }
@@ -143,7 +143,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Zone.UID);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Zone.UID);
 		}
 
 		bool CanShowZone()

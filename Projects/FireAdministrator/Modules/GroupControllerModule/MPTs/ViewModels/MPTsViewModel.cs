@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-            RegisterShortcuts();
+			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
@@ -79,8 +79,8 @@ namespace GKModule.ViewModels
 			{
 				XManager.DeviceConfiguration.MPTs.Add(mptDetailsViewModel.MPT);
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
-                MPTs.Add(mptViewModel);
-                SelectedMPT = mptViewModel;
+				MPTs.Add(mptViewModel);
+				SelectedMPT = mptViewModel;
 				OnPropertyChanged("HasSelectedMPT");
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -92,6 +92,10 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить МПТ " + SelectedMPT.MPT.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
+				foreach (var mptDevice in SelectedMPT.MPT.MPTDevices)
+				{
+					MPTViewModel.ChangeIsInMPT(mptDevice.Device, false);
+				}
 				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				SelectedMPT = MPTs.FirstOrDefault();
@@ -129,12 +133,12 @@ namespace GKModule.ViewModels
 			base.OnHide();
 		}
 
-        private void RegisterShortcuts()
-        {
-            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-        }
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
 
 
 		private void SetRibbonItems()

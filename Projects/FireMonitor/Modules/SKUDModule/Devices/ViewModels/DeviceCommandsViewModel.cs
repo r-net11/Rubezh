@@ -90,10 +90,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.SKDOpenDevice(Device);
-            }
+			}
 		}
 		bool CanOpen()
 		{
@@ -101,13 +101,13 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
-        void OnClose()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnClose()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.SKDCloseDevice(Device);
-            }
-        }
+			}
+		}
 		bool CanClose()
 		{
 			return true;

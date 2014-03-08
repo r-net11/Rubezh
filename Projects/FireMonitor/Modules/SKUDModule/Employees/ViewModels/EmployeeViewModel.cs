@@ -10,14 +10,12 @@ namespace SKDModule.ViewModels
 		public EmployeeViewModel(Employee employee)
 		{
 			Employee = employee;
-			var department = FiresecManager.GetDepartment(employee.DepartmentUid);
+			var department = DepartmentHelper.GetSingle(employee.DepartmentUID);
 			DepartmentName = (department != null) ? department.Name : "";
-			var position = PositionHelper.GetPosition(employee.PositionUid);
+			var position = PositionHelper.GetSingle(employee.PositionUID);
 			PositionName = (position != null) ? position.Name : "";
-			if (employee.Appointed.HasValue)
-				AppointedString = employee.Appointed.Value.ToString("d MMM yyyy");
-			if (employee.Dismissed.HasValue)
-				DismissedString = employee.Dismissed.Value.ToString("d MMM yyyy");
+			AppointedString = employee.Appointed.ToString("d MMM yyyy");
+			DismissedString = employee.Dismissed.ToString("d MMM yyyy");
 		}
 
 		public Employee Employee { get; set; }
@@ -29,11 +27,6 @@ namespace SKDModule.ViewModels
 		public void Update(Employee employee)
 		{
 			Employee = employee;
-			OnPropertyChanged("Employee");
-			OnPropertyChanged("DepartmentName");
-			OnPropertyChanged("PositionName");
-			OnPropertyChanged("AppointedString");
-			OnPropertyChanged("DismissedString");
 			OnPropertyChanged(()=>Employee);
 			OnPropertyChanged(()=>DepartmentName);
 			OnPropertyChanged(()=>PositionName);

@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 				ElementBase elementBase;
 				if (Alarm.Device != null)
 				{
-					elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Alarm.Device.UID);
+					elementBase = plan.ElementXDevices.FirstOrDefault(x => x.XDeviceUID == Alarm.Device.BaseUID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.Zone != null)
 				{
-					elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
+					elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.BaseUID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.UID);
+					elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Alarm.Zone.BaseUID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 				}
 				if (Alarm.Direction != null)
 				{
-					elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
+					elementBase = plan.ElementRectangleXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.BaseUID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 						continue;
 					}
 
-					elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.UID);
+					elementBase = plan.ElementPolygonXDirections.FirstOrDefault(x => x.DirectionUID == Alarm.Direction.BaseUID);
 					if (elementBase != null)
 					{
 						var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -148,15 +148,15 @@ namespace GKModule.ViewModels
 		{
 			if (Alarm.Device != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Alarm.Device.UID);
+				ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Alarm.Device.BaseUID);
 			}
 			if (Alarm.Zone != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Alarm.Zone.UID);
+				ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Alarm.Zone.BaseUID);
 			}
 			if (Alarm.Direction != null)
 			{
-				ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Alarm.Direction.UID);
+				ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Publish(Alarm.Direction.BaseUID);
 			}
 		}
 
@@ -240,32 +240,32 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetIgnoreCommand { get; private set; }
 		void OnResetIgnore()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
-                if (Alarm.Device != null)
-                {
-                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Alarm.Device != null)
+				{
+					if (Alarm.Device.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
-                    }
-                }
+					}
+				}
 
-                if (Alarm.Zone != null)
-                {
-                    if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+				if (Alarm.Zone != null)
+				{
+					if (Alarm.Zone.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Zone);
-                    }
-                }
+					}
+				}
 
-                if (Alarm.Direction != null)
-                {
-                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
-                    {
+				if (Alarm.Direction != null)
+				{
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.Ignore))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
-                    }
-                }
-            }
+					}
+				}
+			}
 		}
 		bool CanResetIgnore()
 		{
@@ -300,26 +300,26 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand TurnOnAutomaticCommand { get; private set; }
-        void OnTurnOnAutomatic()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
-                if (Alarm.Device != null)
-                {
-                    if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
-                    {
+		void OnTurnOnAutomatic()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				if (Alarm.Device != null)
+				{
+					if (Alarm.Device.State.StateClasses.Contains(XStateClass.AutoOff))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Device);
-                    }
-                }
-                if (Alarm.Direction != null)
-                {
-                    if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
-                    {
+					}
+				}
+				if (Alarm.Direction != null)
+				{
+					if (Alarm.Direction.State.StateClasses.Contains(XStateClass.AutoOff))
+					{
 						FiresecManager.FiresecService.GKSetAutomaticRegime(Alarm.Direction);
-                    }
-                }
-            }
-        }
+					}
+				}
+			}
+		}
 		bool CanTurnOnAutomatic()
 		{
 			if (Alarm.AlarmType == XAlarmType.AutoOff)
@@ -385,7 +385,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanShowInstruction()
 		{
-            var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
 		public bool CanShowInstructionCommand
@@ -396,7 +396,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-                var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
+				var instructionViewModel = new InstructionViewModel(Alarm.Device, Alarm.Zone, Alarm.Direction, Alarm.AlarmType);
 				return instructionViewModel.Instruction;
 			}
 		}

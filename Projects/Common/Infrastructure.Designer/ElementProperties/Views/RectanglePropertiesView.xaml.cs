@@ -2,11 +2,11 @@
 
 namespace Infrastructure.Designer.ElementProperties.Views
 {
-    public partial class RectanglePropertiesView : UserControl
-    {
-        public RectanglePropertiesView()
-        {
+	public partial class RectanglePropertiesView : UserControl
+	{
+		public RectanglePropertiesView()
+		{
 			InitializeComponent();
-        }
-    }
+		}
+	}
 }

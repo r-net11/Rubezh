@@ -2,11 +2,11 @@
 
 namespace VideoModule.Views
 {
-    public partial class CamerasMenuView : UserControl
-    {
-        public CamerasMenuView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class CamerasMenuView : UserControl
+	{
+		public CamerasMenuView()
+		{
+			InitializeComponent();
+		}
+	}
 }

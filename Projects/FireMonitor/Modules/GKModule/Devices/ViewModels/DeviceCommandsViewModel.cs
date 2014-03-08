@@ -77,10 +77,10 @@ namespace GKModule.ViewModels
 		public RelayCommand SetAutomaticStateCommand { get; private set; }
 		void OnSetAutomaticState()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetAutomaticRegime(Device);
-            }
+			}
 		}
 		bool CanSetAutomaticState()
 		{
@@ -88,26 +88,26 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand SetManualStateCommand { get; private set; }
-        void OnSetManualState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetManualState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetManualRegime(Device);
-            }
-        }
+			}
+		}
 		bool CanSetManualState()
 		{
 			return ControlRegime != DeviceControlRegime.Manual;
 		}
 
 		public RelayCommand SetIgnoreStateCommand { get; private set; }
-        void OnSetIgnoreState()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-            {
+		void OnSetIgnoreState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Device);
-            }
-        }
+			}
+		}
 		bool CanSetIgnoreState()
 		{
 			return ControlRegime != DeviceControlRegime.Ignore;
@@ -129,10 +129,10 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-            if (ServiceFactory.SecurityService.Validate())
-            {
+			if (ServiceFactory.SecurityService.Validate())
+			{
 				FiresecManager.FiresecService.GKReset(Device);
-            }
+			}
 		}
 		bool CanReset()
 		{
@@ -192,20 +192,20 @@ namespace GKModule.ViewModels
 			code2 += ((byte)SelectedMROMessageType << 4);
 			code2 = 18;
 			code2 = 20;
-            code2 = MROCode;
+			code2 = MROCode;
 			Watcher.SendControlCommandMRO(Device, (byte)code, (byte)code2);
 		}
 
-        int _mroCode;
-        public int MROCode
-        {
-            get { return _mroCode; }
-            set
-            {
-                _mroCode = value;
-                OnPropertyChanged("MROCode");
-            }
-        }
+		int _mroCode;
+		public int MROCode
+		{
+			get { return _mroCode; }
+			set
+			{
+				_mroCode = value;
+				OnPropertyChanged("MROCode");
+			}
+		}
 		#endregion
 	}
 }

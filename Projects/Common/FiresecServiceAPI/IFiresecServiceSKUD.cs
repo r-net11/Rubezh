@@ -11,15 +11,13 @@ namespace FiresecAPI
 	{
 		#region Get
 		[OperationContract]
-		IEnumerable<Employee> GetEmployees(EmployeeFilter filter);
+		OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter);
 		[OperationContract]
-		IEnumerable<Department> GetDepartments(DepartmentFilter filter);
+		OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter);
 		[OperationContract]
-		IEnumerable<SKDJournalItem> GetSKDJournalItems(SKDJournalFilter filter);
-		[OperationContract]
-		IEnumerable<Frame> GetFrames(FrameFilter filter);
+		OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 		[OperationContract]
@@ -30,19 +28,23 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
 		#endregion
 
 		#region Save
 		[OperationContract]
-		void SaveEmployees(IEnumerable<Employee> Employees);
+		OperationResult SaveEmployees(IEnumerable<Employee> Employees);
 		[OperationContract]
-		void SaveDepartments(IEnumerable<Department> Departments);
+		OperationResult SaveDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
 		OperationResult SavePositions(IEnumerable<Position> Positions);
 		[OperationContract]
-		void SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
-		[OperationContract]
-		void SaveFrames(IEnumerable<Frame> frames);
+		OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
 		OperationResult SaveCards(IEnumerable<SKDCard> items);
 		[OperationContract]
@@ -53,19 +55,23 @@ namespace FiresecAPI
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult SaveGUDs(IEnumerable<GUD> items);
+		[OperationContract]
+		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		[OperationContract]
+		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		[OperationContract]
+		OperationResult SavePhotos(IEnumerable<Photo> items);
 		#endregion
 
 		#region MarkDeleted
 		[OperationContract]
-		void MarkDeletedEmployees(IEnumerable<Employee> Employees);
+		OperationResult MarkDeletedEmployees(IEnumerable<Employee> Employees);
 		[OperationContract]
-		void MarkDeletedDepartments(IEnumerable<Department> Departments);
+		OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
 		OperationResult MarkDeletedPositions(IEnumerable<Position> Positions);
 		[OperationContract]
-		void MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
-		[OperationContract]
-		void MarkDeletedFrames(IEnumerable<Frame> frames);
+		OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
 		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
 		[OperationContract]
@@ -76,6 +82,12 @@ namespace FiresecAPI
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult MarkDeletedGUDs(IEnumerable<GUD> items);
+		[OperationContract]
+		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		[OperationContract]
+		OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		[OperationContract]
+		OperationResult MarkDeletedPhotos(IEnumerable<Photo> items);
 		#endregion
 
 		#region DeviceCommands

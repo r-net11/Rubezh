@@ -28,7 +28,7 @@ namespace GKModule.Models
 
 			ReadConfigurationCommand = new RelayCommand(OnReadConfiguration, CanReadConfiguration);
 			ReadConfigFileCommand = new RelayCommand(OnReadConfigFile, CanReadConfigFile);
-            WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
@@ -121,12 +121,12 @@ namespace GKModule.Models
 			}
 		}
 
-        bool CanWriteConfig()
-        {
+		bool CanWriteConfig()
+		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
 				SelectedDevice != null &&
 				SelectedDevice.Device.DriverType != XDriverType.System;
-        }
+		}
 
 		public RelayCommand ReadConfigurationCommand { get; private set; }
 		void OnReadConfiguration()
@@ -237,19 +237,19 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-		    if (SelectedDevice.Device.DriverType == XDriverType.System)
-		    {
-		        var openDialog = new OpenFileDialog()
-		        {
-		            Filter = "FSCS updater|*.fscs",
-		            DefaultExt = "FSCS updater|*.fscs"
-		        };
-		        if (openDialog.ShowDialog().Value)
-		        {
-                    var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK)||(x.Driver.IsKauOrRSR2Kau));
-                    var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
-		            if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
-		            {
+			if (SelectedDevice.Device.DriverType == XDriverType.System)
+			{
+				var openDialog = new OpenFileDialog()
+				{
+					Filter = "FSCS updater|*.fscs",
+					DefaultExt = "FSCS updater|*.fscs"
+				};
+				if (openDialog.ShowDialog().Value)
+				{
+					var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK)||(x.Driver.IsKauOrRSR2Kau));
+					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
+					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
+					{
 						var thread = new Thread(() =>
 						{
 							var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
@@ -268,16 +268,16 @@ namespace GKModule.Models
 						});
 						thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 						thread.Start();
-		            }
-		        }
-		    }
-		    else
-            {
-		        var openDialog = new OpenFileDialog()
-		        {
-		            Filter = "soft update files|*.hcs",
-		            DefaultExt = "soft update files|*.hcs"
-		        };
+					}
+				}
+			}
+			else
+			{
+				var openDialog = new OpenFileDialog()
+				{
+					Filter = "soft update files|*.hcs",
+					DefaultExt = "soft update files|*.hcs"
+				};
 				if (openDialog.ShowDialog().Value)
 				{
 					var thread = new Thread(() =>
@@ -296,8 +296,8 @@ namespace GKModule.Models
 					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 					thread.Start();
 				}
-                    
-            }
+					
+			}
 		}
 
 		bool CanUpdateFirmwhare()

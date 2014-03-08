@@ -28,7 +28,7 @@ namespace VideoModule.ViewModels
 			var sortedZones = XManager.Zones.OrderBy(x => { return x.No; });
 			foreach (var zone in sortedZones)
 			{
-				if (Zones.Contains(zone.UID))
+				if (Zones.Contains(zone.BaseUID))
 					TargetZones.Add(zone);
 				else
 					SourceZones.Add(zone);
@@ -116,7 +116,7 @@ namespace VideoModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<Guid>(TargetZones.Select(x => x.UID));
+			Zones = new List<Guid>(TargetZones.Select(x => x.BaseUID));
 			return base.Save();
 		}
 	}

@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 						case XStateClass.TurningOn:
 							if (device.Driver.IsControlDevice)
 							{
-								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.UID == device.UID))
+								if (!alarms.Any(x => x.AlarmType == XAlarmType.Turning && x.Device.BaseUID == device.BaseUID))
 								{
 									alarms.Add(new Alarm(XAlarmType.Turning, device));
 								}
@@ -131,7 +131,7 @@ namespace GKModule.ViewModels
 
 				//if (zone.ZoneState.IsRealMissmatch)
 				//{
-				//    alarms.Add(new Alarm(XAlarmType.Service, zone));
+				//	alarms.Add(new Alarm(XAlarmType.Service, zone));
 				//}
 			}
 
@@ -158,7 +158,7 @@ namespace GKModule.ViewModels
 
 				//if (direction.DirectionState.IsRealMissmatch)
 				//{
-				//    alarms.Add(new Alarm(XAlarmType.Service, direction));
+				//	alarms.Add(new Alarm(XAlarmType.Service, direction));
 				//}
 			}
 			alarms = (from Alarm alarm in alarms orderby alarm.AlarmType select alarm).ToList();

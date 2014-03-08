@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -19,7 +20,9 @@ namespace SKDModule.ViewModels
 		void UpdateEmployees()
 		{
 			Users = new ObservableCollection<UserAccessViewModel>();
-			var employees = FiresecManager.GetEmployees(Filter);
+			var employees = EmployeeHelper.Get(Filter);
+			if (employees == null)
+				return;
 			foreach (var employee in employees)
 			{
 				Users.Add(new UserAccessViewModel(employee));

@@ -4,7 +4,7 @@
 
 //namespace Infrastructure.Events
 //{
-//    public class NewFS2JournalItemsEvent : CompositePresentationEvent<List<FS2JournalItem>>
-//    {
-//    }
+//	public class NewFS2JournalItemsEvent : CompositePresentationEvent<List<FS2JournalItem>>
+//	{
+//	}
 //}

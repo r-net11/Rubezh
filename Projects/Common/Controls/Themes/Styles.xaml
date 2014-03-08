@@ -37,8 +37,8 @@
 		<ResourceDictionary Source="TreeListStyle.xaml" />
 		<ResourceDictionary Source="ColorPicker.xaml" />
 		<ResourceDictionary Source="ItemsControlStyle.xaml" />
-        <ResourceDictionary Source="IconedMenuStyle.xaml" />
-        <ResourceDictionary Source="IconLabel.xaml" />
+		<ResourceDictionary Source="IconedMenuStyle.xaml" />
+		<ResourceDictionary Source="IconLabel.xaml" />
 		<ResourceDictionary Source="RepeatButtonStyle.xaml" />
 		<ResourceDictionary Source="ButtonSpinner.xaml" />
 		<ResourceDictionary Source="IntegerUpDown.xaml" />

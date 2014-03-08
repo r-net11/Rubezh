@@ -2,11 +2,11 @@
 
 namespace DiagnosticsModule.Views
 {
-    public partial class ImitatorView : UserControl
-    {
-        public ImitatorView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class ImitatorView : UserControl
+	{
+		public ImitatorView()
+		{
+			InitializeComponent();
+		}
+	}
 }

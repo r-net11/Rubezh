@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:SoundsModule.Views"
-                    xmlns:ViewModels="clr-namespace:SoundsModule.ViewModels">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:SoundsModule.Views"
+					xmlns:ViewModels="clr-namespace:SoundsModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:SoundsViewModel}">
-        <Views:SoundsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SoundsViewModel}">
+		<Views:SoundsView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SoundsMenuViewModel}">
-        <Views:SoundsMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SoundsMenuViewModel}">
+		<Views:SoundsMenuView />
+	</DataTemplate>
 
 </ResourceDictionary>

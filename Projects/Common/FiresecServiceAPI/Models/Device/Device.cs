@@ -32,37 +32,37 @@ namespace FiresecAPI.Models
 			StateWordBytes = new List<byte>();
 			RawParametersBytes = new List<byte>();
 		}
-        
-        public bool IsUsb
-	    {
-	        get
-	        {
-	            switch (PresentationName)
-	            {
-                    case "USB Рубеж-2AM":
-	                    return true;
-                    case "USB Рубеж-4A":
-                        return true;
-                    case "USB Рубеж-2ОП":
-                        return true;
-                    case "USB БУНС":
-                        return true;
-                    case "USB БУНС-2":
-                        return true;
-                    case "USB Рубеж-П":
-                        return true;
-                    default:
-                        return false;
-	            }
-	        }
-	    }
+		
+		public bool IsUsb
+		{
+			get
+			{
+				switch (PresentationName)
+				{
+					case "USB Рубеж-2AM":
+						return true;
+					case "USB Рубеж-4A":
+						return true;
+					case "USB Рубеж-2ОП":
+						return true;
+					case "USB БУНС":
+						return true;
+					case "USB БУНС-2":
+						return true;
+					case "USB Рубеж-П":
+						return true;
+					default:
+						return false;
+				}
+			}
+		}
 		public DeviceConfiguration DeviceConfiguration { get; set; }
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public bool HasDifferences { get; set; }
-        public bool HasMissingDifferences { get; set; }
+		public bool HasMissingDifferences { get; set; }
 		public BinaryDevice BinaryDevice { get; set; }
 		public List<byte> StateWordBytes { get; set; }
 		public List<byte> RawParametersBytes { get; set; }

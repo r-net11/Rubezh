@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 			PumpStation.NSDevices = new List<XDevice>();
 			foreach (var deviceUID in PumpStation.NSDeviceUIDs)
 			{
-				var device = XManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 				if (device != null)
 				{
 					PumpStation.NSDevices.Add(device);
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 				PumpStation.NSDeviceUIDs = new List<Guid>();
 				foreach (var device in PumpStation.NSDevices)
 				{
-					PumpStation.NSDeviceUIDs.Add(device.UID);
+					PumpStation.NSDeviceUIDs.Add(device.BaseUID);
 				}
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 		{
 			if (SelectedPumpDevice != null)
 			{
-				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.UID);
+				PumpStation.NSDeviceUIDs.Remove(SelectedPumpDevice.Device.BaseUID);
 				Update();
 				ServiceFactory.SaveService.GKChanged = true;
 			}

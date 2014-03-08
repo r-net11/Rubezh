@@ -26,7 +26,7 @@ namespace FiresecAPI
 			FS_Login = "adm";
 			FS_Password = "";
 
-            SetDefaultModules();
+			SetDefaultModules();
 
 			Monitor_F1_Enabled = false;
 			Monitor_F2_Enabled = true;
@@ -89,8 +89,8 @@ namespace FiresecAPI
 		[DataMember]
 		public string LibVlcDllsPath { get; set; }
 
-        [DataMember]
-        public List<string> ModuleItems { get; set; }
+		[DataMember]
+		public List<string> ModuleItems { get; set; }
 
 		[DataMember]
 		public bool Monitor_F1_Enabled { get; set; }
@@ -120,24 +120,24 @@ namespace FiresecAPI
 
 		public void SetDefaultModules()
 		{
-            ModuleItems = new List<string>();
-            ModuleItems.Add("DevicesModule.dll");
-            ModuleItems.Add("PlansModule.dll");
-            ModuleItems.Add("PlansModule.Kursk.dll");
-            //ModuleItems.Add("LibraryModule.dll");
-            ModuleItems.Add("SecurityModule.dll");
-            //ModuleItems.Add("FiltersModule.dll");
-            ModuleItems.Add("SoundsModule.dll");
-            //ModuleItems.Add("InstructionsModule.dll");
-            ModuleItems.Add("SettingsModule.dll");
-            ModuleItems.Add("GKModule.dll");
-            ModuleItems.Add("OPCModule.dll");
-            //ModuleItems.Add("NotificationModule.dll");
-            ModuleItems.Add("VideoModule.dll");
-            ModuleItems.Add("DiagnosticsModule.dll");
-            //ModuleItems.Add("AlarmModule.dll");
-            //ModuleItems.Add("JournalModule.dll");
-            ModuleItems.Add("ReportsModule.dll");
+			ModuleItems = new List<string>();
+			ModuleItems.Add("DevicesModule.dll");
+			ModuleItems.Add("PlansModule.dll");
+			ModuleItems.Add("PlansModule.Kursk.dll");
+			//ModuleItems.Add("LibraryModule.dll");
+			ModuleItems.Add("SecurityModule.dll");
+			//ModuleItems.Add("FiltersModule.dll");
+			ModuleItems.Add("SoundsModule.dll");
+			//ModuleItems.Add("InstructionsModule.dll");
+			ModuleItems.Add("SettingsModule.dll");
+			ModuleItems.Add("GKModule.dll");
+			ModuleItems.Add("OPCModule.dll");
+			//ModuleItems.Add("NotificationModule.dll");
+			ModuleItems.Add("VideoModule.dll");
+			ModuleItems.Add("DiagnosticsModule.dll");
+			//ModuleItems.Add("AlarmModule.dll");
+			//ModuleItems.Add("JournalModule.dll");
+			ModuleItems.Add("ReportsModule.dll");
 		}
 
 		public bool IsDebug

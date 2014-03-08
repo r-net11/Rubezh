@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			Positions = new ObservableCollection<PositionViewModel>();
-			var positions = PositionHelper.GetPositions(Filter);
+			var positions = PositionHelper.Get(Filter);
 			if (positions == null)
 				return;
 			foreach (var position in positions)

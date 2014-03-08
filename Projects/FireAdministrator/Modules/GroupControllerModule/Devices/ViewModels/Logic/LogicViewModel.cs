@@ -84,19 +84,19 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
 						clause.Devices = clauseViewModel.Devices.ToList();
-						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList();
+						clause.DeviceUIDs = clauseViewModel.Devices.Select(x => x.BaseUID).ToList();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
 						clause.Zones = clauseViewModel.Zones.ToList();
-						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList();
+						clause.ZoneUIDs = clauseViewModel.Zones.Select(x => x.BaseUID).ToList();
 						break;
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
 						clause.Directions = clauseViewModel.Directions.ToList();
-						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList();
+						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.BaseUID).ToList();
 						break;
 				}
 				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)

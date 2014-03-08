@@ -1,358 +1,358 @@
 ﻿<UserControl x:Class="GKModule.Views.ArchiveFilterView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
-        xmlns:Converters="clr-namespace:GKModule.Converters"
-        xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-        xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
-        xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-        MinWidth="950" MinHeight="500">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
+		xmlns:Converters="clr-namespace:GKModule.Converters"
+		xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
+		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+		MinWidth="950" MinHeight="500">
 
-    <UserControl.Resources>
-        <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
+	</UserControl.Resources>
 
-    <DockPanel>
-        <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Сбросить все настройки" Command="{Binding ClearCommand}" HorizontalAlignment="Left" Margin="2" Width="200" />
-            <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
-                <Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
-            </StackPanel>
-        </Grid>
-        <TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
-            <TabItem Header="Временной диапазон" Padding="3">
-                <StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
-                    <CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="С" VerticalAlignment="Center" />
-                        <StackPanel>
-                            <Controls:TimePicker Time="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
-                            <Calendar
-                                SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-                                DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-                                SelectionMode="SingleDate" />
-                        </StackPanel>
-                        <Label Content="По" VerticalAlignment="Center" Margin="25 0" />
-                        <StackPanel>
-                            <Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
-                            <Calendar
-                                SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
-                                DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
-                                SelectionMode="SingleDate" />
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Тип" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding JournalItemTypes.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding JournalItemTypes.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="0 0 0 1" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding StateClasses.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding StateClasses.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Название" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EventNames.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding EventNames.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" ToolTip="{Binding EventName.Description}" IsEnabled="{Binding IsEnabled}">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="{Binding EventName.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding EventName.Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Уточнение" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ArchiveDescriptions.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding ArchiveDescriptions.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"  IsEnabled="{Binding IsEnabled}">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SubsystemTypes.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding SubsystemTypes.Items}" FontWeight="Bold">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
+	<DockPanel>
+		<Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0" Content="Сбросить все настройки" Command="{Binding ClearCommand}" HorizontalAlignment="Left" Margin="2" Width="200" />
+			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+				<Button Width="100" Margin="2" Command="{Binding SaveCommand}" Content="Ok" IsDefault="True" />
+				<Button Width="100" Margin="2" Command="{Binding CancelCommand}" Content="Отмена" />
+			</StackPanel>
+		</Grid>
+		<TabControl BorderThickness="0" Padding="11" SelectedIndex="0">
+			<TabItem Header="Временной диапазон" Padding="3">
+				<StackPanel Margin="0,30,0,0" HorizontalAlignment="Center">
+					<CheckBox IsChecked="{Binding UseDeviceDateTime, UpdateSourceTrigger=PropertyChanged}" Content="Использовать дату прибора" Margin="5" VerticalAlignment="Center" Foreground="White" />
+					<StackPanel Orientation="Horizontal">
+						<Label Content="С" VerticalAlignment="Center" />
+						<StackPanel>
+							<Controls:TimePicker Time="{Binding StartDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
+							<Calendar
+								SelectedDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+								DisplayDate="{Binding StartDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
+								SelectionMode="SingleDate" />
+						</StackPanel>
+						<Label Content="По" VerticalAlignment="Center" Margin="25 0" />
+						<StackPanel>
+							<Controls:TimePicker Time="{Binding EndDateTime.Time, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Center" />
+							<Calendar
+								SelectedDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}"
+								DisplayDate="{Binding EndDateTime.Date, UpdateSourceTrigger=PropertyChanged}" 
+								SelectionMode="SingleDate" />
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Тип" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding JournalItemTypes.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding JournalItemTypes.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding ImageSource}" VerticalAlignment="Center" Margin="0 0 0 1" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding StateClasses.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding StateClasses.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Название" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding EventNames.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding EventNames.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal" ToolTip="{Binding EventName.Description}" IsEnabled="{Binding IsEnabled}">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding EventName.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding EventName.Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Уточнение" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding ArchiveDescriptions.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding ArchiveDescriptions.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal"  IsEnabled="{Binding IsEnabled}">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding SubsystemTypes.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding SubsystemTypes.Items}" FontWeight="Bold">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Устройства" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AllDevices.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
-                    <tree:TreeList.View>
-                        <GridView>
-                            <GridViewColumn Width="250" Header="Устройство">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
-                                            <TextBlock Text="{Binding Device.ShortName}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
-                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
-                            <GridViewColumn Header="Использовать">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </tree:TreeList.View>
-                </tree:TreeList>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Зоны" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ArchiveZones.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding ArchiveZones.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Направления" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ArchiveDirections.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding ArchiveDirections.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Устройства" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding AllDevices.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Width="250" Header="Устройство">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding Device.Driver.ImageSource}" />
+											<TextBlock Text="{Binding Device.ShortName}" />
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="50" DisplayMemberBinding="{Binding Device.PresentationAddress}" Header="Адрес" />
+							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Device.Description}" Header="Примечание" />
+							<GridViewColumn Header="Использовать">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CanCheck, Converter={StaticResource BoolToVisibilityConverter}}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Зоны" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding ArchiveZones.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding ArchiveZones.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Направления" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding ArchiveDirections.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding ArchiveDirections.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/Blue_Direction.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="Насосные станции" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PumpStations.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding PumpStations.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="Насосные станции" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding PumpStations.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding PumpStations.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="МПТ" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding MPTs.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="МПТ" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding MPTs.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <TextBlock Text="ПИМ" Foreground="White" FontWeight="Bold">
-                        <TextBlock.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PIMs.HasCheckedItems}" Value="True">
-                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </TabItem.Header>
-                <ListBox ItemsSource="{Binding PIMs.Items}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                                <Image Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </TabItem>
-        </TabControl>
-    </DockPanel>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock Text="ПИМ" Foreground="White" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding PIMs.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</TabItem.Header>
+				<ListBox ItemsSource="{Binding PIMs.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<Image Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
 </UserControl>

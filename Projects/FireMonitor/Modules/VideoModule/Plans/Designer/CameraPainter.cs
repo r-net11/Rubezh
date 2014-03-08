@@ -31,7 +31,7 @@ namespace VideoModule.Plans.Designer
 			{
 				_camera = Helper.GetCamera(elementCamera);
 				//if (_camera != null && _camera.StateClass != null)
-				//    _camera.StateChanged += OnPropertyChanged;
+				//	_camera.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;

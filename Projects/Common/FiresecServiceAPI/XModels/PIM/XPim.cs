@@ -8,13 +8,13 @@ namespace XFiresecAPI
 	{
 		public XPim()
 		{
-			UID = BaseUID;// Guid.NewGuid();
+			//UID = BaseUID;// Guid.NewGuid();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Pim; } }
 
-		[DataMember]
-		public Guid UID { get; set; }
+		//[DataMember]
+		//public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

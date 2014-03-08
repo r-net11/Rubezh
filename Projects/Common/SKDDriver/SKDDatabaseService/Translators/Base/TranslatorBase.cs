@@ -27,19 +27,12 @@ namespace SKDDriver
 		{
 
 			var result = new ApiT();
-			result.UID = tableItem.Uid;
+			result.UID = tableItem.UID;
 			result.IsDeleted = tableItem.IsDeleted;
 			result.RemovalDate = tableItem.RemovalDate;
 			return result;
 		}
-		TableT TranslateBack(ApiT apiItem)
-		{
-			var result = new TableT();
-			result.Uid = apiItem.UID;
-			Update(result, apiItem);
-			return result;
-		}
-		protected virtual void Update(TableT tableItem, ApiT apiItem)
+		protected virtual void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
 			tableItem.IsDeleted = apiItem.IsDeleted;
 			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
@@ -73,7 +66,7 @@ namespace SKDDriver
 			
 			var uids = filter.Uids;
 			if (uids != null && uids.Count != 0)
-				result = result.And(e => uids.Contains(e.Uid));
+				result = result.And(e => uids.Contains(e.UID));
 			var removalDates = filter.RemovalDates;
 			if (removalDates != null && filter.WithDeleted == DeletedType.Deleted)
 				result = result.And(e => e.RemovalDate == null || 
@@ -105,24 +98,29 @@ namespace SKDDriver
 
 		}
 
-		public virtual OperationResult Save(IEnumerable<ApiT> items)
+		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
 			try
 			{
-				if (items == null)
+				if (apiItems == null)
 					return new OperationResult();
-				foreach (var item in items)
+				foreach (var apiItem in apiItems)
 				{
-					if (item == null)
+					if (apiItem == null)
 						continue;
-					var verifyResult = CanSave(item);
+					var verifyResult = CanSave(apiItem);
 					if (verifyResult.HasError)
 						return verifyResult;
-					var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
-					if (databaseItem != null)
-						Update(databaseItem, item);
+					var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
+					if (tableItem == null)
+					{
+						tableItem = new TableT();
+						tableItem.UID = apiItem.UID;
+						TranslateBack(tableItem, apiItem);
+						Table.InsertOnSubmit(tableItem);
+					}
 					else
-						Table.InsertOnSubmit(TranslateBack(item));
+						TranslateBack(tableItem, apiItem);
 				}
 				Table.Context.SubmitChanges();
 				return new OperationResult();
@@ -145,7 +143,7 @@ namespace SKDDriver
 						return verifyResult;
 					if (item != null)
 					{
-						var databaseItem = (from x in Table where x.Uid.Equals(item.UID) select x).FirstOrDefault();
+						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
 						if (databaseItem != null)
 						{
 							databaseItem.IsDeleted = true;

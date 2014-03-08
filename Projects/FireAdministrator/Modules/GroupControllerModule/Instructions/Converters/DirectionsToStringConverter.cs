@@ -17,7 +17,7 @@ namespace GKModule.Converters
 			var directions = new List<XDirection>();
 			foreach (var uid in directionUIDs)
 			{
-				var direction = XManager.Directions.FirstOrDefault(x => x.UID == uid);
+				var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == uid);
 				if (direction != null)
 					directions.Add(direction);
 			}

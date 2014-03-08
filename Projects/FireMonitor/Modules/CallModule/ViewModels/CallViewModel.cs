@@ -2,14 +2,14 @@
 
 namespace CallModule.ViewModels
 {
-    public class CallViewModel : ViewPartViewModel
-    {
-        public CallViewModel()
-        {
-        }
+	public class CallViewModel : ViewPartViewModel
+	{
+		public CallViewModel()
+		{
+		}
 
 		public void Initialize()
 		{
 		}
-    }
+	}
 }

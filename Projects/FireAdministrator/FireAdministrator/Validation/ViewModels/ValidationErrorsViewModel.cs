@@ -13,8 +13,8 @@ namespace FireAdministrator.ViewModels
 		public ValidationErrorsViewModel()
 		{
 			ClickCommand = new RelayCommand(OnClick);
-            EditValidationCommand = new RelayCommand(OnEditValidation);
-            Validate();
+			EditValidationCommand = new RelayCommand(OnEditValidation);
+			Validate();
 		}
 
 		public void Validate()
@@ -71,11 +71,11 @@ namespace FireAdministrator.ViewModels
 				SelectedError.Navigate();
 		}
 
-        public RelayCommand EditValidationCommand { get; private set; }
-        void OnEditValidation()
-        {
-            ServiceFactory.Events.GetEvent<EditValidationEvent>().Publish(null);
-        }
+		public RelayCommand EditValidationCommand { get; private set; }
+		void OnEditValidation()
+		{
+			ServiceFactory.Events.GetEvent<EditValidationEvent>().Publish(null);
+		}
 
 		public void AddErrors(IEnumerable<IValidationError> validationErrors)
 		{

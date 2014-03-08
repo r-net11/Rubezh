@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class MPTDetailsView : UserControl
-    {
+	public partial class MPTDetailsView : UserControl
+	{
 		public MPTDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+		{
+			InitializeComponent();
+		}
+	}
 }

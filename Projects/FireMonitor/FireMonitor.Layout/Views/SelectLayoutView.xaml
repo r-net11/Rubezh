@@ -34,8 +34,8 @@
 		<ListBox.ItemTemplate>
 			<DataTemplate>
 				<StackPanel Orientation="Vertical" Margin="5">
-                    <TextBlock Text="{Binding Caption}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" TextWrapping="Wrap" />
+					<TextBlock Text="{Binding Caption}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontWeight="Bold" />
+					<TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" TextWrapping="Wrap" />
 				</StackPanel>
 			</DataTemplate>
 		</ListBox.ItemTemplate>
