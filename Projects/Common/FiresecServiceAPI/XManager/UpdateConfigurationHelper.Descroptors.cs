@@ -105,21 +105,16 @@ namespace FiresecClient
 
 		static void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
 		{
-			foreach (var clause in clauses)
-			{
-				foreach (var zone in clause.Zones)
+			if (clauses != null)
+				foreach (var clause in clauses)
 				{
-					LinkXBases(xBase, zone);
+					foreach (var zone in clause.Zones)
+						LinkXBases(xBase, zone);
+					foreach (var clauseDevice in clause.Devices)
+						LinkXBases(xBase, clauseDevice);
+					foreach (var direction in clause.Directions)
+						LinkXBases(xBase, direction);
 				}
-				foreach (var clauseDevice in clause.Devices)
-				{
-					LinkXBases(xBase, clauseDevice);
-				}
-				foreach (var direction in clause.Directions)
-				{
-					LinkXBases(xBase, direction);
-				}
-			}
 		}
 
 		static void PrepareDeviceLogicDependences()

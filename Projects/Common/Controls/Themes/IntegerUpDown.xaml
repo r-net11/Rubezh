@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ext="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+
+	<Style BasedOn="{StaticResource {x:Type ext:IntegerUpDown}}" TargetType="{x:Type ext:IntegerUpDown}">
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="SelectAllOnGotFocus" Value="True" />
+	</Style>
+
+</ResourceDictionary>

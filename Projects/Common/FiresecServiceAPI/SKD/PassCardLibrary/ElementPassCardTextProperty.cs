@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows.Media;
-using Infrustructure.Plans.Elements;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.SKD.PassCardLibrary
 {
@@ -21,11 +20,13 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
+			((ElementPassCardTextProperty)element).PropertyType = PropertyType;
 		}
 
 		#region IElementPassCardProperty Members
 
-		public string Property { get; set; }
+		[DataMember]
+		public PassCardPropertyType PropertyType { get; set; }
 
 		#endregion
 	}

@@ -1,6 +1,6 @@
-﻿using Infrastructure.Designer.ElementProperties.ViewModels;
+﻿using System;
 using FiresecAPI.SKD.PassCardLibrary;
-using System;
+using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -9,7 +9,8 @@ namespace SKDModule.PassCard.ViewModels
 		public PassCardImagePropertyViewModel(ElementPassCardImageProperty element)
 			: base(element)
 		{
-			element.Property = Guid.NewGuid().ToString();
+			Title = "Свойства фигуры: Графическое свойство";
+			element.PropertyType = PassCardPropertyType.Additional;
 		}
 	}
 }

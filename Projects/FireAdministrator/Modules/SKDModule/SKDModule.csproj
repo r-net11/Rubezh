@@ -147,6 +147,12 @@
     <Compile Include="PassCard\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
     <Compile Include="PassCard\ViewModels\PassCardImagePropertyViewModel.cs" />
     <Compile Include="PassCard\ViewModels\PassCardTextPropertyViewModel.cs" />
+    <Compile Include="PassCard\Views\PassCardImagePropertyView.xaml.cs">
+      <DependentUpon>PassCardImagePropertyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PassCard\Views\PassCardTextPropertyView.xaml.cs">
+      <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\SKDPlanExtension.cs" />
@@ -411,6 +417,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\PropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCard\Views\PassCardImagePropertyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCard\Views\PassCardTextPropertyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

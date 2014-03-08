@@ -17,6 +17,7 @@ using SKDModule.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
 using Infrastructure.Designer;
+using Xceed.Wpf.Toolkit;
 
 namespace SKDModule
 {

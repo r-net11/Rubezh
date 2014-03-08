@@ -9,7 +9,8 @@ namespace SKDModule.PassCard.ViewModels
 		public PassCardTextPropertyViewModel(ElementPassCardTextProperty element)
 			: base(element)
 		{
-			element.Property = Guid.NewGuid().ToString();
+			Title = "Свойства фигуры: Текстовое свойство";
+			element.PropertyType = PassCardPropertyType.Additional;
 		}
 	}
 }

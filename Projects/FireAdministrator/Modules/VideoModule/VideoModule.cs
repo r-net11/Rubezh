@@ -61,7 +61,7 @@ namespace VideoModule
 			{
 				Factory = (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties),
 			};
-			yield return new LayoutPartDescription(LayoutPartIdentities.MultiCamera, 205, "Мульти видео", "Панель видео с камер", "BVideo.png");
+			yield return new LayoutPartDescription(LayoutPartIdentities.MultiCamera, 205, "Мульти видео", "Панель видео с камер", "BVideo.png", false);
 		}
 	}
 }

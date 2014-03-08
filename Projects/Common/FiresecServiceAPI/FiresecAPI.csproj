@@ -243,6 +243,7 @@
     <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\IElementPassCardProperty.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardPropertyType.cs" />
     <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Database\Phone.cs" />

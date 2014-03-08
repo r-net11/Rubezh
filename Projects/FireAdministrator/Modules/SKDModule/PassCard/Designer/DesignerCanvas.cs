@@ -31,7 +31,11 @@ namespace SKDModule.PassCard.Designer
 
 		protected override DesignerItem AddElement(ElementBase elementBase)
 		{
-			if (elementBase is ElementRectangle)
+			if (elementBase is ElementPassCardImageProperty)
+				PassCardTemplate.ElementImageProperties.Add(elementBase as ElementPassCardImageProperty);
+			else if (elementBase is ElementPassCardTextProperty)
+				PassCardTemplate.ElementTextProperties.Add(elementBase as ElementPassCardTextProperty);
+			else if (elementBase is ElementRectangle)
 				PassCardTemplate.ElementRectangles.Add(elementBase as ElementRectangle);
 			else if (elementBase is ElementEllipse)
 				PassCardTemplate.ElementEllipses.Add(elementBase as ElementEllipse);
@@ -41,15 +45,15 @@ namespace SKDModule.PassCard.Designer
 				PassCardTemplate.ElementPolylines.Add(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				PassCardTemplate.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-			else if (elementBase is ElementPassCardImageProperty)
-				PassCardTemplate.ElementImageProperties.Add(elementBase as ElementPassCardImageProperty);
-			else if (elementBase is ElementPassCardTextProperty)
-				PassCardTemplate.ElementTextProperties.Add(elementBase as ElementPassCardTextProperty);
 			return Create(elementBase);
 		}
 		protected override void RemoveElement(ElementBase elementBase)
 		{
-			if (elementBase is ElementRectangle)
+			if (elementBase is ElementPassCardImageProperty)
+				PassCardTemplate.ElementImageProperties.Remove(elementBase as ElementPassCardImageProperty);
+			else if (elementBase is ElementPassCardTextProperty)
+				PassCardTemplate.ElementTextProperties.Remove(elementBase as ElementPassCardTextProperty);
+			else if (elementBase is ElementRectangle)
 				PassCardTemplate.ElementRectangles.Remove(elementBase as ElementRectangle);
 			else if (elementBase is ElementEllipse)
 				PassCardTemplate.ElementEllipses.Remove(elementBase as ElementEllipse);
@@ -59,10 +63,6 @@ namespace SKDModule.PassCard.Designer
 				PassCardTemplate.ElementPolylines.Remove(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				PassCardTemplate.ElementTextBlocks.Remove(elementBase as ElementTextBlock);
-			else if (elementBase is ElementPassCardImageProperty)
-				PassCardTemplate.ElementImageProperties.Remove(elementBase as ElementPassCardImageProperty);
-			else if (elementBase is ElementPassCardTextProperty)
-				PassCardTemplate.ElementTextProperties.Remove(elementBase as ElementPassCardTextProperty);
 		}
 
 		public override void DesignerChanged()

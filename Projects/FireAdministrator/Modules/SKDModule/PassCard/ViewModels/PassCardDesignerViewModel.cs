@@ -44,6 +44,10 @@ namespace SKDModule.ViewModels
 		}
 		private IEnumerable<ElementBase> EnumerateElements()
 		{
+			foreach (var elementTextProperty in PassCardTemplate.ElementTextProperties)
+				yield return elementTextProperty;
+			foreach (var elementImageProperty in PassCardTemplate.ElementImageProperties)
+				yield return elementImageProperty;
 			foreach (var elementRectangle in PassCardTemplate.ElementRectangles)
 				yield return elementRectangle;
 			foreach (var elementEllipse in PassCardTemplate.ElementEllipses)
@@ -61,7 +65,7 @@ namespace SKDModule.ViewModels
 			if (designerItem.Element is IElementPassCardProperty)
 			{
 				designerItem.Group = PassCardsDesignerViewModel.PassCardPropertiesGroup;
-				designerItem.Title = ((IElementPassCardProperty)designerItem.Element).Property;
+				designerItem.Title = ((IElementPassCardProperty)designerItem.Element).PropertyType.ToString();
 			}
 		}
 	}

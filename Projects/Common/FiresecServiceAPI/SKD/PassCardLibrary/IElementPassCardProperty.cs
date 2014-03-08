@@ -7,6 +7,6 @@ namespace FiresecAPI.SKD.PassCardLibrary
 {
 	public interface IElementPassCardProperty
 	{
-		string Property { get; set; }
+		PassCardPropertyType PropertyType { get; set; }
 	}
 }

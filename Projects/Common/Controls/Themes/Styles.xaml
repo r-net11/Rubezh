@@ -40,6 +40,8 @@
         <ResourceDictionary Source="IconedMenuStyle.xaml" />
         <ResourceDictionary Source="IconLabel.xaml" />
 		<ResourceDictionary Source="RepeatButtonStyle.xaml" />
+		<ResourceDictionary Source="ButtonSpinner.xaml" />
+		<ResourceDictionary Source="IntegerUpDown.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 		<ResourceDictionary Source="../Ribbon/DataTemplates/Dictionary.xaml" />

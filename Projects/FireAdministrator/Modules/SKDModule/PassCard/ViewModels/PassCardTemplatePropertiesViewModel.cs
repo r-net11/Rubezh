@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 
 		public PassCardTemplatePropertiesViewModel(PassCardTemplate passCardTemplate)
 		{
-			Title = "Свойства элемента: План";
+			Title = "Свойства элемента: Шаблон пропуска";
 			if (passCardTemplate == null)
 			{
 				passCardTemplate = new PassCardTemplate();
