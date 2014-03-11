@@ -10,14 +10,14 @@ namespace GKModule.ViewModels
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-			if (property != null)
-			{
-				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
-				if (driverPropertyParameter != null)
+				if (property != null)
 				{
-					_selectedParameter = driverPropertyParameter;
+					var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
+					if (driverPropertyParameter != null)
+					{
+						_selectedParameter = driverPropertyParameter;
+					}
 				}
-			}
 			else
 			{
 				var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);

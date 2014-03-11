@@ -75,6 +75,7 @@
       <Component Id="Administrator.SKD_MODULE" Guid="88B4570A-BB95-43de-9E24-6C31E0B68F78">
         <File Id="Administrator.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.LayoutModule.dll" Name="LayoutModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
       <Component Id="Administrator.VIDEO_MODULE" Guid="06A0E756-7AFF-4E90-8B9C-52C71F0ADF06">

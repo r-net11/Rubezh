@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -77,7 +78,7 @@ namespace GKModule.ViewModels
 			var devices = new List<XDevice>();
 			foreach (var device in XManager.Devices)
 			{
-				if (MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Any(x => SelectedDevice.MPTDeviceType == x))
+				if (MPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
 					if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.BaseUID))
 						devices.Add(device);
 			}
@@ -90,10 +91,11 @@ namespace GKModule.ViewModels
 					ChangeIsInMPT(SelectedDevice.MPTDevice.Device, false);
 				}
 
-				SelectedDevice.MPTDevice.Device = deviceSelectationViewModel.SelectedDevice;
-				SelectedDevice.MPTDevice.DeviceUID = deviceSelectationViewModel.SelectedDevice.BaseUID;
+				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
+				SelectedDevice.MPTDevice.Device = selectedDevice;
+				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.BaseUID : Guid.Empty;
 				UpdateConfigurationHelper.CopyMPTProperty(SelectedDevice.MPTDevice);
-				SelectedDevice.Device = deviceSelectationViewModel.SelectedDevice;
+				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
 
 				ServiceFactory.SaveService.GKChanged = true;

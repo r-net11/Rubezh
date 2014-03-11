@@ -28,7 +28,6 @@
       <ComponentRef Id="ProgramMenuDir.Utils" />
       <ComponentRef Id="ProgramMenuDir.Additional" />
       <ComponentRef Id="Administrator.PLANS_MODULE" />
-      <ComponentRef Id="Administrator.SOUNDS_MODULE" />
       <ComponentRef Id="Administrator.SETTINGS_MODULE" />
       <ComponentRef Id="Monitor.PLANS_MODULE" />
       <ComponentRef Id="DesktopFolder" />

@@ -15,7 +15,7 @@ namespace GKSDK
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-			WatcherManager.Stop();
+			GKProcessorManager.Stop();
             FiresecManager.Disconnect();
 			//System.Environment.Exit(1);
         }

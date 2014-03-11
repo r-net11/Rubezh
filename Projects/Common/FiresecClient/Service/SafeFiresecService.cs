@@ -195,7 +195,7 @@ namespace FiresecClient
 				//catch (SecurityNegotiationException) { }
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
+					Logger.Error("Исключение при вызове FiresecClient.Connect " + e.GetType().Name.ToString());
 				}
 				return new OperationResult<bool>()
 				{

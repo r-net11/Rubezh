@@ -63,7 +63,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+				Logger.Error(e, "XDeviceLibraryConfigurationPatchHelper.GetConfigurationFomZip " + fileName);
 			}
 			return null;
 		}

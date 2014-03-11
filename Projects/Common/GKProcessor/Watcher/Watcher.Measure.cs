@@ -119,7 +119,7 @@ namespace GKProcessor
 					var resievedParameterNo = result.Bytes[63];
 					if (resievedParameterNo == measureParameter.No)
 					{
-						var parameterUshortValue = BytesHelper.SubstructShort(result.Bytes, 64);
+						var parameterUshortValue = (short)BytesHelper.SubstructShort(result.Bytes, 64);
 						var measureParameterValue = ParceRSRaMeasureParameter(measureParameter, parameterUshortValue);
 						CanMoveToNextParameter = true;
 						return new List<XMeasureParameterValue>() { measureParameterValue };
@@ -135,32 +135,32 @@ namespace GKProcessor
 			return null;
 		}
 
-		XMeasureParameterValue ParceRSRaMeasureParameter(XMeasureParameter measureParameter, ushort parameterUshortValue)
+		XMeasureParameterValue ParceRSRaMeasureParameter(XMeasureParameter measureParameter, short parameterShortValue)
 		{
 			if (measureParameter.IsHighByte)
 			{
-				parameterUshortValue = (ushort)(parameterUshortValue / 256);
+				parameterShortValue = (short)(parameterShortValue / 256);
 			}
 			else if (measureParameter.IsLowByte)
 			{
-				parameterUshortValue = (ushort)(parameterUshortValue << 8);
-				parameterUshortValue = (ushort)(parameterUshortValue >> 8);
+				parameterShortValue = (short)(parameterShortValue << 8);
+				parameterShortValue = (short)(parameterShortValue >> 8);
 			}
 			double parameterValue;
 			if (measureParameter.Multiplier != null)
-				parameterValue = parameterUshortValue / (double)measureParameter.Multiplier;
+				parameterValue = parameterShortValue / (double)measureParameter.Multiplier;
 			else
-				parameterValue = parameterUshortValue;
+				parameterValue = parameterShortValue;
 			var stringValue = parameterValue.ToString();
 			if (measureParameter.Name == "Дата последнего обслуживания")
 			{
-				stringValue = (parameterUshortValue / 256).ToString() + "." + (parameterUshortValue % 256).ToString();
+				stringValue = (parameterShortValue / 256).ToString() + "." + (parameterShortValue % 256).ToString();
 			}
 			if ((Device.DriverType == XDriverType.Valve || Device.Driver.IsPump)
 				&& measureParameter.Name == "Режим работы")
 			{
 				stringValue = "Неизвестно";
-				switch (parameterUshortValue & 3)
+				switch (parameterShortValue & 3)
 				{
 					case 0:
 						stringValue = "Автоматический";

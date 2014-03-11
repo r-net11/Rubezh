@@ -25,13 +25,32 @@
         <File Id="OPC.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.gbda3w.dll" Name="gbda3w.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.ControlsMicrosoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="OPC.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
+      </Component>
+
+      <Component Id="OPC.DB.Common" Guid="2BD1C3BF-5578-4686-A5ED-6E47C402FAEB">
+        <File Id="OPC.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="OPC.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
+
+        <?if $(var.Platform) = x64 ?>
+        <File Id="OPC.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?else ?>
+        <File Id="OPC.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?endif ?>
+
+        <File Id="OPC.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

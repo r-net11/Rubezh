@@ -298,7 +298,7 @@ namespace FiresecClient
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
 					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == mptDevice.DeviceUID);
-					if (device != null && MPTDevice.GetAvailableMPTDeviceTypes(device.DriverType).Contains(mptDevice.MPTDeviceType))
+					if (device != null && MPTDevice.GetAvailableMPTDriverTypes(mptDevice.MPTDeviceType).Contains(device.DriverType))
 					{
 						mptDevice.Device = device;
 						mptDevices.Add(mptDevice);
@@ -565,7 +565,7 @@ namespace FiresecClient
 						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
 						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
 						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
-						SetDeviceProperty(mptDevice.Device, "Контроль", 3);
+						SetDeviceProperty(mptDevice.Device, "Контроль", mptDevice.CircuitControlValue);
 						SetDeviceProperty(mptDevice.Device, "Норма питания, 0.1В", 80);
 						break;
 

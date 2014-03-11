@@ -14,6 +14,7 @@ namespace XFiresecAPI
 			MPTDeviceType = MPTDeviceType.Unknown;
 			Delay = 0;
 			Hold = 2;
+			CircuitControlValue = 0;
 		}
 
 		public XDevice Device { get; set; }
@@ -30,44 +31,38 @@ namespace XFiresecAPI
 		[DataMember]
 		public int Hold { get; set; }
 
-		public static List<MPTDeviceType> GetAvailableMPTDeviceTypes(XDriverType driverType)
+		[DataMember]
+		public int CircuitControlValue { get; set; }
+
+		public static List<XDriverType> GetAvailableMPTDriverTypes(MPTDeviceType mptDeviceType)
 		{
-			var result = new List<MPTDeviceType>();
-			switch (driverType)
+			var result = new List<XDriverType>();
+			switch (mptDeviceType)
 			{
-				case XDriverType.RSR2_MVK8:
-					result.Add(MPTDeviceType.DoNotEnterBoard);
-					result.Add(MPTDeviceType.ExitBoard);
-					result.Add(MPTDeviceType.AutomaticOffBoard);
-					result.Add(MPTDeviceType.Bomb);
+				case MPTDeviceType.DoNotEnterBoard:
+				case MPTDeviceType.ExitBoard:
+				case MPTDeviceType.AutomaticOffBoard:
+					result.Add(XDriverType.RSR2_OPS);
+					result.Add(XDriverType.RSR2_OPK);
+					result.Add(XDriverType.RSR2_RM_1);
+					result.Add(XDriverType.RSR2_MVK8);
 					break;
 
-				case XDriverType.RSR2_OPS:
-					result.Add(MPTDeviceType.DoNotEnterBoard);
-					result.Add(MPTDeviceType.ExitBoard);
-					result.Add(MPTDeviceType.AutomaticOffBoard);
+				case MPTDeviceType.Speaker:
+					result.Add(XDriverType.RSR2_OPZ);
+					result.Add(XDriverType.RSR2_OPK);
 					break;
 
-				case XDriverType.RSR2_OPZ:
-					result.Add(MPTDeviceType.Speaker);
+				case MPTDeviceType.Door:
+				case MPTDeviceType.HandStart:
+				case MPTDeviceType.HandStop:
+				case MPTDeviceType.HandAutomatic:
+					result.Add(XDriverType.RSR2_AM_1);
 					break;
 
-				case XDriverType.RSR2_OPK:
-					result.Add(MPTDeviceType.DoNotEnterBoard);
-					result.Add(MPTDeviceType.ExitBoard);
-					result.Add(MPTDeviceType.AutomaticOffBoard);
-					result.Add(MPTDeviceType.Speaker);
-					break;
-
-				case XDriverType.RSR2_AM_1:
-					result.Add(MPTDeviceType.Door);
-					result.Add(MPTDeviceType.HandAutomatic);
-					result.Add(MPTDeviceType.HandStart);
-					result.Add(MPTDeviceType.HandStop);
-					break;
-
-				default:
-					result.Add(MPTDeviceType.Unknown);
+				case MPTDeviceType.Bomb:
+					result.Add(XDriverType.RSR2_RM_1);
+					result.Add(XDriverType.RSR2_MVK8);
 					break;
 			}
 			return result;

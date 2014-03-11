@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using Common;
+using System;
 
 namespace Infrastructure.Common.Windows
 {
@@ -55,16 +57,23 @@ namespace Infrastructure.Common.Windows
 
 		public static void DoStep(string text, string title, int stepCount, bool canCancel)
 		{
-			if (_progressViewModel == null)
+			try
 			{
-				Show(title, text, stepCount, canCancel);
+				if (_progressViewModel == null)
+				{
+					Show(title, text, stepCount, canCancel);
+				}
+				if (_progressViewModel != null)
+				{
+					_progressViewModel.Title = title;
+					_progressViewModel.StepCount = stepCount;
+					_progressViewModel.CanCancel = canCancel;
+					_progressViewModel.DoStep(text);
+				}
 			}
-			if (_progressViewModel != null)
+			catch (Exception e)
 			{
-				_progressViewModel.Title = title;
-				_progressViewModel.StepCount = stepCount;
-				_progressViewModel.CanCancel = canCancel;
-				_progressViewModel.DoStep(text);
+				Logger.Error(e, "LoadingService.DoStep");
 			}
 		}
 		public static void AddCount(int count)

@@ -30,6 +30,7 @@
         <File Id="OPC.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
         <File Id="OPC.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="OPC.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
       </Component>
     </DirectoryRef>
   </Fragment>

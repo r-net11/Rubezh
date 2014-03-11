@@ -2,11 +2,11 @@
 
 namespace SKDModule.PassCard.Views
 {
-    public partial class PassCardImagePropertyView : UserControl
-    {
+	public partial class PassCardImagePropertyView : UserControl
+	{
 		public PassCardImagePropertyView()
-        {
+		{
 			InitializeComponent();
-        }
-    }
+		}
+	}
 }

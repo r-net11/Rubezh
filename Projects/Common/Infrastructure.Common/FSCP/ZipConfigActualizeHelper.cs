@@ -126,7 +126,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "ConfigActualizeHelper.GetFile " + fileName);
+				Logger.Error(e, "ZipConfigActualizeHelper.GetConfigurationFomZip " + fileName);
 			}
 			T newConfiguration = new T();
 			result = false;

@@ -82,7 +82,18 @@
 								<TextBox Text="{Binding Hold}" Width="200" Margin="2" />
 							</StackPanel>
 						</StackPanel>
-					</StackPanel>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasCurcuitControl, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="Контроль цепи" Width="200" Foreground="White" Margin="2" />
+
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding CurcuitControlParameters}" SelectedItem="{Binding SelectedCurcuitControlParameter, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding SelectedCurcuitControlParameter.Name}" VerticalAlignment="Center" Margin="2">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
 				</Grid>
 			</Grid>
 		</Grid>

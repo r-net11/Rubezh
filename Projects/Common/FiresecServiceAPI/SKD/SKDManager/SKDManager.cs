@@ -35,6 +35,8 @@ namespace FiresecAPI
 			SKDConfiguration = new SKDConfiguration();
 			SKDConfiguration.ValidateVersion();
 			UpdateConfiguration();
+
+			SKDPassCardLibraryConfiguration.Templates = new List<PassCardTemplate>();
 		}
 
 		public static void UpdateConfiguration()

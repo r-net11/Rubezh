@@ -430,7 +430,7 @@ namespace GKModule.ViewModels
 			}
 			LoadingService.Close();
 			if (errorLog != "")
-				MessageBoxService.ShowError("Ошибка при записи параметров в следующие устройства:" + errorLog);
+				MessageBoxService.ShowWarning("Ошибка при записи параметров в следующие устройства:" + errorLog);
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }

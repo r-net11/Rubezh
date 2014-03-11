@@ -21,9 +21,10 @@
         <include name="Infrastructure.Common.dll" />
         <include name="Infrustructure.Plans.dll" />
         <include name="Microsoft.Practices.Prism.dll" />
-        <include name="Xceed.Wpf.Toolkit.dll" />
         <include name="NLog.dll" />
         <include name="Ionic.Zip.dll" />
+        <include name="Xceed.Wpf.Toolkit.dll" />
+        <include name="WPFToolkit.Extended.dll" />
       </fileset>
     </copy>
   </target>
@@ -42,9 +43,10 @@
         <include name="Infrastructure.Common.dll" />
         <include name="Infrustructure.Plans.dll" />
         <include name="Microsoft.Practices.Prism.dll" />
-        <include name="Xceed.Wpf.Toolkit.dll" />
         <include name="NLog.dll" />
         <include name="Ionic.Zip.dll" />
+        <include name="Xceed.Wpf.Toolkit.dll" />
+        <include name="WPFToolkit.Extended.dll" />
       </fileset>
     </copy>
   </target>

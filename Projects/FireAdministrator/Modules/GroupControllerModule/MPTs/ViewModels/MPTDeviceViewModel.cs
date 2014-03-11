@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -16,6 +17,12 @@ namespace GKModule.ViewModels
 		{
 			MPTDevice = mptDevice;
 			Device = mptDevice.Device;
+			CurcuitControlParameters = new ObservableCollection<XDriverPropertyParameter>();
+			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "Без контроля", Value = 0 });
+			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "Обрыв", Value = 1 });
+			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "КЗ", Value = 2 });
+			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "Обрыв и КЗ", Value = 3 });
+
 		}
 
 		XDevice _device;
@@ -27,6 +34,7 @@ namespace GKModule.ViewModels
 				_device = value;
 				OnPropertyChanged("Device");
 				OnPropertyChanged("Description");
+				OnPropertyChanged("SelectedCurcuitControlParameter");
 			}
 		}
 
@@ -92,6 +100,28 @@ namespace GKModule.ViewModels
 				MPTDevice.Hold = value;
 				OnPropertyChanged("Hold");
 				SetDeviceProperty("Время удержания, с", value);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+
+		public bool HasCurcuitControl
+		{
+			get { return MPTDeviceType == XFiresecAPI.MPTDeviceType.Bomb && Device != null && Device.DriverType == XDriverType.RSR2_MVK8; }
+		}
+
+		public ObservableCollection<XDriverPropertyParameter> CurcuitControlParameters { get; private set; }
+
+		public XDriverPropertyParameter SelectedCurcuitControlParameter
+		{
+			get
+			{
+				return CurcuitControlParameters.FirstOrDefault(x => x.Value == MPTDevice.CircuitControlValue);
+			}
+			set
+			{
+				MPTDevice.CircuitControlValue = value.Value;
+				OnPropertyChanged("SelectedCurcuitControlParameter");
+				SetDeviceProperty("Контроль", value.Value);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
