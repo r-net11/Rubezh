@@ -63,6 +63,7 @@
 
       <Component Id="Monitor.SKD_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
         <File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
+        <File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
       </Component>
 
       <Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">

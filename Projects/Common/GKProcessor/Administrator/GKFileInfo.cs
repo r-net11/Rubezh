@@ -103,7 +103,6 @@ namespace GKProcessor
 			UpdateConfigurationHelper.Update(deviceConfiguration);
 			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
 			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
-			ZipSerializeHelper.Serialize(hashConfiguration, "123.xml");
 			configMemoryStream.Position = 0;
 			var configBytes = configMemoryStream.ToArray();
 			return SHA256.Create().ComputeHash(configBytes).ToList();
@@ -111,10 +110,11 @@ namespace GKProcessor
 		void InitializeFileBytes(XDeviceConfiguration deviceConfiguration)
 		{
 			ZipFileConfigurationHelper.SaveToZipFile("configFileToGK", deviceConfiguration);
-			var file = File.OpenRead("configFileToGK");
-			FileSize = file.Length;
-			FileBytes = File.ReadAllBytes(file.Name).ToList();
-			file.Close();
+			var fileStream = File.OpenRead("configFileToGK");
+			FileSize = fileStream.Length;
+			FileBytes = File.ReadAllBytes(fileStream.Name).ToList();
+			fileStream.Close();
+			File.Delete("configFileToGK");
 		}
 		void InitializeInfoBlock()
 		{
