@@ -65,6 +65,7 @@ namespace FireAdministrator
 			AddConfiguration(folderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 			AddConfiguration(folderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
 			AddConfiguration(folderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
+			AddConfiguration(folderName, "SKDPassCardLibraryConfiguration.xml", SKDManager.SKDPassCardLibraryConfiguration, 1, 1);
 			AddConfiguration(folderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
 			AddConfiguration(folderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
 

@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="LayoutModule.Views.LayoutPartEmptyView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Background="Transparent">
+	<AlignableWrapPanel VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+		<AlignableWrapPanel.LayoutTransform>
+			<ScaleTransform ScaleX="2" ScaleY="2" />
+		</AlignableWrapPanel.LayoutTransform>
+		<Image Width="16" Margin="4" Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Stretch="Uniform" />
+		<TextBlock VerticalAlignment="Center" Text="{Binding Title}" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" />
+	</AlignableWrapPanel>
+</UserControl>

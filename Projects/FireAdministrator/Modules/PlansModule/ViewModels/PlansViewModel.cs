@@ -273,6 +273,7 @@ namespace PlansModule.ViewModels
 
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
+				PlanDesignerViewModel.Update();
 			}
 			if (SelectedPlan == null)
 				SelectedPlan = Plans.FirstOrDefault();

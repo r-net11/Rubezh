@@ -61,6 +61,7 @@ namespace SKDModule.PassCard.ViewModels
 					new MenuButtonViewModel(PassCardDesignerViewModel.MoveBackwardCommand, "/Controls;component/Images/MoveBack.png" , "Ниже"),
 				}
 			};
+			DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 		}
 
 		public void Initialize()
@@ -70,7 +71,6 @@ namespace SKDModule.PassCard.ViewModels
 				PassCardTemplates = new ObservableCollection<PassCardTemplateViewModel>();
 				SKDManager.SKDPassCardLibraryConfiguration.Templates.ForEach(item => PassCardTemplates.Add(new PassCardTemplateViewModel(item)));
 				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
-				DesignerCanvas.Toolbox.RegisterInstruments(GetInstruments());
 			}
 		}
 
@@ -115,6 +115,7 @@ namespace SKDModule.PassCard.ViewModels
 				DesignerCanvas.DeselectAll();
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
+				PassCardDesignerViewModel.Update();
 			}
 			if (SelectedPassCardTemplate == null)
 				SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();

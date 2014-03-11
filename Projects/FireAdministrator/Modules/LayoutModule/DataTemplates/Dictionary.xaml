@@ -43,6 +43,10 @@
 		<Views:LayoutPartPropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartEmptyViewModel}">
+		<Views:LayoutPartEmptyView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:LayoutPartImageViewModel}">
 		<Views:LayoutPartImageView />
 	</DataTemplate>
