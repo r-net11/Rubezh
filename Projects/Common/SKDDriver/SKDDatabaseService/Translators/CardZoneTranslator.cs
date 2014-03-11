@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardZoneTranslator:TranslatorBase<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
+	public class CardZoneTranslator : TranslatorBase<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
 	{
-		public CardZoneTranslator(Table<DataAccess.CardZoneLink> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public CardZoneTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 
 		}
@@ -42,10 +42,10 @@ namespace SKDDriver
 		public List<CardZone> Get(Guid parentUID, ParentType parentType)
 		{
 			var result = new List<CardZone>();
-			foreach (var cardZoneLink in Table.Where(x => x != null && 
-				!x.IsDeleted && 
-				x.ParentUid == parentUID && 
-				(ParentType)x.ParentType == parentType)) 
+			foreach (var cardZoneLink in Table.Where(x => x != null &&
+				!x.IsDeleted &&
+				x.ParentUid == parentUID &&
+				(ParentType)x.ParentType == parentType))
 			{
 				result.Add(Translate(cardZoneLink));
 			}

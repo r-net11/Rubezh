@@ -9,8 +9,8 @@ namespace SKDDriver
 {
 	public class OrganizationTranslator : TranslatorBase<DataAccess.Organization, Organization, OrganizationFilter>
 	{
-		public OrganizationTranslator(Table<DataAccess.Organization> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public OrganizationTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 			;
 		}

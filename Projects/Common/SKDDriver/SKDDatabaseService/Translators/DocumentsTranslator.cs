@@ -9,17 +9,17 @@ namespace SKDDriver
 {
 	public class DocumentTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
 	{
-		public DocumentTranslator(Table<DataAccess.Document> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public DocumentTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
-			
+
 		}
 
 		protected override OperationResult CanSave(Document item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && 
+			bool sameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganizationUid == item.OrganizationUid &&
-				x.UID != item.UID && 
+				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Документ с таким же именем уже содержится в базе данных");
@@ -27,7 +27,7 @@ namespace SKDDriver
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No &&
 				x.OrganizationUid == item.OrganizationUid &&
-				x.UID != item.UID && 
+				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameNo)
 				return new OperationResult("Документ с таким же номером уже содержится в базе данных");

@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class GUDTranslator:TranslatorBase<DataAccess.GUD, GUD, GUDFilter>
+	public class GUDTranslator : TranslatorBase<DataAccess.GUD, GUD, GUDFilter>
 	{
-		public GUDTranslator(Table<DataAccess.GUD> table, DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
-			: base(table, context)
+		public GUDTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
+			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;
 		}
@@ -20,7 +20,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(GUD item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && 
+			bool sameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganizationUid == item.OrganizationUid &&
 				x.UID != item.UID &&
 				!x.IsDeleted);
@@ -55,7 +55,7 @@ namespace SKDDriver
 			return base.MarkDeleted(items);
 		}
 
-		protected override GUD Translate(DataAccess.GUD tableItem) 
+		protected override GUD Translate(DataAccess.GUD tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUD);

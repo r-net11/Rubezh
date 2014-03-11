@@ -12,8 +12,8 @@ namespace SKDDriver
 		where ApiT : OrganizationElementBase, new()
 		where FilterT : OrganizationFilterBase
 	{
-		public OrganizationTranslatorBase(Table<TableT> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public OrganizationTranslatorBase(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 
 		}

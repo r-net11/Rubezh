@@ -17,10 +17,10 @@ namespace SKDDriver
 		protected Table<TableT> Table;
 		protected DataAccess.SKUDDataContext Context;
 
-		public TranslatorBase(Table<TableT> table, DataAccess.SKUDDataContext context)
+		public TranslatorBase(DataAccess.SKUDDataContext context)
 		{
-			Table = table;
 			Context = context;
+			Table = Context.GetTable<TableT>();
 		}
 
 		protected virtual ApiT Translate(TableT tableItem)

@@ -10,8 +10,8 @@ namespace SKDDriver
 {
 	public class PositionTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
 	{
-		public PositionTranslator(Table<DataAccess.Position> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public PositionTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 
 		}

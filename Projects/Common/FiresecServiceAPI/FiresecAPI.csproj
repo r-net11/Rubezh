@@ -208,6 +208,7 @@
     <Compile Include="SKD\Common\OrganizationFilterBase.cs" />
     <Compile Include="SKD\Organization\Organization.cs" />
     <Compile Include="SKD\Common\OrganizationElementBase.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardImagePropertyType.cs" />
     <Compile Include="SKD\Photo\Photo.cs" />
     <Compile Include="SKD\Photo\PhotoFilter.cs" />
     <Compile Include="SKD\Schedule\ScheduleZoneLink.cs" />
@@ -245,8 +246,7 @@
     <Compile Include="SKD\Card\GUDFilter.cs" />
     <Compile Include="SKD\PassCardLibrary\ElementPassCardImageProperty.cs" />
     <Compile Include="SKD\PassCardLibrary\ElementPassCardTextProperty.cs" />
-    <Compile Include="SKD\PassCardLibrary\IElementPassCardProperty.cs" />
-    <Compile Include="SKD\PassCardLibrary\PassCardPropertyType.cs" />
+    <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
     <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Department\Phone.cs" />

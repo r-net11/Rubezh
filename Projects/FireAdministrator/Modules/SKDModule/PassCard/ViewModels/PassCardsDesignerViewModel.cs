@@ -15,11 +15,12 @@ using Infrastructure.Client.Plans;
 using SKDModule.PassCard.InstrumentAdorners;
 using Infrustructure.Plans.Services;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardsDesignerViewModel : MenuViewPartViewModel
 	{
-		public const string PassCardPropertiesGroup = "PassCardPropertiesGroup";
+		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
+		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PassCardDesignerViewModel PassCardDesignerViewModel { get; private set; }
 		public Infrastructure.Designer.DesignerCanvas DesignerCanvas
@@ -29,7 +30,8 @@ namespace SKDModule.ViewModels
 
 		public PassCardsDesignerViewModel()
 		{
-			LayerGroupService.Instance.RegisterGroup(PassCardPropertiesGroup, "Свойства", 1);
+			LayerGroupService.Instance.RegisterGroup(PassCardTextPropertiesGroup, "Текстовые свойства", 1);
+			LayerGroupService.Instance.RegisterGroup(PassCardImagePropertiesGroup, "Графические свойства", 2);
 			PassCardDesignerViewModel = new PassCardDesignerViewModel();
 			PassCardDesignerViewModel.IsCollapsedChanged += new EventHandler(PassCardDesignerViewModel_IsCollapsedChanged);
 			OnPropertyChanged(() => PassCardDesignerViewModel);

@@ -18,9 +18,10 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Текст" />
+			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Свойство" />
 			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Выравнивать" />
 			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет текста" />
 			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
@@ -32,22 +33,13 @@
 			<Label Grid.Row="9" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Курсив" />
 			<Label Grid.Row="10" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Растянуть" />
 
-			<!--
-				<Grid Grid.Row="0" Grid.Column="1" Background="White" Margin="2">
-				<TextBox Height="160" Margin="2" AcceptsReturn="True" Name="_textBox"
-				AcceptsTab="False"
-				Background="{Binding BackgroundColor, Converter={StaticResource ColorToBrushConverter}}"
-				FontFamily="{Binding FontFamilyName}"
-				FontSize="{Binding FontSize}"
-				Foreground="{Binding ForegroundColor, Converter={StaticResource ColorToBrushConverter}}"
-				HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-				TextAlignment="{Binding TextAlignment, Converter={StaticResource IntToEnumConverter}}"
-				FontStyle="{Binding FontItalic, Converter={StaticResource BoolToFontStyleConverter}}"
-				FontWeight="{Binding FontBold, Converter={StaticResource BoolToFontWeightConverter}}"
-				TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" />
-				</Grid>
-			-->
-			<TextBox x:Name="_textBox" Grid.Row="0" Grid.Column="1" Height="160" Margin="2" AcceptsReturn="True" Background="White" HorizontalScrollBarVisibility="Auto" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" />
+			<ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding PropertyTypes}" SelectedItem="{Binding SelectedPropertyType, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding TextAlignments}" SelectedIndex="{Binding TextAlignment, UpdateSourceTrigger=PropertyChanged}" />
 			<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding ForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
 			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />

@@ -26,7 +26,6 @@ namespace SKDModule.Plans
 {
 	class SKDPlanExtension : IPlanExtension<Plan>
 	{
-		private bool _processChanges;
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
@@ -42,7 +41,6 @@ namespace SKDModule.Plans
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
 			_instruments = null;
-			_processChanges = true;
 		}
 
 		public void Initialize()

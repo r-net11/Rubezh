@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
 
 		#region IPrimitive Members
 
-		public Primitive Primitive
+		public virtual Primitive Primitive
 		{
 			get { return Infrustructure.Plans.Elements.Primitive.Rectangle; }
 		}

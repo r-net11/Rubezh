@@ -13,6 +13,11 @@ namespace FiresecAPI
 			return collection != null && collection.Count > 0;
 		}
 
+		public static bool IsExactly<T>(this object obj)
+		{
+			return obj != null && obj.GetType() == typeof(T);
+		}
+
 		public static string ToDescription(this Enum value)
 		{
 			FieldInfo fieldInfo = value.GetType().GetField(value.ToString());

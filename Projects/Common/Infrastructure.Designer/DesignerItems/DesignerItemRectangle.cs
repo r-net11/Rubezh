@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI;
+using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Adorners;
 using Infrastructure.Designer.ElementProperties.ViewModels;
@@ -32,11 +33,11 @@ namespace Infrastructure.Designer.DesignerItems
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
-			if (Element is ElementRectangle)
+			if (Element.IsExactly<ElementRectangle>())
 				return new RectanglePropertiesViewModel(Element as ElementRectangle);
-			if (Element is ElementEllipse)
+			if (Element.IsExactly<ElementEllipse>())
 				return new EllipsePropertiesViewModel(Element as ElementEllipse);
-			if (Element is ElementTextBlock)
+			if (Element.IsExactly<ElementTextBlock>())
 				return new TextBlockPropertiesViewModel(Element as ElementTextBlock);
 			return base.CreatePropertiesViewModel();
 		}

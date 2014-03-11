@@ -120,6 +120,7 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
+    <Compile Include="ButtonSpinner.cs" />
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolToGridLengthConverter.cs" />
+    <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\DelayRegimeToStringConverter.cs" />
     <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />

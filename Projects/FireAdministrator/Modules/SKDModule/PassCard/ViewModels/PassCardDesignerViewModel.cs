@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using Common;
+using FiresecAPI;
 using FiresecAPI.SKD.PassCardLibrary;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
+using SKDModule.PassCard.Painter;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardDesignerViewModel : Infrastructure.Designer.ViewModels.PlanDesignerViewModel
 	{
@@ -21,6 +25,10 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(PassCardTemplate passCardTemplate)
 		{
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 			PassCardTemplate = passCardTemplate;
 			IsNotEmpty = PassCardTemplate != null;
 			using (new TimeCounter("\tPassCardDesignerViewModel.Initialize: {0}"))
@@ -62,11 +70,30 @@ namespace SKDModule.ViewModels
 		public override void RegisterDesignerItem(Infrustructure.Plans.Designer.DesignerItem designerItem)
 		{
 			base.RegisterDesignerItem(designerItem);
-			if (designerItem.Element is IElementPassCardProperty)
+			if (designerItem.Element is ElementPassCardImageProperty)
 			{
-				designerItem.Group = PassCardsDesignerViewModel.PassCardPropertiesGroup;
-				designerItem.Title = ((IElementPassCardProperty)designerItem.Element).PropertyType.ToString();
+				designerItem.Group = PassCardsDesignerViewModel.PassCardImagePropertiesGroup;
+				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).PropertyType.ToDescription();
 			}
+			else if (designerItem.Element is ElementPassCardTextProperty)
+			{
+				designerItem.Group = PassCardsDesignerViewModel.PassCardTextPropertiesGroup;
+				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).PropertyType.ToDescription();
+			}
+		}
+
+		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
+		{
+			if (e.Element is ElementPassCardImageProperty)
+				e.PropertyViewModel = new PassCardImagePropertyViewModel((ElementPassCardImageProperty)e.Element);
+			else if (e.Element is ElementPassCardTextProperty)
+				e.PropertyViewModel = new PassCardTextPropertyViewModel((ElementPassCardTextProperty)e.Element);
+		}
+		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		{
+			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
+			if (elementPassCardImageProperty != null)
+				args.Painter = new PassCardImagePropertyPainter(DesignerCanvas, elementPassCardImageProperty);
 		}
 	}
 }

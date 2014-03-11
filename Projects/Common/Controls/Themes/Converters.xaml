@@ -43,7 +43,7 @@
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
-	<Converters:SubsystemTypeToStringConverter  x:Key="SubsystemTypeToStringConverter " />
+	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter " />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
@@ -54,4 +54,12 @@
 	<Converters:DelayRegimeToStringConverter x:Key="DelayRegimeToStringConverter" />
 	<Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
+	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
+		<Converters:SwitchCase Then="Заполнить" When="Fill" />
+		<Converters:SwitchCase Then="Как есть" When="None" />
+		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
+		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
+	</Converters:SwitchConverter>
+
 </ResourceDictionary>

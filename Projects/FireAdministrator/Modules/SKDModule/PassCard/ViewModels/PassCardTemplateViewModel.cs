@@ -1,7 +1,7 @@
 ﻿using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardTemplateViewModel : BaseViewModel
 	{

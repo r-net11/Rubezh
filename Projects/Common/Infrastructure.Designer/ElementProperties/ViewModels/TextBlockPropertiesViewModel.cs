@@ -8,14 +8,14 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 	public class TextBlockPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		private const int MaxFontSize = 1000;
-		private ElementTextBlock _elementTextBlock;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
+		protected ElementTextBlock ElementTextBlock { get; private set; }
 
 		public TextBlockPropertiesViewModel(ElementTextBlock elementTextBlock)
 		{
 			Title = "Свойства фигуры: Надпись";
-			_elementTextBlock = elementTextBlock;
+			ElementTextBlock = elementTextBlock;
 			CopyProperties();
 
 			Fonts = new List<string>();
@@ -29,19 +29,19 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			};
 		}
 
-		void CopyProperties()
+		protected virtual void CopyProperties()
 		{
-			Text = _elementTextBlock.Text;
-			BackgroundColor = _elementTextBlock.BackgroundColor;
-			ForegroundColor = _elementTextBlock.ForegroundColor;
-			BorderColor = _elementTextBlock.BorderColor;
-			StrokeThickness = _elementTextBlock.BorderThickness;
-			FontSize = _elementTextBlock.FontSize;
-			FontItalic = _elementTextBlock.FontItalic;
-			FontBold = _elementTextBlock.FontBold;
-			FontFamilyName = _elementTextBlock.FontFamilyName;
-			Stretch = _elementTextBlock.Stretch;
-			TextAlignment = _elementTextBlock.TextAlignment;
+			Text = ElementTextBlock.Text;
+			BackgroundColor = ElementTextBlock.BackgroundColor;
+			ForegroundColor = ElementTextBlock.ForegroundColor;
+			BorderColor = ElementTextBlock.BorderColor;
+			StrokeThickness = ElementTextBlock.BorderThickness;
+			FontSize = ElementTextBlock.FontSize;
+			FontItalic = ElementTextBlock.FontItalic;
+			FontBold = ElementTextBlock.FontBold;
+			FontFamilyName = ElementTextBlock.FontFamilyName;
+			Stretch = ElementTextBlock.Stretch;
+			TextAlignment = ElementTextBlock.TextAlignment;
 		}
 
 		string _text;
@@ -169,17 +169,17 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			_elementTextBlock.Text = Text;
-			_elementTextBlock.BackgroundColor = BackgroundColor;
-			_elementTextBlock.ForegroundColor = ForegroundColor;
-			_elementTextBlock.BorderColor = BorderColor;
-			_elementTextBlock.BorderThickness = StrokeThickness;
-			_elementTextBlock.FontSize = FontSize;
-			_elementTextBlock.FontBold = FontBold;
-			_elementTextBlock.FontItalic = FontItalic;
-			_elementTextBlock.FontFamilyName = FontFamilyName;
-			_elementTextBlock.TextAlignment = TextAlignment;
-			_elementTextBlock.Stretch = Stretch;
+			ElementTextBlock.Text = Text;
+			ElementTextBlock.BackgroundColor = BackgroundColor;
+			ElementTextBlock.ForegroundColor = ForegroundColor;
+			ElementTextBlock.BorderColor = BorderColor;
+			ElementTextBlock.BorderThickness = StrokeThickness;
+			ElementTextBlock.FontSize = FontSize;
+			ElementTextBlock.FontBold = FontBold;
+			ElementTextBlock.FontItalic = FontItalic;
+			ElementTextBlock.FontFamilyName = FontFamilyName;
+			ElementTextBlock.TextAlignment = TextAlignment;
+			ElementTextBlock.Stretch = Stretch;
 			return base.Save();
 		}
 	}

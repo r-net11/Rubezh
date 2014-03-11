@@ -10,17 +10,17 @@ namespace SKDDriver
 {
 	public class DepartmentTranslator : OrganizationTranslatorBase<DataAccess.Department, Department, DepartmentFilter>
 	{
-		public DepartmentTranslator(Table<DataAccess.Department> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public DepartmentTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
-			
+
 		}
 
 		protected override OperationResult CanSave(Department item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganizationUid == item.OrganizationUid &&
-				x.UID != item.UID && 
+				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
@@ -33,7 +33,7 @@ namespace SKDDriver
 			if (isHasEmployees)
 				return new OperationResult("Не могу удалить отдел, пока он указан содержит действующих сотрудников");
 
-			if(item.ChildDepartmentUIDs.IsNotNullOrEmpty())
+			if (item.ChildDepartmentUIDs.IsNotNullOrEmpty())
 				return new OperationResult("Не могу удалить отдел, пока он содержит дочерние отделы");
 			return base.CanSave(item);
 		}
@@ -46,7 +46,7 @@ namespace SKDDriver
 			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUid == tableItem.UID))
 			{
 				phoneUIDs.Add(phone.UID);
-			} 
+			}
 			var childDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUid == tableItem.UID))
 			{

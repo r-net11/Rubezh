@@ -13,18 +13,18 @@ namespace SKDDriver
 		static SKDDatabaseService()
 		{
 			Context = new DataAccess.SKUDDataContext();
-			DocumentTranslator = new DocumentTranslator(Context.Document, Context);
-			PositionTranslator = new PositionTranslator(Context.Position, Context);
-			CardZoneTranslator = new CardZoneTranslator(Context.CardZoneLink, Context);
-			CardTranslator = new CardTranslator(Context.Card, Context, CardZoneTranslator);
-			GUDTranslator = new GUDTranslator(Context.GUD, Context, CardZoneTranslator);
-			OrganizationTranslator = new OrganizationTranslator(Context.Organization, Context);
-			JournalItemTranslator = new JournalItemTranslator(Context.Journal, Context);
-			EmployeeTranslator = new EmployeeTranslator(Context.Employee, Context);
-			DepartmentTranslator = new DepartmentTranslator(Context.Department, Context);
-			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context.AdditionalColumnType, Context);
-			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context.AdditionalColumn, Context);
-			PhotoTranslator = new PhotoTranslator(Context.Photo, Context);
+			DocumentTranslator = new DocumentTranslator(Context);
+			PositionTranslator = new PositionTranslator(Context);
+			CardZoneTranslator = new CardZoneTranslator(Context);
+			CardTranslator = new CardTranslator(Context, CardZoneTranslator);
+			GUDTranslator = new GUDTranslator(Context, CardZoneTranslator);
+			OrganizationTranslator = new OrganizationTranslator(Context);
+			JournalItemTranslator = new JournalItemTranslator(Context);
+			EmployeeTranslator = new EmployeeTranslator(Context);
+			DepartmentTranslator = new DepartmentTranslator(Context);
+			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
+			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context);
+			PhotoTranslator = new PhotoTranslator(Context);
 
 			var e = EmployeeTranslator.Get(null);
 		}

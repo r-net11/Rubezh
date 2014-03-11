@@ -1,11 +1,12 @@
 ﻿using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
+using System;
 
 namespace FiresecAPI.SKD.PassCardLibrary
 {
 	[DataContract]
-	public class ElementPassCardTextProperty : ElementTextBlock, IElementPassCardProperty
+	public class ElementPassCardTextProperty : ElementTextBlock
 	{
 		public ElementPassCardTextProperty()
 		{
@@ -21,13 +22,13 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			base.Copy(element);
 			((ElementPassCardTextProperty)element).PropertyType = PropertyType;
+			((ElementPassCardTextProperty)element).AdditionalColumn = AdditionalColumn;
 		}
 
-		#region IElementPassCardProperty Members
 
 		[DataMember]
-		public PassCardPropertyType PropertyType { get; set; }
-
-		#endregion
+		public PassCardTextPropertyType PropertyType { get; set; }
+		[DataMember]
+		public Guid AdditionalColumn { get; set; }
 	}
 }

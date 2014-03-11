@@ -9,8 +9,8 @@ namespace SKDDriver
 {
 	public class JournalItemTranslator : TranslatorBase<DataAccess.Journal, SKDJournalItem, SKDJournalFilter>
 	{
-		public JournalItemTranslator(Table<DataAccess.Journal> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public JournalItemTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 			;
 		}

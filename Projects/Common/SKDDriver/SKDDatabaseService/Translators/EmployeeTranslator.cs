@@ -10,8 +10,8 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : OrganizationTranslatorBase<DataAccess.Employee, Employee, EmployeeFilter>
 	{
-		public EmployeeTranslator(Table<DataAccess.Employee> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public EmployeeTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 			
 		}

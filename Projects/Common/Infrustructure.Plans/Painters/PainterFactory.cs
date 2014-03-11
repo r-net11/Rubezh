@@ -22,8 +22,9 @@ namespace Infrustructure.Plans.Painters
 		public static IPainter Create(CommonDesignerCanvas designerCanvas, ElementBase element)
 		{
 			Type type = element.GetType();
-			if (element is IPrimitive)
-				return (IPainter)Activator.CreateInstance(_painters[((IPrimitive)element).Primitive], designerCanvas, element);
+			var primitive = element as IPrimitive;
+			if (primitive != null && primitive.Primitive != Primitive.NotPrimitive)
+				return (IPainter)Activator.CreateInstance(_painters[primitive.Primitive], designerCanvas, element);
 			var args = new PainterFactoryEventArgs(element);
 			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
 			return args.Painter ?? new DefaultPainter(designerCanvas, element);

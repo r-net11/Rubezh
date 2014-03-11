@@ -5,19 +5,19 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
+using Infrastructure.Designer;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using SKDModule.PassCard.ViewModels;
 using SKDModule.Plans;
 using SKDModule.Plans.Designer;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using Infrastructure.Designer;
-using Xceed.Wpf.Toolkit;
 
 namespace SKDModule
 {

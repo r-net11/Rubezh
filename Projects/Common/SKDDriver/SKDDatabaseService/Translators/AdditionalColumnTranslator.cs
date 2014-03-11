@@ -9,8 +9,8 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTranslator : TranslatorBase<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
-		public AdditionalColumnTranslator(Table<DataAccess.AdditionalColumn> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public AdditionalColumnTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
 			
 		}

@@ -9,6 +9,7 @@
 		Rectangle,
 		RectangleZone,
 		SubPlan,
-		TextBlock
+		TextBlock,
+		NotPrimitive,
 	}
 }

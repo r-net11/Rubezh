@@ -1,10 +1,9 @@
-﻿using FiresecAPI;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using SKDModule.ViewModels;
+﻿using FiresecAPI.Models;
 using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.PassCard.Designer
 {

@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="PassCard\InstrumentAdorners\PassCardTextPropertyAdorner.cs" />
     <Compile Include="PassCard\InstrumentAdorners\PassCardImagePropertyAdorner.cs" />
+    <Compile Include="PassCard\Painter\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardImagePropertyViewModel.cs" />
     <Compile Include="PassCard\ViewModels\PassCardTextPropertyViewModel.cs" />
     <Compile Include="PassCard\Views\PassCardImagePropertyView.xaml.cs">

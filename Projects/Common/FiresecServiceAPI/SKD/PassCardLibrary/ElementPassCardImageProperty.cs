@@ -1,11 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.SKD.PassCardLibrary
 {
 	[DataContract]
-	public class ElementPassCardImageProperty : ElementRectangle, IElementPassCardProperty
+	public class ElementPassCardImageProperty : ElementRectangle
 	{
 		public ElementPassCardImageProperty()
 		{
@@ -21,13 +23,20 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			base.Copy(element);
 			((ElementPassCardImageProperty)element).PropertyType = PropertyType;
+			((ElementPassCardImageProperty)element).AdditionalColumn = AdditionalColumn;
+			((ElementPassCardImageProperty)element).Stretch = Stretch;
 		}
 
-		#region IElementPassCardProperty Members
-
 		[DataMember]
-		public PassCardPropertyType PropertyType { get; set; }
+		public PassCardImagePropertyType PropertyType { get; set; }
+		[DataMember]
+		public Guid AdditionalColumn { get; set; }
+		[DataMember]
+		public Stretch Stretch { get; set; }
 
-		#endregion
+		public override Primitive Primitive
+		{
+			get { return Primitive.NotPrimitive; }
+		}
 	}
 }

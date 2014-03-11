@@ -1,4 +1,5 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI;
+using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.Adorners;
 using Infrastructure.Designer.ElementProperties.ViewModels;
@@ -27,9 +28,9 @@ namespace Infrastructure.Designer.DesignerItems
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
 		{
-			if (Element is ElementPolygon)
+			if (Element.IsExactly<ElementPolygon>())
 				return new PolygonPropertiesViewModel(Element as ElementPolygon);
-			if (Element is ElementPolyline)
+			if (Element.IsExactly<ElementPolyline>())
 				return new PolylinePropertiesViewModel(Element as ElementPolyline);
 			return base.CreatePropertiesViewModel();
 		}

@@ -10,17 +10,17 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTypeTranslator : OrganizationTranslatorBase<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
 	{
-		public AdditionalColumnTypeTranslator(Table<DataAccess.AdditionalColumnType> table, DataAccess.SKUDDataContext context)
-			: base(table, context)
+		public AdditionalColumnTypeTranslator(DataAccess.SKUDDataContext context)
+			: base(context)
 		{
-			
+
 		}
 
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && 
-				x.OrganizationUid == item.OrganizationUid && 
-				x.UID != item.UID && 
+			bool sameName = Table.Any(x => x.Name == item.Name &&
+				x.OrganizationUid == item.OrganizationUid &&
+				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Тип колонки с таким же названием уже содержится в базе данных");

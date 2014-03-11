@@ -6,22 +6,22 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
 	public class RectanglePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		ElementRectangle _elementRectangle;
 		public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
+		protected ElementRectangle ElementRectangle { get; private set; }
 
 		public RectanglePropertiesViewModel(ElementRectangle elementRectangle)
 		{
 			Title = "Свойства фигуры: Прямоугольник";
-			_elementRectangle = elementRectangle;
-			ImagePropertiesViewModel = new ImagePropertiesViewModel(_elementRectangle);
+			ElementRectangle = elementRectangle;
+			ImagePropertiesViewModel = new ImagePropertiesViewModel(ElementRectangle);
 			CopyProperties();
 		}
 
-		void CopyProperties()
+		protected virtual void CopyProperties()
 		{
-			BackgroundColor = _elementRectangle.BackgroundColor;
-			BorderColor = _elementRectangle.BorderColor;
-			StrokeThickness = _elementRectangle.BorderThickness;
+			BackgroundColor = ElementRectangle.BackgroundColor;
+			BorderColor = ElementRectangle.BorderColor;
+			StrokeThickness = ElementRectangle.BorderThickness;
 		}
 
 		Color _backgroundColor;
@@ -59,9 +59,9 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 
 		protected override bool Save()
 		{
-			_elementRectangle.BackgroundColor = BackgroundColor;
-			_elementRectangle.BorderColor = BorderColor;
-			_elementRectangle.BorderThickness = StrokeThickness;
+			ElementRectangle.BackgroundColor = BackgroundColor;
+			ElementRectangle.BorderColor = BorderColor;
+			ElementRectangle.BorderThickness = StrokeThickness;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardTranslator:TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
+	public class CardTranslator : TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(Table<DataAccess.Card> table, DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
-			: base(table, context)
+		public CardTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
+			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;
 		}
@@ -28,7 +28,7 @@ namespace SKDDriver
 				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
 			foreach (var cardZone in item.AdditionalGUDZones)
 			{
-				if(item.ExceptedGUDZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
+				if (item.ExceptedGUDZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
 					return new OperationResult("Попытка добавить одну и ту же зону как исключение и как расширение ГУД");
 			}
 			return base.CanSave(item);
@@ -60,7 +60,7 @@ namespace SKDDriver
 			return base.MarkDeleted(items);
 		}
 
-		protected override SKDCard Translate(DataAccess.Card tableItem) 
+		protected override SKDCard Translate(DataAccess.Card tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.HolderUid = tableItem.EmployeeUid;
