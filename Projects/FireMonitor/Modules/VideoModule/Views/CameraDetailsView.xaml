@@ -15,8 +15,8 @@
 			<StackPanel Grid.Column="0" Orientation="Horizontal">
 				<Border Width="50" Height="50" Margin="0, 0, 0, 5" Background="{Binding CameraPicture}" BorderThickness="0" />
 				<StackPanel Orientation="Horizontal">
-					<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-					<TextBlock Margin="5, 1, 1, 1" VerticalAlignment="Center" Text="{Binding Camera.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                    <Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding Camera.CameraStateStateClass, Converter={StaticResource XStateClassToIconConverter}}" />
+                    <TextBlock Text="{Binding Camera.CameraStateStateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
 				</StackPanel>
 			</StackPanel>
 		</Grid>

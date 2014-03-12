@@ -26,7 +26,7 @@ namespace VideoModule.Plans
 				var camera = Helper.GetCamera(elementCamera);
 				if (camera != null)
 				{
-					_cameraStates.Add(camera.StateClass);
+					_cameraStates.Add(camera.CameraStateStateClass);
 					//camera.StateClass.StateChanged += _callBack;
 				}
 			}

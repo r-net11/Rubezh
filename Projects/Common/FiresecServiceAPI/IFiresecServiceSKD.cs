@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[ServiceContract(SessionMode = SessionMode.Required)]
-	public interface IFiresecServiceSKUD
+	public interface IFiresecServiceSKD
 	{
 		#region Get
 		[OperationContract]

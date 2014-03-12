@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 		public EmployeeViewModel(Employee employee)
 		{
 			Employee = employee;
-			var departmentUID = (Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
+			var departmentUID = (Employee.CurrentReplacement == null || Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 			var department = DepartmentHelper.GetSingle(departmentUID);
 			DepartmentName = (department != null) ? department.Name : "";
 			var position = PositionHelper.GetSingle(Employee.PositionUID);

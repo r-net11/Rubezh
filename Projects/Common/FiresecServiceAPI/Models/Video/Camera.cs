@@ -49,7 +49,12 @@ namespace FiresecAPI.Models
 		public bool IgnoreMoveResize { get; set; }
 
 		[DataMember]
-		public XStateClass StateClass { get; set; }
+		public XStateClass StateClass {get; set;}
+
+		public XStateClass CameraStateStateClass
+		{
+			get { return XStateClass.Norm; }
+		}
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }

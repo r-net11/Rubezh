@@ -124,20 +124,20 @@ namespace FireAdministrator
 			return null;
 		}
 
-		public static string LoadFromFile(string FileName)
+		public static string LoadFromFile(string fileName)
 		{
 			try
 			{
 				WaitHelper.Execute(() =>
 				{
 					ServiceFactory.Events.GetEvent<ConfigurationClosedEvent>().Publish(null);
-					ZipConfigActualizeHelper.Actualize(FileName, false);
+					ZipConfigActualizeHelper.Actualize(fileName, false);
 					var folderName = AppDataFolderHelper.GetLocalFolder("Administrator/Configuration");
 					var configFileName = Path.Combine(folderName, "Config.fscp");
 					if (Directory.Exists(folderName))
 						Directory.Delete(folderName, true);
 					Directory.CreateDirectory(folderName);
-					File.Copy(FileName, configFileName);
+					File.Copy(fileName, configFileName);
 					bool isFullConfiguration;
 					FiresecManager.LoadFromZipFile(configFileName, out isFullConfiguration);
 					ServiceFactory.ContentService.Invalidate();
@@ -165,7 +165,7 @@ namespace FireAdministrator
 						ServiceFactory.SaveService.LayoutsChanged = true;
 					}
 				});
-				return FileName;
+				return fileName;
 			}
 			catch (Exception e)
 			{

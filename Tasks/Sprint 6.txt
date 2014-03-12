@@ -1,6 +1,5 @@
 САША
 - Измерение отрицательной температуры
-- Installer макеты
 - IsNotUsed
 - Иерархия ответвителя
 - Web-Server
@@ -19,10 +18,9 @@
 
 
 МАКСИМ
-- Библиотека устройств. Насосы
+var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 - При добавлении карты к сотруднику проверять, что эта карта не принадлежит другому сотруднику
-- Translate. Where.
-- Все методы сервера должны возвращать OperationResult<>
+
 - Фильтр по организациям в зависимости от залогиненного оператора
 - Окно с графиком работы сотрудника
 - Фильтр по удаленным и не удаленным сотрудникам

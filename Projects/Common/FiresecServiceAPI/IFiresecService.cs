@@ -7,7 +7,7 @@ using FiresecAPI.Models;
 namespace FiresecAPI
 {
 	[ServiceContract]
-	public interface IFiresecService : IFiresecServiceSKUD, IGKService
+	public interface IFiresecService : IFiresecServiceSKD, IGKService
 	{
 		#region Service
 		[OperationContract]

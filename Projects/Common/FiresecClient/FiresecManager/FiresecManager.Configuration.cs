@@ -119,11 +119,11 @@ namespace FiresecClient
 				var zoneMap = new Dictionary<Guid, Zone>();
 				FiresecConfiguration.DeviceConfiguration.Zones.ForEach(zone => zoneMap.Add(zone.UID, zone));
 
-				var xdeviceMap = new Dictionary<Guid, XDevice>();
+				var xDeviceMap = new Dictionary<Guid, XDevice>();
 				foreach (var xDevice in XManager.Devices)
 				{
-					if (!xdeviceMap.ContainsKey(xDevice.BaseUID))
-						xdeviceMap.Add(xDevice.BaseUID, xDevice);
+					if (!xDeviceMap.ContainsKey(xDevice.BaseUID))
+						xDeviceMap.Add(xDevice.BaseUID, xDevice);
 				}
 				var xZoneMap = new Dictionary<Guid, XZone>();
 				foreach (var xzone in XManager.Zones)
@@ -131,11 +131,11 @@ namespace FiresecClient
 					if (!xZoneMap.ContainsKey(xzone.BaseUID))
 					xZoneMap.Add(xzone.BaseUID, xzone);
 				}
-				var xdirectionMap = new Dictionary<Guid, XDirection>();
+				var xDirectionMap = new Dictionary<Guid, XDirection>();
 				foreach (var xdirection in XManager.Directions)
 				{
-					if (!xdirectionMap.ContainsKey(xdirection.BaseUID))
-						xdirectionMap.Add(xdirection.BaseUID, xdirection);
+					if (!xDirectionMap.ContainsKey(xdirection.BaseUID))
+						xDirectionMap.Add(xdirection.BaseUID, xdirection);
 				}
 
 				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				
@@ -173,8 +173,8 @@ namespace FiresecClient
 					{
 						var elementXDevice = plan.ElementXDevices[i - 1];
 						elementXDevice.UpdateZLayer();
-						if (xdeviceMap.ContainsKey(elementXDevice.XDeviceUID))
-							xdeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
+						if (xDeviceMap.ContainsKey(elementXDevice.XDeviceUID))
+							xDeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
 					}
 
 					foreach (var elementZone in plan.ElementPolygonZones)
@@ -203,15 +203,15 @@ namespace FiresecClient
 					}
 					foreach (var xdirection in plan.ElementRectangleXDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xdirectionMap.ContainsKey(xdirection.DirectionUID) ? xdirectionMap[xdirection.DirectionUID] : null);
-						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
-							xdirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
+						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
+							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
 					}
 					foreach (var xdirection in plan.ElementPolygonXDirections)
 					{
-						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xdirectionMap.ContainsKey(xdirection.DirectionUID) ? xdirectionMap[xdirection.DirectionUID] : null);
-						if (xdirectionMap.ContainsKey(xdirection.DirectionUID))
-							xdirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
+						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
+						if (xDirectionMap.ContainsKey(xdirection.DirectionUID))
+							xDirectionMap[xdirection.DirectionUID].PlanElementUIDs.Add(xdirection.UID);
 					}
 
 					for (int i = plan.ElementSKDDevices.Count(); i > 0; i--)
