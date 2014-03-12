@@ -76,6 +76,15 @@
     <Reference Include="CodeReason.Reports">
       <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
+    <Reference Include="DeviceOrientedLib">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\DeviceOrientedLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Entities">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.WPF4">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\GalaSoft.MvvmLight.WPF4.dll</HintPath>
+    </Reference>
     <Reference Include="hasp_net_windows">
       <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
     </Reference>
@@ -108,6 +117,12 @@
       <HintPath>..\..\..\3rdParty\ProcessPrivileges_1.5.7.0_Release\ProcessPrivileges.dll</HintPath>
     </Reference>
     <Reference Include="ReachFramework" />
+    <Reference Include="RVI_VSS.ViewModels">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\RVI_VSS.ViewModels.dll</HintPath>
+    </Reference>
+    <Reference Include="SdkWrapper">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\SdkWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.configuration" />
@@ -126,6 +141,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="VideoCellLayoutControl">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\VideoCellLayoutControl.dll</HintPath>
+    </Reference>
     <Reference Include="Vlc.DotNet.Core">
       <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
@@ -137,6 +155,9 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WinFormsPlayer">
+      <HintPath>..\..\..\3rdParty\RVI_VSS\WinFormsPlayer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -165,6 +186,18 @@
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Video\CameraFramesWatcher.cs" />
     <Compile Include="Video\MjpegCamera.cs" />
+    <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
+      <DependentUpon>CellPlayerWrap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Video\RVI_VSS\Form1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Video\RVI_VSS\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video\RVI_VSS\TestCellPlayerWrap.xaml.cs">
+      <DependentUpon>TestCellPlayerWrap.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
@@ -363,6 +396,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Video\RVI_VSS\CellPlayerWrap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Video\RVI_VSS\TestCellPlayerWrap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Video\VideoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -429,6 +470,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Video\RVI_VSS\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
