@@ -18,10 +18,10 @@ namespace Common
 			return new Guid(val);
 		}
 
-		public static Guid CreateOn(Guid guid)
+		public static Guid CreateOn(Guid guid, int index)
 		{
 			var stringUID = guid.ToString();
-			var firstChar = stringUID[0];
+			var firstChar = stringUID[index];
 			if (firstChar == '0')
 				firstChar = '1';
 			else

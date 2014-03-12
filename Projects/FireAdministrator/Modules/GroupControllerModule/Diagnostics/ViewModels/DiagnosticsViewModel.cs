@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in XManager.Devices)
 			{
-				var newUID = GuidHelper.CreateOn(device.BaseUID);
+				var newUID = GuidHelper.CreateOn(device.BaseUID, 0);
 				Trace.WriteLine(device.BaseUID + "	" + newUID);
 			}
 			return;

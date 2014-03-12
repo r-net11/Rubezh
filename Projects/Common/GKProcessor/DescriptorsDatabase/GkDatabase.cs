@@ -152,7 +152,7 @@ namespace GKProcessor
 				var mptDescriptor = new MPTDescriptor(this, mpt);
 				Descriptors.Add(mptDescriptor);
 
-				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.AutomaticOffDelay);
+				var mptCreator = new MPTCreator(this, mpt, mptDescriptor.HandAutomaticOffPim, mptDescriptor.DoorAutomaticOffPim, mptDescriptor.FailureAutomaticOffPim);
 				mptCreator.Create();
 			}
 
