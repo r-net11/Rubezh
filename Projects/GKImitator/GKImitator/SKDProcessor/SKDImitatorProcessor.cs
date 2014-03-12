@@ -8,6 +8,7 @@ using XFiresecAPI;
 using System.Diagnostics;
 using GKImitator.ViewModels;
 using GKProcessor;
+using GKImitator.SKDProcessor;
 
 namespace GKImitator.Processor
 {
@@ -19,14 +20,17 @@ namespace GKImitator.Processor
 		byte[] byteData = new byte[64];
 		public List<SKDImitatorJournalItem> JournalItems { get; set; }
 		public int LastJournalNo { get; set; }
+		public SKDDataContext Context { get; private set; }
 
 		public SKDImitatorProcessor(int port)
 		{
 			Port = port;
 			IsConnected = true;
+			Context = new SKDDataContext();
+			LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x=>x.CardNo).LastOrDefault().CardNo;
+			//LastJournalNo = 0;
 			JournalItems = new List<SKDImitatorJournalItem>();
-			JournalItems.Add(new SKDImitatorJournalItem());
-			LastJournalNo = 0;
+			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });
 		}
 
 		public void Start()
@@ -82,7 +86,7 @@ namespace GKImitator.Processor
 					return result;
 				case 3: // Чтение конкретной записи
 					var no = BytesHelper.SubstructInt(byteData.ToList(), 1);
-					var journalItem = JournalItems.FirstOrDefault(x=>x.No == no);
+					var journalItem = JournalItems.FirstOrDefault(x => x.No == no);
 					if (journalItem != null)
 					{
 						result.AddRange(journalItem.ToBytes());
@@ -100,6 +104,25 @@ namespace GKImitator.Processor
 		public static List<byte> IntToBytes(int intValue)
 		{
 			return BitConverter.GetBytes(intValue).ToList();
+		}
+
+		public void AddJournalItem(SKDImitatorJournalItem skdImitatorJournalItem)
+		{
+			JournalItems.Add(skdImitatorJournalItem);
+			var dbJournal = new SKDProcessor.Journal()
+			{
+				UID = Guid.NewGuid(),
+				Name = "",
+				Description = "",
+				SysemDate = DateTime.Now,
+				DeviceDate = DateTime.Now,
+				RemovalDate = DateTime.Now,
+				CardNo = skdImitatorJournalItem.No,
+				//CardNo = skdImitatorJournalItem.CardNo,
+				//CardSeries = skdImitatorJournalItem.CardSeries,
+			};
+			Context.Journals.InsertOnSubmit(dbJournal);
+			Context.SubmitChanges();
 		}
 	}
 }

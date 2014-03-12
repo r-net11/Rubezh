@@ -67,7 +67,7 @@ namespace GKImitator.ViewModels
 				CardSeries = CardSeries,
 				CardNo = CardNo
 			};
-			SKDImitatorProcessor.JournalItems.Add(imitatorJournalItem);
+			SKDImitatorProcessor.AddJournalItem(imitatorJournalItem);
 		}
 	}
 }

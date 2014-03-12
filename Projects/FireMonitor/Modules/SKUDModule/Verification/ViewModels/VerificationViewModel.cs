@@ -19,8 +19,11 @@ namespace SKDModule.ViewModels
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == SKDManager.SKDConfiguration.SKDSystemConfiguration.ReaderDeviceUID);
 			VerificationItemViewModel = new VerificationItemViewModel();
 
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
+			if (Device != null)
+			{
+				ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournal);
+				ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
+			}
 		}
 
 		public void OnNewJournal(List<SKDJournalItem> journalItems)
