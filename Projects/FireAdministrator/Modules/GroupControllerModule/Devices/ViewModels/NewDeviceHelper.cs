@@ -112,10 +112,11 @@ namespace GKModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				InsertDevice(childDevice, deviceViewModel);
+				//InsertDevice(childDevice, deviceViewModel);
+				AddDevice(childDevice, deviceViewModel);
 			}
 
-			if (device.Driver.IsGroupDevice)
+			if (device.Driver.IsGroupDevice && device.Children.Count == 0)
 			{
 				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
 

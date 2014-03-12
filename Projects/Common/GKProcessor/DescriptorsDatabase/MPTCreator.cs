@@ -28,9 +28,10 @@ namespace GKProcessor
 			CreateAutomaticOffBoards();
 			CreateOnDevices();
 			CreateBombDevices();
-			CreateHandAutomaticOffPim();
-			CreateDoorAutomaticOffPim();
-			CreateFailureAutomaticOffPim();
+			CreateHandAutomaticOffPim(HandAutomaticOffPim);
+			CreateDoorAutomaticOffPim(DoorAutomaticOffPim);
+			CreateFailureAutomaticOffPim(FailureAutomaticOffPim);
+
 			SetCrossReferences();
 		}
 
@@ -44,7 +45,6 @@ namespace GKProcessor
 					var formula = new FormulaBuilder();
 
 					formula.AddGetBit(XStateBit.Norm, MPT);
-					formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
 					formula.AddGetBit(XStateBit.Norm, HandAutomaticOffPim);
 					formula.Add(FormulaOperationType.AND, comment: "");
 					formula.AddGetBit(XStateBit.Norm, DoorAutomaticOffPim);
@@ -117,13 +117,13 @@ namespace GKProcessor
 			}
 		}
 
-		void CreateHandAutomaticOffPim()
+		void CreateHandAutomaticOffPim(XPim pim)
 		{
-			HandAutomaticOffPim.Name = "АО " + MPT.PresentationName;
+			pim.Name = "АО Р " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(HandAutomaticOffPim);
+			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, HandAutomaticOffPim);
+			UpdateConfigurationHelper.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -136,20 +136,20 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					UpdateConfigurationHelper.LinkXBases(HandAutomaticOffPim, mptDevice.Device);
+					UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
 				}
 			}
 			if (hasAutomaticExpression)
 			{
 				formula.Add(FormulaOperationType.DUP);
-				formula.AddGetBit(XStateBit.On, HandAutomaticOffPim);
+				formula.AddGetBit(XStateBit.Norm, pim);
 				formula.Add(FormulaOperationType.AND);
-				formula.AddPutBit(XStateBit.TurnOff_InAutomatic, HandAutomaticOffPim);
+				formula.AddPutBit(XStateBit.SetRegime_Manual, pim);
 
-				formula.AddGetBit(XStateBit.On, HandAutomaticOffPim);
+				formula.AddGetBit(XStateBit.Norm, pim);
 				formula.Add(FormulaOperationType.COM);
 				formula.Add(FormulaOperationType.AND);
-				formula.AddPutBit(XStateBit.TurnOn_InAutomatic, HandAutomaticOffPim);
+				formula.AddPutBit(XStateBit.SetRegime_Automatic, pim);
 			}
 
 			formula.Add(FormulaOperationType.END);
@@ -157,13 +157,13 @@ namespace GKProcessor
 			pimDescriptor.FormulaBytes = formula.GetBytes();
 		}
 
-		void CreateDoorAutomaticOffPim()
+		void CreateDoorAutomaticOffPim(XPim pim)
 		{
-			DoorAutomaticOffPim.Name = "АО " + MPT.PresentationName;
+			pim.Name = "АО Д " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(DoorAutomaticOffPim);
+			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, DoorAutomaticOffPim);
+			UpdateConfigurationHelper.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -178,15 +178,16 @@ namespace GKProcessor
 						if (hasAutomaticExpression)
 							formula.Add(FormulaOperationType.OR);
 						hasAutomaticExpression = true;
+						UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
 					}
 				}
 
 				if (hasAutomaticExpression)
 				{
 					formula.Add(FormulaOperationType.DUP);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, DoorAutomaticOffPim);
+					formula.AddPutBit(XStateBit.SetRegime_Manual, pim);
 					formula.Add(FormulaOperationType.COM);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, DoorAutomaticOffPim);
+					formula.AddPutBit(XStateBit.SetRegime_Automatic, pim);
 				}
 			}
 
@@ -195,13 +196,13 @@ namespace GKProcessor
 			pimDescriptor.FormulaBytes = formula.GetBytes();
 		}
 
-		void CreateFailureAutomaticOffPim()
+		void CreateFailureAutomaticOffPim(XPim pim)
 		{
-			FailureAutomaticOffPim.Name = "АО " + MPT.PresentationName;
+			pim.Name = "АО Н " + MPT.PresentationName;
 
-			var pimDescriptor = new PimDescriptor(FailureAutomaticOffPim);
+			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, FailureAutomaticOffPim);
+			UpdateConfigurationHelper.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -214,14 +215,15 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
+					UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
 				}
 
 				if (hasAutomaticExpression)
 				{
 					formula.Add(FormulaOperationType.DUP);
-					formula.AddPutBit(XStateBit.TurnOff_InAutomatic, FailureAutomaticOffPim);
+					formula.AddPutBit(XStateBit.SetRegime_Manual, pim);
 					formula.Add(FormulaOperationType.COM);
-					formula.AddPutBit(XStateBit.TurnOn_InAutomatic, FailureAutomaticOffPim);
+					formula.AddPutBit(XStateBit.SetRegime_Automatic, pim);
 				}
 			}
 
@@ -232,10 +234,6 @@ namespace GKProcessor
 
 		void SetCrossReferences()
 		{
-			//UpdateConfigurationHelper.LinkXBases(MPT, HandAutomaticOffPim);
-			//UpdateConfigurationHelper.LinkXBases(MPT, DoorAutomaticOffPim);
-			//UpdateConfigurationHelper.LinkXBases(MPT, FailureAutomaticOffPim);
-
 			foreach (var mptDevice in MPT.MPTDevices)
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.HandStart ||
@@ -263,11 +261,6 @@ namespace GKProcessor
 					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, DoorAutomaticOffPim);
 					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, FailureAutomaticOffPim);
 				}
-			}
-
-			foreach (var mptDevice in MPT.MPTDevices)
-			{
-				UpdateConfigurationHelper.LinkXBases(FailureAutomaticOffPim, mptDevice.Device);
 			}
 		}
 	}

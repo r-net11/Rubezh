@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Common
 {
@@ -27,7 +28,10 @@ namespace Common
 			else
 				firstChar = '0';
 
-			var newStringUID = firstChar + stringUID.Substring(1);
+			var stringBuilder = new StringBuilder(stringUID);
+			stringBuilder[index] = firstChar;
+			var newStringUID = stringBuilder.ToString();
+
 			var newGuid = new Guid(newStringUID);
 			return newGuid;
 		}
