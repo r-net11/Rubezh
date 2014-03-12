@@ -8,11 +8,11 @@ namespace FiresecAPI
 	public abstract class OrganizationFilterBase:FilterBase
 	{
 		[DataMember]
-		public List<Guid> OrganizationUids { get; set; }
+		public List<Guid> OrganizationUIDs { get; set; }
 
 		public OrganizationFilterBase():base()
 		{
-			OrganizationUids = new List<Guid>();
+			OrganizationUIDs = new List<Guid>();
 		}
 	}
 }

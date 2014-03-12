@@ -600,7 +600,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _DataType;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<AdditionalColumn> _AdditionalColumn;
 		
@@ -622,8 +622,8 @@ namespace SKDDriver.DataAccess
     partial void OnDescriptionChanged();
     partial void OnDataTypeChanging(System.Nullable<int> value);
     partial void OnDataTypeChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public AdditionalColumnType()
@@ -753,26 +753,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
@@ -790,7 +790,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -813,11 +813,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.AdditionalColumnType.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -869,9 +869,9 @@ namespace SKDDriver.DataAccess
 		
 		private int _Number;
 		
-		private System.Nullable<System.Guid> _EmployeeUid;
+		private System.Nullable<System.Guid> _EmployeeUID;
 		
-		private System.Nullable<System.Guid> _GUDUid;
+		private System.Nullable<System.Guid> _GUDUID;
 		
 		private System.DateTime _ValidFrom;
 		
@@ -905,10 +905,10 @@ namespace SKDDriver.DataAccess
     partial void OnSeriesChanged();
     partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
-    partial void OnEmployeeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnEmployeeUidChanged();
-    partial void OnGUDUidChanging(System.Nullable<System.Guid> value);
-    partial void OnGUDUidChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnGUDUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnGUDUIDChanged();
     partial void OnValidFromChanging(System.DateTime value);
     partial void OnValidFromChanged();
     partial void OnValidToChanging(System.DateTime value);
@@ -994,50 +994,50 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> EmployeeUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> EmployeeUID
 		{
 			get
 			{
-				return this._EmployeeUid;
+				return this._EmployeeUID;
 			}
 			set
 			{
-				if ((this._EmployeeUid != value))
+				if ((this._EmployeeUID != value))
 				{
 					if (this._Employee.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnEmployeeUidChanging(value);
+					this.OnEmployeeUIDChanging(value);
 					this.SendPropertyChanging();
-					this._EmployeeUid = value;
-					this.SendPropertyChanged("EmployeeUid");
-					this.OnEmployeeUidChanged();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GUDUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> GUDUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GUDUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> GUDUID
 		{
 			get
 			{
-				return this._GUDUid;
+				return this._GUDUID;
 			}
 			set
 			{
-				if ((this._GUDUid != value))
+				if ((this._GUDUID != value))
 				{
 					if (this._GUD.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnGUDUidChanging(value);
+					this.OnGUDUIDChanging(value);
 					this.SendPropertyChanging();
-					this._GUDUid = value;
-					this.SendPropertyChanged("GUDUid");
-					this.OnGUDUidChanged();
+					this._GUDUID = value;
+					this.SendPropertyChanged("GUDUID");
+					this.OnGUDUIDChanged();
 				}
 			}
 		}
@@ -1182,7 +1182,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_CardZoneLink", ThisKey="UID", OtherKey="ParentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_CardZoneLink", ThisKey="UID", OtherKey="ParentUID")]
 		public EntitySet<CardZoneLink> CardZoneLink
 		{
 			get
@@ -1195,7 +1195,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journal", ThisKey="UID", OtherKey="CardUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journal", ThisKey="UID", OtherKey="CardUID")]
 		public EntitySet<Journal> Journal
 		{
 			get
@@ -1208,7 +1208,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Employee", ThisKey="EmployeeUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Employee Employee
 		{
 			get
@@ -1231,18 +1231,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Card.Add(this);
-						this._EmployeeUid = value.UID;
+						this._EmployeeUID = value.UID;
 					}
 					else
 					{
-						this._EmployeeUid = default(Nullable<System.Guid>);
+						this._EmployeeUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Employee");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_Card", Storage="_GUD", ThisKey="GUDUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_Card", Storage="_GUD", ThisKey="GUDUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public GUD GUD
 		{
 			get
@@ -1265,11 +1265,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Card.Add(this);
-						this._GUDUid = value.UID;
+						this._GUDUID = value.UID;
 					}
 					else
 					{
-						this._GUDUid = default(Nullable<System.Guid>);
+						this._GUDUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("GUD");
 				}
@@ -1329,15 +1329,15 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Guid _ZoneUid;
+		private System.Guid _ZoneUID;
 		
-		private System.Nullable<System.Guid> _ParentUid;
+		private System.Nullable<System.Guid> _ParentUID;
 		
 		private System.Nullable<int> _ParentType;
 		
 		private bool _IsWithEscort;
 		
-		private System.Nullable<System.Guid> _IntervalUid;
+		private System.Nullable<System.Guid> _IntervalUID;
 		
 		private System.Nullable<int> _IntervalType;
 		
@@ -1355,16 +1355,16 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnZoneUidChanging(System.Guid value);
-    partial void OnZoneUidChanged();
-    partial void OnParentUidChanging(System.Nullable<System.Guid> value);
-    partial void OnParentUidChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnParentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnParentUIDChanged();
     partial void OnParentTypeChanging(System.Nullable<int> value);
     partial void OnParentTypeChanged();
     partial void OnIsWithEscortChanging(bool value);
     partial void OnIsWithEscortChanged();
-    partial void OnIntervalUidChanging(System.Nullable<System.Guid> value);
-    partial void OnIntervalUidChanged();
+    partial void OnIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnIntervalUIDChanged();
     partial void OnIntervalTypeChanging(System.Nullable<int> value);
     partial void OnIntervalTypeChanged();
     partial void OnIsDeletedChanging(bool value);
@@ -1400,46 +1400,46 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUid", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ZoneUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ZoneUID
 		{
 			get
 			{
-				return this._ZoneUid;
+				return this._ZoneUID;
 			}
 			set
 			{
-				if ((this._ZoneUid != value))
+				if ((this._ZoneUID != value))
 				{
-					this.OnZoneUidChanging(value);
+					this.OnZoneUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ZoneUid = value;
-					this.SendPropertyChanged("ZoneUid");
-					this.OnZoneUidChanged();
+					this._ZoneUID = value;
+					this.SendPropertyChanged("ZoneUID");
+					this.OnZoneUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ParentUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ParentUID
 		{
 			get
 			{
-				return this._ParentUid;
+				return this._ParentUID;
 			}
 			set
 			{
-				if ((this._ParentUid != value))
+				if ((this._ParentUID != value))
 				{
 					if ((this._Card.HasLoadedOrAssignedValue || this._GUD.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnParentUidChanging(value);
+					this.OnParentUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ParentUid = value;
-					this.SendPropertyChanged("ParentUid");
-					this.OnParentUidChanged();
+					this._ParentUID = value;
+					this.SendPropertyChanged("ParentUID");
+					this.OnParentUIDChanged();
 				}
 			}
 		}
@@ -1484,22 +1484,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> IntervalUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> IntervalUID
 		{
 			get
 			{
-				return this._IntervalUid;
+				return this._IntervalUID;
 			}
 			set
 			{
-				if ((this._IntervalUid != value))
+				if ((this._IntervalUID != value))
 				{
-					this.OnIntervalUidChanging(value);
+					this.OnIntervalUIDChanging(value);
 					this.SendPropertyChanging();
-					this._IntervalUid = value;
-					this.SendPropertyChanged("IntervalUid");
-					this.OnIntervalUidChanged();
+					this._IntervalUID = value;
+					this.SendPropertyChanged("IntervalUID");
+					this.OnIntervalUIDChanged();
 				}
 			}
 		}
@@ -1564,7 +1564,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_Card", ThisKey="ParentUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_Card", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
 		public Card Card
 		{
 			get
@@ -1587,18 +1587,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.CardZoneLink.Add(this);
-						this._ParentUid = value.UID;
+						this._ParentUID = value.UID;
 					}
 					else
 					{
-						this._ParentUid = default(Nullable<System.Guid>);
+						this._ParentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Card");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_CardZoneLink", Storage="_GUD", ThisKey="ParentUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_CardZoneLink", Storage="_GUD", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
 		public GUD GUD
 		{
 			get
@@ -1621,11 +1621,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.CardZoneLink.Add(this);
-						this._ParentUid = value.UID;
+						this._ParentUID = value.UID;
 					}
 					else
 					{
-						this._ParentUid = default(Nullable<System.Guid>);
+						this._ParentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("GUD");
 				}
@@ -1661,17 +1661,17 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Nullable<System.Guid> _NamedIntervalUid;
+		private System.Nullable<System.Guid> _NamedIntervalUID;
 		
-		private System.Nullable<System.Guid> _ScheduleSchemeUid;
+		private System.Nullable<System.Guid> _ScheduleSchemeUID;
 		
-		private System.Nullable<int> _Number;
+		private int _Number;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntityRef<NamedInterval> _NamedInterval;
 		
@@ -1685,18 +1685,18 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnNamedIntervalUidChanging(System.Nullable<System.Guid> value);
-    partial void OnNamedIntervalUidChanged();
-    partial void OnScheduleSchemeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleSchemeUidChanged();
-    partial void OnNumberChanging(System.Nullable<int> value);
+    partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnNamedIntervalUIDChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleSchemeUIDChanged();
+    partial void OnNumberChanging(int value);
     partial void OnNumberChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Day()
@@ -1727,56 +1727,56 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NamedIntervalUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> NamedIntervalUID
 		{
 			get
 			{
-				return this._NamedIntervalUid;
+				return this._NamedIntervalUID;
 			}
 			set
 			{
-				if ((this._NamedIntervalUid != value))
+				if ((this._NamedIntervalUID != value))
 				{
 					if (this._NamedInterval.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnNamedIntervalUidChanging(value);
+					this.OnNamedIntervalUIDChanging(value);
 					this.SendPropertyChanging();
-					this._NamedIntervalUid = value;
-					this.SendPropertyChanged("NamedIntervalUid");
-					this.OnNamedIntervalUidChanged();
+					this._NamedIntervalUID = value;
+					this.SendPropertyChanged("NamedIntervalUID");
+					this.OnNamedIntervalUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ScheduleSchemeUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ScheduleSchemeUID
 		{
 			get
 			{
-				return this._ScheduleSchemeUid;
+				return this._ScheduleSchemeUID;
 			}
 			set
 			{
-				if ((this._ScheduleSchemeUid != value))
+				if ((this._ScheduleSchemeUID != value))
 				{
 					if (this._ScheduleScheme.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnScheduleSchemeUidChanging(value);
+					this.OnScheduleSchemeUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ScheduleSchemeUid = value;
-					this.SendPropertyChanged("ScheduleSchemeUid");
-					this.OnScheduleSchemeUidChanged();
+					this._ScheduleSchemeUID = value;
+					this.SendPropertyChanged("ScheduleSchemeUID");
+					this.OnScheduleSchemeUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int")]
-		public System.Nullable<int> Number
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
 		{
 			get
 			{
@@ -1835,31 +1835,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_NamedInterval", ThisKey="NamedIntervalUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true)]
 		public NamedInterval NamedInterval
 		{
 			get
@@ -1882,18 +1882,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Day.Add(this);
-						this._NamedIntervalUid = value.UID;
+						this._NamedIntervalUID = value.UID;
 					}
 					else
 					{
-						this._NamedIntervalUid = default(Nullable<System.Guid>);
+						this._NamedIntervalUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("NamedInterval");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Day", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Day", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -1916,18 +1916,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Day.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public ScheduleScheme ScheduleScheme
 		{
 			get
@@ -1950,11 +1950,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Day.Add(this);
-						this._ScheduleSchemeUid = value.UID;
+						this._ScheduleSchemeUID = value.UID;
 					}
 					else
 					{
-						this._ScheduleSchemeUid = default(Nullable<System.Guid>);
+						this._ScheduleSchemeUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("ScheduleScheme");
 				}
@@ -1996,17 +1996,17 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _PhotoUID;
 		
-		private System.Nullable<System.Guid> _ParentDepartmentUid;
+		private System.Nullable<System.Guid> _ParentDepartmentUID;
 		
-		private System.Nullable<System.Guid> _ContactEmployeeUid;
+		private System.Nullable<System.Guid> _ContactEmployeeUID;
 		
-		private System.Nullable<System.Guid> _AttendantUid;
+		private System.Nullable<System.Guid> _AttendantUID;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Department> _Department2;
 		
@@ -2038,18 +2038,18 @@ namespace SKDDriver.DataAccess
     partial void OnDescriptionChanged();
     partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
     partial void OnPhotoUIDChanged();
-    partial void OnParentDepartmentUidChanging(System.Nullable<System.Guid> value);
-    partial void OnParentDepartmentUidChanged();
-    partial void OnContactEmployeeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnContactEmployeeUidChanged();
-    partial void OnAttendantUidChanging(System.Nullable<System.Guid> value);
-    partial void OnAttendantUidChanged();
+    partial void OnParentDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnParentDepartmentUIDChanged();
+    partial void OnContactEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnContactEmployeeUIDChanged();
+    partial void OnAttendantUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnAttendantUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Department()
@@ -2150,74 +2150,74 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentDepartmentUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ParentDepartmentUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentDepartmentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ParentDepartmentUID
 		{
 			get
 			{
-				return this._ParentDepartmentUid;
+				return this._ParentDepartmentUID;
 			}
 			set
 			{
-				if ((this._ParentDepartmentUid != value))
+				if ((this._ParentDepartmentUID != value))
 				{
 					if (this._Department1.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnParentDepartmentUidChanging(value);
+					this.OnParentDepartmentUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ParentDepartmentUid = value;
-					this.SendPropertyChanged("ParentDepartmentUid");
-					this.OnParentDepartmentUidChanged();
+					this._ParentDepartmentUID = value;
+					this.SendPropertyChanged("ParentDepartmentUID");
+					this.OnParentDepartmentUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactEmployeeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ContactEmployeeUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactEmployeeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ContactEmployeeUID
 		{
 			get
 			{
-				return this._ContactEmployeeUid;
+				return this._ContactEmployeeUID;
 			}
 			set
 			{
-				if ((this._ContactEmployeeUid != value))
+				if ((this._ContactEmployeeUID != value))
 				{
 					if (this._Employee.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnContactEmployeeUidChanging(value);
+					this.OnContactEmployeeUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ContactEmployeeUid = value;
-					this.SendPropertyChanged("ContactEmployeeUid");
-					this.OnContactEmployeeUidChanged();
+					this._ContactEmployeeUID = value;
+					this.SendPropertyChanged("ContactEmployeeUID");
+					this.OnContactEmployeeUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttendantUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> AttendantUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttendantUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> AttendantUID
 		{
 			get
 			{
-				return this._AttendantUid;
+				return this._AttendantUID;
 			}
 			set
 			{
-				if ((this._AttendantUid != value))
+				if ((this._AttendantUID != value))
 				{
 					if (this._Employee1.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnAttendantUidChanging(value);
+					this.OnAttendantUIDChanging(value);
 					this.SendPropertyChanging();
-					this._AttendantUid = value;
-					this.SendPropertyChanged("AttendantUid");
-					this.OnAttendantUidChanged();
+					this._AttendantUID = value;
+					this.SendPropertyChanged("AttendantUID");
+					this.OnAttendantUIDChanged();
 				}
 			}
 		}
@@ -2262,31 +2262,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Department", Storage="_Department2", ThisKey="UID", OtherKey="ParentDepartmentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Department", Storage="_Department2", ThisKey="UID", OtherKey="ParentDepartmentUID")]
 		public EntitySet<Department> Department2
 		{
 			get
@@ -2299,7 +2299,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Employee", Storage="_Employee2", ThisKey="UID", OtherKey="DepartmentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Employee", Storage="_Employee2", ThisKey="UID", OtherKey="DepartmentUID")]
 		public EntitySet<Employee> Employee2
 		{
 			get
@@ -2312,7 +2312,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="DepartmentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="DepartmentUID")]
 		public EntitySet<EmployeeReplacement> EmployeeReplacement
 		{
 			get
@@ -2325,7 +2325,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Phone", Storage="_Phone", ThisKey="UID", OtherKey="DepartmentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Phone", Storage="_Phone", ThisKey="UID", OtherKey="DepartmentUID")]
 		public EntitySet<Phone> Phone
 		{
 			get
@@ -2338,7 +2338,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Department", Storage="_Department1", ThisKey="ParentDepartmentUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Department", Storage="_Department1", ThisKey="ParentDepartmentUID", OtherKey="UID", IsForeignKey=true)]
 		public Department Department1
 		{
 			get
@@ -2361,18 +2361,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Department2.Add(this);
-						this._ParentDepartmentUid = value.UID;
+						this._ParentDepartmentUID = value.UID;
 					}
 					else
 					{
-						this._ParentDepartmentUid = default(Nullable<System.Guid>);
+						this._ParentDepartmentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Department1");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department", Storage="_Employee", ThisKey="ContactEmployeeUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department", Storage="_Employee", ThisKey="ContactEmployeeUID", OtherKey="UID", IsForeignKey=true)]
 		public Employee Employee
 		{
 			get
@@ -2395,18 +2395,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Department.Add(this);
-						this._ContactEmployeeUid = value.UID;
+						this._ContactEmployeeUID = value.UID;
 					}
 					else
 					{
-						this._ContactEmployeeUid = default(Nullable<System.Guid>);
+						this._ContactEmployeeUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Employee");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department1", Storage="_Employee1", ThisKey="AttendantUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department1", Storage="_Employee1", ThisKey="AttendantUID", OtherKey="UID", IsForeignKey=true)]
 		public Employee Employee1
 		{
 			get
@@ -2429,18 +2429,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Department1.Add(this);
-						this._AttendantUid = value.UID;
+						this._AttendantUID = value.UID;
 					}
 					else
 					{
-						this._AttendantUid = default(Nullable<System.Guid>);
+						this._AttendantUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Employee1");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -2463,11 +2463,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Department.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -2599,7 +2599,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntityRef<Organization> _Organization;
 		
@@ -2623,8 +2623,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Document()
@@ -2793,31 +2793,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -2840,11 +2840,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Document.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -2888,11 +2888,11 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _PhotoUID;
 		
-		private System.Nullable<System.Guid> _PositionUid;
+		private System.Nullable<System.Guid> _PositionUID;
 		
-		private System.Nullable<System.Guid> _DepartmentUid;
+		private System.Nullable<System.Guid> _DepartmentUID;
 		
-		private System.Nullable<System.Guid> _ScheduleUid;
+		private System.Nullable<System.Guid> _ScheduleUID;
 		
 		private System.DateTime _Appointed;
 		
@@ -2904,7 +2904,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<AdditionalColumn> _AdditionalColumn;
 		
@@ -2940,12 +2940,12 @@ namespace SKDDriver.DataAccess
     partial void OnLastNameChanged();
     partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
     partial void OnPhotoUIDChanged();
-    partial void OnPositionUidChanging(System.Nullable<System.Guid> value);
-    partial void OnPositionUidChanged();
-    partial void OnDepartmentUidChanging(System.Nullable<System.Guid> value);
-    partial void OnDepartmentUidChanged();
-    partial void OnScheduleUidChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleUidChanged();
+    partial void OnPositionUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPositionUIDChanged();
+    partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDepartmentUIDChanged();
+    partial void OnScheduleUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleUIDChanged();
     partial void OnAppointedChanging(System.DateTime value);
     partial void OnAppointedChanged();
     partial void OnDismissedChanging(System.DateTime value);
@@ -2956,8 +2956,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Employee()
@@ -3079,74 +3079,74 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PositionUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> PositionUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PositionUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> PositionUID
 		{
 			get
 			{
-				return this._PositionUid;
+				return this._PositionUID;
 			}
 			set
 			{
-				if ((this._PositionUid != value))
+				if ((this._PositionUID != value))
 				{
 					if (this._Position.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnPositionUidChanging(value);
+					this.OnPositionUIDChanging(value);
 					this.SendPropertyChanging();
-					this._PositionUid = value;
-					this.SendPropertyChanged("PositionUid");
-					this.OnPositionUidChanged();
+					this._PositionUID = value;
+					this.SendPropertyChanged("PositionUID");
+					this.OnPositionUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> DepartmentUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> DepartmentUID
 		{
 			get
 			{
-				return this._DepartmentUid;
+				return this._DepartmentUID;
 			}
 			set
 			{
-				if ((this._DepartmentUid != value))
+				if ((this._DepartmentUID != value))
 				{
 					if (this._Department2.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnDepartmentUidChanging(value);
+					this.OnDepartmentUIDChanging(value);
 					this.SendPropertyChanging();
-					this._DepartmentUid = value;
-					this.SendPropertyChanged("DepartmentUid");
-					this.OnDepartmentUidChanged();
+					this._DepartmentUID = value;
+					this.SendPropertyChanged("DepartmentUID");
+					this.OnDepartmentUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ScheduleUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ScheduleUID
 		{
 			get
 			{
-				return this._ScheduleUid;
+				return this._ScheduleUID;
 			}
 			set
 			{
-				if ((this._ScheduleUid != value))
+				if ((this._ScheduleUID != value))
 				{
 					if (this._Schedule.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnScheduleUidChanging(value);
+					this.OnScheduleUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ScheduleUid = value;
-					this.SendPropertyChanged("ScheduleUid");
-					this.OnScheduleUidChanged();
+					this._ScheduleUID = value;
+					this.SendPropertyChanged("ScheduleUID");
+					this.OnScheduleUIDChanged();
 				}
 			}
 		}
@@ -3251,26 +3251,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
@@ -3288,7 +3288,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Card", ThisKey="UID", OtherKey="EmployeeUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Card", Storage="_Card", ThisKey="UID", OtherKey="EmployeeUID")]
 		public EntitySet<Card> Card
 		{
 			get
@@ -3301,7 +3301,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department", Storage="_Department", ThisKey="UID", OtherKey="ContactEmployeeUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department", Storage="_Department", ThisKey="UID", OtherKey="ContactEmployeeUID")]
 		public EntitySet<Department> Department
 		{
 			get
@@ -3314,7 +3314,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department1", Storage="_Department1", ThisKey="UID", OtherKey="AttendantUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Department1", Storage="_Department1", ThisKey="UID", OtherKey="AttendantUID")]
 		public EntitySet<Department> Department1
 		{
 			get
@@ -3327,7 +3327,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="EmployeeUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="EmployeeUID")]
 		public EntitySet<EmployeeReplacement> EmployeeReplacement
 		{
 			get
@@ -3340,7 +3340,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Employee", Storage="_Department2", ThisKey="DepartmentUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Employee", Storage="_Department2", ThisKey="DepartmentUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Department Department2
 		{
 			get
@@ -3363,18 +3363,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Employee2.Add(this);
-						this._DepartmentUid = value.UID;
+						this._DepartmentUID = value.UID;
 					}
 					else
 					{
-						this._DepartmentUid = default(Nullable<System.Guid>);
+						this._DepartmentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Department2");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -3397,11 +3397,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Employee.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -3442,7 +3442,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Position", ThisKey="PositionUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Position", ThisKey="PositionUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Position Position
 		{
 			get
@@ -3465,18 +3465,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Employee.Add(this);
-						this._PositionUid = value.UID;
+						this._PositionUID = value.UID;
 					}
 					else
 					{
-						this._PositionUid = default(Nullable<System.Guid>);
+						this._PositionUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Position");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Schedule", ThisKey="ScheduleUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Schedule", ThisKey="ScheduleUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Schedule Schedule
 		{
 			get
@@ -3499,11 +3499,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Employee.Add(this);
-						this._ScheduleUid = value.UID;
+						this._ScheduleUID = value.UID;
 					}
 					else
 					{
-						this._ScheduleUid = default(Nullable<System.Guid>);
+						this._ScheduleUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
 				}
@@ -3599,21 +3599,21 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Nullable<System.DateTime> _BeginDate;
+		private System.DateTime _BeginDate;
 		
-		private System.Nullable<System.DateTime> _EndDate;
+		private System.DateTime _EndDate;
 		
-		private System.Nullable<System.Guid> _EmployeeUid;
+		private System.Nullable<System.Guid> _EmployeeUID;
 		
-		private System.Nullable<System.Guid> _DepartmentUid;
+		private System.Nullable<System.Guid> _DepartmentUID;
 		
-		private System.Nullable<System.Guid> _ScheduleUid;
+		private System.Nullable<System.Guid> _ScheduleUID;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntityRef<Department> _Department;
 		
@@ -3629,22 +3629,22 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnBeginDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnBeginDateChanging(System.DateTime value);
     partial void OnBeginDateChanged();
-    partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndDateChanging(System.DateTime value);
     partial void OnEndDateChanged();
-    partial void OnEmployeeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnEmployeeUidChanged();
-    partial void OnDepartmentUidChanging(System.Nullable<System.Guid> value);
-    partial void OnDepartmentUidChanged();
-    partial void OnScheduleUidChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleUidChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDepartmentUIDChanged();
+    partial void OnScheduleUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public EmployeeReplacement()
@@ -3676,8 +3676,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> BeginDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginDate
 		{
 			get
 			{
@@ -3696,8 +3696,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> EndDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDate
 		{
 			get
 			{
@@ -3716,74 +3716,74 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> EmployeeUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> EmployeeUID
 		{
 			get
 			{
-				return this._EmployeeUid;
+				return this._EmployeeUID;
 			}
 			set
 			{
-				if ((this._EmployeeUid != value))
+				if ((this._EmployeeUID != value))
 				{
 					if (this._Employee.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnEmployeeUidChanging(value);
+					this.OnEmployeeUIDChanging(value);
 					this.SendPropertyChanging();
-					this._EmployeeUid = value;
-					this.SendPropertyChanged("EmployeeUid");
-					this.OnEmployeeUidChanged();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> DepartmentUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> DepartmentUID
 		{
 			get
 			{
-				return this._DepartmentUid;
+				return this._DepartmentUID;
 			}
 			set
 			{
-				if ((this._DepartmentUid != value))
+				if ((this._DepartmentUID != value))
 				{
 					if (this._Department.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnDepartmentUidChanging(value);
+					this.OnDepartmentUIDChanging(value);
 					this.SendPropertyChanging();
-					this._DepartmentUid = value;
-					this.SendPropertyChanged("DepartmentUid");
-					this.OnDepartmentUidChanged();
+					this._DepartmentUID = value;
+					this.SendPropertyChanged("DepartmentUID");
+					this.OnDepartmentUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ScheduleUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ScheduleUID
 		{
 			get
 			{
-				return this._ScheduleUid;
+				return this._ScheduleUID;
 			}
 			set
 			{
-				if ((this._ScheduleUid != value))
+				if ((this._ScheduleUID != value))
 				{
 					if (this._Schedule.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnScheduleUidChanging(value);
+					this.OnScheduleUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ScheduleUid = value;
-					this.SendPropertyChanged("ScheduleUid");
-					this.OnScheduleUidChanged();
+					this._ScheduleUID = value;
+					this.SendPropertyChanged("ScheduleUID");
+					this.OnScheduleUIDChanged();
 				}
 			}
 		}
@@ -3828,31 +3828,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_EmployeeReplacement", Storage="_Department", ThisKey="DepartmentUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_EmployeeReplacement", Storage="_Department", ThisKey="DepartmentUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Department Department
 		{
 			get
@@ -3875,18 +3875,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.EmployeeReplacement.Add(this);
-						this._DepartmentUid = value.UID;
+						this._DepartmentUID = value.UID;
 					}
 					else
 					{
-						this._DepartmentUid = default(Nullable<System.Guid>);
+						this._DepartmentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Department");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_EmployeeReplacement", Storage="_Employee", ThisKey="EmployeeUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_EmployeeReplacement", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true)]
 		public Employee Employee
 		{
 			get
@@ -3909,18 +3909,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.EmployeeReplacement.Add(this);
-						this._EmployeeUid = value.UID;
+						this._EmployeeUID = value.UID;
 					}
 					else
 					{
-						this._EmployeeUid = default(Nullable<System.Guid>);
+						this._EmployeeUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Employee");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -3943,18 +3943,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.EmployeeReplacement.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_EmployeeReplacement", Storage="_Schedule", ThisKey="ScheduleUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_EmployeeReplacement", Storage="_Schedule", ThisKey="ScheduleUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Schedule Schedule
 		{
 			get
@@ -3977,11 +3977,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.EmployeeReplacement.Add(this);
-						this._ScheduleUid = value.UID;
+						this._ScheduleUID = value.UID;
 					}
 					else
 					{
-						this._ScheduleUid = default(Nullable<System.Guid>);
+						this._ScheduleUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
 				}
@@ -4025,7 +4025,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Card> _Card;
 		
@@ -4047,8 +4047,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public GUD()
@@ -4159,31 +4159,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_Card", Storage="_Card", ThisKey="UID", OtherKey="GUDUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_Card", Storage="_Card", ThisKey="UID", OtherKey="GUDUID")]
 		public EntitySet<Card> Card
 		{
 			get
@@ -4196,7 +4196,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_CardZoneLink", Storage="_CardZoneLink", ThisKey="UID", OtherKey="ParentUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GUD_CardZoneLink", Storage="_CardZoneLink", ThisKey="UID", OtherKey="ParentUID")]
 		public EntitySet<CardZoneLink> CardZoneLink
 		{
 			get
@@ -4209,7 +4209,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_GUD", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_GUD", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -4232,11 +4232,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.GUD.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -4300,17 +4300,17 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Type;
 		
-		private System.Nullable<System.DateTime> _Date;
+		private System.DateTime _Date;
 		
-		private System.Nullable<System.DateTime> _TransferDate;
+		private System.DateTime _TransferDate;
 		
-		private System.Nullable<int> _Reduction;
+		private int _Reduction;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntityRef<Organization> _Organization;
 		
@@ -4324,18 +4324,18 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnTypeChanging(System.Nullable<int> value);
     partial void OnTypeChanged();
-    partial void OnDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateChanging(System.DateTime value);
     partial void OnDateChanged();
-    partial void OnTransferDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTransferDateChanging(System.DateTime value);
     partial void OnTransferDateChanged();
-    partial void OnReductionChanging(System.Nullable<int> value);
+    partial void OnReductionChanging(int value);
     partial void OnReductionChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Holiday()
@@ -4404,8 +4404,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Date
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
 		{
 			get
 			{
@@ -4424,8 +4424,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransferDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> TransferDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransferDate", DbType="DateTime NOT NULL")]
+		public System.DateTime TransferDate
 		{
 			get
 			{
@@ -4444,8 +4444,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reduction", DbType="Int")]
-		public System.Nullable<int> Reduction
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reduction", DbType="Int NOT NULL")]
+		public int Reduction
 		{
 			get
 			{
@@ -4504,31 +4504,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -4551,11 +4551,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Holiday.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -4589,15 +4589,15 @@ namespace SKDDriver.DataAccess
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Nullable<System.DateTime> _BeginDate;
+		private System.DateTime _BeginDate;
 		
-		private System.Nullable<System.DateTime> _EndDate;
+		private System.DateTime _EndDate;
 		
-		private System.Nullable<int> _Transition;
+		private System.Nullable<int> _TransitionType;
 		
 		private System.Guid _UID;
 		
-		private System.Nullable<System.Guid> _NamedIntervalUid;
+		private System.Nullable<System.Guid> _NamedIntervalUID;
 		
 		private bool _IsDeleted;
 		
@@ -4609,16 +4609,16 @@ namespace SKDDriver.DataAccess
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnBeginDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnBeginDateChanging(System.DateTime value);
     partial void OnBeginDateChanged();
-    partial void OnEndDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndDateChanging(System.DateTime value);
     partial void OnEndDateChanged();
-    partial void OnTransitionChanging(System.Nullable<int> value);
-    partial void OnTransitionChanged();
+    partial void OnTransitionTypeChanging(System.Nullable<int> value);
+    partial void OnTransitionTypeChanged();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnNamedIntervalUidChanging(System.Nullable<System.Guid> value);
-    partial void OnNamedIntervalUidChanged();
+    partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnNamedIntervalUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
@@ -4631,8 +4631,8 @@ namespace SKDDriver.DataAccess
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> BeginDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginDate
 		{
 			get
 			{
@@ -4651,8 +4651,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> EndDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDate
 		{
 			get
 			{
@@ -4671,22 +4671,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Transition", DbType="Int")]
-		public System.Nullable<int> Transition
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransitionType", DbType="Int")]
+		public System.Nullable<int> TransitionType
 		{
 			get
 			{
-				return this._Transition;
+				return this._TransitionType;
 			}
 			set
 			{
-				if ((this._Transition != value))
+				if ((this._TransitionType != value))
 				{
-					this.OnTransitionChanging(value);
+					this.OnTransitionTypeChanging(value);
 					this.SendPropertyChanging();
-					this._Transition = value;
-					this.SendPropertyChanged("Transition");
-					this.OnTransitionChanged();
+					this._TransitionType = value;
+					this.SendPropertyChanged("TransitionType");
+					this.OnTransitionTypeChanged();
 				}
 			}
 		}
@@ -4711,26 +4711,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NamedIntervalUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> NamedIntervalUID
 		{
 			get
 			{
-				return this._NamedIntervalUid;
+				return this._NamedIntervalUID;
 			}
 			set
 			{
-				if ((this._NamedIntervalUid != value))
+				if ((this._NamedIntervalUID != value))
 				{
 					if (this._NamedInterval.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnNamedIntervalUidChanging(value);
+					this.OnNamedIntervalUIDChanging(value);
 					this.SendPropertyChanging();
-					this._NamedIntervalUid = value;
-					this.SendPropertyChanged("NamedIntervalUid");
-					this.OnNamedIntervalUidChanged();
+					this._NamedIntervalUID = value;
+					this.SendPropertyChanged("NamedIntervalUID");
+					this.OnNamedIntervalUIDChanged();
 				}
 			}
 		}
@@ -4775,7 +4775,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_NamedInterval", ThisKey="NamedIntervalUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public NamedInterval NamedInterval
 		{
 			get
@@ -4798,11 +4798,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Interval.Add(this);
-						this._NamedIntervalUid = value.UID;
+						this._NamedIntervalUID = value.UID;
 					}
 					else
 					{
-						this._NamedIntervalUid = default(Nullable<System.Guid>);
+						this._NamedIntervalUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("NamedInterval");
 				}
@@ -4838,23 +4838,23 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Nullable<System.DateTime> _SysemDate;
+		private System.DateTime _SysemDate;
 		
-		private System.Nullable<System.DateTime> _DeviceDate;
+		private System.DateTime _DeviceDate;
 		
 		private string _Name;
 		
 		private string _Description;
 		
-		private System.Nullable<int> _DeviceNo;
+		private int _DeviceNo;
 		
 		private string _IpPort;
 		
-		private System.Nullable<System.Guid> _CardUid;
+		private System.Nullable<System.Guid> _CardUID;
 		
-		private System.Nullable<int> _CardSeries;
+		private int _CardSeries;
 		
-		private System.Nullable<int> _CardNo;
+		private int _CardNo;
 		
 		private bool _IsDeleted;
 		
@@ -4868,23 +4868,23 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnSysemDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnSysemDateChanging(System.DateTime value);
     partial void OnSysemDateChanged();
-    partial void OnDeviceDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnDeviceDateChanging(System.DateTime value);
     partial void OnDeviceDateChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
     partial void OnDescriptionChanging(string value);
     partial void OnDescriptionChanged();
-    partial void OnDeviceNoChanging(System.Nullable<int> value);
+    partial void OnDeviceNoChanging(int value);
     partial void OnDeviceNoChanged();
     partial void OnIpPortChanging(string value);
     partial void OnIpPortChanged();
-    partial void OnCardUidChanging(System.Nullable<System.Guid> value);
-    partial void OnCardUidChanged();
-    partial void OnCardSeriesChanging(System.Nullable<int> value);
+    partial void OnCardUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnCardUIDChanged();
+    partial void OnCardSeriesChanging(int value);
     partial void OnCardSeriesChanged();
-    partial void OnCardNoChanging(System.Nullable<int> value);
+    partial void OnCardNoChanging(int value);
     partial void OnCardNoChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
@@ -4918,8 +4918,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SysemDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> SysemDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SysemDate", DbType="DateTime NOT NULL")]
+		public System.DateTime SysemDate
 		{
 			get
 			{
@@ -4938,8 +4938,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DeviceDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceDate", DbType="DateTime NOT NULL")]
+		public System.DateTime DeviceDate
 		{
 			get
 			{
@@ -4998,8 +4998,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceNo", DbType="Int")]
-		public System.Nullable<int> DeviceNo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceNo", DbType="Int NOT NULL")]
+		public int DeviceNo
 		{
 			get
 			{
@@ -5038,32 +5038,32 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> CardUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> CardUID
 		{
 			get
 			{
-				return this._CardUid;
+				return this._CardUID;
 			}
 			set
 			{
-				if ((this._CardUid != value))
+				if ((this._CardUID != value))
 				{
 					if (this._Card.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnCardUidChanging(value);
+					this.OnCardUIDChanging(value);
 					this.SendPropertyChanging();
-					this._CardUid = value;
-					this.SendPropertyChanged("CardUid");
-					this.OnCardUidChanged();
+					this._CardUID = value;
+					this.SendPropertyChanged("CardUID");
+					this.OnCardUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardSeries", DbType="Int")]
-		public System.Nullable<int> CardSeries
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardSeries", DbType="Int NOT NULL")]
+		public int CardSeries
 		{
 			get
 			{
@@ -5082,8 +5082,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardNo", DbType="Int")]
-		public System.Nullable<int> CardNo
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardNo", DbType="Int NOT NULL")]
+		public int CardNo
 		{
 			get
 			{
@@ -5142,7 +5142,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Card", ThisKey="CardUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Card", ThisKey="CardUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Card Card
 		{
 			get
@@ -5165,11 +5165,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Journal.Add(this);
-						this._CardUid = value.UID;
+						this._CardUID = value.UID;
 					}
 					else
 					{
-						this._CardUid = default(Nullable<System.Guid>);
+						this._CardUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Card");
 				}
@@ -5211,7 +5211,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Day> _Day;
 		
@@ -5231,8 +5231,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public NamedInterval()
@@ -5323,31 +5323,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_Day", ThisKey="UID", OtherKey="NamedIntervalUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_Day", ThisKey="UID", OtherKey="NamedIntervalUID")]
 		public EntitySet<Day> Day
 		{
 			get
@@ -5360,7 +5360,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_Interval", ThisKey="UID", OtherKey="NamedIntervalUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_Interval", ThisKey="UID", OtherKey="NamedIntervalUID")]
 		public EntitySet<Interval> Interval
 		{
 			get
@@ -5373,7 +5373,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -5396,11 +5396,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.NamedInterval.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -5659,7 +5659,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_AdditionalColumnType", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_AdditionalColumnType", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<AdditionalColumnType> AdditionalColumnType
 		{
 			get
@@ -5672,7 +5672,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Day", Storage="_Day", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Day", Storage="_Day", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Day> Day
 		{
 			get
@@ -5685,7 +5685,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Department", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Department", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Department> Department
 		{
 			get
@@ -5698,7 +5698,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Document", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Document> Document
 		{
 			get
@@ -5711,7 +5711,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Employee", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Employee", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Employee> Employee
 		{
 			get
@@ -5724,7 +5724,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<EmployeeReplacement> EmployeeReplacement
 		{
 			get
@@ -5737,7 +5737,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_GUD", Storage="_GUD", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_GUD", Storage="_GUD", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<GUD> GUD
 		{
 			get
@@ -5750,7 +5750,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Holiday", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Holiday", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Holiday> Holiday
 		{
 			get
@@ -5763,7 +5763,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_NamedInterval", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_NamedInterval", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<NamedInterval> NamedInterval
 		{
 			get
@@ -5776,7 +5776,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Phone", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Phone", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Phone> Phone
 		{
 			get
@@ -5789,7 +5789,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Position", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Position", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Position> Position
 		{
 			get
@@ -5802,7 +5802,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Schedule", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Schedule", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<Schedule> Schedule
 		{
 			get
@@ -5815,7 +5815,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_ScheduleScheme", ThisKey="UID", OtherKey="OrganizationUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_ScheduleScheme", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<ScheduleScheme> ScheduleScheme
 		{
 			get
@@ -6051,13 +6051,13 @@ namespace SKDDriver.DataAccess
 		
 		private string _NumberString;
 		
-		private System.Nullable<System.Guid> _DepartmentUid;
+		private System.Nullable<System.Guid> _DepartmentUID;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntityRef<Department> _Department;
 		
@@ -6073,14 +6073,14 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnNumberStringChanging(string value);
     partial void OnNumberStringChanged();
-    partial void OnDepartmentUidChanging(System.Nullable<System.Guid> value);
-    partial void OnDepartmentUidChanged();
+    partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDepartmentUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Phone()
@@ -6150,26 +6150,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> DepartmentUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> DepartmentUID
 		{
 			get
 			{
-				return this._DepartmentUid;
+				return this._DepartmentUID;
 			}
 			set
 			{
-				if ((this._DepartmentUid != value))
+				if ((this._DepartmentUID != value))
 				{
 					if (this._Department.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnDepartmentUidChanging(value);
+					this.OnDepartmentUIDChanging(value);
 					this.SendPropertyChanging();
-					this._DepartmentUid = value;
-					this.SendPropertyChanged("DepartmentUid");
-					this.OnDepartmentUidChanged();
+					this._DepartmentUID = value;
+					this.SendPropertyChanged("DepartmentUID");
+					this.OnDepartmentUIDChanged();
 				}
 			}
 		}
@@ -6214,31 +6214,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Phone", Storage="_Department", ThisKey="DepartmentUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Phone", Storage="_Department", ThisKey="DepartmentUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Department Department
 		{
 			get
@@ -6261,18 +6261,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Phone.Add(this);
-						this._DepartmentUid = value.UID;
+						this._DepartmentUID = value.UID;
 					}
 					else
 					{
-						this._DepartmentUid = default(Nullable<System.Guid>);
+						this._DepartmentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Department");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Organization Organization
 		{
 			get
@@ -6295,11 +6295,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Phone.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -6561,7 +6561,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Employee> _Employee;
 		
@@ -6581,8 +6581,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Position()
@@ -6692,31 +6692,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Employee", ThisKey="UID", OtherKey="PositionUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_Employee", Storage="_Employee", ThisKey="UID", OtherKey="PositionUID")]
 		public EntitySet<Employee> Employee
 		{
 			get
@@ -6729,7 +6729,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -6752,11 +6752,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Position.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -6806,13 +6806,13 @@ namespace SKDDriver.DataAccess
 		
 		private string _Name;
 		
-		private System.Nullable<System.Guid> _ScheduleSchemeUid;
+		private System.Nullable<System.Guid> _ScheduleSchemeUID;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Employee> _Employee;
 		
@@ -6832,14 +6832,14 @@ namespace SKDDriver.DataAccess
     partial void OnUIDChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnScheduleSchemeUidChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleSchemeUidChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleSchemeUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public Schedule()
@@ -6892,26 +6892,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ScheduleSchemeUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ScheduleSchemeUID
 		{
 			get
 			{
-				return this._ScheduleSchemeUid;
+				return this._ScheduleSchemeUID;
 			}
 			set
 			{
-				if ((this._ScheduleSchemeUid != value))
+				if ((this._ScheduleSchemeUID != value))
 				{
 					if (this._ScheduleScheme.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnScheduleSchemeUidChanging(value);
+					this.OnScheduleSchemeUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ScheduleSchemeUid = value;
-					this.SendPropertyChanged("ScheduleSchemeUid");
-					this.OnScheduleSchemeUidChanged();
+					this._ScheduleSchemeUID = value;
+					this.SendPropertyChanged("ScheduleSchemeUID");
+					this.OnScheduleSchemeUIDChanged();
 				}
 			}
 		}
@@ -6956,31 +6956,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Employee", ThisKey="UID", OtherKey="ScheduleUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Employee", ThisKey="UID", OtherKey="ScheduleUID")]
 		public EntitySet<Employee> Employee
 		{
 			get
@@ -6993,7 +6993,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="ScheduleUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_EmployeeReplacement", Storage="_EmployeeReplacement", ThisKey="UID", OtherKey="ScheduleUID")]
 		public EntitySet<EmployeeReplacement> EmployeeReplacement
 		{
 			get
@@ -7006,7 +7006,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_ScheduleZoneLink", ThisKey="UID", OtherKey="ScheduleUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_ScheduleZoneLink", ThisKey="UID", OtherKey="ScheduleUID")]
 		public EntitySet<ScheduleZoneLink> ScheduleZoneLink
 		{
 			get
@@ -7019,7 +7019,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -7042,18 +7042,18 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Schedule.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Schedule", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Schedule", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public ScheduleScheme ScheduleScheme
 		{
 			get
@@ -7076,11 +7076,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.Schedule.Add(this);
-						this._ScheduleSchemeUid = value.UID;
+						this._ScheduleSchemeUID = value.UID;
 					}
 					else
 					{
-						this._ScheduleSchemeUid = default(Nullable<System.Guid>);
+						this._ScheduleSchemeUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("ScheduleScheme");
 				}
@@ -7156,13 +7156,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _Type;
 		
-		private System.Nullable<int> _Length;
+		private int _Length;
 		
 		private bool _IsDeleted;
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUid;
+		private System.Nullable<System.Guid> _OrganizationUID;
 		
 		private EntitySet<Day> _Day;
 		
@@ -7180,14 +7180,14 @@ namespace SKDDriver.DataAccess
     partial void OnNameChanged();
     partial void OnTypeChanging(System.Nullable<int> value);
     partial void OnTypeChanged();
-    partial void OnLengthChanging(System.Nullable<int> value);
+    partial void OnLengthChanging(int value);
     partial void OnLengthChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUidChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUidChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
     #endregion
 		
 		public ScheduleScheme()
@@ -7258,8 +7258,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Length", DbType="Int")]
-		public System.Nullable<int> Length
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Length", DbType="Int NOT NULL")]
+		public int Length
 		{
 			get
 			{
@@ -7318,31 +7318,31 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
 		{
 			get
 			{
-				return this._OrganizationUid;
+				return this._OrganizationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUid != value))
+				if ((this._OrganizationUID != value))
 				{
 					if (this._Organization.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUidChanging(value);
+					this.OnOrganizationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUid = value;
-					this.SendPropertyChanged("OrganizationUid");
-					this.OnOrganizationUidChanged();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_Day", ThisKey="UID", OtherKey="ScheduleSchemeUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_Day", ThisKey="UID", OtherKey="ScheduleSchemeUID")]
 		public EntitySet<Day> Day
 		{
 			get
@@ -7355,7 +7355,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Schedule", Storage="_Schedule", ThisKey="UID", OtherKey="ScheduleSchemeUid")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Schedule", Storage="_Schedule", ThisKey="UID", OtherKey="ScheduleSchemeUID")]
 		public EntitySet<Schedule> Schedule
 		{
 			get
@@ -7368,7 +7368,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_Organization", ThisKey="OrganizationUid", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organization Organization
 		{
 			get
@@ -7391,11 +7391,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.ScheduleScheme.Add(this);
-						this._OrganizationUid = value.UID;
+						this._OrganizationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUid = default(Nullable<System.Guid>);
+						this._OrganizationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organization");
 				}
@@ -7455,9 +7455,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _UID;
 		
-		private System.Nullable<System.Guid> _ZoneUid;
+		private System.Nullable<System.Guid> _ZoneUID;
 		
-		private System.Nullable<System.Guid> _ScheduleUid;
+		private System.Nullable<System.Guid> _ScheduleUID;
 		
 		private bool _IsDeleted;
 		
@@ -7471,10 +7471,10 @@ namespace SKDDriver.DataAccess
     partial void OnCreated();
     partial void OnUIDChanging(System.Guid value);
     partial void OnUIDChanged();
-    partial void OnZoneUidChanging(System.Nullable<System.Guid> value);
-    partial void OnZoneUidChanged();
-    partial void OnScheduleUidChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleUidChanged();
+    partial void OnZoneUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnZoneUIDChanged();
+    partial void OnScheduleUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleUIDChanged();
     partial void OnIsDeletedChanging(bool value);
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
@@ -7507,46 +7507,46 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ZoneUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ZoneUID
 		{
 			get
 			{
-				return this._ZoneUid;
+				return this._ZoneUID;
 			}
 			set
 			{
-				if ((this._ZoneUid != value))
+				if ((this._ZoneUID != value))
 				{
-					this.OnZoneUidChanging(value);
+					this.OnZoneUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ZoneUid = value;
-					this.SendPropertyChanged("ZoneUid");
-					this.OnZoneUidChanged();
+					this._ZoneUID = value;
+					this.SendPropertyChanged("ZoneUID");
+					this.OnZoneUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUid", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ScheduleUid
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ScheduleUID
 		{
 			get
 			{
-				return this._ScheduleUid;
+				return this._ScheduleUID;
 			}
 			set
 			{
-				if ((this._ScheduleUid != value))
+				if ((this._ScheduleUID != value))
 				{
 					if (this._Schedule.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnScheduleUidChanging(value);
+					this.OnScheduleUIDChanging(value);
 					this.SendPropertyChanging();
-					this._ScheduleUid = value;
-					this.SendPropertyChanged("ScheduleUid");
-					this.OnScheduleUidChanged();
+					this._ScheduleUID = value;
+					this.SendPropertyChanged("ScheduleUID");
+					this.OnScheduleUIDChanged();
 				}
 			}
 		}
@@ -7591,7 +7591,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_Schedule", ThisKey="ScheduleUid", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_Schedule", ThisKey="ScheduleUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Schedule Schedule
 		{
 			get
@@ -7614,11 +7614,11 @@ namespace SKDDriver.DataAccess
 					if ((value != null))
 					{
 						value.ScheduleZoneLink.Add(this);
-						this._ScheduleUid = value.UID;
+						this._ScheduleUID = value.UID;
 					}
 					else
 					{
-						this._ScheduleUid = default(Nullable<System.Guid>);
+						this._ScheduleUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Schedule");
 				}

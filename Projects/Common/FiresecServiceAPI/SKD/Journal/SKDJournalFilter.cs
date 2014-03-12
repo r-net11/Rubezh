@@ -25,6 +25,8 @@ namespace FiresecAPI
 		public SKDJournalFilter()
 		{
 			EventNames = new List<string>();
+			SystemDateTime = new DateTimePeriod();
+			DeviceDateTime = new DateTimePeriod();
 		}
 	}
 }

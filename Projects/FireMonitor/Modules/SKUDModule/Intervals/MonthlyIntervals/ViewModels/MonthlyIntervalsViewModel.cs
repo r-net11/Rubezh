@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = new OrganisationMonthlyIntervalsViewModel();
-				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeMonthlyInterval>(employeeMonthlyIntervals.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeMonthlyInterval>(employeeMonthlyIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationMonthlyIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisationMonthlyInterval = OrganisationMonthlyIntervals.FirstOrDefault();

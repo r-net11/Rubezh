@@ -58,6 +58,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.PhotoTranslator.Get(filter);
 		}
+		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
+		{
+			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
+		}
 		#endregion
 
 		#region Save
@@ -109,6 +113,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.PhotoTranslator.Save(items);
 		}
+		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		{
+			return SKDDatabaseService.EmployeeReplacementTranslator.Save(items);
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -159,6 +167,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
 		{
 			return SKDDatabaseService.PhotoTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		{
+			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(items);
 		}
 		#endregion
 		

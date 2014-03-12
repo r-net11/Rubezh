@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
-			var filter = new CardFilter{ EmployeeUids = new List<Guid>() { Employee.UID } };
+			var filter = new CardFilter{ EmployeeUIDs = new List<Guid>() { Employee.UID } };
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			var cards = CardHelper.Get(filter);
 			if (cards != null)
@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				card.HolderUid = Employee.UID;
+				card.HolderUID = Employee.UID;
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;

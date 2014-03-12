@@ -10,12 +10,13 @@ namespace SKDModule.ViewModels
 		public EmployeeViewModel(Employee employee)
 		{
 			Employee = employee;
-			var department = DepartmentHelper.GetSingle(employee.DepartmentUID);
+			var departmentUID = (Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
+			var department = DepartmentHelper.GetSingle(departmentUID);
 			DepartmentName = (department != null) ? department.Name : "";
-			var position = PositionHelper.GetSingle(employee.PositionUID);
+			var position = PositionHelper.GetSingle(Employee.PositionUID);
 			PositionName = (position != null) ? position.Name : "";
-			AppointedString = employee.Appointed.ToString("d MMM yyyy");
-			DismissedString = employee.Dismissed.ToString("d MMM yyyy");
+			AppointedString = Employee.Appointed.ToString("d MMM yyyy");
+			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
 		}
 
 		public Employee Employee { get; set; }

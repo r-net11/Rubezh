@@ -20,11 +20,11 @@ SET @Organization1Uid = NEWID();
 EXEC SaveOrganization @Organization1Uid, 'СКУД', 'ООО СКУДЪ',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013',NULL,0,'01/01/1900' 
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013',0,0,'01/01/1900' 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014',NULL,NULL,0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014','01/01/1900',0,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', NULL, 2,0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', 2,0,'01/01/1900'
 
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 123, 'Документ1', 'Документ1Организации1', '01/01/2013', '07/01/2013',0,'01/01/1900'
@@ -362,6 +362,9 @@ UPDATE [dbo].[Employee] SET [DepartmentUid]=@Kitcheners2DepartmentUid WHERE [Uid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@Kitcheners2DepartmentUid WHERE [Uid]=@Kitchener4EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@Janitors2DepartmentUid WHERE [Uid]=@Janitor3EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@Janitors2DepartmentUid WHERE [Uid]=@Janitor4EmployeeUid
+
+SET @UID = NEWID();
+EXEC [dbo].[SaveEmployeeReplacement] @UID, @Organization2Uid, '01/01/1900', '01/01/9000', @Janitor2EmployeeUid, @Janitors2DepartmentUid, NULL, 0,'01/01/1900'
 
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveGuest] @Uid, @Organization2Uid, 'Владимир', 'Александрович', 'Колокольцев',0,'01/01/1900'

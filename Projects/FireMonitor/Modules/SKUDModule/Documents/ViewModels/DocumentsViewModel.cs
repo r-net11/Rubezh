@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var documentViewModel = new OrganisationDocumentsViewModel();
-				documentViewModel.Initialize(organisation.Name, new List<Document>(documents.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				documentViewModel.Initialize(organisation.Name, new List<Document>(documents.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationDocuments.Add(documentViewModel);
 			}
 			SelectedOrganisationDocument = OrganisationDocuments.FirstOrDefault();

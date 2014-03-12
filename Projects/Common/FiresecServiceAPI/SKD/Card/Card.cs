@@ -22,7 +22,7 @@ namespace FiresecAPI
 		public int Number { get; set; }
 
 		[DataMember]
-		public Guid? HolderUid { get; set; }
+		public Guid? HolderUID { get; set; }
 
 		[DataMember]
 		public DateTime ValidFrom { get; set; }
@@ -40,7 +40,7 @@ namespace FiresecAPI
 		public List<CardZone> ExceptedGUDZones { get; set; }
 
 		[DataMember]
-		public Guid? GUDUid { get; set; }
+		public Guid? GUDUID { get; set; }
 
 		[DataMember]
 		public bool IsAntipass { get; set; }

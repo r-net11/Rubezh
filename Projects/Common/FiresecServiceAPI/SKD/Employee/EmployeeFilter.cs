@@ -8,10 +8,10 @@ namespace FiresecAPI
 	public class EmployeeFilter : OrganizationFilterBase
 	{
 		[DataMember]
-		public List<Guid> PositionUids { get; set; }
+		public List<Guid> PositionUIDs { get; set; }
 
 		[DataMember]
-		public List<Guid> DepartmentUids { get; set; }
+		public List<Guid> DepartmentUIDs { get; set; }
 
 		[DataMember]
 		public DateTimePeriod Appointed { get; set; }
@@ -21,8 +21,10 @@ namespace FiresecAPI
 
 		public EmployeeFilter():base()
 		{
-			PositionUids = new List<Guid>();
-			DepartmentUids = new List<Guid>();
+			PositionUIDs = new List<Guid>();
+			DepartmentUIDs = new List<Guid>();
+			Appointed = new DateTimePeriod();
+			Dismissed = new DateTimePeriod();
 		}
 	}
 }

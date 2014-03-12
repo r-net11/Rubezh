@@ -25,7 +25,6 @@ namespace SKDDriver
 
 		protected virtual ApiT Translate(TableT tableItem)
 		{
-
 			var result = new ApiT();
 			result.UID = tableItem.UID;
 			result.IsDeleted = tableItem.IsDeleted;

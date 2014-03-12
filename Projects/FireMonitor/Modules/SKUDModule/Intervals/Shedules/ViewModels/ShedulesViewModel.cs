@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var sheduleViewModel = new OrganisationShedulesViewModel();
-				sheduleViewModel.Initialize(organisation.Name, new List<EmployeeShedule>(employeeShedules.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				sheduleViewModel.Initialize(organisation.Name, new List<EmployeeShedule>(employeeShedules.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationShedules.Add(sheduleViewModel);
 			}
 			SelectedOrganisationShedule = OrganisationShedules.FirstOrDefault();

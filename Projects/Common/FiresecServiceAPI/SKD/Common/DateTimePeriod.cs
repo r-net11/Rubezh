@@ -14,8 +14,8 @@ namespace FiresecAPI
 
 		public DateTimePeriod()
 		{
-			StartDate = DateTime.Now.AddYears(-20);
-			EndDate = DateTime.Now;
+			StartDate = new DateTime(1900, 1, 1);
+			EndDate = new DateTime(9000, 1, 1);
 		}
 	}
 }

@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.Name = Name;
 			AdditionalColumnType.Description = Description;
 			AdditionalColumnType.DataType = DataType;
-			AdditionalColumnType.OrganizationUid = OrganisationAdditionalColumnTypesViewModel.Organization.UID;
+			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organization.UID;
 			return true;
 		}
 	}

@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 					AvailableGUDs.Add(gud);
 			}
 			
-			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUid);
+			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUID);
 			StopListCards = new ObservableCollection<SKDCard>();
 			var stopListCards = CardHelper.GetStopListCards();
 			if (stopListCards == null)
@@ -182,7 +182,7 @@ namespace SKDModule.ViewModels
 			Card.ExceptedGUDZones = ExceptedGUDZones.GetCardZones();
 			
 			if (SelectedGUD != null)
-				Card.GUDUid = SelectedGUD.UID;
+				Card.GUDUID = SelectedGUD.UID;
 			return true;
 		}
 	}

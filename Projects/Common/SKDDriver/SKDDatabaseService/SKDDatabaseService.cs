@@ -20,13 +20,11 @@ namespace SKDDriver
 			GUDTranslator = new GUDTranslator(Context, CardZoneTranslator);
 			OrganizationTranslator = new OrganizationTranslator(Context);
 			JournalItemTranslator = new JournalItemTranslator(Context);
-			EmployeeTranslator = new EmployeeTranslator(Context);
 			DepartmentTranslator = new DepartmentTranslator(Context);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context);
-			PhotoTranslator = new PhotoTranslator(Context);
-
-			var e = EmployeeTranslator.Get(null);
+			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
+			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
@@ -41,5 +39,6 @@ namespace SKDDriver
 		public static AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
 		public static AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
 		public static PhotoTranslator PhotoTranslator { get; private set; } 
+		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; } 
 	}
 }

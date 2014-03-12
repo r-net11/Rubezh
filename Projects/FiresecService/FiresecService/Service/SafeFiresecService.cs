@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using System.Linq;
 
 namespace FiresecService.Service
 {
@@ -240,6 +241,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Photo>>>(() => FiresecService.GetPhotos(filter));
 		}
+		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeReplacement>>>(() => FiresecService.GetEmployeeReplacements(filter));
+		}
 		#endregion
 
 		#region Save
@@ -291,6 +296,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePhotos(items));
 		}
+		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacements(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -341,6 +350,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPhotos(items));
+		}
+		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacements(items));
 		}
 		#endregion
 		

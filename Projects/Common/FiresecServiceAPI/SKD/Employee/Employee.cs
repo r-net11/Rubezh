@@ -30,7 +30,7 @@ namespace FiresecAPI
 		public Guid? DepartmentUID { get; set; }
 
 		[DataMember]
-		public Guid? ReplacementUID { get; set; }
+		public List<Guid> ReplacementUIDs { get; set; }
 
 		[DataMember]
 		public Guid? ScheduleUID { get; set; }
@@ -46,6 +46,15 @@ namespace FiresecAPI
 
 		[DataMember]
 		public PersonType Type { get; set; }
+
+		[DataMember]
+		public EmployeeReplacement CurrentReplacement { get; set; }
+
+		public bool IsReplaced
+		{
+			get { return CurrentReplacement != null; }
+		}
+
 	}
 
 	public enum PersonType

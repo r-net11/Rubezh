@@ -19,7 +19,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Department item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
@@ -29,7 +29,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Department item)
 		{
-			bool isHasEmployees = Context.Employee.Any(x => !x.IsDeleted && x.DepartmentUid == item.UID);
+			bool isHasEmployees = Context.Employee.Any(x => !x.IsDeleted && x.DepartmentUID == item.UID);
 			if (isHasEmployees)
 				return new OperationResult("Не могу удалить отдел, пока он указан содержит действующих сотрудников");
 
@@ -43,12 +43,12 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 
 			var phoneUIDs = new List<Guid>();
-			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUid == tableItem.UID))
+			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUID == tableItem.UID))
 			{
 				phoneUIDs.Add(phone.UID);
 			}
 			var childDepartmentUIDs = new List<Guid>();
-			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUid == tableItem.UID))
+			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
@@ -56,10 +56,10 @@ namespace SKDDriver
 			tableItem.Department2.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.ParentDepartmentUID = tableItem.ParentDepartmentUid;
+			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;
 			result.ChildDepartmentUIDs = childDepartmentUIDs;
-			result.ContactEmployeeUID = tableItem.ContactEmployeeUid;
-			result.AttendantEmployeeUID = tableItem.AttendantUid;
+			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
+			result.AttendantEmployeeUID = tableItem.AttendantUID;
 			result.PhoneUIDs = phoneUIDs;
 			result.PhotoUID = tableItem.PhotoUID;
 			return result;
@@ -70,9 +70,9 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.ParentDepartmentUid = apiItem.ParentDepartmentUID;
-			tableItem.ContactEmployeeUid = apiItem.ContactEmployeeUID;
-			tableItem.AttendantUid = apiItem.AttendantEmployeeUID;
+			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
+			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
+			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
 			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 	}

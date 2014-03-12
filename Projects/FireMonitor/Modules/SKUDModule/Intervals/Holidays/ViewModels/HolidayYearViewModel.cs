@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var holidayViewModel = new OrganisationHolidaysYearViewModel(Year);
-				holidayViewModel.Initialize(organisation.Name, new List<EmployeeHoliday>(employeeHolidays.Where(x => x.OrganizationUid.Value == organisation.UID)));
+				holidayViewModel.Initialize(organisation.Name, new List<EmployeeHoliday>(employeeHolidays.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationHolidays.Add(holidayViewModel);
 			}
 			SelectedOrganisationHoliday = OrganisationHolidays.FirstOrDefault();

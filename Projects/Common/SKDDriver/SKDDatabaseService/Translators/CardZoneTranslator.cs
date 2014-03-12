@@ -20,10 +20,10 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 			result.IntervalType = (FiresecAPI.IntervalType)tableItem.IntervalType;
-			result.IntervalUID = tableItem.IntervalUid;
+			result.IntervalUID = tableItem.IntervalUID;
 			result.IsComission = tableItem.IsWithEscort;
-			result.ZoneUID = tableItem.ZoneUid;
-			result.ParentUID = tableItem.ParentUid;
+			result.ZoneUID = tableItem.ZoneUID;
+			result.ParentUID = tableItem.ParentUID;
 			result.ParentType = (ParentType)tableItem.ParentType;
 			return result;
 		}
@@ -32,10 +32,10 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.IntervalType = (int?)apiItem.IntervalType;
-			tableItem.IntervalUid = apiItem.IntervalUID;
+			tableItem.IntervalUID = apiItem.IntervalUID;
 			tableItem.IsWithEscort = apiItem.IsComission;
-			tableItem.ZoneUid = apiItem.ZoneUID;
-			tableItem.ParentUid = apiItem.ParentUID;
+			tableItem.ZoneUID = apiItem.ZoneUID;
+			tableItem.ParentUID = apiItem.ParentUID;
 			tableItem.ParentType = (int?)apiItem.ParentType;
 		}
 
@@ -44,7 +44,7 @@ namespace SKDDriver
 			var result = new List<CardZone>();
 			foreach (var cardZoneLink in Table.Where(x => x != null &&
 				!x.IsDeleted &&
-				x.ParentUid == parentUID &&
+				x.ParentUID == parentUID &&
 				(ParentType)x.ParentType == parentType))
 			{
 				result.Add(Translate(cardZoneLink));
@@ -78,7 +78,7 @@ namespace SKDDriver
 			{
 				foreach (var card in cards)
 				{
-					var databaseItems = Table.Where(x => x.ParentUid == card.UID);
+					var databaseItems = Table.Where(x => x.ParentUID == card.UID);
 					databaseItems.ForEach(x => MarkDeleted(x));
 					Save(card.CardZones);
 					Save(card.AdditionalGUDZones);
@@ -99,7 +99,7 @@ namespace SKDDriver
 			{
 				foreach (var gUD in gUDs)
 				{
-					var databaseItems = Table.Where(x => x.ParentUid == gUD.UID);
+					var databaseItems = Table.Where(x => x.ParentUID == gUD.UID);
 					databaseItems.ForEach(x => MarkDeleted(x));
 					Save(gUD.CardZones);
 				}
@@ -115,15 +115,15 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<DataAccess.CardZoneLink>();
 			result = result.And(base.IsInFilter(filter));
-			var cardUIDs = filter.CardUids;
+			var cardUIDs = filter.CardUIDs;
 			if (cardUIDs != null && cardUIDs.Count != 0)
-				result = result.And(e => e.ParentUid.HasValue && cardUIDs.Contains(e.ParentUid.Value));
-			var zoneUIDs = filter.ZoneUids;
+				result = result.And(e => e.ParentUID.HasValue && cardUIDs.Contains(e.ParentUID.Value));
+			var zoneUIDs = filter.ZoneUIDs;
 			if (zoneUIDs != null && zoneUIDs.Count != 0)
-				result = result.And(e => zoneUIDs.Contains(e.ZoneUid));
-			var intervalUIDs = filter.IntervalUids;
+				result = result.And(e => zoneUIDs.Contains(e.ZoneUID));
+			var intervalUIDs = filter.IntervalUIDs;
 			if (intervalUIDs != null && intervalUIDs.Count != 0)
-				result = result.And(e => e.IntervalUid.HasValue && intervalUIDs.Contains(e.IntervalUid.Value));
+				result = result.And(e => e.IntervalUID.HasValue && intervalUIDs.Contains(e.IntervalUID.Value));
 			return result;
 		}
 	}

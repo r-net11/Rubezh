@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var additionalColumnTypeViewModel = new OrganisationAdditionalColumnTypesViewModel();
-				additionalColumnTypeViewModel.Initialize(organisation, new List<AdditionalColumnType>(additionalColumnTypes.Where(x=>x.OrganizationUid.Value == organisation.UID)));
+				additionalColumnTypeViewModel.Initialize(organisation, new List<AdditionalColumnType>(additionalColumnTypes.Where(x=>x.OrganizationUID.Value == organisation.UID)));
 				OrganisationAdditionalColumnTypes.Add(additionalColumnTypeViewModel);
 			}
 			SelectedOrganisationAdditionalColumnType = OrganisationAdditionalColumnTypes.FirstOrDefault();

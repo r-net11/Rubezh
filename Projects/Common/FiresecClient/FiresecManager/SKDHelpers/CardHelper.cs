@@ -12,7 +12,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			card.IsInStopList = true;
 			card.StopReason = reason;
-			card.HolderUid = null;
+			card.HolderUID = null;
 			card.CardZones = null;
 			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
 			return Common.ShowErrorIfExists(result);

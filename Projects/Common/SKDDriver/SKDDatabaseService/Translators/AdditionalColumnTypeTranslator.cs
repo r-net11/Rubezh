@@ -19,7 +19,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)

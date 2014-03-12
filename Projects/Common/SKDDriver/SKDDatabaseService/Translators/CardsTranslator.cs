@@ -36,7 +36,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(SKDCard item)
 		{
-			if (Context.Employee.Any(x => x.UID == item.HolderUid &&
+			if (Context.Employee.Any(x => x.UID == item.HolderUID &&
 					!x.IsDeleted))
 				return new OperationResult("Не могу удалить карту, пока она указана у действующих сотрудников");
 			return base.CanSave(item);
@@ -63,12 +63,12 @@ namespace SKDDriver
 		protected override SKDCard Translate(DataAccess.Card tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.HolderUid = tableItem.EmployeeUid;
+			result.HolderUID = tableItem.EmployeeUID;
 			result.Number = tableItem.Number;
 			result.Series = tableItem.Series;
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
-			result.GUDUid = tableItem.GUDUid;
+			result.GUDUID = tableItem.GUDUID;
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
 			result.AdditionalGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDAdditions);
 			result.ExceptedGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDExceptons);
@@ -83,13 +83,13 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Number = apiItem.Number;
 			tableItem.Series = apiItem.Series;
-			tableItem.EmployeeUid = apiItem.HolderUid;
+			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.ValidFrom = CheckDate(apiItem.ValidFrom);
 			tableItem.ValidTo = CheckDate(apiItem.ValidTo);
 			tableItem.IsAntipass = apiItem.IsAntipass;
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
-			tableItem.GUDUid = apiItem.GUDUid;
+			tableItem.GUDUID = apiItem.GUDUID;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)
@@ -119,9 +119,9 @@ namespace SKDDriver
 			}
 			result = result.And(IsBlockedExpression);
 
-			var employeeUIDs = filter.EmployeeUids;
+			var employeeUIDs = filter.EmployeeUIDs;
 			if (employeeUIDs != null && employeeUIDs.Count != 0)
-				result = result.And(e => e.EmployeeUid.HasValue && employeeUIDs.Contains(e.EmployeeUid.Value));
+				result = result.And(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value));
 			return result;
 		}
 	}

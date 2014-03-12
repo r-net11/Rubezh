@@ -54,7 +54,7 @@ CREATE PROCEDURE [dbo].[SaveInterval]
 	@Uid uniqueidentifier,
 	@BeginDate datetime = NULL,
 	@EndDate datetime = NULL,
-	@Transition nvarchar(10) = null,
+	@TransitionType nvarchar(10) = null,
 	@NamedIntervalUid uniqueidentifier = NULL,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
@@ -66,7 +66,7 @@ BEGIN
 			Uid = @Uid,
 			BeginDate = @BeginDate,
 			EndDate = @EndDate,
-			Transition = @Transition,
+			TransitionType = @TransitionType,
 			NamedIntervalUid = @NamedIntervalUid,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate
@@ -77,7 +77,7 @@ BEGIN
 				Uid,
 				BeginDate,
 				EndDate,
-				Transition,
+				TransitionType,
 				NamedIntervalUid,
 				IsDeleted,
 				RemovalDate)
@@ -85,7 +85,7 @@ BEGIN
 				@Uid,
 				@BeginDate,
 				@EndDate,
-				@Transition,
+				@TransitionType,
 				@NamedIntervalUid,
 				@IsDeleted,
 				@RemovalDate)
@@ -251,10 +251,10 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
-	@Type int = NULL,
-	@Date datetime = NULL,
-	@TransferDate datetime = NULL,
-	@Reduction int = NULL,
+	@Type int ,
+	@Date datetime ,
+	@TransferDate datetime ,
+	@Reduction int ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
 

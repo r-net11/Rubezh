@@ -15,15 +15,13 @@ namespace FiresecAPI
 			JournalItemType = JournalItemType.System;
 		}
 		[DataMember]
-		public Guid Uid { get; set; }
-		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 		[DataMember]
-		public DateTime? DeviceDateTime { get; set; }
+		public DateTime DeviceDateTime { get; set; }
 		[DataMember]
-		public DateTime? SystemDateTime { get; set; }
+		public DateTime SystemDateTime { get; set; }
 		[DataMember]
-		public int? DeviceJournalRecordNo { get; set; }
+		public int DeviceJournalRecordNo { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -43,11 +41,11 @@ namespace FiresecAPI
 		[DataMember]
 		public XStateClass DeviceStateClass { get; set; }
 		[DataMember]
-		public int? CardSeries { get; set; }
+		public int CardSeries { get; set; }
 		[DataMember]
-		public int? CardNo { get; set; }
+		public int CardNo { get; set; }
 		[DataMember]
-		public Guid? CardUid { get; set; }
+		public Guid? CardUID { get; set; }
 
 
 		[DataMember]

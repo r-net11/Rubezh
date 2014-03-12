@@ -41,7 +41,7 @@ namespace SKDDriver
 			}
 			ConnectionChanged(true);
 			var journalParser = new JournalParser(Device, sendResult.Bytes);
-			return journalParser.JournalItem.DeviceJournalRecordNo.Value;
+			return journalParser.JournalItem.DeviceJournalRecordNo;
 		}
 
 		SKDJournalItem ReadJournal(int index)

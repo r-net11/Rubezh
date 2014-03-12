@@ -21,23 +21,23 @@ namespace SKDDriver
 		protected override ApiT Translate(TableT tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.OrganizationUid = tableItem.OrganizationUid;
+			result.OrganizationUID = tableItem.OrganizationUID;
 			return result;
 		}
 
 		protected override void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
-			tableItem.OrganizationUid = apiItem.OrganizationUid;
+			tableItem.OrganizationUID = apiItem.OrganizationUID;
 		}
 
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(base.IsInFilter(filter));
-			var organizationUIDs = filter.OrganizationUids;
+			var organizationUIDs = filter.OrganizationUIDs;
 			if (organizationUIDs != null && organizationUIDs.Count != 0)
-				result = result.And(e => e.OrganizationUid != null && organizationUIDs.Contains(e.OrganizationUid.Value));
+				result = result.And(e => e.OrganizationUID != null && organizationUIDs.Contains(e.OrganizationUID.Value));
 			return result;
 		}
 	}

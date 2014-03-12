@@ -8,14 +8,14 @@ namespace FiresecAPI
 	public class CardFilter : FilterBase
 	{
 		[DataMember]
-		public List<Guid> EmployeeUids { get; set; }
+		public List<Guid> EmployeeUIDs { get; set; }
 
 		[DataMember]
 		public DeletedType WithBlocked { get; set; }
 
 		public CardFilter():base()
 		{
-			EmployeeUids = new List<Guid>();
+			EmployeeUIDs = new List<Guid>();
 			WithBlocked = DeletedType.Not;
 		}
 	}

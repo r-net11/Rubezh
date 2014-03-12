@@ -14,7 +14,7 @@ namespace SKDDriver.DataAccess
 
 	public interface IOrganizationDatabaseElement : IDatabaseElement
 	{
-		Guid? OrganizationUid { get; set; }
+		Guid? OrganizationUID { get; set; }
 	}
 
 	public partial class AdditionalColumnType : IOrganizationDatabaseElement { }

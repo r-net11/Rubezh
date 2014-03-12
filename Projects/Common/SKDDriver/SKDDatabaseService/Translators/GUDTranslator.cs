@@ -21,7 +21,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(GUD item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)
@@ -31,7 +31,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(GUD item)
 		{
-			if (Context.Card.Any(x => x.GUDUid == item.UID &&
+			if (Context.Card.Any(x => x.GUDUID == item.UID &&
 					x.IsDeleted == false))
 				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
 			return base.CanSave(item);

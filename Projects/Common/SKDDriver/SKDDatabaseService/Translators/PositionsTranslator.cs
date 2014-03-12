@@ -18,7 +18,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(Position item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.UID != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUID == item.OrganizationUID && x.UID != item.UID);
 			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
@@ -26,9 +26,9 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Position item)
 		{
-			if (Context.Employee.Any(x => x.PositionUid == item.UID && x.OrganizationUid == item.OrganizationUid && !x.IsDeleted))
+			if (Context.Employee.Any(x => x.PositionUID == item.UID && x.OrganizationUID == item.OrganizationUID && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUid == item.OrganizationUid && x.UID != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUID == item.OrganizationUID && x.UID != item.UID);
 			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);

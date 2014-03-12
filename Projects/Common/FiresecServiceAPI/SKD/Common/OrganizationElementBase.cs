@@ -7,6 +7,6 @@ namespace FiresecAPI
 	public abstract class OrganizationElementBase : SKDModelBase
 	{
 		[DataMember]
-		public Guid? OrganizationUid { get; set; }
+		public Guid? OrganizationUID { get; set; }
 	}
 }

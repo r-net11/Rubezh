@@ -34,6 +34,8 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
 		#endregion
 
 		#region Save
@@ -61,6 +63,8 @@ namespace FiresecAPI
 		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
 		[OperationContract]
 		OperationResult SavePhotos(IEnumerable<Photo> items);
+		[OperationContract]
+		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		#endregion
 
 		#region MarkDeleted
@@ -88,6 +92,8 @@ namespace FiresecAPI
 		OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items);
 		[OperationContract]
 		OperationResult MarkDeletedPhotos(IEnumerable<Photo> items);
+		[OperationContract]
+		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		#endregion
 
 		#region DeviceCommands

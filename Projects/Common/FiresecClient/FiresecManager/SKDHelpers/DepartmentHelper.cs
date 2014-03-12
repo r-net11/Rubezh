@@ -39,7 +39,7 @@ namespace FiresecClient.SKDHelpers
 		public static void LinkToParent(Department child, Department parent)
 		{
 			child.ParentDepartmentUID = parent.UID;
-			child.OrganizationUid = parent.OrganizationUid;
+			child.OrganizationUID = parent.OrganizationUID;
 			parent.ChildDepartmentUIDs.Add(child.UID);
 		}
 	}

@@ -49,12 +49,12 @@ namespace SKDModule.ViewModels
 			Positions.Items.ForEach(x => x.IsChecked = false);
 			Departments.ForEach(x =>
 			{
-				if (Filter.DepartmentUids.Any(y => y == x.Department.UID))
+				if (Filter.DepartmentUIDs.Any(y => y == x.Department.UID))
 					x.IsChecked = true;
 			});
 			Positions.Items.ForEach(x =>
 			{
-				if (Filter.PositionUids.Any(y => y == x.Position.UID))
+				if (Filter.PositionUIDs.Any(y => y == x.Position.UID))
 					x.IsChecked = true;
 			});
 		}
@@ -127,17 +127,17 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			base.Save();
-			Filter.PositionUids = new List<Guid>();
+			Filter.PositionUIDs = new List<Guid>();
 			foreach (var position in Positions.Items)
 			{
 				if (position.IsChecked)
-					Filter.PositionUids.Add(position.Position.UID);
+					Filter.PositionUIDs.Add(position.Position.UID);
 			};
-			Filter.DepartmentUids = new List<Guid>();
+			Filter.DepartmentUIDs = new List<Guid>();
 			foreach (var Department in Departments)
 			{
 				if (Department.IsChecked)
-					Filter.DepartmentUids.Add(Department.Department.UID);
+					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
 			return true;
 		}

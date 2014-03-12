@@ -18,7 +18,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Document item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
@@ -26,7 +26,7 @@ namespace SKDDriver
 			if (item.No <= 0)
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No &&
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameNo)

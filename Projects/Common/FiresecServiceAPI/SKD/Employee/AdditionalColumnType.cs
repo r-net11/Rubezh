@@ -21,8 +21,6 @@ namespace FiresecAPI
 		[Description("Текствовый")]
 		Text,
 		[Description("Графический")]
-		Graphics,
-		[Description("Смешанный")]
-		Mixed
+		Graphics
 	}
 }

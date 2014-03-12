@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 			base.Update();
 			foreach (var organization in Organizations.Items)
 			{
-				if (Filter.OrganizationUids.Any(x => x == organization.Organization.UID))
+				if (Filter.OrganizationUIDs.Any(x => x == organization.Organization.UID))
 					organization.IsChecked = true;
 			}
 		}
@@ -47,19 +47,19 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			base.Save();
-			Filter.OrganizationUids = new List<Guid>();
+			Filter.OrganizationUIDs = new List<Guid>();
 			if (Organizations.HasCheckedItems)
 			{
 				foreach (var organization in Organizations.Items.Where(x => x.IsChecked))
 				{
-					Filter.OrganizationUids.Add(organization.Organization.UID);
+					Filter.OrganizationUIDs.Add(organization.Organization.UID);
 				}
 			}
 			else
 			{
 				foreach (var organization in Organizations.Items)
 				{
-					Filter.OrganizationUids.Add(organization.Organization.UID);
+					Filter.OrganizationUIDs.Add(organization.Organization.UID);
 				}
 			}
 			return true;

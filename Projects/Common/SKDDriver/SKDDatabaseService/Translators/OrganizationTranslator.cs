@@ -26,19 +26,19 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Organization item)
 		{
 			var uid = item.UID;
-			if (Context.AdditionalColumnType.Any(x => x.OrganizationUid == uid) ||
-					Context.Day.Any(x => x.OrganizationUid == uid) ||
-					Context.Department.Any(x => x.OrganizationUid == uid) ||
-					Context.Document.Any(x => x.OrganizationUid == uid) ||
-					Context.Employee.Any(x => x.OrganizationUid == uid) ||
-					Context.EmployeeReplacement.Any(x => x.OrganizationUid == uid) ||
-					Context.Holiday.Any(x => x.OrganizationUid == uid) ||
-					Context.NamedInterval.Any(x => x.OrganizationUid == uid) ||
-					Context.Position.Any(x => x.OrganizationUid == uid) ||
-					Context.Phone.Any(x => x.OrganizationUid == uid) ||
-					Context.Schedule.Any(x => x.OrganizationUid == uid) ||
-					Context.ScheduleScheme.Any(x => x.OrganizationUid == uid) ||
-					Context.GUD.Any(x => x.OrganizationUid == uid))
+			if (Context.AdditionalColumnType.Any(x => x.OrganizationUID == uid) ||
+					Context.Day.Any(x => x.OrganizationUID == uid) ||
+					Context.Department.Any(x => x.OrganizationUID == uid) ||
+					Context.Document.Any(x => x.OrganizationUID == uid) ||
+					Context.Employee.Any(x => x.OrganizationUID == uid) ||
+					Context.EmployeeReplacement.Any(x => x.OrganizationUID == uid) ||
+					Context.Holiday.Any(x => x.OrganizationUID == uid) ||
+					Context.NamedInterval.Any(x => x.OrganizationUID == uid) ||
+					Context.Position.Any(x => x.OrganizationUID == uid) ||
+					Context.Phone.Any(x => x.OrganizationUID == uid) ||
+					Context.Schedule.Any(x => x.OrganizationUID == uid) ||
+					Context.ScheduleScheme.Any(x => x.OrganizationUID == uid) ||
+					Context.GUD.Any(x => x.OrganizationUID == uid))
 				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
 			return base.CanSave(item);
 		}

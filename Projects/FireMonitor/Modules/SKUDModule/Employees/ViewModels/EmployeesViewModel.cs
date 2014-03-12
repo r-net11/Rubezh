@@ -66,6 +66,7 @@ namespace SKDModule.ViewModels
 			{
 				Employees.Add(new EmployeeViewModel(employee));
 			}
+			var e = employees.Where(x => x.IsReplaced);
 		}
 
 

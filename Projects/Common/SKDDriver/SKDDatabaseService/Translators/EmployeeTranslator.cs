@@ -10,18 +10,20 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : OrganizationTranslatorBase<DataAccess.Employee, Employee, EmployeeFilter>
 	{
-		public EmployeeTranslator(DataAccess.SKUDDataContext context)
+		public EmployeeTranslator(DataAccess.SKUDDataContext context, EmployeeReplacementTranslator replacementTranslator)
 			: base(context)
 		{
-			
+			ReplacementTranslator = replacementTranslator;
 		}
+
+		EmployeeReplacementTranslator ReplacementTranslator;
 
 		protected override OperationResult CanSave(Employee item)
 		{
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
 				x.SecondName == item.SecondName &&
 				x.LastName == item.LastName && 
-				x.OrganizationUid == item.OrganizationUid &&
+				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID && 
 				x.IsDeleted == false);
 			if (sameName)
@@ -31,11 +33,11 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Employee item)
 		{
-			bool isAttendant = Context.Department.Any(x => !x.IsDeleted && x.AttendantUid == item.UID);
+			bool isAttendant = Context.Department.Any(x => !x.IsDeleted && x.AttendantUID == item.UID);
 			if (isAttendant)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
 
-			bool isContactEmployee = Context.Department.Any(x => !x.IsDeleted && x.ContactEmployeeUid == item.UID);
+			bool isContactEmployee = Context.Department.Any(x => !x.IsDeleted && x.ContactEmployeeUID == item.UID);
 			if (isContactEmployee)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
 			return base.CanSave(item);
@@ -49,13 +51,13 @@ namespace SKDDriver
 			foreach (var additionalColumn in Context.AdditionalColumn.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID))
 				additionalColumnUIDs.Add(additionalColumn.UID);
 
-			var replacement = Context.EmployeeReplacement.Where(x => !x.IsDeleted && x.EmployeeUid == tableItem.UID).FirstOrDefault();
-			Guid? replacementUID = null;
-			if (replacement != null)
-				replacementUID = replacement.UID;
+			var replacements = Context.EmployeeReplacement.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID);
+			var replacementUIDs = new List<Guid>();
+			foreach (var replacement in replacements)
+				replacementUIDs.Add(replacement.UID);
 			
 			var cardUIDs = new List<Guid>();
-			foreach (var card in Context.Card.Where(x => x.EmployeeUid == tableItem.UID))
+			foreach (var card in Context.Card.Where(x => x.EmployeeUID == tableItem.UID && !x.IsDeleted))
 				cardUIDs.Add(card.UID);
 		
 			result.FirstName = tableItem.FirstName;
@@ -63,10 +65,11 @@ namespace SKDDriver
 			result.LastName = tableItem.LastName;
 			result.Appointed = tableItem.Appointed;
 			result.Dismissed = tableItem.Dismissed;
-			result.PositionUID = tableItem.PositionUid;
-			result.ReplacementUID = replacementUID;
-			result.DepartmentUID = tableItem.DepartmentUid;
-			result.ScheduleUID = tableItem.ScheduleUid;
+			result.PositionUID = tableItem.PositionUID;
+			result.ReplacementUIDs = replacementUIDs;
+			result.CurrentReplacement = ReplacementTranslator.GetCurrentReplacement(tableItem.UID);
+			result.DepartmentUID = tableItem.DepartmentUID;
+			result.ScheduleUID = tableItem.ScheduleUID;
 			result.AdditionalColumnUIDs = additionalColumnUIDs;
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.CardUIDs = cardUIDs;
@@ -82,9 +85,9 @@ namespace SKDDriver
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
 			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
-			tableItem.PositionUid = apiItem.PositionUID;
-			tableItem.DepartmentUid = apiItem.DepartmentUID;
-			tableItem.ScheduleUid = apiItem.ScheduleUID;
+			tableItem.PositionUID = apiItem.PositionUID;
+			tableItem.DepartmentUID = apiItem.DepartmentUID;
+			tableItem.ScheduleUID = apiItem.ScheduleUID;
 			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.Type = (int)apiItem.Type;
 		}
@@ -94,15 +97,41 @@ namespace SKDDriver
 			var result = PredicateBuilder.True<DataAccess.Employee>();
 			result = result.And(base.IsInFilter(filter));
 
-			var departmentUids = filter.DepartmentUids;
-			if (departmentUids.IsNotNullOrEmpty())
-				result = result.And(e => e!=null &&  departmentUids.Contains(e.DepartmentUid.Value));
+			var isReplaced = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
 
-			var positionUids = filter.PositionUids;
-			if (positionUids.IsNotNullOrEmpty())
-				result = result.And(e => e != null && positionUids.Contains(e.PositionUid.Value));
+			
+			
+			var departmentUIDs = filter.DepartmentUIDs;
+			if (departmentUIDs.IsNotNullOrEmpty())
+			{
+				result = result.And(e => 
+					e!=null && 
+					(Context.EmployeeReplacement.Any(x => 
+						!x.IsDeleted && 
+						x.EmployeeUID == e.UID && 
+						DateTime.Now >= x.BeginDate && 
+						DateTime.Now <= x.EndDate && 
+						departmentUIDs.Contains(x.DepartmentUID.Value)
+						) ||
+						(!Context.EmployeeReplacement.Any(x => 
+								!x.IsDeleted && 
+								x.EmployeeUID == e.UID && 
+								DateTime.Now >= x.BeginDate && 
+								DateTime.Now <= x.EndDate && 
+								departmentUIDs.Contains(x.DepartmentUID.Value)
+							) && 
+							departmentUIDs.Contains(e.DepartmentUID.Value)
+						)
+					)
+				);
+			}
+				
 
- 			var appointedDates = filter.Appointed;
+			var positionUIDs = filter.PositionUIDs;
+			if (positionUIDs.IsNotNullOrEmpty())
+				result = result.And(e => e != null && positionUIDs.Contains(e.PositionUID.Value));
+
+			var appointedDates = filter.Appointed;
 			if (appointedDates != null)
 				result = result.And(e => e.Appointed >= appointedDates.StartDate && e.Appointed <= appointedDates.EndDate);
 
