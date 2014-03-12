@@ -7,7 +7,9 @@ namespace GKProcessor
 {
 	public class MPTDescriptor : BaseDescriptor
 	{
-		public XDelay AutomaticOffDelay { get; private set; }
+		public XPim HandAutomaticOffPim { get; private set; }
+		public XPim DoorAutomaticOffPim { get; private set; }
+		public XPim FailureAutomaticOffPim { get; private set; }
 
 		public MPTDescriptor(GkDatabase gkDatabase, XMPT mpt)
 		{
@@ -17,9 +19,17 @@ namespace GKProcessor
 			MPT.Hold = 10;
 			MPT.DelayRegime = DelayRegime.On;
 
-			AutomaticOffDelay = new XDelay();
-			AutomaticOffDelay.BaseUID = GuidHelper.CreateOn(MPT.BaseUID);
-			gkDatabase.AddDelay(AutomaticOffDelay);
+			HandAutomaticOffPim = new XPim();
+			HandAutomaticOffPim.BaseUID = GuidHelper.CreateOn(MPT.BaseUID, 0);
+			gkDatabase.AddPim(HandAutomaticOffPim);
+
+			DoorAutomaticOffPim = new XPim();
+			DoorAutomaticOffPim.BaseUID = GuidHelper.CreateOn(MPT.BaseUID, 1);
+			gkDatabase.AddPim(DoorAutomaticOffPim);
+
+			FailureAutomaticOffPim = new XPim();
+			FailureAutomaticOffPim.BaseUID = GuidHelper.CreateOn(MPT.BaseUID, 2);
+			gkDatabase.AddPim(FailureAutomaticOffPim);
 
 			Build();
 		}
@@ -35,65 +45,6 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-
-			var hasAutomaticOffExpression = false;
-			if (MPT.UseDoorAutomatic)
-			{
-				foreach (var mptDevice in MPT.MPTDevices)
-				{
-					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
-					{
-						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-						if (hasAutomaticOffExpression)
-							Formula.Add(FormulaOperationType.OR);
-						hasAutomaticOffExpression = true;
-					}
-				}
-			}
-
-			if (MPT.UseFailureAutomatic)
-			{
-				foreach (var mptDevice in MPT.MPTDevices)
-				{
-					Formula.AddGetBit(XStateBit.Failure, mptDevice.Device);
-					if (hasAutomaticOffExpression)
-						Formula.Add(FormulaOperationType.OR);
-					hasAutomaticOffExpression = true;
-				}
-			}
-
-			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
-			if (hasAutomaticOffExpression)
-				Formula.Add(FormulaOperationType.OR);
-			Formula.AddPutBit(XStateBit.SetRegime_Manual, MPT);
-
-
-			var hasAutomaticOnExpression = false;
-			if (MPT.UseDoorAutomatic)
-			{
-				foreach (var mptDevice in MPT.MPTDevices)
-				{
-					if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
-					{
-						Formula.AddGetBit(XStateBit.Fire1, mptDevice.Device);
-						if (hasAutomaticOnExpression)
-							Formula.Add(FormulaOperationType.OR);
-						hasAutomaticOnExpression = true;
-					}
-				}
-			}
-			if (hasAutomaticOnExpression)
-			{
-				Formula.Add(FormulaOperationType.COM);
-			}
-			Formula.AddGetBit(XStateBit.On, AutomaticOffDelay);
-			Formula.Add(FormulaOperationType.COM);
-			if (hasAutomaticOnExpression)
-			{
-				Formula.Add(FormulaOperationType.AND);
-			}
-			Formula.AddPutBit(XStateBit.SetRegime_Automatic, MPT);
-
 
 			var hasOnExpression = false;
 			if (MPT.StartLogic.Clauses.Count > 0)
@@ -120,9 +71,16 @@ namespace GKProcessor
 				{
 					Formula.AddGetBit(XStateBit.Norm, MPT);
 					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
-				}
 
-				hasOnExpression = true;
+					Formula.AddGetBit(XStateBit.Norm, HandAutomaticOffPim);
+					Formula.Add(FormulaOperationType.AND, comment: "");
+
+					Formula.AddGetBit(XStateBit.Norm, DoorAutomaticOffPim);
+					Formula.Add(FormulaOperationType.AND, comment: "");
+
+					Formula.AddGetBit(XStateBit.Norm, FailureAutomaticOffPim);
+					Formula.Add(FormulaOperationType.AND, comment: "");
+				}
 			}
 
 			foreach (var mptDevice in MPT.MPTDevices)
@@ -162,6 +120,21 @@ namespace GKProcessor
 						hasOffExpression = true;
 					}
 				}
+			}
+
+			if (hasOffExpression)
+			{
+				Formula.AddGetBit(XStateBit.Norm, MPT);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный МПТ");
+
+				Formula.AddGetBit(XStateBit.Norm, HandAutomaticOffPim);
+				Formula.Add(FormulaOperationType.AND, comment: "");
+
+				Formula.AddGetBit(XStateBit.Norm, DoorAutomaticOffPim);
+				Formula.Add(FormulaOperationType.AND, comment: "");
+
+				Formula.AddGetBit(XStateBit.Norm, FailureAutomaticOffPim);
+				Formula.Add(FormulaOperationType.AND, comment: "");
 			}
 
 			foreach (var mptDevice in MPT.MPTDevices)

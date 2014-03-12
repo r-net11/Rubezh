@@ -33,7 +33,6 @@ namespace FireAdministrator
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png");
 			yield return new LayoutPartDescription(LayoutPartIdentities.Indicator, 1, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
 			yield return new LayoutPartDescription(LayoutPartIdentities.Navigation, 2, "Навигатор", "Панель навигации", "BTree.png", false, new LayoutPartSize() { PreferedSize = new Size(150, 500) });
 			yield return new LayoutPartDescription(LayoutPartIdentities.Content, 3, "Контейнер", "Контейнер содержания", "BLayouts.png", false);

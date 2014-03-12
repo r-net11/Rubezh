@@ -96,7 +96,7 @@ namespace GKProcessor
 					SetTime = 2,
 					DelayRegime = DelayRegime.Off
 				};
-				delay.BaseUID = GuidHelper.CreateOn(pumpDevice.BaseUID);
+				delay.BaseUID = GuidHelper.CreateOn(pumpDevice.BaseUID, 0);
 
 				var pumpDelay = new PumpDelay
 				{
@@ -240,7 +240,7 @@ namespace GKProcessor
 			{
 				Name = PumpStation.PresentationName
 			};
-			Pim.BaseUID = GuidHelper.CreateOn(PumpStation.UID);
+			Pim.BaseUID = GuidHelper.CreateOn(PumpStation.UID, 0);
 			GkDatabase.AddPim(Pim);
 			var pimDescriptor = new PimDescriptor(Pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);

@@ -50,7 +50,7 @@ namespace Infrastructure.Designer.ViewModels
 					ActiveInstrument.Adorner.Hide();
 				_activeInstrument = value;
 				OnPropertyChanged(() => ActiveInstrument);
-				if (ActiveInstrument.Autostart)
+				if (ActiveInstrument != null && ActiveInstrument.Autostart)
 					ApplicationService.BeginInvoke(() => Apply(null));
 			}
 		}

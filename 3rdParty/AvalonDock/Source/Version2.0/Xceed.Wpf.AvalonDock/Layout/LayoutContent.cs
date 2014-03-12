@@ -344,7 +344,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#region BackgroundColor
 
-		private Color _backgroundColor = Colors.White;
+		private Color _backgroundColor = Colors.Transparent;
 		public Color BackgroundColor
 		{
 			get { return _backgroundColor; }
@@ -517,7 +517,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				writer.WriteAttributeString("BorderThickness", BorderThickness.ToString());
 			if (BorderColor != Colors.Black)
 				writer.WriteAttributeString("BorderColor", BorderColor.ToString());
-			if (BackgroundColor != Colors.White)
+			if (BackgroundColor != Colors.Transparent)
 				writer.WriteAttributeString("BackgroundColor", BackgroundColor.ToString());
 			//if (ToolTip != null && ToolTip is string)
 			//    if (!string.IsNullOrWhiteSpace((string)ToolTip))

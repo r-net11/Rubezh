@@ -5,4 +5,9 @@
 		<Setter Property="SelectAllOnGotFocus" Value="True" />
 	</Style>
 
+	<Style BasedOn="{StaticResource {x:Type ext:DoubleUpDown}}" TargetType="{x:Type ext:DoubleUpDown}">
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="SelectAllOnGotFocus" Value="True" />
+	</Style>
+
 </ResourceDictionary>

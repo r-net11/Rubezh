@@ -13,6 +13,11 @@ namespace XFiresecAPI
 		{
 			StartLogic = new XDeviceLogic();
 			MPTDevices = new List<MPTDevice>();
+
+			InputDevices = new List<XDevice>();
+			InputZones = new List<XZone>();
+			InputDirections = new List<XDirection>();
+			Devices = new List<XDevice>();
 		}
 
 		public List<XDevice> InputDevices { get; set; }
