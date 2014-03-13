@@ -3,7 +3,7 @@
 					xmlns:Views="clr-namespace:SKDModule.Views"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:UsersAccessViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:UsersAccessViewModel}">
 		<Views:UsersAccessView />
 	</DataTemplate>
 

@@ -11,16 +11,17 @@ namespace SKDModule.ViewModels
 	public class EmployeeCardViewModel : BaseViewModel
 	{
 		public SKDCard Card { get; private set; }
-		UserAccessViewModel UserAccessViewModel;
+		EmployeeViewModel EmployeeViewModel;
 		List<Guid> ZoneUIDs;
 		public CardZonesViewModel CardZonesViewModel { get; private set; }
 
-		public EmployeeCardViewModel(UserAccessViewModel userAccessViewModel, SKDCard card)
+		public EmployeeCardViewModel(EmployeeViewModel employeeViewModel, SKDCard card)
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			EditCommand = new RelayCommand(OnEdit);
+			ShowCardCommand = new RelayCommand(OnShowCard);
 
-			UserAccessViewModel = userAccessViewModel;
+			EmployeeViewModel = employeeViewModel;
 			Card = card;
 			ZoneUIDs = new List<Guid>();
 			CardZonesViewModel = new CardZonesViewModel(Card.CardZones);
@@ -53,11 +54,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			UserAccessViewModel.RemoveCard(this);
+			EmployeeViewModel.RemoveCard(this);
+			UsersAccessViewModel.Current.SelectedUser = UsersAccessViewModel.Current.RealSelectedUser;
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
 			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
@@ -73,9 +75,22 @@ namespace SKDModule.ViewModels
 				CardZonesViewModel.Update();
 			}
 		}
-		public bool CanShowProperties()
+
+		public RelayCommand ShowCardCommand { get; private set; }
+		void OnShowCard()
 		{
-			return true;
+			UsersAccessViewModel.Current.SelectedCard = this;
+		}
+
+		bool _isBold;
+		public bool IsBold
+		{
+			get { return _isBold; }
+			set
+			{
+				_isBold = value;
+				OnPropertyChanged("IsBold");
+			}
 		}
 	}
 }

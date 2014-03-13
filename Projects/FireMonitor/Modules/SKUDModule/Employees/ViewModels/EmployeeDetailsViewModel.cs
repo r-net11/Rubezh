@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
 		{
-			EmployeesViewModel = employeesViewModel;
+			//EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
 				Title = "Создание сотрудника";
@@ -73,11 +73,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
-			{
-				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
-				return false;
-			}
+			//if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
+			//{
+			//    MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
+			//    return false;
+			//}
 
 			Employee.FirstName = FirstName;
 			Employee.LastName = LastName;

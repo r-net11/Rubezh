@@ -79,10 +79,10 @@
 								<WrapPanel Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
 									<TextBlock Text="План: " FontWeight="Bold" Foreground="Orange" />
 									<TextBlock TextWrapping="Wrap">
-								<Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Text="{Binding PlanName}" />
-								</Hyperlink>
-							</TextBlock>
+								        <Hyperlink Command="{Binding ShowOnPlanCommand}" Style="{StaticResource HyperlinkStyle2}">
+									        <TextBlock Text="{Binding PlanName}" />
+								        </Hyperlink>
+							        </TextBlock>
 								</WrapPanel>
 							</ListBoxItem>
 						</ListBox>
