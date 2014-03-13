@@ -91,22 +91,21 @@ namespace PlansModule.ViewModels
 		{
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
 			Type = properties.Type;
-			if (Type != LayoutPartPlansType.All)
+			switch (Type)
 			{
-				switch (Type)
-				{
-					case LayoutPartPlansType.Single:
-						if (properties.Plans.Count > 0 && _map.ContainsKey(properties.Plans[0]))
-							SelectedPlan = _map[properties.Plans[0]];
-						break;
-					case LayoutPartPlansType.Selected:
-						properties.Plans.ForEach(item =>
-						{
-							if (_map.ContainsKey(item))
-								_map[item].IsChecked = true;
-						});
-						break;
-				}
+				case LayoutPartPlansType.All:
+					break;
+				case LayoutPartPlansType.Single:
+					if (properties.Plans.Count > 0 && _map.ContainsKey(properties.Plans[0]))
+						SelectedPlan = _map[properties.Plans[0]];
+					break;
+				case LayoutPartPlansType.Selected:
+					properties.Plans.ForEach(item =>
+					{
+						if (_map.ContainsKey(item))
+							_map[item].IsChecked = true;
+					});
+					break;
 			}
 		}
 		public override bool CanSave()
@@ -115,20 +114,22 @@ namespace PlansModule.ViewModels
 		}
 		public override bool Save()
 		{
-			var list = new List<Guid>();
+			List<Guid> list = null;
 			switch (Type)
 			{
 				case LayoutPartPlansType.All:
 					break;
 				case LayoutPartPlansType.Single:
+					list = new List<Guid>();
 					list.Add(SelectedPlan.Plan.UID);
 					break;
 				case LayoutPartPlansType.Selected:
+					list = new List<Guid>();
 					AddSelected(list, Plans);
 					break;
 			}
 			var properties = (LayoutPartPlansProperties)_layoutPartPlansViewModel.Properties;
-			if (properties.Type != Type || !properties.Plans.OrderBy(item => item).SequenceEqual(list.OrderBy(item => item)))
+			if (properties.Type != Type || (properties.Type != LayoutPartPlansType.All && !properties.Plans.OrderBy(item => item).SequenceEqual(list.OrderBy(item => item))))
 			{
 				properties.Type = Type;
 				properties.Plans = list;

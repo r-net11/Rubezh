@@ -37,16 +37,14 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnFindElementEvent);
 			ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 			_initialized = false;
-			if (_properties != null && _properties.Type != LayoutPartPlansType.Single)
+			if (_properties.Type != LayoutPartPlansType.Single)
 			{
 				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
 				var isNotFirstTime = RegistrySettingsHelper.GetBool("Monitor.Plans.IsNotFirstTime");
 				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
 				if (!isNotFirstTime && planNavigationWidth == 0)
-				{
 					planNavigationWidth = 100;
-				}
 				PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
 				ApplicationService.ShuttingDown += () =>
 				{
