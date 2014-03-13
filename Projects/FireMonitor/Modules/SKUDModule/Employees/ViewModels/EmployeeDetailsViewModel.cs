@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
 		{
-			//EmployeesViewModel = employeesViewModel;
+			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
 				Title = "Создание сотрудника";

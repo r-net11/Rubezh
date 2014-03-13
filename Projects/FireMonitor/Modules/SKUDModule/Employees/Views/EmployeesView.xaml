@@ -13,7 +13,7 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
             <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-            <StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
                 <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
                 <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
@@ -55,7 +55,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock>
-                                    <Hyperlink Command="{Binding ShowCardCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                    <Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="Идентификатор" Margin="10 2" />
                                             <TextBlock Text="{Binding ID}" Margin="10 2" />
@@ -99,7 +99,7 @@
 		</DataGrid>
 		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-        <Grid Grid.Row="3" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Grid.Row="3" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
             <Border Background="White" CornerRadius="5">
                 <StackPanel DataContext="{Binding RealSelectedEmployee}" Margin="5">
                     <StackPanel Orientation="Horizontal">
@@ -115,6 +115,16 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Отчество" Margin="2" />
                         <TextBlock Text="{Binding Employee.LastName}" Margin="2" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Отдел" Margin="2" />
+                        <TextBlock Text="{Binding DepartmentName}" Margin="2" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Должность" Margin="2" />
+                        <TextBlock Text="{Binding PositionName}" Margin="2" />
                     </StackPanel>
                 </StackPanel>
             </Border>

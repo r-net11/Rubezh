@@ -70,14 +70,12 @@ namespace SKDModule.ViewModels
 				_selectedEmployee = value;
 				OnPropertyChanged("SelectedEmployee");
 
-				IsEmployee = value != null;
-				IsCard = !IsEmployee;
-
+				IsCard = value == null;
 				RealSelectedEmployee = value;
 			}
 		}
 
-		public bool ResetEmployee = false;
+		public bool DoNotEmployee = false;
 
 		EmployeeViewModel _realSelectedEmployee;
 		public EmployeeViewModel RealSelectedEmployee
@@ -85,17 +83,16 @@ namespace SKDModule.ViewModels
 			get { return _realSelectedEmployee; }
 			set
 			{
-				if (ResetEmployee)
+				if (DoNotEmployee)
 				{
 					value = null;
-					ResetEmployee = false;
+					DoNotEmployee = false;
 				}
 
 				_realSelectedEmployee = value;
 				OnPropertyChanged("RealSelectedEmployee");
 			}
 		}
-
 
 		EmployeeCardViewModel selectedCard;
 		public EmployeeCardViewModel SelectedCard
@@ -105,9 +102,7 @@ namespace SKDModule.ViewModels
 			{
 				selectedCard = value;
 				OnPropertyChanged("SelectedCard");
-
 				IsCard = value != null;
-				IsEmployee = !IsCard;
 
 				foreach (var user in Employees)
 				{
@@ -116,22 +111,10 @@ namespace SKDModule.ViewModels
 						card.IsBold = false;
 					}
 				}
-
 				if (value != null)
 				{
 					value.IsBold = true;
 				}
-			}
-		}
-
-		bool _isUser;
-		public bool IsEmployee
-		{
-			get { return _isUser; }
-			set
-			{
-				_isUser = value;
-				OnPropertyChanged("IsEmployee");
 			}
 		}
 
@@ -159,7 +142,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(null);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				var employee = employeeDetailsViewModel.Employee;
@@ -194,7 +177,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(null, SelectedEmployee.Employee);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				var employee = employeeDetailsViewModel.Employee;

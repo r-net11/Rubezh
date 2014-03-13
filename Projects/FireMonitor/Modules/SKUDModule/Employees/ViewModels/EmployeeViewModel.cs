@@ -54,23 +54,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(()=>DismissedString);
 		}
 
-		bool _isExpanded = false;
-		public bool IsExpanded
-		{
-			get { return _isExpanded; }
-			set
-			{
-				_isExpanded = !_isExpanded;
-				OnPropertyChanged("IsExpanded");
-			}
-		}
-
-		public RelayCommand ChangeIsExpandedCommand { get; private set; }
-		void OnChangeIsExpanded()
-		{
-			IsExpanded = !IsExpanded;
-		}
-
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 
 		public RelayCommand AddCardCommand { get; private set; }
@@ -86,6 +69,9 @@ namespace SKDModule.ViewModels
 					return;
 				var cardViewModel = new EmployeeCardViewModel(this, card);
 				Cards.Add(cardViewModel);
+
+				IsExpanded = true;
+				cardViewModel.SelectCardCommand.Execute();
 			}
 		}
 		public bool CanAddCard()
@@ -93,18 +79,21 @@ namespace SKDModule.ViewModels
 			return Cards.Count < 10;
 		}
 
-		public void RemoveCard(EmployeeCardViewModel cardViewModel)
+		bool _isExpanded = false;
+		public bool IsExpanded
 		{
-			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
-			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
+			get { return _isExpanded; }
+			set
 			{
-				var card = cardViewModel.Card;
-				var cardRemovalReason = cardRemovalReasonViewModel.RemovalReason;
-				var toStopListResult =  CardHelper.ToStopList(card, cardRemovalReason);
-				if (!toStopListResult)
-					return;
-				Cards.Remove(cardViewModel);
+				_isExpanded = !_isExpanded;
+				OnPropertyChanged("IsExpanded");
 			}
+		}
+
+		public RelayCommand ChangeIsExpandedCommand { get; private set; }
+		void OnChangeIsExpanded()
+		{
+			IsExpanded = !IsExpanded;
 		}
 	}
 }

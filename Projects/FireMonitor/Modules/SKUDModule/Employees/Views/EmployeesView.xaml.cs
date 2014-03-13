@@ -13,7 +13,7 @@ namespace SKDModule.Views
 
 		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			EmployeesViewModel.Current.ResetEmployee = true;
+			EmployeesViewModel.Current.DoNotEmployee = true;
 		}
 
 		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

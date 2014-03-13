@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
-			ShowCardCommand = new RelayCommand(OnShowCard);
+			SelectCardCommand = new RelayCommand(OnSelectCard);
 
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
@@ -54,8 +54,16 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			EmployeeViewModel.RemoveCard(this);
-			EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
+			var cardRemovalReasonViewModel = new CardRemovalReasonViewModel();
+			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
+			{
+				var cardRemovalReason = cardRemovalReasonViewModel.RemovalReason;
+				var toStopListResult = CardHelper.ToStopList(Card, cardRemovalReason);
+				if (!toStopListResult)
+					return;
+				EmployeeViewModel.Cards.Remove(this);
+				EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
+			}
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -76,8 +84,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowCardCommand { get; private set; }
-		void OnShowCard()
+		public RelayCommand SelectCardCommand { get; private set; }
+		void OnSelectCard()
 		{
 			EmployeesViewModel.Current.SelectedCard = this;
 		}
