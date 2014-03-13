@@ -81,8 +81,8 @@ namespace PlansModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png");
-			yield return new LayoutPartDescription(LayoutPartIdentities.PlansEx, 150, "Планы2", "Планы2", "CMap.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.Plans, 150, "Планы", "Планы", "CMap.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.PlansEx, 150, "Планы2", "Планы2", "CMap.png")
 			{
 				Factory = (p) => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),
 			};

@@ -9,8 +9,14 @@ namespace Infrastructure.Common.Services.Layout
 		public const string IconPath = "/Controls;component/Images/";
 		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
 
-		public LayoutPartDescription(Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
+		//public LayoutPartDescription(Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
+		//    : this(LayoutPartDescriptionGroup.Root, uid, index, name, description, iconName, allowMultiple, size)
+		//{
+		//}
+
+		public LayoutPartDescription(LayoutPartDescriptionGroup group, Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
 		{
+			Group = group;
 			UID = uid;
 			Index = index;
 			Name = name;
@@ -26,13 +32,15 @@ namespace Infrastructure.Common.Services.Layout
 
 		#region ILayoutPartDescription Members
 
-		public Guid UID { get; set; }
-		public int Index { get; set; }
-		public string Name { get; set; }
-		public string IconSource { get; set; }
-		public string Description { get; set; }
-		public bool AllowMultiple { get; set; }
-		public LayoutPartSize Size { get; set; }
+		public Guid UID { get; private set; }
+		public int Index { get; private set; }
+		public string Name { get; private set; }
+		public string IconSource { get; private set; }
+		public string Description { get; private set; }
+		public bool AllowMultiple { get; private set; }
+		public LayoutPartSize Size { get; private set; }
+		public LayoutPartDescriptionGroup Group { get; private set; }
+
 		public BaseLayoutPartViewModel CreateContent(ILayoutProperties properties)
 		{
 			return Factory == null ? null : Factory(properties);

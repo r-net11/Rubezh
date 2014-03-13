@@ -56,11 +56,11 @@ namespace LayoutModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png")
 			{
 				Factory = (p) => new LayoutPartEmptyViewModel(),
 			};
-			yield return new LayoutPartDescription(LayoutPartIdentities.Image, 4, "Картинка", "Показывает статическое изображение", "BView.png")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Image, 4, "Картинка", "Показывает статическое изображение", "BView.png")
 			{
 				Factory = (p) => new LayoutPartImageViewModel(p as LayoutPartImageProperties),
 			};

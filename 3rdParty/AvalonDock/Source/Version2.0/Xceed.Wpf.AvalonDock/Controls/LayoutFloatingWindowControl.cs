@@ -270,6 +270,11 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			}
 		}
 
+		protected override void OnDeactivated(EventArgs e)
+		{
+			CancelDragging();
+			base.OnDeactivated(e);
+		}
 
 		protected override void OnInitialized(EventArgs e)
 		{
@@ -371,9 +376,12 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			)
 		{
 			handled = false;
-
+			Console.WriteLine("{0:X}", msg);
 			switch (msg)
 			{
+				case Win32Helper.WM_KILLFOCUS:
+					CancelDragging();
+					break;
 				case Win32Helper.WM_ACTIVATE:
 					if (((int)wParam & 0xFFFF) == Win32Helper.WA_INACTIVE)
 					{
@@ -403,11 +411,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 								manager.OnLayoutConfigurationChanged();
 						}
 						else
-						{
-							var floatingWindow = Model as LayoutDocumentFloatingWindow;
-							if (floatingWindow != null)
-								floatingWindow.RootDocument.Dock();
-						}
+							CancelDragging();
 					}
 
 					break;
@@ -459,6 +463,12 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			Close();
 		}
 
+		private void CancelDragging()
+		{
+			var floatingWindow = Model as LayoutDocumentFloatingWindow;
+			if (floatingWindow != null)
+				floatingWindow.RootDocument.Dock();
+		}
 
 		protected bool CloseInitiatedByUser
 		{
@@ -514,12 +524,5 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		}
 
 		#endregion
-
-
-
-
-
-
-
 	}
 }

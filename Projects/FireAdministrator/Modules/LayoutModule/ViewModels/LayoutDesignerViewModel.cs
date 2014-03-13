@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
+using System.Windows.Input;
 
 namespace LayoutModule.ViewModels
 {
@@ -192,6 +193,17 @@ namespace LayoutModule.ViewModels
 			ActiveLayoutPart = layoutPartViewModel;
 			if (dragging)
 				Manager.StartDragging(layoutPartViewModel);
+		}
+		public void KeyPressed(KeyEventArgs e)
+		{
+			if (ActiveLayoutPart != null)
+				switch (e.Key)
+				{
+					case Key.Delete:
+						LayoutParts.Remove(ActiveLayoutPart);
+						e.Handled = true;
+						break;
+				}
 		}
 	}
 }

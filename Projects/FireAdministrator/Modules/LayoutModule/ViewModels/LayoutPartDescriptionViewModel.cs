@@ -4,7 +4,7 @@ using Infrastructure.Common.TreeList;
 
 namespace LayoutModule.ViewModels
 {
-	public class LayoutPartDescriptionViewModel : TreeNodeViewModel<LayoutPartDescriptionViewModel>
+	public class LayoutPartDescriptionViewModel : LayoutPartDescriptionGroupViewModel
 	{
 		public ILayoutPartDescription LayoutPartDescription { get; private set; }
 		public LayoutPartDescriptionViewModel(ILayoutPartDescription layoutPartDescription)

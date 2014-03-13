@@ -10,6 +10,7 @@ namespace Infrastructure.Common.Services.Layout
 		string Name { get; }
 		string IconSource { get; }
 		string Description { get; }
+		LayoutPartDescriptionGroup Group { get; }
 		bool AllowMultiple { get; }
 		LayoutPartSize Size { get; }
 		BaseLayoutPartViewModel CreateContent(ILayoutProperties properties);

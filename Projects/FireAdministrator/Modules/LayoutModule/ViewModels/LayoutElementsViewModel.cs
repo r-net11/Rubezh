@@ -12,13 +12,14 @@ namespace LayoutModule.ViewModels
 	public class LayoutElementsViewModel : BaseViewModel
 	{
 		private Layout _layout;
+		private Dictionary<Guid, LayoutPartDescriptionViewModel> _map;
 		public LayoutElementsViewModel()
 		{
 			Update();
 		}
 
-		private ObservableCollection<LayoutPartDescriptionViewModel> _layoutParts;
-		public ObservableCollection<LayoutPartDescriptionViewModel> LayoutParts
+		private ObservableCollection<LayoutPartDescriptionGroupViewModel> _layoutParts;
+		public ObservableCollection<LayoutPartDescriptionGroupViewModel> LayoutParts
 		{
 			get { return _layoutParts; }
 			set
@@ -28,8 +29,8 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
-		private LayoutPartDescriptionViewModel _selectedLayoutPart;
-		public LayoutPartDescriptionViewModel SelectedLayoutPart
+		private LayoutPartDescriptionGroupViewModel _selectedLayoutPart;
+		public LayoutPartDescriptionGroupViewModel SelectedLayoutPart
 		{
 			get { return _selectedLayoutPart; }
 			set
@@ -49,25 +50,50 @@ namespace LayoutModule.ViewModels
 						map[layoutPart.DescriptionUID]++;
 					else
 						map.Add(layoutPart.DescriptionUID, 1);
-			foreach (var layoutPart in LayoutParts)
-				if (map.ContainsKey(layoutPart.LayoutPartDescription.UID))
-					layoutPart.Count = map[layoutPart.LayoutPartDescription.UID];
+			foreach (var layoutPart in _map)
+				if (map.ContainsKey(layoutPart.Key))
+					layoutPart.Value.Count = map[layoutPart.Key];
 				else
-					layoutPart.Count = 0;
+					layoutPart.Value.Count = 0;
 			SelectedLayoutPart = LayoutParts.FirstOrDefault();
 		}
 		public void Update()
 		{
-			var list = new List<LayoutPartDescriptionViewModel>();
+			var list = new List<LayoutPartDescriptionGroupViewModel>();
+			_map = new Dictionary<Guid, LayoutPartDescriptionViewModel>();
+			var groups = Enum.GetValues(typeof(LayoutPartDescriptionGroup)).Cast<LayoutPartDescriptionGroup>().
+				Where(item => item != LayoutPartDescriptionGroup.Root).
+				ToDictionary(item => item, item => new LayoutPartDescriptionGroupViewModel(item));
 			foreach (var module in ApplicationService.Modules)
 			{
 				var layoutDeclarationModule = module as ILayoutDeclarationModule;
 				if (layoutDeclarationModule != null)
 					foreach (var layoutPartDescription in layoutDeclarationModule.GetLayoutPartDescriptions())
-						list.Add(new LayoutPartDescriptionViewModel(layoutPartDescription));
+					{
+						var layoutPartDescriptionViewModel = new LayoutPartDescriptionViewModel(layoutPartDescription);
+						if (layoutPartDescription.Group == LayoutPartDescriptionGroup.Root)
+							list.Add(layoutPartDescriptionViewModel);
+						else
+							groups[layoutPartDescription.Group].AddChild(layoutPartDescriptionViewModel);
+						_map.Add(layoutPartDescription.UID, layoutPartDescriptionViewModel);
+					}
 			}
-			list.Sort((x, y) => x.LayoutPartDescription.Index - y.LayoutPartDescription.Index);
-			LayoutParts = new ObservableCollection<LayoutPartDescriptionViewModel>(list);
+			list.AddRange(groups.Values.Where(item => item.ChildrenCount > 0));
+			list.Sort(Comparer);
+			LayoutParts = new ObservableCollection<LayoutPartDescriptionGroupViewModel>(list);
+		}
+		public LayoutPartDescriptionViewModel GetLayoutPartDescription(Guid guid)
+		{
+			return _map.ContainsKey(guid) ? _map[guid] : null;
+		}
+
+		private int Comparer(LayoutPartDescriptionGroupViewModel x, LayoutPartDescriptionGroupViewModel y)
+		{
+			var dx = x as LayoutPartDescriptionViewModel;
+			var dy = y as LayoutPartDescriptionViewModel;
+			return dx == null ?
+				(dy == null ? string.Compare(x.GroupName, y.GroupName) : -1) :
+				(dy == null ? 1 : dx.LayoutPartDescription.Index - dy.LayoutPartDescription.Index);
 		}
 	}
 }

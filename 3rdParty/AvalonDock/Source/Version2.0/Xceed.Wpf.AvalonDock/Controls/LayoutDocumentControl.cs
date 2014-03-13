@@ -117,6 +117,16 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			base.OnPreviewGotKeyboardFocus(e);
 		}
 
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			if (!e.Handled && e.Key == Key.Delete && LayoutItem.CloseCommand.CanExecute(null))
+			{
+				LayoutItem.CloseCommand.Execute(null);
+				e.Handled = true;
+			}
+			base.OnKeyDown(e);
+		}
+
 		///////////////////////////////////////////////////
 
 		bool _isMouseDown = false;

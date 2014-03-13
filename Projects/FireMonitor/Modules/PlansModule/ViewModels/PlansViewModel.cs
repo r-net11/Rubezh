@@ -30,7 +30,7 @@ namespace PlansModule.ViewModels
 		}
 		public PlansViewModel(List<IPlanPresenter<Plan, XStateClass>> planPresenters, LayoutPartPlansProperties properties)
 		{
-			_properties = properties;
+			_properties = properties ?? new LayoutPartPlansProperties() { Type = LayoutPartPlansType.All };
 			PlanPresenters = planPresenters;
 			ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Subscribe(OnNavigate);
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);

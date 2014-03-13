@@ -22,7 +22,7 @@ namespace LayoutModule.ViewModels
 		public LayoutPartViewModel(LayoutPart layoutPart)
 		{
 			LayoutPart = layoutPart;
-			LayoutPartDescriptionViewModel = LayoutDesignerViewModel.Instance.LayoutElementsViewModel.LayoutParts.FirstOrDefault(item => item.LayoutPartDescription.UID == LayoutPart.DescriptionUID) ?? new LayoutPartDescriptionViewModel(new UnknownLayoutPartDescription(LayoutPart.DescriptionUID));
+			LayoutPartDescriptionViewModel = LayoutDesignerViewModel.Instance.LayoutElementsViewModel.GetLayoutPartDescription(LayoutPart.DescriptionUID) ?? new LayoutPartDescriptionViewModel(new UnknownLayoutPartDescription(LayoutPart.DescriptionUID));
 			Initialize();
 		}
 		public LayoutPartViewModel(LayoutPartDescriptionViewModel layoutPartDescriptionViewModel)

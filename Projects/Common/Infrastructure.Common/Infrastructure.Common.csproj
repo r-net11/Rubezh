@@ -183,6 +183,7 @@
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="HXCFileInfoHelper.cs" />
     <Compile Include="Services\Layout\BaseLayoutPartViewModel.cs" />
+    <Compile Include="Services\Layout\LayoutPartDescriptionGroup.cs" />
     <Compile Include="Services\Layout\LayoutPartPropertyPageViewModel.cs" />
     <Compile Include="Video\CameraFramesWatcher.cs" />
     <Compile Include="Video\MjpegCamera.cs" />

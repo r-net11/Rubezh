@@ -12,6 +12,7 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
 
 namespace LayoutModule.ViewModels
 {
@@ -217,6 +218,13 @@ namespace LayoutModule.ViewModels
 		{
 			if (IsActive)
 				LayoutDesignerViewModel.Instance.SaveLayout();
+		}
+
+		protected override void KeyPressed(KeyEventArgs e)
+		{
+			if (!e.Handled)
+				LayoutDesignerViewModel.Instance.KeyPressed(e);
+			base.KeyPressed(e);
 		}
 	}
 }

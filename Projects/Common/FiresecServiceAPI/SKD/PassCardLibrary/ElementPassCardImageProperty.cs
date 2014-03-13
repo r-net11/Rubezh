@@ -38,5 +38,9 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			get { return Primitive.NotPrimitive; }
 		}
+		public override void UpdateZLayer()
+		{
+			ZLayer = 70;
+		}
 	}
 }

@@ -30,5 +30,10 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		public PassCardTextPropertyType PropertyType { get; set; }
 		[DataMember]
 		public Guid AdditionalColumn { get; set; }
+
+		public override void UpdateZLayer()
+		{
+			ZLayer = 70;
+		}
 	}
 }

@@ -115,7 +115,7 @@ namespace GKModule.Models
 								MessageBoxService.ShowWarning(result.Error);
 							}
 						});
-					}) {Name = "DeviceCommandsViewModel WriteConfig"};
+					}) { Name = "DeviceCommandsViewModel WriteConfig" };
 					thread.Start();
 				}
 			}
@@ -246,7 +246,7 @@ namespace GKModule.Models
 				};
 				if (openDialog.ShowDialog().Value)
 				{
-					var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK)||(x.Driver.IsKauOrRSR2Kau));
+					var gkKauKauRsr2Devices = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == XDriverType.GK) || (x.Driver.IsKauOrRSR2Kau));
 					var firmWareUpdateViewModel = new FirmWareUpdateViewModel(gkKauKauRsr2Devices);
 					if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
 					{
@@ -296,7 +296,7 @@ namespace GKModule.Models
 					thread.Name = "DeviceCommandsViewModel UpdateFirmwhare";
 					thread.Start();
 				}
-					
+
 			}
 		}
 
