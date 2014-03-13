@@ -28,7 +28,6 @@ namespace Infrastructure.Common.Video.RVI_VSS
 	[ContentProperty("VideoCell")]
 	public partial class CellPlayerWrap : UserControl
 	{
-
 		public VideoCell VideoCell
 		{
 			get { return (VideoCell)GetValue(VideoCellProperty); }
@@ -68,12 +67,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 
 			var firstChannel = device.Channels.First(channel => channel.ChannelNumber == 0);
 			var videoCell = new VideoCell
-                {
+				{
 					Channel = new ChannelViewModel(firstChannel)
-                };
+				};
 			FormsPlayer.VideoCell = videoCell;
-			FormsPlayer.MouseDoubleClick += (s,e) => fullScreenSizeNewDelegate (this, null);
+			FormsPlayer.MouseDoubleClick += (s, e) => fullScreenSizeNewDelegate(this, null);
 		}
 	}
 }
-
