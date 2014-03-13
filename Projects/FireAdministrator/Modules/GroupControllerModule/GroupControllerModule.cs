@@ -220,8 +220,8 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 113, "Направления", "Панель направления", "BDirection.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 114, "НС", "Панель НС", "BPumpStation.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 115, "МПТ", "Панель МПТ", "BMPT.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Monitor, LayoutPartIdentities.Journals, 116, "Журнал событий", "Панель журнал событий", "BBook.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Monitor, LayoutPartIdentities.Archive, 117, "Архив", "Панель архив", "BArchive.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Journals, 116, "Журнал событий", "Панель журнал событий", "BBook.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Archive, 117, "Архив", "Панель архив", "BArchive.png");
 		}
 
 		#endregion

@@ -23,13 +23,6 @@
 					<Setter Property="Focusable" Value="True" />
 				</Style>
 			</tree:TreeList.ItemContainerStyle>
-			<tree:TreeList.ContextMenu>
-				<ContextMenu>
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Копировать" Command="{Binding PlansViewModel.AddCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BFolderOpen.png" Text="Вырезать" Command="{Binding PlansViewModel.PlanCutCommand}" />
-					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BPaste.png" Text="Вставить" Command="{Binding PlansViewModel.PlanPasteCommand}" CommandParameter="{StaticResource True}" />
-				</ContextMenu>
-			</tree:TreeList.ContextMenu>
 			<tree:TreeList.View>
 				<GridView>
 					<!--<GridViewColumn Width="250" Header="Название">-->

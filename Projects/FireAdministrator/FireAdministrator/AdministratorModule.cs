@@ -33,7 +33,7 @@ namespace FireAdministrator
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Root, LayoutPartIdentities.Indicator, 1, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Indicator, 1, "Индикаторы", "Панель индикаторов состояния", "BAlarm.png", false, new LayoutPartSize() { PreferedSize = new Size(1000, 100) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Root, LayoutPartIdentities.Navigation, 2, "Навигатор", "Панель навигации", "BTree.png", false, new LayoutPartSize() { PreferedSize = new Size(150, 500) });
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Root, LayoutPartIdentities.Content, 3, "Контейнер", "Контейнер содержания", "BLayouts.png", false);
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Monitor, LayoutPartIdentities.Reports, 201, "Отчеты", "Панель отчетов", "BLevels.png");
