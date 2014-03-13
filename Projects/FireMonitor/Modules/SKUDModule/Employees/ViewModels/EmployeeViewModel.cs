@@ -15,6 +15,9 @@ namespace SKDModule.ViewModels
 	{
 		public EmployeeViewModel(Employee employee)
 		{
+			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
+			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
+
 			Employee = employee;
 			var departmentUID = (Employee.CurrentReplacement == null || Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 			var department = DepartmentHelper.GetSingle(departmentUID);
@@ -25,10 +28,6 @@ namespace SKDModule.ViewModels
 			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
 
 
-
-			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
-			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
-
 			var filter = new CardFilter{ EmployeeUIDs = new List<Guid>() { Employee.UID } };
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			var cards = CardHelper.Get(filter);
@@ -37,9 +36,6 @@ namespace SKDModule.ViewModels
 				foreach (var item in cards)
 					Cards.Add(new EmployeeCardViewModel(this, item));
 			}
-			SelectedCard = Cards.FirstOrDefault();
-
-			_isExpanded = false;
 		}
 
 		public Employee Employee { get; set; }
@@ -58,9 +54,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(()=>DismissedString);
 		}
 
-
-
-		bool _isExpanded;
+		bool _isExpanded = false;
 		public bool IsExpanded
 		{
 			get { return _isExpanded; }
@@ -79,17 +73,6 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 
-		EmployeeCardViewModel _selectedCard;
-		public EmployeeCardViewModel SelectedCard
-		{
-			get { return _selectedCard; }
-			set
-			{
-				_selectedCard = value;
-				OnPropertyChanged("SelectedCard");
-			}
-		}
-
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
@@ -103,7 +86,6 @@ namespace SKDModule.ViewModels
 					return;
 				var cardViewModel = new EmployeeCardViewModel(this, card);
 				Cards.Add(cardViewModel);
-				SelectedCard = cardViewModel;
 			}
 		}
 		public bool CanAddCard()
@@ -117,17 +99,12 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
 				var card = cardViewModel.Card;
-				var cardRemovalReason = cardRemovalReasonViewModel.CardRemovalReason;
+				var cardRemovalReason = cardRemovalReasonViewModel.RemovalReason;
 				var toStopListResult =  CardHelper.ToStopList(card, cardRemovalReason);
 				if (!toStopListResult)
 					return;
 				Cards.Remove(cardViewModel);
-				SelectedCard = Cards.FirstOrDefault();
 			}
-		}
-		public bool CanRemoveCard()
-		{
-			return SelectedCard != null;
 		}
 	}
 }

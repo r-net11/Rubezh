@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			EmployeeViewModel.RemoveCard(this);
-			UsersAccessViewModel.Current.SelectedUser = UsersAccessViewModel.Current.RealSelectedUser;
+			EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowCardCommand { get; private set; }
 		void OnShowCard()
 		{
-			UsersAccessViewModel.Current.SelectedCard = this;
+			EmployeesViewModel.Current.SelectedCard = this;
 		}
 
 		bool _isBold;

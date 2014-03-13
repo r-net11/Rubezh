@@ -18,6 +18,8 @@
 
 
 МАКСИМ
+- Структура таблицы с журналом
+- Скрипт тестовых данных. Добавить карты сотрудникам
 var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 - При добавлении карты к сотруднику проверять, что эта карта не принадлежит другому сотруднику
 

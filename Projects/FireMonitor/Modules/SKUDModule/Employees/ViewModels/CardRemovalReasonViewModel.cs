@@ -8,17 +8,17 @@ namespace SKDModule.ViewModels
 		public CardRemovalReasonViewModel()
 		{
 			Title = "Причина перемещения в СТОП-лист";
-			CardRemovalReason = "Утеряна " + DateTime.Now.ToString();
+			RemovalReason = "Утеряна " + DateTime.Now.ToString();
 		}
 
-		string _cardRemovalReason;
-		public string CardRemovalReason
+		string _removalReason;
+		public string RemovalReason
 		{
-			get { return _cardRemovalReason; }
+			get { return _removalReason; }
 			set
 			{
-				_cardRemovalReason = value;
-				OnPropertyChanged("_cardRemovalReason");
+				_removalReason = value;
+				OnPropertyChanged("RemovalReason");
 			}
 		}
 	}

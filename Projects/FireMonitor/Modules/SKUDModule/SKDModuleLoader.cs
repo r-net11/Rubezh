@@ -23,7 +23,6 @@ namespace SKDModule
 	public class SKDModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		EmployeesViewModel EmployeesViewModel;
-		UsersAccessViewModel UsersAccessViewModel;
 		GUDsViewModel GUDsViewModel;
 		JournalViewModel JournalViewModel;
 		DevicesViewModel DevicesViewModel;
@@ -51,7 +50,6 @@ namespace SKDModule
 		public override void CreateViewModels()
 		{
 			EmployeesViewModel = new EmployeesViewModel();
-			UsersAccessViewModel = new UsersAccessViewModel();
 			GUDsViewModel = new GUDsViewModel();
 			JournalViewModel = new JournalViewModel();
 			DevicesViewModel = new DevicesViewModel();
@@ -79,7 +77,6 @@ namespace SKDModule
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
-						new NavigationItem<ShowSKDUsersAccessEvent>(UsersAccessViewModel, "Доступ сотрудников", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDGUDAccessEvent>(GUDsViewModel, "ГУД", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -121,7 +118,6 @@ namespace SKDModule
 			base.RegisterResource();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Access/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GUDs/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
@@ -185,7 +181,6 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => VerificationViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDUsersAccess, "Доступ сотрудников", "Tree.png", (p) => UsersAccessViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDCards, "Карты", "Tree.png", (p) => CardsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDepartments, "Отделы", "Tree.png", (p) => DepartmentsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "Tree.png", (p) => PositionsViewModel);
