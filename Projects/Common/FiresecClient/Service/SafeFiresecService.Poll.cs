@@ -102,11 +102,11 @@ namespace FiresecClient
 						break;
 
 					case CallbackResultType.SKDObjectStateChanged:
-						//SafeOperationCall(() =>
-						//{
-						//	if (SKDCallbackResultEvent != null)
-						//		SKDCallbackResultEvent(callbackResult.SKDCallbackResult);
-						//});
+						SafeOperationCall(() =>
+						{
+							if (SKDCallbackResultEvent != null)
+								SKDCallbackResultEvent(callbackResult.SKDCallbackResult);
+						});
 						break;
 
 					case CallbackResultType.NewEvents:

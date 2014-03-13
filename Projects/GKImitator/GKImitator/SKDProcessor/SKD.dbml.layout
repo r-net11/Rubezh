@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SKD">
+  <DataContextMoniker Name="/SKDDataContext" />
+  <nestedChildShapes>
+    <classShape Id="565fbd54-314f-475d-b382-6b78433e4b35" absoluteBounds="5.125, 1.875, 2, 3.1170068359375">
+      <DataClassMoniker Name="/SKDDataContext/Journal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b25ad0ea-b32c-4256-857f-b219fb41bf4d" absoluteBounds="5.1400000000000006, 2.335, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -12,7 +12,7 @@ namespace SKDDriver
 {
 	public static class SKDDeviceProcessor
 	{
-		[DebuggerStepThrough]
+		//[DebuggerStepThrough]
 		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
 		{
 			var stringIPAddress = device.Address;

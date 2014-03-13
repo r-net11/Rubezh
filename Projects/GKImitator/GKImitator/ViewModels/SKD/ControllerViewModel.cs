@@ -72,7 +72,7 @@ namespace GKImitator.ViewModels
 				Code = skdEvent.No,
 				CardNo = 0
 			};
-			SKDImitatorProcessor.JournalItems.Add(imitatorJournalItem);
+			SKDImitatorProcessor.AddJournalItem(imitatorJournalItem);
 		}
 
 		public ObservableCollection<ReaderViewModel> Readers { get; private set; }
