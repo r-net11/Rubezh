@@ -9,7 +9,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDepartment.SelectedDepartment}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png"  />

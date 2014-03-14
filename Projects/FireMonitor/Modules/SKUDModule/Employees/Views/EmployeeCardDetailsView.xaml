@@ -61,11 +61,5 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-		<TabItem Header="Исключения ГУД">
-			<Views:AccessZonesSelectationView DataContext="{Binding AdditionalGUDZones}" />
-		</TabItem>
-		<TabItem Header="Дополнения ГУД">
-			<Views:AccessZonesSelectationView DataContext="{Binding ExceptedGUDZones}" />
-		</TabItem>
 	</TabControl>
 </UserControl>

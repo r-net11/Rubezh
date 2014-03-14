@@ -48,7 +48,7 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(e => e != null);
-			
+
 			var IsDeletedExpression = PredicateBuilder.True<TableT>();
 			switch (filter.WithDeleted)
 			{
@@ -62,14 +62,14 @@ namespace SKDDriver
 					break;
 			}
 			result = result.And(IsDeletedExpression);
-			
+
 			var uids = filter.Uids;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
 			var removalDates = filter.RemovalDates;
 			if (removalDates != null && filter.WithDeleted == DeletedType.Deleted)
-				result = result.And(e => e.RemovalDate == null || 
-					(e.RemovalDate >= removalDates.StartDate && 
+				result = result.And(e => e.RemovalDate == null ||
+					(e.RemovalDate >= removalDates.StartDate &&
 						e.RemovalDate <= removalDates.EndDate));
 			return result;
 		}

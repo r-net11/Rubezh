@@ -26,11 +26,6 @@ namespace SKDDriver
 				x.UID != item.UID);
 			if (sameSeriesNo)
 				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
-			foreach (var cardZone in item.AdditionalGUDZones)
-			{
-				if (item.ExceptedGUDZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
-					return new OperationResult("Попытка добавить одну и ту же зону как исключение и как расширение ГУД");
-			}
 			return base.CanSave(item);
 		}
 
@@ -70,8 +65,6 @@ namespace SKDDriver
 			result.ValidTo = tableItem.ValidTo;
 			result.GUDUID = tableItem.GUDUID;
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
-			result.AdditionalGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDAdditions);
-			result.ExceptedGUDZones = CardZonesTranslator.Get(tableItem.UID, ParentType.GUDExceptons);
 			result.IsAntipass = tableItem.IsAntipass;
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;

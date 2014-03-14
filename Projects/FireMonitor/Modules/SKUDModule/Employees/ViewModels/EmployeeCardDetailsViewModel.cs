@@ -11,8 +11,6 @@ namespace SKDModule.ViewModels
 	{
 		public SKDCard Card { get; private set; }
 		public AccessZonesSelectationViewModel AccessZones { get; private set; }
-		public AccessZonesSelectationViewModel AdditionalGUDZones { get; private set; }
-		public AccessZonesSelectationViewModel ExceptedGUDZones { get; private set; }
 		bool IsNewCard;
 
 		public EmployeeCardDetailsViewModel(SKDCard card = null)
@@ -41,8 +39,6 @@ namespace SKDModule.ViewModels
 			EndDate = Card.ValidTo;
 
 			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID, ParentType.Card);
-			AdditionalGUDZones = new AccessZonesSelectationViewModel(Card.AdditionalGUDZones, Card.UID, ParentType.GUDAdditions);
-			ExceptedGUDZones = new AccessZonesSelectationViewModel(Card.ExceptedGUDZones, Card.UID, ParentType.GUDExceptons);
 
 			AvailableGUDs = new ObservableCollection<GUD>();
 			var guds = GUDHelper.Get(new GUDFilter());
@@ -178,8 +174,6 @@ namespace SKDModule.ViewModels
 			Card.ValidFrom = StartDate;
 			Card.ValidTo = EndDate;
 			Card.CardZones = AccessZones.GetCardZones();
-			Card.AdditionalGUDZones = AdditionalGUDZones.GetCardZones();
-			Card.ExceptedGUDZones = ExceptedGUDZones.GetCardZones();
 			
 			if (SelectedGUD != null)
 				Card.GUDUID = SelectedGUD.UID;

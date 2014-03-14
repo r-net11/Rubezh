@@ -81,8 +81,6 @@ namespace SKDDriver
 					var databaseItems = Table.Where(x => x.ParentUID == card.UID);
 					databaseItems.ForEach(x => MarkDeleted(x));
 					Save(card.CardZones);
-					Save(card.AdditionalGUDZones);
-					Save(card.ExceptedGUDZones);
 				}
 				return new OperationResult();
 			}
@@ -128,4 +126,3 @@ namespace SKDDriver
 		}
 	}
 }
-
