@@ -71,7 +71,9 @@ namespace SKDModule.ViewModels
 				Cards.Add(cardViewModel);
 
 				IsExpanded = true;
-				cardViewModel.SelectCardCommand.Execute();
+				//cardViewModel.SelectCardCommand.Execute();
+				EmployeesViewModel.Current.SelectedCard = cardViewModel;
+				IsExpanded = true;
 			}
 		}
 		public bool CanAddCard()
@@ -85,7 +87,7 @@ namespace SKDModule.ViewModels
 			get { return _isExpanded; }
 			set
 			{
-				_isExpanded = !_isExpanded;
+				_isExpanded = value;
 				OnPropertyChanged("IsExpanded");
 			}
 		}

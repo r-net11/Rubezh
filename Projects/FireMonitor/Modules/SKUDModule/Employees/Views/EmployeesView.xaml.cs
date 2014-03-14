@@ -18,6 +18,7 @@ namespace SKDModule.Views
 
 		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			EmployeesViewModel.Current.DoNotEmployee = false;
 			EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
 		}
 	}

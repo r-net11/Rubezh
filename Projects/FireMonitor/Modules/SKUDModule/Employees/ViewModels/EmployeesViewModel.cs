@@ -70,7 +70,6 @@ namespace SKDModule.ViewModels
 				_selectedEmployee = value;
 				OnPropertyChanged("SelectedEmployee");
 
-				IsCard = value == null;
 				RealSelectedEmployee = value;
 			}
 		}
@@ -91,6 +90,8 @@ namespace SKDModule.ViewModels
 
 				_realSelectedEmployee = value;
 				OnPropertyChanged("RealSelectedEmployee");
+
+				IsCard = value == null;
 			}
 		}
 

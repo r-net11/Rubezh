@@ -39,12 +39,8 @@
 				<ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" IsEnabled="{Binding UseStopList}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Series}" Margin="2" />
-								<TextBlock Text="\" Margin="2" />
-								<TextBlock Text="{Binding Number}" Margin="2" />
-							</StackPanel>
-						</DataTemplate>
+                            <TextBlock Text="{Binding PresentationName}" Margin="2" />
+                        </DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 			</Grid>

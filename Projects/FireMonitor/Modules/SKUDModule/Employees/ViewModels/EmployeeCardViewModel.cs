@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient.SKDHelpers;
+using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -38,9 +39,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public string ID
+		public string PresentationName
 		{
-			get { return Card.Series + "/" + Card.Number; }
+			get { return Card.PresentationName; }
 		}
 		public DateTime StartDate
 		{
@@ -77,9 +78,10 @@ namespace SKDModule.ViewModels
 				if (!saveResult)
 					return;
 				Card = card;
-				OnPropertyChanged("ID");
+				OnPropertyChanged("PresentationName");
 				OnPropertyChanged("StartDate");
 				OnPropertyChanged("EndDate");
+				OnPropertyChanged("Card");
 				CardZonesViewModel.Update();
 			}
 		}

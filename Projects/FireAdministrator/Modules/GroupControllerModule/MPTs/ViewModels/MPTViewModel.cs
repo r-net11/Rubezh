@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 			foreach (var device in XManager.Devices)
 			{
 				if (MPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
-					if (!MPT.MPTDevices.Any(x => x.DeviceUID == device.BaseUID))
+					if (!device.IsInMPT)
 						devices.Add(device);
 			}
 

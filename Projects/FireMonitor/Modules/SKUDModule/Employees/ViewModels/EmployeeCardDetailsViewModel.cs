@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства карты: {0}", card.Series + "/" + card.Number);
+				Title = string.Format("Свойства карты: {0}", card.PresentationName);
 			}
 			Card = card;
 			IDFamily = Card.Series;
@@ -165,7 +165,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (UseStopList)
+			if (UseStopList && SelectedStopListCard != null)
 			{
 				if(!IsNewCard)
 					CardHelper.ToStopList(Card, "Заменена на карту " + IDFamily + @"\" + IDNo);
