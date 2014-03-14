@@ -190,15 +190,6 @@
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
       <DependentUpon>CellPlayerWrap.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Video\RVI_VSS\Form1.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Video\RVI_VSS\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Video\RVI_VSS\TestCellPlayerWrap.xaml.cs">
-      <DependentUpon>TestCellPlayerWrap.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />
@@ -401,10 +392,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Video\RVI_VSS\TestCellPlayerWrap.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Video\VideoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -471,9 +458,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Video\RVI_VSS\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

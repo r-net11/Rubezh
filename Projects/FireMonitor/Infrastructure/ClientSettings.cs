@@ -13,6 +13,7 @@ namespace Infrastructure
 		public static readonly string ArchiveDefaultStateFileName = AppDataFolderHelper.GetMonitorSettingsPath("ArchiveDefaultState.xml");
 		public static readonly string AutoActivationSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("AutoActivationSettings.xml");
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
+		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
@@ -35,6 +36,13 @@ namespace Infrastructure
 			set { _multiLayoutCameraSettings = value; }
 		}
 
+		static RviMultiLayoutCameraSettings _rviMultiLayoutCameraSettings;
+		public static RviMultiLayoutCameraSettings RviMultiLayoutCameraSettings
+		{
+			get { return _rviMultiLayoutCameraSettings ?? (_rviMultiLayoutCameraSettings = new RviMultiLayoutCameraSettings()); }
+			set { _rviMultiLayoutCameraSettings = value; }
+		}
+
 		public static void LoadSettings()
 		{
 			try
@@ -42,6 +50,7 @@ namespace Infrastructure
 				LoadArchiveDefaultState();
 				LoadAutoActivationSettings();
 				LoadCameraSettings();
+				LoadRviCameraSettings();
 			}
 			catch (Exception e)
 			{
@@ -59,6 +68,7 @@ namespace Infrastructure
 				SaveArchiveDefaultState();
 				SaveAutoActivationSettings();
 				SaveCameraSettings();
+				SaveRviCameraSettings();
 			}
 			catch (Exception e)
 			{
@@ -118,6 +128,24 @@ namespace Infrastructure
 			}
 		}
 
+		static void LoadRviCameraSettings()
+		{
+			if (File.Exists(RviMultiLayoutCameraSettingsFileName))
+			{
+				using (var fileStream = new FileStream(RviMultiLayoutCameraSettingsFileName, FileMode.Open))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(RviMultiLayoutCameraSettings));
+					RviMultiLayoutCameraSettings = (RviMultiLayoutCameraSettings)dataContractSerializer.ReadObject(fileStream);
+					if (RviMultiLayoutCameraSettings.Dictionary == null)
+						RviMultiLayoutCameraSettings.Dictionary = new Dictionary<string, Guid>();
+				}
+			}
+			else
+			{
+				MultiLayoutCameraSettings = new MultiLayoutCameraSettings();
+			}
+		}
+
 		static void SaveArchiveDefaultState()
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
@@ -142,6 +170,15 @@ namespace Infrastructure
 			{
 				var dataContractSerializer = new DataContractSerializer(typeof(MultiLayoutCameraSettings));
 				dataContractSerializer.WriteObject(fileStream, MultiLayoutCameraSettings);
+			}
+		}
+
+		static void SaveRviCameraSettings()
+		{
+			using (var fileStream = new FileStream(RviMultiLayoutCameraSettingsFileName, FileMode.Create))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(RviMultiLayoutCameraSettings));
+				dataContractSerializer.WriteObject(fileStream, RviMultiLayoutCameraSettings);
 			}
 		}
 	}

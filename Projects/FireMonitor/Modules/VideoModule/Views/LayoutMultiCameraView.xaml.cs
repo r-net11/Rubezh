@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interop;
-using Infrastructure.Common.Video.RVI_VSS;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
@@ -26,9 +22,7 @@ namespace VideoModule.Views
 
 		private void UI_Loaded(object sender, RoutedEventArgs e)
 		{
-			_2X2GridView._2X2Grid00.InitializeCamera(OnFullScreenSizeNew);
-			//_2X2GridView._2X2Grid10.InitializeCamera(fullScreenSizeNew);
-			//InitializeUIElement(_2X2GridView);
+			InitializeUIElement(_2X2GridView);
 			InitializeUIElement(_1X7GridView);
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
@@ -105,21 +99,6 @@ namespace VideoModule.Views
 				BackUpView = _grid.Child;
 				_grid.Child = new LayoutPartCameraView { DataContext = (sender as LayoutPartCameraView).DataContext };
 				(_grid.Child as LayoutPartCameraView).MouseDoubleClick += OnFullScreenSize;
-			}
-			IsFullScreen = !IsFullScreen;
-		}
-
-		void OnFullScreenSizeNew(object sender, EventArgs eventArgs)
-		{
-			if (IsFullScreen)
-			{
-				_grid.Child = BackUpView;
-			}
-			else
-			{
-				BackUpView = _grid.Child;
-				_grid.Child = new CellPlayerWrap { DataContext = (sender as CellPlayerWrap).DataContext };
-				(_grid.Child as CellPlayerWrap).MouseDoubleClick += OnFullScreenSizeNew;
 			}
 			IsFullScreen = !IsFullScreen;
 		}

@@ -2,7 +2,7 @@
 
 namespace VideoModule.ViewModels
 {
-	public class MultiLayoutCameraViewModel : BaseViewModel
+	public class LayoutMultiCameraViewModel : BaseViewModel
 	{
 	}
 }

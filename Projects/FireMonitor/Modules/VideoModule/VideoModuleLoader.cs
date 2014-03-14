@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define RVI_VSS
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
@@ -15,6 +16,7 @@ using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
 using XFiresecAPI;
+using RviLayoutMultiCameraViewModel = VideoModule.RVI_VSS.ViewModels.LayoutMultiCameraViewModel;
 
 namespace VideoModule
 {
@@ -93,9 +95,12 @@ namespace VideoModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => _CamerasViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Видео с камеры", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new MultiLayoutCameraViewModel());
+#if RVI_VSS 
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new RviLayoutMultiCameraViewModel()); 
+#else
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new LayoutMultiCameraViewModel());
+#endif
 		}
-
 		#endregion
 	}
 }

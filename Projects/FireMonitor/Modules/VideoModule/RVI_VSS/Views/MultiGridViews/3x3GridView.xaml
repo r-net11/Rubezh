@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="VideoModule.RVI_VSS.Views._3X3GridView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:rviVss="clr-namespace:Infrastructure.Common.Video.RVI_VSS;assembly=Infrastructure.Common">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="auto" />
+			<ColumnDefinition />
+			<ColumnDefinition Width="auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid02" Grid.Row ="0" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid12" Grid.Row ="2" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid20" Grid.Row ="4" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid21" Grid.Row ="4" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid22" Grid.Row ="4" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+		
+		<GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="5" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+		<GridSplitter Grid.Row="0" Grid.Column="3" Grid.RowSpan="5" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+		<GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Height="5" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+		<GridSplitter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" Height="5" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+	</Grid>
+</UserControl>
