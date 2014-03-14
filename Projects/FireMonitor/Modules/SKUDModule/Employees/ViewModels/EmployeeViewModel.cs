@@ -19,11 +19,11 @@ namespace SKDModule.ViewModels
 			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
 
 			Employee = employee;
-			var departmentUID = (Employee.CurrentReplacement == null || Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
+			var departmentUID = !Employee.IsReplaced ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 			var department = DepartmentHelper.GetSingle(departmentUID);
-			DepartmentName = (department != null) ? department.Name : "";
+			DepartmentName = department != null ? department.Name : "";
 			var position = PositionHelper.GetSingle(Employee.PositionUID);
-			PositionName = (position != null) ? position.Name : "";
+			PositionName = position != null ? position.Name : "";
 			AppointedString = Employee.Appointed.ToString("d MMM yyyy");
 			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
 

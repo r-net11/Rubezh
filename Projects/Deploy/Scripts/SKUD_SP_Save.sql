@@ -48,6 +48,13 @@ DROP PROCEDURE [dbo].[SaveGuest]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveOrganization]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveOrganization]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveCard]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveCard]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveGUD]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveGUD]
+
 
 GO
 CREATE PROCEDURE [dbo].[SaveInterval]
@@ -652,4 +659,49 @@ BEGIN
 		@Description )
 END
 
+GO
+CREATE PROCEDURE SaveCard
+	@UID uniqueidentifier,
+	@IsDeleted bit,
+	@RemovalDate datetime,	
+	@Series int,
+	@Number int,
+	@EmployeeUID uniqueidentifier = NULL,
+	@GUDUID uniqueidentifier = NULL,
+	@ValidFrom datetime,
+	@ValidTo datetime,
+	@IsAntipass bit,
+	@IsInStopList bit,
+	@StopReason text = NULL
+AS
+BEGIN
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,GUDUID,ValidFrom,ValidTo,IsAntipass,IsInStopList,StopReason)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@GUDUID,@ValidFrom,@ValidTo,@IsAntipass,@IsInStopList,@StopReason)
+END
+
+GO
+CREATE PROCEDURE SaveGUD
+	@UID uniqueidentifier,
+	@OrganizationUID uniqueidentifier,
+	@Name nvarchar(50) = NULL,
+	@Description nvarchar(max) = NULL,
+	@IsDeleted bit,
+	@RemovalDate datetime
+AS
+BEGIN
+	INSERT INTO GUD (
+		UID,
+		Name,
+		Description,
+		IsDeleted,
+		RemovalDate,
+		OrganizationUID)
+	VALUES (
+		@UID,
+		@Name,
+		@Description,
+		@IsDeleted ,
+		@RemovalDate ,
+		@OrganizationUID )
+END
 	
