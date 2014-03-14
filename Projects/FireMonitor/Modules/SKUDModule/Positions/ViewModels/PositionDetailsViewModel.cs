@@ -10,10 +10,10 @@ namespace SKDModule.ViewModels
 {
 	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		PositionsViewModel PositionsViewModel;
+		OrganisationPositionsViewModel PositionsViewModel;
 		public Position Position { get; private set; }
 
-		public PositionDetailsViewModel(PositionsViewModel positionsViewModel, Position position = null)
+		public PositionDetailsViewModel(OrganisationPositionsViewModel positionsViewModel, Position position = null)
 		{
 			PositionsViewModel = positionsViewModel;
 			if (position == null)

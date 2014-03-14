@@ -13,12 +13,16 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : BaseViewModel
 	{
-		public EmployeeViewModel(Employee employee)
+		public OrganisationEmployeesViewModel OrganisationEmployeesViewModel { get; private set; }
+
+		public EmployeeViewModel(OrganisationEmployeesViewModel organisationEmployeesViewModel, Employee employee)
 		{
+			OrganisationEmployeesViewModel = organisationEmployeesViewModel;
+			Employee = employee;
+
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
 
-			Employee = employee;
 			var departmentUID = !Employee.IsReplaced ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 			var department = DepartmentHelper.GetSingle(departmentUID);
 			DepartmentName = department != null ? department.Name : "";
@@ -26,7 +30,6 @@ namespace SKDModule.ViewModels
 			PositionName = position != null ? position.Name : "";
 			AppointedString = Employee.Appointed.ToString("d MMM yyyy");
 			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
-
 
 			var filter = new CardFilter{ EmployeeUIDs = new List<Guid>() { Employee.UID } };
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
@@ -71,9 +74,7 @@ namespace SKDModule.ViewModels
 				Cards.Add(cardViewModel);
 
 				IsExpanded = true;
-				//cardViewModel.SelectCardCommand.Execute();
-				EmployeesViewModel.Current.SelectedCard = cardViewModel;
-				IsExpanded = true;
+				OrganisationEmployeesViewModel.SelectedCard = cardViewModel;
 			}
 		}
 		public bool CanAddCard()

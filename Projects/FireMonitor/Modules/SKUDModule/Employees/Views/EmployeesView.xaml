@@ -4,14 +4,21 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
+    
+    <UserControl.Resources>
+        <Style x:Key="ItemsControlStyle" TargetType="{x:Type ItemsControl}">
+            <Style.Setters>
+                <EventSetter Event="PreviewMouseDown" Handler="ItemsControl_MouseDown"/>
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" MinHeight="200" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+        <StackPanel Grid.Row="0" DataContext="{Binding SelectedOrganisationEmployee}" Orientation="Horizontal" Margin="2">
             <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
             <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
                 <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
@@ -26,146 +33,184 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2" RowDetailsVisibilityMode="Visible">
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Setters>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="0" PreviewMouseDown="Border_PreviewMouseDown">
-                                        <ContentPresenter VerticalAlignment="Center" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style.Setters>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-                            <Setter Property="Foreground" Value="White" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
-            <DataGrid.RowDetailsTemplate>
+        <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0"
+				ItemsSource="{Binding OrganisationEmployees}"
+				SelectedItem="{Binding SelectedOrganisationEmployee}">
+
+            <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding Cards}" PreviewMouseDown="ItemsControl_MouseDown"
-                            Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Width="200">
-                                        <Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="Идентификатор" Margin="10 2" />
-                                                <TextBlock Text="{Binding Card.PresentationName}" Margin="10 2" />
-                                            </StackPanel>
-                                        </Hyperlink>
-									    <TextBlock.Style>
-										    <Style>
-											    <Style.Triggers>
-												    <DataTrigger Binding="{Binding IsBold}" Value="True">
-													    <DataTrigger.Setters>
-														    <Setter Property="TextBlock.FontWeight" Value="Bold" />
-													    </DataTrigger.Setters>
-												    </DataTrigger>
-											    </Style.Triggers>
-										    </Style>
-									    </TextBlock.Style>
-                                    </TextBlock>
-                                    <CheckBox IsChecked="{Binding IsBlocked}" Content="Заблокирован" Margin="10 2" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <TextBlock Text="{Binding Name}" />
                 </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Имя" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-                            <TextBlock>
-                                <Hyperlink Command="{Binding ChangeIsExpandedCommand}" Style="{StaticResource HyperlinkStyle2}">
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" MinHeight="200" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" MinHeight="200" />
+                        </Grid.RowDefinitions>
+                        <DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2" RowDetailsVisibilityMode="Visible">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="{x:Type DataGridCell}">
+                                    <Style.Setters>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <EventSetter Event="PreviewMouseDown" Handler="Border_PreviewMouseDown"/>
+                                    </Style.Setters>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <ItemsControl ItemsSource="{Binding Cards}" Style="{StaticResource ItemsControlStyle}"
+                                            Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <!--<ItemsControl.Style>
+                                            <Style TargetType="{x:Type ItemsControl}">
+                                                <Style.Setters>
+                                                    <EventSetter Event="PreviewMouseDown" Handler="ItemsControl_MouseDown"/>
+                                                </Style.Setters>
+                                            </Style>
+                                        </ItemsControl.Style>-->
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Width="200">
+                                                        <Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Идентификатор" Margin="10 2" />
+                                                                <TextBlock Text="{Binding Card.PresentationName}" Margin="10 2" />
+                                                            </StackPanel>
+                                                        </Hyperlink>
+									                    <TextBlock.Style>
+										                    <Style>
+											                    <Style.Triggers>
+												                    <DataTrigger Binding="{Binding IsBold}" Value="True">
+													                    <DataTrigger.Setters>
+														                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
+													                    </DataTrigger.Setters>
+												                    </DataTrigger>
+											                    </Style.Triggers>
+										                    </Style>
+									                    </TextBlock.Style>
+                                                    </TextBlock>
+                                                    <CheckBox IsChecked="{Binding IsBlocked}" Content="Заблокирован" Margin="10 2" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+			                <DataGrid.Columns>
+				                <DataGridTemplateColumn Header="Имя" Width="*">
+					                <DataGridTemplateColumn.CellTemplate>
+						                <DataTemplate>
+                                            <TextBlock>
+                                                <Hyperlink Command="{Binding ChangeIsExpandedCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                                        <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+                                                    </StackPanel>
+                                                </Hyperlink>
+                                            </TextBlock>
+						                </DataTemplate>
+					                </DataGridTemplateColumn.CellTemplate>
+				                </DataGridTemplateColumn>
+				                <DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
+				                <DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
+			                </DataGrid.Columns>
+		                </DataGrid>
+		                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+
+                        <Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                            <Border Background="White" CornerRadius="5">
+                                <StackPanel DataContext="{Binding RealSelectedEmployee}" Margin="5">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                        <TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
+                                        <TextBlock Text="Имя" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding Employee.FirstName}" Margin="2" />
                                     </StackPanel>
-                                </Hyperlink>
-                            </TextBlock>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.SecondName}" />
-				<DataGridTextColumn Header="Отчество" Binding="{Binding Employee.LastName}" />
-			</DataGrid.Columns>
-		</DataGrid>
-		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-        <Grid Grid.Row="3" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-            <Border Background="White" CornerRadius="5">
-                <StackPanel DataContext="{Binding RealSelectedEmployee}" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Имя" Width="100" Margin="2" />
-                        <TextBlock Text="{Binding Employee.FirstName}" Margin="2" />
-                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Фамилия" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding Employee.SecondName}" Margin="2" />
+                                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Фамилия" Width="100" Margin="2" />
-                        <TextBlock Text="{Binding Employee.SecondName}" Margin="2" />
-                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Отчество" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding Employee.LastName}" Margin="2" />
+                                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Отчество" Width="100" Margin="2" />
-                        <TextBlock Text="{Binding Employee.LastName}" Margin="2" />
-                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Отдел" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding DepartmentName}" Margin="2" />
+                                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Отдел" Width="100" Margin="2" />
-                        <TextBlock Text="{Binding DepartmentName}" Margin="2" />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Должность" Width="100" Margin="2" />
-                        <TextBlock Text="{Binding PositionName}" Margin="2" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-        </Grid>
-
-        <Grid Grid.Row="3" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedCard}">
-                <TabControl>
-                    <TabItem Header="Основные">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Card.PresentationName}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Должность" Width="100" Margin="2" />
+                                        <TextBlock Text="{Binding PositionName}" Margin="2" />
+                                    </StackPanel>
                                 </StackPanel>
-
-                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Card.ValidFrom, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Card.ValidTo, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
-                                </StackPanel>
-                            </StackPanel>
-                            <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+                            </Border>
                         </Grid>
-                    </TabItem>
-                    <TabItem Header="Пропуск">
 
-                    </TabItem>
-                </TabControl>
-            </Grid>
-        </Grid>
-	</Grid>
+                        <Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Grid DataContext="{Binding SelectedCard}">
+                                <TabControl>
+                                    <TabItem Header="Основные">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Card.PresentationName}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Card.ValidFrom, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" Margin="10 0">
+                                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Card.ValidTo, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Пропуск">
+
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+                        </Grid>
+	                </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                    <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
+    </Grid>
 </UserControl>

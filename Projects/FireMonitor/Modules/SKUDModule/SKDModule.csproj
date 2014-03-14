@@ -58,6 +58,11 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
+    <Compile Include="Departments\ViewModels\OrganisationDepartmentsViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
+      <DependentUpon>DepartmentFilterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
@@ -65,6 +70,7 @@
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\OrganisationEmployeesViewModel.cs" />
     <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
       <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
     </Compile>
@@ -212,6 +218,7 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Positions\ViewModels\OrganisationPositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
@@ -395,6 +402,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Departments\Views\DepartmentFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Employees\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

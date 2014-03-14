@@ -39,19 +39,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public string PresentationName
-		{
-			get { return Card.PresentationName; }
-		}
-		public DateTime StartDate
-		{
-			get { return Card.ValidFrom; }
-		}
-		public DateTime EndDate
-		{
-			get { return Card.ValidTo; }
-		}
-
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
@@ -63,7 +50,7 @@ namespace SKDModule.ViewModels
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
-				EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
+				EmployeeViewModel.OrganisationEmployeesViewModel.SelectedEmployee = EmployeeViewModel.OrganisationEmployeesViewModel.SelectedEmployee;
 			}
 		}
 
@@ -78,9 +65,6 @@ namespace SKDModule.ViewModels
 				if (!saveResult)
 					return;
 				Card = card;
-				OnPropertyChanged("PresentationName");
-				OnPropertyChanged("StartDate");
-				OnPropertyChanged("EndDate");
 				OnPropertyChanged("Card");
 				CardZonesViewModel.Update();
 			}
@@ -89,7 +73,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectCardCommand { get; private set; }
 		void OnSelectCard()
 		{
-			EmployeesViewModel.Current.SelectedCard = this;
+			EmployeeViewModel.OrganisationEmployeesViewModel.SelectedCard = this;
 		}
 
 		bool _isBold;

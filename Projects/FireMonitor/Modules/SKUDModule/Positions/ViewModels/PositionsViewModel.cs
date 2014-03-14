@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using FiresecClient;
 using System;
 using FiresecClient.SKDHelpers;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -14,9 +15,6 @@ namespace SKDModule.ViewModels
 	{
 		public PositionsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new PositionFilter();
@@ -27,13 +25,17 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			Positions = new ObservableCollection<PositionViewModel>();
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			var positions = PositionHelper.Get(Filter);
-			if (positions == null)
-				return;
-			foreach (var position in positions)
-				Positions.Add(new PositionViewModel(position));
-			SelectedPosition = Positions.FirstOrDefault();
+
+			OrganisationPositions = new ObservableCollection<OrganisationPositionsViewModel>();
+			foreach (var organisation in organisations)
+			{
+				var positionViewModel = new OrganisationPositionsViewModel();
+				positionViewModel.Initialize(organisation.Name, new List<Position>(positions.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				OrganisationPositions.Add(positionViewModel);
+			}
+			SelectedOrganisationPosition = OrganisationPositions.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -42,78 +44,26 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<PositionViewModel> _positions;
-		public ObservableCollection<PositionViewModel> Positions
+		ObservableCollection<OrganisationPositionsViewModel> _organisationPositions;
+		public ObservableCollection<OrganisationPositionsViewModel> OrganisationPositions
 		{
-			get { return _positions; }
+			get { return _organisationPositions; }
 			set
 			{
-				_positions = value;
-				OnPropertyChanged("Positions");
+				_organisationPositions = value;
+				OnPropertyChanged("OrganisationPositions");
 			}
 		}
 
-		PositionViewModel _selectedPosition;
-		public PositionViewModel SelectedPosition
+		OrganisationPositionsViewModel _selectedOrganisationPosition;
+		public OrganisationPositionsViewModel SelectedOrganisationPosition
 		{
-			get { return _selectedPosition; }
+			get { return _selectedOrganisationPosition; }
 			set
 			{
-				_selectedPosition = value;
-				OnPropertyChanged("SelectedPosition");
+				_selectedOrganisationPosition = value;
+				OnPropertyChanged("SelectedOrganisationPosition");
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if(!saveResult)
-					return;
-				var positionViewModel = new PositionViewModel(position);
-				Positions.Add(positionViewModel);
-				SelectedPosition = positionViewModel;
-			}
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var index = Positions.IndexOf(SelectedPosition);
-			var position = SelectedPosition.Position;
-			bool removeResult = PositionHelper.MarkDeleted(position);
-			if (!removeResult)
-				return;
-			Positions.Remove(SelectedPosition);
-			index = Math.Min(index, Positions.Count - 1);
-			if (index > -1)
-				SelectedPosition = Positions[index];
-		}
-		bool CanRemove()
-		{
-			return SelectedPosition != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if (!saveResult)
-					return;
-				SelectedPosition.Update(positionDetailsViewModel.Position);
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedPosition != null;
 		}
 
 		public RelayCommand EditFilterCommand { get; private set; }

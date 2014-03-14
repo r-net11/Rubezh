@@ -13,13 +13,21 @@ namespace SKDModule.Views
 
 		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			EmployeesViewModel.Current.DoNotEmployee = true;
+			var employeesViewModel = DataContext as EmployeesViewModel;
+			if (employeesViewModel != null && employeesViewModel.SelectedOrganisationEmployee != null)
+			{
+				employeesViewModel.SelectedOrganisationEmployee.DoNotSelectEmployee = true;
+			}
 		}
 
 		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			EmployeesViewModel.Current.DoNotEmployee = false;
-			EmployeesViewModel.Current.SelectedEmployee = EmployeesViewModel.Current.SelectedEmployee;
+			var employeesViewModel = DataContext as EmployeesViewModel;
+			if (employeesViewModel != null && employeesViewModel.SelectedOrganisationEmployee != null)
+			{
+				employeesViewModel.SelectedOrganisationEmployee.DoNotSelectEmployee = false;
+				employeesViewModel.SelectedOrganisationEmployee.SelectedEmployee = employeesViewModel.SelectedOrganisationEmployee.SelectedEmployee;
+			}
 		}
 	}
 }
