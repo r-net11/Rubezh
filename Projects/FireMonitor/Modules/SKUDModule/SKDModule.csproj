@@ -171,6 +171,7 @@
     <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
     <Compile Include="Events\ShowSKDShedulesEvent.cs" />
     <Compile Include="GUDs\ViewModels\GUDFilterViewModel.cs" />
+    <Compile Include="GUDs\ViewModels\OrganisationGUDsViewModel.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />

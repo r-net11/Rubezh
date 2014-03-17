@@ -10,11 +10,11 @@ namespace SKDModule.ViewModels
 {
 	public class GUDDetailsViewModel : SaveCancelDialogViewModel
 	{
-		GUDsViewModel GUDsViewModel;
+		OrganisationGUDsViewModel GUDsViewModel;
 		public GUD GUD { get; private set; }
 		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
 
-		public GUDDetailsViewModel(GUDsViewModel gudsViewModel, GUD gud = null)
+		public GUDDetailsViewModel(OrganisationGUDsViewModel gudsViewModel, GUD gud = null)
 		{
 			GUDsViewModel = gudsViewModel;
 			if (gud == null)
