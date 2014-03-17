@@ -12,11 +12,13 @@ namespace SKDModule.ViewModels
 	{
 		public SKDZone Zone { get; private set; }
 		public List<CardZone> CardZones { get; private set; }
+		Action<AccessZoneViewModel> OnChecked;
 
-		public AccessZoneViewModel(SKDZone zone, List<CardZone> cardZones)
+		public AccessZoneViewModel(SKDZone zone, List<CardZone> cardZones, Action<AccessZoneViewModel> onChecked)
 		{
 			Zone = zone;
 			CardZones = cardZones;
+			OnChecked = onChecked;
 
 			CanSelect = false;
 			foreach (var device in SKDManager.Devices)
@@ -38,7 +40,7 @@ namespace SKDModule.ViewModels
 			var cardZone = CardZones.FirstOrDefault(x => x.ZoneUID == zone.UID);
 			if (cardZone != null)
 			{
-				IsChecked = true;
+				_isChecked = true;
 				IsAntiPassback = cardZone.IsAntiPassback;
 				IsComission = cardZone.IsComission;
 				SelectedTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardZone.IntervalType);
@@ -56,6 +58,8 @@ namespace SKDModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged("IsChecked");
+				if (OnChecked != null)
+					OnChecked(this);
 			}
 		}
 

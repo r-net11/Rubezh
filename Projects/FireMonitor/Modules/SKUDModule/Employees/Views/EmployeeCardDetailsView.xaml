@@ -54,7 +54,10 @@
 					<DataGridTemplateColumn Header="ГУД" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Name}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+                                </StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

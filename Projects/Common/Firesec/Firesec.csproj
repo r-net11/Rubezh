@@ -96,7 +96,6 @@
     <Compile Include="ConfigurationConverter\ConfigurationConverter.PlansReverseConverter.cs" />
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\EmptyConfigHelper.cs" />
-    <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
     <Compile Include="Models\DeviceConfigurationParameters_50.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

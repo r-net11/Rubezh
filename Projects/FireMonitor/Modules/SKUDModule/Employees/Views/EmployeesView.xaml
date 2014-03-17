@@ -18,18 +18,23 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" DataContext="{Binding SelectedOrganisationEmployee}" Orientation="Horizontal" Margin="2">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-            <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
-                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
-                <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
-                <Controls:ToolBarButton Command="{Binding AddCardCommand}" ToolTip="Добавить карту" ImageSource="/Controls;component/Images/Add.png" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedCard}">
-                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить карту" ImageSource="/Controls;component/Images/Delete.png"  />
-                    <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать карту" ImageSource="/Controls;component/Images/Edit.png" />
+            <StackPanel DataContext="{Binding SelectedOrganisationEmployee}" Orientation="Horizontal" Margin="2">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
+                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+                    <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
+                    <Controls:ToolBarButton Command="{Binding AddCardCommand}" ToolTip="Добавить карту" ImageSource="/Controls;component/Images/Add.png" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedCard}" Visibility="{Binding IsCardBold, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить карту" ImageSource="/Controls;component/Images/Delete.png"  />
+                        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать карту" ImageSource="/Controls;component/Images/Edit.png" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedCard}" Visibility="{Binding IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Controls:ToolBarButton Command="{Binding PrintCommand}" ToolTip="Печать пропуска" ImageSource="/Controls;component/Images/Print.png"  />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -78,13 +83,6 @@
                                 <DataTemplate>
                                     <ItemsControl ItemsSource="{Binding Cards}" Style="{StaticResource ItemsControlStyle}"
                                             Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <!--<ItemsControl.Style>
-                                            <Style TargetType="{x:Type ItemsControl}">
-                                                <Style.Setters>
-                                                    <EventSetter Event="PreviewMouseDown" Handler="ItemsControl_MouseDown"/>
-                                                </Style.Setters>
-                                            </Style>
-                                        </ItemsControl.Style>-->
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -98,7 +96,7 @@
 									                    <TextBlock.Style>
 										                    <Style>
 											                    <Style.Triggers>
-												                    <DataTrigger Binding="{Binding IsBold}" Value="True">
+												                    <DataTrigger Binding="{Binding IsCardBold}" Value="True">
 													                    <DataTrigger.Setters>
 														                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
 													                    </DataTrigger.Setters>
@@ -108,6 +106,26 @@
 									                    </TextBlock.Style>
                                                     </TextBlock>
                                                     <CheckBox IsChecked="{Binding IsBlocked}" Content="Заблокирован" Margin="10 2" />
+
+                                                    <TextBlock Width="200">
+                                                        <Hyperlink Command="{Binding SelectPassCommand}" Style="{StaticResource HyperlinkStyle2}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="Пропуск" Margin="10 2" />
+                                                            </StackPanel>
+                                                        </Hyperlink>
+									                    <TextBlock.Style>
+										                    <Style>
+											                    <Style.Triggers>
+												                    <DataTrigger Binding="{Binding IsPassBold}" Value="True">
+													                    <DataTrigger.Setters>
+														                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
+													                    </DataTrigger.Setters>
+												                    </DataTrigger>
+											                    </Style.Triggers>
+										                    </Style>
+									                    </TextBlock.Style>
+                                                    </TextBlock>
+                                                    
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -168,36 +186,32 @@
 
                         <Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Grid DataContext="{Binding SelectedCard}">
-                                <TabControl>
-                                    <TabItem Header="Основные">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
-                                            </Grid.RowDefinitions>
-                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Card.PresentationName}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
-                                                </StackPanel>
+                                <Grid Visibility="{Binding IsPassBold, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" Margin="10 0">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Идентификатор" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Card.PresentationName}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        </StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Card.ValidFrom, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
-                                                </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="10 0">
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Начало действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Card.ValidFrom, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        </StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" Margin="10 0">
-                                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Card.ValidTo, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                            <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
-                                        </Grid>
-                                    </TabItem>
-                                    <TabItem Header="Пропуск">
-
-                                    </TabItem>
-                                </TabControl>
+                                        <StackPanel Orientation="Horizontal" Margin="10 0">
+                                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Конец действия" Foreground="White" HorizontalAlignment="Right" Margin="2" />
+                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Card.ValidTo, StringFormat=dd-MM-yyyy}" Foreground="White" HorizontalAlignment="Left" Margin="2" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+                                </Grid>
+                                <Grid Visibility="{Binding IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="Выбор пропуска" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
                             </Grid>
                         </Grid>
 	                </Grid>

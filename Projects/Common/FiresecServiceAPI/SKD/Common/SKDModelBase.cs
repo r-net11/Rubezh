@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public abstract class SKDIsDeletedModel:SKDModelBase
+	public abstract class SKDIsDeletedModel : SKDModelBase
 	{
 		[DataMember]
 		public bool IsDeleted { get; set; }

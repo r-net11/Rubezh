@@ -5,10 +5,10 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class GUD:OrganizationElementBase
+	public class GUD : OrganizationElementBase
 	{
 		public GUD()
-			:base()
+			: base()
 		{
 			CardZones = new List<CardZone>();
 		}

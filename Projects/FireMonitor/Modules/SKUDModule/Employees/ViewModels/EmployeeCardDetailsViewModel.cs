@@ -41,13 +41,14 @@ namespace SKDModule.ViewModels
 			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID, ParentType.Card);
 
 			AvailableGUDs = new ObservableCollection<GUD>();
+			AvailableGUDs.Add(new GUD() { Name = "НЕТ" });
 			var guds = GUDHelper.Get(new GUDFilter());
 			if (guds != null)
 			{
 				foreach (var gud in guds)
 					AvailableGUDs.Add(gud);
 			}
-			
+
 			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUID);
 			StopListCards = new ObservableCollection<SKDCard>();
 			var stopListCards = CardHelper.GetStopListCards();
@@ -163,7 +164,7 @@ namespace SKDModule.ViewModels
 		{
 			if (UseStopList && SelectedStopListCard != null)
 			{
-				if(!IsNewCard)
+				if (!IsNewCard)
 					CardHelper.ToStopList(Card, "Заменена на карту " + IDFamily + @"\" + IDNo);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
@@ -174,9 +175,11 @@ namespace SKDModule.ViewModels
 			Card.ValidFrom = StartDate;
 			Card.ValidTo = EndDate;
 			Card.CardZones = AccessZones.GetCardZones();
-			
+
 			if (SelectedGUD != null)
 				Card.GUDUID = SelectedGUD.UID;
+			if (AvailableGUDs.IndexOf(SelectedGUD) == 0)
+				Card.GUDUID = null;
 			return true;
 		}
 	}

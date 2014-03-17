@@ -75,6 +75,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (GUD.Name == "НЕТ")
+			{
+				MessageBoxService.ShowWarning("Запрещенное название");
+				return false;
+			}
 			if (GUDsViewModel.GUDs.Any(x => x.GUD.Name == Name && x.GUD.UID != GUD.UID))
 			{
 				MessageBoxService.ShowWarning("Название ГУД совпадает с введеннымы ранее");

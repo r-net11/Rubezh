@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 
 		AccessZoneViewModel AddZoneInternal(SKDZone zone, AccessZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new AccessZoneViewModel(zone, CardZones);
+			var zoneViewModel = new AccessZoneViewModel(zone, CardZones, x => { SelectedZone = x;});
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);

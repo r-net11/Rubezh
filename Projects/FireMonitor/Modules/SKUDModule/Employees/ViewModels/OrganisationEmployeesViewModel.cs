@@ -113,12 +113,16 @@ namespace SKDModule.ViewModels
 				{
 					foreach (var card in user.Cards)
 					{
-						card.IsBold = false;
+						card.IsCardBold = false;
+						card.IsPassBold = false;
 					}
 				}
 				if (value != null)
 				{
-					value.IsBold = true;
+					if (IsCard)
+						value.IsCardBold = true;
+					else
+						value.IsPassBold = true;
 				}
 			}
 		}

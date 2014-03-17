@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 		public EmployeesViewModel()
 		{
 			RefreshCommand = new RelayCommand(OnRefresh);
-			EditFilterCommand = new RelayCommand(OnEditFilter);
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			Filter = new EmployeeFilter();
 			Initialize();
 		}
@@ -69,8 +69,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
+		public RelayCommand ShowFilterCommand { get; private set; }
+		void OnShowFilter()
 		{
 			var employeeFilterViewModel = new EmployeeFilterViewModel(Filter);
 			if (DialogService.ShowModalWindow(employeeFilterViewModel))
