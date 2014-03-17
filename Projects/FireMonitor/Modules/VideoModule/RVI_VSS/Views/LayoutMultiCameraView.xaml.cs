@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Models;
 using VideoModule.ViewModels;
 using LayoutPartPropertyCameraPageViewModel = VideoModule.RVI_VSS.ViewModels.LayoutPartPropertyCameraPageViewModel;
+using Common;
 
 namespace VideoModule.RVI_VSS.Views
 {
@@ -112,7 +113,10 @@ namespace VideoModule.RVI_VSS.Views
 							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = propertyViewModel.SelectedCamera.UID;
 						}
 					}
-					catch {}
+					catch(Exception ex)
+					{
+						Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
+					}
 				}
 			}
 		}

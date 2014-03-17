@@ -5,9 +5,6 @@ using System.Windows.Input;
 
 namespace VideoModule.RVI_VSS.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для LayoutPartPropertyCameraPageView.xaml
-	/// </summary>
 	public partial class LayoutPartPropertyCameraPageView : UserControl
 	{
 		public LayoutPartPropertyCameraPageView()
