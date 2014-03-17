@@ -298,3 +298,9 @@ ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[GUD] NOCHECK CONSTRAINT [FK_GUD_Organization]
+GO
+ALTER TABLE [dbo].[OrganizationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganizationZone_Organization] FOREIGN KEY([OrganizationUid])
+REFERENCES [dbo].[Organization] ([Uid])
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[OrganizationZone] NOCHECK CONSTRAINT [FK_OrganizationZone_Organization]

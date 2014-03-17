@@ -66,34 +66,5 @@ namespace SKDDriver
 
 			return result;
 		}
-
-		public OperationResult Remove(IEnumerable<SKDJournalItem> items)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				foreach (var item in items)
-				{
-					var verifyResult = CanDelete(item);
-					if (verifyResult.HasError)
-						return verifyResult;
-					if (item != null)
-					{
-						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
-						if (databaseItem != null)
-						{
-							Table.DeleteOnSubmit(databaseItem);
-						}
-					}
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
 	}
 }

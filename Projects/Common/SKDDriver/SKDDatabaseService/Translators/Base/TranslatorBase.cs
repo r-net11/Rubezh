@@ -104,8 +104,8 @@ namespace SKDDriver
 			}
 		}
 
-		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
-		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+		protected static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		protected static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
 
 		protected static DateTime CheckDate(DateTime dateTime)
 		{

@@ -93,6 +93,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.OrganizationTranslator.Save(Organizations);
 		}
+		public OperationResult SaveOrganizationZones(Organization organization)
+		{
+			return SKDDatabaseService.OrganizationTranslator.SaveZones(organization);
+		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return SKDDatabaseService.DocumentTranslator.Save(items);
@@ -170,11 +174,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		public OperationResult RemoveJournalItems(IEnumerable<SKDJournalItem> journalItems)
-		{
-			return SKDDatabaseService.JournalItemTranslator.Remove(journalItems);
-		}
-		
 		#region Devices
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{

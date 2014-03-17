@@ -276,6 +276,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizations(Organizations));
 		}
+		public OperationResult SaveOrganizationZones(Organization organization)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizationZones(organization));
+		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
@@ -353,11 +357,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		public OperationResult RemoveJournalItems(IEnumerable<SKDJournalItem> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveJournalItems(items));
-		}
-		
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");

@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 					if (Organization.ZoneUIDs.Contains(Zone.UID))
 						Organization.ZoneUIDs.Remove(Zone.UID);
 				}
-				var saveResult = OrganizationHelper.Save(Organization);
+				var saveResult = OrganizationHelper.SaveZones(Organization);
 			}
 		}
 	}

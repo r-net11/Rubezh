@@ -21,6 +21,8 @@ namespace SKDModule.ViewModels
 			foreach (var zone in AllZones)
 			{
 				zone.ExpandToThis();
+				if (organization.ZoneUIDs.Contains(zone.Zone.UID))
+					zone.IsChecked = true;
 			}
 		}
 
