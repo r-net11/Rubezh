@@ -15,9 +15,6 @@ namespace SKDModule.ViewModels
 	{
 		public GUDsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new GUDFilter();
@@ -28,16 +25,17 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			GUDs = new ObservableCollection<GUDViewModel>();
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
 			var guds = GUDHelper.Get(Filter);
-			if (guds == null)
-				return;
-			foreach (var gud in guds)
+
+			OrganisationGUDs = new ObservableCollection<OrganisationGUDsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				var gudViewModel = new GUDViewModel(gud);
-				GUDs.Add(gudViewModel);
+				var gudViewModel = new OrganisationGUDsViewModel();
+				gudViewModel.Initialize(organisation.Name, new List<GUD>(guds.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				OrganisationGUDs.Add(gudViewModel);
 			}
-			SelectedGUD = GUDs.FirstOrDefault();
+			SelectedOrganisationGUD = OrganisationGUDs.FirstOrDefault();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -46,87 +44,35 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		ObservableCollection<GUDViewModel> _guds;
-		public ObservableCollection<GUDViewModel> GUDs
+		ObservableCollection<OrganisationGUDsViewModel> _organisationGUDs;
+		public ObservableCollection<OrganisationGUDsViewModel> OrganisationGUDs
 		{
-			get { return _guds; }
+			get { return _organisationGUDs; }
 			set
 			{
-				_guds = value;
-				OnPropertyChanged("GUDs");
+				_organisationGUDs = value;
+				OnPropertyChanged("OrganisationGUDs");
 			}
 		}
 
-		GUDViewModel _selectedGUD;
-		public GUDViewModel SelectedGUD
+		OrganisationGUDsViewModel _selectedOrganisationGUD;
+		public OrganisationGUDsViewModel SelectedOrganisationGUD
 		{
-			get { return _selectedGUD; }
+			get { return _selectedOrganisationGUD; }
 			set
 			{
-				_selectedGUD = value;
-				OnPropertyChanged("SelectedGUD");
+				_selectedOrganisationGUD = value;
+				OnPropertyChanged("SelectedOrganisationGUD");
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var gudDetailsViewModel = new GUDDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(gudDetailsViewModel))
-			{
-				var gud = gudDetailsViewModel.GUD;
-				var saveResult = GUDHelper.Save(gud);
-				if (saveResult == false)
-					return;
-				var gudViewModel = new GUDViewModel(gud);
-				GUDs.Add(gudViewModel);
-				SelectedGUD = gudViewModel;
-			}
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var gUD = SelectedGUD.GUD;
-			var removeResult = GUDHelper.MarkDeleted(gUD);
-			if (removeResult == false)
-				return;
-			var index = GUDs.IndexOf(SelectedGUD);
-			GUDs.Remove(SelectedGUD);
-			index = Math.Min(index, GUDs.Count - 1);
-			if (index > -1)
-				SelectedGUD = GUDs[index];
-		}
-		bool CanRemove()
-		{
-			return SelectedGUD != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var gudDetailsViewModel = new GUDDetailsViewModel(this, SelectedGUD.GUD);
-			if (DialogService.ShowModalWindow(gudDetailsViewModel))
-			{
-				var gud = gudDetailsViewModel.GUD;
-				var saveResult = GUDHelper.Save(gud);
-				if (saveResult == false)
-					return;
-				SelectedGUD.Update(gud);
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedGUD != null;
 		}
 
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
-			var gUDFilterViewModel = new GUDFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(gUDFilterViewModel))
+			var filterViewModel = new GUDFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(filterViewModel))
 			{
-				Filter = gUDFilterViewModel.Filter;
+				Filter = filterViewModel.Filter;
 				Initialize();
 			}
 		}
