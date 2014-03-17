@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -37,6 +38,7 @@ namespace VideoModule.ViewModels
 				{
 					Name = "Новая камера",
 					Address = "172.16.7.88",
+					Port = 37777,
 					Login = "admin",
 					Password = "admin"
 				};
@@ -49,6 +51,7 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
+			Port = Camera.Port;
 			Login = Camera.Login;
 			Password = Camera.Password;
 			Left = Camera.Left;
@@ -103,6 +106,17 @@ namespace VideoModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
+			}
+		}
+
+		int _port;
+		public int Port
+		{
+			get { return _port; }
+			set
+			{
+				_port = value;
+				OnPropertyChanged("Port");
 			}
 		}
 
@@ -204,9 +218,10 @@ namespace VideoModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			var camera = new FiresecAPI.Models.Camera()
+			var camera = new Camera
 			{
 				Address = Address,
+				Port = Port,
 				Login = Login,
 				Password = Password,
 				Left = Left,
@@ -215,7 +230,7 @@ namespace VideoModule.ViewModels
 				Height = Height,
 				IgnoreMoveResize = IgnoreMoveResize
 			};
-			VideoService.ShowModal(camera); //"172.16.7.202"
+			VideoService.ShowModal(camera);
 			Left = camera.Left;
 			Top = camera.Top;
 			Width = camera.Width;
@@ -226,6 +241,7 @@ namespace VideoModule.ViewModels
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
+			Camera.Port = Port;
 			Camera.Login = Login;
 			Camera.Password = Password;
 			Camera.Left = Left;

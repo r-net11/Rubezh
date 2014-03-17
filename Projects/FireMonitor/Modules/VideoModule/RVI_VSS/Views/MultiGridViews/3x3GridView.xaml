@@ -17,17 +17,17 @@
 			<ColumnDefinition Width="auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid02" Grid.Row ="0" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid00" Grid.Row ="0" Grid.Column="0" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid01" Grid.Row ="0" Grid.Column="2" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid02" Grid.Row ="0" Grid.Column="4" />
 
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid12" Grid.Row ="2" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid10" Grid.Row ="2" Grid.Column="0" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid11" Grid.Row ="2" Grid.Column="2" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid12" Grid.Row ="2" Grid.Column="4" />
 
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid20" Grid.Row ="4" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid21" Grid.Row ="4" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-		<rviVss:CellPlayerWrap x:Name="_3X3Grid22" Grid.Row ="4" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid20" Grid.Row ="4" Grid.Column="0" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid21" Grid.Row ="4" Grid.Column="2" />
+		<rviVss:CellPlayerWrap x:Name="_3X3Grid22" Grid.Row ="4" Grid.Column="4" />
 		
 		<GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="5" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
 		<GridSplitter Grid.Row="0" Grid.Column="3" Grid.RowSpan="5" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />

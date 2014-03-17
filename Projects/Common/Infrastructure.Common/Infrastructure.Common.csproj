@@ -155,9 +155,6 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="WinFormsPlayer">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\WinFormsPlayer.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -189,6 +186,12 @@
     <Compile Include="Video\MjpegCamera.cs" />
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
       <DependentUpon>CellPlayerWrap.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Video\RVI_VSS\WinFormsPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Video\RVI_VSS\WinFormsPlayer.Designer.cs">
+      <DependentUpon>WinFormsPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />

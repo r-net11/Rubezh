@@ -30,47 +30,47 @@
             <ColumnDefinition Width="auto" MinWidth="5" />
             <ColumnDefinition MinWidth="10" />
         </Grid.ColumnDefinitions>
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid00" Grid.Row ="0" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid01" Grid.Row ="0" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid02" Grid.Row ="0" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid03" Grid.Row ="0" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid04" Grid.Row ="0" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid05" Grid.Row ="0" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid00" Grid.Row ="0" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid01" Grid.Row ="0" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid02" Grid.Row ="0" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid03" Grid.Row ="0" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid04" Grid.Row ="0" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid05" Grid.Row ="0" Grid.Column="10" />
 
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid10" Grid.Row ="2" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid11" Grid.Row ="2" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid12" Grid.Row ="2" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid13" Grid.Row ="2" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid14" Grid.Row ="2" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid15" Grid.Row ="2" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid10" Grid.Row ="2" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid11" Grid.Row ="2" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid12" Grid.Row ="2" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid13" Grid.Row ="2" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid14" Grid.Row ="2" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid15" Grid.Row ="2" Grid.Column="10" />
 
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid20" Grid.Row ="4" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid21" Grid.Row ="4" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid22" Grid.Row ="4" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid23" Grid.Row ="4" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid24" Grid.Row ="4" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid25" Grid.Row ="4" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid20" Grid.Row ="4" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid21" Grid.Row ="4" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid22" Grid.Row ="4" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid23" Grid.Row ="4" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid24" Grid.Row ="4" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid25" Grid.Row ="4" Grid.Column="10" />
 
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid30" Grid.Row ="6" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid31" Grid.Row ="6" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid32" Grid.Row ="6" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid33" Grid.Row ="6" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid34" Grid.Row ="6" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid35" Grid.Row ="6" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid30" Grid.Row ="6" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid31" Grid.Row ="6" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid32" Grid.Row ="6" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid33" Grid.Row ="6" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid34" Grid.Row ="6" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid35" Grid.Row ="6" Grid.Column="10" />
 
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid40" Grid.Row ="8" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid41" Grid.Row ="8" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid42" Grid.Row ="8" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid43" Grid.Row ="8" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid44" Grid.Row ="8" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid45" Grid.Row ="8" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid40" Grid.Row ="8" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid41" Grid.Row ="8" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid42" Grid.Row ="8" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid43" Grid.Row ="8" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid44" Grid.Row ="8" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid45" Grid.Row ="8" Grid.Column="10" />
 
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid50" Grid.Row ="10" Grid.Column="0" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid51" Grid.Row ="10" Grid.Column="2" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid52" Grid.Row ="10" Grid.Column="4" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid53" Grid.Row ="10" Grid.Column="6" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid54" Grid.Row ="10" Grid.Column="8" Background="{DynamicResource BackgroundBrush}" />
-        <rviVss:CellPlayerWrap x:Name="_6X6Grid55" Grid.Row ="10" Grid.Column="10" Background="{DynamicResource BackgroundBrush}" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid50" Grid.Row ="10" Grid.Column="0" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid51" Grid.Row ="10" Grid.Column="2" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid52" Grid.Row ="10" Grid.Column="4" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid53" Grid.Row ="10" Grid.Column="6" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid54" Grid.Row ="10" Grid.Column="8" />
+        <rviVss:CellPlayerWrap x:Name="_6X6Grid55" Grid.Row ="10" Grid.Column="10" />
 
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="11" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
         <GridSplitter Grid.Row="0" Grid.Column="3" Grid.RowSpan="11" Width="5" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
