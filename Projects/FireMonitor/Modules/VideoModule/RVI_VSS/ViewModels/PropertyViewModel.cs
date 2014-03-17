@@ -9,13 +9,14 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.RVI_VSS.ViewModels
 {
-	public class PropertyViewModel: BaseViewModel
+	public class PropertyViewModel : BaseViewModel
 	{
 		public string CellName { get; set; }
+
 		public PropertyViewModel(string cellName, Guid cameraUid)
 		{
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 			CellName = cellName;
+			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}
 

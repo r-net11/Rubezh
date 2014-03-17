@@ -69,6 +69,22 @@ namespace SKDModule.ViewModels
 			{
 				_selectedOrganisation = value;
 				OnPropertyChanged("SelectedOrganisation");
+
+				if (value != null)
+					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
+				else
+					OrganisationZonesViewModel = null;
+			}
+		}
+
+		OrganisationZonesViewModel _organisationZonesViewModel;
+		public OrganisationZonesViewModel OrganisationZonesViewModel
+		{
+			get { return _organisationZonesViewModel; }
+			set
+			{
+				_organisationZonesViewModel = value;
+				OnPropertyChanged("OrganisationZonesViewModel");
 			}
 		}
 
