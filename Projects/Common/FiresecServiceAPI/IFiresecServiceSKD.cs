@@ -75,8 +75,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedPositions(IEnumerable<Position> Positions);
 		[OperationContract]
-		OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
-		[OperationContract]
 		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
 		[OperationContract]
 		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
@@ -95,6 +93,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		#endregion
+
+		[OperationContract]
+		OperationResult RemoveJournalItems(IEnumerable<SKDJournalItem> items);
 
 		#region DeviceCommands
 		[OperationContract]

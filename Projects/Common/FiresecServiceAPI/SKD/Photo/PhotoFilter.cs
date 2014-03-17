@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class PhotoFilter: FilterBase
+	public class PhotoFilter: IsDeletedFilter
 	{
 	}
 }

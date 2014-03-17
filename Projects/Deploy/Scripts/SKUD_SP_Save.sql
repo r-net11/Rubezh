@@ -670,13 +670,12 @@ CREATE PROCEDURE SaveCard
 	@GUDUID uniqueidentifier = NULL,
 	@ValidFrom datetime,
 	@ValidTo datetime,
-	@IsAntipass bit,
 	@IsInStopList bit,
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,GUDUID,ValidFrom,ValidTo,IsAntipass,IsInStopList,StopReason)
-	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@GUDUID,@ValidFrom,@ValidTo,@IsAntipass,@IsInStopList,@StopReason)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,GUDUID,ValidFrom,ValidTo,IsInStopList,StopReason)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@GUDUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason)
 END
 
 GO

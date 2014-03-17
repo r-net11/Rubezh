@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FiresecAPI
 {
-	public class OrganizationFilter:FilterBase
+	public class OrganizationFilter:IsDeletedFilter
 	{
 	}
 }

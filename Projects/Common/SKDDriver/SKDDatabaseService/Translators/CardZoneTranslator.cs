@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardZoneTranslator : TranslatorBase<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
+	public class CardZoneTranslator : IsDeletedTranslator<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
 	{
 		public CardZoneTranslator(DataAccess.SKUDDataContext context)
 			: base(context)
@@ -25,6 +25,7 @@ namespace SKDDriver
 			result.ZoneUID = tableItem.ZoneUID;
 			result.ParentUID = tableItem.ParentUID;
 			result.ParentType = (ParentType)tableItem.ParentType;
+			result.IsAntiPassback = tableItem.IsAntipass;
 			return result;
 		}
 
@@ -37,6 +38,7 @@ namespace SKDDriver
 			tableItem.ZoneUID = apiItem.ZoneUID;
 			tableItem.ParentUID = apiItem.ParentUID;
 			tableItem.ParentType = (int?)apiItem.ParentType;
+			tableItem.IsAntipass = apiItem.IsAntiPassback;
 		}
 
 		public List<CardZone> Get(Guid parentUID, ParentType parentType)

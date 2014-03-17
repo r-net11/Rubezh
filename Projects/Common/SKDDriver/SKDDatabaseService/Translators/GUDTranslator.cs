@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class GUDTranslator : TranslatorBase<DataAccess.GUD, GUD, GUDFilter>
+	public class GUDTranslator : IsDeletedTranslator<DataAccess.GUD, GUD, GUDFilter>
 	{
 		public GUDTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)

@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
@@ -88,7 +88,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(this.Department);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, this.Department);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;

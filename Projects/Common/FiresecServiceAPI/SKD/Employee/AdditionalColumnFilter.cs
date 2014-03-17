@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AdditionalColumnFilter : FilterBase
+	public class AdditionalColumnFilter : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> EmployeeUIDs { get; set; }

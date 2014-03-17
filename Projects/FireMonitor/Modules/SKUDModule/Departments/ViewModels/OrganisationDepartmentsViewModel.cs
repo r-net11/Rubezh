@@ -18,9 +18,10 @@ namespace SKDModule.ViewModels
 		{
 		}
 
-		public void Initialize(string name, List<Department> departments)
+		public void Initialize(Organization organization, List<Department> departments)
 		{
-			Name = name;
+			Organization = organization;
+			Name = Organization.Name;
 
 			Departments = new ObservableCollection<DepartmentViewModel>();
 			if (departments != null)
@@ -46,6 +47,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public Organization Organization { get; private set; } 
 
 		ObservableCollection<DepartmentViewModel> _departments;
 		public ObservableCollection<DepartmentViewModel> Departments

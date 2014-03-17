@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var positionViewModel = new OrganisationPositionsViewModel();
-				positionViewModel.Initialize(organisation.Name, new List<Position>(positions.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				positionViewModel.Initialize(organisation, new List<Position>(positions.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
 				OrganisationPositions.Add(positionViewModel);
 			}
 			SelectedOrganisationPosition = OrganisationPositions.FirstOrDefault();

@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var departmentViewModel = new OrganisationDepartmentsViewModel();
-				departmentViewModel.Initialize(organisation.Name, new List<Department>(departments.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				departmentViewModel.Initialize(organisation, new List<Department>(departments.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationDepartments.Add(departmentViewModel);
 			}
 			SelectedOrganisationDepartment = OrganisationDepartments.FirstOrDefault();

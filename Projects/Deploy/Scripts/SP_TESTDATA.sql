@@ -308,45 +308,45 @@ SET @FullGUDUID = NEWID();
 EXEC SaveGUD @FullGUDUID, @Organization1Uid, 'Полный доступ', 'Полный доступ ГУД',0,'01/01/1900'
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 0, 1, @Montage1EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0, 0
+EXEC SaveCard @Uid, 0, '01/01/1900', 0, 1, @Montage1EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 1, 2, @Montage2EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0, 0
+EXEC SaveCard @Uid, 0, '01/01/1900', 1, 2, @Montage2EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 2, 3, @MainMontageEmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015',0 ,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 2, 3, @MainMontageEmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 3, 4, @Guard1EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 3, 4, @Guard1EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 4, 5, @Guard2EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 4, 5, @Guard2EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 5, 6, @MainGuardEmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 5, 6, @MainGuardEmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Constructor1EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Constructor1EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Constructor2EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Constructor2EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainConstructorEmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainConstructorEmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Programmer1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Programmer1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Programmer2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Programmer2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainProgrammistEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainProgrammistEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 9, 10, @Tester1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 9, 10, @Tester1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 10, 11, @Tester2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 10, 11, @Tester2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 11, 12, @MainTesterEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 11, 12, @MainTesterEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 12, 13, @DirectorEmployeeUid, @FullGUDUID, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 12, 13, @DirectorEmployeeUid, @FullGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @AdministratorEmployeeUid, @GovernanceGUDUID, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @AdministratorEmployeeUid, @GovernanceGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',1,0
+EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',0
 
 DECLARE @Organization2Uid uniqueidentifier;
 SET @Organization2Uid = NEWID();

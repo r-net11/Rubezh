@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class CardTranslator : TranslatorBase<DataAccess.Card, SKDCard, CardFilter>
+	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
 		public CardTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)
@@ -20,11 +20,11 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
-			bool sameSeriesNo = Table.Any(x => x.Number == item.Number &&
+			bool isSameSeriesNo = Table.Any(x => x.Number == item.Number &&
 				x.Series == item.Series &&
 				!x.IsDeleted &&
 				x.UID != item.UID);
-			if (sameSeriesNo)
+			if (isSameSeriesNo)
 				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
 			return base.CanSave(item);
 		}
@@ -65,7 +65,6 @@ namespace SKDDriver
 			result.ValidTo = tableItem.ValidTo;
 			result.GUDUID = tableItem.GUDUID;
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
-			result.IsAntipass = tableItem.IsAntipass;
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			return result;
@@ -79,7 +78,6 @@ namespace SKDDriver
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.ValidFrom = CheckDate(apiItem.ValidFrom);
 			tableItem.ValidTo = CheckDate(apiItem.ValidTo);
-			tableItem.IsAntipass = apiItem.IsAntipass;
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.GUDUID = apiItem.GUDUID;

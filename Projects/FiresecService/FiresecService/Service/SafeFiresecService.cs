@@ -315,10 +315,6 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPositions(Positions));
 		}
-		public OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> SKDJournalItems)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedSKDJournalItems(SKDJournalItems));
-		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCards(items));
@@ -356,10 +352,12 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacements(items));
 		}
 		#endregion
-		
-		
 
-
+		public OperationResult RemoveJournalItems(IEnumerable<SKDJournalItem> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.RemoveJournalItems(items));
+		}
+		
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");

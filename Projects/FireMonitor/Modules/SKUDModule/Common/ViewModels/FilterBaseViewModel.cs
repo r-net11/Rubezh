@@ -5,7 +5,7 @@ using FiresecAPI;
 namespace SKDModule.ViewModels
 {
 	public class FilterBaseViewModel<T> : SaveCancelDialogViewModel
-		where T : FilterBase
+		where T : IsDeletedFilter
 	{
 		public FilterBaseViewModel(T filter)
 		{

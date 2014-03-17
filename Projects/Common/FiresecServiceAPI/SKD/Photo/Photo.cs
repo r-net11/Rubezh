@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Photo : SKDModelBase
+	public class Photo : SKDIsDeletedModel
 	{
 		[DataMember]
 		public byte[] Data { get; set; }

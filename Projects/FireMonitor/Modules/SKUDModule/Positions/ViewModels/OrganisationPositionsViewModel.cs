@@ -21,9 +21,10 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(string name, List<Position> positions)
+		public void Initialize(Organization organization, List<Position> positions)
 		{
-			Name = name;
+			Organization = organization;
+			Name = Organization.Name;
 
 			Positions = new ObservableCollection<PositionViewModel>();
 			foreach (var position in positions)
@@ -44,6 +45,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public Organization Organization { get; private set; } 
 
 		ObservableCollection<PositionViewModel> _positions;
 		public ObservableCollection<PositionViewModel> Positions

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Interval : SKDModelBase
+	public class Interval : SKDIsDeletedModel
 	{
 		[DataMember]
 		public DateTime? BeginDate { get; set; }

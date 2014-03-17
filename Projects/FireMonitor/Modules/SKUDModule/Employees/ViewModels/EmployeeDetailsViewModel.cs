@@ -81,6 +81,7 @@ namespace SKDModule.ViewModels
 
 			Employee.FirstName = FirstName;
 			Employee.LastName = LastName;
+			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
 			return true;
 		}
 	}

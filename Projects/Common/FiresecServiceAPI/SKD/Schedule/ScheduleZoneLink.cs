@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class ScheduleZoneLink : SKDModelBase
+	public class ScheduleZoneLink : SKDIsDeletedModel
 	{
 
 		[DataMember]

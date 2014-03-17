@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDCard : SKDModelBase
+	public class SKDCard : SKDIsDeletedModel
 	{
 		public SKDCard()
 		{
@@ -33,9 +33,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? GUDUID { get; set; }
-
-		[DataMember]
-		public bool IsAntipass { get; set; }
 
 		[DataMember]
 		public bool IsInStopList { get; set; }

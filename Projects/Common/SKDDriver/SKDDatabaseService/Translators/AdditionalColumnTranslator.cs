@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTranslator : TranslatorBase<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
+	public class AdditionalColumnTranslator : IsDeletedTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
 		public AdditionalColumnTranslator(DataAccess.SKUDDataContext context)
 			: base(context)

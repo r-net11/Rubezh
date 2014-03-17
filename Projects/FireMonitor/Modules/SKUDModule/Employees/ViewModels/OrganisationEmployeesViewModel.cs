@@ -22,9 +22,10 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 		}
 
-		public void Initialize(string name, List<Employee> employees)
+		public void Initialize(Organization organization, List<Employee> employees)
 		{
-			Name = name;
+			Organization = organization;
+			Name = Organization.Name;
 
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
@@ -45,6 +46,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public Organization Organization { get; private set; } 
 
 		ObservableCollection<EmployeeViewModel> _employee;
 		public ObservableCollection<EmployeeViewModel> Employees

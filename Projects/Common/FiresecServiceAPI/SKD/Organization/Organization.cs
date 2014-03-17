@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Organization : SKDModelBase
+	public class Organization : SKDIsDeletedModel
 	{
 		[DataMember]
 		public string Name { get; set; }

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public class OrganizationTranslator : TranslatorBase<DataAccess.Organization, Organization, OrganizationFilter>
+	public class OrganizationTranslator : IsDeletedTranslator<DataAccess.Organization, Organization, OrganizationFilter>
 	{
 		public OrganizationTranslator(DataAccess.SKUDDataContext context)
 			: base(context)

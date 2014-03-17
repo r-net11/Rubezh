@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var employeeViewModel = new OrganisationEmployeesViewModel();
-				employeeViewModel.Initialize(organisation.Name, new List<Employee>(employees.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				employeeViewModel.Initialize(organisation, new List<Employee>(employees.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
 				OrganisationEmployees.Add(employeeViewModel);
 			}
 			SelectedOrganisationEmployee = OrganisationEmployees.FirstOrDefault();

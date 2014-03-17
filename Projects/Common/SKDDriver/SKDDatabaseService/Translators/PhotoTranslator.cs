@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public class PhotoTranslator : TranslatorBase<DataAccess.Photo, Photo, PhotoFilter>
+	public class PhotoTranslator : IsDeletedTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{
 		public PhotoTranslator(DataAccess.SKUDDataContext context)
 			: base(context)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public abstract class OrganizationFilterBase:FilterBase
+	public abstract class OrganizationFilterBase:IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> OrganizationUIDs { get; set; }

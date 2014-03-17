@@ -4,6 +4,7 @@ using FiresecAPI;
 using System.Data.Linq;
 using LinqKit;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace SKDDriver
 {
@@ -17,7 +18,8 @@ namespace SKDDriver
 
 		protected override SKDJournalItem Translate(DataAccess.Journal tableItem)
 		{
-			var result = base.Translate(tableItem);
+			var result = new SKDJournalItem();
+			result.UID = tableItem.UID;
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.SystemDateTime = tableItem.SysemDate;
@@ -32,7 +34,6 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.Journal tableItem, SKDJournalItem apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
 			tableItem.CardNo = apiItem.CardNo;
 			tableItem.Description = apiItem.Description;
 			tableItem.DeviceDate = apiItem.DeviceDateTime;
@@ -65,5 +66,34 @@ namespace SKDDriver
 
 			return result;
 		}
+
+		public OperationResult Remove(IEnumerable<SKDJournalItem> items)
+		{
+			var operationResult = new OperationResult();
+			try
+			{
+				foreach (var item in items)
+				{
+					var verifyResult = CanDelete(item);
+					if (verifyResult.HasError)
+						return verifyResult;
+					if (item != null)
+					{
+						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
+						if (databaseItem != null)
+						{
+							Table.DeleteOnSubmit(databaseItem);
+						}
+					}
+				}
+				Table.Context.SubmitChanges();
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 	}
 }

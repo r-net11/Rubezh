@@ -132,10 +132,6 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.PositionTranslator.MarkDeleted(Positions);
 		}
-		public OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
-		{
-			return SKDDatabaseService.JournalItemTranslator.MarkDeleted(journalItems);
-		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(items);
@@ -173,6 +169,11 @@ namespace FiresecService.Service
 			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(items);
 		}
 		#endregion
+
+		public OperationResult RemoveJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		{
+			return SKDDatabaseService.JournalItemTranslator.Remove(journalItems);
+		}
 		
 		#region Devices
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)

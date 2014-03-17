@@ -81,6 +81,7 @@ namespace SKDModule.ViewModels
 
 			Position.Name = Name;
 			Position.Description = Description;
+			Position.OrganizationUID = PositionsViewModel.Organization.UID;
 			return true;
 		}
 	}
