@@ -93,6 +93,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (Name == "Имя" || Name == "Фамилия" || Name == "Отчество")
+			{
+				MessageBoxService.ShowWarning("Запрещенное название дополнительной колонки");
+				return false;
+			}
 			if (OrganisationAdditionalColumnTypesViewModel.AdditionalColumnTypes.Any(x => x.AdditionalColumnType.Name == Name && x.AdditionalColumnType.UID != AdditionalColumnType.UID))
 			{
 				MessageBoxService.ShowWarning("Название дополнительной колонки совпадает с введенным ранее");

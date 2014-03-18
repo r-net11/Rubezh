@@ -14,11 +14,11 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : BaseViewModel
 	{
-		public OrganisationEmployeesViewModel OrganisationEmployeesViewModel { get; private set; }
+		public EmployeesViewModel EmployeesViewModel { get; private set; }
 
-		public EmployeeViewModel(OrganisationEmployeesViewModel organisationEmployeesViewModel, Employee employee)
+		public EmployeeViewModel(EmployeesViewModel employeesViewModel, Employee employee)
 		{
-			OrganisationEmployeesViewModel = organisationEmployeesViewModel;
+			EmployeesViewModel = employeesViewModel;
 			Employee = employee;
 
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			if (cards != null)
 			{
 				foreach (var item in cards)
-					Cards.Add(new EmployeeCardViewModel(OrganisationEmployeesViewModel.Organization, this, item));
+					Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(OrganisationEmployeesViewModel.Organization);
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(EmployeesViewModel.Organization);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
@@ -73,11 +73,11 @@ namespace SKDModule.ViewModels
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;
-				var cardViewModel = new EmployeeCardViewModel(OrganisationEmployeesViewModel.Organization, this, card);
+				var cardViewModel = new EmployeeCardViewModel(EmployeesViewModel.Organization, this, card);
 				Cards.Add(cardViewModel);
 
 				IsExpanded = true;
-				OrganisationEmployeesViewModel.SelectedCard = cardViewModel;
+				EmployeesViewModel.SelectedCard = cardViewModel;
 			}
 		}
 		public bool CanAddCard()

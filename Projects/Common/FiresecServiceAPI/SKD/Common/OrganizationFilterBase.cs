@@ -5,12 +5,13 @@ using System.Collections.Generic;
 namespace FiresecAPI
 {
 	[DataContract]
-	public abstract class OrganizationFilterBase:IsDeletedFilter
+	public abstract class OrganizationFilterBase : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> OrganizationUIDs { get; set; }
 
-		public OrganizationFilterBase():base()
+		public OrganizationFilterBase()
+			: base()
 		{
 			OrganizationUIDs = new List<Guid>();
 		}

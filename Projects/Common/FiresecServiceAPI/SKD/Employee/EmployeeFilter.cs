@@ -14,12 +14,16 @@ namespace FiresecAPI
 		public List<Guid> DepartmentUIDs { get; set; }
 
 		[DataMember]
+		public Guid OrganisationUID { get; set; }
+
+		[DataMember]
 		public DateTimePeriod Appointed { get; set; }
 
 		[DataMember]
 		public DateTimePeriod Dismissed { get; set; }
 
-		public EmployeeFilter():base()
+		public EmployeeFilter()
+			: base()
 		{
 			PositionUIDs = new List<Guid>();
 			DepartmentUIDs = new List<Guid>();

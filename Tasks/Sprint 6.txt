@@ -18,6 +18,7 @@
 
 
 МАКСИМ
+- Employee.AdditionalColumns
 - Переименовать GUD в AccessTemplate
 - CardZone.ParentType
 - GUDFilter не реагирует на OrganisationUID

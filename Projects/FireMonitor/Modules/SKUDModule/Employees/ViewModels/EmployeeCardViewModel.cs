@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
-				EmployeeViewModel.OrganisationEmployeesViewModel.SelectedEmployee = EmployeeViewModel.OrganisationEmployeesViewModel.SelectedEmployee;
+				EmployeeViewModel.EmployeesViewModel.SelectedEmployee = EmployeeViewModel.EmployeesViewModel.SelectedEmployee;
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		void OnSelectCard()
 		{
 			IsCard = true;
-			EmployeeViewModel.OrganisationEmployeesViewModel.SelectedCard = this;
+			EmployeeViewModel.EmployeesViewModel.SelectedCard = this;
 			IsCardBold = true;
 			IsPassBold = false;
 		}
@@ -118,7 +118,7 @@ namespace SKDModule.ViewModels
 		void OnSelectPass()
 		{
 			IsCard = false;
-			EmployeeViewModel.OrganisationEmployeesViewModel.SelectedCard = this;
+			EmployeeViewModel.EmployeesViewModel.SelectedCard = this;
 			IsCardBold = false;
 			IsPassBold = true;
 		}

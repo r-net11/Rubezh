@@ -5,44 +5,54 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 Height="400" Width="600">
 	<Grid>
-		<DockPanel>
-			<StackPanel DockPanel.Dock="Bottom">
-				<Button Content="Сброс" Width="100" HorizontalAlignment="Right" Command="{Binding ResetCommand}" />
-			</StackPanel>
-			<TabControl>
-				<TabItem Header="Отделы">
-					<tree:TreeList Focusable="True" Source="{Binding RootDepartments}">
-						<tree:TreeList.View>
-							<GridView>
-								<GridViewColumn>
-									<GridViewColumn.CellTemplate>
-										<DataTemplate>
-											<StackPanel Orientation="Horizontal">
-												<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Command="{Binding DepartmentCheckedCommand}"/>
-												<TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
-											</StackPanel>
-										</DataTemplate>
-									</GridViewColumn.CellTemplate>
-								</GridViewColumn>
-							</GridView>
-						</tree:TreeList.View>
-					</tree:TreeList>
-				</TabItem>
-				<TabItem Header="Должности">
-					<ListBox ItemsSource="{Binding Positions.Items}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-									<TextBlock Text="{Binding Position.Name}" VerticalAlignment="Center" Margin="2" />
-								</StackPanel>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</TabItem>
-				<Views:FilterMarkDeletedTabItem />
-				<Views:FilterOrganizationTabItem />
-			</TabControl>
-		</DockPanel>
-	</Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+		<TabControl Grid.Row="0">
+			<TabItem Header="Отделы">
+				<tree:TreeList Focusable="True" Source="{Binding RootDepartments}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Command="{Binding DepartmentCheckedCommand}"/>
+											<TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</TabItem>
+			<TabItem Header="Должности">
+				<ListBox ItemsSource="{Binding Positions.Items}">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Position.Name}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</TabItem>
+			<Views:FilterMarkDeletedTabItem />
+            <TabItem Header="Организаия">
+                <StackPanel>
+                    <ComboBox ItemsSource="{Binding AvailableOrganizations}" SelectedItem="{Binding SelectedOrganization}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <Button Grid.Row="1" Content="Сброс" Width="100" HorizontalAlignment="Right" Command="{Binding ResetCommand}" />
+    </Grid>
 </UserControl>

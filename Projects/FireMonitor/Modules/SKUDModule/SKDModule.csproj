@@ -70,7 +70,6 @@
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
-    <Compile Include="Employees\ViewModels\OrganisationEmployeesViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
@@ -181,6 +180,7 @@
     <Compile Include="Events\ShowSKDShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\OrganisationAccessTemplatesViewModel.cs" />
+    <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />

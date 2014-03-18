@@ -9,12 +9,14 @@ using Infrastructure.Common.Windows;
 using System;
 using Infrastructure.Common.CheckBoxList;
 using FiresecClient.SKDHelpers;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeFilterViewModel : OrganizationFilterBaseViewModel<EmployeeFilter>
+	public class EmployeeFilterViewModel : FilterBaseViewModel<EmployeeFilter>
 	{
-		public EmployeeFilterViewModel(EmployeeFilter filter): base(filter)
+		public EmployeeFilterViewModel(EmployeeFilter filter)
+			: base(filter)
 		{
 			ResetCommand = new RelayCommand(OnReset);
 		}
@@ -46,6 +48,14 @@ namespace SKDModule.ViewModels
 			if (positions != null)
 				foreach (var position in positions)
 					Positions.Add(new FilterPositionViewModel(position));
+
+			AvailableOrganizations = new ObservableCollection<Organization>();
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			foreach (var organisation in organisations)
+			{
+				AvailableOrganizations.Add(organisation);
+			}
+			SelectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
 		}
 
 		protected override void Update()
@@ -123,6 +133,19 @@ namespace SKDModule.ViewModels
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
 
+		public ObservableCollection<Organization> AvailableOrganizations { get; private set; }
+
+		Organization _selectedOrganization;
+		public Organization SelectedOrganization
+		{
+			get { return _selectedOrganization; }
+			set
+			{
+				_selectedOrganization = value;
+				OnPropertyChanged("SelectedOrganization");
+			}
+		}
+
 		protected override bool Save()
 		{
 			base.Save();
@@ -138,6 +161,11 @@ namespace SKDModule.ViewModels
 				if (Department.IsChecked)
 					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
+			if (SelectedOrganization != null)
+			{
+				Filter.OrganisationUID = SelectedOrganization.UID;
+				Filter.OrganizationUIDs.Add(SelectedOrganization.UID);
+			}
 			return true;
 		}
 

@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using SKDModule.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.Views
 {
@@ -13,21 +15,33 @@ namespace SKDModule.Views
 		public EmployeesView()
 		{
 			InitializeComponent();
+			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Unsubscribe(OnUpdateAdditionalColumns);
+			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Subscribe(OnUpdateAdditionalColumns);
+		}
+
+		void OnUpdateAdditionalColumns(object obj)
+		{
+			_dataGrid_Loaded(_dataGrid, null);
 		}
 
 		private void _dataGrid_Loaded(object sender, RoutedEventArgs e)
 		{
-			DataGrid dataGrid = sender as DataGrid;
-			OrganisationEmployeesViewModel organisationEmployeesViewModel = dataGrid.DataContext as OrganisationEmployeesViewModel;
-			if (organisationEmployeesViewModel != null)
+			EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
+			if (employeesViewModel != null)
 			{
-				for (int i = 0; i < organisationEmployeesViewModel.AdditionalColumnNames.Count; i++)
+				var columns = _dataGrid.Columns.Where(x => x.Header.ToString() != "Имя" && x.Header.ToString() != "Фамилия" && x.Header.ToString() != "Отчество").ToList();
+				foreach (var column in columns)
 				{
-					var additionalColumnName = organisationEmployeesViewModel.AdditionalColumnNames[i];
+					_dataGrid.Columns.Remove(column);
+				}
+
+				for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
+				{
+					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
 					DataGridTextColumn textColumn = new DataGridTextColumn();
 					textColumn.Header = additionalColumnName;
 					textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));
-					dataGrid.Columns.Add(textColumn);
+					_dataGrid.Columns.Add(textColumn);
 				}
 			}
 		}
@@ -35,19 +49,19 @@ namespace SKDModule.Views
 		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null && employeesViewModel.SelectedOrganisationEmployee != null)
+			if (employeesViewModel != null)
 			{
-				employeesViewModel.SelectedOrganisationEmployee.DoNotSelectEmployee = true;
+				employeesViewModel.DoNotSelectEmployee = true;
 			}
 		}
 
 		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null && employeesViewModel.SelectedOrganisationEmployee != null)
+			if (employeesViewModel != null)
 			{
-				employeesViewModel.SelectedOrganisationEmployee.DoNotSelectEmployee = false;
-				employeesViewModel.SelectedOrganisationEmployee.SelectedEmployee = employeesViewModel.SelectedOrganisationEmployee.SelectedEmployee;
+				employeesViewModel.DoNotSelectEmployee = false;
+				employeesViewModel.SelectedEmployee = employeesViewModel.SelectedEmployee;
 			}
 		}
 	}
