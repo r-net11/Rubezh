@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZone: SKDModelBase
+	public class CardZone: SKDIsDeletedModel
 	{
 		[DataMember]
 		public Guid ZoneUID { get; set; }

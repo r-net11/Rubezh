@@ -6,4 +6,5 @@
   <?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
   <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
+  <?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>
 </Include>

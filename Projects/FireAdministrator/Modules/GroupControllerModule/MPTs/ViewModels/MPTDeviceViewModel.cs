@@ -22,7 +22,6 @@ namespace GKModule.ViewModels
 			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "Обрыв", Value = 1 });
 			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "КЗ", Value = 2 });
 			CurcuitControlParameters.Add(new XDriverPropertyParameter() { Name = "Обрыв и КЗ", Value = 3 });
-
 		}
 
 		XDevice _device;

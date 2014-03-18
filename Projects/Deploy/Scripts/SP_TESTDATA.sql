@@ -3,6 +3,8 @@ SET DATEFORMAT dmy;
 DECLARE @Uid uniqueidentifier;
 
 DELETE FROM Organization
+delete from Card
+delete from GUD
 delete from [dbo].[Holiday]
 delete from [dbo].[Document]
 delete from [dbo].[Interval]
@@ -133,7 +135,6 @@ DECLARE @GovernanceScheduleUid uniqueidentifier;
 SET @GovernanceScheduleUid = NEWID();
 EXEC [dbo].[SaveSchedule] @GovernanceScheduleUid , @Organization1Uid, 'Руководство', @WeeklyScheduleSchemeUid,0,'01/01/1900'
 
-
 DECLARE @GuardPositionUid uniqueidentifier;
 SET @GuardPositionUid = NEWID();
 EXEC [dbo].[SavePosition] @GuardPositionUid, @Organization1Uid, 'Охранник', 'Охранопроизводитель',0,'01/01/1900'
@@ -184,6 +185,7 @@ EXEC [dbo].[SaveEmployee] @Guard2EmployeeUid , @Organization1Uid, 'Петр', 'Серге
 DECLARE @MainGuardEmployeeUid uniqueidentifier;
 SET @MainGuardEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainGuardEmployeeUid , @Organization1Uid, 'Петр', 'Сергеевич', 'Ивановичус', @MainGuardPositionUid, null , @GuardScheduleUid, '12/05/2007','01/01/1900',0,'01/01/1900'
+
 DECLARE @Montage1EmployeeUid uniqueidentifier;
 SET @Montage1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Montage1EmployeeUid ,  @Organization1Uid,'Иван', 'Сергеевич', 'Петров', @MontagePositionUid, null , @MontageScheduleUid, '12/05/2008','01/01/1900',0,'01/01/1900'
@@ -193,6 +195,7 @@ EXEC [dbo].[SaveEmployee] @Montage2EmployeeUid , @Organization1Uid, 'Сергей', 'И
 DECLARE @MainMontageEmployeeUid uniqueidentifier;
 SET @MainMontageEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainMontageEmployeeUid , @Organization1Uid, 'Сергей', 'Сергеевич', 'Петровский', @MainMontagePositionUid, null , @MontageScheduleUid, '12/05/2010','01/01/1900',0,'01/01/1900'
+
 DECLARE @Programmer1EmployeeUid uniqueidentifier;
 SET @Programmer1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Programmer1EmployeeUid , @Organization1Uid, 'Петр', 'Иванович', 'Сергеев', @ProgrammerPositionUid, null , @ITScheduleUid, '12/05/2011','01/01/1900',0,'01/01/1900'
@@ -202,6 +205,7 @@ EXEC [dbo].[SaveEmployee] @Programmer2EmployeeUid , @Organization1Uid, 'Иван', '
 DECLARE @MainProgrammistEmployeeUid uniqueidentifier;
 SET @MainProgrammistEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainProgrammistEmployeeUid , @Organization1Uid, 'Иван', 'Иванович', 'Сергеевко', @MainProgrammerPositionUid, null , @ITScheduleUid, '12/05/2013','01/01/1900',0,'01/01/1900'
+
 DECLARE @Tester1EmployeeUid uniqueidentifier;
 SET @Tester1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , @Organization1Uid, 'Сидор', 'Прохорович', 'Захарьин', @TesterPositionUid, null , @ITScheduleUid, '12/06/2013','01/01/1900',0,'01/01/1900'
@@ -211,6 +215,7 @@ EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , @Organization1Uid, 'Прохор', 'Си
 DECLARE @MainTesterEmployeeUid uniqueidentifier;
 SET @MainTesterEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainTesterEmployeeUid , @Organization1Uid, 'Прохор', 'Прохорович', 'Захаренко', @MainTesterPositionUid, null , @ITScheduleUid, '12/08/2013','01/01/1900',0,'01/01/1900'
+
 DECLARE @Constructor1EmployeeUid uniqueidentifier;
 SET @Constructor1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Constructor1EmployeeUid , @Organization1Uid, 'Захар', 'Сидорович', 'Прохоров', @ConstructorPositionUid, null , @ConstructorshipScheduleUid, '12/09/2013','01/01/1900',0,'01/01/1900'
@@ -220,6 +225,7 @@ EXEC [dbo].[SaveEmployee] @Constructor2EmployeeUid , @Organization1Uid, 'Сидор',
 DECLARE @MainConstructorEmployeeUid uniqueidentifier;
 SET @MainConstructorEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainConstructorEmployeeUid , @Organization1Uid, 'Захар', 'Захарович', 'Прохоревич', @MainConstructorPositionUid, null , @ConstructorshipScheduleUid, '12/11/2013','01/01/1900',0,'01/01/1900'
+
 DECLARE @AdministratorEmployeeUid uniqueidentifier;
 SET @AdministratorEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @AdministratorEmployeeUid , @Organization1Uid, 'Захар', 'Прохорович', 'Сидоров', @AdministratorPositionUid, null , @GovernanceScheduleUid, '12/12/2013','01/01/1900',0,'01/01/1900'
@@ -281,6 +287,66 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveGuest] @Uid, @Organization1Uid, 'Дмитрий', 'Анатольевич', 'Медведев',0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveGuest] @Uid, @Organization1Uid, 'Сергей', 'Кожугетович', 'Шойгу',0,'01/01/1900'
+
+DECLARE @MontageGUDUID uniqueidentifier;
+SET @MontageGUDUID = NEWID();
+EXEC SaveGUD @MontageGUDUID, @Organization1Uid, 'Монтаж', 'Монтаж ГУД',0,'01/01/1900'
+DECLARE @GuardGUDUID uniqueidentifier;
+SET @GuardGUDUID = NEWID();
+EXEC SaveGUD @GuardGUDUID, @Organization1Uid, 'Охрана', 'Охрана ГУД',0,'01/01/1900'
+DECLARE @GovernanceGUDUID uniqueidentifier;
+SET @GovernanceGUDUID = NEWID();
+EXEC SaveGUD @GovernanceGUDUID, @Organization1Uid, 'Руководство', 'Руководство ГУД',0,'01/01/1900'
+DECLARE @ConstructorshipGUDUID uniqueidentifier;
+SET @ConstructorshipGUDUID = NEWID();
+EXEC SaveGUD @ConstructorshipGUDUID, @Organization1Uid, 'Контсрукторы', 'Контсрукторы ГУД',0,'01/01/1900'
+DECLARE @ITGUDUID uniqueidentifier;
+SET @ITGUDUID = NEWID();
+EXEC SaveGUD @ITGUDUID, @Organization1Uid, 'Ай Ти', 'Ай Ти ГУД',0,'01/01/1900'
+DECLARE @FullGUDUID uniqueidentifier;
+SET @FullGUDUID = NEWID();
+EXEC SaveGUD @FullGUDUID, @Organization1Uid, 'Полный доступ', 'Полный доступ ГУД',0,'01/01/1900'
+
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 0, 1, @Montage1EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 1, 2, @Montage2EmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015', 0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 2, 3, @MainMontageEmployeeUid, @MontageGUDUID, '01/01/2014', '01/01/2015',0
+
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 3, 4, @Guard1EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 4, 5, @Guard2EmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 5, 6, @MainGuardEmployeeUid, @GuardGUDUID, '01/01/2014', '01/01/2015',0
+
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Constructor1EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Constructor2EmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainConstructorEmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
+
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Programmer1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Programmer2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainProgrammistEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 9, 10, @Tester1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 10, 11, @Tester2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 11, 12, @MainTesterEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 12, 13, @DirectorEmployeeUid, @FullGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @AdministratorEmployeeUid, @GovernanceGUDUID, '01/01/2014', '01/01/2015',0
+SET @Uid = NEWID();
+EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',0
 
 DECLARE @Organization2Uid uniqueidentifier;
 SET @Organization2Uid = NEWID();
@@ -377,4 +443,5 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveDocument] @Uid, @Organization2Uid, 729, 'Документ2', 'Документ2Организации2', '08/01/2014', '25/01/2013',0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organization2Uid, 123, 'Документ3', 'Документ3Организации2', '30/01/2014', '05/02/2013',0,'01/01/1900'
+
 

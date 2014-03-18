@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZoneLink : SKDModelBase
+	public class CardZoneLink : SKDIsDeletedModel
 	{
 
 		[DataMember]

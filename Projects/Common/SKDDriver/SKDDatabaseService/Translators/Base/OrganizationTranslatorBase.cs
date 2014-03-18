@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public abstract class OrganizationTranslatorBase<TableT, ApiT, FilterT> : TranslatorBase<TableT, ApiT, FilterT>
+	public abstract class OrganizationTranslatorBase<TableT, ApiT, FilterT> : IsDeletedTranslator<TableT, ApiT, FilterT>
 		where TableT : class,DataAccess.IOrganizationDatabaseElement, new()
 		where ApiT : OrganizationElementBase, new()
 		where FilterT : OrganizationFilterBase

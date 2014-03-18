@@ -10,10 +10,10 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		EmployeesViewModel EmployeesViewModel;
+		OrganisationEmployeesViewModel EmployeesViewModel;
 		public Employee Employee { get; private set; }
 
-		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
+		public EmployeeDetailsViewModel(OrganisationEmployeesViewModel employeesViewModel, Employee employee = null)
 		{
 			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
@@ -73,14 +73,15 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
-			{
-				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
-				return false;
-			}
+			//if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
+			//{
+			//    MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
+			//    return false;
+			//}
 
 			Employee.FirstName = FirstName;
 			Employee.LastName = LastName;
+			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
 			return true;
 		}
 	}

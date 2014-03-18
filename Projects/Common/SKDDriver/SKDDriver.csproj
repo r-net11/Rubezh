@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTypeTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardsTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DepartmentTranslator.cs" />

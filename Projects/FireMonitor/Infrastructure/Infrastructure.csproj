@@ -128,9 +128,11 @@
     <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
+    <Compile Include="Models\MultiGridType.cs" />
     <Compile Include="Models\MultiLayoutCameraSettings.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />
     <Compile Include="Models\JournalColumnType.cs" />
+    <Compile Include="Models\RviMultiLayoutCameraSettings.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

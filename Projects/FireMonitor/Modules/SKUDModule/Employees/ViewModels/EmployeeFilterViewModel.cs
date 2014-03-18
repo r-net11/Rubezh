@@ -31,8 +31,14 @@ namespace SKDModule.ViewModels
 				{
 					Departments.Add(new FilterDepartmentViewModel(department, this));
 				}
-				RootDepartment = Departments.FirstOrDefault(x => x.Department.ParentDepartmentUID == null);
-				SetChildren(RootDepartment);
+				RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
+				if (RootDepartments.IsNotNullOrEmpty())
+				{
+					foreach (var rootDepartment in RootDepartments)
+					{
+						SetChildren(rootDepartment);	
+					}
+				}
 			}
 			
 			Positions = new CheckBoxItemList<FilterPositionViewModel>();
@@ -104,23 +110,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		FilterDepartmentViewModel rootDepartment;
-		public FilterDepartmentViewModel RootDepartment
+		FilterDepartmentViewModel[] rootDepartments;
+		public FilterDepartmentViewModel[] RootDepartments
 		{
-			get { return rootDepartment; }
-			private set
+			get { return rootDepartments; }
+			set
 			{
-				rootDepartment = value;
-				OnPropertyChanged(() => RootDepartment);
+				rootDepartments = value;
 				OnPropertyChanged(() => RootDepartments);
 			}
 		}
-
-		public FilterDepartmentViewModel[] RootDepartments
-		{
-			get { return new FilterDepartmentViewModel[] { RootDepartment }; }
-		}
-
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
 

@@ -14,6 +14,7 @@ namespace FiresecAPI
 			DeviceStateClass = XStateClass.Norm;
 			JournalItemType = JournalItemType.System;
 		}
+		
 		[DataMember]
 		public JournalItemType JournalItemType { get; set; }
 		[DataMember]

@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства карты: {0}", card.Series + "." + card.Number);
+				Title = string.Format("Свойства карты: {0}", card.PresentationName);
 				IsNew = false;
 			}
 			Card = card;

@@ -5,8 +5,13 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Organization : SKDModelBase
+	public class Organization : SKDIsDeletedModel
 	{
+		public Organization()
+		{
+			ZoneUIDs = new List<Guid>();
+		}
+
 		[DataMember]
 		public string Name { get; set; }
 
@@ -15,5 +20,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? PhotoUID { get; set; }
+
+		[DataMember]
+		public List<Guid> ZoneUIDs { get; set; }
 	}
 }

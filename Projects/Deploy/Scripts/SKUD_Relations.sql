@@ -9,6 +9,7 @@ ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[AdditionalColumn] CHECK CONSTRAINT [FK_AdditionalColumn_Employee]
+
 GO
 ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_AdditionalColumnType] FOREIGN KEY([AdditionalColumnTypeUID])
 REFERENCES [dbo].[AdditionalColumnType] ([Uid])
@@ -26,6 +27,7 @@ ON DELETE NO ACTION
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Day] NOCHECK CONSTRAINT [FK_Day_NamedInterval]
+
 GO
 ALTER TABLE [dbo].[Day]  WITH CHECK ADD  CONSTRAINT [FK_Day_ScheduleScheme] FOREIGN KEY([ScheduleSchemeUid])
 REFERENCES [dbo].[ScheduleScheme] ([Uid])
@@ -88,19 +90,17 @@ ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[EmployeeReplacement] CHECK CONSTRAINT [FK_EmployeeReplacement_Department]
+
 GO
-ALTER TABLE [dbo].[EmployeeReplacement]  WITH CHECK ADD  CONSTRAINT [FK_EmployeeReplacement_Employee] FOREIGN KEY([EmployeeUid])
+ALTER TABLE [dbo].[EmployeeReplacement]  WITH NOCHECK ADD  CONSTRAINT [FK_EmployeeReplacement_Employee] FOREIGN KEY([EmployeeUid])
 REFERENCES [dbo].[Employee] ([Uid])
-ON UPDATE NO ACTION
-ON DELETE NO ACTION
 NOT FOR REPLICATION
 GO
-ALTER TABLE [dbo].[EmployeeReplacement] CHECK CONSTRAINT [FK_EmployeeReplacement_Employee]
+ALTER TABLE [dbo].[EmployeeReplacement] NOCHECK CONSTRAINT [FK_EmployeeReplacement_Employee]
+
 GO
 ALTER TABLE [dbo].[EmployeeReplacement]  WITH CHECK ADD  CONSTRAINT [FK_EmployeeReplacement_Schedule] FOREIGN KEY([ScheduleUid])
 REFERENCES [dbo].[Schedule] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[EmployeeReplacement] CHECK CONSTRAINT [FK_EmployeeReplacement_Schedule]
@@ -171,8 +171,6 @@ ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_Employee]
 GO
 ALTER TABLE [dbo].[Card]  WITH NOCHECK ADD  CONSTRAINT [FK_Card_GUD] FOREIGN KEY([GUDUid])
 REFERENCES [dbo].[GUD] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_GUD]
@@ -300,3 +298,9 @@ ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[GUD] NOCHECK CONSTRAINT [FK_GUD_Organization]
+GO
+ALTER TABLE [dbo].[OrganizationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganizationZone_Organization] FOREIGN KEY([OrganizationUid])
+REFERENCES [dbo].[Organization] ([Uid])
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[OrganizationZone] NOCHECK CONSTRAINT [FK_OrganizationZone_Organization]

@@ -149,6 +149,10 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				Update(Zone);
+				foreach (var device in Zone.Devices)
+				{
+					device.OnChanged();
+				}
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

@@ -9,37 +9,60 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Border Grid.Row="0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Margin="2">
-			<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedDepartment}" >
-				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png"  />
-				<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png"  />
-				<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png"  />
-			</StackPanel>
-		</Border>
-		<tree:TreeList Grid.Row="1" Focusable="True" Source="{Binding RootDepartments}" SelectedTreeNode="{Binding SelectedDepartment}">
-			<tree:TreeList.View>
-				<GridView>
-					<GridViewColumn Header="Наименование">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
-								</StackPanel>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Описание">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Department.Description}" VerticalAlignment="Center" Margin="2" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-				</GridView>
-			</tree:TreeList.View>
-		</tree:TreeList>
-	</Grid>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDepartment.SelectedDepartment}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png"  />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDepartment.SelectedDepartment}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png"  />
+            <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDepartment.SelectedDepartment}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png"  />
+            <Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+            <Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
+        </StackPanel>
+
+        <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0"
+				ItemsSource="{Binding OrganisationDepartments}"
+				SelectedItem="{Binding SelectedOrganisationDepartment}">
+
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <tree:TreeList Grid.Row="1" Focusable="True" Source="{Binding RootDepartments}" SelectedTreeNode="{Binding SelectedDepartment}">
+			            <tree:TreeList.View>
+				            <GridView>
+					            <GridViewColumn Header="Наименование">
+						            <GridViewColumn.CellTemplate>
+							            <DataTemplate>
+								            <StackPanel Orientation="Horizontal">
+									            <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									            <TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
+								            </StackPanel>
+							            </DataTemplate>
+						            </GridViewColumn.CellTemplate>
+					            </GridViewColumn>
+					            <GridViewColumn Header="Описание">
+						            <GridViewColumn.CellTemplate>
+							            <DataTemplate>
+								            <TextBlock Text="{Binding Department.Description}" VerticalAlignment="Center" Margin="2" />
+							            </DataTemplate>
+						            </GridViewColumn.CellTemplate>
+					            </GridViewColumn>
+				            </GridView>
+			            </tree:TreeList.View>
+		            </tree:TreeList>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Background" Value="{x:Null}" />
+                    <Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+                    <Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
+    </Grid>
 </UserControl>

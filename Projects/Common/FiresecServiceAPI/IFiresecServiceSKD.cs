@@ -54,6 +54,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveOrganizations(IEnumerable<Organization> Organizations);
 		[OperationContract]
+		OperationResult SaveOrganizationZones(Organization organization);
+		[OperationContract]
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult SaveGUDs(IEnumerable<GUD> items);
@@ -74,8 +76,6 @@ namespace FiresecAPI
 		OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
 		OperationResult MarkDeletedPositions(IEnumerable<Position> Positions);
-		[OperationContract]
-		OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
 		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
 		[OperationContract]

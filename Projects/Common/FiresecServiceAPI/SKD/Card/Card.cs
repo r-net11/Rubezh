@@ -6,13 +6,11 @@ using System.ComponentModel;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class SKDCard : SKDModelBase
+	public class SKDCard : SKDIsDeletedModel
 	{
 		public SKDCard()
 		{
 			CardZones = new List<CardZone>();
-			AdditionalGUDZones = new List<CardZone>();
-			ExceptedGUDZones = new List<CardZone>();
 		}
 
 		[DataMember]
@@ -34,21 +32,17 @@ namespace FiresecAPI
 		public List<CardZone> CardZones { get; set; }
 
 		[DataMember]
-		public List<CardZone> AdditionalGUDZones { get; set; }
-
-		[DataMember]
-		public List<CardZone> ExceptedGUDZones { get; set; }
-
-		[DataMember]
 		public Guid? GUDUID { get; set; }
-
-		[DataMember]
-		public bool IsAntipass { get; set; }
 
 		[DataMember]
 		public bool IsInStopList { get; set; }
 
 		[DataMember]
 		public string StopReason { get; set; }
+
+		public string PresentationName
+		{
+			get { return Series.ToString() + "/" + Number; }
+		}
 	}
 }

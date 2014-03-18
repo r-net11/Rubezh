@@ -62,6 +62,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
     <Compile Include="Devices\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />

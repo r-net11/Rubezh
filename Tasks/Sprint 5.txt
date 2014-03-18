@@ -13,4 +13,3 @@
 - Логировать SendManager
 - Расширение формулы для Formula.AddGetBit(XStateBit.Norm)
 - Рефакторинг PlanViewModel / PlanLinkViewModel
-- Диагностика. Список объектов и команды для них

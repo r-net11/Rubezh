@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Common;
 using FiresecAPI;
 using System.Data.Linq;
 using LinqKit;
@@ -27,15 +26,10 @@ namespace SKDDriver
 		{
 			var result = new ApiT();
 			result.UID = tableItem.UID;
-			result.IsDeleted = tableItem.IsDeleted;
-			result.RemovalDate = tableItem.RemovalDate;
 			return result;
 		}
-		protected virtual void TranslateBack(TableT tableItem, ApiT apiItem)
-		{
-			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
-		}
+		protected abstract void TranslateBack(TableT tableItem, ApiT apiItem);
+		
 		protected virtual OperationResult CanSave(ApiT item)
 		{
 			return new OperationResult();
@@ -48,29 +42,10 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(e => e != null);
-			
-			var IsDeletedExpression = PredicateBuilder.True<TableT>();
-			switch (filter.WithDeleted)
-			{
-				case DeletedType.Deleted:
-					IsDeletedExpression = e => e.IsDeleted;
-					break;
-				case DeletedType.Not:
-					IsDeletedExpression = e => !e.IsDeleted;
-					break;
-				default:
-					break;
-			}
-			result = result.And(IsDeletedExpression);
-			
+
 			var uids = filter.Uids;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
-			var removalDates = filter.RemovalDates;
-			if (removalDates != null && filter.WithDeleted == DeletedType.Deleted)
-				result = result.And(e => e.RemovalDate == null || 
-					(e.RemovalDate >= removalDates.StartDate && 
-						e.RemovalDate <= removalDates.EndDate));
 			return result;
 		}
 
@@ -94,7 +69,6 @@ namespace SKDDriver
 			{
 				return new OperationResult<IEnumerable<ApiT>>(e.Message);
 			}
-
 		}
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
@@ -130,38 +104,8 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult MarkDeleted(IEnumerable<ApiT> items)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				foreach (var item in items)
-				{
-					var verifyResult = CanDelete(item);
-					if (verifyResult.HasError)
-						return verifyResult;
-					if (item != null)
-					{
-						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
-						if (databaseItem != null)
-						{
-							databaseItem.IsDeleted = true;
-							databaseItem.RemovalDate = DateTime.Now;
-						}
-					}
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		#region Static
-		static readonly DateTime MinYear = new DateTime(1900, 1, 1);
-		static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
+		protected static readonly DateTime MinYear = new DateTime(1900, 1, 1);
+		protected static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
 
 		protected static DateTime CheckDate(DateTime dateTime)
 		{
@@ -171,20 +115,5 @@ namespace SKDDriver
 				return MaxYear;
 			return dateTime;
 		}
-
-		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
-		{
-			switch (filter.WithDeleted)
-			{
-				case DeletedType.Deleted:
-					return e => e != null && e.IsDeleted;
-				case DeletedType.Not:
-					return e => e != null && !e.IsDeleted;
-				default:
-					return e => true;
-			}
-		}
-
-		#endregion
 	}
 }

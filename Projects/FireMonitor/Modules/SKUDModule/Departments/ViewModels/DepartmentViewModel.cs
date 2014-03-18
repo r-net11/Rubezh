@@ -13,16 +13,18 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentViewModel : TreeNodeViewModel<DepartmentViewModel>
 	{
-		public DepartmentViewModel(Department department)
+		OrganisationDepartmentsViewModel OrganisationDepartmentsViewModel;
+		public Department Department { get; private set; }
+
+		public DepartmentViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, Department department)
 		{
+			OrganisationDepartmentsViewModel = organisationDepartmentsViewModel;
 			Department = department;
 
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
-
-		public Department Department { get; private set; }
 
 		public void Update()
 		{
@@ -32,7 +34,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
@@ -40,11 +42,11 @@ namespace SKDModule.ViewModels
 				var saveResult = DepartmentHelper.Save(department);
 				if (!saveResult)
 					return;
-				var departmentViewModel = new DepartmentViewModel(department);
+				var departmentViewModel = new DepartmentViewModel(OrganisationDepartmentsViewModel, department);
 				this.Department.ChildDepartmentUIDs.Add(department.UID);
 				this.AddChild(departmentViewModel);
 				this.Update();
-				DepartmentsViewModel.Current.Departments.Add(departmentViewModel);
+				OrganisationDepartmentsViewModel.Departments.Add(departmentViewModel);
 			}
 		}
 
@@ -73,9 +75,9 @@ namespace SKDModule.ViewModels
 				parent.Update();
 
 				index = Math.Min(index, parent.ChildrenCount - 1);
-				DepartmentsViewModel.Current.Departments.Remove(this);
-				var children = DepartmentsViewModel.Current.GetAllChildrenModels(this);
-				DepartmentsViewModel.Current.SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
+				OrganisationDepartmentsViewModel.Departments.Remove(this);
+				var children = OrganisationDepartmentsViewModel.GetAllChildrenModels(this);
+				OrganisationDepartmentsViewModel.SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
 		bool CanRemove()
@@ -86,7 +88,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(this.Department);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, this.Department);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;

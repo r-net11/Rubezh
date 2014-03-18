@@ -58,16 +58,24 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Access\ViewModels\AccessZonesSelectationViewModel.cs" />
-    <Compile Include="Access\ViewModels\AccessZoneViewModel.cs" />
-    <Compile Include="Access\ViewModels\CardZonesViewModel.cs" />
-    <Compile Include="Access\ViewModels\EmployeeCardDetailsViewModel.cs" />
-    <Compile Include="Access\ViewModels\CardRemovalReasonViewModel.cs" />
-    <Compile Include="Access\ViewModels\EmployeeCardViewModel.cs" />
-    <Compile Include="Access\ViewModels\UsersAccessViewModel.cs" />
-    <Compile Include="Access\ViewModels\UserAccessViewModel.cs" />
-    <Compile Include="Access\Views\AccessZonesSelectationView.xaml.cs">
+    <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
+    <Compile Include="Departments\ViewModels\OrganisationDepartmentsViewModel.cs" />
+    <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
+      <DependentUpon>DepartmentFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\OrganisationEmployeesViewModel.cs" />
+    <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
       <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetailsView.xaml.cs">
+      <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
@@ -76,16 +84,16 @@
     <Compile Include="GUDs\Views\GUDFilterView.xaml.cs">
       <DependentUpon>GUDFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Access\Views\EmployeeCardDetailsView.xaml.cs">
+    <Compile Include="Employees\Views\EmployeeCardDetailsView.xaml.cs">
       <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Access\Views\CardRemovalReasonView.xaml.cs">
+    <Compile Include="Employees\Views\CardRemovalReasonView.xaml.cs">
       <DependentUpon>CardRemovalReasonView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Access\Views\UserAccessView.xaml.cs">
-      <DependentUpon>UserAccessView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\EmployeesView.xaml.cs">
+      <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Access\Views\CardZonesView.xaml.cs">
+    <Compile Include="Employees\Views\CardZonesView.xaml.cs">
       <DependentUpon>CardZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
@@ -149,7 +157,6 @@
     <Compile Include="Events\ShowSKDSlideDayIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDMonthlyIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSKDUsersAccessEvent.cs" />
     <Compile Include="Events\ShowSKDVerificationEvent.cs" />
     <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
@@ -164,6 +171,7 @@
     <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
     <Compile Include="Events\ShowSKDShedulesEvent.cs" />
     <Compile Include="GUDs\ViewModels\GUDFilterViewModel.cs" />
+    <Compile Include="GUDs\ViewModels\OrganisationGUDsViewModel.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
@@ -211,6 +219,7 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Positions\ViewModels\OrganisationPositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
@@ -236,15 +245,8 @@
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
-    <Compile Include="Employees\Views\EmloyeeDetailsView.xaml.cs">
-      <DependentUpon>EmloyeeDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\Views\EmployeeFilterView.xaml.cs">
       <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\EmployeesView.xaml.cs">
-      <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
@@ -401,11 +403,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Access\DataTemplates\Dictionary.xaml">
+    <Page Include="Departments\Views\DepartmentFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Access\Views\AccessZonesSelectationView.xaml">
+    <Page Include="Employees\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Employees\Views\AccessZonesSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -417,19 +427,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Access\Views\EmployeeCardDetailsView.xaml">
+    <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Access\Views\CardRemovalReasonView.xaml">
+    <Page Include="Employees\Views\CardRemovalReasonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Access\Views\UserAccessView.xaml">
+    <Page Include="Employees\Views\EmployeesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Access\Views\CardZonesView.xaml">
+    <Page Include="Employees\Views\CardZonesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -464,10 +474,6 @@
     <Page Include="Documents\Views\DocumentFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Intervals\Holidays\Views\HolidayDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -671,15 +677,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmloyeeDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Employees\Views\EmployeeFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

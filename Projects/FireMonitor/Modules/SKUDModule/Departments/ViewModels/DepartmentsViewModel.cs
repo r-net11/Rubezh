@@ -8,114 +8,74 @@ using System.Windows.Documents;
 using System.Collections.Generic;
 using Infrastructure.Common;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class DepartmentsViewModel : ViewPartViewModel
 	{
-		public static DepartmentsViewModel Current { get; private set; }
-
 		public DepartmentsViewModel()
 		{
-			Current = this;
-			Departments = new ObservableCollection<DepartmentViewModel>();
+			RefreshCommand = new RelayCommand(OnRefresh);
+			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new DepartmentFilter();
-			Update();
-		}
-
-		public RelayCommand WithDeletedCommand { get; private set; }
-		void OnWithDeleted()
-		{
-			Filter.WithDeleted = DeletedType.All;
-			Update();
+			Initialize();
 		}
 
 		DepartmentFilter Filter;
 
-		void Update()
+		void Initialize()
 		{
-			Departments = new ObservableCollection<DepartmentViewModel>();
-			var departments = DepartmentHelper.Get(new DepartmentFilter());
-			if (departments != null)
-				foreach (var department in departments)
-				{
-					var departmentViewModel = new DepartmentViewModel(department);
-					Departments.Add(departmentViewModel);
-				}
-			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
-			if (RootDepartments.IsNotNullOrEmpty())
+			var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			var departments = DepartmentHelper.Get(Filter);
+
+			OrganisationDepartments = new ObservableCollection<OrganisationDepartmentsViewModel>();
+			foreach (var organisation in organisations)
 			{
-				BuildTree();
+				var departmentViewModel = new OrganisationDepartmentsViewModel();
+				departmentViewModel.Initialize(organisation, new List<Department>(departments.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				OrganisationDepartments.Add(departmentViewModel);
 			}
+			SelectedOrganisationDepartment = OrganisationDepartments.FirstOrDefault();
 		}
 
-		ObservableCollection<DepartmentViewModel> _departments;
-		public ObservableCollection<DepartmentViewModel> Departments
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
 		{
-			get { return _departments; }
+			Initialize();
+		}
+
+		ObservableCollection<OrganisationDepartmentsViewModel> _organisationDepartments;
+		public ObservableCollection<OrganisationDepartmentsViewModel> OrganisationDepartments
+		{
+			get { return _organisationDepartments; }
 			set
 			{
-				_departments = value;
-				OnPropertyChanged("Departments");
+				_organisationDepartments = value;
+				OnPropertyChanged("OrganisationDepartments");
 			}
 		}
 
-		DepartmentViewModel _selectedDepartment;
-		public DepartmentViewModel SelectedDepartment
+		OrganisationDepartmentsViewModel _selectedOrganisationDepartment;
+		public OrganisationDepartmentsViewModel SelectedOrganisationDepartment
 		{
-			get { return _selectedDepartment; }
+			get { return _selectedOrganisationDepartment; }
 			set
 			{
-				_selectedDepartment = value;
-				OnPropertyChanged("SelectedDepartment");
+				_selectedOrganisationDepartment = value;
+				OnPropertyChanged("SelectedOrganisationDepartment");
 			}
 		}
 
-		#region Tree
-		void BuildTree()
+		public RelayCommand EditFilterCommand { get; private set; }
+		void OnEditFilter()
 		{
-			foreach (var root in RootDepartments)
+			var departmentFilterViewModel = new DepartmentFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(departmentFilterViewModel))
 			{
-				AddChildren(root);	
+				Filter = departmentFilterViewModel.Filter;
+				Initialize();
 			}
 		}
-
-		void AddChildren(DepartmentViewModel departmentViewModel)
-		{
-			if (departmentViewModel.Department.ChildDepartmentUIDs != null && departmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
-			{
-				var children = Departments.Where(x => departmentViewModel.Department.ChildDepartmentUIDs.Any(y => y == x.Department.UID));
-				foreach (var child in children)
-				{
-					departmentViewModel.AddChild(child);
-					AddChildren(child);
-				}
-			}
-		}
-
-		public List<Department> GetAllChildrenModels(DepartmentViewModel departmentViewModel)
-		{
-			var result = new List<Department>();
-			if(departmentViewModel.ChildrenCount == 0)
-				return result;
-			foreach (var child in departmentViewModel.Children)
-			{
-				result.Add(child.Department);
-				GetAllChildrenModels(child);
-			}
-			return (result);
-		}
-
-		DepartmentViewModel[] rootDepartments;
-		public DepartmentViewModel[] RootDepartments
-		{
-			get { return rootDepartments; }
-			set
-			{
-				rootDepartments = value;
-				OnPropertyChanged(() => RootDepartments);
-			}
-		}
-		#endregion
 	}
 }

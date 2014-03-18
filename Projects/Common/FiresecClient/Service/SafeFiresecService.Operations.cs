@@ -215,6 +215,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizations(items));
 		}
+		public OperationResult SaveOrganizationZones(Organization item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganizationZones(item));
+		}
 		public OperationResult SavePhotos(IEnumerable<Photo> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePhotos(items));
@@ -237,10 +241,6 @@ namespace FiresecClient
 		public OperationResult MarkDeletedPositions(IEnumerable<Position> items)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedPositions(items));
-		}
-		public OperationResult MarkDeletedSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedSKDJournalItems(journalItems));
 		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
@@ -279,7 +279,6 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployeeReplacements(items));
 		}
 		#endregion
-
 		#endregion
 
 		public string Ping()

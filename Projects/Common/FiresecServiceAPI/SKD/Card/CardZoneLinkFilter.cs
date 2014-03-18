@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZoneFilter : FilterBase
+	public class CardZoneFilter : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> CardUIDs { get; set; }

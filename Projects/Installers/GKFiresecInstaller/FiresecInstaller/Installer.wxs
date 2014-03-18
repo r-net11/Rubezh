@@ -56,6 +56,11 @@
           <Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
             <Directory Id="Monitor.ShellFolder" Name="Shell" />
             <Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
+            <Directory Id="Monitor.Dll" Name="Dll">
+              <Directory Id="Monitor.Dll.Dahua" Name="Dahua" />
+              <Directory Id="Monitor.Dll.Hik" Name="Hik" />
+              <Directory Id="Monitor.Dll.Sunell" Name="Sunell" />
+            </Directory>
           </Directory>
           <Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
           <Directory Id="UTILSLOCATION" Name="Утилиты" />

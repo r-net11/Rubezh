@@ -28,6 +28,9 @@ namespace FiresecAPI.Models
 		public string Address { get; set; }
 
 		[DataMember]
+		public int Port { get; set; }
+
+		[DataMember]
 		public string Login { get; set; }
 
 		[DataMember]

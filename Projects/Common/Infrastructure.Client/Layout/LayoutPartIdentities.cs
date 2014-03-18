@@ -33,7 +33,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
-		public static readonly Guid SKDUsersAccess = new Guid("{F5C3F9E2-3BE6-4FCA-A8D8-4A674676BD84}");
 		public static readonly Guid SKDCards = new Guid("{78545642-B423-4160-ADD5-2F520F2C1FA3}");
 		public static readonly Guid SKDDepartments = new Guid("{3BD32FB2-ACD5-4315-B491-7200C41E7CBA}");
 		public static readonly Guid SKDPositions = new Guid("{FBB2C1DD-ECFE-4524-8C61-4D65E4999D84}");
