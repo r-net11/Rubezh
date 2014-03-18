@@ -32,7 +32,7 @@ namespace SKDModule.PassCard.Painter
 			var width = Rect.Width > Element.BorderThickness ? Rect.Width - Element.BorderThickness : 0;
 			var bound = new Rect(Rect.Left + Element.BorderThickness / 2, Rect.Top + Element.BorderThickness / 2, width, height);
 			var typeface = new Typeface(SystemFonts.CaptionFontFamily, FontStyles.Normal, FontWeights.Normal, new FontStretch());
-			var formattedText = new FormattedText(((ElementPassCardImageProperty)Element).PropertyType.ToDescription(), CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, SystemFonts.CaptionFontSize, PainterCache.BlackBrush);
+			var formattedText = new FormattedText(((ElementPassCardImageProperty)Element).Text ?? string.Empty, CultureInfo.InvariantCulture, FlowDirection.LeftToRight, typeface, SystemFonts.CaptionFontSize, PainterCache.BlackBrush);
 			formattedText.TextAlignment = TextAlignment.Center;
 			Point point = bound.TopLeft;
 			switch (formattedText.TextAlignment)

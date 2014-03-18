@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure.Designer.ElementProperties.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -25,20 +26,49 @@ namespace SKDModule.PassCard.ViewModels
 			{
 				_selectedPropertyType = value;
 				OnPropertyChanged(() => SelectedPropertyType);
+				OnPropertyChanged(() => IsAdditionalColumn);
+				if (SelectedPropertyType != PassCardTextPropertyType.Additional)
+					SelectedAdditionalColumnType = null;
 			}
 		}
 
+		public ObservableCollection<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		private AdditionalColumnType _selectedAdditionalColumnType;
+		public AdditionalColumnType SelectedAdditionalColumnType
+		{
+			get { return _selectedAdditionalColumnType; }
+			set
+			{
+				_selectedAdditionalColumnType = value;
+				OnPropertyChanged(() => SelectedAdditionalColumnType);
+			}
+		}
+
+		public bool IsAdditionalColumn
+		{
+			get { return SelectedPropertyType == PassCardTextPropertyType.Additional; }
+		}
 
 		protected override void CopyProperties()
 		{
+			var filter = new AdditionalColumnTypeFilter()
+			{
+				WithDeleted = DeletedType.Not,
+				Type = DataType.Text,
+			};
+			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			SelectedPropertyType = ((ElementPassCardTextProperty)ElementTextBlock).PropertyType;
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardTextProperty)ElementTextBlock).AdditionalColumn) : null;
 		}
-
 		protected override bool Save()
 		{
 			Text = SelectedPropertyType.ToDescription();
-			((ElementPassCardTextProperty)ElementTextBlock).PropertyType = SelectedPropertyType;
+			if (SelectedPropertyType == PassCardTextPropertyType.Additional)
+				Text += string.Format("({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
+			var element = (ElementPassCardTextProperty)ElementTextBlock;
+			element.PropertyType = SelectedPropertyType;
+			element.AdditionalColumn = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;
 			return base.Save();
 		}
 	}

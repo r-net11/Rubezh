@@ -101,7 +101,6 @@
     <Compile Include="Events\ShowInstructionsEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowLibraryEvent.cs" />
-    <Compile Include="Events\ShowPlansEvent.cs" />
     <Compile Include="Events\ShowSettingsEvent.cs" />
     <Compile Include="Events\ShowSoundsEvent.cs" />
     <Compile Include="Events\ShowUserGroupsEvent.cs" />

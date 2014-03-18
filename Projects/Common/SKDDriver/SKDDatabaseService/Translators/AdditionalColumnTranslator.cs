@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -12,7 +10,7 @@ namespace SKDDriver
 		public AdditionalColumnTranslator(DataAccess.SKUDDataContext context)
 			: base(context)
 		{
-			
+
 		}
 
 		protected override AdditionalColumn Translate(DataAccess.AdditionalColumn tableItem)
@@ -36,8 +34,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.AdditionalColumn, bool>> IsInFilter(AdditionalColumnFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.AdditionalColumn>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var employeeUIDs = filter.EmployeeUIDs;
 			if (employeeUIDs != null && employeeUIDs.Count != 0)
 				result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));
