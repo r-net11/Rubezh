@@ -22,6 +22,5 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			else
 				FormsPlayer.StartVideo(camera);
 		}
-
 	}
 }

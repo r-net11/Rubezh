@@ -152,9 +152,9 @@ namespace VideoModule.ViewModels
 			if (SelectedCamera.IsNowPlaying)
 				IsNowPlaying = false;
 			SelectedCamera.StopVideo();
+			SelectedCamera.Camera.OnChanged();
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
 			Cameras.Remove(SelectedCamera);
-			SelectedCamera.Camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
 		}
 
