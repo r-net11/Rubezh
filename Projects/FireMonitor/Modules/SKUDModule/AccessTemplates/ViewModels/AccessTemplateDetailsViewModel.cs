@@ -8,36 +8,36 @@ using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
-	public class GUDDetailsViewModel : SaveCancelDialogViewModel
+	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationGUDsViewModel GUDsViewModel;
-		public GUD GUD { get; private set; }
+		OrganisationAccessTemplatesViewModel AccessTemplatesViewModel;
+		public AccessTemplate AccessTemplate { get; private set; }
 		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
 
-		public GUDDetailsViewModel(OrganisationGUDsViewModel gudsViewModel, GUD gud = null)
+		public AccessTemplateDetailsViewModel(OrganisationAccessTemplatesViewModel accessTemplatesViewModel, AccessTemplate accessTemplate = null)
 		{
-			GUDsViewModel = gudsViewModel;
-			if (gud == null)
+			AccessTemplatesViewModel = accessTemplatesViewModel;
+			if (accessTemplate == null)
 			{
 				Title = "Создание ГУД";
-				gud = new GUD()
+				accessTemplate = new AccessTemplate()
 				{
 					Name = "Новый ГУД",
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства ГУД: {0}", gud.Name);
+				Title = string.Format("Свойства ГУД: {0}", accessTemplate.Name);
 			}
-			GUD = gud;
+			AccessTemplate = accessTemplate;
 			CopyProperties();
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(GUD.CardZones, GUD.UID, ParentType.GUD);
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organization, AccessTemplate.CardZones, AccessTemplate.UID, ParentType.AccessTemplate);
 		}
 
 		public void CopyProperties()
 		{
-			Name = GUD.Name;
-			Description = GUD.Description;
+			Name = AccessTemplate.Name;
+			Description = AccessTemplate.Description;
 		}
 
 		string _name;
@@ -75,20 +75,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (GUD.Name == "НЕТ")
+			if (AccessTemplate.Name == "НЕТ")
 			{
 				MessageBoxService.ShowWarning("Запрещенное название");
 				return false;
 			}
-			if (GUDsViewModel.GUDs.Any(x => x.GUD.Name == Name && x.GUD.UID != GUD.UID))
+			if (AccessTemplatesViewModel.AccessTemplates.Any(x => x.AccessTemplate.Name == Name && x.AccessTemplate.UID != AccessTemplate.UID))
 			{
 				MessageBoxService.ShowWarning("Название ГУД совпадает с введеннымы ранее");
 				return false;
 			}
 
-			GUD.Name = Name;
-			GUD.Description = Description;
-			GUD.CardZones = AccessZonesSelectationViewModel.GetCardZones();
+			AccessTemplate.Name = Name;
+			AccessTemplate.Description = Description;
+			AccessTemplate.CardZones = AccessZonesSelectationViewModel.GetCardZones();
 			return true;
 		}
 	}

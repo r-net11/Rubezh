@@ -18,6 +18,8 @@
 
 
 МАКСИМ
+- Переименовать GUD в AccessTemplate
+- CardZone.ParentType
 - GUDFilter не реагирует на OrganisationUID
 - Не добавляется ГУД
 - Ошибка пр редактировании доступных для организации зон

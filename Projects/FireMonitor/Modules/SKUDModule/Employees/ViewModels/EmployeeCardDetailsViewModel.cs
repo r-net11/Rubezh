@@ -42,18 +42,18 @@ namespace SKDModule.ViewModels
 
 			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID, ParentType.Card);
 
-			AvailableGUDs = new ObservableCollection<GUD>();
-			AvailableGUDs.Add(new GUD() { Name = "НЕТ" });
-			var gudFilter = new GUDFilter();
-			gudFilter.OrganizationUIDs.Add(Organization.UID);
-			var guds = GUDHelper.Get(gudFilter);
-			if (guds != null)
+			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
+			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });
+			var accessTemplateFilter = new AccessTemplateFilter();
+			accessTemplateFilter.OrganizationUIDs.Add(Organization.UID);
+			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
+			if (accessTemplates != null)
 			{
-				foreach (var gud in guds)
-					AvailableGUDs.Add(gud);
+				foreach (var accessTemplate in accessTemplates)
+					AvailableAccessTemplates.Add(accessTemplate);
 			}
 
-			SelectedGUD = AvailableGUDs.FirstOrDefault(x => x.UID == Card.GUDUID);
+			SelectedAccessTemplate = AvailableAccessTemplates.FirstOrDefault(x => x.UID == Card.AccessTemplateUID);
 			StopListCards = new ObservableCollection<SKDCard>();
 			var stopListCards = CardHelper.GetStopListCards();
 			if (stopListCards == null)
@@ -107,25 +107,25 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<GUD> _availableGUDs;
-		public ObservableCollection<GUD> AvailableGUDs
+		ObservableCollection<AccessTemplate> _availableAccessTemplates;
+		public ObservableCollection<AccessTemplate> AvailableAccessTemplates
 		{
-			get { return _availableGUDs; }
+			get { return _availableAccessTemplates; }
 			set
 			{
-				_availableGUDs = value;
-				OnPropertyChanged("AvailableGUDs");
+				_availableAccessTemplates = value;
+				OnPropertyChanged("AvailableAccessTemplates");
 			}
 		}
 
-		GUD _selectedGUD;
-		public GUD SelectedGUD
+		AccessTemplate _selectedAccessTemplate;
+		public AccessTemplate SelectedAccessTemplate
 		{
-			get { return _selectedGUD; }
+			get { return _selectedAccessTemplate; }
 			set
 			{
-				_selectedGUD = value;
-				OnPropertyChanged("SelectedGUD");
+				_selectedAccessTemplate = value;
+				OnPropertyChanged("SelectedAccessTemplate");
 			}
 		}
 
@@ -180,10 +180,10 @@ namespace SKDModule.ViewModels
 			Card.ValidTo = EndDate;
 			Card.CardZones = AccessZones.GetCardZones();
 
-			if (SelectedGUD != null)
-				Card.GUDUID = SelectedGUD.UID;
-			if (AvailableGUDs.IndexOf(SelectedGUD) == 0)
-				Card.GUDUID = null;
+			if (SelectedAccessTemplate != null)
+				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
+			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
+				Card.AccessTemplateUID = null;
 			return true;
 		}
 	}

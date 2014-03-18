@@ -39,15 +39,15 @@ namespace SKDModule.ViewModels
 		{
 			var cardZones = new List<CardZone>();
 			cardZones.AddRange(card.CardZones);
-			if (card.GUDUID != null)
+			if (card.AccessTemplateUID != null)
 			{
-				var guds = GUDHelper.Get(new GUDFilter());
-				if (guds != null)
+				var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
+				if (accessTemplates != null)
 				{
-					var gud = guds.FirstOrDefault(x => x.UID == card.GUDUID);
-					if (gud != null)
+					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
+					if (accessTemplate != null)
 					{
-						foreach (var cardZone in gud.CardZones)
+						foreach (var cardZone in accessTemplate.CardZones)
 						{
 							if (!cardZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
 								cardZones.Add(cardZone);

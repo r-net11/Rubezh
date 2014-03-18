@@ -42,7 +42,7 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.Get(filter);
 		}
-		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
+		public OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter)
 		{
 			return SKDDatabaseService.GUDTranslator.Get(filter);
 		}
@@ -101,7 +101,7 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.Save(items);
 		}
-		public OperationResult SaveGUDs(IEnumerable<GUD> items)
+		public OperationResult SaveGUDs(IEnumerable<AccessTemplate> items)
 		{
 			return SKDDatabaseService.GUDTranslator.Save(items);
 		}
@@ -152,7 +152,7 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
 		}
-		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
+		public OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items)
 		{
 			return SKDDatabaseService.GUDTranslator.MarkDeleted(items);
 		}

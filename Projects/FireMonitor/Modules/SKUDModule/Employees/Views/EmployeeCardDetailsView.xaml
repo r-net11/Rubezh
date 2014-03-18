@@ -49,7 +49,7 @@
 			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />
 		</TabItem>
 		<TabItem Header="ГУД">
-			<DataGrid ItemsSource="{Binding AvailableGUDs}" SelectedItem="{Binding SelectedGUD}">
+			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="ГУД" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

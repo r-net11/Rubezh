@@ -27,7 +27,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		[OperationContract]
-		OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter);
+		OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
 		[OperationContract]
@@ -58,7 +58,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
-		OperationResult SaveGUDs(IEnumerable<GUD> items);
+		OperationResult SaveGUDs(IEnumerable<AccessTemplate> items);
 		[OperationContract]
 		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]
@@ -85,7 +85,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
 		[OperationContract]
-		OperationResult MarkDeletedGUDs(IEnumerable<GUD> items);
+		OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items);
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]

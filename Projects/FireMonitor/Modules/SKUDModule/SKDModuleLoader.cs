@@ -26,7 +26,7 @@ namespace SKDModule
 		ZonesViewModel ZonesViewModel;
 		JournalViewModel JournalViewModel;
 		EmployeesViewModel EmployeesViewModel;
-		GUDsViewModel GUDsViewModel;
+		AccessTemplatesViewModel AccessTemplatesViewModel;
 		VerificationViewModel VerificationViewModel;
 		CardsViewModel CardsViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
@@ -53,7 +53,7 @@ namespace SKDModule
 			ZonesViewModel = new ZonesViewModel();
 			JournalViewModel = new JournalViewModel();
 			EmployeesViewModel = new EmployeesViewModel();
-			GUDsViewModel = new GUDsViewModel();
+			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			VerificationViewModel = new VerificationViewModel();
 			CardsViewModel = new CardsViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
@@ -80,7 +80,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
-						new NavigationItem<ShowSKDGUDAccessEvent>(GUDsViewModel, "ГУД", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDAccessTemplateAccessEvent>(AccessTemplatesViewModel, "ГУД", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
@@ -121,7 +121,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GUDs/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));

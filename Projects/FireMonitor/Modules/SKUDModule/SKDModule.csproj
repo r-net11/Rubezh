@@ -99,8 +99,8 @@
       <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUDs\Views\GUDFilterView.xaml.cs">
-      <DependentUpon>GUDFilterView.xaml</DependentUpon>
+    <Compile Include="AccessTemplates\Views\AccessTemplateFilterView.xaml.cs">
+      <DependentUpon>AccessTemplateFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\EmployeesView.xaml.cs">
       <DependentUpon>EmployeesView.xaml</DependentUpon>
@@ -179,8 +179,8 @@
     <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\ShowSKDGUDAccessEvent.cs" />
     <Compile Include="Events\ShowSKDShedulesEvent.cs" />
-    <Compile Include="GUDs\ViewModels\GUDFilterViewModel.cs" />
-    <Compile Include="GUDs\ViewModels\OrganisationGUDsViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\OrganisationAccessTemplatesViewModel.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
@@ -356,14 +356,14 @@
     <Compile Include="Reports\Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUDs\ViewModels\GUDDetailsViewModel.cs" />
-    <Compile Include="GUDs\ViewModels\GUDsViewModel.cs" />
-    <Compile Include="GUDs\ViewModels\GUDViewModel.cs" />
-    <Compile Include="GUDs\Views\GUDDetailsView.xaml.cs">
-      <DependentUpon>GUDDetailsView.xaml</DependentUpon>
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateDetailsViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplatesViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateViewModel.cs" />
+    <Compile Include="AccessTemplates\Views\AccessTemplateDetailsView.xaml.cs">
+      <DependentUpon>AccessTemplateDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUDs\Views\GUDsView.xaml.cs">
-      <DependentUpon>GUDsView.xaml</DependentUpon>
+    <Compile Include="AccessTemplates\Views\AccessTemplatesView.xaml.cs">
+      <DependentUpon>AccessTemplatesView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -445,7 +445,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUDs\Views\GUDFilterView.xaml">
+    <Page Include="AccessTemplates\Views\AccessTemplateFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -645,15 +645,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUDs\DataTemplates\Dictionary.xaml">
+    <Page Include="AccessTemplates\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUDs\Views\GUDDetailsView.xaml">
+    <Page Include="AccessTemplates\Views\AccessTemplateDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUDs\Views\GUDsView.xaml">
+    <Page Include="AccessTemplates\Views\AccessTemplatesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
