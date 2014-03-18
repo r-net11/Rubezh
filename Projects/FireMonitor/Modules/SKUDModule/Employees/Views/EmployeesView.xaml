@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <Style x:Key="ItemsControlStyle" TargetType="{x:Type ItemsControl}">
             <Style.Setters>
-                <EventSetter Event="PreviewMouseDown" Handler="ItemsControl_MouseDown"/>
+                <EventSetter Event="PreviewMouseDown" Handler="ItemsControl_MouseDown" />
             </Style.Setters>
         </Style>
     </UserControl.Resources>
@@ -56,7 +56,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" MinHeight="200" />
                         </Grid.RowDefinitions>
-                        <DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" Margin="2" RowDetailsVisibilityMode="Visible">
+                        <DataGrid Grid.Row="0" ItemsSource="{Binding Employees}" SelectedItem="{Binding SelectedEmployee}" RowDetailsVisibilityMode="Visible"
+                                Loaded="_dataGrid_Loaded" Margin="2">
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
                                     <Style.Setters>
@@ -69,7 +70,7 @@
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
-                                        <EventSetter Event="PreviewMouseDown" Handler="Border_PreviewMouseDown"/>
+                                        <EventSetter Event="PreviewMouseDown" Handler="Border_PreviewMouseDown" />
                                     </Style.Setters>
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">

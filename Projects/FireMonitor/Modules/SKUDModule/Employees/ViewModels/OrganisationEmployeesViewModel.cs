@@ -9,6 +9,7 @@ using SKDModule.ViewModels;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
+using System.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -34,6 +35,8 @@ namespace SKDModule.ViewModels
 				Employees.Add(employeeViewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
+
+			InitializeAdditionalColumns();
 		}
 
 		string _name;
@@ -46,6 +49,32 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public void InitializeAdditionalColumns()
+		{
+			AdditionalColumnNames = new ObservableCollection<string>();
+
+			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
+			additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
+			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			if (additionalColumnTypes != null)
+			{
+				foreach (var additionalColumnType in additionalColumnTypes)
+				{
+					AdditionalColumnNames.Add(additionalColumnType.Name);
+				}
+				foreach (var employee in Employees)
+				{
+					employee.AdditionalColumnValues = new ObservableCollection<string>();
+					foreach (var additionalColumnType in additionalColumnTypes)
+					{
+						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
+					}
+				}
+			}
+		}
+
+		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
 
 		public Organization Organization { get; private set; } 
 

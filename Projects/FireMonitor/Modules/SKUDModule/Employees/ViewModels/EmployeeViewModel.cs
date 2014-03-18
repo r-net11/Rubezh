@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -56,6 +57,8 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(()=>AppointedString);
 			OnPropertyChanged(()=>DismissedString);
 		}
+
+		public ObservableCollection<string> AdditionalColumnValues { get; set; }
 
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 

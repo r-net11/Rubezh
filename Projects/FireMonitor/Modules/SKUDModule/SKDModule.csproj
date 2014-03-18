@@ -71,30 +71,39 @@
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
     <Compile Include="Employees\ViewModels\OrganisationEmployeesViewModel.cs" />
-    <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
-      <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\EmployeeDetailsView.xaml.cs">
-      <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUDs\Views\GUDFilterView.xaml.cs">
-      <DependentUpon>GUDFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\EmployeeCardDetailsView.xaml.cs">
-      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
+      <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Employees\Views\CardRemovalReasonView.xaml.cs">
       <DependentUpon>CardRemovalReasonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\Views\EmployeesView.xaml.cs">
-      <DependentUpon>EmployeesView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Employees\Views\CardZonesView.xaml.cs">
       <DependentUpon>CardZonesView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeCardDetailsView.xaml.cs">
+      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetailsView.xaml.cs">
+      <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeFilterView.xaml.cs">
+      <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUDs\Views\GUDFilterView.xaml.cs">
+      <DependentUpon>GUDFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeesView.xaml.cs">
+      <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
     <Compile Include="AdditionalColumns\ViewModels\OrganisationAdditionalColumnTypesViewModel.cs" />
@@ -245,9 +254,6 @@
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
-    <Compile Include="Employees\Views\EmployeeFilterView.xaml.cs">
-      <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
@@ -411,23 +417,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Employees\Views\AccessZonesSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeeDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUDs\Views\GUDFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
+    <Page Include="Employees\Views\AccessZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -435,11 +429,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Employees\Views\CardZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUDs\Views\GUDFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -674,10 +684,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeeFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
