@@ -9,12 +9,14 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
+		Organization Organization;
 		public SKDCard Card { get; private set; }
 		public AccessZonesSelectationViewModel AccessZones { get; private set; }
 		bool IsNewCard;
 
-		public EmployeeCardDetailsViewModel(SKDCard card = null)
+		public EmployeeCardDetailsViewModel(Organization organization, SKDCard card = null)
 		{
+			Organization = organization;
 			Card = card;
 			if (card == null)
 			{
@@ -38,11 +40,13 @@ namespace SKDModule.ViewModels
 			StartDate = Card.ValidFrom;
 			EndDate = Card.ValidTo;
 
-			AccessZones = new AccessZonesSelectationViewModel(Card.CardZones, Card.UID, ParentType.Card);
+			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID, ParentType.Card);
 
 			AvailableGUDs = new ObservableCollection<GUD>();
 			AvailableGUDs.Add(new GUD() { Name = "НЕТ" });
-			var guds = GUDHelper.Get(new GUDFilter());
+			var gudFilter = new GUDFilter();
+			gudFilter.OrganizationUIDs.Add(Organization.UID);
+			var guds = GUDHelper.Get(gudFilter);
 			if (guds != null)
 			{
 				foreach (var gud in guds)

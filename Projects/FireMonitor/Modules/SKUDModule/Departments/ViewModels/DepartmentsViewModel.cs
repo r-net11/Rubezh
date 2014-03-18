@@ -14,15 +14,15 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentsViewModel : ViewPartViewModel
 	{
+		DepartmentFilter Filter;
+
 		public DepartmentsViewModel()
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Filter = new DepartmentFilter();
 			Initialize();
 		}
-
-		DepartmentFilter Filter;
 
 		void Initialize()
 		{
@@ -37,12 +37,6 @@ namespace SKDModule.ViewModels
 				OrganisationDepartments.Add(departmentViewModel);
 			}
 			SelectedOrganisationDepartment = OrganisationDepartments.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationDepartmentsViewModel> _organisationDepartments;
@@ -76,6 +70,12 @@ namespace SKDModule.ViewModels
 				Filter = departmentFilterViewModel.Filter;
 				Initialize();
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

@@ -14,14 +14,11 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationDepartmentsViewModel : BaseViewModel
 	{
-		public OrganisationDepartmentsViewModel()
-		{
-		}
+		public Organization Organization { get; private set; }
 
 		public void Initialize(Organization organization, List<Department> departments)
 		{
 			Organization = organization;
-			Name = Organization.Name;
 
 			Departments = new ObservableCollection<DepartmentViewModel>();
 			if (departments != null)
@@ -36,19 +33,6 @@ namespace SKDModule.ViewModels
 				BuildTree();
 			}
 		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
-		}
-
-		public Organization Organization { get; private set; } 
 
 		ObservableCollection<DepartmentViewModel> _departments;
 		public ObservableCollection<DepartmentViewModel> Departments

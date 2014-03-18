@@ -13,6 +13,7 @@ namespace SKDModule.ViewModels
 	public class OrganisationHolidaysYearViewModel : BaseViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public int Year { get; private set; }
+		public Organization Organization { get; private set; }
 
 		public OrganisationHolidaysYearViewModel(int year)
 		{
@@ -23,9 +24,9 @@ namespace SKDModule.ViewModels
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 		}
 
-		public void Initialize(string name, List<EmployeeHoliday> employeeHolidays)
+		public void Initialize(Organization organization, List<EmployeeHoliday> employeeHolidays)
 		{
-			Name = name;
+			Organization = organization;
 
 			if (employeeHolidays.Count == 0)
 			{
@@ -55,17 +56,6 @@ namespace SKDModule.ViewModels
 				Holidays.Add(holidayViewModel);
 			}
 			SelectedHoliday = Holidays.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<HolidayViewModel> _holidays;

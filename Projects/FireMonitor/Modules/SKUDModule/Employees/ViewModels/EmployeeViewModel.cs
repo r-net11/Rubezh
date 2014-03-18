@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			if (cards != null)
 			{
 				foreach (var item in cards)
-					Cards.Add(new EmployeeCardViewModel(this, item));
+					Cards.Add(new EmployeeCardViewModel(OrganisationEmployeesViewModel.Organization, this, item));
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel();
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(OrganisationEmployeesViewModel.Organization);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;
-				var cardViewModel = new EmployeeCardViewModel(this, card);
+				var cardViewModel = new EmployeeCardViewModel(OrganisationEmployeesViewModel.Organization, this, card);
 				Cards.Add(cardViewModel);
 
 				IsExpanded = true;

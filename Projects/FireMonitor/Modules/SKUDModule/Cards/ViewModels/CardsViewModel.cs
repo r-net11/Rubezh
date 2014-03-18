@@ -11,6 +11,8 @@ namespace SKDModule.ViewModels
 {
 	public class CardsViewModel : ViewPartViewModel
 	{
+		CardFilter Filter;
+
 		public CardsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -20,8 +22,6 @@ namespace SKDModule.ViewModels
 			Filter = new CardFilter();
 			Initialize();
 		}
-
-		CardFilter Filter;
 
 		public void Initialize()
 		{
@@ -34,12 +34,6 @@ namespace SKDModule.ViewModels
 				var cardViewModel = new CardViewModel(card);
 				Cards.Add(cardViewModel);
 			}
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<CardViewModel> _cards;
@@ -114,6 +108,12 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedCard != null;
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

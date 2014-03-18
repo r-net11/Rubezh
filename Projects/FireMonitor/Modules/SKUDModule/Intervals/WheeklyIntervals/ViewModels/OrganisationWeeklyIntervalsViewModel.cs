@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationWeeklyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public Organization Organization { get; private set; }
 		EmployeeWeeklyInterval IntervalToCopy;
 
 		public OrganisationWeeklyIntervalsViewModel()
@@ -26,9 +27,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(string name, List<EmployeeWeeklyInterval> employeeWeeklyIntervals)
+		public void Initialize(Organization organization, List<EmployeeWeeklyInterval> employeeWeeklyIntervals)
 		{
-			Name = name;
+			Organization = organization;
 
 			var neverTimeInterval = employeeWeeklyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverTimeInterval == null)
@@ -44,17 +45,6 @@ namespace SKDModule.ViewModels
 				WeeklyIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedWeeklyInterval = WeeklyIntervals.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<WeeklyIntervalViewModel> _weeklyIntervals;

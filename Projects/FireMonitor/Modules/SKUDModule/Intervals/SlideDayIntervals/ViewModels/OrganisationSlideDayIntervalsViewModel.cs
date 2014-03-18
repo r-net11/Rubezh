@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationSlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public Organization Organization { get; private set; }
 		EmployeeSlideDayInterval IntervalToCopy;
 
 		public OrganisationSlideDayIntervalsViewModel()
@@ -26,9 +27,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(string name, List<EmployeeSlideDayInterval> employeeSlideDayIntervals)
+		public void Initialize(Organization organization, List<EmployeeSlideDayInterval> employeeSlideDayIntervals)
 		{
-			Name = name;
+			Organization = organization;
 
 			var neverTimeInterval = employeeSlideDayIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverTimeInterval == null)
@@ -45,17 +46,6 @@ namespace SKDModule.ViewModels
 				SlideDayIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedSlideDayInterval = SlideDayIntervals.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<SlideDayIntervalViewModel> _slideDayIntervals;

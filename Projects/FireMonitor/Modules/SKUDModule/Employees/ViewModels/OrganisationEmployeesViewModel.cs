@@ -15,6 +15,8 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationEmployeesViewModel : BaseViewModel
 	{
+		public Organization Organization { get; private set; } 
+
 		public OrganisationEmployeesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -26,7 +28,6 @@ namespace SKDModule.ViewModels
 		public void Initialize(Organization organization, List<Employee> employees)
 		{
 			Organization = organization;
-			Name = Organization.Name;
 
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
@@ -37,17 +38,6 @@ namespace SKDModule.ViewModels
 			SelectedEmployee = Employees.FirstOrDefault();
 
 			InitializeAdditionalColumns();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		public void InitializeAdditionalColumns()
@@ -75,8 +65,6 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
-
-		public Organization Organization { get; private set; } 
 
 		ObservableCollection<EmployeeViewModel> _employee;
 		public ObservableCollection<EmployeeViewModel> Employees

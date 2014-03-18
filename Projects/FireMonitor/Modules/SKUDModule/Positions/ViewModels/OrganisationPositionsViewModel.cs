@@ -14,6 +14,8 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationPositionsViewModel : BaseViewModel
 	{
+		public Organization Organization { get; private set; }
+
 		public OrganisationPositionsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -24,7 +26,6 @@ namespace SKDModule.ViewModels
 		public void Initialize(Organization organization, List<Position> positions)
 		{
 			Organization = organization;
-			Name = Organization.Name;
 
 			Positions = new ObservableCollection<PositionViewModel>();
 			foreach (var position in positions)
@@ -34,19 +35,6 @@ namespace SKDModule.ViewModels
 			}
 			SelectedPosition = Positions.FirstOrDefault();
 		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
-		}
-
-		public Organization Organization { get; private set; } 
 
 		ObservableCollection<PositionViewModel> _positions;
 		public ObservableCollection<PositionViewModel> Positions

@@ -13,6 +13,8 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationAdditionalColumnTypesViewModel : ViewPartViewModel
 	{
+		public Organization Organization { get; private set; }
+
 		public OrganisationAdditionalColumnTypesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -23,6 +25,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(Organization organization, List<AdditionalColumnType> additionalColumnTypes)
 		{
 			Organization = organization;
+
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnTypeViewModel>();
 			foreach (var additionalColumnType in additionalColumnTypes)
 			{
@@ -30,13 +33,6 @@ namespace SKDModule.ViewModels
 				AdditionalColumnTypes.Add(additionalColumnViewModel);
 			}
 			SelectedAdditionalColumnType = AdditionalColumnTypes.FirstOrDefault();
-		}
-
-		public Organization Organization { get; private set; }
-
-		public string Name
-		{
-			get { return Organization.Name; }
 		}
 
 		ObservableCollection<AdditionalColumnTypeViewModel> _additionalColumns;

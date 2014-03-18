@@ -8,13 +8,18 @@ namespace SKDModule.ViewModels
 {
 	public class AccessZonesSelectationViewModel : BaseViewModel
 	{
+		Organization Organization;
 		public List<CardZone> CardZones { get; private set; }
 		Guid? ParentUID;
 		ParentType ParentType;
+		HashSet<SKDZone> AllParentZones;
 
-		public AccessZonesSelectationViewModel(List<CardZone> cardZones, Guid? parentUID, ParentType parentType)
+		public AccessZonesSelectationViewModel(Organization organization, List<CardZone> cardZones, Guid? parentUID, ParentType parentType)
 		{
+			Organization = organization;
 			CardZones = cardZones;
+
+			InitializeAllParentZones();
 			AllZones = new List<AccessZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = RootZone;
@@ -25,6 +30,25 @@ namespace SKDModule.ViewModels
 			{
 				zone.ExpandToThis();
 			}
+		}
+
+		void InitializeAllParentZones()
+		{
+			AllParentZones = new HashSet<SKDZone>();
+			foreach (var zoneUID in Organization.ZoneUIDs)
+			{
+				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				if (zone != null)
+				{
+					AddAllParents(zone);
+				}
+			}
+		}
+		void AddAllParents(SKDZone zone)
+		{
+			AllParentZones.Add(zone);
+			if (zone.Parent != null)
+				AddAllParents(zone.Parent);
 		}
 
 		#region Zones
@@ -61,14 +85,15 @@ namespace SKDModule.ViewModels
 
 		AccessZoneViewModel AddZoneInternal(SKDZone zone, AccessZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new AccessZoneViewModel(zone, CardZones, x => { SelectedZone = x;});
+			var zoneViewModel = new AccessZoneViewModel(zone, CardZones, x => { SelectedZone = x; });
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);
 
 			foreach (var childZone in zone.Children)
 			{
-				AddZoneInternal(childZone, zoneViewModel);
+				if (AllParentZones.Any(x => x.UID == childZone.UID))
+					AddZoneInternal(childZone, zoneViewModel);
 			}
 			return zoneViewModel;
 		}

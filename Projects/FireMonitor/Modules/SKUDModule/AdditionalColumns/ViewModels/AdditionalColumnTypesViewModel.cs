@@ -13,6 +13,8 @@ namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnTypesViewModel : ViewPartViewModel
 	{
+		AdditionalColumnTypeFilter Filter;
+
 		public AdditionalColumnTypesViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
@@ -36,19 +38,6 @@ namespace SKDModule.ViewModels
 			SelectedOrganisationAdditionalColumnType = OrganisationAdditionalColumnTypes.FirstOrDefault();
 		}
 
-		AdditionalColumnTypeFilter Filter;
-		
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var additionalColumnTypeFilterViewModel = new AdditionalColumnTypeFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(additionalColumnTypeFilterViewModel))
-			{
-				Filter = additionalColumnTypeFilterViewModel.Filter;
-				Initialize();
-			}
-		}
-
 		ObservableCollection<OrganisationAdditionalColumnTypesViewModel> _organisationAdditionalColumnTypes;
 		public ObservableCollection<OrganisationAdditionalColumnTypesViewModel> OrganisationAdditionalColumnTypes
 		{
@@ -68,6 +57,17 @@ namespace SKDModule.ViewModels
 			{
 				_selectedOrganisationAdditionalColumn = value;
 				OnPropertyChanged(() => SelectedOrganisationAdditionalColumnType);
+			}
+		}
+
+		public RelayCommand EditFilterCommand { get; private set; }
+		void OnEditFilter()
+		{
+			var additionalColumnTypeFilterViewModel = new AdditionalColumnTypeFilterViewModel(Filter);
+			if (DialogService.ShowModalWindow(additionalColumnTypeFilterViewModel))
+			{
+				Filter = additionalColumnTypeFilterViewModel.Filter;
+				Initialize();
 			}
 		}
 	}

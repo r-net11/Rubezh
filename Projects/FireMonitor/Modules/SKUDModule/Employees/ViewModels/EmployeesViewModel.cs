@@ -15,16 +15,15 @@ namespace SKDModule.ViewModels
 	public class EmployeesViewModel : ViewPartViewModel
 	{
 		public static EmployeesViewModel Current { get; private set; }
+		EmployeeFilter Filter;
 
 		public EmployeesViewModel()
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Filter = new EmployeeFilter();
 			Initialize();
 		}
-
-		EmployeeFilter Filter;
 
 		void Initialize()
 		{
@@ -39,12 +38,6 @@ namespace SKDModule.ViewModels
 				OrganisationEmployees.Add(employeeViewModel);
 			}
 			SelectedOrganisationEmployee = OrganisationEmployees.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationEmployeesViewModel> _organisationEmployees;
@@ -78,6 +71,12 @@ namespace SKDModule.ViewModels
 				Filter = employeeFilterViewModel.Filter;
 				Initialize();
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

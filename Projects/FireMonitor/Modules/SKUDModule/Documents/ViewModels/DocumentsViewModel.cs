@@ -13,15 +13,15 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentsViewModel : ViewPartViewModel
 	{
+		DocumentFilter Filter;
+
 		public DocumentsViewModel()
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Filter = new DocumentFilter();
 			Initialize();
 		}
-
-		DocumentFilter Filter;
 
 		void Initialize()
 		{
@@ -32,16 +32,10 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var documentViewModel = new OrganisationDocumentsViewModel();
-				documentViewModel.Initialize(organisation.Name, new List<Document>(documents.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				documentViewModel.Initialize(organisation, new List<Document>(documents.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationDocuments.Add(documentViewModel);
 			}
 			SelectedOrganisationDocument = OrganisationDocuments.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationDocumentsViewModel> _organisationDocuments;
@@ -75,6 +69,12 @@ namespace SKDModule.ViewModels
 				Filter = documentFilterViewModel.Filter;
 				Initialize();
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }
