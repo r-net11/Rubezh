@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var gudViewModel = new OrganisationGUDsViewModel();
-				gudViewModel.Initialize(organisation.Name, new List<GUD>(guds.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				gudViewModel.Initialize(organisation, new List<GUD>(guds.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
 				OrganisationGUDs.Add(gudViewModel);
 			}
 			SelectedOrganisationGUD = OrganisationGUDs.FirstOrDefault();

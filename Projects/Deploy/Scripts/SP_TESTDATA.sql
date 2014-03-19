@@ -3,7 +3,7 @@ SET DATEFORMAT dmy;
 DECLARE @Uid uniqueidentifier;
 
 DELETE FROM Organization
-delete from Card
+delete from dbo.Card
 delete from GUD
 delete from [dbo].[Holiday]
 delete from [dbo].[Document]
@@ -329,24 +329,24 @@ SET @Uid = NEWID();
 EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainConstructorEmployeeUid, @ConstructorshipGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 6, 7, @Programmer1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 10, 11, @Programmer1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 7, 8, @Programmer2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 11, 12, @Programmer2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 8, 9, @MainProgrammistEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 12, 13, @MainProgrammistEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 9, 10, @Tester1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @Tester1EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 10, 11, @Tester2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 14, 15, @Tester2EmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 11, 12, @MainTesterEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 15, 16, @MainTesterEmployeeUid, @ITGUDUID, '01/01/2014', '01/01/2015',0
 
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 12, 13, @DirectorEmployeeUid, @FullGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 16, 17, @DirectorEmployeeUid, @FullGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @AdministratorEmployeeUid, @GovernanceGUDUID, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 17, 18, @AdministratorEmployeeUid, @GovernanceGUDUID, '01/01/2014', '01/01/2015',0
 SET @Uid = NEWID();
-EXEC SaveCard @Uid, 0, '01/01/1900', 13, 14, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',0
+EXEC SaveCard @Uid, 0, '01/01/1900', 18, 19, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',0
 
 DECLARE @Organization2Uid uniqueidentifier;
 SET @Organization2Uid = NEWID();

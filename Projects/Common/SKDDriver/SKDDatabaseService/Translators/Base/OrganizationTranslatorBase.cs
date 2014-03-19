@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public abstract class OrganizationTranslatorBase<TableT, ApiT, FilterT> : IsDeletedTranslator<TableT, ApiT, FilterT>
+	public abstract class OrganizationElementTranslator<TableT, ApiT, FilterT> : IsDeletedTranslator<TableT, ApiT, FilterT>
 		where TableT : class,DataAccess.IOrganizationDatabaseElement, new()
 		where ApiT : OrganizationElementBase, new()
 		where FilterT : OrganizationFilterBase
 	{
-		public OrganizationTranslatorBase(DataAccess.SKUDDataContext context)
+		public OrganizationElementTranslator(DataAccess.SKUDDataContext context)
 			: base(context)
 		{
 

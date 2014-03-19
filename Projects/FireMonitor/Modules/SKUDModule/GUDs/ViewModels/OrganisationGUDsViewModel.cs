@@ -21,10 +21,10 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(string name, List<GUD> guds)
+		public void Initialize(Organization organization, List<GUD> guds)
 		{
-			Name = name;
-
+			Organization = organization;
+			Name = Organization.Name;
 			GUDs = new ObservableCollection<GUDViewModel>();
 			foreach (var gud in guds)
 			{
@@ -44,6 +44,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("Name");
 			}
 		}
+
+		public Organization Organization { get; private set; } 
 
 		ObservableCollection<GUDViewModel> _guds;
 		public ObservableCollection<GUDViewModel> GUDs

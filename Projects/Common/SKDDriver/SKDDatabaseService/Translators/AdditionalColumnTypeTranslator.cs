@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTypeTranslator : OrganizationTranslatorBase<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
+	public class AdditionalColumnTypeTranslator : OrganizationElementTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
 	{
 		public AdditionalColumnTypeTranslator(DataAccess.SKUDDataContext context)
 			: base(context)

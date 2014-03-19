@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class EmployeeTranslator : OrganizationTranslatorBase<DataAccess.Employee, Employee, EmployeeFilter>
+	public class EmployeeTranslator : OrganizationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
 		public EmployeeTranslator(DataAccess.SKUDDataContext context, EmployeeReplacementTranslator replacementTranslator)
 			: base(context)

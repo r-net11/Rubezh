@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SKDDriver
 {
-	public class PositionTranslator : OrganizationTranslatorBase<DataAccess.Position, Position, PositionFilter>
+	public class PositionTranslator : OrganizationElementTranslator<DataAccess.Position, Position, PositionFilter>
 	{
 		public PositionTranslator(DataAccess.SKUDDataContext context)
 			: base(context)

@@ -14,64 +14,14 @@
 				<MenuItem.Header>
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-
-				<MenuItem Command="{Binding ReadConfigFileCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BParametersReadFromFile.png" Height="24" Margin="2"/>
-							<TextBlock Text="Считать конфигурацию" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem Command="{Binding ReadConfigurationCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BParametersRead.png" Height="24" Margin="2"/>
-							<TextBlock Text="Считать конфигурацию дескрипторов" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem Command="{Binding WriteConfigCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BParametersWrite.png" Height="24" Margin="2"/>
-							<TextBlock Text="Записать конфигурацию" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
+				<IconedMenuItem Command="{Binding ReadConfigFileCommand}" ImageSource="/Controls;component/Images/BParametersReadFromFile.png" Text="Считать конфигурацию" />
+				<IconedMenuItem Command="{Binding ReadConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersRead.png" Text="Считать конфигурацию дескрипторов" />
+				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию" />
 				<Separator />
-				<MenuItem Command="{Binding ShowInfoCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BInformation.png" Height="24" Margin="2"/>
-							<TextBlock Text="Информация об устройстве" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem Command="{Binding SynchroniseTimeCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BWatch.png" Height="24" Margin="2"/>
-							<TextBlock Text="Синхронизация времени" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem Command="{Binding ReadJournalCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BJournal.png" Height="24" Margin="2"/>
-							<TextBlock Text="Журнал событий" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
-				<MenuItem Command="{Binding UpdateFirmwhareCommand}">
-					<MenuItem.Header>
-						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BParametersSync.png" Height="24" Margin="2"/>
-							<TextBlock Text="Обновление ПО" VerticalAlignment="Center"/>
-						</StackPanel>
-					</MenuItem.Header>
-				</MenuItem>
+				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" />
+				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Добавить (Ctrl+N)" />
+				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Журнал событий" />
+				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Журнал событий" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

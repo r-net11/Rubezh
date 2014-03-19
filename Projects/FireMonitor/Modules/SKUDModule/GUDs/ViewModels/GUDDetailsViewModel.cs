@@ -84,6 +84,7 @@ namespace SKDModule.ViewModels
 			GUD.Name = Name;
 			GUD.Description = Description;
 			GUD.CardZones = AccessZonesSelectationViewModel.GetCardZones();
+			GUD.OrganizationUID = GUDsViewModel.Organization.UID;
 			return true;
 		}
 	}

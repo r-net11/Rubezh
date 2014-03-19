@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace SKDDriver
 {
-	public class DocumentTranslator : OrganizationTranslatorBase<DataAccess.Document, Document, DocumentFilter>
+	public class DocumentTranslator : OrganizationElementTranslator<DataAccess.Document, Document, DocumentFilter>
 	{
 		public DocumentTranslator(DataAccess.SKUDDataContext context)
 			: base(context)
