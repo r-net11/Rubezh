@@ -96,6 +96,9 @@ namespace FiresecAPI
 
 		#region DeviceCommands
 		[OperationContract]
+		OperationResult<SKDStates> SKDGetStates();
+
+		[OperationContract]
 		OperationResult<string> SKDGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
@@ -131,6 +134,5 @@ namespace FiresecAPI
 		[OperationContract]
 		void SKDDenyReader(Guid deviceUID);
 		#endregion
-		
 	}
 }

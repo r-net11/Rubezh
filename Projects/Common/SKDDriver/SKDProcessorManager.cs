@@ -54,6 +54,16 @@ namespace SKDDriver
 
 		#endregion
 
+		public static SKDStates SKDGetStates()
+		{
+			var skdStates = new SKDStates();
+			foreach(var device in SKDManager.Devices)
+			{
+				Watcher.AddObjectStateToSKDStates(skdStates, device);
+			}
+			return skdStates;
+		}
+
 		public static string SKDGetDeviceInfo(SKDDevice device, string userName)
 		{
 			AddMessage("Запрос информации об устройсве", "", device, userName, true);

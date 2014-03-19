@@ -174,6 +174,11 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Devices
+		public OperationResult<SKDStates> SKDGetStates()
+		{
+			return new OperationResult<SKDStates>() { Result = SKDProcessorManager.SKDGetStates() };
+		}
+
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);

@@ -1,5 +1,4 @@
-﻿
-namespace Common
+﻿namespace Common
 {
 	public interface IDeviceState<TStateType>
 	{

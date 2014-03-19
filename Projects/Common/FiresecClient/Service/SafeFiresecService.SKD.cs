@@ -5,6 +5,11 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
+		#region Devices
+		public OperationResult<SKDStates> SKDGetStates()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
+		}
 		public OperationResult<string> SKDGetDeviceInfo(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(device.UID); }, "SKDGetDeviceInfo");
@@ -61,5 +66,6 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => { FiresecService.SKDDenyReader(device.UID); }, "SKDDenyReader");
 		}
+		#endregion
 	}
 }

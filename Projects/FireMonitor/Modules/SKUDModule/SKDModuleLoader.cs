@@ -136,6 +136,9 @@ namespace SKDModule
 		public override bool BeforeInitialize(bool firstTime)
 		{
 			SKDManager.CreateStates();
+			var operationResult = FiresecManager.FiresecService.SKDGetStates();
+			if (!operationResult.HasError)
+			CopySKDStates(operationResult.Result);
 			return true;
 		}
 		public override void AfterInitialize()
@@ -165,12 +168,11 @@ namespace SKDModule
 				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 				if (device != null)
 				{
-					remoteDeviceState.CopyTo(device.State);
+					remoteDeviceState.CopyToState(device.State);
 					device.State.OnStateChanged();
 				}
 			}
 		}
-
 
 		#region ILayoutProviderModule Members
 

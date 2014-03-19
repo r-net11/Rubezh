@@ -16,15 +16,15 @@ namespace SKDModule.ViewModels
 			AccessTemplatesViewModel = accessTemplatesViewModel;
 			if (accessTemplate == null)
 			{
-				Title = "Создание ГУД";
+				Title = "Создание шаблона доступа";
 				accessTemplate = new AccessTemplate()
 				{
-					Name = "Новый ГУД",
+					Name = "Новый шаблон доступа",
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства ГУД: {0}", accessTemplate.Name);
+				Title = string.Format("Свойства шаблона доступа: {0}", accessTemplate.Name);
 			}
 			AccessTemplate = accessTemplate;
 			CopyProperties();
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 			}
 			if (AccessTemplatesViewModel.AccessTemplates.Any(x => x.AccessTemplate.Name == Name && x.AccessTemplate.UID != AccessTemplate.UID))
 			{
-				MessageBoxService.ShowWarning("Название ГУД совпадает с введеннымы ранее");
+				MessageBoxService.ShowWarning("Название шаблона доступа совпадает с введеннымы ранее");
 				return false;
 			}
 
