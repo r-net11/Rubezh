@@ -6,6 +6,7 @@ using FiresecAPI;
 using System.Threading;
 using Common;
 using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace SKDDriver
 {
@@ -360,10 +361,33 @@ namespace SKDDriver
 		{
 			if (device.State != null)
 			{
+				var stateClasses = GetStateClasses(device.State);
+				device.State.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
+
 				device.State.CopyToState(device.State);
 				skdStates.DeviceStates.RemoveAll(x => x.UID == device.UID);
 				skdStates.DeviceStates.Add(device.State);
 			}
+		}
+		static List<XStateClass> GetStateClasses(SKDDeviceState deviceState)
+		{
+			if (deviceState.IsSuspending)
+			{
+				return new List<XStateClass>() { XStateClass.Unknown };
+			}
+			if (deviceState.IsConnectionLost)
+			{
+				return new List<XStateClass>() { XStateClass.ConnectionLost };
+			}
+			if (deviceState.IsDBMissmatch)
+			{
+				return new List<XStateClass>() { XStateClass.DBMissmatch };
+			}
+			if (deviceState.IsInitialState)
+			{
+				return new List<XStateClass>() { XStateClass.Unknown };
+			}
+			return deviceState.StateClasses;
 		}
 
 		internal void AddMessage(string name, string userName)

@@ -92,11 +92,11 @@ namespace FiresecAPI
 		{
 			foreach (var device in Devices)
 			{
-				device.State = new SKDDeviceState();
+				device.State = new SKDDeviceState(device);
 			}
 			foreach (var zone in Zones)
 			{
-				zone.State = new SKDZoneState();
+				zone.State = new SKDZoneState(zone);
 			}
 		}
 

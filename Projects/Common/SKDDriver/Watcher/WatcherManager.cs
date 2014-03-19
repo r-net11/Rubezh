@@ -17,7 +17,7 @@ namespace SKDDriver
 		{
 			foreach (var device in SKDManager.Devices)
 			{
-				device.State = new SKDDeviceState();
+				device.State = new SKDDeviceState(device);
 			}
 
 			Watchers = new List<Watcher>();

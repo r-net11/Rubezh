@@ -50,12 +50,14 @@ namespace SKDModule.ViewModels
 					Positions.Add(new FilterPositionViewModel(position));
 
 			AvailableOrganizations = new ObservableCollection<Organization>();
-			var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
 				AvailableOrganizations.Add(organisation);
 			}
 			SelectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
+			if (Filter.OrganisationUID == Guid.Empty)
+				SelectedOrganization = AvailableOrganizations.FirstOrDefault();
 		}
 
 		protected override void Update()

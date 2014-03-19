@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			Organization = organisations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
 			var employees = EmployeeHelper.Get(Filter);
 

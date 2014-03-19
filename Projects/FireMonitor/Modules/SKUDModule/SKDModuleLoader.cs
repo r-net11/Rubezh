@@ -168,7 +168,7 @@ namespace SKDModule
 				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 				if (device != null)
 				{
-					remoteDeviceState.CopyTo(device.State);
+					remoteDeviceState.CopyToState(device.State);
 					device.State.OnStateChanged();
 				}
 			}

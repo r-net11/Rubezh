@@ -18,25 +18,22 @@
 
 
 МАКСИМ
+- Выбор не по тексту в меню устройства
 - Перенести SafeFiresecService
 - Employee.AdditionalColumns
 - Переименовать GUD в AccessTemplate
-- CardZone.ParentType
-- GUDFilter не реагирует на OrganisationUID
-- Не добавляется ГУД
 - Ошибка пр редактировании доступных для организации зон
-- EmployeeCard.IsBlocked
-- Antipassback для каждой отдельной зоны
+- Использовать фильтр организациям помеченым галочками
+- Не добавляется ГУД
+- GUDFilter не реагирует на OrganisationUID
 - OrganisationUID при добавлении сотрудники отдела или должности
-- Структура таблицы с журналом
-var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
+- EmployeeCard.IsBlocked
+- CardZone.ParentType
+- Таблица патчей
 
-- Фильтр по организациям в зависимости от залогиненного оператора
-- Окно с графиком работы сотрудника
 - Фильтр по удаленным и не удаленным сотрудникам
-- Фильтр по недоступным организациям
 - Временная замена учетных данных
-- Выбор не по тексту в меню устройства
+- Окно с графиком работы сотрудника
 
 
 ВОВА

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
@@ -16,6 +17,13 @@ namespace FiresecAPI
 			AdditionalStates = new List<XAdditionalState>();
 		}
 
+		public SKDDeviceState(SKDDevice device)
+			: this()
+		{
+			Device = device;
+			UID = device.UID;
+		}
+
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -29,13 +37,6 @@ namespace FiresecAPI
 		public List<XAdditionalState> AdditionalStates { get; set; }
 
 		public SKDDevice Device { get; private set; }
-
-		public SKDDeviceState(SKDDevice device)
-			: this()
-		{
-			Device = device;
-			UID = device.UID;
-		}
 
 		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }
@@ -52,6 +53,9 @@ namespace FiresecAPI
 		public void CopyToState(SKDDeviceState state)
 		{
 			state.UID = UID;
+			state.StateClasses = StateClasses.ToList();
+			state.StateClass = StateClass;
+			state.AdditionalStates = AdditionalStates.ToList();
 		}
 
 		public void CopyTo(SKDDeviceState state)
