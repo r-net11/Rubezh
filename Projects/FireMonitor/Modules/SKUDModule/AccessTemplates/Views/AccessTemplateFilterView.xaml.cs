@@ -17,9 +17,9 @@ namespace SKDModule.Views
 	/// <summary>
 	/// Логика взаимодействия для DocumentFilterView.xaml
 	/// </summary>
-	public partial class GUDFilterView : UserControl
+	public partial class AccessTemplateFilterView : UserControl
 	{
-		public GUDFilterView()
+		public AccessTemplateFilterView()
 		{
 			InitializeComponent();
 		}

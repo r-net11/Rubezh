@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationMonthlyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public Organization Organization { get; private set; }
 		EmployeeMonthlyInterval IntervalToCopy;
 
 		public OrganisationMonthlyIntervalsViewModel()
@@ -26,9 +27,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(string name, List<EmployeeMonthlyInterval> employeeMonthlyIntervals)
+		public void Initialize(Organization organization, List<EmployeeMonthlyInterval> employeeMonthlyIntervals)
 		{
-			Name = name;
+			Organization = organization;
 
 			var neverTimeInterval = employeeMonthlyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverTimeInterval == null)
@@ -44,17 +45,6 @@ namespace SKDModule.ViewModels
 				MonthlyIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedMonthlyInterval = MonthlyIntervals.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<MonthlyIntervalViewModel> _monthlyIntervals;

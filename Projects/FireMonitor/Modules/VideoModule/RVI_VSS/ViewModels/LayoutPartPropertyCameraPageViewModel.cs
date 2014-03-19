@@ -11,57 +11,23 @@ namespace VideoModule.RVI_VSS.ViewModels
 {
 	public class LayoutPartPropertyCameraPageViewModel : SaveCancelDialogViewModel
 	{
+		public ObservableCollection<PropertyViewModel> PropertyViewModels { get; private set; }
+
 		public LayoutPartPropertyCameraPageViewModel(UIElement uiElement)
 		{
+			Title = "Список камер";
 			PropertyViewModels = new ObservableCollection<PropertyViewModel>();
-			var controls = new List<CellPlayerWrap>();
-			GetLogicalChildCollection(uiElement, controls);
-			foreach (var control in controls)
+			var cellPlayerWraps = new List<CellPlayerWrap>();
+			Views.LayoutMultiCameraView.GetLogicalChildCollection(uiElement, cellPlayerWraps);
+			foreach (var control in cellPlayerWraps)
 			{
 				var item = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name);
 				if (item.Value == Guid.Empty)
-					PropertyViewModels.Add(new PropertyViewModel(control.Name, control.Camera == null ? Guid.Empty : control.Camera.UID));
+					PropertyViewModels.Add(new PropertyViewModel(control.Name, Guid.Empty));
 				else
 					PropertyViewModels.Add(new PropertyViewModel(item.Key, item.Value));
 			}
-		}
-
-		private ObservableCollection<PropertyViewModel> _propertyViewModels;
-		public ObservableCollection<PropertyViewModel> PropertyViewModels
-		{
-			get { return _propertyViewModels; }
-			set
-			{
-				_propertyViewModels = value;
-				OnPropertyChanged(() => PropertyViewModels);
-			}
-		}
-
-		private static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
-		{
-			var children = LogicalTreeHelper.GetChildren(parent);
-			foreach (var child in children)
-			{
-				if (child is DependencyObject)
-				{
-					var depChild = child as DependencyObject;
-					if (child is CellPlayerWrap)
-					{
-						logicalCollection.Add(child as CellPlayerWrap);
-					}
-					GetLogicalChildCollection(depChild, logicalCollection);
-				}
-			}
-		}
-
-		protected override bool CanSave()
-		{
-			return true;
-		}
-
-		protected override bool Save()
-		{
-			return true;
+			OnPropertyChanged("PropertyViewModels");
 		}
 	}
 }

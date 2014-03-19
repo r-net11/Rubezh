@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class CardZone: SKDIsDeletedModel
+	public class CardZone : SKDIsDeletedModel
 	{
 		[DataMember]
 		public Guid ZoneUID { get; set; }
@@ -34,8 +34,6 @@ namespace FiresecAPI
 	public enum ParentType
 	{
 		Card,
-		GUDExceptons,
-		GUDAdditions,
-		GUD
+		AccessTemplate
 	}
 }

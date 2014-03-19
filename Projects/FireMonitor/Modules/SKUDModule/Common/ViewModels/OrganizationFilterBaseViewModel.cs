@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 		public OrganizationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
-			
+
 		}
 
 		protected override void Initialize()

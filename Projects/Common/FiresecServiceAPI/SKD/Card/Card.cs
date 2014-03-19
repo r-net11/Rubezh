@@ -32,7 +32,7 @@ namespace FiresecAPI
 		public List<CardZone> CardZones { get; set; }
 
 		[DataMember]
-		public Guid? GUDUID { get; set; }
+		public Guid? AccessTemplateUID { get; set; }
 
 		[DataMember]
 		public bool IsInStopList { get; set; }

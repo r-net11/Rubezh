@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Client.Layout;
 using Infrastructure.Common;
@@ -13,7 +14,6 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using FiresecAPI.Models.Layouts;
 
 namespace PlansModule
 {
@@ -81,7 +81,7 @@ namespace PlansModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.Plans, 150, "Все Планы", "Все Планы", "CMap.png");
+			//yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.Plans, 150, "Все Планы", "Все Планы", "CMap.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Plans, LayoutPartIdentities.PlansEx, 150, "Планы", "Планы", "CMap.png")
 			{
 				Factory = (p) => new LayoutPartPlansViewModel(p as LayoutPartPlansProperties),

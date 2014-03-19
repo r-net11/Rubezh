@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 
-namespace Firesec.Imitator.Converters
+namespace Controls.Converters
 {
 	public class BoolToYesConverter : IValueConverter
 	{

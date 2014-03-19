@@ -73,12 +73,12 @@ namespace SKDModule.PassCard.ViewModels
 			if (designerItem.Element is ElementPassCardImageProperty)
 			{
 				designerItem.Group = PassCardsDesignerViewModel.PassCardImagePropertiesGroup;
-				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).PropertyType.ToDescription();
+				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).Text;
 			}
 			else if (designerItem.Element is ElementPassCardTextProperty)
 			{
 				designerItem.Group = PassCardsDesignerViewModel.PassCardTextPropertiesGroup;
-				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).PropertyType.ToDescription();
+				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).Text;
 			}
 		}
 

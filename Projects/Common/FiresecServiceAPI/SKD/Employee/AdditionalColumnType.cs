@@ -1,5 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
@@ -16,6 +17,7 @@ namespace FiresecAPI
 		public DataType DataType { get; set; }
 	}
 
+	[Flags]
 	public enum DataType
 	{
 		[Description("Текствовый")]

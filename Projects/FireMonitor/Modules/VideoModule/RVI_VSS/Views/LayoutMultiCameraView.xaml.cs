@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
-using VideoModule.ViewModels;
 using LayoutPartPropertyCameraPageViewModel = VideoModule.RVI_VSS.ViewModels.LayoutPartPropertyCameraPageViewModel;
 using Common;
 
@@ -29,11 +27,6 @@ namespace VideoModule.RVI_VSS.Views
 		}
 		private void UI_Loaded(object sender, RoutedEventArgs e)
 		{
-			//var camera = new Camera();
-			//camera.Address = "172.16.2.36";
-			//_2X2GridView._2X2Grid00.InitializeCamera(camera);
-			//_2X2GridView._2X2Grid10.InitializeCamera(camera);
-			//_2X2GridView._2X2Grid01.InitializeCamera(camera);
 			InitializeUIElement(_1X7GridView);
 			InitializeUIElement(_2X2GridView);
 			InitializeUIElement(_3X3GridView);
@@ -48,11 +41,14 @@ namespace VideoModule.RVI_VSS.Views
 			GetLogicalChildCollection(uiElement, controls);
 			foreach (var control in controls)
 			{
-				var cameraUID = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
-				if (cameraUID != Guid.Empty)
+				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
+				if (cameraUid != Guid.Empty)
 				{
-					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
-					control.InitializeCamera(camera);
+					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+					if (camera != null)
+					{
+						control.InitializeCamera(camera);
+					}
 				}
 			}
 		}
@@ -92,36 +88,29 @@ namespace VideoModule.RVI_VSS.Views
 			var layoutPartPropertyCameraPageViewModel = new LayoutPartPropertyCameraPageViewModel(_grid.Child);
 			if (DialogService.ShowModalWindow(layoutPartPropertyCameraPageViewModel))
 			{
-				var controls = new List<CellPlayerWrap>();
-				GetLogicalChildCollection(_grid.Child, controls);
+				var cellPlayerWraps = new List<CellPlayerWrap>();
+				GetLogicalChildCollection(_grid.Child, cellPlayerWraps);
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
-					var control = controls.FirstOrDefault(x => x.Name == propertyViewModel.CellName);
-					try
-					{
-						if (propertyViewModel.SelectedCamera == null)
+					var cellPlayerWrap = cellPlayerWraps.FirstOrDefault(x => x.Name == propertyViewModel.CellName);
+					if (cellPlayerWrap != null)
+						try
 						{
-							control = new CellPlayerWrap();
-							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = Guid.Empty;
-						}
-						else
-						{
-							control.InitializeCamera(propertyViewModel.SelectedCamera);
+							cellPlayerWrap.InitializeCamera(propertyViewModel.SelectedCamera);
 							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = propertyViewModel.SelectedCamera.UID;
 						}
-					}
-					catch(Exception ex)
-					{
-						Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
-					}
+						catch (Exception ex)
+						{
+							Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
+						}
 				}
 			}
 		}
 
-		private static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
+		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)
 		{
 			var children = LogicalTreeHelper.GetChildren(parent);
 			foreach (var child in children)

@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class GUDDetailsView : UserControl
+	public partial class AccessTemplatesView : UserControl
 	{
-		public GUDDetailsView()
+		public AccessTemplatesView()
 		{
 			InitializeComponent();
 		}

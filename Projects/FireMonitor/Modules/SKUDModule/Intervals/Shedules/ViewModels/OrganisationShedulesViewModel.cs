@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationShedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public Organization Organization { get; private set; }
 		EmployeeShedule SheduleToCopy;
 
 		public OrganisationShedulesViewModel()
@@ -26,9 +27,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(string name, List<EmployeeShedule> employeeShedules)
+		public void Initialize(Organization organization, List<EmployeeShedule> employeeShedules)
 		{
-			Name = name;
+			Organization = organization;
 
 			var neverShedule = employeeShedules.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverShedule == null)
@@ -44,17 +45,6 @@ namespace SKDModule.ViewModels
 				Shedules.Add(sheduleViewModel);
 			}
 			SelectedShedule = Shedules.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<SheduleViewModel> _shedule;

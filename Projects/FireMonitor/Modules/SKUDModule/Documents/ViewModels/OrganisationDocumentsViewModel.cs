@@ -14,6 +14,8 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationDocumentsViewModel : BaseViewModel
 	{
+		public Organization Organization { get; private set; }
+
 		public OrganisationDocumentsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -21,9 +23,9 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(string name, List<Document> documents)
+		public void Initialize(Organization organization, List<Document> documents)
 		{
-			Name = name;
+			Organization = organization;
 
 			Documents = new ObservableCollection<DocumentViewModel>();
 			foreach (var document in documents)
@@ -32,17 +34,6 @@ namespace SKDModule.ViewModels
 				Documents.Add(documentViewModel);
 			}
 			SelectedDocument = Documents.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<DocumentViewModel> _documents;

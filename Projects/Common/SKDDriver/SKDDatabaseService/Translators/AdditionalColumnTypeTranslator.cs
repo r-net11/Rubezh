@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -46,11 +44,15 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.AdditionalColumnType>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var names = filter.Names;
 			if (names != null && names.Count != 0)
 				result = result.And(e => names.Contains(e.Name));
+			if (filter.Type.HasValue)
+			{
+				var dataType = (int)filter.Type.Value;
+				result = result.And(e => e.DataType == dataType);
+			}
 			return result;
 		}
 	}

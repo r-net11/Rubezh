@@ -17,8 +17,6 @@ namespace SKDModule.ViewModels
 {
 	public class ShedulesViewModel : ViewPartViewModel
 	{
-		EmployeeShedule SheduleToCopy;
-
 		public ShedulesViewModel()
 		{
 			RefreshCommand = new RelayCommand(OnRefresh);
@@ -34,16 +32,10 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var sheduleViewModel = new OrganisationShedulesViewModel();
-				sheduleViewModel.Initialize(organisation.Name, new List<EmployeeShedule>(employeeShedules.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				sheduleViewModel.Initialize(organisation, new List<EmployeeShedule>(employeeShedules.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationShedules.Add(sheduleViewModel);
 			}
 			SelectedOrganisationShedule = OrganisationShedules.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationShedulesViewModel> _organisationShedule;
@@ -66,6 +58,12 @@ namespace SKDModule.ViewModels
 				_selectedOrganisationShedule = value;
 				OnPropertyChanged("SelectedOrganisationShedule");
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

@@ -128,6 +128,7 @@
     <Compile Include="Converters\BoolToMinimizeTooltipConverter.cs" />
     <Compile Include="Converters\BoolToStringColorConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToYesConverter.cs" />
     <Compile Include="Converters\ClauseOperationTypeToIconConverter.cs" />
     <Compile Include="Converters\CollectionViewFactoryConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />

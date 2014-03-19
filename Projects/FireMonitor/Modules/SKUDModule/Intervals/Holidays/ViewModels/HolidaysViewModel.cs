@@ -31,12 +31,6 @@ namespace SKDModule.ViewModels
 			SelectedYear = AvailableYears.FirstOrDefault(x => x.Year == DateTime.Now.Year);
 		}
 
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
-		}
-
 		ObservableCollection<HolidayYearViewModel> _availableYears;
 		public ObservableCollection<HolidayYearViewModel> AvailableYears
 		{
@@ -57,6 +51,12 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged("SelectedYear");
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

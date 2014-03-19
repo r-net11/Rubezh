@@ -17,7 +17,7 @@ using Infrustructure.Plans.Services;
 
 namespace SKDModule.PassCard.ViewModels
 {
-	public class PassCardsDesignerViewModel : MenuViewPartViewModel
+	public class PassCardsDesignerViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public const string PassCardImagePropertiesGroup = "PassCardImagePropertiesGroup";
 		public const string PassCardTextPropertiesGroup = "PassCardTextPropertiesGroup";
@@ -195,5 +195,19 @@ namespace SKDModule.PassCard.ViewModels
 				Autostart = true
 			};
 		}
+
+		#region ISelectable<Guid> Members
+
+		public void Select(Guid templateUID)
+		{
+			if (templateUID != Guid.Empty)
+			{
+				var template = PassCardTemplates.FirstOrDefault(item => item.PassCardTemplate.UID == templateUID);
+				if (template != null)
+					SelectedPassCardTemplate = template;
+			}
+		}
+
+		#endregion
 	}
 }

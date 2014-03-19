@@ -18,12 +18,17 @@
 
 
 МАКСИМ
+- Employee.AdditionalColumns
+- Переименовать GUD в AccessTemplate
+- CardZone.ParentType
+- GUDFilter не реагирует на OrganisationUID
+- Не добавляется ГУД
+- Ошибка пр редактировании доступных для организации зон
+- EmployeeCard.IsBlocked
 - Antipassback для каждой отдельной зоны
 - OrganisationUID при добавлении сотрудники отдела или должности
 - Структура таблицы с журналом
-- Скрипт тестовых данных. Добавить карты сотрудникам
 var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced) ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
-- При добавлении карты к сотруднику проверять, что эта карта не принадлежит другому сотруднику
 
 - Фильтр по организациям в зависимости от залогиненного оператора
 - Окно с графиком работы сотрудника
@@ -35,9 +40,7 @@ var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced)
 
 
 ВОВА
-- Группировка макетов в Администраторе
 - Баг в ОЗ при перходе по вкладкам перезагрузке
-- Запрет блокировки LoadingService при показе другого диалогового окна
 
 ВЛАД
 - Установка SQL Server

@@ -17,6 +17,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 		{
 			CellName = cellName;
 			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
+			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}
 

@@ -17,8 +17,6 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalsViewModel : ViewPartViewModel
 	{
-		EmployeeTimeInterval IntervalToCopy;
-
 		public TimeIntervalsViewModel()
 		{
 			RefreshCommand = new RelayCommand(OnRefresh);
@@ -34,16 +32,10 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = new OrganisationTimeIntervalsViewModel();
-				timeInrervalViewModel.Initialize(organisation.Name, new List<EmployeeTimeInterval>(employeeTimeIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				timeInrervalViewModel.Initialize(organisation, new List<EmployeeTimeInterval>(employeeTimeIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationTimeIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisationTimeInterval = OrganisationTimeIntervals.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationTimeIntervalsViewModel> _organisationTimeIntervals;
@@ -66,6 +58,12 @@ namespace SKDModule.ViewModels
 				_selectedOrganisationTimeInterval = value;
 				OnPropertyChanged("SelectedOrganisationTimeInterval");
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

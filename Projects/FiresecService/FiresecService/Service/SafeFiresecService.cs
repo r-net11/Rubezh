@@ -225,9 +225,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
 		}
-		public OperationResult<IEnumerable<GUD>> GetGUDs(GUDFilter filter)
+		public OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<GUD>>>(() => FiresecService.GetGUDs(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetGUDs(filter));
 		}
 		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
@@ -284,7 +284,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
 		}
-		public OperationResult SaveGUDs(IEnumerable<GUD> items)
+		public OperationResult SaveGUDs(IEnumerable<AccessTemplate> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
 		}
@@ -335,7 +335,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(items));
 		}
-		public OperationResult MarkDeletedGUDs(IEnumerable<GUD> items)
+		public OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedGUDs(items));
 		}

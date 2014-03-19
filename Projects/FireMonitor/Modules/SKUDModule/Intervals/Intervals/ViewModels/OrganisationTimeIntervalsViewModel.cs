@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationTimeIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public Organization Organization { get; private set; }
 		EmployeeTimeInterval IntervalToCopy;
 
 		public OrganisationTimeIntervalsViewModel()
@@ -26,9 +27,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(string name, List<EmployeeTimeInterval> employeeTimeIntervals)
+		public void Initialize(Organization organization, List<EmployeeTimeInterval> employeeTimeIntervals)
 		{
-			Name = name;
+			Organization = organization;
 
 			var neverTimeInterval = employeeTimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
 			if (neverTimeInterval == null)
@@ -45,17 +46,6 @@ namespace SKDModule.ViewModels
 				TimeIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		ObservableCollection<TimeIntervalViewModel> _timeIntervals;

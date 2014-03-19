@@ -12,14 +12,16 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
 			<Label Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Свойство" />
-			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Расположение" />
-			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
-			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
-			<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
+			<Label Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Колонка" />
+			<Label Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Расположение" />
+			<Label Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет фона" />
+			<Label Grid.Row="4" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Цвет границы" />
+			<Label Grid.Row="5" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Content="Ширина границы" />
 
 			<ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding PropertyTypes}" SelectedItem="{Binding SelectedPropertyType, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
@@ -28,16 +30,17 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding StretchTypes}" SelectedItem="{Binding SelectedStretch, UpdateSourceTrigger=PropertyChanged}">
+			<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding AdditionalColumnTypes}" SelectedItem="{Binding SelectedAdditionalColumnType, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Name" IsEnabled="{Binding IsAdditionalColumn}" />
+			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding StretchTypes}" SelectedItem="{Binding SelectedStretch, UpdateSourceTrigger=PropertyChanged}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Converter={StaticResource StretchToStringConverter}}" />
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			<xc:ColorPicker Grid.Row="2" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
-			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="3" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+			<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding StrokeThickness, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

@@ -13,15 +13,15 @@ namespace SKDModule.ViewModels
 {
 	public class PositionsViewModel : ViewPartViewModel
 	{
+		PositionFilter Filter;
+
 		public PositionsViewModel()
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
 			Filter = new PositionFilter();
 			Initialize();
 		}
-
-		PositionFilter Filter;
 
 		public void Initialize()
 		{
@@ -36,12 +36,6 @@ namespace SKDModule.ViewModels
 				OrganisationPositions.Add(positionViewModel);
 			}
 			SelectedOrganisationPosition = OrganisationPositions.FirstOrDefault();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationPositionsViewModel> _organisationPositions;
@@ -75,6 +69,12 @@ namespace SKDModule.ViewModels
 				Filter = filterViewModel.Filter;
 				Initialize();
 			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		void OnRefresh()
+		{
+			Initialize();
 		}
 	}
 }

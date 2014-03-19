@@ -92,16 +92,16 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromGUDs(IEnumerable<GUD> gUDs)
+		public OperationResult SaveFromGUDs(IEnumerable<AccessTemplate> AccessTemplates)
 		{
 			var operationResult = new OperationResult();
 			try
 			{
-				foreach (var gUD in gUDs)
+				foreach (var accessTemplate in AccessTemplates)
 				{
-					var databaseItems = Table.Where(x => x.ParentUID == gUD.UID);
+					var databaseItems = Table.Where(x => x.ParentUID == accessTemplate.UID);
 					databaseItems.ForEach(x => MarkDeleted(x));
-					Save(gUD.CardZones);
+					Save(accessTemplate.CardZones);
 				}
 				return new OperationResult();
 			}

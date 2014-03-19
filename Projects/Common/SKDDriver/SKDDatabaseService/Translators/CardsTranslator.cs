@@ -63,7 +63,7 @@ namespace SKDDriver
 			result.Series = tableItem.Series;
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
-			result.GUDUID = tableItem.GUDUID;
+			result.AccessTemplateUID = tableItem.GUDUID;
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
@@ -80,7 +80,7 @@ namespace SKDDriver
 			tableItem.ValidTo = CheckDate(apiItem.ValidTo);
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
-			tableItem.GUDUID = apiItem.GUDUID;
+			tableItem.GUDUID = apiItem.AccessTemplateUID;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)

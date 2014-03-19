@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 using System.Windows.Media;
+using FiresecAPI;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -26,6 +28,9 @@ namespace SKDModule.PassCard.ViewModels
 			{
 				_selectedPropertyType = value;
 				OnPropertyChanged(() => SelectedPropertyType);
+				OnPropertyChanged(() => IsAdditionalColumn);
+				if (SelectedPropertyType != PassCardImagePropertyType.Additional)
+					SelectedAdditionalColumnType = null;
 			}
 		}
 
@@ -41,16 +46,43 @@ namespace SKDModule.PassCard.ViewModels
 			}
 		}
 
-		protected override void CopyProperties()
+		public ObservableCollection<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		private AdditionalColumnType _selectedAdditionalColumnType;
+		public AdditionalColumnType SelectedAdditionalColumnType
 		{
-			base.CopyProperties();
-			SelectedPropertyType = ((ElementPassCardImageProperty)ElementRectangle).PropertyType;
+			get { return _selectedAdditionalColumnType; }
+			set
+			{
+				_selectedAdditionalColumnType = value;
+				OnPropertyChanged(() => SelectedAdditionalColumnType);
+			}
 		}
 
+		public bool IsAdditionalColumn
+		{
+			get { return SelectedPropertyType == PassCardImagePropertyType.Additional; }
+		}
+
+		protected override void CopyProperties()
+		{
+			var filter = new AdditionalColumnTypeFilter()
+			{
+				WithDeleted = DeletedType.Not,
+				Type = DataType.Graphics,
+			};
+			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
+			base.CopyProperties();
+			SelectedPropertyType = ((ElementPassCardImageProperty)ElementRectangle).PropertyType;
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardImageProperty)ElementRectangle).AdditionalColumn) : null;
+		}
 		protected override bool Save()
 		{
-			//Text = SelectedPropertyType.ToDescription();
-			((ElementPassCardImageProperty)ElementRectangle).PropertyType = SelectedPropertyType;
+			var element = (ElementPassCardImageProperty)ElementRectangle;
+			element.Text = SelectedPropertyType.ToDescription();
+			if (SelectedPropertyType == PassCardImagePropertyType.Additional)
+				element.Text += string.Format("({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
+			element.PropertyType = SelectedPropertyType;
+			element.AdditionalColumn = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;
 			return base.Save();
 		}
 	}
