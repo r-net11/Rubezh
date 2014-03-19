@@ -59,6 +59,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -77,6 +80,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\CameraToStringConverter.cs" />
@@ -84,9 +90,14 @@
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="RVI_VSS\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="RVI_VSS\ViewModels\DeviceViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\PropertyViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\LayoutMultiCameraViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
+    <Compile Include="RVI_VSS\Views\ArchiveView.xaml.cs">
+      <DependentUpon>ArchiveView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RVI_VSS\Views\LayoutMultiCameraView.xaml.cs">
       <DependentUpon>LayoutMultiCameraView.xaml</DependentUpon>
     </Compile>
@@ -214,6 +225,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RVI_VSS\Views\ArchiveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

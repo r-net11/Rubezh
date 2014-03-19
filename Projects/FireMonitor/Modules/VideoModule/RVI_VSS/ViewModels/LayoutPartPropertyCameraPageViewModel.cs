@@ -11,23 +11,25 @@ namespace VideoModule.RVI_VSS.ViewModels
 {
 	public class LayoutPartPropertyCameraPageViewModel : SaveCancelDialogViewModel
 	{
-		public ObservableCollection<PropertyViewModel> PropertyViewModels { get; private set; }
-
 		public LayoutPartPropertyCameraPageViewModel(UIElement uiElement)
 		{
 			Title = "Список камер";
 			PropertyViewModels = new ObservableCollection<PropertyViewModel>();
 			var cellPlayerWraps = new List<CellPlayerWrap>();
 			Views.LayoutMultiCameraView.GetLogicalChildCollection(uiElement, cellPlayerWraps);
+			int i = 0;
 			foreach (var control in cellPlayerWraps)
 			{
+				var presentationCellName = "Окно " + ++i;
 				var item = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name);
 				if (item.Value == Guid.Empty)
-					PropertyViewModels.Add(new PropertyViewModel(control.Name, Guid.Empty));
+					PropertyViewModels.Add(new PropertyViewModel(control.Name, presentationCellName, Guid.Empty));
 				else
-					PropertyViewModels.Add(new PropertyViewModel(item.Key, item.Value));
+					PropertyViewModels.Add(new PropertyViewModel(item.Key, presentationCellName, item.Value));
 			}
 			OnPropertyChanged("PropertyViewModels");
 		}
+
+		public ObservableCollection<PropertyViewModel> PropertyViewModels { get; private set; }
 	}
 }

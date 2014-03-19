@@ -37,4 +37,8 @@
         <RviViews:LayoutPartPropertyCameraPageView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type RviViewModels:ArchiveViewModel}">
+        <RviViews:ArchiveView />
+    </DataTemplate>
+
 </ResourceDictionary>
