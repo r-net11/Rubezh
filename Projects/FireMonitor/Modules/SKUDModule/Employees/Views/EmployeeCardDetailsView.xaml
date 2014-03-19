@@ -45,10 +45,10 @@
 				</ComboBox>
 			</Grid>
 		</TabItem>
-		<TabItem Header="Зоны">
+		<TabItem Header="Зоны доступа">
 			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />
 		</TabItem>
-		<TabItem Header="ГУД">
+		<TabItem Header="Шаблон доступа">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="ГУД" Width="*">

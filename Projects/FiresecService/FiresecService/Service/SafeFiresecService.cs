@@ -357,6 +357,10 @@ namespace FiresecService.Service
 		}
 		#endregion
 
+		public OperationResult<SKDStates> SKDGetStates()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
+		}
 		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(deviceUID); }, "SKDGetDeviceInfo");

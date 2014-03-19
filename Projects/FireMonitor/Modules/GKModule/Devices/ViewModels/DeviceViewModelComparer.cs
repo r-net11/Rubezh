@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Common.TreeList;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -13,7 +14,13 @@ namespace GKModule.ViewModels
 	{
 		protected override int Compare(DeviceViewModel x, DeviceViewModel y)
 		{
-			return (x.Device.ShleifNo * 256 + x.Device.IntAddress) - (y.Device.ShleifNo * 256 + y.Device.IntAddress);
+			return GetSortingAddress(x.Device) - GetSortingAddress(y.Device);
+		}
+		int GetSortingAddress(XDevice device)
+		{
+			if (device.Driver.IsKauOrRSR2Kau)
+				return 256 + device.IntAddress;
+			return device.ShleifNo * 256 + device.IntAddress;
 		}
 	}
 	public class DeviceViewModelZoneComparer : TreeNodeComparer<DeviceViewModel>

@@ -18,6 +18,7 @@
 
 
 МАКСИМ
+- Перенести SafeFiresecService
 - Employee.AdditionalColumns
 - Переименовать GUD в AccessTemplate
 - CardZone.ParentType
@@ -35,7 +36,6 @@ var departmentUID = (Employee.CurrentReplacement != null && Employee.IsReplaced)
 - Фильтр по удаленным и не удаленным сотрудникам
 - Фильтр по недоступным организациям
 - Временная замена учетных данных
-- Значек активации планов
 - Выбор не по тексту в меню устройства
 
 
