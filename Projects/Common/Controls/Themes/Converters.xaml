@@ -13,6 +13,7 @@
 	<Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateTypeToColorConverter x:Key="StateTypeToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
+    <Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
 	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
