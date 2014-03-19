@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using XFiresecAPI;
-using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
@@ -27,7 +25,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		[OperationContract]
-		OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter);
+		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
 		[OperationContract]
@@ -58,7 +56,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
-		OperationResult SaveGUDs(IEnumerable<AccessTemplate> items);
+		OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items);
 		[OperationContract]
 		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]
@@ -85,7 +83,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
 		[OperationContract]
-		OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items);
+		OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items);
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]

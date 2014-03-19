@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -24,7 +23,6 @@ namespace SKDDriver
 			result.IsComission = tableItem.IsWithEscort;
 			result.ZoneUID = tableItem.ZoneUID;
 			result.ParentUID = tableItem.ParentUID;
-			result.ParentType = (ParentType)tableItem.ParentType;
 			result.IsAntiPassback = tableItem.IsAntipass;
 			return result;
 		}
@@ -37,17 +35,15 @@ namespace SKDDriver
 			tableItem.IsWithEscort = apiItem.IsComission;
 			tableItem.ZoneUID = apiItem.ZoneUID;
 			tableItem.ParentUID = apiItem.ParentUID;
-			tableItem.ParentType = (int?)apiItem.ParentType;
 			tableItem.IsAntipass = apiItem.IsAntiPassback;
 		}
 
-		public List<CardZone> Get(Guid parentUID, ParentType parentType)
+		public List<CardZone> Get(Guid parentUID)
 		{
 			var result = new List<CardZone>();
 			foreach (var cardZoneLink in Table.Where(x => x != null &&
 				!x.IsDeleted &&
-				x.ParentUID == parentUID &&
-				(ParentType)x.ParentType == parentType))
+				x.ParentUID == parentUID))
 			{
 				result.Add(Translate(cardZoneLink));
 			}
@@ -92,7 +88,7 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromGUDs(IEnumerable<AccessTemplate> AccessTemplates)
+		public OperationResult SaveFromAccessTemplates(IEnumerable<AccessTemplate> AccessTemplates)
 		{
 			var operationResult = new OperationResult();
 			try

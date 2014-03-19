@@ -35,6 +35,10 @@ namespace SKDModule.ViewModels
 		protected override void Update()
 		{
 			base.Update();
+			if (!Filter.OrganizationUIDs.IsNotNullOrEmpty())
+			{
+				Organizations.Items.ForEach(x => x.IsChecked = true);
+			}
 			foreach (var organization in Organizations.Items)
 			{
 				if (Filter.OrganizationUIDs.Any(x => x == organization.Organization.UID))

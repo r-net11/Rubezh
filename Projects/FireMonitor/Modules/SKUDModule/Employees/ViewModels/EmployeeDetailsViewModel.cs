@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -28,14 +26,40 @@ namespace SKDModule.ViewModels
 			{
 				Title = string.Format("Свойства сотрудника: {0}", employee.FirstName);
 			}
+
 			Employee = employee;
+			
+			var positions = PositionHelper.GetByOrganization(Employee.OrganizationUID);
+			if (positions == null)
+				Positions = new List<Position>();
+			else
+				Positions = positions.ToList();
+			
+			SelectedPosition = Positions.FirstOrDefault(x => x.UID == Employee.PositionUID);
+			if(SelectedPosition == null)
+				SelectedPosition = positions.FirstOrDefault();
+
 			CopyProperties();
 		}
 
 		public void CopyProperties()
 		{
 			FirstName = Employee.FirstName;
+			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
+		}
+
+		public List<Position> Positions { get; private set; }
+
+		Position _selectedPosition;
+		public Position SelectedPosition
+		{
+			get { return _selectedPosition; }
+			set
+			{
+				_selectedPosition = value;
+				OnPropertyChanged(() => SelectedPosition);
+			}
 		}
 
 		string _firstName;
@@ -47,7 +71,21 @@ namespace SKDModule.ViewModels
 				if (_firstName != value)
 				{
 					_firstName = value;
-					OnPropertyChanged("FirstName");
+					OnPropertyChanged(()=>FirstName);
+				}
+			}
+		}
+
+		string _secondName;
+		public string SecondName
+		{
+			get { return _secondName; }
+			set
+			{
+				if (_secondName != value)
+				{
+					_secondName = value;
+					OnPropertyChanged(()=>SecondName);
 				}
 			}
 		}
@@ -61,7 +99,7 @@ namespace SKDModule.ViewModels
 				if (_lastName != value)
 				{
 					_lastName = value;
-					OnPropertyChanged("LastName");
+					OnPropertyChanged(()=>LastName);
 				}
 			}
 		}

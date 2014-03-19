@@ -52,8 +52,8 @@ GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveCard]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveCard]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveGUD]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveGUD]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAccessTemplate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveAccessTemplate]
 
 
 GO
@@ -667,19 +667,19 @@ CREATE PROCEDURE SaveCard
 	@Series int,
 	@Number int,
 	@EmployeeUID uniqueidentifier = NULL,
-	@GUDUID uniqueidentifier = NULL,
+	@AccessTemplateUID uniqueidentifier = NULL,
 	@ValidFrom datetime,
 	@ValidTo datetime,
 	@IsInStopList bit,
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,GUDUID,ValidFrom,ValidTo,IsInStopList,StopReason)
-	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@GUDUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,ValidFrom,ValidTo,IsInStopList,StopReason)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason)
 END
 
 GO
-CREATE PROCEDURE SaveGUD
+CREATE PROCEDURE SaveAccessTemplate
 	@UID uniqueidentifier,
 	@OrganizationUID uniqueidentifier,
 	@Name nvarchar(50) = NULL,
@@ -688,7 +688,7 @@ CREATE PROCEDURE SaveGUD
 	@RemovalDate datetime
 AS
 BEGIN
-	INSERT INTO GUD (
+	INSERT INTO AccessTemplate (
 		UID,
 		Name,
 		Description,

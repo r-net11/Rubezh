@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -63,8 +62,8 @@ namespace SKDDriver
 			result.Series = tableItem.Series;
 			result.ValidFrom = tableItem.ValidFrom;
 			result.ValidTo = tableItem.ValidTo;
-			result.AccessTemplateUID = tableItem.GUDUID;
-			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.Card);
+			result.AccessTemplateUID = tableItem.AccessTemplateUID;
+			result.CardZones = CardZonesTranslator.Get(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			return result;
@@ -80,7 +79,7 @@ namespace SKDDriver
 			tableItem.ValidTo = CheckDate(apiItem.ValidTo);
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
-			tableItem.GUDUID = apiItem.AccessTemplateUID;
+			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)

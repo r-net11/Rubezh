@@ -30,6 +30,7 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
+			Filter.OrganisationUID = OrganizationHelper.Get(new OrganizationFilter()).FirstOrDefault().UID;
 			Initialize();
 		}
 

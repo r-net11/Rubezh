@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
-using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -11,10 +11,9 @@ namespace SKDModule.ViewModels
 		Organization Organization;
 		public List<CardZone> CardZones { get; private set; }
 		Guid? ParentUID;
-		ParentType ParentType;
 		HashSet<SKDZone> AllParentZones;
 
-		public AccessZonesSelectationViewModel(Organization organization, List<CardZone> cardZones, Guid? parentUID, ParentType parentType)
+		public AccessZonesSelectationViewModel(Organization organization, List<CardZone> cardZones, Guid? parentUID)
 		{
 			Organization = organization;
 			CardZones = cardZones;
@@ -24,8 +23,7 @@ namespace SKDModule.ViewModels
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = RootZone;
 			ParentUID = parentUID;
-			ParentType = parentType;
-
+			
 			foreach (var zone in AllZones)
 			{
 				zone.ExpandToThis();
@@ -113,8 +111,7 @@ namespace SKDModule.ViewModels
 						IsComission = zone.IsComission,
 						IntervalType = zone.SelectedTimeCreteria.IntervalType,
 						IntervalUID = zone.SelectedTimeType.UID,
-						ParentUID = ParentUID,
-						ParentType = ParentType
+						ParentUID = ParentUID
 					};
 					CardZones.Add(cardZone);
 				}

@@ -6,7 +6,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
-using System.Linq;
 
 namespace FiresecService.Service
 {
@@ -225,9 +224,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
 		}
-		public OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter)
+		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetGUDs(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
 		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
@@ -284,9 +283,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
 		}
-		public OperationResult SaveGUDs(IEnumerable<AccessTemplate> items)
+		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveGUDs(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplates(items));
 		}
 		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
@@ -335,9 +334,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(items));
 		}
-		public OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items)
+		public OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedGUDs(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplates(items));
 		}
 		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{

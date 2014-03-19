@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -26,14 +23,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? ParentUID { get; set; }
-
-		[DataMember]
-		public ParentType ParentType { get; set; }
-	}
-
-	public enum ParentType
-	{
-		Card,
-		AccessTemplate
 	}
 }

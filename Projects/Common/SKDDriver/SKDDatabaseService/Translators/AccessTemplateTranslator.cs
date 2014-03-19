@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
-	public class GUDTranslator : IsDeletedTranslator<DataAccess.GUD, AccessTemplate, AccessTemplateFilter>
+	public class AccessTemplateTranslator : OrganizationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public GUDTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
+		public AccessTemplateTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;
@@ -31,7 +30,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(AccessTemplate item)
 		{
-			if (Context.Card.Any(x => x.GUDUID == item.UID &&
+			if (Context.Card.Any(x => x.AccessTemplateUID == item.UID &&
 					x.IsDeleted == false))
 				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
 			return base.CanSave(item);
@@ -55,15 +54,15 @@ namespace SKDDriver
 			return base.MarkDeleted(items);
 		}
 
-		protected override AccessTemplate Translate(DataAccess.GUD tableItem)
+		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardZones = CardZonesTranslator.Get(tableItem.UID, ParentType.AccessTemplate);
+			result.CardZones = CardZonesTranslator.Get(tableItem.UID);
 			result.Name = tableItem.Name;
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.GUD tableItem, AccessTemplate apiItem)
+		protected override void TranslateBack(DataAccess.AccessTemplate tableItem, AccessTemplate apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
@@ -71,15 +70,15 @@ namespace SKDDriver
 
 		public override OperationResult Save(IEnumerable<AccessTemplate> items)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromGUDs(items);
+			var updateZonesResult = CardZonesTranslator.SaveFromAccessTemplates(items);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
 			return base.Save(items);
 		}
 
-		protected override Expression<Func<DataAccess.GUD, bool>> IsInFilter(AccessTemplateFilter filter)
+		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.GUD>();
+			var result = PredicateBuilder.True<DataAccess.AccessTemplate>();
 			result = result.And(base.IsInFilter(filter));
 			var names = filter.Names;
 			if (names != null && names.Count != 0)

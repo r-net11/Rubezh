@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -39,7 +38,7 @@ namespace SKDDriver
 					Context.Phone.Any(x => x.OrganizationUID == uid) ||
 					Context.Schedule.Any(x => x.OrganizationUID == uid) ||
 					Context.ScheduleScheme.Any(x => x.OrganizationUID == uid) ||
-					Context.GUD.Any(x => x.OrganizationUID == uid)
+					Context.AccessTemplate.Any(x => x.OrganizationUID == uid)
 				)
 				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
 			return base.CanSave(item);
@@ -51,7 +50,7 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
-			result.ZoneUIDs = (from x in Context.OrganizationZone.Where(x => x.OrganizationUID == result.UID) select x.ZoneUID).ToList();
+			result.ZoneUIDs = (from x in Context.OrganizationZone.Where(x => x.OrganizationUID == result.UID && !x.IsDeleted) select x.ZoneUID).ToList();
 			return result;
 		}
 

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 			StartDate = Card.ValidFrom;
 			EndDate = Card.ValidTo;
 
-			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID, ParentType.Card);
+			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });

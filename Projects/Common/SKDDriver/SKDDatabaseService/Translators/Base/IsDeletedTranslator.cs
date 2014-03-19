@@ -19,7 +19,7 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 			result.IsDeleted = tableItem.IsDeleted;
-			result.RemovalDate = tableItem.RemovalDate;
+			result.RemovalDate = CheckDate(tableItem.RemovalDate);
 			return result;
 		}
 		protected override void TranslateBack(TableT tableItem, ApiT apiItem)

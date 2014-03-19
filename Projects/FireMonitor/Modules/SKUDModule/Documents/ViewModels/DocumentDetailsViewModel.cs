@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -124,11 +122,12 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 
-				Document.Name = Name;
-				Document.Description = Description;
-				Document.No = No;
-				Document.IssueDate = StartDateTime;
-				Document.LaunchDate = EndDateTime;
+			Document.Name = Name;
+			Document.Description = Description;
+			Document.No = No;
+			Document.IssueDate = StartDateTime;
+			Document.LaunchDate = EndDateTime;
+			Document.OrganizationUID = OrganisationDocumentsViewModel.Organization.UID;
 			return true;
 		}
 	}

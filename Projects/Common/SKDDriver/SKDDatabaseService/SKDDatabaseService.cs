@@ -17,7 +17,7 @@ namespace SKDDriver
 			PositionTranslator = new PositionTranslator(Context);
 			CardZoneTranslator = new CardZoneTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardZoneTranslator);
-			GUDTranslator = new GUDTranslator(Context, CardZoneTranslator);
+			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardZoneTranslator);
 			OrganizationTranslator = new OrganizationTranslator(Context);
 			JournalItemTranslator = new JournalItemTranslator(Context);
 			DepartmentTranslator = new DepartmentTranslator(Context);
@@ -31,7 +31,7 @@ namespace SKDDriver
 		public static PositionTranslator PositionTranslator { get; private set; }
 		public static CardTranslator CardTranslator { get; private set; }
 		public static CardZoneTranslator CardZoneTranslator { get; private set; }
-		public static GUDTranslator GUDTranslator { get; private set; }
+		public static AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
 		public static OrganizationTranslator OrganizationTranslator { get; private set; }
 		public static JournalItemTranslator JournalItemTranslator { get; private set; }
 		public static EmployeeTranslator EmployeeTranslator { get; private set; }

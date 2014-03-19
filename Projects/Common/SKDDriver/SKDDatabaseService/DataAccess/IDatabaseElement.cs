@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SKDDriver.DataAccess
 {
@@ -36,7 +33,7 @@ namespace SKDDriver.DataAccess
 	public partial class Position : IOrganizationDatabaseElement { }
 	public partial class Schedule : IOrganizationDatabaseElement { }
 	public partial class ScheduleScheme : IOrganizationDatabaseElement { }
-	public partial class GUD : IOrganizationDatabaseElement { }
+	public partial class AccessTemplate : IOrganizationDatabaseElement { }
 
 	public partial class ScheduleZoneLink : IIsDeletedDatabaseElement { }
 	public partial class Organization : IIsDeletedDatabaseElement { }

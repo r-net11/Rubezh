@@ -169,11 +169,11 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_Employee]
 GO
-ALTER TABLE [dbo].[Card]  WITH NOCHECK ADD  CONSTRAINT [FK_Card_GUD] FOREIGN KEY([GUDUid])
-REFERENCES [dbo].[GUD] ([Uid])
+ALTER TABLE [dbo].[Card]  WITH NOCHECK ADD  CONSTRAINT [FK_Card_AccessTemplate] FOREIGN KEY([AccessTemplateUid])
+REFERENCES [dbo].[AccessTemplate] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_GUD]
+ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_AccessTemplate]
 GO
 ALTER TABLE [dbo].[CardZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZoneLink_Card] FOREIGN KEY([ParentUid])
 REFERENCES [dbo].[Card] ([Uid])
@@ -183,13 +183,13 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_Card]
 GO
-ALTER TABLE [dbo].[CardZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZoneLink_GUD] FOREIGN KEY([ParentUid])
-REFERENCES [dbo].[GUD] ([Uid])
+ALTER TABLE [dbo].[CardZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZoneLink_AccessTemplate] FOREIGN KEY([ParentUid])
+REFERENCES [dbo].[AccessTemplate] ([Uid])
 ON UPDATE NO ACTION
 ON DELETE NO ACTION
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_GUD]
+ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_AccessTemplate]
 GO
 ALTER TABLE [dbo].[AdditionalColumnType]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumnType_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])
@@ -291,13 +291,13 @@ NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[Document] NOCHECK CONSTRAINT [FK_Document_Organization]
 GO
-ALTER TABLE [dbo].[GUD] WITH NOCHECK ADD CONSTRAINT [FK_GUD_Organization] FOREIGN KEY([OrganizationUid])
+ALTER TABLE [dbo].[AccessTemplate] WITH NOCHECK ADD CONSTRAINT [FK_AccessTemplate_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])
 ON UPDATE SET NULL
 ON DELETE SET NULL
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[GUD] NOCHECK CONSTRAINT [FK_GUD_Organization]
+ALTER TABLE [dbo].[AccessTemplate] NOCHECK CONSTRAINT [FK_AccessTemplate_Organization]
 GO
 ALTER TABLE [dbo].[OrganizationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganizationZone_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])

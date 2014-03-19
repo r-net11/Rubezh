@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using FiresecAPI;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.Windows;
+using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
 {
@@ -25,9 +24,19 @@ namespace FiresecClient.SKDHelpers
 			if (uid == null)
 				return null;
 			var filter = new PositionFilter();
-			filter.Uids.Add((Guid)uid);
+			filter.Uids.Add(uid.Value);
 			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+		}
+
+		public static IEnumerable<Position> GetByOrganization(Guid? organizationUID)
+		{
+			if (organizationUID == null)
+				return null;
+			var filter = new PositionFilter();
+			filter.OrganizationUIDs.Add(organizationUID.Value);
+			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static IEnumerable<Position> Get(PositionFilter filter)

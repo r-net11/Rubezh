@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -31,7 +28,7 @@ namespace SKDModule.ViewModels
 			}
 			AccessTemplate = accessTemplate;
 			CopyProperties();
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organization, AccessTemplate.CardZones, AccessTemplate.UID, ParentType.AccessTemplate);
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organization, AccessTemplate.CardZones, AccessTemplate.UID);
 		}
 
 		public void CopyProperties()
@@ -89,7 +86,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate.Name = Name;
 			AccessTemplate.Description = Description;
 			AccessTemplate.CardZones = AccessZonesSelectationViewModel.GetCardZones();
-			GUD.OrganizationUID = GUDsViewModel.Organization.UID;
+			AccessTemplate.OrganizationUID = AccessTemplatesViewModel.Organization.UID;
 			return true;
 		}
 	}

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -50,8 +49,8 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.IssueDate = apiItem.IssueDate;
-			tableItem.LaunchDate = apiItem.LaunchDate;
+			tableItem.IssueDate = CheckDate(apiItem.IssueDate);
+			tableItem.LaunchDate = CheckDate(apiItem.LaunchDate);
 			tableItem.No = apiItem.No;
 		}
 

@@ -10,8 +10,14 @@ namespace Controls
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(IconedMenuItem), new FrameworkPropertyMetadata(typeof(IconedMenuItem)));
 		}
 
+		public IconedMenuItem()
+		{
+			TotalHeight = 16;
+		}
+
 		public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(IconedMenuItem));
 		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(IconedMenuItem));
+		public static readonly DependencyProperty TotalHeightProperty = DependencyProperty.Register("TotalHeight", typeof(int), typeof(IconedMenuItem));
 
 		public string ImageSource
 		{
@@ -23,6 +29,12 @@ namespace Controls
 		{
 			get { return (string)GetValue(TextProperty); }
 			set { SetValue(TextProperty, value); }
+		}
+
+		public int TotalHeight
+		{
+			get { return (int)GetValue(TotalHeightProperty); }
+			set { SetValue(TotalHeightProperty, value); }
 		}
 	}
 }

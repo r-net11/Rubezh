@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
 using SKDDriver;
-using System;
-using System.Linq;
-using XFiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -42,9 +41,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.Get(filter);
 		}
-		public OperationResult<IEnumerable<AccessTemplate>> GetGUDs(AccessTemplateFilter filter)
+		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SKDDatabaseService.GUDTranslator.Get(filter);
+			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
 		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
@@ -101,9 +100,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.Save(items);
 		}
-		public OperationResult SaveGUDs(IEnumerable<AccessTemplate> items)
+		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
-			return SKDDatabaseService.GUDTranslator.Save(items);
+			return SKDDatabaseService.AccessTemplateTranslator.Save(items);
 		}
 		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
@@ -152,9 +151,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
 		}
-		public OperationResult MarkDeletedGUDs(IEnumerable<AccessTemplate> items)
+		public OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
-			return SKDDatabaseService.GUDTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(items);
 		}
 		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
