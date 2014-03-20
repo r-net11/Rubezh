@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using XFiresecAPI;
@@ -51,6 +52,9 @@ namespace FiresecAPI
 		public void CopyToState(SKDZoneState state)
 		{
 			state.UID = UID;
+			state.StateClasses = StateClasses.ToList();
+			state.StateClass = StateClass;
+			state.AdditionalStates = AdditionalStates.ToList();
 		}
 
 		public void CopyTo(SKDZoneState state)

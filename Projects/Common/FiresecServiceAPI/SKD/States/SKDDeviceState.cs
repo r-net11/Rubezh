@@ -15,6 +15,7 @@ namespace FiresecAPI
 			Clear();
 			StateClasses = new List<XStateClass>();
 			AdditionalStates = new List<XAdditionalState>();
+			InternalStateClasses = new List<XStateClass>();
 		}
 
 		public SKDDeviceState(SKDDevice device)
@@ -38,6 +39,7 @@ namespace FiresecAPI
 
 		public SKDDevice Device { get; private set; }
 
+		public List<XStateClass> InternalStateClasses { get; set; }
 		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }
 		public bool IsConnectionLost { get; set; }
