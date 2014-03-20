@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
-using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeCardViewModel : BaseViewModel
 	{
-		Organization Organization;
+		public Organization Organization { get; private set; }
 		public SKDCard Card { get; private set; }
-		EmployeeViewModel EmployeeViewModel;
+		public EmployeeViewModel EmployeeViewModel { get; private set; }
 		List<Guid> ZoneUIDs;
 		public CardZonesViewModel CardZonesViewModel { get; private set; }
 

@@ -173,8 +173,8 @@
 			</Grid>
 
 			<Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid DataContext="{Binding SelectedCard}">
-					<Grid Visibility="{Binding IsPassBold, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+				<Grid >
+					<Grid DataContext="{Binding SelectedCard}" Visibility="{Binding IsPassBold, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="*" />
@@ -197,8 +197,8 @@
 						</StackPanel>
 						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
 					</Grid>
-					<Grid Visibility="{Binding IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
-						<TextBlock Text="Выбор пропуска" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Grid Visibility="{Binding SelectedCard.IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
+						<ContentPresenter Content="{Binding PassCardViewModel}" />
 					</Grid>
 				</Grid>
 			</Grid>

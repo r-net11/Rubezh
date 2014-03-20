@@ -37,7 +37,7 @@ namespace SKDModule.Views
 
 				for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 				{
-					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
+					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i].Name;
 					DataGridTextColumn textColumn = new DataGridTextColumn();
 					textColumn.Header = additionalColumnName;
 					textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));

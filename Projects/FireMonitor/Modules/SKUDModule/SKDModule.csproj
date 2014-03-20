@@ -74,6 +74,9 @@
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
+    <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
+    <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
     <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
       <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -155,6 +158,9 @@
       <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeDetailsViewModel.cs" />
+    <Compile Include="PassCard\Views\PassCardView.xaml.cs">
+      <DependentUpon>PassCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\NewSKDJournalEvent.cs" />
     <Compile Include="Events\ShowSKDArchiveEvent.cs" />
     <Compile Include="Events\ShowSKDCardsEvent.cs" />
@@ -482,6 +488,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Documents\Views\DocumentFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PassCard\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PassCard\Views\PassCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

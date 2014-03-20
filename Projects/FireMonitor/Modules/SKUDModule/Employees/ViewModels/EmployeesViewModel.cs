@@ -1,16 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using Infrastructure;
 using SKDModule.Events;
+using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -19,6 +18,7 @@ namespace SKDModule.ViewModels
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
 		public Organization Organization { get; private set; }
+		public PassCardViewModel PassCardViewModel { get; private set; }
 
 		public EmployeesViewModel()
 		{
@@ -36,6 +36,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
+			PassCardViewModel = new PassCardViewModel(this);
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			Organization = organisations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
 			var employees = EmployeeHelper.Get(Filter);
@@ -127,6 +128,7 @@ namespace SKDModule.ViewModels
 					else
 						value.IsPassBold = true;
 				}
+				UpdatePassCard();
 			}
 		}
 
@@ -225,7 +227,7 @@ namespace SKDModule.ViewModels
 
 		public void InitializeAdditionalColumns()
 		{
-			AdditionalColumnNames = new ObservableCollection<string>();
+			AdditionalColumnNames = new ObservableCollection<AdditionalColumnType>();
 
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
@@ -235,7 +237,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var additionalColumnType in additionalColumnTypes)
 				{
-					AdditionalColumnNames.Add(additionalColumnType.Name);
+					AdditionalColumnNames.Add(additionalColumnType);
 				}
 				foreach (var employee in Employees)
 				{
@@ -248,6 +250,12 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
+		public ObservableCollection<AdditionalColumnType> AdditionalColumnNames { get; private set; }
+
+		private void UpdatePassCard()
+		{
+			if (IsCard && SelectedCard != null)
+				PassCardViewModel.CreatePassCard();
+		}
 	}
 }
