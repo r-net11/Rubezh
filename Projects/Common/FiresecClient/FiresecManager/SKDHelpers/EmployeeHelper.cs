@@ -29,12 +29,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static bool SaveCardTemplate(Employee employee)
-		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployeeCardTemplateUID(employee);
-			return Common.ShowErrorIfExists(operationResult);
-		}
-
 		public static IEnumerable<Employee> Get(EmployeeFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetEmployees(filter);

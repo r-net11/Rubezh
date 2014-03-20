@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public class OrganizationTranslator : IsDeletedTranslator<DataAccess.Organization, Organization, OrganizationFilter>
 	{
-		public OrganizationTranslator(DataAccess.SKUDDataContext context)
+		public OrganizationTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 			;

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
 	public class PhotoTranslator : IsDeletedTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{
-		public PhotoTranslator(DataAccess.SKUDDataContext context)
+		public PhotoTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

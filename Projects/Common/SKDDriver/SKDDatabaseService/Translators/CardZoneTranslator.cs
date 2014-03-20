@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public class CardZoneTranslator : IsDeletedTranslator<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
 	{
-		public CardZoneTranslator(DataAccess.SKUDDataContext context)
+		public CardZoneTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

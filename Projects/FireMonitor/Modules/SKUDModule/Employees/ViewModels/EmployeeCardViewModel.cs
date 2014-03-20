@@ -146,10 +146,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool SaveCardTemplate(Employee employee, Guid? cardTemplateUID)
+		bool SaveCardTemplate(SKDCard card, Guid? cardTemplateUID)
 		{
-			employee.CardTemplateUID = cardTemplateUID;
-			return EmployeeHelper.SaveCardTemplate(employee);		
+			card.CardTemplateUID = cardTemplateUID;
+			return CardHelper.SaveTemplate(card);		
 		}
 	}
 }

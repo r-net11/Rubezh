@@ -66,9 +66,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.SaveEmployees(items));
 		}
-		public OperationResult SaveEmployeeCardTemplateUID(Employee item)
+		public OperationResult SaveCardTemplate(SKDCard item)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveEmployeeCardTemplateUID(item));
+			return SafeContext.Execute(() => FiresecService.SaveCardTemplate(item));
 		}
 		public OperationResult SaveDepartments(IEnumerable<Department> items)
 		{

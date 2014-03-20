@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : OrganizationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
-		public EmployeeTranslator(DataAccess.SKUDDataContext context, EmployeeReplacementTranslator replacementTranslator)
+		public EmployeeTranslator(DataAccess.SKDDataContext context, EmployeeReplacementTranslator replacementTranslator)
 			: base(context)
 		{
 			ReplacementTranslator = replacementTranslator;
@@ -69,7 +69,6 @@ namespace SKDDriver
 			result.CurrentReplacement = ReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.DepartmentUID = tableItem.DepartmentUID;
 			result.ScheduleUID = tableItem.ScheduleUID;
-			result.CardTemplateUID = tableItem.CardTemplateUID;
 			result.AdditionalColumnUIDs = additionalColumnUIDs;
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.CardUIDs = cardUIDs;
@@ -90,24 +89,6 @@ namespace SKDDriver
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
 			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.Type = (int)apiItem.Type;
-			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
-		}
-
-		public OperationResult SaveCardTemplate(Employee apiItem)
-		{
-			try
-			{
-				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
-				if (tableItem == null)
-					return new OperationResult("Сотрудник не найден в базе данных");
-				tableItem.CardTemplateUID = apiItem.CardTemplateUID;
-				Context.SubmitChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);	
-			}
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)

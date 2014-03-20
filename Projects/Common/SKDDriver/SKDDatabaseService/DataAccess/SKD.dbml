@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" Class="SKUDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=SKUD;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="SKUDConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessTemplate" Member="AccessTemplate">
     <Type Name="AccessTemplate">
@@ -8,8 +8,8 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="AccessTemplate_Card" Member="Card" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
       <Association Name="AccessTemplate_CardZoneLink" Member="CardZoneLink" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
+      <Association Name="AccessTemplate_Card" Member="Card" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
       <Association Name="Organization_AccessTemplate" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
@@ -37,25 +37,6 @@
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumn" ThisKey="UID" OtherKey="AdditionalColumnTypeUID" Type="AdditionalColumn" />
       <Association Name="Organization_AdditionalColumnType" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Card" Member="Card">
-    <Type Name="Card">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Series" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="IsInStopList" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="StopReason" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Card_CardZoneLink" Member="CardZoneLink" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
-      <Association Name="Card_Journal" Member="Journal" ThisKey="UID" OtherKey="CardUID" Type="Journal" />
-      <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
-      <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
   <Table Name="dbo.CardZoneLink" Member="CardZoneLink">
@@ -303,6 +284,26 @@
       <Association Name="Organization_OrganizationZone" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Card" Member="Card">
+    <Type Name="Card">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Series" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Number" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsInStopList" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="StopReason" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="Card_CardZoneLink" Member="CardZoneLink" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
+      <Association Name="Card_Journal" Member="Journal" ThisKey="UID" OtherKey="CardUID" Type="Journal" />
+      <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
+      <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
   <Table Name="dbo.Employee" Member="Employee">
     <Type Name="Employee">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -313,7 +314,6 @@
       <Column Name="PositionUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="DepartmentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="Appointed" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Dismissed" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -321,10 +321,10 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Employee_AdditionalColumn" Member="AdditionalColumn" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
-      <Association Name="Employee_Card" Member="Card" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Employee_Department" Member="Department" ThisKey="UID" OtherKey="ContactEmployeeUID" Type="Department" />
       <Association Name="Employee_Department1" Member="Department1" ThisKey="UID" OtherKey="AttendantUID" Type="Department" />
       <Association Name="Employee_EmployeeReplacement" Member="EmployeeReplacement" ThisKey="UID" OtherKey="EmployeeUID" Type="EmployeeReplacement" />
+      <Association Name="Employee_Card" Member="Card" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Department_Employee" Member="Department2" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Organization_Employee" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
       <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />

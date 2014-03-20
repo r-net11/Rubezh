@@ -68,9 +68,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.Save(Employees);
 		}
-		public OperationResult SaveEmployeeCardTemplateUID(Employee Employee)
+		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			return SKDDatabaseService.EmployeeTranslator.SaveCardTemplate(Employee);
+			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
 		}
 		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
 		{

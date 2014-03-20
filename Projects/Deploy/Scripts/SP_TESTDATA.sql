@@ -19,7 +19,7 @@ delete from [dbo].[Position]
 delete from [dbo].[Department]
 
 DECLARE @Organization1Uid uniqueidentifier;
-SET @Organization1Uid = NEWID();
+SET @Organization1Uid = 'D74D41A2-01FA-41DF-AE95-9E62A2F4BA99';
 EXEC SaveOrganization @Organization1Uid, 'яйсд', 'ннн яйсдз',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
@@ -441,7 +441,7 @@ SET @Uid = NEWID();
 EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 
 DECLARE @Organization2Uid uniqueidentifier;
-SET @Organization2Uid = NEWID();
+SET @Organization2Uid = '498F0C15-76E1-40D5-836E-908F638177AF';
 EXEC SaveOrganization @Organization2Uid, 'McDonalds', 'McDonalds Restaurants Inc',0,'01/01/1900'
 
 DECLARE @JanitorPositionUid uniqueidentifier;

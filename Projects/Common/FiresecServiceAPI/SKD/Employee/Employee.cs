@@ -30,9 +30,6 @@ namespace FiresecAPI
 		public Guid? DepartmentUID { get; set; }
 
 		[DataMember]
-		public Guid? CardTemplateUID { get; set; }
-
-		[DataMember]
 		public List<Guid> ReplacementUIDs { get; set; }
 
 		[DataMember]

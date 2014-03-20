@@ -7,7 +7,7 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTranslator : IsDeletedTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
-		public AdditionalColumnTranslator(DataAccess.SKUDDataContext context)
+		public AdditionalColumnTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
