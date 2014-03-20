@@ -29,29 +29,28 @@ namespace VideoModule.RVI_VSS.ViewModels
 			set
 			{
 				_archivePlayer = value;
-				OnPropertyChanged(()=>_archivePlayer);
+				OnPropertyChanged(() => _archivePlayer);
 			}
 		}
 
 		private DateTime _dateTimeFrom;
-		public DateTime DateTimeFrom 
+		public DateTime DateTimeFrom
 		{
 			get { return _dateTimeFrom; }
 			set
 			{
 				_dateTimeFrom = new DateTime(value.Ticks - (value.Ticks % TimeSpan.TicksPerHour), value.Kind);
-				OnPropertyChanged(()=>DateTimeFrom);
+				OnPropertyChanged(() => DateTimeFrom);
 			}
 		}
 
 		private DateTime _dateTimeTo;
-
 		public DateTime DateTimeTo
 		{
 			get { return _dateTimeTo; }
 			set
 			{
-				_dateTimeTo = new DateTime(value.Ticks - (value.Ticks%TimeSpan.TicksPerHour), value.Kind);
+				_dateTimeTo = new DateTime(value.Ticks - (value.Ticks % TimeSpan.TicksPerHour), value.Kind);
 				OnPropertyChanged(() => DateTimeTo);
 			}
 		}
@@ -94,7 +93,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 		}
 
 		private ObservableCollection<PlayBackDeviceRecord> _records;
-		public ObservableCollection <PlayBackDeviceRecord> Records
+		public ObservableCollection<PlayBackDeviceRecord> Records
 		{
 			get { return _records; }
 			set
@@ -132,7 +131,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 			var cellPlayerWrap = new CellPlayerWrap();
 			cellPlayerWrap.InitializeCamera(SelectedCamera);
 			ArchivePlayer = cellPlayerWrap.DataContext;
-			OnPropertyChanged(()=>ArchivePlayer);
+			OnPropertyChanged(() => ArchivePlayer);
 		}
 
 		bool CanStart()

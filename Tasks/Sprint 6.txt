@@ -18,7 +18,7 @@
 
 
 МАКСИМ
-- Выбор не по тексту в меню устройства
+- Библиотека устройств. МВК-8. Не так часто моргать в состоянии включается. Нет картинки для состояния выключается
 - Перенести SafeFiresecService
 - Employee.AdditionalColumns
 - Переименовать GUD в AccessTemplate
@@ -28,7 +28,6 @@
 - GUDFilter не реагирует на OrganisationUID
 - OrganisationUID при добавлении сотрудники отдела или должности
 - EmployeeCard.IsBlocked
-- CardZone.ParentType
 - Таблица патчей
 
 - Фильтр по удаленным и не удаленным сотрудникам
