@@ -8,7 +8,7 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		EmployeesViewModel EmployeesViewModel;
+		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public Employee Employee { get; private set; }
 
 		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
@@ -39,6 +39,18 @@ namespace SKDModule.ViewModels
 			if(SelectedPosition == null)
 				SelectedPosition = positions.FirstOrDefault();
 
+			AdditionalColumns = new List<AdditionalColumnViewModel>();
+			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
+			{
+				var columns = AdditionalColumnHelper.GetByEmployee(Employee);
+				if (columns != null)
+				{
+					foreach (var column in columns)
+					{
+						AdditionalColumns.Add(new AdditionalColumnViewModel(column, this));
+					}
+				}
+			}
 			CopyProperties();
 		}
 
@@ -104,6 +116,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		List<AdditionalColumnViewModel> additionalColumns;
+		public List<AdditionalColumnViewModel> AdditionalColumns
+		{
+			get { return additionalColumns; }
+			set
+			{
+				additionalColumns = value;
+				OnPropertyChanged(() => AdditionalColumns);
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(FirstName);
@@ -124,4 +147,25 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 	}
+
+	public class AdditionalColumnViewModel
+	{
+		public EmployeeDetailsViewModel EmployeeDetailsViewModel { get; private set; }
+
+		AdditionalColumn AdditionalColumn;
+
+		public string Name { get; private set; }
+		public AdditionalColumnType AdditionalColumnType { get; private set; }
+
+			 
+		public AdditionalColumnViewModel(AdditionalColumn additionalColumn, EmployeeDetailsViewModel employeeDetailsViewModel)
+		{
+			AdditionalColumn = additionalColumn;
+			EmployeeDetailsViewModel = employeeDetailsViewModel;
+			AdditionalColumnType = EmployeeDetailsViewModel.EmployeesViewModel.AdditionalColumnTypes.FirstOrDefault(x => x.UID == AdditionalColumn.AdditionalColumnTypeUID);
+			Name = AdditionalColumnType.Name;
+		}
+
+	}
+
 }

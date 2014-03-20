@@ -17,7 +17,9 @@ namespace SKDModule.ViewModels
 	{
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
-		public Organization Organization; 
+		public Organization Organization { get; private set; }
+		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+
 		
 		public EmployeesViewModel()
 		{
@@ -229,20 +231,20 @@ namespace SKDModule.ViewModels
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
-			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
-			if (additionalColumnTypes != null)
+			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			if(columnTypes == null)
+				return;
+			AdditionalColumnTypes = columnTypes.ToList();
+			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				foreach (var additionalColumnType in additionalColumnTypes)
+				AdditionalColumnNames.Add(additionalColumnType.Name);
+			}
+			foreach (var employee in Employees)
+			{
+				employee.AdditionalColumnValues = new ObservableCollection<string>();
+				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-					AdditionalColumnNames.Add(additionalColumnType.Name);
-				}
-				foreach (var employee in Employees)
-				{
-					employee.AdditionalColumnValues = new ObservableCollection<string>();
-					foreach (var additionalColumnType in additionalColumnTypes)
-					{
-						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
-					}
+					employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
 				}
 			}
 		}
