@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -70,6 +69,7 @@ namespace SKDDriver
 			result.CurrentReplacement = ReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.DepartmentUID = tableItem.DepartmentUID;
 			result.ScheduleUID = tableItem.ScheduleUID;
+			result.CardTemplateUID = tableItem.CardTemplateUID;
 			result.AdditionalColumnUIDs = additionalColumnUIDs;
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.CardUIDs = cardUIDs;
@@ -90,6 +90,24 @@ namespace SKDDriver
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
 			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.Type = (int)apiItem.Type;
+			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+		}
+
+		public OperationResult SaveCardTemplate(Employee apiItem)
+		{
+			try
+			{
+				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
+				if (tableItem == null)
+					return new OperationResult("Сотрудник не найден в базе данных");
+				tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);	
+			}
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)
@@ -99,8 +117,6 @@ namespace SKDDriver
 
 			var isReplaced = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
 
-			
-			
 			var departmentUIDs = filter.DepartmentUIDs;
 			if (departmentUIDs.IsNotNullOrEmpty())
 			{

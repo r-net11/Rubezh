@@ -40,6 +40,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveEmployees(IEnumerable<Employee> Employees);
 		[OperationContract]
+		OperationResult SaveEmployeeCardTemplateUID(Employee Employee);
+		[OperationContract]
 		OperationResult SaveDepartments(IEnumerable<Department> Departments);
 		[OperationContract]
 		OperationResult SavePositions(IEnumerable<Position> Positions);

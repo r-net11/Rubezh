@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
-using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
@@ -145,6 +144,12 @@ namespace SKDModule.ViewModels
 				_isPassBold = value;
 				OnPropertyChanged("IsPassBold");
 			}
+		}
+
+		bool SaveCardTemplate(Employee employee, Guid? cardTemplateUID)
+		{
+			employee.CardTemplateUID = cardTemplateUID;
+			return EmployeeHelper.SaveCardTemplate(employee);		
 		}
 	}
 }

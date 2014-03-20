@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
@@ -28,6 +28,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? DepartmentUID { get; set; }
+
+		[DataMember]
+		public Guid? CardTemplateUID { get; set; }
 
 		[DataMember]
 		public List<Guid> ReplacementUIDs { get; set; }

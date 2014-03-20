@@ -115,6 +115,7 @@
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\PollAsyncResult.cs" />
+    <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />

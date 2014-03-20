@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -28,6 +27,12 @@ namespace FiresecClient.SKDHelpers
 			filter.Uids.Add((Guid)uid);
 			var operationResult = FiresecManager.FiresecService.GetEmployees(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+		}
+
+		public static bool SaveCardTemplate(Employee employee)
+		{
+			var operationResult = FiresecManager.FiresecService.SaveEmployeeCardTemplateUID(employee);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static IEnumerable<Employee> Get(EmployeeFilter filter)

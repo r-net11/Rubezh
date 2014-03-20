@@ -54,6 +54,12 @@ DROP PROCEDURE [dbo].[SaveCard]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAccessTemplate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveAccessTemplate]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAdditionalColumn]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveAdditionalColumn]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAdditionalColumnType]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveAdditionalColumnType]
 
 
 GO
@@ -703,4 +709,61 @@ BEGIN
 		@RemovalDate ,
 		@OrganizationUID )
 END
-	
+
+GO
+CREATE PROCEDURE SaveAdditionalColumnType
+	@UID uniqueidentifier,
+	@OrganizationUID uniqueidentifier = NULL,
+	@Name nvarchar(50) = NULL,
+	@Description nvarchar(max) = NULL,
+	@DataType int = NULL,
+	@IsDeleted bit,
+	@RemovalDate datetime
+AS
+BEGIN
+	INSERT INTO AdditionalColumnType (
+		UID,
+		OrganizationUID,
+		Name,
+		Description,
+		DataType,
+		IsDeleted,
+		RemovalDate)
+	VALUES (
+		@UID,
+		@OrganizationUID ,
+		@Name ,
+		@Description ,
+		@DataType ,
+		@IsDeleted ,
+		@RemovalDate )
+END	
+
+GO
+CREATE PROCEDURE SaveAdditionalColumn
+	@UID uniqueidentifier,
+	@IsDeleted bit,
+	@RemovalDate datetime,
+	@EmployeeUID uniqueidentifier = NULL,
+	@AdditionalColumnTypeUID uniqueidentifier = NULL,
+	@TextData text = NULL,
+	@GraphicsData varbinary(MAX) = NULL
+AS
+BEGIN
+	INSERT INTO AdditionalColumn (
+		UID,
+		IsDeleted,
+		RemovalDate,
+		EmployeeUID,
+		AdditionalColumnTypeUID ,
+		TextData ,
+		GraphicsData )
+	VALUES (
+		@UID ,
+		@IsDeleted ,
+		@RemovalDate ,
+		@EmployeeUID ,
+		@AdditionalColumnTypeUID ,
+		@TextData ,
+		@GraphicsData )
+END	
