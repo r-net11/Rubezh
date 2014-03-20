@@ -163,10 +163,10 @@ namespace SKDModule.ViewModels
 				if (Department.IsChecked)
 					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
+			Filter.OrganizationUIDs = new List<Guid>();
 			if (SelectedOrganization != null)
 			{
 				Filter.OrganisationUID = SelectedOrganization.UID;
-				Filter.OrganizationUIDs = new List<Guid>();
 				Filter.OrganizationUIDs.Add(SelectedOrganization.UID);
 			}
 			return true;

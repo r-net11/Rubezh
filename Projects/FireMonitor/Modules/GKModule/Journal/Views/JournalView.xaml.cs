@@ -80,5 +80,11 @@ namespace GKModule.Views
 				Logger.Error(ex, "JournalView.CheckBox_AdditionalColumns_Checked");
 			}
 		}
+
+		private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (dataGrid != null && dataGrid.SelectedItem != null)
+				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+		}
 	}
 }

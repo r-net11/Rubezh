@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 		public Organization Organization { get; private set; }
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
-		
+
 		public EmployeesViewModel()
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
@@ -31,9 +31,9 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
-			var organizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
-			Filter.OrganizationUIDs = new List<Guid>{organizationUIDs.FirstOrDefault()};
-			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
+			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
+			if (organizationUID != Guid.Empty)
+				Filter.OrganizationUIDs = new List<Guid> { organizationUID };
 			Initialize();
 		}
 
@@ -227,7 +227,7 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-			
+
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
@@ -237,14 +237,16 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				AdditionalColumnNames.Add(additionalColumnType.Name);
+					if (additionalColumnType.DataType == DataType.Text)
+						AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in Employees)
 			{
 				employee.AdditionalColumnValues = new ObservableCollection<string>();
 				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-					employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
+						if (additionalColumnType.DataType == DataType.Text)
+							employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
 				}
 			}
 		}

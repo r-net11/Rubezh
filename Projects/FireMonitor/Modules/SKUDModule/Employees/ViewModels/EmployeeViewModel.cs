@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 		}
 		public bool CanAddCard()
 		{ 
-			return Cards.Count < 10;
+			return Cards.Count < 1000;
 		}
 
 		bool _isExpanded = false;

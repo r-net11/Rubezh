@@ -35,8 +35,8 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства карты: {0}", card.PresentationName);
 			}
 			Card = card;
-			IDFamily = Card.Series;
-			IDNo = Card.Number;
+			Series = Card.Series;
+			Number = Card.Number;
 			StartDate = Card.ValidFrom;
 			EndDate = Card.ValidTo;
 
@@ -63,25 +63,25 @@ namespace SKDModule.ViewModels
 			SelectedStopListCard = StopListCards.FirstOrDefault();
 		}
 
-		int _idFamily;
-		public int IDFamily
+		int _series;
+		public int Series
 		{
-			get { return _idFamily; }
+			get { return _series; }
 			set
 			{
-				_idFamily = value;
-				OnPropertyChanged("IDFamily");
+				_series = value;
+				OnPropertyChanged("Series");
 			}
 		}
 
-		int _idNo;
-		public int IDNo
+		int _number;
+		public int Number
 		{
-			get { return _idNo; }
+			get { return _number; }
 			set
 			{
-				_idNo = value;
-				OnPropertyChanged("IDNo");
+				_number = value;
+				OnPropertyChanged("Number");
 			}
 		}
 
@@ -159,8 +159,8 @@ namespace SKDModule.ViewModels
 		{
 			if (UseStopList && SelectedStopListCard != null)
 			{
-				IDFamily = SelectedStopListCard.Series;
-				IDNo = SelectedStopListCard.Number;
+				Series = SelectedStopListCard.Series;
+				Number = SelectedStopListCard.Number;
 			}
 		}
 
@@ -169,13 +169,13 @@ namespace SKDModule.ViewModels
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				if (!IsNewCard)
-					CardHelper.ToStopList(Card, "Заменена на карту " + IDFamily + @"\" + IDNo);
+					CardHelper.ToStopList(Card, "Заменена на карту " + Series + @"\" + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
-			Card.Series = IDFamily;
-			Card.Number = IDNo;
+			Card.Series = Series;
+			Card.Number = Number;
 			Card.ValidFrom = StartDate;
 			Card.ValidTo = EndDate;
 			Card.CardZones = AccessZones.GetCardZones();

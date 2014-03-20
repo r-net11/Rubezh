@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -28,16 +29,16 @@ namespace SKDModule.ViewModels
 			}
 
 			Employee = employee;
-			
+
 			var positions = PositionHelper.GetByOrganization(Employee.OrganizationUID);
 			if (positions == null)
 				Positions = new List<Position>();
 			else
 				Positions = positions.ToList();
-			
+
 			SelectedPosition = Positions.FirstOrDefault(x => x.UID == Employee.PositionUID);
-			if(SelectedPosition == null)
-				SelectedPosition = positions.FirstOrDefault();
+			if (SelectedPosition == null)
+				SelectedPosition = Positions.FirstOrDefault();
 
 			AdditionalColumns = new List<AdditionalColumnViewModel>();
 			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
@@ -83,7 +84,7 @@ namespace SKDModule.ViewModels
 				if (_firstName != value)
 				{
 					_firstName = value;
-					OnPropertyChanged(()=>FirstName);
+					OnPropertyChanged(() => FirstName);
 				}
 			}
 		}
@@ -97,7 +98,7 @@ namespace SKDModule.ViewModels
 				if (_secondName != value)
 				{
 					_secondName = value;
-					OnPropertyChanged(()=>SecondName);
+					OnPropertyChanged(() => SecondName);
 				}
 			}
 		}
@@ -111,7 +112,7 @@ namespace SKDModule.ViewModels
 				if (_lastName != value)
 				{
 					_lastName = value;
-					OnPropertyChanged(()=>LastName);
+					OnPropertyChanged(() => LastName);
 				}
 			}
 		}
@@ -131,7 +132,7 @@ namespace SKDModule.ViewModels
 		{
 			return !string.IsNullOrEmpty(FirstName);
 		}
-	
+
 		protected override bool Save()
 		{
 			//if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
@@ -143,7 +144,10 @@ namespace SKDModule.ViewModels
 			Employee.FirstName = FirstName;
 			Employee.LastName = LastName;
 			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
-			Employee.PositionUID = SelectedPosition.UID;
+			if (SelectedPosition != null)
+				Employee.PositionUID = SelectedPosition.UID;
+			else
+				Employee.PositionUID = Guid.Empty;
 			return true;
 		}
 	}

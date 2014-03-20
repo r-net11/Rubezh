@@ -192,7 +192,8 @@ namespace GKModule.ViewModels
 			var archiveFilter = new XArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
-				EndDate = DateTime.Now
+				EndDate = DateTime.Now,
+				PageSize = archiveDefaultState.PageSize
 			};
 
 			switch (archiveDefaultState.ArchiveDefaultStateType)
@@ -409,7 +410,7 @@ namespace GKModule.ViewModels
 			TotalPageNumber = Pages.Count;
 			if (CurrentPageNumber == 0)
 				CurrentPageNumber = 1;
-			Status = "Количество записей: " + ((TotalPageNumber - 1) * 100 + journalItems.Count()).ToString();
+			Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + journalItems.Count()).ToString();
 		}
 
 		public override void OnShow()
