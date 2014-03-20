@@ -232,21 +232,21 @@ namespace SKDModule.ViewModels
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
 			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
-			if(columnTypes == null)
+			if (columnTypes == null)
 				return;
 			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-					if (additionalColumnType.DataType == DataType.Text)
-						AdditionalColumnNames.Add(additionalColumnType.Name);
+				if (additionalColumnType.DataType == DataType.Text)
+					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in Employees)
 			{
 				employee.AdditionalColumnValues = new ObservableCollection<string>();
 				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-						if (additionalColumnType.DataType == DataType.Text)
-							employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
+					if (additionalColumnType.DataType == DataType.Text)
+						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
 				}
 			}
 		}
