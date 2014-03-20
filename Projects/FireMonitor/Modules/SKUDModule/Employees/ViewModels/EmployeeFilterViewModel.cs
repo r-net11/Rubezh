@@ -166,6 +166,7 @@ namespace SKDModule.ViewModels
 			if (SelectedOrganization != null)
 			{
 				Filter.OrganisationUID = SelectedOrganization.UID;
+				Filter.OrganizationUIDs = new List<Guid>();
 				Filter.OrganizationUIDs.Add(SelectedOrganization.UID);
 			}
 			return true;

@@ -1,15 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using Infrastructure;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -18,8 +17,8 @@ namespace SKDModule.ViewModels
 	{
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
-		public Organization Organization { get; private set; }
-
+		public Organization Organization; 
+		
 		public EmployeesViewModel()
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
@@ -30,16 +29,16 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
-			Filter.OrganisationUID = OrganizationHelper.Get(new OrganizationFilter()).FirstOrDefault().UID;
+			var organizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			Filter.OrganizationUIDs = new List<Guid>{organizationUIDs.FirstOrDefault()};
+			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			Initialize();
 		}
 
 		void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			Organization = organisations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
+			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
-
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
@@ -226,7 +225,7 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-
+			
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);

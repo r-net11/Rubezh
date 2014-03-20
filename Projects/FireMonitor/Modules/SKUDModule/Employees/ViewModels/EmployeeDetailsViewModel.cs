@@ -108,7 +108,7 @@ namespace SKDModule.ViewModels
 		{
 			return !string.IsNullOrEmpty(FirstName);
 		}
-
+	
 		protected override bool Save()
 		{
 			//if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
@@ -120,6 +120,7 @@ namespace SKDModule.ViewModels
 			Employee.FirstName = FirstName;
 			Employee.LastName = LastName;
 			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
+			Employee.PositionUID = SelectedPosition.UID;
 			return true;
 		}
 	}
