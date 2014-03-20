@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI;
 using System.Data.Linq;
-using LinqKit;
+using System.Linq;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -14,9 +14,9 @@ namespace SKDDriver
 		where FilterT : FilterBase
 	{
 		protected Table<TableT> Table;
-		protected DataAccess.SKUDDataContext Context;
+		protected DataAccess.SKDDataContext Context;
 
-		public TranslatorBase(DataAccess.SKUDDataContext context)
+		public TranslatorBase(DataAccess.SKDDataContext context)
 		{
 			Context = context;
 			Table = Context.GetTable<TableT>();

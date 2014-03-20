@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -18,6 +17,16 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.SaveOrganizations(new List<Organization> { organization });
 			return Common.ShowErrorIfExists(result);
+		}
+
+		public static Organization GetSingle(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var filter = new OrganizationFilter();
+			filter.Uids.Add((Guid)uid);
+			var operationResult = FiresecManager.FiresecService.GetOrganizations(filter);
+			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
 		public static bool SaveZones(Organization organization)

@@ -7,7 +7,7 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTranslator : IsDeletedTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
-		public AdditionalColumnTranslator(DataAccess.SKUDDataContext context)
+		public AdditionalColumnTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
@@ -18,7 +18,8 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
 			result.AdditionalColumnTypeUID = tableItem.AdditionalColumnTypeUID;
-			result.GraphicsData = tableItem.GraphicsData.ToArray();
+			if(tableItem.GraphicsData != null)
+				result.GraphicsData = tableItem.GraphicsData.ToArray();
 			result.TextData = tableItem.TextData;
 			return result;
 		}

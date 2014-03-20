@@ -75,6 +75,8 @@ namespace GKModule.ViewModels
 					journalColumnTypeViewModel.IsChecked = true;
 				}
 			}
+
+			PageSize = archiveDefaultState.PageSize;
 		}
 
 		public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }
@@ -105,6 +107,17 @@ namespace GKModule.ViewModels
 		public DateTime NowDate
 		{
 			get { return DateTime.Now; }
+		}
+
+		int _pageSize;
+		public int PageSize
+		{
+			get { return _pageSize; }
+			set
+			{
+				_pageSize = value;
+				OnPropertyChanged("PageSize");
+			}
 		}
 
 		protected override bool Save()
@@ -138,6 +151,12 @@ namespace GKModule.ViewModels
 				if (journalColumnTypeViewModel.IsChecked)
 					ArchiveDefaultState.AdditionalColumns.Add(journalColumnTypeViewModel.JournalColumnType);
 			}
+
+			if (PageSize < 10)
+				PageSize = 10;
+			if (PageSize > 1000)
+				PageSize = 1000;
+			ArchiveDefaultState.PageSize = PageSize;
 			return base.Save();
 		}
 

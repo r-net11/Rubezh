@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
 	public class JournalItemTranslator : TranslatorBase<DataAccess.Journal, SKDJournalItem, SKDJournalFilter>
 	{
-		public JournalItemTranslator(DataAccess.SKUDDataContext context)
+		public JournalItemTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 			;

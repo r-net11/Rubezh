@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
 	public class EmployeeReplacementTranslator : OrganizationElementTranslator<DataAccess.EmployeeReplacement, EmployeeReplacement, EmployeeReplacementFilter>
 	{
-		public EmployeeReplacementTranslator(DataAccess.SKUDDataContext context)
+		public EmployeeReplacementTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

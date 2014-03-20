@@ -2,13 +2,11 @@ USE [SKUD]
 GO
 SET ANSI_PADDING OFF
 GO
-ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_Employee] FOREIGN KEY([EmployeeUID])
+ALTER TABLE [dbo].[AdditionalColumn]  WITH NOCHECK ADD  CONSTRAINT [FK_AdditionalColumn_Employee] FOREIGN KEY([EmployeeUID])
 REFERENCES [dbo].[Employee] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
-ALTER TABLE [dbo].[AdditionalColumn] CHECK CONSTRAINT [FK_AdditionalColumn_Employee]
+ALTER TABLE [dbo].[AdditionalColumn] NOCHECK CONSTRAINT [FK_AdditionalColumn_Employee]
 
 GO
 ALTER TABLE [dbo].[AdditionalColumn]  WITH CHECK ADD  CONSTRAINT [FK_AdditionalColumn_AdditionalColumnType] FOREIGN KEY([AdditionalColumnTypeUID])

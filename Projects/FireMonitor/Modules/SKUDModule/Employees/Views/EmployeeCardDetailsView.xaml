@@ -30,10 +30,10 @@
 					SelectedDate="{Binding EndDate}" />
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Семейство" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding IDFamily}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Series}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
 
 				<TextBlock Grid.Row="3" Grid.Column="0" Text="Номер" Foreground="White" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding IDNo}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Number}" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" HorizontalAlignment="Left" Margin="2" />
 
 				<CheckBox Grid.Row="4" Grid.Column="0" IsChecked="{Binding UseStopList}" Content="Из СТОП-листа" Foreground="White" VerticalAlignment="Center" Margin="2" />
 				<ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" IsEnabled="{Binding UseStopList}">

@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
-xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-  <Bundle Compressed="no" DisableModify="button" Version="1.0.0.0" Manufacturer="Рубеж" Copyright="Рубеж" UpgradeCode="de8cbfab-5f76-4ddb-b5fd-e946ea84f1ae" Name="FireSec-2">
-    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
-      <bal:WixStandardBootstrapperApplication
-        SuppressOptionsUI="yes"
-        LicenseFile="License.rtf"
-        LogoFile="Logo.png"
-        LocalizationFile="Theme.wxl" />
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+  <Bundle Compressed="no" DisableModify="button" Version="1.0.0.0" UpgradeCode="de8cbfab-5f76-4ddb-b5fd-e946ea84f1ae"
+          Name="FireSec-2" Manufacturer="Рубеж" Copyright="Рубеж" AboutUrl="http://www.rubezh.ru">
+    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+      <Payload SourceFile="UI\BootstrapperCore.config"/>
+      <Payload SourceFile="UI\bin\Release\UI.dll"/>
+      <Payload SourceFile="UI\bin\Release\Infrastructure.Common.dll"/>
+      <Payload SourceFile="UI\bin\Release\Common.dll"/>
+      <Payload SourceFile="UI\bin\Release\Infrustructure.Plans.dll"/>
+      <Payload SourceFile="UI\bin\Release\NLog.dll"/>
+      <Payload SourceFile="C:\Program Files\WiX Toolset v3.8\bin\Microsoft.Deployment.WindowsInstaller.dll"/>
     </BootstrapperApplicationRef>
     <Chain>
-      <ExePackage
-              Id="dotNetFx40_Full_x86_x64.exe"
-              Vital="no"
-              SourceFile="..\..\..\3rdParty\dotNetFx40_Full_x86_x64.exe"
-              DownloadUrl="http://www.microsoft.com/download/en/details.aspx?id=17851"
-              InstallCommand="/q /norestart /log %TEMP%\dotNetFx40install.log"
-              DetectCondition="(NetFX40Install >= 1) OR (NetFX40x64Install >= 1)"
-              InstallCondition="NOT NetFX40Install OR (VersionNT64 AND NOT NetFX40x64Install)"
-              Name ="NETFX40.exe" />
+      <PackageGroupRef Id='Netfx4Full' />
 
-      <MsiPackage Id="Firesec2Installer" SourceFile="..\FiresecInstaller\FiresecInstaller\bin\Release\Firesec-2.msi" Compressed="no" EnableFeatureSelection="yes" Vital="yes">
-        <MsiProperty Name="ALLUSERS" Value="1"/>
+      <MsiPackage Id="Firesec2Installer" SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Firesec 2.1.3.msi"
+                  Compressed="no" EnableFeatureSelection="yes" Vital="yes" DisplayInternalUI="yes">
+        <MsiProperty Name="ALLUSERS" Value="1" />
       </MsiPackage>
+
+      <ExePackage Id="SQLServer" SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Soft\SQLEXPR32_RUS.EXE" />
     </Chain>
   </Bundle>
+
+  <Fragment>
+
+    <WixVariable Id="WixMbaPrereqPackageId" Value="Netfx4Full" />
+    <WixVariable Id="WixMbaPrereqLicenseUrl" Value="NetfxLicense.rtf" />
+
+    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx4FullVersion" />
+    <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full" Value="Version" Variable="Netfx4x64FullVersion" Win64="yes" />
+
+    <PackageGroup Id="Netfx4Full">
+      <ExePackage Id="Netfx4Full" Cache="no" Compressed="yes" PerMachine="yes" Permanent="yes" Vital="yes"
+                  SourceFile="C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bootstrapper\Packages\DotNetFX40\dotNetFx40_Full_x86_x64.exe"
+                  DownloadUrl="http://go.microsoft.com/fwlink/?LinkId=164193"
+                  DetectCondition="Netfx4FullVersion AND (NOT VersionNT64 OR Netfx4x64FullVersion)" />
+    </PackageGroup>
+  </Fragment>
 </Wix>

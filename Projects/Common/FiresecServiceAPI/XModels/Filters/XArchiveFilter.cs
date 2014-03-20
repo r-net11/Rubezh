@@ -71,5 +71,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XSubsystemType> SubsystemTypes { get; set; }
+
+		[DataMember]
+		public int PageSize { get; set; }
 	}
 }

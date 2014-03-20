@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
+		public CardTranslator(DataAccess.SKDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;
@@ -66,6 +66,7 @@ namespace SKDDriver
 			result.CardZones = CardZonesTranslator.Get(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
+			result.CardTemplateUID = tableItem.CardTemplateUID;
 			return result;
 		}
 
@@ -80,6 +81,7 @@ namespace SKDDriver
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
+			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)
@@ -88,6 +90,24 @@ namespace SKDDriver
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
 			return base.Save(items);
+		}
+
+
+		public OperationResult SaveTemplate(SKDCard apiItem)
+		{
+			try
+			{
+				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
+				if (tableItem == null)
+					return new OperationResult("Карта не найдена в базе данных");
+				tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 
 		protected override Expression<Func<DataAccess.Card, bool>> IsInFilter(CardFilter filter)

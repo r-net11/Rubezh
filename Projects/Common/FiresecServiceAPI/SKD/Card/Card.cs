@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.ComponentModel;
 
 namespace FiresecAPI
 {
@@ -30,6 +29,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<CardZone> CardZones { get; set; }
+
+		[DataMember]
+		public Guid? CardTemplateUID { get; set; }
 
 		[DataMember]
 		public Guid? AccessTemplateUID { get; set; }

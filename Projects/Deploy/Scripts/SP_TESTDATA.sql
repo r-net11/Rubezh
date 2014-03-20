@@ -3,8 +3,11 @@ SET DATEFORMAT dmy;
 DECLARE @Uid uniqueidentifier;
 
 DELETE FROM Organization
-delete from dbo.Card
+delete from [dbo].[Employee]
+delete from Card
 delete from AccessTemplate
+delete from AdditionalColumn
+delete from AdditionalColumnType
 delete from [dbo].[Holiday]
 delete from [dbo].[Document]
 delete from [dbo].[Interval]
@@ -13,12 +16,10 @@ delete from [dbo].[Day]
 delete from [dbo].[ScheduleScheme]
 delete from [dbo].[Schedule]
 delete from [dbo].[Position]
-delete from [dbo].[Employee]
 delete from [dbo].[Department]
 
-
 DECLARE @Organization1Uid uniqueidentifier;
-SET @Organization1Uid = NEWID();
+SET @Organization1Uid = 'D74D41A2-01FA-41DF-AE95-9E62A2F4BA99';
 EXEC SaveOrganization @Organization1Uid, 'СКУД', 'ООО СКУДЪ',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
@@ -348,8 +349,99 @@ EXEC SaveCard @Uid, 0, '01/01/1900', 17, 18, @AdministratorEmployeeUid, @Governa
 SET @Uid = NEWID();
 EXEC SaveCard @Uid, 0, '01/01/1900', 18, 19, @ProgrammistConstructorEmployeeUid, NULL, '01/01/2014', '01/01/2015',0
 
+DECLARE @PassportAdditionalColumnTypeUID uniqueidentifier;
+SET @PassportAdditionalColumnTypeUID = NEWID();
+EXEC SaveAdditionalColumnType @PassportAdditionalColumnTypeUID, @Organization1Uid, 'Скан паспорта', 'Изображение первой страницы паспорта', 1, 0, '01/01/1900'
+
+DECLARE @CharacteristicsAdditionalColumnTypeUID uniqueidentifier;
+SET @CharacteristicsAdditionalColumnTypeUID = NEWID();
+EXEC SaveAdditionalColumnType @CharacteristicsAdditionalColumnTypeUID , @Organization1Uid, 'Характеристика', 'Личная характеристика', 0, 0, '01/01/1900'
+
+DECLARE @PassportScan varbinary(MAX);
+SET @PassportScan = (SELECT * FROM OPENROWSET(BULK N'C:\passportDesu.jpg', SINGLE_BLOB) as _file);
+
+DECLARE @Characteristics nvarchar(MAX);
+SET @Characteristics = 'Иванов Н.Е. — выпускник инженерно-экономического факультета киевского Национального Университета Технологи и Дизайна. За время обучения проявил себя как старательный студент, постоянно повышал свой профессиональный уровень. Иванов Н.Е.. неоднократно принимал участие в научных конференциях. Выступал с содержательными докладами по тематике маркетинга. Выпускник также принимал участие в межуниверситетской студенческой конференции «Новое поколение Маркетологов», где выступил с темой: «Падение медиа-бюджетов в условиях финансового кризиса».
+Иванов Н.Е.. с первого курса работал над темой дипломной работы «Интернет-маркетинг». Дипломная работа показывает, что выпускник прекрасно ориентируется в исследованном материале и свободно владеет теоретическими основами, удачно соединяет теорию с практическим анализом реальных компаний.
+Следует отметить, что Иванов Н.Е.. печатался в журналах «Выпускник», «Молодые Предприниматели».
+Выпускник требователен к себе, пользуется уважением среди товарищей и преподавателей факультета';
+
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainMontageEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainGuardEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainProgrammistEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainTesterEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @DirectorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @AdministratorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PassportScan
+
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainMontageEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainGuardEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainProgrammistEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainTesterEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @DirectorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @AdministratorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+
 DECLARE @Organization2Uid uniqueidentifier;
-SET @Organization2Uid = NEWID();
+SET @Organization2Uid = '498F0C15-76E1-40D5-836E-908F638177AF';
 EXEC SaveOrganization @Organization2Uid, 'McDonalds', 'McDonalds Restaurants Inc',0,'01/01/1900'
 
 DECLARE @JanitorPositionUid uniqueidentifier;

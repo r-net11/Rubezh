@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -36,6 +33,12 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
 			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool SaveTemplate(SKDCard card)
+		{
+			var operationResult = FiresecManager.FiresecService.SaveCardTemplate(card);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(SKDCard card)

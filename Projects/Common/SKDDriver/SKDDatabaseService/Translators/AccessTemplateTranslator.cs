@@ -9,7 +9,7 @@ namespace SKDDriver
 {
 	public class AccessTemplateTranslator : OrganizationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DataAccess.SKUDDataContext context, CardZoneTranslator cardsTranslator)
+		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;

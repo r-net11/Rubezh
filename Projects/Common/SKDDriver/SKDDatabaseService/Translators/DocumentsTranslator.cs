@@ -8,7 +8,7 @@ namespace SKDDriver
 {
 	public class DocumentTranslator : OrganizationElementTranslator<DataAccess.Document, Document, DocumentFilter>
 	{
-		public DocumentTranslator(DataAccess.SKUDDataContext context)
+		public DocumentTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

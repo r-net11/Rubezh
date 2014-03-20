@@ -8,7 +8,7 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTypeTranslator : OrganizationElementTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
 	{
-		public AdditionalColumnTypeTranslator(DataAccess.SKUDDataContext context)
+		public AdditionalColumnTypeTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

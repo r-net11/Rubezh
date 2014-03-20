@@ -1,16 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
-using System.Collections.Generic;
 
 namespace SKDDriver
 {
 	public class DepartmentTranslator : OrganizationElementTranslator<DataAccess.Department, Department, DepartmentFilter>
 	{
-		public DepartmentTranslator(DataAccess.SKUDDataContext context)
+		public DepartmentTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

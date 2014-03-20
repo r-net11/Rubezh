@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
-using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
 	public class EmployeeTranslator : OrganizationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
-		public EmployeeTranslator(DataAccess.SKUDDataContext context, EmployeeReplacementTranslator replacementTranslator)
+		public EmployeeTranslator(DataAccess.SKDDataContext context, EmployeeReplacementTranslator replacementTranslator)
 			: base(context)
 		{
 			ReplacementTranslator = replacementTranslator;
@@ -99,8 +98,6 @@ namespace SKDDriver
 
 			var isReplaced = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
 
-			
-			
 			var departmentUIDs = filter.DepartmentUIDs;
 			if (departmentUIDs.IsNotNullOrEmpty())
 			{

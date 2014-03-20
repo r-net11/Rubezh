@@ -1,18 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI;
-using System;
-using XFiresecAPI;
-
+﻿
 namespace SKDDriver
 {
 	public static class SKDDatabaseService
 	{
-		static DataAccess.SKUDDataContext Context;
+		static DataAccess.SKDDataContext Context;
 
 		static SKDDatabaseService()
 		{
-			Context = new DataAccess.SKUDDataContext();
+			Context = new DataAccess.SKDDataContext();
 			DocumentTranslator = new DocumentTranslator(Context);
 			PositionTranslator = new PositionTranslator(Context);
 			CardZoneTranslator = new CardZoneTranslator(Context);

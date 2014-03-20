@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
@@ -9,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -18,7 +18,8 @@ namespace SKDModule.ViewModels
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
 		public Organization Organization { get; private set; }
-		public PassCardViewModel PassCardViewModel { get; private set; }
+		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+
 
 		public EmployeesViewModel()
 		{
@@ -30,17 +31,16 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
-			Filter.OrganisationUID = OrganizationHelper.Get(new OrganizationFilter()).FirstOrDefault().UID;
+			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
+			if (organizationUID != Guid.Empty)
+				Filter.OrganizationUIDs = new List<Guid> { organizationUID };
 			Initialize();
 		}
 
 		void Initialize()
 		{
-			PassCardViewModel = new PassCardViewModel(this);
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			Organization = organisations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
+			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
-
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
@@ -128,7 +128,6 @@ namespace SKDModule.ViewModels
 					else
 						value.IsPassBold = true;
 				}
-				UpdatePassCard();
 			}
 		}
 
@@ -227,35 +226,31 @@ namespace SKDModule.ViewModels
 
 		public void InitializeAdditionalColumns()
 		{
-			AdditionalColumnNames = new ObservableCollection<AdditionalColumnType>();
+			AdditionalColumnNames = new ObservableCollection<string>();
 
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
-			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
-			if (additionalColumnTypes != null)
+			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			if (columnTypes == null)
+				return;
+			AdditionalColumnTypes = columnTypes.ToList();
+			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				foreach (var additionalColumnType in additionalColumnTypes)
+				if (additionalColumnType.DataType == DataType.Text)
+					AdditionalColumnNames.Add(additionalColumnType.Name);
+			}
+			foreach (var employee in Employees)
+			{
+				employee.AdditionalColumnValues = new ObservableCollection<string>();
+				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-					AdditionalColumnNames.Add(additionalColumnType);
-				}
-				foreach (var employee in Employees)
-				{
-					employee.AdditionalColumnValues = new ObservableCollection<string>();
-					foreach (var additionalColumnType in additionalColumnTypes)
-					{
+					if (additionalColumnType.DataType == DataType.Text)
 						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
-					}
 				}
 			}
 		}
 
-		public ObservableCollection<AdditionalColumnType> AdditionalColumnNames { get; private set; }
-
-		private void UpdatePassCard()
-		{
-			if (IsCard && SelectedCard != null)
-				PassCardViewModel.CreatePassCard();
-		}
+		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
 	}
 }

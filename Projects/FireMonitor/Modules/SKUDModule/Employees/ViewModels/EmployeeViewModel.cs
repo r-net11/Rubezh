@@ -27,14 +27,12 @@ namespace SKDModule.ViewModels
 			var departmentUID = !Employee.IsReplaced ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
 			var department = DepartmentHelper.GetSingle(departmentUID);
 			DepartmentName = department != null ? department.Name : "";
-			DepartmentPhotoUID = department == null ? null : department.PhotoUID;
 			var position = PositionHelper.GetSingle(Employee.PositionUID);
 			PositionName = position != null ? position.Name : "";
-			PositionPhotoUID = position == null ? null : (Guid?)Guid.Empty;// пока нет в БД
 			AppointedString = Employee.Appointed.ToString("d MMM yyyy");
 			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
 
-			var filter = new CardFilter { EmployeeUIDs = new List<Guid>() { Employee.UID } };
+			var filter = new CardFilter{ EmployeeUIDs = new List<Guid>() { Employee.UID } };
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			var cards = CardHelper.Get(filter);
 			if (cards != null)
@@ -44,24 +42,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Employee Employee { get; private set; }
-		public string DepartmentName { get; private set; }
-		public Guid? DepartmentPhotoUID { get; private set; }
-		public string PositionName { get; private set; }
-		public Guid? PositionPhotoUID { get; private set; }
-		public string AppointedString { get; private set; }
-		public string DismissedString { get; private set; }
+		public Employee Employee { get; set; }
+		public string DepartmentName { get; set; }
+		public string PositionName { get; set; }
+		public string AppointedString { get; set; }
+		public string DismissedString { get; set; }
 
 		public void Update(Employee employee)
 		{
 			Employee = employee;
-			OnPropertyChanged(() => Employee);
-			OnPropertyChanged(() => DepartmentName);
-			OnPropertyChanged(() => DepartmentPhotoUID);
-			OnPropertyChanged(() => PositionName);
-			OnPropertyChanged(() => PositionPhotoUID);
-			OnPropertyChanged(() => AppointedString);
-			OnPropertyChanged(() => DismissedString);
+			OnPropertyChanged(()=>Employee);
+			OnPropertyChanged(()=>DepartmentName);
+			OnPropertyChanged(()=>PositionName);
+			OnPropertyChanged(()=>AppointedString);
+			OnPropertyChanged(()=>DismissedString);
 		}
 
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
@@ -87,8 +81,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 		public bool CanAddCard()
-		{
-			return Cards.Count < 10;
+		{ 
+			return Cards.Count < 1000;
 		}
 
 		bool _isExpanded = false;

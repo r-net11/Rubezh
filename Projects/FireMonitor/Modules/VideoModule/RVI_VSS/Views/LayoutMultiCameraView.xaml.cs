@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Models;
+using VideoModule.RVI_VSS.ViewModels;
 using LayoutPartPropertyCameraPageViewModel = VideoModule.RVI_VSS.ViewModels.LayoutPartPropertyCameraPageViewModel;
 using Common;
 
@@ -108,6 +109,12 @@ namespace VideoModule.RVI_VSS.Views
 						}
 				}
 			}
+		}
+
+		private void OnShowArchive(object sender, RoutedEventArgs e)
+		{
+			var archiveViewModel = new ArchiveViewModel();
+			DialogService.ShowModalWindow(archiveViewModel);
 		}
 
 		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)

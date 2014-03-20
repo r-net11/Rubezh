@@ -49,11 +49,11 @@
     <Compile Include="BytesHelper.cs" />
     <Compile Include="DeviceBytesHelper.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\IDatabaseElement.cs" />
-    <Compile Include="SKDDatabaseService\DataAccess\SKUD.cs">
-      <DependentUpon>SKUD.dbml</DependentUpon>
+    <Compile Include="SKDDatabaseService\DataAccess\SKD.cs">
+      <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
-    <Compile Include="SKDDatabaseService\DataAccess\SKUD.designer.cs">
-      <DependentUpon>SKUD.dbml</DependentUpon>
+    <Compile Include="SKDDatabaseService\DataAccess\SKD.designer.cs">
+      <DependentUpon>SKD.dbml</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -107,9 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="SKDDatabaseService\DataAccess\SKUD.dbml">
+    <None Include="SKDDatabaseService\DataAccess\SKD.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>SKUD.designer.cs</LastGenOutput>
+      <LastGenOutput>SKD.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -118,8 +118,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SKDDatabaseService\DataAccess\SKUD.dbml.layout">
-      <DependentUpon>SKUD.dbml</DependentUpon>
+    <None Include="SKDDatabaseService\DataAccess\SKD.dbml.layout">
+      <DependentUpon>SKD.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

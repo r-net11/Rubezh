@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -13,7 +12,7 @@ namespace SKDDriver
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
-		public IsDeletedTranslator(DataAccess.SKUDDataContext context) : base(context) { }
+		public IsDeletedTranslator(DataAccess.SKDDataContext context) : base(context) { }
 
 		protected override ApiT Translate(TableT tableItem)
 		{

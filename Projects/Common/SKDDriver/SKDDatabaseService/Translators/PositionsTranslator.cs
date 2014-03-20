@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
-using System.Collections.Generic;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
 	public class PositionTranslator : OrganizationElementTranslator<DataAccess.Position, Position, PositionFilter>
 	{
-		public PositionTranslator(DataAccess.SKUDDataContext context)
+		public PositionTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 

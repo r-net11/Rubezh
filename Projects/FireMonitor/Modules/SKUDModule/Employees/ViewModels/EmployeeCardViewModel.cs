@@ -145,5 +145,11 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("IsPassBold");
 			}
 		}
+
+		bool SaveCardTemplate(SKDCard card, Guid? cardTemplateUID)
+		{
+			card.CardTemplateUID = cardTemplateUID;
+			return CardHelper.SaveTemplate(card);		
+		}
 	}
 }

@@ -77,8 +77,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var gUD = SelectedAccessTemplate.AccessTemplate;
-			var removeResult = AccessTemplateHelper.MarkDeleted(gUD);
+			var accessTemplate = SelectedAccessTemplate.AccessTemplate;
+			var removeResult = AccessTemplateHelper.MarkDeleted(accessTemplate);
 			if (removeResult == false)
 				return;
 			var index = AccessTemplates.IndexOf(SelectedAccessTemplate);

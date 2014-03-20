@@ -7,26 +7,26 @@
         <converters:CameraToStringConverter x:Key="CameraToStringConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding PropertyViewModels}">
+        <DataGrid ItemsSource="{Binding PropertyViewModels}" IsReadOnly="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Binding="{Binding CellName}" Header="Название окна" />
-                <DataGridTemplateColumn Header="Видеокамеры">
+                <DataGridTextColumn Width="*" Binding="{Binding PresentationCellName}" Header="Название окна" />
+                <DataGridTemplateColumn Width="1*" Header="Видеокамеры">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding Cameras}" SelectedValue="{Binding SelectedCamera,  Converter={StaticResource CameraToStringConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <TextBlock Text="{Binding SelectedCamera, Converter={StaticResource CameraToStringConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox Width="Auto" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera,  Converter={StaticResource CameraToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ., Converter={StaticResource CameraToStringConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" />
+                                        <TextBlock Text="{Binding ., Converter={StaticResource CameraToStringConverter}}" Foreground="Black" />
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>

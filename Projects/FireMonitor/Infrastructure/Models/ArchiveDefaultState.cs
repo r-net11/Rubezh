@@ -12,6 +12,7 @@ namespace Infrastructure.Models
 			ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
 			AdditionalColumns = new List<JournalColumnType>();
 			Count = 1;
+			PageSize = 100;
 		}
 
 		[DataMember]
@@ -28,5 +29,8 @@ namespace Infrastructure.Models
 
 		[DataMember]
 		public List<JournalColumnType> AdditionalColumns { get; set; }
+
+		[DataMember]
+		public int PageSize { get; set; }
 	}
 }

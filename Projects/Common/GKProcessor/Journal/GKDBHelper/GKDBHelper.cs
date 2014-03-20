@@ -155,7 +155,7 @@ namespace GKProcessor
 									if (!isReport)
 									{
 										journalItems.Add(journalItem);
-										if (journalItems.Count > 100)
+										if (journalItems.Count > archiveFilter.PageSize)
 											PublishNewItemsPortion(journalItems);
 									}
 								}

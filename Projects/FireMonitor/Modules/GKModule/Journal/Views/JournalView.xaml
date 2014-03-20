@@ -14,7 +14,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		<DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid">
+		<DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}" Name="dataGrid" SelectionChanged="dataGrid_SelectionChanged">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
 				<DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />

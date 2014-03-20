@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using System.Data.Linq;
-using LinqKit;
 using System.Linq.Expressions;
+using FiresecAPI;
+using LinqKit;
 
 namespace SKDDriver
 {
@@ -12,7 +10,7 @@ namespace SKDDriver
 		where ApiT : OrganizationElementBase, new()
 		where FilterT : OrganizationFilterBase
 	{
-		public OrganizationElementTranslator(DataAccess.SKUDDataContext context)
+		public OrganizationElementTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
