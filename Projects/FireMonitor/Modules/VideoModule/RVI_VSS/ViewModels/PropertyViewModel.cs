@@ -12,10 +12,12 @@ namespace VideoModule.RVI_VSS.ViewModels
 	public class PropertyViewModel : BaseViewModel
 	{
 		public string CellName { get; set; }
+		public string PresentationCellName { get; set; }
 
-		public PropertyViewModel(string cellName, Guid cameraUid)
+		public PropertyViewModel(string cellName, string presentationCellName, Guid cameraUid)
 		{
 			CellName = cellName;
+			PresentationCellName = presentationCellName;
 			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
 			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);

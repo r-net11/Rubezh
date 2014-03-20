@@ -9,6 +9,7 @@
         <Border Grid.Row="0" Name="_grid" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="OnShowProperties" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Свойства" />
+            <ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="OnShowArchive" ImageSource="/Controls;component/Images/Archive.png" ToolTip="Архив" />
             <ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_2x2Button_Click" ImageSource="/Controls;component/Images/MultiGrid/2x2Grid.png" ToolTip="2x2" />
             <ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_1x7Button_Click" ImageSource="/Controls;component/Images/MultiGrid/1x7Grid.png" ToolTip="1x7" />
             <ToolBarButton Width="32" Height="32" VerticalAlignment="Center" Click="On_3x3Button_Click" ImageSource="/Controls;component/Images/MultiGrid/3x3Grid.png" ToolTip="3x3" />
