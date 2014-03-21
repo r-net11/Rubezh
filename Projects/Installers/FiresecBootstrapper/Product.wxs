@@ -22,11 +22,14 @@
         <MsiProperty Name="ALLUSERS" Value="1" />
       </MsiPackage>
 
-      <ExePackage Id="SQLServer" SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Soft\SQLEXPR32_RUS.EXE" />
+      <ExePackage Id="SQLServer" InstallCondition='Checkbox1' SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Soft\SQLEXPR32_RUS.EXE" />
     </Chain>
   </Bundle>
 
   <Fragment>
+
+    <Variable Name='Checkbox1' Value='1' Persisted='yes' />
+    
 
     <WixVariable Id="WixMbaPrereqPackageId" Value="Netfx4Full" />
     <WixVariable Id="WixMbaPrereqLicenseUrl" Value="NetfxLicense.rtf" />

@@ -79,7 +79,7 @@
 		</TabItem>
         <TabItem Header="Настройки">
             <Border Background="White" CornerRadius="5">
-                <StackPanel>
+                <StackPanel Margin="5">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Количество событий на странице" VerticalAlignment="Center" Margin="2" />
                         <TextBox Text="{Binding PageSize, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Center" Margin="10 2" />

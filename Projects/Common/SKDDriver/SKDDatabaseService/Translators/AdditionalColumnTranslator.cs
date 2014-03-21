@@ -18,7 +18,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
 			result.AdditionalColumnTypeUID = tableItem.AdditionalColumnTypeUID;
-			if(tableItem.GraphicsData != null)
+			if (tableItem.GraphicsData != null)
 				result.GraphicsData = tableItem.GraphicsData.ToArray();
 			result.TextData = tableItem.TextData;
 			return result;
@@ -44,8 +44,5 @@ namespace SKDDriver
 				result = result.And(e => e.AdditionalColumnTypeUID != null && columnTypeUIDs.Contains(e.AdditionalColumnTypeUID.Value));
 			return result;
 		}
-
 	}
 }
-
-

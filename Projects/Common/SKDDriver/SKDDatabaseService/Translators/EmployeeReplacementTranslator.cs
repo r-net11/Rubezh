@@ -17,22 +17,22 @@ namespace SKDDriver
 		public EmployeeReplacement GetCurrentReplacement(Guid employeeUID)
 		{
 			EmployeeReplacement result = null;
-			var tableItem = Table.Where(x => !x.IsDeleted && 
-				x.EmployeeUID == employeeUID && 
-				DateTime.Now >= x.BeginDate && 
+			var tableItem = Table.Where(x => !x.IsDeleted &&
+				x.EmployeeUID == employeeUID &&
+				DateTime.Now >= x.BeginDate &&
 				DateTime.Now <= x.EndDate).FirstOrDefault();
 			if (tableItem != null)
 				result = Translate(tableItem);
 			return result;
 		}
-		
+
 		protected override OperationResult CanSave(EmployeeReplacement item)
 		{
 			bool notUinque = Table.Any(x => x.EmployeeUID == item.EmployeeUID &&
-				x.UID == item.UID && 
+				x.UID == item.UID &&
 				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
-				(x.BeginDate >= item.DateTimePeriod.StartDate || x.EndDate <= item.DateTimePeriod.EndDate) && 
+				(x.BeginDate >= item.DateTimePeriod.StartDate || x.EndDate <= item.DateTimePeriod.EndDate) &&
 				x.IsDeleted == false);
 			if (notUinque)
 				return new OperationResult("Для данного пользователя уже существует замена данных в данный временной промежуток");

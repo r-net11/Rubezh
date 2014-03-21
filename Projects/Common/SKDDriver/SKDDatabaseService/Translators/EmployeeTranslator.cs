@@ -21,9 +21,9 @@ namespace SKDDriver
 		{
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
 				x.SecondName == item.SecondName &&
-				x.LastName == item.LastName && 
+				x.LastName == item.LastName &&
 				x.OrganizationUID == item.OrganizationUID &&
-				x.UID != item.UID && 
+				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
@@ -54,11 +54,11 @@ namespace SKDDriver
 			var replacementUIDs = new List<Guid>();
 			foreach (var replacement in replacements)
 				replacementUIDs.Add(replacement.UID);
-			
+
 			var cardUIDs = new List<Guid>();
 			foreach (var card in Context.Card.Where(x => x.EmployeeUID == tableItem.UID && !x.IsDeleted))
 				cardUIDs.Add(card.UID);
-		
+
 			result.FirstName = tableItem.FirstName;
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
@@ -101,28 +101,27 @@ namespace SKDDriver
 			var departmentUIDs = filter.DepartmentUIDs;
 			if (departmentUIDs.IsNotNullOrEmpty())
 			{
-				result = result.And(e => 
-					e!=null && 
-					(Context.EmployeeReplacement.Any(x => 
-						!x.IsDeleted && 
-						x.EmployeeUID == e.UID && 
-						DateTime.Now >= x.BeginDate && 
-						DateTime.Now <= x.EndDate && 
+				result = result.And(e =>
+					e != null &&
+					(Context.EmployeeReplacement.Any(x =>
+						!x.IsDeleted &&
+						x.EmployeeUID == e.UID &&
+						DateTime.Now >= x.BeginDate &&
+						DateTime.Now <= x.EndDate &&
 						departmentUIDs.Contains(x.DepartmentUID.Value)
 						) ||
-						(!Context.EmployeeReplacement.Any(x => 
-								!x.IsDeleted && 
-								x.EmployeeUID == e.UID && 
-								DateTime.Now >= x.BeginDate && 
-								DateTime.Now <= x.EndDate && 
+						(!Context.EmployeeReplacement.Any(x =>
+								!x.IsDeleted &&
+								x.EmployeeUID == e.UID &&
+								DateTime.Now >= x.BeginDate &&
+								DateTime.Now <= x.EndDate &&
 								departmentUIDs.Contains(x.DepartmentUID.Value)
-							) && 
+							) &&
 							departmentUIDs.Contains(e.DepartmentUID.Value)
 						)
 					)
 				);
 			}
-				
 
 			var positionUIDs = filter.PositionUIDs;
 			if (positionUIDs.IsNotNullOrEmpty())

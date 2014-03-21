@@ -155,11 +155,11 @@ namespace GKProcessor
 
 						if (minValue != 0)
 							if (value < minValue)
-								return "Парметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString();
+								return "Параметр " + driverProperty.Caption + " должен быть больше " + minValue.ToString();
 
 						if (maxValue != 0)
 							if (value > maxValue)
-								return "Парметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString();
+								return "Параметр " + driverProperty.Caption + " должен быть меньше " + maxValue.ToString();
 					}
 				}
 			}
